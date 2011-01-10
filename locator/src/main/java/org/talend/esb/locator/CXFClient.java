@@ -11,8 +11,6 @@ import javax.xml.namespace.QName;
 import org.apache.zookeeper.KeeperException;
 
 public class CXFClient {
-
-	private static String serverAddress = "localhost:2181";
 	
 	String asCommaSeparatedList(List<? extends Object > items) {
 		StringBuffer result = new StringBuffer();
@@ -57,12 +55,13 @@ public class CXFClient {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, KeeperException, ServiceLocatorException {
-		if(args[0].equals("-s")) {
-			serverAddress = args[1];
+    	String locatorEndpoints = "localhost:2181";
+    	if(args.length == 2 && args[0].equals("-l")) {
+    		locatorEndpoints = args[1];
 		}
 		
 		LocatorClient lc = new LocatorClient();
-		lc.setLocatorEndpoints(serverAddress);
+		lc.setLocatorEndpoints(locatorEndpoints);
 
 		lc.connect();
 

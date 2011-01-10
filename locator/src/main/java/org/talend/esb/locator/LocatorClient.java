@@ -23,22 +23,34 @@ public class LocatorClient {
 	
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 	
+	public static final PostConnectAction DO_NOTHING = new PostConnectAction() {
+
+		@Override
+		public void process(LocatorClient lc) {
+		}
+	};
+	
 	private String locatorEndpoints = "localhost:2181";
 
 	private int sessionTimeout = 5000;
 	
 	private int connectionTimeout = 5000;
 
+	private PostConnectAction pca = DO_NOTHING;
+
 	private volatile ZooKeeper zk;
 
 	public void connect() throws IOException, InterruptedException, ServiceLocatorException  {
 	    CountDownLatch connectionLatch = new CountDownLatch(1);
-		zk = new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
-		System.out.println("ZooKeeper state after creating client proxy: " + zk.getState());
+    	zk = new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
+
+    	System.out.println("ZooKeeper state after creating client proxy: " + zk.getState());
 		boolean connected = connectionLatch.await(connectionTimeout, TimeUnit.MILLISECONDS);
 		
 		if (!connected) {
 			throw new ServiceLocatorException("Connection failed.");
+		} else  {
+			pca.process(this);
 		}
 	}
 
@@ -58,6 +70,10 @@ public class LocatorClient {
 	
 	public void setConnectionTimeout(int timeout) {
 		connectionTimeout = timeout;
+	}
+
+	public void setPostConnectAction(PostConnectAction pca) {
+		this.pca = pca;
 	}
 
 	public void register(QName serviceName, String endpoint) throws KeeperException, InterruptedException {
@@ -172,5 +188,9 @@ public class LocatorClient {
 				}
 			}
 		}
+	}
+	
+	static interface PostConnectAction {
+		void process(LocatorClient lc);
 	}
 }
