@@ -44,7 +44,7 @@ public class LocatorClient {
 	    CountDownLatch connectionLatch = new CountDownLatch(1);
     	zk = new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
 
-    	System.out.println("ZooKeeper state after creating client proxy: " + zk.getState());
+//    	System.out.println("ZooKeeper state after creating client proxy: " + zk.getState());
 		boolean connected = connectionLatch.await(connectionTimeout, TimeUnit.MILLISECONDS);
 		
 		if (!connected) {
@@ -164,7 +164,7 @@ public class LocatorClient {
 		
 		@Override
 		public void process(WatchedEvent event) {
-			System.out.println("Event " + event + " sent.");
+			System.out.println("Event with state " + event.getState() + " sent.");
 			KeeperState eventState = event.getState(); 
 			if (eventState == KeeperState.SyncConnected) {
 				try {
@@ -175,7 +175,7 @@ public class LocatorClient {
 					e.printStackTrace();
 				}
 				connectionLatch.countDown();
-				System.out.println("ZooKeeper state after connected event: " + zk.getState());
+//				System.out.println("ZooKeeper state after connected event: " + zk.getState());
 			} else if (eventState == KeeperState.Expired) {
 				try {
 					connect();

@@ -5,16 +5,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.transport.Destination;
-import org.apache.cxf.ws.addressing.AttributedURIType;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.zookeeper.KeeperException;
 
 public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.PostConnectAction {
@@ -66,20 +62,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		Endpoint endpoint = server.getEndpoint();
-		EndpointInfo eInfo = endpoint.getEndpointInfo();
-		System.out.println("Address of endpoint: " + eInfo.getAddress());
-
-/*
-		ServiceInfo serviceInfo = eInfo.getService();
-		System.out.println("ServiceInfo - service name: " + serviceInfo.getName());
-		System.out.println("ServiceInfo - endpoints: " + serviceInfo.getEndpoints());
-*/		
-		Destination destination = server.getDestination();
-		EndpointReferenceType eprt = destination.getAddress();
-		AttributedURIType uri = eprt.getAddress();
-		System.out.println("EndpointReference of destination is " + uri.getValue());
 	}
 
 	@Override
