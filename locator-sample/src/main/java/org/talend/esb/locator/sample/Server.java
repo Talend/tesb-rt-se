@@ -7,7 +7,7 @@ import javax.xml.ws.Endpoint;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 
-import org.talend.esb.locator.LocatorClient;
+import org.talend.esb.locator.ServiceLocator;
 import org.talend.esb.locator.LocatorRegistrar;
 import org.talend.esb.locator.ServiceLocatorException;
 
@@ -37,8 +37,10 @@ public class Server {
 			InterruptedException, ServiceLocatorException {
 		Bus bus = BusFactory.getDefaultBus();
  
-        LocatorClient lc = new LocatorClient();
+        ServiceLocator lc = new ServiceLocator();
         lc.setLocatorEndpoints(locatorEndpoints);
+        lc.setSessionTimeout(30 * 60* 1000);
+        lc.setConnectionTimeout(30 * 60* 1000);
         lc.connect();
         
         LocatorRegistrar lr = new LocatorRegistrar();

@@ -11,13 +11,12 @@ import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.zookeeper.KeeperException;
 
-public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.PostConnectAction {
+public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
 
 	private Bus bus;
 	
-	private LocatorClient lc;
+	private ServiceLocator lc;
 	
 	public LocatorRegistrar() {
 		System.out.println("Locator Client created.");
@@ -37,7 +36,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
 		for (Server server : servers) {
 			try {
 				registerEndpoint(server);
-			} catch (KeeperException e) {
+			} catch (ServiceLocatorException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -46,7 +45,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
 		}
 	}
 	
-	public void setLocatorClient(LocatorClient locatorClient) {
+	public void setLocatorClient(ServiceLocator locatorClient) {
 		lc = locatorClient;
 		lc.setPostConnectAction(this);
 	}
@@ -57,7 +56,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
 		
 		try {
 			registerEndpoint(server);
-		} catch (KeeperException e) {
+		} catch (ServiceLocatorException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -76,7 +75,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
         }
 	}
 	
-	private void registerEndpoint(Server server) throws KeeperException, InterruptedException {
+	private void registerEndpoint(Server server) throws ServiceLocatorException, InterruptedException {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
 		ServiceInfo serviceInfo = eInfo.getService();
 		QName serviceName = serviceInfo.getName();
@@ -89,7 +88,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, LocatorClient.
 	}
 
 	@Override
-	public void process(LocatorClient lc) {
+	public void process(ServiceLocator lc) {
 		registerAvailableServers();
 	}
 }

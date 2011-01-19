@@ -25,7 +25,7 @@ public class CXFClient {
 		return result.toString();
 	}
 	
-	public static  void start(LocatorClient lc) throws IOException, KeeperException, InterruptedException{
+	public static  void start(ServiceLocator lc) throws IOException, ServiceLocatorException, InterruptedException{
 		boolean next = true;
 		while (next) {
 			String line = nextLine();
@@ -60,7 +60,7 @@ public class CXFClient {
     		locatorEndpoints = args[1];
 		}
 		
-		LocatorClient lc = new LocatorClient();
+		ServiceLocator lc = new ServiceLocator();
 		lc.setLocatorEndpoints(locatorEndpoints);
 
 		lc.connect();
