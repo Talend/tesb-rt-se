@@ -1,4 +1,4 @@
-package org.sopera.services.crmservice;
+package org.sopera.services.crmservice.service;
 
 import java.math.BigInteger;
 
@@ -8,6 +8,7 @@ import org.sopera.services.crm.types.LoginUserType;
 import org.sopera.services.crm.types.ObjectFactory;
 import org.sopera.services.crm.types.RYLCStatusCodeType;
 import org.sopera.services.crm.types.RYLCStatusType;
+import org.sopera.services.crmservice.CRMService;
 
 public class CRMServiceImpl implements CRMService {
 

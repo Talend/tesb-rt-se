@@ -1,5 +1,5 @@
 
-package org.sopera.services.crmservice;
+package org.sopera.services.crmservice.service;
 
 import javax.xml.ws.Endpoint;
 

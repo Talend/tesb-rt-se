@@ -1,4 +1,4 @@
-package org.sopera.services.crmservice;
+package org.sopera.services.crmservice.client;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,18 +8,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.sopera.services.crm.types.CustomerDetailsType;
+import org.sopera.services.crm.types.LoginUserType;
 import org.sopera.services.crmservice.CRMService;
 
 public class Invoker implements InitializingBean {
 	 private static final Log LOG = LogFactory.getLog(Invoker.class);
 	private Integer delayBeforeSending = 5000;
 	private CRMService cRMService;
-	private CustomerDetailsType customer;
 	
-	public CRMService getCRMService() {
-		return cRMService;
-	}
-
 	public void setCRMService(CRMService cRMService) {
 		this.cRMService = cRMService;
 	}
@@ -50,8 +46,12 @@ public class Invoker implements InitializingBean {
 	}
 	private void performRequest() {
 		LOG.info("Performing invocation on ...");
-		/*Implementation*/		
-		LOG.info("Result of runing is....");
+		/*Implementation*/
+		LoginUserType luType = new LoginUserType();
+		luType.setName("jdoe");
+		CustomerDetailsType result = cRMService.getCRMInformation(luType);
+
+		LOG.info("Result of runing is...." + result);
 	}
 }
 
