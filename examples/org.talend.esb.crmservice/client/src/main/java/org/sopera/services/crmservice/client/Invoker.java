@@ -1,4 +1,4 @@
-package org.sopera.services.crmservice;
+package org.sopera.services.crmservice.client;
 
 import java.util.Timer;
 import java.util.TimerTask;
