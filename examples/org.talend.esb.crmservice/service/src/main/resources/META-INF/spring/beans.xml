@@ -1,20 +1,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
-<bean id="CRMServiceBean" class="org.sopera.services.crmservice.service.CRMServiceImpl">
-</bean>
-  
-<jaxws:endpoint id="CRMService"
-    implementor="#CRMServiceBean"
-    address="/CRMService">
-</jaxws:endpoint>
+	<bean id="CRMServiceBean"
+		class="org.sopera.services.crmservice.service.CRMServiceImpl"/>
 
- </beans>
+	<!-- HTTP Endpoint -->
+	<jaxws:endpoint id="CRMService"
+		xmlns:serviceNamespace="http://services.sopera.org/CRMService"
+		serviceName="serviceNamespace:CRMServiceProvider"
+		endpointName="serviceNamespace:CRMServiceProvider"
+	    implementor="#CRMServiceBean"
+	    address="http://localhost:8888/soap/CRMServiceProvider/"/>
+
+</beans>
