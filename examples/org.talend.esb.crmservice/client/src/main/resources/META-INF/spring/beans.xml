@@ -14,7 +14,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
                  id="CRMServiceClient" 
                  serviceClass="org.sopera.services.crmservice.CRMService"/>
                  
-    <!-- bean class="org.sopera.services.crmservice.Invoker">
+    <bean class="org.sopera.services.crmservice.Invoker">
     	<property name="cRMService" ref="CRMServiceClient"/>
-    </bean-->        
+    </bean>        
  </beans>

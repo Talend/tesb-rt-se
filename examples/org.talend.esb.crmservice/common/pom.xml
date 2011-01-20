@@ -27,12 +27,15 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>
-		   javax.xml.bind,
-		   javax.xml.bind.annotation,
-		   javax.xml.bind.annotation.adapters,
-		   *
+							javax.xml.bind,
+							javax.xml.bind.annotation,
+							javax.xml.bind.annotation.adapters,
+							*
                         </Import-Package>
-                        <Export-Package>com.example.customerservice, model</Export-Package>
+                        <Export-Package>
+							org.sopera.services.crm.types,
+							org.sopera.services.crmservice
+						</Export-Package> 
                     </instructions>
                 </configuration>
             </plugin>
