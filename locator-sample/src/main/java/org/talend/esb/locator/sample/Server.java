@@ -20,7 +20,7 @@ public class Server {
         System.out.println("Starting Server on port " + serverPort + "...");
 
 //        String address = String.format("http://localhost:%1$/services/Greeter", serverPort);
-        String address = "http://192.168.40.15:" + serverPort + "/services/Greeter";
+        String address = "http://localhost:" + serverPort + "/services/Greeter";
 
         initForLocator(locatorEndpoints);
         publishService(address);
@@ -50,7 +50,7 @@ public class Server {
 	}
 
     public static void main(String args[]) throws Exception {
-    	String locatorEndpoints = "192.168.40.14:2181";
+    	String locatorEndpoints = "localhost:2181";
 		List<String> serverPorts = new ArrayList<String>();
 		serverPorts.add("8080");
 		serverPorts.add("8081");
