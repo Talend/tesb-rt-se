@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+">
+
+ 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+
+    <jaxws:client id="ReservationServiceClient"
+			xmlns:serviceNamespace="http://services.sopera.org/ReservationService"
+			serviceClass="org.sopera.services.reservationservice.ReservationService"
+            serviceName="serviceNamespace:ReservationerviceProvider"
+            endpointName="serviceNamespace:ReservationServiceProvider"
+            address="http://localhost:8888/soap/ReservationServiceProvider/"
+            />
+
+    <bean class="org.sopera.services.reservationservice.client.Invoker">
+    	<property name="reservationService" ref="ReservationServiceClient"/>
+    </bean>        
+ </beans>
