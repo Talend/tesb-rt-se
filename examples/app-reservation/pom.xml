@@ -13,7 +13,16 @@
     <name>App Reservation</name>
     <packaging>bundle</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.6.0.v20100517</version>
+        </dependency>
         <dependency>
             <groupId>org.talend.esb.crmservice</groupId>
             <artifactId>crmservice-common</artifactId>
@@ -25,9 +34,14 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.osgi</groupId>
-            <artifactId>org.eclipse.osgi</artifactId>
-            <version>3.6.0.v20100517</version>
+			<groupId>org.talend.esb.reservationservice</groupId>
+			<artifactId>reservationservice-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+			<groupId>org.talend.esb.reservationservice</groupId>
+			<artifactId>reservationservice-client</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
@@ -70,7 +84,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,crmservice-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,crmservice-common,reservationservice-common</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

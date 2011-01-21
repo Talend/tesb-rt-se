@@ -23,18 +23,18 @@
 	<osgi:reference id="ReservationServiceClient" interface="org.sopera.services.reservationservice.ReservationService"/>
 
 	<!-- Create a car search model bean and inject the Swordfish clients -->
-    <spring:bean id="CarSearchModel" class="org.sopera.swordfish.tutorial.client.model.CarSearchImpl">
+    <spring:bean id="CarSearchModel" class="org.talend.esb.client.model.CarSearchImpl">
     	<spring:property name="crms" ref="CRMServiceClient"/>
     	<spring:property name="reserve" ref="ReservationServiceClient"/>
     </spring:bean>
 
 	<!-- Create a car reservation model bean and inject the Swordfish reservation client -->
-    <spring:bean id="CarReserveModel" class="org.sopera.swordfish.tutorial.client.model.CarReserveImpl">
+    <spring:bean id="CarReserveModel" class="org.talend.esb.client.model.CarReserveImpl">
     	<spring:property name="reserve" ref="ReservationServiceClient"/>
     </spring:bean>
     
     <!-- Create the instance of the Equinox console command extension -->
-    <spring:bean id="ReservationCommand" class="org.sopera.swordfish.tutorial.client.app.CarRentalClientCommandProvider">
+    <spring:bean id="ReservationCommand" class="org.talend.esb.client.app.CarRentalClientCommandProvider">
     	<spring:property name="searcher" ref="CarSearchModel"/>
     	<spring:property name="reserver" ref="CarReserveModel"/>
     </spring:bean>
