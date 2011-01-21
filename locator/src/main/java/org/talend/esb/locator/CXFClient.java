@@ -31,8 +31,15 @@ public class CXFClient {
 			String line = nextLine();
 			QName serviceName = QName.valueOf(line);
 			if (! line.equals("q")) {
-				List<String> endpoints = lc.lookup(serviceName);
-				System.out.println("Endpoints for provider " + line + ": " + endpoints);
+				Iterator<String> endpoints = lc.lookup(serviceName).iterator();
+				StringBuffer endpointList = new StringBuffer();
+				while (endpoints.hasNext()) {
+					endpointList.append(endpoints.next());
+					if (endpoints.hasNext()) {
+						endpointList.append(", ");
+					}
+				}
+				System.out.println("Endpoints for provider " + line + ": " + endpointList);
 			} else {
 				System.out.println("Stopped cxf client.");
 				next = false;
