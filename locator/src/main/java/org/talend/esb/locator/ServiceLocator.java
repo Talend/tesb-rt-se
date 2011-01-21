@@ -29,14 +29,13 @@ import org.apache.zookeeper.ZooDefs.Ids;
  * <p>
  * The Service Locator provides the following operations.
  * <ul>
- *  <li>An endpoint for a specific service can be registered. If the client is destroyed,
- *   disconnect, or fails to successfully send the heartbeat for a period of timed defined by the 
- *   {@link #setSessionTimeout(int) session timeout parameter} the endpoint is removed from the
- *   Service Locator.
+ *  <li>An endpoint for a specific service can be registered.
  *  <li>All endpoints for a specific service that were registered before by other clients can be
  *      looked up.
  * </ul>
  * 
+ * This class is not thread-safe. The caller must ensure that the connect and disconnect operations are run exclusively.
+ * register and lookup may run concurrently.
  */
 public class ServiceLocator {
 
@@ -46,12 +45,27 @@ public class ServiceLocator {
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 	
-	public static final PostConnectAction DO_NOTHING = new PostConnectAction() {
+	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
 		public void process(ServiceLocator lc) {
 		}
 	};
+
+	/**
+	 * Callback interface to define actions that must be executed after a successful connect or 
+	 * reconnect.
+	 */
+	static interface PostConnectAction {
+		/**
+		 * Execute this after the connection to the Service Locator is established or
+		 * re-established.
+		 * 
+		 * @param lc the Service Locator client that just successfully connected to the server, must
+		 *           not be <code>null</code> 
+		 */
+		void process(ServiceLocator lc);
+	}
 	
 	private String locatorEndpoints = "localhost:2181";
 
@@ -59,12 +73,27 @@ public class ServiceLocator {
 	
 	private int connectionTimeout = 5000;
 
-	private PostConnectAction pca = DO_NOTHING;
+	private PostConnectAction pca = DO_NOTHING_ACTION;
 
 	private volatile ZooKeeper zk;
 
+	/**
+	 * Establish a connection to the Service Locator. After successful connection the specified
+	 * {@link PostConnectAction} is run. If the session to the server expires because the server
+	 * could not be reached within the {@link #setSessionTimeout(int) specified time}, a reconnect
+	 * is automatically executed as soon as the server can be reached again. Because after a session
+	 * time out all registered endpoints are removed it is important to specify a
+	 * {@link PostConnectAction} that re-registers all endpoints.  
+	 * 
+	 * @throws IOException At least one of the endpoints does not represent a valid address
+	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting
+	 *                              for a successful connection to the ServiceLocator
+	 * @throws ServiceLocatorException the connect operation failed
+	 */
 	public void connect() throws IOException, InterruptedException, ServiceLocatorException  {
-	    CountDownLatch connectionLatch = new CountDownLatch(1);
+		disconnect();
+		
+		CountDownLatch connectionLatch = new CountDownLatch(1);
     	zk = createZooKeeper(connectionLatch);
 		boolean connected = connectionLatch.await(connectionTimeout, TimeUnit.MILLISECONDS);
 		
@@ -75,18 +104,33 @@ public class ServiceLocator {
 		}
 	}
 
+	/**
+	 * Disconnects from a Service Locator server. All endpoints that were registered before are 
+	 * removed from the server. To be able to communicate with a Service Locator server again the
+	 * client has to {@link #connect() connect} again. 
+	 * 
+	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting
+	 *                              for the disconnect to happen
+	 */
 	public void disconnect() throws InterruptedException {
 		if (zk != null) {
-			zk.close(); 
+			zk.close();
+			zk = null;
 		}
 	}
 	
 	/**
-	 * For a given service register the endpoint of a concrete provider of this service. 
+	 * For a given service register the endpoint of a concrete provider of this service. If the
+	 * client is destroyed, disconnected, or fails to successfully send the heartbeat for a period
+	 * of time defined by the {@link #setSessionTimeout(int) session timeout parameter} the
+	 * endpoint is removed from the Service Locator. To ensure that all available endpoints are 
+	 * re-registered when the client reconnects after a session expired a {@link PostConnectAction}
+	 * should be {@link #setPostConnectAction(PostConnectAction) set} that registers all endpoints. 
 	 * 
-	 * @param serviceName
-	 * @param endpoint
-	 * @throws ServiceLocatorException
+	 * @param serviceName the name of the service the endpoint is registered for, must not be
+	 *                    <code>null</code>
+	 * @param endpoint the endpoint to register, must not be <code>null</code>
+	 * @throws ServiceLocatorException the server returned an error
 	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting for
 	 *                              a response of the ServiceLocator
 	 */
@@ -103,6 +147,16 @@ public class ServiceLocator {
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
 	}
 
+	/**
+	 * For the given service return all endpoints that currently registered at the Service Locator 
+	 * Service.
+	 * @param serviceName the name of the service for which to get the endpoints, must not be
+	 *                    <code>null</code>
+	 * @return a possibly empty list of endpoints
+	 * @throws ServiceLocatorException the server returned an error
+	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting for
+	 *                              a response of the ServiceLocator
+	 */
 	public List<String> lookup(QName serviceName) throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
@@ -232,9 +286,5 @@ public class ServiceLocator {
 				}
 			}
 		}
-	}
-	
-	static interface PostConnectAction {
-		void process(ServiceLocator lc);
 	}
 }
