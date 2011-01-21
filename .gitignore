@@ -11,6 +11,6 @@ target
 .pmd
 .project
 .ruleset
-.settings/
-bin/
+.settings
+bin
 
