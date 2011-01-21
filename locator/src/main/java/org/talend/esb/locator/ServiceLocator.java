@@ -19,12 +19,30 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
-import org.apache.zookeeper.data.Stat;
 
+/**
+ * This is the entry point for clients of the Service Locator. To access the Service Locator
+ * clients have to first {@link #connect() connect} to the Service Locator to get a session
+ * assigned. Once the connection is
+ * established the client will periodically send heart beats to the server to keep the session
+ * alive. 
+ * <p>
+ * The Service Locator provides the following operations.
+ * <ul>
+ *  <li>An endpoint for a specific service can be registered. If the client is destroyed,
+ *   disconnect, or fails to successfully send the heartbeat for a period of timed defined by the 
+ *   {@link #setSessionTimeout(int) session timeout parameter} the endpoint is removed from the
+ *   Service Locator.
+ *  <li>All endpoints for a specific service that were registered before by other clients can be
+ *      looked up.
+ * </ul>
+ * 
+ *
+ */
 public class ServiceLocator {
 
-	private static final Logger LOG = Logger.getLogger(ServiceLocator.class.getPackage().getName());
-	
+	private static final Logger LOG = Logger.getLogger(ServiceLocator.class.getName());
+
 	public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
@@ -52,120 +70,133 @@ public class ServiceLocator {
 		boolean connected = connectionLatch.await(connectionTimeout, TimeUnit.MILLISECONDS);
 		
 		if (!connected) {
-			LOG.log(Level.SEVERE, "Connection to zookeeper failed."); 
-			throw new ServiceLocatorException("Connection failed.");
+			throw new ServiceLocatorException("Connection to Service Locator failed.");
 		} else  {
-			LOG.log(Level.INFO, "Connection to zookeeper was completed successfully."); 
 			pca.process(this);
 		}
 	}
 
 	public void disconnect() throws InterruptedException {
 		if (zk != null) {
-			zk.close();
-			LOG.log(Level.INFO, "Connection to zookeeper was closed successfully."); 
+			zk.close(); 
 		}
 	}
 	
-	public void register(QName serviceName, String endpoint) throws ServiceLocatorException, InterruptedException {
+	/**
+	 * For a given service register the endpoint of a concrete provider of this service. 
+	 * 
+	 * @param serviceName
+	 * @param endpoint
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting for
+	 *                              a response of the ServiceLocator
+	 */
+	public void register(QName serviceName, String endpoint)
+			throws ServiceLocatorException, InterruptedException {
+
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("Register endpoint " + endpoint + " for service " + serviceName + ".");
+		}
 		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
-		LOG.log(Level.INFO, "Registering service: " + serviceNodePath.toString()); 
 		ensurePathExists(serviceNodePath, CreateMode.PERSISTENT);
 		
 		NodePath endpointNodePath = serviceNodePath.child(endpoint);
-		LOG.log(Level.INFO, "Registering endpoint: " + endpointNodePath.toString()); 
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
 	}
 
 	public List<String> lookup(QName serviceName) throws ServiceLocatorException, InterruptedException {
-//		String serviceNodeName = encode(serviceName.toString());
-		LOG.log(Level.INFO, "Getting endpoints of " + serviceName.toString() + " service."); 
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("Lookup endpoints of " + serviceName + " service.");
+		}
 		try {
-			String providerPath = LOCATOR_ROOT_PATH.child(serviceName.toString()).toString();
-			Stat s = zk.exists(providerPath, false);
-			if (s != null) {
-				return decode(zk.getChildren(providerPath, false));
+			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName.toString());
+			if (nodeExists(providerPath)) {
+				return decode(getChildren(providerPath));
 			} else {
-				LOG.log(Level.SEVERE, "Lookup for provider" + serviceName + " failed, provider not known."); 
-				//System.out.println("Lookup for provider" + serviceName + " failed, provider not known.");
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Lookup for provider" + serviceName + " failed, provider not known.");
+				}
 				return Collections.emptyList();
 			}
 		} catch (KeeperException e) {
 			LOG.log(Level.SEVERE, "The service locator server signaled an error: " + e.getMessage()); 
 			throw new ServiceLocatorException("The service locator server signaled an error.", e);
 		}
-
 	}
 
 	public void setLocatorEndpoints(String endpoints) {
 		locatorEndpoints = endpoints;
-		LOG.log(Level.FINE, "Locator endpoints was setted."); 
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Locator endpoints set to " + locatorEndpoints);
+		}
 	}
 
 	public void setSessionTimeout(int timeout) {
 		sessionTimeout = timeout;
-		LOG.log(Level.FINE, "Locator session timeout was setted."); 
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Locator session timeout set to: " + sessionTimeout);
+		}
 	}
 	
 	public void setConnectionTimeout(int timeout) {
 		connectionTimeout = timeout;
-		LOG.log(Level.FINE, "Locator connection timeout was setted."); 
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Locator connection timeout set to: " + connectionTimeout);
+		}
 	}
 
 	public void setPostConnectAction(PostConnectAction pca) {
 		this.pca = pca;
 	}
 
-	private void ensurePathExists(NodePath path, CreateMode mode) throws ServiceLocatorException, InterruptedException {
-		String nodePath = path.toString();
-		Stat s = null; 
+	private void ensurePathExists(NodePath path, CreateMode mode)
+			throws ServiceLocatorException, InterruptedException {
 		try {
-			s = zk.exists(nodePath, false);
-		} catch (KeeperException e) {
-			LOG.log(Level.SEVERE, "The service locator server signaled an error: " + e.getMessage()); 
-			throw new ServiceLocatorException("The service locator server signaled an error.", e);
-		}
-
-		if (s == null) {
-			try {
-				zk.create(nodePath, EMPTY_CONTENT, Ids.OPEN_ACL_UNSAFE, mode);
-				LOG.log(Level.INFO, "Node " + nodePath + " created as " + mode.toString() + "."); 
-				//System.out.println("Node " + nodePath + " created.");
-			} catch(KeeperException e) {
-				if (! e.code().equals(Code.NODEEXISTS)) {
-					LOG.log(Level.SEVERE, "The service locator server signaled an error: " + e.getMessage()); 
-					throw new ServiceLocatorException("The service locator server signaled an error.", e);
-				} else {
-					LOG.log(Level.INFO, "Some other client created " + nodePath + " concurrently."); 
-					//System.out.println("Some other client created " + nodePath + " concurrently.");
+			if (! nodeExists(path)) {
+				createNode(path, mode);
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Node " + path + " created.");
+				}
+			} else {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Node " + path + " already exists.");
 				}
 			}
-		} else {
-			LOG.log(Level.INFO, "Node " + nodePath + " already exists."); 
-			//System.out.println("Node " + nodePath + " already exists.");
+		} catch(KeeperException e) {
+			if (! e.code().equals(Code.NODEEXISTS)) {
+				throw new ServiceLocatorException("The service locator server signaled an error.", e);
+			} else {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Some other client created node" + path + " concurrently.");
+				}
+			}
 		}
 	}
 
-	private String decode(String encoded) {
-		String raw = encoded.replace("%2F", "/");
-		raw = raw.replace("%2A", "%");
-		return raw;
+	private boolean nodeExists(NodePath path) throws KeeperException, InterruptedException {
+		return zk.exists(path.toString(), false) != null;
+	}
+
+	private void createNode(NodePath path, CreateMode mode) throws KeeperException, InterruptedException {
+		zk.create(path.toString(), EMPTY_CONTENT, Ids.OPEN_ACL_UNSAFE, mode);
+	}
+	
+	private List<String> getChildren(NodePath path)  throws KeeperException, InterruptedException {
+		return zk.getChildren(path.toString(), false);
 	}
 
 	private List<String> decode(List<String> encoded) {
 		List<String> raw = new ArrayList<String>();
 
 		for (String oneEncoded : encoded) {
-			raw.add(decode(oneEncoded));
+			raw.add(NodePath.decode(oneEncoded));
 		}
 		return raw;
 	}
 
 	protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch) throws IOException {
-		LOG.log(Level.INFO, "Creating ZooKeeper object."); 
     	return new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
 	}
-
 
 	public class WatcherImpl implements Watcher {
 		
@@ -176,28 +207,29 @@ public class ServiceLocator {
 		
 		@Override
 		public void process(WatchedEvent event) {
-			LOG.log(Level.INFO, "Event with state " + event.getState() + " sent."); 
-			//System.out.println("Event with state " + event.getState() + " sent.");
-			KeeperState eventState = event.getState(); 
-			if (eventState == KeeperState.SyncConnected) {
-				try {
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.fine("Event with state " + event.getState() + " sent.");
+			}
+
+			KeeperState eventState = event.getState();
+			try {
+				if (eventState == KeeperState.SyncConnected) {
 					ensurePathExists(LOCATOR_ROOT_PATH, CreateMode.PERSISTENT);
-				} catch (ServiceLocatorException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				connectionLatch.countDown();
-			} else if (eventState == KeeperState.Expired) {
-				LOG.log(Level.INFO, "Connection was expired, reconecting."); 
-				try {
+					connectionLatch.countDown();
+				} else if (eventState == KeeperState.Expired) {
 					connect();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ServiceLocatorException e) {
-					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE, "An IOException  was thrown when trying to connect to the ServiceLocator", e);
+				}
+			} catch (InterruptedException e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE, "An InterruptedException was thrown while waiting for an answer from the Service Locator", e);
+				}
+			} catch (ServiceLocatorException e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE, "Failed to execute an request to Service Locator.", e);
 				}
 			}
 		}
