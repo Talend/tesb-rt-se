@@ -1,5 +1,8 @@
 package org.talend.esb.locator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Representation of ZooKeeper node path. The path may be either relative or absolute. As path
  * segments for obvious cannot contain the path separator ("/") raw paths are always encoded.
@@ -7,12 +10,15 @@ package org.talend.esb.locator;
  */
 public class NodePath {
 
+	private static final Logger LOG = Logger.getLogger(NodePath.class.getPackage().getName());
+	
 	public static final char SEPARATOR = '/';
 	
 	private String path;
 
 	public NodePath(String... pathSegments) {
 		if (pathSegments == null || pathSegments.length == 0) {
+			LOG.log(Level.SEVERE, "At least one path segment must be defined."); 
 			throw new IllegalArgumentException("At least one path segment must be defined.");
 		}
 		StringBuffer rawPath = new StringBuffer();

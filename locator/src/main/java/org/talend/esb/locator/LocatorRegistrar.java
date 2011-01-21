@@ -1,6 +1,8 @@
 package org.talend.esb.locator;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
@@ -14,18 +16,23 @@ import org.apache.cxf.service.model.ServiceInfo;
 
 public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
 
+	private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class.getPackage().getName());
+	
 	private Bus bus;
 	
 	private ServiceLocator lc;
 	
 	public LocatorRegistrar() {
-		System.out.println("Locator Client created.");
+		LOG.log(Level.INFO, "Locator Client created."); 
+		//System.out.println("Locator Client created.");
 	}
 
 	public void setBus(Bus bus) {
 		if(this.bus != bus) {
 			this.bus = bus;
+			LOG.log(Level.FINE, "Registering listener."); 
 			registerListener();
+			LOG.log(Level.FINE, "Registering available services."); 
 			registerAvailableServers();
 		}
 	}
@@ -41,19 +48,21 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Server available with endpoint " + server.getEndpoint().getEndpointInfo().getAddress());
+			LOG.log(Level.INFO, "Server available with endpoint " + server.getEndpoint().getEndpointInfo().getAddress()); 
+			//System.out.println("Server available with endpoint " + server.getEndpoint().getEndpointInfo().getAddress());
 		}
 	}
 	
 	public void setLocatorClient(ServiceLocator locatorClient) {
 		lc = locatorClient;
 		lc.setPostConnectAction(this);
+		LOG.log(Level.FINE, "Locator client was setted."); 
 	}
 
 	@Override
 	public void startServer(Server server) {
-		System.out.println("Server " + server + " started...");
-		
+		//System.out.println("Server " + server + " started...");
+		LOG.log(Level.INFO, "Server " + server + " started..."); 
 		try {
 			registerEndpoint(server);
 		} catch (ServiceLocatorException e) {
@@ -65,13 +74,15 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
 	@Override
 	public void stopServer(Server server) {
-		System.out.println("Server " + server + " stopped.");
+		LOG.log(Level.INFO, "Server " + server + " stopped."); 
+		//System.out.println("Server " + server + " stopped.");
 	}
 
 	private void  registerListener() {
-        ServerLifeCycleManager manager = bus.getExtension(ServerLifeCycleManager.class);
+		ServerLifeCycleManager manager = bus.getExtension(ServerLifeCycleManager.class);
         if (manager != null) {
             manager.registerListener(this);
+            LOG.log(Level.INFO, "Listener was registered."); 
         }
 	}
 	
@@ -81,10 +92,12 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 		QName serviceName = serviceInfo.getName();
 		String endpointAddress = eInfo.getAddress();
 		
-		System.out.println("Service name: " + serviceName);	
-		System.out.println("Endpoint Address: " + endpointAddress);
-		
+		LOG.log(Level.INFO, "Service name: " + serviceName); 
+		LOG.log(Level.INFO, "Endpoint Address: " + endpointAddress); 
+		//System.out.println("Service name: " + serviceName);	
+		//System.out.println("Endpoint Address: " + endpointAddress);		
 		lc.register(serviceName, endpointAddress);
+		LOG.log(Level.INFO, "Service was registered in ZooKeeper."); 		
 	}
 
 	@Override
