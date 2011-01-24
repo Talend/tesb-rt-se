@@ -20,7 +20,7 @@
 		xmlns:serviceNamespace="http://services.sopera.org/ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
-	    implementor="#ReservationServiceBean"
-	    address="http://localhost:8888/soap/ReservationServiceProvider/"/>
+		implementor="#ReservationServiceBean"
+		address="http://localhost:8888/soap/ReservationServiceProvider/"/>
 
 </beans>

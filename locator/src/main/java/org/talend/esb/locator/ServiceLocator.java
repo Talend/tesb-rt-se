@@ -37,7 +37,6 @@ import org.apache.zookeeper.ZooDefs.Ids;
  *      looked up.
  * </ul>
  * 
- *
  */
 public class ServiceLocator {
 
