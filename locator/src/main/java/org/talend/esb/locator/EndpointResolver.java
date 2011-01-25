@@ -134,8 +134,4 @@ public class EndpointResolver {
 			}
 		return null;
 	}
-
-	public void log(String logstr) {
-		LOG.log(Level.INFO, "List of endpoints: " + endpointsList.toString());
-	}
 }
