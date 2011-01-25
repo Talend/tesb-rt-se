@@ -40,5 +40,11 @@
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
+		
+		<dependency>
+        	<groupId>org.apache.activemq</groupId>
+        	<artifactId>activemq-all</artifactId>
+        	<version>5.4.2</version>
+        </dependency>
     </dependencies>
 </project>

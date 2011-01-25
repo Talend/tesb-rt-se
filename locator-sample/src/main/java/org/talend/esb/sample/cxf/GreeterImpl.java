@@ -9,7 +9,7 @@ public class GreeterImpl implements Greeter {
 
     private static final Logger LOG = Logger.getLogger(GreeterImpl.class.getPackage().getName());
 
-    public String greetMe(String me) throws SocketException {
+    public String greetMe(String me) {//throws SocketException {
         LOG.info("Executing operation greetMe");
         System.out.println("Executing operation greetMe");
         System.out.println("Message received: " + me + "\n");

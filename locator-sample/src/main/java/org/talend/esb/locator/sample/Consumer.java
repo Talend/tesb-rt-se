@@ -1,5 +1,6 @@
 package org.talend.esb.locator.sample;
 
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -7,7 +8,7 @@ import org.talend.esb.locator.sample.Constants;
 import org.talend.esb.locator.EndpointResolver;
 import org.talend.esb.sample.cxf.Greeter;
 
-import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPBinding;
 
 public class Consumer {
@@ -16,9 +17,8 @@ public class Consumer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		final Logger LOG = Logger.getLogger(Consumer.class
-				.getName());
+
+		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = new EndpointResolver(Constants.SERVICENAME,
 				Constants.LOCATORENDPOINT);
@@ -30,14 +30,19 @@ public class Consumer {
 						SOAPBinding.SOAP11HTTP_BINDING, Greeter.class);
 				LOG.log(Level.INFO, client.greetMe("MyName"));
 
-			} catch (java.net.SocketException se) {
-				LOG.log(Level.WARNING, "Can not process due to SocketException. Will refresh list of endpoints");
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException ie) {
-					ie.printStackTrace();
+			} catch (WebServiceException se) {
+				if (se.getCause().getClass().equals(SocketException.class)) {
+					LOG.log(Level.WARNING,
+							"Can not process due to SocketException. Will refresh list of endpoints after 30 sec");
+					try {
+						Thread.sleep(30000);
+					} catch (InterruptedException ie) {
+						ie.printStackTrace();
+					}
+					er.refreshEndpointsList();
+				} else {
+					se.printStackTrace();
 				}
-				er.refreshEndpointsList();
 			}
 			LOG.log(Level.INFO, "------------ END -----------");
 
