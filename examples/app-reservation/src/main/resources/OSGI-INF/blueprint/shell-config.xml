@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+	<command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+		<command name="test/hello">
+		<action class="org.talend.esb.client.app.CarRentalKarafClientCommandProvider"/>
+		</command>
+		<command name="car/rent">
+		<action class="org.talend.esb.client.commands.CarRent"/>
+		</command>
+		<command name="car/search">
+		<action class="org.talend.esb.client.commands.CarSearch"/>
+		</command>
+		<command name="car/show">
+		<action class="org.talend.esb.client.commands.CarShow"/>
+		</command>
+		<command name="car/GUI">
+		<action class="org.talend.esb.client.commands.CarGUI"/>
+		</command>
+		
+	</command-bundle>
+</blueprint>
