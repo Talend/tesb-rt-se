@@ -6,5 +6,5 @@ import javax.jws.WebService;
  
 @WebService(targetNamespace = "http://talend.org/esb/examples/", name = "Greeter")
 public interface Greeter {
-    String greetMe(String requestType) throws SocketException;
+    String greetMe(String requestType);// throws SocketException;
 }
