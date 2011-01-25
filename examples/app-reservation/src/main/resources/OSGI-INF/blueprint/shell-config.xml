@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 	<command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
-		<command name="test/hello">
+		<!-- command name="test/hello">
 		<action class="org.talend.esb.client.app.CarRentalKarafClientCommandProvider"/>
-		</command>
+		</command-->
 		<command name="car/rent">
 		<action class="org.talend.esb.client.commands.CarRent"/>
 		</command>
