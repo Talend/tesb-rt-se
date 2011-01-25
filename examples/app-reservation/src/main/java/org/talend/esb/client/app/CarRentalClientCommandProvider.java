@@ -185,7 +185,7 @@ public class CarRentalClientCommandProvider implements CommandProvider, Initiali
 		header = hdr1.toString() + "\n" + hdr2.toString(); //$NON-NLS-1$
 		System.out.println(getHelp()); //$NON-NLS-1$
 		
-		CarRentalClientGui.openApp(searcher, reserver);
+		//CarRentalClientGui.openApp(searcher, reserver);
 	}
 
 	
