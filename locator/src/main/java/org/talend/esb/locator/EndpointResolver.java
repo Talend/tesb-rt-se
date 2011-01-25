@@ -2,16 +2,25 @@ package org.talend.esb.locator;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.ws.Service;
 
 import javax.xml.namespace.QName;
 
 public class EndpointResolver {
+
+	private static final Logger LOG = Logger.getLogger(EndpointResolver.class
+			.getName());
 
 	private List<String> endpointsList;
 	private ServiceLocator sl;
 	private QName serviceName;
 
 	public EndpointResolver(QName serviceName, String locatorEndpoints) {
+		LOG.log(Level.INFO, "Creating EndpointResolver object for "
+				+ serviceName.toString() + " service.");
+
 		this.serviceName = serviceName;
 		try {
 			sl = new ServiceLocator();
@@ -19,47 +28,62 @@ public class EndpointResolver {
 			sl.connect();
 			endpointsList = receiveEndpointsList();
 		} catch (IOException e) {
-			System.err
-					.println("Can not connect to zookeeper due to IOException");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"An IOException  was thrown when trying to connect to the ServiceLocator",
+						e);
+			}
 		} catch (InterruptedException e) {
-			System.err
-					.println("Can not connect to zookeeper due to InterruptedException");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"An InterruptedException was thrown while waiting for an answer from the Service Locator",
+						e);
+			}
 		} catch (ServiceLocatorException e) {
-			System.err
-					.println("Can not connect to zookeeper due to ServiceLocatorException");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Failed to execute an request to Service Locator", e);
+			}
 		}
-		// TODO Set LOCATOR_ROOT for LocatorClient
+
+		LOG.log(Level.INFO, "Endpoint Resolver was created successfully.");
 	}
 
 	private List<String> receiveEndpointsList() {
+		LOG.log(Level.INFO, "Getting endpoints of " + serviceName.toString()
+				+ " service.");
+
 		List<String> endpointsList = null;
 
 		try {
 			endpointsList = sl.lookup(this.serviceName);
 		} catch (ServiceLocatorException e) {
-			System.err
-					.println("Can not receive list of endpoints due to ServiceLocatorException");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Failed to execute an request to Service Locator", e);
+			}
 		} catch (InterruptedException e) {
-			System.err
-					.println("Can not receive list of endpoints due to InterruptedException");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"An InterruptedException was thrown while waiting for an answer from the Service Locator",
+						e);
+			}
 		}
-
+		LOG.log(Level.INFO,
+				"Received list of endpoints: " + endpointsList.toString());
 		return endpointsList;
 	}
 
 	public String selectEndpoint() {
 		if (endpointsList.isEmpty()) {
-			System.err.println("List of endpoints is empty");
+			LOG.log(Level.WARNING, "List of endpoints is empty");
 		} else {
 			int endpointAmount = endpointsList.size();
 			int randomNumber = (int) Math.round(Math.random() * endpointAmount);
 			int endpointIndex = randomNumber % endpointAmount;
 
+			LOG.log(Level.INFO,
+					"Selected endpoint: " + endpointsList.get(endpointIndex));
 			return endpointsList.get(endpointIndex);
 		}
 
@@ -67,6 +91,7 @@ public class EndpointResolver {
 	}
 
 	public List<String> getEndpointsList() {
+		LOG.log(Level.INFO, "List of endpoints: " + endpointsList.toString());
 		return endpointsList;
 	}
 
@@ -74,23 +99,43 @@ public class EndpointResolver {
 		try {
 			List<String> el = receiveEndpointsList();
 			if (el == null) {
-				System.err.println("Can not receive list of endpoint");
+				LOG.log(Level.SEVERE, "Can not receive list of endpoint");
 			}
 		} catch (Exception e) {
-			System.err
-					.println("Can not refresh list of endpoints due to unknown exception");
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Can not refresh list of endpoints due to unknown exception");
+			}
 		}
 	}
-	// public List<String> lookupServices() throws KeeperException,
-	// InterruptedException {
-	// String providerPath = lc.LOCATOR_ROOT;
-	// Stat s = zk.exists(providerPath, false);
-	// if (s != null) {
-	// return decode(zk.getChildren(providerPath, false));
-	// } else {
-	// System.out.println("Lookup services failed, provider not known.");
-	// return Collections.emptyList();
-	// }
-	// }
+
+	public <T> T getPort(QName portname, String binding,
+			Class<T> serviceEndpointInterface) {
+		Service service = null;
+		String endpoint = selectEndpoint();
+
+		if (endpoint == null) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE, "Endpoint not found for service "
+						+ this.serviceName.toString());
+				}
+			} else {
+				try {
+					service = Service.create(this.serviceName);
+					service.addPort(portname, binding, endpoint);
+					return service.getPort(portname, serviceEndpointInterface);
+					
+				} catch (Exception e) {
+					if (LOG.isLoggable(Level.SEVERE)) {
+						LOG.log(Level.SEVERE,
+								"Can not add port due to unknown exception");
+					}
+				}
+			}
+		return null;
+	}
+
+	public void log(String logstr) {
+		LOG.log(Level.INFO, "List of endpoints: " + endpointsList.toString());
+	}
 }
