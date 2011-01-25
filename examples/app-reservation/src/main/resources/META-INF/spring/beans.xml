@@ -34,12 +34,18 @@
     </spring:bean>
     
     <!-- Create the instance of the Equinox console command extension -->
-    <spring:bean id="ReservationCommand" class="org.talend.esb.client.app.CarRentalClientCommandProvider">
+    <!-- spring:bean id="ReservationCommand" class="org.talend.esb.client.app.CarRentalClientCommandProvider">
+    	<spring:property name="searcher" ref="CarSearchModel"/>
+    	<spring:property name="reserver" ref="CarReserveModel"/>
+    </spring:bean-->
+
+        <!-- Create the instance of the Equinox console command extension -->
+    <spring:bean id="CarGUI" class="org.talend.esb.client.commands.CarGUI">
     	<spring:property name="searcher" ref="CarSearchModel"/>
     	<spring:property name="reserver" ref="CarReserveModel"/>
     </spring:bean>
     
     <!-- Register the console command extension as OSGi service-->
-	<osgi:service ref="ReservationCommand" interface="org.eclipse.osgi.framework.console.CommandProvider" /> 
+	<!-- osgi:service ref="ReservationCommand" interface="org.eclipse.osgi.framework.console.CommandProvider" /--> 
     
 </spring:beans>
