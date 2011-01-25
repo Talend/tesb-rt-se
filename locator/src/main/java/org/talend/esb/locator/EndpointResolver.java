@@ -97,10 +97,10 @@ public class EndpointResolver {
 
 	public void refreshEndpointsList() {
 		try {
-			List<String> el = receiveEndpointsList();
-			if (el == null) {
+			endpointsList = receiveEndpointsList();
+			if (endpointsList == null) {
 				LOG.log(Level.SEVERE, "Can not receive list of endpoint");
-			}
+			} 
 		} catch (Exception e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
