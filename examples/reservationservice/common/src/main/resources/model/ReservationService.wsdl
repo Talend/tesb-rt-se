@@ -172,7 +172,7 @@
   </portType>
   <wsdl:service name="ReservationServiceProvider">
     <wsdl:port binding="tns0:localhostBinding" name="localhost">
-      <soap:address location="http://localhost:8888/soap/ReservationServiceProvider/"/>
+      <soap:address location="http://localhost:8889/soap/ReservationServiceProvider/"/>
     </wsdl:port>
   </wsdl:service>
   <wsdl:binding name="localhostBinding" type="isdx:ReservationService">

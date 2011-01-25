@@ -21,6 +21,6 @@
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
 		implementor="#ReservationServiceBean"
-		address="http://localhost:8888/soap/ReservationServiceProvider/"/>
+		address="http://localhost:8889/soap/ReservationServiceProvider/"/>
 
 </beans>
