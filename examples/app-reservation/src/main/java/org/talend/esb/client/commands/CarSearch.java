@@ -13,6 +13,7 @@ import org.talend.esb.client.model.CarSearchModel;
 @Command(scope = "car", name = "search", description = "Search a car")
 
 public class CarSearch extends OsgiCommandSupport {
+	private static String[] lastSearchResult = null;
 	private static final String FOUND = "Found {0} cars."; //$NON-NLS-1$
 	private static final String[] HN = { Messages.CarRentalClient_POS
 		, Messages.CarRentalClient_Brand
@@ -22,7 +23,7 @@ public class CarSearch extends OsgiCommandSupport {
 		, Messages.CarRentalClient_WeekEndRate
 		, Messages.CarRentalClient_Insurance};
 	private static final String SPC = "  "; //$NON-NLS-1$	
-	private static final String TO_SELECT = "\nTo reserve a car use \"racRent <pos>\""; //$NON-NLS-1$	
+	private static final String TO_SELECT = "\nTo reserve a car use \"car:rent <pos>\""; //$NON-NLS-1$	
 	private CarSearchModel searcher;
 	private String header;	
 	
@@ -40,8 +41,13 @@ public class CarSearch extends OsgiCommandSupport {
 		return null;
 	}
 	
+	public static String[] getLastSearchParams() {
+		return CarSearch.lastSearchResult;
+	}
+	
 	public void racSearch() {
 		this.searcher.search(userName, pickupDate, returnDate);
+		CarSearch.lastSearchResult = new String[]{userName, pickupDate, returnDate};
 		racShow();
 	}	
 	
@@ -51,6 +57,7 @@ public class CarSearch extends OsgiCommandSupport {
 		int pos = 0;
 		
 		if (this.searcher.getCars().size() > 0) {
+			header = Messages.CarRentalClient_CarDetails;
 			System.out.println(header);
 			StringBuilder sb = new StringBuilder();
 			

@@ -41,17 +41,15 @@ public class CarRent extends OsgiCommandSupport {
 	private CarSearchModel searcher;
 	private CarReserveModel reserver;
 	
-	@Argument(index = 0, name = "userName", description = "user name", required = true, multiValued = false)
-    String userName;		
-	@Argument(index = 1, name = "pickupDate", description = "pickup Date", required = true, multiValued = false)
-    String pickupDate;		
-	@Argument(index = 2, name = "returnDate", description = "return Date", required = true, multiValued = false)
-    String returnDate;		
-	@Argument(index = 3, name = "pos", description = "Rent a car listed in search result of racSearch", required = true, multiValued = false)
+	@Argument(index = 0, name = "pos", description = "Rent a car listed in search result of racSearch", required = true, multiValued = false)
     int pos;
 	
 	@Override
 	protected Object doExecute() throws Exception {
+		if (null == CarSearch.getLastSearchParams()) {
+			System.out.println("Do car:search first.");
+			return null;
+		}
 		System.out.println("Executing CarRent pos="+pos);
 		racRent();
 		return null;
@@ -63,6 +61,9 @@ public class CarRent extends OsgiCommandSupport {
 	 */
 	public void racRent() {
 		pos = pos - 1;
+		String userName = CarSearch.getLastSearchParams()[0];
+		String pickupDate = CarSearch.getLastSearchParams()[1];
+		String returnDate = CarSearch.getLastSearchParams()[2];
 		this.searcher.search(userName, pickupDate, returnDate);
 		if (searcher!=null && searcher.getCars()!= null && pos < searcher.getCars().size() && searcher.getCars().get(pos) != null) {
 			RESStatusType resStatus = reserver.reserveCar(searcher.getCustomer()
