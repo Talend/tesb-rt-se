@@ -21,7 +21,7 @@ public class CarGUI extends OsgiCommandSupport implements InitializingBean{
 	
 	public String getHelp() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n---SOPERA: Rent a Car (OSGi) Commands---\n"); //$NON-NLS-1$
+		sb.append("\n---TALEND ESB: Rent a Car (OSGi) Commands---\n"); //$NON-NLS-1$
 		sb.append("\tcar:GUI \t\t\t\t (Show GUI)\n"); //$NON-NLS-1$
 		sb.append("\tcar:search <user> <pickupDate> <returnDate> \n (Search for cars to rent, date format yyyy/mm/dd)\n"); //$NON-NLS-1$
 		sb.append("\tcar:rent   <user> <pickupDate> <returnDate> <pos> \n (Rent a car listed in search result of carSearch)\n\n"); //$NON-NLS-1$
