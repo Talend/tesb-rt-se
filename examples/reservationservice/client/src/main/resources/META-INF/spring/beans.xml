@@ -18,7 +18,7 @@
 		serviceClass="org.sopera.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationerviceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
-		address="http://localhost:8889/soap/ReservationServiceProvider/"
+		address="http://localhost:8888/soap/ReservationServiceProvider/"
 	/>
 
 	<osgi:service ref="ReservationServiceClient" interface="org.sopera.services.reservationservice.ReservationService"/>
