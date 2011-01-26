@@ -14,6 +14,7 @@
 
     <properties>
         <cxf.version>2.3.2</cxf.version>
+        <bnd.version>2.2.0</bnd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -36,6 +37,7 @@
         <!--module>war</module-->
         <module>client</module>
     </modules>
+
     <build>
         <defaultGoal>install</defaultGoal>
         <pluginManagement>
@@ -58,7 +60,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.1.0</version>
+                    <version>${bnd.version}</version>
                     <extensions>true</extensions>
                 </plugin>
                 <plugin>
