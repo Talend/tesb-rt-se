@@ -4,9 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.ws.Service;
 
 import javax.xml.namespace.QName;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 
 public class EndpointResolver {
 
@@ -100,7 +106,7 @@ public class EndpointResolver {
 			endpointsList = receiveEndpointsList();
 			if (endpointsList == null) {
 				LOG.log(Level.SEVERE, "Can not receive list of endpoint");
-			} 
+			}
 		} catch (Exception e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
@@ -118,20 +124,29 @@ public class EndpointResolver {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE, "Endpoint not found for service "
 						+ this.serviceName.toString());
+			}
+		} else {
+			try {
+				Pattern pattern = Pattern.compile("^jms:",
+						Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+				Matcher matcher = pattern.matcher(endpoint);
+				if (matcher.find()) {
+					JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+					factory.setTransportId(JMSSpecConstants.SOAP_JMS_SPECIFICATION_TRANSPORTID);
+					factory.setAddress(endpoint);
+					return factory.create(serviceEndpointInterface);
 				}
-			} else {
-				try {
-					service = Service.create(this.serviceName);
-					service.addPort(portname, binding, endpoint);
-					return service.getPort(portname, serviceEndpointInterface);
-					
-				} catch (Exception e) {
-					if (LOG.isLoggable(Level.SEVERE)) {
-						LOG.log(Level.SEVERE,
-								"Can not add port due to unknown exception");
-					}
+				service = Service.create(this.serviceName);
+				service.addPort(portname, binding, endpoint);
+				return service.getPort(portname, serviceEndpointInterface);
+
+			} catch (Exception e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE,
+							"Can not add port due to unknown exception");
 				}
 			}
+		}
 		return null;
 	}
 }

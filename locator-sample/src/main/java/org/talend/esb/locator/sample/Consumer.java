@@ -33,9 +33,9 @@ public class Consumer {
 			} catch (WebServiceException se) {
 				if (se.getCause().getClass().equals(SocketException.class)) {
 					LOG.log(Level.WARNING,
-							"Can not process due to SocketException. Will refresh list of endpoints after 30 sec");
+							"Can not process due to SocketException. Will refresh list of endpoints after 5 sec");
 					try {
-						Thread.sleep(30000);
+						Thread.sleep(5000);
 					} catch (InterruptedException ie) {
 						ie.printStackTrace();
 					}
