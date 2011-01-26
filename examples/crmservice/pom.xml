@@ -14,7 +14,7 @@
 
     <properties>
         <cxf.version>2.3.2</cxf.version>
-        <bnd.version>2.2.0</bnd.version>
+        <bnd.version>2.1.0</bnd.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

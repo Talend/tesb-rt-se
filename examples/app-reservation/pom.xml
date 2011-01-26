@@ -11,7 +11,7 @@
 	<packaging>bundle</packaging>
 
 	<properties>
-		<bnd.version>2.2.0</bnd.version>
+		<bnd.version>2.1.0</bnd.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -72,11 +72,6 @@
 					<artifactId>maven-bundle-plugin</artifactId>
 					<version>${bnd.version}</version>
 					<extensions>true</extensions>
-					<configuration>
-						<instructions>
-							<Import-Package>org.osgi.service.command,*</Import-Package>
-						</instructions>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -92,6 +87,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Import-Package>org.osgi.service.command,*</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
