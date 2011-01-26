@@ -29,14 +29,30 @@ Using either UNIX or Windows:
 Running this command will build the demo and create an OSGi bundle 
 for deploying the service to OSGi containers.
 
+Three OSGi bundles will be created:
+...\common\target\reservationservice-common-1.0.jar
+...\server\target\reservationservice-server-1.0.jar
+...\client\target\reservationservice-client-1.0.jar
+
 Starting the service
 ---------------------------------------
  * From within the Talend Service Factory OSGi container:
 
-    TODO
+1.Install Talend Service Factory Community Edition which include OSGi container version 2.3.2 or higher from http://www.talend.com/download.php.
 
-Running the client
----------------------------------------
+You can find out how to get started with OSGi container here: http://karaf.apache.org/
 
-    TODO
+1.Start OSGi:
+run <takend-sf>/conteiner/bin/start
+2.Deploy service into OSGi conteyner.
 
+copy follow bundles into folder <takend-sf>/conteiner/deploy
+reservationservice-common-1.0.jar
+reservationservice-server-1.0.jar
+reservationservice-client-1.0.jar
+
+3.Type in console command "list".
+You will see 
+[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (1.0.0)
+[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (1.0.0)
+[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (1.0.0)
