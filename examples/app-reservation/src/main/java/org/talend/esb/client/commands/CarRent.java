@@ -50,7 +50,6 @@ public class CarRent extends OsgiCommandSupport {
 			System.out.println("Do car:search first.");
 			return null;
 		}
-		System.out.println("Executing CarRent pos="+pos);
 		racRent();
 		return null;
 	}
@@ -104,7 +103,6 @@ public class CarRent extends OsgiCommandSupport {
 	 */
 	public void setSearcher(CarSearchModel searcher) {
 		this.searcher = searcher;
-		System.out.println("Searcher initialization: " + searcher.toString()); //$NON-NLS-1$		
 	}
 	
 	
@@ -114,7 +112,6 @@ public class CarRent extends OsgiCommandSupport {
 	 */
 	public void setReserver(CarReserveModel reserver) {
 		this.reserver = reserver;
-		System.out.println("Resever initialization: " + reserver.toString()); //$NON-NLS-1$		
 	}	
 	
 	
