@@ -7,29 +7,26 @@
 	<reference id="ReservationServiceClient"
 		interface="org.sopera.services.reservationservice.ReservationService" />
 
-	<!-- Create a car search model bean and inject the Swordfish clients -->
 	<bean id="CarSearchModel" class="org.talend.esb.client.model.CarSearchImpl">
 		<property name="crms" ref="CRMServiceClient" />
 		<property name="reserve" ref="ReservationServiceClient" />
 	</bean>
 
-	<!-- Create a car reservation model bean and inject the Swordfish reservation 
-		client -->
 	<bean id="CarReserveModel" class="org.talend.esb.client.model.CarReserveImpl">
 		<property name="reserve" ref="ReservationServiceClient" />
 	</bean>
 
 	<command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
-		<!-- command name="test/hello"> <action class="org.talend.esb.client.app.CarRentalKarafClientCommandProvider"/> 
-			</command -->
 		<command name="car/rent">
-			<action class="org.talend.esb.client.commands.CarRent" />
+			<action class="org.talend.esb.client.commands.CarRent">
+				<property name="searcher" ref="CarSearchModel" />
+				<property name="reserver" ref="CarReserveModel" />
+			</action>
 		</command>
 		<command name="car/search">
-			<action class="org.talend.esb.client.commands.CarSearch" />
-		</command>
-		<command name="car/show">
-			<action class="org.talend.esb.client.commands.CarShow" />
+			<action class="org.talend.esb.client.commands.CarSearch">
+				<property name="searcher" ref="CarSearchModel" />
+			</action>
 		</command>
 		<command name="car/GUI">
 			<action class="org.talend.esb.client.commands.CarGUI">

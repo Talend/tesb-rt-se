@@ -36,7 +36,7 @@ public class CarRentalClientCommandProvider implements CommandProvider, Initiali
 										, Messages.CarRentalClient_DayRate
 										, Messages.CarRentalClient_WeekEndRate
 										, Messages.CarRentalClient_Insurance};
-	private static final String TO_SELECT = "\nTo reserve a car use \"racRent <pos>\""; //$NON-NLS-1$
+	private static final String TO_SELECT = "\nTo reserve a car use \"car:rent <pos> \""; //$NON-NLS-1$
 	private static final String CONFIRMATION = "\n{0}\n\n" + //$NON-NLS-1$
 			Messages.CarRentalClient_ReservationID + " {1}\n\n" + //$NON-NLS-2$
 			Messages.CarRentalClient_CustomerDetails + "\n" + //$NON-NLS-2$
