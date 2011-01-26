@@ -29,7 +29,7 @@ Starting the application
 ------------------------
 
 1.Start OSGi console
-2.Copy app-reservation-1.0.jar into folder <takend-sf>/conteiner/deploy.
+2.Copy app-reservation-1.0.jar into folder <takend-sf>/container/deploy.
 
 In console you will see:
 

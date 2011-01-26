@@ -43,10 +43,10 @@ Starting the service
 You can find out how to get started with OSGi container here: http://karaf.apache.org/
 
 1.Start OSGi:
-run <takend-sf>/conteiner/bin/start
+run <takend-sf>/container/bin/start
 2.Deploy service into OSGi conteyner.
 
-copy follow bundles into folder <takend-sf>/conteiner/deploy
+copy follow bundles into folder <takend-sf>/container/deploy
 crmservice-common-1.0.jar
 crmservice-server-1.0.jar
 crmservice-client-1.0.jar
