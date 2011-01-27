@@ -59,9 +59,9 @@ public class Server {
 		serverPorts.add("8084");
 		serverPorts.add("8085");
 		serverPorts.add("8086");
-		serverPorts.add("8087");
-		serverPorts.add("8088");
-		serverPorts.add("8089");
+//		serverPorts.add("8087");
+//		serverPorts.add("8088");
+//		serverPorts.add("8089");
     	int i = 0;
     	if(args.length > 0) serverPorts.clear();
     	while(i < args.length) {

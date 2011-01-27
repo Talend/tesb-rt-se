@@ -56,7 +56,7 @@ public class EndpointResolver {
 				+ serviceName.toString() + " service.");
 
 		this.serviceName = serviceName;
-		serviceLocator = new ServiceLocator();
+		serviceLocator = createServiceLocator();
 		serviceLocator.setLocatorEndpoints(locatorEndpoints);
 		endpointsList = receiveEndpointsList();
 		if (isReady())
@@ -210,5 +210,9 @@ public class EndpointResolver {
 	public QName getServiceName() {
 		LOG.log(Level.INFO, "Service name: " + serviceName.toString());
 		return serviceName;
+	}
+	
+	protected ServiceLocator createServiceLocator() {
+		return new ServiceLocator();
 	}
 }

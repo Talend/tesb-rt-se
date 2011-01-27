@@ -9,7 +9,6 @@ import org.talend.esb.locator.EndpointResolver;
 import org.talend.esb.sample.cxf.Greeter;
 
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPBinding;
 
 public class Consumer {
 
@@ -21,8 +20,7 @@ public class Consumer {
 		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = null;
-		er = new EndpointResolver(Constants.SERVICENAME,
-				Constants.LOCATORENDPOINT);
+		er = new EndpointResolver(Constants.SERVICENAME, null);
 		if (er.isReady()) {
 			Greeter client = null;
 			for (int i = 0; i < 10; i++) {
