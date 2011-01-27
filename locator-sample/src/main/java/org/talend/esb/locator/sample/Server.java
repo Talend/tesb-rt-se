@@ -55,16 +55,6 @@ public class Server {
 		serverPorts.add("8080");
 		serverPorts.add("8081");
 		serverPorts.add("8082");
-<<<<<<< HEAD
-=======
-		serverPorts.add("8083");
-		serverPorts.add("8084");
-		serverPorts.add("8085");
-		serverPorts.add("8086");
-//		serverPorts.add("8087");
-//		serverPorts.add("8088");
-//		serverPorts.add("8089");
->>>>>>> b7426aa637fdc826825400be6f19cee767cc1085
     	int i = 0;
     	if(args.length > 0) serverPorts.clear();
     	while(i < args.length) {
