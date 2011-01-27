@@ -51,18 +51,25 @@ public class EndpointResolver {
 	 *            and port. You can specify multiple hosts to which you want to
 	 *            connect, separated by a comma.
 	 */
-	public EndpointResolver(QName serviceName, String locatorEndpoints) {
-		LOG.log(Level.INFO, "Creating EndpointResolver object for "
-				+ serviceName.toString() + " service.");
+	public EndpointResolver(QName serviceName, String locatorEndpoints) throws NullPointerException{
+		if ((serviceName == null) || (locatorEndpoints == null)) {
+			LOG.log(Level.SEVERE, "serviceName or locatorEndpoints can't be null");
+			throw new NullPointerException("EndpointResolver exception");
+		} else {
+			LOG.log(Level.INFO, "Creating EndpointResolver object for "
+					+ serviceName.toString() + " service.");
 
-		this.serviceName = serviceName;
-		serviceLocator = createServiceLocator();
-		serviceLocator.setLocatorEndpoints(locatorEndpoints);
-		endpointsList = receiveEndpointsList();
-		if (isReady())
-			LOG.log(Level.INFO, "Endpoint Resolver was created successfully.");
-		else if (LOG.isLoggable(Level.SEVERE)) {
-			LOG.log(Level.SEVERE, "Failed to create Endpoint Resolver");
+			this.serviceName = serviceName;
+			serviceLocator = createServiceLocator();
+			serviceLocator.setLocatorEndpoints(locatorEndpoints);
+			endpointsList = receiveEndpointsList();
+			if (isReady())
+				LOG.log(Level.INFO,
+						"Endpoint Resolver was created successfully.");
+			else if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE, "Failed to create Endpoint Resolver");
+				throw new NullPointerException("EndpointResolver exception");
+			}
 		}
 	}
 
@@ -72,9 +79,10 @@ public class EndpointResolver {
 
 	/**
 	 * Establish a connection to the Service Locator, using
-	 * {@link org.talend.esb.locator.ServiceLocator ServiceLocator} instance. Lookup endpoints
-	 * for Service Name, specified specified in {@link #EndpointResolver(QName, String) constructor}. Disconnects from a Service Locator
-	 * server.
+	 * {@link org.talend.esb.locator.ServiceLocator ServiceLocator} instance.
+	 * Lookup endpoints for Service Name, specified specified in
+	 * {@link #EndpointResolver(QName, String) constructor}. Disconnects from a
+	 * Service Locator server.
 	 * 
 	 * @return all endpoints that currently registered at the Service Locator
 	 *         Service.
@@ -113,8 +121,8 @@ public class EndpointResolver {
 	}
 
 	/**
-	 * Select endpoint from the list  to be used by just using a simple
-	 * strategy to randomly pick one entry from the list.
+	 * Select endpoint from the list to be used by just using a simple strategy
+	 * to randomly pick one entry from the list.
 	 */
 	public String selectEndpoint() {
 		if (endpointsList.isEmpty()) {
@@ -206,12 +214,12 @@ public class EndpointResolver {
 		}
 		return null;
 	}
-	
+
 	public QName getServiceName() {
 		LOG.log(Level.INFO, "Service name: " + serviceName.toString());
 		return serviceName;
 	}
-	
+
 	protected ServiceLocator createServiceLocator() {
 		return new ServiceLocator();
 	}
