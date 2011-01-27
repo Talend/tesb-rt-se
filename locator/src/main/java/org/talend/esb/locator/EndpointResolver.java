@@ -206,4 +206,9 @@ public class EndpointResolver {
 		}
 		return null;
 	}
+	
+	public QName getServiceName() {
+		LOG.log(Level.INFO, "Service name: " + serviceName.toString());
+		return serviceName;
+	}
 }
