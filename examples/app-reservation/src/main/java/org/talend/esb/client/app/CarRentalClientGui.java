@@ -34,10 +34,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
-import org.sopera.services.crm.types.CustomerDetailsType;
-import org.sopera.services.reservation.types.ConfirmationType;
-import org.sopera.services.reservation.types.RESCarType;
-import org.sopera.services.reservation.types.RESStatusType;
+import org.talend.services.crm.types.CustomerDetailsType;
+import org.talend.services.reservation.types.ConfirmationType;
+import org.talend.services.reservation.types.RESCarType;
+import org.talend.services.reservation.types.RESStatusType;
 import org.talend.esb.client.model.CarReserveModel;
 import org.talend.esb.client.model.CarSearchModel;
 
@@ -178,7 +178,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 	private JPanel createHeaderPanel() {
 		JPanel header = createPanel();
 		header.add(new JLabel(Messages.CarRentalClient_Title), BorderLayout.WEST);
-		header.add(new JLabel(createImageIcon("sopera.gif")), BorderLayout.EAST);		
+		header.add(new JLabel(createImageIcon("talend.gif")), BorderLayout.EAST);		
 		return header;
 	}
 	

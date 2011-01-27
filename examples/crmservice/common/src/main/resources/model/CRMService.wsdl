@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-		Copyright (c) 2008 SOPERA GmbH All rights reserved. This program and
-		the accompanying materials are made available under the terms of the
-		Eclipse Public License v1.0 which accompanies this distribution, and
-		is available at http://www.eclipse.org/legal/epl-v10.html
-	-->
-<definitions targetNamespace="http://services.sopera.org/CRMService"
+<!-- Copyright -->
+<definitions targetNamespace="http://services.talend.org/CRMService"
   xmlns="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:crm="http://services.sopera.org/crm/types"
-  xmlns:isdx="http://services.sopera.org/CRMService"
+  xmlns:crm="http://services.talend.org/crm/types"
   xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/"
-  xmlns:sdx="http://types.sopera.org/service/ServiceDescription/2.0"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:tns="http://services.sopera.org/CRMService"
-  xmlns:tns0="http://services.sopera.org/CRMService"
+  xmlns:tns="http://services.talend.org/CRMService"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <types>
     <xsd:schema elementFormDefault="unqualified"
-      targetNamespace="http://services.sopera.org/crm/types" xmlns="http://services.sopera.org/crm/types">
+      targetNamespace="http://services.talend.org/crm/types" xmlns="http://services.talend.org/crm/types">
       <xsd:element name="CustomerDetails" type="crm:CustomerDetailsType"/>
       <xsd:element name="LoginUser" type="crm:LoginUserType"/>
       <xsd:element name="RYLCStatus" type="crm:RYLCStatusType"/>
@@ -50,15 +42,14 @@
           <xsd:enumeration value="PLATIN"/>
         </xsd:restriction>
       </xsd:simpleType>
-	  <xsd:complexType name="RYLCStatusType">
-		<xsd:sequence>
-			<xsd:element name="customerId" type="xsd:long" />
-			<xsd:element name="code" type="crm:RYLCStatusCodeType" />
-			<xsd:element name="creditPoints" type="xsd:integer" />
-			<xsd:element name="description" type="xsd:string"
-				minOccurs="0" />
-		</xsd:sequence>
-	  </xsd:complexType>
+      <xsd:complexType name="RYLCStatusType">
+        <xsd:sequence>
+            <xsd:element name="customerId" type="xsd:long" />
+            <xsd:element name="code" type="crm:RYLCStatusCodeType" />
+            <xsd:element name="creditPoints" type="xsd:integer" />
+            <xsd:element name="description" type="xsd:string" minOccurs="0" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:simpleType name="RYLCStatusCodeType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="ACTIVE"/>
@@ -82,25 +73,25 @@
   <message name="updateCRMStatusRequest">
     <part element="crm:RYLCStatus" name="body"/>
   </message>
-  <portType name="CRMService" sdx:status="design">
+  <portType name="CRMService">
     <operation name="getCRMInformation">
-      <input message="tns0:getCRMInformationRequest"/>
-      <output message="tns0:getCRMInformationResponse"/>
+      <input message="tns:getCRMInformationRequest"/>
+      <output message="tns:getCRMInformationResponse"/>
     </operation>
     <operation name="getCRMStatus">
-      <input message="tns0:getCRMStatusRequest"/>
-      <output message="tns0:getCRMStatusResponse"/>
+      <input message="tns:getCRMStatusRequest"/>
+      <output message="tns:getCRMStatusResponse"/>
     </operation>
     <operation name="updateCRMStatus">
-      <input message="tns0:updateCRMStatusRequest"/>
+      <input message="tns:updateCRMStatusRequest"/>
     </operation>
   </portType>
   <wsdl:service name="CRMServiceProvider">
-    <wsdl:port binding="tns0:localhostBinding" name="localhost">
+    <wsdl:port binding="tns:localhostBinding" name="localhost">
       <soap:address location="http://localhost:8888/soap/CRMServiceProvider/"/>
     </wsdl:port>
   </wsdl:service>
-  <wsdl:binding name="localhostBinding" type="isdx:CRMService">
+  <wsdl:binding name="localhostBinding" type="tns:CRMService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getCRMInformation">
       <soap:operation soapAction="getCRMInformation"/>

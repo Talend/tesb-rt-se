@@ -14,13 +14,13 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 
 	<jaxws:client id="CRMServiceClient"
-		xmlns:serviceNamespace="http://services.sopera.org/CRMService"
-		serviceClass="org.sopera.services.crmservice.CRMService"
+		xmlns:serviceNamespace="http://services.talend.org/CRMService"
+		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
 		address="http://localhost:8888/soap/CRMServiceProvider/"
 	/>
 
-	<osgi:service ref="CRMServiceClient" interface="org.sopera.services.crmservice.CRMService"/>
+	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
 
 </beans>

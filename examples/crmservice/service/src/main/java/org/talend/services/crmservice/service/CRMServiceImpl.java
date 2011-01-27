@@ -1,14 +1,14 @@
-package org.sopera.services.crmservice.service;
+package org.talend.services.crmservice.service;
 
 import java.math.BigInteger;
 
-import org.sopera.services.crm.types.CRMStatusType;
-import org.sopera.services.crm.types.CustomerDetailsType;
-import org.sopera.services.crm.types.LoginUserType;
-import org.sopera.services.crm.types.ObjectFactory;
-import org.sopera.services.crm.types.RYLCStatusCodeType;
-import org.sopera.services.crm.types.RYLCStatusType;
-import org.sopera.services.crmservice.CRMService;
+import org.talend.services.crm.types.CRMStatusType;
+import org.talend.services.crm.types.CustomerDetailsType;
+import org.talend.services.crm.types.LoginUserType;
+import org.talend.services.crm.types.ObjectFactory;
+import org.talend.services.crm.types.RYLCStatusCodeType;
+import org.talend.services.crm.types.RYLCStatusType;
+import org.talend.services.crmservice.CRMService;
 
 public class CRMServiceImpl implements CRMService {
 
@@ -29,8 +29,8 @@ public class CRMServiceImpl implements CRMService {
 	/**
 	 * {@inheritDoc}
 	 */ 
-	public org.sopera.services.crm.types.CustomerDetailsType getCRMInformation(
-			org.sopera.services.crm.types.LoginUserType login) {
+	public org.talend.services.crm.types.CustomerDetailsType getCRMInformation(
+			org.talend.services.crm.types.LoginUserType login) {
 		//
 		logData("getCRMInformation", "request", login);
 		// Load customer data
@@ -43,8 +43,8 @@ public class CRMServiceImpl implements CRMService {
 	/**
 	 * {@inheritDoc}
 	 */ 
-	public org.sopera.services.crm.types.RYLCStatusType getCRMStatus(
-			org.sopera.services.crm.types.CustomerDetailsType customer) {
+	public org.talend.services.crm.types.RYLCStatusType getCRMStatus(
+			org.talend.services.crm.types.CustomerDetailsType customer) {
 		//
 		logData("getCRMStatus", "request", customer);
 		// Get status
@@ -58,7 +58,7 @@ public class CRMServiceImpl implements CRMService {
 	 * {@inheritDoc}
 	 */ 
 	public void updateCRMStatus(
-			org.sopera.services.crm.types.RYLCStatusType status) {
+			org.talend.services.crm.types.RYLCStatusType status) {
 		//
 		logData("updateCRMStatus", "request", status);
 		// 
@@ -79,7 +79,7 @@ public class CRMServiceImpl implements CRMService {
 		customer.setCity("Bonn");
 		customer.setStreet("Straessensweg 10");
 		customer.setZip("53113");
-		customer.setEmail("info@sopera.de");
+		customer.setEmail("info@talend.de");
 		customer.setStatus(CRMStatusType.NONE);
 		
 		String user = login.getUsername();
@@ -105,7 +105,7 @@ public class CRMServiceImpl implements CRMService {
 				customer.setCity("Muenchen");
 				customer.setStreet("Hohenlindnerstrasse 11b");
 				customer.setZip("85622");
-				customer.setEmail("info@sopera.de");
+				customer.setEmail("info@talend.de");
 			}
 			customer.setUsername(user);
 		}

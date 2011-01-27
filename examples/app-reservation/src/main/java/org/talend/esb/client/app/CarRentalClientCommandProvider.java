@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 SOPERA GmbH.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     SOPERA GmbH - initial API and implementation
- *******************************************************************************/
 package org.talend.esb.client.app;
 
 import java.text.MessageFormat;
@@ -16,10 +6,10 @@ import java.text.SimpleDateFormat;
 
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.eclipse.osgi.framework.console.CommandProvider;
-import org.sopera.services.crm.types.CustomerDetailsType;
-import org.sopera.services.reservation.types.ConfirmationType;
-import org.sopera.services.reservation.types.RESCarType;
-import org.sopera.services.reservation.types.RESStatusType;
+import org.talend.services.crm.types.CustomerDetailsType;
+import org.talend.services.reservation.types.ConfirmationType;
+import org.talend.services.reservation.types.RESCarType;
+import org.talend.services.reservation.types.RESStatusType;
 import org.springframework.beans.factory.InitializingBean;
 import org.talend.esb.client.model.CarReserveModel;
 import org.talend.esb.client.model.CarSearchModel;
@@ -161,7 +151,7 @@ public class CarRentalClientCommandProvider implements CommandProvider, Initiali
 	 */
 	public String getHelp() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("\n---SOPERA: Rent a Car (OSGi) Commands---\n"); //$NON-NLS-1$
+		sb.append("\n---talend: Rent a Car (OSGi) Commands---\n"); //$NON-NLS-1$
 		sb.append("\tracGUI \t\t\t\t\t\t (Show GUI)\n"); //$NON-NLS-1$
 		sb.append("\tracSearch <user> <pickupDate> <returnDate> \t (Search for cars to rent, date format yyyy/mm/dd)\n"); //$NON-NLS-1$
 		sb.append("\tracShow \t\t\t\t\t (Show last search result of racSearch)\n"); //$NON-NLS-1$

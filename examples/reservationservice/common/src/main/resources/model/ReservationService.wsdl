@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-		Copyright (c) 2008 SOPERA GmbH All rights reserved. This program and
-		the accompanying materials are made available under the terms of the
-		Eclipse Public License v1.0 which accompanies this distribution, and
-		is available at http://www.eclipse.org/legal/epl-v10.html
-	-->
+<!-- Copyright  -->
 <definitions
-  targetNamespace="http://services.sopera.org/ReservationService"
+  targetNamespace="http://services.talend.org/ReservationService"
   xmlns="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:crm="http://services.sopera.org/crm/types"
-  xmlns:isdx="http://services.sopera.org/ReservationService"
+  xmlns:crm="http://services.talend.org/crm/types"
   xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/"
-  xmlns:res="http://services.sopera.org/reservation/types"
+  xmlns:res="http://services.talend.org/reservation/types"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:tns="http://services.sopera.org/ReservationService"
-  xmlns:tns0="http://services.sopera.org/ReservationService"
+  xmlns:tns="http://services.talend.org/ReservationService"
   xmlns:wsa="http://www.w3.org/2005/08/addressing"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <types>
     <xsd:schema elementFormDefault="unqualified"
-      targetNamespace="http://services.sopera.org/reservation/types" xmlns="http://services.sopera.org/reservation/types">
-      <!-- xmlns:crm="http://services.sopera.org/crm/types" -->
-      <!-- <xsd:import namespace="http://services.sopera.org/crm/types" /> -->
+      targetNamespace="http://services.talend.org/reservation/types" xmlns="http://services.talend.org/reservation/types">
+      <xsd:import namespace="http://services.talend.org/crm/types" />
+
       <xsd:element name="RESProfile" type="res:RESProfileType"/>
       <xsd:element name="RESCarList" type="res:RESCarListType"/>
       <xsd:element name="Reservation" type="res:ReservationType"/>
@@ -89,7 +82,7 @@
       </xsd:simpleType>
     </xsd:schema>
     <xsd:schema elementFormDefault="unqualified"
-      targetNamespace="http://services.sopera.org/crm/types" xmlns="http://services.sopera.org/crm/types">
+      targetNamespace="http://services.talend.org/crm/types" xmlns="http://services.talend.org/crm/types">
       <xsd:element name="CustomerDetails" type="crm:CustomerDetailsType"/>
       <xsd:element name="LoginUser" type="crm:LoginUserType"/>
       <xsd:element name="RYLCStatus" type="crm:RYLCStatusType"/>
@@ -121,15 +114,14 @@
           <xsd:enumeration value="PLATIN"/>
         </xsd:restriction>
       </xsd:simpleType>
-	  <xsd:complexType name="RYLCStatusType">
-		<xsd:sequence>
-			<xsd:element name="customerId" type="xsd:long" />
-			<xsd:element name="code" type="crm:RYLCStatusCodeType" />
-			<xsd:element name="creditPoints" type="xsd:integer" />
-			<xsd:element name="description" type="xsd:string"
-				minOccurs="0" />
-		</xsd:sequence>
-	  </xsd:complexType>
+      <xsd:complexType name="RYLCStatusType">
+        <xsd:sequence>
+            <xsd:element name="customerId" type="xsd:long" />
+            <xsd:element name="code" type="crm:RYLCStatusCodeType" />
+            <xsd:element name="creditPoints" type="xsd:integer" />
+            <xsd:element name="description" type="xsd:string" minOccurs="0" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:simpleType name="RYLCStatusCodeType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="ACTIVE"/>
@@ -158,24 +150,24 @@
   </message>
   <portType name="ReservationService">
     <operation name="getAvailableCars">
-      <input message="tns0:getAvailableCarsRequest" wsa:Action="http://services.sopera.org/ReservationService/getAvailableCars"/>
-      <output message="tns0:getAvailableCarsResponse" wsa:Action="http://services.sopera.org/ReservationService/getAvailableCars"/>
+      <input message="tns:getAvailableCarsRequest" wsa:Action="http://services.talend.org/ReservationService/getAvailableCars"/>
+      <output message="tns:getAvailableCarsResponse" wsa:Action="http://services.talend.org/ReservationService/getAvailableCars"/>
     </operation>
     <operation name="submitCarReservation">
-      <input message="tns0:submitCarReservationRequest" wsa:Action="http://services.sopera.org/ReservationService/submitCarReservation"/>
-      <output message="tns0:submitCarReservationResponse" wsa:Action="http://services.sopera.org/ReservationService/submitCarReservation"/>
+      <input message="tns:submitCarReservationRequest" wsa:Action="http://services.talend.org/ReservationService/submitCarReservation"/>
+      <output message="tns:submitCarReservationResponse" wsa:Action="http://services.talend.org/ReservationService/submitCarReservation"/>
     </operation>
     <operation name="getConfirmationOfReservation">
-      <input message="tns0:getConfirmationRequest" wsa:Action="http://services.sopera.org/ReservationService/getConfirmationOfReservation"/>
-      <output message="tns0:getConfirmationResponse" wsa:Action="http://services.sopera.org/ReservationService/getConfirmationOfReservation"/>
+      <input message="tns:getConfirmationRequest" wsa:Action="http://services.talend.org/ReservationService/getConfirmationOfReservation"/>
+      <output message="tns:getConfirmationResponse" wsa:Action="http://services.talend.org/ReservationService/getConfirmationOfReservation"/>
     </operation>
   </portType>
   <wsdl:service name="ReservationServiceProvider">
-    <wsdl:port binding="tns0:localhostBinding" name="localhost">
+    <wsdl:port binding="tns:localhostBinding" name="localhost">
       <soap:address location="http://localhost:8888/soap/ReservationServiceProvider/"/>
     </wsdl:port>
   </wsdl:service>
-  <wsdl:binding name="localhostBinding" type="isdx:ReservationService">
+  <wsdl:binding name="localhostBinding" type="tns:ReservationService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getAvailableCars">
       <soap:operation soapAction="getAvailableCars"/>

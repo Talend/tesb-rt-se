@@ -35,10 +35,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,crmservice-common</Require-Bundle>
-						<Export-Package>
-							org.sopera.services.crmservice.client
-						</Export-Package>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

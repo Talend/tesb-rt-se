@@ -13,14 +13,14 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	
 	<bean id="CRMServiceBean"
-		class="org.sopera.services.crmservice.service.CRMServiceImpl"/>
+		class="org.talend.services.crmservice.service.CRMServiceImpl"/>
 
 	<!-- HTTP Endpoint -->
 	<jaxws:endpoint id="CRMService"
-		xmlns:serviceNamespace="http://services.sopera.org/CRMService"
+		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-	    implementor="#CRMServiceBean"
-	    address="http://localhost:8888/soap/CRMServiceProvider/"/>
+		implementor="#CRMServiceBean"
+		address="http://localhost:8888/soap/CRMServiceProvider/"/>
 
 </beans>

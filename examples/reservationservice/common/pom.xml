@@ -27,15 +27,15 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>
-							javax.xml.bind,
-							javax.xml.bind.annotation,
-							javax.xml.bind.annotation.adapters,
-							*
+                            javax.xml.bind,
+                            javax.xml.bind.annotation,
+                            javax.xml.bind.annotation.adapters,
+                            *
                         </Import-Package>
                         <Export-Package>
-							org.sopera.services.crm.types,                        
-							org.sopera.services.reservation.types,
-							org.sopera.services.reservationservice
+							org.talend.services.crm.types,
+							org.talend.services.reservation.types,
+							org.talend.services.reservationservice
 						</Export-Package> 
                     </instructions>
                 </configuration>

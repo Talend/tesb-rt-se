@@ -2,10 +2,10 @@
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-	<reference id="CRMServiceClient" interface="org.sopera.services.crmservice.CRMService" />
+	<reference id="CRMServiceClient" interface="org.talend.services.crmservice.CRMService" />
 
 	<reference id="ReservationServiceClient"
-		interface="org.sopera.services.reservationservice.ReservationService" />
+		interface="org.talend.services.reservationservice.ReservationService" />
 
 	<bean id="CarSearchModel" class="org.talend.esb.client.model.CarSearchImpl">
 		<property name="crms" ref="CRMServiceClient" />

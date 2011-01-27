@@ -5,9 +5,8 @@ import java.text.MessageFormat;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.Argument;
 import org.apache.karaf.shell.console.OsgiCommandSupport;
-import org.sopera.services.reservation.types.RESCarType;
+import org.talend.services.reservation.types.RESCarType;
 import org.talend.esb.client.app.Messages;
-//import org.talend.esb.client.model.CarReserveModel;
 import org.talend.esb.client.model.CarSearchModel;
 
 @Command(scope = "car", name = "search", description = "Search a car")
