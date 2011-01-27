@@ -98,7 +98,7 @@ public class ServerJMS {
 	}
 
     public static void main(String args[]) throws Exception {
-    	String locatorEndpoints = "192.168.40.15:2181";
+    	String locatorEndpoints = "192.168.40.14:2181";
     	String JMS_ENDPOINT_URI = "jms:queue:test.cxf.jmstransport.queue?timeToLive=1000"
             + "&jndiConnectionFactoryName=ConnectionFactory"
             + "&jndiURL=tcp://localhost:61616"
