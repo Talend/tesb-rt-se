@@ -16,5 +16,6 @@ public class Constants {
         + "&jndiConnectionFactoryName=ConnectionFactory"
         + "&jndiURL=tcp://localhost:61616"
         + "&jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory";
+	public static final String GREETERNAME = "/services/Greeter";
 	
 }

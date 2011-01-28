@@ -8,7 +8,6 @@ import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.zookeeper.KeeperException;
 
 import org.talend.esb.locator.ServiceLocator;
 import org.talend.esb.locator.LocatorRegistrar;
