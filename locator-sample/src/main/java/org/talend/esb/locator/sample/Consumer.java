@@ -20,7 +20,7 @@ public class Consumer {
 		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = null;
-		er = new EndpointResolver(Constants.SERVICENAME, null);
+		er = new EndpointResolver(Constants.SERVICENAME, Constants.LOCATORENDPOINT);
 		if (er.isReady()) {
 			Greeter client = null;
 			for (int i = 0; i < 10; i++) {
