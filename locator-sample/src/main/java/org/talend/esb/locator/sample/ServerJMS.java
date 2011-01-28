@@ -98,13 +98,7 @@ public class ServerJMS {
 	}
 
     public static void main(String args[]) throws Exception {
-    	String locatorEndpoints = "192.168.40.14:2181";
-    	String JMS_ENDPOINT_URI = "jms:queue:test.cxf.jmstransport.queue?timeToLive=1000"
-            + "&jndiConnectionFactoryName=ConnectionFactory"
-            + "&jndiURL=tcp://localhost:61616"
-            + "&jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory";
-    	
-		new ServerJMS(JMS_ENDPOINT_URI, locatorEndpoints);
+    	new ServerJMS(Constants.JMS_ENDPOINT_URI, Constants.LOCATORENDPOINT);
         System.out.println("Server ready...");
         Thread.sleep(125 * 60 * 1000);
         System.out.println("Server exiting");
