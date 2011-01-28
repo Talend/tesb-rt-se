@@ -20,31 +20,33 @@ public class Consumer {
 		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = null;
-		er = new EndpointResolver(Constants.SERVICENAME,
-				Constants.LOCATORENDPOINT);
-		Greeter client = null;
-		for (int i = 0; i < 10; i++) {
-			LOG.log(Level.INFO, "------------ BEGIN ---------");
-			try {
-				client = er.getPort(Constants.PORTNAME, Greeter.class);
-				LOG.log(Level.INFO, client.greetMe("MyName"));
+		er = new EndpointResolver(Constants.SERVICENAME, Constants.LOCATORENDPOINT);
+		if (er.isReady()) {
+			Greeter client = null;
+			for (int i = 0; i < 10; i++) {
+				LOG.log(Level.INFO, "------------ BEGIN ---------");
+				try {
+					client = er.getPort(Constants.PORTNAME,
+							 Greeter.class);
+					LOG.log(Level.INFO, client.greetMe("MyName"));
 
-			} catch (WebServiceException se) {
-				if (se.getCause().getClass().equals(SocketException.class)) {
-					LOG.log(Level.WARNING,
-							"Can not process due to SocketException. Will refresh list of endpoints after 5 sec");
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException ie) {
-						ie.printStackTrace();
+				} catch (WebServiceException se) {
+					if (se.getCause().getClass().equals(SocketException.class)) {
+						LOG.log(Level.WARNING,
+								"Can not process due to SocketException. Will refresh list of endpoints after 5 sec");
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException ie) {
+							ie.printStackTrace();
+						}
+						er.refreshEndpointsList();
+					} else {
+						se.printStackTrace();
 					}
-					er.refreshEndpointsList();
-				} else {
-					se.printStackTrace();
 				}
-			}
-			LOG.log(Level.INFO, "------------ END -----------");
+				LOG.log(Level.INFO, "------------ END -----------");
 
+			}
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class Server {
         initForLocator(locatorEndpoints);
         
         for(String el: serverPorts) {
-        	String address = "http://192.168.40.15:" + el + "/services/Greeter";
+        	String address = "http://" + Constants.ServiceHOST + ":" + el + "/services/Greeter";
         	publishService(address);
         }
 
@@ -50,7 +50,7 @@ public class Server {
 	}
 
     public static void main(String args[]) throws Exception {
-    	String locatorEndpoints = "192.168.40.15:2181";
+    	String locatorEndpoints = Constants.LOCATORENDPOINT;
 		List<String> serverPorts = new ArrayList<String>();
 		serverPorts.add("8080");
 		serverPorts.add("8081");
