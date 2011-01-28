@@ -21,30 +21,29 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 
 /**
- * This is the entry point for clients of the Service Locator. To access the Service Locator
- * clients have to first {@link #connect() connect} to the Service Locator to get a session
- * assigned. Once the connection is
- * established the client will periodically send heart beats to the server to keep the session
- * alive. 
+ * This is the entry point for clients of the Service Locator. To access the
+ * Service Locator clients have to first {@link #connect() connect} to the
+ * Service Locator to get a session assigned. Once the connection is established
+ * the client will periodically send heart beats to the server to keep the
+ * session alive.
  * <p>
  * The Service Locator provides the following operations.
  * <ul>
- *  <li>An endpoint for a specific service can be registered.
- *  <li>All endpoints for a specific service that were registered before by other clients can be
- *      looked up.
+ * <li>An endpoint for a specific service can be registered.
+ * <li>All endpoints for a specific service that were registered before by other
+ * clients can be looked up.
  * </ul>
  * 
- * This class is not thread-safe. The caller must ensure that the connect and disconnect operations are run exclusively.
- * register and lookup may run concurrently.
  */
 public class ServiceLocator {
 
-	private static final Logger LOG = Logger.getLogger(ServiceLocator.class.getName());
+	private static final Logger LOG = Logger.getLogger(ServiceLocator.class
+			.getName());
 
 	public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
-	
+
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
@@ -53,24 +52,25 @@ public class ServiceLocator {
 	};
 
 	/**
-	 * Callback interface to define actions that must be executed after a successful connect or 
-	 * reconnect.
+	 * Callback interface to define actions that must be executed after a
+	 * successful connect or reconnect.
 	 */
 	static interface PostConnectAction {
 		/**
-		 * Execute this after the connection to the Service Locator is established or
-		 * re-established.
+		 * Execute this after the connection to the Service Locator is
+		 * established or re-established.
 		 * 
-		 * @param lc the Service Locator client that just successfully connected to the server, must
-		 *           not be <code>null</code> 
+		 * @param lc
+		 *            the Service Locator client that just successfully
+		 *            connected to the server, must not be <code>null</code>
 		 */
 		void process(ServiceLocator lc);
 	}
-	
+
 	private String locatorEndpoints = "localhost:2181";
 
 	private int sessionTimeout = 5000;
-	
+
 	private int connectionTimeout = 5000;
 
 	private PostConnectAction pca = DO_NOTHING_ACTION;
@@ -78,102 +78,155 @@ public class ServiceLocator {
 	private volatile ZooKeeper zk;
 
 	/**
-	 * Establish a connection to the Service Locator. After successful connection the specified
-	 * {@link PostConnectAction} is run. If the session to the server expires because the server
-	 * could not be reached within the {@link #setSessionTimeout(int) specified time}, a reconnect
-	 * is automatically executed as soon as the server can be reached again. Because after a session
-	 * time out all registered endpoints are removed it is important to specify a
-	 * {@link PostConnectAction} that re-registers all endpoints.  
+	 * Establish a connection to the Service Locator. After successful
+	 * connection the specified {@link PostConnectAction} is run. If the session
+	 * to the server expires because the server could not be reached within the
+	 * {@link #setSessionTimeout(int) specified time}, a reconnect is
+	 * automatically executed as soon as the server can be reached again.
+	 * Because after a session time out all registered endpoints are removed it
+	 * is important to specify a {@link PostConnectAction} that re-registers all
+	 * endpoints.
 	 * 
-	 * @throws IOException At least one of the endpoints does not represent a valid address
-	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting
-	 *                              for a successful connection to the ServiceLocator
-	 * @throws ServiceLocatorException the connect operation failed
+	 * @throws IOException
+	 *             At least one of the endpoints does not represent a valid
+	 *             address
+	 * @throws InterruptedException
+	 *             the current <code>Thread</code> was interrupted when waiting
+	 *             for a successful connection to the ServiceLocator
+	 * @throws ServiceLocatorException
+	 *             the connect operation failed
 	 */
-	public void connect() throws IOException, InterruptedException, ServiceLocatorException  {
-		disconnect();
-		
-		CountDownLatch connectionLatch = new CountDownLatch(1);
-    	zk = createZooKeeper(connectionLatch);
-		boolean connected = connectionLatch.await(connectionTimeout, TimeUnit.MILLISECONDS);
-		
-		if (!connected) {
-			throw new ServiceLocatorException("Connection to Service Locator failed.");
-		} else  {
-			pca.process(this);
+	public void connect() throws IOException, InterruptedException,
+			ServiceLocatorException {
+
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("Start connect session");
 		}
+
+		synchronized (this) {
+
+			disconnect();
+
+			CountDownLatch connectionLatch = new CountDownLatch(1);
+			zk = createZooKeeper(connectionLatch);
+			boolean connected = connectionLatch.await(connectionTimeout,
+					TimeUnit.MILLISECONDS);
+
+			if (!connected) {
+				throw new ServiceLocatorException(
+						"Connection to Service Locator failed.");
+			} else {
+				pca.process(this);
+			}
+
+		}
+
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("End connect session");
+		}
+
 	}
 
 	/**
-	 * Disconnects from a Service Locator server. All endpoints that were registered before are 
-	 * removed from the server. To be able to communicate with a Service Locator server again the
-	 * client has to {@link #connect() connect} again. 
+	 * Disconnects from a Service Locator server. All endpoints that were
+	 * registered before are removed from the server. To be able to communicate
+	 * with a Service Locator server again the client has to {@link #connect()
+	 * connect} again.
 	 * 
-	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting
-	 *                              for the disconnect to happen
+	 * @throws InterruptedException
+	 *             the current <code>Thread</code> was interrupted when waiting
+	 *             for the disconnect to happen
 	 */
 	public void disconnect() throws InterruptedException {
-		if (zk != null) {
-			zk.close();
-			zk = null;
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("Start disconnect session");
 		}
+		synchronized (this) {
+			if (zk != null) {
+				zk.close();
+				zk = null;
+			}
+		}
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("End disconnect session");
+		}
+
 	}
-	
+
 	/**
-	 * For a given service register the endpoint of a concrete provider of this service. If the
-	 * client is destroyed, disconnected, or fails to successfully send the heartbeat for a period
-	 * of time defined by the {@link #setSessionTimeout(int) session timeout parameter} the
-	 * endpoint is removed from the Service Locator. To ensure that all available endpoints are 
-	 * re-registered when the client reconnects after a session expired a {@link PostConnectAction}
-	 * should be {@link #setPostConnectAction(PostConnectAction) set} that registers all endpoints. 
+	 * For a given service register the endpoint of a concrete provider of this
+	 * service. If the client is destroyed, disconnected, or fails to
+	 * successfully send the heartbeat for a period of time defined by the
+	 * {@link #setSessionTimeout(int) session timeout parameter} the endpoint is
+	 * removed from the Service Locator. To ensure that all available endpoints
+	 * are re-registered when the client reconnects after a session expired a
+	 * {@link PostConnectAction} should be
+	 * {@link #setPostConnectAction(PostConnectAction) set} that registers all
+	 * endpoints.
 	 * 
-	 * @param serviceName the name of the service the endpoint is registered for, must not be
-	 *                    <code>null</code>
-	 * @param endpoint the endpoint to register, must not be <code>null</code>
-	 * @throws ServiceLocatorException the server returned an error
-	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting for
-	 *                              a response of the ServiceLocator
+	 * @param serviceName
+	 *            the name of the service the endpoint is registered for, must
+	 *            not be <code>null</code>
+	 * @param endpoint
+	 *            the endpoint to register, must not be <code>null</code>
+	 * @throws ServiceLocatorException
+	 *             the server returned an error
+	 * @throws InterruptedException
+	 *             the current <code>Thread</code> was interrupted when waiting
+	 *             for a response of the ServiceLocator
 	 */
 	public void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
 
 		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Register endpoint " + endpoint + " for service " + serviceName + ".");
+			LOG.info("Register endpoint " + endpoint + " for service "
+					+ serviceName + ".");
 		}
-		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
+		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
+				.toString());
 		ensurePathExists(serviceNodePath, CreateMode.PERSISTENT);
-		
+
 		NodePath endpointNodePath = serviceNodePath.child(endpoint);
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
 	}
 
 	/**
-	 * For the given service return all endpoints that currently registered at the Service Locator 
-	 * Service.
-	 * @param serviceName the name of the service for which to get the endpoints, must not be
-	 *                    <code>null</code>
+	 * For the given service return all endpoints that currently registered at
+	 * the Service Locator Service.
+	 * 
+	 * @param serviceName
+	 *            the name of the service for which to get the endpoints, must
+	 *            not be <code>null</code>
 	 * @return a possibly empty list of endpoints
-	 * @throws ServiceLocatorException the server returned an error
-	 * @throws InterruptedException the current <code>Thread</code> was interrupted when waiting for
-	 *                              a response of the ServiceLocator
+	 * @throws ServiceLocatorException
+	 *             the server returned an error
+	 * @throws InterruptedException
+	 *             the current <code>Thread</code> was interrupted when waiting
+	 *             for a response of the ServiceLocator
 	 */
-	public List<String> lookup(QName serviceName) throws ServiceLocatorException, InterruptedException {
+	public List<String> lookup(QName serviceName)
+			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
 		}
 		try {
-			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName.toString());
+			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
+					.toString());
 			if (nodeExists(providerPath)) {
 				return decode(getChildren(providerPath));
 			} else {
 				if (LOG.isLoggable(Level.FINE)) {
-					LOG.fine("Lookup for provider" + serviceName + " failed, provider not known.");
+					LOG.fine("Lookup for provider" + serviceName
+							+ " failed, provider not known.");
 				}
 				return Collections.emptyList();
 			}
 		} catch (KeeperException e) {
-			LOG.log(Level.SEVERE, "The service locator server signaled an error: " + e.getMessage()); 
-			throw new ServiceLocatorException("The service locator server signaled an error.", e);
+			LOG.log(Level.SEVERE,
+					"The service locator server signaled an error: "
+							+ e.getMessage());
+			throw new ServiceLocatorException(
+					"The service locator server signaled an error.", e);
 		}
 	}
 
@@ -190,7 +243,7 @@ public class ServiceLocator {
 			LOG.fine("Locator session timeout set to: " + sessionTimeout);
 		}
 	}
-	
+
 	public void setConnectionTimeout(int timeout) {
 		connectionTimeout = timeout;
 		if (LOG.isLoggable(Level.FINE)) {
@@ -205,7 +258,7 @@ public class ServiceLocator {
 	private void ensurePathExists(NodePath path, CreateMode mode)
 			throws ServiceLocatorException, InterruptedException {
 		try {
-			if (! nodeExists(path)) {
+			if (!nodeExists(path)) {
 				createNode(path, mode);
 				if (LOG.isLoggable(Level.FINE)) {
 					LOG.fine("Node " + path + " created.");
@@ -215,26 +268,31 @@ public class ServiceLocator {
 					LOG.fine("Node " + path + " already exists.");
 				}
 			}
-		} catch(KeeperException e) {
-			if (! e.code().equals(Code.NODEEXISTS)) {
-				throw new ServiceLocatorException("The service locator server signaled an error.", e);
+		} catch (KeeperException e) {
+			if (!e.code().equals(Code.NODEEXISTS)) {
+				throw new ServiceLocatorException(
+						"The service locator server signaled an error.", e);
 			} else {
 				if (LOG.isLoggable(Level.FINE)) {
-					LOG.fine("Some other client created node" + path + " concurrently.");
+					LOG.fine("Some other client created node" + path
+							+ " concurrently.");
 				}
 			}
 		}
 	}
 
-	private boolean nodeExists(NodePath path) throws KeeperException, InterruptedException {
+	private boolean nodeExists(NodePath path) throws KeeperException,
+			InterruptedException {
 		return zk.exists(path.toString(), false) != null;
 	}
 
-	private void createNode(NodePath path, CreateMode mode) throws KeeperException, InterruptedException {
+	private void createNode(NodePath path, CreateMode mode)
+			throws KeeperException, InterruptedException {
 		zk.create(path.toString(), EMPTY_CONTENT, Ids.OPEN_ACL_UNSAFE, mode);
 	}
-	
-	private List<String> getChildren(NodePath path)  throws KeeperException, InterruptedException {
+
+	private List<String> getChildren(NodePath path) throws KeeperException,
+			InterruptedException {
 		return zk.getChildren(path.toString(), false);
 	}
 
@@ -247,17 +305,20 @@ public class ServiceLocator {
 		return raw;
 	}
 
-	protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch) throws IOException {
-    	return new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
+	protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
+			throws IOException {
+		return new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(
+				connectionLatch));
 	}
 
 	public class WatcherImpl implements Watcher {
-		
+
 		private CountDownLatch connectionLatch;
+
 		public WatcherImpl(CountDownLatch connectionLatch) {
 			this.connectionLatch = connectionLatch;
 		}
-		
+
 		@Override
 		public void process(WatchedEvent event) {
 			if (LOG.isLoggable(Level.FINE)) {
@@ -274,15 +335,21 @@ public class ServiceLocator {
 				}
 			} catch (IOException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE, "An IOException  was thrown when trying to connect to the ServiceLocator", e);
+					LOG.log(Level.SEVERE,
+							"An IOException  was thrown when trying to connect to the ServiceLocator",
+							e);
 				}
 			} catch (InterruptedException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE, "An InterruptedException was thrown while waiting for an answer from the Service Locator", e);
+					LOG.log(Level.SEVERE,
+							"An InterruptedException was thrown while waiting for an answer from the Service Locator",
+							e);
 				}
 			} catch (ServiceLocatorException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE, "Failed to execute an request to Service Locator.", e);
+					LOG.log(Level.SEVERE,
+							"Failed to execute an request to Service Locator.",
+							e);
 				}
 			}
 		}
