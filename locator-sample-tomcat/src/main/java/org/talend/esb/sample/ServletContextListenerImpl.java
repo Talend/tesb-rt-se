@@ -25,6 +25,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 	ServiceLocator sl = null;
 	
 	public void contextDestroyed(ServletContextEvent arg0) {
+		System.out.println("*****************Context Destroyed*********************");
 		if(sl != null){
 			try {
 				sl.disconnect();
@@ -78,8 +79,8 @@ public class ServletContextListenerImpl implements ServletContextListener {
 		
 		sl = new ServiceLocator();
 		sl.setLocatorEndpoints("localhost:2181");
-        sl.setSessionTimeout(30 * 60 * 1000);
-        sl.setConnectionTimeout(30 * 60 * 1000);
+        sl.setSessionTimeout(3000);
+        sl.setConnectionTimeout(5000);
         try {
         	sl.connect();
 		} catch (IOException e) {
