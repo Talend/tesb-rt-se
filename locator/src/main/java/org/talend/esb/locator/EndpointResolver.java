@@ -54,6 +54,10 @@ public class EndpointResolver {
 	 *            connect, separated by a comma.
 	 */
 	public EndpointResolver(QName serviceName, String locatorEndpoints) {
+		if (serviceName == null)
+			throw new NullPointerException("Service name can not be null");
+		if (locatorEndpoints == null)
+			throw new NullPointerException("Locator endpoints can not be null");
 		LOG.log(Level.INFO, "Creating EndpointResolver object for "
 				+ serviceName.toString() + " service.");
 
