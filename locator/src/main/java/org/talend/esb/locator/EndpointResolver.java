@@ -1,6 +1,7 @@
 package org.talend.esb.locator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import javax.xml.ws.soap.SOAPBinding;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.jms.spec.JMSSpecConstants;
 
@@ -196,6 +198,44 @@ public class EndpointResolver {
 				service.addPort(portname, SOAPBinding.SOAP11HTTP_BINDING,
 						endpoint);
 				return service.getPort(portname, serviceEndpointInterface);
+
+			} catch (Exception e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE,
+							"Can not add port due to unknown exception");
+				}
+			}
+		}
+		return null;
+	}
+	
+	public <T> T getPortWithFailover(QName portname, Class<T> serviceEndpointInterface) {
+		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+		LocatorFailoverFeature failoverFeature = new LocatorFailoverFeature(getEndpointsList());
+		ArrayList<AbstractFeature> featureList = new ArrayList<AbstractFeature>();
+		featureList.add(failoverFeature);
+		factory.setFeatures(featureList);
+		
+		String endpoint = selectEndpoint();
+
+		if (endpoint == null) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE, "Endpoint not found for service "
+						+ this.serviceName.toString());
+			}
+		} else {
+			try {
+				Pattern pattern = Pattern.compile("^jms:",
+						Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+				Matcher matcher = pattern.matcher(endpoint);
+				if (matcher.find()) {
+					factory.setTransportId(JMSSpecConstants.SOAP_JMS_SPECIFICATION_TRANSPORTID);
+				}
+				factory.setAddress(endpoint);
+				factory.setServiceClass(serviceEndpointInterface);
+				@SuppressWarnings("unchecked")
+				T client = (T) factory.create();
+				return client;
 
 			} catch (Exception e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
