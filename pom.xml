@@ -16,6 +16,8 @@
   <modules>
     <module>locator</module>
     <module>locator-sample</module>
+    <module>locator-sample-tomcat</module>
+    <module>examples</module>
   </modules>
 
   <dependencyManagement>

@@ -1,0 +1,17 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.talend.esb</groupId>
+  <artifactId>esb-examples-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>4.0</version>
+  <name>Parent pom for the Talend ESB runtime examples</name>
+
+  <modules>
+    <module>app-reservation</module>
+    <module>crmservice</module>
+    <module>reservationservice</module>
+  </modules>
+
+</project>
