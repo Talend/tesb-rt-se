@@ -20,15 +20,19 @@ public class Consumer {
 		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = null;
-		er = new EndpointResolver(Constants.SERVICENAME, Constants.LOCATORENDPOINT);
+		String response = null;
+		Greeter client = null;
+		er = new EndpointResolver(Constants.SERVICENAME,
+				Constants.LOCATORENDPOINT);
 		if (er.isReady()) {
-			Greeter client = null;
 			for (int i = 0; i < 10; i++) {
-				LOG.log(Level.INFO, "------------ BEGIN ---------");
+//				LOG.log(Level.INFO, "------------ BEGIN ---------");
+				System.out.println("BEGIN...");
 				try {
-					client = er.getPort(Constants.PORTNAME,
-							 Greeter.class);
-					LOG.log(Level.INFO, client.greetMe("MyName"));
+					client = er.getPort(Constants.PORTNAME, Greeter.class);
+					response = client.greetMe("MyName#" + i);
+					System.out.println("Response from the service: ");
+					System.out.println(response);
 
 				} catch (WebServiceException se) {
 					if (se.getCause().getClass().equals(SocketException.class)) {
@@ -44,7 +48,8 @@ public class Consumer {
 						se.printStackTrace();
 					}
 				}
-				LOG.log(Level.INFO, "------------ END -----------");
+//				LOG.log(Level.INFO, "------------ END -----------");
+				System.out.println("END.");
 
 			}
 		}
