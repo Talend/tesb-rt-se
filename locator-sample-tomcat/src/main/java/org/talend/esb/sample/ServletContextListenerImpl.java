@@ -31,6 +31,9 @@ public class ServletContextListenerImpl implements ServletContextListener {
 				sl.disconnect();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			} catch (ServiceLocatorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
