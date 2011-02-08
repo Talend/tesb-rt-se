@@ -1,4 +1,4 @@
-package org.talend.esb.sts.provider;
+package org.apache.esb.sts.provider;
 
 import java.io.IOException;
 import java.io.StringReader;

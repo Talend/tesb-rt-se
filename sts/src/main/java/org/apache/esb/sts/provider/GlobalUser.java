@@ -1,4 +1,4 @@
-package org.talend.esb.sts.provider;
+package org.apache.esb.sts.provider;
 
 
 public class GlobalUser {
