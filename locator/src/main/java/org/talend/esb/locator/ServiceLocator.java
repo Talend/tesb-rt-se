@@ -44,6 +44,13 @@ public class ServiceLocator {
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 
+	// Count of register() and lookup() methods which performed in parallel in
+	// this moment
+	private int businessOperations = 0;
+
+	// Is blocked by connect() or disconnect() method
+	private boolean blockedByRunUpOperation = true;
+
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
@@ -73,6 +80,8 @@ public class ServiceLocator {
 
 	private int connectionTimeout = 5000;
 
+	private int waitingTimeout = 30000;
+
 	private PostConnectAction pca = DO_NOTHING_ACTION;
 
 	private volatile ZooKeeper zk;
@@ -98,28 +107,31 @@ public class ServiceLocator {
 	 */
 	public void connect() throws IOException, InterruptedException,
 			ServiceLocatorException {
+		connect(false);
+	}
 
+	synchronized public void connect(boolean immediately) throws IOException,
+			InterruptedException, ServiceLocatorException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Start connect session");
 		}
+		// synchronized (this) {
+		blockedByRunUpOperation = true;
+		disconnect(false, immediately);
 
-		synchronized (this) {
+		CountDownLatch connectionLatch = new CountDownLatch(1);
+		zk = createZooKeeper(connectionLatch);
+		boolean connected = connectionLatch.await(connectionTimeout,
+				TimeUnit.MILLISECONDS);
 
-			disconnect();
-
-			CountDownLatch connectionLatch = new CountDownLatch(1);
-			zk = createZooKeeper(connectionLatch);
-			boolean connected = connectionLatch.await(connectionTimeout,
-					TimeUnit.MILLISECONDS);
-
-			if (!connected) {
-				throw new ServiceLocatorException(
-						"Connection to Service Locator failed.");
-			} else {
-				pca.process(this);
-			}
-
+		if (!connected) {
+			throw new ServiceLocatorException(
+					"Connection to Service Locator failed.");
+		} else {
+			pca.process(this);
 		}
+		blockedByRunUpOperation = false;
+		// }
 
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("End connect session");
@@ -136,16 +148,46 @@ public class ServiceLocator {
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for the disconnect to happen
+	 * @throws ServiceLocatorException
 	 */
-	public void disconnect() throws InterruptedException {
+	public void disconnect() throws InterruptedException,
+			ServiceLocatorException {
+		disconnect(true, false);
+	}
+
+	synchronized public void disconnect(boolean notify, boolean immediately)
+			throws InterruptedException, ServiceLocatorException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Start disconnect session");
 		}
-		synchronized (this) {
-			if (zk != null) {
-				zk.close();
-				zk = null;
+		blockedByRunUpOperation = true;
+		if (businessOperations != 0 && !immediately) {
+			try {
+				if (LOG.isLoggable(Level.INFO)) {
+					LOG.info("Waiting "
+							+ waitingTimeout
+							+ " ms for some business operations to complete its work");
+					Thread.sleep(waitingTimeout);
+					businessOperations = 0;
+				}
+			} catch (InterruptedException e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE,
+							"Thread sleeping, and the thread is interrupted, either before or during the activity: "
+									+ e.getMessage());
+				}
+				throw new ServiceLocatorException("Thread is interrupted.", e);
 			}
+		} else {
+			businessOperations = 0;
+		}
+
+		if (zk != null) {
+			zk.close();
+			zk = null;
+		}
+		if (notify) {
+			blockedByRunUpOperation = false;
 		}
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("End disconnect session");
@@ -177,7 +219,20 @@ public class ServiceLocator {
 	 */
 	public void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
-
+		if (blockedByRunUpOperation) {
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
+			}
+			synchronized (this) {
+				if (LOG.isLoggable(Level.INFO)) {
+					LOG.info("Entering into synchronization block");
+				}
+			}
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("Leaving the synchronization block");
+			}
+		}
+		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Register endpoint " + endpoint + " for service "
 					+ serviceName + ".");
@@ -188,6 +243,51 @@ public class ServiceLocator {
 
 		NodePath endpointNodePath = serviceNodePath.child(endpoint);
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
+		if (businessOperations > 0)
+			businessOperations--;
+	}
+
+	public void unregister(QName serviceName, String endpoint)
+			throws ServiceLocatorException, InterruptedException {
+		if (blockedByRunUpOperation) {
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
+			}
+			synchronized (this) {
+				if (LOG.isLoggable(Level.INFO)) {
+					LOG.info("Entering into synchronization block");
+				}
+			}
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("Leaving the synchronization block");
+			}
+		}
+		businessOperations++;
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.info("Unregister endpoint " + endpoint + " for service "
+					+ serviceName + ".");
+		}
+
+		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
+				.toString());
+		NodePath endpointNodePath = serviceNodePath.child(endpoint);
+
+		try {
+			deleteNode(endpointNodePath);
+			deleteNode(serviceNodePath);
+		} catch (KeeperException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"The service locator server signaled an error: "
+								+ e.getMessage());
+			}
+			throw new ServiceLocatorException(
+					"The service locator server signaled an error.", e);
+
+		}
+
+		if (businessOperations > 0)
+			businessOperations--;
 	}
 
 	/**
@@ -206,12 +306,28 @@ public class ServiceLocator {
 	 */
 	public List<String> lookup(QName serviceName)
 			throws ServiceLocatorException, InterruptedException {
+		if (blockedByRunUpOperation) {
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
+			}
+			synchronized (this) {
+				if (LOG.isLoggable(Level.INFO)) {
+					LOG.info("Entering into synchronization block");
+				}
+			}
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.info("Leaving the synchronization block");
+			}
+		}
+		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
 		}
 		try {
 			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
 					.toString());
+			if (businessOperations > 0)
+				businessOperations--;
 			if (nodeExists(providerPath)) {
 				return decode(getChildren(providerPath));
 			} else {
@@ -222,12 +338,15 @@ public class ServiceLocator {
 				return Collections.emptyList();
 			}
 		} catch (KeeperException e) {
-			LOG.log(Level.SEVERE,
-					"The service locator server signaled an error: "
-							+ e.getMessage());
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"The service locator server signaled an error: "
+								+ e.getMessage());
+			}
 			throw new ServiceLocatorException(
 					"The service locator server signaled an error.", e);
 		}
+
 	}
 
 	public void setLocatorEndpoints(String endpoints) {
@@ -253,6 +372,10 @@ public class ServiceLocator {
 
 	public void setPostConnectAction(PostConnectAction pca) {
 		this.pca = pca;
+	}
+
+	public void setWaitingTimeout(int waitingTimeout) {
+		this.waitingTimeout = waitingTimeout;
 	}
 
 	private void ensurePathExists(NodePath path, CreateMode mode)
@@ -289,6 +412,12 @@ public class ServiceLocator {
 	private void createNode(NodePath path, CreateMode mode)
 			throws KeeperException, InterruptedException {
 		zk.create(path.toString(), EMPTY_CONTENT, Ids.OPEN_ACL_UNSAFE, mode);
+	}
+
+	private void deleteNode(NodePath path) throws KeeperException,
+			InterruptedException {
+		if (getChildren(path).isEmpty())
+			zk.delete(path.toString(), -1);
 	}
 
 	private List<String> getChildren(NodePath path) throws KeeperException,
