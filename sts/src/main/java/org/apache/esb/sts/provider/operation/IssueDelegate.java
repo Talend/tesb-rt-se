@@ -1,4 +1,4 @@
-package org.apache.esb.sts.provider;
+package org.apache.esb.sts.provider.operation;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,13 +21,14 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.esb.sts.provider.GlobalUser;
+import org.apache.esb.sts.provider.PasswordCallbackImpl;
+import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
-import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
-import org.oasis_open.docs.ws_sx.ws_trust._200512.wsdl.SecurityTokenService;
 import org.opensaml.common.impl.SecureRandomIdentifierGenerator;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AuthnContext;
@@ -53,26 +54,69 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class SecurityTokenServiceImplDelegate implements SecurityTokenService {
+public class IssueDelegate implements IssueOperation {
 
 	private static final org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory WS_TRUST_FACTORY = new org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory();
 	private static final Log LOG = LogFactory
-			.getLog(SecurityTokenServiceImplDelegate.class.getName());
+			.getLog(SecurityTokenServiceImpl.class.getName());
 	private static final String TOKEN_TYPE_VALUE = "urn:oasis:names:tc:SAML:2.0:assertion";
 	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 
 	private SecureRandomIdentifierGenerator generator;
-
-	public RequestSecurityTokenResponseType validate(
+	
+	@Override
+	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		try {
+			generator = new SecureRandomIdentifierGenerator();
+		} catch (NoSuchAlgorithmException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}		
+		String userName = "test";
+		Assertion samlAssertion = createSAML2Assertion(userName);
+		
+		List<Object> requestParams = request.getAny();
+		String showName = "";
+		for (Object param : requestParams) {
+				Element jaxbParam = (Element) param;
+				showName = (String) jaxbParam.getTextContent();
+		}
 
-	public RequestSecurityTokenResponseCollectionType requestCollection(
-			RequestSecurityTokenCollectionType requestCollection) {
-		// TODO Auto-generated method stub
-		return null;
+		String ADOC = "<User>"+GlobalUser.getUserName()+":"+GlobalUser.getUserPassword()+"</User>";
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder;
+		Document d = null;
+		try {
+			builder = factory.newDocumentBuilder();
+			InputSource is = new InputSource(new StringReader(ADOC));
+			d = builder.parse(is);
+		} catch (SAXException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ParserConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		samlAssertion.setDOM(d.getDocumentElement());
+		try {
+			xmlToString(samlAssertion.getDOM());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			LOG.error(e);
+			e.printStackTrace();
+		}
+		RequestSecurityTokenResponseType response = wrapAssertionToResponse(samlAssertion
+				.getDOM());
+
+		RequestSecurityTokenResponseCollectionType responseCollection = WS_TRUST_FACTORY
+				.createRequestSecurityTokenResponseCollectionType();
+		responseCollection.getRequestSecurityTokenResponse().add(response);
+		LOG.info("Finished operation requestSecurityToken");
+		return responseCollection;
 	}
 
 	public static RequestSecurityTokenResponseType wrapAssertionToResponse(
@@ -165,69 +209,6 @@ public class SecurityTokenServiceImplDelegate implements SecurityTokenService {
 		return assertion;
 	}
 
-	public RequestSecurityTokenResponseType keyExchangeToken(
-			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public RequestSecurityTokenResponseCollectionType issue(
-			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
-		
-		
-		try {
-			generator = new SecureRandomIdentifierGenerator();
-		} catch (NoSuchAlgorithmException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}		
-		String userName = "test";
-		Assertion samlAssertion = createSAML2Assertion(userName);
-		
-		List<Object> requestParams = request.getAny();
-		String showName = "";
-		for (Object param : requestParams) {
-				Element jaxbParam = (Element) param;
-				showName = (String) jaxbParam.getTextContent();
-		}
-
-		String ADOC = "<User>"+GlobalUser.getUserName()+":"+GlobalUser.getUserPassword()+"</User>";
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		Document d = null;
-		try {
-			builder = factory.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(ADOC));
-			d = builder.parse(is);
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		samlAssertion.setDOM(d.getDocumentElement());
-		try {
-			xmlToString(samlAssertion.getDOM());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			LOG.error(e);
-			e.printStackTrace();
-		}
-		RequestSecurityTokenResponseType response = wrapAssertionToResponse(samlAssertion
-				.getDOM());
-
-		RequestSecurityTokenResponseCollectionType responseCollection = WS_TRUST_FACTORY
-				.createRequestSecurityTokenResponseCollectionType();
-		responseCollection.getRequestSecurityTokenResponse().add(response);
-		LOG.info("Finished operation requestSecurityToken");
-		return responseCollection;
-	}
-
 	public static String xmlToString(Node node) throws Exception {
 		try {
 			Source source = new DOMSource(node);
@@ -243,18 +224,6 @@ public class SecurityTokenServiceImplDelegate implements SecurityTokenService {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	public RequestSecurityTokenResponseType cancel(
-			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public RequestSecurityTokenResponseType renew(
-			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
