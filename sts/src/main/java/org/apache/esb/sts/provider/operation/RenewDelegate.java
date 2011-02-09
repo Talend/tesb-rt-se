@@ -8,7 +8,7 @@ public class RenewDelegate implements RenewOperation {
 	@Override
 	public RequestSecurityTokenResponseType renew(
 			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
+		System.out.println("dummy renew");
 		return null;
 	}
 

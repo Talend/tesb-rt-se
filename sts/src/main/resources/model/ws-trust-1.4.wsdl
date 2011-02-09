@@ -10,7 +10,7 @@ This document and the information contained herein is provided on an AS IS basis
 <wsdl:definitions
         targetNamespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
         xmlns:tns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
-        xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+        xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
         xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
@@ -18,7 +18,7 @@ This document and the information contained herein is provided on an AS IS basis
   <wsdl:types>
     <xs:schema>
       <xs:import
-namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
 schemaLocation="ws-trust-1.3.xsd"/>
     </xs:schema>
   </wsdl:types>

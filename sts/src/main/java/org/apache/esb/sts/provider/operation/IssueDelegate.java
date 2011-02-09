@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.parsers.DocumentBuilder;
@@ -76,12 +75,12 @@ public class IssueDelegate implements IssueOperation {
 		String userName = "test";
 		Assertion samlAssertion = createSAML2Assertion(userName);
 		
-		List<Object> requestParams = request.getAny();
-		String showName = "";
-		for (Object param : requestParams) {
-				Element jaxbParam = (Element) param;
-				showName = (String) jaxbParam.getTextContent();
-		}
+//		List<Object> requestParams = request.getAny();
+//		String showName = "";
+//		for (Object param : requestParams) {
+//				Element jaxbParam = (Element) param;
+//				showName = (String) jaxbParam.getTextContent();
+//		}
 
 		String ADOC = "<User>"+GlobalUser.getUserName()+":"+GlobalUser.getUserPassword()+"</User>";
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

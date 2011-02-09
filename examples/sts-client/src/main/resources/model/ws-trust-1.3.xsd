@@ -12,8 +12,8 @@ xmlns:wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-s
 xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
 xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy' 
 xmlns:wsa='http://www.w3.org/2005/08/addressing'
-xmlns:wst='http://docs.oasis-open.org/ws-sx/ws-trust/200512/'
-targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512/'
+xmlns:wst='http://docs.oasis-open.org/ws-sx/ws-trust/200512'
+targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512'
 elementFormDefault='qualified' >
 
   <xs:import namespace='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' 
