@@ -49,7 +49,7 @@ public class ServiceLocator {
 	private int businessOperations = 0;
 
 	// Is blocked by connect() or disconnect() method
-	private boolean blockedByRunUpOperation = true;
+	private boolean blockedByRunUpOperation = false;
 
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
