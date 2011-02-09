@@ -42,6 +42,7 @@ public class EndpointResolver {
 	private List<String> endpointsList;
 	private ServiceLocator serviceLocator;
 	private QName serviceName;
+	private String locatorEndpoints;
 
 	/**
 	 * 
@@ -52,8 +53,12 @@ public class EndpointResolver {
 	 *            the hosts where ZooKeeper started. Specify ZooKeeper address
 	 *            and port. You can specify multiple hosts to which you want to
 	 *            connect, separated by a comma.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws ServiceLocatorException
 	 */
-	public EndpointResolver(QName serviceName, String locatorEndpoints) {
+	public EndpointResolver(QName serviceName, String locatorEndpoints)
+			throws ServiceLocatorException, InterruptedException, IOException {
 		if (serviceName == null)
 			throw new NullPointerException("Service name can not be null");
 		if (locatorEndpoints == null)
@@ -65,27 +70,59 @@ public class EndpointResolver {
 		serviceLocator = createServiceLocator();
 		serviceLocator.setLocatorEndpoints(locatorEndpoints);
 		endpointsList = receiveEndpointsList();
-		if (isReady())
-			LOG.log(Level.INFO, "Endpoint Resolver was created successfully.");
-		else if (LOG.isLoggable(Level.SEVERE)) {
-			LOG.log(Level.SEVERE, "Failed to create Endpoint Resolver");
+		if (!isEmptyList()) {
+			if (LOG.isLoggable(Level.WARNING)) {
+				LOG.log(Level.INFO,
+						"Endpoint Resolver was created successfully.");
+			}
+		} else if (LOG.isLoggable(Level.WARNING)) {
+			LOG.log(Level.WARNING,
+					"Endpoint Resolver was created with empty list of endpoints.");
 		}
 	}
 
-	public boolean isReady() {
-		return endpointsList != null;
+	public boolean isEmptyList() {
+		return (endpointsList == null) || endpointsList.isEmpty();
+	}
+
+	public EndpointResolver() throws ServiceLocatorException,
+			InterruptedException, IOException {
+		if (serviceName == null)
+			throw new NullPointerException("Service name can not be null");
+		if (locatorEndpoints == null)
+			throw new NullPointerException("Locator endpoints can not be null");
+		if (serviceLocator == null)
+			throw new NullPointerException("Service locator can not be null");
+		LOG.log(Level.INFO, "Creating EndpointResolver object for "
+				+ serviceName.toString() + " service...");
+
+		endpointsList = receiveEndpointsList();
+		if (!isEmptyList()) {
+			if (LOG.isLoggable(Level.WARNING)) {
+				LOG.log(Level.INFO,
+						"Endpoint Resolver was created successfully.");
+			}
+		} else if (LOG.isLoggable(Level.WARNING)) {
+			LOG.log(Level.WARNING,
+					"Endpoint Resolver was created with empty list of endpoints.");
+		}
 	}
 
 	/**
 	 * Establish a connection to the Service Locator, using
-	 * {@link org.talend.esb.locator.ServiceLocator ServiceLocator} instance. Lookup endpoints
-	 * for Service Name, specified specified in {@link #EndpointResolver(QName, String) constructor}. Disconnects from a Service Locator
-	 * server.
+	 * {@link org.talend.esb.locator.ServiceLocator ServiceLocator} instance.
+	 * Lookup endpoints for Service Name, specified specified in
+	 * {@link #EndpointResolver(QName, String) constructor}. Disconnects from a
+	 * Service Locator server.
 	 * 
 	 * @return all endpoints that currently registered at the Service Locator
 	 *         Service.
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 * @throws IOException
 	 */
-	private List<String> receiveEndpointsList() {
+	private List<String> receiveEndpointsList() throws ServiceLocatorException,
+			InterruptedException, IOException {
 		LOG.log(Level.INFO, "Getting endpoints of " + serviceName.toString()
 				+ " service.");
 
@@ -101,45 +138,55 @@ public class EndpointResolver {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
 						"Failed to execute an request to Service Locator", e);
+				throw new ServiceLocatorException(
+						"Failed to execute an request to Service Locator");
 			}
 		} catch (InterruptedException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
 						"An InterruptedException was thrown while waiting for an answer from the Service Locator",
 						e);
+				throw new InterruptedException(e.getMessage());
 			}
 		} catch (IOException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
 						"An IOException  was thrown when trying to connect to the ServiceLocator",
 						e);
+				throw new IOException(e.getMessage());
 			}
 		}
 		return endpointsList;
 	}
 
 	/**
-	 * Select endpoint from the list  to be used by just using a simple
-	 * strategy to randomly pick one entry from the list.
+	 * Select endpoint from the list to be used by just using a simple strategy
+	 * to randomly pick one entry from the list.
 	 */
 	public String selectEndpoint() {
 		if (endpointsList.isEmpty()) {
 			LOG.log(Level.WARNING, "List of endpoints is empty");
 		} else {
-			int endpointAmount = endpointsList.size();
-			int randomNumber = (int) Math.round(Math.random() * endpointAmount);
-			int endpointIndex = randomNumber % endpointAmount;
-
-			LOG.log(Level.INFO,
-					"Selected endpoint: " + endpointsList.get(endpointIndex));
-			return endpointsList.get(endpointIndex);
+			return endpointsList.get(randomSelect());
 		}
-
 		return null;
 	}
 
+	private int randomSelect() {
+		int endpointAmount = endpointsList.size();
+		int randomNumber = (int) Math.round(Math.random() * endpointAmount);
+		int endpointIndex = randomNumber % endpointAmount;
+
+		LOG.log(Level.INFO,
+				"Selected endpoint: " + endpointsList.get(endpointIndex));
+		return endpointIndex;
+	}
+
 	public List<String> getEndpointsList() {
-		LOG.log(Level.INFO, "List of endpoints: " + endpointsList.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE,
+					"List of endpoints: " + endpointsList.toString());
+		}
 		return endpointsList;
 	}
 
@@ -212,14 +259,16 @@ public class EndpointResolver {
 		}
 		return null;
 	}
-	
-	public <T> T getPortWithFailover(QName portname, Class<T> serviceEndpointInterface) {
+
+	public <T> T getPortWithFailover(QName portname,
+			Class<T> serviceEndpointInterface) {
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		LocatorFailoverFeature failoverFeature = new LocatorFailoverFeature(getEndpointsList());
+		LocatorFailoverFeature failoverFeature = new LocatorFailoverFeature(
+				getEndpointsList());
 		ArrayList<AbstractFeature> featureList = new ArrayList<AbstractFeature>();
 		featureList.add(failoverFeature);
 		factory.setFeatures(featureList);
-		
+
 		String endpoint = selectEndpoint();
 
 		if (endpoint == null) {
@@ -250,13 +299,27 @@ public class EndpointResolver {
 		}
 		return null;
 	}
-	
+
 	public QName getServiceName() {
-		LOG.log(Level.INFO, "Service name: " + serviceName.toString());
+		if (LOG.isLoggable(Level.FINE)) {
+		LOG.log(Level.FINE, "Getting service name. Service name is: " + serviceName.toString());
+		}
 		return serviceName;
 	}
-	
+
 	protected ServiceLocator createServiceLocator() {
 		return new ServiceLocator();
+	}
+
+	public void setServiceLocator(ServiceLocator serviceLocator) {
+		this.serviceLocator = serviceLocator;
+	}
+
+	public void setServiceName(QName serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public void setLocatorEndpoints(String locatorEndpoints) {
+		this.locatorEndpoints = locatorEndpoints;
 	}
 }

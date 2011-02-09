@@ -83,29 +83,36 @@ public class EndpointResolverTest {
 
 	private EndpointResolver createEndpointResolver(QName serviceName,
 			String locatorEndpoints) {
-		return new EndpointResolver(serviceName, locatorEndpoints) {
+		try {
+			return new EndpointResolver(serviceName, locatorEndpoints) {
 
-			@Override
-			protected ServiceLocator createServiceLocator() {
-				return new ServiceLocator() {
+				@Override
+				protected ServiceLocator createServiceLocator() {
+					return new ServiceLocator() {
 
-					@Override
-					protected ZooKeeper createZooKeeper(
-							CountDownLatch connectionLatch) throws IOException {
-						connectionLatch.countDown();
-						return zkMock;
-					}
+						@Override
+						protected ZooKeeper createZooKeeper(
+								CountDownLatch connectionLatch)
+								throws IOException {
+							connectionLatch.countDown();
+							return zkMock;
+						}
 
-					public List<String> lookup(QName serviceName) {
-						List<String> listOfEndpoints = new ArrayList<String>();
+						public List<String> lookup(QName serviceName) {
+							List<String> listOfEndpoints = new ArrayList<String>();
 
-						listOfEndpoints.add(ENDPOINT_1);
-						listOfEndpoints.add(ENDPOINT_2);
+							listOfEndpoints.add(ENDPOINT_1);
+							listOfEndpoints.add(ENDPOINT_2);
 
-						return listOfEndpoints;
-					}
-				};
-			}
-		};
+							return listOfEndpoints;
+						}
+					};
+				}
+			};
+		} catch (ServiceLocatorException e) {
+		} catch (InterruptedException e) {
+		} catch (IOException e) {
+		}
+		return null;
 	}
 }

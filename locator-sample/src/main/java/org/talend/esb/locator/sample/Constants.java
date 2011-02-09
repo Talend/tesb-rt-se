@@ -11,7 +11,7 @@ public class Constants {
 	.valueOf("{http://talend.org/esb/examples/}GreeterService");
 	public static final QName PORTNAME = QName
 			.valueOf("{http://talend.org/esb/examples/}GreeterPortImpl");
-	public static final String LOCATORENDPOINT = "sop-td58:2181";//HOST + ":" + PORT;
+	public static final String LOCATORENDPOINT = "sop-td57:2181";//HOST + ":" + PORT;
 	public static final String JMS_ENDPOINT_URI = "jms:queue:test.cxf.jmstransport.queue?timeToLive=1000"
         + "&jndiConnectionFactoryName=ConnectionFactory"
         + "&jndiURL=tcp://mom:61616"
