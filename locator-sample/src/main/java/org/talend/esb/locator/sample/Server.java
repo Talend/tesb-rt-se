@@ -94,7 +94,7 @@ public class Server {
 
 		System.out.println("Server ready...");
 
-		Thread.sleep(19 * 1 * 1000);
+		Thread.sleep(100 * 30 * 1000);
 		
 		serv.stopAll(serverPorts);
 		

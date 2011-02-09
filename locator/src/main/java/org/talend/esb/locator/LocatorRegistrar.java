@@ -50,8 +50,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		for (Server server : servers) {
 			try {
 				registerEndpoint(server);
-				if (LOG.isLoggable(Level.INFO)) {
-					LOG.log(Level.INFO, "Server available with endpoint "
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.log(Level.FINE, "Server available with endpoint "
 							+ server.getEndpoint().getEndpointInfo()
 									.getAddress());
 				}
@@ -95,9 +95,17 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		try {
 			registerEndpoint(server);
 		} catch (ServiceLocatorException e) {
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during register endpoint. "
+								+ e.getMessage());
+			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during register endpoint. "
+								+ e.getMessage());
+			}
 		}
 	}
 
@@ -109,9 +117,17 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		try {
 			unregisterEndpoint(server);
 		} catch (ServiceLocatorException e) {
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during unregister endpoint. "
+								+ e.getMessage());
+			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during unregister endpoint. "
+								+ e.getMessage());
+			}
 		}
 
 	}
@@ -121,8 +137,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 				.getExtension(ServerLifeCycleManager.class);
 		if (manager != null) {
 			manager.registerListener(this);
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO, "Listener was registered.");
+			if (LOG.isLoggable(Level.FINER)) {
+				LOG.log(Level.FINER, "Listener was registered.");
 			}
 		}
 	}
@@ -134,13 +150,13 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		QName serviceName = serviceInfo.getName();
 		String endpointAddress = endpointPrefix + eInfo.getAddress();
 
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Service name: " + serviceName);
-			LOG.log(Level.INFO, "Endpoint Address: " + endpointAddress);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Service name: " + serviceName);
+			LOG.log(Level.FINE, "Endpoint Address: " + endpointAddress);
 		}
 		lc.register(serviceName, endpointAddress);
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Service was registered in ZooKeeper.");
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Service was registered in ZooKeeper.");
 		}
 	}
 
@@ -151,13 +167,13 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		QName serviceName = serviceInfo.getName();
 		String endpointAddress = endpointPrefix + eInfo.getAddress();
 
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Service name: " + serviceName);
-			LOG.log(Level.INFO, "Endpoint Address: " + endpointAddress);
+		if (LOG.isLoggable(Level.FINEST)) {
+			LOG.log(Level.FINEST, "Service name: " + serviceName);
+			LOG.log(Level.FINEST, "Endpoint Address: " + endpointAddress);
 		}
 		lc.unregister(serviceName, endpointAddress);
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO,
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE,
 					"Service was unregistered from ZooKeeper. Service name: "
 							+ serviceName + " Endpoint Address: "
 							+ endpointAddress);

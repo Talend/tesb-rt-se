@@ -112,10 +112,9 @@ public class ServiceLocator {
 
 	synchronized public void connect(boolean immediately) throws IOException,
 			InterruptedException, ServiceLocatorException {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Start connect session");
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Start connect session");
 		}
-		// synchronized (this) {
 		blockedByRunUpOperation = true;
 		disconnect(false, immediately);
 
@@ -131,10 +130,9 @@ public class ServiceLocator {
 			pca.process(this);
 		}
 		blockedByRunUpOperation = false;
-		// }
 
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("End connect session");
+		if (LOG.isLoggable(Level.FINER)) {
+			LOG.log(Level.FINER, "End connect session");
 		}
 
 	}
@@ -157,8 +155,8 @@ public class ServiceLocator {
 
 	synchronized public void disconnect(boolean notify, boolean immediately)
 			throws InterruptedException, ServiceLocatorException {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Start disconnect session");
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Start disconnect session");
 		}
 		blockedByRunUpOperation = true;
 		if (businessOperations != 0 && !immediately) {
@@ -189,8 +187,8 @@ public class ServiceLocator {
 		if (notify) {
 			blockedByRunUpOperation = false;
 		}
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("End disconnect session");
+		if (LOG.isLoggable(Level.FINER)) {
+			LOG.log(Level.FINER, "End disconnect session");
 		}
 
 	}
@@ -224,18 +222,18 @@ public class ServiceLocator {
 				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
 			}
 			synchronized (this) {
-				if (LOG.isLoggable(Level.INFO)) {
-					LOG.info("Entering into synchronization block");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.log(Level.FINEST, "Entering into synchronization block");
 				}
 			}
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("Leaving the synchronization block");
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.log(Level.FINEST, "Leaving the synchronization block");
 			}
 		}
 		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Register endpoint " + endpoint + " for service "
-					+ serviceName + ".");
+			LOG.log(Level.INFO, "Register endpoint " + endpoint
+					+ " for service " + serviceName + ".");
 		}
 		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
 				.toString());
@@ -251,15 +249,16 @@ public class ServiceLocator {
 			throws ServiceLocatorException, InterruptedException {
 		if (blockedByRunUpOperation) {
 			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
+				LOG.log(Level.INFO,
+						"It seems that Service Locator performs connection operation. We are waiting for completion.");
 			}
 			synchronized (this) {
-				if (LOG.isLoggable(Level.INFO)) {
-					LOG.info("Entering into synchronization block");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.log(Level.FINEST, "Entering into synchronization block");
 				}
 			}
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("Leaving the synchronization block");
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.log(Level.FINEST, "Leaving the synchronization block");
 			}
 		}
 		businessOperations++;
@@ -308,15 +307,15 @@ public class ServiceLocator {
 			throws ServiceLocatorException, InterruptedException {
 		if (blockedByRunUpOperation) {
 			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
+				LOG.log(Level.INFO, "It seems that Service Locator performs connection operation. We are waiting for completion.");
 			}
 			synchronized (this) {
-				if (LOG.isLoggable(Level.INFO)) {
-					LOG.info("Entering into synchronization block");
+				if (LOG.isLoggable(Level.FINEST)) {
+					LOG.log(Level.FINEST, "Entering into synchronization block");
 				}
 			}
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("Leaving the synchronization block");
+			if (LOG.isLoggable(Level.FINEST)) {
+				LOG.log(Level.FINEST, "Leaving the synchronization block");
 			}
 		}
 		businessOperations++;
@@ -326,17 +325,21 @@ public class ServiceLocator {
 		try {
 			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
 					.toString());
-			if (businessOperations > 0)
-				businessOperations--;
+			List<String> children;
 			if (nodeExists(providerPath)) {
-				return decode(getChildren(providerPath));
+				children = decode(getChildren(providerPath));
 			} else {
 				if (LOG.isLoggable(Level.FINE)) {
 					LOG.fine("Lookup for provider" + serviceName
 							+ " failed, provider not known.");
 				}
-				return Collections.emptyList();
+				children = Collections.emptyList();
 			}
+			if (businessOperations > 0)
+				businessOperations--;
+
+			return children;
+
 		} catch (KeeperException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
@@ -376,6 +379,10 @@ public class ServiceLocator {
 
 	public void setWaitingTimeout(int waitingTimeout) {
 		this.waitingTimeout = waitingTimeout;
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Locator wating timeout set to: " + waitingTimeout);
+		}
+
 	}
 
 	private void ensurePathExists(NodePath path, CreateMode mode)

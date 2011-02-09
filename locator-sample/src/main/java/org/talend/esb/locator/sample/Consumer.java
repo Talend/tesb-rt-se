@@ -27,7 +27,7 @@ public class Consumer {
 		try {
 		er = new EndpointResolver(Constants.SERVICENAME,
 				Constants.LOCATORENDPOINT);
-		if (er.isEmptyList()) {
+		if (!er.isEmptyList()) {
 			for (int i = 0; i < 10; i++) {
 //				LOG.log(Level.INFO, "------------ BEGIN ---------");
 				System.out.println("BEGIN...");
