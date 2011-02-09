@@ -80,7 +80,7 @@ public class ServiceLocator {
 
 	private int connectionTimeout = 5000;
 
-	private int waitingTimeout = 30000;
+	private int waitingTimeout = 3000;
 
 	private PostConnectAction pca = DO_NOTHING_ACTION;
 
@@ -159,15 +159,22 @@ public class ServiceLocator {
 			LOG.log(Level.FINE, "Start disconnect session");
 		}
 		blockedByRunUpOperation = true;
-		if (businessOperations != 0 && !immediately) {
+		if (!immediately) {
 			try {
-				if (LOG.isLoggable(Level.INFO)) {
-					LOG.info("Waiting "
+				int waiting = 0;
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Waiting "
 							+ waitingTimeout
 							+ " ms for some business operations to complete its work");
-					Thread.sleep(waitingTimeout);
-					businessOperations = 0;
 				}
+				while (businessOperations != 0 && waiting < waitingTimeout) {
+						Thread.sleep(1);
+						waiting++;
+				}
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("In fact waiting was " + waiting + " ms ;)");
+				}
+				businessOperations = 0;
 			} catch (InterruptedException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
@@ -307,7 +314,8 @@ public class ServiceLocator {
 			throws ServiceLocatorException, InterruptedException {
 		if (blockedByRunUpOperation) {
 			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO, "It seems that Service Locator performs connection operation. We are waiting for completion.");
+				LOG.log(Level.INFO,
+						"It seems that Service Locator performs connection operation. We are waiting for completion.");
 			}
 			synchronized (this) {
 				if (LOG.isLoggable(Level.FINEST)) {
