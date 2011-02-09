@@ -8,7 +8,7 @@ public class ValidateDelegate implements ValidateOperation {
 	@Override
 	public RequestSecurityTokenResponseType validate(
 			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
+		System.out.println("dummy validate");
 		return null;
 	}
 

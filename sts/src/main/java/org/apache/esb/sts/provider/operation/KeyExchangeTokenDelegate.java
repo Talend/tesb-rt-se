@@ -8,7 +8,7 @@ public class KeyExchangeTokenDelegate implements KeyExchangeTokenOperation {
 	@Override
 	public RequestSecurityTokenResponseType keyExchangeToken(
 			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
+		System.out.println("dummy keyExchangeToken");
 		return null;
 	}
 

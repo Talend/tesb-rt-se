@@ -8,7 +8,7 @@ public class CancelDelegate implements CancelOperation {
 	@Override
 	public RequestSecurityTokenResponseType cancel(
 			RequestSecurityTokenType request) {
-		// TODO Auto-generated method stub
+		System.out.println("dummy cancel");
 		return null;
 	}
 

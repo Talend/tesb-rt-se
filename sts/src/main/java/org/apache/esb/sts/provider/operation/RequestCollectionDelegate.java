@@ -8,7 +8,7 @@ public class RequestCollectionDelegate implements RequestCollectionOperation {
 	@Override
 	public RequestSecurityTokenResponseCollectionType requestCollection(
 			RequestSecurityTokenCollectionType requestCollection) {
-		// TODO Auto-generated method stub
+		System.out.println("dummy requestCollection");
 		return null;
 	}
 
