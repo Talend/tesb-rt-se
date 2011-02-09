@@ -17,16 +17,19 @@
     <bean id="stsClient" 
     	class="org.apache.cxf.ws.security.trust.STSClient">
     	<constructor-arg ref="cxf"/>
+    	<property name="requiresEntropy" value="false" />
     	<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl"/>
     	<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider"/>
     	<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP"/>
-    	<!-- property name="properties">
-    		<map>
-            	<entry key="ws-security.callback-handler" value="interop.client.KeystorePasswordCallback"/>
-            	<entry key="ws-security.signature.properties" value="etc/alice.properties"/> 
-            	<entry key="ws-security.encryption.properties" value="etc/wssip.properties"/> 
-    		</map>
-    	</property-->
+    	<property name="properties">
+            <map>
+                <!-- entry key="ws-security.username" value="alice"/>
+                <entry key="ws-security.callback-handler" value="org.apache.esb.sts.client.UTCallbackHandler"/>
+                <entry key="ws-security.signature.properties" value="clientKeystore.properties"/> 
+                <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
+                <entry key="ws-security.encryption.username" value="mystskey"/-->
+            </map>
+    	</property>
     </bean>
 
     <bean class="org.apache.esb.sts.client.Invoker">
