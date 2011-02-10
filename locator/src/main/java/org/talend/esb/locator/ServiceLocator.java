@@ -107,16 +107,43 @@ public class ServiceLocator {
 	 */
 	public void connect() throws IOException, InterruptedException,
 			ServiceLocatorException {
-		connect(false);
+		try {
+			synchronized (this) {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.log(Level.FINE, "Start connect session");
+				}
+				blockedByRunUpOperation = true;
+
+				connect(false);
+
+				blockedByRunUpOperation = false;
+
+				if (LOG.isLoggable(Level.FINER)) {
+					LOG.log(Level.FINER, "End connect session");
+				}
+
+			}
+		} catch (IOException e) {
+			blockedByRunUpOperation = false;
+			throw e;
+		} catch (InterruptedException e) {
+			blockedByRunUpOperation = false;
+			throw e;
+		} catch (ServiceLocatorException e) {
+			blockedByRunUpOperation = false;
+			throw e;
+		} catch (Exception e) {
+			blockedByRunUpOperation = false;
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE, "Connect not passed: " + e.getMessage());
+			}
+		}
+
 	}
 
-	synchronized public void connect(boolean immediately) throws IOException,
+	private void connect(boolean immediately) throws IOException,
 			InterruptedException, ServiceLocatorException {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Start connect session");
-		}
-		blockedByRunUpOperation = true;
-		disconnect(false, immediately);
+		disconnect(immediately);
 
 		CountDownLatch connectionLatch = new CountDownLatch(1);
 		zk = createZooKeeper(connectionLatch);
@@ -128,11 +155,6 @@ public class ServiceLocator {
 					"Connection to Service Locator failed.");
 		} else {
 			pca.process(this);
-		}
-		blockedByRunUpOperation = false;
-
-		if (LOG.isLoggable(Level.FINER)) {
-			LOG.log(Level.FINER, "End connect session");
 		}
 
 	}
@@ -150,26 +172,50 @@ public class ServiceLocator {
 	 */
 	public void disconnect() throws InterruptedException,
 			ServiceLocatorException {
-		disconnect(true, false);
+		try {
+			synchronized (this) {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.log(Level.FINE, "Start disconnect session");
+				}
+
+				blockedByRunUpOperation = true;
+
+				disconnect(false);
+
+				blockedByRunUpOperation = false;
+
+				if (LOG.isLoggable(Level.FINER)) {
+					LOG.log(Level.FINER, "End disconnect session");
+				}
+			}
+		} catch (InterruptedException e) {
+			blockedByRunUpOperation = false;
+			throw e;
+		} catch (ServiceLocatorException e) {
+			blockedByRunUpOperation = false;
+			throw e;
+		} catch (Exception e) {
+			blockedByRunUpOperation = false;
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE, "Connect not passed: " + e.getMessage());
+			}
+		}
+
 	}
 
-	synchronized public void disconnect(boolean notify, boolean immediately)
+	private void disconnect(boolean immediately)
 			throws InterruptedException, ServiceLocatorException {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Start disconnect session");
-		}
-		blockedByRunUpOperation = true;
-		if (!immediately) {
+		if (businessOperations != 0 && !immediately) {
 			try {
 				int waiting = 0;
-				if (LOG.isLoggable(Level.FINE)) {
-					LOG.fine("Waiting "
-							+ waitingTimeout
-							+ " ms for some business operations to complete its work");
-				}
+				 if (LOG.isLoggable(Level.FINE)) {
+				 LOG.fine("Waiting "
+				 + waitingTimeout
+				 + " ms for some business operations to complete its work");
+				 }
 				while (businessOperations != 0 && waiting < waitingTimeout) {
-						Thread.sleep(1);
-						waiting++;
+					Thread.sleep(1);
+					waiting++;
 				}
 				if (LOG.isLoggable(Level.FINE)) {
 					LOG.fine("In fact waiting was " + waiting + " ms ;)");
@@ -191,13 +237,6 @@ public class ServiceLocator {
 			zk.close();
 			zk = null;
 		}
-		if (notify) {
-			blockedByRunUpOperation = false;
-		}
-		if (LOG.isLoggable(Level.FINER)) {
-			LOG.log(Level.FINER, "End disconnect session");
-		}
-
 	}
 
 	/**
