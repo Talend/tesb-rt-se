@@ -1,0 +1,10 @@
+How to deploy sts-client to TSF in windows os.
+
+1. download and extract talend-sf-2.3.2.0
+2. open talend-sf-2.3.2.0\container\bin\start.bat
+3. replace "server" with "client" in "start "Karaf" "%KARAF_HOME%\bin\karaf.bat" server"
+4. delete "talend-sf-2.3.2.0\container\data\" folder
+5. open "D:\talend-sf-2.3.2.0\container\etc\org.ops4j.pax.logging.cfg"
+6. in string "log4j.rootLogger=INFO, out, osgi:VmLogAppender" replace "out" with "stdout"
+7. start talend-sf-2.3.2.0\container\bin\start.bat
+8. upload sts-client bundle to "talend-sf-2.3.2.0\container\deploy\"
