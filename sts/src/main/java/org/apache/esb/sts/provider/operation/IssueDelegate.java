@@ -1,33 +1,22 @@
 package org.apache.esb.sts.provider.operation;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.esb.sts.provider.GlobalUser;
-import org.apache.esb.sts.provider.PasswordCallbackImpl;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
+import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.impl.SecureRandomIdentifierGenerator;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AuthnContext;
@@ -47,11 +36,13 @@ import org.opensaml.saml2.core.impl.IssuerBuilder;
 import org.opensaml.saml2.core.impl.NameIDBuilder;
 import org.opensaml.saml2.core.impl.SubjectBuilder;
 import org.opensaml.saml2.core.impl.SubjectConfirmationBuilder;
+import org.opensaml.xml.Configuration;
+import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.XMLObject;
+import org.opensaml.xml.io.Marshaller;
+import org.opensaml.xml.io.MarshallingException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class IssueDelegate implements IssueOperation {
 
@@ -72,44 +63,20 @@ public class IssueDelegate implements IssueOperation {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}		
-		String userName = "test";
-		Assertion samlAssertion = createSAML2Assertion(userName);
-		
-//		List<Object> requestParams = request.getAny();
-//		String showName = "";
-//		for (Object param : requestParams) {
-//				Element jaxbParam = (Element) param;
-//				showName = (String) jaxbParam.getTextContent();
-//		}
+		Assertion samlAssertion = createSAML2Assertion(GlobalUser.getUserName());
 
-		String ADOC = "<User>"+GlobalUser.getUserName()+":"+GlobalUser.getUserPassword()+"</User>";
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		Document d = null;
+		// Convert SAML to DOM
+		Document assertionDocument = null;
 		try {
-			builder = factory.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(ADOC));
-			d = builder.parse(is);
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		samlAssertion.setDOM(d.getDocumentElement());
-		try {
-			xmlToString(samlAssertion.getDOM());
+			assertionDocument = toDom(samlAssertion);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LOG.error(e);
 			e.printStackTrace();
 		}
-		RequestSecurityTokenResponseType response = wrapAssertionToResponse(samlAssertion
-				.getDOM());
+
+		RequestSecurityTokenResponseType response = wrapAssertionToResponse(
+				/*samlAssertion.getDOM()*/
+				assertionDocument.getDocumentElement());
 
 		RequestSecurityTokenResponseCollectionType responseCollection = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseCollectionType();
@@ -118,15 +85,31 @@ public class IssueDelegate implements IssueOperation {
 		return responseCollection;
 	}
 
-	public static RequestSecurityTokenResponseType wrapAssertionToResponse(
+	private static Document toDom(XMLObject object) throws MarshallingException, ParserConfigurationException, ConfigurationException {
+		Document document = getDocumentBuilder().newDocument();
+
+		DefaultBootstrap.bootstrap();
+
+		Marshaller out = Configuration.getMarshallerFactory().getMarshaller(
+				object);
+		out.marshall(object, document);
+		return document;
+	}
+
+	private static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setValidating(false);
+		factory.setNamespaceAware(true);
+
+		return factory.newDocumentBuilder();
+	}
+
+	private static RequestSecurityTokenResponseType wrapAssertionToResponse(
 			Element samlAssertion) {
 		RequestSecurityTokenResponseType response = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseType();
-		PasswordCallbackImpl pc = new PasswordCallbackImpl();		
 		JAXBElement<String> tokenType = WS_TRUST_FACTORY
 				.createTokenType(TOKEN_TYPE_VALUE);
-
-		
 		RequestedSecurityTokenType requestedTokenType = WS_TRUST_FACTORY
 				.createRequestedSecurityTokenType();
 		requestedTokenType.setAny(samlAssertion);
@@ -137,7 +120,7 @@ public class IssueDelegate implements IssueOperation {
 		return response;
 	}
 
-	public Assertion createSAML2Assertion(String nameId) {
+	private Assertion createSAML2Assertion(String nameId) {
 		Subject subject = createSubject(nameId);
 		return createAuthnAssertion(subject);
 	}
@@ -206,24 +189,6 @@ public class IssueDelegate implements IssueOperation {
 		conditions.setNotOnOrAfter(now.plusMillis(3600000));
 		assertion.setConditions(conditions);
 		return assertion;
-	}
-
-	public static String xmlToString(Node node) throws Exception {
-		try {
-			Source source = new DOMSource(node);
-			StringWriter stringWriter = new StringWriter();
-			Result result = new StreamResult(stringWriter);
-			TransformerFactory factory = TransformerFactory.newInstance();
-			Transformer transformer = factory.newTransformer();
-			transformer.transform(source, result);
-			//throw new Exception(stringWriter.getBuffer().toString());
-			 return stringWriter.getBuffer().toString();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 }
