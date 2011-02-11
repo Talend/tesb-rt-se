@@ -1,10 +1,14 @@
 package org.apache.esb.sts.client;
 
+import java.lang.reflect.UndeclaredThrowableException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
@@ -49,4 +53,19 @@ public class Invoker implements InitializingBean {
 
 	}
 
+    public static void main(String args[]) throws Exception {
+        try {
+            SpringBusFactory bf = new SpringBusFactory();
+            URL busFile = STSClient.class.getResource("/META-INF/spring/beans.xml");
+            Bus bus = bf.createBus(busFile.toString());
+            SpringBusFactory.setDefaultBus(bus);
+            Thread.sleep(500000);
+        } catch (UndeclaredThrowableException ex) {
+            ex.getUndeclaredThrowable().printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }  finally {
+            System.exit(0);
+        }
+    }
 }
