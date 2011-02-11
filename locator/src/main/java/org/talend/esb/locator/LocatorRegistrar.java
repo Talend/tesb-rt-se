@@ -89,8 +89,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 
 	@Override
 	public void startServer(Server server) {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Server " + server + " started...");
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Server started...");
 		}
 		try {
 			registerEndpoint(server);
@@ -111,8 +111,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 
 	@Override
 	public void stopServer(Server server) {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Server " + server + " stopped...");
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Server stopped...");
 		}
 		try {
 			unregisterEndpoint(server);

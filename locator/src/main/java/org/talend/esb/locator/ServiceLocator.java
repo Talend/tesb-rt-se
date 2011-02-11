@@ -44,13 +44,6 @@ public class ServiceLocator {
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 
-	// Count of register() and lookup() methods which performed in parallel in
-	// this moment
-	private int businessOperations = 0;
-
-	// Is blocked by connect() or disconnect() method
-	private boolean blockedByRunUpOperation = false;
-
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
@@ -105,45 +98,13 @@ public class ServiceLocator {
 	 * @throws ServiceLocatorException
 	 *             the connect operation failed
 	 */
-	public void connect() throws IOException, InterruptedException,
-			ServiceLocatorException {
-		try {
-			synchronized (this) {
-				if (LOG.isLoggable(Level.FINE)) {
-					LOG.log(Level.FINE, "Start connect session");
-				}
-				blockedByRunUpOperation = true;
-
-				connect(false);
-
-				blockedByRunUpOperation = false;
-
-				if (LOG.isLoggable(Level.FINER)) {
-					LOG.log(Level.FINER, "End connect session");
-				}
-
-			}
-		} catch (IOException e) {
-			blockedByRunUpOperation = false;
-			throw e;
-		} catch (InterruptedException e) {
-			blockedByRunUpOperation = false;
-			throw e;
-		} catch (ServiceLocatorException e) {
-			blockedByRunUpOperation = false;
-			throw e;
-		} catch (Exception e) {
-			blockedByRunUpOperation = false;
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE, "Connect not passed: " + e.getMessage());
-			}
-		}
-
-	}
-
-	private void connect(boolean immediately) throws IOException,
+	synchronized public void connect() throws IOException,
 			InterruptedException, ServiceLocatorException {
-		disconnect(immediately);
+		disconnect();
+
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Start connect session");
+		}
 
 		CountDownLatch connectionLatch = new CountDownLatch(1);
 		zk = createZooKeeper(connectionLatch);
@@ -155,6 +116,10 @@ public class ServiceLocator {
 					"Connection to Service Locator failed.");
 		} else {
 			pca.process(this);
+		}
+
+		if (LOG.isLoggable(Level.FINER)) {
+			LOG.log(Level.FINER, "End connect session");
 		}
 
 	}
@@ -170,73 +135,20 @@ public class ServiceLocator {
 	 *             for the disconnect to happen
 	 * @throws ServiceLocatorException
 	 */
-	public void disconnect() throws InterruptedException,
-			ServiceLocatorException {
-		try {
-			synchronized (this) {
-				if (LOG.isLoggable(Level.FINE)) {
-					LOG.log(Level.FINE, "Start disconnect session");
-				}
-
-				blockedByRunUpOperation = true;
-
-				disconnect(false);
-
-				blockedByRunUpOperation = false;
-
-				if (LOG.isLoggable(Level.FINER)) {
-					LOG.log(Level.FINER, "End disconnect session");
-				}
-			}
-		} catch (InterruptedException e) {
-			blockedByRunUpOperation = false;
-			throw e;
-		} catch (ServiceLocatorException e) {
-			blockedByRunUpOperation = false;
-			throw e;
-		} catch (Exception e) {
-			blockedByRunUpOperation = false;
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE, "Connect not passed: " + e.getMessage());
-			}
-		}
-
-	}
-
-	private void disconnect(boolean immediately)
+	synchronized public void disconnect()
 			throws InterruptedException, ServiceLocatorException {
-		if (businessOperations != 0 && !immediately) {
-			try {
-				int waiting = 0;
-				 if (LOG.isLoggable(Level.FINE)) {
-				 LOG.fine("Waiting "
-				 + waitingTimeout
-				 + " ms for some business operations to complete its work");
-				 }
-				while (businessOperations != 0 && waiting < waitingTimeout) {
-					Thread.sleep(1);
-					waiting++;
-				}
-				if (LOG.isLoggable(Level.FINE)) {
-					LOG.fine("In fact waiting was " + waiting + " ms ;)");
-				}
-				businessOperations = 0;
-			} catch (InterruptedException e) {
-				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE,
-							"Thread sleeping, and the thread is interrupted, either before or during the activity: "
-									+ e.getMessage());
-				}
-				throw new ServiceLocatorException("Thread is interrupted.", e);
-			}
-		} else {
-			businessOperations = 0;
+		
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Start disconnect session");
 		}
-
 		if (zk != null) {
 			zk.close();
 			zk = null;
 		}
+		if (LOG.isLoggable(Level.FINER)) {
+			LOG.log(Level.FINER, "End disconnect session");
+		}
+
 	}
 
 	/**
@@ -261,22 +173,8 @@ public class ServiceLocator {
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
 	 */
-	public void register(QName serviceName, String endpoint)
+	synchronized public void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
-		if (blockedByRunUpOperation) {
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.info("It seems that Service Locator performs connection operation. We are waiting for completion.");
-			}
-			synchronized (this) {
-				if (LOG.isLoggable(Level.FINEST)) {
-					LOG.log(Level.FINEST, "Entering into synchronization block");
-				}
-			}
-			if (LOG.isLoggable(Level.FINEST)) {
-				LOG.log(Level.FINEST, "Leaving the synchronization block");
-			}
-		}
-		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.log(Level.INFO, "Register endpoint " + endpoint
 					+ " for service " + serviceName + ".");
@@ -287,27 +185,10 @@ public class ServiceLocator {
 
 		NodePath endpointNodePath = serviceNodePath.child(endpoint);
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
-		if (businessOperations > 0)
-			businessOperations--;
 	}
 
-	public void unregister(QName serviceName, String endpoint)
+	synchronized public void unregister(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
-		if (blockedByRunUpOperation) {
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO,
-						"It seems that Service Locator performs connection operation. We are waiting for completion.");
-			}
-			synchronized (this) {
-				if (LOG.isLoggable(Level.FINEST)) {
-					LOG.log(Level.FINEST, "Entering into synchronization block");
-				}
-			}
-			if (LOG.isLoggable(Level.FINEST)) {
-				LOG.log(Level.FINEST, "Leaving the synchronization block");
-			}
-		}
-		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Unregister endpoint " + endpoint + " for service "
 					+ serviceName + ".");
@@ -331,8 +212,6 @@ public class ServiceLocator {
 
 		}
 
-		if (businessOperations > 0)
-			businessOperations--;
 	}
 
 	/**
@@ -349,23 +228,8 @@ public class ServiceLocator {
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
 	 */
-	public List<String> lookup(QName serviceName)
+	synchronized public List<String> lookup(QName serviceName)
 			throws ServiceLocatorException, InterruptedException {
-		if (blockedByRunUpOperation) {
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO,
-						"It seems that Service Locator performs connection operation. We are waiting for completion.");
-			}
-			synchronized (this) {
-				if (LOG.isLoggable(Level.FINEST)) {
-					LOG.log(Level.FINEST, "Entering into synchronization block");
-				}
-			}
-			if (LOG.isLoggable(Level.FINEST)) {
-				LOG.log(Level.FINEST, "Leaving the synchronization block");
-			}
-		}
-		businessOperations++;
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
 		}
@@ -382,8 +246,6 @@ public class ServiceLocator {
 				}
 				children = Collections.emptyList();
 			}
-			if (businessOperations > 0)
-				businessOperations--;
 
 			return children;
 
@@ -430,6 +292,10 @@ public class ServiceLocator {
 			LOG.fine("Locator wating timeout set to: " + waitingTimeout);
 		}
 
+	}
+	
+	public int getWaitingTimeout() {
+		return waitingTimeout;
 	}
 
 	private void ensurePathExists(NodePath path, CreateMode mode)
