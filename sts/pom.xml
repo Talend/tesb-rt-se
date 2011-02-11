@@ -247,12 +247,9 @@
 	</repositories>
 
 	<build>
+		<!-- Name of the generated WAR file --> 
+		<finalName>sts</finalName> 
 		<defaultGoal>install</defaultGoal>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -273,6 +270,10 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
+				</plugin>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>maven-jetty-plugin</artifactId>
 				</plugin>
 			</plugins>
 		</pluginManagement>
