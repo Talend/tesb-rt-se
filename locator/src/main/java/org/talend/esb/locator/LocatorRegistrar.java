@@ -1,5 +1,6 @@
 package org.talend.esb.locator;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,16 +33,94 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		}
 	}
 
+	@Override
+	public void startServer(Server server) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Server started...");
+		}
+		try {
+			registerEndpoint(server);
+		} catch (ServiceLocatorException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during register endpoint. "
+								+ e.getMessage());
+			}
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during register endpoint. "
+								+ e.getMessage());
+			}
+		} catch (IOException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"IOException thrown during register endpoint. "
+								+ e.getMessage());
+			}
+		}
+	}
+
+	@Override
+	public void stopServer(Server server) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Server stopped...");
+		}
+		try {
+			unregisterEndpoint(server);
+		} catch (ServiceLocatorException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during unregister endpoint. "
+								+ e.getMessage());
+			}
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during unregister endpoint. "
+								+ e.getMessage());
+			}
+		} catch (IOException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during unregister endpoint. "
+								+ e.getMessage());
+			}
+		}
+	
+	}
+
+	@Override
+	public void process(ServiceLocator lc) {
+		registerAvailableServers();
+	}
+
 	public void init() {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Registering listener.");
+			LOG.log(Level.FINE, "Registering listener...");
 		}
 		registerListener();
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Registering available services.");
+			LOG.log(Level.FINE, "Registering available services...");
 		}
 		registerAvailableServers();
 
+	}
+
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
+
+	public void setEndpointPrefix(String endpointPrefix) {
+		this.endpointPrefix = endpointPrefix;
+	}
+
+	public void setLocatorClient(ServiceLocator locatorClient) {
+		lc = locatorClient;
+		lc.setPostConnectAction(this);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Locator client was setted.");
+		}
 	}
 
 	private void registerAvailableServers() {
@@ -67,69 +146,14 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 							"InterruptedException thrown during register endpoint. "
 									+ e.getMessage());
 				}
+			} catch (IOException e) {
+				if (LOG.isLoggable(Level.SEVERE)) {
+					LOG.log(Level.SEVERE,
+							"IOException thrown during register endpoint. "
+									+ e.getMessage());
+				}
 			}
 		}
-	}
-
-	public void setBus(Bus bus) {
-		this.bus = bus;
-	}
-
-	public void setEndpointPrefix(String endpointPrefix) {
-		this.endpointPrefix = endpointPrefix;
-	}
-
-	public void setLocatorClient(ServiceLocator locatorClient) {
-		lc = locatorClient;
-		lc.setPostConnectAction(this);
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Locator client was setted.");
-		}
-	}
-
-	@Override
-	public void startServer(Server server) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Server started...");
-		}
-		try {
-			registerEndpoint(server);
-		} catch (ServiceLocatorException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during register endpoint. "
-								+ e.getMessage());
-			}
-		} catch (InterruptedException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during register endpoint. "
-								+ e.getMessage());
-			}
-		}
-	}
-
-	@Override
-	public void stopServer(Server server) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Server stopped...");
-		}
-		try {
-			unregisterEndpoint(server);
-		} catch (ServiceLocatorException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during unregister endpoint. "
-								+ e.getMessage());
-			}
-		} catch (InterruptedException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during unregister endpoint. "
-								+ e.getMessage());
-			}
-		}
-
 	}
 
 	private void registerListener() {
@@ -144,7 +168,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	private void registerEndpoint(Server server)
-			throws ServiceLocatorException, InterruptedException {
+			throws ServiceLocatorException, InterruptedException, IOException {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
 		ServiceInfo serviceInfo = eInfo.getService();
 		QName serviceName = serviceInfo.getName();
@@ -161,7 +185,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	private void unregisterEndpoint(Server server)
-			throws ServiceLocatorException, InterruptedException {
+			throws ServiceLocatorException, InterruptedException, IOException {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
 		ServiceInfo serviceInfo = eInfo.getService();
 		QName serviceName = serviceInfo.getName();
@@ -178,10 +202,5 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 							+ serviceName + " Endpoint Address: "
 							+ endpointAddress);
 		}
-	}
-
-	@Override
-	public void process(ServiceLocator lc) {
-		registerAvailableServers();
 	}
 }

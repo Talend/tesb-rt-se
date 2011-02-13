@@ -73,8 +73,6 @@ public class ServiceLocator {
 
 	private int connectionTimeout = 5000;
 
-	private int waitingTimeout = 3000;
-
 	private PostConnectAction pca = DO_NOTHING_ACTION;
 
 	private volatile ZooKeeper zk;
@@ -115,13 +113,13 @@ public class ServiceLocator {
 			throw new ServiceLocatorException(
 					"Connection to Service Locator failed.");
 		} else {
+			notifyAll();
 			pca.process(this);
 		}
 
 		if (LOG.isLoggable(Level.FINER)) {
 			LOG.log(Level.FINER, "End connect session");
 		}
-
 	}
 
 	/**
@@ -135,9 +133,9 @@ public class ServiceLocator {
 	 *             for the disconnect to happen
 	 * @throws ServiceLocatorException
 	 */
-	synchronized public void disconnect()
-			throws InterruptedException, ServiceLocatorException {
-		
+	synchronized public void disconnect() throws InterruptedException,
+			ServiceLocatorException {
+
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Start disconnect session");
 		}
@@ -172,13 +170,15 @@ public class ServiceLocator {
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
+	 * @throws IOException
 	 */
 	synchronized public void register(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException {
+			throws ServiceLocatorException, InterruptedException, IOException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.log(Level.INFO, "Register endpoint " + endpoint
 					+ " for service " + serviceName + ".");
 		}
+		checkConnection();
 		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
 				.toString());
 		ensurePathExists(serviceNodePath, CreateMode.PERSISTENT);
@@ -188,7 +188,7 @@ public class ServiceLocator {
 	}
 
 	synchronized public void unregister(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException {
+			throws ServiceLocatorException, InterruptedException, IOException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Unregister endpoint " + endpoint + " for service "
 					+ serviceName + ".");
@@ -198,19 +198,9 @@ public class ServiceLocator {
 				.toString());
 		NodePath endpointNodePath = serviceNodePath.child(endpoint);
 
-		try {
-			deleteNode(endpointNodePath);
-			deleteNode(serviceNodePath);
-		} catch (KeeperException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"The service locator server signaled an error: "
-								+ e.getMessage());
-			}
-			throw new ServiceLocatorException(
-					"The service locator server signaled an error.", e);
-
-		}
+		checkConnection();
+		ensurePathDeleted(endpointNodePath, false);
+		ensurePathDeleted(serviceNodePath, true);
 
 	}
 
@@ -227,13 +217,15 @@ public class ServiceLocator {
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
+	 * @throws IOException
 	 */
 	synchronized public List<String> lookup(QName serviceName)
-			throws ServiceLocatorException, InterruptedException {
+			throws ServiceLocatorException, InterruptedException, IOException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
 		}
 		try {
+			checkConnection();
 			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
 					.toString());
 			List<String> children;
@@ -286,16 +278,25 @@ public class ServiceLocator {
 		this.pca = pca;
 	}
 
-	public void setWaitingTimeout(int waitingTimeout) {
-		this.waitingTimeout = waitingTimeout;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.fine("Locator wating timeout set to: " + waitingTimeout);
-		}
+	private boolean isConnected() throws IOException, InterruptedException {
 
+		return (zk != null) && zk.getState().equals(ZooKeeper.States.CONNECTED);
 	}
-	
-	public int getWaitingTimeout() {
-		return waitingTimeout;
+
+	private void checkConnection() throws IOException, InterruptedException,
+			ServiceLocatorException {
+		if (!isConnected()) {
+			if (LOG.isLoggable(Level.WARNING)) {
+				LOG.log(Level.WARNING,
+						"The connection to Service Locator was not established yet. Waiting for "
+								+ connectionTimeout + " ms");
+			}
+			wait(connectionTimeout);
+			if (!isConnected()) {
+				throw new ServiceLocatorException(
+						"The connection to Service Locator was not established.");
+			}
+		}
 	}
 
 	private void ensurePathExists(NodePath path, CreateMode mode)
@@ -324,6 +325,46 @@ public class ServiceLocator {
 		}
 	}
 
+	/**
+	 * 
+	 * @param path
+	 *            Path to the node to be removed
+	 * @param canHaveChildren
+	 *            If <code>false</code> method throws an exception in case we
+	 *            have {@link KeeperException} with code
+	 *            {@link KeeperException.Code.NOTEMPTY NotEmpty}. If
+	 *            <code>true</code>, node just not be deleted in case we have
+	 *            Keeper {@link KeeperException.NotEmptyException
+	 *            NotEmptyException}.
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 */
+	private void ensurePathDeleted(NodePath path, boolean canHaveChildren)
+			throws ServiceLocatorException, InterruptedException {
+		try {
+			if (nodeExists(path) && deleteNode(path, canHaveChildren)) {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Node " + path + " deteted.");
+				}
+			} else {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Node " + path + " has already been deleted.");
+				}
+			}
+
+		} catch (KeeperException e) {
+			if (e.code().equals(Code.NONODE)) {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Some other client deleted node" + path
+							+ " concurrently.");
+				}
+			} else {
+				throw new ServiceLocatorException(
+						"The service locator server signaled an error.", e);
+			}
+		}
+	}
+
 	private boolean nodeExists(NodePath path) throws KeeperException,
 			InterruptedException {
 		return zk.exists(path.toString(), false) != null;
@@ -334,10 +375,24 @@ public class ServiceLocator {
 		zk.create(path.toString(), EMPTY_CONTENT, Ids.OPEN_ACL_UNSAFE, mode);
 	}
 
-	private void deleteNode(NodePath path) throws KeeperException,
-			InterruptedException {
-		if (getChildren(path).isEmpty())
-			zk.delete(path.toString(), -1);
+	private boolean deleteNode(NodePath path, boolean canHaveChildren)
+			throws KeeperException, InterruptedException {
+		try {
+			if (getChildren(path).isEmpty())
+				zk.delete(path.toString(), -1);
+			return true;
+		} catch (KeeperException e) {
+			if (e.code().equals(Code.NOTEMPTY) && canHaveChildren) {
+				if (LOG.isLoggable(Level.FINE)) {
+					LOG.fine("Some other client created children nodes in the node"
+							+ path
+							+ " concurrently. Therefore, we can not delete it.");
+				}
+				return false;
+			} else {
+				throw e;
+			}
+		}
 	}
 
 	private List<String> getChildren(NodePath path) throws KeeperException,
