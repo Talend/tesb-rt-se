@@ -15,9 +15,13 @@ import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
+import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedReferenceType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
+import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.KeyIdentifierType;
+import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.SecurityTokenReferenceType;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.impl.SecureRandomIdentifierGenerator;
+import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AuthnContext;
 import org.opensaml.saml2.core.AuthnContextClassRef;
@@ -46,10 +50,10 @@ import org.w3c.dom.Element;
 
 public class IssueDelegate implements IssueOperation {
 
-	private static final org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory WS_TRUST_FACTORY = new org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory();
 	private static final Log LOG = LogFactory
 			.getLog(SecurityTokenServiceImpl.class.getName());
-	private static final String TOKEN_TYPE_VALUE = "urn:oasis:names:tc:SAML:2.0:assertion";
+	private static final org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory WS_TRUST_FACTORY = new org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory();
+	private static final org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory WSSE_FACTORY = new org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory();
 	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 
 	private SecureRandomIdentifierGenerator generator;
@@ -108,15 +112,37 @@ public class IssueDelegate implements IssueOperation {
 			Element samlAssertion) {
 		RequestSecurityTokenResponseType response = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseType();
+
+		// TokenType
 		JAXBElement<String> tokenType = WS_TRUST_FACTORY
-				.createTokenType(TOKEN_TYPE_VALUE);
+			.createTokenType(SAMLConstants.SAML20_NS);
+		response.getAny().add(tokenType);
+
+		// RequestedSecurityToken
 		RequestedSecurityTokenType requestedTokenType = WS_TRUST_FACTORY
-				.createRequestedSecurityTokenType();
-		requestedTokenType.setAny(samlAssertion);
+			.createRequestedSecurityTokenType();
 		JAXBElement<RequestedSecurityTokenType> requestedToken = WS_TRUST_FACTORY
 				.createRequestedSecurityToken(requestedTokenType);
-		response.getAny().add(tokenType);
+		requestedTokenType.setAny(samlAssertion);
 		response.getAny().add(requestedToken);
+		
+		// RequestedAttachedReference
+		RequestedReferenceType requestedReferenceType = WS_TRUST_FACTORY
+			.createRequestedReferenceType();
+		SecurityTokenReferenceType securityTokenReferenceType = WSSE_FACTORY.
+			createSecurityTokenReferenceType();
+		KeyIdentifierType keyIdentifierType = WSSE_FACTORY
+			.createKeyIdentifierType();
+		keyIdentifierType.setValue(samlAssertion.getAttribute(Assertion.ID_ATTRIB_NAME));
+		JAXBElement<KeyIdentifierType> keyIdentifier = WSSE_FACTORY
+			.createKeyIdentifier(keyIdentifierType);
+		securityTokenReferenceType.getAny().add(keyIdentifier);
+		requestedReferenceType.setSecurityTokenReference(securityTokenReferenceType);
+
+		JAXBElement<RequestedReferenceType> requestedAttachedReference = WS_TRUST_FACTORY
+			.createRequestedAttachedReference(requestedReferenceType);
+		response.getAny().add(requestedAttachedReference);
+
 		return response;
 	}
 
