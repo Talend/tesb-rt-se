@@ -112,7 +112,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	public void setEndpointPrefix(String endpointPrefix) {
-		this.endpointPrefix = endpointPrefix;
+		this.endpointPrefix = endpointPrefix!=null?endpointPrefix:"";
 	}
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
