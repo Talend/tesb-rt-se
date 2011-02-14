@@ -73,7 +73,7 @@ public class ServiceLocator {
 
 	private int connectionTimeout = 5000;
 
-	private PostConnectAction pca = DO_NOTHING_ACTION;
+	private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
 
 	private volatile ZooKeeper zk;
 
@@ -114,7 +114,7 @@ public class ServiceLocator {
 					"Connection to Service Locator failed.");
 		} else {
 			notifyAll();
-			pca.process(this);
+			postConnectAction.process(this);
 		}
 
 		if (LOG.isLoggable(Level.FINER)) {
@@ -274,8 +274,8 @@ public class ServiceLocator {
 		}
 	}
 
-	public void setPostConnectAction(PostConnectAction pca) {
-		this.pca = pca;
+	public void setPostConnectAction(PostConnectAction postConnectAction) {
+		this.postConnectAction = postConnectAction;
 	}
 
 	private boolean isConnected() throws IOException, InterruptedException {

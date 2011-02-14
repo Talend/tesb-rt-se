@@ -23,7 +23,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 
 	private Bus bus;
 
-	private ServiceLocator lc;
+	private ServiceLocator locatorClient;
 
 	private String endpointPrefix = "";// "http://localhost:8081";
 
@@ -116,8 +116,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
-		lc = locatorClient;
-		lc.setPostConnectAction(this);
+		this.locatorClient = locatorClient;
+		locatorClient.setPostConnectAction(this);
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Locator client was setted.");
 		}
@@ -178,7 +178,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 			LOG.log(Level.FINE, "Service name: " + serviceName);
 			LOG.log(Level.FINE, "Endpoint Address: " + endpointAddress);
 		}
-		lc.register(serviceName, endpointAddress);
+		locatorClient.register(serviceName, endpointAddress);
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Service was registered in ZooKeeper.");
 		}
@@ -195,7 +195,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 			LOG.log(Level.FINEST, "Service name: " + serviceName);
 			LOG.log(Level.FINEST, "Endpoint Address: " + endpointAddress);
 		}
-		lc.unregister(serviceName, endpointAddress);
+		locatorClient.unregister(serviceName, endpointAddress);
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE,
 					"Service was unregistered from ZooKeeper. Service name: "
