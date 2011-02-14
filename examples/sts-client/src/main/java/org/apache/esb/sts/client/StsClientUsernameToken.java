@@ -16,7 +16,7 @@ import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.beans.factory.InitializingBean;
 
-public class Invoker implements InitializingBean {
+public class StsClientUsernameToken implements InitializingBean {
 
 	private STSClient stsClient;
 
@@ -43,7 +43,7 @@ public class Invoker implements InitializingBean {
 			        stsClient.getOutInterceptors().add(wssOut);
 			        
 					SecurityToken securityToken = stsClient.requestSecurityToken();
-					System.out.println("securityToken="+securityToken);
+					System.out.println("securityToken.getId()="+securityToken.getId());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
