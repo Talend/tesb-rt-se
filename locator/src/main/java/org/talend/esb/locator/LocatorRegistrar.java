@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
@@ -21,7 +22,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class
 			.getPackage().getName());
 
-	private Bus bus;
+	private Bus bus = BusFactory.getDefaultBus();
 
 	private ServiceLocator locatorClient;
 
@@ -95,7 +96,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		registerAvailableServers();
 	}
 
-	public void init() {
+	public void init() throws IOException, InterruptedException, ServiceLocatorException {
+		locatorClient.connect();
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Registering listener...");
 		}
@@ -121,6 +123,10 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Locator client was setted.");
 		}
+	}
+
+	public ServiceLocator getLocatorClient() {
+		return locatorClient;
 	}
 
 	private void registerAvailableServers() {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
@@ -10,9 +9,32 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<jaxws:endpoint 
-	  id="Greeter" 
-	  implementor="org.talend.esb.sample.cxf.GreeterImpl" 
-	  address="/services/Greeter" />
-	  
+	<!-- <bean id="cxfBus" factory-bean="Server" factory-method="getBus"></bean> -->
+
+	<bean id="ServiceLocator" class="org.talend.esb.locator.ServiceLocator">
+		<property name="locatorEndpoints" value="sop-td57:2181" />
+		<property name="sessionTimeout" value="5000" />
+		<property name="connectionTimeout" value="5000" />
+	</bean>
+	<bean id="LocatorRegistrar" class="org.talend.esb.locator.LocatorRegistrar"
+		init-method="init">
+		<!-- <property name="bus" ref="cxfBus" /> -->
+		<property name="locatorClient" ref="ServiceLocator" />
+		<property name="endpointPrefix" value="" />
+	</bean>
+
+	<!-- <bean id="Server" class="org.talend.esb.locator.sample.Server"> -->
+	<!-- <property name="serverPorts"> -->
+	<!-- <list> -->
+	<!-- <value>8081</value> -->
+	<!-- <value>8082</value> -->
+	<!-- <value>8083</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <jaxws:endpoint id="Greeter" -->
+	<!-- implementor="org.talend.esb.sample.cxf.GreeterImpl" address="/services/Greeter"> -->
+	<!-- </jaxws:endpoint> -->
+
 </beans>
