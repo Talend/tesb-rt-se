@@ -1,24 +1,29 @@
 package org.apache.esb.sts.client;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBusFactory;
+import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.cxf.ws.security.trust.STSUtils;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.ws.security.WSConstants;
+import org.apache.ws.security.components.crypto.Crypto;
+import org.apache.ws.security.components.crypto.CryptoFactory;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.beans.factory.InitializingBean;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class StsClient implements InitializingBean {
 
@@ -51,31 +56,33 @@ public class StsClient implements InitializingBean {
 	
 				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 				        stsClient.getOutInterceptors().add(wssOut);
-					} else {
-//						InputStream inStream = this.getClass().getResourceAsStream("/X509.cer");
-//						CertificateFactory cf = CertificateFactory
-//								.getInstance("X.509");
-//						X509Certificate cert = (X509Certificate) cf
-//								.generateCertificate(inStream);
-//						inStream.close();
-
-				        Map<String, Object> outProps = new HashMap<String, Object>();
-				        // Manual WSS4J interceptor process
 				        
-				        outProps.put("timeToLive", "120");
-				        outProps.put(WSHandlerConstants.ACTION, "Signature Timestamp");
-				        outProps.put(WSHandlerConstants.SIG_PROP_FILE, "clientKeystore.properties");
-				        outProps.put(WSHandlerConstants.USER, "SecurityTokenServiceProvider");
-				        outProps.put(WSHandlerConstants.PASSWORD_TYPE, "PasswordDigest");
-				        outProps.put(WSHandlerConstants.SIG_KEY_ID, "DirectReference");
-				        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeystorePasswordCallback.class.getName());
+						SecurityToken securityToken = stsClient.requestSecurityToken();
+						System.out.println("securityToken.getId()="+securityToken.getId());
+					} else {
+						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+						DocumentBuilder db = dbf.newDocumentBuilder();
+						Document doc = db.newDocument();
+						Element templateElement = doc.createElement("template");
+						doc.appendChild(templateElement);
+						Element el = doc.createElementNS(STSUtils.WST_NS_05_12, "TokenType");
+						templateElement.appendChild(el);
+						el = doc.createElementNS(STSUtils.WST_NS_05_12, "OnBehalfOf");
+						templateElement.appendChild(el);
+						el = doc.createElementNS(STSUtils.WST_NS_05_12, "KeyType");
+						el.appendChild(doc.createTextNode("PublicKey"));
+						templateElement.appendChild(el);
 
-				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-				        stsClient.getOutInterceptors().add(wssOut);
+						stsClient.setTemplate(doc.getDocumentElement());
+				        Map<String, Object> outProps = new HashMap<String, Object>();
+				        Crypto crypto = CryptoFactory.getInstance("clientKeystore.properties"); 
+				        outProps.put(SecurityConstants.STS_TOKEN_CRYPTO, crypto);
+						stsClient.setProperties(outProps);
+						stsClient.setUseCertificateForConfirmationKeyInfo(true);
+						
+						SecurityToken securityToken = stsClient.requestSecurityToken();
+						System.out.println("securityToken.getId()="+securityToken.getId());
 					}
-			        
-					SecurityToken securityToken = stsClient.requestSecurityToken();
-					System.out.println("securityToken.getId()="+securityToken.getId());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
