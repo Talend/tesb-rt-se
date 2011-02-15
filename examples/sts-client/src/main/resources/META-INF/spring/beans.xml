@@ -35,8 +35,9 @@
     	<property name="requiresEntropy" value="false" />
     </bean>
 
-    <bean class="org.apache.esb.sts.client.StsClientUsernameToken">
+    <bean class="org.apache.esb.sts.client.StsClient">
     	<property name="stsClient" ref="stsClient"/>
+    	<property name="isUsername" value="false"/>
     </bean>
 
 </beans>

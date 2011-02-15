@@ -1,7 +1,11 @@
 package org.apache.esb.sts.client;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -16,12 +20,17 @@ import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.springframework.beans.factory.InitializingBean;
 
-public class StsClientUsernameToken implements InitializingBean {
+public class StsClient implements InitializingBean {
 
 	private STSClient stsClient;
+	private boolean isUsername;
 
 	public void setStsClient(STSClient stsClient) {
 		this.stsClient = stsClient;
+	}
+	
+	public void setIsUsername(boolean isUsername) {
+		this.isUsername = isUsername;
 	}
 
 	@Override
@@ -31,16 +40,25 @@ public class StsClientUsernameToken implements InitializingBean {
 			@Override
 			public void run() {
 				try {
-			        Map<String, Object> outProps = new HashMap<String, Object>();
-			        // Manual WSS4J interceptor process
-			        outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-			        outProps.put(WSHandlerConstants.USER, "joe");
-			        outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-			        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
-			                ClientPasswordCallback.class.getName());
-
-			        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-			        stsClient.getOutInterceptors().add(wssOut);
+					if(isUsername) {
+				        Map<String, Object> outProps = new HashMap<String, Object>();
+				        // Manual WSS4J interceptor process
+				        outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+				        outProps.put(WSHandlerConstants.USER, "joe");
+				        outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
+				        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
+				                ClientPasswordCallback.class.getName());
+	
+				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+				        stsClient.getOutInterceptors().add(wssOut);
+					} else {
+						InputStream inStream = this.getClass().getResourceAsStream("/X509.cer");
+						CertificateFactory cf = CertificateFactory
+								.getInstance("X.509");
+						X509Certificate cert = (X509Certificate) cf
+								.generateCertificate(inStream);
+						inStream.close();
+					}
 			        
 					SecurityToken securityToken = stsClient.requestSecurityToken();
 					System.out.println("securityToken.getId()="+securityToken.getId());
