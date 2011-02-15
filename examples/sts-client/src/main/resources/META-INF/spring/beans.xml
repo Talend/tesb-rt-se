@@ -37,7 +37,7 @@
 
     <bean class="org.apache.esb.sts.client.StsClient">
     	<property name="stsClient" ref="stsClient"/>
-    	<property name="isUsername" value="false"/>
+    	<property name="isUsername" value="true"/>
     </bean>
 
 </beans>

@@ -16,11 +16,9 @@ import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.trust.STSUtils;
-import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
-import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.components.crypto.Crypto;
 import org.apache.ws.security.components.crypto.CryptoFactory;
-import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.ws.security.message.WSSecUsernameToken;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,19 +44,21 @@ public class StsClient implements InitializingBean {
 			public void run() {
 				try {
 					if(isUsername) {
-				        Map<String, Object> outProps = new HashMap<String, Object>();
-				        // Manual WSS4J interceptor process
-				        outProps.put(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
-				        outProps.put(WSHandlerConstants.USER, "joe");
-				        outProps.put(WSHandlerConstants.PASSWORD_TYPE, WSConstants.PW_TEXT);
-				        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS,
-				                ClientPasswordCallback.class.getName());
-	
-				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
-				        stsClient.getOutInterceptors().add(wssOut);
-				        
-						SecurityToken securityToken = stsClient.requestSecurityToken();
-						System.out.println("securityToken.getId()="+securityToken.getId());
+						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+						DocumentBuilder db = dbf.newDocumentBuilder();
+						Document doc = db.newDocument();
+						Element templateElement = doc.createElement("template");
+						doc.appendChild(templateElement);
+						Element el = doc.createElementNS(STSUtils.WST_NS_05_12, "TokenType");
+						templateElement.appendChild(el);
+						el = doc.createElementNS(STSUtils.WST_NS_05_12, "OnBehalfOf");
+						templateElement.appendChild(el);
+						WSSecUsernameToken token = new WSSecUsernameToken();
+						token.setUserInfo("joe", "password");
+						token.prepare(doc);
+						el.appendChild(token.getUsernameTokenElement());
+
+						stsClient.setTemplate(doc.getDocumentElement());
 					} else {
 						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 						DocumentBuilder db = dbf.newDocumentBuilder();
@@ -79,10 +79,9 @@ public class StsClient implements InitializingBean {
 				        outProps.put(SecurityConstants.STS_TOKEN_CRYPTO, crypto);
 						stsClient.setProperties(outProps);
 						stsClient.setUseCertificateForConfirmationKeyInfo(true);
-						
-						SecurityToken securityToken = stsClient.requestSecurityToken();
-						System.out.println("securityToken.getId()="+securityToken.getId());
 					}
+					SecurityToken securityToken = stsClient.requestSecurityToken();
+					System.out.println("securityToken.getId()="+securityToken.getId());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
