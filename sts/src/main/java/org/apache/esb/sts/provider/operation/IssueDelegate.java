@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.esb.sts.provider.GlobalUser;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
@@ -61,13 +60,26 @@ public class IssueDelegate implements IssueOperation {
 	@Override
 	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
+		
+		for (Object requestObject : request.getAny()) {
+			System.out.println("requestObject="+requestObject.getClass().getName());
+			if(requestObject instanceof JAXBElement) {
+				JAXBElement<?> jaxbElement = (JAXBElement<?>)requestObject;
+				System.out.println("jaxbElement.getName().getLocalPart()="+jaxbElement.getName().getLocalPart());
+				System.out.println("jaxbElement.getDeclaredType()="+jaxbElement.getDeclaredType());
+				System.out.println("jaxbElement.getValue()="+jaxbElement.getValue());
+			} else if (requestObject instanceof Element) {
+				Element element = (Element)requestObject;
+				System.out.println("Element="+element.getNodeName());
+			}
+		}
 		try {
 			generator = new SecureRandomIdentifierGenerator();
 		} catch (NoSuchAlgorithmException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}		
-		Assertion samlAssertion = createSAML2Assertion(GlobalUser.getUserName());
+		Assertion samlAssertion = createSAML2Assertion("dummy");
 
 		// Convert SAML to DOM
 		Document assertionDocument = null;

@@ -32,28 +32,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<bean id="validateDelegate"
 		class="org.apache.esb.sts.provider.operation.ValidateDelegate"/>
 
-	<bean id="passwordCallback"
-		class="org.apache.esb.sts.provider.PasswordCallbackImpl"/>
-
 	<jaxws:endpoint id="SecurityTokenService"
 		implementor="#securityTokenServiceProviderBean"
-		address="/SecurityTokenService" >
-		<jaxws:inInterceptors>
-			<!-- SAAJ Interceptor needs to be explicitly declared only in CXF 2.0.x --> 
-			<bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor"/>
-			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
-				<constructor-arg>
-					<map>
-						<entry key="action" value="UsernameToken"/>
-						<entry key="passwordType" value="PasswordText"/>
-						<entry key="passwordCallbackRef">
-							<ref bean="passwordCallback"/>
-						</entry>
-					</map>
-				</constructor-arg>
-			</bean>
-		</jaxws:inInterceptors>
-	</jaxws:endpoint>
+		address="/SecurityTokenService" />
 
  </beans>
 
