@@ -29,7 +29,6 @@ public class Server {
 	private boolean addJMS = false;
 
 	protected Server() throws Exception {
-		new ClassPathXmlApplicationContext(new String[] { "WEB-INF/beans.xml" });
 	}
 
 	public void init() {
@@ -60,7 +59,7 @@ public class Server {
 			endpoint.stop();
 	}
 
-	private void stopAll(List<String> serverPorts) {
+	public void stopAll(List<String> serverPorts) {
 		for (String el : serverPorts) {
 			prefix = "http://" + Constants.ServiceHOST + ":" + el;
 			address = "/services/Greeter";
@@ -91,7 +90,7 @@ public class Server {
 	}
 
 	public static void main(String args[]) throws Exception {
-//		String locatorEndpoints = Constants.LOCATORENDPOINT;
+		// String locatorEndpoints = Constants.LOCATORENDPOINT;
 		List<String> serverPorts = new ArrayList<String>();
 		serverPorts.add("8080");
 		serverPorts.add("8081");
@@ -104,18 +103,17 @@ public class Server {
 			// locatorEndpoints = args[i + 1];
 			// i += 2;
 			// } else
-				if (args[i].equals("-p")) {
+			if (args[i].equals("-p")) {
 				serverPorts.add(args[i + 1]);
 				i += 2;
 			}
 		}
 
 		Server serv = new Server();
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "WEB-INF/beans.xml" });
+		
 		serv.setServerPorts(serverPorts);
-		// ClassPathXmlApplicationContext context = new
-		// ClassPathXmlApplicationContext(
-		// new String[] { "WEB-INF/beans.xml" });
-		// Server serv = (Server) context.getBean("Server");
+
 		serv.init();
 
 		System.out.println("Server ready...");
@@ -124,6 +122,8 @@ public class Server {
 
 		serv.stopAll(serverPorts);
 
+		context.close();
+		
 		System.out.println("Server exiting");
 
 		System.exit(0);
