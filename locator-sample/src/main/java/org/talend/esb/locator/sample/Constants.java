@@ -8,7 +8,9 @@ public class Constants {
 	public static final String HOST = "192.168.40.14";
 	public static final String PORT = "2181";
 	public static final QName SERVICENAME = QName
-	.valueOf("{http://talend.org/esb/examples/}GreeterService");
+	.valueOf("{http://cxf.sample.esb.talend.org/}GreeterImplService");
+	public static final QName SERVICENAME1 = QName
+	.valueOf("{http://cxf.sample.esb.talend.org/}GreeterImplService");
 	public static final QName PORTNAME = QName
 			.valueOf("{http://talend.org/esb/examples/}GreeterPortImpl");
 	public static final String LOCATORENDPOINT = "sop-td57:2181";//HOST + ":" + PORT;

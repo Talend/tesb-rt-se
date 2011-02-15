@@ -1,6 +1,5 @@
 package org.talend.esb.locator.sample;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,30 +9,39 @@ import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-
-import org.talend.esb.locator.ServiceLocator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.locator.LocatorRegistrar;
-import org.talend.esb.locator.ServiceLocatorException;
 
 public class Server {
-	private ServiceLocator lc = new ServiceLocator();
-	private LocatorRegistrar lr = new LocatorRegistrar();
+
+	private LocatorRegistrar locatorRegistrar;
+
 	private Bus bus = BusFactory.getDefaultBus();
+
+	private List<String> serverPorts = new ArrayList<String>();
 
 	private Map<String, Endpoint> endpoints = new HashMap<String, Endpoint>();
 
-	private String address = "/services/Greeter";
+	public static String address = "/services/Greeter";
+
 	private String prefix = "";
 
-	protected Server(List<String> serverPorts, String locatorEndpoints)
-			throws Exception {
+	private boolean addJMS = false;
+
+	protected Server() throws Exception {
+	}
+
+	public void init() {
+
 		System.out.println("Starting Server on port " + serverPorts.toString()
 				+ "...");
 
-		initForLocator(locatorEndpoints);
 		for (String el : serverPorts) {
 			prefix = "http://" + Constants.ServiceHOST + ":" + el;
 			publishService(prefix, address);
+		}
+		if (addJMS) {
+			publishService(Constants.JMS_ENDPOINT_URI, "");
 		}
 		System.out.println("Server started");
 	}
@@ -51,7 +59,7 @@ public class Server {
 			endpoint.stop();
 	}
 
-	private void stopAll(List<String> serverPorts) {
+	public void stopAll(List<String> serverPorts) {
 		for (String el : serverPorts) {
 			prefix = "http://" + Constants.ServiceHOST + ":" + el;
 			address = "/services/Greeter";
@@ -61,19 +69,28 @@ public class Server {
 
 	}
 
-	private void initForLocator(String locatorEndpoints) throws IOException,
-			InterruptedException, ServiceLocatorException {
-		lc.setLocatorEndpoints(locatorEndpoints);
-		lc.setSessionTimeout(30 * 60 * 1000);
-		lc.setConnectionTimeout(30 * 60 * 1000);
-		lc.connect();
-		lr.setLocatorClient(lc);
-		lr.setBus(bus);
-		lr.init();
+	public LocatorRegistrar getLocatorRegistrar() {
+		return locatorRegistrar;
+	}
+
+	public void setLocatorRegistrar(LocatorRegistrar locatorRegistrar) {
+		this.locatorRegistrar = locatorRegistrar;
+	}
+
+	public Bus getBus() {
+		return bus;
+	}
+
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
+
+	public void setServerPorts(List<String> serverPorts) {
+		this.serverPorts = serverPorts;
 	}
 
 	public static void main(String args[]) throws Exception {
-		String locatorEndpoints = Constants.LOCATORENDPOINT;
+		// String locatorEndpoints = Constants.LOCATORENDPOINT;
 		List<String> serverPorts = new ArrayList<String>();
 		serverPorts.add("8080");
 		serverPorts.add("8081");
@@ -82,24 +99,33 @@ public class Server {
 		if (args.length > 0)
 			serverPorts.clear();
 		while (i < args.length) {
-			if (args[i].equals("-l")) {
-				locatorEndpoints = args[i + 1];
-				i += 2;
-			} else if (args[i].equals("-p")) {
+			// if (args[i].equals("-l")) {
+			// locatorEndpoints = args[i + 1];
+			// i += 2;
+			// } else
+			if (args[i].equals("-p")) {
 				serverPorts.add(args[i + 1]);
 				i += 2;
 			}
 		}
-		Server serv = new Server(serverPorts, locatorEndpoints);
+
+		//Server serv = new Server();
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "WEB-INF/beans.xml" });
+		 Server serv = (Server) context.getBean("Server");
+//		serv.setServerPorts(serverPorts);
+//		serv.init();
 
 		System.out.println("Server ready...");
 
-		Thread.sleep(100 * 30 * 1000);
-		
+		Thread.sleep(30 * 30 * 1000);
+
 		serv.stopAll(serverPorts);
-		
+
+		context.close();
+
 		System.out.println("Server exiting");
-		
+
 		System.exit(0);
 	}
 }
