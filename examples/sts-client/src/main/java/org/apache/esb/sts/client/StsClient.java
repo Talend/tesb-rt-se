@@ -52,12 +52,26 @@ public class StsClient implements InitializingBean {
 				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
 				        stsClient.getOutInterceptors().add(wssOut);
 					} else {
-						InputStream inStream = this.getClass().getResourceAsStream("/X509.cer");
-						CertificateFactory cf = CertificateFactory
-								.getInstance("X.509");
-						X509Certificate cert = (X509Certificate) cf
-								.generateCertificate(inStream);
-						inStream.close();
+//						InputStream inStream = this.getClass().getResourceAsStream("/X509.cer");
+//						CertificateFactory cf = CertificateFactory
+//								.getInstance("X.509");
+//						X509Certificate cert = (X509Certificate) cf
+//								.generateCertificate(inStream);
+//						inStream.close();
+
+				        Map<String, Object> outProps = new HashMap<String, Object>();
+				        // Manual WSS4J interceptor process
+				        
+				        outProps.put("timeToLive", "120");
+				        outProps.put(WSHandlerConstants.ACTION, "Signature Timestamp");
+				        outProps.put(WSHandlerConstants.SIG_PROP_FILE, "clientKeystore.properties");
+				        outProps.put(WSHandlerConstants.USER, "SecurityTokenServiceProvider");
+				        outProps.put(WSHandlerConstants.PASSWORD_TYPE, "PasswordDigest");
+				        outProps.put(WSHandlerConstants.SIG_KEY_ID, "DirectReference");
+				        outProps.put(WSHandlerConstants.PW_CALLBACK_CLASS, ClientKeystorePasswordCallback.class.getName());
+
+				        WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor(outProps);
+				        stsClient.getOutInterceptors().add(wssOut);
 					}
 			        
 					SecurityToken securityToken = stsClient.requestSecurityToken();
