@@ -109,21 +109,21 @@ public class Server {
 			}
 		}
 
-		Server serv = new Server();
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "WEB-INF/beans.xml" });
-		
-		serv.setServerPorts(serverPorts);
-
-		serv.init();
+		//Server serv = new Server();
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "WEB-INF/beans.xml" });
+		 Server serv = (Server) context.getBean("Server");
+//		serv.setServerPorts(serverPorts);
+//		serv.init();
 
 		System.out.println("Server ready...");
 
-		Thread.sleep(100 * 30 * 1000);
+		Thread.sleep(30 * 30 * 1000);
 
 		serv.stopAll(serverPorts);
 
 		context.close();
-		
+
 		System.out.println("Server exiting");
 
 		System.exit(0);

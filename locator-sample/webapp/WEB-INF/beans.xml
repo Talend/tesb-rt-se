@@ -10,18 +10,19 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 
-	<!-- <bean id="Server" class="org.talend.esb.locator.sample.Server" -->
-	<!-- init-method="init"> -->
-	<!-- <property name="serverPorts"> -->
-	<!-- <list> -->
-	<!-- <value>8081</value> -->
-	<!-- <value>8082</value> -->
-	<!-- <value>8083</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
+	<bean id="Server" class="org.talend.esb.locator.sample.Server"
+		init-method="init">
+		<property name="serverPorts">
+			<list>
+				<value>8081</value>
+				<value>8082</value>
+				<value>8083</value>
+			</list>
+		</property>
+		<property name="locatorRegistrar" ref="LocatorRegistrar" />
+	</bean>
 
-	<!-- <bean id="cxfBus" factory-bean="Server" factory-method="getBus"></bean> -->
+<!--	 <bean id="cxfBus" factory-bean="Server" factory-method="getBus"></bean> -->
 
 	<bean id="ServiceLocator" class="org.talend.esb.locator.ServiceLocator">
 		<property name="locatorEndpoints" value="sop-td57:2181" />
@@ -30,20 +31,14 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	</bean>
 	<bean id="LocatorRegistrar" class="org.talend.esb.locator.LocatorRegistrar"
 		init-method="init">
-		<!-- <property name="bus" ref="cxfBus" /> -->
+<!--		 <property name="bus" ref="cxfBus" /> -->
 		<property name="locatorClient" ref="ServiceLocator" />
 		<property name="endpointPrefix" value="" />
 	</bean>
 
-	<jaxws:server id="Greeter_p85" serviceBean="org.talend.esb.sample.cxf.GreeterImpl"
-		serviceName="samp:GreeterService" xmlns:samp="http://talend.org/esb/examples/"
-		address="http://localhost:8085/services/Greeter">
-	</jaxws:server>
-
-	<jaxws:endpoint id="Greeter_p84"
-		implementor="org.talend.esb.sample.cxf.GreeterImpl" address="http://localhost:8084/services/Greeter"
-		serviceName="samp:GreeterService" publishedEndpointUrl="http://talend.org/esb/examples/"
-		xmlns:samp="http://talend.org/esb/examples/">
-	</jaxws:endpoint>
+<!--	<jaxws:endpoint id="Greeter_p84"-->
+<!--		implementor="org.talend.esb.sample.cxf.GreeterImpl" address="/Greeter"-->
+<!--		serviceName="samp:GreeterImplService" xmlns:samp="http://talend.org/esb/examples/">-->
+<!--	</jaxws:endpoint>-->
 
 </beans>
