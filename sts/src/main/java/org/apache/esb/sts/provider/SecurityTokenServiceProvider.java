@@ -50,16 +50,16 @@ public class  SecurityTokenServiceProvider implements Provider<DOMSource> {
 	}
 	
 	
-	private void convertToJAXBObject(DOMSource source){
-		
+	private RequestSecurityTokenType convertToJAXBObject(DOMSource source){
+		RequestSecurityTokenType request = null;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("");
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			RequestSecurityTokenType request = (RequestSecurityTokenType)unmarshaller.unmarshal(source);
+			 request = (RequestSecurityTokenType)unmarshaller.unmarshal(source);
 		} catch (JAXBException e) {
 			//TODO
 		}
-		
+		return request;
 	}
 	
 }
