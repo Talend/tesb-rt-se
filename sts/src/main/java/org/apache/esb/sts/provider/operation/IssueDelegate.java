@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.esb.sts.provider.GlobalUser;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
@@ -20,6 +19,7 @@ import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.KeyIdentifierType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.SecurityTokenReferenceType;
 import org.opensaml.DefaultBootstrap;
+import org.opensaml.common.SAMLVersion;
 import org.opensaml.common.impl.SecureRandomIdentifierGenerator;
 import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml2.core.Assertion;
@@ -56,23 +56,49 @@ public class IssueDelegate implements IssueOperation {
 	private static final org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory WSSE_FACTORY = new org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory();
 	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 
+	private boolean saml2;
+	
 	private SecureRandomIdentifierGenerator generator;
 	
+	
+	public void setSaml2(boolean saml2) {
+		this.saml2 = saml2;
+	}
+
 	@Override
 	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
+		
+		for (Object requestObject : request.getAny()) {
+			System.out.println("requestObject="+requestObject.getClass().getName());
+			if(requestObject instanceof JAXBElement) {
+				JAXBElement<?> jaxbElement = (JAXBElement<?>)requestObject;
+				System.out.println("jaxbElement.getName().getLocalPart()="+jaxbElement.getName().getLocalPart());
+				System.out.println("jaxbElement.getDeclaredType()="+jaxbElement.getDeclaredType());
+				System.out.println("jaxbElement.getValue()="+jaxbElement.getValue());
+			} else if (requestObject instanceof Element) {
+				Element element = (Element)requestObject;
+				System.out.println("Element="+element.getNodeName());
+			}
+		}
 		try {
 			generator = new SecureRandomIdentifierGenerator();
 		} catch (NoSuchAlgorithmException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}		
-		Assertion samlAssertion = createSAML2Assertion(GlobalUser.getUserName());
-
+		}
+		
 		// Convert SAML to DOM
 		Document assertionDocument = null;
 		try {
-			assertionDocument = toDom(samlAssertion);
+			if(saml2) {
+				Assertion samlAssertion = createSAML2Assertion("dummy");
+				assertionDocument = toDom(samlAssertion);
+			}
+			else {
+				org.opensaml.saml1.core.Assertion samlAssertion = createSAML1Assertion("dummy");
+				assertionDocument = toDom(samlAssertion);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -217,4 +243,64 @@ public class IssueDelegate implements IssueOperation {
 		return assertion;
 	}
 
+	
+	private org.opensaml.saml1.core.Assertion createSAML1Assertion(String nameId) {
+		org.opensaml.saml1.core.Subject subject = createSubjectSAML1(nameId);
+		return createAuthnAssertionSAML1(subject);
+	}
+	
+	private org.opensaml.saml1.core.Subject createSubjectSAML1(String username) {
+		org.opensaml.saml1.core.NameIdentifier nameID = (new org.opensaml.saml1.core.impl.NameIdentifierBuilder()).buildObject();
+		nameID.setNameIdentifier(username);
+		String format = "urn:oasis:names:tc:SAML:1.1:nameid-format:transient";
+
+		if (format != null) {
+			nameID.setFormat(format);
+		}
+
+		org.opensaml.saml1.core.Subject subject = (new org.opensaml.saml1.core.impl.SubjectBuilder()).buildObject();
+		subject.setNameIdentifier(nameID);
+
+		String confirmationString = "urn:oasis:names:tc:SAML:1.0:cm:bearer";
+
+		if (confirmationString != null) {
+
+			org.opensaml.saml1.core.ConfirmationMethod confirmationMethod = (new org.opensaml.saml1.core.impl.ConfirmationMethodBuilder()).buildObject();
+	        confirmationMethod.setConfirmationMethod(confirmationString);
+			
+	        org.opensaml.saml1.core.SubjectConfirmation confirmation = (new org.opensaml.saml1.core.impl.SubjectConfirmationBuilder()).buildObject();
+			confirmation.getConfirmationMethods().add(confirmationMethod);
+			
+			subject.setSubjectConfirmation(confirmation);
+		}
+		return subject;
+	}
+	
+	private org.opensaml.saml1.core.Assertion createAuthnAssertionSAML1(org.opensaml.saml1.core.Subject subject) {
+		org.opensaml.saml1.core.AuthenticationStatement authnStatement = (new org.opensaml.saml1.core.impl.AuthenticationStatementBuilder()).buildObject();
+        authnStatement.setSubject(subject);
+//        authnStatement.setAuthenticationMethod(strAuthMethod);
+        
+        DateTime now = new DateTime();
+        
+        authnStatement.setAuthenticationInstant(now);
+		
+        org.opensaml.saml1.core.Conditions conditions = (new org.opensaml.saml1.core.impl.ConditionsBuilder()).buildObject();
+		conditions.setNotBefore(now.minusMillis(3600000));
+		conditions.setNotOnOrAfter(now.plusMillis(3600000));
+		
+		String issuerURL = "http://www.sopera.de/SAML1";
+		
+		org.opensaml.saml1.core.Assertion assertion = (new org.opensaml.saml1.core.impl.AssertionBuilder()).buildObject();
+		assertion.setID(generator.generateIdentifier());
+		assertion.setIssuer(issuerURL);
+        assertion.setIssueInstant(now);
+        assertion.setVersion(SAMLVersion.VERSION_11);
+
+        assertion.getAuthenticationStatements().add(authnStatement);
+//        assertion.getAttributeStatements().add(attrStatement);
+        assertion.setConditions(conditions);
+		
+		return assertion;
+	}
 }
