@@ -22,7 +22,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<bean id="cancelDelegate"
 		class="org.apache.esb.sts.provider.operation.CancelDelegate"/>
 	<bean id="issueDelegate"
-		class="org.apache.esb.sts.provider.operation.IssueDelegate"/>
+		class="org.apache.esb.sts.provider.operation.IssueDelegate">
+		<property name="saml2" value="false" />
+	</bean>
 	<bean id="keyExchangeTokenDelegate"
 		class="org.apache.esb.sts.provider.operation.KeyExchangeTokenDelegate"/>
 	<bean id="renewDelegate"
