@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBusFactory;
+import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
@@ -31,7 +32,7 @@ public class StsClient implements InitializingBean {
 	public void setStsClient(STSClient stsClient) {
 		this.stsClient = stsClient;
 	}
-	
+
 	public void setIsUsername(boolean isUsername) {
 		this.isUsername = isUsername;
 	}
@@ -39,19 +40,22 @@ public class StsClient implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		new Timer().schedule(new TimerTask() {
-			
+
 			@Override
 			public void run() {
 				try {
-					if(isUsername) {
-						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+					if (isUsername) {
+						DocumentBuilderFactory dbf = DocumentBuilderFactory
+								.newInstance();
 						DocumentBuilder db = dbf.newDocumentBuilder();
 						Document doc = db.newDocument();
 						Element templateElement = doc.createElement("template");
 						doc.appendChild(templateElement);
-						Element el = doc.createElementNS(STSUtils.WST_NS_05_12, "TokenType");
+						Element el = doc.createElementNS(STSUtils.WST_NS_05_12,
+								"TokenType");
 						templateElement.appendChild(el);
-						el = doc.createElementNS(STSUtils.WST_NS_05_12, "OnBehalfOf");
+						el = doc.createElementNS(STSUtils.WST_NS_05_12,
+								"OnBehalfOf");
 						templateElement.appendChild(el);
 						WSSecUsernameToken token = new WSSecUsernameToken();
 						token.setUserInfo("joe", "password");
@@ -60,28 +64,21 @@ public class StsClient implements InitializingBean {
 
 						stsClient.setTemplate(doc.getDocumentElement());
 					} else {
-						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-						DocumentBuilder db = dbf.newDocumentBuilder();
-						Document doc = db.newDocument();
-						Element templateElement = doc.createElement("template");
-						doc.appendChild(templateElement);
-						Element el = doc.createElementNS(STSUtils.WST_NS_05_12, "TokenType");
-						templateElement.appendChild(el);
-						el = doc.createElementNS(STSUtils.WST_NS_05_12, "OnBehalfOf");
-						templateElement.appendChild(el);
-						el = doc.createElementNS(STSUtils.WST_NS_05_12, "KeyType");
-						el.appendChild(doc.createTextNode("PublicKey"));
-						templateElement.appendChild(el);
-
-						stsClient.setTemplate(doc.getDocumentElement());
-				        Map<String, Object> outProps = new HashMap<String, Object>();
-				        Crypto crypto = CryptoFactory.getInstance("clientKeystore.properties"); 
-				        outProps.put(SecurityConstants.STS_TOKEN_CRYPTO, crypto);
-						stsClient.setProperties(outProps);
 						stsClient.setUseCertificateForConfirmationKeyInfo(true);
+						Document doc = DOMUtils.createDocument();
+						Element templateElement = doc.createElementNS(
+								STSUtils.WST_NS_05_12, "template");
+						Element keyTypeElement = doc.createElementNS(
+								STSUtils.WST_NS_05_12, "KeyType");
+						keyTypeElement.appendChild(doc
+								.createTextNode("PublicKey"));
+						templateElement.appendChild(keyTypeElement);
+						stsClient.setTemplate(templateElement);
 					}
-					SecurityToken securityToken = stsClient.requestSecurityToken();
-					System.out.println("securityToken.getId()="+securityToken.getId());
+					SecurityToken securityToken = stsClient
+							.requestSecurityToken();
+					System.out.println("securityToken.getId()="
+							+ securityToken.getId());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -91,19 +88,20 @@ public class StsClient implements InitializingBean {
 
 	}
 
-    public static void main(String args[]) throws Exception {
-        try {
-            SpringBusFactory bf = new SpringBusFactory();
-            URL busFile = STSClient.class.getResource("/META-INF/spring/beans.xml");
-            Bus bus = bf.createBus(busFile.toString());
-            SpringBusFactory.setDefaultBus(bus);
-            Thread.sleep(500000);
-        } catch (UndeclaredThrowableException ex) {
-            ex.getUndeclaredThrowable().printStackTrace();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }  finally {
-            System.exit(0);
-        }
-    }
+	public static void main(String args[]) throws Exception {
+		try {
+			SpringBusFactory bf = new SpringBusFactory();
+			URL busFile = STSClient.class
+					.getResource("/META-INF/spring/beans.xml");
+			Bus bus = bf.createBus(busFile.toString());
+			SpringBusFactory.setDefaultBus(bus);
+			Thread.sleep(500000);
+		} catch (UndeclaredThrowableException ex) {
+			ex.getUndeclaredThrowable().printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			System.exit(0);
+		}
+	}
 }

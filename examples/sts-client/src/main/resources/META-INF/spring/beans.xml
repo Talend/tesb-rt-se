@@ -1,9 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-    xmlns:cxf="http://cxf.apache.org/core"
-    xmlns:p="http://cxf.apache.org/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:p="http://cxf.apache.org/policy"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
@@ -18,26 +16,33 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-policy.xml" />
 
-    <cxf:bus>
-        <cxf:features>
-            <p:policies/>
-            <cxf:logging/>
-        </cxf:features>
-    </cxf:bus>
+	<cxf:bus>
+		<cxf:features>
+			<p:policies />
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
 
-    <!-- Configure based on a reference to an actual defined STSClient bean -->
-    <bean id="stsClient" 
-    	class="org.apache.cxf.ws.security.trust.STSClient">
-    	<constructor-arg ref="cxf"/>
-    	<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl"/>
-    	<property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider"/>
-    	<property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP"/>
-    	<property name="requiresEntropy" value="false" />
-    </bean>
+	<!-- Configure based on a reference to an actual defined STSClient bean -->
+	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" />
+		<property name="serviceName"
+			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
+		<property name="endpointName"
+			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
+		<property name="requiresEntropy" value="false" />
+		<property name="properties">
+			<map>
+				<entry key="ws-security.sts.token.properties" value="clientKeystore.properties" />
+			</map>
+		</property>
 
-    <bean class="org.apache.esb.sts.client.StsClient">
-    	<property name="stsClient" ref="stsClient"/>
-    	<property name="isUsername" value="true"/>
-    </bean>
+	</bean>
+
+	<bean class="org.apache.esb.sts.client.StsClient">
+		<property name="stsClient" ref="stsClient" />
+		<property name="isUsername" value="false" />
+	</bean>
 
 </beans>
