@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-security</artifactId>
-			<version>${cxf.version}</version>
+			<version>${cxf.version}-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -49,6 +49,15 @@
 			</exclusions>
 		</dependency>
     </dependencies>
+
+	<repositories>
+		<repository>
+			<id>CXF Snapshot</id>
+			<name>CXF Snapshot Repository for Maven</name>
+			<url>http://repository.apache.org/snapshots</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
