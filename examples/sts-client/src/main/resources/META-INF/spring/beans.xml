@@ -69,7 +69,7 @@
 	</bean>
 	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
 
-	<bean class="org.apache.esb.sts.client.StsClient">
+	<bean class="org.apache.esb.sts.client.StsClientInvoker">
 		<property name="stsClientUsernameToken" ref="stsClientUsernameToken" />
 		<!-- property name="stsClientCertificate" ref="stsClientCertificate" /-->
 

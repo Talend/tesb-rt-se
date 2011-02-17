@@ -11,13 +11,12 @@ import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.trust.STSUtils;
-import org.apache.ws.security.message.WSSecUsernameToken;
 import org.opensaml.common.xml.SAMLConstants;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class StsClient extends TimerTask implements InitializingBean {
+public class StsClientInvoker extends TimerTask implements InitializingBean {
 
 	private static final String KEY_TYPE_PUBLIC_KEY =
 		"http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey";
@@ -33,7 +32,6 @@ public class StsClient extends TimerTask implements InitializingBean {
 	public void setStsClientCertificate(STSClient stsClientCertificate) {
 		this.stsClientCertificate = stsClientCertificate;
 	}
-
 
 	public void setIsSaml11(boolean isSaml11) {
 		this.isSaml11 = isSaml11;
@@ -100,19 +98,11 @@ public class StsClient extends TimerTask implements InitializingBean {
 	}
 
 	public static void main(String args[]) throws Exception {
-		try {
-			SpringBusFactory bf = new SpringBusFactory();
-			URL busFile = STSClient.class
-					.getResource("/META-INF/spring/beans.xml");
-			Bus bus = bf.createBus(busFile.toString());
-			SpringBusFactory.setDefaultBus(bus);
-			Thread.sleep(500000);
-		} catch (UndeclaredThrowableException ex) {
-			ex.getUndeclaredThrowable().printStackTrace();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			System.exit(0);
-		}
+		SpringBusFactory bf = new SpringBusFactory();
+		URL busFile = StsClientInvoker.class
+				.getResource("/META-INF/spring/beans.xml");
+		Bus bus = bf.createBus(busFile.toString());
+		SpringBusFactory.setDefaultBus(bus);
+		Thread.sleep(500000);
 	}
 }
