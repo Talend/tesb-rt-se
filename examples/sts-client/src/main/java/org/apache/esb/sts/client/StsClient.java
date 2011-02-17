@@ -5,9 +5,6 @@ import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.helpers.DOMUtils;
@@ -20,19 +17,23 @@ import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class StsClient implements InitializingBean {
+public class StsClient extends TimerTask implements InitializingBean {
 
-	private STSClient stsClient;
-	private boolean isUsername;
+	private static final String KEY_TYPE_PUBLIC_KEY =
+		"http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey";
+
+	private STSClient stsClientUsernameToken;
+	private STSClient stsClientCertificate;
 	private boolean isSaml11;
 
-	public void setStsClient(STSClient stsClient) {
-		this.stsClient = stsClient;
+	public void setStsClientUsernameToken(STSClient stsClientUsernameToken) {
+		this.stsClientUsernameToken = stsClientUsernameToken;
 	}
 
-	public void setIsUsername(boolean isUsername) {
-		this.isUsername = isUsername;
+	public void setStsClientCertificate(STSClient stsClientCertificate) {
+		this.stsClientCertificate = stsClientCertificate;
 	}
+
 
 	public void setIsSaml11(boolean isSaml11) {
 		this.isSaml11 = isSaml11;
@@ -40,63 +41,62 @@ public class StsClient implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		new Timer().schedule(new TimerTask() {
+		new Timer().schedule(this, 1000);
+	}
+	
+	@Override
+	public void run() {
+		STSClient stsClient;
+		try {
+			Element templateElement = getTemplate();
+			if (stsClientUsernameToken != null) {
+				stsClient = stsClientUsernameToken;
+				
+//				Element el = templateElement.getOwnerDocument().createElementNS(STSUtils.WST_NS_05_12,
+//						"OnBehalfOf");
+//				templateElement.appendChild(el);
+//				WSSecUsernameToken token = new WSSecUsernameToken();
+//				token.setUserInfo("joe", "password");
+//				token.prepare(templateElement.getOwnerDocument());
+//				el.appendChild(token.getUsernameTokenElement());
+			} else {
+				stsClient = stsClientCertificate;
+				
+				Element keyTypeElement = templateElement.getOwnerDocument().createElementNS(
+						STSUtils.WST_NS_05_12, "KeyType");
+				keyTypeElement.appendChild(templateElement.getOwnerDocument()
+						.createTextNode(KEY_TYPE_PUBLIC_KEY));
+				templateElement.appendChild(keyTypeElement);
 
-			@Override
-			public void run() {
-				String tokenType = isSaml11
-					? SAMLConstants.SAML1_NS
-					: SAMLConstants.SAML20_NS;
-				try {
-					if (isUsername) {
-						DocumentBuilderFactory dbf = DocumentBuilderFactory
-								.newInstance();
-						DocumentBuilder db = dbf.newDocumentBuilder();
-						Document doc = db.newDocument();
-						Element templateElement = doc.createElement("template");
-						doc.appendChild(templateElement);
-						Element el = doc.createElementNS(STSUtils.WST_NS_05_12,
-								"TokenType");
-						el.appendChild(doc
-								.createTextNode(tokenType));
-						templateElement.appendChild(el);
-						el = doc.createElementNS(STSUtils.WST_NS_05_12,
-								"OnBehalfOf");
-						templateElement.appendChild(el);
-						WSSecUsernameToken token = new WSSecUsernameToken();
-						token.setUserInfo("joe", "password");
-						token.prepare(doc);
-						el.appendChild(token.getUsernameTokenElement());
-
-						stsClient.setTemplate(doc.getDocumentElement());
-					} else {
-						stsClient.setUseCertificateForConfirmationKeyInfo(true);
-						Document doc = DOMUtils.createDocument();
-						Element templateElement = doc.createElement(
-								"template");
-						Element el = doc.createElementNS(STSUtils.WST_NS_05_12,
-								"TokenType");
-						el.appendChild(doc
-								.createTextNode(tokenType));
-						templateElement.appendChild(el);
-						Element keyTypeElement = doc.createElementNS(
-								STSUtils.WST_NS_05_12, "KeyType");
-						keyTypeElement.appendChild(doc
-								.createTextNode("PublicKey"));
-						templateElement.appendChild(keyTypeElement);
-						stsClient.setTemplate(templateElement);
-					}
-					SecurityToken securityToken = stsClient
-							.requestSecurityToken();
-					System.out.println("securityToken.getId()="
-							+ securityToken.getId());
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				stsClient.setUseCertificateForConfirmationKeyInfo(true);
 			}
-		}, 1000);
+			
+			stsClient.setTemplate(templateElement);
 
+			SecurityToken securityToken = stsClient.requestSecurityToken();
+			System.out.println("securityToken.getId()="
+					+ securityToken.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private Element getTemplate() {
+		String tokenType = isSaml11
+			? SAMLConstants.SAML1_NS
+			: SAMLConstants.SAML20_NS;
+
+		Document doc = DOMUtils.createDocument();
+		Element templateElement = doc.createElement("template");
+		doc.appendChild(templateElement);
+		Element el = doc.createElementNS(STSUtils.WST_NS_05_12,
+				"TokenType");
+		el.appendChild(doc
+				.createTextNode(tokenType));
+		templateElement.appendChild(el);
+	
+		return templateElement;
 	}
 
 	public static void main(String args[]) throws Exception {

@@ -72,20 +72,17 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during unregister endpoint. "
-								+ e.getMessage());
+						"ServiceLocator Exception thrown during unregister endpoint. ", e);
 			}
 		} catch (InterruptedException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during unregister endpoint. "
-								+ e.getMessage());
+						"Interrupted Exception thrown during unregister endpoint.", e);
 			}
 		} catch (IOException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during unregister endpoint. "
-								+ e.getMessage());
+						"Interrupted Exception thrown during unregister endpoint.", e);
 			}
 		}
 	
