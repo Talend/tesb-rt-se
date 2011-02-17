@@ -24,7 +24,23 @@
 	</cxf:bus>
 
 	<!-- Configure based on a reference to an actual defined STSClient bean -->
-	<bean id="stsClient" class="org.apache.cxf.ws.security.trust.STSClient">
+	<bean id="stsClientUsernameToken" class="org.apache.cxf.ws.security.trust.STSClient">
+		<constructor-arg ref="cxf" />
+		<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" />
+		<property name="serviceName"
+			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
+		<property name="endpointName"
+			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
+		<property name="requiresEntropy" value="false" />
+		<property name="outInterceptors">
+			<list>
+				<bean class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor" />
+				<ref bean="wss4jOutConfiguration" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stsClientCertificate" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
 		<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" />
 		<property name="serviceName"
@@ -37,12 +53,29 @@
 				<entry key="ws-security.sts.token.properties" value="clientKeystore.properties" />
 			</map>
 		</property>
-
 	</bean>
 
+	<bean id="wss4jOutConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+		<property name="properties">
+			<map>
+				<entry key="action" value="UsernameToken Timestamp" />
+				<entry key="user" value="joe" />
+				<entry key="passwordType" value="PasswordDigest" />
+				<entry>
+					<key>
+						<value>passwordCallbackRef</value>
+					</key>
+					<ref bean="passwordCallback" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
+
 	<bean class="org.apache.esb.sts.client.StsClient">
-		<property name="stsClient" ref="stsClient" />
-		<property name="isUsername" value="true" />
+		<!-- property name="stsClientUsernameToken" ref="stsClientUsernameToken" /-->
+		<property name="stsClientCertificate" ref="stsClientCertificate" />
+
 		<property name="isSaml11" value="true" />
 	</bean>
 
