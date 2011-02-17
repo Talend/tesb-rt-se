@@ -35,7 +35,7 @@ public class LocatorFeature extends AbstractFeature {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
-							"ServiceLocator Exception thrown during initialization of the locator feature.", e);
+							"IO Exception thrown during initialization of the locator feature.", e);
 				}
 			}
 		} catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class LocatorFeature extends AbstractFeature {
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during initialization of the locator feature.", e);
+						"ServiceLocator Exception thrown during initialization of the locator feature.", e);
 			}
 		}
 	}
