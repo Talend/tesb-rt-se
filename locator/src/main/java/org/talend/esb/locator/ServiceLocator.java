@@ -253,6 +253,17 @@ public class ServiceLocator {
 
 	}
 
+	/**
+	 * Specify the endpoints of all the instances belonging to the service locator ensemble this
+	 * object might potentially be talking to when {@link #connect() connecting}. The object
+	 * will one by one pick an endpoint (the order is non-deterministic) to connect to the service
+	 * locator until a connection is established.
+	 * 
+	 * @param endpoints comma separated list of endpoints,each corresponding to a service locator
+	 *           instance. Each endpoint is specified as a host:port pair. At least one endpoint
+	 *           must be specified. Valid exmaples are: "127.0.0.1:2181" or
+	 *           "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
+	 */
 	public void setLocatorEndpoints(String endpoints) {
 		locatorEndpoints = endpoints;
 		if (LOG.isLoggable(Level.FINE)) {
@@ -260,6 +271,13 @@ public class ServiceLocator {
 		}
 	}
 
+	/**
+	 * Specify the time out of the session established at the server. The session is kept alive by
+	 * requests sent by this client object. If the session is idle for a period of time that would
+	 * timeout the session, the client will send a PING request to keep the session alive.
+	 * 
+	 * @param sessionTimeout timeout in milliseconds, must be greater than zero and less than 60000. 
+	 */
 	public void setSessionTimeout(int timeout) {
 		sessionTimeout = timeout;
 		if (LOG.isLoggable(Level.FINE)) {
@@ -267,6 +285,11 @@ public class ServiceLocator {
 		}
 	}
 
+	/**
+	 * Specify the time this client waits {@link #connect() for a connection to get established}.
+	 * 
+	 * @param connectionTimeout timeout in milliseconds, must be greater than zero
+	 */
 	public void setConnectionTimeout(int timeout) {
 		connectionTimeout = timeout;
 		if (LOG.isLoggable(Level.FINE)) {
