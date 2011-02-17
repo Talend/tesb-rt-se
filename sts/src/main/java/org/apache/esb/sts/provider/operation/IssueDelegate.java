@@ -56,7 +56,7 @@ public class IssueDelegate implements IssueOperation {
 	private static final org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory WSSE_FACTORY = new org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory();
 	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 
-	private boolean saml2;
+	private static boolean saml2;
 	
 	private SecureRandomIdentifierGenerator generator;
 	
@@ -140,9 +140,14 @@ public class IssueDelegate implements IssueOperation {
 				.createRequestSecurityTokenResponseType();
 
 		// TokenType
-		JAXBElement<String> tokenType = WS_TRUST_FACTORY
-			.createTokenType(SAMLConstants.SAML20_NS);
-		response.getAny().add(tokenType);
+		if(saml2) {	
+			JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(SAMLConstants.SAML20_NS);
+			response.getAny().add(tokenType);
+		}
+		else {
+			JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(SAMLConstants.SAML1_NS);
+			response.getAny().add(tokenType);
+		}
 
 		// RequestedSecurityToken
 		RequestedSecurityTokenType requestedTokenType = WS_TRUST_FACTORY
@@ -243,7 +248,6 @@ public class IssueDelegate implements IssueOperation {
 		return assertion;
 	}
 
-	
 	private org.opensaml.saml1.core.Assertion createSAML1Assertion(String nameId) {
 		org.opensaml.saml1.core.Subject subject = createSubjectSAML1(nameId);
 		return createAuthnAssertionSAML1(subject);
