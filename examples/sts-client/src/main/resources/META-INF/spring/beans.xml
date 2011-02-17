@@ -58,14 +58,11 @@
 	<bean id="wss4jOutConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
 		<property name="properties">
 			<map>
-				<entry key="action" value="UsernameToken Timestamp" />
+				<entry key="action" value="UsernameToken" />
 				<entry key="user" value="joe" />
-				<entry key="passwordType" value="PasswordDigest" />
-				<entry>
-					<key>
-						<value>passwordCallbackRef</value>
-					</key>
-					<ref bean="passwordCallback" />
+				<entry key="passwordType" value="PasswordText" />
+				<entry key="passwordCallbackRef">
+					<ref bean="passwordCallback"/>
 				</entry>
 			</map>
 		</property>
@@ -73,8 +70,8 @@
 	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
 
 	<bean class="org.apache.esb.sts.client.StsClient">
-		<!-- property name="stsClientUsernameToken" ref="stsClientUsernameToken" /-->
-		<property name="stsClientCertificate" ref="stsClientCertificate" />
+		<property name="stsClientUsernameToken" ref="stsClientUsernameToken" />
+		<!-- property name="stsClientCertificate" ref="stsClientCertificate" /-->
 
 		<property name="isSaml11" value="true" />
 	</bean>
