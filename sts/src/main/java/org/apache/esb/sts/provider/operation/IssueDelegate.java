@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.esb.sts.provider.ProviderPasswordCallback;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
@@ -56,18 +57,25 @@ public class IssueDelegate implements IssueOperation {
 	private static final org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory WSSE_FACTORY = new org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory();
 	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 
-	private static boolean saml2;
+	private boolean saml2;
 	
+	private ProviderPasswordCallback passwordCallback;
+
 	private SecureRandomIdentifierGenerator generator;
-	
-	
+
 	public void setSaml2(boolean saml2) {
 		this.saml2 = saml2;
+	}
+
+	public void setPasswordCallback(ProviderPasswordCallback passwordCallback) {
+		this.passwordCallback = passwordCallback;
 	}
 
 	@Override
 	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
+		
+		System.out.println("passwordCallback.getUsername()="+passwordCallback.getUsername());
 		
 		for (Object requestObject : request.getAny()) {
 			System.out.println("requestObject="+requestObject.getClass().getName());
@@ -134,20 +142,14 @@ public class IssueDelegate implements IssueOperation {
 		return factory.newDocumentBuilder();
 	}
 
-	private static RequestSecurityTokenResponseType wrapAssertionToResponse(
+	private RequestSecurityTokenResponseType wrapAssertionToResponse(
 			Element samlAssertion) {
 		RequestSecurityTokenResponseType response = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseType();
 
 		// TokenType
-		if(saml2) {	
-			JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(SAMLConstants.SAML20_NS);
-			response.getAny().add(tokenType);
-		}
-		else {
-			JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(SAMLConstants.SAML1_NS);
-			response.getAny().add(tokenType);
-		}
+		JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(saml2 ? SAMLConstants.SAML20_NS : SAMLConstants.SAML1_NS);
+		response.getAny().add(tokenType);
 
 		// RequestedSecurityToken
 		RequestedSecurityTokenType requestedTokenType = WS_TRUST_FACTORY
