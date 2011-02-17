@@ -17,7 +17,7 @@ public class ProviderPasswordCallback implements CallbackHandler {
 			WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
 
 			int usage = pc.getUsage();
-			if (usage == WSPasswordCallback.USERNAME_TOKEN) {
+			if (usage == WSPasswordCallback.USERNAME_TOKEN_UNKNOWN) {
 		        username = pc.getIdentifier();
 		        //GlobalUser.setUserPassword(pc.getPassword());
 			} else if (usage == WSPasswordCallback.SIGNATURE) {
