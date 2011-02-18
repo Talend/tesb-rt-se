@@ -1,6 +1,5 @@
 package org.apache.esb.sts.client;
 
-import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,7 +10,15 @@ import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.ws.security.tokenstore.SecurityToken;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.trust.STSUtils;
+import org.opensaml.Configuration;
+import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.xml.SAMLConstants;
+import org.opensaml.saml2.core.Assertion;
+import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.io.Unmarshaller;
+import org.opensaml.xml.io.UnmarshallerFactory;
+import org.opensaml.xml.io.UnmarshallingException;
+import org.opensaml.xml.util.XMLHelper;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -74,10 +81,44 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 			SecurityToken securityToken = stsClient.requestSecurityToken();
 			System.out.println("securityToken.getId()="
 					+ securityToken.getId());
+			
+			Assertion assertion = getSAMLAssertionResponse(securityToken);
+			
+			System.out.println("assertion.getID() = " + assertion.getID());
+			System.out.println("assertion.getIssuer().getValue()" + assertion.getIssuer().getValue());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private Assertion getSAMLAssertionResponse(SecurityToken securityToken) {
+		
+		Element token = securityToken.getToken();
+		
+		System.out.println(XMLHelper.prettyPrintXML(token));
+		
+		try {
+			DefaultBootstrap.bootstrap();
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			throw new RuntimeException("OpenSAML configuration failed");
+		}
+		
+		UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
+		Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(token);
+		
+		Assertion assertion;
+		
+		try {
+			assertion = (Assertion) unmarshaller.unmarshall(token);
+		} catch (UnmarshallingException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unmarshalling of token failed");
+		}
+		
+		return assertion;
 	}
 
 	private Element getTemplate() {
