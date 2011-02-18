@@ -166,7 +166,12 @@ public class IssueDelegate implements IssueOperation {
 			createSecurityTokenReferenceType();
 		KeyIdentifierType keyIdentifierType = WSSE_FACTORY
 			.createKeyIdentifierType();
-		keyIdentifierType.setValue(samlAssertion.getAttribute(Assertion.ID_ATTRIB_NAME));
+		if(saml2) {
+			keyIdentifierType.setValue(samlAssertion.getAttribute(Assertion.ID_ATTRIB_NAME));
+		}
+		else {
+			keyIdentifierType.setValue(samlAssertion.getAttribute(org.opensaml.saml1.core.Assertion.ID_ATTRIB_NAME));
+		}
 		JAXBElement<KeyIdentifierType> keyIdentifier = WSSE_FACTORY
 			.createKeyIdentifier(keyIdentifierType);
 		securityTokenReferenceType.getAny().add(keyIdentifier);
