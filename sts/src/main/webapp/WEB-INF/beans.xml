@@ -52,6 +52,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 						</entry>
 					</map>
 				</constructor-arg>
+				<property name="ignoreActions" value="true"/>
 			</bean>
 		</jaxws:inInterceptors>
 	</jaxws:endpoint>
