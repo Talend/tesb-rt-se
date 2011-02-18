@@ -73,7 +73,6 @@ public class IssueDelegate implements IssueOperation {
 	private SecureRandomIdentifierGenerator generator;
 	
 	private static final String X_509 = "X.509";
-	
 
 	public void setSaml2(boolean saml2) {
 		this.saml2 = saml2;
@@ -87,7 +86,7 @@ public class IssueDelegate implements IssueOperation {
 	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
 		
-		String username = passwordCallback.getUsername();
+		String username = passwordCallback.resetUsername();
 		
 		for (Object requestObject : request.getAny()) {
 			UseKeyType useKeyType = extractType(requestObject, UseKeyType.class);

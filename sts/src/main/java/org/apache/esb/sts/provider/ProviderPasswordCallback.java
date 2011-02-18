@@ -28,7 +28,7 @@ public class ProviderPasswordCallback implements CallbackHandler {
 		}
     }
 
-	public String getUsername() {
+	public String resetUsername() {
 		return username;
 	}
 
