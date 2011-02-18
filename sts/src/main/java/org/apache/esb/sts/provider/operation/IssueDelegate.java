@@ -2,6 +2,10 @@ package org.apache.esb.sts.provider.operation;
 
 import java.io.ByteArrayInputStream;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.parsers.DocumentBuilder;
@@ -18,6 +22,7 @@ import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseTy
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedReferenceType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
+import org.oasis_open.docs.ws_sx.ws_trust._200512.UseKeyType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.KeyIdentifierType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.SecurityTokenReferenceType;
 import org.opensaml.DefaultBootstrap;
@@ -51,13 +56,6 @@ import org.w3._2000._09.xmldsig.KeyInfoType;
 import org.w3._2000._09.xmldsig.X509DataType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import javax.xml.namespace.QName;
-import org.oasis_open.docs.ws_sx.ws_trust._200512.UseKeyType;
-
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.List;
 
 
 public class IssueDelegate implements IssueOperation {
@@ -74,14 +72,6 @@ public class IssueDelegate implements IssueOperation {
 
 	private SecureRandomIdentifierGenerator generator;
 	
-	public static final QName X509DATA = new QName(
-			"http://www.w3.org/2000/09/xmldsig#", "X509Data");
-	public static final QName X509CERTIFICATE = new QName(
-			"http://www.w3.org/2000/09/xmldsig#", "X509Certificate");
-	public static final QName KeyInfo = new QName(
-			"http://www.w3.org/2000/09/xmldsig#", "KeyInfo");
-	public static final QName UseKey = new QName(
-			"http://docs.oasis-open.org/ws-sx/ws-trust/200512", "UseKey");
 	private static final String X_509 = "X.509";
 	
 
@@ -97,31 +87,22 @@ public class IssueDelegate implements IssueOperation {
 	public RequestSecurityTokenResponseCollectionType issue(
 			RequestSecurityTokenType request) {
 		
-		System.out.println("passwordCallback.getUsername()="+passwordCallback.getUsername());
+		String username = passwordCallback.getUsername();
 		
 		for (Object requestObject : request.getAny()) {
-			System.out.println("requestObject="+requestObject.getClass().getName());
-			if(requestObject instanceof JAXBElement) {
-				JAXBElement<?> jaxbElement = (JAXBElement<?>)requestObject;
-				
-				QName UseKeyName = jaxbElement.getName();
-				if (UseKey.equals(UseKeyName)) {
-					X509Certificate certificate = parseCertificate(jaxbElement) ;
-					System.out
-							.println("IssuerX500Principal: "
-									+ certificate.getIssuerX500Principal()
-											.getName());
+			UseKeyType useKeyType = extractType(requestObject, UseKeyType.class);
+			if(null != useKeyType) {
+				try {
+					X509Certificate certificate = parseCertificate(useKeyType);
+					if (certificate != null) {
+						username = certificate.getIssuerX500Principal().getName();
+					}
+				} catch (CertificateException e) {
+					e.printStackTrace();
 				}
-				
-				
-				System.out.println("jaxbElement.getName().getLocalPart()="+jaxbElement.getName().getLocalPart());
-				System.out.println("jaxbElement.getDeclaredType()="+jaxbElement.getDeclaredType());
-				System.out.println("jaxbElement.getValue()="+jaxbElement.getValue());
-			} else if (requestObject instanceof Element) {
-				Element element = (Element)requestObject;
-				System.out.println("Element="+element.getNodeName());
 			}
 		}
+
 		try {
 			generator = new SecureRandomIdentifierGenerator();
 		} catch (NoSuchAlgorithmException e2) {
@@ -133,11 +114,11 @@ public class IssueDelegate implements IssueOperation {
 		Document assertionDocument = null;
 		try {
 			if(saml2) {
-				Assertion samlAssertion = createSAML2Assertion("dummy");
+				Assertion samlAssertion = createSAML2Assertion(username);
 				assertionDocument = toDom(samlAssertion);
 			}
 			else {
-				org.opensaml.saml1.core.Assertion samlAssertion = createSAML1Assertion("dummy");
+				org.opensaml.saml1.core.Assertion samlAssertion = createSAML1Assertion(username);
 				assertionDocument = toDom(samlAssertion);
 			}
 		} catch (Exception e) {
@@ -348,31 +329,20 @@ public class IssueDelegate implements IssueOperation {
 		return assertion;
 	}
 	
-	private X509Certificate parseCertificate(JAXBElement<?> jaxbElement) {
-		UseKeyType useKeyType = (UseKeyType) jaxbElement.getValue();
-		JAXBElement<?> keyInfoElement = (JAXBElement<?>) useKeyType.getAny();
-		KeyInfoType keyInfo = (KeyInfoType) ((keyInfoElement).getValue());
-		for (Object x509DataObject : keyInfo.getContent()) {
-			JAXBElement<?> x509DataElement = (JAXBElement<?>) x509DataObject;
-			if (X509DATA.equals(x509DataElement.getName())) {
-				X509DataType x509Data = (X509DataType) x509DataElement
-						.getValue();
-				List<Object> dataList = x509Data
-						.getX509IssuerSerialOrX509SKIOrX509SubjectName();
-				for (Object x509Object : dataList) {
-					if (x509Object instanceof JAXBElement<?>) {
-						JAXBElement<?> x509Item = (JAXBElement<?>) x509Object;
-						byte[] x509 = (byte[]) ((x509Item).getValue());
-						try {
-							CertificateFactory cf = CertificateFactory
-									.getInstance(X_509);
-							Certificate certificate = cf
-									.generateCertificate(new ByteArrayInputStream(
-											x509));
+	private X509Certificate parseCertificate(UseKeyType useKeyType) throws CertificateException {
+		
+		KeyInfoType keyInfoType = extractType(useKeyType.getAny(), KeyInfoType.class);
+		if(null != useKeyType) {
+			for (Object keyInfoContent : keyInfoType.getContent()) {
+				X509DataType x509DataType = extractType(keyInfoContent, X509DataType.class);
+				if (null != x509DataType) {
+					for (Object x509Object : x509DataType.getX509IssuerSerialOrX509SKIOrX509SubjectName()) {
+						byte[] x509 = extractType(x509Object, byte[].class);
+						if(null != x509) {
+							CertificateFactory cf = CertificateFactory.getInstance(X_509);
+							Certificate certificate = cf.generateCertificate(new ByteArrayInputStream(x509));
 							X509Certificate ret = (X509Certificate) certificate;
 							return ret;
-						} catch (Exception e) {
-							e.printStackTrace();
 						}
 					}
 				}
@@ -381,4 +351,14 @@ public class IssueDelegate implements IssueOperation {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private static final <T> T extractType(Object param, Class<T> clazz) {
+		if(param instanceof JAXBElement) {
+			JAXBElement<?> jaxbElement = (JAXBElement<?>)param;
+			if (clazz == jaxbElement.getDeclaredType()) {
+				return (T)jaxbElement.getValue();
+			}
+		}
+		return null;
+	}
 }
