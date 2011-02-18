@@ -8,10 +8,17 @@
   <version>4.0</version>
   <name>Parent pom for the Talend ESB runtime examples</name>
 
+  <parent>
+    <groupId>org.talend.esb</groupId>
+    <artifactId>esb-parent</artifactId>
+    <version>4.0</version>
+  </parent>
+
   <modules>
     <module>app-reservation</module>
     <module>crmservice</module>
     <module>reservationservice</module>
+    <module>locator</module>
   </modules>
 
 </project>

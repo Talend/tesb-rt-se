@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.talend.esb.examples.locator</groupId>
+    <artifactId>locator-demo</artifactId>
+    <name>Demo for using the locator</name>
+    <version>4.0</version>
+    <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.talend.esb</groupId>
+    <artifactId>esb-examples-parent</artifactId>
+    <version>4.0</version>
+  </parent>
+
+  <modules>
+    <module>common</module>
+    <module>service</module>
+    <module>war</module>
+  </modules>
+
+<!--
+    <dependencies>
+        <dependency>
+		    <groupId>org.talend.esb</groupId>
+		    <artifactId>locator</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <dependency>
+        	<groupId>org.apache.cxf</groupId>
+        	<artifactId>cxf-rt-transports-http-jetty</artifactId>
+        	<version>2.3.1</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+    </dependencies>
+-->
+</project>

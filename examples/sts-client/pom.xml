@@ -14,17 +14,17 @@
     <version>4.0.0</version>
 
 	<properties>
-		<cxf.version>2.3.2</cxf.version>
-        <bnd.version>2.1.0</bnd.version>
+		<cxf.version>2.4.0-SNAPSHOT</cxf.version>
+		<spring.version>2.5.6</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-security</artifactId>
@@ -33,6 +33,11 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-policy</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
 		<!-- opensaml -->
@@ -48,7 +53,33 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- other stuff -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.4.3</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+
     </dependencies>
+
+	<repositories>
+		<repository>
+			<id>CXF Snapshot</id>
+			<url>http://repository.apache.org/snapshots</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>Internet2</id>
+			<url>http://shibboleth.internet2.edu/downloads/maven2/</url>
+		</repository>
+	</repositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -80,7 +111,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>${bnd.version}</version>
+                <version>2.1.0</version>
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
