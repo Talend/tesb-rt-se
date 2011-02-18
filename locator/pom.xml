@@ -4,7 +4,7 @@
     <artifactId>locator</artifactId>
     <name>Service Locator Client for CXF</name>
     <version>4.0</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -98,8 +98,8 @@
         </repository>
     </repositories>
 
-    <build>
-        <defaultGoal>install</defaultGoal>
+  <build>
+    <defaultGoal>install</defaultGoal>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -118,6 +118,33 @@
                     </configuration>
                 </plugin>
             </plugins>
-        </pluginManagement>
-    </build>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Import-Package>
+              org.apache.zookeeper,
+              javax.xml.namespace,
+              javax.xml.ws,
+              org.apache.cxf,
+              org.apache.cxf.clustering,
+              org.apache.cxf.endpoint,
+              org.apache.cxf.feature,
+              org.apache.cxf.interceptor,
+              org.apache.cxf.jaxws,
+              org.apache.cxf.service.model,
+              org.apache.zookeeper.data
+            </Import-Package>
+            <Export-Package>
+              org.talend.esb.locator
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
