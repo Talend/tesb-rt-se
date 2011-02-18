@@ -15,8 +15,6 @@
 
   <modules>
     <module>locator</module>
-    <module>locator-sample</module>
-    <module>locator-sample-tomcat</module>
     <module>examples</module>
   </modules>
 
@@ -86,7 +84,11 @@
             <version>2.3.4</version>
             <extensions>true</extensions>
         </plugin>
-
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.2</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

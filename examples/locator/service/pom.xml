@@ -59,6 +59,13 @@
           </instructions>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>demo.service.Server</mainClass>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
