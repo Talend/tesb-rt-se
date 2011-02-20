@@ -77,6 +77,10 @@ public class ServiceLocator {
 
 	private volatile ZooKeeper zk;
 
+	public ServiceLocator() {
+		super();
+	}
+
 	/**
 	 * Establish a connection to the Service Locator. After successful
 	 * connection the specified {@link PostConnectAction} is run. If the session
