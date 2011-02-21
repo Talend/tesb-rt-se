@@ -8,13 +8,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-
 import javax.xml.namespace.QName;
-
 import junit.framework.TestCase;
-
 import org.junit.Test;
 
 public class CancelDelegateTest {
+
+	@Test
+	public void doTest() {
+		
+	}
 
 }
