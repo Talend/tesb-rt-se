@@ -48,14 +48,7 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-<!--
-            <Import-Package>
-              ...
-            </Import-Package>
-            <Export-Package>
-              ...
-            </Export-Package>
--->
+            <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
           </instructions>
         </configuration>
       </plugin>
