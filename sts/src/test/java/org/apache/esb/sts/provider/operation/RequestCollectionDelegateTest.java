@@ -12,5 +12,9 @@ import org.junit.Test;
 
 
 public class RequestCollectionDelegateTest {
-
+	
+	@Test
+	public void doTest() {
+		
+	}
 }

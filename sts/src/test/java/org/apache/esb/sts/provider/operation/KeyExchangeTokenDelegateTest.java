@@ -11,5 +11,9 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 public class KeyExchangeTokenDelegateTest {
-
+	
+	@Test
+	public void doTest() {
+		
+	}
 }

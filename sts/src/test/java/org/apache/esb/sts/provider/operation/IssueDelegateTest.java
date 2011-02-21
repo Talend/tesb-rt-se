@@ -1,6 +1,7 @@
 package org.apache.esb.sts.provider.operation;
 
 import org.apache.esb.sts.provider.ProviderPasswordCallback;
+import org.easymock.EasyMock;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -42,6 +43,7 @@ public class IssueDelegateTest {
 			id.setPasswordCallback(passwordCallback);
 			id.setSaml2(false);
 			RequestSecurityTokenType request = createMock(RequestSecurityTokenType.class);
+			EasyMock.expect(request.getAny()).andReturn(new ArrayList<Object>());
 			id.issue(request);
 		} catch(NullPointerException e) {
 			

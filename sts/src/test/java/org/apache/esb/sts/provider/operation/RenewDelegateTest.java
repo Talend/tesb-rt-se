@@ -13,4 +13,8 @@ import org.junit.Test;
 
 public class RenewDelegateTest {
 	
+	@Test
+	public void doTest() {
+		
+	}
 }
