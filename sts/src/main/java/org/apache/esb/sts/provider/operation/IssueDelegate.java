@@ -15,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.esb.sts.provider.ProviderPasswordCallback;
+import org.apache.esb.sts.provider.STSException;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
 import org.joda.time.DateTime;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
@@ -89,24 +90,24 @@ public class IssueDelegate implements IssueOperation {
 		String username = passwordCallback.resetUsername();
 		
 		for (Object requestObject : request.getAny()) {
-			UseKeyType useKeyType = extractType(requestObject, UseKeyType.class);
-			if(null != useKeyType) {
-				try {
-					X509Certificate certificate = parseCertificate(useKeyType);
-					if (certificate != null) {
-						username = certificate.getIssuerX500Principal().getName();
-					}
-				} catch (CertificateException e) {
-					e.printStackTrace();
+			try {
+				X509Certificate certificate = getCertificateFromRequest(requestObject);
+				if (certificate != null) {
+					username = certificate.getIssuerX500Principal().getName();
 				}
+			} catch (CertificateException e) {
+				throw new STSException("Can't extract X509 certificate from request", e);
 			}
+		}
+		
+		if(username == null) {
+			throw new STSException("No credentials provided");
 		}
 
 		try {
 			generator = new SecureRandomIdentifierGenerator();
-		} catch (NoSuchAlgorithmException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			throw new STSException("Can't initialize secure random identifier generator", e);
 		}
 		
 		// Convert SAML to DOM
@@ -121,8 +122,7 @@ public class IssueDelegate implements IssueOperation {
 				assertionDocument = toDom(samlAssertion);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new STSException("Can't serialize SAML assertion", e);
 		}
 
 		RequestSecurityTokenResponseType response = wrapAssertionToResponse(
@@ -328,20 +328,22 @@ public class IssueDelegate implements IssueOperation {
 		return assertion;
 	}
 	
-	private X509Certificate parseCertificate(UseKeyType useKeyType) throws CertificateException {
-		
-		KeyInfoType keyInfoType = extractType(useKeyType.getAny(), KeyInfoType.class);
+	private X509Certificate getCertificateFromRequest(Object requestObject) throws CertificateException {
+		UseKeyType useKeyType = extractType(requestObject, UseKeyType.class);
 		if(null != useKeyType) {
-			for (Object keyInfoContent : keyInfoType.getContent()) {
-				X509DataType x509DataType = extractType(keyInfoContent, X509DataType.class);
-				if (null != x509DataType) {
-					for (Object x509Object : x509DataType.getX509IssuerSerialOrX509SKIOrX509SubjectName()) {
-						byte[] x509 = extractType(x509Object, byte[].class);
-						if(null != x509) {
-							CertificateFactory cf = CertificateFactory.getInstance(X_509);
-							Certificate certificate = cf.generateCertificate(new ByteArrayInputStream(x509));
-							X509Certificate ret = (X509Certificate) certificate;
-							return ret;
+			KeyInfoType keyInfoType = extractType(useKeyType.getAny(), KeyInfoType.class);
+			if(null != keyInfoType) {
+				for (Object keyInfoContent : keyInfoType.getContent()) {
+					X509DataType x509DataType = extractType(keyInfoContent, X509DataType.class);
+					if (null != x509DataType) {
+						for (Object x509Object : x509DataType.getX509IssuerSerialOrX509SKIOrX509SubjectName()) {
+							byte[] x509 = extractType(x509Object, byte[].class);
+							if(null != x509) {
+								CertificateFactory cf = CertificateFactory.getInstance(X_509);
+								Certificate certificate = cf.generateCertificate(new ByteArrayInputStream(x509));
+								X509Certificate ret = (X509Certificate) certificate;
+								return ret;
+							}
 						}
 					}
 				}
