@@ -22,10 +22,7 @@ import org.apache.esb.sts.provider.operation.KeyExchangeTokenOperation;
 import org.apache.esb.sts.provider.operation.RenewOperation;
 import org.apache.esb.sts.provider.operation.RequestCollectionOperation;
 import org.apache.esb.sts.provider.operation.ValidateOperation;
-
-import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
-import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
 import org.w3c.dom.NodeList;
 
@@ -121,9 +118,7 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 			JAXBContext jaxbContext = JAXBContext
 					.newInstance("org.oasis_open.docs.ws_sx.ws_trust._200512");
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			// DOMSource requestSource = new DOMSource();
-			// requestSource.setNode(source.getNode().getFirstChild());
-			JAXBElement jaxbElement = (JAXBElement) unmarshaller
+			JAXBElement<RequestSecurityTokenType> jaxbElement = (JAXBElement<RequestSecurityTokenType>) unmarshaller
 					.unmarshal(source);
 			request = (RequestSecurityTokenType) jaxbElement.getValue();
 		} catch (JAXBException e) {
@@ -142,16 +137,10 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			MessageFactory factory = MessageFactory.newInstance();
 			soapResponse = factory.createMessage();
-			// marshaller.marshal(response, soapResponse.getSOAPBody()
-			// .getOwnerDocument());
-
 			marshaller.marshal(
-					new JAXBElement(new QName("uri", "local"),
+					new JAXBElement<RequestSecurityTokenResponseCollectionType>(new QName("uri", "local"),
 							RequestSecurityTokenResponseCollectionType.class,
 							response), soapResponse.getSOAPBody());
-			// .getOwnerDocument()soapResponse.getSOAPBody()
-			// .getOwnerDocument())
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO
