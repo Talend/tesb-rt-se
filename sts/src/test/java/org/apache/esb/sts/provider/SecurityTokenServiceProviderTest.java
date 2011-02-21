@@ -12,4 +12,9 @@ import org.junit.Test;
 
 public class SecurityTokenServiceProviderTest {
 
+	@Test
+	public void doTest() {
+		
+	}
+	
 }

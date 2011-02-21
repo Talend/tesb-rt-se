@@ -12,4 +12,8 @@ import org.junit.Test;
 
 public class ValidateDelegateTest {
 	
+	@Test
+	public void doTest() {
+		
+	}
 }
