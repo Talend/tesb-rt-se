@@ -148,7 +148,7 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 			marshaller.marshal(
 					new JAXBElement(new QName("uri", "local"),
 							RequestSecurityTokenResponseCollectionType.class,
-							response), soapResponse.getSOAPBody());
+							response), soapResponse.getSOAPPart());
 			// .getOwnerDocument()soapResponse.getSOAPBody()
 			// .getOwnerDocument())
 
