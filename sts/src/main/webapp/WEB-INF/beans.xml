@@ -10,7 +10,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<bean id="securityTokenServiceProviderBean"
-		class="org.apache.esb.sts.provider.SecurityTokenServiceProvider">
+		class="org.apache.esb.sts.provider.SecurityTokenServiceImpl">
 		<property name="cancelOperation" ref="cancelDelegate"/>
 		<property name="issueOperation" ref="issueDelegate"/>
 		<property name="keyExchangeTokenOperation" ref="keyExchangeTokenDelegate"/>

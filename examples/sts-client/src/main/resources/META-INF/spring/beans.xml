@@ -42,7 +42,7 @@
 
 	<bean id="stsClientCertificate" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
-		<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" />
+		<property name="wsdlLocation" value="model/ws-trust-1.3-service.wsdl" />
 		<property name="serviceName"
 			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
 		<property name="endpointName"
@@ -70,8 +70,8 @@
 	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
 
 	<bean class="org.apache.esb.sts.client.StsClientInvoker">
-		<property name="stsClientUsernameToken" ref="stsClientUsernameToken" />
-		<!-- property name="stsClientCertificate" ref="stsClientCertificate" /-->
+		<!-- property name="stsClientUsernameToken" ref="stsClientUsernameToken" /-->
+		<property name="stsClientCertificate" ref="stsClientCertificate" />
 
 		<property name="isSaml11" value="true" />
 	</bean>

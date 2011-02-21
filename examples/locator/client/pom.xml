@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator</groupId>
-    <artifactId>locator-demo-service</artifactId>
+    <artifactId>locator-demo-client</artifactId>
     <version>4.0</version>
     <name>Locator Demo Server</name>
     <packaging>bundle</packaging>
@@ -48,7 +48,14 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+<!--
+            <Import-Package>
+              ...
+            </Import-Package>
+            <Export-Package>
+              ...
+            </Export-Package>
+-->
           </instructions>
         </configuration>
       </plugin>
