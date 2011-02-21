@@ -2,16 +2,24 @@ package org.apache.esb.sts.provider;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+import javax.xml.soap.Detail;
+import javax.xml.soap.DetailEntry;
 import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.ws.Provider;
 import javax.xml.ws.Service;
 import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceProvider;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +46,8 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 			+ "/Issue";
 	private final String JAXB_CONTEXT_PATH = "org.oasis_open.docs.ws_sx.ws_trust._200512";
 	private JAXBContext jaxbContext = null;
+	private MessageFactory factory = null;
+	private SOAPFactory soapFactory = null;
 	private CancelOperation cancelOperation;
 	private IssueOperation issueOperation;
 	private KeyExchangeTokenOperation keyExchangeTokenOperation;
@@ -74,12 +84,13 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 	public SecurityTokenServiceProvider() throws Exception {
 		jaxbContext = JAXBContext
 		.newInstance(JAXB_CONTEXT_PATH);
+		factory = MessageFactory.newInstance();
+		soapFactory = SOAPFactory.newInstance();
 	}
 
 	public DOMSource invoke(DOMSource request) {
 		DOMSource response = new DOMSource();
 		try {
-			MessageFactory factory = MessageFactory.newInstance();
 			SOAPMessage soapReq = factory.createMessage();
 			soapReq.getSOAPPart().setContent(request);
 			LOG.info("Incoming Client Request as a DOMSource data in MESSAGE Mode");
@@ -101,15 +112,33 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 				SOAPMessage soapResponse = convertJAXBToSOAPMessage(tokenResponse);
 				response.setNode(soapResponse.getSOAPPart());
 			} else {
-				// TODO throw a fault as right now other operations are not
-				// supported
+				SOAPFault fault = soapFactory.createFault();
+				fault.setFaultString(nodeList.item(0).getTextContent() + " operation not supported. Only " + WSTRUST_REQUESTTYPE_ISSUE + " is supported.");
+				throw new SOAPFaultException(fault); 
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (SOAPFaultException soapException){
+			LOG.error(soapException);
+			throw soapException;
+		} 
+		catch (Exception e) {
 			LOG.error(e);
-			// TODO
-			// throw a fault
+			try {
+				SOAPFault fault = soapFactory.createFault();
+				fault.setFaultString(e.getMessage());
+				Detail detail = fault.addDetail();
+	            detail = fault.getDetail();  
+	            QName qName = new QName(WSTRUST_13_NAMESPACE,"Fault", "ns");
+	            DetailEntry de = detail.addDetailEntry(qName);  
+	            qName = new QName(WSTRUST_13_NAMESPACE,"ErrorCode", "ns");
+	            SOAPElement errorElement = de.addChildElement(qName);
+	            StackTraceElement[] ste = e.getStackTrace();
+	            errorElement.setTextContent(ste[0].toString());
+				throw new SOAPFaultException(fault); 
+			} catch (SOAPException e1) {
+				LOG.error(e1);
+			}
+			
 		}
 
 		return response;
