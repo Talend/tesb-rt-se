@@ -2,7 +2,6 @@ package org.apache.esb.sts.provider;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
@@ -22,10 +21,7 @@ import org.apache.esb.sts.provider.operation.KeyExchangeTokenOperation;
 import org.apache.esb.sts.provider.operation.RenewOperation;
 import org.apache.esb.sts.provider.operation.RequestCollectionOperation;
 import org.apache.esb.sts.provider.operation.ValidateOperation;
-
-import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
-import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
 import org.w3c.dom.NodeList;
 
@@ -36,10 +32,12 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 	private static final Log LOG = LogFactory
 			.getLog(SecurityTokenServiceProvider.class.getName());
 
-	private static final String WSTRUST_13_NAMESPACE = "http://docs.oasis-open.org/ws-sx/ws-trust/200512";
-	private static final String WSTRUST_REQUESTTYPE_ELEMENTNAME = "RequestType";
-	private static final String WSTRUST_REQUESTTYPE_ISSUE = WSTRUST_13_NAMESPACE
+	private final String WSTRUST_13_NAMESPACE = "http://docs.oasis-open.org/ws-sx/ws-trust/200512";
+	private final String WSTRUST_REQUESTTYPE_ELEMENTNAME = "RequestType";
+	private final String WSTRUST_REQUESTTYPE_ISSUE = WSTRUST_13_NAMESPACE
 			+ "/Issue";
+	private final String JAXB_CONTEXT_PATH = "org.oasis_open.docs.ws_sx.ws_trust._200512";
+	private JAXBContext jaxbContext = null;
 	private CancelOperation cancelOperation;
 	private IssueOperation issueOperation;
 	private KeyExchangeTokenOperation keyExchangeTokenOperation;
@@ -73,8 +71,9 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 		this.validateOperation = validateOperation;
 	}
 
-	public SecurityTokenServiceProvider() {
-
+	public SecurityTokenServiceProvider() throws Exception {
+		jaxbContext = JAXBContext
+		.newInstance(JAXB_CONTEXT_PATH);
 	}
 
 	public DOMSource invoke(DOMSource request) {
@@ -108,6 +107,7 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			LOG.error(e);
 			// TODO
 			// throw a fault
 		}
@@ -115,47 +115,28 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 		return response;
 	}
 
-	private RequestSecurityTokenType convertToJAXBObject(DOMSource source) {
+	private RequestSecurityTokenType convertToJAXBObject(DOMSource source)
+			throws Exception {
 		RequestSecurityTokenType request = null;
-		try {
-			JAXBContext jaxbContext = JAXBContext
-					.newInstance("org.oasis_open.docs.ws_sx.ws_trust._200512");
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			// DOMSource requestSource = new DOMSource();
-			// requestSource.setNode(source.getNode().getFirstChild());
-			JAXBElement jaxbElement = (JAXBElement) unmarshaller
-					.unmarshal(source);
-			request = (RequestSecurityTokenType) jaxbElement.getValue();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-			// TODO
-		}
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+		JAXBElement<?> jaxbElement = (JAXBElement<?>) unmarshaller
+				.unmarshal(source);
+		request = (RequestSecurityTokenType) jaxbElement.getValue();
 		return request;
 	}
 
 	private SOAPMessage convertJAXBToSOAPMessage(
-			RequestSecurityTokenResponseCollectionType response) {
+			RequestSecurityTokenResponseCollectionType response)
+			throws Exception {
 		SOAPMessage soapResponse = null;
-		try {
-			JAXBContext jaxbContext = JAXBContext
-					.newInstance("org.oasis_open.docs.ws_sx.ws_trust._200512");
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			MessageFactory factory = MessageFactory.newInstance();
-			soapResponse = factory.createMessage();
-			// marshaller.marshal(response, soapResponse.getSOAPBody()
-			// .getOwnerDocument());
-
-			marshaller.marshal(
-					new JAXBElement(new QName("uri", "local"),
-							RequestSecurityTokenResponseCollectionType.class,
-							response), soapResponse.getSOAPBody());
-			// .getOwnerDocument()soapResponse.getSOAPBody()
-			// .getOwnerDocument())
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO
-		}
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		MessageFactory factory = MessageFactory.newInstance();
+		soapResponse = factory.createMessage();
+		marshaller.marshal(
+				new JAXBElement<RequestSecurityTokenResponseCollectionType>(
+						new QName("uri", "local"),
+						RequestSecurityTokenResponseCollectionType.class,
+						response), soapResponse.getSOAPBody());
 		return soapResponse;
 	}
 
