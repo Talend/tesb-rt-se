@@ -166,7 +166,7 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 				new JAXBElement<RequestSecurityTokenResponseCollectionType>(
 						new QName("uri", "local"),
 						RequestSecurityTokenResponseCollectionType.class,
-						response), soapResponse.getSOAPBody());
+						response), soapResponse.getSOAPPart());
 		return soapResponse;
 	}
 
