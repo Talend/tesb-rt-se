@@ -82,10 +82,16 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 			System.out.println("securityToken.getId()="
 					+ securityToken.getId());
 			
-			Assertion assertion = getSAMLAssertionResponse(securityToken);
+			Object assertion;
+			assertion = getSAMLAssertionResponse(securityToken);
 			
-			System.out.println("assertion.getID() = " + assertion.getID());
-			System.out.println("assertion.getIssuer().getValue()" + assertion.getIssuer().getValue());
+			if (!isSaml11) {
+				System.out.println("assertion.getID() = " + ((Assertion)assertion).getID());
+				System.out.println("assertion.getIssuer().getValue()" + ((Assertion)assertion).getIssuer().getValue());
+			} else {
+				System.out.println("assertion.getID() = " + ((org.opensaml.saml1.core.Assertion)assertion).getID());
+				System.out.println("assertion.getIssuer() = " + ((org.opensaml.saml1.core.Assertion)assertion).getIssuer());
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -93,7 +99,7 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 		}
 	}
 
-	private Assertion getSAMLAssertionResponse(SecurityToken securityToken) {
+	private Object getSAMLAssertionResponse(SecurityToken securityToken) {
 		
 		Element token = securityToken.getToken();
 		
@@ -109,10 +115,10 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 		UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
 		Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(token);
 		
-		Assertion assertion;
+		Object assertion;
 		
 		try {
-			assertion = (Assertion) unmarshaller.unmarshall(token);
+			assertion = unmarshaller.unmarshall(token);
 		} catch (UnmarshallingException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unmarshalling of token failed");

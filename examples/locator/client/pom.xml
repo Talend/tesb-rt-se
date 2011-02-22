@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.talend.esb.examples.locator</groupId>
+    <artifactId>locator-demo-client</artifactId>
+    <version>4.0</version>
+    <name>Locator Demo Server</name>
+    <packaging>bundle</packaging>
+
+  <parent>
+    <groupId>org.talend.esb.examples.locator</groupId>
+    <artifactId>locator-demo</artifactId>
+    <version>4.0</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http-jetty</artifactId>
+      <version>2.3.1</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.talend.esb</groupId>
+      <artifactId>locator</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>locator-demo-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+<!--
+            <Import-Package>
+              ...
+            </Import-Package>
+            <Export-Package>
+              ...
+            </Export-Package>
+-->
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>demo.service.Server</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

@@ -8,7 +8,7 @@ public class LocatorFailoverFeature extends FailoverFeature {
 	public LocatorFailoverFeature(List<String> adresses) {
 		super();
 		LocatorFailoverStrategy lfs = new LocatorFailoverStrategy();
-		lfs.setAlternateAddresses(adresses);
+//		lfs.setAlternateAddresses(adresses);
 		setStrategy(lfs);
 	}
 	

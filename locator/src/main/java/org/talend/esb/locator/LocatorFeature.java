@@ -5,11 +5,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
-import org.apache.cxf.interceptor.InterceptorProvider;
 
 /**
- * CXF feature to enable to enable the locator client with an CXF service.
+ * CXF feature to enable the locator client with an CXF service.
  *
  */
 public class LocatorFeature extends AbstractFeature {
@@ -24,9 +25,52 @@ public class LocatorFeature extends AbstractFeature {
 	private int connectionTimeout;
 
 	private String prefix;
-	
+
+	//	private QName serviceName;
+
 	@Override
-	protected void initializeProvider(InterceptorProvider provider, Bus bus) {
+	public void initialize(Client client, Bus bus) {
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+        selector.setEndpoint(client.getEndpoint());
+		
+		ServiceLocator sl = null;
+
+		try {
+			sl = createServiceLocator();
+
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.log(Level.FINE, "Successfully initialized locator feature");
+			}
+
+		} catch (ServiceLocatorException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during initialization of the locator feature.",
+						e);
+			}
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during initialization of the locator feature.",
+						e);
+			}
+		} catch (IOException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"IO Exception thrown during initialization of the locator feature.",
+						e);
+			}
+		}
+
+		LocatorFailoverStrategy lfs = new LocatorFailoverStrategy();
+		lfs.setServiceLocator(sl);
+		selector.setLocatorFailoverStrategy(lfs);
+        client.setConduitSelector(selector);
+
+	}
+
+	@Override
+	public void initialize(Server server, Bus bus) {
 		try {
 			ServiceLocator sl = createServiceLocator();
 			createLocatorRegistrar(bus, sl);
@@ -94,7 +138,8 @@ public class LocatorFeature extends AbstractFeature {
 		this.prefix = prefix;
 	}
 
-	private ServiceLocator createServiceLocator() {
+	private ServiceLocator createServiceLocator() throws IOException, InterruptedException,
+			ServiceLocatorException {
 		ServiceLocator sl = new ServiceLocator();
 		if (locatorEndpoints != null) {
 			sl.setLocatorEndpoints(locatorEndpoints);
@@ -107,6 +152,7 @@ public class LocatorFeature extends AbstractFeature {
 		if (connectionTimeout > 0) {
 			sl.setConnectionTimeout(connectionTimeout);
 		}
+		sl.connect();
 
 		return sl;
 	}
@@ -123,4 +169,20 @@ public class LocatorFeature extends AbstractFeature {
 		lr.init();
 		return lr;
 	}
+
+/*
+	private EndpointRetriever createEndpointSelector(ServiceLocator sl,
+			QName serviceName) throws ServiceLocatorException, IOException,
+			InterruptedException {
+		EndpointRetriever es = new EndpointRetriever();
+		es.setServiceLocator(sl);
+		es.setServiceName(serviceName);
+		es.init();
+
+		if (serviceName != null) {
+			es.setServiceName(serviceName);
+		}
+		return es;
+	}
+*/
 }
