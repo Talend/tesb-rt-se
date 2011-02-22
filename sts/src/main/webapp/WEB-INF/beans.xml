@@ -24,7 +24,6 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		class="org.apache.esb.sts.provider.operation.CancelDelegate"/>
 	<bean id="issueDelegate"
 		class="org.apache.esb.sts.provider.operation.IssueDelegate">
-		<property name="saml2" value="true" />
 		<property name="passwordCallback" ref="passwordCallback"/>
 	</bean>
 	<bean id="keyExchangeTokenDelegate"

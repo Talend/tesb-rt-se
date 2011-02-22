@@ -32,6 +32,7 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -96,17 +97,13 @@ public class IssueDelegate implements IssueOperation {
 	private static final String SIGN_FACTORY_TYPE = "DOM";
 	private static final String JKS_INSTANCE = "JKS";
 
-	private boolean saml2;
+	private static final QName QNAME_WST_TOKEN_TYPE = WS_TRUST_FACTORY.createTokenType("").getName();
 
 	private ProviderPasswordCallback passwordCallback;
 
 	private SecureRandomIdentifierGenerator generator;
 
 	private static final String X_509 = "X.509";
-
-	public void setSaml2(boolean saml2) {
-		this.saml2 = saml2;
-	}
 
 	public void setPasswordCallback(ProviderPasswordCallback passwordCallback) {
 		this.passwordCallback = passwordCallback;
@@ -117,8 +114,10 @@ public class IssueDelegate implements IssueOperation {
 			RequestSecurityTokenType request) {
 
 		String username = passwordCallback.resetUsername();
+		String tokenType = null;
 
 		for (Object requestObject : request.getAny()) {
+			// certificate
 			try {
 				X509Certificate certificate = getCertificateFromRequest(requestObject);
 				if (certificate != null) {
@@ -127,11 +126,24 @@ public class IssueDelegate implements IssueOperation {
 			} catch (CertificateException e) {
 				throw new STSException("Can't extract X509 certificate from request", e);
 			}
+
+			// TokenType
+			if(requestObject instanceof JAXBElement) {
+				JAXBElement<?> jaxbElement = (JAXBElement<?>)requestObject;
+				if(QNAME_WST_TOKEN_TYPE.equals(jaxbElement.getName())) {
+					tokenType = (String)jaxbElement.getValue();
+				}
+			}
 		}
 
 		if(username == null) {
 			throw new STSException("No credentials provided");
 		}
+
+		// should be removed after proper request
+		tokenType = SAMLConstants.SAML1_NS;
+//		tokenType = SAMLConstants.SAML20_NS;
+		boolean saml2 = tokenType.equals(SAMLConstants.SAML20_NS);
 
 		try {
 			generator = new SecureRandomIdentifierGenerator();
@@ -157,7 +169,7 @@ public class IssueDelegate implements IssueOperation {
 		signSAML(assertionDocument);
 		
 		RequestSecurityTokenResponseType response = wrapAssertionToResponse(
-				/*samlAssertion.getDOM()*/
+				tokenType,
 				assertionDocument.getDocumentElement());
 
 		RequestSecurityTokenResponseCollectionType responseCollection = WS_TRUST_FACTORY
@@ -187,13 +199,14 @@ public class IssueDelegate implements IssueOperation {
 	}
 
 	private RequestSecurityTokenResponseType wrapAssertionToResponse(
+			String tokenType,
 			Element samlAssertion) {
 		RequestSecurityTokenResponseType response = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseType();
 
 		// TokenType
-		JAXBElement<String> tokenType = WS_TRUST_FACTORY.createTokenType(saml2 ? SAMLConstants.SAML20_NS : SAMLConstants.SAML1_NS);
-		response.getAny().add(tokenType);
+		JAXBElement<String> jaxbTokenType = WS_TRUST_FACTORY.createTokenType(tokenType);
+		response.getAny().add(jaxbTokenType);
 
 		// RequestedSecurityToken
 		RequestedSecurityTokenType requestedTokenType = WS_TRUST_FACTORY
@@ -210,6 +223,7 @@ public class IssueDelegate implements IssueOperation {
 			createSecurityTokenReferenceType();
 		KeyIdentifierType keyIdentifierType = WSSE_FACTORY
 			.createKeyIdentifierType();
+		boolean saml2 = tokenType.equals(SAMLConstants.SAML20_NS);
 		if(saml2) {
 			keyIdentifierType.setValue(samlAssertion.getAttribute(Assertion.ID_ATTRIB_NAME));
 		}
