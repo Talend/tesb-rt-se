@@ -170,10 +170,9 @@ public class ServiceLocator {
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
-	 * @throws IOException
 	 */
 	synchronized public void register(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException, IOException {
+			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.log(Level.INFO, "Register endpoint " + endpoint
 					+ " for service " + serviceName + ".");
@@ -188,7 +187,7 @@ public class ServiceLocator {
 	}
 
 	synchronized public void unregister(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException, IOException {
+			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Unregister endpoint " + endpoint + " for service "
 					+ serviceName + ".");
@@ -217,10 +216,9 @@ public class ServiceLocator {
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
-	 * @throws IOException
 	 */
 	synchronized public List<String> lookup(QName serviceName)
-			throws ServiceLocatorException, InterruptedException, IOException {
+			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.info("Lookup endpoints of " + serviceName + " service.");
 		}
@@ -301,13 +299,11 @@ public class ServiceLocator {
 		this.postConnectAction = postConnectAction;
 	}
 
-	private boolean isConnected() throws IOException, InterruptedException {
-
+	private boolean isConnected() {
 		return (zk != null) && zk.getState().equals(ZooKeeper.States.CONNECTED);
 	}
 
-	private void checkConnection() throws IOException, InterruptedException,
-			ServiceLocatorException {
+	private void checkConnection() throws InterruptedException, ServiceLocatorException {
 		if (!isConnected()) {
 			if (LOG.isLoggable(Level.WARNING)) {
 				LOG.log(Level.WARNING,

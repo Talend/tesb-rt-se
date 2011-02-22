@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.talend.esb.locator.sample.Constants;
-import org.talend.esb.locator.EndpointResolver;
+//import org.talend.esb.locator.EndpointResolver;
 import org.talend.esb.locator.ServiceLocatorException;
 import org.talend.esb.sample.cxf.Greeter;
 
@@ -18,7 +18,7 @@ public class Consumer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
+/*
 		final Logger LOG = Logger.getLogger(Consumer.class.getName());
 
 		EndpointResolver er = null;
@@ -64,5 +64,6 @@ public class Consumer {
 //				LOG.log(Level.INFO, "------------ END -----------");
 				System.out.println("END.");
 
+*/
 			}
 		}

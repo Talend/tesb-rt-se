@@ -53,12 +53,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 						"Interrupted Exception thrown during register endpoint. "
 								+ e.getMessage());
 			}
-		} catch (IOException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"IOException thrown during register endpoint. "
-								+ e.getMessage());
-			}
 		}
 	}
 
@@ -79,13 +73,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 				LOG.log(Level.SEVERE,
 						"Interrupted Exception thrown during unregister endpoint.", e);
 			}
-		} catch (IOException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during unregister endpoint.", e);
-			}
 		}
-	
 	}
 
 	@Override
@@ -149,12 +137,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 							"InterruptedException thrown during register endpoint. "
 									+ e.getMessage());
 				}
-			} catch (IOException e) {
-				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE,
-							"IOException thrown during register endpoint. "
-									+ e.getMessage());
-				}
 			}
 		}
 	}
@@ -171,7 +153,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	private void registerEndpoint(Server server)
-			throws ServiceLocatorException, InterruptedException, IOException {
+			throws ServiceLocatorException, InterruptedException {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
 		ServiceInfo serviceInfo = eInfo.getService();
 		QName serviceName = serviceInfo.getName();
@@ -188,7 +170,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 	}
 
 	private void unregisterEndpoint(Server server)
-			throws ServiceLocatorException, InterruptedException, IOException {
+			throws ServiceLocatorException, InterruptedException {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
 		ServiceInfo serviceInfo = eInfo.getService();
 		QName serviceName = serviceInfo.getName();
