@@ -33,16 +33,13 @@ import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.esb.sts.provider.ProviderPasswordCallback;
 import org.apache.esb.sts.provider.STSException;
 import org.apache.esb.sts.provider.SecurityTokenServiceImpl;
-import org.joda.time.DateTime;
+import org.apache.esb.sts.provider.token.TokenProvider;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
@@ -51,36 +48,9 @@ import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestedSecurityTokenType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.UseKeyType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.KeyIdentifierType;
 import org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.SecurityTokenReferenceType;
-import org.opensaml.DefaultBootstrap;
-import org.opensaml.common.SAMLVersion;
-import org.opensaml.common.impl.SecureRandomIdentifierGenerator;
 import org.opensaml.common.xml.SAMLConstants;
-import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.AuthnContext;
-import org.opensaml.saml2.core.AuthnContextClassRef;
-import org.opensaml.saml2.core.AuthnStatement;
-import org.opensaml.saml2.core.Conditions;
-import org.opensaml.saml2.core.Issuer;
-import org.opensaml.saml2.core.NameID;
-import org.opensaml.saml2.core.Subject;
-import org.opensaml.saml2.core.SubjectConfirmation;
-import org.opensaml.saml2.core.impl.AssertionBuilder;
-import org.opensaml.saml2.core.impl.AuthnContextBuilder;
-import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
-import org.opensaml.saml2.core.impl.AuthnStatementBuilder;
-import org.opensaml.saml2.core.impl.ConditionsBuilder;
-import org.opensaml.saml2.core.impl.IssuerBuilder;
-import org.opensaml.saml2.core.impl.NameIDBuilder;
-import org.opensaml.saml2.core.impl.SubjectBuilder;
-import org.opensaml.saml2.core.impl.SubjectConfirmationBuilder;
-import org.opensaml.xml.Configuration;
-import org.opensaml.xml.ConfigurationException;
-import org.opensaml.xml.XMLObject;
-import org.opensaml.xml.io.Marshaller;
-import org.opensaml.xml.io.MarshallingException;
 import org.w3._2000._09.xmldsig.KeyInfoType;
 import org.w3._2000._09.xmldsig.X509DataType;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -92,21 +62,22 @@ public class IssueDelegate implements IssueOperation {
 			.getLog(SecurityTokenServiceImpl.class.getName());
 	private static final org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory WS_TRUST_FACTORY = new org.oasis_open.docs.ws_sx.ws_trust._200512.ObjectFactory();
 	private static final org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory WSSE_FACTORY = new org.oasis_open.docs.wss._2004._01.oasis_200401_wss_wssecurity_secext_1_0.ObjectFactory();
-	private static final String SAML_AUTH_CONTEXT = "ac:classes:X509";
 	
 	private static final String SIGN_FACTORY_TYPE = "DOM";
 	private static final String JKS_INSTANCE = "JKS";
+	private static final String X_509 = "X.509";
 
 	private static final QName QNAME_WST_TOKEN_TYPE = WS_TRUST_FACTORY.createTokenType("").getName();
 
 	private ProviderPasswordCallback passwordCallback;
-
-	private SecureRandomIdentifierGenerator generator;
-
-	private static final String X_509 = "X.509";
+	private List<TokenProvider> tokenProviders;
 
 	public void setPasswordCallback(ProviderPasswordCallback passwordCallback) {
 		this.passwordCallback = passwordCallback;
+	}
+
+	public void setTokenProviders(List<TokenProvider> tokenProviders) {
+		this.tokenProviders = tokenProviders;
 	}
 
 	@Override
@@ -143,34 +114,29 @@ public class IssueDelegate implements IssueOperation {
 		// should be removed after proper request
 		tokenType = SAMLConstants.SAML1_NS;
 //		tokenType = SAMLConstants.SAML20_NS;
-		boolean saml2 = tokenType.equals(SAMLConstants.SAML20_NS);
-
-		try {
-			generator = new SecureRandomIdentifierGenerator();
-		} catch (NoSuchAlgorithmException e) {
-			throw new STSException("Can't initialize secure random identifier generator", e);
+		if(tokenType == null) {
+			throw new STSException("No token type requested");
 		}
-
-		// Convert SAML to DOM
-		Document assertionDocument = null;
-		try {
-			if(saml2) {
-				Assertion samlAssertion = createSAML2Assertion(username);
-				assertionDocument = toDom(samlAssertion);
+		
+		TokenProvider tokenProvider = null;
+		for (TokenProvider tp : tokenProviders) {
+			if(tokenType.equals(tp.getTokenType())) {
+				tokenProvider = tp;
+				break;
 			}
-			else {
-				org.opensaml.saml1.core.Assertion samlAssertion = createSAML1Assertion(username);
-				assertionDocument = toDom(samlAssertion);
-			}
-		} catch (Exception e) {
-			throw new STSException("Can't serialize SAML assertion", e);
 		}
+		if(tokenProvider == null) {
+			throw new STSException("No token provider found for requested token type: " + tokenType);
+		}
+		
+		Element elementToken = tokenProvider.createToken(username);
 
-		signSAML(assertionDocument);
+		signSAML(elementToken);
 		
 		RequestSecurityTokenResponseType response = wrapAssertionToResponse(
 				tokenType,
-				assertionDocument.getDocumentElement());
+				elementToken,
+				tokenProvider.getTokenId(elementToken));
 
 		RequestSecurityTokenResponseCollectionType responseCollection = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseCollectionType();
@@ -179,28 +145,10 @@ public class IssueDelegate implements IssueOperation {
 		return responseCollection;
 	}
 
-	private static Document toDom(XMLObject object) throws MarshallingException, ParserConfigurationException, ConfigurationException {
-		Document document = getDocumentBuilder().newDocument();
-
-		DefaultBootstrap.bootstrap();
-
-		Marshaller out = Configuration.getMarshallerFactory().getMarshaller(
-				object);
-		out.marshall(object, document);
-		return document;
-	}
-
-	private static DocumentBuilder getDocumentBuilder() throws ParserConfigurationException {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setValidating(false);
-		factory.setNamespaceAware(true);
-
-		return factory.newDocumentBuilder();
-	}
-
 	private RequestSecurityTokenResponseType wrapAssertionToResponse(
 			String tokenType,
-			Element samlAssertion) {
+			Element samlAssertion,
+			String tokenId) {
 		RequestSecurityTokenResponseType response = WS_TRUST_FACTORY
 				.createRequestSecurityTokenResponseType();
 
@@ -223,13 +171,7 @@ public class IssueDelegate implements IssueOperation {
 			createSecurityTokenReferenceType();
 		KeyIdentifierType keyIdentifierType = WSSE_FACTORY
 			.createKeyIdentifierType();
-		boolean saml2 = tokenType.equals(SAMLConstants.SAML20_NS);
-		if(saml2) {
-			keyIdentifierType.setValue(samlAssertion.getAttribute(Assertion.ID_ATTRIB_NAME));
-		}
-		else {
-			keyIdentifierType.setValue(samlAssertion.getAttribute(org.opensaml.saml1.core.Assertion.ID_ATTRIB_NAME));
-		}
+		keyIdentifierType.setValue(tokenId);
 		JAXBElement<KeyIdentifierType> keyIdentifier = WSSE_FACTORY
 			.createKeyIdentifier(keyIdentifierType);
 		securityTokenReferenceType.getAny().add(keyIdentifier);
@@ -240,137 +182,6 @@ public class IssueDelegate implements IssueOperation {
 		response.getAny().add(requestedAttachedReference);
 
 		return response;
-	}
-
-	private Assertion createSAML2Assertion(String nameId) {
-		Subject subject = createSubject(nameId);
-		return createAuthnAssertion(subject);
-	}
-
-	private Subject createSubject(String username) {
-		NameID nameID = (new NameIDBuilder()).buildObject();
-		nameID.setValue(username);
-		String format = "urn:oasis:names:tc:SAML:1.1:nameid-format:transient";
-		if (format != null) {
-			nameID.setFormat(format);
-		}
-
-		Subject subject = (new SubjectBuilder()).buildObject();
-		subject.setNameID(nameID);
-
-		String confirmationMethod = "urn:oasis:names:tc:SAML:2.0:cm:bearer";
-		if (confirmationMethod != null) {
-			SubjectConfirmation confirmation = (new SubjectConfirmationBuilder())
-					.buildObject();
-			confirmation.setMethod(confirmationMethod);
-			subject.getSubjectConfirmations().add(confirmation);
-		}
-		return subject;
-	}
-
-	private Assertion createAuthnAssertion(Subject subject) {
-		Assertion assertion = createAssertion(subject);
-
-		AuthnContextClassRef ref = (new AuthnContextClassRefBuilder())
-				.buildObject();
-		String authnCtx = SAML_AUTH_CONTEXT;
-		if (authnCtx != null) {
-			ref.setAuthnContextClassRef(authnCtx);
-		}
-		AuthnContext authnContext = (new AuthnContextBuilder()).buildObject();
-		authnContext.setAuthnContextClassRef(ref);
-
-		AuthnStatement authnStatement = (new AuthnStatementBuilder())
-				.buildObject();
-		authnStatement.setAuthnInstant(new DateTime());
-		authnStatement.setAuthnContext(authnContext);
-
-		assertion.getStatements().add(authnStatement);
-
-		return assertion;
-	}
-
-	private Assertion createAssertion(Subject subject) {
-		Assertion assertion = (new AssertionBuilder()).buildObject();
-		assertion.setID(generator.generateIdentifier());
-
-		DateTime now = new DateTime();
-		assertion.setIssueInstant(now);
-
-		String issuerURL = "http://www.sopera.de/SAML2";
-		if (issuerURL != null) {
-			Issuer issuer = (new IssuerBuilder()).buildObject();
-			issuer.setValue(issuerURL);
-			assertion.setIssuer(issuer);
-		}
-
-		assertion.setSubject(subject);
-
-		Conditions conditions = (new ConditionsBuilder()).buildObject();
-		conditions.setNotBefore(now.minusMillis(3600000));
-		conditions.setNotOnOrAfter(now.plusMillis(3600000));
-		assertion.setConditions(conditions);
-		return assertion;
-	}
-
-	private org.opensaml.saml1.core.Assertion createSAML1Assertion(String nameId) {
-		org.opensaml.saml1.core.Subject subject = createSubjectSAML1(nameId);
-		return createAuthnAssertionSAML1(subject);
-	}
-
-	private org.opensaml.saml1.core.Subject createSubjectSAML1(String username) {
-		org.opensaml.saml1.core.NameIdentifier nameID = (new org.opensaml.saml1.core.impl.NameIdentifierBuilder()).buildObject();
-		nameID.setNameIdentifier(username);
-		String format = "urn:oasis:names:tc:SAML:1.1:nameid-format:transient";
-
-		if (format != null) {
-			nameID.setFormat(format);
-		}
-
-		org.opensaml.saml1.core.Subject subject = (new org.opensaml.saml1.core.impl.SubjectBuilder()).buildObject();
-		subject.setNameIdentifier(nameID);
-
-		String confirmationString = "urn:oasis:names:tc:SAML:1.0:cm:bearer";
-
-		if (confirmationString != null) {
-
-			org.opensaml.saml1.core.ConfirmationMethod confirmationMethod = (new org.opensaml.saml1.core.impl.ConfirmationMethodBuilder()).buildObject();
-	        confirmationMethod.setConfirmationMethod(confirmationString);
-
-	        org.opensaml.saml1.core.SubjectConfirmation confirmation = (new org.opensaml.saml1.core.impl.SubjectConfirmationBuilder()).buildObject();
-			confirmation.getConfirmationMethods().add(confirmationMethod);
-
-			subject.setSubjectConfirmation(confirmation);
-		}
-		return subject;
-	}
-
-	private org.opensaml.saml1.core.Assertion createAuthnAssertionSAML1(org.opensaml.saml1.core.Subject subject) {
-		org.opensaml.saml1.core.AuthenticationStatement authnStatement = (new org.opensaml.saml1.core.impl.AuthenticationStatementBuilder()).buildObject();
-        authnStatement.setSubject(subject);
-//        authnStatement.setAuthenticationMethod(strAuthMethod);
-        
-        DateTime now = new DateTime();
-        
-        authnStatement.setAuthenticationInstant(now);
-
-        org.opensaml.saml1.core.Conditions conditions = (new org.opensaml.saml1.core.impl.ConditionsBuilder()).buildObject();
-		conditions.setNotBefore(now.minusMillis(3600000));
-		conditions.setNotOnOrAfter(now.plusMillis(3600000));
-
-		String issuerURL = "http://www.sopera.de/SAML1";
-
-		org.opensaml.saml1.core.Assertion assertion = (new org.opensaml.saml1.core.impl.AssertionBuilder()).buildObject();
-		assertion.setID(generator.generateIdentifier());
-		assertion.setIssuer(issuerURL);
-        assertion.setIssueInstant(now);
-        assertion.setVersion(SAMLVersion.VERSION_11);
-
-        assertion.getAuthenticationStatements().add(authnStatement);
-//        assertion.getAttributeStatements().add(attrStatement);
-        assertion.setConditions(conditions);
-
-		return assertion;
 	}
 
 	private X509Certificate getCertificateFromRequest(Object requestObject) throws CertificateException {
@@ -408,7 +219,7 @@ public class IssueDelegate implements IssueOperation {
 		return null;
 	}
 	
-	private void signSAML(Document assertionDocument) {
+	private void signSAML(Element assertionDocument) {
 
 		InputStream isKeyStore = this.getClass()
 				.getResourceAsStream("/sts.jks");
@@ -419,7 +230,7 @@ public class IssueDelegate implements IssueOperation {
 		KeyStoreInfo keyStoreInfo = new KeyStoreInfo(isKeyStore, storePwd,
 				keyAlias, keyPwd);
 
-		signAssertion(assertionDocument.getDocumentElement(), keyStoreInfo);
+		signAssertion(assertionDocument, keyStoreInfo);
 	}
 
 	private void signAssertion(Element assertion, KeyStoreInfo keyStoreInfo) {

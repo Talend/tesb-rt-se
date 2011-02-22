@@ -1,9 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
@@ -25,6 +27,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<bean id="issueDelegate"
 		class="org.apache.esb.sts.provider.operation.IssueDelegate">
 		<property name="passwordCallback" ref="passwordCallback"/>
+		<property name="tokenProviders" ref="tokenProviders"/>
 	</bean>
 	<bean id="keyExchangeTokenDelegate"
 		class="org.apache.esb.sts.provider.operation.KeyExchangeTokenDelegate"/>
@@ -58,5 +61,15 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<bean id="passwordCallback"
 		class="org.apache.esb.sts.provider.ProviderPasswordCallback"/>
+
+	<util:list id="tokenProviders">
+		<ref bean="saml1TokenProvider"/>
+		<ref bean="saml2TokenProvider"/>
+	</util:list>
+	
+	<bean id="saml1TokenProvider"
+		class="org.apache.esb.sts.provider.token.Saml1TokenProvider"/>
+	<bean id="saml2TokenProvider"
+		class="org.apache.esb.sts.provider.token.Saml2TokenProvider"/>
 
 </beans>
