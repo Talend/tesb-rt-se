@@ -2,7 +2,6 @@ package org.apache.esb.sts.provider;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
@@ -101,7 +100,9 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 					.getElementsByTagNameNS(WSTRUST_13_NAMESPACE,
 							WSTRUST_REQUESTTYPE_ELEMENTNAME);
 			if (nodeList == null || nodeList.getLength() == 0) {
-				// TODO throw back a fault
+				SOAPFault fault = soapFactory.createFault();
+				fault.setFaultString("Unable to read the WS Trust operation name from request.");
+				throw new SOAPFaultException(fault);
 			}
 			if (nodeList.item(0).getTextContent()
 					.equalsIgnoreCase(WSTRUST_REQUESTTYPE_ISSUE)) {
