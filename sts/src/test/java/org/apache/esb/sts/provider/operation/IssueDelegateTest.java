@@ -209,4 +209,52 @@ public class IssueDelegateTest {
 			
 		verify(requestMock);
 	}
+	
+	
+	@Test
+	public void TestIssueDelegateWithInvalidCert2() throws CertificateException	{
+		IssueDelegate id = new IssueDelegate();
+		assertNotNull(id);
+		
+		CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+		X509Certificate x509Certificate = null;
+		try {
+			x509Certificate = (X509Certificate)certificateFactory.generateCertificate(new ByteArrayInputStream(Base64.decodeBase64(CERT_DATA.getBytes())));
+		} catch (CertificateException e) {
+			e.printStackTrace();
+		}
+		JAXBElement<X509Certificate> jX509Certificate = new JAXBElement<X509Certificate>(QName.valueOf("X509Certificate"), X509Certificate.class, x509Certificate);
+		
+		//JAXBElement<byte[]> jX509Certificate = new JAXBElement<byte[]>(QName.valueOf("X509Certificate"), byte[].class, CERT_DATA.getBytes());
+		
+		X509DataType x509DataType = new X509DataType();
+		x509DataType.getX509IssuerSerialOrX509SKIOrX509SubjectName().add(jX509Certificate);
+		JAXBElement<X509DataType> jX509DataType = new JAXBElement<X509DataType>(QName.valueOf("X509Data"), X509DataType.class, x509DataType);
+		
+		KeyInfoType keyInfoType = new KeyInfoType();
+		keyInfoType.getContent().add(jX509DataType);
+		JAXBElement<KeyInfoType> jKeyInfoType = new JAXBElement<KeyInfoType>(QName.valueOf("KeyInfo"), KeyInfoType.class, keyInfoType);
+		
+		UseKeyType useKeyType = new UseKeyType();
+		useKeyType.setAny(jKeyInfoType);
+		JAXBElement<UseKeyType> jUseKeyType = new JAXBElement<UseKeyType>(QName.valueOf("UseKey"), UseKeyType.class, useKeyType);
+		
+		EasyMock.expect(requestMock.getAny()).andStubReturn(Arrays.asList((Object)jUseKeyType));
+		EasyMock.replay(requestMock);
+			
+		EasyMock.expect(passwordCallbackMock.resetUsername()).andReturn(null);
+		EasyMock.replay(passwordCallbackMock);
+			
+		id.setPasswordCallback(passwordCallbackMock);
+		id.setSaml2(false);
+		
+		try {
+			id.issue(requestMock);
+			fail("CertificateException should be thrown");
+		} catch(Exception e) {
+			
+		}
+			
+		verify(requestMock);
+	}
 }
