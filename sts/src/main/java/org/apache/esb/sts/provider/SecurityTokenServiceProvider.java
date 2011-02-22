@@ -30,6 +30,7 @@ import org.apache.esb.sts.provider.operation.RequestCollectionOperation;
 import org.apache.esb.sts.provider.operation.ValidateOperation;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenResponseCollectionType;
 import org.oasis_open.docs.ws_sx.ws_trust._200512.RequestSecurityTokenType;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @WebServiceProvider(serviceName = "SecurityTokenServiceProvider", portName = "SecurityTokenServiceSOAP", targetNamespace = "http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl", wsdlLocation = "WEB-INF/classes/model/ws-trust-1.4-service.wsdl")
@@ -162,11 +163,15 @@ public class SecurityTokenServiceProvider implements Provider<DOMSource> {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 		MessageFactory factory = MessageFactory.newInstance();
 		soapResponse = factory.createMessage();
+		
 		marshaller.marshal(
 				new JAXBElement<RequestSecurityTokenResponseCollectionType>(
 						new QName("uri", "local"),
 						RequestSecurityTokenResponseCollectionType.class,
 						response), soapResponse.getSOAPPart());
+		Node msgNode = soapResponse.getSOAPPart().getFirstChild().getFirstChild();
+		soapResponse.getSOAPPart().replaceChild(msgNode, soapResponse.getSOAPPart().getFirstChild());				
+		 
 		return soapResponse;
 	}
 
