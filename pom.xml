@@ -16,7 +16,6 @@
   <modules>
     <module>locator</module>
     <module>examples</module>
-    <module>sts</module>
   </modules>
 
   <dependencyManagement>
