@@ -12,23 +12,24 @@ import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
 
-public class LocatorFailoverStrategy implements FailoverStrategy {
+public class LocatorSelectionStrategy implements FailoverStrategy {
 
-	private static final Logger LOG = Logger.getLogger(LocatorFailoverStrategy.class
+	private static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class
 			.getName());
-
-//	private EndpointRetriever endpointSelector;
 	
 	private ServiceLocator serviceLocator;
 	
 	private Random random = new Random();
 
-/*
-	public LocatorFailoverStrategy(EndpointRetriever endpointSelector) {
-		this.endpointSelector = endpointSelector;
+	public LocatorSelectionStrategy() {
 	}
-*/
-	public LocatorFailoverStrategy() {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<String> getAlternateAddresses(Exchange exchange) {
+		return getEndpoints(exchange);
 	}
 
 	@Override
@@ -40,22 +41,28 @@ public class LocatorFailoverStrategy implements FailoverStrategy {
 		return null;
 	}
 
-	@Override
-	public List<String> getAlternateAddresses(Exchange exchange) {
-		return getEndpoints(exchange);
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {
 		return null;
 	}
 	
-	String getPrimaryAddress(Exchange exchange) {
+	/**
+	 * 
+	 * @param exchange
+	 * @return
+	 */
+	public String getPrimaryAddress(Exchange exchange) {
 		List<String> availableAddresses = getEndpoints(exchange);
 		int index = random.nextInt(availableAddresses.size());
 		return availableAddresses.get(index);
@@ -64,12 +71,6 @@ public class LocatorFailoverStrategy implements FailoverStrategy {
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
 	}
-
-/*
-	public void setEndpointSelector(EndpointRetriever endpointSelector) {
-		this.endpointSelector = endpointSelector;
-	}
-*/
 
 	private List<String> getEndpoints(Exchange exchange) {
 		QName serviceName = getServiceName(exchange);
@@ -83,12 +84,12 @@ public class LocatorFailoverStrategy implements FailoverStrategy {
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Can not refresh list of endpoints due to unknown exception");
+						"Can not refresh list of endpoints due to ServiceLocatorException", e);
 			}
 		} catch (InterruptedException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Can not refresh list of endpoints due to unknown exception");
+						"Can not refresh list of endpoints due to InterruptedException", e);
 			}
 		}
 		return endpoints;

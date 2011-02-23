@@ -62,7 +62,7 @@ public class LocatorFeature extends AbstractFeature {
 			}
 		}
 
-		LocatorFailoverStrategy lfs = new LocatorFailoverStrategy();
+		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
 		lfs.setServiceLocator(sl);
 		selector.setLocatorFailoverStrategy(lfs);
         client.setConduitSelector(selector);

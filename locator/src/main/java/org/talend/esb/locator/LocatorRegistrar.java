@@ -106,7 +106,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		this.locatorClient = locatorClient;
 		locatorClient.setPostConnectAction(this);
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Locator client was setted.");
+			LOG.log(Level.FINE, "Locator client was set.");
 		}
 	}
 
@@ -128,14 +128,12 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 			} catch (ServiceLocatorException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
-							"ServiceLocator Exception thrown during register endpoint. "
-									+ e.getMessage());
+							"ServiceLocator Exception thrown while registering endpoint.", e);
 				}
 			} catch (InterruptedException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
-							"InterruptedException thrown during register endpoint. "
-									+ e.getMessage());
+							"InterruptedException thrown while registering endpoint.", e);
 				}
 			}
 		}
