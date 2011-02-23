@@ -1,0 +1,4 @@
+<template>
+	<KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey</KeyType>
+	<TokenType>urn:oasis:names:tc:SAML:1.0:assertion</TokenType>
+</template>

@@ -53,6 +53,19 @@
 				<entry key="ws-security.sts.token.properties" value="clientKeystore.properties" />
 			</map>
 		</property>
+		<property name="useCertificateForConfirmationKeyInfo"
+			value="true" />
+		<property name="template">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetObject" ref="template" />
+				<property name="targetMethod" value="getDocumentElement" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.apache.cxf.helpers.DOMUtils" factory-method="readXml"
+		init-method="getDocumentElement" id="template">
+		<constructor-arg type="java.io.InputStream" value="classpath:ststemplate.xml" />
 	</bean>
 
 	<bean id="wss4jOutConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
@@ -70,10 +83,10 @@
 	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
 
 	<bean class="org.apache.esb.sts.client.StsClientInvoker">
-		<property name="stsClientUsernameToken" ref="stsClientUsernameToken" />
-		<!-- property name="stsClientCertificate" ref="stsClientCertificate" /-->
-
-		<property name="isSaml11" value="true" />
+		<property name="stsClient">
+			<!-- ref bean="stsClientUsernameToken"/-->
+			<ref bean="stsClientCertificate"/>
+		</property>
 	</bean>
 
 </beans>
