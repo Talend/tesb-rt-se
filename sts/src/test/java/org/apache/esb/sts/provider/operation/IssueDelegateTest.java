@@ -87,34 +87,14 @@ public class IssueDelegateTest {
 			
 		id.setPasswordCallback(passwordCallbackMock);
 		
-		TokenProvider tp = new Saml1TokenProvider();
-		id.setTokenProviders(Arrays.asList(tp));
+		TokenProvider tp1 = new Saml1TokenProvider();
+		TokenProvider tp2 = new Saml2TokenProvider();
+		id.setTokenProviders(Arrays.asList(tp1, tp2));
 		
 		id.issue(requestMock);
 			
 		verify(requestMock);
 	}
-	
-//	@Test
-//	public void TestIssueDelegateSaml2()	{
-//		IssueDelegate id = new IssueDelegate();
-//		assertNotNull(id);
-//			
-//		EasyMock.expect(requestMock.getAny()).andStubReturn(Arrays.asList());
-//		EasyMock.replay(requestMock);
-//			
-//		EasyMock.expect(passwordCallbackMock.resetUsername()).andReturn("username");
-//		EasyMock.replay(passwordCallbackMock);
-//			
-//		id.setPasswordCallback(passwordCallbackMock);
-//		
-//		TokenProvider tp = new Saml2TokenProvider();
-//		id.setTokenProviders(Arrays.asList(tp));
-//		
-//		id.issue(requestMock);
-//			
-//		verify(requestMock);
-//	}
 	
 	@Test
 	public void TestIssueDelegateUsernameNull()	{
@@ -129,6 +109,10 @@ public class IssueDelegateTest {
 			EasyMock.replay(passwordCallbackMock);
 			
 			id.setPasswordCallback(passwordCallbackMock);
+			
+			TokenProvider tp1 = new Saml1TokenProvider();
+			TokenProvider tp2 = new Saml2TokenProvider();
+			id.setTokenProviders(Arrays.asList(tp1, tp2));
 			
 			id.issue(requestMock);
 			verify(requestMock);
@@ -167,8 +151,9 @@ public class IssueDelegateTest {
 			
 		id.setPasswordCallback(passwordCallbackMock);
 		
-		TokenProvider tp = new Saml1TokenProvider();
-		id.setTokenProviders(Arrays.asList(tp));
+		TokenProvider tp1 = new Saml1TokenProvider();
+		TokenProvider tp2 = new Saml2TokenProvider();
+		id.setTokenProviders(Arrays.asList(tp1, tp2));
 		
 		id.issue(requestMock);
 			
@@ -211,8 +196,9 @@ public class IssueDelegateTest {
 			
 		id.setPasswordCallback(passwordCallbackMock);
 		
-		TokenProvider tp = new Saml1TokenProvider();
-		id.setTokenProviders(Arrays.asList(tp));		
+		TokenProvider tp1 = new Saml1TokenProvider();
+		TokenProvider tp2 = new Saml2TokenProvider();
+		id.setTokenProviders(Arrays.asList(tp1, tp2));		
 		
 		try {
 			id.issue(requestMock);
@@ -259,6 +245,10 @@ public class IssueDelegateTest {
 		EasyMock.expect(passwordCallbackMock.resetUsername()).andReturn(null);
 		EasyMock.replay(passwordCallbackMock);
 			
+		TokenProvider tp1 = new Saml1TokenProvider();
+		TokenProvider tp2 = new Saml2TokenProvider();
+		id.setTokenProviders(Arrays.asList(tp1, tp2));
+		
 		id.setPasswordCallback(passwordCallbackMock);
 		
 		
