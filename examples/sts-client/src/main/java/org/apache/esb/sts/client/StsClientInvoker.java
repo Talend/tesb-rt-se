@@ -15,6 +15,7 @@ import org.opensaml.DefaultBootstrap;
 import org.opensaml.common.xml.SAMLConstants;
 import org.opensaml.saml2.core.Assertion;
 import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.io.Unmarshaller;
 import org.opensaml.xml.io.UnmarshallerFactory;
 import org.opensaml.xml.io.UnmarshallingException;
@@ -56,14 +57,6 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 			Element templateElement = getTemplate();
 			if (stsClientUsernameToken != null) {
 				stsClient = stsClientUsernameToken;
-				
-//				Element el = templateElement.getOwnerDocument().createElementNS(STSUtils.WST_NS_05_12,
-//						"OnBehalfOf");
-//				templateElement.appendChild(el);
-//				WSSecUsernameToken token = new WSSecUsernameToken();
-//				token.setUserInfo("joe", "password");
-//				token.prepare(templateElement.getOwnerDocument());
-//				el.appendChild(token.getUsernameTokenElement());
 			} else {
 				stsClient = stsClientCertificate;
 				
@@ -82,24 +75,28 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 			System.out.println("securityToken.getId()="
 					+ securityToken.getId());
 			
-			Object assertion;
-			assertion = getSAMLAssertionResponse(securityToken);
+			XMLObject assertion = getSAMLAssertionResponse(securityToken);
 			
-			if (!isSaml11) {
+			System.out.println("securityToken.getTokenType()="+securityToken.getTokenType());
+
+			if (SAMLConstants.SAML20_NS.equals(securityToken.getTokenType())) {
 				System.out.println("assertion.getID() = " + ((Assertion)assertion).getID());
 				System.out.println("assertion.getIssuer().getValue()" + ((Assertion)assertion).getIssuer().getValue());
-			} else {
+			} else if (SAMLConstants.SAML1_NS.equals(securityToken.getTokenType())){
 				System.out.println("assertion.getID() = " + ((org.opensaml.saml1.core.Assertion)assertion).getID());
 				System.out.println("assertion.getIssuer() = " + ((org.opensaml.saml1.core.Assertion)assertion).getIssuer());
+			} else {
+				throw new RuntimeException("Usupported token type");
 			}
-			
+		} catch (RuntimeException e) {
+			throw e;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private Object getSAMLAssertionResponse(SecurityToken securityToken) {
+	private XMLObject getSAMLAssertionResponse(SecurityToken securityToken) {
 		
 		Element token = securityToken.getToken();
 		
@@ -115,16 +112,12 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 		UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
 		Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(token);
 		
-		Object assertion;
-		
 		try {
-			assertion = unmarshaller.unmarshall(token);
+			return unmarshaller.unmarshall(token);
 		} catch (UnmarshallingException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Unmarshalling of token failed");
 		}
-		
-		return assertion;
 	}
 
 	private Element getTemplate() {
@@ -150,6 +143,6 @@ public class StsClientInvoker extends TimerTask implements InitializingBean {
 				.getResource("/META-INF/spring/beans.xml");
 		Bus bus = bf.createBus(busFile.toString());
 		SpringBusFactory.setDefaultBus(bus);
-		Thread.sleep(500000);
+		Thread.sleep(50000);
 	}
 }
