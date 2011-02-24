@@ -26,13 +26,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 
 	private ServiceLocator locatorClient;
 
-	private String endpointPrefix = "";// "http://localhost:8081";
-
-	public LocatorRegistrar() {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Locator Client created.");
-		}
-	}
+	private String endpointPrefix = "";
 
 	@Override
 	public void startServer(Server server) {
@@ -44,14 +38,12 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during register endpoint. "
-								+ e.getMessage());
+						"ServiceLocator Exception thrown while registering endpoint.", e);
 			}
 		} catch (InterruptedException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during register endpoint. "
-								+ e.getMessage());
+						"Interrupted Exception thrown while registering endpoint. ", e);
 			}
 		}
 	}
@@ -110,10 +102,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		}
 	}
 
-	public ServiceLocator getLocatorClient() {
-		return locatorClient;
-	}
-
 	private void registerAvailableServers() {
 		ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
 		List<Server> servers = serverRegistry.getServers();
@@ -144,8 +132,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 				.getExtension(ServerLifeCycleManager.class);
 		if (manager != null) {
 			manager.registerListener(this);
-			if (LOG.isLoggable(Level.FINER)) {
-				LOG.log(Level.FINER, "Listener was registered.");
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.log(Level.FINE, "Server life cycle listener registered.");
 			}
 		}
 	}
@@ -157,14 +145,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		QName serviceName = serviceInfo.getName();
 		String endpointAddress = endpointPrefix + eInfo.getAddress();
 
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Service name: " + serviceName);
-			LOG.log(Level.FINE, "Endpoint Address: " + endpointAddress);
-		}
 		locatorClient.register(serviceName, endpointAddress);
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Service was registered in ZooKeeper.");
-		}
 	}
 
 	private void unregisterEndpoint(Server server)
@@ -174,16 +155,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		QName serviceName = serviceInfo.getName();
 		String endpointAddress = endpointPrefix + eInfo.getAddress();
 
-		if (LOG.isLoggable(Level.FINEST)) {
-			LOG.log(Level.FINEST, "Service name: " + serviceName);
-			LOG.log(Level.FINEST, "Endpoint Address: " + endpointAddress);
-		}
 		locatorClient.unregister(serviceName, endpointAddress);
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE,
-					"Service was unregistered from ZooKeeper. Service name: "
-							+ serviceName + " Endpoint Address: "
-							+ endpointAddress);
-		}
 	}
 }
