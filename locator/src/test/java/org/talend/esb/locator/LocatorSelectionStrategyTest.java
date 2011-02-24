@@ -9,6 +9,7 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIn.isIn;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
@@ -99,6 +100,17 @@ public class LocatorSelectionStrategyTest {
 		String address = strategy.getPrimaryAddress(EXCHANGE_1);
 
 		assertThat(address, isIn(ENDPOINTS_1));
+		verify(sl);
+	}
+
+	@Test
+	public void getPrimaryAddressLocatorThrowsException() throws Exception {
+		expect(sl.lookup(SERVICE_NAME_1)).andThrow(new ServiceLocatorException());
+		replay(sl);
+		
+		String address = strategy.getPrimaryAddress(EXCHANGE_1);
+
+		assertThat(address, nullValue());
 		verify(sl);
 	}
 

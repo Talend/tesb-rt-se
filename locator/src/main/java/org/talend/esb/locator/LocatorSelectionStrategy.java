@@ -75,9 +75,11 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 
 		if (primaryAddress == null) {
 			List<String> availableAddresses = getEndpoints(serviceName);
-			int index = random.nextInt(availableAddresses.size());
-			primaryAddress = availableAddresses.get(index);
-			primaryAddresses.put(serviceName, primaryAddress);
+			if (! availableAddresses.isEmpty()) {
+				int index = random.nextInt(availableAddresses.size());
+				primaryAddress = availableAddresses.get(index);
+				primaryAddresses.put(serviceName, primaryAddress);
+			}
 		}
 		return primaryAddress;
 	}
