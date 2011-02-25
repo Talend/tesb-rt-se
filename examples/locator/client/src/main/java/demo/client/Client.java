@@ -1,4 +1,4 @@
-package demo.service;
+package demo.client;
 
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;

@@ -1,13 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:cxf="http://cxf.apache.org/core"
 	xmlns:p="http://cxf.apache.org/policy"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
 	">
 
@@ -23,7 +24,7 @@
 		</cxf:features>
 	</cxf:bus>
 
-	<!-- Configure based on a reference to an actual defined STSClient bean -->
+	<!-- UsernameToken -->
 	<bean id="stsClientUsernameToken" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
 		<property name="wsdlLocation" value="model/ws-trust-1.3-service.wsdl" />
@@ -38,8 +39,22 @@
 				<ref bean="wss4jOutConfiguration" />
 			</list>
 		</property>
+		<property name="tokenType" ref="tokenType"/>
 	</bean>
 
+	<bean id="wss4jOutConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+		<property name="properties">
+			<map>
+				<entry key="action" value="UsernameToken" />
+				<entry key="user" value="joe" />
+				<entry key="passwordType" value="PasswordText" />
+				<entry key="passwordCallbackRef" value-ref="passwordCallback"/>
+			</map>
+		</property>
+	</bean>
+	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
+
+	<!-- Certificate -->
 	<bean id="stsClientCertificate" class="org.apache.cxf.ws.security.trust.STSClient">
 		<constructor-arg ref="cxf" />
 		<property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" />
@@ -61,32 +76,26 @@
 				<property name="targetMethod" value="getDocumentElement" />
 			</bean>
 		</property>
+		<property name="tokenType" ref="tokenType"/>
 	</bean>
 
-	<bean class="org.apache.cxf.helpers.DOMUtils" factory-method="readXml"
-		init-method="getDocumentElement" id="template">
+	<bean id="template" class="org.apache.cxf.helpers.DOMUtils" factory-method="readXml">
 		<constructor-arg type="java.io.InputStream" value="classpath:ststemplate.xml" />
 	</bean>
 
-	<bean id="wss4jOutConfiguration" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
-		<property name="properties">
-			<map>
-				<entry key="action" value="UsernameToken" />
-				<entry key="user" value="joe" />
-				<entry key="passwordType" value="PasswordText" />
-				<entry key="passwordCallbackRef">
-					<ref bean="passwordCallback"/>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	<bean id="passwordCallback" class="org.apache.esb.sts.client.ClientPasswordCallback" />
-
+	<!-- Invoker -->
 	<bean class="org.apache.esb.sts.client.StsClientInvoker">
 		<property name="stsClient">
-			<!-- ref bean="stsClientUsernameToken"/-->
-			<ref bean="stsClientCertificate"/>
+			<ref bean="stsClientUsernameToken"/>
+			<!-- ref bean="stsClientCertificate"/-->
 		</property>
+	</bean>
+	
+	<bean id="tokenType" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<!-- value>urn:oasis:names:tc:SAML:1.0:assertion</value-->
+			<value>urn:oasis:names:tc:SAML:2.0:assertion</value>
+		</constructor-arg>
 	</bean>
 
 </beans>

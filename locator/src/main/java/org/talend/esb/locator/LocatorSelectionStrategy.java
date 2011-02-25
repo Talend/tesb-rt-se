@@ -1,7 +1,9 @@
 package org.talend.esb.locator;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,24 +23,29 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 	
 	private Random random = new Random();
 
-	public LocatorSelectionStrategy() {
-	}
+	private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public List<String> getAlternateAddresses(Exchange exchange) {
-		return getEndpoints(exchange);
+		QName serviceName = getServiceName(exchange);
+		List<String> alternateAddresses= getEndpoints(serviceName);
+		synchronized (this) {
+			primaryAddresses.remove(serviceName);
+		}
+		return alternateAddresses;
 	}
 
 	@Override
 	public String selectAlternateAddress(List<String> alternates) {
+		String alternateAddress = null;
 		if (alternates != null && ! alternates.isEmpty()) {
 			int index = random.nextInt(alternates.size());
-			return alternates.remove(index);
+			alternateAddress = alternates.remove(index);
 		}
-		return null;
+		return alternateAddress;
 	}
 
 	/**
@@ -62,19 +69,23 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 	 * @param exchange
 	 * @return
 	 */
-	public String getPrimaryAddress(Exchange exchange) {
-		List<String> availableAddresses = getEndpoints(exchange);
-		int index = random.nextInt(availableAddresses.size());
-		return availableAddresses.get(index);
+	synchronized public String getPrimaryAddress(Exchange exchange) {
+		QName serviceName = getServiceName(exchange);
+		String primaryAddress = primaryAddresses.get(serviceName);
+
+		if (primaryAddress == null) {
+			List<String> availableAddresses = getEndpoints(serviceName);
+			if (! availableAddresses.isEmpty()) {
+				int index = random.nextInt(availableAddresses.size());
+				primaryAddress = availableAddresses.get(index);
+				primaryAddresses.put(serviceName, primaryAddress);
+			}
+		}
+		return primaryAddress;
 	}
 
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
-	}
-
-	private List<String> getEndpoints(Exchange exchange) {
-		QName serviceName = getServiceName(exchange);
-		return getEndpoints(serviceName);
 	}
 
 	private List<String> getEndpoints(QName serviceName) {

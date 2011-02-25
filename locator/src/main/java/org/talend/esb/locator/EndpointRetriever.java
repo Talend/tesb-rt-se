@@ -74,12 +74,22 @@ public class EndpointRetriever {
 		try {
 			endpointsList = receiveEndpointsList();
 			if (endpointsList == null) {
-				LOG.log(Level.SEVERE, "Can not receive list of endpoint");
+				LOG.log(Level.SEVERE, "Cannot receive list of endpoints");
 			}
-		} catch (Exception e) {
+		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"Can not refresh list of endpoints due to unknown exception");
+						"Cannot refresh list of endpoints due to ServiceLocatorException", e);
+			}
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Cannot refresh list of endpoints due to InterruptedException", e);
+			}
+		} catch (IOException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Cannot refresh list of endpoints due to IOException", e);
 			}
 		}
 	}
