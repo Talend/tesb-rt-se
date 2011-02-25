@@ -28,12 +28,23 @@
                 <executions>
                     <execution>
                         <phase>pre-site</phase>
-                        <id>create-pdf-docs</id>
+                        <id>create-pdf-docs-im</id>
                         <goals>
                             <goal>generate-pdf</goal>
                         </goals>
                         <configuration>
                             <includes>SLInstallationManual.xml</includes>
+                            <foCustomization>src/docbkx/xsl/customfo.xsl</foCustomization>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <id>create-pdf-docs-cm</id>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <configuration>
+                            <includes>SLConfigurationManual.xml</includes>
                             <foCustomization>src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>

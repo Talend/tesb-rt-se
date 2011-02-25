@@ -15,7 +15,7 @@
     <chapter>
         <title>Service Locator Installation </title>
         	<para>
-The Service Locator is a service that provides service consumers with a mechanism to discover service endpoints at run time. Service Locator consists of two parts: Endpoint Repository and Talend ESB ServiceLocator Feature. In this chapter describes the steps for installing and running the <emphasis role="strong">Service Locator server</emphasis>. 
+The Service Locator is a service that provides service consumers with a mechanism to discover service endpoints at run time. Service Locator consists of two parts: Endpoint Repository and Talend ESB ServiceLocator Feature. This chapter describes the steps to install and run the <emphasis role="strong">Service Locator server</emphasis>. 
 			</para>
 			<para>
 Since creating a distributed, fault-tolerant endpoint repository is a non-trivial task, the Service Locator implementation based on proven open source technology - Apache ZooKeeper. This is a highly reliable and available service that provides coordination between distributed processes. 
@@ -45,7 +45,7 @@ clientPort=2181
     			<para>
 This file can be called anything, but for the sake of this discussion call it <emphasis role="strong">conf/zoo.cfg</emphasis>. Change the value of dataDir to specify an existing (empty to start with) directory. 
 Here are the meanings for each of the fields:
-				<informaltable xml:id="tsfexamples.sampleslist">
+				<informaltable>
           			<tgroup cols="2">        
 		            <colspec colnum="1" colwidth="1*"/>
             		<colspec colnum="2" colwidth="2*"/>
@@ -137,5 +137,11 @@ For more information, see <link xlink:href="http://hadoop.apache.org/zookeeper/d
 	    </chapter>   
 	    <chapter>
         <title>Enabling ServiceLocator usage in CXF</title>
+        	<para>
+You need Service Locator client part JAR to enable your CFX service or consumer to use the Service Locator.
+			</para>
+			<para>
+To use the Locator client in CXF you need to add the <code>locator-4.0.jar</code> into your classpath or war file. Also add it to the OSGi conatiner if uses one. To learn more about Locator client configuration for both provider or consumer please see Service Locator Configuration Manual         	
+        	</para>
         </chapter>
 </book>
