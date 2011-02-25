@@ -8,7 +8,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -186,7 +185,7 @@ public class LocatorRegistrarTest {
 		return new ServiceLocator() {
 			@Override
 			protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
-					throws IOException {
+					throws ServiceLocatorException {
 				if (connectSuccessful) {
 					connectionLatch.countDown();
 				}

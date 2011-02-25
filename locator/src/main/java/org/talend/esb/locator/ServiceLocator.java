@@ -87,16 +87,13 @@ public class ServiceLocator {
 	 * is important to specify a {@link PostConnectAction} that re-registers all
 	 * endpoints.
 	 * 
-	 * @throws IOException
-	 *             At least one of the endpoints does not represent a valid
-	 *             address
 	 * @throws InterruptedException
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a successful connection to the ServiceLocator
-	 * @throws ServiceLocatorException
+	 * @throws ServiceLocatorException 
 	 *             the connect operation failed
 	 */
-	synchronized public void connect() throws IOException,
+	synchronized public void connect() throws
 			InterruptedException, ServiceLocatorException {
 		disconnect();
 
@@ -106,6 +103,7 @@ public class ServiceLocator {
 
 		CountDownLatch connectionLatch = new CountDownLatch(1);
 		zk = createZooKeeper(connectionLatch);
+
 		boolean connected = connectionLatch.await(connectionTimeout,
 				TimeUnit.MILLISECONDS);
 
@@ -113,7 +111,7 @@ public class ServiceLocator {
 			throw new ServiceLocatorException(
 					"Connection to Service Locator failed.");
 		} else {
-			notifyAll();
+//			notifyAll();
 			postConnectAction.process(this);
 		}
 
@@ -136,17 +134,13 @@ public class ServiceLocator {
 	synchronized public void disconnect() throws InterruptedException,
 			ServiceLocatorException {
 
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Start disconnect session");
-		}
 		if (zk != null) {
 			zk.close();
 			zk = null;
+			if (LOG.isLoggable(Level.FINER)) {
+				LOG.log(Level.FINER, "Disconnected service locator session.");
+			}
 		}
-		if (LOG.isLoggable(Level.FINER)) {
-			LOG.log(Level.FINER, "End disconnect session");
-		}
-
 	}
 
 	/**
@@ -174,8 +168,8 @@ public class ServiceLocator {
 	synchronized public void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Register endpoint " + endpoint
-					+ " for service " + serviceName + ".");
+			LOG.log(Level.INFO, "Registering endpoint " + endpoint
+					+ " for service " + serviceName + "...");
 		}
 		checkConnection();
 		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
@@ -189,8 +183,8 @@ public class ServiceLocator {
 	synchronized public void unregister(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Unregister endpoint " + endpoint + " for service "
-					+ serviceName + ".");
+			LOG.info("Unregistering endpoint " + endpoint + " for service "
+					+ serviceName + "...");
 		}
 
 		NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
@@ -200,7 +194,6 @@ public class ServiceLocator {
 		checkConnection();
 		ensurePathDeleted(endpointNodePath, false);
 		ensurePathDeleted(serviceNodePath, true);
-
 	}
 
 	/**
@@ -220,7 +213,7 @@ public class ServiceLocator {
 	synchronized public List<String> lookup(QName serviceName)
 			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Lookup endpoints of " + serviceName + " service.");
+			LOG.info("Looking up endpoints of service " + serviceName );
 		}
 		try {
 			checkConnection();
@@ -231,8 +224,8 @@ public class ServiceLocator {
 				children = decode(getChildren(providerPath));
 			} else {
 				if (LOG.isLoggable(Level.FINE)) {
-					LOG.fine("Lookup for provider" + serviceName
-							+ " failed, provider not known.");
+					LOG.fine("Lookup of service " + serviceName
+							+ " failed, service is not known.");
 				}
 				children = Collections.emptyList();
 			}
@@ -242,13 +235,11 @@ public class ServiceLocator {
 		} catch (KeeperException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
-						"The service locator server signaled an error: "
-								+ e.getMessage());
+						"The service locator server signaled an error", e);
 			}
 			throw new ServiceLocatorException(
 					"The service locator server signaled an error.", e);
 		}
-
 	}
 
 	/**
@@ -305,6 +296,7 @@ public class ServiceLocator {
 
 	private void checkConnection() throws InterruptedException, ServiceLocatorException {
 		if (!isConnected()) {
+/*
 			if (LOG.isLoggable(Level.WARNING)) {
 				LOG.log(Level.WARNING,
 						"The connection to Service Locator was not established yet. Waiting for "
@@ -312,9 +304,10 @@ public class ServiceLocator {
 			}
 			wait(connectionTimeout);
 			if (!isConnected()) {
+*/
 				throw new ServiceLocatorException(
 						"The connection to Service Locator was not established.");
-			}
+//			}
 		}
 	}
 
@@ -429,9 +422,13 @@ public class ServiceLocator {
 	}
 
 	protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
-			throws IOException {
-		return new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(
-				connectionLatch));
+	throws ServiceLocatorException {
+		try {
+			return new ZooKeeper(locatorEndpoints, sessionTimeout, new WatcherImpl(connectionLatch));
+		} catch (IOException e) {
+			throw new ServiceLocatorException("At least one of the endpoints " + locatorEndpoints +
+					" does not represent a valid address.");			
+		}
 	}
 
 	public class WatcherImpl implements Watcher {
@@ -456,12 +453,6 @@ public class ServiceLocator {
 				} else if (eventState == KeeperState.Expired) {
 					connect();
 				}
-			} catch (IOException e) {
-				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE,
-							"An IOException  was thrown when trying to connect to the ServiceLocator",
-							e);
-				}
 			} catch (InterruptedException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
@@ -471,8 +462,7 @@ public class ServiceLocator {
 			} catch (ServiceLocatorException e) {
 				if (LOG.isLoggable(Level.SEVERE)) {
 					LOG.log(Level.SEVERE,
-							"Failed to execute an request to Service Locator.",
-							e);
+							"Failed to execute an request to Service Locator.", e);
 				}
 			}
 		}

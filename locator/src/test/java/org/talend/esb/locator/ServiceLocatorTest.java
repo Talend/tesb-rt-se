@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.talend.esb.locator.ServiceLocator.PostConnectAction;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -208,7 +207,7 @@ public class ServiceLocatorTest {
 		return new ServiceLocator() {
 			@Override
 			protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
-					throws IOException {
+					throws ServiceLocatorException {
 				if (connectSuccessful) {
 					connectionLatch.countDown();
 				}
