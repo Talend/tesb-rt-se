@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.sopera.monitoring</groupId>
+	<artifactId>Monitoring</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<name>Monitoring</name>
+	<url>http://www.sopera.com</url>
+	
+	<repositories>
+		<repository>
+			<id>eclipselink</id>
+			<url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
+		</repository>
+		<repository>
+			<id>jboss</id>
+			<url>http://repository.jboss.org/maven2</url>
+		</repository>
+	</repositories>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven-annotation-plugin</id>
+			<url>http://maven-annotation-plugin.googlecode.com/svn/trunk/mavenrepo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<modules>
+		<module>MonitoringService</module>
+		<module>Agent</module>
+		<module>Dummy</module>
+		<module>Common</module>
+		<module>PersistentQueue</module>
+  </modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.version>1.0</project.version>
+		<project.groupId>org.sopera.monitoring</project.groupId>
+		
+		<monitoring_service.groupId>org.sopera.monitoring</monitoring_service.groupId>
+		<monitoring_service.version>1.0</monitoring_service.version>
+		
+		<agents.groupId>org.sopera.monitoring</agents.groupId>
+		<agents.version>1.0</agents.version>
+		
+		<dummy.groupId>org.sopera.monitoring</dummy.groupId>
+		<dummy.version>1.0</dummy.version>
+		
+		<spring.version>3.0.5.RELEASE</spring.version>
+                    <spring.mock>spring-test</spring.mock>
+		
+		<cxf.version>2.3.1</cxf.version>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${monitoring_service.groupId}</groupId>
+				<artifactId>MonitoringServiceCommon</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>${monitoring_service.groupId}</groupId>
+				<artifactId>MonitoringServiceImpl</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${monitoring_service.groupId}</groupId>
+				<artifactId>MonitoringServiceWsImpl</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${monitoring_service.groupId}</groupId>
+				<artifactId>DefaultDatabaseHandler</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>ch.zurich.monitoring</groupId>
+				<artifactId>CustomHandler</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${monitoring_service.groupId}</groupId>
+				<artifactId>MonitoringServiceCommonTest</artifactId>
+				<version>${monitoring_service.version}</version>
+			</dependency>	
+			
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>MonitoringServiceClient</artifactId>
+				<version>${agents.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>AgentsCommon</artifactId>
+				<version>${agents.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>FlowIdProducer</artifactId>
+				<version>${agents.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>EventProducer</artifactId>
+				<version>${agents.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>EventCollector</artifactId>
+				<version>${agents.version}</version>
+			</dependency>		
+			<dependency>
+				<groupId>${agents.groupId}</groupId>
+				<artifactId>EventFeature</artifactId>
+				<version>${agents.version}</version>
+			</dependency>	
+			
+			<dependency>
+				<groupId>${dummy.groupId}</groupId>
+				<artifactId>DummyCommon</artifactId>
+				<version>${dummy.version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>${dummy.groupId}</groupId>
+				<artifactId>DummyService</artifactId>
+				<version>${dummy.version}</version>
+			</dependency>	
+			<dependency>
+				<groupId>${dummy.groupId}</groupId>
+				<artifactId>DummyClient</artifactId>
+				<version>${dummy.version}</version>
+			</dependency>	
+			
+			<dependency>
+				<groupId>com.gaborcselle.persistent</groupId>
+				<artifactId>PersistentQueue</artifactId>
+				<version>1.0</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>${spring.mock}</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-api</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>			
+			
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>javax.persistence</artifactId>
+				<version>2.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-chain</groupId>
+				<artifactId>commons-chain</artifactId>
+				<version>1.2</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>jsr250-api</artifactId>
+				<version>1.0</version>
+			</dependency> 
+			
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>5.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>xmlbeans</groupId>
+				<artifactId>xmlbeans</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+				<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<configuration>
+					<server>myTomcat6</server>
+					<path>/${project.build.finalName}</path>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>MonitoringService</finalName>
+
+	</build>
+</project>

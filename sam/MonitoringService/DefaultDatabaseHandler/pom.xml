@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.sopera.monitoring</groupId>
+	<artifactId>DefaultDatabaseHandler</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<name>DefaultDatabaseHandler</name>
+	<url>http://www.sopera.com</url>
+
+	<parent>
+		<groupId>org.sopera.monitoring</groupId>
+		<artifactId>Monitoring</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.sopera.monitoring</groupId>
+			<artifactId>MonitoringServiceCommon</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.sopera.monitoring</groupId>
+			<artifactId>MonitoringServiceCommonTest</artifactId>
+			<scope>test</scope>
+		</dependency>	
+
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+		</dependency>
+        
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.7.1.1</version>
+        </dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Static weaving instead of dynamic weaving. This should avoid container 
+				issues. Tomcat/JEE -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<configuration>
+							<tasks>
+								<java classname="org.eclipse.persistence.tools.weaving.jpa.StaticWeave"
+									classpathref="maven.runtime.classpath" fork="true">
+									<arg
+										line="-loglevel FINE -persistenceinfo src/main/resources target/classes target/classes" />
+								</java>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<!-- Uncomment/Comment this line for shareing application context with interceptor. 
+		If there is already a Spring context sharing is recommended. -->
+	<import resource="classpath:eventProducer.xml" />
+
+	<context:annotation-config />
+<!--
+ <bean id="configurator" class="zsoa.wsf.addon.cxf.Configurator">
+  <property name="bus"              ref="cxf" />
+  <property name="securityDomain"   value="sad" />
+  <property name="locatorUrl"       value="https://lab.zsoawsf.ch.zurich.com:38500/zsoa-wsf/services/registry-v1" />
+  <property name="containerUrl"     value="http://ncha00001169.z.ch.zurich.com:8080/zsoa-wsf-ri-provider" />
+  <property name="containerName"    value="Apache-cxf 2.2.3 ri" />
+  <property name="tokenStrategy"    value="ExistingBinarySecurityToken" />
+ </bean>
+-->
+
+	<bean id="caseServiceImpl" class="ch.zurich.caseservice.impl.CaseServiceImpl">
+		<property name="customerService" ref="customerService" />
+		<property name="dummyDelay" value="3000"/>
+	</bean>
+
+	<jaxws:endpoint xmlns:tns="http://www.zurich.ch/incurancecase/CaseService"
+		id="caseService" implementor="#caseServiceImpl"
+		wsdlLocation="WEB-INF/wsdl/CaseService.wsdl" endpointName="tns:CaseServiceSOAP"
+		serviceName="tns:CaseService" address="/CaseServiceSOAP">
+		<jaxws:features>
+			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+			<bean id="eventFeature" class="org.sopera.monitoring.feature.EventFeature">
+				<constructor-arg ref="eventProducer" />
+			</bean>
+		</jaxws:features>
+	</jaxws:endpoint>
+	
+	<jaxws:client xmlns:tns="http://customerservice.example.com/"
+		id="customerService" address="http://localhost:7080/CustomerService/services/CustomerServicePort"
+		wsdlLocation="WEB-INF/wsdl/CustomerService.wsdl"
+		serviceClass="com.example.customerservice.CustomerService"
+		serviceName="tns:CustomerServiceService" endpointName="tns:CustomerServicePort">
+		<jaxws:features>
+			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" />-->
+			<bean class="org.sopera.monitoring.feature.EventFeature" />
+		</jaxws:features>
+	</jaxws:client>
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<mapping>
+		<class-a>org.sopera.monitoring.event.Event</class-a>
+		<class-b>org.sopera.monitoring._2010._09.common.EventType</class-b>
+
+		<field>
+			<a>eventInfo.timestamp</a>
+			<b>eventInfo.timestamp</b>
+		</field>
+		<field custom-converter="org.sopera.monitoring.customconverter.EventTypeToEventEnumType">
+			<a>eventInfo.eventType</a>
+			<b>eventInfo.eventType</b>
+		</field>
+		<field>
+			<a>eventInfo.originator.processId</a>
+			<b>eventInfo.originator.processId</b>
+		</field>
+		<field>
+			<a>eventInfo.originator.ip</a>
+			<b>eventInfo.originator.ip</b>
+		</field>
+		<field>
+			<a>eventInfo.originator.hostname</a>
+			<b>eventInfo.originator.hostname</b>
+		</field>
+		<field>
+			<a>eventInfo.originator.customId</a>
+			<b>eventInfo.originator.customId</b>
+		</field>
+
+		<field>
+			<a>messageInfo.messageId</a>
+			<b>messageInfo.messageId.value</b>
+		</field>
+		<field>
+			<a>messageInfo.flowId</a>
+			<b>messageInfo.flowId.value</b>
+		</field>
+		<field custom-converter="org.sopera.monitoring.customconverter.StringToQName">
+			<a>messageInfo.porttype</a>
+			<b>messageInfo.portType</b>
+		</field>
+		<field>
+			<a>messageInfo.operationName</a>
+			<b>messageInfo.operationName</b>
+		</field>
+		<field>
+			<a>messageInfo.transportType</a>
+			<b>messageInfo.transport.value</b>
+		</field>
+		<field custom-converter="org.sopera.monitoring.customconverter.StringToXmlAny">
+			<a>content</a>
+			<b>content</b>
+		</field>
+		<field custom-converter="org.sopera.monitoring.customconverter.StringToXmlAny">
+			<a>extension</a>
+			<b>extension</b>
+		</field>
+	</mapping>
+</mappings>

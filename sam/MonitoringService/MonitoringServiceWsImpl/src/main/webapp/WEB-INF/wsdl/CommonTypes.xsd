@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pref="http://www.sopera.org/monitoring/2010/09/base" xmlns:tns="http://www.sopera.org/monitoring/2010/09/common" elementFormDefault="qualified" targetNamespace="http://www.sopera.org/monitoring/2010/09/common">
+
+	<import namespace="http://www.sopera.org/monitoring/2010/09/base" schemaLocation="BaseTypes.xsd"/>
+	<complexType name="eventType">
+		<sequence>
+			<element name="eventInfo" type="tns:eventInfoType"/>
+			<element name="messageInfo" type="tns:messageInfoType"/>
+			<element name="content" type="tns:contentType"/>
+			<element name="extension" type="tns:extensionType"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="eventInfoType">
+		<sequence>
+			<element name="timestamp" type="dateTime"/>
+			<element name="eventType" type="pref:eventEnumType"/>
+			<element name="originator" type="tns:originatorType"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="messageInfoType">
+		<sequence>
+			<element name="messageId" type="pref:uuidType"/>
+			<element name="flowId" type="pref:uuidType"/>
+			<element name="porttype" type="QName"/>
+			<element name="operationName">
+				<simpleType>
+					<restriction base="pref:string256">
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="transport" type="pref:transportType"/>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="contentType">
+		<sequence>
+			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="extensionType">
+		<sequence>
+			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="originatorType">
+		<sequence>
+			<element name="processId" type="pref:string256"/>
+			<element name="ip" type="string"/>
+			<element name="hostname" type="pref:string256"/>
+			<element maxOccurs="1" minOccurs="0" name="customId" type="string"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="successType">
+		<sequence>
+			<element maxOccurs="1" minOccurs="0" name="successMessage" type="string"/>
+		</sequence>
+	</complexType>
+</schema>
