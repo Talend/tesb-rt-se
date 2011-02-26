@@ -5,7 +5,7 @@ import org.sopera.monitoring.producer.EventProducer;
 import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 /**
- * event producer for outgoing mesaasges
+ * Event producer for outgoing mesaasges
  * 
  * @author cschmuelling
  * 

@@ -30,7 +30,7 @@ public class StringToXmlAny implements CustomConverter {
 		if (sourceFieldValue != null && sourceFieldValue instanceof String
 				&& !sourceFieldValue.equals("")) {
 
-			// see other attempts to work with xml in subversion revision 4882
+			// see other attempts to work with xml in Subversion revision 4882
 			Object content = getDocument(sourceFieldValue);
 			if (content == null) {
 				content = getJaxBElementWrapper(sourceFieldValue);

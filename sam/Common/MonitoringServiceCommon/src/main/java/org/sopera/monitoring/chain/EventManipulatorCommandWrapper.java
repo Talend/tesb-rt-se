@@ -6,7 +6,7 @@ import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.handler.EventManipulator;
 
 /**
- * Wrapper for hiding Cammand interface and dependency to commons-chain 
+ * Wrapper for hiding Command interface and dependency to commons-chain 
  * @author cschmuelling
  *
  */

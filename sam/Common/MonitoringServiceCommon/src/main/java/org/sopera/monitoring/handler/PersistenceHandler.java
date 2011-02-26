@@ -18,7 +18,7 @@ public interface PersistenceHandler<E extends Event>{
 
 	/**
 	 * Start a new transaction<br/>
-	 * Within a spring context with JPA/EclipseLink the transaction is startet
+	 * Within a spring context with JPA/EclipseLink the transaction is started
 	 * on putEvents of MonitoringServiceImpl
 	 */
 	public void beginTransaction();
@@ -47,7 +47,7 @@ public interface PersistenceHandler<E extends Event>{
 
 	/**
 	 * Commit the transaction<br/>
-	 * Within a spring context with JPA/EclipseLink the transaction is commited
+	 * Within a spring context with JPA/EclipseLink the transaction is committed
 	 * on putEvents of MonitoringServiceImpl
 	 */
 	public void commitTransaction();

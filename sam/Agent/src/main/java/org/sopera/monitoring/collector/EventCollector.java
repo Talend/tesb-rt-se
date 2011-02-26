@@ -16,7 +16,7 @@ public interface EventCollector {
 	public void sendEventsFromQueue();
 
 	/**
-	 * Set a flag for stopping sending new events to the monitoring service. The running executers will be not interrupted.
+	 * Set a flag to stop sending new events to the monitoring service. The running executors will be not interrupted.
 	 */
 	public void stopSending();
 

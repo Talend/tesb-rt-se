@@ -3,7 +3,7 @@ package org.sopera.monitoring.handler;
 import org.sopera.monitoring.event.Event;
 
 /**
- * Custom post handler will be executetd after events are persisted. You can write your own post handler and add it in monitoringService.xml
+ * Custom post handler will be executed after events are persisted. You can write your own post handler and add it in monitoringService.xml
  *  
  * @author cschmuelling
  *

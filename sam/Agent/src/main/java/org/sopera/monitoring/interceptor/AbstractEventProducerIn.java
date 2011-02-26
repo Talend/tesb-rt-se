@@ -13,7 +13,7 @@ import org.sopera.monitoring.producer.EventProducer;
 import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 /**
- * In interceptor for receiving a message and create an event.
+ * In interceptor for receiving a message and creating an event.
  * 
  * @author cschmuelling
  * 
@@ -29,7 +29,7 @@ public class AbstractEventProducerIn<T extends Message> extends
 			.getName() + "_CONTENT_KEY";
 
 	/**
-	 * a second intercepter is needed for receiving all event data. in the
+	 * A second intercepter is needed for receiving all event data. In the
 	 * receive phase the content is logged and in the second intercepter it will
 	 * be processed.
 	 */

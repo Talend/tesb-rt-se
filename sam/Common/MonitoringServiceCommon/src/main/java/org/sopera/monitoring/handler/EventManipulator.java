@@ -4,7 +4,7 @@ import org.sopera.monitoring.event.Event;
 
 /**
  * EventManipulator interface is used for the basic handler. For example content
- * length cutter oder password filter.
+ * length cutter or password filter.
  * 
  * @author cschmuelling
  * 

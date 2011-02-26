@@ -83,7 +83,7 @@ public class FlowIdHelper {
 		if (flowId == null) {
 			flowId = getFlowIdFromMessage(inMessage != null ? inMessage
 					: message);
-			logger.fine("No outgoing messages or no flowId inside outgoing messages. Try to find flowId in incomming message. flowId="
+			logger.fine("No outgoing messages or no flowId inside outgoing messages. Try to find flowId in incoming message. flowId="
 					+ flowId);
 		}
 
