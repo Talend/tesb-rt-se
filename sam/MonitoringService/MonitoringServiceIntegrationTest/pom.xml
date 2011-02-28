@@ -24,35 +24,29 @@
 			<artifactId>MonitoringServiceCommon</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceCommonTest</artifactId>
-			<scope>test</scope>
+			<artifactId>MonitoringServiceWsImpl</artifactId>
 		</dependency>
 
-		<!-- This dependcy exist just for creating the war file -->
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceImpl</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- This dependcy exist just for creating the war file -->
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>DefaultDatabaseHandler</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- This dependcy exist just for creating the war file -->
-		<dependency>
-			<groupId>ch.zurich.monitoring</groupId>
-			<artifactId>CustomHandler</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.7.1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

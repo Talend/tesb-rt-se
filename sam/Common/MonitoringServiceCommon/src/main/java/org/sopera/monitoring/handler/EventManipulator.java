@@ -9,7 +9,7 @@ import org.sopera.monitoring.event.Event;
  * @author cschmuelling
  * 
  */
-public interface EventManipulator<E extends Event> extends FilteredHandler<E> {
+public interface EventManipulator<E extends Event> {
 
 	void handleEvent(E event);
 

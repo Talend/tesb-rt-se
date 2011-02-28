@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 @Embeddable
 public class MessageInfo implements Serializable{
 
@@ -73,4 +76,58 @@ public class MessageInfo implements Serializable{
 	public void setTransportType(String transportType) {
 		this.transportType = transportType;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((flowId == null) ? 0 : flowId.hashCode());
+        result = prime * result + ((messageId == null) ? 0 : messageId.hashCode());
+        result = prime * result + ((operationName == null) ? 0 : operationName.hashCode());
+        result = prime * result + ((portType == null) ? 0 : portType.hashCode());
+        result = prime * result + ((transportType == null) ? 0 : transportType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MessageInfo other = (MessageInfo)obj;
+        if (flowId == null) {
+            if (other.flowId != null)
+                return false;
+        } else if (!flowId.equals(other.flowId))
+            return false;
+        if (messageId == null) {
+            if (other.messageId != null)
+                return false;
+        } else if (!messageId.equals(other.messageId))
+            return false;
+        if (operationName == null) {
+            if (other.operationName != null)
+                return false;
+        } else if (!operationName.equals(other.operationName))
+            return false;
+        if (portType == null) {
+            if (other.portType != null)
+                return false;
+        } else if (!portType.equals(other.portType))
+            return false;
+        if (transportType == null) {
+            if (other.transportType != null)
+                return false;
+        } else if (!transportType.equals(other.transportType))
+            return false;
+        return true;
+    }
+	
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
+    }
 }

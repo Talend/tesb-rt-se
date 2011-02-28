@@ -4,13 +4,12 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.sopera.monitoring.producer.EventProducer;
-import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 public abstract class AbstractEventProducer<T extends Message> extends
 		AbstractPhaseInterceptor<T> {
 
 	private InterceptorType type;
-	private EventProducer eventProducer;
+	protected EventProducer eventProducer;
 
 	public InterceptorType getType() {
 		return type;
@@ -30,10 +29,4 @@ public abstract class AbstractEventProducer<T extends Message> extends
 		return eventProducer;
 	}
 	
-	protected boolean isLogMessageContent() {
-		if (EventProducer.LOG_CONTENT_MODE_ON.equals(eventProducer.getLogMessageContent())) {
-			return true;
-		}
-		return false;
-	}
 }

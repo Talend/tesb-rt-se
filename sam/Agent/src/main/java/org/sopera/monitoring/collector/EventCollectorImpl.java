@@ -7,15 +7,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.chain.Command;
-import org.apache.commons.chain.Context;
-import org.apache.commons.chain.impl.ChainBase;
-import org.apache.commons.chain.impl.ContextBase;
-import org.sopera.monitoring.chain.EventManipulatorCommandWrapper;
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.exception.MonitoringException;
 import org.sopera.monitoring.filter.EventFilter;
-import org.sopera.monitoring.handler.CustomHandlerPreProcessing;
 import org.sopera.monitoring.handler.EventManipulator;
 import org.sopera.monitoring.queue.Queue;
 import org.sopera.monitoring.service.MonitoringService;
@@ -35,7 +29,7 @@ public class EventCollectorImpl implements EventCollector {
 	private static Logger logger = Logger.getLogger(EventCollectorImpl.class
 			.getName());
 
-	private MonitoringService<Event> monitoringServiceClient;
+	private MonitoringService monitoringServiceClient;
 	private List<EventFilter<Event>> eventFilter;
 	private Queue<Event> queue;
 	private TaskExecutor executor;
@@ -46,7 +40,6 @@ public class EventCollectorImpl implements EventCollector {
 	private boolean stopSending = false;
 
 	private List<EventManipulator<Event>> eventManipulator;
-	private List<CustomHandlerPreProcessing<Event>> preHandler;
 
 	/**
 	 * Returns the number of events send by one service call.
@@ -160,7 +153,7 @@ public class EventCollectorImpl implements EventCollector {
 	 * @param monitoringServiceClient
 	 */
 	public void setMonitoringServiceClient(
-			MonitoringService<Event> monitoringServiceClient) {
+			MonitoringService monitoringServiceClient) {
 		this.monitoringServiceClient = monitoringServiceClient;
 	}
 
@@ -174,14 +167,6 @@ public class EventCollectorImpl implements EventCollector {
 		this.eventManipulator = eventManipulator;
 	}
 
-	/**
-	 * Spring sets pre processing handler.
-	 * 
-	 * @param preHandler
-	 */
-	public void setPreHandler(List<CustomHandlerPreProcessing<Event>> preHandler) {
-		this.preHandler = preHandler;
-	}
 
 	/**
 	 * Stores an event in the queue and returns. So the synchronous execution of
@@ -286,41 +271,19 @@ public class EventCollectorImpl implements EventCollector {
 		logger.info("Start sending events at " + startAt.getTime()
 				+ " for identifier: " + random.toString());
 
-		ChainBase chainBase = new ChainBase();
 		// Execute Filter (for example password filter and cutting content
-		if (eventManipulator != null && eventManipulator.size() > 0)
+		if (eventManipulator != null && eventManipulator.size() > 0) {
 			for (EventManipulator<Event> current : eventManipulator) {
 				for (Event event : events) {
-					chainBase
-							.addCommand(new EventManipulatorCommandWrapper<Event>(
-									current, event));
-					logger.info("Added filter " + current.getClass().getName());
+				    current.handleEvent(event);
 				}
 			}
+		}
 
-		// Execute custom handler before persisting the events
-		if (preHandler != null && preHandler.size() > 0)
-			for (CustomHandlerPreProcessing<Event> current : preHandler) {
-				for (Event event : events) {
-					chainBase
-							.addCommand(new EventManipulatorCommandWrapper<Event>(
-									current, event));
-					logger.info("Added custom pre handler "
-							+ current.getClass().getName());
-				}
-			}
-
-		chainBase.addCommand(new Command() {
-			public boolean execute(Context context) throws Exception {
-				monitoringServiceClient.putEvents(events);
-				return false;
-			}
-		});
 
 		try {
-			chainBase.execute(new ContextBase());
+	                monitoringServiceClient.putEvents(events);
 		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Error in executing chain.");
 			if (e instanceof MonitoringException)
 				throw (MonitoringException) e;
 			throw new MonitoringException("002",

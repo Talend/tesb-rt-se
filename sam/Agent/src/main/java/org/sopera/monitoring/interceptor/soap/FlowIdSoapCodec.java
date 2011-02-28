@@ -16,9 +16,9 @@ import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.Phase;
-import org.sopera.monitoring.event.MessageContextCodec;
 import org.sopera.monitoring.helper.FlowIdHelper;
 import org.sopera.monitoring.interceptor.FlowIdProcessor;
+import org.sopera.monitoring.interceptor.MessageContextCodec;
 import org.w3c.dom.Node;
 
 	

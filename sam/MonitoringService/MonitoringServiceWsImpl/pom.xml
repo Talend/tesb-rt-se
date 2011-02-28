@@ -5,7 +5,7 @@
 	<groupId>org.sopera.monitoring</groupId>
 	<artifactId>MonitoringServiceWsImpl</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>MonitoringServiceWsImpl</name>
 	<url>http://www.sopera.com</url>
@@ -26,31 +26,6 @@
 			<artifactId>MonitoringServiceCommon</artifactId>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceCommonTest</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceImpl</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceImpl</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>DefaultDatabaseHandler</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.zurich.monitoring</groupId>
-			<artifactId>CustomHandler</artifactId>
-			<scope>compile</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -64,95 +39,28 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>logkit</groupId>
-					<artifactId>logkit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>avalon-framework</groupId>
-					<artifactId>avalon-framework</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>logkit</groupId>
-					<artifactId>logkit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>avalon-framework</groupId>
-					<artifactId>avalon-framework</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>logkit</groupId>
-					<artifactId>logkit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>avalon-framework</groupId>
-					<artifactId>avalon-framework</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>logkit</groupId>
-					<artifactId>logkit</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>avalon-framework</groupId>
-					<artifactId>avalon-framework</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>${spring.mock}</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>net.sf.dozer</groupId>
@@ -170,33 +78,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- Below plugin provides a separate JAR for the JAX-WS artifacts (i.e., 
-				the Java classes created by running wsdl2java or wsimport), as this JAR will 
-				also be used by the SOAP client. -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-1</version>
-				<configuration>
-					<descriptors>
-						<descriptor>src/assembly/jaxws-jar.xml</descriptor>
-					</descriptors>
-					<appendAssemblyId>true</appendAssemblyId>
-					<attach>true</attach>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
@@ -204,13 +91,10 @@
 				<executions>
 					<execution>
 						<configuration>
-							<sourceRoot>
-								${basedir}/target/generated-sources
-                           </sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>
-										${basedir}/src/main/webapp/WEB-INF/wsdl/MonitoringService_v1.wsdl
+										${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl
                                  </wsdl>
 								</wsdlOption>
 							</wsdlOptions>
@@ -222,6 +106,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<!--<sourceDirectory>src</sourceDirectory> -->
 	</build>
 </project>

@@ -38,47 +38,14 @@
             <artifactId>PersistentQueue</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-chain</groupId>
-            <artifactId>commons-chain</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        
-        <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
         </dependency>
         <!-- Dependency missing in dozer -->
-<!--        <dependency>-->
-<!--            <groupId>xmlbeans</groupId>-->
-<!--            <artifactId>xmlbeans</artifactId>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-
         <dependency>
-            <groupId>org.sopera.monitoring</groupId>
-            <artifactId>MonitoringServiceCommonTest</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>${spring.mock}</artifactId>
+            <groupId>xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

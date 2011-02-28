@@ -4,15 +4,10 @@
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<!-- Mit annotation-config muss nicht extra die Bean <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/> 
-		konfiguriert werden. @PersistenceUnit @PersistenceContext kann so automatisch 
-		gelesen werden. -->
-	<context:annotation-config />
-	
-	<tx:annotation-driven/>
+    <import resource="DefaultDataBaseHandlerTest-context.xml"/>
 
-	<!-- DO NOT CHANGE - SERVICE CONFIGURATION START -->
-	<bean id="monitoringService" class="org.sopera.monitoring.impl.MonitoringServiceImpl">
+	<bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
+        <property name="persistenceHandler" ref="eventRepository"/>
 		<property name="eventFilter">
 			<list>
 				<ref local="filterA" />
@@ -24,27 +19,8 @@
 				<ref local="contentLengthFilter" />
 			</list>
 		</property>
-		<property name="preHandler">
-			<list>
-				<!-- CHANGE - ADD YOUR CUSTOM HANDLER START -->
-				<!-- <ref local="SetEmptyPreHandler" /> -->
-				<!-- <ref local="stageHandler" /> -->
-				<!-- CHANGE - ADD YOUR CUSTOM HANDLER END -->
-			</list>
-		</property>
-		<property name="persistenceHandler" ref="defaultDatabaseHandler" />
-		<property name="postHandler">
-			<list>
-				<!-- CHANGE - ADD YOUR CUSTOM HANDLER START -->
-				<!-- <ref local="updateHandler" /> -->
-				<ref local="checkIdPostHandler" />
-				<!-- CHANGE - ADD YOUR CUSTOM HANDLER END -->
-			</list>
-		</property>
 	</bean>
-	<!-- DO NOT CHANGE - SERVICE CONFIGURATION END -->
 
-	<!-- DO NOT CHANGE - FILTER CONFIGURATION START -->
 	<bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
 		<property name="tagnames">
 			<list>
@@ -84,65 +60,5 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- DO NOT CHANGE - DATABASE CONFIGURATION START -->
-	<bean id="defaultDatabaseHandler"
-		class="org.sopera.monitoring.handler.impl.DefaultDatabaseHandler">
-		<!-- <property name="entityManagerFactory" ref="entityManagerFactory" /> -->
-	</bean>
-	<!-- DO NOT CHANGE - DATABASE CONFIGURATION END -->
-	
-	<!-- CHANGE - CUSTOM HANDLER CONFIGURATION START -->
-	<bean id="stageHandler" class="ch.zurich.monitoring.handler.impl.StageHandler">
-		<property name="stage" value="DEV" />
-	</bean>
-	<bean id="checkIdPostHandler" class="ch.zurich.monitoring.handler.impl.CheckIdPostHandler"></bean>
-	<bean id="SetEmptyPreHandler" class="ch.zurich.monitoring.handler.impl.SetEmptyPreHandler"></bean>
-	<bean id="updateHandler" class="ch.zurich.monitoring.handler.impl.UpdateHandler">
-		<property name="eventFilter">
-			<list>
-				<ref local="filterC" />
-			</list>
-		</property>
-	</bean>
-	<!-- CHANGE - CUSTOM HANDLER CONFIGURATION END -->
-
-	<bean id="dataSourceTest" name="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/zurichjunit" />
-		<property name="username" value="zurich" />
-		<property name="password" value="zurich" />
-	</bean>
-
-	<!-- This bean will be instanciated automaticaly by @PersistenceContext -->
-	<bean id="entityManagerFactoryTest"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="monitoringServicePersistenceUnit"/>
-		<property name="jpaVendorAdapter">
-			<bean
-				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-				<property name="showSql" value="true" />
-				<property name="generateDdl" value="true" />
-				<property name="databasePlatform"
-					value="org.eclipse.persistence.platform.database.MySQLPlatform" />
-			</bean>
-		</property>
-		<!-- Aktuell kein weaving eingebunden. <property name="loadTimeWeaver"> 
-			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver 
-			" /> </property> -->
-	</bean>
-	<!-- For JEE Servers have a look at: 
-		http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/orm.html#orm-jpa 
-		13.5.1.2 Obtaining an EntityManagerFactory from JNDI <beans> <jee:jndi-lookup 
-		id="myEmf" jndi-name="persistence/myPersistenceUnit"/> </beans> -->
-
-	<!-- the name "transactionManager" is needed for default injection into tx:annotation-driven -->
-	<bean id="transactionManagerTest" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactoryTest" />
-		<property name="dataSource" ref="dataSourceTest"></property>
-		<qualifier value="defaultTransaction"/>
-	</bean> 
 
 </beans>

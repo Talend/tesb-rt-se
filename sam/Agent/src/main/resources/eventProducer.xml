@@ -20,16 +20,11 @@
 	<context:annotation-config />
 	<tx:annotation-driven />
 
-	<!-- DO NOT CHANGE BEAN - Only property "logMessageContent" allowed to change -->
 	<bean id="eventProducer" class="org.sopera.monitoring.producer.EventProducer">
 		<property name="eventCollector" ref="eventCollector" />
-		<!-- Enable message content logging for event producer. ON/OFF Default: 
-			OFF -->
-		<property name="logMessageContent" value="ON" />
+		<property name="logMessageContent" value="true" />
 	</bean>
-	<!-- DO NOT CHANGE BEAN END -->
 
-	<!-- BEGIN CONFIGURATION FOR EVENT COLLECTOR -->
 	<bean id="eventCollector" class="org.sopera.monitoring.collector.EventCollectorImpl">
 		<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
 		<property name="defaultInterval" value="60000" />
@@ -42,38 +37,24 @@
 		<!-- Set all event filter for excluding events in event processing -->
 		<property name="eventFilter">
 			<list>
-				<!-- Add configured filter beans here - START -->
-				<!-- Add configured filter beans here - END -->
 			</list>
 		</property>
-		<!-- Set first (Default) event manipulator - START -->
 		<property name="eventManipulator">
 			<list>
 				<ref local="passwordFilter" />
 			</list>
 		</property>
-		<!-- Set first (Default) event manipulator - END -->
-		<!-- Set custom pre handler for event manipulation - START -->
 		<property name="preHandler">
 			<list>
-				<!-- ADD YOUR CUSTOM HANDLER - START -->
-				<!-- ADD YOUR CUSTOM HANDLER - END -->
 			</list>
 		</property>
-		<!-- Set custom pre handler for event manipulation - END -->
-		<!-- CHANGE QUEUE BEAN FOR SWITCHING MEMORY QUEUE AND PERSISTENT QUEUE -->
 		<property name="queue" ref="persistentQueue" />
-		<!-- DO NOT CHANGE SERVICE WRAPPER -->
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
-		<!-- DO NOT CHANGE EXECUTER -->
 		<property name="executor" ref="defaultExecutor" />
-		<!-- DO NOT CHANGE SCHEDULER -->
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
 
-	<!-- Configure Persistent Queue - START -->
 	<bean id="persistentQueue" class="org.sopera.monitoring.queue.PersistentQueue">
-		<!-- Remove comment if you want to switch the path -->
 		<!-- <constructor-arg value="java.io.tmpdir" /> -->
 		<!-- Configure filename for queueing. After each name a counter is appended.  File is stored in file java temp dir. -->
 		<constructor-arg value="persistentQueueMonitoring.queue" />
@@ -82,15 +63,9 @@
 		<!-- Number of queueing files -->
 		<constructor-arg value="4" />
 	</bean>
-	<!-- Configure Persistent Queue - END -->
 	
-	<!-- DO NOT CHANGE Memory Queue - START -->
 	<bean id="memoryQueue" class="org.sopera.monitoring.queue.MemoryQueue"/>
-	<!-- DO NOT CHANGE Persistent Queue - START -->
 
-	<!-- SAMPLE FILTER CONFIGURATION START -->
-	
-	<!-- SAMPLE WORD FILTER CONFIGURATION - START -->
 	<bean id="filterD" class="org.sopera.monitoring.filter.impl.StringContentFilter">
 		<property name="wordsToFilter">
 			<list>
@@ -98,9 +73,7 @@
 			</list>
 		</property>
 	</bean>
-	<!-- SAMPLE WORD FILTER CONFIGURATION - END -->
-	
-	<!-- SAMPLE METADATA FILTER CONFIGURATION - START -->
+
 	<bean id="noPingMetadataFilter" class="org.sopera.monitoring.filter.impl.MetadataFilter">
 		<property name="andCondition" value="true" />
 		<property name="hostname" value="" />
@@ -111,9 +84,7 @@
 			value="{http://www.zurich.ch/incurancecase/CaseService}CasePort" />
 		<property name="transportType" value="" />
 	</bean>
-	<!-- SAMPLE METADATA FILTER CONFIGURATION - END -->
-	
-	<!-- SAMPLE PASSWORD FILTER CONFIGURATION - START -->
+
 	<bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
 		<property name="tagnames">
 			<list>
@@ -121,20 +92,11 @@
 			</list>
 		</property>
 	</bean>
-	<!-- SAMPLE PASSWORD FILTER CONFIGURATION - END -->
 	
-	<!-- SAMPLE MESSAGE CONTENT LENGTH CUTTER CONFIGURATION - START -->
 	<bean id="contentLengthFilter" class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
 		<property name="length" value="2000" />
 	</bean>
-	<!-- SAMPLE MESSAGE CONTENT LENGTH CUTTER CONFIGURATION - END -->
-	
-	<!-- SAMPLE FILTER CONFIGURATION END -->
 
-
-
-
-	<!-- TECHNICAL CONFIGURATION - START -->
 	<task:annotation-driven executor="defaultExecutor"
 		scheduler="defaultScheduler" />
 	<!-- Scheduler starts in the interval of defaultInterval property. Within 
@@ -143,14 +105,10 @@
 	<task:scheduler id="defaultScheduler" pool-size="2" />
 	<task:executor id="defaultExecutor" pool-size="10" />
 
-	<!-- Configure monitoring service client - START -->
 	<jaxws:client id="monitoringServiceV1Client"
 		serviceClass="org.sopera.monitoring.monitoringservice.v1.MonitoringService"
 		address="http://localhost:8080/MonitoringService/services/MonitoringServiceSOAP" />
-	<!-- Configure monitoring service client - END -->
 
-	<!-- DO NOT CHANGE WRAPPER CLASSES - Allowed properties to change: numberOfRetries, 
-		delayBetweenRetry -->
 	<bean id="monitoringServceV1Wrapper" class="org.sopera.monitoring.wrapper.MonitoringServiceWrapper">
 		<property name="monitoringService" ref="monitoringServiceV1Client" />
 		<property name="mapper" ref="mapper" />
@@ -160,9 +118,7 @@
 			for this time. Default: 1000 -->
 		<property name="delayBetweenRetry" value="5000" />
 	</bean>
-	<!-- DO NOT CHANGE WRAPPER CLASSES - END -->
 
-	<!-- DO NOT CHANGE DOZER CONFIG - START -->
 	<bean id="mapper" class="org.dozer.DozerBeanMapper">
 		<property name="mappingFiles">
 			<list>
@@ -171,6 +127,4 @@
 			</list>
 		</property>
 	</bean>
-	<!-- DO NOT CHANGE DOZER CONFIG - END -->
-	<!-- TECHNICAL CONFIGURATION - END -->
 </beans>

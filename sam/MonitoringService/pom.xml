@@ -17,13 +17,9 @@
 	</parent>
 	
 	<modules>
-		<!-- <module>../Common/MonitoringCommon</module> -->
-		<module>MonitoringServiceImpl</module>
 		<module>MonitoringServiceWsImpl</module>
-		<module>DefaultDatabaseHandler</module>
-		<module>CustomHandler</module>
-		<module>MonitoringServiceCommonTest</module>
 		<module>MonitoringServiceIntegrationTest</module>
+		<module>MonitoringServiceWar</module>
 	</modules>
 
 	<properties>

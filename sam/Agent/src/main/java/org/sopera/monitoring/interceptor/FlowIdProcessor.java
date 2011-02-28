@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
-import org.sopera.monitoring.event.MessageContextCodec;
 import org.sopera.monitoring.event.MonitoringEventData;
 import org.sopera.monitoring.helper.FlowIdHelper;
 

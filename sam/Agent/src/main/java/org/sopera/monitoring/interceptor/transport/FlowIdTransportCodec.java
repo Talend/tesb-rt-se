@@ -12,8 +12,8 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Destination;
-import org.sopera.monitoring.event.MessageContextCodec;
 import org.sopera.monitoring.interceptor.FlowIdProcessor;
+import org.sopera.monitoring.interceptor.MessageContextCodec;
 
 
 public class FlowIdTransportCodec<T extends Message> extends AbstractPhaseInterceptor<T> {

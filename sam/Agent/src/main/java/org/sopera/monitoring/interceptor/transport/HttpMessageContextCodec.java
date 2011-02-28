@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.message.Message;
-import org.sopera.monitoring.event.MessageContextCodec;
+import org.sopera.monitoring.interceptor.MessageContextCodec;
 
 
 public class HttpMessageContextCodec implements MessageContextCodec {

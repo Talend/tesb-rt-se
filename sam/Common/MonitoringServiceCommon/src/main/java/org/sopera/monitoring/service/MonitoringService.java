@@ -6,15 +6,12 @@ import org.sopera.monitoring.event.Event;
 
 /**
  * Public interface for the business logic of MonitoringService
- * 
- * @author cschmuelling
- *
  */
-public interface MonitoringService<E extends Event> {
+public interface MonitoringService {
 	
 	/**
 	 * Handle the event with all configured handlers.
 	 * @param events
 	 */
-	public void putEvents(List<E> events);
+	public void putEvents(List<Event> events);
 }

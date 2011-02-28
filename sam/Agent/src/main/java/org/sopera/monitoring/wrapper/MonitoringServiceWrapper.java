@@ -19,8 +19,7 @@ import org.sopera.monitoring.monitoringservice.v1.PutEventsFault;
  * @author cschmuelling
  * 
  */
-public class MonitoringServiceWrapper implements
-		org.sopera.monitoring.service.MonitoringService<Event> {
+public class MonitoringServiceWrapper implements org.sopera.monitoring.service.MonitoringService {
 	// private static Logger logger = Logger
 	// .getLogger(MonitoringServiceWrapper.class.getName());
 

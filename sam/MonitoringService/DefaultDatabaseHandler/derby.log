@@ -1,8 +1,0 @@
-----------------------------------------------------------------
-Fri Feb 25 11:30:50 CET 2011:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance a816c00e-012e-5c5e-f4e7-000000dc8d70 
-on database directory D:\checkout\tesb-rt-se\sam\MonitoringService\DefaultDatabaseHandler\target\db  with class loader sun.misc.Launcher$AppClassLoader@11b86e7 
-Loaded from file:/C:/Dokumente%20und%20Einstellungen/cschneider/.m2/repository/org/apache/derby/derby/10.7.1.1/derby-10.7.1.1.jar
-java.vendor=Sun Microsystems Inc.
-java.runtime.version=1.6.0_23-b05
-Database Class Loader started - derby.database.classpath=''

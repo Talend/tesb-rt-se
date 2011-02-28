@@ -12,7 +12,6 @@ import org.apache.cxf.io.CachedOutputStreamCallback;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.sopera.monitoring.producer.EventProducer;
-import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 /**
  * Out interceptor for creating an event.
@@ -34,7 +33,7 @@ public class AbstractEventProducerOut<T extends Message> extends
 
 	@Override
 	public void handleMessage(T message) throws Fault {
-		if(!getType().equals(InterceptorType.OUT_FAULT) && !isLogMessageContent()){
+		if(!getType().equals(InterceptorType.OUT_FAULT) && !eventProducer.isLogMessageContent()){
 			getEventProducer().handleMessage(message, getType(), null);
 			return;
 		}

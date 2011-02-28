@@ -10,7 +10,6 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.sopera.monitoring.producer.EventProducer;
-import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 /**
  * In interceptor for receiving a message and create an event.
@@ -118,7 +117,7 @@ public class AbstractEventProducerIn<T extends Message> extends
 
 		@Override
 		public void handleMessage(T message) throws Fault {
-			if (InterceptorType.IN_FAULT.equals(getType()) || isLogMessageContent())
+			if (InterceptorType.IN_FAULT.equals(getType()) || eventProducer.isLogMessageContent())
 				producer.handleMessage(message, getType(),
 						getContentFromContext(message));
 			else

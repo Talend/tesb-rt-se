@@ -2,7 +2,6 @@ package org.sopera.monitoring.interceptor;
 
 import org.apache.cxf.message.Message;
 import org.sopera.monitoring.producer.EventProducer;
-import org.sopera.monitoring.producer.EventProducer.InterceptorType;
 
 /**
  * Eventproducer for outgoing faults
