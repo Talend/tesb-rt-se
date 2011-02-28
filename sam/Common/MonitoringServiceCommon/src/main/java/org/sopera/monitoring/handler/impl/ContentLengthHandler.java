@@ -7,7 +7,7 @@ import org.sopera.monitoring.handler.EventManipulator;
 
 /**
  * Content length handler is able to cut the message content within an event. Set the maximum length with setLength.
- * If content is cuttet it's stored inside <cut><![CDATA[ ]]></cut> 
+ * If content is cut it's stored inside <cut><![CDATA[ ]]></cut> 
  * 
  * @author cschmuelling
  *

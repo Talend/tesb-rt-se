@@ -1,6 +1,5 @@
 package org.talend.esb.locator;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +24,6 @@ public class LocatorFeature extends AbstractFeature {
 	private int connectionTimeout;
 
 	private String prefix;
-
-	//	private QName serviceName;
 
 	@Override
 	public void initialize(Client client, Bus bus) {
@@ -54,12 +51,6 @@ public class LocatorFeature extends AbstractFeature {
 						"Interrupted Exception thrown during initialization of the locator feature.",
 						e);
 			}
-		} catch (IOException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"IO Exception thrown during initialization of the locator feature.",
-						e);
-			}
 		}
 
 		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
@@ -79,13 +70,6 @@ public class LocatorFeature extends AbstractFeature {
 				LOG.log(Level.FINE, "Successfully initialized locator feature");
 			}
 
-		} catch (IOException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				if (LOG.isLoggable(Level.SEVERE)) {
-					LOG.log(Level.SEVERE,
-							"IO Exception thrown during initialization of the locator feature.", e);
-				}
-			}
 		} catch (InterruptedException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
@@ -138,7 +122,7 @@ public class LocatorFeature extends AbstractFeature {
 		this.prefix = prefix;
 	}
 
-	private ServiceLocator createServiceLocator() throws IOException, InterruptedException,
+	private ServiceLocator createServiceLocator() throws InterruptedException,
 			ServiceLocatorException {
 		ServiceLocator sl = new ServiceLocator();
 		if (locatorEndpoints != null) {
@@ -158,7 +142,7 @@ public class LocatorFeature extends AbstractFeature {
 	}
 	
 	private LocatorRegistrar createLocatorRegistrar(Bus bus, ServiceLocator sl)
-			throws IOException, InterruptedException, ServiceLocatorException {
+			throws InterruptedException, ServiceLocatorException {
 		LocatorRegistrar lr = new LocatorRegistrar();
 		lr.setBus(bus);
 		lr.setLocatorClient(sl);
@@ -169,20 +153,4 @@ public class LocatorFeature extends AbstractFeature {
 		lr.init();
 		return lr;
 	}
-
-/*
-	private EndpointRetriever createEndpointSelector(ServiceLocator sl,
-			QName serviceName) throws ServiceLocatorException, IOException,
-			InterruptedException {
-		EndpointRetriever es = new EndpointRetriever();
-		es.setServiceLocator(sl);
-		es.setServiceName(serviceName);
-		es.init();
-
-		if (serviceName != null) {
-			es.setServiceName(serviceName);
-		}
-		return es;
-	}
-*/
 }

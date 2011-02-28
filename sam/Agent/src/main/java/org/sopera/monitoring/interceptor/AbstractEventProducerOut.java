@@ -40,7 +40,7 @@ public class AbstractEventProducerOut<T extends Message> extends
 		Set<Class<?>> formats = message.getContentFormats();
 		final OutputStream os = message.getContent(OutputStream.class);
 		if (os == null) {
-			logger.info("There is no proceccable content in outgoing message.");
+			logger.info("There is no processable content in outgoing message.");
 			getEventProducer().handleMessage(message, getType(), null);
 			return;
 		}

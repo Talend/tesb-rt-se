@@ -4,7 +4,7 @@ import org.apache.cxf.message.Message;
 import org.sopera.monitoring.producer.EventProducer;
 
 /**
- * event producer for outgoing mesaasges
+ * Event producer for outgoing mesaasges
  * 
  * @author cschmuelling
  * 

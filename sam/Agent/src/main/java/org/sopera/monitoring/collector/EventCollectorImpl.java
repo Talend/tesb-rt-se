@@ -19,7 +19,7 @@ import org.springframework.scheduling.TaskScheduler;
 /**
  * Event collector collects all events and stores them in a queue. This can be a
  * memory queue or a persistent queue. Asynchronously the events will be
- * processed and send to MonitoringService
+ * processed and sent to MonitoringService
  * 
  * @author cschmuelling
  * 
@@ -42,7 +42,7 @@ public class EventCollectorImpl implements EventCollector {
 	private List<EventManipulator<Event>> eventManipulator;
 
 	/**
-	 * Returns the number of events send by one service call.
+	 * Returns the number of events sent by one service call.
 	 * 
 	 * @return
 	 */
@@ -55,7 +55,7 @@ public class EventCollectorImpl implements EventCollector {
 	}
 
 	/**
-	 * Set by Spring. Define how many events will be send within one service
+	 * Set by Spring. Define how many events will be sent within one service
 	 * call.
 	 * 
 	 * @param eventsPerMessageCall
@@ -76,7 +76,7 @@ public class EventCollectorImpl implements EventCollector {
 	}
 
 	/**
-	 * Returns the default interval for sending events. returns 30000 if there
+	 * Returns the default interval for sending events. Returns 30000 if there
 	 * is no interval set.
 	 * 
 	 * @return
@@ -191,7 +191,7 @@ public class EventCollectorImpl implements EventCollector {
 	 */
 	public void sendEventsFromQueue() {
 		if(this.stopSending == true){
-			logger.info("Scheduler called for sending events. Stop flag set. Sending will not processed.");
+			logger.info("Scheduler called for sending events. Stop flag set. Sending will not occur.");
 			return;
 		}
 		logger.info("Scheduler called for sending events");

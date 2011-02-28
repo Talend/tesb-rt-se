@@ -1,6 +1,5 @@
 package org.talend.esb.locator;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,7 +72,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 		registerAvailableServers();
 	}
 
-	public void init() throws IOException, InterruptedException, ServiceLocatorException {
+	public void init() throws InterruptedException, ServiceLocatorException {
 		locatorClient.connect();
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Registering listener...");
