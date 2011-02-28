@@ -10,15 +10,11 @@
 		http://cxf.apache.org/schemas/jaxws.xsd 
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd 
-		http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
 		http://www.springframework.org/schema/task
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<context:annotation-config />
-	<tx:annotation-driven />
 
 	<bean id="eventProducer" class="org.sopera.monitoring.producer.EventProducer">
 		<property name="eventCollector" ref="eventCollector" />
@@ -44,25 +40,17 @@
 				<ref local="passwordFilter" />
 			</list>
 		</property>
-		<property name="preHandler">
-			<list>
-			</list>
-		</property>
-		<property name="queue" ref="persistentQueue" />
+		<property name="queue" ref="memoryQueue" />
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
 		<property name="executor" ref="defaultExecutor" />
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
 
-	<bean id="persistentQueue" class="org.sopera.monitoring.queue.PersistentQueue">
-		<!-- <constructor-arg value="java.io.tmpdir" /> -->
-		<!-- Configure filename for queueing. After each name a counter is appended.  File is stored in file java temp dir. -->
-		<constructor-arg value="persistentQueueMonitoring.queue" />
-		<!--  Defragementation interval on file system -->
-		<constructor-arg value="2000" />
-		<!-- Number of queueing files -->
-		<constructor-arg value="4" />
-	</bean>
+<!--	<bean id="persistentQueue" class="org.sopera.monitoring.queue.PersistentQueue">-->
+<!--		<constructor-arg value="persistentQueueMonitoring.queue" />-->
+<!--		<constructor-arg value="2000" />-->
+<!--		<constructor-arg value="4" />-->
+<!--	</bean>-->
 	
 	<bean id="memoryQueue" class="org.sopera.monitoring.queue.MemoryQueue"/>
 
@@ -107,7 +95,7 @@
 
 	<jaxws:client id="monitoringServiceV1Client"
 		serviceClass="org.sopera.monitoring.monitoringservice.v1.MonitoringService"
-		address="http://localhost:8080/MonitoringService/services/MonitoringServiceSOAP" />
+		address="http://localhost:8080/services/MonitoringServiceSOAP" />
 
 	<bean id="monitoringServceV1Wrapper" class="org.sopera.monitoring.wrapper.MonitoringServiceWrapper">
 		<property name="monitoringService" ref="monitoringServiceV1Client" />

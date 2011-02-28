@@ -2,7 +2,7 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 	<mapping>
 		<class-a>org.sopera.monitoring._2010._09.common.EventType</class-a>
-		<class-b>ch.zurich.monitoring.event.ZurichEvent</class-b>
+		<class-b>org.sopera.monitoring.event.Event</class-b>
 
 		<field>
 			<a>eventInfo.timestamp</a>
@@ -36,7 +36,7 @@
 			<a>messageInfo.flowId.value</a>
 			<b>messageInfo.flowId</b>
 		</field>
-		<field custom-converter="org.sopera.monitoring.customconverter.QNameToString">
+		<field custom-converter="org.sopera.monitoring.server.customconverter.QNameToString">
 			<a>messageInfo.porttype</a>
 			<b>messageInfo.portType</b>
 		</field>
@@ -48,11 +48,11 @@
 			<a>messageInfo.transport.value</a>
 			<b>messageInfo.transportType</b>
 		</field>
-		<field custom-converter="org.sopera.monitoring.customconverter.XmlAnyToString">
+		<field custom-converter="org.sopera.monitoring.server.customconverter.XmlAnyToString">
 			<a>content.any</a>
 			<b>content</b>
 		</field>
-		<field custom-converter="org.sopera.monitoring.customconverter.XmlAnyToString">
+		<field custom-converter="org.sopera.monitoring.server.customconverter.XmlAnyToString">
 			<a>extension.any</a>
 			<b>extension</b>
 		</field>

@@ -12,16 +12,6 @@
 	<import resource="classpath:eventProducer.xml" />
 
 	<context:annotation-config />
-<!--
- <bean id="configurator" class="zsoa.wsf.addon.cxf.Configurator">
-  <property name="bus"              ref="cxf" />
-  <property name="securityDomain"   value="sad" />
-  <property name="locatorUrl"       value="https://lab.zsoawsf.ch.zurich.com:38500/zsoa-wsf/services/registry-v1" />
-  <property name="containerUrl"     value="http://ncha00001169.z.ch.zurich.com:8080/zsoa-wsf-ri-provider" />
-  <property name="containerName"    value="Apache-cxf 2.2.3 ri" />
-  <property name="tokenStrategy"    value="ExistingBinarySecurityToken" />
- </bean>
--->
 	<jaxws:endpoint xmlns:tns="http://customerservice.example.com/"
 		id="customerService" address="/CustomerServicePort"
 		wsdlLocation="WEB-INF/wsdl/CustomerService.wsdl"

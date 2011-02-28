@@ -16,7 +16,7 @@ import org.sopera.monitoring.interceptor.FlowIdProcessor;
 import org.sopera.monitoring.interceptor.MessageContextCodec;
 
 
-public class FlowIdTransportCodec<T extends Message> extends AbstractPhaseInterceptor<T> {
+public class FlowIdTransportCodec extends AbstractPhaseInterceptor<Message> {
 	
 	protected static Logger logger = Logger.getLogger(FlowIdTransportCodec.class.getName());
 	

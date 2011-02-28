@@ -9,7 +9,6 @@ import org.sopera.monitoring.event.persistence.EventRepository;
 import org.sopera.monitoring.event.service.MonitoringService;
 import org.sopera.monitoring.filter.EventFilter;
 import org.sopera.monitoring.handler.EventManipulator;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -59,7 +58,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * Executes all event manipulating handler and writes the event with persist
 	 * handler
 	 */
-	@Transactional(value = "defaultTransaction", propagation = Propagation.REQUIRED)
+	@Transactional
 	public void putEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
 		if (eventFilter != null && eventFilter.size() > 0) {

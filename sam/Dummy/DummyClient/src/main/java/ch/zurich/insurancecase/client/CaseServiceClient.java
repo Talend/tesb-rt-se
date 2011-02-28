@@ -9,6 +9,8 @@ import javax.xml.ws.Holder;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.sopera.monitoring.feature.EventFeature;
+import org.sopera.monitoring.producer.EventProducer;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ch.zurich.incurancecase.caseservice.AddCaseFault_Exception;
 import ch.zurich.incurancecase.caseservice.CasePort;
@@ -22,22 +24,16 @@ public class CaseServiceClient {
 
 	public static void main(String[] args) throws InterruptedException {
 		List<Thread> runs = new ArrayList<Thread>();
-
-		// Send without feature
-		// CaseService service = new CaseService();
-		// CasePort port = service.getCaseServiceSOAP();
-		// for (int i = 0; i < 1; i++) {
-		// send(port, customerId + i, description, amountClaimed, guiltyParty);
-		// }
-
-		// An alternate way to get the SOAP service interface; includes logging
-		// interceptors.
-
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/eventProducer.xml");
+		
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		factory.getFeatures().add(new EventFeature());
+		EventFeature eventFeature = new EventFeature();
+		EventProducer eventProducer = context.getBean(EventProducer.class);
+                eventFeature.setEventProducer(eventProducer);
+		factory.getFeatures().add(eventFeature);
 		factory.getFeatures().add(new LoggingFeature());
 		factory.setServiceClass(CasePort.class);
-		factory.setAddress("http://localhost:8080/DummyService/services/CaseServiceSOAP");
+		factory.setAddress("http://localhost:9090/services/CaseServiceSOAP");
 		final CasePort port = (CasePort) factory.create();
 
 		for (int i = 0; i < limit; i++) {

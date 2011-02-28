@@ -1,0 +1,16 @@
+package org.sopera.monitoring.wrapper;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/eventProducer.xml")
+public class MonitoringServiceWrapperTest {
+
+    @Test
+    public void testWrapper() {
+        // Only load the spring context to see it has no errors
+    }
+}

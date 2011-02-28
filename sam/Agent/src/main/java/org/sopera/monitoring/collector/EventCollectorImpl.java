@@ -191,10 +191,9 @@ public class EventCollectorImpl implements EventCollector {
 	 */
 	public void sendEventsFromQueue() {
 		if(this.stopSending == true){
-			logger.info("Scheduler called for sending events. Stop flag set. Sending will not occur.");
 			return;
 		}
-		logger.info("Scheduler called for sending events");
+		logger.fine("Scheduler called for sending events");
 
 		int packageSize = getEventsPerMessageCall();
 

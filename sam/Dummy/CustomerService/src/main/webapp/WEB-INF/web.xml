@@ -34,17 +34,4 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-	<!-- 
-    <filter>
-        <filter-name>infrared</filter-name>
-        <filter-class>net.sf.infrared.aspects.servlet.InfraREDServletFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>infrared</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <listener>
-        <listener-class>net.sf.infrared.agent.setup.InfraREDServletContextListener</listener-class>
-    </listener>
-	 -->
 </web-app>

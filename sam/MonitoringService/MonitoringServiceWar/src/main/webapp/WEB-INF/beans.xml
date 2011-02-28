@@ -2,28 +2,91 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	<import resource="classpath:monitoringService.xml" />
 
 	<context:annotation-config />
+    <tx:annotation-driven />
 
-	<jaxws:endpoint xmlns:tns="http://www.sopera.org/monitoring/MonitoringService/v1"
-		id="monitoringservice" implementor="#MonitoringServiceWrapper"
-		wsdlLocation="WEB-INF/wsdl/MonitoringService_v1.wsdl" endpointName="tns:MonitoringServiceSOAP"
-		serviceName="tns:MonitoringService" address="/MonitoringServiceSOAP">
+    <bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
+        <property name="eventFilter">
+            <list>
+            </list>
+        </property>
+        
+        <property name="eventManipulator">
+            <list>
+                <ref local="passwordFilter" />
+            </list>
+        </property>
+        
+        <property name="persistenceHandler" ref="eventRepository" />
+        
+    </bean>
+
+    <bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
+        <property name="tagnames">
+            <list>
+                <value>Password</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="contentLengthFilter" class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
+        <property name="length" value="2000" />
+    </bean>
+
+    <bean id="filterId0000" class="org.sopera.monitoring.filter.impl.StringContentFilter">
+        <property name="wordsToFilter">
+            <list>
+                <value>00000000</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="filterDoNotCut" class="org.sopera.monitoring.filter.impl.StringContentFilter">
+        <property name="wordsToFilter">
+            <list>
+                <value>doNotCut</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eventRepository" class="org.sopera.monitoring.server.persistence.EventRepositoryImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+        <property name="url" value="jdbc:derby:target/db;create=true" />
+        <property name="username" value="" />
+        <property name="password" value="" />
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean> 
+
+	<jaxws:endpoint id="monitoringservice" 
+        implementor="#MonitoringServiceWrapper"
+		address="/MonitoringServiceSOAP">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 	</jaxws:endpoint>
 
 	<bean id="MonitoringServiceWrapper"
-		class="org.sopera.monitoring.monitoringservice.v1.wrapper.MonitoringServiceWrapper">
+		class="org.sopera.monitoring.server.service.MonitoringWebService">
 		<property name="monitoringService" ref="monitoringService" />
 		<property name="mapper" ref="mapper" />
-		<property name="targetClassName" value="org.sopera.monitoring.event.Event" />
 	</bean>
 
 	<bean id="mapper" class="org.dozer.DozerBeanMapper">
@@ -34,4 +97,8 @@
 			</list>
 		</property>
 	</bean>
+    
+    <bean class="org.sopera.monitoring.server.persistence.DBInitializer">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>

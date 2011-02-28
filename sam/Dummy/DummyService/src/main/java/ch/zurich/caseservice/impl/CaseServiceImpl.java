@@ -1,15 +1,13 @@
 package ch.zurich.caseservice.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceContext;
-
-import org.sopera.monitoring.constants.CommonConstants;
 
 import ch.zurich.incurancecase.caseservice.AddCaseFault;
 import ch.zurich.incurancecase.caseservice.AddCaseFault_Exception;
@@ -23,9 +21,6 @@ public class CaseServiceImpl implements CasePort {
 
 	private long dummyDelay;
 
-	@Resource
-	private WebServiceContext wsContext;
-	
 	private CustomerService customerService;
 	
 	public void setCustomerService(CustomerService customerService) {this.customerService = customerService; }

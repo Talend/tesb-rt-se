@@ -72,6 +72,12 @@
 			<artifactId>xmlbeans</artifactId>
 			<scope>compile</scope>
 		</dependency>
+        
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.7.1.1</version>
+        </dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

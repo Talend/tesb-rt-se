@@ -53,7 +53,8 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
                     <spring.mock>spring-test</spring.mock>
 		
-		<cxf.version>2.3.1</cxf.version>
+		<cxf.version>2.3.2</cxf.version>
+		<jetty.version>7.2.2.v20101205</jetty.version>
 	</properties>
 	
 	<dependencyManagement>

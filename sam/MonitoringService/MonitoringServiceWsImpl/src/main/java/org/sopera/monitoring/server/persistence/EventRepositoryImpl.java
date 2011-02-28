@@ -5,6 +5,7 @@ import org.sopera.monitoring.event.EventInfo;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
 import org.sopera.monitoring.event.persistence.EventRepository;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 

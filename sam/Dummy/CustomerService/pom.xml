@@ -89,24 +89,20 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-				<version>1.1</version>
-				<configuration>
-					<server>myTomcat6</server>
-					<path>/${project.build.finalName}</path>
-					<!-- Dummy Service -->
-					<url>http://localhost:8080/manager</url>
-					
-					<!--<url>http://b0d0ma02.ch.zurich.com:8888/manager</url>-->
-					<!--<url>http://b0d04b02.ch.zurich.com:8888/manager</url>-->
-					<!--<url>http://b0d04b02.ch.zurich.com:8889/manager</url>-->
-					<!--<url>http://b0d0ft02.ch.zurich.com:8888/manager</url>-->
-					<!--<url>http://b0d0ft02.ch.zurich.com:8889/manager</url>-->
-
-				</configuration>
-			</plugin>
+			            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <connectors>
+                        <connector
+                                implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>9090</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>    	
 </project>
