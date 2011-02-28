@@ -12,7 +12,7 @@ import org.sopera.monitoring.handler.EventManipulator;
  * @author cschmuelling
  *
  */
-public class PasswordHandler extends AbstractFilteredHandler<Event> implements EventManipulator<Event> {
+public class PasswordHandler implements EventManipulator<Event> {
 
 	private static final String REPLACE = "<replaced xmlns=\"\"/>";
 	

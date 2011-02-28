@@ -11,7 +11,7 @@ import org.dozer.DozerBeanMapper;
 import org.sopera.monitoring._2010._09.common.EventType;
 import org.sopera.monitoring._2010._09.fault.FaultType;
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.exception.MonitoringException;
+import org.sopera.monitoring.event.MonitoringException;
 import org.sopera.monitoring.monitoringservice.v1.MonitoringService;
 import org.sopera.monitoring.monitoringservice.v1.PutEventsFault;
 
@@ -20,7 +20,7 @@ public class MonitoringWebService implements MonitoringService {
 	private static Logger logger = Logger
 			.getLogger(MonitoringWebService.class.getName());
 
-	private org.sopera.monitoring.service.MonitoringService monitoringService;
+	private org.sopera.monitoring.event.service.MonitoringService monitoringService;
 	private DozerBeanMapper mapper;
 
 	public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
@@ -70,7 +70,7 @@ public class MonitoringWebService implements MonitoringService {
 	}
 
 	public void setMonitoringService(
-			org.sopera.monitoring.service.MonitoringService monitoringService) {
+			org.sopera.monitoring.event.service.MonitoringService monitoringService) {
 		this.monitoringService = monitoringService;
 	}
 

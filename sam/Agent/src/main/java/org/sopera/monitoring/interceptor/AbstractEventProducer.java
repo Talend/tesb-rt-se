@@ -5,8 +5,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.sopera.monitoring.producer.EventProducer;
 
-public abstract class AbstractEventProducer<T extends Message> extends
-		AbstractPhaseInterceptor<T> {
+public abstract class AbstractEventProducer extends AbstractPhaseInterceptor<Message> {
 
 	private InterceptorType type;
 	protected EventProducer eventProducer;
@@ -23,7 +22,7 @@ public abstract class AbstractEventProducer<T extends Message> extends
 
 	}
 
-	abstract public void handleMessage(T message) throws Fault;
+	abstract public void handleMessage(Message message) throws Fault;
 
 	public EventProducer getEventProducer() {
 		return eventProducer;

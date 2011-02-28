@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sopera.monitoring.event.Event;
+import org.sopera.monitoring.event.service.MonitoringService;
 import org.sopera.monitoring.server.persistence.EventRowMapper;
-import org.sopera.monitoring.service.MonitoringService;
 import org.sopera.monitoring.util.EventCreator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -31,9 +31,9 @@ public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4Spring
     @Test
     public void testWritingSeveralEvents() {
         List<Event> events = new ArrayList<Event>();
-        events.add(new EventCreator<Event>(Event.class).generateEvent());
-        events.add(new EventCreator<Event>(Event.class).generateEvent());
-        events.add(new EventCreator<Event>(Event.class).generateEvent());
+        events.add(new EventCreator().generateEvent());
+        events.add(new EventCreator().generateEvent());
+        events.add(new EventCreator().generateEvent());
 
         monitoringSerivce.putEvents(events);
 

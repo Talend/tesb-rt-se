@@ -2,7 +2,7 @@ package org.sopera.monitoring.queue;
 
 import java.io.Serializable;
 
-import org.sopera.monitoring.exception.MonitoringException;
+import org.sopera.monitoring.event.MonitoringException;
 
 public interface Queue<O extends Serializable> {
 

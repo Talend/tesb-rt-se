@@ -12,15 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.EventType;
-import org.sopera.monitoring.handler.EventRepository;
+import org.sopera.monitoring.event.persistence.EventRepository;
 import org.sopera.monitoring.server.persistence.EventRowMapper;
 import org.sopera.monitoring.util.EventCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-@ContextConfiguration("/DefaultDataBaseHandlerTest-context.xml")
-public class DefaultDatabaseHandlerTest extends AbstractTransactionalJUnit4SpringContextTests {
+@ContextConfiguration("/EventRepositoryTest-context.xml")
+public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     
     @Resource
     private EventRepository eventRepository;
@@ -32,7 +32,7 @@ public class DefaultDatabaseHandlerTest extends AbstractTransactionalJUnit4Sprin
 
     @Test
     public void testWriteEvent() {
-        EventCreator<Event> creator = new EventCreator<Event>(Event.class);
+        EventCreator creator = new EventCreator();
         GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 1, 01 , 01, 10);
         Event event = creator.createEvent("content", "extension", cal.getTime(),
                             EventType.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",

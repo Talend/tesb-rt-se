@@ -20,7 +20,7 @@ public class MapperTest {
 		mappingFiles.add("dozer-event-eventType.xml");
 		DozerBeanMapper mapper = new DozerBeanMapper(mappingFiles);
 
-		Event e = new EventCreator<Event>(Event.class).generateEvent();
+		Event e = new EventCreator().generateEvent();
 
 		EventType et = (EventType) mapper.map(e, EventType.class);
 

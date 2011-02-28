@@ -7,7 +7,7 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<name></name>
+	<name>MonitoringServiceWar</name>
 	<url>http://www.sopera.com</url>
 
 	<parent>

@@ -10,35 +10,27 @@ import org.sopera.monitoring.event.EventType;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
 
-public class EventCreator<E extends Event> {
+/**
+ * TODO Sue Builder pattern?
+ */
+public class EventCreator {
 	private static final Logger logger = Logger.getLogger(EventCreator.class
 			.getName());
 	
-	private Class<E> clazz;
-	
-	public EventCreator(Class<E> clazz){
-		this.clazz = clazz;
+	public EventCreator(){
 	}
 	
-	public E generateEvent(){
+	public Event generateEvent(){
 		Date cal = Calendar.getInstance().getTime();
 		String generated = Integer.valueOf(cal.toString().hashCode()).toString();
 		return createEvent("<request><values><value>a</value></values></request>", "<noExtension/>", cal, EventType.REQ_IN, "JUnit", "localhost", "127.0.0.1", generated, generated, generated, "testOperation", "testPort", "JAVA");
 	}
 
-	public E createEvent(String content, String extension, Date timestamp, EventType eventType
+	public Event createEvent(String content, String extension, Date timestamp, EventType eventType
 			, String customOriginatorId, String hostname, String ip, String processId, String flowId,
 			String messageId, String operarionName, String portType, String transportType) {
 		
-		E event;
-		try {
-			event = clazz.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			return null;
-		}
+		Event event = new Event();
 		event.setContent(content);
 		event.setExtension(extension);
 		

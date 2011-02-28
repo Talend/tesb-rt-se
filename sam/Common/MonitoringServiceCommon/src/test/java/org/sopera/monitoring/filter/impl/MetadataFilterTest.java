@@ -18,7 +18,7 @@ public class MetadataFilterTest {
 	}
 
 	private Event createDefaultEvent() {
-		Event event = new EventCreator<Event>(Event.class).generateEvent();
+		Event event = new EventCreator().generateEvent();
 		event.getEventInfo().getOriginator().setHostname("testHost");
 		event.getEventInfo().getOriginator().setIp("127.0.0.1");
 		event.getMessageInfo().setOperationName("testOperationName");

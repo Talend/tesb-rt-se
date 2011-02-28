@@ -1,6 +1,7 @@
-package org.sopera.monitoring.handler;
+package org.sopera.monitoring.event.persistence;
 
 import org.sopera.monitoring.event.Event;
+
 
 public interface EventRepository {
 

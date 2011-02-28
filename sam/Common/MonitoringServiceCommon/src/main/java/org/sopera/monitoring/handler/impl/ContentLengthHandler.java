@@ -12,7 +12,7 @@ import org.sopera.monitoring.handler.EventManipulator;
  * @author cschmuelling
  *
  */
-public class ContentLengthHandler extends AbstractFilteredHandler<Event> implements EventManipulator<Event> {
+public class ContentLengthHandler implements EventManipulator<Event> {
 
 	private static Logger logger = Logger.getLogger(ContentLengthHandler.class
 			.getName());

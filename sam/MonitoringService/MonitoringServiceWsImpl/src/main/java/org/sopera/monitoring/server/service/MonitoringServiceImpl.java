@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.sopera.monitoring.event.Event;
+import org.sopera.monitoring.event.persistence.EventRepository;
+import org.sopera.monitoring.event.service.MonitoringService;
 import org.sopera.monitoring.filter.EventFilter;
 import org.sopera.monitoring.handler.EventManipulator;
-import org.sopera.monitoring.handler.EventRepository;
-import org.sopera.monitoring.service.MonitoringService;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 

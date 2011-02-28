@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.exception.MonitoringException;
+import org.sopera.monitoring.event.MonitoringException;
 
 public class PersistentQueue<E extends Event> implements Queue<E> {
 	private static Logger logger = Logger.getLogger(PersistentQueue.class

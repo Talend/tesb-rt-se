@@ -1,8 +1,9 @@
-package org.sopera.monitoring.service;
+package org.sopera.monitoring.event.service;
 
 import java.util.List;
 
 import org.sopera.monitoring.event.Event;
+
 
 /**
  * Public interface for the business logic of MonitoringService

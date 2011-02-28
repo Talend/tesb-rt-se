@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <import resource="DefaultDataBaseHandlerTest-context.xml"/>
+    <import resource="EventRepositoryTest-context.xml"/>
 
 	<bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository"/>
@@ -31,32 +31,12 @@
 	</bean>
 	<bean id="contentLengthFilter" class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
 		<property name="length" value="20000" />
-		<property name="eventFilter">
-			<list>
-				<ref local="filterB" />
-			</list>
-		</property>
 	</bean>
-	<!-- DO NOT CHANGE - FILTER CONFIGURATION END -->
 
 	<bean id="filterA" class="org.sopera.monitoring.filter.impl.StringContentFilter">
 		<property name="wordsToFilter">
 			<list>
 				<value>filterA</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="filterB" class="org.sopera.monitoring.filter.impl.StringContentFilter">
-		<property name="wordsToFilter">
-			<list>
-				<value>doNotCut</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="filterC" class="org.sopera.monitoring.filter.impl.StringContentFilter">
-		<property name="wordsToFilter">
-			<list>
-				<value>filterC</value>
 			</list>
 		</property>
 	</bean>

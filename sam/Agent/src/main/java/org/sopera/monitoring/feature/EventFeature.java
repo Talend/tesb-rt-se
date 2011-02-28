@@ -8,14 +8,11 @@ import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.sopera.monitoring.interceptor.AbstractEventProducerIn;
-import org.sopera.monitoring.interceptor.AbstractEventProducerOut;
 import org.sopera.monitoring.interceptor.EventProducerIn;
-import org.sopera.monitoring.interceptor.EventProducerInFault;
 import org.sopera.monitoring.interceptor.EventProducerOut;
-import org.sopera.monitoring.interceptor.EventProducerOutFault;
 import org.sopera.monitoring.interceptor.FlowIdProducerIn;
 import org.sopera.monitoring.interceptor.FlowIdProducerOut;
+import org.sopera.monitoring.interceptor.InterceptorType;
 import org.sopera.monitoring.interceptor.soap.FlowIdSoapCodec;
 import org.sopera.monitoring.interceptor.transport.FlowIdTransportCodec;
 import org.sopera.monitoring.producer.EventProducer;
@@ -78,13 +75,13 @@ public class EventFeature extends AbstractFeature implements ApplicationContextA
 		FlowIdTransportCodec<Message> flowIdHttpCodecOut = new FlowIdTransportCodec<Message>(Phase.USER_PROTOCOL);
 		 
 
-		EventProducerIn<Message> eventProducerIn = new EventProducerIn<Message>(
+		EventProducerIn eventProducerIn = new EventProducerIn(InterceptorType.IN,
 				eventProducer);
-		EventProducerOut<Message> eventProducerOut = new EventProducerOut<Message>(
+		EventProducerOut eventProducerOut = new EventProducerOut(InterceptorType.OUT,
 				eventProducer);
-		EventProducerInFault<Message> eventProducerInFault = new EventProducerInFault<Message>(
+		EventProducerIn eventProducerInFault = new EventProducerIn(InterceptorType.IN_FAULT,
 				eventProducer);
-		EventProducerOutFault<Message> eventProducerOutFault = new EventProducerOutFault<Message>(
+		EventProducerOut eventProducerOutFault = new EventProducerOut(InterceptorType.OUT_FAULT,
 				eventProducer);
 
 		// Add FlowIdProducer
@@ -108,11 +105,11 @@ public class EventFeature extends AbstractFeature implements ApplicationContextA
 		provider.getOutFaultInterceptors().add(eventProducerOutFault);
 
 		// add dependencies for incoming messages
-		flowIdProducerIn.addAfter(AbstractEventProducerIn.class.getName());
+		flowIdProducerIn.addAfter(EventProducerIn.class.getName());
 		eventProducerIn.addBefore(FlowIdProducerIn.class.getName());
 
 		// add dependencies for outgoing messages
-		flowIdProducerOut.addAfter(AbstractEventProducerOut.class.getName());
+		flowIdProducerOut.addAfter(EventProducerOut.class.getName());
 		eventProducerOut.addBefore(FlowIdProducerOut.class.getName());
 
 		// Add a lifecyclelistener for stopping sendeing events on bus shutdown.

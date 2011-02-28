@@ -8,7 +8,7 @@ import javax.xml.ws.WebServiceException;
 import org.dozer.DozerBeanMapper;
 import org.sopera.monitoring._2010._09.common.EventType;
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.exception.MonitoringException;
+import org.sopera.monitoring.event.MonitoringException;
 import org.sopera.monitoring.monitoringservice.v1.MonitoringService;
 import org.sopera.monitoring.monitoringservice.v1.PutEventsFault;
 
@@ -19,7 +19,7 @@ import org.sopera.monitoring.monitoringservice.v1.PutEventsFault;
  * @author cschmuelling
  * 
  */
-public class MonitoringServiceWrapper implements org.sopera.monitoring.service.MonitoringService {
+public class MonitoringServiceWrapper implements org.sopera.monitoring.event.service.MonitoringService {
 	// private static Logger logger = Logger
 	// .getLogger(MonitoringServiceWrapper.class.getName());
 

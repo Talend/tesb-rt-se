@@ -1,11 +1,10 @@
-package org.sopera.monitoring.exception;
+package org.sopera.monitoring.event;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sopera.monitoring.event.Event;
 
 public class MonitoringException extends RuntimeException {
 	private static Logger logger = Logger.getLogger(MonitoringException.class

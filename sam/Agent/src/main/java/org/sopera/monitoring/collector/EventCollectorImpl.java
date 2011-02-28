@@ -8,11 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.exception.MonitoringException;
+import org.sopera.monitoring.event.MonitoringException;
+import org.sopera.monitoring.event.service.MonitoringService;
 import org.sopera.monitoring.filter.EventFilter;
 import org.sopera.monitoring.handler.EventManipulator;
 import org.sopera.monitoring.queue.Queue;
-import org.sopera.monitoring.service.MonitoringService;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
 
