@@ -1,4 +1,4 @@
- How-to documentation 
+How-to documentation 
 =======================================
 
 
@@ -8,14 +8,14 @@ To enable the Rent-a-Car example initially we should install and run the Service
 For more information please read Service Locator Configuration Manual.
 
 
-Add feature in the beans.xml files
+Add features to the beans.xml files
 ----------------------------------
-Servise Locarot feature should be add to each endpoint and client in the example configuration.
+The Service Locator feature should be added to each endpoint and client in the example configuration.
 
-1. Add Servise Locarot feature to the endpoint bean in the beans.xml exactly the same way 
+1. Add the Service Locator feature to the endpoint bean in the beans.xml exactly the same way 
 as a standard CXF feature.
 
-Made these changes in the following files:
+Make these changes in the following files:
 ../examples/reservationservice/service/src/main/resources/META-INF/spring/beans.xml
 ../examples/crmservice/service/src/main/resources/META-INF/spring/beans.xml
 
@@ -30,12 +30,13 @@ Example:
 		</jaxws:features>
 	</jaxws:endpoint>
 
-Property locatorEndpoints specify host and port, on which the Zookeeper listen for client connections. 
-For more information please read Service Locator Configuration Manual
+Property locatorEndpoints specify host and port, on which the Zookeeper listens for client connections. 
+For more information please read the Service Locator Configuration Manual
 
-2. Add Servise Locarot feature to the client bean in the beans.xml exactly the same way 
+2. Add the Service Locator feature to the client bean in the beans.xml exactly the same way 
 as a standard CXF feature.
-Also use locator transport in client adress as shown in the example below:
+
+Also use the locator transport in the client address as shown in the example below:
 
 	<jaxws:client id="..."
 		...
@@ -47,14 +48,14 @@ Also use locator transport in client adress as shown in the example below:
 		</jaxws:features>
 	</jaxws:client>
 
-Made these changes in the following files:
+Make these changes in the following files:
 ../examples/reservationservice/client/src/main/resources/META-INF/spring/beans.xml
 ../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
 
 
 Add dependencies to the pom.xml files
 -------------------------------------
-We must add dependencies for log4j and locator artifacts, for examlpe:
+We must add dependencies for log4j and locator artifacts, for example:
 
 		<dependency>
           <groupId>log4j</groupId>
@@ -75,5 +76,5 @@ Deploy Service Locator client in TSF container
 Just copy the locator JAR file and zookeeper JAR file into deploy directory of Talend-sf OSGi container
 
 
-Create and deploy OSGi bundles as descride in README files of CRMService and ReservationService projects.
+Create and deploy OSGi bundles as described in README files of CRMService and ReservationService projects.
 ----------------------------------------
