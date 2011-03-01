@@ -14,8 +14,7 @@
     <version>4.0.0</version>
 
 	<properties>
-		<cxf.version>2.3.4-SNAPSHOT</cxf.version>
-		<spring.version>2.5.6</spring.version>
+		<cxf.version>2.3.3</cxf.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -55,11 +54,6 @@
 		</dependency>
 		<!-- other stuff -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
 			<version>1.4.3</version>
@@ -70,11 +64,6 @@
     </dependencies>
 
 	<repositories>
-		<repository>
-			<id>CXF Snapshot</id>
-			<url>http://repository.apache.org/snapshots</url>
-			<layout>default</layout>
-		</repository>
 		<repository>
 			<id>Internet2</id>
 			<url>http://shibboleth.internet2.edu/downloads/maven2/</url>
