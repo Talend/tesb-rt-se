@@ -15,6 +15,7 @@
 
   <modules>
     <module>locator</module>
+    <module>sam</module>
     <module>examples</module>
   </modules>
 
