@@ -30,6 +30,10 @@ public class EndpointResolverTest {
 
 	final ZooKeeper zkMock = createMock(ZooKeeper.class);
 
+	@Test
+	public void testDummy() throws Exception {
+	}
+	
 /*
 	@Test
 	public void testEndpointResolver() throws Exception {
