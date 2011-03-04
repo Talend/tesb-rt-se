@@ -6,8 +6,8 @@
 		<sequence>
 			<element name="eventInfo" type="tns:eventInfoType"/>
 			<element name="messageInfo" type="tns:messageInfoType"/>
-			<element name="content" type="tns:contentType"/>
-			<element name="extension" type="tns:extensionType"/>
+			<element name="content" type="base64Binary"/>
+			<element name="extension" type="base64Binary"/>
 		</sequence>
 	</complexType>
 
@@ -31,19 +31,6 @@
 				</simpleType>
 			</element>
 			<element name="transport" type="pref:transportType"/>
-		</sequence>
-	</complexType>
-
-
-	<complexType name="contentType">
-		<sequence>
-			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
-		</sequence>
-	</complexType>
-
-	<complexType name="extensionType">
-		<sequence>
-			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
 		</sequence>
 	</complexType>
 
