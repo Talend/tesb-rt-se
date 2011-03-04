@@ -95,11 +95,11 @@
 
 	<jaxws:client id="monitoringServiceV1Client"
 		serviceClass="org.sopera.monitoring.monitoringservice.v1.MonitoringService"
-		address="http://localhost:8080/services/MonitoringServiceSOAP" />
+		address="http://localhost:8080/MonitoringServiceWar-1.0/services/MonitoringServiceSOAP" />
 
 	<bean id="monitoringServceV1Wrapper" class="org.sopera.monitoring.wrapper.MonitoringServiceWrapper">
 		<property name="monitoringService" ref="monitoringServiceV1Client" />
-		<property name="mapper" ref="mapper" />
+		<!-- property name="mapper" ref="mapper" /-->
 		<!-- Number of retries Default: 5 -->
 		<property name="numberOfRetries" value="3" />
 		<!-- Delay in milliseconds between the next attemp to send. Thread is blocked 
@@ -107,12 +107,12 @@
 		<property name="delayBetweenRetry" value="5000" />
 	</bean>
 
-	<bean id="mapper" class="org.dozer.DozerBeanMapper">
+	<!-- bean id="mapper" class="org.dozer.DozerBeanMapper">
 		<property name="mappingFiles">
 			<list>
 				<value>dozer-global-configuration.xml</value>
 				<value>dozer-event-eventType.xml</value>
 			</list>
 		</property>
-	</bean>
+	</bean-->
 </beans>

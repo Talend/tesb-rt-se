@@ -1,10 +1,10 @@
 package org.sopera.monitoring.customconverter;
 
-import org.dozer.CustomConverter;
+//import org.dozer.CustomConverter;
 import org.sopera.monitoring._2010._09.base.EventEnumType;
 import org.sopera.monitoring.event.EventType;
 
-public class EventTypeToEventEnumType implements CustomConverter {
+public class EventTypeToEventEnumType  {
 
 	public Object convert(Object existingDestinationFieldValue,
 			Object sourceFieldValue, Class<?> destinationClass,
