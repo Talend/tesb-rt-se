@@ -42,10 +42,10 @@
             <groupId>com.gaborcselle.persistent</groupId>
             <artifactId>PersistentQueue</artifactId>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
-        </dependency>
+        </dependency-->
         <!-- Dependency missing in dozer -->
         <dependency>
             <groupId>xmlbeans</groupId>

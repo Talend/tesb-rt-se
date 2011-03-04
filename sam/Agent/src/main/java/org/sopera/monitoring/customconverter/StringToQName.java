@@ -2,9 +2,9 @@ package org.sopera.monitoring.customconverter;
 
 import javax.xml.namespace.QName;
 
-import org.dozer.CustomConverter;
+//import org.dozer.CustomConverter;
 
-public class StringToQName implements CustomConverter {
+public class StringToQName {
 
 	public Object convert(Object existingDestinationFieldValue,
 			Object sourceFieldValue, Class<?> destinationClass,

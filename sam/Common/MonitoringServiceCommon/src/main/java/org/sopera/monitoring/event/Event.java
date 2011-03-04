@@ -48,6 +48,8 @@ public class Event implements Serializable {
 	@Column(name = "EVENT_EXTENSION")
 	private String extension;
 
+	private CustomInfo customInfo;
+	
 	public Event() {
 		super();
 	}
@@ -91,8 +93,16 @@ public class Event implements Serializable {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
+	
+    public CustomInfo getCustomInfo() {
+		return customInfo;
+	}
 
-    @Override
+	public void setCustomInfo(CustomInfo customInfo) {
+		this.customInfo = customInfo;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -101,6 +111,7 @@ public class Event implements Serializable {
         result = prime * result + ((extension == null) ? 0 : extension.hashCode());
         result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
         result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
+        result = prime * result + ((customInfo == null) ? 0 : customInfo.hashCode());
         return result;
     }
 
@@ -138,6 +149,11 @@ public class Event implements Serializable {
                 return false;
         } else if (!persistedId.equals(other.persistedId))
             return false;
+        if (customInfo == null) {
+        	if (other.customInfo != null)
+        		return false;
+        } else if (!customInfo.equals(other.customInfo))
+        	return false;
         return true;
     }
 
