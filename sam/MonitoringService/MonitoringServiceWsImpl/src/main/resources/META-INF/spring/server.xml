@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
+
+	<context:annotation-config />
+    <tx:annotation-driven />
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="logserver.properties"/>
+    </bean>
+
+    <bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
+        <property name="eventFilter">
+            <list>
+            </list>
+        </property>
+        
+        <property name="eventManipulator">
+            <list>
+                <ref local="passwordFilter" />
+            </list>
+        </property>
+        
+        <property name="persistenceHandler" ref="eventRepository" />
+        
+    </bean>
+
+    <bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
+        <property name="tagnames">
+            <list>
+                <value>Password</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="contentLengthFilter" class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
+        <property name="length" value="2000" />
+    </bean>
+
+    <bean id="eventRepository" class="org.sopera.monitoring.server.persistence.EventRepositoryImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="incrementer" ref="${db.incrementer}" />
+    </bean>
+    
+    <bean id="derbyIncrementer" class="org.sopera.monitoring.server.persistence.DerbySequenceIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="EVENT_ID" />
+    </bean>
+    
+    <bean id="mysqlIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="EVENT_ID" />
+        <property name="columnName" value="TODO: set this"/>
+    </bean>
+
+    <!-- bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+        <property name="url" value="jdbc:derby:target/db;create=true" />
+        <property name="username" value="" />
+        <property name="password" value="" />
+    </bean-->
+    
+<!--	<bean id="dataSource" name="dataSource"-->
+<!--		class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--		<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+<!--		<property name="url" value="jdbc:mysql://localhost:3306/zurich" />-->
+<!--		<property name="username" value="zurich" />-->
+<!--		<property name="password" value="zurich" />-->
+<!--	</bean>-->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${db.driver}" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}" />
+    </bean>
+	    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean> 
+
+	<jaxws:endpoint id="monitoringservice" 
+        implementor="#MonitoringServiceWrapper"
+		address="http://localhost:8080/services/MonitoringServiceSOAP">
+        <jaxws:properties>
+            <entry key="mtom-enabled" value="true"/>
+        </jaxws:properties>
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
+
+	<bean id="MonitoringServiceWrapper"
+		class="org.sopera.monitoring.server.service.MonitoringWebService">
+		<property name="monitoringService" ref="monitoringService" />
+	</bean>
+    
+    <bean class="org.sopera.monitoring.server.persistence.DBInitializer">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="recreateDb" value="${db.recreate}"/>
+    </bean>
+</beans>
