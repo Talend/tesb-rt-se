@@ -17,6 +17,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * Tests the sevice implementation together with the database
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/monitoringServiceTest.xml"})
 public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {

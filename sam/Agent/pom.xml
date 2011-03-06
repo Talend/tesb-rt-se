@@ -42,17 +42,6 @@
             <groupId>com.gaborcselle.persistent</groupId>
             <artifactId>PersistentQueue</artifactId>
         </dependency>
-        <!-- dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-        </dependency-->
-        <!-- Dependency missing in dozer -->
-        <dependency>
-            <groupId>xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -71,9 +60,7 @@
                         <configuration>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>
-                                        ${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl
-                                 </wsdl>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

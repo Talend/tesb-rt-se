@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="MonitoringService" targetNamespace="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-    <schema elementFormDefault="qualified" targetNamespace="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:fault="http://www.sopera.org/monitoring/2010/09/fault" xmlns:pref="http://www.sopera.org/monitoring/2010/09/common">
+    <schema elementFormDefault="qualified" targetNamespace="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:pref="http://www.sopera.org/monitoring/2010/09/common">
 			<import namespace="http://www.sopera.org/monitoring/2010/09/common" schemaLocation="CommonTypes.xsd"/>
-			<import namespace="http://www.sopera.org/monitoring/2010/09/fault" schemaLocation="FaultTypes.xsd"/>
-				
+
 			<element name="putEvents">
 				<complexType>
 					<sequence>
@@ -13,7 +13,7 @@
 				</complexType>
 			</element>
 
-			<element name="fault" type="fault:faultType"/>
+			<element name="fault" type="pref:faultType"/>
 
 			<element name="putEventsResponse" type="pref:successType"/>
         </schema>

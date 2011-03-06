@@ -1,58 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pref="http://www.sopera.org/monitoring/2010/09/base" xmlns:tns="http://www.sopera.org/monitoring/2010/09/common" elementFormDefault="qualified" targetNamespace="http://www.sopera.org/monitoring/2010/09/common">
+<schema 
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://www.sopera.org/monitoring/2010/09/common" 
+    xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+    elementFormDefault="qualified"
+    targetNamespace="http://www.sopera.org/monitoring/2010/09/common">
 
-	<import namespace="http://www.sopera.org/monitoring/2010/09/base" schemaLocation="BaseTypes.xsd"/>
 	<complexType name="eventType">
 		<sequence>
-			<element name="eventInfo" type="tns:eventInfoType" />
-			<element name="messageInfo" type="tns:messageInfoType" />
-			<element name="content" type="tns:contentType" />
-			<element name="extension" type="tns:extensionType" />
-			<element name="customInfo" type="tns:customInfoType" />
-		</sequence>
-	</complexType>
-
-	<complexType name="eventInfoType">
-		<sequence>
-			<element name="timestamp" type="dateTime"/>
-			<element name="eventType" type="pref:eventEnumType"/>
-			<element name="originator" type="tns:originatorType"/>
+            <element name="timestamp" type="dateTime"/>
+            <element name="eventType" type="tns:eventEnumType"/>
+            <element name="originator" type="tns:originatorType"/>
+			<element name="messageInfo" type="tns:messageInfoType"/>
+            <element name="customInfo" type="tns:customInfoType" />
+			<element name="content" type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
 		</sequence>
 	</complexType>
 
 	<complexType name="messageInfoType">
 		<sequence>
-			<element name="messageId" type="pref:uuidType"/>
-			<element name="flowId" type="pref:uuidType"/>
+			<element name="messageId" type="anyURI"/>
+			<element name="flowId" type="anyURI"/>
 			<element name="porttype" type="QName"/>
-			<element name="operationName">
-				<simpleType>
-					<restriction base="pref:string256">
-					</restriction>
-				</simpleType>
-			</element>
-			<element name="transport" type="pref:transportType"/>
-		</sequence>
-	</complexType>
-
-
-	<complexType name="contentType">
-		<sequence>
-			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
-		</sequence>
-	</complexType>
-
-	<complexType name="extensionType">
-		<sequence>
-			<any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
+			<element name="operationName" type="string"/>
+			<element name="transport" type="anyURI"/>
 		</sequence>
 	</complexType>
 
 	<complexType name="originatorType">
 		<sequence>
-			<element name="processId" type="pref:string256"/>
+			<element name="processId" type="string"/>
 			<element name="ip" type="string"/>
-			<element name="hostname" type="pref:string256"/>
+			<element name="hostname" type="string"/>
 			<element maxOccurs="1" minOccurs="0" name="customId" type="string"/>
 		</sequence>
 	</complexType>
@@ -75,4 +54,26 @@
 		  </element>
 		</sequence>
 	</complexType>
+    
+    <simpleType name="eventEnumType">
+        <restriction base="string">
+            <enumeration value="REQ_IN"/>
+            <enumeration value="REQ_OUT"/>
+            <enumeration value="RESP_IN"/>
+            <enumeration value="RESP_OUT"/>
+            <enumeration value="FAULT_IN"/>
+            <enumeration value="FAULT_OUT"/>
+            <enumeration value="LOG"/>
+            <enumeration value="UNKNOWN"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="faultType">
+        <sequence>
+            <element name="faultCode" type="string"/>
+            <element name="faultMessage" type="string"/>
+            <element name="stackTrace" type="string"/>
+        </sequence>
+    </complexType>
+
 </schema>

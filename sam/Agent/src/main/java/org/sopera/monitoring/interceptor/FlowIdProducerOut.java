@@ -74,7 +74,8 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 		if (message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			// Web Service consumer is acting as an intermediary
 			logger.info("PREVIOUS_MESSAGE FOUND!!!");
-			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
+			@SuppressWarnings("unchecked")
+                        WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
 			Message previousMessage = (Message)wrPreviousMessage.get();
 			//MonitoringEventData ed = (MonitoringEventData)previousMessage.get(MonitoringEventData.class);		
 			MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(previousMessage, false);

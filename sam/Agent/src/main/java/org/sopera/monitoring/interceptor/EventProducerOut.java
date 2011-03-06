@@ -1,7 +1,6 @@
 package org.sopera.monitoring.interceptor;
 
 import java.io.OutputStream;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.cxf.common.util.StringUtils;
@@ -36,7 +35,6 @@ public class EventProducerOut extends AbstractEventProducer {
 			getEventProducer().handleMessage(message, getType(), null);
 			return;
 		}
-		Set<Class<?>> formats = message.getContentFormats();
 		final OutputStream os = message.getContent(OutputStream.class);
 		if (os == null) {
 			logger.info("There is no processable content in outgoing message.");

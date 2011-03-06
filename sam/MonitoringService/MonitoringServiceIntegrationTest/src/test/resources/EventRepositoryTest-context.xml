@@ -21,5 +21,12 @@
     <bean id="eventRepository"
         class="org.sopera.monitoring.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="dataSource" />
+        <property name="incrementer" ref="derbyIncrementer" />
+    </bean>
+
+    <bean id="derbyIncrementer"
+        class="org.sopera.monitoring.server.persistence.DerbySequenceIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="EVENT_ID" />
     </bean>
 </beans>

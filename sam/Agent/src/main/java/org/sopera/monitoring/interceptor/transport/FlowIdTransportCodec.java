@@ -2,7 +2,6 @@ package org.sopera.monitoring.interceptor.transport;
 
 import java.util.logging.Logger;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Exchange;
@@ -11,7 +10,6 @@ import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.apache.cxf.transport.Destination;
 import org.sopera.monitoring.interceptor.FlowIdProcessor;
 import org.sopera.monitoring.interceptor.MessageContextCodec;
 
@@ -36,10 +34,8 @@ public class FlowIdTransportCodec extends AbstractPhaseInterceptor<Message> {
 		
 		MessageContextCodec codec = null;
 		Exchange ex = message.getExchange();
-		Bus bus = ex.get(Bus.class);
 		Endpoint endpoint = ex.get(Endpoint.class);
 		EndpointInfo ei = endpoint.getEndpointInfo();
-		Destination dest = message.getExchange().getDestination();
 		
 		String uri = ei.getAddress();
 		if (uri != null && ( uri.contains("http://") || uri.contains("https://") )) {

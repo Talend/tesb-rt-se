@@ -77,6 +77,8 @@ public class MessageInfo implements Serializable{
 		this.transportType = transportType;
 	}
 
+
+	
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -125,7 +127,7 @@ public class MessageInfo implements Serializable{
             return false;
         return true;
     }
-	
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);

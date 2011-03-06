@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.event.EventType;
+import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.persistence.EventRepository;
 import org.sopera.monitoring.server.persistence.EventRowMapper;
 import org.sopera.monitoring.util.EventCreator;
@@ -34,8 +34,8 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
     public void testWriteEvent() {
         EventCreator creator = new EventCreator();
         GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 1, 01 , 01, 10);
-        Event event = creator.createEvent("content", "extension", cal.getTime(),
-                            EventType.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
+        Event event = creator.createEvent("content", cal.getTime(),
+                            EventTypeEnum.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
                             "service", "http");
         Assert.assertNull(event.getPersistedId());
         eventRepository.writeEvent(event);

@@ -2,7 +2,6 @@ package org.sopera.monitoring.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.persistence.EventRepository;
@@ -17,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 public class MonitoringServiceImpl implements MonitoringService {
-
-	private static Logger logger = Logger.getLogger(MonitoringServiceImpl.class
-			.getName());
 
 	private List<EventFilter<Event>> eventFilter;
 	private List<EventManipulator<Event>> eventManipulator;

@@ -13,8 +13,7 @@ import org.apache.cxf.service.model.MessageInfo.Type;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.sopera.monitoring.collector.EventCollector;
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.event.EventInfo;
-import org.sopera.monitoring.event.EventType;
+import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
 import org.sopera.monitoring.helper.FlowIdHelper;
@@ -65,20 +64,15 @@ public class EventProducer {
 	public Event mapToEvent(Message message, InterceptorType type, String content) {
 	    logger.info("Create event and delegate to collector.");
 	    Event event = new Event();
-	    EventInfo eventInfo = new EventInfo();
 	    MessageInfo messageInfo = new MessageInfo();
 	    Originator originator = new Originator();
 
-	    event.setEventInfo(eventInfo);
 	    event.setMessageInfo(messageInfo);
-	    eventInfo.setOriginator(originator);
-
+	    event.setOriginator(originator);
 	    event.setContent(content);
-
-	    eventInfo.setEventType(null);
-
+	    event.setEventType(null);
 	    Date date = new Date();
-	    eventInfo.setTimestamp(date);
+	    event.setTimestamp(date);
 
 	    messageInfo.setFlowId(FlowIdHelper.getFlowIdFromProperty(message));
 	    messageInfo.setMessageId(ContextUtils.generateUUID());
@@ -112,36 +106,36 @@ public class EventProducer {
 
 	    originator.setProcessId(ManagementFactory.getRuntimeMXBean().getName());
 
-	    Object messageInfoObject = message
-	    .get("org.apache.cxf.service.model.MessageInfo");
-	    if (messageInfoObject instanceof org.apache.cxf.service.model.MessageInfo) {
-	        org.apache.cxf.service.model.MessageInfo info = (org.apache.cxf.service.model.MessageInfo) messageInfoObject;
-	        if (Type.INPUT.equals(info.getType())) {
-	            if (InterceptorType.IN.equals(type)) {
-	                eventInfo.setEventType(EventType.REQ_IN);
-	            }
-	            if (InterceptorType.OUT.equals(type)) {
-	                eventInfo.setEventType(EventType.REQ_OUT);
-	            }
-	        }
-	        if (Type.OUTPUT.equals(info.getType())) {
-	            if (InterceptorType.IN.equals(type)) {
-	                eventInfo.setEventType(EventType.RESP_IN);
-	            }
-	            if (InterceptorType.OUT.equals(type)) {
-	                eventInfo.setEventType(EventType.RESP_OUT);
-	            }
-	        }
-	        if (eventInfo.getEventType() == null) {
-	            logger.severe("No event type identified.");
-	        }
-	    }
-	    if (InterceptorType.IN_FAULT.equals(type)) {
-	        eventInfo.setEventType(EventType.FAULT_IN);
-	    }
-	    if (InterceptorType.OUT_FAULT.equals(type)) {
-	        eventInfo.setEventType(EventType.FAULT_OUT);
-	    }
+	    EventTypeEnum eventType = getEventType(message, type);
+	    event.setEventType(eventType);
 	    return event;
 	}
+
+    private EventTypeEnum getEventType(Message message, InterceptorType type) {
+        Object messageInfoObject = message.get("org.apache.cxf.service.model.MessageInfo");
+        if (messageInfoObject instanceof org.apache.cxf.service.model.MessageInfo) {
+            org.apache.cxf.service.model.MessageInfo info = (org.apache.cxf.service.model.MessageInfo)messageInfoObject;
+            if (Type.INPUT.equals(info.getType())) {
+                if (InterceptorType.IN.equals(type)) {
+                    return EventTypeEnum.REQ_IN;
+                } else if (InterceptorType.OUT.equals(type)) {
+                    return EventTypeEnum.REQ_OUT;
+                }
+            } else if (Type.OUTPUT.equals(info.getType())) {
+                if (InterceptorType.IN.equals(type)) {
+                    return EventTypeEnum.RESP_IN;
+                } else if (InterceptorType.OUT.equals(type)) {
+                    return EventTypeEnum.RESP_OUT;
+                }
+            }
+            logger.severe("No event type identified.");
+        }
+        if (InterceptorType.IN_FAULT.equals(type)) {
+            return EventTypeEnum.FAULT_IN;
+        }
+        if (InterceptorType.OUT_FAULT.equals(type)) {
+            return EventTypeEnum.FAULT_OUT;
+        }
+        return EventTypeEnum.UNKNOWN;
+    }
 }

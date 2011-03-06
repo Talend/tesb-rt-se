@@ -1,10 +1,14 @@
 package org.sopera.monitoring.event;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +17,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,94 +30,114 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class Event implements Serializable {
     // TODO Filename, line number for logging events
 
-	@Transient
-	private static final long serialVersionUID = 1697021887985284206L;
+    @Transient
+    private static final long serialVersionUID = 1697021887985284206L;
 
-	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "EVENT_SEQ")
-	@TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
-	@Column(name = "ID")
-	private Long persistedId;
+    @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "EVENT_SEQ")
+    @TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
+    @Column(name = "ID")
+    private Long persistedId;
 
-	@Embedded
-	private EventInfo eventInfo;
+    @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "EI_TIMESTAMP")
+    private Date timestamp;
 
-	@Embedded
-	private MessageInfo messageInfo;
+    @Basic(optional = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "EI_EVENT_TYPE")
+    private EventTypeEnum eventType;
 
-	@Lob
-	@Column(name = "MESSAGE_CONTENT")
-	private String content;
+    @Embedded
+    private Originator originator;
 
-	@Lob
-	@Column(name = "EVENT_EXTENSION")
-	private String extension;
+    @Embedded
+    private MessageInfo messageInfo;
 
-	private CustomInfo customInfo;
-	
-	public Event() {
-		super();
-	}
+    @Lob
+    @Column(name = "MESSAGE_CONTENT")
+    private String content;
 
-	public Long getPersistedId() {
-		return persistedId;
-	}
+    private CustomInfo customInfo;
 
-	public void setPersistedId(Long persistedId) {
-		this.persistedId = persistedId;
-	}
+    public Event() {
+        super();
+    }
 
-	public EventInfo getEventInfo() {
-		return eventInfo;
-	}
+    public Long getPersistedId() {
+        return persistedId;
+    }
 
-	public void setEventInfo(EventInfo eventInfo) {
-		this.eventInfo = eventInfo;
-	}
+    public void setPersistedId(Long persistedId) {
+        this.persistedId = persistedId;
+    }
 
-	public MessageInfo getMessageInfo() {
-		return messageInfo;
-	}
+    public Date getTimestamp() {
+        return timestamp;
+    }
 
-	public void setMessageInfo(MessageInfo messageInfo) {
-		this.messageInfo = messageInfo;
-	}
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public EventTypeEnum getEventType() {
+        return eventType;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setEventType(EventTypeEnum eventType) {
+        this.eventType = eventType;
+    }
 
-	public String getExtension() {
-		return extension;
-	}
+    public Originator getOriginator() {
+        return originator;
+    }
 
-	public void setExtension(String extension) {
-		this.extension = extension;
-	}
-	
+    public void setOriginator(Originator originator) {
+        this.originator = originator;
+    }
+
+    public MessageInfo getMessageInfo() {
+        return messageInfo;
+    }
+
+    public void setMessageInfo(MessageInfo messageInfo) {
+        this.messageInfo = messageInfo;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public CustomInfo getCustomInfo() {
-		return customInfo;
-	}
+        return customInfo;
+    }
 
-	public void setCustomInfo(CustomInfo customInfo) {
-		this.customInfo = customInfo;
-	}
+    public void setCustomInfo(CustomInfo customInfo) {
+        this.customInfo = customInfo;
+    }
 
-	@Override
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result + ((eventInfo == null) ? 0 : eventInfo.hashCode());
-        result = prime * result + ((extension == null) ? 0 : extension.hashCode());
-        result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
-        result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
         result = prime * result + ((customInfo == null) ? 0 : customInfo.hashCode());
+        result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
+        result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
+        result = prime * result + ((originator == null) ? 0 : originator.hashCode());
+        result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
+        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
         return result;
     }
 
@@ -129,38 +155,34 @@ public class Event implements Serializable {
                 return false;
         } else if (!content.equals(other.content))
             return false;
-        if (eventInfo == null) {
-            if (other.eventInfo != null)
+        if (customInfo == null) {
+            if (other.customInfo != null)
                 return false;
-        } else if (!eventInfo.equals(other.eventInfo))
+        } else if (!customInfo.equals(other.customInfo))
             return false;
-        if (extension == null) {
-            if (other.extension != null)
-                return false;
-        } else if (!extension.equals(other.extension))
+        if (eventType != other.eventType)
             return false;
         if (messageInfo == null) {
             if (other.messageInfo != null)
                 return false;
         } else if (!messageInfo.equals(other.messageInfo))
             return false;
+        if (originator == null) {
+            if (other.originator != null)
+                return false;
+        } else if (!originator.equals(other.originator))
+            return false;
         if (persistedId == null) {
             if (other.persistedId != null)
                 return false;
         } else if (!persistedId.equals(other.persistedId))
             return false;
-        if (customInfo == null) {
-        	if (other.customInfo != null)
-        		return false;
-        } else if (!customInfo.equals(other.customInfo))
-        	return false;
+        if (timestamp == null) {
+            if (other.timestamp != null)
+                return false;
+        } else if (!timestamp.equals(other.timestamp))
+            return false;
         return true;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
-    }
-
-    
 }

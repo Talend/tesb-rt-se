@@ -14,8 +14,6 @@ public class FlowIdProcessor  {
 	
 	private MessageContextCodec codec;
 	
-	private FlowIdProcessor() {}
-	
 	public FlowIdProcessor(MessageContextCodec codec) {
 		this.codec = codec;
 	}

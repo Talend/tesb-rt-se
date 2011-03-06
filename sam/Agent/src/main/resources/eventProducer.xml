@@ -15,7 +15,6 @@
 		http://www.springframework.org/schema/task
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-
 	<bean id="eventProducer" class="org.sopera.monitoring.producer.EventProducer">
 		<property name="eventCollector" ref="eventCollector" />
 		<property name="logMessageContent" value="true" />
@@ -95,7 +94,11 @@
 
 	<jaxws:client id="monitoringServiceV1Client"
 		serviceClass="org.sopera.monitoring.monitoringservice.v1.MonitoringService"
-		address="http://localhost:8080/MonitoringServiceWar-1.0/services/MonitoringServiceSOAP" />
+		address="http://localhost:8080/MonitoringServiceWar-1.0/services/MonitoringServiceSOAP">
+        <jaxws:properties>
+            <entry key="mtom-enabled" value="true"/>
+        </jaxws:properties>
+    </jaxws:client>
 
 	<bean id="monitoringServceV1Wrapper" class="org.sopera.monitoring.wrapper.MonitoringServiceWrapper">
 		<property name="monitoringService" ref="monitoringServiceV1Client" />
@@ -107,12 +110,4 @@
 		<property name="delayBetweenRetry" value="5000" />
 	</bean>
 
-	<!-- bean id="mapper" class="org.dozer.DozerBeanMapper">
-		<property name="mappingFiles">
-			<list>
-				<value>dozer-global-configuration.xml</value>
-				<value>dozer-event-eventType.xml</value>
-			</list>
-		</property>
-	</bean-->
 </beans>

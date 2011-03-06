@@ -11,9 +11,14 @@ import org.springframework.test.jdbc.SimpleJdbcTestUtils;
 public class DBInitializer implements InitializingBean {
 
     DataSource dataSource;
+    boolean recreateDb;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public void setRecreateDb(boolean recreateDb) {
+        this.recreateDb = recreateDb;
     }
 
     @Override

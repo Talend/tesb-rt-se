@@ -1,108 +1,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.sopera.monitoring</groupId>
-	<artifactId>CustomerService</artifactId>
-	<version>1.0</version>
-	<packaging>war</packaging>
+    <groupId>org.sopera.monitoring</groupId>
+    <artifactId>CustomerService</artifactId>
+    <version>1.0</version>
+    <packaging>war</packaging>
 
-	<name>CustomerService</name>
-	<url>h</url>
+    <name>CustomerService</name>
+    <url>h</url>
 
-	<parent>
-		<groupId>org.sopera.monitoring</groupId>
-		<artifactId>Dummy</artifactId>
-		<version>1.0</version>
-	</parent>
+    <parent>
+        <groupId>org.sopera.monitoring</groupId>
+        <artifactId>Dummy</artifactId>
+        <version>1.0</version>
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>Agent</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
+    <dependencies>
+        <dependency>
+            <groupId>org.sopera.monitoring</groupId>
+            <artifactId>Agent</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
- 
-	</dependencies>
-	
-	<build>
-		<finalName>CustomerService</finalName>
-		<plugins>
-			<!-- Below plugin provides a separate JAR for the JAX-WS artifacts (i.e., 
-				the Java classes created by running wsdl2java or wsimport), as this JAR will 
-				also be used by the SOAP client. -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-1</version>
-				<configuration>
-					<descriptors>
-						<descriptor>src/assembly/jaxws-jar.xml</descriptor>
-					</descriptors>
-					<appendAssemblyId>true</appendAssemblyId>
-					<attach>true</attach>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
-				<executions>
-					<execution>
-						<configuration>
-							<sourceRoot>
-								${basedir}/target/generated-sources
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>CustomerService</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <sourceRoot>
+                                ${basedir}/target/generated-sources
                            </sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>
-										${basedir}/src/main/webapp/WEB-INF/wsdl/CustomerService.wsdl
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        ${basedir}/src/main/webapp/WEB-INF/wsdl/CustomerService.wsdl
                                  </wsdl>
-                                                                     <bindingFiles>
+                                    <bindingFiles>
                                         <bindingFile>${basedir}/src/main/webapp/WEB-INF/wsdl/binding.xml</bindingFile>
                                     </bindingFiles>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			            <plugin>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
                 <configuration>
                     <connectors>
                         <connector
-                                implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                             <port>9090</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>    	
+        </plugins>
+    </build>
 </project>

@@ -35,7 +35,8 @@ public abstract class AbstractFlowIdProducer<T extends Message> extends
 		String flowId = null;
 		if (message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			logger.info("PREVIOUS_MESSAGE FOUND!!!");
-			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
+			@SuppressWarnings("unchecked")
+                        WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
 			Message previousMessage = (Message)wrPreviousMessage.get();
 			//flowId = FlowIdHelper.getFlowId(previousMessage);
 			MonitoringEventData ed = (MonitoringEventData)previousMessage.get(MonitoringEventData.class);		

@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import org.sopera.monitoring.event.Event;
-import org.sopera.monitoring.event.EventInfo;
-import org.sopera.monitoring.event.EventType;
+import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
 
@@ -23,28 +22,24 @@ public class EventCreator {
 	public Event generateEvent(){
 		Date cal = Calendar.getInstance().getTime();
 		String generated = Integer.valueOf(cal.toString().hashCode()).toString();
-		return createEvent("<request><values><value>a</value></values></request>", "<noExtension/>", cal, EventType.REQ_IN, "JUnit", "localhost", "127.0.0.1", generated, generated, generated, "testOperation", "testPort", "JAVA");
+		return createEvent("<request><values><value>a</value></values></request>", cal, EventTypeEnum.REQ_IN, "JUnit", "localhost", "127.0.0.1", generated, generated, generated, "testOperation", "testPort", "JAVA");
 	}
 
-	public Event createEvent(String content, String extension, Date timestamp, EventType eventType
+	public Event createEvent(String content, Date timestamp, EventTypeEnum eventType
 			, String customOriginatorId, String hostname, String ip, String processId, String flowId,
 			String messageId, String operarionName, String portType, String transportType) {
 		
 		Event event = new Event();
 		event.setContent(content);
-		event.setExtension(extension);
+		event.setTimestamp(timestamp);
+		event.setEventType(eventType);
 		
-		event.setEventInfo(new EventInfo());
-		EventInfo eventInfo = event.getEventInfo();
-		eventInfo.setTimestamp(timestamp);
-		eventInfo.setEventType(eventType);
-		
-		eventInfo.setOriginator(new Originator());
-		Originator originator = eventInfo.getOriginator();
+		Originator originator = new Originator();
 		originator.setCustomId(customOriginatorId);
 		originator.setHostname(hostname);
 		originator.setIp(ip);
 		originator.setProcessId(processId);
+		event.setOriginator(originator);
 		
 		event.setMessageInfo(new MessageInfo());
 		MessageInfo messageInfo = event.getMessageInfo();
@@ -58,18 +53,14 @@ public class EventCreator {
 			logger.info("Set content empty element");
 			event.setContent("<empty/>");
 		}
-		if (event.getExtension() == null || event.getExtension().equals("")) {
-			logger.info("Set extension empty element");
-			event.setExtension("<empty/>");
-		}
 
-		if (eventInfo.getTimestamp() == null) {
+		if (event.getTimestamp() == null) {
 			logger.info("Set timestamp to current Date");
-			eventInfo.setTimestamp(Calendar.getInstance().getTime());
+			event.setTimestamp(Calendar.getInstance().getTime());
 		}
-		if (eventInfo.getEventType() == null) {
+		if (event.getEventType() == null) {
 			logger.info("Set eventType to REQ_IN");
-			eventInfo.setEventType(EventType.REQ_IN);
+			event.setEventType(EventTypeEnum.REQ_IN);
 		}
 
 		if (originator.getCustomId() == null

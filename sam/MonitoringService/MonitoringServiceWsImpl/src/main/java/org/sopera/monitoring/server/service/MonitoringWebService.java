@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.dozer.DozerBeanMapper;
 import org.sopera.monitoring._2010._09.common.EventType;
-import org.sopera.monitoring._2010._09.fault.FaultType;
+import org.sopera.monitoring._2010._09.common.FaultType;
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.MonitoringException;
 import org.sopera.monitoring.monitoringservice.v1.MonitoringService;
@@ -21,7 +20,6 @@ public class MonitoringWebService implements MonitoringService {
 			.getLogger(MonitoringWebService.class.getName());
 
 	private org.sopera.monitoring.event.service.MonitoringService monitoringService;
-	private DozerBeanMapper mapper;
 
 	public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
 		logger.info("Received Events");
@@ -29,7 +27,7 @@ public class MonitoringWebService implements MonitoringService {
 
 		try {
 			for (EventType eventType : eventTypes) {
-			    Event event = mapper.map(eventType, Event.class);
+			    Event event = EventTypeMapper.map(eventType);
 			    events.add(event);
 			}
 		} catch (RuntimeException e) {
@@ -72,10 +70,6 @@ public class MonitoringWebService implements MonitoringService {
 	public void setMonitoringService(
 			org.sopera.monitoring.event.service.MonitoringService monitoringService) {
 		this.monitoringService = monitoringService;
-	}
-
-	public void setMapper(DozerBeanMapper mapper) {
-		this.mapper = mapper;
 	}
 
 }

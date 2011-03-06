@@ -21,15 +21,15 @@ public class MetadataFilter<E extends Event> implements EventFilter<E> {
 		Boolean transportFilter = transportType != null ? Boolean.FALSE : null;
 
 		if (hostname != null
-				&& event.getEventInfo().getOriginator().getHostname() != null
-				&& event.getEventInfo().getOriginator().getHostname()
+				&& event.getOriginator().getHostname() != null
+				&& event.getOriginator().getHostname()
 						.equals(hostname)) {
 			if (!andCondition)
 				return true;
 			hostFilter = Boolean.TRUE;
 		}
-		if (ip != null && event.getEventInfo().getOriginator().getIp() != null
-				&& event.getEventInfo().getOriginator().getIp().equals(ip)) {
+		if (ip != null && event.getOriginator().getIp() != null
+				&& event.getOriginator().getIp().equals(ip)) {
 			if (!andCondition)
 				return true;
 			ipFilter = Boolean.TRUE;
