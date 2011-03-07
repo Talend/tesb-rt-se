@@ -24,6 +24,7 @@ import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
 
 public class EventMapper {
+
     /**
      * convert Event bean to EventType manually
      * 
@@ -93,20 +94,29 @@ public class EventMapper {
         return ciType;
     }
     
-    private static XMLGregorianCalendar convertToXmlGregorianCalendar(Calendar cal) {
-        try {
-            return DatatypeFactory.newInstance().newXMLGregorianCalendar();
-        } catch (DatatypeConfigurationException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+	private static XMLGregorianCalendar convertDate(Date date) {
+		XMLGregorianCalendar gCal = null;
 
-    private static XMLGregorianCalendar convertDate(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return convertToXmlGregorianCalendar(cal);
+		try {
+			gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+		} catch (DatatypeConfigurationException ex) {
+			ex.printStackTrace();
+			return null;
+		}
 
-    }
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		gCal.setYear(cal.get(Calendar.YEAR));
+		gCal.setMonth(cal.get(Calendar.MONTH) + 1);
+		gCal.setDay(cal.get(Calendar.DAY_OF_MONTH));
+		gCal.setHour(cal.get(Calendar.HOUR_OF_DAY));
+		gCal.setMinute(cal.get(Calendar.MINUTE));
+		gCal.setSecond(cal.get(Calendar.SECOND));
+		gCal.setMillisecond(cal.get(Calendar.MILLISECOND));
+		gCal.setTimezone(cal.get(Calendar.ZONE_OFFSET) / 60000);
+		return gCal;
+
+	}
 
     private static EventEnumType convertEventType(org.sopera.monitoring.event.EventTypeEnum eventType) {
         return EventEnumType.valueOf(eventType.name());

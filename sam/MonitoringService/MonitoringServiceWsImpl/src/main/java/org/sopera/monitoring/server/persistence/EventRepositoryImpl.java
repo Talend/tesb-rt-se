@@ -1,8 +1,11 @@
 package org.sopera.monitoring.server.persistence;
 
+import java.util.Map;
+
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
+import org.sopera.monitoring.event.CustomInfo;
 import org.sopera.monitoring.event.persistence.EventRepository;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
@@ -40,7 +43,25 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
                                        messageInfo.getOperationName(),
                                        messageInfo.getTransportType(),
                                        event.getContent());
+        
+        //insert customInfo (key/value) into DB
+        CustomInfo cInfo = event.getCustomInfo();
+        if (cInfo != null){
+	        Map<String, Object> prop = cInfo.getProperties();
+	                
+	        if (prop != null && prop.size() > 0){
+		        for (Map.Entry<String, Object> entry : prop.entrySet()) {
+		            long cust_id = incrementer.nextLongValue();
+		            System.out.println("cust_value: " + entry.getValue().toString());
+		            getSimpleJdbcTemplate().update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE) values (?,?,?,?)",
+		            		cust_id,
+		            		id,
+		            		entry.getKey(),
+		            		entry.getValue().toString());
+		        }
+	        }
+        }
+        
     }
-
 
 }

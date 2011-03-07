@@ -11,10 +11,12 @@ import org.sopera.monitoring._2010._09.common.EventEnumType;
 import org.sopera.monitoring._2010._09.common.EventType;
 import org.sopera.monitoring._2010._09.common.MessageInfoType;
 import org.sopera.monitoring._2010._09.common.OriginatorType;
+import org.sopera.monitoring._2010._09.common.CustomInfoType;
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
+import org.sopera.monitoring.event.CustomInfo;
 
 public class EventTypeMapper {
     public static Event map(EventType eventType) {
@@ -27,9 +29,20 @@ public class EventTypeMapper {
         event.setMessageInfo(messageInfo);
         String content = mapContent(eventType.getContent());
         event.setContent(content);
+        event.setCustomInfo(mapCustomInfo(eventType.getCustomInfo()));
         return event;
     }
 
+    private static CustomInfo mapCustomInfo(CustomInfoType ciType){
+    	CustomInfo ci = new CustomInfo();
+
+    	if (ciType != null){
+	    	for (CustomInfoType.Item item : ciType.getItem()){
+	    		ci.getProperties().put(item.getKey(),item.getValue());
+	    	}
+    	}
+    	return ci;
+    }
     private static String mapContent(DataHandler dh) {
         if (dh == null) {
             return "";

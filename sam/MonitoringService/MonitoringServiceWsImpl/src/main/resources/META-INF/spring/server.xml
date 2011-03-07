@@ -60,8 +60,8 @@
     
     <bean id="mysqlIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
-        <property name="incrementerName" value="EVENT_ID" />
-        <property name="columnName" value="TODO: set this"/>
+        <property name="incrementerName" value="SEQUENCE" />
+        <property name="columnName" value="SEQ_COUNT"/>
     </bean>
 
     <!-- bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -92,7 +92,7 @@
 
 	<jaxws:endpoint id="monitoringservice" 
         implementor="#MonitoringServiceWrapper"
-		address="http://localhost:8080/services/MonitoringServiceSOAP">
+		address="/MonitoringServiceSOAP">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>
