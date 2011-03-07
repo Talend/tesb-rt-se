@@ -26,9 +26,9 @@ import junit.framework.TestCase;
  * @version 1.0
  */
 public class PersistentQueueTest extends TestCase {
-    /** Filename of queue file that should be used for testing. */
-    private static final String TEST_FILENAME = "C:\\persQueueTest.queue";
+
     private PersistentQueue<PersistentQueueTestEntry> pqueue;
+	private String fileName;
 
     /** 
      * Set up unit test - delete the test file if it already exists,
@@ -36,12 +36,11 @@ public class PersistentQueueTest extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
+        File tempFile = File.createTempFile("persistentTest", "temp");
+        fileName = tempFile.getAbsolutePath();
+        tempFile.delete();
         
-        // delete file, if any exists
-        File deleteFile = new File(TEST_FILENAME);
-        deleteFile.delete();
-        
-        pqueue = new PersistentQueue<PersistentQueueTestEntry>(TEST_FILENAME);
+        pqueue = new PersistentQueue<PersistentQueueTestEntry>(fileName);
     }
     
     /** Test adding and removing a single element. */
@@ -103,7 +102,7 @@ public class PersistentQueueTest extends TestCase {
         pqueue.add(new PersistentQueueTestEntry ("two"));
         
         // lose pqueue now (e.g. because of system crash) and create a new one
-        pqueue = new PersistentQueue<PersistentQueueTestEntry>(TEST_FILENAME);
+        pqueue = new PersistentQueue<PersistentQueueTestEntry>(fileName);
     }
     
     /** 
@@ -113,7 +112,7 @@ public class PersistentQueueTest extends TestCase {
     public void testWriteList() throws Exception {
         pqueue.clear();
         
-        pqueue = new PersistentQueue<PersistentQueueTestEntry>(TEST_FILENAME, 9);
+        pqueue = new PersistentQueue<PersistentQueueTestEntry>(fileName, 9);
         // add 20, remove 10
         for (int i = 0; i < 10; i++) {
             pqueue.add(new PersistentQueueTestEntry(String.valueOf(i)));
@@ -122,7 +121,7 @@ public class PersistentQueueTest extends TestCase {
         }
         
         // lose pqueue now (e.g. because of system crash) and create a new one
-        pqueue = new PersistentQueue<PersistentQueueTestEntry>(TEST_FILENAME, 10);
+        pqueue = new PersistentQueue<PersistentQueueTestEntry>(fileName, 10);
         
         // and check ten elements
         for (int i = 0; i < 10; i++) {
@@ -136,7 +135,7 @@ public class PersistentQueueTest extends TestCase {
         super.tearDown();
         
         // delete the file created by pqueue
-        File deleteFile = new File(TEST_FILENAME);
+        File deleteFile = new File(fileName);
         deleteFile.delete();
     }
 }

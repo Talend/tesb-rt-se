@@ -11,13 +11,13 @@
     ">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<context:annotation-config />
     <tx:annotation-driven />
-    
+  
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="logserver.properties"/>
+        <property name="location" value="WEB-INF/logserver.properties"/>
     </bean>
 
     <bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
@@ -64,21 +64,6 @@
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
 
-    <!-- bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-        <property name="url" value="jdbc:derby:target/db;create=true" />
-        <property name="username" value="" />
-        <property name="password" value="" />
-    </bean-->
-    
-<!--	<bean id="dataSource" name="dataSource"-->
-<!--		class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-<!--		<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
-<!--		<property name="url" value="jdbc:mysql://localhost:3306/zurich" />-->
-<!--		<property name="username" value="zurich" />-->
-<!--		<property name="password" value="zurich" />-->
-<!--	</bean>-->
-
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driver}" />
         <property name="url" value="${db.url}" />
@@ -92,7 +77,7 @@
 
 	<jaxws:endpoint id="monitoringservice" 
         implementor="#MonitoringServiceWrapper"
-		address="/MonitoringServiceSOAP">
+		address="${monitoringServiceUrl}">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>

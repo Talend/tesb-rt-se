@@ -28,7 +28,7 @@ public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4Spring
 
     @Before
     public void setUp() throws Exception {
-        executeSqlScript("create.sql", false);
+        executeSqlScript("create.sql", true);
     }
     
     @Test

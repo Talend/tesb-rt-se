@@ -24,8 +24,10 @@ public class DBInitializer implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         SimpleJdbcTemplate sjdbcTemplate = new SimpleJdbcTemplate(dataSource);
-        Resource resource = new ClassPathResource("create.sql");
-        SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
+        if (recreateDb) {
+        	Resource resource = new ClassPathResource("create.sql");
+        	SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
+        }
     }
 
 }
