@@ -41,10 +41,10 @@
                             *
                         </Import-Package>
                         <Export-Package>
-							org.talend.services.crm.types,
-							org.talend.services.reservation.types,
-							org.talend.services.reservationservice
-						</Export-Package> 
+                            org.talend.services.crm.types,
+                            org.talend.services.reservation.types,
+                            org.talend.services.reservationservice
+                        </Export-Package> 
                     </instructions>
                 </configuration>
             </plugin>

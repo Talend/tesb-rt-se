@@ -20,31 +20,31 @@
     <name>Locator Demo Common</name>
     <packaging>bundle</packaging>
 
-  <parent>
-    <groupId>org.talend.esb.examples.locator</groupId>
-    <artifactId>locator-demo</artifactId>
-    <version>4.0</version>
-    <relativePath>..</relativePath>
-  </parent>
+    <parent>
+        <groupId>org.talend.esb.examples.locator</groupId>
+        <artifactId>locator-demo</artifactId>
+        <version>4.0</version>
+        <relativePath>..</relativePath>
+    </parent>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Import-Package>
-              javax.jws
-            </Import-Package>
-            <Export-Package>
-              demo.common
-            </Export-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>
+                            javax.jws
+                        </Import-Package>
+                        <Export-Package>
+                            demo.common
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
-

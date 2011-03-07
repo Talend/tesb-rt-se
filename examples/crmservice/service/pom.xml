@@ -71,7 +71,7 @@
                                     <goal>java</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>server.CustomerServiceServer</mainClass>
+                                    <mainClass>org.talend.services.crmservice.service.CRMServiceImpl</mainClass>
                                 </configuration>
                             </execution>
                         </executions>

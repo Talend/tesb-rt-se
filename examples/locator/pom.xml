@@ -6,17 +6,17 @@
     <version>4.0</version>
     <packaging>pom</packaging>
 
-  <parent>
-    <groupId>org.talend.esb</groupId>
-    <artifactId>esb-examples-parent</artifactId>
-    <version>4.0</version>
-  </parent>
+    <parent>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>esb-examples-parent</artifactId>
+        <version>4.0</version>
+    </parent>
 
-  <modules>
-    <module>common</module>
-    <module>client</module>
-    <module>service</module>
-    <module>war</module>
-  </modules>
+    <modules>
+        <module>common</module>
+        <module>client</module>
+        <module>service</module>
+        <module>war</module>
+    </modules>
 
 </project>

@@ -35,15 +35,15 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>
-							javax.xml.bind,
-							javax.xml.bind.annotation,
-							javax.xml.bind.annotation.adapters,
-							*
+                            javax.xml.bind,
+                            javax.xml.bind.annotation,
+                            javax.xml.bind.annotation.adapters,
+                            *
                         </Import-Package>
                         <!--Export-Package>
-							org.talend.services.crm.types,
-							org.talend.services.crmservice
-						</Export-Package-->
+                            org.talend.services.crm.types,
+                            org.talend.services.crmservice
+                        </Export-Package-->
                     </instructions>
                 </configuration>
             </plugin>
