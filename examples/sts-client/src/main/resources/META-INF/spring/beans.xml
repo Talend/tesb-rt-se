@@ -32,7 +32,6 @@
 			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
 		<property name="endpointName"
 			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
-		<property name="requiresEntropy" value="false" />
 		<property name="outInterceptors">
 			<list>
 				<bean class="org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor" />
@@ -62,14 +61,12 @@
 			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
 		<property name="endpointName"
 			value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
-		<property name="requiresEntropy" value="false" />
 		<property name="properties">
 			<map>
 				<entry key="ws-security.sts.token.properties" value="clientKeystore.properties" />
+				<entry key="ws-security.sts.token.usecert" value="true"/> 
 			</map>
 		</property>
-		<property name="useCertificateForConfirmationKeyInfo"
-			value="true" />
 		<property name="template">
 			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 				<property name="targetObject" ref="template" />
@@ -86,15 +83,15 @@
 	<!-- Invoker -->
 	<bean class="org.apache.esb.sts.client.StsClientInvoker">
 		<property name="stsClient">
-			<ref bean="stsClientUsernameToken"/>
-			<!-- ref bean="stsClientCertificate"/-->
+			<!-- ref bean="stsClientUsernameToken"/-->
+			<ref bean="stsClientCertificate"/>
 		</property>
 	</bean>
 	
 	<bean id="tokenType" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
-			<!-- value>urn:oasis:names:tc:SAML:1.0:assertion</value-->
-			<value>urn:oasis:names:tc:SAML:2.0:assertion</value>
+			<value>urn:oasis:names:tc:SAML:1.0:assertion</value>
+			<!-- value>urn:oasis:names:tc:SAML:2.0:assertion</value-->
 		</constructor-arg>
 	</bean>
 
