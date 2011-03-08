@@ -52,7 +52,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
 	        if (prop != null && prop.size() > 0){
 		        for (Map.Entry<String, Object> entry : prop.entrySet()) {
 		            long cust_id = incrementer.nextLongValue();
-		            System.out.println("cust_value: " + entry.getValue().toString());
+		            //System.out.println("cust_value: " + entry.getValue().toString());
 		            getSimpleJdbcTemplate().update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE) values (?,?,?,?)",
 		            		cust_id,
 		            		id,

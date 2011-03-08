@@ -12,7 +12,7 @@
 
 	<parent>
 		<groupId>org.sopera.monitoring</groupId>
-		<artifactId>Monitoring</artifactId>
+		<artifactId>MonitoringService</artifactId>
 		<version>1.0</version>
 	</parent>
 
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
         </dependency>
 
 		<dependency>

@@ -20,57 +20,57 @@
     <name>Locator Demo Server</name>
     <packaging>bundle</packaging>
 
-  <parent>
-    <groupId>org.talend.esb.examples.locator</groupId>
-    <artifactId>locator-demo</artifactId>
-    <version>4.0</version>
-    <relativePath>..</relativePath>
-  </parent>
+    <parent>
+        <groupId>org.talend.esb.examples.locator</groupId>
+        <artifactId>locator-demo</artifactId>
+        <version>4.0</version>
+        <relativePath>..</relativePath>
+    </parent>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-rt-transports-http-jetty</artifactId>
-      <version>2.3.1</version>
-      <type>jar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.talend.esb</groupId>
-      <artifactId>locator</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>locator-demo-common</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-api</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>locator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>locator-demo-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
-          </instructions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>demo.service.Server</mainClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>demo.service.Server</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
-
