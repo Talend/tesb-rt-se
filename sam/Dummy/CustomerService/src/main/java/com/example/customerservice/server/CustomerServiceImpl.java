@@ -24,9 +24,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.xml.ws.WebServiceContext;
-
 import com.example.customerservice.Customer;
 import com.example.customerservice.CustomerService;
 import com.example.customerservice.CustomerType;
@@ -34,13 +31,6 @@ import com.example.customerservice.NoSuchCustomer;
 import com.example.customerservice.NoSuchCustomerException;
 
 public class CustomerServiceImpl implements CustomerService {
-    
-    /**
-     * The WebServiceContext can be used to retrieve special attributes like the 
-     * user principal. Normally it is not needed
-     */
-    @Resource
-    WebServiceContext wsContext;
 
     public List<Customer> getCustomersByName(String name) throws NoSuchCustomerException {
         if ("None".equals(name)) {
@@ -68,13 +58,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
-        System.out.println("update request was received");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            // Nothing to do here
-        }
-        System.out.println("Customer was updated");
     }
 
 }

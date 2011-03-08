@@ -17,7 +17,6 @@
 	</parent>
   
 	<modules>
-		<module>DummyCommon</module>
 		<module>DummyService</module>
 		<module>DummyClient</module>
 		<module>CustomerService</module>

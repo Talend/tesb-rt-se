@@ -9,13 +9,9 @@ import ch.zurich.incurancecase.caseservice.AddCaseFault_Exception;
 public class CaseServiceTest {
 
 	@Test
-	public void addCaseTest() {
+	public void addCaseTest() throws AddCaseFault_Exception {
 		CaseServiceImpl caseServiceImpl = new CaseServiceImpl();
-		try {
-			caseServiceImpl.addCase("1", "a", "10,99", "contractor", null,
-					new Holder<String>(), new Holder<Boolean>());
-		} catch (AddCaseFault_Exception e) {
-			e.printStackTrace();
-		}
+		caseServiceImpl.addCase("1", "a", "10,99", "contractor", null,
+			new Holder<String>(), new Holder<Boolean>());
 	}
 }

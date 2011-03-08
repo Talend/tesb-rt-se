@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
 import javax.xml.ws.Holder;
-import javax.xml.ws.WebServiceContext;
 
 import ch.zurich.incurancecase.caseservice.AddCaseFault;
 import ch.zurich.incurancecase.caseservice.AddCaseFault_Exception;
