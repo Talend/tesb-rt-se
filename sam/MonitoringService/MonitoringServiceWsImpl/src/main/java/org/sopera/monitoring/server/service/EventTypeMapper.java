@@ -64,6 +64,7 @@ public class EventTypeMapper {
             messageInfo.setMessageId(messageInfoType.getMessageId());
             messageInfo.setOperationName(messageInfoType.getOperationName());
             messageInfo.setPortType(messageInfoType.getPorttype() == null ? "" : messageInfoType.getPorttype().toString());
+            messageInfo.setTransportType(messageInfoType.getTransport());
         }
         return messageInfo;
     }

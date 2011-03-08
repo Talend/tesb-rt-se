@@ -8,6 +8,7 @@ import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
+import org.sopera.monitoring.event.CustomInfo;
 
 /**
  * TODO Sue Builder pattern?
@@ -48,7 +49,7 @@ public class EventCreator {
 		messageInfo.setOperationName(operarionName);
 		messageInfo.setPortType(portType);
 		messageInfo.setTransportType(transportType);
-
+		
 		if (event.getContent() == null || event.getContent().equals("")) {
 			logger.info("Set content empty element");
 			event.setContent("<empty/>");
@@ -112,7 +113,7 @@ public class EventCreator {
 		if (event.getPersistedId() != null) {
 			logger.warning("Persisted Id is not null, but event is not persisted jet!");
 		}
-
+		
 		return event;
 	}
 }
