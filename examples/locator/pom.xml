@@ -3,7 +3,6 @@
     <groupId>org.talend.esb.examples.locator</groupId>
     <artifactId>locator-demo</artifactId>
     <name>Demo for using the locator</name>
-    <version>4.0</version>
     <packaging>pom</packaging>
 
     <parent>

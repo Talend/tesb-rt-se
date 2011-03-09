@@ -8,7 +8,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.crmservice</groupId>
     <artifactId>crmservice</artifactId>
-    <version>1.0</version>
     <name>CRMService</name>
     <packaging>pom</packaging>
 

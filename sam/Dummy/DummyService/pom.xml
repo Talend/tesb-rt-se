@@ -4,7 +4,7 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-dummy-service</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>Service Activity Monitoring :: Dummy Service</name>
     <url>http://www.talend.com</url>
@@ -14,10 +14,6 @@
         <artifactId>sam-dummy</artifactId>
         <version>4.0</version>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <dependency>
