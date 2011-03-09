@@ -49,23 +49,23 @@
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-                    <execution>
-                        <id>process-remote-resources</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <resourceBundles>
-                                <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle>
-                            </resourceBundles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>maven-remote-resources-plugin</artifactId>-->
+<!--                <version>1.2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>process-remote-resources</id>-->
+<!--                        <goals>-->
+<!--                            <goal>process</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <resourceBundles>-->
+<!--                                <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle>-->
+<!--                            </resourceBundles>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.cxf</groupId>
