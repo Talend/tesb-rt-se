@@ -11,7 +11,6 @@ import javax.annotation.Resource;
 
 import junit.framework.Assert;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.sopera.monitoring._2010._09.common.CustomInfoType;
@@ -23,8 +22,6 @@ import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.persistence.EventRepository;
 import org.sopera.monitoring.monitoringservice.v1.MonitoringService;
 import org.sopera.monitoring.monitoringservice.v1.PutEventsFault;
-import org.sopera.monitoring.server.persistence.EventRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

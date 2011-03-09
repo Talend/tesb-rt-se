@@ -2,34 +2,26 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sopera.monitoring</groupId>
-    <artifactId>Agent</artifactId>
-    <version>1.0</version>
+    <groupId>org.talend.esb</groupId>
+    <artifactId>sam-agent</artifactId>
+    <version>4.0</version>
     <packaging>jar</packaging>
 
-    <name>Agent</name>
-    <url>http://www.sopera.com</url>
-
     <parent>
-        <groupId>org.sopera.monitoring</groupId>
-        <artifactId>Monitoring</artifactId>
-        <version>1.0</version>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-parent</artifactId>
+        <version>4.0</version>
     </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Service Activity Monitoring :: Agent</name>
+    <url>http://www.talend.com</url>
 
     <dependencies>
         <dependency>
-            <groupId>org.sopera.monitoring</groupId>
-            <artifactId>MonitoringServiceCommon</artifactId>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -42,36 +34,34 @@
             <groupId>com.gaborcselle.persistent</groupId>
             <artifactId>PersistentQueue</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
-        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.2</version>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <version>1.2</version>
                 <executions>
                     <execution>
-                        <id>unpack</id>
-                        <phase>package</phase>
+                        <id>process-remote-resources</id>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>process</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.talend.esb</groupId>
-                                    <artifactId>common-build</artifactId>
-                                    <version>4.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                            <resourceBundles>
+                                <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle>
+                            </resourceBundles>
                         </configuration>
                     </execution>
                 </executions>
@@ -95,6 +85,12 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>

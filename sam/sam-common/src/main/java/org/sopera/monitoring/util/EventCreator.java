@@ -8,7 +8,6 @@ import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.MessageInfo;
 import org.sopera.monitoring.event.Originator;
-import org.sopera.monitoring.event.CustomInfo;
 
 /**
  * TODO Sue Builder pattern?

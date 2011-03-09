@@ -4,28 +4,28 @@
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.talend.esb</groupId>
+    <artifactId>sam-server-itest</artifactId>
+    <version>4.0</version>
+    <packaging>jar</packaging>
+
     <parent>
-        <groupId>org.sopera.monitoring</groupId>
-        <artifactId>MonitoringService</artifactId>
-        <version>1.0</version>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-parent</artifactId>
+        <version>4.0</version>
     </parent>
 
-    <groupId>org.sopera.monitoring</groupId>
-    <artifactId>MonitoringServiceIntegrationTest</artifactId>
-    <version>1.0</version>
-
-    <name>MonitoringServiceIntegrationTest</name>
-    <packaging>jar</packaging>
-    <url>http://www.sopera.com</url>
+    <name>Service Activity Monitoring :: Server Integration Tests</name>
+    <url>http://www.talend.com</url>
 
     <dependencies>
         <dependency>
-            <groupId>org.sopera.monitoring</groupId>
-            <artifactId>MonitoringServiceCommon</artifactId>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.sopera.monitoring</groupId>
-            <artifactId>MonitoringServiceWsImpl</artifactId>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-server</artifactId>
         </dependency>
 
         <dependency>
@@ -40,19 +40,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>10.7.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.1.0</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

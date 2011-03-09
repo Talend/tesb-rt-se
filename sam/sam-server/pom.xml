@@ -2,29 +2,24 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.sopera.monitoring</groupId>
-	<artifactId>MonitoringServiceWsImpl</artifactId>
-	<version>1.0</version>
-	<packaging>jar</packaging>
+    <groupId>org.talend.esb</groupId>
+    <artifactId>sam-server</artifactId>
+    <version>4.0</version>
+    <packaging>bundle</packaging>
 
-	<name>MonitoringServiceWsImpl</name>
-	<url>http://www.sopera.com</url>
+    <parent>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-parent</artifactId>
+        <version>4.0</version>
+    </parent>
 
-	<parent>
-		<groupId>org.sopera.monitoring</groupId>
-		<artifactId>MonitoringService</artifactId>
-		<version>1.0</version>
-	</parent>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <name>Service Activity Monitoring :: Server</name>
+    <url>http://www.talend.com</url>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceCommon</artifactId>
-			<scope>compile</scope>
+			<groupId>org.talend.esb</groupId>
+			<artifactId>sam-common</artifactId>
 		</dependency>
 
 		<dependency>
@@ -38,7 +33,6 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
 
 		<dependency>
@@ -59,12 +53,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>${spring.mock}</artifactId>
+			<artifactId>spring-test</artifactId>
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         
         <dependency>
@@ -111,6 +104,12 @@
 					</execution>
 				</executions>
 			</plugin>
+            
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
 		</plugins>
 	</build>
 </project>
