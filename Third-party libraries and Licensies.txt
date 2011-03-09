@@ -1,0 +1,20 @@
+JUnit                     - Common Public License v 1.0
+EasyMock                  - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Maven Compiler Plugin     - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Maven Eclipse Plugin      - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Maven Bundle Plugin       - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Exec Maven Plugin         - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Maven Dependency Plugin   - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Docbkx Maven Plugin       - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Docbook Maven Plugin      - MIT license Copyright (c) 2005, OPEN input http://www.openinput.com/
+Maven Annotation Plugin   - GNU Lesser GPL http://www.gnu.org/licenses/lgpl.html
+Spring Framework          - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Apache CXF                - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Apache Tomcat             - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Jetty                     - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/      Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+Karaf                     - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Apache Derby              - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Apache commons-lang       - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+org.eclipse.persistence   - Eclipse Public License - v 1.0
+ZooKeeper                 - Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Hamcrest library          - New BSD License
