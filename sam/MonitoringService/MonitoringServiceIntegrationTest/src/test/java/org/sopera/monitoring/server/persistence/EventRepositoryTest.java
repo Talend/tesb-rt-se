@@ -1,7 +1,9 @@
 package org.sopera.monitoring.server.persistence;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -14,9 +16,7 @@ import org.sopera.monitoring.event.CustomInfo;
 import org.sopera.monitoring.event.Event;
 import org.sopera.monitoring.event.EventTypeEnum;
 import org.sopera.monitoring.event.persistence.EventRepository;
-import org.sopera.monitoring.server.persistence.EventRowMapper;
 import org.sopera.monitoring.util.EventCreator;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -36,27 +36,29 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
         EventCreator creator = new EventCreator();
         GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 1, 01 , 01, 10);
         
-        CustomInfo customInfo = new CustomInfo();
-        customInfo.getProperties().put("mykey1", "myValue1");
+        List<CustomInfo> ciList = new ArrayList<CustomInfo>();
+        CustomInfo ci1 = new CustomInfo();
+        ci1.setCustKey("mykey1");
+        ci1.setCustValue("myValue1");
+        ciList.add(ci1);
+        CustomInfo ci2 = new CustomInfo();
+        ci2.setCustKey("mykey2");
+        ci2.setCustValue("myValue2");
+        ciList.add(ci2);
         
         Event event = creator.createEvent("content", cal.getTime(),
                             EventTypeEnum.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
                             "service", "http");
-        event.setCustomInfo(customInfo);
+        event.setCustomInfoList(ciList);
         
         Assert.assertNull(event.getPersistedId());
         eventRepository.writeEvent(event);
         Assert.assertNotNull(event.getPersistedId());
         
-        event.setCustomInfo(null);
-        RowMapper<Event> rowMapper = new EventRowMapper();
-        Event readEvent = simpleJdbcTemplate.queryForObject("select * from EVENTS", rowMapper);
+        //read Event from database
+        Event readEvent = eventRepository.readEvent(event.getPersistedId().longValue());
         Assert.assertTrue(EqualsBuilder.reflectionEquals(event, readEvent));
-        
-        RowMapper<CustomInfo> crMapper = new CustomInfoRowMapper();
-        CustomInfo readCustomInfo = simpleJdbcTemplate.queryForObject("select * from EVENTS_CUSTOMINFO", crMapper);
-        Assert.assertTrue(EqualsBuilder.reflectionEquals(customInfo, readCustomInfo));
-        
+                
     }
 
     @After

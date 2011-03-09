@@ -3,7 +3,7 @@ package org.sopera.monitoring.wrapper;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -39,7 +39,7 @@ public class EventMapper {
         eventType.setOriginator(origType);
         MessageInfoType miType = mapMessageInfo(event.getMessageInfo());
         eventType.setMessageInfo(miType);
-        eventType.setCustomInfo(convertCustomInfo(event.getCustomInfo()));
+        eventType.setCustomInfo(convertCustomInfo(event.getCustomInfoList()));
         DataHandler datHandler = getDataHandlerForString(event);
         eventType.setContent(datHandler);
         return eventType;
@@ -75,22 +75,22 @@ public class EventMapper {
         return origType;
     }
 
-    private static CustomInfoType convertCustomInfo(CustomInfo cInfo) {
-        if (cInfo == null) {
+    private static CustomInfoType convertCustomInfo(List<CustomInfo> ciList) {
+        if (ciList == null || ciList.size() < 1 ) {
             return null;
         }
 
         CustomInfoType ciType = new CustomInfoType();
 
-        Map<String, Object> prop = cInfo.getProperties();
-
-        for (Map.Entry<String, Object> entry : prop.entrySet()) {
+        for (int i=0; i<ciList.size();i++){
+        	CustomInfo cInfo = ciList.get(i);
+        	
             CustomInfoType.Item cItem = new CustomInfoType.Item();
-            cItem.setKey(entry.getKey());
-            cItem.setValue(entry.getValue());
+            cItem.setKey(cInfo.getCustKey());
+            cItem.setValue(cInfo.getCustValue());
             ciType.getItem().add(cItem);
         }
-
+        
         return ciType;
     }
     

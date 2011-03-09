@@ -1,8 +1,5 @@
 package org.sopera.monitoring.event;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * this Bean is used for store custom key/value info into Database
  * @author Xilai Dai
@@ -12,7 +9,9 @@ public class CustomInfo {
 
 	private Long persistedId;
 	
-	private Map<String,Object> properties = new HashMap<String,Object>();
+	private String custKey;
+	
+	private Object custValue;
 	
 	public CustomInfo(){
 		super();
@@ -26,20 +25,29 @@ public class CustomInfo {
 		this.persistedId = persistedId;
 	}
 
-	public Map<String,Object> getProperties() {
-		return properties;
+    public String getCustKey() {
+		return custKey;
 	}
 
-	public void setProperties(Map<String,Object> properties) {
-		this.properties = properties;
+	public void setCustKey(String custKey) {
+		this.custKey = custKey;
 	}
 
-    @Override
+	public Object getCustValue() {
+		return custValue;
+	}
+
+	public void setCustValue(Object custValue) {
+		this.custValue = custValue;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
-        result = prime * result + ((properties == null) ? 0 : properties.hashCode());
+        result = prime * result + ((custKey == null) ? 0 : custKey.hashCode());
+        result = prime * result + ((custValue == null) ? 0 : custValue.hashCode());
         return result;
     }
 
@@ -57,11 +65,16 @@ public class CustomInfo {
                 return false;
         } else if (!persistedId.equals(other.persistedId))
             return false;
-        if (properties == null) {
-            if (other.properties != null)
+        if (custKey == null) {
+            if (other.custKey != null)
                 return false;
-        } else if (!properties.equals(other.properties))
+        } else if (!custKey.equals(other.custKey))
             return false;
+        if (custValue == null) {
+            if (other.custValue != null)
+                return false;
+        } else if (!custValue.equals(other.custValue))
+            return false;        
         return true;
     }
 	

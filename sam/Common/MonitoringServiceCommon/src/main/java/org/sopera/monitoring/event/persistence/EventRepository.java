@@ -11,5 +11,12 @@ public interface EventRepository {
 	 * @param events
 	 */
 	public void writeEvent(Event event);
+	
+	/**
+	 * Read event from database
+	 * @param id
+	 * @return
+	 */
+	public Event readEvent(long id);
 
 }
