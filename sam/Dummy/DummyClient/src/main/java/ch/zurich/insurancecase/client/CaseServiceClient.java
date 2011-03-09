@@ -8,9 +8,9 @@ import javax.xml.ws.Holder;
 
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.sopera.monitoring.feature.EventFeature;
-import org.sopera.monitoring.producer.EventProducer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.sam.agent.producer.EventProducer;
 
 import ch.zurich.incurancecase.caseservice.AddCaseFault_Exception;
 import ch.zurich.incurancecase.caseservice.CasePort;
@@ -24,7 +24,7 @@ public class CaseServiceClient {
 
 	public static void main(String[] args) throws InterruptedException {
 		List<Thread> runs = new ArrayList<Thread>();
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/eventProducer.xml");
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/agent-context.xml");
 		
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 		EventFeature eventFeature = new EventFeature();

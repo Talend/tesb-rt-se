@@ -20,40 +20,16 @@
         <property name="location" value="WEB-INF/logserver.properties"/>
     </bean>
 
-    <bean id="monitoringService" class="org.sopera.monitoring.server.service.MonitoringServiceImpl">
-        <property name="eventFilter">
-            <list>
-            </list>
-        </property>
-        
-        <property name="eventManipulator">
-            <list>
-                <ref local="passwordFilter" />
-            </list>
-        </property>
-        
-        <property name="persistenceHandler" ref="eventRepository" />
-        
+    <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+        <property name="persistenceHandler" ref="eventRepository" />    
     </bean>
 
-    <bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
-        <property name="tagnames">
-            <list>
-                <value>Password</value>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="contentLengthFilter" class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
-        <property name="length" value="2000" />
-    </bean>
-
-    <bean id="eventRepository" class="org.sopera.monitoring.server.persistence.EventRepositoryImpl">
+    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="dataSource"/>
         <property name="incrementer" ref="${db.incrementer}" />
     </bean>
     
-    <bean id="derbyIncrementer" class="org.sopera.monitoring.server.persistence.DerbySequenceIncrementer">
+    <bean id="derbyIncrementer" class="org.talend.esb.sam.server.persistence.DerbySequenceIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="EVENT_ID" />
     </bean>
@@ -87,11 +63,11 @@
 	</jaxws:endpoint>
 
 	<bean id="MonitoringServiceWrapper"
-		class="org.sopera.monitoring.server.service.MonitoringWebService">
+		class="org.talend.esb.sam.server.service.MonitoringWebService">
 		<property name="monitoringService" ref="monitoringService" />
 	</bean>
     
-    <bean class="org.sopera.monitoring.server.persistence.DBInitializer">
+    <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
         <property name="dataSource" ref="dataSource"/>
         <property name="recreateDb" value="${db.recreate}"/>
     </bean>

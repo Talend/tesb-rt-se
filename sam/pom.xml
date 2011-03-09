@@ -22,9 +22,9 @@
         <module>sam-agent</module>
 
         <module>sam-server</module>
-        <module>sam-server-itest</module>
         <module>sam-server-war</module>
         <module>PersistentQueue</module>
+        <module>Dummy</module>
     </modules>
 
     <repositories>
@@ -43,29 +43,12 @@
             </dependency>
             <dependency>
                 <groupId>org.talend.esb</groupId>
+                <artifactId>sam-agent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
                 <artifactId>sam-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.talend.esb</groupId>
-                <artifactId>MonitoringServiceClient</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.talend.esb</groupId>
-                <artifactId>DummyCommon</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.talend.esb</groupId>
-                <artifactId>DummyService</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.talend.esb</groupId>
-                <artifactId>DummyClient</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

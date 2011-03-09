@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <import resource="EventRepositoryTest-context.xml"/>
+
+	<bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+        <property name="persistenceHandler" ref="eventRepository"/>
+	</bean>
+
+	<bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
+		<property name="tagnames">
+			<list>
+				<value>password</value>
+				<value>passwort</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="contentLengthFilter" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
+		<property name="length" value="20000" />
+	</bean>
+
+	<bean id="filterA" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
+		<property name="wordsToFilter">
+			<list>
+				<value>filterA</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

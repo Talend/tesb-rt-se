@@ -2,18 +2,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sopera.monitoring</groupId>
-    <artifactId>DummyService</artifactId>
-    <version>1.0</version>
-    <packaging>war</packaging>
+    <groupId>org.talend.esb</groupId>
+    <artifactId>sam-dummy-service</artifactId>
+    <packaging>jar</packaging>
 
-    <name>DummyService</name>
-    <url>http://www.sopera.com</url>
+    <name>Service Activity Monitoring :: Dummy Service</name>
+    <url>http://www.talend.com</url>
 
     <parent>
-        <groupId>org.sopera.monitoring</groupId>
-        <artifactId>Dummy</artifactId>
-        <version>1.0</version>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-dummy</artifactId>
+        <version>4.0</version>
     </parent>
 
     <properties>
@@ -22,9 +21,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.sopera.monitoring</groupId>
-            <artifactId>Agent</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-agent</artifactId>
         </dependency>
 
         <dependency>

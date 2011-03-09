@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="MonitoringService" targetNamespace="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="MonitoringService" targetNamespace="http://www.talend.org/esb/sam/MonitoringService/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.talend.org/esb/sam/MonitoringService/v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-    <schema elementFormDefault="qualified" targetNamespace="http://www.sopera.org/monitoring/MonitoringService/v1" xmlns="http://www.w3.org/2001/XMLSchema" 
-        xmlns:pref="http://www.sopera.org/monitoring/2010/09/common">
-			<import namespace="http://www.sopera.org/monitoring/2010/09/common" schemaLocation="CommonTypes.xsd"/>
+    <schema elementFormDefault="qualified" targetNamespace="http://www.talend.org/esb/sam/MonitoringService/v1" xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:pref="http://www.talend.org/esb/sam/2011/03/common">
+			<import namespace="http://www.talend.org/esb/sam/2011/03/common" schemaLocation="CommonTypes.xsd"/>
 
 			<element name="putEvents">
 				<complexType>
@@ -43,7 +43,7 @@
   <wsdl:binding name="MonitoringServiceSOAP" type="tns:MonitoringService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="putEvents">
-      <soap:operation soapAction="http://www.sopera.com/MonitoringService/v1/putEvents"/>
+      <soap:operation soapAction="http://www.talend.org/esb/sam/MonitoringService/v1/putEvents"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>
@@ -54,7 +54,7 @@
   </wsdl:binding>
   <wsdl:service name="MonitoringService">
     <wsdl:port name="MonitoringServiceSOAP" binding="tns:MonitoringServiceSOAP">
-      <soap:address location="http://localhost:18080/MonitoringServiceWsImpl/services/MonitoringServiceSOAP"/>
+      <soap:address location="http://localhost:8080/sam-server/services/MonitoringServiceSOAP"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

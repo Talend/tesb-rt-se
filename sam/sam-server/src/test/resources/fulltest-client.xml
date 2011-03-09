@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
+
+    <jaxws:client id="monitoringServiceV1Client"
+        serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
+        address="http://localhost:8080/services/MonitoringServiceSOAP">
+        <jaxws:properties>
+            <entry key="mtom-enabled" value="true" />
+        </jaxws:properties>
+    </jaxws:client>
+</beans>

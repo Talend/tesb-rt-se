@@ -7,14 +7,14 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<import resource="classpath:/eventProducer.xml" />
+	<import resource="classpath:/agent-context.xml" />
 
 	<bean id="caseServiceImpl" class="ch.zurich.caseservice.impl.CaseServiceImpl">
 		<property name="customerService" ref="customerService" />
 		<property name="dummyDelay" value="3000"/>
 	</bean>
     
-    <bean id="eventFeature" class="org.sopera.monitoring.feature.EventFeature">
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="eventProducer" ref="eventProducer" />
     </bean>
 

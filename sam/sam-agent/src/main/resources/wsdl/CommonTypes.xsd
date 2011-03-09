@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema 
     xmlns="http://www.w3.org/2001/XMLSchema"
-    xmlns:tns="http://www.sopera.org/monitoring/2010/09/common" 
+    xmlns:tns="http://www.talend.org/esb/sam/2011/03/common" 
     xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
     elementFormDefault="qualified"
-    targetNamespace="http://www.sopera.org/monitoring/2010/09/common">
+    targetNamespace="http://www.talend.org/esb/sam/2011/03/common">
 
 	<complexType name="eventType">
 		<sequence>
