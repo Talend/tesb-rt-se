@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>common-build</module>
         <module>locator</module>
         <module>examples</module>
     </modules>
