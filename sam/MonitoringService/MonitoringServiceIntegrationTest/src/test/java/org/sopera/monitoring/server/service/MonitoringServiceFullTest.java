@@ -67,10 +67,9 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         Assert.assertEquals("success", result);
         
 
-        Event event = simpleJdbcTemplate.queryForObject("select * from EVENTS", new EventRowMapper());
-        Assert.assertEquals(EventTypeEnum.REQ_OUT, event.getEventType());
-        
-        Event readEvent = eventRepository.readEvent(event.getPersistedId().longValue());
+        long id = simpleJdbcTemplate.queryForLong("select id from EVENTS");
+        Event readEvent = eventRepository.readEvent(id);
+        Assert.assertEquals(EventTypeEnum.REQ_OUT, readEvent.getEventType());
         List<CustomInfo> ciList = readEvent.getCustomInfoList();
         Assert.assertEquals("mykey1", ciList.get(0).getCustKey());
         Assert.assertEquals("myValue1", ciList.get(0).getCustValue());
