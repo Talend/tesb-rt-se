@@ -239,24 +239,35 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<!--
-<build>
+
+    <build>
+        <pluginManagement>
 	<plugins>
-		<plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>0.7</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-	</plugins>
-</build>
-	-->
+	<plugin>
+                  <groupId>org.apache.rat</groupId>
+                  <artifactId>apache-rat-plugin</artifactId>
+                  <version>0.6</version>
+                  <configuration>
+                      <numUnapprovedLicenses>350</numUnapprovedLicenses>
+                      <excludeSubProjects>false</excludeSubProjects>
+                      <excludes>
+                          <exclude>.git/**</exclude>
+                          <exclude>.gitignore</exclude>
+                          <exclude>velocity.log</exclude>
+                          <exclude>**/target/**</exclude>
+                          <exclude>distribution/**</exclude>
+                          <exclude>**/jaxb.index</exclude>
+                          <exclude>**/META-INF/MANIFEST</exclude>
+                          <exclude>**/src/test/**/*.txt</exclude>
+                          <exclude>**/.classpath</exclude>
+                          <exclude>**/.settings/**/*</exclude>
+                          <exclude>**/.project</exclude>
+                      </excludes>
+                  </configuration>
+                </plugin>
+		</plugins>
+        </pluginManagement>
+    </build>
+
 
 </project>

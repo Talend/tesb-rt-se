@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.sopera.monitoring</groupId>
-		<artifactId>MonitoringService</artifactId>
-		<version>1.0</version>
-	</parent>
-	
-	<groupId>org.sopera.monitoring</groupId>
-	<artifactId>MonitoringServiceIntegrationTest</artifactId>
-	<version>1.0</version>
-	
-	<name>MonitoringServiceIntegrationTest</name>
-	<packaging>jar</packaging>
-	<url>http://www.sopera.com</url>
-	
-	<dependencies>
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceCommon</artifactId>
-			<scope>compile</scope>
-		</dependency>
+    <parent>
+        <groupId>org.sopera.monitoring</groupId>
+        <artifactId>MonitoringService</artifactId>
+        <version>1.0</version>
+    </parent>
 
-		<dependency>
-			<groupId>org.sopera.monitoring</groupId>
-			<artifactId>MonitoringServiceWsImpl</artifactId>
-		</dependency>
-        
+    <groupId>org.sopera.monitoring</groupId>
+    <artifactId>MonitoringServiceIntegrationTest</artifactId>
+    <version>1.0</version>
+
+    <name>MonitoringServiceIntegrationTest</name>
+    <packaging>jar</packaging>
+    <url>http://www.sopera.com</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sopera.monitoring</groupId>
+            <artifactId>MonitoringServiceCommon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.sopera.monitoring</groupId>
+            <artifactId>MonitoringServiceWsImpl</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>test</scope>
         </dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
@@ -54,8 +51,8 @@
             <version>2.6</version>
             <scope>test</scope>
         </dependency>
-	</dependencies>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    </dependencies>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 </project>
