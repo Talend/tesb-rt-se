@@ -20,6 +20,7 @@
     <modules>
         <module>common-build</module>
         <module>locator</module>
+        <module>sam</module>
         <module>examples</module>
     </modules>
 
