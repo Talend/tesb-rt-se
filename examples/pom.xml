@@ -5,7 +5,6 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>esb-examples-parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime examples</name>
 
     <parent>

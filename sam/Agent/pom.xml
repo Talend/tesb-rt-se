@@ -4,7 +4,6 @@
 
     <groupId>org.sopera.monitoring</groupId>
     <artifactId>Agent</artifactId>
-    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Agent</name>
@@ -13,12 +12,8 @@
     <parent>
         <groupId>org.sopera.monitoring</groupId>
         <artifactId>Monitoring</artifactId>
-        <version>1.0</version>
+        <version>4.0</version>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <dependency>

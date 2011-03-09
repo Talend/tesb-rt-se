@@ -4,7 +4,6 @@
 
 	<groupId>org.sopera.monitoring</groupId>
 	<artifactId>Dummy</artifactId>
-	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<name>Dummy</name>
@@ -13,7 +12,7 @@
 	<parent>
 		<artifactId>Monitoring</artifactId>
 		<groupId>org.sopera.monitoring</groupId>
-		<version>1.0</version>
+		<version>4.0</version>
 	</parent>
   
 	<modules>
@@ -21,9 +20,5 @@
 		<module>DummyClient</module>
 		<module>CustomerService</module>
 	</modules>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 </project>

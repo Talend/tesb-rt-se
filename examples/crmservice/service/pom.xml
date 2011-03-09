@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb.crmservice</groupId>
         <artifactId>crmservice</artifactId>
-        <version>1.0</version>
+        <version>4.0</version>
         <relativePath>..</relativePath>
     </parent>
 
