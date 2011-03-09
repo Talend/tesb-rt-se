@@ -2,7 +2,9 @@ package org.sopera.monitoring.server.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.activation.DataHandler;
 
@@ -29,19 +31,22 @@ public class EventTypeMapper {
         event.setMessageInfo(messageInfo);
         String content = mapContent(eventType.getContent());
         event.setContent(content);
-        event.setCustomInfo(mapCustomInfo(eventType.getCustomInfo()));
+        event.setCustomInfoList(mapCustomInfo(eventType.getCustomInfo()));
         return event;
     }
 
-    private static CustomInfo mapCustomInfo(CustomInfoType ciType){
-    	CustomInfo ci = new CustomInfo();
-
+    private static List<CustomInfo> mapCustomInfo(CustomInfoType ciType){
+    	List<CustomInfo> ciList = new ArrayList<CustomInfo>();
+    	
     	if (ciType != null){
 	    	for (CustomInfoType.Item item : ciType.getItem()){
-	    		ci.getProperties().put(item.getKey(),item.getValue());
+	    		CustomInfo ci = new CustomInfo();
+	    		ci.setCustKey(item.getKey());
+	    		ci.setCustValue(item.getValue());
+	    		ciList.add(ci);
 	    	}
     	}
-    	return ci;
+    	return ciList;
     }
     private static String mapContent(DataHandler dh) {
         if (dh == null) {

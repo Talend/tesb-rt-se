@@ -2,6 +2,7 @@ package org.sopera.monitoring.event;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -60,7 +61,7 @@ public class Event implements Serializable {
     @Column(name = "MESSAGE_CONTENT")
     private String content;
 
-    private CustomInfo customInfo;
+    private List<CustomInfo> customInfoList;
 
     public Event() {
         super();
@@ -114,15 +115,15 @@ public class Event implements Serializable {
         this.content = content;
     }
 
-    public CustomInfo getCustomInfo() {
-        return customInfo;
-    }
+    public List<CustomInfo> getCustomInfoList() {
+		return customInfoList;
+	}
 
-    public void setCustomInfo(CustomInfo customInfo) {
-        this.customInfo = customInfo;
-    }
+	public void setCustomInfoList(List<CustomInfo> customInfoList) {
+		this.customInfoList = customInfoList;
+	}
 
-    @Override
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }
@@ -132,7 +133,6 @@ public class Event implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result + ((customInfo == null) ? 0 : customInfo.hashCode());
         result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
         result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
         result = prime * result + ((originator == null) ? 0 : originator.hashCode());
@@ -154,11 +154,6 @@ public class Event implements Serializable {
             if (other.content != null)
                 return false;
         } else if (!content.equals(other.content))
-            return false;
-        if (customInfo == null) {
-            if (other.customInfo != null)
-                return false;
-        } else if (!customInfo.equals(other.customInfo))
             return false;
         if (eventType != other.eventType)
             return false;
