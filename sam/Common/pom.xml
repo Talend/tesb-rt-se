@@ -4,7 +4,6 @@
 
 	<groupId>org.sopera.monitoring</groupId>
 	<artifactId>MonitoringCommon</artifactId>
-	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<name>MonitoringCommon</name>
@@ -13,18 +12,11 @@
 	<parent>
 		<groupId>org.sopera.monitoring</groupId>
 		<artifactId>Monitoring</artifactId>
-		<version>1.0</version>
+		<version>4.0</version>
 	</parent>
 	
 	<modules>
 		<module>MonitoringServiceCommon</module>
 	</modules>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	
-	<build>
-
-	</build>
 </project>
