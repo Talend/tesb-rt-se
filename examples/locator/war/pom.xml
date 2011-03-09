@@ -15,7 +15,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator</groupId>
     <artifactId>locator-demo-war</artifactId>
-    <version>4.0</version>
     <name>Locator Demo Webapp</name>
     <packaging>war</packaging>
 

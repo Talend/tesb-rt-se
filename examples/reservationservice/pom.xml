@@ -8,7 +8,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.reservationservice</groupId>
     <artifactId>reservationservice</artifactId>
-    <version>1.0</version>
     <name>ReservationService</name>
     <packaging>pom</packaging>
 
