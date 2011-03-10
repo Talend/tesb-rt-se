@@ -20,17 +20,12 @@
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.esb</groupId>
+        <groupId>org.talend.esb.examples</groupId>
         <artifactId>esb-examples-parent</artifactId>
         <version>4.0</version>
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.osgi</groupId>
-            <artifactId>org.eclipse.osgi</artifactId>
-            <version>${osgi.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.talend.esb.examples</groupId>
             <artifactId>crmservice-common</artifactId>
@@ -51,10 +46,16 @@
             <artifactId>reservationservice-client</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
             <version>${karaf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>${osgi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -72,33 +73,15 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <!--Require-Bundle>
+                            crmservice-common,
+                            crmservice-client,
+                            reservationservice-common,
+                            reservationservice-client
+                        </Require-Bundle-->
                         <Import-Package>org.osgi.service.command,*</Import-Package>
                     </instructions>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.talend.esb</groupId>
-                                    <artifactId>common-build</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <resources>
