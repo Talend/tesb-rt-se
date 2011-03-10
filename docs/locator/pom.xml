@@ -31,7 +31,7 @@
                         </goals>
                         <configuration>
                             <includes>SLInstallationManual.xml</includes>
-                            <foCustomization>src/docbkx/xsl/customfo.xsl</foCustomization>
+                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>
                     <execution>
@@ -42,7 +42,7 @@
                         </goals>
                         <configuration>
                             <includes>SLConfigurationManual.xml</includes>
-                            <foCustomization>src/docbkx/xsl/customfo.xsl</foCustomization>
+                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>
                 </executions>
