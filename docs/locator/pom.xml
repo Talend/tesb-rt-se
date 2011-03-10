@@ -5,25 +5,21 @@
 
     <groupId>org.talend.esb.docs</groupId>
     <artifactId>locator-manual</artifactId>
-    <version>4.2.0</version>
     <packaging>pom</packaging>
     <name>Locator :: Manual</name>
     <description>Talend Servise Locator Fiature documentation</description>
+
+    <parent>
+        <groupId>org.talend.esb.docs</groupId>
+        <artifactId>esb-docs-parent</artifactId>
+        <version>4.0</version>
+    </parent>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
-                <version>2.0.11</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.docbook</groupId>
-                        <artifactId>docbook-xml</artifactId>
-                        <version>4.4</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
 
                 <executions>
                     <execution>
