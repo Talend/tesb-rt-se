@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<import resource="classpath:/agent-context.xml" />
+		
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="WEB-INF/customer.properties"/>
+    </bean>
+    
+	<bean id="customerServiceImpl" class="org.talend.esb.sam.example.service.CustomerServiceImpl">
+		<property name="customerService2" ref="customerService2" />
+		<property name="dummyDelay" value="${dummyDelay}"/>
+	</bean>
+    
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
+        <property name="eventProducer" ref="eventProducer" />
+    </bean>
+
+	<jaxws:endpoint id="customerService" implementor="#customerServiceImpl"
+		address="/CustomerServiceSOAP">
+		<jaxws:features>
+			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+			<ref bean="eventFeature"/>
+		</jaxws:features>
+	</jaxws:endpoint>
+	
+	<jaxws:client id="customerService2" 
+        address="http://localhost:8080/sam-example-service2/services/CustomerServicePort"
+		serviceClass="com.example.customerservice.CustomerService">
+		<jaxws:features>
+			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" />-->
+			<ref bean="eventFeature"/>
+		</jaxws:features>
+	</jaxws:client>
+</beans>

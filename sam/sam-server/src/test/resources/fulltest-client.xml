@@ -21,4 +21,5 @@
             <entry key="mtom-enabled" value="true" />
         </jaxws:properties>
     </jaxws:client>
+
 </beans>

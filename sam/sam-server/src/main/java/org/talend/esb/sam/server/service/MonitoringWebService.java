@@ -64,7 +64,7 @@ public class MonitoringWebService implements MonitoringService {
 
 		logger.log(Level.SEVERE, "Exception", t);
 
-		throw new PutEventsFault(message, faultType);
+		throw new PutEventsFault(message, faultType, t);
 	}
 
 	public void setMonitoringService(

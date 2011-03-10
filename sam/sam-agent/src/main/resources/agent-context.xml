@@ -22,6 +22,10 @@
         <property name="location" value="classpath:agent.properties"/>
     </bean>
     
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
+        <property name="eventProducer" ref="eventProducer" />
+    </bean>
+    
 	<bean id="eventProducer" class="org.talend.esb.sam.agent.producer.EventProducer">
 		<property name="eventCollector" ref="eventCollector" />
 		<property name="logMessageContent" value="${log.messageContent}" />
