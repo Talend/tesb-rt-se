@@ -16,6 +16,7 @@
     </parent>
 
     <build>
+        <defaultGoal>site</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
