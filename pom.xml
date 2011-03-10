@@ -11,7 +11,6 @@
     <properties>
         <cxf.version>2.3.3</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
-        <jetty.version>7.2.2.v20101205</jetty.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <osgi.version>3.6.0.v20100517</osgi.version>
         <karaf.version>2.2.0</karaf.version>
