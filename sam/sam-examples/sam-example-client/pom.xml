@@ -4,7 +4,6 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-example-client</artifactId>
-    <version>4.0</version>
     <packaging>jar</packaging>
 
     <name>Service Activity Monitoring :: Example Client</name>
@@ -35,7 +34,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2</version>
                 <configuration>
                     <mainClass>org.talend.esb.sam.examples.client.CustomerServiceClient</mainClass>
                 </configuration>

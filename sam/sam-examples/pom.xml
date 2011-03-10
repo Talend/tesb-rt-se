@@ -4,7 +4,6 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-examples</artifactId>
-    <version>4.0</version>
     <packaging>pom</packaging>
 
     <parent>
