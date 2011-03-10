@@ -76,7 +76,7 @@ public class MetadataFilterTest {
 
 		filter.setHostname("");
 
-		// Filter and event match. Hostename is null for testing
+		// Filter and event match. Hostname is null for testing
 		Assert.assertTrue(filter.filter(event));
 	}
 }

@@ -8,7 +8,6 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<mapping-file>monitoring-orm.xml</mapping-file>
 		<class>org.sopera.monitoring.event.Event</class>
-		<class>ch.zurich.monitoring.event.ZurichEvent</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.weaving" value="static" />
@@ -24,7 +23,6 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<!-- <mapping-file>META-INF/eclipselink-orm.xml</mapping-file> -->
 		<class>org.sopera.monitoring.event.Event</class>
-		<class>ch.zurich.monitoring.event.ZurichEvent</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
