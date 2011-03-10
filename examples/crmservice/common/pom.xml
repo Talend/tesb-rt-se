@@ -14,13 +14,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.crmservice</groupId>
+    <groupId>org.talend.esb.examples</groupId>
     <artifactId>crmservice-common</artifactId>
     <name>CRMService Common</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.esb.crmservice</groupId>
+        <groupId>org.talend.esb.examples</groupId>
         <artifactId>crmservice</artifactId>
         <version>4.0</version>
         <relativePath>..</relativePath>
@@ -50,7 +50,6 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>

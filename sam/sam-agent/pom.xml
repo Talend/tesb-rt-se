@@ -4,7 +4,6 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-agent</artifactId>
-    <version>4.0</version>
     <packaging>jar</packaging>
 
     <parent>
@@ -20,15 +19,18 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>com.gaborcselle.persistent</groupId>
@@ -38,6 +40,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

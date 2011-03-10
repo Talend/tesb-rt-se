@@ -14,13 +14,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.reservationservice</groupId>
+    <groupId>org.talend.esb.examples</groupId>
     <artifactId>reservationservice-service</artifactId>
     <name>ReservationService Service</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.esb.reservationservice</groupId>
+        <groupId>org.talend.esb.examples</groupId>
         <artifactId>reservationservice</artifactId>
         <version>4.0</version>
         <relativePath>..</relativePath>
@@ -28,9 +28,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.esb.reservationservice</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>reservationservice-common</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
