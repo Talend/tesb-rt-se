@@ -20,7 +20,7 @@
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.esb</groupId>
+        <groupId>org.talend.esb.examples</groupId>
         <artifactId>esb-examples-parent</artifactId>
         <version>4.0</version>
     </parent>
@@ -72,6 +72,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.karaf.shell.console</Require-Bundle>
                         <Import-Package>org.osgi.service.command,*</Import-Package>
                     </instructions>
                 </configuration>
