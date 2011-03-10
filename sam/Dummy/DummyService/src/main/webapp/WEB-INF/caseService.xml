@@ -8,14 +8,15 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<import resource="classpath:/agent-context.xml" />
-
+	<import resource="classpath:/sample-filters-context.xml" />
+		
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="WEB-INF/customer.properties"/>
     </bean>
     
 	<bean id="caseServiceImpl" class="ch.zurich.caseservice.impl.CaseServiceImpl">
 		<property name="customerService" ref="customerService" />
-		<property name="dummyDelay" value="3000"/>
+		<property name="dummyDelay" value="${dummyDelay}"/>
 	</bean>
     
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">

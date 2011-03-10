@@ -15,6 +15,8 @@
 		http://www.springframework.org/schema/task
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
+	<context:annotation-config/>
+	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
         <property name="location" value="classpath:agent.properties"/>

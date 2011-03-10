@@ -18,7 +18,7 @@
     <bean id="filterD" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
         <property name="wordsToFilter">
             <list>
-                <value>filterD</value>
+                <value>contractor</value>
             </list>
         </property>
     </bean>
