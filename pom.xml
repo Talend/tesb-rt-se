@@ -15,6 +15,11 @@
         <zookeeper.version>3.3.3</zookeeper.version>
         <osgi.version>3.6.0.v20100517</osgi.version>
         <karaf.version>2.2.0</karaf.version>
+        <derby.version>10.7.1.1</derby.version>
+        <mysql.version>5.0.5</mysql.version>
+        <!--  Test dependencies -->
+        <jetty.version>7.2.2.v20101205</jetty.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -27,6 +32,23 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>javax.persistence</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gaborcselle.persistent</groupId>
+                <artifactId>PersistentQueue</artifactId>
+                <version>1.0</version>
+            </dependency>
+
             <!-- Test dependencies  -->
             <dependency>
                 <groupId>junit</groupId>
@@ -52,6 +74,12 @@
                 <version>1.3.RC2</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -60,7 +88,10 @@
             <id>java.net</id>
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
-            <!--layout>default</layout-->
+        </repository>
+        <repository>
+            <id>eclipselink</id>
+            <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
 
@@ -92,9 +123,46 @@
                     <extensions>true</extensions>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${cxf.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>${jetty.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.rat</groupId>
+                    <artifactId>apache-rat-plugin</artifactId>
+                    <version>0.6</version>
+                    <configuration>
+                        <numUnapprovedLicenses>350</numUnapprovedLicenses>
+                        <excludeSubProjects>false</excludeSubProjects>
+                        <excludes>
+                            <exclude>.git/**</exclude>
+                            <exclude>.gitignore</exclude>
+                            <exclude>velocity.log</exclude>
+                            <exclude>**/target/**</exclude>
+                            <exclude>distribution/**</exclude>
+                            <exclude>**/jaxb.index</exclude>
+                            <exclude>**/META-INF/MANIFEST</exclude>
+                            <exclude>**/src/test/**/*.txt</exclude>
+                            <exclude>**/.classpath</exclude>
+                            <exclude>**/.settings/**/*</exclude>
+                            <exclude>**/.project</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

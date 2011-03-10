@@ -5,7 +5,6 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-parent</artifactId>
-    <version>4.0</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -27,14 +26,7 @@
         <module>Dummy</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>eclipselink</id>
-            <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
-        </repository>
-    </repositories>
-
-    <dependencyManagement>
+    <!--dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.talend.esb</groupId>
@@ -116,19 +108,9 @@
             </dependency>
 
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>jsr250-api</artifactId>
                 <version>1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>javax.persistence</artifactId>
-                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -136,45 +118,6 @@
                 <version>4.8.2</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.rat</groupId>
-                    <artifactId>apache-rat-plugin</artifactId>
-                    <version>0.6</version>
-                    <configuration>
-                        <numUnapprovedLicenses>350</numUnapprovedLicenses>
-                        <excludeSubProjects>false</excludeSubProjects>
-                        <excludes>
-                            <exclude>.git/**</exclude>
-                            <exclude>.gitignore</exclude>
-                            <exclude>velocity.log</exclude>
-                            <exclude>**/target/**</exclude>
-                            <exclude>distribution/**</exclude>
-                            <exclude>**/jaxb.index</exclude>
-                            <exclude>**/META-INF/MANIFEST</exclude>
-                            <exclude>**/src/test/**/*.txt</exclude>
-                            <exclude>**/.classpath</exclude>
-                            <exclude>**/.settings/**/*</exclude>
-                            <exclude>**/.project</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.3.4</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+    </dependencyManagement-->
 
 </project>
