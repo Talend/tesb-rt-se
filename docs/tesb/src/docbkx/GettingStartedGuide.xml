@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<info>
+		<title>Talend ESB</title>
+		<subtitle>Getting Started Guide</subtitle>
+		<pubdate>10 March 2011</pubdate>
+		<author>
+			<last>Talend ESB Runtime Team</last>
+		</author>
+		<copyright>
+			<year>2011</year>
+			<holder>Talend Corporation</holder>
+		</copyright>
+	</info>
+	<chapter>
+		<title>Overview</title>
+		<para>
+			The Enterprise Service Bus (ESB) has always been the cornerstone
+			of every vendor’s SOA strategy. In the past, however, ESBs have often
+			failed to help leverage on the full value of SOA. This was due to
+			their large footprint, the centralized architecture, and the
+			considerable effort required to properly integrate them into an
+			existing application landscape. 
+		</para>
+		<para>
+			In Getting Started Guide you can learn about Talend ESB/CXF.
+			This guide contains the simplified real-world example. This
+			example	from the domain of car rental companies demonstrate the use
+			of Talend ESB for the develop and run services.
+ 		</para>
+		<para>
+			You can learn the purpose of the Rent a Car Demo. You can found how to
+			compiled Rent a Car Demo, deploy it into Talend-sf OSGi container and run.
+	 		Also You can learn how to enable the Service Locator Component for the Rent a Car demo.
+ 		</para>
+	</chapter>
+</book>
