@@ -9,6 +9,10 @@
 
 	<import resource="classpath:/agent-context.xml" />
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="WEB-INF/customer.properties"/>
+    </bean>
+    
 	<bean id="caseServiceImpl" class="ch.zurich.caseservice.impl.CaseServiceImpl">
 		<property name="customerService" ref="customerService" />
 		<property name="dummyDelay" value="3000"/>
