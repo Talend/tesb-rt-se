@@ -13,7 +13,7 @@
         <spring.version>3.0.5.RELEASE</spring.version> 
         <zookeeper.version>3.3.3</zookeeper.version>
         <osgi.version>3.6.0.v20100517</osgi.version>
-        <karaf.version>2.2.0</karaf.version>
+        <karaf.version>2.1.4</karaf.version>
         <derby.version>10.7.1.1</derby.version>
         <mysql.version>5.0.5</mysql.version>
         <!--  Test dependencies -->
