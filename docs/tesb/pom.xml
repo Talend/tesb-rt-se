@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.docs</groupId>
-    <artifactId>locator-manual</artifactId>
+    <artifactId>tesb-manual</artifactId>
     <packaging>pom</packaging>
-    <name>Locator :: Manual</name>
-    <description>Talend Servise Locator Fiature documentation</description>
+    <name>ESB :: Manual</name>
+    <description>Talend ESBdocumentation</description>
 
     <parent>
         <groupId>org.talend.esb.docs</groupId>

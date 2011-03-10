@@ -15,6 +15,7 @@
 
     <modules>
         <module>locator</module>
+        <module>tesb</module>
     </modules>
 
 </project>
