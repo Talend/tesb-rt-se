@@ -94,6 +94,12 @@
             <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+         <pluginRepository>
+             <id>codehaus</id>
+             <url>https://nexus.codehaus.org/content/groups/public/</url>
+         </pluginRepository>
+     </pluginRepositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -176,6 +182,22 @@
                             <scope>runtime</scope>
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.0-20110308.094929-9</version>
+                    <configuration>
+                        <licenseName>apache_v2</licenseName>
+                        <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>update-project-license</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
