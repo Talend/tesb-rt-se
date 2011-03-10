@@ -16,7 +16,7 @@
 
     <jaxws:client id="monitoringServiceV1Client"
         serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
-        address="http://localhost:8080/services/MonitoringServiceSOAP">
+        address="http://localhost:9091/services/MonitoringServiceSOAP">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true" />
         </jaxws:properties>
