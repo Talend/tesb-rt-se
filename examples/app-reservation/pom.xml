@@ -14,7 +14,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.app.reservation</groupId>
+    <groupId>org.talend.esb.examples</groupId>
     <artifactId>app-reservation</artifactId>
     <name>App Reservation</name>
     <packaging>bundle</packaging>
@@ -32,24 +32,24 @@
             <version>${osgi.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.crmservice</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>crmservice-common</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.crmservice</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>crmservice-client</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.reservationservice</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>reservationservice-common</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.reservationservice</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>reservationservice-client</artifactId>
-            <version>1.0</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
@@ -91,7 +91,7 @@
                                 <artifactItem>
                                     <groupId>org.talend.esb</groupId>
                                     <artifactId>common-build</artifactId>
-                                    <version>4.0</version>
+                                    <version>${project.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>

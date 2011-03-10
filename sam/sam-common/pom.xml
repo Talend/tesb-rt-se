@@ -6,7 +6,6 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-common</artifactId>
-    <version>4.0</version>
     <packaging>bundle</packaging>
 
     <parent>
@@ -52,7 +51,7 @@
                                 <artifactItem>
                                     <groupId>org.talend.esb</groupId>
                                     <artifactId>common-build</artifactId>
-                                    <version>4.0</version>
+                                    <version>${project.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>
