@@ -70,5 +70,6 @@
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
         <property name="dataSource" ref="dataSource"/>
         <property name="recreateDb" value="${db.recreate}"/>
+        <property name="createSql" value="${db.createsql}"/>
     </bean>
 </beans>
