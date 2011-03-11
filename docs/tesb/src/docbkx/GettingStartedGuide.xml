@@ -118,9 +118,9 @@ for deploying the service to OSGi containers.
 			<para>
 There are three OSGi bundles will be created:
 				<simplelist type='vert' columns='1'>
-					<member>...\common\target\crmservice-common-1.0.jar</member>
-					<member>...\server\target\crmservice-server-1.0.jar</member>
-					<member>...\client\target\crmservice-client-1.0.jar</member>
+					<member>...\common\target\crmservice-common-4.0.jar</member>
+					<member>...\server\target\crmservice-server-4.0.jar</member>
+					<member>...\client\target\crmservice-client-4.0.jar</member>
 				</simplelist>
 			</para>
 		</section>
@@ -181,9 +181,9 @@ for deploying the service to OSGi containers.
 			<para>
 Three OSGi bundles will be created:
 			<simplelist type='vert' columns='1'>
-				<member>...\common\target\reservationservice-common-1.0.jar</member>
-				<member>...\server\target\reservationservice-server-1.0.jar</member>
-				<member>...\client\target\reservationservice-client-1.0.jar</member>
+				<member>...\common\target\reservationservice-common-4.0.jar</member>
+				<member>...\server\target\reservationservice-server-4.0.jar</member>
+				<member>...\client\target\reservationservice-client-4.0.jar</member>
 			</simplelist>
 		</para>
 	</section>
@@ -204,7 +204,7 @@ Three OSGi bundles will be created:
 		<para>The OSGi bundle will be created:</para>
 		<para>
 			<simplelist type='vert' columns='1'>
-				<member>...\app-reservation\target\app-reservation-1.0.jar</member>
+				<member>...\app-reservation\target\app-reservation-4.0.jar</member>
 			</simplelist>
 		</para>
 	</section>	
