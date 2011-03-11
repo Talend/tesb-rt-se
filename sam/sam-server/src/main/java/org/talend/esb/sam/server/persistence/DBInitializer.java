@@ -22,7 +22,11 @@ public class DBInitializer implements InitializingBean {
         this.recreateDb = recreateDb;
     }
 
-    @Override
+    public void setCreateSql(String createSql) {
+		this.createSql = createSql;
+	}
+
+	@Override
     public void afterPropertiesSet() throws Exception {
         SimpleJdbcTemplate sjdbcTemplate = new SimpleJdbcTemplate(dataSource);
         if (recreateDb) {
