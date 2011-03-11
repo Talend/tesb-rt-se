@@ -111,9 +111,9 @@
 		</section>
 		<section>
 			<title>Using rent command</title>
-			<para>1.In console type:</para>
+			<para>In console type:</para>
 			<para>car:rent 2</para>
-			<para>2.You can now see confirmation</para>
+			<para>You can now see confirmation</para>
 			<simplelist type='vert' columns='1'>
 				<member>Reservation ID SGA-686277</member>
 				<member>Customer details</member>
