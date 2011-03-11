@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,11 @@ public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4Spring
             Assert.assertEquals(event.getPersistedId(), loaded.getPersistedId());
         }
 
+    }
+    
+    @After
+    public void tearDown() {
+        executeSqlScript("drop.sql", true);
     }
 
     

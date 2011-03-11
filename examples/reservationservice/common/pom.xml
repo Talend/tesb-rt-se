@@ -26,6 +26,14 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.talend.esb.examples</groupId>
+            <artifactId>crmservice-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -40,11 +48,10 @@
                             javax.xml.bind.annotation.adapters,
                             *
                         </Import-Package>
-                        <Export-Package>
-                            org.talend.services.crm.types,
+                        <!--Export-Package>
                             org.talend.services.reservation.types,
                             org.talend.services.reservationservice
-                        </Export-Package> 
+                        </Export-Package-->
                     </instructions>
                 </configuration>
             </plugin>
@@ -56,10 +63,14 @@
                         <id>generate-sources</id>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/model/ReservationService.wsdl</wsdl>
+                                    <extraargs>
+                                        <!-- Do not generate these since already generated in another project -->
+                                        <extraarg>-nexclude</extraarg>
+                                        <extraarg>http://services.talend.org/crm/types</extraarg>
+                                    </extraargs>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
@@ -68,6 +79,10 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

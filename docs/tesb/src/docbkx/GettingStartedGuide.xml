@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
+	<info>
+		<title>Talend ESB</title>
+		<subtitle>Getting Started Guide</subtitle>
+		<pubdate>10 March 2011</pubdate>
+		<author>
+			<last>Talend ESB Runtime Team</last>
+		</author>
+		<copyright>
+			<year>2011</year>
+			<holder>Talend Corporation</holder>
+		</copyright>
+	</info>
+	<chapter>
+		<title>Overview</title>
+		<para>
+			The Enterprise Service Bus (ESB) has always been the cornerstone
+			of every vendor’s SOA strategy. In the past, however, ESBs have often
+			failed to help leverage on the full value of SOA. This was due to
+			their large footprint, the centralized architecture, and the
+			considerable effort required to properly integrate them into an
+			existing application landscape. 
+		</para>
+		<para>
+			In Getting Started Guide you can learn about Talend ESB/CXF.
+			This guide contains the simplified real-world example. This
+			example
+			from the domain of car rental companies demonstrate the use
+			of Talend
+			ESB for the develop and run services.
+ 		</para>
+		<para>
+			You can learn the purpose of the Rent a Car Demo. You can found
+			how to
+			compiled Rent a Car Demo, deploy it into Talend-sf OSGi
+			container and run.
+			Also You can learn how to enable the Service
+			Locator Component for the
+			Rent a Car demo.
+ 		</para>
+	</chapter>
+	<chapter>
+		<title>Compilation and deployment of the Rent a Car demo</title>
+		<para>
+		</para>
+	</chapter>
+	<chapter>
+		<title>How to run Rent a Car demo</title>
+		<section>
+			<title>Use Case Scenario to Rent a Car</title>
+			<para>
+				A customer enters prerequisite data into a form such as her
+				name, the pick-up and return dates, the preferred type of rental
+				rates, and submits her query.
+			</para>
+			<para>
+				Next, the application calls the CRMService to retrieve the customer data
+				and customer status information.
+			</para>
+			<para>
+				The customer is presented with a list of the available cars and selects
+				one from the presented list of results.
+			</para>
+			<para>
+				Finally, the application calls the ReservationService to submit the
+				reservation request and then displays a reservation confirmation
+				notice to the customer. 
+			</para>
+		</section>
+		<section>
+			<title>Starting the application</title>
+			<para>
+				ReservationService, CRMService and App-reservation is already
+				deployed in Talend-sf. Start OSGi console.   
+			</para>
+			<para>
+				In console you will see text:
+			</para>
+			<simplelist type='vert' columns='1'>
+				<member>---TALEND ESB: Rent a Car (OSGi) Commands---</member>
+				<member>car:GUI (Show GUI)</member>
+				<member>car:search {user} {pickupDate} {returnDate} (Search for cars to rent, date	format yyyy/mm/dd)</member>
+				<member>car:rent {pos} (Rent a car listed in search result of carSearch)</member>
+			</simplelist>
+		</section>
+		<section>
+			<title>Using TALEND ESB Rental Client GUI</title>
+			<para>To start the GUI, type car:GUI in the console window.</para>
+			<para>Select aebert from the drop-down box.</para>
+			<para>Click Find to see the results. You will see list of available cars.</para>
+			<para>Click the highlighted line or select any other option and click Reserve.</para>
+			<para>You can now see confirmation page.</para>
+			<para>Click Close to stop the GUI.</para>
+		</section>
+		<section>
+			<title>Using search command</title>
+			<para>In console type:</para>
+			<para>car:search aebert 2011/01/26 2011/01/26</para>
+			<para>You will see list of available cars:</para>
+			<simplelist type='vert' columns='1'>
+				<member>Found 5 cars.</member>
+				<member>Car details</member>
+				<member>1 VW Golf Standard 50.00 75.00 40.00</member>
+				<member>2 BMW 320i Sport 60.00 90.00 45.00</member>
+				<member>3 Mazda MX5 Sport 65.00 95.00 50.00</member>
+				<member>4 Lexus LX400 SUV 85.00 120.00 100.00</member>
+				<member>5 Mercedes E320 Delux 95.00 140.00 100.00</member>
+			</simplelist>
+		</section>
+		<section>
+			<title>Using rent command</title>
+			<para>In console type:</para>
+			<para>car:rent 2</para>
+			<para>You can now see confirmation</para>
+			<simplelist type='vert' columns='1'>
+				<member>Reservation ID SGA-686277</member>
+				<member>Customer details</member>
+				<member>----------------</member>
+				<member>Name: Andrea Ebert</member>
+				<member>eMail: info@sopera.de</member>
+				<member>City: Muenchen</member>
+				<member>Status: PLATIN</member>
+				<member>Car details</member>
+				<member>-----------</member>
+				<member>Brand: BMW</member>
+				<member>Model: 320i</member>
+				<member>Reservation details</member>
+				<member>-------------------</member>
+				<member>Pick up date: 2011/01/26</member>
+				<member>Return date: 2011/01/26</member>
+				<member>Daily rate: 60.00</member>
+				<member>Weekend rate: 90.00</member>
+				<member>Credits: 210</member>
+				<member>Thank you for renting a car with Talend ESB :-)</member>
+			</simplelist>
+		</section>
+	</chapter>
+</book>

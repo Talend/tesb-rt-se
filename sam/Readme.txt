@@ -6,18 +6,18 @@ Supports monitoring and central collection of service requests and responses on 
 Subprojects
 -----------
 
-Agent: 
+sam-agent: 
   Runs together with CXF on service client and provider. The monitoring events are processed asynchronously to the main message flow. Filters and
   Handlers allow to decide which messages and what parts are monitored. The monitoring event will then be sent to the monitoring service.
 
-MonitoringService: 
+sam-server: 
   Receives monitoring events and stores them into a database
 
 PersistentQueue: 
   Implementation of a persitent queue from gaborcselle. This will perhaps be replaced
 
-Common: 
-  Currently contains shared code between Agent and Server. Will soon be deleted
+sam-common: 
+  Currently contains shared code between Agent and Server. 
 
-Dummy: 
-  Test Client and Service that shows how to use the Monitoring. Should rather be named examples
+sam-examples: 
+  Test Client and Service that shows how to use the Monitoring. 

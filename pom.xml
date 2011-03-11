@@ -7,14 +7,18 @@
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Talend Inc.</name>
+        <url>www.talend.com</url>
+    </organization>
 
     <properties>
         <cxf.version>2.3.3</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
-        <jetty.version>7.2.2.v20101205</jetty.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <osgi.version>3.6.0.v20100517</osgi.version>
-        <karaf.version>2.2.0</karaf.version>
+        <karaf.version>2.1.4</karaf.version>
         <derby.version>10.7.1.1</derby.version>
         <mysql.version>5.0.5</mysql.version>
         <!--  Test dependencies -->
@@ -95,6 +99,12 @@
             <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+         <pluginRepository>
+             <id>codehaus</id>
+             <url>https://nexus.codehaus.org/content/groups/public/</url>
+         </pluginRepository>
+     </pluginRepositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -122,6 +132,14 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.3.4</version>
                     <extensions>true</extensions>
+                    <!--configuration>
+                        <instructions>
+                            <Include-Resource>
+                                {maven-resources}, {maven-dependencies},
+                                META-INF/LICENSE=${project.build.outputDirectory}/META-INF/LICENSE
+                            </Include-Resource>
+                        </instructions>
+                    </configuration-->
                 </plugin>
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -177,6 +195,25 @@
                             <scope>runtime</scope>
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                    <configuration>
+                        <licenseName>apache_v2</licenseName>
+                        <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+                        <!--licenseFile>${project.build.outputDirectory}/META-INF/LICENSE.</licenseFile>
+                        <generateBundle>true</generateBundle>
+                        <bundleLicensePath>META-INF/LICENSE. </bundleLicensePath-->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>update-project-license</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

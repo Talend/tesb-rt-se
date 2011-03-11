@@ -16,3 +16,5 @@ bin
 
 derby.log
 
+# IntelliJ IDEA
+*.i??

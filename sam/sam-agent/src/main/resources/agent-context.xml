@@ -15,9 +15,15 @@
 		http://www.springframework.org/schema/task
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
+	<context:annotation-config/>
+	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
         <property name="location" value="classpath:agent.properties"/>
+    </bean>
+    
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
+        <property name="eventProducer" ref="eventProducer" />
     </bean>
     
 	<bean id="eventProducer" class="org.talend.esb.sam.agent.producer.EventProducer">

@@ -42,13 +42,20 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,reservationservice-common</Require-Bundle>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans
+                        </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
-    <profiles>
+    <!--profiles>
         <profile>
             <id>server</id>
             <dependencies>
@@ -71,7 +78,7 @@
                                     <goal>java</goal>
                                 </goals>
                                 <configuration>
-                                    <mainClass>server.CustomerServiceServer</mainClass>
+                                    <mainClass>org.talend.services.reservationservice.service.ReservationServiceImpl</mainClass>
                                 </configuration>
                             </execution>
                         </executions>
@@ -79,6 +86,6 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+    </profiles-->
 </project>
 
