@@ -4,3 +4,101 @@ Welcome to Talend ESB SE!
 Talend ESB SE includes: Service Factory + Integration Factory + AMQ,
 Camel 3rd party libraries, Service Locator, STS
 Tutorials, Documentation
+
+Talend Service Factory uses the industry leading 
+open source Apache CXF implementation of JAX-WS to help you service enable 
+your existing applications and interfaces. The CXF lightweight, modular 
+architecture is based on Spring, so it will work with your application 
+regardless of the platform on which it is running. It will run on 
+stand-alone JVM applications, as part of a servlet container such as 
+Tomcat, within a JEE server, or in an OSGi container such as Equinox.
+
+CXF supports Web Services using 
+SOAP with full WS-*functionality including support for WS-Addressing,
+WS-Reliable Messaging, and WS-Security over both HTTP and JMS transports.
+CXF's elegantly simple architecture allows declarative, policy-centric 
+support of these qualities of service through configuration rather than 
+code. It also supports non-SOAP bindings including REST. CXF open 
+standards and portability enable you to deliver interoperability for 
+your applications to maximize the value of your application to your users.
+
+Talend Integration Factory is a fully supported,
+stable, production ready distribution based on the industry leading open
+source integration framework Apache Camel. Apache Camel uses well known 
+Enterprise Integration Patterns to make message based system 
+integration simpler yet powerful and scalable. 
+
+The Apache Camel uses a lightweight, component based architecture 
+which allows a great flexibility in deployment scenarios: as stand-alone
+JVM applications or embedded in a servlet container such as Tomcat,
+or within a JEE server, or in an OSGi container such as Equinox. 
+
+Apache Camel and Talend Integration Factory come out of the box with 
+an impressive set of available components for all commonly used protocols 
+like http, https, ftp, xmpp, rss and many more. A large number of data
+formats like EDI, JSON, CSV, HL7 and languages like JS, Python, 
+Scala, are supported out of the box. Its extensible architecture
+allows developers to easily add support for proprietary protocols
+and data formats.
+
+Contents 
+======== 
+
+Apache CXF
+OSGi Container
+Getting Started
+Examples
+
+Apache CXF
+==========
+
+This package contains a complete version of Apache CXF, the industry 
+leading open source solution for web services. It also includes value
+added components such as OSGi container and several new examples.
+For more information about Apache CXF see http://cxf.apache.org/ .
+
+OSGi container 
+============== 
+
+The container subdirectory contains a preconfigured OSGi container that 
+contains all the required OSGi bundles for the CXF 3rd party dependencies.
+It also includes Apache Karaf to provide easy administration and 
+configuration. For more information about OSGi and Apache 
+Karaf see http://karaf.apache.org/ .
+
+OSGi provides a mature, open standards based, highly modular framework for 
+managing component dependencies, service invocation, and lifecycles. It is 
+the basis for Eclipse and provides a lightweight alternative to more 
+monolithic JEE containers while still retaining the powerful management 
+features necessary for the enterprise.
+
+Getting Started 
+===============
+
+If you need more help try talking to us on our forums: http://talendforge.org/forum
+
+You can find more information about Apache CXF at http://cxf.apache.org/
+
+Please submit CXF bug reports with JIRA at https://issues.apache.org/jira/browse/CXF 
+
+Please submit TSF bug reports with JIRA at http://www.talendforge.org
+
+Please submit TIF bug reports with JIRA at http://www.talendforge.org
+
+Examples are documented individually and include instructions for building
+and running each example with just a few command lines. See below for obtaining 
+the examples.
+
+Examples 
+===============
+Talend ESB SE provides several examples in a separate documentation package in examples folder. 
+The example applications and tutorials demonstrate functionality and advanced 
+features of Talend ESB SE.
+The examples demonstrate how to use different functionality including:
+*       Advanced WebServices with Camel 
+*       Security configuration within OSGi 
+*       Use of blueprint to define routes 
+*       Rent a Car demo 
+*       Locator sample 
+*       Monitoring sample 
+and much more.

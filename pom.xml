@@ -7,6 +7,11 @@
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Talend Inc.</name>
+        <url>www.talend.com</url>
+    </organization>
 
     <properties>
         <cxf.version>2.3.3</cxf.version>
@@ -135,6 +140,21 @@
                             </Include-Resource>
                         </instructions>
                     </configuration-->
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <configuration>
+                        <webResources>
+                            <resource>
+                                <directory>${project.build.directory}</directory>
+                                <includes>
+                                    <include>LICENSE.txt</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
