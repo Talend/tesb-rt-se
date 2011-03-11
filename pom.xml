@@ -127,6 +127,14 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.3.4</version>
                     <extensions>true</extensions>
+                    <!--configuration>
+                        <instructions>
+                            <Include-Resource>
+                                {maven-resources}, {maven-dependencies},
+                                META-INF/LICENSE=${project.build.outputDirectory}/META-INF/LICENSE
+                            </Include-Resource>
+                        </instructions>
+                    </configuration-->
                 </plugin>
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -186,10 +194,13 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>1.0-20110308.094929-9</version>
+                    <version>1.0-SNAPSHOT</version>
                     <configuration>
                         <licenseName>apache_v2</licenseName>
                         <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+                        <!--licenseFile>${project.build.outputDirectory}/META-INF/LICENSE.</licenseFile>
+                        <generateBundle>true</generateBundle>
+                        <bundleLicensePath>META-INF/LICENSE. </bundleLicensePath-->
                     </configuration>
                     <executions>
                         <execution>
