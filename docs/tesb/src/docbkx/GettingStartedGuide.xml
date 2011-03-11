@@ -26,25 +26,168 @@
 		<para>
 			In Getting Started Guide you can learn about Talend ESB/CXF.
 			This guide contains the simplified real-world example. This
-			example
-			from the domain of car rental companies demonstrate the use
-			of Talend
-			ESB for the develop and run services.
+			example	from the domain of car rental companies demonstrate the use
+			of Talend ESB for the develop and run services.
  		</para>
 		<para>
 			You can learn the purpose of the Rent a Car Demo. You can found
-			how to
-			compiled Rent a Car Demo, deploy it into Talend-sf OSGi
-			container and run.
-			Also You can learn how to enable the Service
-			Locator Component for the
-			Rent a Car demo.
+			how to compiled Rent a Car Demo, deploy it into Talend-sf OSGi
+			container and run. Also You can learn how to enable the Service
+			Locator Component for the Rent a Car demo.
  		</para>
 	</chapter>
 	<chapter>
-		<title>Compilation and deployment of the Rent a Car demo</title>
-		<para>
+		<title>How to Building the Demo</title>
+		<section>
+			<title>Building CRMService sample</title>
+			<para>
+			This sample consists of 3 parts:
+			<informaltable>
+			        <tgroup cols="2">        
+		            <colspec colnum="1" colwidth="1*"/>
+            		<colspec colnum="2" colwidth="2*"/>
+            		<thead>
+              			<row>
+                			<entry>
+                  				<para>Sample part</para>
+                			</entry>
+                			<entry>
+                  				<para>Description</para>
+                			</entry>
+              			</row>
+            		</thead>
+            		<tbody>
+                		<row>
+                    		<entry>
+                    			<code>common/</code>
+                    		</entry>
+                    		<entry>This directory contains the CRMService.wsdl which is used to generate the initial code.</entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>service/</code>
+                    		</entry>
+                    		<entry>This is where a CRMService service implementation shared by JAX-WS endpoints is located</entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>client/</code>
+                    		</entry>
+                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking on remote JAX-WS endpoints represented by CRMService interface</entry>
+		                </row>
+			        </tbody>
+        			</tgroup>
+        		</informaltable>
+			</para>
+			<para>
+From the base directory of CRMService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+			</para>
+			<para>
+Using either UNIX or Windows:
+			</para>
+				<programlisting>			
+       mvn install
+				</programlisting>
+			<para>
+Running this command will build the demo and create an OSGi bundle 
+for deploying the service to OSGi containers.
+			</para>
+			<para>
+There are three OSGi bundles will be created:
+				<simplelist type='vert' columns='1'>
+					<member>...\common\target\crmservice-common-1.0.jar</member>
+					<member>...\server\target\crmservice-server-1.0.jar</member>
+					<member>...\client\target\crmservice-client-1.0.jar</member>
+				</simplelist>
+			</para>
+		</section>
+		<section>
+			<title>Building ReservationService sample</title>
+			<para>
+			This sample consists of 3 parts:
+			<informaltable>
+			        <tgroup cols="2">        
+		            <colspec colnum="1" colwidth="1*"/>
+            		<colspec colnum="2" colwidth="2*"/>
+            		<thead>
+              			<row>
+                			<entry>
+                  				<para>Sample part</para>
+                			</entry>
+                			<entry>
+                  				<para>Description</para>
+                			</entry>
+              			</row>
+            		</thead>
+            		<tbody>
+                		<row>
+                    		<entry>
+                    			<code>common/</code>
+                    		</entry>
+                    		<entry>This directory contains the ReservationService.wsdl which is used to generate the initial code. </entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>service/</code>
+                    		</entry>
+                    		<entry>This is where a ReservationService service implementation shared by JAX-WS endpoints is located. </entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>client/</code>
+                    		</entry>
+                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking on remote JAX-WS endpoints represented by ReservationService interface.</entry>
+		                </row>
+			        </tbody>
+        			</tgroup>
+        		</informaltable>
+			</para>
+			<para>
+From the base directory of ReservationService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+			</para>
+			<para>
+Using either UNIX or Windows:
+			</para>
+				<programlisting>			
+    mvn install
+				</programlisting>
+			<para>
+Running this command will build the demo and create an OSGi bundle 
+for deploying the service to OSGi containers.
+			</para>
+			<para>
+Three OSGi bundles will be created:
+			<simplelist type='vert' columns='1'>
+				<member>...\common\target\reservationservice-common-1.0.jar</member>
+				<member>...\server\target\reservationservice-server-1.0.jar</member>
+				<member>...\client\target\reservationservice-client-1.0.jar</member>
+			</simplelist>
 		</para>
+	</section>
+	<section>
+		<title>Building app-reservation project bundle</title>
+		<para>
+		From the base directory of app-reservation project, the maven <code>pom.xml</code> file can be used to build and run the demo.
+		</para>
+		<para>
+		Using either UNIX or Windows:
+		</para>
+			<programlisting>			
+        mvn install
+			</programlisting>
+		<para>
+		Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
+		</para>
+		<para>The OSGi bundle will be created:</para>
+		<para>
+			<simplelist type='vert' columns='1'>
+				<member>...\app-reservation\target\app-reservation-1.0.jar</member>
+			</simplelist>
+		</para>
+	</section>	
+	</chapter>
+		<chapter>
+		<title>How to deploy Rent a Car demo in Talend-sf OSGi container</title>
 	</chapter>
 	<chapter>
 		<title>How to run Rent a Car demo</title>
