@@ -7,6 +7,11 @@
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Talend Inc.</name>
+        <url>www.talend.com</url>
+    </organization>
 
     <properties>
         <cxf.version>2.3.3</cxf.version>
