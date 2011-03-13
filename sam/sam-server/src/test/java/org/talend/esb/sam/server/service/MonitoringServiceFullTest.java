@@ -11,6 +11,10 @@ import javax.annotation.Resource;
 
 import junit.framework.Assert;
 
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,8 +42,19 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
     @Resource
     private EventRepository eventRepository;
     
+//    @Before
+//    public void setUp() throws Exception {
+//        executeSqlScript("create.sql", true);
+//    }
+    
     @Test
     public void testSendEvents() throws PutEventsFault, MalformedURLException, URISyntaxException {
+        Client client = ClientProxy.getClient(monitoringService);
+        HTTPConduit conduit = (HTTPConduit)client.getConduit();
+        HTTPClientPolicy clientConfig = new HTTPClientPolicy();
+        clientConfig.setReceiveTimeout(100000);
+        conduit.setClient(clientConfig);
+        
         simpleJdbcTemplate.update("delete from EVENTS");
         
         List<EventType> events = new ArrayList<EventType>();
@@ -74,4 +89,9 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         Assert.assertEquals("myValue2", ciList.get(1).getCustValue());
 
     }
+    
+//    @After
+//    public void tearDown() {
+//        executeSqlScript("drop.sql", true);
+//    }
 }

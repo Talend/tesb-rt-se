@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.talend.esb</groupId>
+    <artifactId>sam-example-client</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Service Activity Monitoring :: Example Client</name>
+    <url>http://www.talend.com</url>
+
+    <parent>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-examples</artifactId>
+        <version>4.0</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-agent</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.talend.esb.sam.examples.client.CustomerServiceClient</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <sourceRoot>
+                                ${basedir}/target/generated-sources
+                           </sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        ${basedir}/src/main/resources/wsdl/CustomerService.wsdl
+                                 </wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/main/resources/wsdl/binding.xml</bindingFile>
+                                    </bindingFiles>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

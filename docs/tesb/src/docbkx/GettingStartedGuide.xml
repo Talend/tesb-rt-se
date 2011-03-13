@@ -30,9 +30,277 @@
 			of Talend ESB for the develop and run services.
  		</para>
 		<para>
-			You can learn the purpose of the Rent a Car Demo. You can found how to
-			compiled Rent a Car Demo, deploy it into Talend-sf OSGi container and run.
-	 		Also You can learn how to enable the Service Locator Component for the Rent a Car demo.
+			You can learn the purpose of the Rent a Car Demo. You can found
+			how to compiled Rent a Car Demo, deploy it into Talend-sf OSGi
+			container and run. Also You can learn how to enable the Service
+			Locator Component for the Rent a Car demo.
  		</para>
+	</chapter>
+	
+	<chapter>	
+		<title> Rent a Car Demo Example</title>
+		<para>
+		For this demo example we have chosen a common business use case scenario: a simplified real-world example from the domain of car rental companies.
+		</para>	
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/schema.jpg" format="jpg"/>
+          </imageobject>
+       </mediaobject>          
+       <para>In this scenario, there are two main services that will be demonstrated: you will create and orchestrate these services with the help of a simple graphical front-end application. It contains two services: CRMService and ReservationService. </para>
+       
+       <para>Client provide the basic functionality with which it searches for the available cars within a given time period, and the search also takes into account the status of the given user. This criteria will then determine the outcome of the search. From the list of results you can select the car that fulfills your requirement and then simply make your reservation by clicking Book . At the end of the submission process, the system will show you a confirmation page with your Reservation ID. 
+From a technical perspective the client calls the following services and operations on the CRM Service and Reserveration Service.
+ </para>       
+	
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/operations.jpg" format="jpg"/>             
+          </imageobject>
+       </mediaobject>
+	</chapter>	
+	<chapter>
+		<title>How to Building the Demo</title>
+		<section>
+			<title>Building CRMService sample</title>
+			<para>
+			This sample consists of 3 parts:
+			<informaltable>
+			        <tgroup cols="2">        
+		            <colspec colnum="1" colwidth="1*"/>
+            		<colspec colnum="2" colwidth="2*"/>
+            		<thead>
+              			<row>
+                			<entry>
+                  				<para>Sample part</para>
+                			</entry>
+                			<entry>
+                  				<para>Description</para>
+                			</entry>
+              			</row>
+            		</thead>
+            		<tbody>
+                		<row>
+                    		<entry>
+                    			<code>common/</code>
+                    		</entry>
+                    		<entry>This directory contains the CRMService.wsdl which is used to generate the initial code.</entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>service/</code>
+                    		</entry>
+                    		<entry>This is where a CRMService service implementation shared by JAX-WS endpoints is located</entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>client/</code>
+                    		</entry>
+                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking on remote JAX-WS endpoints represented by CRMService interface</entry>
+		                </row>
+			        </tbody>
+        			</tgroup>
+        		</informaltable>
+			</para>
+			<para>
+From the base directory of CRMService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+			</para>
+			<para>
+Using either UNIX or Windows:
+			</para>
+				<programlisting>			
+       mvn install
+				</programlisting>
+			<para>
+Running this command will build the demo and create an OSGi bundle 
+for deploying the service to OSGi containers.
+			</para>
+			<para>
+There are three OSGi bundles will be created:
+				<simplelist type='vert' columns='1'>
+					<member>...\common\target\crmservice-common-4.0.jar</member>
+					<member>...\server\target\crmservice-server-4.0.jar</member>
+					<member>...\client\target\crmservice-client-4.0.jar</member>
+				</simplelist>
+			</para>
+		</section>
+		<section>
+			<title>Building ReservationService sample</title>
+			<para>
+			This sample consists of 3 parts:
+			<informaltable>
+			        <tgroup cols="2">        
+		            <colspec colnum="1" colwidth="1*"/>
+            		<colspec colnum="2" colwidth="2*"/>
+            		<thead>
+              			<row>
+                			<entry>
+                  				<para>Sample part</para>
+                			</entry>
+                			<entry>
+                  				<para>Description</para>
+                			</entry>
+              			</row>
+            		</thead>
+            		<tbody>
+                		<row>
+                    		<entry>
+                    			<code>common/</code>
+                    		</entry>
+                    		<entry>This directory contains the ReservationService.wsdl which is used to generate the initial code. </entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>service/</code>
+                    		</entry>
+                    		<entry>This is where a ReservationService service implementation shared by JAX-WS endpoints is located. </entry>
+		                </row>
+                		<row>
+                    		<entry>
+                    			<code>client/</code>
+                    		</entry>
+                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking on remote JAX-WS endpoints represented by ReservationService interface.</entry>
+		                </row>
+			        </tbody>
+        			</tgroup>
+        		</informaltable>
+			</para>
+			<para>
+From the base directory of ReservationService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+			</para>
+			<para>
+Using either UNIX or Windows:
+			</para>
+				<programlisting>			
+    mvn install
+				</programlisting>
+			<para>
+Running this command will build the demo and create an OSGi bundle 
+for deploying the service to OSGi containers.
+			</para>
+			<para>
+Three OSGi bundles will be created:
+			<simplelist type='vert' columns='1'>
+				<member>...\common\target\reservationservice-common-4.0.jar</member>
+				<member>...\server\target\reservationservice-server-4.0.jar</member>
+				<member>...\client\target\reservationservice-client-4.0.jar</member>
+			</simplelist>
+		</para>
+	</section>
+	<section>
+		<title>Building app-reservation project bundle</title>
+		<para>
+		From the base directory of app-reservation project, the maven <code>pom.xml</code> file can be used to build and run the demo.
+		</para>
+		<para>
+		Using either UNIX or Windows:
+		</para>
+			<programlisting>			
+        mvn install
+			</programlisting>
+		<para>
+		Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
+		</para>
+		<para>The OSGi bundle will be created:</para>
+		<para>
+			<simplelist type='vert' columns='1'>
+				<member>...\app-reservation\target\app-reservation-4.0.jar</member>
+			</simplelist>
+		</para>
+	</section>	
+	</chapter>
+		<chapter>
+		<title>How to deploy Rent a Car demo in Talend-sf OSGi container</title>
+	</chapter>
+	<chapter>
+		<title>How to run Rent a Car demo</title>
+		<section>
+			<title>Use Case Scenario to Rent a Car</title>
+			<para>
+				A customer enters prerequisite data into a form such as her
+				name, the pick-up and return dates, the preferred type of rental
+				rates, and submits her query.
+			</para>
+			<para>
+				Next, the application calls the CRMService to retrieve the customer data
+				and customer status information.
+			</para>
+			<para>
+				The customer is presented with a list of the available cars and selects
+				one from the presented list of results.
+			</para>
+			<para>
+				Finally, the application calls the ReservationService to submit the
+				reservation request and then displays a reservation confirmation
+				notice to the customer. 
+			</para>
+		</section>
+		<section>
+			<title>Starting the application</title>
+			<para>
+				ReservationService, CRMService and App-reservation is already
+				deployed in Talend-sf. Start OSGi console.   
+			</para>
+			<para>
+				In console you will see text:
+			</para>
+			<simplelist type='vert' columns='1'>
+				<member>---TALEND ESB: Rent a Car (OSGi) Commands---</member>
+				<member>car:GUI (Show GUI)</member>
+				<member>car:search {user} {pickupDate} {returnDate} (Search for cars to rent, date	format yyyy/mm/dd)</member>
+				<member>car:rent {pos} (Rent a car listed in search result of carSearch)</member>
+			</simplelist>
+		</section>
+		<section>
+			<title>Using TALEND ESB Rental Client GUI</title>
+			<para>To start the GUI, type car:GUI in the console window.</para>
+			<para>Select aebert from the drop-down box.</para>
+			<para>Click Find to see the results. You will see list of available cars.</para>
+			<para>Click the highlighted line or select any other option and click Reserve.</para>
+			<para>You can now see confirmation page.</para>
+			<para>Click Close to stop the GUI.</para>
+		</section>
+		<section>
+			<title>Using search command</title>
+			<para>In console type:</para>
+			<para>car:search aebert 2011/01/26 2011/01/26</para>
+			<para>You will see list of available cars:</para>
+			<simplelist type='vert' columns='1'>
+				<member>Found 5 cars.</member>
+				<member>Car details</member>
+				<member>1 VW Golf Standard 50.00 75.00 40.00</member>
+				<member>2 BMW 320i Sport 60.00 90.00 45.00</member>
+				<member>3 Mazda MX5 Sport 65.00 95.00 50.00</member>
+				<member>4 Lexus LX400 SUV 85.00 120.00 100.00</member>
+				<member>5 Mercedes E320 Delux 95.00 140.00 100.00</member>
+			</simplelist>
+		</section>
+		<section>
+			<title>Using rent command</title>
+			<para>In console type:</para>
+			<para>car:rent 2</para>
+			<para>You can now see confirmation</para>
+			<simplelist type='vert' columns='1'>
+				<member>Reservation ID SGA-686277</member>
+				<member>Customer details</member>
+				<member>----------------</member>
+				<member>Name: Andrea Ebert</member>
+				<member>eMail: info@sopera.de</member>
+				<member>City: Muenchen</member>
+				<member>Status: PLATIN</member>
+				<member>Car details</member>
+				<member>-----------</member>
+				<member>Brand: BMW</member>
+				<member>Model: 320i</member>
+				<member>Reservation details</member>
+				<member>-------------------</member>
+				<member>Pick up date: 2011/01/26</member>
+				<member>Return date: 2011/01/26</member>
+				<member>Daily rate: 60.00</member>
+				<member>Weekend rate: 90.00</member>
+				<member>Credits: 210</member>
+				<member>Thank you for renting a car with Talend ESB :-)</member>
+			</simplelist>
+		</section>
 	</chapter>
 </book>

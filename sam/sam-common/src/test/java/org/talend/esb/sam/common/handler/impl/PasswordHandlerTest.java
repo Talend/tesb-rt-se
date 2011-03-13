@@ -51,7 +51,7 @@ public class PasswordHandlerTest extends TestCase {
 
 	public void testMultiline() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:data=\"http://www.zurich.ch/data\">\n");
+		builder.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:data=\"http://www.example.com/data\">\n");
 		builder.append("   <soapenv:Header/>\n");
 		builder.append("   <soapenv:Body>\n");
 		builder.append("      <data:addCase>\n");
@@ -64,7 +64,7 @@ public class PasswordHandlerTest extends TestCase {
 		builder.append("</soapenv:Envelope>\n");
 
 		StringBuilder builder2 = new StringBuilder();
-		builder2.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:data=\"http://www.zurich.ch/data\">\n");
+		builder2.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:data=\"http://www.example.com/data\">\n");
 		builder2.append("   <soapenv:Header/>\n");
 		builder2.append("   <soapenv:Body>\n");
 		builder2.append("      <data:addCase>\n");

@@ -28,9 +28,9 @@
         <property name="hostname" value="" />
         <property name="ip" value="" />
         <property name="operationName"
-            value="{http://www.zurich.ch/incurancecase/CaseService}ping" />
+            value="{http://namespace}ping" />
         <property name="portType"
-            value="{http://www.zurich.ch/incurancecase/CaseService}CasePort" />
+            value="{http://namespace}CasePort" />
         <property name="transportType" value="" />
     </bean>
 

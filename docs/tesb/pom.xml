@@ -24,7 +24,7 @@
 
                 <executions>
                     <execution>
-                        <phase>pre-site</phase>
+                        <phase>generate-resources</phase>
                         <id>create-pdf-docs-gsg</id>
                         <goals>
                             <goal>generate-pdf</goal>
@@ -35,7 +35,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <phase>pre-site</phase>
+                        <phase>generate-resources</phase>
                         <id>create-pdf-docs-cm</id>
                         <goals>
                             <goal>generate-pdf</goal>

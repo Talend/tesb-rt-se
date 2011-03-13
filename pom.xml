@@ -7,6 +7,11 @@
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
+    <inceptionYear>2011</inceptionYear>
+    <organization>
+        <name>Talend Inc.</name>
+        <url>www.talend.com</url>
+    </organization>
 
     <properties>
         <cxf.version>2.3.3</cxf.version>
@@ -94,6 +99,12 @@
             <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+         <pluginRepository>
+             <id>codehaus</id>
+             <url>https://nexus.codehaus.org/content/groups/public/</url>
+         </pluginRepository>
+     </pluginRepositories>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -121,6 +132,29 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.3.4</version>
                     <extensions>true</extensions>
+                    <!--configuration>
+                        <instructions>
+                            <Include-Resource>
+                                {maven-resources}, {maven-dependencies},
+                                META-INF/LICENSE=${project.build.outputDirectory}/META-INF/LICENSE
+                            </Include-Resource>
+                        </instructions>
+                    </configuration-->
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <configuration>
+                        <webResources>
+                            <resource>
+                                <directory>${project.build.directory}</directory>
+                                <includes>
+                                    <include>LICENSE.txt</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -176,6 +210,25 @@
                             <scope>runtime</scope>
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                    <configuration>
+                        <licenseName>apache_v2</licenseName>
+                        <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+                        <!--licenseFile>${project.build.outputDirectory}/META-INF/LICENSE.</licenseFile>
+                        <generateBundle>true</generateBundle>
+                        <bundleLicensePath>META-INF/LICENSE. </bundleLicensePath-->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>update-project-license</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

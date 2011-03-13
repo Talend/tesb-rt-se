@@ -12,6 +12,7 @@ public class DBInitializer implements InitializingBean {
 
     DataSource dataSource;
     boolean recreateDb;
+    String createSql;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -21,11 +22,15 @@ public class DBInitializer implements InitializingBean {
         this.recreateDb = recreateDb;
     }
 
-    @Override
+    public void setCreateSql(String createSql) {
+		this.createSql = createSql;
+	}
+
+	@Override
     public void afterPropertiesSet() throws Exception {
         SimpleJdbcTemplate sjdbcTemplate = new SimpleJdbcTemplate(dataSource);
         if (recreateDb) {
-        	Resource resource = new ClassPathResource("create.sql");
+        	Resource resource = new ClassPathResource(createSql);
         	SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
         }
     }

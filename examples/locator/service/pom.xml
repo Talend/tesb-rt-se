@@ -69,6 +69,10 @@
                     <mainClass>demo.service.Server</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 

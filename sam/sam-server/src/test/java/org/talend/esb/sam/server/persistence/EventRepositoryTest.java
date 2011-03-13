@@ -63,7 +63,7 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
 
     @After
     public void tearDown() {
-        simpleJdbcTemplate.update("drop table EVENTS");
+        executeSqlScript("drop.sql", true);
     }
 
 }
