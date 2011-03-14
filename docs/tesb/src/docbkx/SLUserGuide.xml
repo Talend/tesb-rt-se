@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book id="user">
+  <bookinfo>
+    <title>Service Locator Server - User's Guide</title>
+
+    <pubdate>March 14, 2011</pubdate>
+
+    <abstract>
+      <para>This document is tutorial about integration and using Service
+      Locator Server. It also contains installation instructions and
+      information about maintenance.</para>
+    </abstract>
+  </bookinfo>
+
+  <chapter id="install">
+    <title>Purpose of Service Locator Server</title>
+
+    <para>The Service Locator Server is a service that provides service
+    consumers with a mechanism to discover service endpoints at run time.
+    Service Locator Server consists of two parts: endpoint repository and CXF
+    feature - Talend ESB Service Locator Feature. ServiceLocator Feature is
+    locator client enabled with an CXF services. </para>
+  </chapter>
+
+  <chapter id="tutorial_basics">
+    <title>Installation</title>
+
+    <para>This chapter describes the steps to install and run the Service
+    Locator Server. </para>
+
+    <section id="starting_xxe">
+      <title>Prerequisites</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Since creating a distributed, fault-tolerant endpoint
+          repository is a non-trivial task, the Service Locator Server
+          implementation based on proven open source technology - Apache
+          ZooKeeper. This is a highly reliable and available service that
+          provides coordination between distributed processes. To learn more
+          about Apache ZooKeeper, visit <ulink
+          url="http://hadoop.apache.org/zookeeper"><link
+          linkend="???">http://hadoop.apache.org/zookeeper</link>.</ulink>
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>To get a server distribution, download a recent <ulink
+          url="http://hadoop.apache.org/zookeeper/releases.html"><link
+          linkend="???">stable release</link></ulink> from one of the Apache
+          Download Mirrors. After this unpack it and cd to the root. </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section id="new_document">
+      <title>Standalone server configuration</title>
+
+      <para>Setting up a Service Locator Server in standalone mode is
+      straightforward. The server is contained in a single JAR file, so
+      installation consists of configuration creation. </para>
+
+      <para>Once you've downloaded a stable Service Locator Server release
+      unpack it and cd to the root </para>
+
+      <para>Service Locator Server needs a configuration file to start.
+      </para>
+
+      <para>Create it in conf/zoo.cfg and add parameters: </para>
+
+      <para>tickTime=2000</para>
+
+      <para>dataDir=/var/locator </para>
+
+      <para>clientPort=2181 </para>
+
+      <para>Change the value of dataDir to specify an existing (empty to start
+      with) directory. </para>
+
+      <para>Definitions for each of the fields: </para>
+
+      <itemizedlist>
+        <listitem>
+          <para>tickTime - the basic time unit in milliseconds used by Service
+          Locator. It is used to do heartbeats and the minimum session timeout
+          will be twice the tickTime.</para>
+        </listitem>
+
+        <listitem>
+          <para>dataDir - the location to store the in-memory database
+          snapshots and, unless specified otherwise, the transaction log of
+          updates to the database.</para>
+        </listitem>
+
+        <listitem>
+          <para>clientPort - the port to listen for client connections.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </chapter>
+
+  <chapter id="tutorial_modular_document">
+    <title>Configuration </title>
+
+    <para>Configuration chapter is describe Talend ESB ServiceLocator Feature
+    spring configuration, description of using Service Locator on consumer and
+    provider side and enabling to use it in the CXF. The Service Locator
+    feature configuration should be added to each endpoint and client of the
+    project.</para>
+
+    <section id="create_module">
+      <title>Provider side configuration </title>
+
+      <para>Section describes feature inclusion to the provider side of the
+      project</para>
+
+      <section>
+        <title>Spring configuration inclusion</title>
+
+        <para>To add the feature to server, you can use &lt;jaxws:features&gt;
+        and include bean for org.talend.esb.locator.LocatorFeature to it.
+        Using configuration files to add Feature, you should specify following
+        properties</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>locatorEndpoints - Service Locator Server endpoints must be
+            configurable in the feature. If not, the default localhost
+            endpoint "localhost:2181" is taken as long as nobody sets new
+            endpoints via setLocatorEndpoints. Specify the endpoints of all
+            the instances belonging to the service locator ensemble the
+            service locator client might be talking to. The service locator
+            client will one by one pick an endpoint (the order is
+            non-deterministic) to connect to the service locator until a
+            connection is established. </para>
+          </listitem>
+
+          <listitem>
+            <para>connectionTimeout - specify the time the service locator
+            client waits for a connection to get established. Must be greater
+            than zero, by default 5000 ms. </para>
+          </listitem>
+
+          <listitem>
+            <para>sessionTimeout - specify the time out of the session
+            established at the server. The session is kept alive by requests
+            sent by the client. If the session is idle for a period of time
+            that would timeout the session, the client will send a ping
+            request to keep the session alive. Must be greater than zero and
+            less than 60000, by default 5000 ms. </para>
+          </listitem>
+
+          <listitem>
+            <para>endpointPrefix - necessary when running in a container where
+            the endpoint is only relative to the conatiner. By default prefix
+            is an empty string.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Example of Talend ESB Service Locator Feature configuration:
+        </para>
+
+        <programlisting>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"&gt;
+
+	&lt;import resource="classpath:META-INF/cxf/cxf.xml" /&gt;
+	&lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /&gt;
+	&lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /&gt;	
+
+	&lt;jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
+			id="greeter"
+			implementor="demo.service.GreeterImpl"
+			serviceName="tns:GreeterService"
+			address="/GreeterService"&gt;
+		&lt;jaxws:features&gt;
+			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
+		        &lt;property name="endpointPrefix" value="http://localhost:8080/locator-demo-war"/&gt;
+			&lt;/bean&gt;
+		&lt;/jaxws:features&gt;
+	&lt;/jaxws:endpoint&gt;
+&lt;/beans&gt;
+</programlisting>
+
+        <para>In In the example above you can see that locator client was
+        added through configuration exactly the same way as a standard CXF
+        feature using &lt;jaxws:features&gt;, and property endpointPrefix was
+        set to locator feature. </para>
+
+        <para>So in this example endpoint will register into the endpoint
+        repository using name http
+        ://localhost:8080/locator-demo-war/GreeterService. </para>
+
+        <para>Property locatorEndpoints was not set. Default value will use
+        for it. That means Server Locator Server must started on localhost and
+        configured for the 2181 port to listen for client connections.</para>
+      </section>
+
+      <section>
+        <title>Using Service Locator Feature programmatically </title>
+
+        <para>You can also add the feature to the server by using
+        ServerFactoryBean </para>
+
+        <programlisting>  String port = "8080";
+		String address = String.format("http://provider_host:%1$s/services/Greeter", port);
+		
+		LocatorFeature locatorFeature = new LocatorFeature();
+		locatorFeature.setLocatorEndpoints("locator_host1:2181,locator_host2:2181");
+
+		Greeter greeterService = new GreeterImpl();
+		JaxWsServerFactoryBean server = new JaxWsServerFactoryBean();
+		server.setServiceBean(greeterService);
+		server.setAddress(address);
+		
+		server.getFeatures().add(locatorFeature);
+		server.create();
+</programlisting>
+
+        <para>In the code above only one property for the feature was set. So
+        default values will be used for all other. For example, endpointPrefix
+        will be empty string. So in this example endpoint will register into
+        the endpoint repository using name http
+        ://provider_host:8080/services/Greeter. </para>
+      </section>
+    </section>
+
+    <section id="insert_reference_to_module">
+      <title>Consumer side configuration</title>
+
+      <para>Section describes feature inclusion to the consumer side of the
+      project</para>
+
+      <section>
+        <title>Spring configuration inclusion</title>
+
+        <para>To add the feature to client, you can use &lt;jaxws:client&gt;
+        and include bean for org.talend.esb.locator.LocatorFeature to it.
+        Using configuration files to add Feature, you should specify following
+        properties: </para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para>locatorEndpoints - Service Locator endpoints must be
+              configurable in the feature. If not, the default localhost
+              endpoint "localhost:2181" is taken as long as nobody sets new
+              endpoints via setLocatorEndpoints. Specify the endpoints of all
+              the instances belonging to the service locator ensemble the
+              service locator client might be talking to. The service locator
+              client will one by one pick an endpoint (the order is
+              non-deterministic) to connect to the service locator until a
+              connection is established. </para>
+            </listitem>
+
+            <listitem>
+              <para>connectionTimeout - specify the time the service locator
+              client waits for a connection to get established. Must be
+              greater than zero, by default 5000 ms. </para>
+            </listitem>
+
+            <listitem>
+              <para>sessionTimeout - specify the time out of the session
+              established at the server. The session is kept alive by requests
+              sent by the client. If the session is idle for a period of time
+              that would timeout the session, the client will send a ping
+              request to keep the session alive. Must be greater than zero and
+              less than 60000, by default 5000 ms. </para>
+
+              <para></para>
+            </listitem>
+          </itemizedlist></para>
+
+        <programlisting>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                      http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+                      http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"&gt;
+
+	&lt;import resource="classpath:META-INF/cxf/cxf.xml" /&gt;
+	&lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /&gt;
+	&lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /&gt;	
+
+	&lt;jaxws:client id="GreeterClient" serviceClass="demo.common.Greeter"
+		address="locator://"&gt;
+		&lt;jaxws:features&gt;
+			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
+		        &lt;property name="locatorEndpoints" value="locator_host:2181"/&gt;
+			&lt;/bean&gt;
+		&lt;/jaxws:features&gt;
+	&lt;/jaxws:client&gt;
+&lt;/beans&gt;
+</programlisting>
+
+        <para>In the example above you can see that locator client was added
+        through configuration exactly the same way as a standard CXF feature
+        using &lt;jaxws:features&gt;, and property locatorEndpoints was set to
+        locator feature. </para>
+
+        <para>Another important point is to configure jaxws client address.
+        Must used locator protocol for client:
+        address="locator://more_useful_information". </para>
+      </section>
+
+      <section>
+        <title>Using Service Locator Server Feature programmatically </title>
+
+        <para>Adding the Service Locator Server feature to the client by using
+        the ClientFactoryBean </para>
+
+        <programlisting>JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+		LocatorFeature locatorFeature = new LocatorFeature();
+		locatorFeature.setLocatorEndpoints("locator_host:2181");
+
+		factory.getFeatures().add(locatorFeature);
+		factory.setServiceClass(Greeter.class);
+		factory.setAddress("locator://more_useful_information");
+		Greeter client = (Greeter) factory.create();
+
+		String response = client.greetMe("MyName");
+</programlisting>
+
+        <para>In the code above only one property for the feature was set. So
+        default values will be used for all other. Address with locator
+        protocol was set in factorybean:
+        factory.setAddress("locator://more_useful_information"); </para>
+      </section>
+    </section>
+
+    <section id="extensive_copy_as_reference">
+      <title>Classpath configuration</title>
+
+      <para>You need Service Locator client part JAR to enable your CFX
+      service or consumer to use the Service Locator. To use the Service
+      Locator Server client in CXF you need to add the locator-4.0.jar into
+      your classpath or war file. Also add it to the OSGi conatiner if uses
+      one.</para>
+    </section>
+
+    <section id="interchangeable_modular_documents">
+      <title>pom.xml configuration</title>
+
+      <para>For enabling Service Locator Server in build should be added
+      dependency to pom.xml file of the project:</para>
+
+      <programlisting>&lt;dependency&gt;
+          &lt;groupId&gt;log4j&lt;/groupId&gt;
+          &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+          &lt;version&gt;1.2.16&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
+&lt;artifactId&gt;locator&lt;/artifactId&gt;
+&lt;version&gt;4.0&lt;/version&gt;
+&lt;/dependency&gt;</programlisting>
+
+      <para>These dependencies should be added to projects that use the
+      locator client</para>
+    </section>
+  </chapter>
+
+  <chapter id="being_productive">
+    <title id="being_productive_title">Running and maintaining</title>
+
+    <section id="no_tree_view">
+      <title>Starting using command line</title>
+
+      <para>After the configuration file preparation, the Service Locator
+      Server can be started,</para>
+
+      <para>The directory "bin" of installation contains scripts that allow
+      easy access (classpath in particular) to the Service Locator Server and
+      command line client:</para>
+
+      <para>To start Service Locator Server on Linux use: bin/zkServer.sh
+      start</para>
+
+      <para>To start Service Locator Server on Windows use: bin/zkServer.cmd
+      start</para>
+
+      <para>Files ending in .sh are Unix and cygwin compatible. Files ending
+      in .cmd are msdos/windows compatible.</para>
+
+      <para>Service Locator server logs messages with log4j logging engine.
+      All logging messages coming to the console (default) and/or a log file
+      depending on the log4j configuration.</para>
+    </section>
+
+    <section id="insert_key">
+      <title>Running Replicated Service Locator Server</title>
+
+      <para>A replicated group of servers in the same application is called a
+      quorum, and in replicated mode, all servers in the quorum have copies of
+      the same configuration file. The file is similar to the one used in
+      standalone mode, but with a few differences.</para>
+
+      <para>Here is an example:</para>
+
+      <para>tickTime=2000</para>
+
+      <para>dataDir=/var/locator</para>
+
+      <para>clientPort=2181</para>
+
+      <para>initLimit=5</para>
+
+      <para>syncLimit=2</para>
+
+      <para>server.1=locator_host1:2888:3888</para>
+
+      <para>server.2=locator_host2:2888:3888</para>
+
+      <para>server.3=locator_host3:2888:3888</para>
+
+      <para>The new entry, initLimit is timeouts Service Locator uses to limit
+      the length of time the Service Locator servers in quorum have to connect
+      to a leader. The entry syncLimit limits how far out of date a server can
+      be from a leader.</para>
+
+      <para>With both of these timeouts, you specify the unit of time using
+      tickTime. In this example, the timeout for initLimit is 5 ticks at 2000
+      milleseconds a tick, or 10 seconds.</para>
+
+      <para>The entries of the form server.X list the servers that make up the
+      Service Locator service. When the server starts up, it knows which
+      server it is by looking for the file myid in the data directory. That
+      file has the contains the server number, in ASCII.</para>
+
+      <para>Finally, note the two port numbers after each server name: "2888"
+      and "3888". Peers use the former port to connect to other peers. Such a
+      connection is necessary so that peers can communicate, for example, to
+      agree upon the order of updates. More specifically, a Service Locator
+      server uses this port to connect followers to the leader. When a new
+      leader arises, a follower opens a TCP connection to the leader using
+      this port. Because the default leader election also uses TCP, we
+      currently require another port for leader election. This is the second
+      port in the server entry.</para>
+    </section>
+
+    <section id="add_same_element">
+      <title>Maintaining a Service Locator Server</title>
+
+      <para>The Service Locator Server continually saves znode snapshot files
+      and, optionally, transactional logs in a Data Directory to enable you to
+      recover data. It's a good idea to back up the Service Locator Data
+      Directory periodically. Although Service Locator Server is highly
+      reliable because a persistent copy is replicated on each server,
+      recovering from backups may be necessary if a catastrophic failure or
+      user error occurs.</para>
+
+      <para>The Service Locator Server does not remove the snapshots and log
+      files, so they will accumulate over time. You will need to cleanup this
+      directory occasionally, based on your backup schedules and processes. To
+      automate the cleanup, a zkCleanup.sh script is provided in the bin
+      directory. Modify this script as necessary for your situation. In
+      general, you want to run this as a cron task based on your backup
+      schedule.</para>
+
+      <para>The data directory is specified by the dataDir parameter in the
+      Service Locator server configuration file, and the data log directory is
+      specified by the dataLogDir parameter. For more information, see <ulink
+      url="http://hadoop.apache.org/zookeeper/docs/current/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup">Ongoing
+      Data Directory Cleanup</ulink>.</para>
+    </section>
+  </chapter>
+</book>
