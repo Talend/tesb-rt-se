@@ -21,6 +21,8 @@
         <karaf.version>2.1.4</karaf.version>
         <derby.version>10.7.1.1</derby.version>
         <mysql.version>5.0.5</mysql.version>
+        <bnd.version>1.15.0</bnd.version>
+        <slf4j.version>1.6.0</slf4j.version>
         <!--  Test dependencies -->
         <jetty.version>7.2.2.v20101205</jetty.version>
 
@@ -31,6 +33,7 @@
         <module>common-build</module>
         <module>locator</module>
         <module>sam</module>
+        <module>job</module>
         <module>examples</module>
         <module>docs</module>
     </modules>
