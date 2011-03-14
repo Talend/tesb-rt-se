@@ -8,7 +8,6 @@ import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.event.MonitoringEventData;
 
 
 public class FlowIdProducerIn<T extends Message> extends AbstractPhaseInterceptor<T> {
@@ -46,13 +45,13 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 		}
 		
 		//MonitoringEventData edReq = (MonitoringEventData)reqMsg.get(MonitoringEventData.class);
-		MonitoringEventData edReq = FlowIdHelper.getMonitoringEventData(reqMsg, false);
-		if (edReq == null) {
-			logger.warning("OutMessage must contain MonitoringEventData");
+		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg, false);
+		if (reqFid == null) {
+			logger.warning("OutMessage must contain FlowId");
 			return;
 		}
 		
-		String flowId = edReq.getFlowId();
+		String flowId = reqFid.getFlowId();
 		if (flowId == null) {
 			logger.warning("flowId in OutMessage must not be null");
 			return;
@@ -63,15 +62,15 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 		
 		logger.fine("Check flowId in response message");
 		
-		MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(message);
-		flowId = ed.getFlowId();
+		FlowId fId = FlowIdHelper.getFlowId(message);
+		flowId = fId.getFlowId();
 		
 		if (flowId != null) {
-			logger.fine("FlowId '" + flowId + "' found in MonitoringEventData");
+			logger.fine("FlowId '" + flowId + "' found in FlowId");
 		}	
 		else {
 			
-			logger.info("FlowId not found in MonitoringEventData");
+			logger.info("FlowId not found in FlowId");
 		}
 	}
 	
@@ -80,19 +79,19 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 		logger.fine("handleRequestIn");
 		
 		
-		MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(message);
-		String flowId = ed.getFlowId();
+		FlowId fId = FlowIdHelper.getFlowId(message);
+		String flowId = fId.getFlowId();
 		if (flowId != null) {
-			logger.info("FlowId '" + flowId + "' found in MonitoringEventData");
+			logger.info("FlowId '" + flowId + "' found in FlowId");
 		}
 		else {
-			logger.fine("FlowId not found in MonitoringEventData");
+			logger.fine("FlowId not found in FlowId");
 		}
 		if (flowId == null) {
 			logger.fine("Generate flowId");
 			flowId = ContextUtils.generateUUID();
-			ed.setFlowId(flowId);
-			logger.info("Generated flowId '" + flowId + "' stored in MonitoringEventData");
+			fId.setFlowId(flowId);
+			logger.info("Generated flowId '" + flowId + "' stored in FlowId");
 		}
 		
 		

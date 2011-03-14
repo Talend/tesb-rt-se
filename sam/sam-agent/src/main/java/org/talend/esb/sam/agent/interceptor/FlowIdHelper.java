@@ -7,8 +7,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.message.Message;
-import org.talend.esb.sam.agent.event.MonitoringEventData;
-import org.talend.esb.sam.agent.event.MonitoringEventDataImpl;
 import org.w3c.dom.Node;
 
 
@@ -22,28 +20,28 @@ public class FlowIdHelper {
 
 	
 	/**
-	 * Get MonitoringEventData from message
+	 * Get FlowId from message
 	 * 
 	 * @param message
-	 * @return new instance of MonitoringEventData if there is none.
+	 * @return new instance of FlowId if there is none.
 	 */
-	public static MonitoringEventData getMonitoringEventData(Message message) {
-		return getMonitoringEventData(message, true);
+	public static FlowId getFlowId(Message message) {
+		return getFlowId(message, true);
 	}
 	
 	/**
-	 * Get MonitoringEventData from message
+	 * Get FlowId from message
 	 * 
 	 * @param message
-	 * @return new instance of MonitoringEventData if there is none.
+	 * @return new instance of FlowId if there is none.
 	 */
-	public static MonitoringEventData getMonitoringEventData(Message message, boolean create) {
-		MonitoringEventData ed = (MonitoringEventData)message.get(MonitoringEventData.class);
-		if (ed == null && create == true) {
-			ed = new MonitoringEventDataImpl();
-			message.put(MonitoringEventData.class, ed);	
+	public static FlowId getFlowId(Message message, boolean create) {
+		FlowId fId = (FlowId)message.get(FlowId.class);
+		if (fId == null && create == true) {
+			fId = new FlowId();
+			message.put(FlowId.class, fId);	
 		}
-		return ed;
+		return fId;
 	}
 	
 
@@ -91,8 +89,8 @@ public class FlowIdHelper {
 	}
 	
 	public static String getFlowIdFromProperty(Message message) {
-		MonitoringEventData ed = (MonitoringEventData)message.get(MonitoringEventData.class);
-		if (ed != null) return ed.getFlowId();
+		FlowId fId = (FlowId)message.get(FlowId.class);
+		if (fId != null) return fId.getFlowId();
 		else return null;
 	}
 	
