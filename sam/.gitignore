@@ -7,3 +7,5 @@
 target/
 velocity.log
 *.i??
+Thumbs.db
+
