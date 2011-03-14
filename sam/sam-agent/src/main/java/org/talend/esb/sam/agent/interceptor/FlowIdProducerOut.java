@@ -10,7 +10,6 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.event.MonitoringEventData;
 
 
 public class FlowIdProducerOut<T extends Message> extends AbstractPhaseInterceptor<T> {
@@ -47,21 +46,21 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 			return;
 		}
 		
-		MonitoringEventData edReq = FlowIdHelper.getMonitoringEventData(reqMsg, false);
+		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg, false);
 		//MonitoringEventData edReq = (MonitoringEventData)reqMsg.get(MonitoringEventData.class);
-		if (edReq == null) {
-			logger.warning("InMessage must contain MonitoringEventData");
+		if (reqFid == null) {
+			logger.warning("InMessage must contain FlowId");
 			return;
 		}
 		
-		String flowId = edReq.getFlowId();
+		String flowId = reqFid.getFlowId();
 		if (flowId == null) {
 			logger.warning("flowId in InMessage must not be null");
 			return;
 		}
 		
-		MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(message);
-		ed.setFlowId(flowId);	
+		FlowId fId = FlowIdHelper.getFlowId(message);
+		fId.setFlowId(flowId);	
 		
 	}
 	
@@ -77,24 +76,24 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
                         WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
 			Message previousMessage = (Message)wrPreviousMessage.get();
 			//MonitoringEventData ed = (MonitoringEventData)previousMessage.get(MonitoringEventData.class);		
-			MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(previousMessage, false);
-			if (ed != null) {
-				flowId = ed.getFlowId();
+			FlowId fId = FlowIdHelper.getFlowId(previousMessage, false);
+			if (fId != null) {
+				flowId = fId.getFlowId();
 				logger.fine("flowId '" + flowId + "' found in previous message");
-				MonitoringEventData ed2 = FlowIdHelper.getMonitoringEventData(message);
-				ed2.setFlowId(flowId);
-				logger.info("flowId '" + flowId + "' added to MonitoringEventData of current message");
+				FlowId fId2 = FlowIdHelper.getFlowId(message);
+				fId2.setFlowId(flowId);
+				logger.info("flowId '" + flowId + "' added to FlowId of current message");
 				
 			}
-			else logger.warning("MonitoringEventData not set. FlowId not found. Is monitoring enabled for published web services?"); 
+			else logger.warning("FlowId not set. FlowId not found. Is monitoring enabled for published web services?"); 
 			
 		} else {
 			// Web Service consumer is a native client
 			logger.info("PREVIOUS_MESSAGE not found");
-			MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(message);
-			flowId = ed.getFlowId();
+			FlowId fId = FlowIdHelper.getFlowId(message);
+			flowId = fId.getFlowId();
 			if (flowId != null) {
-				logger.fine("FlowId '" + flowId + "' found in MonitoringEventData");
+				logger.fine("FlowId '" + flowId + "' found in FlowId");
 			}
 		}
 	 
@@ -102,9 +101,9 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 		if (flowId == null) {
 			logger.fine("Generate and add flowId");
 			flowId = ContextUtils.generateUUID();
-			MonitoringEventData ed = FlowIdHelper.getMonitoringEventData(message);
-			ed.setFlowId(flowId);
-			logger.info("FlowId '" + flowId + "' added to MonitoringEventData");
+			FlowId fId = FlowIdHelper.getFlowId(message);
+			fId.setFlowId(flowId);
+			logger.info("FlowId '" + flowId + "' added to FlowId");
 		}	
 		
 	}

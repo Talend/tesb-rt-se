@@ -36,6 +36,29 @@
 			Locator Component for the Rent a Car demo.
  		</para>
 	</chapter>
+	
+	<chapter>	
+		<title> Rent a Car Demo Example</title>
+		<para>
+		For this demo example we have chosen a common business use case scenario: a simplified real-world example from the domain of car rental companies.
+		</para>	
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/schema.jpg" format="jpg"/>
+          </imageobject>
+       </mediaobject>          
+       <para>In this scenario, there are two main services that will be demonstrated: you will create and orchestrate these services with the help of a simple graphical front-end application. It contains two services: CRMService and ReservationService. </para>
+       
+       <para>Client provide the basic functionality with which it searches for the available cars within a given time period, and the search also takes into account the status of the given user. This criteria will then determine the outcome of the search. From the list of results you can select the car that fulfills your requirement and then simply make your reservation by clicking Book . At the end of the submission process, the system will show you a confirmation page with your Reservation ID. 
+From a technical perspective the client calls the following services and operations on the CRM Service and Reserveration Service.
+ </para>       
+	
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/operations.jpg" format="jpg"/>             
+          </imageobject>
+       </mediaobject>
+	</chapter>	
 	<chapter>
 		<title>How to building the Demo</title>
 		<section>

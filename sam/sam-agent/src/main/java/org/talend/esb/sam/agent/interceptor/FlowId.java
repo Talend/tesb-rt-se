@@ -1,14 +1,6 @@
-package org.talend.esb.sam.agent.event;
+package org.talend.esb.sam.agent.interceptor;
 
-
-/**
- * MonitoringEventData which is available as a message property
- * 
- * @author owulff
- * 
- */
-public class MonitoringEventDataImpl implements MonitoringEventData {
-	
+public class FlowId {
 	private String flowId = null;
 	
 	/**
@@ -31,5 +23,4 @@ public class MonitoringEventDataImpl implements MonitoringEventData {
 		this.flowId = flowId;
 		
 	}
-    
 }
