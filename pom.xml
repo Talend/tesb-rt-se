@@ -18,7 +18,7 @@
         <spring.version>3.0.5.RELEASE</spring.version> 
         <zookeeper.version>3.3.3</zookeeper.version>
         <osgi.version>3.6.0.v20100517</osgi.version>
-        <karaf.version>2.1.4</karaf.version>
+        <karaf.version>2.2.0</karaf.version>
         <derby.version>10.7.1.1</derby.version>
         <mysql.version>5.0.5</mysql.version>
         <!--  Test dependencies -->
@@ -33,6 +33,7 @@
         <module>sam</module>
         <module>examples</module>
         <module>docs</module>
+        <!-- <module>talend-esb</module>  -->
     </modules>
 
     <dependencyManagement>
@@ -229,6 +230,14 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

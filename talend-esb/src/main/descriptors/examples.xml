@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<assembly>
+
+    <id>examples</id>
+
+    <formats>
+        <format>tar.gz</format>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+
+        <!-- Copy Examples -->
+        <fileSet>
+            <directory>${basedir}/../examples</directory>
+            <outputDirectory>/examples</outputDirectory>
+            <excludes>
+                <!-- Exclude maven build target directory -->
+                <exclude>**/target/**</exclude>
+                <!-- Exclude Eclipse files and directories -->
+                <exclude>**/.settings/**</exclude>
+                <exclude>**/.project</exclude>
+                <exclude>**/.classpath</exclude>
+                <!-- Exclude Intellij IDEA files and directories -->
+                <exclude>**/*.i??</exclude>
+            </excludes>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>
