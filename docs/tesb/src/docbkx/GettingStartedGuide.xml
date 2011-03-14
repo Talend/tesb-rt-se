@@ -37,7 +37,7 @@
  		</para>
 	</chapter>
 	<chapter>
-		<title>How to Building the Demo</title>
+		<title>How to building the Demo</title>
 		<section>
 			<title>Building CRMService sample</title>
 			<para>
@@ -95,9 +95,9 @@ for deploying the service to OSGi containers.
 			<para>
 There are three OSGi bundles will be created:
 				<simplelist type='vert' columns='1'>
-					<member>...\common\target\crmservice-common-1.0.jar</member>
-					<member>...\server\target\crmservice-server-1.0.jar</member>
-					<member>...\client\target\crmservice-client-1.0.jar</member>
+					<member>...\common\target\crmservice-common-4.0.jar</member>
+					<member>...\server\target\crmservice-server-4.0.jar</member>
+					<member>...\client\target\crmservice-client-4.0.jar</member>
 				</simplelist>
 			</para>
 		</section>
@@ -158,9 +158,9 @@ for deploying the service to OSGi containers.
 			<para>
 Three OSGi bundles will be created:
 			<simplelist type='vert' columns='1'>
-				<member>...\common\target\reservationservice-common-1.0.jar</member>
-				<member>...\server\target\reservationservice-server-1.0.jar</member>
-				<member>...\client\target\reservationservice-client-1.0.jar</member>
+				<member>...\common\target\reservationservice-common-4.0.jar</member>
+				<member>...\server\target\reservationservice-server-4.0.jar</member>
+				<member>...\client\target\reservationservice-client-4.0.jar</member>
 			</simplelist>
 		</para>
 	</section>
@@ -181,13 +181,94 @@ Three OSGi bundles will be created:
 		<para>The OSGi bundle will be created:</para>
 		<para>
 			<simplelist type='vert' columns='1'>
-				<member>...\app-reservation\target\app-reservation-1.0.jar</member>
+				<member>...\app-reservation\target\app-reservation-4.0.jar</member>
 			</simplelist>
 		</para>
 	</section>	
 	</chapter>
 		<chapter>
-		<title>How to deploy Rent a Car demo in Talend-sf OSGi container</title>
+		<title>How to deploy Rent a Car demo in Talend Service Factory OSGi container</title>
+		<section>
+			<title>Start OSGi console</title>
+			<para>
+1. Install Talend Service Factory Community Edition which include OSGi container version 2.3.2 or higher from <link xlink:href="http://www.talend.com/download.php">http://www.talend.com/download.php</link>.
+			</para>
+			<para>
+You can find out how to get started with OSGi container here: <link xlink:href="http://karaf.apache.org/">http://karaf.apache.org/</link>.
+			</para>
+			<para>
+2. Start OSGi: 
+<code>run &lt;takend-sf&gt;/container/bin/start</code>
+			</para>
+		</section>
+		<section>
+			<title>Deploy demo services</title>
+			<para>
+1. Deploy CRMService into OSGi conteyner.
+			</para>
+			<para>
+Copy follow bundles into folder <code>&lt;takend-sf&gt;/container/deploy</code>
+				<simplelist type='vert' columns='1'>
+					<member>crmservice-common-4.0.jar</member>
+					<member>crmservice-server-4.0.jar</member>
+					<member>crmservice-client-4.0.jar</member>
+				</simplelist>
+			</para>
+			<para>
+2. Type in console command "list".
+			</para>
+			<para>
+You will see demo bundles in the lists of installed bundles:
+				<programlisting>
+				
+		[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (1.0.0)
+		[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (1.0.0)
+		[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (1.0.0)
+				</programlisting>
+			</para>
+			<para>
+3. Deploy ReservationService into OSGi container.
+			</para>
+			<para>
+Copy follow bundles into folder <code>&lt;takend-sf&gt;/container/deploy</code>
+			<simplelist type='vert' columns='1'>
+				<member>reservationservice-common-4.0.jar</member>
+				<member>reservationservice-server-4.0.jar</member>
+				<member>reservationservice-client-4.0.jar</member>
+			</simplelist>
+			</para>
+			<para>
+4. Type in console command "list".
+			</para>
+			<para>
+You will see demo bundles in the lists of installed bundles:
+				<programlisting>
+		[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (1.0.0)
+		[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (1.0.0)
+		[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (1.0.0)			
+				</programlisting>
+			</para>
+		</section>
+		<section>
+			<title>Deploy demo application</title>
+			<para>
+1. Make sure that the console launched and demo services was deployed.
+			</para>
+			<para>
+2. Copy app-reservation-4.0.jar into folder &lt;takend-sf&gt;/container/deploy.
+			</para>
+			<para>
+In console you will see:
+				<programlisting>		
+---TALEND ESB: Rent a Car (OSGi) Commands---
+        car:GUI                                  (Show GUI)
+        car:search &lt;user&gt; &lt;pickupDate&gt; &lt;returnDate&gt;
+ (Search for cars to rent, date format yyyy/mm/dd)
+        car:rent   &lt;pos&gt;
+ (Rent a car listed in search result of carSearch)
+				</programlisting>			
+			</para>
+		</section>
 	</chapter>
 	<chapter>
 		<title>How to run Rent a Car demo</title>
