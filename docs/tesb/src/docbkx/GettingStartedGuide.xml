@@ -344,9 +344,25 @@ In console you will see:
 			<title>Using TALEND ESB Rental Client GUI</title>
 			<para>To start the GUI, type car:GUI in the console window.</para>
 			<para>Select aebert from the drop-down box.</para>
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/cargui1.jpg" format="jpg"/>
+          </imageobject>
+       </mediaobject>  			
 			<para>Click Find to see the results. You will see list of available cars.</para>
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/cargui2.jpg" format="jpg"/>
+          </imageobject>
+       </mediaobject>  			
 			<para>Click the highlighted line or select any other option and click Reserve.</para>
 			<para>You can now see confirmation page.</para>
+       <mediaobject>
+          <imageobject>
+             <imagedata fileref="images/cargui3.jpg" format="jpg"/>
+          </imageobject>
+       </mediaobject>  			
+			
 			<para>Click Close to stop the GUI.</para>
 		</section>
 		<section>
