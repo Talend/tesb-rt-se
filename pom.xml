@@ -52,12 +52,6 @@
                 <version>2.0.0</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.gaborcselle.persistent</groupId>
-                <artifactId>PersistentQueue</artifactId>
-                <version>1.0</version>
-            </dependency>
-
             <!-- Test dependencies  -->
             <dependency>
                 <groupId>junit</groupId>
