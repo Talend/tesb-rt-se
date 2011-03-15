@@ -1,0 +1,38 @@
+// Copyright (C) 2010 Talend Inc. - www.talend.com
+
+// This script is run each time a shell is created.
+// You can define here closures or variables that will be available
+// in each session.
+//
+ld = { log:display $args } ;
+lde = { log:display-exception $args } ;
+la = { osgi:list -t 0 $args } ;
+tif:list = { features:list | grep -i tif } ;
+tif-core:install = { features:install tif-core } ;
+tif-core:uninstall = { features:uninstall tif-core } ;
+tif-test:install = { features:install tif-test } ;
+tif-test:uninstall = { features:uninstall tif-test } ;
+tif-messaging:install = { features:install tif-messaging } ;
+tif-messaging:uninstall = { features:uninstall tif-messaging } ;
+tif-ws:install = { features:install tif-ws } ;
+tif-ws:uninstall = { features:uninstall tif-ws } ;
+tif-communication:install = { features:install tif-communication } ;
+tif-communication:uninstall = { features:uninstall tif-communication } ;
+tif-logging:install = { features:install tif-logging } ;
+tif-logging:uninstall = { features:uninstall tif-logging } ;
+tif-languages:install = { features:install tif-languages } ;
+tif-languages:uninstall = { features:uninstall tif-languages } ;
+tif-monitoring:install = { features:install tif-monitoring } ;
+tif-monitoring:uninstall = { features:uninstall tif-monitoring } ;
+tif-db-connectivity:install = { features:install tif-db-connectivity } ;
+tif-db-connectivity:uninstall = { features:uninstall tif-db-connectivity } ;
+tif-databinding:install = { features:install tif-databinding } ;
+tif-databinding:uninstall = { features:uninstall tif-databinding } ;
+tif-encryption:install = { features:install tif-encryption } ;
+tif-encryption:uninstall = { features:uninstall tif-encryption } ;
+tif-ldap:install = { features:install tif-ldap } ;
+tif-ldap:uninstall = { features:uninstall tif-ldap } ;
+tif-scheduler:install = { features:install tif-scheduler } ;
+tif-scheduler:uninstall = { features:uninstall tif-scheduler } ;
+tif-system:install = { features:install tif-system } ;
+tif-system:uninstall = { features:uninstall tif-system } ;

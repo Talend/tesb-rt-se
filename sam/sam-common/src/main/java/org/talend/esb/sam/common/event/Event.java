@@ -1,6 +1,7 @@
 package org.talend.esb.sam.common.event;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -116,14 +117,13 @@ public class Event implements Serializable {
     }
 
     public List<CustomInfo> getCustomInfoList() {
-		return customInfoList;
-	}
+        if (customInfoList == null) {
+            customInfoList = new ArrayList<CustomInfo>();
+        }
+        return customInfoList;
+    }
 
-	public void setCustomInfoList(List<CustomInfo> customInfoList) {
-		this.customInfoList = customInfoList;
-	}
-
-	@Override
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
     }

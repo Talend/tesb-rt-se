@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<assembly>
+
+    <id>unix-bin</id>
+
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <fileSets>
+
+        <!-- Expanded Camel Runtime -->
+        <fileSet>
+            <directory>target/dependencies/camel/apache-camel-${camel.version}</directory>
+            <outputDirectory>/</outputDirectory>
+            <excludes>
+                <exclude>README</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>LICENSE.txt</exclude>
+                <exclude>NOTICE</exclude>
+                <exclude>**/examples/**</exclude>
+                <exclude>doc/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
+            <outputDirectory>/samples</outputDirectory>
+        </fileSet>
+        <!-- 
+        <fileSet>
+            <directory>target/dependencies/camel/apache-camel-${camel.version}/doc/manual</directory>
+            <outputDirectory>/docs/camel-manual</outputDirectory>
+        </fileSet>  -->
+
+        <!-- Expanded CXF Runtime -->
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}</directory>
+            <outputDirectory>/</outputDirectory>
+            <excludes>
+                <exclude>LICENSE</exclude>
+                <exclude>NOTICE</exclude>
+                <exclude>README</exclude>
+                <exclude>bin/*</exclude>
+                <exclude>release_notes.txt</exclude>
+                <exclude>lib/endorsed/**</exclude>
+                <exclude>lib/jaxb-*.jar</exclude>
+                <exclude>lib/saaj*.jar</exclude>
+                <exclude>lib/geronimo-activation**</exclude>
+                <exclude>lib/geronimo-annotation**</exclude>
+                <exclude>lib/geronimo-stax-api**</exclude>
+                <exclude>lib/geronimo-ws-metadata**</exclude>
+                <exclude>lib/geronimo-jaxws**</exclude>
+            </excludes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <excludes>
+                <exclude>*.bat</exclude>
+            </excludes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
+        <!-- Expanded Karaf Runtime -->
+        <fileSet>
+            <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
+            <outputDirectory>/container</outputDirectory>
+            <excludes>
+                <exclude>**/demos/**</exclude>
+                <exclude>bin/**</exclude>
+                <exclude>etc/custom.properties</exclude>
+                <exclude>etc/jre.properties</exclude>
+                <exclude>etc/system.properties</exclude>
+                <exclude>etc/users.properties</exclude>
+                <exclude>etc/org.apache.karaf.features.cfg</exclude>
+                <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
+                <exclude>etc/shell.init.script</exclude>
+                <exclude>LICENSE</exclude>
+                <exclude>NOTICE</exclude>
+                <exclude>README</exclude>
+                <exclude>RELEASE-NOTES</exclude>
+                <exclude>karaf-manual*.html</exclude>
+                <exclude>karaf-manual*.pdf</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Copy over bin/* separately to get the correct file mode -->
+        <fileSet>
+            <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
+            <outputDirectory>/container</outputDirectory>
+            <includes>
+                <include>bin/admin</include>
+                <include>bin/karaf</include>
+                <!-- we need this one in here for admin:create'd instances to work -->
+                <include>bin/start</include>
+                <include>bin/stop</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- Copy over jar files -->
+        <fileSet>
+            <directory>target/dependencies</directory>
+            <includes>
+                <include>tif.jar</include>
+                <include>tsf.jar</include>
+            </includes>
+            <outputDirectory>/container/lib/</outputDirectory>
+        </fileSet>
+
+        <!-- Copy license and other files from root -->
+        <fileSet>
+            <directory>${basedir}/..</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>README</include>
+                <include>LICENSE.txt</include>
+                <include>NOTICE</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <!-- Copy over the container README.txt -->
+        <fileSet>
+            <directory>${basedir}</directory>
+            <outputDirectory>/container</outputDirectory>
+            <includes>
+                <include>README</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>src/main/distribution/text</directory>
+            <outputDirectory>/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/classes/etc</directory>
+            <outputDirectory>/container/etc/</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>target/features-repo</directory>
+            <outputDirectory>/container/system</outputDirectory>
+        </fileSet>
+
+        <!-- Copy Add-ons -->
+        <fileSet>
+            <directory>target/add-ons</directory>
+            <outputDirectory>/add-ons</outputDirectory>
+        </fileSet>
+
+    </fileSets>
+
+    <files>
+        <file>
+            <source>${basedir}/target/dependencies/unix/apache-karaf-${karaf.version}/bin/karaf</source>
+            <outputDirectory>/container/bin/</outputDirectory>
+            <destName>tif</destName>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/classes/camel-features.xml</source>
+            <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}</outputDirectory>
+            <destName>apache-camel-${camel.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/classes/activemq-features.xml</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}</outputDirectory>
+            <destName>activemq-karaf-${activemq.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/classes/tif-features.xml</source>
+            <outputDirectory>/container/system/com/talend/if/talend-if/${tif.version}</outputDirectory>
+            <destName>talend-if-${tif.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/classes/tsf-features.xml</source>
+            <outputDirectory>/container/system/com/talend/sf/talend-sf/${tsf.version}</outputDirectory>
+            <destName>talend-sf-${tsf.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+    </files>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.talend.camel:camel-tis</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <includes>
+                <include>com.sun.xml.bind:jaxb-xjc</include>
+                <include>com.sun.xml.bind:jaxb-impl</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/felix/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.felix:org.osgi.compendium</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/springframework/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.springframework:spring-aop</include>
+                <include>org.springframework:spring-beans</include>
+                <include>org.springframework:spring-context</include>
+                <include>org.springframework:spring-core</include>
+                <include>org.springframework:spring-tx</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/springframework/osgi/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.springframework.osgi:spring-osgi-core</include>
+                <include>org.springframework.osgi:spring-osgi-extender</include>
+                <include>org.springframework.osgi:spring-osgi-io</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/geronimo/specs/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.geronimo.specs:geronimo-servlet_2.5_spec</include>
+                <include>org.apache.geronimo.specs:geronimo-annotation_1.0_spec</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/servicemix/bundles/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.aopalliance</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.cglib</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxp-ri</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.oro</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-jexl</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-vfs</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-codec</include>
+                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-httpclient</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/servicemix/specs/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</include>
+                <include>org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+    </dependencySets>
+
+</assembly>

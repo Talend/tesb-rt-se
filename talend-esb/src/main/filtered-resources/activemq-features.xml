@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<features name="activemq-${activemq.version}">
+    <repository>mvn:org.apache.karaf/apache-karaf/${karaf.version}/xml/features</repository>
+    
+    <feature name="activemq" version="${activemq.version}">
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-annotation_1.0_spec/${geronimo-annotation.version}</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-jta_1.1_spec/${geronimo-jta.version}</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-jms_1.1_spec/${geronimo-jms.version}</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-j2ee-management_1.1_spec/${geronimo-j2ee-management.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-pool/${commons-pool.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-collections/${commons-collections.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-lang/${commons-lang.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.velocity/${velocity.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jasypt/${jasypt.bundle.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-core/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.activemq/kahadb/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-console/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-ra/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-pool/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-karaf/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.aries.transaction/org.apache.aries.transaction.manager/${aries.version}</bundle>
+    </feature>
+    
+    <feature name="activemq-spring" version="${activemq.version}">
+        <feature version="${spring.osgi.version}">spring-dm</feature>
+        <feature version="${activemq.version}">activemq</feature>
+        <bundle>mvn:org.apache.activemq/activemq-spring/${activemq.version}</bundle>
+        <bundle>mvn:org.apache.xbean/xbean-spring/${xbean.version}</bundle>
+    </feature>
+    
+    <feature name="activemq-blueprint" version="${activemq.version}">
+        <feature version="${activemq.version}">activemq</feature>
+        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.scripting-api-1.0/${servicemix.specs.version}</bundle>
+        <bundle>mvn:org.apache.commons/commons-jexl/${commons-jexl.version}</bundle>
+        <bundle>mvn:org.apache.xbean/xbean-blueprint/${xbean.version}</bundle>
+        <bundle>mvn:org.apache.activemq/activemq-blueprint/${activemq.version}</bundle>
+    </feature>
+    
+    <!-- do "features:install war" before installing this one -->
+    <feature name="activemq-web-console" version="${activemq.version}">
+        <bundle>war:mvn:org.apache.activemq/activemq-web-console/${activemq.version}/war?Webapp-Context=activemq-web-console</bundle>
+    </feature>
+    
+</features>
