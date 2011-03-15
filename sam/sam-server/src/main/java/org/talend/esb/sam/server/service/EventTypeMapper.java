@@ -31,7 +31,8 @@ public class EventTypeMapper {
         event.setMessageInfo(messageInfo);
         String content = mapContent(eventType.getContent());
         event.setContent(content);
-        event.setCustomInfoList(mapCustomInfo(eventType.getCustomInfo()));
+        event.getCustomInfoList().clear();
+        event.getCustomInfoList().addAll(mapCustomInfo(eventType.getCustomInfo()));
         return event;
     }
 

@@ -49,7 +49,8 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
         Event event = creator.createEvent("content", cal.getTime(),
                             EventTypeEnum.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
                             "service", "http");
-        event.setCustomInfoList(ciList);
+        event.getCustomInfoList().clear();
+        event.getCustomInfoList().addAll(ciList);
         
         Assert.assertNull(event.getPersistedId());
         eventRepository.writeEvent(event);

@@ -55,7 +55,8 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
 	public Event readEvent(long id) {
 		RowMapper<Event> rowMapper = new EventRowMapper();
 		Event event = getSimpleJdbcTemplate().queryForObject("select * from EVENTS where ID=" + id, rowMapper);
-		event.setCustomInfoList(readCustomInfo(id));
+		event.getCustomInfoList().clear();
+		event.getCustomInfoList().addAll(readCustomInfo(id));
 		return event;
 	}
 	
