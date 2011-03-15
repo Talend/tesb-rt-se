@@ -5,8 +5,6 @@ import junit.framework.Assert;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
 import org.junit.Test;
-import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
-import org.talend.esb.sam.agent.interceptor.FlowIdProducerIn;
 
 public class FlowIdProducerTest {
 

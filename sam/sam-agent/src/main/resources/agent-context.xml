@@ -23,14 +23,13 @@
     </bean>
     
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
-        <property name="eventProducer" ref="eventProducer" />
+        <property name="mapper" ref="eventMapper" />
+        <property name="eventSender" ref="eventCollector" />
+        <property name="logMessageContent" value="${log.messageContent}" />
     </bean>
     
-	<bean id="eventProducer" class="org.talend.esb.sam.agent.producer.EventProducer">
-		<property name="eventCollector" ref="eventCollector" />
-		<property name="logMessageContent" value="${log.messageContent}" />
-	</bean>
-
+    <bean id="eventMapper" class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl"/>
+    
 	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollectorImpl" >
 		<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
 		<property name="defaultInterval" value="${collector.scheduler.interval}" />

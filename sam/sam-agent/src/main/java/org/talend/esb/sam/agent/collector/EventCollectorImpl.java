@@ -7,6 +7,10 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+import org.apache.cxf.buslifecycle.BusLifeCycleListener;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
@@ -22,7 +26,7 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  * memory queue or a persistent queue. Asynchronously the events will be
  * processed and sent to MonitoringService
  */
-public class EventCollectorImpl implements EventCollector {
+public class EventCollectorImpl implements EventManipulator, BusLifeCycleListener {
 
 	private static Logger logger = Logger.getLogger(EventCollectorImpl.class
 			.getName());
@@ -41,6 +45,14 @@ public class EventCollectorImpl implements EventCollector {
 	private boolean stopMessageFlowOnError = false;
 	private int eventsPerMessageCall = 10;
 	private boolean stopSending = false;
+	
+	public EventCollectorImpl() {
+	    Bus bus = BusFactory.getThreadDefaultBus();
+	    BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
+            if (null != lm) {
+                lm.registerLifeCycleListener(this);
+            }
+        }
 
 	/**
 	 * Returns the number of events sent by one service call.
@@ -166,7 +178,8 @@ public class EventCollectorImpl implements EventCollector {
 		this.monitoringServiceClient = monitoringServiceClient;
 	}
 
-	/**
+
+    /**
 	 * Spring sets eventManipulator
 	 * 
 	 * @param eventManipulator
@@ -181,7 +194,8 @@ public class EventCollectorImpl implements EventCollector {
 	 * Stores an event in the queue and returns. So the synchronous execution of
 	 * this service is as short as possible.
 	 */
-	public void putEvent(Event event) {
+	@Override
+	public void handleEvent(Event event) {
 		logger.info("Store event in cache");
 		try {
 			queue.add(event);
@@ -305,7 +319,22 @@ public class EventCollectorImpl implements EventCollector {
 	}
 	
 	public void stopSending(){
-		logger.info("Bus is stopping. Stopping sending events to monitoring service.");
-		this.stopSending = true;
+		
 	}
+
+    @Override
+    public void initComplete() {
+        // Ignore
+    }
+
+    @Override
+    public void preShutdown() {
+        logger.info("Bus is stopping. Stopping sending events to monitoring service.");
+        this.stopSending = true;
+    }
+
+    @Override
+    public void postShutdown() {
+        // Ignore
+    }
 }

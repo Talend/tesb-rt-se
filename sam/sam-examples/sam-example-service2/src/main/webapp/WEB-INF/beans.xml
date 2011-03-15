@@ -17,9 +17,7 @@
 		implementor="com.example.customerservice.server.CustomerServiceImpl">
 		<jaxws:features>
 			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" />-->
-			<bean class="org.talend.esb.sam.agent.feature.EventFeature">
-                <property name="eventProducer" ref="eventProducer"></property>
-            </bean>
+			<ref bean="eventFeature"/>
 		</jaxws:features>
 	</jaxws:endpoint>	
 </beans>

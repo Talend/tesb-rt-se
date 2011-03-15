@@ -18,10 +18,6 @@
 		<property name="dummyDelay" value="${dummyDelay}"/>
 	</bean>
     
-    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
-        <property name="eventProducer" ref="eventProducer" />
-    </bean>
-
 	<jaxws:endpoint id="customerService" implementor="#customerServiceImpl"
 		address="/CustomerServiceSOAP">
 		<jaxws:features>

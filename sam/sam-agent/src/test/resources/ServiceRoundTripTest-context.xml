@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+
+    <bean class="org.apache.cxf.transport.local.LocalTransportFactory"
+        lazy-init="false">
+        <property name="transportIds">
+            <list>
+                <value>http://cxf.apache.org/transports/local</value>
+                <value>http://schemas.xmlsoap.org/soap/http</value>
+                <value>http://schemas.xmlsoap.org/wsdl/soap/http</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
+        <property name="mapper" ref="eventMapper" />
+        <property name="eventSender" ref="mockEventSender" />
+        <property name="logMessageContent" value="true" />
+    </bean>
+
+    <bean id="mockEventSender" class="org.talend.esb.sam.agent.interceptor.MockEventSender" />
+
+    <bean id="eventMapper"
+        class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl" />
+
+    <jaxws:client id="customerService" address="local:/CustomerServicePort"
+        serviceClass="com.example.customerservice.CustomerService">
+        <jaxws:features>
+            <!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+            <ref bean="eventFeature" />
+        </jaxws:features>
+    </jaxws:client>
+
+    <jaxws:endpoint address="local:/CustomerServicePort"
+        implementor="org.talend.esb.sam.agent.interceptor.CustomerServiceImpl">
+        <jaxws:features>
+            <!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+            <ref bean="eventFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
+</beans>

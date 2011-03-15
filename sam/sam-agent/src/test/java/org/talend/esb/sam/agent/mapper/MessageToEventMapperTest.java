@@ -13,10 +13,10 @@ import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.junit.Assert;
 import org.junit.Test;
-import org.talend.esb.sam.agent.interceptor.InterceptorType;
-import org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl;
 import org.talend.esb.sam.common.event.Event;
+import org.talend.esb.sam.common.event.EventTypeEnum;
 
 public class MessageToEventMapperTest {
     
@@ -25,7 +25,7 @@ public class MessageToEventMapperTest {
         Message message = new MessageImpl();
         ExchangeImpl exchange = new ExchangeImpl();
         ServiceInfo serviceInfo = new ServiceInfo();
-        InterfaceInfo interfaceInfo = new InterfaceInfo(serviceInfo, new QName("interfacens", "interfaceName"));
+        InterfaceInfo interfaceInfo = new InterfaceInfo(serviceInfo, new QName("interfaceNs", "interfaceName"));
         serviceInfo.setInterface(interfaceInfo );
         SoapBindingInfo bInfo = new SoapBindingInfo(serviceInfo , WSDLConstants.NS_SOAP12);
         bInfo.setTransportURI("transportUri");
@@ -36,7 +36,12 @@ public class MessageToEventMapperTest {
         SoapBinding binding = new SoapBinding(bInfo);
         exchange.put(Binding.class, binding);
         message.setExchange(exchange);
-        Event event = new MessageToEventMapperImpl().mapToEvent(message, InterceptorType.IN, "content");
+        Event event = new MessageToEventMapperImpl().mapToEvent(message);
+        Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
+        Assert.assertEquals("{interfaceNs}interfaceName", event.getMessageInfo().getPortType());
+        Assert.assertEquals("{namespace}opName", event.getMessageInfo().getOperationName());
+        Assert.assertEquals("", event.getContent());
+        Assert.assertEquals("transportUri", event.getMessageInfo().getTransportType());
         // TODO add assertions
         System.out.println(event);
     }

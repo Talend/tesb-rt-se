@@ -33,6 +33,11 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-local</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.gaborcselle.persistent</groupId>
             <artifactId>PersistentQueue</artifactId>
         </dependency>
@@ -52,23 +57,23 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <artifactId>maven-remote-resources-plugin</artifactId>-->
-<!--                <version>1.2</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>process-remote-resources</id>-->
-<!--                        <goals>-->
-<!--                            <goal>process</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <resourceBundles>-->
-<!--                                <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle>-->
-<!--                            </resourceBundles>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!-- <plugin> -->
+            <!-- <artifactId>maven-remote-resources-plugin</artifactId> -->
+            <!-- <version>1.2</version> -->
+            <!-- <executions> -->
+            <!-- <execution> -->
+            <!-- <id>process-remote-resources</id> -->
+            <!-- <goals> -->
+            <!-- <goal>process</goal> -->
+            <!-- </goals> -->
+            <!-- <configuration> -->
+            <!-- <resourceBundles> -->
+            <!-- <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle> -->
+            <!-- </resourceBundles> -->
+            <!-- </configuration> -->
+            <!-- </execution> -->
+            <!-- </executions> -->
+            <!-- </plugin> -->
 
             <plugin>
                 <groupId>org.apache.cxf</groupId>
@@ -79,6 +84,12 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl</wsdl>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/test/resources/wsdl/CustomerService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/test/resources/wsdl/binding.xml</bindingFile>
+                                    </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
