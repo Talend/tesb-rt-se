@@ -56,6 +56,7 @@ public class ConverterImpl implements Converter {
         Builder builder = new Builder();
         builder.setProperty("Export-Package", "!routines*,*");
         builder.setProperty("Private-Package", "routines*");
+        builder.setProperty("Import-Package", "*;resolution:=optional");
         logger.debug("Iterate in the working directory");
         File[] files = uncompressDir.listFiles();
         for (int i = 0; i < files.length; i++) {
