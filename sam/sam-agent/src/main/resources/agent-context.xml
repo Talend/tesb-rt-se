@@ -45,12 +45,6 @@
 		<property name="executor" ref="defaultExecutor" />
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
-
-<!--	<bean id="persistentQueue" class="org.talend.esb.sam.queue.PersistentQueue">-->
-<!--		<constructor-arg value="persistentQueueMonitoring.queue" />-->
-<!--		<constructor-arg value="2000" />-->
-<!--		<constructor-arg value="4" />-->
-<!--	</bean>-->
 	
 	<bean id="memoryQueue" class="org.talend.esb.sam.agent.queue.MemoryQueue"/>
 
