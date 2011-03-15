@@ -29,8 +29,14 @@
 	<bean id="eventProducer" class="org.talend.esb.sam.agent.producer.EventProducer">
 		<property name="eventCollector" ref="eventCollector" />
 		<property name="logMessageContent" value="${log.messageContent}" />
+		<property name="customInfo">
+		    <map>
+		        <entry key="Application name" value="Dummy App"/>
+		        <entry key="Stage" value="Dev"/>
+		    </map>
+		</property>
 	</bean>
-
+	
 	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollectorImpl" >
 		<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
 		<property name="defaultInterval" value="${collector.scheduler.interval}" />

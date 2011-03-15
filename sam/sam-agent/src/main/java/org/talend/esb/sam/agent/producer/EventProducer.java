@@ -3,7 +3,10 @@ package org.talend.esb.sam.agent.producer;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.cxf.binding.soap.SoapBinding;
@@ -14,6 +17,7 @@ import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.agent.collector.EventCollector;
 import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
 import org.talend.esb.sam.agent.interceptor.InterceptorType;
+import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -26,6 +30,8 @@ public class EventProducer {
 
 	private EventCollector eventCollector;
 	private boolean logMessageContent;
+	
+	private Map<String,Object> customInfo;
 
 	public void setLogMessageContent(boolean logMessageContent) {
 		this.logMessageContent = logMessageContent;
@@ -33,6 +39,14 @@ public class EventProducer {
 
 	public boolean isLogMessageContent() {
 	       return logMessageContent;
+	}
+
+	public Map<String, Object> getCustomInfo() {
+		return customInfo;
+	}
+
+	public void setCustomInfo(Map<String, Object> customInfo) {
+		this.customInfo = customInfo;
 	}
 
 	public EventProducer() {
@@ -108,9 +122,25 @@ public class EventProducer {
 
 	    EventTypeEnum eventType = getEventType(message, type);
 	    event.setEventType(eventType);
+	    
+	    event.setCustomInfoList(mapToCustomInfo());
+
 	    return event;
 	}
 
+	private List<CustomInfo> mapToCustomInfo(){
+		if (customInfo == null) return null;
+		
+		List<CustomInfo> ciList = new ArrayList<CustomInfo>();
+		for (Map.Entry<String,Object> props : customInfo.entrySet()){
+			CustomInfo ci = new CustomInfo();
+			ci.setCustKey(props.getKey());
+			ci.setCustValue(props.getValue());
+			ciList.add(ci);
+		}
+		return ciList;
+	}
+	
     private EventTypeEnum getEventType(Message message, InterceptorType type) {
         Object messageInfoObject = message.get("org.apache.cxf.service.model.MessageInfo");
         if (messageInfoObject instanceof org.apache.cxf.service.model.MessageInfo) {
