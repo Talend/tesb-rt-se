@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.docs</groupId>
-    <artifactId>tesb-manual</artifactId>
+    <artifactId>sam-userguide</artifactId>
     <packaging>pom</packaging>
-    <name>ESB :: Manual</name>
-    <description>Talend ESBdocumentation</description>
+    <name>Sam :: Userguide</name>
+    <description>Talend Sam userguide documentation</description>
 
     <parent>
         <groupId>org.talend.esb.docs</groupId>
@@ -16,7 +16,6 @@
     </parent>
 
     <build>
-        <defaultGoal>site</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
@@ -25,23 +24,12 @@
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
-                        <id>create-pdf-docs-gsg</id>
+                        <id>create-pdf-docs-ug</id>
                         <goals>
                             <goal>generate-pdf</goal>
                         </goals>
                         <configuration>
-                            <includes>GettingStartedGuide.xml</includes>
-                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <id>create-pdf-docs-cm</id>
-                        <goals>
-                            <goal>generate-pdf</goal>
-                        </goals>
-                        <configuration>
-                            <includes>SLUserGuide.xml</includes>
+                            <includes>SAMUserGuide.xml</includes>
                             <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>

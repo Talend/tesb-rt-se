@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
+<!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
+]>
 <book xmlns="http://docbook.org/ns/docbook" version="5.0"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	<info>
@@ -31,7 +34,7 @@
  		</para>
 		<para>
 			You can learn the purpose of the Rent a Car Demo. You can found
-			how to compiled Rent a Car Demo, deploy it into Talend-sf OSGi
+			how to compiled Rent a Car Demo, deploy it into Talend ESB Runtime OSGi
 			container and run. Also You can learn how to enable the Service
 			Locator Component for the Rent a Car demo.
  		</para>
@@ -111,7 +114,7 @@ From a technical perspective the client calls the following services and operati
         		</informaltable>
 			</para>
 			<para>
-From the base directory of CRMService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+From the base directory of CRMService sample, the maven <code>...\examples\crmservice\pom.xml</code> file can be used to build and run the demo. 
 			</para>
 			<para>
 Using either UNIX or Windows:
@@ -174,7 +177,7 @@ There are three OSGi bundles will be created:
         		</informaltable>
 			</para>
 			<para>
-From the base directory of ReservationService sample, the maven <code>pom.xml</code> file can be used to build and run the demo. 
+From the base directory of ReservationService sample, the maven <code>...\examples\reservationservice\pom.xml</code> file can be used to build and run the demo. 
 			</para>
 			<para>
 Using either UNIX or Windows:
@@ -198,7 +201,7 @@ Three OSGi bundles will be created:
 	<section>
 		<title>Building app-reservation project bundle</title>
 		<para>
-		From the base directory of app-reservation project, the maven <code>pom.xml</code> file can be used to build and run the demo.
+		From the base directory of app-reservation project, the maven <code>...\examples\app-reservation\pom.xml</code> file can be used to build and run the demo.
 		</para>
 		<para>
 		Using either UNIX or Windows:
@@ -229,7 +232,7 @@ You can find out how to get started with OSGi container here: <link xlink:href="
 			</para>
 			<para>
 2. Start OSGi: 
-<code>run &lt;takend-sf&gt;/container/bin/start</code>
+<code>run &lt;Talend ESB Runtime&gt;/container/bin/start</code>
 			</para>
 		</section>
 		<section>
@@ -238,7 +241,7 @@ You can find out how to get started with OSGi container here: <link xlink:href="
 1. Deploy CRMService into OSGi conteyner.
 			</para>
 			<para>
-Copy follow bundles into folder <code>&lt;takend-sf&gt;/container/deploy</code>
+Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
 				<simplelist type='vert' columns='1'>
 					<member>crmservice-common-4.0.jar</member>
 					<member>crmservice-server-4.0.jar</member>
@@ -252,16 +255,16 @@ Copy follow bundles into folder <code>&lt;takend-sf&gt;/container/deploy</code>
 You will see demo bundles in the lists of installed bundles:
 				<programlisting>
 				
-		[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (1.0.0)
-		[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (1.0.0)
-		[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (1.0.0)
+		[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
+		[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0)
+		[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
 				</programlisting>
 			</para>
 			<para>
 3. Deploy ReservationService into OSGi container.
 			</para>
 			<para>
-Copy follow bundles into folder <code>&lt;takend-sf&gt;/container/deploy</code>
+Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
 			<simplelist type='vert' columns='1'>
 				<member>reservationservice-common-4.0.jar</member>
 				<member>reservationservice-server-4.0.jar</member>
@@ -286,7 +289,7 @@ You will see demo bundles in the lists of installed bundles:
 1. Make sure that the console launched and demo services was deployed.
 			</para>
 			<para>
-2. Copy app-reservation-4.0.jar into folder &lt;takend-sf&gt;/container/deploy.
+2. Copy app-reservation-4.0.jar into folder &lt;Talend ESB Runtime&gt;/container/deploy.
 			</para>
 			<para>
 In console you will see:
@@ -328,7 +331,7 @@ In console you will see:
 			<title>Starting the application</title>
 			<para>
 				ReservationService, CRMService and App-reservation is already
-				deployed in Talend-sf. Start OSGi console.   
+				deployed in Talend ESB Runtime. Start OSGi console.   
 			</para>
 			<para>
 				In console you will see text:
@@ -408,4 +411,5 @@ In console you will see:
 			</simplelist>
 		</section>
 	</chapter>
+	&chapSLEnabling;
 </book>

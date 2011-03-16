@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+        <title>Talend ESB Service Activity Monitoring</title>
+        <subtitle>User Guide</subtitle>
+        <pubdate>18 March 2011</pubdate>
+        <author>
+            <last>Talend ESB Runtime Team</last>
+        </author>
+        <copyright>
+            <year>2011</year>
+            <holder>Talend Corporation</holder>
+        </copyright>
+    </info>
+    <chapter>
+        <title>Introduction</title>
+        	<para>
+The Service Activity Monitoring is a monitoring service that provides to Web Service users within the Apache CXF Framework with a mechanism to monitor/log every communication on both service/client side. That could be the base for statistics or fault monitoring. The SAM consists of two parts: Agent and Monitoring server. Agent has responsibility for produce Events, add flow_id to Events, filter/handler Events, enqueue Events locally and send Events to the Monitoring server periodically. it running with Customer produce(a service or a client) as a jar; Monitoring server can be deployed as a WAR independently on remove host, it receices Events from Agent through WebService interface and filter/handler Events and store them into Database.
+			</para>
+			<para>
+For example: One service call can generate four events. Consumer is sending a request (REQ_OUT), service receives request (REQ_IN), service sends response (RESP_OUT) and consumer receives response (RESP_IN). In this service call all events belongs together. For further event processing all of these events will get the same "flow id". 
+			</para>
+			<para>
+This User Guide describes the purpose of Service Activity Monitoring, how to install it, how to configure it and how to run/test it.
+ 			</para>
+	</chapter>
+    <chapter>
+        <title>Install</title>
+		<para>
+		The distribution of SAM include: sam-agent-4.0.jar, sam-server-war.war. and examples: sam-example-service.war, sam-example-service2.war
+		</para>
+		<section>
+		<title>Agent Installation</title>
+		<para>
+Agent need to be deployed within customer application(e.g. WAR or EAR). For example: 
+sam-example-service.war/WEB-INF/lib/sam-agent-4.0.jar.
+		</para>
+		<para>
+add this line into beans.xml to import agent-context.xml:
+<code>&lt;import resource="classpath:agent-context.xml" /&gt;</code>
+		</para>
+		<para>
+For spring related services add the feature to the service. Open the application context configuration and add the feature in the following style:
+<programlisting>
+	&lt;jaxws:endpoint 
+		id="customerService" address="/CustomerServicePort" 
+		implementor="com.example.customerservice.server.CustomerServiceImpl"&gt; 
+		&lt;jaxws:features>
+			&lt;bean class="org.talend.esb.sam.agent.feature.EventFeature"&gt;
+                &lt;property name="eventProducer" ref="eventProducer"&gt;&lt;/property&gt;
+            &lt;/bean&gt;
+		&lt;/jaxws:features&gt;
+	&lt;/jaxws:endpoint&gt;
+</programlisting>
+		</para>
+		</section>
+		
+		<section>
+		<title>Monitoring Server Installation</title>
+		<para>
+Monitoring Server can be deployed into any J2EE Web container. for example , it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war.war. Monitoring Server need Database support to store Events data, so make sure a RDBMS has been installed/accessed, you can find how to configur Database on Configuration chapter.
+		</para>
+		</section>
+		
+		<section>
+		<title>Example Installation</title>
+		<para>
+sam-example-service.war and sam-example-service2.war provided as a whole customer application with sam-agent running. They can be deployed into any J2EE Web container. for example , they can be deployed into Tomcat: $TOMCAT_HOME/webapps/.
+		</para>
+		</section>
+	</chapter>
+	
+	<chapter>
+	<title>Configuration</title>
+	<section>
+	<title>Agent Configuration</title>
+	<para>
+The main configuration files for Agent are agent.properties and filter/handler context configuration.
+	</para>
+	<para>
+For agent.properties, you can set scheduler interval, max events per call, monitoring server url, access monitoring server retry times and retry delay. For example:
+<programlisting>
+#Default interval for scheduler. Start every X milliseconds a new scheduler
+collector.scheduler.interval=60000
+
+#Number of events within one service call. This is a maximum number. If there are events in the queue, the events will be processed. 
+collector.maxEventsPerCall=200
+
+#Enable message content logging for event producer. true/false Default: false
+log.messageContent=true
+
+#Configure url to monitoring service
+service.url=http://localhost:8080/sam-server-war/services/MonitoringServiceSOAP
+
+#Number of retries to access monitoring service, Default: 5
+service.retry.number=3
+
+#Delay in milliseconds between the next attemp to send. Default: 1000
+service.retry.delay=5000
+
+</programlisting>
+	</para>
+	<para>
+For filter/handler, user can add pre-defined filter/handler to the Agent. put the filter/handler beans into any spring configuration file. The example of filter/handler beans definition: 
+<programlisting>
+    &lt;bean id="filterD" class="org.talend.esb.sam.common.filter.impl.StringContentFilter"&gt;
+        &lt;property name="wordsToFilter"&gt;
+            &lt;list&gt;
+                &lt;value>contractor&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id="noPingMetadataFilter" class="org.talend.esb.sam.common.filter.impl.MetadataFilter"&gt;
+        &lt;property name="andCondition" value="true" /&gt;
+        &lt;property name="hostname" value="" /&gt;
+        &lt;property name="ip" value="" /&gt;
+        &lt;property name="operationName"
+            value="{http://namespace}ping" /&gt;
+        &lt;property name="portType"
+            value="{http://namespace}CasePort" /&gt;
+        &lt;property name="transportType" value="" /&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
+        &lt;property name="tagnames"&gt;
+            &lt;list&gt;
+                &lt;value>Password&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+    
+    &lt;bean id="contentLengthFilter" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler"&gt;
+        &lt;property name="length" value="2000" /&gt;
+    &lt;/bean&gt;
+
+</programlisting>
+	</para>
+	</section>
+	
+	<section>
+	<title>Monitoring Server Configuration</title>
+	<para>
+The main configuration file for Monitoring Server is logserver.properties. it includes service url and database related settings. For example:
+<programlisting>
+monitoringServiceUrl=/MonitoringServiceSOAP
+
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://localhost:3306/test
+db.username=test
+db.password=test
+db.incrementer=mysqlIncrementer
+
+db.recreate=false
+db.createsql=create_mysql.sql
+</programlisting>
+	</para>
+	</section>
+
+	</chapter>
+	
+	<chapter>
+	<title>Running and Testing</title>
+	<para>
+Make sure Database is running and accessible.	
+	</para>
+	<para>
+Make sure sam-server-war.war, sam-example-service.war, sam-example-service2.war deployed into your J2EE container.	
+	</para>
+	<para>
+Make sure agent.properties, logserver.properties configured correctly.	
+	</para>
+	<para>
+Start SoapUI tool, send SOAP message below to sam-example-service2 endpoint, for example like this: <code>http://localhost:8080/sam-example-service2/services/CustomerServicePort</code>
+<programlisting>
+
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/"&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;cus:getCustomersByName&gt;
+         &lt;name>jacky&lt;/name&gt;
+      &lt;/cus:getCustomersByName&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+
+</programlisting>
+	</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/soap1.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>  
+	</chapter>
+	
+	<chapter>
+	<title>Monitoring Events from Database</title>
+	<para>
+If the Events have been stored into Database successfully, you can query them from DB. For example:
+	</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/db.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>  	
+	</chapter>
+</book>

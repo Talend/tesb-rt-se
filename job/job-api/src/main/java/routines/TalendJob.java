@@ -1,9 +1,9 @@
-package org.talend.esb.job;
+package routines;
 
 /**
  * Interface describing Job behaviors.
  */
-public interface Job {
+public interface TalendJob {
 
     /**
      * Run a Talend job.

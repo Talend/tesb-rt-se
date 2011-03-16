@@ -16,6 +16,7 @@
     <modules>
         <module>locator</module>
         <module>tesb</module>
+		<module>sam</module>
     </modules>
 
 </project>

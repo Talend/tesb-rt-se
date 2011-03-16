@@ -21,7 +21,10 @@
 
 	<properties>
 		<cxf.build-utils.version>2.3.1</cxf.build-utils.version>
-		<spring.osgi.version>1.2.1</spring.osgi.version>
+        <karaf.version>2.2.0</karaf.version>
+		<osgi.version>3.6.0.v20100517</osgi.version>
+        <spring.osgi.version>1.2.1</spring.osgi.version>
+		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.4.2</activemq.version>
 		<camel.version>2.6.0</camel.version>
 		<tif.version>2.6.0.0</tif.version>
@@ -51,14 +54,18 @@
 		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
 
 		<!-- ServiceMix Bundles -->
+		<abdera.bundle.version>0.4.0-incubating_3</abdera.bundle.version>
 		<ant.bundle.version>1.7.0_4</ant.bundle.version>
 		<antlr2.bundle.version>2.7.7_3</antlr2.bundle.version>
 		<antlr.bundle.version>3.0.1_4</antlr.bundle.version>
 		<antlr-runtime.bundle.version>3.0.1_2</antlr-runtime.bundle.version>
 		<aopalliance.bundle.version>1.0_4</aopalliance.bundle.version>
 		<asm.bundle.version>3.3_1</asm.bundle.version>
+		<aws-java-sdk.bundle.version>1.1.1_1</aws-java-sdk.bundle.version>
 		<bcel.bundle.version>5.2_3</bcel.bundle.version>
+		<castor.bundle.version>1.3.1_1</castor.bundle.version>
 		<cglib.bundle.version>2.2_1</cglib.bundle.version>
+		<cometd-java-server.bundle.version>1.0.1_1</cometd-java-server.bundle.version>
 		<commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version>
 		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
@@ -71,15 +78,20 @@
 		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
 		<dom4j.bundle.version>1.6.1_3</dom4j.bundle.version>
 		<dozer.bundle.version>5.2.0_2</dozer.bundle.version>
+		<ehcache.bundle.version>2.3.0_1</ehcache.bundle.version>
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
-		<flatpack.bundle.version>3.1.1_4</flatpack.bundle.version>
+		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
 		<freemarker.bundle.version>2.3.15_4</freemarker.bundle.version>
 		<groovy.bundle.version>1.5.6_4</groovy.bundle.version>
+		<guice.bundle.version>2.0_1</guice.bundle.version>
 		<hapi.bundle.version>0.5.1_4</hapi.bundle.version>
+		<hibernate-validator.bundle.version>4.1.0.Final_1</hibernate-validator.bundle.version>
 		<ibatis-sqlmap.bundle.version>2.3.4.726_3</ibatis-sqlmap.bundle.version>
 		<irclib.bundle.version>1.10_3</irclib.bundle.version>
 		<isorelax.bundle.version>20050913_3</isorelax.bundle.version>
+		<jain-sip-ri.bundle.version>1.2.154_1</jain-sip-ri.bundle.version>
 		<jasypt.bundle.version>1.6_1</jasypt.bundle.version>
+		<javassist.bundle.version>3.9.0.GA_1</javassist.bundle.version>
 		<jaxb-impl.bundle.version>2.1.13_1</jaxb-impl.bundle.version>
 		<jaxb-xjc.bundle.version>2.1.13_1</jaxb-xjc.bundle.version>
 		<jaxb-impl.version>2.1.13</jaxb-impl.version>
@@ -90,17 +102,21 @@
 		<jdom.bundle.version>1.1_3</jdom.bundle.version>
 		<jetty.version>7.2.2.v20101205</jetty.version>
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
+		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
 		<jing.bundle.version>20030619_3</jing.bundle.version>
 		<jruby.bundle.version>1.1.2_3</jruby.bundle.version>
 		<joda-time.bundle.version>1.5.2_3</joda-time.bundle.version>
 		<josql.bundle.version>1.5_4</josql.bundle.version>
 		<jsch.bundle.version>0.1.31_4</jsch.bundle.version>
-		<jsmpp.bundle.version>2.0_3</jsmpp.bundle.version>
-		<juel.bundle.version>2.1.0_3</juel.bundle.version>
+		<jsendnsca-core.bundle.version>1.3.1_1</jsendnsca-core.bundle.version>
+		<jsmpp.bundle.version>2.1.0_1</jsmpp.bundle.version>
+		<juel.bundle.version>2.1.2_1</juel.bundle.version>
 		<junit.bundle.version>4.7_2</junit.bundle.version>
+		<lucene.bundle.version>3.0.3_1</lucene.bundle.version>
 		<mina.bundle.version>1.1.7_4</mina.bundle.version>
-		<mvel.bundle.version>1.3.12_2</mvel.bundle.version>
+		<mvel.bundle.version>2.0.8_4</mvel.bundle.version>
 		<neethi.bundle.version>2.0.4_3</neethi.bundle.version>
+		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
 		<opensaml.bundle.version>1.1_5</opensaml.bundle.version>
@@ -111,13 +127,19 @@
 		<propertyset.bundle.version>1.3_4</propertyset.bundle.version>
 		<protobuf-java.bundle.version>2.3.0_1</protobuf-java.bundle.version>
 		<qpid.bundle.version>0.5.0_3</qpid.bundle.version>
-		<quartz.bundle.version>1.6.6_2</quartz.bundle.version>
+		<quartz.bundle.version>1.8.3_2</quartz.bundle.version>
+		<quickfix.bundle.version>1.5.0_1</quickfix.bundle.version>
+		<regexp.bundle.version>1.3_1</regexp.bundle.version>
 		<rhino.bundle.version>1.7R2_1</rhino.bundle.version>
+		<rome.bundle.version>1.0_1</rome.bundle.version>
 		<saaj-impl.bundle.version>1.3.2_2</saaj-impl.bundle.version>
 		<saxon.bundle.version>9.1.0.8_1</saxon.bundle.version>
+		<scala-library.bundle.version>2.8.1_1</scala-library.bundle.version>
 		<serp.bundle.version>1.13.1_3</serp.bundle.version>
+		<shiro.bundle.version>1.1.0_1</shiro.bundle.version>
 		<smack.bundle.version>3.1.0_2</smack.bundle.version>
 		<snmp4j.bundle.version>1.8.1_4</snmp4j.bundle.version>
+		<spymemcached.bundle.version>2.5_1</spymemcached.bundle.version>
 		<stringtemplate.bundle.version>3.2_4</stringtemplate.bundle.version>
 		<tagsoup.bundle.version>1.2_4</tagsoup.bundle.version>
 		<velocity.bundle.version>1.6.2_4</velocity.bundle.version>
@@ -138,17 +160,28 @@
 		<abdera.version>1.1</abdera.version>
 		<axiom.version>1.2.8</axiom.version>
 		<bouncycastle.version>140</bouncycastle.version>
+		<commons-codec.version>1.4</commons-codec.version>
+		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-dbcp.version>1.3</commons-dbcp.version>
+		<commons-exec.version>1.0.1</commons-exec.version>
 		<commons-jexl.version>2.0.1</commons-jexl.version>
 		<commons-jxpath.version>1.3</commons-jxpath.version>
+		<commons-lang.version>2.4</commons-lang.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons-management.version>1.0</commons-management.version>
 		<commons-net.version>2.0</commons-net.version>
 		<derby.version>10.5.3.0_1</derby.version>
+		<dozer-osgi.version>5.3.1</dozer-osgi.version>
 		<easymock.version>2.4</easymock.version>
 		<groovy.version>1.7.0</groovy.version>
+		<hawtbuf.version>1.2</hawtbuf.version>
+		<hawtdb.version>1.5</hawtdb.version>
+		<httpclient-osgi.version>4.0.3</httpclient-osgi.version>
 		<httpcomponents.version>4.0.1</httpcomponents.version>
+		<httpcore-osgi.version>4.0.1</httpcore-osgi.version>
 		<jackrabbit.version>1.5.3</jackrabbit.version>
+		<jackson-core-asl.version>1.6.4</jackson-core-asl.version>
+		<jackson-mapper-asl.version>1.6.4</jackson-mapper-asl.version>
 		<jaxp-ri.version>1.4.2</jaxp-ri.version>
 		<jaxws-api.version>2.1</jaxws-api.version>
 		<javax.mail.version>1.4.3</javax.mail.version>
@@ -156,6 +189,8 @@
 		<junit.version>4.7</junit.version>
 		<log4j.version>1.2.16</log4j.version>
 		<openjpa.version>2.0.0</openjpa.version>
+		<restlet.version>1.1.10</restlet.version>
+		<pax-web-jsp.version>0.7.2</pax-web-jsp.version>
 		<tranql.version>1.6</tranql.version>
 		<woodstox.version>4.0.8</woodstox.version>
 		<woodstox.stax2-api.version>3.0.2</woodstox.stax2-api.version>
@@ -198,11 +233,27 @@
 			<classifier>features</classifier>
 		</dependency>
 
-		<!-- TIF Components -->
+		<!-- TIF -->
 		<dependency>
 			<groupId>org.talend.camel</groupId>
 			<artifactId>camel-tis</artifactId>
 			<version>${tif.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.talend.if.assembly</groupId>
+			<artifactId>talend-if</artifactId>
+			<version>${tif.version}</version>
+			<classifier>examples</classifier>
+			<type>tar.gz</type>
+		</dependency>
+
+		<!-- TSF -->
+		<dependency>
+			<groupId>com.talend.sf.assebmly</groupId>
+			<artifactId>talend-sf</artifactId>
+			<version>${tsf.version}</version>
+			<classifier>examples</classifier>
+			<type>zip</type>
 		</dependency>
 
         <!-- ServiceMix Specs -->
@@ -814,6 +865,44 @@
 							</artifactItems>
 						</configuration>
 					</execution>
+					<execution>
+						<id>unpack-tif-examples</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.talend.if.assembly</groupId>
+									<artifactId>talend-if</artifactId>
+									<version>${tif.version}</version>
+									<type>tar.gz</type>
+									<classifier>examples</classifier>
+									<outputDirectory>target/dependencies/tif-examples</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-tsf-examples</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.talend.sf.assebmly</groupId>
+									<artifactId>talend-sf</artifactId>
+									<version>${TSF.version}</version>
+									<type>zip</type>
+									<classifier>examples</classifier>
+									<outputDirectory>target/dependencies/tsf-examples</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -829,6 +918,7 @@
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
+										<exclude name="**/sam-example*.*" />
 									</fileset>
 									<flattenmapper />
 								</copy>
@@ -836,6 +926,12 @@
 									<fileset dir="${basedir}/../locator">
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
+									</fileset>
+									<flattenmapper />
+								</copy>
+								<copy todir="target/docs">
+									<fileset dir="${basedir}/../docs">
+										<include name="**/target/**/*.pdf" />
 									</fileset>
 									<flattenmapper />
 								</copy>
@@ -864,6 +960,7 @@
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
+							<workDirectory>${project.build.directory}/assembly/unix-bin</workDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -877,6 +974,7 @@
 								<descriptor>src/main/descriptors/win-bin.xml</descriptor>
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
+							<workDirectory>${project.build.directory}/assembly/win-bin</workDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -891,6 +989,7 @@
 							</descriptors>
 							<appendAssemblyId>true</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
+							<workDirectory>${project.build.directory}/assembly/examples</workDirectory>
 						</configuration>
 					</execution>
 				</executions>
