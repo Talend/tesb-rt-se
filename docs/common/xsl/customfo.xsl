@@ -57,7 +57,7 @@
             </xsl:when>
 
             <xsl:when test="$position='left'">
-                Talend Service Factory: User Guide
+                Talend ESB Runtime: User Guide
             </xsl:when>
 
             <xsl:otherwise>
