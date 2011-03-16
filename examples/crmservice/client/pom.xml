@@ -50,10 +50,6 @@
                     </instructions>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 
