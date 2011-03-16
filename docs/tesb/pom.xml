@@ -41,7 +41,7 @@
                             <goal>generate-pdf</goal>
                         </goals>
                         <configuration>
-                            <includes>SLConfigurationManual.xml</includes>
+                            <includes>SLUserGuide.xml</includes>
                             <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
+<!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
+]>
 <book xmlns="http://docbook.org/ns/docbook" version="5.0"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	<info>
@@ -408,4 +411,5 @@ In console you will see:
 			</simplelist>
 		</section>
 	</chapter>
+	&chapSLEnabling;
 </book>
