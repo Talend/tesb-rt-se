@@ -101,6 +101,7 @@ public class EventTypeMapper {
             originator.setHostname(originatorType.getHostname());
             originator.setIp(originatorType.getIp());
             originator.setProcessId(originatorType.getProcessId());
+            originator.setPrincipal(originatorType.getPrincipal());
         }
         return originator;
     }
