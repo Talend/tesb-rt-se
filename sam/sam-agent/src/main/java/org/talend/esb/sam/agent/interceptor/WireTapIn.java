@@ -30,7 +30,12 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 
 /**
- * In interceptor for receiving a message and creating an event.
+ * Creates a CachedOutPutStream in the message that can be used to
+ * wiretap the content
+ * 
+ * The interceptor does not yet work streaming so it first copies all
+ * the content to the CachedOutputStream and only then lets CXF
+ * continue on the message
  */
 public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     private boolean logMessage;

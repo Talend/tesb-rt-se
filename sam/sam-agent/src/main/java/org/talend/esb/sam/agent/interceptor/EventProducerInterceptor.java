@@ -28,7 +28,9 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventManipulator;
 
 /**
- * Acts as a callback for the out case and as an PhaseInterceptor in the in case
+ * Maps the CXF Message to an Event and sends this to a given EvventManipulator
+ * 
+ * Acts as a callback for the out case and as an PhaseInterceptor in the in case.
  */
 public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> {
     MessageToEventMapper mapper;
@@ -45,7 +47,5 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         Event event = mapper.mapToEvent(message);
         eventSender.handleEvent(event);
     }
-    
-
 
 }
