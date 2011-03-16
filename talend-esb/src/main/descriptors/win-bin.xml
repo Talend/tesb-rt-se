@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2010 Talend Inc. - www.talend.com
+    Copyright (C) 2011 Talend Inc. - www.talend.com
 -->
 <assembly>
 
@@ -27,7 +27,7 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
-            <outputDirectory>/samples</outputDirectory>
+            <outputDirectory>/samples/camel</outputDirectory>
         </fileSet>
         <!-- 
         <fileSet>
@@ -53,7 +53,14 @@
                 <exclude>lib/geronimo-stax-api**</exclude>
                 <exclude>lib/geronimo-ws-metadata**</exclude>
                 <exclude>lib/geronimo-jaxws**</exclude>
+                <exclude>samples/**</exclude>
             </excludes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/samples</directory>
+            <outputDirectory>/samples/cxf</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
