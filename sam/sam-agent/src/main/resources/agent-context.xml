@@ -66,7 +66,7 @@
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
 	
-	<bean id="memoryQueue" class="org.talend.esb.sam.agent.queue.MemoryQueue"/>
+	<bean id="memoryQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
 	<task:annotation-driven executor="defaultExecutor"
 		scheduler="defaultScheduler" />
