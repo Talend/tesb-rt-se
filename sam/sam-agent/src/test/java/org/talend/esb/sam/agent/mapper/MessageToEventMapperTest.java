@@ -19,12 +19,18 @@
  */
 package org.talend.esb.sam.agent.mapper;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.Binding;
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.common.WSDLConstants;
+import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.ExchangeImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
@@ -38,9 +44,37 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 public class MessageToEventMapperTest {
+    private static final String TESTCONTENT = "This content may be too long";
+    private static final int MAXCONTENTLENGTH = 4;
     
     @Test
-    public void testMapEvent() {
+    public void testMapEvent() throws IOException {
+        Message message = getTestMessage();
+        Event event = new MessageToEventMapperImpl().mapToEvent(message);
+        Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
+        Assert.assertEquals("{interfaceNs}interfaceName", event.getMessageInfo().getPortType());
+        Assert.assertEquals("{namespace}opName", event.getMessageInfo().getOperationName());
+        Assert.assertEquals("transportUri", event.getMessageInfo().getTransportType());
+
+        // By default the content should not be cut
+        Assert.assertEquals(TESTCONTENT, event.getContent());
+        Assert.assertFalse(event.isContentCut());
+        // TODO add assertions
+        System.out.println(event);
+    }
+    
+    @Test
+    public void testMaxContentLength() throws IOException {
+        Message message = getTestMessage();
+        MessageToEventMapperImpl mapper = new MessageToEventMapperImpl();
+        mapper.setMaxContentLength(MAXCONTENTLENGTH);
+        Event event = mapper.mapToEvent(message);
+        Assert.assertEquals(MAXCONTENTLENGTH, event.getContent().length());
+        Assert.assertEquals(TESTCONTENT.substring(0, MAXCONTENTLENGTH), event.getContent());
+        Assert.assertTrue(event.isContentCut());
+    }
+    
+    public Message getTestMessage() throws IOException {
         Message message = new MessageImpl();
         ExchangeImpl exchange = new ExchangeImpl();
         ServiceInfo serviceInfo = new ServiceInfo();
@@ -55,13 +89,13 @@ public class MessageToEventMapperTest {
         SoapBinding binding = new SoapBinding(bInfo);
         exchange.put(Binding.class, binding);
         message.setExchange(exchange);
-        Event event = new MessageToEventMapperImpl().mapToEvent(message);
-        Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
-        Assert.assertEquals("{interfaceNs}interfaceName", event.getMessageInfo().getPortType());
-        Assert.assertEquals("{namespace}opName", event.getMessageInfo().getOperationName());
-        Assert.assertEquals("", event.getContent());
-        Assert.assertEquals("transportUri", event.getMessageInfo().getTransportType());
-        // TODO add assertions
-        System.out.println(event);
+        
+        CachedOutputStream cos = new CachedOutputStream();
+        
+        InputStream is = new ByteArrayInputStream(TESTCONTENT.getBytes("UTF-8"));
+        IOUtils.copy(is, cos);
+        message.setContent(CachedOutputStream.class, cos);
+
+        return message;
     }
 }

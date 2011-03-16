@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2010 Talend Inc. - www.talend.com
+    Copyright (C) 2011 Talend Inc. - www.talend.com
 -->
 <assembly>
 
-    <id>examples</id>
+    <id>doc</id>
 
     <formats>
         <format>tar.gz</format>
@@ -16,7 +16,7 @@
         <!-- Copy Examples -->
         <fileSet>
             <directory>${basedir}/../examples</directory>
-            <outputDirectory>/examples</outputDirectory>
+            <outputDirectory>/examples/tesb</outputDirectory>
             <excludes>
                 <!-- Exclude maven build target directory -->
                 <exclude>**/target/**</exclude>
@@ -27,6 +27,26 @@
                 <!-- Exclude Intellij IDEA files and directories -->
                 <exclude>**/*.i??</exclude>
             </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/tif-examples/talend-if-${tif.version}/examples</directory>
+            <outputDirectory>/examples/tif</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/tsf-examples/talend-sf-${tsf.version}/examples</directory>
+            <outputDirectory>/examples/tsf</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
+        <!-- Copy Docs -->
+        <fileSet>
+            <directory>target/docs</directory>
+            <outputDirectory>/docs</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
         </fileSet>
 
     </fileSets>

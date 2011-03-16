@@ -59,6 +59,7 @@ public class EventMapper {
         MessageInfoType miType = mapMessageInfo(event.getMessageInfo());
         eventType.setMessageInfo(miType);
         eventType.setCustomInfo(convertCustomInfo(event.getCustomInfoList()));
+        eventType.setContentCut(event.isContentCut());
         DataHandler datHandler = getDataHandlerForString(event);
         eventType.setContent(datHandler);
         return eventType;
@@ -91,51 +92,52 @@ public class EventMapper {
         origType.setIp(originator.getIp());
         origType.setHostname(originator.getHostname());
         origType.setCustomId(originator.getCustomId());
+        origType.setPrincipal(originator.getPrincipal());
         return origType;
     }
 
     private static CustomInfoType convertCustomInfo(List<CustomInfo> ciList) {
-        if (ciList == null || ciList.size() < 1 ) {
+        if (ciList == null || ciList.size() < 1) {
             return null;
         }
 
         CustomInfoType ciType = new CustomInfoType();
 
-        for (int i=0; i<ciList.size();i++){
-        	CustomInfo cInfo = ciList.get(i);
-        	
+        for (int i = 0; i < ciList.size(); i++) {
+            CustomInfo cInfo = ciList.get(i);
+
             CustomInfoType.Item cItem = new CustomInfoType.Item();
             cItem.setKey(cInfo.getCustKey());
             cItem.setValue(cInfo.getCustValue());
             ciType.getItem().add(cItem);
         }
-        
+
         return ciType;
     }
-    
-	private static XMLGregorianCalendar convertDate(Date date) {
-		XMLGregorianCalendar gCal = null;
 
-		try {
-			gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
-		} catch (DatatypeConfigurationException ex) {
-			ex.printStackTrace();
-			return null;
-		}
+    private static XMLGregorianCalendar convertDate(Date date) {
+        XMLGregorianCalendar gCal = null;
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		gCal.setYear(cal.get(Calendar.YEAR));
-		gCal.setMonth(cal.get(Calendar.MONTH) + 1);
-		gCal.setDay(cal.get(Calendar.DAY_OF_MONTH));
-		gCal.setHour(cal.get(Calendar.HOUR_OF_DAY));
-		gCal.setMinute(cal.get(Calendar.MINUTE));
-		gCal.setSecond(cal.get(Calendar.SECOND));
-		gCal.setMillisecond(cal.get(Calendar.MILLISECOND));
-		gCal.setTimezone(cal.get(Calendar.ZONE_OFFSET) / 60000);
-		return gCal;
+        try {
+            gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+        } catch (DatatypeConfigurationException ex) {
+            ex.printStackTrace();
+            return null;
+        }
 
-	}
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        gCal.setYear(cal.get(Calendar.YEAR));
+        gCal.setMonth(cal.get(Calendar.MONTH) + 1);
+        gCal.setDay(cal.get(Calendar.DAY_OF_MONTH));
+        gCal.setHour(cal.get(Calendar.HOUR_OF_DAY));
+        gCal.setMinute(cal.get(Calendar.MINUTE));
+        gCal.setSecond(cal.get(Calendar.SECOND));
+        gCal.setMillisecond(cal.get(Calendar.MILLISECOND));
+        gCal.setTimezone(cal.get(Calendar.ZONE_OFFSET) / 60000);
+        return gCal;
+
+    }
 
     private static EventEnumType convertEventType(org.talend.esb.sam.common.event.EventTypeEnum eventType) {
         return EventEnumType.valueOf(eventType.name());

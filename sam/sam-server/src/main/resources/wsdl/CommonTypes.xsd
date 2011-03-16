@@ -13,6 +13,7 @@
             <element name="originator" type="tns:originatorType"/>
 			<element name="messageInfo" type="tns:messageInfoType"/>
             <element name="customInfo" type="tns:customInfoType" />
+            <element name="contentCut" type="boolean"/>
 			<element name="content" type="base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
 		</sequence>
 	</complexType>
@@ -33,6 +34,7 @@
 			<element name="ip" type="string"/>
 			<element name="hostname" type="string"/>
 			<element maxOccurs="1" minOccurs="0" name="customId" type="string"/>
+            <element name="principal" type="string"/>
 		</sequence>
 	</complexType>
 

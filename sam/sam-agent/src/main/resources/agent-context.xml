@@ -48,7 +48,9 @@
         <property name="logMessageContent" value="${log.messageContent}" />
     </bean>
     
-    <bean id="eventMapper" class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl"/>
+    <bean id="eventMapper" class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl">
+        <property name="maxContentLength" value="${log.maxContentLength}"/>
+    </bean>
 
 	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollectorImpl" >
 		<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
@@ -66,7 +68,7 @@
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
 	
-	<bean id="memoryQueue" class="org.talend.esb.sam.agent.queue.MemoryQueue"/>
+	<bean id="memoryQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
 	<task:annotation-driven executor="defaultExecutor"
 		scheduler="defaultScheduler" />
