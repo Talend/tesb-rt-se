@@ -238,7 +238,7 @@ You can find out how to get started with OSGi container here: <link xlink:href="
 		<section>
 			<title>Deploy demo services</title>
 			<para>
-1. Deploy CRMService into OSGi conteyner.
+1. Deploy CRMService into OSGi container.
 			</para>
 			<para>
 Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>

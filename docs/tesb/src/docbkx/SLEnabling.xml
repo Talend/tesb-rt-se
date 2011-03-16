@@ -138,11 +138,61 @@ as a standard CXF feature.
 Just copy the locator JAR file and zookeeper JAR file into deploy directory of Talend Service Factory OSGi container
 		</para>
 		<para>
+		Type in console command "list". You will see zookeeper and locator client bundles in the lists of installed bundles:		
+				<programlisting>
+[  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.2)
+[  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
+ 				</programlisting>
+		</para>
+		<para>
 <emphasis role="strong">3. Create and deploy OSGi bundles</emphasis>
  as described in relevant chapters of this guide.
 		</para>
    	</section>
    	<section>
    		<title>What you will see after enabling</title>
+   		<para>
+   		We can see additional INFO logs during deploy demo services and clients into OSGi container.
+   		</para>
+   		<para>
+   		We have following logs from Zookeeper about initiating and established client connections.
+   		</para>
+<programlisting>
+18:41:37,843 | INFO  | ExtenderThread-8 | ZooKeeper | 
+org.apache.zookeeper.ZooKeeper    373 | 36 - org.apache.hadoop.zookeeper - 3.3.2 | 
+Initiating client connection, connectString=locator_host1:2181 sessionTimeout=5000 
+watcher=org.talend.esb.locator.ServiceLocator$WatcherImpl@1e26d9b
+ 
+18:41:37,843 | INFO  | d-8-SendThread() | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread 1041 | 36 - org.apache.hadoop.zookeeper - 3.3.2 |
+Opening socket connection to server locator_host1/192.168.150.201:2181
+ 
+18:41:37,843 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  949 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Socket connection established to locator_host1/192.168.150.201:2181, initiating session
+ 
+18:41:37,844 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  738 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Session establishment complete on server locator_host1/192.168.150.201:2181, 
+sessionid = 0x32e71447e6b004c, negotiated timeout = 4000
+ </programlisting>
+		<para>
+		Also, we can judge about the feature work watching Locator logs in the console window. 
+		</para>   		
+<programlisting>
+18:41:38,765 | INFO  | ExtenderThread-8 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/CRMServiceProvider/ for service 
+ {http://services.talend.org/CRMService}CRMServiceProvider.
+ 
+18:44:07,250 | INFO  | xtenderThread-12 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/ReservationServiceProvider/ for service 
+ {http://services.talend.org/ReservationService}ReservationServiceProvider.
+</programlisting>   		
+   		<para>
+   		In our example, the Locator enabling does not affect the behavior of Rent a Car demo. Because the benefits are manifested in the case of multiple providers for the service.
+   		In this case we can use such useful features as automatic endpoint deregistration and failover. Locator allows clients to failover from the initial target endpoint to another, compatible endpoint for the target service.
+   		</para>
    	</section>
 </chapter>
