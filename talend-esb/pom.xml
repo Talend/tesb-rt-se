@@ -21,7 +21,6 @@
 
 	<properties>
 		<cxf.build-utils.version>2.3.1</cxf.build-utils.version>
-        <karaf.version>2.2.0</karaf.version>
 		<osgi.version>3.6.0.v20100517</osgi.version>
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>1.5.9</spring.ws.version>
@@ -32,8 +31,8 @@
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.2-incubating</aries.version>
-		<!-- <karaf.version>2.2.0</karaf.version> -->
-		<karaf.osgi.version>2.2.0</karaf.osgi.version>
+		<karaf.version>2.1.4</karaf.version> 
+		<karaf.osgi.version>2.1.4</karaf.osgi.version>
 		<osgi.compendium.version>4.2.0</osgi.compendium.version>
 		<osgi.core.version>4.2.0</osgi.core.version>
 
@@ -205,30 +204,28 @@
 		<dependency>
 			<groupId>org.apache.karaf</groupId>
 			<artifactId>apache-karaf</artifactId>
+			<version>${karaf.version}</version>
 			<type>zip</type>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.karaf</groupId>
 			<artifactId>apache-karaf</artifactId>
+			<version>${karaf.version}</version>
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.karaf.assemblies.features</groupId>
-			<artifactId>standard</artifactId>
-			<type>xml</type>
-			<classifier>features</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.karaf.assemblies.features</groupId>
-			<artifactId>enterprise</artifactId>
-			<type>xml</type>
-			<classifier>features</classifier>
+            <groupId>org.apache.karaf</groupId>
+            <artifactId>apache-karaf</artifactId>
+			<version>${karaf.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
 		</dependency>
 
 		<!-- Apache Camel -->
 		<dependency>
 			<groupId>org.apache.camel.karaf</groupId>
 			<artifactId>apache-camel</artifactId>
+			<version>${camel.version}</version>
 			<type>xml</type>
 			<classifier>features</classifier>
 		</dependency>
@@ -550,49 +547,6 @@
 
 	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-
-			<!-- Apache Camel -->
-			<dependency>
-				<groupId>org.apache.camel.karaf</groupId>
-				<artifactId>apache-camel</artifactId>
-				<version>${camel.version}</version>
-				<type>xml</type>
-				<classifier>features</classifier>
-			</dependency>
-
-			<!-- Apache Karaf -->
-			<dependency>
-				<groupId>org.apache.karaf</groupId>
-				<artifactId>apache-karaf</artifactId>
-				<version>${karaf.version}</version>
-				<type>tar.gz</type>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.karaf</groupId>
-				<artifactId>apache-karaf</artifactId>
-				<version>${karaf.version}</version>
-				<type>zip</type>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.karaf.assemblies.features</groupId>
-				<artifactId>standard</artifactId>
-				<version>${karaf.version}</version>
-				<type>xml</type>
-				<classifier>features</classifier>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.karaf.assemblies.features</groupId>
-				<artifactId>enterprise</artifactId>
-				<version>${karaf.version}</version>
-				<type>xml</type>
-				<classifier>features</classifier>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
-
 	<build>
 		<resources>
 			<resource>
@@ -630,8 +584,7 @@
 						</goals>
 						<configuration>
 							<descriptors>
-								<descriptor>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</descriptor>
-								<descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf/apache-karaf/${karaf.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/activemq-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
