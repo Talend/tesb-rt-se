@@ -11,22 +11,23 @@
     </parent>
 
     <groupId>org.talend.esb.job</groupId>
-    <artifactId>org.talend.esb.job.converter</artifactId>
+    <artifactId>org.talend.esb.job.deployer</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: Job :: Converter</name>
+    <name>Talend :: ESB :: Job :: Deployer</name>
 
     <dependencies>
         <dependency>
-            <groupId>biz.aQute</groupId>
-            <artifactId>bndlib</artifactId>
-            <version>${bnd.version}</version>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.fileinstall</artifactId>
+            <version>3.1.10</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>org.talend.esb.job</groupId>
+            <artifactId>org.talend.esb.job.converter</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -47,20 +48,15 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
-                            org.talend.esb.job.converter
+                            org.talend.esb.job.deployer*;version=${project.version}
                         </Export-Package>
-                        <Import-Package>*</Import-Package>
-                        <Private-Package>
-                            org.talend.esb.job.converter.internal.*,
-                            aQute*
-                        </Private-Package>
+                        <Import-Package>
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

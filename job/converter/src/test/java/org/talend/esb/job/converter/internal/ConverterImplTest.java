@@ -22,7 +22,7 @@ public class ConverterImplTest extends TestCase {
      * @throws Exception in case of transformation failure.
      */
     public void testTransform() throws Exception {
-        converter.convertToBundle(new File(this.getClass().getClassLoader().getResource("OSGiTIF_0.1.zip").toURI()), new File("target/test.jar"), null);
+        converter.convertToBundle(new File(this.getClass().getClassLoader().getResource("OSGiTIF_0.1.zip").toURI()), true);
     }
 
 }

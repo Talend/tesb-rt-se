@@ -9,13 +9,23 @@ import java.io.IOException;
 public interface Converter {
 
     /**
-     * Convert a Talend job from an exported zip file to a OSGi bundle jar.
+     * Convert a Talend job from an exported zip file to an OSGi bundle jar.
      *
      * @param jobZip the source Talend job zip.
-     * @param bundleJar the destination OSGi bundle jar.
-     * @param workingDirectory working directory for the converter (could be null).
+     * @param deleteJobZip if true, delete the source job zip after conversion.
      * @throws IOException in case of conversion error.
      */
-    public void convertToBundle(File jobZip, File bundleJar, File workingDirectory) throws IOException;
+    public void convertToBundle(File jobZip, boolean deleteJobZip) throws Exception;
+
+    /**
+     * Convert a Talend job from an exported zip file to an OSGi bundle jar.
+     *
+     * @param jobZip the source Talend job zip.
+     * @param jobClassName the job class name.
+     * @param jobName the job name.
+     * @param deleteJobZip if true, delete the source job zip after conversion.
+     * @throws IOException in case of conversion error.
+     */
+    public void convertToBundle(File jobZip, String jobClassName, String jobName, boolean deleteJobZip) throws Exception;
 
 }

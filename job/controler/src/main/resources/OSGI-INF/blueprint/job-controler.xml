@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-    <bean class="org.talend.esb.job.launcher.Main" init-method="init"/>
+    <bean class="org.talend.esb.job.controler.Main" init-method="init"/>
 
 </blueprint>

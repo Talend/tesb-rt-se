@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="lazy">
+
+    <reference id="converter" interface="org.talend.esb.job.converter.Converter"/>
+
+    <bean id="jobDeploymentListener" class="org.talend.esb.job.deployer.JobDeploymentListener">
+        <property name="converter" ref="converter"/>
+    </bean>
+
+    <service ref="jobDeploymentListener" auto-export="interfaces" depends-on="jobDeploymentListener" ranking="-1"/>
+
+</blueprint>
