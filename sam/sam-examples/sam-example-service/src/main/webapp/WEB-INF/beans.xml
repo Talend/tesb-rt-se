@@ -28,6 +28,15 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<import resource="classpath:/agent-context.xml" />
+
+    <bean id="fixedProperties"
+        class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+        <property name="customInfo">
+            <map>
+                <entry key="Application name" value="Service1" />
+            </map>
+        </property>
+    </bean> 
 		
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="WEB-INF/customer.properties"/>

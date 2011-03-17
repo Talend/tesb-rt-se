@@ -22,7 +22,8 @@ package org.talend.esb.sam.agent.serviceclient;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -37,7 +38,6 @@ import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam._2011._03.common.OriginatorType;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
@@ -58,7 +58,7 @@ public class EventMapper {
         eventType.setOriginator(origType);
         MessageInfoType miType = mapMessageInfo(event.getMessageInfo());
         eventType.setMessageInfo(miType);
-        eventType.setCustomInfo(convertCustomInfo(event.getCustomInfoList()));
+        eventType.setCustomInfo(convertCustomInfo(event.getCustomInfo()));
         eventType.setContentCut(event.isContentCut());
         DataHandler datHandler = getDataHandlerForString(event);
         eventType.setContent(datHandler);
@@ -102,19 +102,16 @@ public class EventMapper {
         return origType;
     }
 
-    private static CustomInfoType convertCustomInfo(List<CustomInfo> ciList) {
-        if (ciList == null || ciList.size() < 1) {
+    private static CustomInfoType convertCustomInfo(Map<String, String> customInfo) {
+        if (customInfo == null) {
             return null;
         }
 
         CustomInfoType ciType = new CustomInfoType();
-
-        for (int i = 0; i < ciList.size(); i++) {
-            CustomInfo cInfo = ciList.get(i);
-
+        for (Entry<String, String> entry : customInfo.entrySet()) {
             CustomInfoType.Item cItem = new CustomInfoType.Item();
-            cItem.setKey(cInfo.getCustKey());
-            cItem.setValue(cInfo.getCustValue());
+            cItem.setKey(entry.getKey());
+            cItem.setValue(entry.getValue());
             ciType.getItem().add(cItem);
         }
 

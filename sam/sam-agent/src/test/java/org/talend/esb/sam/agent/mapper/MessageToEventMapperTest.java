@@ -28,21 +28,29 @@ import javax.security.auth.Subject;
 import javax.security.auth.x500.X500Principal;
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.Binding;
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.common.WSDLConstants;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.endpoint.EndpointException;
+import org.apache.cxf.endpoint.EndpointImpl;
 import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.ExchangeImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
+import org.apache.cxf.security.SecurityContext;
+import org.apache.cxf.service.Service;
+import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.security.SecurityContext;
-import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl;
@@ -54,7 +62,7 @@ public class MessageToEventMapperTest {
     private static final int MAXCONTENTLENGTH = 4;
     
     @Test
-    public void testMapEvent() throws IOException {
+    public void testMapEvent() throws IOException, EndpointException {
         Message message = getTestMessage();
         Event event = new MessageToEventMapperImpl().mapToEvent(message);
         Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
@@ -66,6 +74,8 @@ public class MessageToEventMapperTest {
         Assert.assertEquals(TESTCONTENT, event.getContent());
         Assert.assertFalse(event.isContentCut());
         
+        Assert.assertEquals("http://localhost:8080/test", event.getCustomInfo().get("address"));
+        
         // Principal
         //System.out.println(event.getOriginator().getPrincipal());
         Assert.assertEquals("CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US", event.getOriginator().getPrincipal());
@@ -75,7 +85,7 @@ public class MessageToEventMapperTest {
     }
     
     @Test
-    public void testMaxContentLength() throws IOException {
+    public void testMaxContentLength() throws IOException, EndpointException {
         Message message = getTestMessage();
         MessageToEventMapperImpl mapper = new MessageToEventMapperImpl();
         mapper.setMaxContentLength(MAXCONTENTLENGTH);
@@ -85,7 +95,7 @@ public class MessageToEventMapperTest {
         Assert.assertTrue(event.isContentCut());
     }
     
-    public Message getTestMessage() throws IOException {
+    public Message getTestMessage() throws IOException, EndpointException {
         Message message = new MessageImpl();
         ExchangeImpl exchange = new ExchangeImpl();
         ServiceInfo serviceInfo = new ServiceInfo();
@@ -99,6 +109,13 @@ public class MessageToEventMapperTest {
         exchange.put(BindingOperationInfo.class, bindingOpInfo);
         SoapBinding binding = new SoapBinding(bInfo);
         exchange.put(Binding.class, binding);
+        String ns = "ns";
+		EndpointInfo ei = new EndpointInfo(serviceInfo, ns );
+		ei.setAddress("http://localhost:8080/test");
+		Service service = new ServiceImpl();
+		Bus bus = BusFactory.getThreadDefaultBus();
+		Endpoint endpoint = new EndpointImpl(bus, service, ei);
+		exchange.put(Endpoint.class, endpoint );
         message.setExchange(exchange);
         
         Principal principal = new X500Principal("CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US");
