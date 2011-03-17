@@ -22,7 +22,10 @@ package org.talend.esb.sam.agent.mapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 
+import javax.security.auth.Subject;
+import javax.security.auth.x500.X500Principal;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.Binding;
@@ -38,6 +41,8 @@ import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.security.SecurityContext;
+import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.talend.esb.sam.common.event.Event;
@@ -59,6 +64,11 @@ public class MessageToEventMapperTest {
         // By default the content should not be cut
         Assert.assertEquals(TESTCONTENT, event.getContent());
         Assert.assertFalse(event.isContentCut());
+        
+        // Principal
+        //System.out.println(event.getOriginator().getPrincipal());
+        Assert.assertEquals("CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US", event.getOriginator().getPrincipal());
+        
         // TODO add assertions
         System.out.println(event);
     }
@@ -89,6 +99,10 @@ public class MessageToEventMapperTest {
         SoapBinding binding = new SoapBinding(bInfo);
         exchange.put(Binding.class, binding);
         message.setExchange(exchange);
+        
+        Principal principal = new X500Principal("CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US");
+        SecurityContext sc = new DefaultSecurityContext(principal, new Subject());
+        message.put(SecurityContext.class, sc);
         
         CachedOutputStream cos = new CachedOutputStream();
         
