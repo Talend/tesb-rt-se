@@ -20,13 +20,13 @@ The Service Activity Monitoring (SAM) allows to log / monitor service calls done
 			<para>
 For example: One service call can generate four events. Consumer is sending a request (REQ_OUT), service receives request (REQ_IN), service sends response (RESP_OUT) and consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". 
 			</para>
-			<para>
+
 			<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/GeneratedEvents.png" format="png"/>
+		 <imagedata fileref="images/GeneratedEvents.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
-			</para>
+
 			<para>
 This User Guide describes the purpose of Service Activity Monitoring, how to install it, how to configure it and how to run/test it.
  			</para>
@@ -40,13 +40,13 @@ This User Guide describes the purpose of Service Activity Monitoring, how to ins
 		<title>Agent Installation</title>
 		<para>
 The Agent needs to be deployed with the customer application. The best way is to add it to the classpath using a maven depdency
-
+		</para>
 	<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/Deployment.png" format="png"/>
+		 <imagedata fileref="images/Deployment.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
-
+		<para>
 <code>
         <dependency>
             <groupId>org.talend.esb</groupId>
@@ -177,6 +177,8 @@ db.createsql=create_mysql.sql
 	
 	<chapter>
 	<title>Running and Testing</title>
+	<section>
+	<title>Prerequisite</title>
 	<para>
 Make sure Database is running and accessible.	
 	</para>
@@ -186,6 +188,9 @@ Make sure sam-server-war.war, sam-example-service.war, sam-example-service2.war 
 	<para>
 Make sure agent.properties, logserver.properties configured correctly.	
 	</para>
+	</section>
+	<section>
+	<title>General Test</title>
 	<para>
 Start SoapUI tool, send SOAP message below to sam-example-service2 endpoint, for example like this: <code>http://localhost:8080/sam-example-service2/services/CustomerServicePort</code>
 <programlisting>
@@ -206,6 +211,59 @@ Start SoapUI tool, send SOAP message below to sam-example-service2 endpoint, for
 		 <imagedata fileref="images/soap1.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
+	</section>
+	
+	<section>
+	<title>Filter and Handler Test</title>
+	<para>
+Add a PasswordHandler to your spring configure context in your Application: 
+<programlisting>
+
+    &lt;bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
+        &lt;property name="tagnames"&gt;
+            &lt;list&gt;
+                &lt;value&gt;Password&lt;/value&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+	
+</programlisting>
+	</para>
+	<para>
+Send a Soap message with UsernameToken from SoapUI: 
+<programlisting>
+
+   &lt;soapenv:Header>
+      &lt;wsse:Security xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="0">
+
+      &lt;wsse:UsernameToken>
+         &lt;wsse:Username>user1&lt;/wsse:Username>
+         &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-usernametoken-profile-1.0#PasswordDigest">IR55epSSTb7sg3Z3+HKNb9MqAWg=&lt;/wsse:Password>
+     &lt;/wsse:UsernameToken>
+
+     &lt;/wsse:Security>
+   &lt;/soapenv:Header>
+   
+</programlisting>	
+	</para>
+	<para>
+Then, the Agent will replace the value of 'Password' tag with ''.
+<programlisting>
+
+   &lt;soapenv:Header>
+      &lt;wsse:Security xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="0
+">
+
+      &lt;wsse:UsernameToken>
+         &lt;wsse:Username>xilai&lt;/wsse:Username>
+         &lt;replaced xmlns=""/>
+     &lt;/wsse:UsernameToken>
+
+     &lt;/wsse:Security>
+   &lt;/soapenv:Header>
+</programlisting>   
+	</para>
+	</section>
 	</chapter>
 	
 	<chapter>

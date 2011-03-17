@@ -30,7 +30,8 @@
 	<!-- Uncomment/Comment this line for shareing application context with interceptor. 
 		If there is already a Spring context sharing is recommended. -->
 	<import resource="classpath:agent-context.xml" />
-
+	<import resource="classpath:sample-filters-context.xml" />
+	
 	<context:annotation-config />
 	<jaxws:endpoint
 		id="customerService" address="/CustomerServicePort"

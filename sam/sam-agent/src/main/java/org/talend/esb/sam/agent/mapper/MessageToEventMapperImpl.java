@@ -32,6 +32,7 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.cxf.security.SecurityContext;
 import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
@@ -97,7 +98,12 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         String mxName = ManagementFactory.getRuntimeMXBean().getName();
         String pId = mxName.split("@")[0];
         originator.setProcessId(pId);
-
+        
+        SecurityContext sc = message.get(SecurityContext.class);
+        if (sc != null && sc.getUserPrincipal() != null){
+        	originator.setPrincipal(sc.getUserPrincipal().getName());
+        }
+        
         EventTypeEnum eventType = getEventType(message);
         event.setEventType(eventType);
         return event;
