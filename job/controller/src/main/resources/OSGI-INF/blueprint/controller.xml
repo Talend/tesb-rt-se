@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+    <bean id="controller" class="org.talend.esb.job.controller.internal.ControllerImpl">
+        <property name="bundleContext" ref="blueprintBundleContext"/>
+        <property name="services">
+            <reference-list interface="routines.TalendJob"/>
+        </property>
+    </bean>
+
+</blueprint>
