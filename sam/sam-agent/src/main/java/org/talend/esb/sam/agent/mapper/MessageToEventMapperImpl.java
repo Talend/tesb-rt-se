@@ -32,6 +32,7 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.cxf.security.SecurityContext;
 import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
@@ -40,6 +41,7 @@ import org.talend.esb.sam.common.event.Originator;
 
 public final class MessageToEventMapperImpl implements MessageToEventMapper {
     private Logger log = Logger.getLogger(MessageToEventMapperImpl.class.getName());
+    private int maxContentLength = -1;
 
     /*
      * (non-Javadoc)
@@ -55,6 +57,12 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         event.setMessageInfo(messageInfo);
         event.setOriginator(originator);
         String content = getPayload(message);
+        
+        if (maxContentLength != -1 && content.length() > maxContentLength) {
+            content = content.substring(0, maxContentLength);
+            event.setContentCut(true);
+        }
+        
         event.setContent(content);
         event.setEventType(null);
         Date date = new Date();
@@ -90,7 +98,12 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         String mxName = ManagementFactory.getRuntimeMXBean().getName();
         String pId = mxName.split("@")[0];
         originator.setProcessId(pId);
-
+        
+        SecurityContext sc = message.get(SecurityContext.class);
+        if (sc != null && sc.getUserPrincipal() != null){
+        	originator.setPrincipal(sc.getUserPrincipal().getName());
+        }
+        
         EventTypeEnum eventType = getEventType(message);
         event.setEventType(eventType);
         return event;
@@ -131,5 +144,13 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int getMaxContentLength() {
+        return maxContentLength;
+    }
+
+    public void setMaxContentLength(int maxContentLength) {
+        this.maxContentLength = maxContentLength;
     }
 }

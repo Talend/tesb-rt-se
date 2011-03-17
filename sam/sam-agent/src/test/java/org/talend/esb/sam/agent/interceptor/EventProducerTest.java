@@ -51,12 +51,13 @@ public class EventProducerTest {
         Assert.assertEquals(2, customers.size());
         List<Event> eventsList = eventSender.getEventList();
         Assert.assertEquals(4, eventsList.size());
+        checkFlowIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerOut(eventsList.get(2));
         checkClientIn(eventsList.get(3));
     }
-    
+
     @Test
     public void testServiceCallFault() throws NoSuchCustomerException, InterruptedException {
         eventSender.getEventList().clear();
@@ -68,11 +69,21 @@ public class EventProducerTest {
         }
         List<Event> eventsList = eventSender.getEventList();
         Assert.assertEquals(4, eventsList.size());
+        checkFlowIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerFaultOut(eventsList.get(2));
         checkClientFaultIn(eventsList.get(3));
     }
+    
+	private void checkFlowIdPresentAndSame(List<Event> eventsList) {
+		String flowId = eventsList.get(0).getMessageInfo().getFlowId();
+        for (Event event : eventsList) {
+        	String newFlowId = event.getMessageInfo().getFlowId();
+        	Assert.assertNotNull(newFlowId);
+        	Assert.assertEquals("All flowIds should be the same", flowId, newFlowId);
+		}
+	}
 
     private void checkClientIn(Event clientIn) {
         Assert.assertEquals(EventTypeEnum.RESP_IN, clientIn.getEventType());
@@ -82,12 +93,13 @@ public class EventProducerTest {
         Assert.assertEquals(EventTypeEnum.RESP_OUT, serverOut.getEventType());
     }
 
-    private void checkServerIn(Event clientOut) {
-        Assert.assertEquals(EventTypeEnum.REQ_IN, clientOut.getEventType());
+    private void checkServerIn(Event serverIn) {
+        Assert.assertEquals(EventTypeEnum.REQ_IN, serverIn.getEventType());
     }
 
     private void checkClientOut(Event clientOut) {
         Assert.assertEquals(EventTypeEnum.REQ_OUT, clientOut.getEventType());
+        Assert.assertNotNull(clientOut.getMessageInfo().getFlowId());
     }
     
     private void checkServerFaultOut(Event serverOut) {

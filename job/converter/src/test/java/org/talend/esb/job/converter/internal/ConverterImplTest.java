@@ -1,9 +1,11 @@
 package org.talend.esb.job.converter.internal;
 
-import junit.framework.TestCase;
-import org.talend.esb.job.converter.Converter;
-
 import java.io.File;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import org.talend.esb.job.converter.Converter;
 
 /**
  * Unit tests on the default Talend job transformer implementation.

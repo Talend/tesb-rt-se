@@ -46,14 +46,17 @@ public class Originator implements Serializable {
 	private String hostname;
 	@Column(name = "ORIG_CUSTOM_ID")
 	private String customId;
+	@Column(name = "ORIG_PRINCIPAL")
+	private String principal;
 
 	public Originator(String processId, String ip, String hostname,
-			String customId) {
+			String customId, String principal) {
 		super();
 		this.processId = processId;
 		this.ip = ip;
 		this.hostname = hostname;
 		this.customId = customId;
+		this.principal = principal;
 	}
 
 	public Originator() {
@@ -92,6 +95,14 @@ public class Originator implements Serializable {
 		this.customId = customId;
 	}
 
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -99,6 +110,7 @@ public class Originator implements Serializable {
         result = prime * result + ((customId == null) ? 0 : customId.hashCode());
         result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
         result = prime * result + ((ip == null) ? 0 : ip.hashCode());
+        result = prime * result + ((principal == null) ? 0 : principal.hashCode());
         result = prime * result + ((processId == null) ? 0 : processId.hashCode());
         return result;
     }
@@ -126,6 +138,11 @@ public class Originator implements Serializable {
             if (other.ip != null)
                 return false;
         } else if (!ip.equals(other.ip))
+            return false;
+        if (principal == null) {
+            if (other.principal != null)
+                return false;
+        } else if (!principal.equals(other.principal))
             return false;
         if (processId == null) {
             if (other.processId != null)

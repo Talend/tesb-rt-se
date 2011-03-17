@@ -43,6 +43,7 @@ public class EventRowMapper implements RowMapper<Event> {
         originator.setIp(rs.getString("ORIG_IP"));
         originator.setHostname(rs.getString("ORIG_HOSTNAME"));
         originator.setCustomId(rs.getString("ORIG_CUSTOM_ID"));
+        originator.setPrincipal(rs.getString("ORIG_PRINCIPAL"));
         event.setOriginator(originator );
         
         MessageInfo messageInfo = new MessageInfo();
@@ -52,6 +53,7 @@ public class EventRowMapper implements RowMapper<Event> {
         messageInfo.setOperationName(rs.getString("MI_OPERATION_NAME"));
         messageInfo.setTransportType(rs.getString("MI_TRANSPORT_TYPE"));
         event.setMessageInfo(messageInfo );
+        event.setContentCut(rs.getBoolean("CONTENT_CUT"));
         String content;
         try {
             content = IOUtils.toString(rs.getClob("MESSAGE_CONTENT").getAsciiStream());

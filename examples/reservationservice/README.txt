@@ -30,9 +30,9 @@ Running this command will build the demo and create an OSGi bundle
 for deploying the service to OSGi containers.
 
 Three OSGi bundles will be created:
-...\common\target\reservationservice-common-1.0.jar
-...\server\target\reservationservice-server-1.0.jar
-...\client\target\reservationservice-client-1.0.jar
+...\common\target\reservationservice-common-4.0.jar
+...\server\target\reservationservice-server-4.0.jar
+...\client\target\reservationservice-client-4.0.jar
 
 Starting the service
 ---------------------------------------
@@ -47,12 +47,12 @@ run <takend-sf>/container/bin/start
 2.Deploy service into OSGi container.
 
 copy follow bundles into folder <takend-sf>/container/deploy
-reservationservice-common-1.0.jar
-reservationservice-server-1.0.jar
-reservationservice-client-1.0.jar
+reservationservice-common-4.0.jar
+reservationservice-server-4.0.jar
+reservationservice-client-4.0.jar
 
 3.Type in console command "list".
 You will see 
-[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (1.0.0)
-[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (1.0.0)
-[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (1.0.0)
+[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
+[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
+[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (4.0.0)

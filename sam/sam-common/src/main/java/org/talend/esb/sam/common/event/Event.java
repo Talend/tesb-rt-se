@@ -76,6 +76,8 @@ public class Event implements Serializable {
 
     @Embedded
     private MessageInfo messageInfo;
+    
+    private boolean isContentCut;
 
     @Lob
     @Column(name = "MESSAGE_CONTENT")
@@ -126,6 +128,14 @@ public class Event implements Serializable {
     public void setMessageInfo(MessageInfo messageInfo) {
         this.messageInfo = messageInfo;
     }
+    
+    public void setContentCut(boolean isContentCut) {
+        this.isContentCut = isContentCut;
+    }
+
+    public boolean isContentCut() {
+        return isContentCut;
+    }
 
     public String getContent() {
         return content;
@@ -152,7 +162,9 @@ public class Event implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((content == null) ? 0 : content.hashCode());
+        result = prime * result + ((customInfoList == null) ? 0 : customInfoList.hashCode());
         result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
+        result = prime * result + (isContentCut ? 1231 : 1237);
         result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
         result = prime * result + ((originator == null) ? 0 : originator.hashCode());
         result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
@@ -174,7 +186,14 @@ public class Event implements Serializable {
                 return false;
         } else if (!content.equals(other.content))
             return false;
+        if (customInfoList == null) {
+            if (other.customInfoList != null)
+                return false;
+        } else if (!customInfoList.equals(other.customInfoList))
+            return false;
         if (eventType != other.eventType)
+            return false;
+        if (isContentCut != other.isContentCut)
             return false;
         if (messageInfo == null) {
             if (other.messageInfo != null)

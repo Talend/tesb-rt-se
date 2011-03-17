@@ -1,0 +1,198 @@
+<chapter xmlns:d="http://docbook.org/ns/docbook">
+    <title>Enabling Rent a Car demo to use Service Locator</title>
+  	<section id="install">
+    	<title>Purpose of Service Locator</title>
+    	<para>
+    	The Service Locator is a service that provides service consumers with a mechanism to discover 
+service endpoints at run time, thus isolating consumers from knowledge of the endpoint’s 
+physical location. Moreover, it allows service providers automatically register and unregister their service endpoints.
+thus actively advertise the availability of  their service endpoints to consumers.
+		</para>
+		<para> 
+        Service Locator consists of two parts: Service Locator Server - endpoint repository and CXF feature - Talend ESB Service Locator Feature. 
+Locator Feature is locator client enabled with an CXF services. Like any standard CXF feature, it should be configured separately 
+for the service provider side service consumer side. A provider-side Locator Feature extension registers and deregisters service endpoints in the 
+endpoint repository when the provider becomes available or unavailable. A consumer-side Locator Feature extension transparently retrieves 
+service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
+    	</para>
+  	</section>
+<section id="starting_xxe">
+      <title>Installation prerequisites</title>
+      <itemizedlist>
+          <listitem>
+          	<para>
+          To enable the Rent-a-Car example initially we should install and run the Service Locator server.
+For more information please read Service Locator Installation Manual.
+		  	</para>
+          <para>Since creating a distributed, fault-tolerant endpoint
+          repository is a non-trivial task, the Service Locator Server
+          implementation based on proven open source technology - Apache
+          ZooKeeper. This is a highly reliable and available service that
+          provides coordination between distributed processes. To learn more
+          about Apache ZooKeeper, visit <ulink
+          url="http://hadoop.apache.org/zookeeper"><link
+          linkend="???">http://hadoop.apache.org/zookeeper</link>.</ulink>
+          </para>
+        </listitem>
+        <listitem>
+      		<para>
+      You need Service Locator client part JAR to enable your CFX
+      service or consumer to use the Service Locator. To use the Service
+      Locator Server client in CXF you need to add the <code>locator-4.0.jar</code> into
+      your classpath or war file. Also add it to the OSGi conatiner.
+      		</para>
+      	</listitem>
+      	<listitem>
+      		<para>
+      		For enabling Service Locator Server in build should be added
+      dependency to pom.xml file of the project:
+      		</para>
+      <programlisting>&lt;dependency&gt;
+     &lt;groupId&gt;log4j&lt;/groupId&gt;
+     &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+     &lt;version&gt;1.2.16&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+	 &lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
+	 &lt;artifactId&gt;locator&lt;/artifactId&gt;
+	 &lt;version&gt;4.0&lt;/version&gt;
+&lt;/dependency&gt;</programlisting>
+      		<para>
+      These dependencies should be added to projects that use the
+      locator client. In our case this is CRMService and ReservationService projects.
+      		</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+    <section>
+    	<title>How to enable Rant a Car demo</title>
+    	<para>
+			<emphasis role="strong">1. Add features to the beans.xml files</emphasis>
+		</para>
+		<para>
+		The Service Locator feature should be added to each endpoint and client in the example configuration.
+		</para>
+		<para>
+		1.1 Add the Service Locator feature to the endpoint bean in the <code>beans.xml</code> exactly the same way
+as a standard CXF feature.
+		</para>
+		<para>
+		Make these changes in the following files:
+			<simplelist type='vert' columns='1'>
+<member>../examples/reservationservice/service/src/main/resources/META-INF/spring/beans.xml</member>
+<member>../examples/crmservice/service/src/main/resources/META-INF/spring/beans.xml</member>
+			</simplelist>
+		</para>
+		<para>
+	For example:
+		<programlisting>
+&lt;jaxws:endpoint id="..."
+	...
+	&lt;jaxws:features&gt;
+		&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
+			&lt;property name="locatorEndpoints" 
+						 value="locator_host1:2181,locator_host2:2181,locator_host2:2182"/&gt;
+		&lt;/bean&gt;
+	&lt;/jaxws:features&gt;
+&lt;/jaxws:endpoint&gt;
+		</programlisting>
+		</para>
+		<para>
+		Property <code>locatorEndpoints</code> specify hosts and ports, on which the Zookeeper listens for client connections.
+For more information please read the Service Locator Configuration Manual.
+		</para>
+		<para>
+		1.2 Add the Service Locator feature to the client bean in the <code>beans.xml</code> exactly the same way
+as a standard CXF feature.
+		</para>
+		<para>
+		Also use the <code>locator</code> transport in the client address as shown in the example below:
+		</para>
+		<para>
+			<programlisting>
+&lt;jaxws:client id="..."
+	...
+	address="locator://..."&gt;
+	&lt;jaxws:features&gt;
+		&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
+			&lt;property name="locatorEndpoints" 
+						 value="locator_host1:2181,locator_host2:2181,locator_host2:2182"/&gt;
+		&lt;/bean&gt;
+	&lt;/jaxws:features&gt;
+&lt;/jaxws:client&gt;
+			</programlisting>
+		</para>
+		<para>
+		Make these changes in the following files:
+		</para>
+		<para>
+			<simplelist type='vert' columns='1'>
+<member>../examples/reservationservice/client/src/main/resources/META-INF/spring/beans.xml</member>
+<member>../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml</member>
+			</simplelist>
+		</para>
+		<para>
+<emphasis role="strong">2. Deploy Service Locator client in TSF container</emphasis>
+		</para>
+		<para>
+Just copy the locator JAR file and zookeeper JAR file into deploy directory of Talend Service Factory OSGi container
+		</para>
+		<para>
+		Type in console command "list". You will see zookeeper and locator client bundles in the lists of installed bundles:		
+				<programlisting>
+[  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.2)
+[  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
+ 				</programlisting>
+		</para>
+		<para>
+<emphasis role="strong">3. Create and deploy OSGi bundles</emphasis>
+ as described in relevant chapters of this guide.
+		</para>
+   	</section>
+   	<section>
+   		<title>What you will see after enabling</title>
+   		<para>
+   		We can see additional INFO logs during deploy demo services and clients into OSGi container.
+   		</para>
+   		<para>
+   		We have following logs from Zookeeper about initiating and established client connections.
+   		</para>
+<programlisting>
+18:41:37,843 | INFO  | ExtenderThread-8 | ZooKeeper | 
+org.apache.zookeeper.ZooKeeper    373 | 36 - org.apache.hadoop.zookeeper - 3.3.2 | 
+Initiating client connection, connectString=locator_host1:2181 sessionTimeout=5000 
+watcher=org.talend.esb.locator.ServiceLocator$WatcherImpl@1e26d9b
+ 
+18:41:37,843 | INFO  | d-8-SendThread() | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread 1041 | 36 - org.apache.hadoop.zookeeper - 3.3.2 |
+Opening socket connection to server locator_host1/192.168.150.201:2181
+ 
+18:41:37,843 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  949 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Socket connection established to locator_host1/192.168.150.201:2181, initiating session
+ 
+18:41:37,844 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  738 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Session establishment complete on server locator_host1/192.168.150.201:2181, 
+sessionid = 0x32e71447e6b004c, negotiated timeout = 4000
+ </programlisting>
+		<para>
+		Also, we can judge about the feature work watching Locator logs in the console window. 
+		</para>   		
+<programlisting>
+18:41:38,765 | INFO  | ExtenderThread-8 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/CRMServiceProvider/ for service 
+ {http://services.talend.org/CRMService}CRMServiceProvider.
+ 
+18:44:07,250 | INFO  | xtenderThread-12 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/ReservationServiceProvider/ for service 
+ {http://services.talend.org/ReservationService}ReservationServiceProvider.
+</programlisting>   		
+   		<para>
+   		In our example, the Locator enabling does not affect the behavior of Rent a Car demo. Because the benefits are manifested in the case of multiple providers for the service.
+   		In this case we can use such useful features as automatic endpoint deregistration and failover. Locator allows clients to failover from the initial target endpoint to another, compatible endpoint for the target service.
+   		</para>
+   	</section>
+</chapter>
