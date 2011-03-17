@@ -263,6 +263,28 @@ Then, the Agent will replace the value of 'Password' tag with ''.
    &lt;/soapenv:Header>
 </programlisting>   
 	</para>
+	
+	<para>
+Add a CustomInfoHandler to your spring configure context in your Application: 
+<programlisting>
+	&lt;bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+		&lt;property name="customInfo">
+		    &lt;map>
+		        &lt;entry key="Application name" value="Dummy App"/>
+		        &lt;entry key="Stage" value="Dev"/>
+		    &lt;/map>
+		&lt;/property>	
+	&lt;/bean>    
+</programlisting>
+	</para>
+	<para>
+Send a Soap message from SoapUI, then the custom properties will be stored into Databse with Event.
+	</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/customprop.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>  
 	</section>
 	</chapter>
 	
