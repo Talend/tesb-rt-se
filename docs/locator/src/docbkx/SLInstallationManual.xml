@@ -24,14 +24,13 @@
   </info>
 
   <chapter>
-    <title>Talend ESB Service Locator Installation</title>
+    <title>Service Locator Installation</title>
 
-    <para>The Talend ESB Service Locator is a service that provides service
-    consumers with a mechanism to discover service endpoints at run time. The
-    Service Locator consists of two parts: The Endpoint Repository and the
-    Talend ESB ServiceLocator Feature. This chapter describes the steps to
-    install and run the <emphasis role="strong">Service
-    Locator</emphasis>.</para>
+    <para>The Service Locator is a service that provides service consumers
+    with a mechanism to discover service endpoints at run time. The Service
+    Locator consists of two parts: The Endpoint Repository and the
+    ServiceLocator Feature. This chapter describes the steps to install and
+    run the <emphasis role="strong">Service Locator</emphasis>.</para>
 
     <para>Since creating a distributed, fault-tolerant endpoint repository is
     a non-trivial task, the Service Locator implementation based on proven
@@ -62,7 +61,7 @@
       role="strong">conf/zoo.cfg</emphasis>:</para>
 
       <example xml:id="ex.slstaloneconf">
-        <title>Talend ESB Service Locator standalone configuration</title>
+        <title>Service Locator standalone configuration</title>
 
         <programlisting>
 tickTime=2000 
@@ -188,7 +187,7 @@ server.3=locator_host3:2888:3888
     </section>
 
     <section>
-      <title>Maintaining a Talend ESB Service Locator</title>
+      <title>Maintaining a Service Locator</title>
 
       <para>The Service Locator continually saves znode snapshot files and,
       optionally, transactional logs in a Data Directory to enable you to
