@@ -1,16 +1,21 @@
 package org.talend.esb.job.converter.internal;
 
-import aQute.lib.osgi.Builder;
-import aQute.lib.osgi.Jar;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.talend.esb.job.converter.Converter;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.talend.esb.job.converter.Converter;
+
+import aQute.lib.osgi.Builder;
+import aQute.lib.osgi.Jar;
 
 /**
  * Default implementation of a job transformer.
@@ -68,12 +73,14 @@ public class ConverterImpl implements Converter {
             Jar jar = builder.build();
             Manifest manifest = jar.getManifest();
             jar.write(osgiJobLocation);
+            jar.close();
+            builder.close();
         } catch (Exception e) {
             throw new IOException("Can't create Talend job bundle jar", e);
         }
 
         logger.debug("Delete working directory {}", uncompressDir.getPath());
-        uncompressDir.delete();
+        deleteDir(uncompressDir);
     }
 
     /**
@@ -91,5 +98,21 @@ public class ConverterImpl implements Converter {
             len = in.read(buffer);
         }
     }
+    
+    public boolean deleteDir(File path) {
+    	if( path.exists() ) {
+    		File[] files = path.listFiles();
+    		for(int i=0; i<files.length; i++) {
+    			if(files[i].isDirectory()) {
+    				deleteDir(files[i]);
+    			}
+    			else {
+    				files[i].delete();
+    			}
+    		}
+    	}
+    	return( path.delete() );
+    }
+
 
 }
