@@ -1,16 +1,20 @@
 package org.talend.esb.job.converter.internal;
 
-import aQute.lib.osgi.Builder;
-import aQute.lib.osgi.Jar;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.talend.esb.job.converter.Converter;
 
-import java.io.*;
-import java.util.Enumeration;
-import java.util.jar.Manifest;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import aQute.lib.osgi.Builder;
+import aQute.lib.osgi.Jar;
 
 /**
  * Default implementation of a job transformer.
@@ -31,7 +35,7 @@ public class ConverterImpl implements Converter {
 
         logger.debug("Unzip Talend job {} ...", osgiJobLocation);
         ZipFile jobZipFile = new ZipFile(sourceJob);
-        Enumeration<ZipEntry> jobZipEntries = (Enumeration<ZipEntry>) jobZipFile.entries();
+        Enumeration<? extends ZipEntry> jobZipEntries = jobZipFile.entries();
         while (jobZipEntries.hasMoreElements()) {
             ZipEntry jobZipEntry = jobZipEntries.nextElement();
             if (!jobZipEntry.isDirectory() && jobZipEntry.getName().endsWith(".jar")) {
@@ -59,21 +63,20 @@ public class ConverterImpl implements Converter {
         builder.setProperty("Import-Package", "*;resolution:=optional");
         logger.debug("Iterate in the working directory");
         File[] files = uncompressDir.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            builder.addClasspath(files[i]);
-            files[i].delete();
-        }
-
+        for (File file : files) {
+            builder.addClasspath(file);
+		}
         try {
             Jar jar = builder.build();
-            Manifest manifest = jar.getManifest();
             jar.write(osgiJobLocation);
+            jar.close();
+            builder.close();
         } catch (Exception e) {
             throw new IOException("Can't create Talend job bundle jar", e);
         }
 
         logger.debug("Delete working directory {}", uncompressDir.getPath());
-        uncompressDir.delete();
+        deleteDir(uncompressDir);
     }
 
     /**
@@ -91,5 +94,21 @@ public class ConverterImpl implements Converter {
             len = in.read(buffer);
         }
     }
+    
+    private static boolean deleteDir(File path) {
+    	if( path.exists() ) {
+    		File[] files = path.listFiles();
+    		for(int i=0; i<files.length; i++) {
+    			if(files[i].isDirectory()) {
+    				deleteDir(files[i]);
+    			}
+    			else {
+    				files[i].delete();
+    			}
+    		}
+    	}
+    	return( path.delete() );
+    }
+
 
 }
