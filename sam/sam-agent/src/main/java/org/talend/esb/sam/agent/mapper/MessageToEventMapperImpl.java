@@ -68,7 +68,7 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
-        messageInfo.setFlowId(FlowIdHelper.getFlowIdFromProperty(message));
+        messageInfo.setFlowId(FlowIdHelper.getFlowId(message, false).getFlowId());
         messageInfo.setMessageId(ContextUtils.generateUUID());
         String opName = message.getExchange().getBindingOperationInfo().getName().toString();
         messageInfo.setOperationName(opName);

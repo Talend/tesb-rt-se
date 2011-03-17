@@ -27,7 +27,6 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.talend.esb.sam.agent.interceptor.FlowIdProcessor;
 import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
@@ -36,18 +35,13 @@ import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
 public class FlowIdTransportCodec extends AbstractPhaseInterceptor<Message> {
 	
 	protected static Logger logger = Logger.getLogger(FlowIdTransportCodec.class.getName());
-	
-	private FlowIdTransportCodec() {
-		super(Phase.PRE_PROTOCOL);
-	}
-	
+
 	public FlowIdTransportCodec(String phase) {
 		super(phase);
 		//super(Phase.USER_PROTOCOL); //outgoing
 		//super(Phase.READ); //incoming
 	}
-	
-	
+
 	public void handleMessage(Message message) throws Fault {
 		logger.finest("FlowIdTransportCodec Interceptor called. isOutbound: " + MessageUtils.isOutbound(message) + ", isRequestor: " + MessageUtils.isRequestor(message));
 		

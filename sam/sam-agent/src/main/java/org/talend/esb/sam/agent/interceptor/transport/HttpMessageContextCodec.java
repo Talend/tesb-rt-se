@@ -30,18 +30,14 @@ import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
 
 
 public class HttpMessageContextCodec implements MessageContextCodec {
-	
 	public static final String FLOWID_HTTP_HEADER_NAME = "flowid";
-	
 	protected static Logger logger = Logger.getLogger(HttpMessageContextCodec.class.getName());
 	
 	public HttpMessageContextCodec() {
 	}
 	
 	public String readFlowId(Message message) {
-		
 		String flowId = null;
-		//Map<String, List<String>> headers = (Map<String, List<String>>)message.get(Message.PROTOCOL_HEADERS);
 		Map<String, List<String>> headers = CastUtils.cast((Map<?, ?>)message.get(Message.PROTOCOL_HEADERS));
 		if (headers != null) {
 			List<String> flowIds = headers.get(FLOWID_HTTP_HEADER_NAME);
@@ -57,15 +53,11 @@ public class HttpMessageContextCodec implements MessageContextCodec {
 	}
 
 	public void writeFlowId(Message message, String flowId) {
-		// 
-		//Map<String, List<String>> headers = (Map<String, List<String>>)message.get(Message.PROTOCOL_HEADERS);
 		Map<String, List<String>> headers = CastUtils.cast((Map<?, ?>)message.get(Message.PROTOCOL_HEADERS));
 		if (headers != null) {
 			headers.put(FLOWID_HTTP_HEADER_NAME, Arrays.asList(new String[]{flowId}));
 			logger.info("HTTP header '" + FLOWID_HTTP_HEADER_NAME + "' set to: " + flowId);
 		}
 	}
-
-	
 
 }

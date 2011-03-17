@@ -32,10 +32,10 @@ public class FlowIdProducerTest {
 	public void flowIdProducerInTest() {
 		FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
 		Message message = new MessageImpl();
-		String flowId = FlowIdHelper.getFlowIdFromProperty(message);
+		String flowId = FlowIdHelper.getFlowId(message, false).getFlowId();
 		Assert.assertNull(flowId);
 		flowIdProducerIn.handleMessage(message);
-		flowId = FlowIdHelper.getFlowIdFromProperty(message);
+		flowId = FlowIdHelper.getFlowId(message, false).getFlowId();
 		Assert.assertNotNull(flowId);
 	}
 
