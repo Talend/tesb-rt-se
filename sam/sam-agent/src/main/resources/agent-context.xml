@@ -48,7 +48,7 @@
         <property name="logMessageContent" value="${log.messageContent}" />
     </bean>
     
-    <bean id="eventMapper" class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl">
+    <bean id="eventMapper" class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl">
         <property name="maxContentLength" value="${log.maxContentLength}"/>
     </bean>
 

@@ -45,6 +45,7 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.interceptor.security.DefaultSecurityContext;
 import org.junit.Assert;
 import org.junit.Test;
+import org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 

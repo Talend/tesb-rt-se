@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.wiretap;
 
 import java.io.OutputStream;
 

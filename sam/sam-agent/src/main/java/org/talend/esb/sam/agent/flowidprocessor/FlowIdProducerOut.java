@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import java.lang.ref.WeakReference;
 import java.util.logging.Logger;
@@ -29,6 +29,8 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.talend.esb.sam.agent.flowid.FlowId;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 
 
 public class FlowIdProducerOut<T extends Message> extends AbstractPhaseInterceptor<T> {
@@ -65,7 +67,7 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 			return;
 		}
 		
-		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg, false);
+		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg);
 		//MonitoringEventData edReq = (MonitoringEventData)reqMsg.get(MonitoringEventData.class);
 		if (reqFid == null) {
 			logger.warning("InMessage must contain FlowId");
@@ -78,7 +80,7 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 			return;
 		}
 		
-		FlowId fId = FlowIdHelper.getFlowId(message);
+		FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
 		fId.setFlowId(flowId);	
 		
 	}
@@ -95,11 +97,11 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
                         WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
 			Message previousMessage = (Message)wrPreviousMessage.get();
 			//MonitoringEventData ed = (MonitoringEventData)previousMessage.get(MonitoringEventData.class);		
-			FlowId fId = FlowIdHelper.getFlowId(previousMessage, false);
+			FlowId fId = FlowIdHelper.getFlowId(previousMessage);
 			if (fId != null) {
 				flowId = fId.getFlowId();
 				logger.fine("flowId '" + flowId + "' found in previous message");
-				FlowId fId2 = FlowIdHelper.getFlowId(message);
+				FlowId fId2 = FlowIdHelper.getOrCreateFlowId(message);
 				fId2.setFlowId(flowId);
 				logger.info("flowId '" + flowId + "' added to FlowId of current message");
 				
@@ -109,7 +111,7 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 		} else {
 			// Web Service consumer is a native client
 			logger.info("PREVIOUS_MESSAGE not found");
-			FlowId fId = FlowIdHelper.getFlowId(message);
+			FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
 			flowId = fId.getFlowId();
 			if (flowId != null) {
 				logger.fine("FlowId '" + flowId + "' found in FlowId");
@@ -120,7 +122,7 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 		if (flowId == null) {
 			logger.fine("Generate and add flowId");
 			flowId = ContextUtils.generateUUID();
-			FlowId fId = FlowIdHelper.getFlowId(message);
+			FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
 			fId.setFlowId(flowId);
 			logger.info("FlowId '" + flowId + "' added to FlowId");
 		}	

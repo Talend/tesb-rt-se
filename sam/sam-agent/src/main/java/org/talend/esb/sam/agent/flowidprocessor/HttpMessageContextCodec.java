@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor.transport;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.message.Message;
-import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
 
 
 public class HttpMessageContextCodec implements MessageContextCodec {

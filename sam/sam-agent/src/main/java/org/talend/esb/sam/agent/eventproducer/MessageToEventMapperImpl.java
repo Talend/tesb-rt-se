@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.mapper;
+package org.talend.esb.sam.agent.eventproducer;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -33,7 +33,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.apache.cxf.security.SecurityContext;
-import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -68,7 +68,7 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
-        messageInfo.setFlowId(FlowIdHelper.getFlowId(message, false).getFlowId());
+        messageInfo.setFlowId(FlowIdHelper.getFlowIdAsString(message));
         messageInfo.setMessageId(ContextUtils.generateUUID());
         String opName = message.getExchange().getBindingOperationInfo().getName().toString();
         messageInfo.setOperationName(opName);

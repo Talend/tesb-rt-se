@@ -17,13 +17,22 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.mapper;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import org.apache.cxf.message.Message;
-import org.talend.esb.sam.common.event.Event;
 
-public interface MessageToEventMapper {
+public interface MessageContextCodec {
 
-    public abstract Event mapToEvent(Message message);
-
+	/**
+	 * Decode the <b>flowId</b>.
+	 * @return current value of FlowId
+	*/
+	String readFlowId(Message message);
+	
+	/**
+	 * Encode the <b>flowId</b>.
+	 * @param flowId new value for FlowId
+	*/
+	void writeFlowId(Message message, String flowId);
+	
 }

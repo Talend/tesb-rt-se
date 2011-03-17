@@ -17,22 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowid;
 
-import org.apache.cxf.message.Message;
-
-public interface MessageContextCodec {
-
+public class FlowId {
+	private String flowId = null;
+	
 	/**
-	 * Decode the <b>flowId</b>.
+	 * Accessor for the <b>flowId</b>.
 	 * @return current value of FlowId
 	*/
-	String readFlowId(Message message);
+	public String getFlowId()
+	{
+		return this.flowId;	
+	}
+	
 	
 	/**
-	 * Encode the <b>flowId</b>.
+	 * Mutator for the <b>flowId</b>.
 	 * @param flowId new value for FlowId
 	*/
-	void writeFlowId(Message message, String flowId);
-	
+	public void setFlowId(String flowId)
+	{
+		if (this.flowId != null) throw new IllegalStateException("flowId already set");
+		this.flowId = flowId;
+		
+	}
 }

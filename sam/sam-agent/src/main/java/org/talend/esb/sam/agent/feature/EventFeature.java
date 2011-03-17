@@ -24,14 +24,14 @@ import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.talend.esb.sam.agent.interceptor.EventProducerInterceptor;
-import org.talend.esb.sam.agent.interceptor.FlowIdProducerIn;
-import org.talend.esb.sam.agent.interceptor.FlowIdProducerOut;
-import org.talend.esb.sam.agent.interceptor.WireTapIn;
-import org.talend.esb.sam.agent.interceptor.WireTapOut;
-import org.talend.esb.sam.agent.interceptor.soap.FlowIdSoapCodec;
-import org.talend.esb.sam.agent.interceptor.transport.FlowIdTransportCodec;
-import org.talend.esb.sam.agent.mapper.MessageToEventMapper;
+import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
+import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
+import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
+import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
+import org.talend.esb.sam.agent.flowidprocessor.FlowIdSoapCodec;
+import org.talend.esb.sam.agent.flowidprocessor.FlowIdTransportCodec;
+import org.talend.esb.sam.agent.wiretap.WireTapIn;
+import org.talend.esb.sam.agent.wiretap.WireTapOut;
 import org.talend.esb.sam.common.spi.EventManipulator;
 
 /**

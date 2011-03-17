@@ -17,13 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
+import org.talend.esb.sam.agent.flowid.FlowId;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 
 public class FlowIdProcessor  {
 	
@@ -55,7 +57,7 @@ public class FlowIdProcessor  {
 		}
 		else {
 			//check whether flowId already stored in FlowId by lower level interceptor
-			FlowId fId = FlowIdHelper.getFlowId(message);
+			FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
 			String existingFlowId = fId.getFlowId();
 			
 			//Read FlowId from soap header

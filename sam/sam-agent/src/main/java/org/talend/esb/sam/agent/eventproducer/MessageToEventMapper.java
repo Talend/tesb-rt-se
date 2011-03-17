@@ -17,29 +17,13 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.eventproducer;
 
-public class FlowId {
-	private String flowId = null;
-	
-	/**
-	 * Accessor for the <b>flowId</b>.
-	 * @return current value of FlowId
-	*/
-	public String getFlowId()
-	{
-		return this.flowId;	
-	}
-	
-	
-	/**
-	 * Mutator for the <b>flowId</b>.
-	 * @param flowId new value for FlowId
-	*/
-	public void setFlowId(String flowId)
-	{
-		if (this.flowId != null) throw new IllegalStateException("flowId already set");
-		this.flowId = flowId;
-		
-	}
+import org.apache.cxf.message.Message;
+import org.talend.esb.sam.common.event.Event;
+
+public interface MessageToEventMapper {
+
+    public abstract Event mapToEvent(Message message);
+
 }

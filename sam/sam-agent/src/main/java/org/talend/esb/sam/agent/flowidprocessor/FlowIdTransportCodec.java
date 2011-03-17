@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor.transport;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import java.util.logging.Logger;
 
@@ -28,8 +28,6 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.talend.esb.sam.agent.interceptor.FlowIdProcessor;
-import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
 
 
 public class FlowIdTransportCodec extends AbstractPhaseInterceptor<Message> {

@@ -17,9 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor.soap;
+package org.talend.esb.sam.agent.flowidprocessor;
 
-import static org.talend.esb.sam.agent.interceptor.FlowIdHelper.FLOW_ID_QNAME;
+import static org.talend.esb.sam.agent.flowid.FlowIdHelper.FLOW_ID_QNAME;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -35,9 +35,7 @@ import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.Phase;
-import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
-import org.talend.esb.sam.agent.interceptor.FlowIdProcessor;
-import org.talend.esb.sam.agent.interceptor.MessageContextCodec;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 import org.w3c.dom.Node;
 
 public class FlowIdSoapCodec extends AbstractSoapInterceptor implements MessageContextCodec {

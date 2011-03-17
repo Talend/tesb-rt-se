@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowid;
 
 import javax.xml.namespace.QName;
 
@@ -36,23 +36,32 @@ public class FlowIdHelper {
 	 * @param message
 	 * @return new instance of FlowId if there is none.
 	 */
-	public static FlowId getFlowId(Message message) {
-		return getFlowId(message, true);
+	public static FlowId getOrCreateFlowId(Message message) {
+		FlowId fId = (FlowId)message.get(FlowId.class);
+		if (fId == null) {
+			fId = new FlowId();
+			message.put(FlowId.class, fId);	
+		}
+		return fId;
 	}
 	
 	/**
 	 * Get FlowId from message
 	 * 
 	 * @param message
-	 * @return new instance of FlowId if there is none.
+	 * @return flowId or null if not set
 	 */
-	public static FlowId getFlowId(Message message, boolean create) {
+	public static FlowId getFlowId(Message message) {
+		return (FlowId)message.get(FlowId.class);
+	}
+	
+	public static String getFlowIdAsString(Message message) {
 		FlowId fId = (FlowId)message.get(FlowId.class);
-		if (fId == null && create == true) {
-			fId = new FlowId();
-			message.put(FlowId.class, fId);	
+		if (fId == null) {
+			return null;
+		} else {
+			return fId.getFlowId();
 		}
-		return fId;
 	}
 
 }

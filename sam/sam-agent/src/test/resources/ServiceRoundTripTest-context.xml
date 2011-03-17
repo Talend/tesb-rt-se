@@ -47,7 +47,7 @@
     <bean id="mockEventSender" class="org.talend.esb.sam.agent.interceptor.MockEventSender" />
 
     <bean id="eventMapper"
-        class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl" />
+        class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl" />
 
     <jaxws:client id="customerService" address="local:/CustomerServicePort"
         serviceClass="com.example.customerservice.CustomerService">
