@@ -33,10 +33,10 @@
 			of Talend ESB for the develop and run services.
  		</para>
 		<para>
-			You can learn the purpose of the Rent a Car Demo. You can found
-			how to compiled Rent a Car Demo, deploy it into Talend ESB Runtime OSGi
-			container and run. Also You can learn how to enable the Service
-			Locator Component for the Rent a Car demo.
+			You can learn the purpose of the Rent a Car Demo. You can find out
+			how to compile Rent a Car Demo, deploy it into the Talend ESB Runtime OSGi
+			container and execute it. Also you will learn how to enable the Service
+			Locator Component for the Rent a Car demo if you need to .
  		</para>
 	</chapter>
 	
@@ -60,8 +60,8 @@ In the course of working through this example you will learn how to:
 				<member>use OSGi commands</member>
 			</simplelist>								
        <para>In this scenario, there are two main services that will be demonstrated: you will create and orchestrate these services with the help of a simple graphical front-end application. It contains two services: CRMService and ReservationService. </para>
-       <para>Client provide the basic functionality with which it searches for the available cars within a given time period, and the search also takes into account the status of the given user. This criteria will then determine the outcome of the search. From the list of results you can select the car that fulfills your requirement and then simply make your reservation by clicking Book . At the end of the submission process, the system will show you a confirmation page with your Reservation ID. 
-From a technical perspective the client calls the following services and operations on the CRM Service and Reserveration Service.
+       <para>Rental Client provides the basic functionality to search for the available cars within a given time period. The search takes into account the status of the given user. This criteria will then determine the outcome of the search. From the list of results you can select the car that fulfills your requirement and then simply make your reservation by clicking on the "Book" button. At the end of the submission process, the system will show you a confirmation page with your Reservation ID. 
+To implement its business logic the client calls operations of the CRM Service and the Reserveration Service.
  </para>       
 	
        <mediaobject>
@@ -114,7 +114,7 @@ From a technical perspective the client calls the following services and operati
         		</informaltable>
 			</para>
 			<para>
-From the base directory of CRMService sample, the maven <code>...\examples\crmservice\pom.xml</code> file can be used to build and run the demo. 
+From the base directory of the CRMService sample, the maven <code>...\examples\crmservice\pom.xml</code> file can be used to build and run the demo. 
 			</para>
 			<para>
 Using either UNIX or Windows:
@@ -123,11 +123,10 @@ Using either UNIX or Windows:
        mvn install
 				</programlisting>
 			<para>
-Running this command will build the demo and create an OSGi bundle 
-for deploying the service to OSGi containers.
+Running this command will build the demo and create OSGi bundles deployed to an OSGi container.
 			</para>
 			<para>
-There are three OSGi bundles will be created:
+Three OSGi bundles will be created:
 				<simplelist type='vert' columns='1'>
 					<member>...\common\target\crmservice-common-4.0.jar</member>
 					<member>...\server\target\crmservice-server-4.0.jar</member>
@@ -164,13 +163,13 @@ There are three OSGi bundles will be created:
                     		<entry>
                     			<code>service/</code>
                     		</entry>
-                    		<entry>This is where a ReservationService service implementation shared by JAX-WS endpoints is located. </entry>
+                    		<entry>This is where a ReservationService implementation shared by JAX-WS endpoints is located. </entry>
 		                </row>
                 		<row>
                     		<entry>
                     			<code>client/</code>
                     		</entry>
-                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking on remote JAX-WS endpoints represented by ReservationService interface.</entry>
+                    		<entry>This is a sample client application that shows how CXF JAX-WS proxies are invoking remote JAX-WS endpoints represented by the ReservationService interface.</entry>
 		                </row>
 			        </tbody>
         			</tgroup>
@@ -186,8 +185,7 @@ Using either UNIX or Windows:
     mvn install
 				</programlisting>
 			<para>
-Running this command will build the demo and create an OSGi bundle 
-for deploying the service to OSGi containers.
+Running this command will build the demo and create OSGi bundles deployed to an OSGi container.
 			</para>
 			<para>
 Three OSGi bundles will be created:
@@ -210,7 +208,7 @@ Three OSGi bundles will be created:
         mvn install
 			</programlisting>
 		<para>
-		Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
+		Running this command will build the demo and create OSGi bundles deployed to an OSGi container.
 		</para>
 		<para>The OSGi bundle will be created:</para>
 		<para>
@@ -241,7 +239,7 @@ You can find out how to get started with OSGi container here: <link xlink:href="
 1. Deploy CRMService into OSGi container.
 			</para>
 			<para>
-Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
+Copy follow bundles into the folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
 				<simplelist type='vert' columns='1'>
 					<member>crmservice-common-4.0.jar</member>
 					<member>crmservice-server-4.0.jar</member>
@@ -249,7 +247,7 @@ Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deplo
 				</simplelist>
 			</para>
 			<para>
-2. Type in console command "list".
+2. Type the console command "list".
 			</para>
 			<para>
 You will see demo bundles in the lists of installed bundles:
@@ -264,7 +262,7 @@ You will see demo bundles in the lists of installed bundles:
 3. Deploy ReservationService into OSGi container.
 			</para>
 			<para>
-Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
+Copy follow bundles into the folder <code>&lt;Talend ESB Runtime&gt;/container/deploy</code>
 			<simplelist type='vert' columns='1'>
 				<member>reservationservice-common-4.0.jar</member>
 				<member>reservationservice-server-4.0.jar</member>
@@ -272,7 +270,7 @@ Copy follow bundles into folder <code>&lt;Talend ESB Runtime&gt;/container/deplo
 			</simplelist>
 			</para>
 			<para>
-4. Type in console command "list".
+4. Type the console command "list".
 			</para>
 			<para>
 You will see demo bundles in the lists of installed bundles:
@@ -286,13 +284,13 @@ You will see demo bundles in the lists of installed bundles:
 		<section>
 			<title>Deploy demo application</title>
 			<para>
-1. Make sure that the console launched and demo services was deployed.
+1. Make sure that the console was launched and the demo services were deployed.
 			</para>
 			<para>
-2. Copy app-reservation-4.0.jar into folder &lt;Talend ESB Runtime&gt;/container/deploy.
+2. Copy app-reservation-4.0.jar into thr folder &lt;Talend ESB Runtime&gt;/container/deploy.
 			</para>
 			<para>
-In console you will see:
+On the console you will see:
 				<programlisting>		
 ---TALEND ESB: Rent a Car (OSGi) Commands---
         car:GUI                                  (Show GUI)
@@ -334,7 +332,7 @@ In console you will see:
 				deployed in Talend ESB Runtime. Start OSGi console.   
 			</para>
 			<para>
-				In console you will see text:
+				On the console you will see:
 			</para>
 			<simplelist type='vert' columns='1'>
 				<member>---TALEND ESB: Rent a Car (OSGi) Commands---</member>
@@ -359,7 +357,7 @@ In console you will see:
           </imageobject>
        </mediaobject>  			
 			<para>Click the highlighted line or select any other option and click Reserve.</para>
-			<para>You can now see confirmation page.</para>
+			<para>You can now see the confirmation page.</para>
        <mediaobject>
           <imageobject>
              <imagedata fileref="images/cargui3.jpg" format="jpg"/>
