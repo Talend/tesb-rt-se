@@ -178,8 +178,7 @@
       <title>Talend ESB ServiceLocator Feature programmatically using provider
       side</title>
 
-      <programlisting>
-        String port = "8080";
+      <programlisting>		String port = "8080";
 		String address = String.format("http://provider_host:%1$s/services/Greeter", port);
 		
 		LocatorFeature locatorFeature = new LocatorFeature();
@@ -292,7 +291,8 @@
 		address="locator://"&gt;
 		&lt;jaxws:features&gt;
 			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
-		        &lt;property name="locatorEndpoints" value="locator_host:2181"/&gt;
+		        &lt;property name="locatorEndpoints" 
+		        					value="locator_host1:2181,locator_host2:2181,locator_host2:2182"/&gt;
 			&lt;/bean&gt;
 		&lt;/jaxws:features&gt;
 	&lt;/jaxws:client&gt;

@@ -5,22 +5,23 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>job</artifactId>
         <version>4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>job</artifactId>
-    <name>Talend :: ESB :: Job</name>
-    <packaging>pom</packaging>
+    <groupId>org.talend.esb.job</groupId>
+    <artifactId>org.talend.esb.job.controler</artifactId>
+    <packaging>bundle</packaging>
+    <name>Talend :: ESB :: Job :: Controler</name>
 
-    <modules>
-        <module>job-api</module>
-        <module>converter</module>
-        <module>deployer</module>
-        <module>controler</module>
-        <!-- <module>command</module> -->
-        <!-- <module>features</module> -->
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

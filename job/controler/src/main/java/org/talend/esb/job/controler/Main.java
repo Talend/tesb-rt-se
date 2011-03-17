@@ -1,7 +1,7 @@
-package org.talend.esb.job.launcher;
+package org.talend.esb.job.controler;
 
 /**
- * Main Talend job launcher.
+ * Main job controler class.
  */
 public class Main {
 
