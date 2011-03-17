@@ -23,13 +23,10 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.Phase;
 import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
-import org.talend.esb.sam.agent.flowidprocessor.FlowIdSoapCodec;
-import org.talend.esb.sam.agent.flowidprocessor.FlowIdTransportCodec;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
 import org.talend.esb.sam.common.spi.EventManipulator;
@@ -54,11 +51,12 @@ public class EventFeature extends AbstractFeature {
         super.initializeProvider(provider, bus);
 
         FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
-        FlowIdProducerOut<Message> flowIdProducerOut = new FlowIdProducerOut<Message>();
+        provider.getInInterceptors().add(flowIdProducerIn);
+        provider.getInFaultInterceptors().add(flowIdProducerIn);
 
-        FlowIdSoapCodec flowIdSoapCodec = new FlowIdSoapCodec();
-        FlowIdTransportCodec flowIdHttpCodecIn = new FlowIdTransportCodec(Phase.READ);
-        FlowIdTransportCodec flowIdHttpCodecOut = new FlowIdTransportCodec(Phase.USER_PROTOCOL);
+        FlowIdProducerOut<Message> flowIdProducerOut = new FlowIdProducerOut<Message>();
+        provider.getOutInterceptors().add(flowIdProducerOut);
+        provider.getOutFaultInterceptors().add(flowIdProducerOut);
 
         EventProducerInterceptor epi = new EventProducerInterceptor(mapper, eventSender);
         
@@ -73,30 +71,6 @@ public class EventFeature extends AbstractFeature {
         provider.getOutInterceptors().add(wireTapOut);
         WireTapOut wireTapOutFault = new WireTapOut(epi, logMessageContent);
         provider.getOutFaultInterceptors().add(wireTapOutFault);
-
-        // Add FlowIdProducer
-        provider.getInInterceptors().add(flowIdProducerIn);
-        provider.getInInterceptors().add(flowIdSoapCodec);
-        provider.getInInterceptors().add(flowIdHttpCodecIn);
-        provider.getInFaultInterceptors().add(flowIdProducerIn);
-        provider.getInFaultInterceptors().add(flowIdSoapCodec);
-        provider.getInFaultInterceptors().add(flowIdHttpCodecIn);
-        provider.getOutInterceptors().add(flowIdProducerOut);
-        provider.getOutInterceptors().add(flowIdSoapCodec);
-        provider.getOutInterceptors().add(flowIdHttpCodecOut);
-        provider.getOutFaultInterceptors().add(flowIdProducerOut);
-        provider.getOutFaultInterceptors().add(flowIdSoapCodec);
-        provider.getOutFaultInterceptors().add(flowIdHttpCodecOut);
-
-        // add dependencies for incoming messages
-        flowIdProducerIn.addAfter(WireTapIn.class.getName());
-        wireTapIn.addBefore(FlowIdProducerIn.class.getName());
-
-        // add dependencies for outgoing messages
-        flowIdProducerOut.addAfter(WireTapOut.class.getName());
-        wireTapOut.addBefore(FlowIdProducerOut.class.getName());
-
-
     }
 
     public void setMapper(MessageToEventMapper mapper) {

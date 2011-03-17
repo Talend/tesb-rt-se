@@ -25,43 +25,23 @@ import org.apache.cxf.message.Message;
 
 
 public class FlowIdHelper {
-
+	public static final String FLOW_ID_KEY = "FlowId";
 	public static final QName FLOW_ID_QNAME = new QName(
 			"http://www.sopera.com/monitoring/flowId/v1", "flowId");
 
-	
-	/**
-	 * Get FlowId from message
-	 * 
-	 * @param message
-	 * @return new instance of FlowId if there is none.
-	 */
-	public static FlowId getOrCreateFlowId(Message message) {
-		FlowId fId = (FlowId)message.get(FlowId.class);
-		if (fId == null) {
-			fId = new FlowId();
-			message.put(FlowId.class, fId);	
-		}
-		return fId;
-	}
-	
 	/**
 	 * Get FlowId from message
 	 * 
 	 * @param message
 	 * @return flowId or null if not set
 	 */
-	public static FlowId getFlowId(Message message) {
-		return (FlowId)message.get(FlowId.class);
+	public static String getFlowId(Message message) {
+		return (String)message.get(FLOW_ID_KEY);
 	}
-	
-	public static String getFlowIdAsString(Message message) {
-		FlowId fId = (FlowId)message.get(FlowId.class);
-		if (fId == null) {
-			return null;
-		} else {
-			return fId.getFlowId();
-		}
+
+
+	public static void setFlowId(Message message, String flowId) {
+		message.put(FLOW_ID_KEY, flowId);
 	}
 
 }

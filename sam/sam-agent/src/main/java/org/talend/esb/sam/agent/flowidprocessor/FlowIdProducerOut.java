@@ -29,105 +29,76 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.flowid.FlowId;
 import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 
+public class FlowIdProducerOut<T extends Message> extends
+		AbstractPhaseInterceptor<T> {
 
-public class FlowIdProducerOut<T extends Message> extends AbstractPhaseInterceptor<T> {
-	
-	protected static Logger logger = Logger.getLogger(FlowIdProducerOut.class.getName());
-	
-	public FlowIdProducerOut(){
+	protected static Logger logger = Logger.getLogger(FlowIdProducerOut.class
+			.getName());
+
+	public FlowIdProducerOut() {
 		super(Phase.USER_LOGICAL);
 	}
-	
-	public FlowIdProducerOut(String phase){
-		super(phase);
-	}
-	
+
 	public void handleMessage(T message) throws Fault {
-		logger.finest("FlowIdProducerOut Interceptor called. isOutbound: " + MessageUtils.isOutbound(message) + ", isRequestor: " + MessageUtils.isRequestor(message));
-		
+		logger.finest("FlowIdProducerOut Interceptor called. isOutbound: "
+				+ MessageUtils.isOutbound(message) + ", isRequestor: "
+				+ MessageUtils.isRequestor(message));
+
 		if (MessageUtils.isRequestor(message)) {
 			handleRequestOut(message);
-		}
-		else {
+		} else {
 			handleResponseOut(message);
 		}
 		
+		String flowId = FlowIdHelper.getFlowId(message);
+		FlowIdProtocolHeaderCodec.writeFlowId(message, flowId);
+		FlowIdSoapCodec.writeFlowId(message, flowId);
+
 	}
-	
-	
+
 	protected void handleResponseOut(T message) throws Fault {
-		logger.info("handleResponseOut");
-		
+		logger.fine("handleResponseOut");
+
 		Message reqMsg = message.getExchange().getInMessage();
 		if (reqMsg == null) {
 			logger.warning("getInMessage is null");
 			return;
 		}
-		
-		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg);
-		//MonitoringEventData edReq = (MonitoringEventData)reqMsg.get(MonitoringEventData.class);
-		if (reqFid == null) {
-			logger.warning("InMessage must contain FlowId");
-			return;
-		}
-		
-		String flowId = reqFid.getFlowId();
-		if (flowId == null) {
-			logger.warning("flowId in InMessage must not be null");
-			return;
-		}
-		
-		FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
-		fId.setFlowId(flowId);	
-		
+
+		String reqFid = FlowIdHelper.getFlowId(reqMsg);
+		FlowIdHelper.setFlowId(message, reqFid);
+
 	}
-	
-	
+
 	protected void handleRequestOut(T message) throws Fault {
 		logger.fine("handleRequestIn");
-		
-		String flowId = null;
-		if (message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
+
+		String flowId = FlowIdHelper.getFlowId(message);
+		if (flowId == null && message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			// Web Service consumer is acting as an intermediary
 			logger.info("PREVIOUS_MESSAGE FOUND!!!");
 			@SuppressWarnings("unchecked")
-                        WeakReference<Message> wrPreviousMessage = (WeakReference<Message>)message.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
-			Message previousMessage = (Message)wrPreviousMessage.get();
-			//MonitoringEventData ed = (MonitoringEventData)previousMessage.get(MonitoringEventData.class);		
-			FlowId fId = FlowIdHelper.getFlowId(previousMessage);
-			if (fId != null) {
-				flowId = fId.getFlowId();
-				logger.fine("flowId '" + flowId + "' found in previous message");
-				FlowId fId2 = FlowIdHelper.getOrCreateFlowId(message);
-				fId2.setFlowId(flowId);
-				logger.info("flowId '" + flowId + "' added to FlowId of current message");
-				
-			}
-			else logger.warning("FlowId not set. FlowId not found. Is monitoring enabled for published web services?"); 
-			
-		} else {
-			// Web Service consumer is a native client
-			logger.info("PREVIOUS_MESSAGE not found");
-			FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
-			flowId = fId.getFlowId();
+			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>) message
+					.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
+			Message previousMessage = (Message) wrPreviousMessage.get();
+			flowId = FlowIdHelper.getFlowId(previousMessage);
 			if (flowId != null) {
-				logger.fine("FlowId '" + flowId + "' found in FlowId");
+				logger.fine("flowId '" + flowId + "' found in previous message");
 			}
+
 		}
-	 
-		// No flowId found. Generate one.
+		
 		if (flowId == null) {
+			// No flowId found. Generate one.
 			logger.fine("Generate and add flowId");
 			flowId = ContextUtils.generateUUID();
-			FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
-			fId.setFlowId(flowId);
+			FlowIdHelper.setFlowId(message, flowId);
 			logger.info("FlowId '" + flowId + "' added to FlowId");
-		}	
-		
+		}
+
+		FlowIdHelper.setFlowId(message, flowId);
 	}
-	
-	
+
 }

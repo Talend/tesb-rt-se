@@ -23,11 +23,9 @@ import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.flowid.FlowId;
 import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 
 
@@ -39,84 +37,27 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 		super(Phase.PRE_INVOKE);
 	}
 	
-	public FlowIdProducerIn(String phase){
-		super(phase);
-	}
-	
 	public void handleMessage(T message) throws Fault {
-		logger.finest("FlowIdProducerIn Interceptor called. isOutbound: " + MessageUtils.isOutbound(message) + ", isRequestor: " + MessageUtils.isRequestor(message));
+		String flowId = FlowIdHelper.getFlowId(message);
 		
-		if (MessageUtils.isRequestor(message)) {
-			handleResponseIn(message);
-		}
-		else {
-			handleRequestIn(message);
-		}
-		
-	}
-	
-	
-	protected void handleResponseIn(T message) throws Fault {
-		logger.fine("handleResponseIn");
-		
-		Message reqMsg = message.getExchange().getOutMessage();
-		if (reqMsg == null) {
-			logger.warning("getOutMessage is null");
-			return;
-		}
-		
-		//MonitoringEventData edReq = (MonitoringEventData)reqMsg.get(MonitoringEventData.class);
-		FlowId reqFid = FlowIdHelper.getFlowId(reqMsg);
-		if (reqFid == null) {
-			logger.warning("OutMessage must contain FlowId");
-			return;
-		}
-		
-		String flowId = reqFid.getFlowId();
 		if (flowId == null) {
-			logger.warning("flowId in OutMessage must not be null");
-			return;
-		}
-		else {
-			logger.info("flowId in OutMessage is: " + flowId);	
+			flowId = FlowIdProtocolHeaderCodec.readFlowId(message);
 		}
 		
-		logger.fine("Check flowId in response message");
-		
-		FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
-		flowId = fId.getFlowId();
-		
-		if (flowId != null) {
-			logger.fine("FlowId '" + flowId + "' found in FlowId");
-		}	
-		else {
-			
-			logger.info("FlowId not found in FlowId");
+		if (flowId == null) {
+			flowId = FlowIdSoapCodec.readFlowId(message);
 		}
-	}
-	
-	
-	protected void handleRequestIn(T message) throws Fault {
-		logger.fine("handleRequestIn");
 		
+		FlowIdHelper.setFlowId(message, flowId);
 		
-		FlowId fId = FlowIdHelper.getOrCreateFlowId(message);
-		String flowId = fId.getFlowId();
 		if (flowId != null) {
 			logger.info("FlowId '" + flowId + "' found in FlowId");
 		}
-		else {
-			logger.fine("FlowId not found in FlowId");
-		}
 		if (flowId == null) {
-			logger.fine("Generate flowId");
 			flowId = ContextUtils.generateUUID();
-			fId.setFlowId(flowId);
-			logger.info("Generated flowId '" + flowId + "' stored in FlowId");
-		}
-		
-		
+			logger.fine("No flowId found in incoming message. Generating flowId " + flowId);
+			FlowIdHelper.setFlowId(message, flowId);
+		}		
 	}
-	
 
 }
