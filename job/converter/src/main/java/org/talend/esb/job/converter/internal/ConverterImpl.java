@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -36,7 +35,7 @@ public class ConverterImpl implements Converter {
 
         logger.debug("Unzip Talend job {} ...", osgiJobLocation);
         ZipFile jobZipFile = new ZipFile(sourceJob);
-        Enumeration<ZipEntry> jobZipEntries = (Enumeration<ZipEntry>) jobZipFile.entries();
+        Enumeration<? extends ZipEntry> jobZipEntries = jobZipFile.entries();
         while (jobZipEntries.hasMoreElements()) {
             ZipEntry jobZipEntry = jobZipEntries.nextElement();
             if (!jobZipEntry.isDirectory() && jobZipEntry.getName().endsWith(".jar")) {
@@ -64,14 +63,11 @@ public class ConverterImpl implements Converter {
         builder.setProperty("Import-Package", "*;resolution:=optional");
         logger.debug("Iterate in the working directory");
         File[] files = uncompressDir.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            builder.addClasspath(files[i]);
-            files[i].delete();
-        }
-
+        for (File file : files) {
+            builder.addClasspath(file);
+		}
         try {
             Jar jar = builder.build();
-            Manifest manifest = jar.getManifest();
             jar.write(osgiJobLocation);
             jar.close();
             builder.close();
@@ -99,7 +95,7 @@ public class ConverterImpl implements Converter {
         }
     }
     
-    public boolean deleteDir(File path) {
+    private static boolean deleteDir(File path) {
     	if( path.exists() ) {
     		File[] files = path.listFiles();
     		for(int i=0; i<files.length; i++) {
