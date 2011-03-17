@@ -41,7 +41,7 @@
         <module>sam</module>
         <module>job</module>
         <module>docs</module>
-        <module>talend-esb</module>
+        <!-- <module>talend-esb</module> -->
     </modules>
 
     <dependencyManagement>
