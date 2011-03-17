@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 import javax.annotation.Resource;
@@ -42,7 +43,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.talend.esb.sam._2011._03.common.CustomInfoType;
 import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
@@ -101,12 +101,9 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         long id = simpleJdbcTemplate.queryForLong("select id from EVENTS");
         Event readEvent = eventRepository.readEvent(id);
         Assert.assertEquals(EventTypeEnum.REQ_OUT, readEvent.getEventType());
-        List<CustomInfo> ciList = readEvent.getCustomInfoList();
-        Assert.assertEquals("mykey1", ciList.get(0).getCustKey());
-        Assert.assertEquals("myValue1", ciList.get(0).getCustValue());
-        Assert.assertEquals("mykey2", ciList.get(1).getCustKey());
-        Assert.assertEquals("myValue2", ciList.get(1).getCustValue());
-
+        Map<String, String> customInfo = readEvent.getCustomInfo();
+        Assert.assertEquals("myValue1", customInfo.get("mykey1"));
+        Assert.assertEquals("myValue2", customInfo.get("mykey2"));
     }
     
 //    @After

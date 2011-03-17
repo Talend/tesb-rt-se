@@ -19,10 +19,8 @@
  */
 package org.talend.esb.sam.server.persistence;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -33,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
@@ -55,21 +52,11 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
         EventCreator creator = new EventCreator();
         GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 1, 01 , 01, 10);
         
-        List<CustomInfo> ciList = new ArrayList<CustomInfo>();
-        CustomInfo ci1 = new CustomInfo();
-        ci1.setCustKey("mykey1");
-        ci1.setCustValue("myValue1");
-        ciList.add(ci1);
-        CustomInfo ci2 = new CustomInfo();
-        ci2.setCustKey("mykey2");
-        ci2.setCustValue("myValue2");
-        ciList.add(ci2);
-        
         Event event = creator.createEvent("content", cal.getTime(),
                             EventTypeEnum.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
                             "service", "http");
-        event.getCustomInfoList().clear();
-        event.getCustomInfoList().addAll(ciList);
+        event.getCustomInfo().put("mykey1", "myValue1");
+        event.getCustomInfo().put("mykey2", "myValue2");
         
         Assert.assertNull(event.getPersistedId());
         eventRepository.writeEvent(event);

@@ -17,29 +17,31 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowid;
 
-public class FlowId {
-	private String flowId = null;
-	
+import javax.xml.namespace.QName;
+
+import org.apache.cxf.message.Message;
+
+
+public class FlowIdHelper {
+	public static final String FLOW_ID_KEY = "FlowId";
+	public static final QName FLOW_ID_QNAME = new QName(
+			"http://www.sopera.com/monitoring/flowId/v1", "flowId");
+
 	/**
-	 * Accessor for the <b>flowId</b>.
-	 * @return current value of FlowId
-	*/
-	public String getFlowId()
-	{
-		return this.flowId;	
+	 * Get FlowId from message
+	 * 
+	 * @param message
+	 * @return flowId or null if not set
+	 */
+	public static String getFlowId(Message message) {
+		return (String)message.get(FLOW_ID_KEY);
 	}
-	
-	
-	/**
-	 * Mutator for the <b>flowId</b>.
-	 * @param flowId new value for FlowId
-	*/
-	public void setFlowId(String flowId)
-	{
-		if (this.flowId != null) throw new IllegalStateException("flowId already set");
-		this.flowId = flowId;
-		
+
+
+	public static void setFlowId(Message message, String flowId) {
+		message.put(FLOW_ID_KEY, flowId);
 	}
+
 }

@@ -26,21 +26,20 @@
   <chapter>
     <title>Introdaction</title>
 
-    <para>The Talend ESB Service Locator is a service that provides its
-    consumers with a mechanism to discover service endpoints at run time. The
-    Service Locator consists of two parts: An Endpoint repository and a CXF
-    feature used to configure the use of the Service Locator at provider and
-    consumer side. Like any standard CXF feature, the Talend ESB
-    ServiceLocator Feature is configured separately for the service provider
-    side and service consumer side. The provider side Locator Feature
-    extension registers and deregisters service endpoints in the endpoint
-    repository when the provider becomes available or unavailable. The
-    consumer side Locator Feature extension transparently retrieves service
-    endpoint addresses from the endpoint repository when a service call to a
-    provider is to be made.</para>
+    <para>The Service Locator is a service that provides its consumers with a
+    mechanism to discover service endpoints at run time. The Service Locator
+    consists of two parts: An Endpoint repository and a CXF feature used to
+    configure the use of the Service Locator at provider and consumer side.
+    Like any standard CXF feature, the ServiceLocator Feature is configured
+    separately for the service provider side and service consumer side. The
+    provider side Locator Feature extension registers and deregisters service
+    endpoints in the endpoint repository when the provider becomes available
+    or unavailable. The consumer side Locator Feature extension transparently
+    retrieves service endpoint addresses from the endpoint repository when a
+    service call to a provider is to be made.</para>
 
-    <para>The configuration manual describes in detail the Talend ESB Service
-    Locator Feature spring configuration.</para>
+    <para>The configuration manual describes in detail the Service Locator
+    Feature spring configuration.</para>
   </chapter>
 
   <chapter>
@@ -124,8 +123,7 @@
         </informaltable></para>
 
       <example xml:id="ex.slspringconfendpoint">
-        <title>Talend ESB ServiceLocator Feature configuration for
-        endpoint</title>
+        <title>ServiceLocator Feature configuration for endpoint</title>
 
         <programlisting>
  &lt;beans xmlns="http://www.springframework.org/schema/beans"
@@ -175,11 +173,10 @@
     using ServerFactoryBean</para>
 
     <example xml:id="ex.slproguseprovside">
-      <title>Talend ESB ServiceLocator Feature programmatically using provider
+      <title>ServiceLocator Feature programmatically using provider
       side</title>
 
-      <programlisting>
-        String port = "8080";
+      <programlisting>		String port = "8080";
 		String address = String.format("http://provider_host:%1$s/services/Greeter", port);
 		
 		LocatorFeature locatorFeature = new LocatorFeature();
@@ -274,8 +271,7 @@
       </informaltable></para>
 
     <example xml:id="ex.slspringconfclient">
-      <title>Talend ESB ServiceLocator Feature configuration for
-      client</title>
+      <title>ServiceLocator Feature configuration for client</title>
 
       <programlisting>
 &lt;beans xmlns="http://www.springframework.org/schema/beans"
@@ -292,7 +288,8 @@
 		address="locator://"&gt;
 		&lt;jaxws:features&gt;
 			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
-		        &lt;property name="locatorEndpoints" value="locator_host:2181"/&gt;
+		        &lt;property name="locatorEndpoints" 
+		        					value="locator_host1:2181,locator_host2:2181,locator_host2:2182"/&gt;
 			&lt;/bean&gt;
 		&lt;/jaxws:features&gt;
 	&lt;/jaxws:client&gt;
@@ -316,7 +313,7 @@
     using the ClientFactoryBean.</para>
 
     <example xml:id="ex.slproguseconsside">
-      <title>Talend ESB ServiceLocator Feature programmatically using consumer
+      <title>ServiceLocator Feature programmatically using consumer
       side</title>
 
       <programlisting>

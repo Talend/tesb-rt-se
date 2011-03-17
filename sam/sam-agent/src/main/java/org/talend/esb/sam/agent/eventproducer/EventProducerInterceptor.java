@@ -17,13 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.eventproducer;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.talend.esb.sam.agent.mapper.MessageToEventMapper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventManipulator;
 

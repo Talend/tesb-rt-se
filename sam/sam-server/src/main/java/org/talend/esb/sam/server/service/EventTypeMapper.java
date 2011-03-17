@@ -21,9 +21,9 @@ package org.talend.esb.sam.server.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 
@@ -33,7 +33,6 @@ import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam._2011._03.common.OriginatorType;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -50,23 +49,19 @@ public class EventTypeMapper {
         event.setMessageInfo(messageInfo);
         String content = mapContent(eventType.getContent());
         event.setContent(content);
-        event.getCustomInfoList().clear();
-        event.getCustomInfoList().addAll(mapCustomInfo(eventType.getCustomInfo()));
+        event.getCustomInfo().clear();
+        event.getCustomInfo().putAll(mapCustomInfo(eventType.getCustomInfo()));
         return event;
     }
 
-    private static List<CustomInfo> mapCustomInfo(CustomInfoType ciType){
-    	List<CustomInfo> ciList = new ArrayList<CustomInfo>();
-    	
+    private static Map<String, String> mapCustomInfo(CustomInfoType ciType){
+    	HashMap<String, String> customInfo = new HashMap<String, String>();
     	if (ciType != null){
 	    	for (CustomInfoType.Item item : ciType.getItem()){
-	    		CustomInfo ci = new CustomInfo();
-	    		ci.setCustKey(item.getKey());
-	    		ci.setCustValue(item.getValue());
-	    		ciList.add(ci);
+	    		customInfo.put(item.getKey(), item.getValue());
 	    	}
     	}
-    	return ciList;
+    	return customInfo;
     }
     private static String mapContent(DataHandler dh) {
         if (dh == null) {

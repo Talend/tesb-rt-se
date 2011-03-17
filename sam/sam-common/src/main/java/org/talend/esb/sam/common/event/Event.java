@@ -20,9 +20,9 @@
 package org.talend.esb.sam.common.event;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -83,7 +83,7 @@ public class Event implements Serializable {
     @Column(name = "MESSAGE_CONTENT")
     private String content;
 
-    private List<CustomInfo> customInfoList;
+    private Map<String, String> customInfo = new HashMap<String, String>();
 
     public Event() {
         super();
@@ -145,77 +145,13 @@ public class Event implements Serializable {
         this.content = content;
     }
 
-    public List<CustomInfo> getCustomInfoList() {
-        if (customInfoList == null) {
-            customInfoList = new ArrayList<CustomInfo>();
-        }
-        return customInfoList;
+    public Map<String, String> getCustomInfo() {
+        return customInfo;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result + ((customInfoList == null) ? 0 : customInfoList.hashCode());
-        result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
-        result = prime * result + (isContentCut ? 1231 : 1237);
-        result = prime * result + ((messageInfo == null) ? 0 : messageInfo.hashCode());
-        result = prime * result + ((originator == null) ? 0 : originator.hashCode());
-        result = prime * result + ((persistedId == null) ? 0 : persistedId.hashCode());
-        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Event other = (Event)obj;
-        if (content == null) {
-            if (other.content != null)
-                return false;
-        } else if (!content.equals(other.content))
-            return false;
-        if (customInfoList == null) {
-            if (other.customInfoList != null)
-                return false;
-        } else if (!customInfoList.equals(other.customInfoList))
-            return false;
-        if (eventType != other.eventType)
-            return false;
-        if (isContentCut != other.isContentCut)
-            return false;
-        if (messageInfo == null) {
-            if (other.messageInfo != null)
-                return false;
-        } else if (!messageInfo.equals(other.messageInfo))
-            return false;
-        if (originator == null) {
-            if (other.originator != null)
-                return false;
-        } else if (!originator.equals(other.originator))
-            return false;
-        if (persistedId == null) {
-            if (other.persistedId != null)
-                return false;
-        } else if (!persistedId.equals(other.persistedId))
-            return false;
-        if (timestamp == null) {
-            if (other.timestamp != null)
-                return false;
-        } else if (!timestamp.equals(other.timestamp))
-            return false;
-        return true;
     }
 
 }

@@ -48,7 +48,7 @@
 	</session-config>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>WEB-INF/beans.xml</param-value>
+		<param-value>classpath:/META-INF/spring/beans.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

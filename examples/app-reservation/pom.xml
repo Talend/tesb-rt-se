@@ -16,18 +16,14 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>app-reservation</artifactId>
-    <version>4.0</version>
     <name>App Reservation</name>
     <packaging>bundle</packaging>
 
-    <properties>
-        <cxf.version>2.3.3</cxf.version>
-        <osgi.version>3.6.0.v20100517</osgi.version>
-        <karaf.version>2.1.4</karaf.version>
-        <spring.version>3.0.5.RELEASE</spring.version> 
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <parent>
+        <groupId>org.talend.esb.examples</groupId>
+        <artifactId>talend-esb-examples</artifactId>
+        <version>4.0</version>
+    </parent>
 
     <dependencies>
         <dependency>
@@ -69,16 +65,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.3.4</version>
-                    <extensions>true</extensions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>

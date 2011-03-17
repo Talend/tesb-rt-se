@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.mapper;
+package org.talend.esb.sam.agent.eventproducer;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -28,12 +28,13 @@ import java.util.logging.Logger;
 
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
+import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
-import org.apache.cxf.ws.addressing.ContextUtils;
 import org.apache.cxf.security.SecurityContext;
-import org.talend.esb.sam.agent.interceptor.FlowIdHelper;
+import org.apache.cxf.ws.addressing.ContextUtils;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -68,7 +69,7 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
-        messageInfo.setFlowId(FlowIdHelper.getFlowIdFromProperty(message));
+        messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
         messageInfo.setMessageId(ContextUtils.generateUUID());
         String opName = message.getExchange().getBindingOperationInfo().getName().toString();
         messageInfo.setOperationName(opName);
@@ -86,7 +87,10 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         if (messageInfo.getTransportType() == null) {
             messageInfo.setTransportType("Unknown transport type");
         }
-
+        
+        String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
+        event.getCustomInfo().put("address", addr);
+        
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             originator.setIp(inetAddress.getHostAddress());
@@ -102,6 +106,13 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         SecurityContext sc = message.get(SecurityContext.class);
         if (sc != null && sc.getUserPrincipal() != null){
         	originator.setPrincipal(sc.getUserPrincipal().getName());
+        }
+
+        if (originator.getPrincipal() == null) {
+        	AuthorizationPolicy authPolicy = message.get(AuthorizationPolicy.class);
+        	if (authPolicy != null) {
+        		originator.setPrincipal(authPolicy.getUserName());
+        	}
         }
         
         EventTypeEnum eventType = getEventType(message);

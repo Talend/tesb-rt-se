@@ -50,7 +50,7 @@
 		    <complexType>
 		      <sequence>
 		        <element name="key" type="string" />
-		        <element name="value" type="anyType" />
+		        <element name="value" type="string" />
 		      </sequence>
 		    </complexType>
 		  </element>

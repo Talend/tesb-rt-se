@@ -24,6 +24,8 @@ import junit.framework.Assert;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
 import org.junit.Test;
+import org.talend.esb.sam.agent.flowid.FlowIdHelper;
+import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
 
 public class FlowIdProducerTest {
 
@@ -32,10 +34,10 @@ public class FlowIdProducerTest {
 	public void flowIdProducerInTest() {
 		FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
 		Message message = new MessageImpl();
-		String flowId = FlowIdHelper.getFlowIdFromProperty(message);
+		String flowId = FlowIdHelper.getFlowId(message);
 		Assert.assertNull(flowId);
 		flowIdProducerIn.handleMessage(message);
-		flowId = FlowIdHelper.getFlowIdFromProperty(message);
+		flowId = FlowIdHelper.getFlowId(message);
 		Assert.assertNotNull(flowId);
 	}
 

@@ -47,12 +47,12 @@
     <bean id="mockEventSender" class="org.talend.esb.sam.agent.interceptor.MockEventSender" />
 
     <bean id="eventMapper"
-        class="org.talend.esb.sam.agent.mapper.MessageToEventMapperImpl" />
+        class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl" />
 
     <jaxws:client id="customerService" address="local:/CustomerServicePort"
         serviceClass="com.example.customerservice.CustomerService">
         <jaxws:features>
-            <!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:client>
@@ -60,7 +60,7 @@
     <jaxws:endpoint address="local:/CustomerServicePort"
         implementor="org.talend.esb.sam.agent.interceptor.CustomerServiceImpl">
         <jaxws:features>
-            <!-- <bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:endpoint>
