@@ -16,9 +16,14 @@
 
     <groupId>org.talend.esb.examples.locator</groupId>
     <artifactId>locator-demo</artifactId>
-    <version>4.0</version>
     <name>Demo for using the locator</name>
     <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.talend.esb.examples</groupId>
+        <artifactId>talend-esb-examples</artifactId>
+        <version>4.0</version>
+    </parent>
 
     <modules>
         <module>common</module>
@@ -26,33 +31,5 @@
         <module>service</module>
         <module>war</module>
     </modules>
-
-    <properties>
-        <cxf.version>2.3.3</cxf.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.3.4</version>
-                    <extensions>true</extensions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
 </project>
