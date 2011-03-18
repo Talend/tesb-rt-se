@@ -19,12 +19,22 @@
   #L%
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:util="http://www.springframework.org/schema/util" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+">
     <import resource="classpath:/META-INF/spring/server.xml" />
 
+    <util:list id="eventFilters">
+        <ref local="stringContentFilter" />
+    </util:list>
+
+    <util:list id="eventHandlers">
+        <ref local="contentLengthHandler" />
+    </util:list>
+
+    <!--  Sample filters -->
     <bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
         <property name="tagnames">
             <list>
@@ -32,9 +42,17 @@
             </list>
         </property>
     </bean>
-
-    <bean id="contentLengthFilter"
-        class="org.sopera.monitoring.handler.impl.ContentLengthHandler">
+    
+    <bean id="stringContentFilter" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
+        <property name="wordsToFilter">
+            <list>
+                <value>abc</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
         <property name="length" value="2000" />
     </bean>
+
 </beans>

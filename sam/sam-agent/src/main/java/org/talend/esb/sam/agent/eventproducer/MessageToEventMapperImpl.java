@@ -34,7 +34,8 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.flowid.FlowIdHelper;
+import org.talend.esb.sam.agent.message.CustomInfo;
+import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -117,6 +118,10 @@ public final class MessageToEventMapperImpl implements MessageToEventMapper {
         
         EventTypeEnum eventType = getEventType(message);
         event.setEventType(eventType);
+        
+        CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
+        event.getCustomInfo().putAll(customInfo);
+        
         return event;
     }
 

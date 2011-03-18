@@ -19,7 +19,7 @@
  */
 package org.talend.esb.sam.agent.flowidprocessor;
 
-import static org.talend.esb.sam.agent.flowid.FlowIdHelper.FLOW_ID_QNAME;
+import static org.talend.esb.sam.agent.message.FlowIdHelper.FLOW_ID_QNAME;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +31,7 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
-import org.talend.esb.sam.agent.flowid.FlowIdHelper;
+import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.w3c.dom.Node;
 
 /**

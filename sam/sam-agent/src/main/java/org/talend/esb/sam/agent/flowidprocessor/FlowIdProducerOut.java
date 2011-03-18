@@ -29,7 +29,7 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.talend.esb.sam.agent.flowid.FlowIdHelper;
+import org.talend.esb.sam.agent.message.FlowIdHelper;
 
 public class FlowIdProducerOut<T extends Message> extends
 		AbstractPhaseInterceptor<T> {
@@ -73,12 +73,9 @@ public class FlowIdProducerOut<T extends Message> extends
 	}
 
 	protected void handleRequestOut(T message) throws Fault {
-		logger.fine("handleRequestIn");
-
 		String flowId = FlowIdHelper.getFlowId(message);
 		if (flowId == null && message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			// Web Service consumer is acting as an intermediary
-			logger.info("PREVIOUS_MESSAGE FOUND!!!");
 			@SuppressWarnings("unchecked")
 			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>) message
 					.get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
@@ -92,10 +89,8 @@ public class FlowIdProducerOut<T extends Message> extends
 		
 		if (flowId == null) {
 			// No flowId found. Generate one.
-			logger.fine("Generate and add flowId");
 			flowId = ContextUtils.generateUUID();
-			FlowIdHelper.setFlowId(message, flowId);
-			logger.info("FlowId '" + flowId + "' added to FlowId");
+			logger.fine("Created new FlowId '" + flowId + "'");
 		}
 
 		FlowIdHelper.setFlowId(message, flowId);

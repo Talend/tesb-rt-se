@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
+import java.util.Map;
 
 import javax.security.auth.Subject;
 import javax.security.auth.x500.X500Principal;
@@ -54,6 +55,7 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.junit.Assert;
 import org.junit.Test;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl;
+import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
@@ -73,12 +75,14 @@ public class MessageToEventMapperTest {
         // By default the content should not be cut
         Assert.assertEquals(TESTCONTENT, event.getContent());
         Assert.assertFalse(event.isContentCut());
-        
-        Assert.assertEquals("http://localhost:8080/test", event.getCustomInfo().get("address"));
-        
+
         // Principal
-        //System.out.println(event.getOriginator().getPrincipal());
         Assert.assertEquals("CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US", event.getOriginator().getPrincipal());
+        
+        Map<String, String> customInfo = event.getCustomInfo();
+        Assert.assertEquals(2, customInfo.keySet().size());
+        Assert.assertEquals("http://localhost:8080/test", customInfo.get("address"));
+        Assert.assertEquals("value1", customInfo.get("key1"));
         
         // TODO add assertions
         System.out.println(event);
@@ -127,6 +131,9 @@ public class MessageToEventMapperTest {
         InputStream is = new ByteArrayInputStream(TESTCONTENT.getBytes("UTF-8"));
         IOUtils.copy(is, cos);
         message.setContent(CachedOutputStream.class, cos);
+        
+        CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
+        customInfo.put("key1", "value1");
 
         return message;
     }

@@ -20,18 +20,17 @@
 package org.talend.esb.sam.agent.collector;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Queue;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Resource;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
 import org.talend.esb.sam.common.event.Event;
@@ -52,15 +51,15 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 
 	private MonitoringService monitoringServiceClient;
 	
-	@Autowired(required=false)
-	private List<EventFilter> eventFilter = new ArrayList<EventFilter>();
-	@Autowired(required=false)
-	private List<EventManipulator> eventManipulator = new ArrayList<EventManipulator>();
+	@Resource(name="eventFilters")
+	private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
+	@Resource(name="eventHandlers")
+	private List<EventManipulator> eventHandlers = new ArrayList<EventManipulator>();
 	
 	private Queue<Event> queue;
 	private TaskExecutor executor;
 	private TaskScheduler scheduler;
-	private long defaultInterval = 0;
+	private long defaultInterval = 1000;
 	private boolean stopMessageFlowOnError = false;
 	private int eventsPerMessageCall = 10;
 	private boolean stopSending = false;
@@ -108,16 +107,11 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	}
 
 	/**
-	 * Returns the default interval for sending events. Returns 30000 if there
-	 * is no interval set.
+	 * Returns the default interval for sending events
 	 * 
 	 * @return
 	 */
 	private long getDefaultInterval() {
-		if (defaultInterval <= 0) {
-			logger.warning("Scheduler interval for starting sending process is set to default 30000.");
-			return 30000;
-		}
 		return defaultInterval;
 	}
 
@@ -175,16 +169,25 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * 
 	 * @param queue
 	 */
-	public void setEventFilter(List<EventFilter> eventFilter) {
-		this.eventFilter = eventFilter;
+	public void setEventFilters(List<EventFilter> eventFilters) {
+		this.eventFilters = eventFilters;
 	}
 
-	public List<EventFilter> getEventFilter() {
-		return eventFilter;
+    /**
+	 * 
+	 * @param eventHandlers
+	 */
+	public void setEventHandlers(
+			List<EventManipulator> eventHandlers) {
+		this.eventHandlers = eventHandlers;
 	}
 
-	public List<EventManipulator> getEventManipulator() {
-		return eventManipulator;
+	public List<EventFilter> getEventFilters() {
+		return eventFilters;
+	}
+
+	public List<EventManipulator> getEventHandlers() {
+		return eventHandlers;
 	}
 
 	/**
@@ -197,33 +200,21 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 		this.monitoringServiceClient = monitoringServiceClient;
 	}
 
-
-    /**
-	 * Spring sets eventManipulator
-	 * 
-	 * @param eventManipulator
-	 */
-	public void setEventManipulator(
-			List<EventManipulator> eventManipulator) {
-		this.eventManipulator = eventManipulator;
-	}
-
-
 	/**
 	 * Stores an event in the queue and returns. So the synchronous execution of
 	 * this service is as short as possible.
 	 */
 	@Override
 	public void handleEvent(Event event) {
-		logger.info("Store event [message_id=" + event.getMessageInfo().getMessageId() + "] in cache.");
+		String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
+		logger.fine("Store event [message_id=" + id + "] in cache.");
 		try {
 			queue.add(event);
-		} catch (MonitoringException e) {
-			logger.severe("Store event in cache caused ERROR");
-			e.addEvent(event);
-			e.logException(Level.SEVERE);
+		} catch (RuntimeException e) {
 			if (stopMessageFlowOnError) {
 				throw e;
+			} else {
+				logger.severe("Could not store event in Queue: " + e.getMessage());
 			}
 		}
 	}
@@ -243,17 +234,8 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 			final List<Event> list = new ArrayList<Event>();
 			int i = 0;
 			while (i < packageSize && !queue.isEmpty()) {
-				Event event = null;
-				try {
-					event = queue.remove();
-					if (event == null)
-						continue;
-				} catch (MonitoringException e) {
-					logger.severe("Error on event queue reading");
-					e.logException(Level.SEVERE);
-					return;
-				}
-				if (!filter(event)) {
+				Event event = queue.remove();
+				if (event!= null && !filter(event)) {
 					list.add(event);
 					i++;
 				}
@@ -266,7 +248,7 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 				executor.execute(new Runnable() {
 					public void run() {
 						try{
-						sendEvents(list);
+							sendEvents(list);
 						}catch (MonitoringException e){
 							e.logException(Level.SEVERE);
 						}
@@ -285,8 +267,8 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @return
 	 */
 	private boolean filter(Event event) {
-		if (eventFilter != null && eventFilter.size() > 0) {
-			for (EventFilter filter : eventFilter) {
+		if (eventFilters != null && eventFilters.size() > 0) {
+			for (EventFilter filter : eventFilters) {
 				if (filter.filter(event) == true)
 					return true;
 			}
@@ -301,8 +283,8 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 */
 	private void sendEvents(final List<Event> events) {
 		// Execute Manipulator
-		if (eventManipulator != null && eventManipulator.size() > 0) {
-			for (EventManipulator current : eventManipulator) {
+		if (eventHandlers != null && eventHandlers.size() > 0) {
+			for (EventManipulator current : eventHandlers) {
 				for (Event event : events) {
 				    current.handleEvent(event);
 				}

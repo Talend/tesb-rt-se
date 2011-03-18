@@ -26,6 +26,7 @@
         <module>crmservice</module>
         <module>reservationservice</module>
         <module>app-reservation</module>
+        <module>sam</module>
     </modules>
 
     <properties>

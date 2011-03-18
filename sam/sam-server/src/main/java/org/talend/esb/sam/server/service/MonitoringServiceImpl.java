@@ -22,6 +22,8 @@ package org.talend.esb.sam.server.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
@@ -36,8 +38,10 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  */
 public class MonitoringServiceImpl implements MonitoringService {
 
-	private List<EventFilter> eventFilter;
-	private List<EventManipulator> eventManipulator;
+	@Resource(name="eventFilters")
+	private List<EventFilter> eventFilters;
+	@Resource(name="eventHandlers")
+	private List<EventManipulator> eventHandlers;
 	private EventRepository persistenceHandler;
 
 	/**
@@ -45,8 +49,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventFilter
 	 */
-	public void setEventFilter(List<EventFilter> eventFilter) {
-		this.eventFilter = eventFilter;
+	public void setEventFilters(List<EventFilter> eventFilters) {
+		this.eventFilters = eventFilters;
 	}
 
 	/**
@@ -55,8 +59,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventManipulator
 	 */
-	public void setEventManipulator(List<EventManipulator> eventManipulator) {
-		this.eventManipulator = eventManipulator;
+	public void setEventHandlers(List<EventManipulator> eventHandlers) {
+		this.eventHandlers = eventHandlers;
 	}
 
 
@@ -75,33 +79,34 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 */
 	@Transactional
 	public void putEvents(List<Event> events) {
-		List<Event> filteredEvents = new ArrayList<Event>();
-		
-		// Execute Filter
-		if (eventFilter != null && eventFilter.size() > 0) {
-			for (EventFilter filter : eventFilter) {
-				for (Event event : events) {
-					if (!filter.filter(event))
-						filteredEvents.add(event);
-				}
-			}
-			if (filteredEvents.size() == 0)
-				return;
-		} else {
-			filteredEvents = events;
-		}
+		List<Event> filteredEvents = filterEvents(events);
+		executeHandlers(filteredEvents);
+		for (Event event : filteredEvents) {
+            persistenceHandler.writeEvent(event);
+        }
+	}
 
-		// Execute Manipulator
-		if (eventManipulator != null && eventManipulator.size() > 0) {
-			for (EventManipulator current : eventManipulator) {
+	private List<Event> filterEvents(List<Event> events) {
+		if (eventFilters == null || eventFilters.size() == 0) {
+			return events;
+		}
+		List<Event> filteredEvents = new ArrayList<Event>();
+		for (EventFilter filter : eventFilters) {
+			for (Event event : events) {
+				if (!filter.filter(event))
+					filteredEvents.add(event);
+			}
+		}
+		return filteredEvents;
+	}
+
+	private void executeHandlers(List<Event> filteredEvents) {
+		if (eventHandlers != null && eventHandlers.size() > 0) {
+			for (EventManipulator current : eventHandlers) {
 				for (Event event : filteredEvents) {
 				    current.handleEvent(event);
 				}
 			}
 		}
-		
-		for (Event event : filteredEvents) {
-            persistenceHandler.writeEvent(event);
-        }
 	}
 }
