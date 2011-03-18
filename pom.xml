@@ -51,7 +51,6 @@
 
     <modules>
         <module>branding</module>
-        <module>common-build</module>
         <module>locator</module>
         <module>sam</module>
         <module>job</module>
