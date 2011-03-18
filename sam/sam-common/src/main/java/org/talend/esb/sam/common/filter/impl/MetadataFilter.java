@@ -19,11 +19,15 @@
  */
 package org.talend.esb.sam.common.filter.impl;
 
+import java.util.logging.Logger;
+
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventFilter;
 
 public class MetadataFilter implements EventFilter {
-
+	private static Logger logger = Logger.getLogger(MetadataFilter.class
+			.getName());
+	
 	private String hostname;
 	private String ip;
 	private String operationName;
@@ -32,7 +36,8 @@ public class MetadataFilter implements EventFilter {
 	private boolean andCondition = true;
 
 	public boolean filter(Event event) {
-
+		logger.info("MetadataFilter called");
+		
 		Boolean hostFilter = hostname != null ? Boolean.FALSE : null;
 		Boolean ipFilter = ip != null ? Boolean.FALSE : null;
 		Boolean operationFilter = operationName != null ? Boolean.FALSE : null;

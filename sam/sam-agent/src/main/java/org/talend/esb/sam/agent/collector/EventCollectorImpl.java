@@ -215,7 +215,7 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 */
 	@Override
 	public void handleEvent(Event event) {
-		logger.info("Store event in cache");
+		logger.info("Store event [message_id=" + event.getMessageInfo().getMessageId() + "] in cache.");
 		try {
 			queue.add(event);
 		} catch (MonitoringException e) {
@@ -259,9 +259,6 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 				}
 			}
 			if (list.size() > 0) {
-				Date startAt = new Date();
-				logger.info("Start async execution for " + list.size()
-						+ " events.");
 
 				// Need to call executer because @Async wouldn't work
 				// through proxy. This Method is inside a proxy and local
@@ -276,10 +273,6 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 					}
 				});
 
-				Date finishedAt = new Date();
-				logger.info("Finished delegating async execution for "
-						+ list.size() + " events. Time="
-						+ (finishedAt.getTime() - startAt.getTime()));
 			}
 		}
 
@@ -307,12 +300,7 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @param events
 	 */
 	private void sendEvents(final List<Event> events) {
-		UUID random = UUID.randomUUID();
-		Date startAt = new Date();
-		logger.info("Start sending events at " + startAt.getTime()
-				+ " for identifier: " + random.toString());
-
-		// Execute Filter (for example password filter and cutting content
+		// Execute Manipulator
 		if (eventManipulator != null && eventManipulator.size() > 0) {
 			for (EventManipulator current : eventManipulator) {
 				for (Event event : events) {
@@ -321,20 +309,16 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 			}
 		}
 
-
+		logger.info("Put events(" + events.size() + ") to Monitoring Server.");
 		try {
-	                monitoringServiceClient.putEvents(events);
+	        monitoringServiceClient.putEvents(events);
 		} catch (Exception e) {
 			if (e instanceof MonitoringException)
 				throw (MonitoringException) e;
 			throw new MonitoringException("002",
-					"Unknown error while chain execution", e);
+					"Unknown error while execute put events to Monitoring Server", e);
 		}
 
-		Date finishedAt = new Date();
-		logger.info("Finished sending events at " + finishedAt.getTime()
-				+ " for identifier: " + random.toString() + ". Sending takes "
-				+ (finishedAt.getTime() - startAt.getTime()) + " msec.");
 	}
 	
 	public void stopSending(){

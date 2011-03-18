@@ -41,7 +41,29 @@
     </bean>
 
     <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+		<property name="eventFilter">
+			<list>
+				<ref local="stringContentFilter" />
+			</list>
+		</property>
+		<property name="eventManipulator">
+			<list>
+				<ref local="contentLengthHandler" />
+			</list>
+		</property>
         <property name="persistenceHandler" ref="eventRepository" />    
+    </bean>
+
+    <bean id="stringContentFilter" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
+        <property name="wordsToFilter">
+            <list>
+                <value>abc</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
+        <property name="length" value="2000" />
     </bean>
 
     <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">

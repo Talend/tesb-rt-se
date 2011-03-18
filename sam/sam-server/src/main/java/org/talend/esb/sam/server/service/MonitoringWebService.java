@@ -41,7 +41,7 @@ public class MonitoringWebService implements MonitoringService {
 	private org.talend.esb.sam.common.service.MonitoringService monitoringService;
 
 	public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
-		logger.info("Received Events");
+		logger.info("Received event(" + eventTypes.size() + ") from Agent.");
 		List<Event> events = new ArrayList<Event>();
 
 		try {

@@ -31,6 +31,17 @@ For example: One service call can generate four events. Consumer is sending a re
 This User Guide describes the purpose of Service Activity Monitoring, how to install it, how to configure it and how to run/test it.
  			</para>
 	</chapter>
+	<chapter>
+	<title>Architecture</title>
+		<para>
+In the left from this diagram the Agent is described. In the right is the Monitoring Server. Agent will be used to collect all the Message data from the customer service application. The Monitoring Service will receive this data and store it in the database. The interface between Agent and Monitoring Server is WebService.		
+		</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/architecture.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>  
+	</chapter>
     <chapter>
         <title>Install</title>
 		<para>
@@ -285,6 +296,25 @@ Send a Soap message from SoapUI, then the custom properties will be stored into 
 		 <imagedata fileref="images/customprop.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
+	
+	<para>
+The Filter/Handler configuration on the Monitoring Server side is located on server.xml. For example:
+<programlisting>
+&lt;bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+		&lt;property name="eventFilter">
+			&lt;list>
+				&lt;ref local="stringContentFilter" />
+			&lt;/list>
+		&lt;/property>
+		&lt;property name="eventManipulator">
+			&lt;list>
+				&lt;ref local="contentLengthHandler" />
+			&lt;/list>
+		&lt;/property>
+        &lt;property name="persistenceHandler" ref="eventRepository" />    
+&lt;/bean>
+</programlisting>
+	</para>
 	</section>
 	</chapter>
 	

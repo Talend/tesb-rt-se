@@ -53,7 +53,7 @@ public class FlowIdProtocolHeaderCodec {
 		List<String> flowIds = headers.get(FLOWID_HTTP_HEADER_NAME);
 		if (flowIds != null && flowIds.size() > 0) {
 			flowId = flowIds.get(0);
-			logger.info("HTTP header '" + FLOWID_HTTP_HEADER_NAME + "' found: "
+			logger.fine("HTTP header '" + FLOWID_HTTP_HEADER_NAME + "' found: "
 					+ flowId);
 		} else {
 			logger.fine("No HTTP header '" + FLOWID_HTTP_HEADER_NAME
@@ -67,7 +67,7 @@ public class FlowIdProtocolHeaderCodec {
 		Map<String, List<String>> headers = getOrCreateProtocolHeader(message);
 		headers.put(FLOWID_HTTP_HEADER_NAME,
 				Arrays.asList(new String[] { flowId }));
-		logger.info("HTTP header '" + FLOWID_HTTP_HEADER_NAME + "' set to: "
+		logger.fine("HTTP header '" + FLOWID_HTTP_HEADER_NAME + "' set to: "
 				+ flowId);
 	}
 

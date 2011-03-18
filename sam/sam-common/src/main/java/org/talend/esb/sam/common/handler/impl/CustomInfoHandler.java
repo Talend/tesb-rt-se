@@ -20,6 +20,7 @@
 package org.talend.esb.sam.common.handler.impl;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventManipulator;
@@ -28,10 +29,15 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  * Adds a fixed set of custom info fields to the event
  */
 public class CustomInfoHandler implements EventManipulator {
+	private static Logger logger = Logger.getLogger(CustomInfoHandler.class
+			.getName());
+	
     private Map<String, String> customInfo;
 
     @Override
     public void handleEvent(Event event) {
+    	logger.info("CustomInfoHandler called");
+    	
         if (customInfo == null) {
             return;
         }

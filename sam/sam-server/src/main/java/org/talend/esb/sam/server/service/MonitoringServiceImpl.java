@@ -76,6 +76,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	@Transactional
 	public void putEvents(List<Event> events) {
 		List<Event> filteredEvents = new ArrayList<Event>();
+		
+		// Execute Filter
 		if (eventFilter != null && eventFilter.size() > 0) {
 			for (EventFilter filter : eventFilter) {
 				for (Event event : events) {
@@ -89,7 +91,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			filteredEvents = events;
 		}
 
-		// Execute Filter (for example password filter and cutting content
+		// Execute Manipulator
 		if (eventManipulator != null && eventManipulator.size() > 0) {
 			for (EventManipulator current : eventManipulator) {
 				for (Event event : filteredEvents) {
@@ -99,7 +101,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 		}
 		
 		for (Event event : filteredEvents) {
-                    persistenceHandler.writeEvent(event);
-                }
+            persistenceHandler.writeEvent(event);
+        }
 	}
 }

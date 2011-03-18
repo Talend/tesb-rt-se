@@ -20,12 +20,15 @@
 package org.talend.esb.sam.common.filter.impl;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventFilter;
 
 public class StringContentFilter implements EventFilter {
-
+	private static Logger logger = Logger.getLogger(StringContentFilter.class
+			.getName());
+	
 	private List<String> wordsToFilter;
 
 	public List<String> getWordsToFilter() {
@@ -40,6 +43,8 @@ public class StringContentFilter implements EventFilter {
 	 * Filter event if word occurs in wordsToFilter
 	 */
 	public boolean filter(Event event) {
+		logger.info("StringContentFilter called");
+		
 		if (wordsToFilter != null) {
 			for (String filterWord : wordsToFilter) {
 				if (event.getContent() != null

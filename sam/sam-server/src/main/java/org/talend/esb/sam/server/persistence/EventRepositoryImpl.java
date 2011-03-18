@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
@@ -34,6 +35,8 @@ import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 
 public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRepository {
+	private static Logger logger = Logger.getLogger(EventRepositoryImpl.class.getName());
+	
     DataFieldMaxValueIncrementer incrementer;
 
     public void setIncrementer(DataFieldMaxValueIncrementer incrementer) {
@@ -62,6 +65,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
 
         writeCustomInfo(event);
 
+        logger.info("event [message_id=" + messageInfo.getMessageId() + "] persist to Database successful. ID=" + id);
     }
 
     @Override

@@ -35,10 +35,10 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task-3.0.xsd">
         
-    <bean id="filterD" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
+    <bean id="stringContentFilter" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
         <property name="wordsToFilter">
             <list>
-                <value>contractor</value>
+                <value>abc</value>
             </list>
         </property>
     </bean>
@@ -54,7 +54,7 @@
         <property name="transportType" value="" />
     </bean>
 
-    <bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
+    <bean id="passwordHandler" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
         <property name="tagnames">
             <list>
                 <value>Password</value>
@@ -62,11 +62,11 @@
         </property>
     </bean>
     
-    <bean id="contentLengthFilter" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
+    <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
         <property name="length" value="2000" />
     </bean>
     
-	<bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+	<bean id="fixedPropertiesHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
 		<property name="customInfo">
 		    <map>
 		        <entry key="Application name" value="Dummy App"/>
