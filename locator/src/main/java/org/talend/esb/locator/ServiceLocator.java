@@ -177,8 +177,8 @@ public class ServiceLocator {
 	 */
 	synchronized public void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Registering endpoint " + endpoint
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Registering endpoint " + endpoint
 					+ " for service " + serviceName + "...");
 		}
 		checkConnection();
@@ -190,10 +190,26 @@ public class ServiceLocator {
 		ensurePathExists(endpointNodePath, CreateMode.EPHEMERAL);
 	}
 
+	/**
+	 * For a given service unregister a previously registered endpoint.
+	 * 
+	 * @param serviceName
+	 *            the name of the service the endpoint is unregistered for, must
+	 *            not be <code>null</code>
+	 * @param endpoint
+	 *            the endpoint to unregister, must not be <code>null</code>
+	 * @param serviceName
+	 * @param endpoint
+	 * @throws ServiceLocatorException
+	 *             the server returned an error
+	 * @throws InterruptedException
+	 *             the current <code>Thread</code> was interrupted when waiting
+	 *             for a response of the ServiceLocator
+	 */
 	synchronized public void unregister(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Unregistering endpoint " + endpoint + " for service "
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Unregistering endpoint " + endpoint + " for service "
 					+ serviceName + "...");
 		}
 
@@ -205,7 +221,6 @@ public class ServiceLocator {
 		ensurePathDeleted(endpointNodePath, false);
 		ensurePathDeleted(serviceNodePath, true);
 	}
-	
 
 	/**
 	 * Return all services for which endpoints are registered at the Service Locator Service.  
@@ -219,6 +234,9 @@ public class ServiceLocator {
 	 *             for a response of the ServiceLocator
 	 */
 	public List<QName> getServices() throws InterruptedException, ServiceLocatorException {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Getting all services...");
+		}
 		checkConnection();
 
 		List<String> servicePaths;
@@ -253,8 +271,8 @@ public class ServiceLocator {
 	 */
 	synchronized public List<String> lookup(QName serviceName)
 			throws ServiceLocatorException, InterruptedException {
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.info("Looking up endpoints of service " + serviceName );
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Looking up endpoints of service " + serviceName + "...");
 		}
 		checkConnection();
 		List<String> children;
