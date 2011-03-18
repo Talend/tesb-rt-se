@@ -23,19 +23,20 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xmlns:util="http://www.springframework.org/schema/util" 
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 ">
     <import resource="classpath:/META-INF/spring/server.xml" />
 
     <util:list id="eventFilters">
-        <ref local="stringContentFilter" />
+<!--        <ref local="stringContentFilter" />-->
     </util:list>
 
     <util:list id="eventHandlers">
-        <ref local="contentLengthHandler" />
+<!--        <ref local="contentLengthHandler" />-->
     </util:list>
 
     <!--  Sample filters -->
-    <bean id="passwordFilter" class="org.sopera.monitoring.handler.impl.PasswordHandler">
+    <bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
         <property name="tagnames">
             <list>
                 <value>Password</value>
