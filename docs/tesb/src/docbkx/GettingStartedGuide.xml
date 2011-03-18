@@ -310,9 +310,9 @@
 
       <para>You will see demo bundles in the lists of installed bundles:
       <programlisting>
-		[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (1.0.0)
-		[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (1.0.0)
-		[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (1.0.0)			
+		[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
+		[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
+		[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (4.0.0)			
 				</programlisting></para>
     </section>
 

@@ -51,9 +51,15 @@
       </listitem>
 
       <listitem>
-        <para> For enabling Service Locator Server in your maven build add the
-        following dependency to your pom.xml file: </para>
-
+        <para> For enabling Service Locator Server in your maven build </para>
+        <para> 1. Put locator-4.0.jar into local maven repo. For it run the maven command  
+        <simplelist columns="1"
+        type="vert">
+        <member>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\Locator\locator-4.0.jar  -DgroupId=org.talend.esb</member> 
+        <member>-DartifactId=locator -Dversion=4.0 -Dpackaging=jar</member>
+        </simplelist> 
+        </para>         
+        <para> 2. Add the following dependency to your pom.xml file: </para>
         <programlisting>&lt;dependency&gt;
         &lt;groupId&gt;log4j&lt;/groupId&gt;
         &lt;artifactId&gt;log4j&lt;/artifactId&gt;
@@ -71,7 +77,7 @@
   </section>
 
   <section>
-    <title>How to enable Rant a Car demo</title>
+    <title>How to enable Rent a Car demo</title>
 
     <para>
       <emphasis role="strong">1. Add the Service Locator feature to the Spring
