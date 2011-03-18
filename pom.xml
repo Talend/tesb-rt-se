@@ -29,6 +29,7 @@
         <mysql.version>5.0.5</mysql.version>
         <bnd.version>1.15.0</bnd.version>
         <slf4j.version>1.6.0</slf4j.version>
+        <osgi.version>4.2.0</osgi.version>
         <!--  Test dependencies -->
         <jetty.version>7.2.2.v20101205</jetty.version>
 
