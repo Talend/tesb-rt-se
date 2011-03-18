@@ -723,20 +723,13 @@
 						</goals>
 						<configuration>
 							<artifactItems>
-								<artifactItem>
-									<groupId>com.talend.if</groupId>
-									<artifactId>com.talend.if.branding</artifactId>
-									<version>${tif.version}</version>
-									<outputDirectory>target/dependencies</outputDirectory>
-									<destFileName>tif.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>com.talend.sf</groupId>
-									<artifactId>com.talend.sf.branding</artifactId>
-									<version>${tsf.version}</version>
-									<outputDirectory>target/dependencies</outputDirectory>
-									<destFileName>tsf.jar</destFileName>
-								</artifactItem>
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>org.talend.esb.branding</artifactId>
+                                    <version>${project.version}</version>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>tesb.jar</destFileName>
+                                </artifactItem>
 								<artifactItem>
 									<groupId>org.apache.camel.karaf</groupId>
 									<artifactId>apache-camel</artifactId>
@@ -947,6 +940,10 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
 		</plugins>
 	</build>
 

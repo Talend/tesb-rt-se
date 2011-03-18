@@ -1,17 +1,30 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-    http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2011 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.talend.esb</groupId>
     <artifactId>esb-parent</artifactId>
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
-    <inceptionYear>2011</inceptionYear>
+
     <organization>
         <name>Talend Inc.</name>
         <url>www.talend.com</url>
     </organization>
+    <inceptionYear>2011</inceptionYear>
+
     <licenses>
         <license>
             <name>Apache Software License - Version 2.0</name>
@@ -29,6 +42,7 @@
         <mysql.version>5.0.5</mysql.version>
         <bnd.version>1.15.0</bnd.version>
         <slf4j.version>1.6.0</slf4j.version>
+        <osgi.version>4.2.0</osgi.version>
         <!--  Test dependencies -->
         <jetty.version>7.2.2.v20101205</jetty.version>
 
@@ -36,11 +50,12 @@
     </properties>
 
     <modules>
+        <module>branding</module>
         <module>locator</module>
         <module>sam</module>
         <module>job</module>
         <module>docs</module>
-        <!-- <module>talend-esb</module> -->
+        <module>talend-esb</module>
     </modules>
 
     <dependencyManagement>
@@ -95,10 +110,6 @@
             <id>java.net</id>
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
-        </repository>
-        <repository>
-            <id>eclipselink</id>
-            <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
         </repository>
     </repositories>
     <pluginRepositories>

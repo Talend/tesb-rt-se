@@ -122,32 +122,31 @@
           </tgroup>
         </informaltable></para>
 
-      <example xml:id="ex.slspringconfendpoint">
-        <title>ServiceLocator Feature configuration for endpoint</title>
-
-        <programlisting>
+            <example xml:id="ex.slspringconfendpoint">
+                    <title>Talend ESB ServiceLocator Feature configuration for endpoint </title>
+                    <programlisting>
  &lt;beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"&gt;
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	&lt;import resource="classpath:META-INF/cxf/cxf.xml" /&gt;
-	&lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /&gt;
-	&lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /&gt;	
+    &lt;import resource="classpath:META-INF/cxf/cxf.xml" />
+    &lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+    &lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> 
 
-	&lt;jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
-			id="greeter"
-			implementor="demo.service.GreeterImpl"
-			serviceName="tns:GreeterService"
-			address="/GreeterService"&gt;
-		&lt;jaxws:features&gt;
-			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
-		        &lt;property name="endpointPrefix" value="http://localhost:8080/locator-demo-war"/&gt;
-			&lt;/bean&gt;
-		&lt;/jaxws:features&gt;
-	&lt;/jaxws:endpoint&gt;
-&lt;/beans&gt;
-					</programlisting>
-      </example>
+    &lt;jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
+            id="greeter"
+            implementor="demo.service.GreeterImpl"
+            serviceName="tns:GreeterService"
+            address="/GreeterService">
+        &lt;jaxws:features>
+            &lt;bean class="org.talend.esb.locator.LocatorFeature">
+                &lt;property name="endpointPrefix" value="http://localhost:8080/locator-demo-war"/>
+            &lt;/bean>
+        &lt;/jaxws:features>
+    &lt;/jaxws:endpoint>
+&lt;/beans>
+                    </programlisting>
+                </example>
 
       <para>In In the example above you can see that locator client was added
       through configuration exactly the same way as a standard CXF feature
@@ -172,25 +171,24 @@
     <para>Alternatively you can add the feature to the CXF service provider by
     using ServerFactoryBean</para>
 
-    <example xml:id="ex.slproguseprovside">
-      <title>ServiceLocator Feature programmatically using provider
-      side</title>
+                <example xml:id="ex.slproguseprovside">
+                    <title>Talend ESB ServiceLocator Feature programmatically using provider side</title>
+                    <programlisting>
+        String port = "8080";
+        String address = String.format("http://provider_host:%1$s/services/Greeter", port);
+        
+        LocatorFeature locatorFeature = new LocatorFeature();
+        locatorFeature.setLocatorEndpoints("locator_host1:2181,locator_host2:2181");
 
-      <programlisting>		String port = "8080";
-		String address = String.format("http://provider_host:%1$s/services/Greeter", port);
-		
-		LocatorFeature locatorFeature = new LocatorFeature();
-		locatorFeature.setLocatorEndpoints("locator_host1:2181,locator_host2:2181");
-
-		Greeter greeterService = new GreeterImpl();
-		JaxWsServerFactoryBean server = new JaxWsServerFactoryBean();
-		server.setServiceBean(greeterService);
-		server.setAddress(address);
-		
-		server.getFeatures().add(locatorFeature);
-		server.create();
-					</programlisting>
-    </example>
+        Greeter greeterService = new GreeterImpl();
+        JaxWsServerFactoryBean server = new JaxWsServerFactoryBean();
+        server.setServiceBean(greeterService);
+        server.setAddress(address);
+        
+        server.getFeatures().add(locatorFeature);
+        server.create();
+                    </programlisting>
+                </example>  
 
     <para>In the code above only one property for the feature was set. So
     default values will be used for all other. For example, endpointPrefix
@@ -270,32 +268,30 @@
         </tgroup>
       </informaltable></para>
 
-    <example xml:id="ex.slspringconfclient">
-      <title>ServiceLocator Feature configuration for client</title>
-
-      <programlisting>
+                <example xml:id="ex.slspringconfclient">
+                    <title>Talend ESB ServiceLocator Feature configuration for client </title>
+                    <programlisting>
 &lt;beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
                       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
-                      http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"&gt;
+                      http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	&lt;import resource="classpath:META-INF/cxf/cxf.xml" /&gt;
-	&lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /&gt;
-	&lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /&gt;	
+    &lt;import resource="classpath:META-INF/cxf/cxf.xml" />
+    &lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+    &lt;import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> 
 
-	&lt;jaxws:client id="GreeterClient" serviceClass="demo.common.Greeter"
-		address="locator://"&gt;
-		&lt;jaxws:features&gt;
-			&lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
-		        &lt;property name="locatorEndpoints" 
-		        					value="locator_host1:2181,locator_host2:2181,locator_host2:2182"/&gt;
-			&lt;/bean&gt;
-		&lt;/jaxws:features&gt;
-	&lt;/jaxws:client&gt;
-&lt;/beans&gt;
-					</programlisting>
-    </example>
+    &lt;jaxws:client id="GreeterClient" serviceClass="demo.common.Greeter"
+        address="locator://">
+        &lt;jaxws:features>
+            &lt;bean class="org.talend.esb.locator.LocatorFeature">
+                &lt;property name="locatorEndpoints" value="locator_host:2181"/>
+            &lt;/bean>
+        &lt;/jaxws:features>
+    &lt;/jaxws:client>
+&lt;/beans>
+                    </programlisting>
+                </example>
 
     <para>In the example above you can see that Locator client was added
     through configuration exactly the same way as a standard CXF feature using
@@ -310,27 +306,24 @@
     </section>
 
     <para>Alternatively you can add the feature to the CXF service consumer by
-    using the ClientFactoryBean.</para>
+    using the ClientFactoryBean.
+        </para>
+                <example xml:id="ex.slproguseconsside">
+                    <title>Talend ESB ServiceLocator Feature programmatically using consumer side</title>
+                    <programlisting>
+        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        LocatorFeature locatorFeature = new LocatorFeature();
+        locatorFeature.setLocatorEndpoints("sop-td57:2181");
 
-    <example xml:id="ex.slproguseconsside">
-      <title>ServiceLocator Feature programmatically using consumer
-      side</title>
+        factory.getFeatures().add(locatorFeature);
+        factory.setServiceClass(Greeter.class);
+        factory.setAddress("locator://more_useful_information");
+        Greeter client = (Greeter) factory.create();
 
-      <programlisting>
-    	JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		LocatorFeature locatorFeature = new LocatorFeature();
-		locatorFeature.setLocatorEndpoints("sop-td57:2181");
-
-		factory.getFeatures().add(locatorFeature);
-		factory.setServiceClass(Greeter.class);
-		factory.setAddress("locator://more_useful_information");
-		Greeter client = (Greeter) factory.create();
-
-		String response = client.greetMe("MyName");
- 					</programlisting>
-    </example>
-
-    <para>In the code above only one property for the feature was set. So
+        String response = client.greetMe("MyName");
+                    </programlisting>
+                </example>
+        <para>In the code above only one property for the feature was set. So
     default values will be used for all other. Address with locator protocol
     was set in factorybean:
     <code>factory.setAddress("locator://more_useful_information");</code></para>
