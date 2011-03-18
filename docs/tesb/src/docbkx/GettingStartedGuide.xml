@@ -140,7 +140,7 @@
         </informaltable></para>
 
       <para>From the base directory of the CRMService sample, the maven
-      <code>...\examples\crmservice\pom.xml</code> file can be used to build
+      <code>...\examples\tesb\crmservice\pom.xml</code> file can be used to build
       and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -156,7 +156,7 @@
           type="vert">
           <member>...\common\target\crmservice-common-4.0.jar</member>
 
-          <member>...\server\target\crmservice-server-4.0.jar</member>
+          <member>...\service\target\crmservice-service-4.0.jar</member>
 
           <member>...\client\target\crmservice-client-4.0.jar</member>
         </simplelist></para>
@@ -206,7 +206,7 @@
         </informaltable></para>
 
       <para>From the base directory of ReservationService sample, the maven
-      <code>...\examples\reservationservice\pom.xml</code> file can be used to
+      <code>...\examples\tesb\reservationservice\pom.xml</code> file can be used to
       build and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -222,7 +222,7 @@
           type="vert">
           <member>...\common\target\reservationservice-common-4.0.jar</member>
 
-          <member>...\server\target\reservationservice-server-4.0.jar</member>
+          <member>...\service\target\reservationservice-service-4.0.jar</member>
 
           <member>...\client\target\reservationservice-client-4.0.jar</member>
         </simplelist></para>
@@ -232,7 +232,7 @@
       <title>Building app-reservation project bundle</title>
 
       <para>From the base directory of app-reservation project, the maven
-      <code>...\examples\app-reservation\pom.xml</code> file can be used to
+      <code>...\examples\tesb\app-reservation\pom.xml</code> file can be used to
       build and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -268,7 +268,7 @@
       xlink:href="http://karaf.apache.org/">http://karaf.apache.org/</link>.</para>
 
       <para>2. Start OSGi: <code>run &lt;Talend ESB
-      Runtime&gt;/container/bin/start</code></para>
+      Runtime&gt;/container/bin/karaf</code></para>
     </section>
 
     <section>
@@ -280,7 +280,7 @@
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
           <member>crmservice-common-4.0.jar</member>
 
-          <member>crmservice-server-4.0.jar</member>
+          <member>crmservice-service-4.0.jar</member>
 
           <member>crmservice-client-4.0.jar</member>
         </simplelist></para>
@@ -301,7 +301,7 @@
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
           <member>reservationservice-common-4.0.jar</member>
 
-          <member>reservationservice-server-4.0.jar</member>
+          <member>reservationservice-service-4.0.jar</member>
 
           <member>reservationservice-client-4.0.jar</member>
         </simplelist></para>
