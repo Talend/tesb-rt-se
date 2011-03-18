@@ -31,7 +31,7 @@ for deploying the service to OSGi containers.
 
 Three OSGi bundles will be created:
 ...\common\target\reservationservice-common-4.0.jar
-...\server\target\reservationservice-server-4.0.jar
+...\service\target\reservationservice-service-4.0.jar
 ...\client\target\reservationservice-client-4.0.jar
 
 Starting the service
@@ -46,9 +46,9 @@ You can find out how to get started with OSGi container here: http://karaf.apach
 run <takend-sf>/container/bin/start
 2.Deploy service into OSGi container.
 
-copy follow bundles into folder <takend-sf>/container/deploy
+copy follow bundles into folder <Talend ESB Runtime>/container/deploy
 reservationservice-common-4.0.jar
-reservationservice-server-4.0.jar
+reservationservice-service-4.0.jar
 reservationservice-client-4.0.jar
 
 3.Type in console command "list".
