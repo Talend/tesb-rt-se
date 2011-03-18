@@ -33,12 +33,6 @@
 
 	<import resource="classpath:/agent-context.xml" />
 
-    <util:list id="eventFilters">
-    </util:list>
-
-    <util:list id="eventHandlers">
-    </util:list>
-
     <bean id="fixedProperties"
         class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
         <property name="customInfo">

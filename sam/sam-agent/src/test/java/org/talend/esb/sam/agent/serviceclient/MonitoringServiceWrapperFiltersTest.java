@@ -36,7 +36,7 @@ public class MonitoringServiceWrapperFiltersTest {
 
     @Test
     public void testWrapper() {
-    	Assert.assertEquals("We should have some filters", 2, eventCollector.getEventFilters().size());
-        Assert.assertEquals("We should have some event manipulators", 2, eventCollector.getEventHandlers().size());
+    	Assert.assertEquals("We should have some filters", 2, eventCollector.getFilters().size());
+        Assert.assertEquals("We should have some event manipulators", 2, eventCollector.getHandlers().size());
     }
 }

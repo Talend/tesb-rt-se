@@ -27,14 +27,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 ">
     <import resource="classpath:/META-INF/spring/server.xml" />
 
-    <util:list id="eventFilters">
-<!--        <ref local="stringContentFilter" />-->
-    </util:list>
-
-    <util:list id="eventHandlers">
-<!--        <ref local="contentLengthHandler" />-->
-    </util:list>
-
     <!--  Sample filters -->
     <bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
         <property name="tagnames">

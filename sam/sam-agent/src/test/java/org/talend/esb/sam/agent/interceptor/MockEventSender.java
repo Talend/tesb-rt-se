@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
-public class MockEventSender implements EventManipulator {
+public class MockEventSender implements EventHandler {
     private List<Event> eventList = new ArrayList<Event>();
 
     public List<Event> getEventList() {

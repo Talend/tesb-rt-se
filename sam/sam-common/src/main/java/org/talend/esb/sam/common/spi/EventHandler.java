@@ -26,7 +26,7 @@ import org.talend.esb.sam.common.event.Event;
  * length cutter or password filter
  * 
  */
-public interface EventManipulator {
+public interface EventHandler {
 
 	void handleEvent(Event event);
 

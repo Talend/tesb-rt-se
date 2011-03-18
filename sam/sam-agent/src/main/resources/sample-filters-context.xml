@@ -16,16 +16,6 @@
     xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd ">
 
-    <util:list id="eventFilters">
-        <ref local="stringContentFilter" />
-        <ref local="noPingMetadataFilter" />
-    </util:list>
-
-    <util:list id="eventHandlers">
-        <ref local="fixedPropertiesHandler" />
-        <ref local="noPingMetadataFilter" />
-    </util:list>
-
     <bean id="stringContentFilter"
         class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
         <property name="wordsToFilter">

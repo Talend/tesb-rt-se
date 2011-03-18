@@ -24,7 +24,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Maps the CXF Message to an Event and sends this to a given EvventManipulator
@@ -33,9 +33,9 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  */
 public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> {
     MessageToEventMapper mapper;
-    EventManipulator eventSender;
+    EventHandler eventSender;
 
-    public EventProducerInterceptor(MessageToEventMapper mapper, EventManipulator eventSender) {
+    public EventProducerInterceptor(MessageToEventMapper mapper, EventHandler eventSender) {
         super(Phase.PRE_INVOKE);
         this.mapper = mapper;
         this.eventSender = eventSender;

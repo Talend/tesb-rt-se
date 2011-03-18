@@ -29,7 +29,7 @@ import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Feature adds FlowIdProducer Interceptor and EventProducer Interceptor.
@@ -39,7 +39,7 @@ import org.talend.esb.sam.common.spi.EventManipulator;
 public class EventFeature extends AbstractFeature {
 
     private MessageToEventMapper mapper;
-    private EventManipulator eventSender;
+    private EventHandler eventSender;
     private boolean logMessageContent;
 
     public EventFeature() {
@@ -77,7 +77,7 @@ public class EventFeature extends AbstractFeature {
         this.mapper = mapper;
     }
 
-    public void setEventSender(EventManipulator eventSender) {
+    public void setEventSender(EventHandler eventSender) {
         this.eventSender = eventSender;
     }
 

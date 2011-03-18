@@ -30,6 +30,7 @@ public class ExampleClientMain {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
         CustomerServiceTester tester = context.getBean(CustomerServiceTester.class);
         tester.testCustomerService();
+        Thread.sleep(100);
         context.close();
         System.exit(0); 
     }

@@ -22,41 +22,39 @@ package org.talend.esb.sam.agent.collector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.annotation.Resource;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.common.service.MonitoringService;
 import org.talend.esb.sam.common.spi.EventFilter;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Event collector collects all events and stores them in a queue. This can be a
  * memory queue or a persistent queue. Asynchronously the events will be
  * processed and sent to MonitoringService
  */
-public class EventCollectorImpl implements EventManipulator, BusLifeCycleListener {
+public class EventCollectorImpl implements EventHandler, BusLifeCycleListener {
 
 	private static Logger logger = Logger.getLogger(EventCollectorImpl.class
 			.getName());
 
 	private MonitoringService monitoringServiceClient;
-	
-	@Resource(name="eventFilters")
-	private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
-	@Resource(name="eventHandlers")
-	private List<EventManipulator> eventHandlers = new ArrayList<EventManipulator>();
-	
-	private Queue<Event> queue;
+	@Autowired(required=false)
+	private List<EventFilter> filters = new ArrayList<EventFilter>();
+	@Autowired(required=false)
+	private List<EventHandler> handlers = new ArrayList<EventHandler>();	
+	private Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
 	private TaskExecutor executor;
 	private TaskScheduler scheduler;
 	private long defaultInterval = 1000;
@@ -164,33 +162,6 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	}
 
 	/**
-	 * Spring sets event filter. Event filter will be processed before sending
-	 * events to web service.
-	 * 
-	 * @param queue
-	 */
-	public void setEventFilters(List<EventFilter> eventFilters) {
-		this.eventFilters = eventFilters;
-	}
-
-    /**
-	 * 
-	 * @param eventHandlers
-	 */
-	public void setEventHandlers(
-			List<EventManipulator> eventHandlers) {
-		this.eventHandlers = eventHandlers;
-	}
-
-	public List<EventFilter> getEventFilters() {
-		return eventFilters;
-	}
-
-	public List<EventManipulator> getEventHandlers() {
-		return eventHandlers;
-	}
-
-	/**
 	 * Spring sets the monitoring service client.
 	 * 
 	 * @param monitoringServiceClient
@@ -198,6 +169,22 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	public void setMonitoringServiceClient(
 			MonitoringService monitoringServiceClient) {
 		this.monitoringServiceClient = monitoringServiceClient;
+	}
+
+	public List<EventFilter> getFilters() {
+		return filters;
+	}
+
+	public void setFilters(List<EventFilter> filters) {
+		this.filters = filters;
+	}
+
+	public List<EventHandler> getHandlers() {
+		return handlers;
+	}
+
+	public void setHandlers(List<EventHandler> handlers) {
+		this.handlers = handlers;
 	}
 
 	/**
@@ -267,11 +254,9 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @return
 	 */
 	private boolean filter(Event event) {
-		if (eventFilters != null && eventFilters.size() > 0) {
-			for (EventFilter filter : eventFilters) {
-				if (filter.filter(event) == true)
-					return true;
-			}
+		for (EventFilter filter : filters) {
+			if (filter.filter(event) == true)
+				return true;
 		}
 		return false;
 	}
@@ -282,12 +267,9 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @param events
 	 */
 	private void sendEvents(final List<Event> events) {
-		// Execute Manipulator
-		if (eventHandlers != null && eventHandlers.size() > 0) {
-			for (EventManipulator current : eventHandlers) {
-				for (Event event : events) {
-				    current.handleEvent(event);
-				}
+		for (EventHandler current : handlers) {
+			for (Event event : events) {
+				current.handleEvent(event);
 			}
 		}
 

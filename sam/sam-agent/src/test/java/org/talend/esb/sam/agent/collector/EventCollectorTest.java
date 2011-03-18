@@ -11,8 +11,6 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.filter.impl.StringContentFilter;
 import org.talend.esb.sam.common.handler.impl.ContentLengthHandler;
 import org.talend.esb.sam.common.service.MonitoringService;
-import org.talend.esb.sam.common.spi.EventFilter;
-import org.talend.esb.sam.common.spi.EventManipulator;
 
 public class EventCollectorTest {
 	private final class MockService implements MonitoringService {
@@ -28,12 +26,8 @@ public class EventCollectorTest {
 	public void testEventCollector() throws InterruptedException {
 		EventCollectorImpl eventCollector = new EventCollectorImpl();
 		eventCollector.setDefaultInterval(500);
-		List<EventFilter> eventFilters = new ArrayList<EventFilter>();
-		eventFilters.add(new StringContentFilter());
-		eventCollector.setEventFilters(eventFilters);
-		List<EventManipulator> eventHandlers = new ArrayList<EventManipulator>();
-		eventHandlers.add(new ContentLengthHandler());
-		eventCollector.setEventHandlers(eventHandlers);
+		eventCollector.getFilters().add(new StringContentFilter());
+		eventCollector.getHandlers().add(new ContentLengthHandler());
 		eventCollector.setEventsPerMessageCall(2);
 		eventCollector.setQueue(new java.util.concurrent.ConcurrentLinkedQueue<Event>());
 		TaskExecutor executor = new SyncTaskExecutor();
