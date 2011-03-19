@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.common.service.MonitoringService;
@@ -76,7 +75,6 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * Executes all event manipulating handler and writes the event with persist
 	 * handler
 	 */
-	@Transactional
 	public void putEvents(List<Event> events) {
 		List<Event> filteredEvents = filterEvents(events);
 		executeHandlers(filteredEvents);

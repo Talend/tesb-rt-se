@@ -35,12 +35,6 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
     <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
     <import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
-    
-    <util:list id="eventFilters">
-    </util:list>
-
-    <util:list id="eventHandlers">
-    </util:list>
 
     <jaxws:client id="monitoringServiceV1Client"
         serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"

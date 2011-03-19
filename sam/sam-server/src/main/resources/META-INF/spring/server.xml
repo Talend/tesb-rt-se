@@ -32,44 +32,12 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-
-	<context:annotation-config />
-    <tx:annotation-driven />
-  
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="WEB-INF/logserver.properties"/>
-    </bean>
+    
+    <import resource="persistence.xml"/>
 
     <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository" />    
     </bean>
-
-    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="incrementer" ref="${db.incrementer}" />
-    </bean>
-    
-    <bean id="derbyIncrementer" class="org.talend.esb.sam.server.persistence.DerbySequenceIncrementer">
-        <property name="dataSource" ref="dataSource" />
-        <property name="incrementerName" value="EVENT_ID" />
-    </bean>
-    
-    <bean id="mysqlIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
-        <property name="dataSource" ref="dataSource" />
-        <property name="incrementerName" value="SEQUENCE" />
-        <property name="columnName" value="SEQ_COUNT"/>
-    </bean>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driver}" />
-        <property name="url" value="${db.url}" />
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}" />
-    </bean>
-	    
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean> 
 
 	<jaxws:endpoint id="monitoringservice" 
         implementor="#MonitoringServiceWrapper"
@@ -86,10 +54,5 @@
 		class="org.talend.esb.sam.server.service.MonitoringWebService">
 		<property name="monitoringService" ref="monitoringService" />
 	</bean>
-    
-    <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="recreateDb" value="${db.recreate}"/>
-        <property name="createSql" value="${db.createsql}"/>
-    </bean>
+
 </beans>
