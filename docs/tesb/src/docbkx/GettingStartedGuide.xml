@@ -253,22 +253,17 @@
   </chapter>
 
   <chapter>
-    <title>How to deploy Rent a Car demo in Talend Service Factory OSGi
-    container</title>
+    <title>How to deploy Rent a Car demo in Talend ESB Runtime OSGi container</title>
 
     <section>
       <title>Start OSGi console</title>
 
-      <para>1. Install Talend Service Factory Community Edition which include
-      OSGi container version 2.3.2 or higher from <link
-      xlink:href="http://www.talend.com/download.php">http://www.talend.com/download.php</link>.</para>
+      <para>Start OSGi: run <code>&lt;Talend ESB Runtime&gt;/container/bin/tesb</code>.</para>
 
       <para>You can find out how to get started with OSGi container here:
       <link
       xlink:href="http://karaf.apache.org/">http://karaf.apache.org/</link>.</para>
 
-      <para>2. Start OSGi: <code>run &lt;Talend ESB
-      Runtime&gt;/container/bin/karaf</code></para>
     </section>
 
     <section>
