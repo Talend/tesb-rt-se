@@ -38,13 +38,13 @@
     service that provides coordination between distributed processes.</para>
 
     <para>To learn more about Apache ZooKeeper, visit <link
-    xlink:href="http://hadoop.apache.org/zookeeper">http://hadoop.apache.org/zookeeper</link>.</para>
+    xlink:href="http://zookeeper.apache.org/">http://zookeeper.apache.org/</link>.</para>
 
     <section>
       <title>Download</title>
 
       <para>To get a server distribution, download a recent <link
-      xlink:href="http://hadoop.apache.org/zookeeper/releases.html">stable</link>
+      xlink:href="http://zookeeper.apache.org/releases.html">stable</link>
       release from one of the Apache Download Mirrors. After this unpack it
       and cd to the root.</para>
     </section>
@@ -207,10 +207,10 @@ server.3=locator_host3:2888:3888
 
       <para>The data directory is specified by the dataDir parameter in the
       Service Locator server <link
-      xlink:href="http://hadoop.apache.org/zookeeper/docs/current/zookeeperAdmin.html#sc_configuration">configuration
+      xlink:href="http://zookeeper.apache.org/doc/trunk/zookeeperAdmin.html#sc_configuration">configuration
       file</link>, and the data log directory is specified by the dataLogDir
       parameter. For more information, see <link
-      xlink:href="http://hadoop.apache.org/zookeeper/docs/current/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup">Ongoing
+      xlink:href="http://zookeeper.apache.org/doc/trunk/zookeeperAdmin.html#Ongoing+Data+Directory+Cleanup">Ongoing
       Data Directory Cleanup</link>.</para>
     </section>
   </chapter>

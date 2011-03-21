@@ -38,8 +38,8 @@
         on proven open source technology - Apache ZooKeeper. This is a highly
         reliable and available service that provides coordination between
         distributed processes. To learn more about Apache ZooKeeper, visit
-        <ulink url="http://hadoop.apache.org/zookeeper"><link
-        linkend="???">http://hadoop.apache.org/zookeeper</link>.</ulink>
+        <ulink url="http://zookeeper.apache.org"><link
+        linkend="???">http://zookeeper.apache.org</link>.</ulink>
         </para>
       </listitem>
 
