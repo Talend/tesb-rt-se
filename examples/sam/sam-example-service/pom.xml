@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb</groupId>
+    <groupId>org.talend.esb.examples</groupId>
     <artifactId>sam-example-service</artifactId>
     <packaging>war</packaging>
 
@@ -10,7 +10,7 @@
     <url>http://www.talend.com</url>
 
     <parent>
-        <groupId>org.talend.esb</groupId>
+        <groupId>org.talend.esb.examples</groupId>
         <artifactId>sam-examples</artifactId>
         <version>4.0</version>
     </parent>
@@ -30,6 +30,7 @@
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
+            <version>${jetty.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -72,10 +73,6 @@
                         </connector>
                     </connectors>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
