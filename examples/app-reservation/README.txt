@@ -34,13 +34,13 @@ Using either UNIX or Windows:
 Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
 
 The OSGi bundle will be created:
-...\app-reservation\target\app-reservation-1.0.jar
+...\app-reservation\target\app-reservation-4.0.jar
 
 Starting the application
 ------------------------
 
 1.Start OSGi console
-2.Copy app-reservation-1.0.jar into folder <Talend ESB Runtime>/container/deploy.
+2.Copy app-reservation-4.0.jar into folder <Talend ESB Runtime>/container/deploy.
 
 In console you will see:
 
