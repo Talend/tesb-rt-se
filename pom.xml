@@ -43,8 +43,6 @@
         <bnd.version>1.15.0</bnd.version>
         <slf4j.version>1.6.0</slf4j.version>
         <osgi.version>4.2.0</osgi.version>
-        <!--  Test dependencies -->
-        <jetty.version>7.2.2.v20101205</jetty.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -94,12 +92,6 @@
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-library</artifactId>
                 <version>1.3.RC2</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -187,7 +179,7 @@
                 <plugin>
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>${jetty.version}</version>
+                    <version>7.2.2.v20101205</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.rat</groupId>
