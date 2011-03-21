@@ -89,6 +89,20 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
+        <!-- Expanded ZooKeeper Runtime -->
+        <fileSet>
+            <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.package.version}</directory>
+            <outputDirectory>/zookeeper</outputDirectory>
+            <excludes>
+                <exclude>LICENSE.txt</exclude>
+                <exclude>NOTICE.txt</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>dist-maven/*</exclude>
+            </excludes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+
         <!-- Expanded Karaf Runtime -->
         <fileSet>
             <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>

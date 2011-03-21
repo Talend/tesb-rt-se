@@ -26,6 +26,7 @@
 		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.4.2</activemq.version>
 		<camel.version>2.6.0</camel.version>
+        <zookeeper.package.version>3.3.2</zookeeper.package.version>
 		<tif.version>2.6.0.0</tif.version>
 		<tsf.version>2.3.3.0</tsf.version>
 
@@ -228,6 +229,28 @@
 			<version>${camel.version}</version>
 			<type>xml</type>
 			<classifier>features</classifier>
+		</dependency>
+
+		<!-- Apache ZooKeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.package.version}</version>
+			<type>tar.gz</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jdmk</groupId>
+                    <artifactId>jmxtools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jmx</groupId>
+                    <artifactId>jmxri</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 		<!-- TIF -->
@@ -807,6 +830,24 @@
 									<version>${cxf.version}</version>
 									<type>tar.gz</type>
 									<outputDirectory>target/dependencies/cxf</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-zookeeper</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.zookeeper</groupId>
+									<artifactId>zookeeper</artifactId>
+									<version>${zookeeper.package.version}</version>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies/zookeeper</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
