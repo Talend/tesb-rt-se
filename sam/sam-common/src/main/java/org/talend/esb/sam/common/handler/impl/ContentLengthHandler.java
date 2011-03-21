@@ -61,7 +61,7 @@ public class ContentLengthHandler implements EventHandler {
 	 * Cut the message content to the configured length
 	 */
 	public void handleEvent(Event event) {
-		logger.info("ContentLengthHandler called");
+		logger.fine("ContentLengthHandler called");
 
 		//if maximum length is shorter then <cut><![CDATA[ ]]></cut> it's not possible to cut the content
 		if(CUT_START_TAG.length()+CUT_END_TAG.length()>length){
@@ -73,7 +73,7 @@ public class ContentLengthHandler implements EventHandler {
 		int currentLength = length - CUT_START_TAG.length() - CUT_END_TAG.length();
 
 		if (event.getContent() != null && event.getContent().length() > length) {
-			logger.info("cutting content to " + currentLength
+			logger.fine("cutting content to " + currentLength
 					+ " characters. Original length was "
 					+ event.getContent().length());
 			logger.fine("Content before cutting: " + event.getContent());

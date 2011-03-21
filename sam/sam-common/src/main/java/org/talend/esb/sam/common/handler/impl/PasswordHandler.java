@@ -60,7 +60,7 @@ public class PasswordHandler implements EventHandler {
 	 * Replaces all configured elements with a ---replaced--- string
 	 */
 	public void handleEvent(Event event) {
-		logger.info("PasswordHandler called");
+		logger.fine("PasswordHandler called");
 		
 		if(tagnames==null||tagnames.size()==0)
 			logger.warning("Password filter is active but there is no filter tagname configured!");

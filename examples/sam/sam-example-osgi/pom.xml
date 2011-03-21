@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.talend.esb.examples</groupId>
+    <artifactId>sam-example-osgi</artifactId>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>org.talend.esb.examples</groupId>
+        <artifactId>sam-examples</artifactId>
+        <version>4.0</version>
+    </parent>
+
+    <name>Service Activity Monitoring :: Example Service OSGi</name>
+    <url>http://www.talend.com</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-agent</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-bundle>org.apache.cxf.bundle,org.springframework.beans,org.springframework.context,sam-agent</Require-bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        ${basedir}/src/main/resources/wsdl/CustomerService.wsdl
+                                 </wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>src/main/resources/wsdl/binding.xml</bindingFile>
+                                    </bindingFiles>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

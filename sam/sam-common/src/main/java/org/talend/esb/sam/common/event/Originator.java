@@ -21,32 +21,27 @@ package org.talend.esb.sam.common.event;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-@Embeddable
+//@Embeddable
 public class Originator implements Serializable {
 
-	@Transient
+	//@Transient
 	private static final long serialVersionUID = 3926684116318585338L;
 
-	@Basic(optional = false)
-	@Column(name = "ORIG_PROCESS_ID")
+	//@Basic(optional = false)
+	//@Column(name = "ORIG_PROCESS_ID")
 	private String processId;
-	@Basic(optional = false)
-	@Column(name = "ORIG_IP", length=64)
+	//@Basic(optional = false)
+	//@Column(name = "ORIG_IP", length=64)
 	private String ip;
-	@Basic(optional = false)
-	@Column(name = "ORIG_HOSTENAME", length=128)
+	//@Basic(optional = false)
+	//@Column(name = "ORIG_HOSTENAME", length=128)
 	private String hostname;
-	@Column(name = "ORIG_CUSTOM_ID")
+	//@Column(name = "ORIG_CUSTOM_ID")
 	private String customId;
-	@Column(name = "ORIG_PRINCIPAL")
+	//@Column(name = "ORIG_PRINCIPAL")
 	private String principal;
 
 	public Originator(String processId, String ip, String hostname,

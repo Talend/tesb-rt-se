@@ -36,7 +36,7 @@ public class CustomInfoHandler implements EventHandler {
 
     @Override
     public void handleEvent(Event event) {
-    	logger.info("CustomInfoHandler called");
+    	logger.fine("CustomInfoHandler called");
     	
         if (customInfo == null) {
             return;

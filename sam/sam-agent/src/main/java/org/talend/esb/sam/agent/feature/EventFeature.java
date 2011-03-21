@@ -63,8 +63,7 @@ public class EventFeature extends AbstractFeature {
         WireTapIn wireTapIn = new WireTapIn(logMessageContent);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
-        WireTapIn wireTapInFault = new WireTapIn(logMessageContent);
-        provider.getInFaultInterceptors().add(wireTapInFault);
+        provider.getInFaultInterceptors().add(wireTapIn);
         provider.getInFaultInterceptors().add(epi);
 
         WireTapOut wireTapOut = new WireTapOut(epi, logMessageContent);

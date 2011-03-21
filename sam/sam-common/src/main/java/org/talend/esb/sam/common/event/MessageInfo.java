@@ -21,34 +21,29 @@ package org.talend.esb.sam.common.event;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-@Embeddable
+//@Embeddable
 public class MessageInfo implements Serializable{
 
-	@Transient
+	//@Transient
 	private static final long serialVersionUID = -6464068913564098842L;
 
-	@Basic(optional=false)
-	@Column(name="MI_MESSAGE_ID")
+	//@Basic(optional=false)
+	//@Column(name="MI_MESSAGE_ID")
 	private String messageId;
-	@Basic(optional=false)
-	@Column(name="MI_FLOW_ID",length=64)
+	//@Basic(optional=false)
+	//@Column(name="MI_FLOW_ID",length=64)
 	private String flowId;
-	@Basic(optional=false)
-	@Column(name="MI_PORT_TYPE")
+	//@Basic(optional=false)
+	//@Column(name="MI_PORT_TYPE")
 	private String portType;
-	@Basic(optional=false)
-	@Column(name="MI_OPERATION_NAME")
+	//@Basic(optional=false)
+	///@Column(name="MI_OPERATION_NAME")
 	private String operationName;
-	@Basic(optional=false)
-	@Column(name="MI_TRANSPORT_TYPE")
+	//@Basic(optional=false)
+	//@Column(name="MI_TRANSPORT_TYPE")
 	private String transportType;
 	
 	public MessageInfo(String messageId, String flowId, String portType,

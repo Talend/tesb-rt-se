@@ -19,10 +19,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>javax.persistence</artifactId>
-        </dependency>
-        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
@@ -39,6 +35,14 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>
+                            org.talend.esb.sam.common.*,org.talend.esb.sam.common.handler.impl,org.talend.esb.sam.common.filter.impl
+                        </Export-Package>
+                    </instructions>
+                </configuration>
             </plugin>
             <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>

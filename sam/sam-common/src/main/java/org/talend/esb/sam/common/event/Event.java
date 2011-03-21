@@ -24,63 +24,44 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-@Table(name = "EVENTS")
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Table(name = "EVENTS")
+//@Entity
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Event implements Serializable {
     // TODO Filename, line number for logging events
 
-    @Transient
+    //@Transient
     private static final long serialVersionUID = 1697021887985284206L;
 
-    @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "EVENT_SEQ")
-    @TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
-    @Column(name = "ID")
+    //@GeneratedValue(strategy = GenerationType.TABLE, generator = "EVENT_SEQ")
+    //@TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
+    //@Column(name = "ID")
     private Long persistedId;
 
-    @Basic(optional = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EI_TIMESTAMP")
+    //@Basic(optional = false)
+    //@Temporal(TemporalType.TIMESTAMP)
+    //@Column(name = "EI_TIMESTAMP")
     private Date timestamp;
 
-    @Basic(optional = false)
-    @Enumerated(EnumType.STRING)
-    @Column(name = "EI_EVENT_TYPE")
+    //@Basic(optional = false)
+    //@Enumerated(EnumType.STRING)
+    //@Column(name = "EI_EVENT_TYPE")
     private EventTypeEnum eventType;
 
-    @Embedded
+    //@Embedded
     private Originator originator;
 
-    @Embedded
+    //@Embedded
     private MessageInfo messageInfo;
     
     private boolean isContentCut;
 
-    @Lob
-    @Column(name = "MESSAGE_CONTENT")
+    //@Lob
+    //@Column(name = "MESSAGE_CONTENT")
     private String content;
 
     private Map<String, String> customInfo = new HashMap<String, String>();
