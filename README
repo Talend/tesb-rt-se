@@ -21,6 +21,7 @@ code. It also supports non-SOAP bindings including REST. CXF open
 standards and portability enable you to deliver interoperability for 
 your applications to maximize the value of your application to your users.
 
+
 Talend Integration Factory is a fully supported,
 stable, production ready distribution based on the industry leading open
 source integration framework Apache Camel. Apache Camel uses well known 
@@ -40,11 +41,29 @@ Scala, are supported out of the box. Its extensible architecture
 allows developers to easily add support for proprietary protocols
 and data formats.
 
+The Service Locator is a service that provides its consumers with a mechanism 
+to discover service endpoints at run time. The Service Locator consists of two parts: 
+An Endpoint repository and a CXF feature used to configure the use of the Service Locator 
+at provider and consumer side. Like any standard CXF feature, the ServiceLocator Feature is configured 
+separately for the service provider side and service consumer side. The provider side Locator Feature 
+extension registers and deregisters service endpoints in the endpoint repository when the provider 
+becomes available or unavailable. The consumer side Locator Feature extension transparently retrieves 
+service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
+
+The Service Activity Monitoring (SAM) allows to log / monitor service calls 
+done with the Apache CXF Framework. Typical use cases are usage statistics and fault monitoring. 
+The solution consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). 
+The Agent creates events out of the requests and replies on service consumer and provider side. 
+The events are first collected locally and then sent to the monitoring server periodically to not disturb 
+the normal message flow. The Monitoring Server receives events from the Agent, optinally filters/handlers 
+events and stores them into a Database.
+
 Contents 
 ======== 
 
 Apache CXF
 OSGi Container
+Add Ons
 Getting Started
 Examples
 
@@ -70,6 +89,12 @@ managing component dependencies, service invocation, and lifecycles. It is
 the basis for Eclipse and provides a lightweight alternative to more 
 monolithic JEE containers while still retaining the powerful management 
 features necessary for the enterprise.
+
+Add Ons
+===============
+
+The add-ons subdirectory contains two addons, Service Locator and 
+Service Activity Monitoring which can be configured for a CXF client. 
 
 Getting Started 
 ===============
