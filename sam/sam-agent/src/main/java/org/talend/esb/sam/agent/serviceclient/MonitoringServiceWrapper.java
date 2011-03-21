@@ -34,14 +34,20 @@ import org.talend.esb.sam.monitoringservice.v1.MonitoringService;
 public class MonitoringServiceWrapper implements org.talend.esb.sam.common.service.MonitoringService {
     private MonitoringService monitoringService;
 
-    private int numberOfRetries;
-    private long delayBetweenRetry;
+    private int numberOfRetries = 3;
+    private long delayBetweenRetry = 1000;
 
     public void setNumberOfRetries(int numberOfRetries) {
+        if (numberOfRetries <= 0) {
+            throw new IllegalStateException("Number of retries must be > 0 but was " + numberOfRetries);
+        }
         this.numberOfRetries = numberOfRetries;
     }
 
     public void setDelayBetweenRetry(long delayBetweenRetry) {
+        if (numberOfRetries <= 0) {
+            throw new IllegalStateException("Delay between retries must be > 0 but was " + delayBetweenRetry);
+        }
         this.delayBetweenRetry = delayBetweenRetry;
     }
 
@@ -55,15 +61,6 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
     }
 
     /**
-     * Set by Spring. Sets the dozer mapper for transforming objects.
-     * 
-     * @param mapper
-     */
-    /*
-     * public void setMapper(DozerBeanMapper mapper) { this.mapper = mapper; }
-     */
-
-    /**
      * Sends all events to the web service. Events will be transformed with mapper before sending.
      */
     public void putEvents(List<Event> events) {
@@ -75,8 +72,6 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
         }
 
         int i = 0;
-        if (numberOfRetries == 0)
-            numberOfRetries = 5;
         lastException = null;
         while (i < numberOfRetries) {
             try {
@@ -85,9 +80,6 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
             } catch (Exception e) {
                 lastException = e;
                 i++;
-                if (delayBetweenRetry <= 0) {
-                    delayBetweenRetry = 1000;
-                }
                 try {
                     Thread.sleep(delayBetweenRetry);
                 } catch (Exception e1) {
@@ -100,6 +92,5 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
                                                   + numberOfRetries + " retries.", lastException, events);
         }
     }
-
 
 }

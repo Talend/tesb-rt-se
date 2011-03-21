@@ -34,7 +34,6 @@ import org.talend.esb.sam.common.spi.EventHandler;
 /**
  * Feature adds FlowIdProducer Interceptor and EventProducer Interceptor.
  * 
- * @author cschmuelling
  */
 public class EventFeature extends AbstractFeature {
 
@@ -59,17 +58,14 @@ public class EventFeature extends AbstractFeature {
         provider.getOutFaultInterceptors().add(flowIdProducerOut);
 
         EventProducerInterceptor epi = new EventProducerInterceptor(mapper, eventSender);
-        
         WireTapIn wireTapIn = new WireTapIn(logMessageContent);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
-        provider.getInFaultInterceptors().add(wireTapIn);
         provider.getInFaultInterceptors().add(epi);
 
         WireTapOut wireTapOut = new WireTapOut(epi, logMessageContent);
         provider.getOutInterceptors().add(wireTapOut);
-        WireTapOut wireTapOutFault = new WireTapOut(epi, logMessageContent);
-        provider.getOutFaultInterceptors().add(wireTapOutFault);
+        provider.getOutFaultInterceptors().add(wireTapOut);
     }
 
     public void setMapper(MessageToEventMapper mapper) {

@@ -73,7 +73,7 @@ public class EventProducerTest {
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerFaultOut(eventsList.get(2));
-        //checkClientFaultIn(eventsList.get(3)); TODO check again
+        checkClientFaultIn(eventsList.get(3));
     }
     
 	private void checkFlowIdPresentAndSame(List<Event> eventsList) {
