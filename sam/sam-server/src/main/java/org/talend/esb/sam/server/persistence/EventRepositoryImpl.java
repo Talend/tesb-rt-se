@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
-import org.springframework.transaction.annotation.Transactional;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
@@ -44,7 +43,6 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     }
 
     @Override
-    @Transactional
     public void writeEvent(Event event) {
         Originator originator = event.getOriginator();
         MessageInfo messageInfo = event.getMessageInfo();

@@ -26,16 +26,31 @@
         <module>crmservice</module>
         <module>reservationservice</module>
         <module>app-reservation</module>
+        <module>sam</module>
     </modules>
 
     <properties>
         <cxf.version>2.3.3</cxf.version>
-        <osgi.version>3.6.0.v20100517</osgi.version>
+        <eclipse.osgi.version>3.6.0.v20100517</eclipse.osgi.version>
         <karaf.version>2.1.4</karaf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
+        <!--  Test dependencies -->
+        <jetty.version>7.2.2.v20101205</jetty.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Test dependencies  -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>

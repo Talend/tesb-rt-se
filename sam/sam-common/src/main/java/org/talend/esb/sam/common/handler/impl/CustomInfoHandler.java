@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Adds a fixed set of custom info fields to the event
  */
-public class CustomInfoHandler implements EventManipulator {
+public class CustomInfoHandler implements EventHandler {
 	private static Logger logger = Logger.getLogger(CustomInfoHandler.class
 			.getName());
 	

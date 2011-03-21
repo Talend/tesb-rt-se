@@ -2,8 +2,7 @@ Welcome to Talend ESB SE!
 =====================================
 
 Talend ESB SE includes: Service Factory + Integration Factory + AMQ,
-Camel 3rd party libraries, Service Locator, STS
-Tutorials, Documentation
+Camel 3rd party libraries, Service Locator, Service Activity Monitoring
 
 Talend Service Factory uses the industry leading 
 open source Apache CXF implementation of JAX-WS to help you service enable 

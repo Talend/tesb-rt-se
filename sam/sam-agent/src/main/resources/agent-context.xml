@@ -57,12 +57,10 @@
 		<property name="defaultInterval" value="${collector.scheduler.interval}" />
 		<!-- Stops the message flow if there is an error before storing event to 
 			queue -->
-		<property name="stopMessageFlowOnError" value="true" />
+		<property name="stopMessageFlowOnError" value="false" />
 		<!-- Number of events within one service call. This is a maximum number. 
 			If there are events in the queue, the events will be processed. -->
 		<property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}" />
-		<!-- Set all event filter for excluding events in event processing -->
-		<property name="queue" ref="memoryQueue" />
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
 		<property name="executor" ref="defaultExecutor" />
 		<property name="scheduler" ref="defaultScheduler" />

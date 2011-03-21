@@ -22,7 +22,7 @@ package org.talend.esb.sam.common.handler.impl;
 import java.util.logging.Logger;
 
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Content length handler is able to cut the message content within an event. Set the maximum length with setLength.
@@ -31,7 +31,7 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  * @author cschmuelling
  *
  */
-public class ContentLengthHandler implements EventManipulator {
+public class ContentLengthHandler implements EventHandler {
 
 	private static Logger logger = Logger.getLogger(ContentLengthHandler.class
 			.getName());

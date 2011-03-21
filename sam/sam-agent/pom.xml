@@ -77,10 +77,20 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-            </plugin>
+            </plugin-->
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<header>../header.txt</header>
+					<includes>
+						<include>src/**/*.java</include>
+					</includes>
+				</configuration>
+			</plugin>			
         </plugins>
     </build>
 </project>

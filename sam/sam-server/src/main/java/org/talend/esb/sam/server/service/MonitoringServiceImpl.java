@@ -22,12 +22,12 @@ package org.talend.esb.sam.server.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.common.service.MonitoringService;
 import org.talend.esb.sam.common.spi.EventFilter;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Implementation of MonitoringService. This service needs all handler for
@@ -36,8 +36,10 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  */
 public class MonitoringServiceImpl implements MonitoringService {
 
-	private List<EventFilter> eventFilter;
-	private List<EventManipulator> eventManipulator;
+	@Autowired(required=false)
+	private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
+	@Autowired(required=false)
+	private List<EventHandler> eventHandlers = new ArrayList<EventHandler>();
 	private EventRepository persistenceHandler;
 
 	/**
@@ -45,8 +47,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventFilter
 	 */
-	public void setEventFilter(List<EventFilter> eventFilter) {
-		this.eventFilter = eventFilter;
+	public void setEventFilters(List<EventFilter> eventFilters) {
+		this.eventFilters = eventFilters;
 	}
 
 	/**
@@ -55,8 +57,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventManipulator
 	 */
-	public void setEventManipulator(List<EventManipulator> eventManipulator) {
-		this.eventManipulator = eventManipulator;
+	public void setEventHandlers(List<EventHandler> eventHandlers) {
+		this.eventHandlers = eventHandlers;
 	}
 
 
@@ -73,35 +75,43 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * Executes all event manipulating handler and writes the event with persist
 	 * handler
 	 */
-	@Transactional
 	public void putEvents(List<Event> events) {
-		List<Event> filteredEvents = new ArrayList<Event>();
-		
-		// Execute Filter
-		if (eventFilter != null && eventFilter.size() > 0) {
-			for (EventFilter filter : eventFilter) {
-				for (Event event : events) {
-					if (!filter.filter(event))
-						filteredEvents.add(event);
-				}
-			}
-			if (filteredEvents.size() == 0)
-				return;
-		} else {
-			filteredEvents = events;
-		}
-
-		// Execute Manipulator
-		if (eventManipulator != null && eventManipulator.size() > 0) {
-			for (EventManipulator current : eventManipulator) {
-				for (Event event : filteredEvents) {
-				    current.handleEvent(event);
-				}
-			}
-		}
-		
+		List<Event> filteredEvents = filterEvents(events);
+		executeHandlers(filteredEvents);
 		for (Event event : filteredEvents) {
             persistenceHandler.writeEvent(event);
         }
+	}
+	
+	/**
+	 * Execute all filters for the event.
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private boolean filter(Event event) {
+		for (EventFilter filter : eventFilters) {
+			if (filter.filter(event) == true)
+				return true;
+		}
+		return false;
+	}
+
+	private List<Event> filterEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		for (Event event : events) {
+			if (!filter(event)) {
+				filteredEvents.add(event);
+			}
+		}
+		return filteredEvents;
+	}
+
+	private void executeHandlers(List<Event> filteredEvents) {
+		for (EventHandler current : eventHandlers) {
+			for (Event event : filteredEvents) {
+				current.handleEvent(event);
+			}
+		}
 	}
 }

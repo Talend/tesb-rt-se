@@ -26,7 +26,6 @@ import javax.annotation.Resource;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,15 +40,15 @@ import org.talend.esb.sam.server.persistence.EventRowMapper;
  * Tests the sevice implementation together with the database
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/monitoringServiceTest.xml"})
+@ContextConfiguration(locations = {"/META-INF/spring/server.xml"})
 public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource
     MonitoringService monitoringSerivce;
 
-    @Before
-    public void setUp() throws Exception {
-        executeSqlScript("create.sql", true);
-    }
+//    @Before
+//    public void setUp() throws Exception {
+//        executeSqlScript("create.sql", true);
+//    }
     
     @Test
     public void testWritingSeveralEvents() {

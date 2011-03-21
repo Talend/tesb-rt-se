@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Password handler removes xml-tags within the content of the event. The complete tag will be removed with "<!-- ---replaced--- -->"
@@ -31,7 +31,7 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  * @author cschmuelling
  *
  */
-public class PasswordHandler implements EventManipulator {
+public class PasswordHandler implements EventHandler {
 
 	private static final String REPLACE = "<replaced xmlns=\"\"/>";
 	

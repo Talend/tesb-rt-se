@@ -20,10 +20,9 @@
 package org.talend.esb.sam.agent.collector;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Queue;
-import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,29 +37,27 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.common.service.MonitoringService;
 import org.talend.esb.sam.common.spi.EventFilter;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Event collector collects all events and stores them in a queue. This can be a
  * memory queue or a persistent queue. Asynchronously the events will be
  * processed and sent to MonitoringService
  */
-public class EventCollectorImpl implements EventManipulator, BusLifeCycleListener {
+public class EventCollectorImpl implements EventHandler, BusLifeCycleListener {
 
 	private static Logger logger = Logger.getLogger(EventCollectorImpl.class
 			.getName());
 
 	private MonitoringService monitoringServiceClient;
-	
 	@Autowired(required=false)
-	private List<EventFilter> eventFilter = new ArrayList<EventFilter>();
+	private List<EventFilter> filters = new ArrayList<EventFilter>();
 	@Autowired(required=false)
-	private List<EventManipulator> eventManipulator = new ArrayList<EventManipulator>();
-	
-	private Queue<Event> queue;
+	private List<EventHandler> handlers = new ArrayList<EventHandler>();	
+	private Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
 	private TaskExecutor executor;
 	private TaskScheduler scheduler;
-	private long defaultInterval = 0;
+	private long defaultInterval = 1000;
 	private boolean stopMessageFlowOnError = false;
 	private int eventsPerMessageCall = 10;
 	private boolean stopSending = false;
@@ -108,16 +105,11 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	}
 
 	/**
-	 * Returns the default interval for sending events. Returns 30000 if there
-	 * is no interval set.
+	 * Returns the default interval for sending events
 	 * 
 	 * @return
 	 */
 	private long getDefaultInterval() {
-		if (defaultInterval <= 0) {
-			logger.warning("Scheduler interval for starting sending process is set to default 30000.");
-			return 30000;
-		}
 		return defaultInterval;
 	}
 
@@ -170,24 +162,6 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	}
 
 	/**
-	 * Spring sets event filter. Event filter will be processed before sending
-	 * events to web service.
-	 * 
-	 * @param queue
-	 */
-	public void setEventFilter(List<EventFilter> eventFilter) {
-		this.eventFilter = eventFilter;
-	}
-
-	public List<EventFilter> getEventFilter() {
-		return eventFilter;
-	}
-
-	public List<EventManipulator> getEventManipulator() {
-		return eventManipulator;
-	}
-
-	/**
 	 * Spring sets the monitoring service client.
 	 * 
 	 * @param monitoringServiceClient
@@ -197,17 +171,21 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 		this.monitoringServiceClient = monitoringServiceClient;
 	}
 
-
-    /**
-	 * Spring sets eventManipulator
-	 * 
-	 * @param eventManipulator
-	 */
-	public void setEventManipulator(
-			List<EventManipulator> eventManipulator) {
-		this.eventManipulator = eventManipulator;
+	public List<EventFilter> getFilters() {
+		return filters;
 	}
 
+	public void setFilters(List<EventFilter> filters) {
+		this.filters = filters;
+	}
+
+	public List<EventHandler> getHandlers() {
+		return handlers;
+	}
+
+	public void setHandlers(List<EventHandler> handlers) {
+		this.handlers = handlers;
+	}
 
 	/**
 	 * Stores an event in the queue and returns. So the synchronous execution of
@@ -215,15 +193,15 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 */
 	@Override
 	public void handleEvent(Event event) {
-		logger.info("Store event [message_id=" + event.getMessageInfo().getMessageId() + "] in cache.");
+		String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
+		logger.fine("Store event [message_id=" + id + "] in cache.");
 		try {
 			queue.add(event);
-		} catch (MonitoringException e) {
-			logger.severe("Store event in cache caused ERROR");
-			e.addEvent(event);
-			e.logException(Level.SEVERE);
+		} catch (RuntimeException e) {
 			if (stopMessageFlowOnError) {
 				throw e;
+			} else {
+				logger.severe("Could not store event in Queue: " + e.getMessage());
 			}
 		}
 	}
@@ -243,17 +221,8 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 			final List<Event> list = new ArrayList<Event>();
 			int i = 0;
 			while (i < packageSize && !queue.isEmpty()) {
-				Event event = null;
-				try {
-					event = queue.remove();
-					if (event == null)
-						continue;
-				} catch (MonitoringException e) {
-					logger.severe("Error on event queue reading");
-					e.logException(Level.SEVERE);
-					return;
-				}
-				if (!filter(event)) {
+				Event event = queue.remove();
+				if (event!= null && !filter(event)) {
 					list.add(event);
 					i++;
 				}
@@ -266,7 +235,7 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 				executor.execute(new Runnable() {
 					public void run() {
 						try{
-						sendEvents(list);
+							sendEvents(list);
 						}catch (MonitoringException e){
 							e.logException(Level.SEVERE);
 						}
@@ -285,11 +254,9 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @return
 	 */
 	private boolean filter(Event event) {
-		if (eventFilter != null && eventFilter.size() > 0) {
-			for (EventFilter filter : eventFilter) {
-				if (filter.filter(event) == true)
-					return true;
-			}
+		for (EventFilter filter : filters) {
+			if (filter.filter(event) == true)
+				return true;
 		}
 		return false;
 	}
@@ -300,12 +267,9 @@ public class EventCollectorImpl implements EventManipulator, BusLifeCycleListene
 	 * @param events
 	 */
 	private void sendEvents(final List<Event> events) {
-		// Execute Manipulator
-		if (eventManipulator != null && eventManipulator.size() > 0) {
-			for (EventManipulator current : eventManipulator) {
-				for (Event event : events) {
-				    current.handleEvent(event);
-				}
+		for (EventHandler current : handlers) {
+			for (Event event : events) {
+				current.handleEvent(event);
 			}
 		}
 
