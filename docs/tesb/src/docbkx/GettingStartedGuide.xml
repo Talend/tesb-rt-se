@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE book [
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
+<!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
 ]>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -487,4 +488,5 @@
   </chapter>
 
   &chapSLEnabling;
+  &chapSAMEnabling;
 </book>

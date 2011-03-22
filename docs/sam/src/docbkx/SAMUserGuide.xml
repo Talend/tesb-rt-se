@@ -41,6 +41,110 @@ In the left from this diagram the Agent is described. In the right is the Monito
 		 <imagedata fileref="images/architecture.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
+	<para>
+Event structure (from Database):	
+<informaltable>
+          <tgroup cols="3">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="2*" />
+            <colspec colnum="3" colwidth="3*" />
+            <thead>
+              <row>
+                <entry>
+                  <para>Field</para>
+                </entry>
+
+                <entry>
+                  <para>Type</para>
+                </entry>
+				
+                <entry>
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>ID</entry>
+                <entry>bigint(20)</entry>
+				<entry>Stores the persistence id after commit</entry>
+              </row>
+              <row>
+                <entry>MESSAGE_CONTENT</entry>
+                <entry>longtext</entry>
+				<entry>String with the SOAP message content which come from Service endpoint or client</entry>
+              </row>
+              <row>
+                <entry>EI_TIMESTAMP</entry>
+                <entry>datetime</entry>
+				<entry>Timestamp from the event creation</entry>
+              </row>
+              <row>
+                <entry>EI_EVENT_TYPE</entry>
+                <entry>varchar(255)</entry>
+				<entry>EventType is an enumeration. Values: REQ_IN; REQ_OUT; RESP_IN; RESP_OUT; FAULT_IN; FAULT_OUT</entry>
+              </row>
+              <row>
+                <entry>ORIG_CUSTOM_ID</entry>
+                <entry>varchar(255)</entry>
+				<entry>Custom id is an empty field. It is not used by Agents currently</entry>
+              </row>
+              <row>
+                <entry>ORIG_PROCESS_ID</entry>
+                <entry>varchar(255)</entry>
+				<entry>Process id is the OS process id</entry>
+              </row>
+              <row>
+                <entry>ORIG_HOSTNAME</entry>
+                <entry>varchar(128)</entry>
+				<entry>Hostname of the event creator</entry>
+              </row>
+              <row>
+                <entry>ORIG_IP</entry>
+                <entry>varchar(64)</entry>
+				<entry>IP address of the event creator</entry>
+              </row>
+              <row>
+                <entry>MI_PORT_TYPE</entry>
+                <entry>varchar(255)</entry>
+				<entry>Service port type of event creator</entry>
+              </row>
+              <row>
+                <entry>MI_OPERATION_NAME</entry>
+                <entry>varchar(255)</entry>
+				<entry>Service operation name of event creator</entry>
+              </row>
+              <row>
+                <entry>MI_MESSAGE_ID</entry>
+                <entry>varchar(255)</entry>
+				<entry>Unique id for one message. (UUID)</entry>
+              </row>			  
+              <row>
+                <entry>MI_FLOW_ID</entry>
+                <entry>varchar(64)</entry>
+				<entry>Unique id for the message flow. (UUID) All events with the same id belongs together</entry>
+              </row>	
+              <row>
+                <entry>MI_TRANSPORT_TYPE</entry>
+                <entry>varchar(255)</entry>
+				<entry>Transport type of event creator</entry>
+              </row>	
+              <row>
+                <entry>ORIG_PRINCIPAL</entry>
+                <entry>varchar(255)</entry>
+				<entry>Principal info in the message header</entry>
+              </row>	
+              <row>
+                <entry>CONTENT_CUT</entry>
+                <entry>tinyint(1)</entry>
+				<entry>Flag if event has been cut from the Agent</entry>
+              </row>				  
+            </tbody>
+          </tgroup>
+        </informaltable>
+	</para>
+	
 	</chapter>
     <chapter>
         <title>Install</title>
