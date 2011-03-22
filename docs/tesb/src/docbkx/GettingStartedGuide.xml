@@ -30,21 +30,21 @@
     <title>Overview</title>
 
     <para>The Enterprise Service Bus (ESB) has always been the cornerstone of
-    every vendor’s SOA strategy. In the past, however, ESBs have often failed
-    to help leverage on the full value of SOA. This was due to their large
+    every vendor’s Service Oriented Architecture (SOA) strategy. In the past, however, ESBs have often failed
+    to help leverage the full value of SOA. This was due to their large
     footprint, the centralized architecture, and the considerable effort
     required to properly integrate them into an existing application
     landscape.</para>
 
-    <para>In Getting Started Guide you can learn about Talend ESB/CXF. This
-    guide contains the simplified real-world example. This example from the
-    domain of car rental companies demonstrate the use of Talend ESB for the
-    develop and run services.</para>
+    <para>In this Getting Started Guide you will learn about Talend ESB/CXF. This
+    guide contains a simplified real-world example, using the 
+    domain of car rental companies to demonstrate the use of Talend ESB for
+    developing and deploying services.</para>
 
-    <para>You can learn the purpose of the Rent a Car Demo. You can find out
-    how to compile Rent a Car Demo, deploy it into the Talend ESB Runtime OSGi
-    container and execute it. Also you will learn how to enable the Service
-    Locator Component for the Rent a Car demo if you need to .</para>
+    <para>You will first learn the design of the Rent a Car Demo. Then we'll show
+    how to compile the demo, deploy it into the Talend ESB Runtime OSGi
+    container and then activate it. Also you will learn how to enable the Service
+    Locator Component for the Rent a Car demo can be enabled.</para>
   </chapter>
 
   <chapter>
@@ -72,32 +72,32 @@
     </simplelist>
 
     <para>In this scenario, there are two main services that will be
-    demonstrated: you will create and orchestrate these services with the help
-    of a simple graphical front-end application. It contains two services:
-    CRMService and ReservationService.</para>
+    demonstrated, CRMService and ReservationService.  You will create and orchestrate these services with the help
+    of a simple graphical front-end application.
+    </para>
 
     <para>Rental Client provides the basic functionality to search for the
     available cars within a given time period. The search takes into account
-    the status of the given user. This criteria will then determine the
+    the status (silver, gold, platinum) of the given user. This criteria will then determine the
     outcome of the search. From the list of results you can select the car
     that fulfills your requirement and then simply make your reservation by
     clicking on the "Book" button. At the end of the submission process, the
     system will show you a confirmation page with your Reservation ID. To
-    implement its business logic the client calls operations of the CRM
-    Service and the Reserveration Service.</para>
+    implement its business logic the client calls operations of both the CRM
+    Service and the Reservation Service.</para>
 
     <mediaobject>
       <imageobject>
-        <imagedata fileref="images/operations.jpg" format="jpg"></imagedata>
+        <imagedata fileref="images/operations.jpg" format="jpg" scale="85"></imagedata>
       </imageobject>
     </mediaobject>
   </chapter>
 
   <chapter>
-    <title>How to building the Demo</title>
+    <title>How to build the Demo</title>
 
     <section>
-      <title>Building CRMService sample</title>
+      <title>Building the CRMService sample</title>
 
       <para>This sample consists of 3 parts: <informaltable>
           <tgroup cols="2">
@@ -124,7 +124,7 @@
               <row>
                 <entry><code>service/</code></entry>
 
-                <entry>This is where a CRMService service implementation
+                <entry>This is where the CRMService service implementation
                 shared by JAX-WS endpoints is located</entry>
               </row>
 
@@ -132,8 +132,8 @@
                 <entry><code>client/</code></entry>
 
                 <entry>This is a sample client application that shows how CXF
-                JAX-WS proxies are invoking on remote JAX-WS endpoints
-                represented by CRMService interface</entry>
+                JAX-WS proxies invoke remote JAX-WS endpoints
+                hosting the CRMService interface</entry>
               </row>
             </tbody>
           </tgroup>
@@ -143,7 +143,7 @@
       <code>...\examples\tesb\crmservice\pom.xml</code> file can be used to build
       and run the demo.</para>
 
-      <para>Using either UNIX or Windows:</para>
+      <para>Using either UNIX or Windows, and Apache Maven:</para>
 
       <programlisting>			
        mvn install
@@ -163,7 +163,7 @@
     </section>
 
     <section>
-      <title>Building ReservationService sample</title>
+      <title>Building the ReservationService sample</title>
 
       <para>This sample consists of 3 parts: <informaltable>
           <tgroup cols="2">
@@ -190,7 +190,7 @@
               <row>
                 <entry><code>service/</code></entry>
 
-                <entry>This is where a ReservationService implementation
+                <entry>This is where the ReservationService implementation
                 shared by JAX-WS endpoints is located.</entry>
               </row>
 
@@ -198,7 +198,7 @@
                 <entry><code>client/</code></entry>
 
                 <entry>This is a sample client application that shows how CXF
-                JAX-WS proxies are invoking remote JAX-WS endpoints
+                JAX-WS proxies invoke remote JAX-WS endpoints
                 represented by the ReservationService interface.</entry>
               </row>
             </tbody>
@@ -253,7 +253,7 @@
   </chapter>
 
   <chapter>
-    <title>How to deploy Rent a Car demo in Talend ESB Runtime OSGi container</title>
+    <title>Deploying the Rent a Car demo in Talend ESB Runtime OSGi container</title>
 
     <section>
       <title>Start OSGi console</title>
@@ -269,9 +269,9 @@
     <section>
       <title>Deploy demo services</title>
 
-      <para>1. Deploy CRMService into OSGi container.</para>
+      <para>1. Deploy CRMService into the OSGi container.</para>
 
-      <para>Copy follow bundles into the folder <code>&lt;Talend ESB
+      <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
           <member>crmservice-common-4.0.jar</member>
 
@@ -282,17 +282,16 @@
 
       <para>2. Type the console command "list".</para>
 
-      <para>You will see demo bundles in the lists of installed bundles:
-      <programlisting>
-				
-		[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
-		[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0)
-		[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
-				</programlisting></para>
+      <para>You will see demo bundles in the lists of installed bundles:</para>
+       <literallayout><computeroutput>
+		[ 114] [Active ] [     ] [       ] [   60] CRMService Common (4.0.0)
+		[ 116] [Active ] [     ] [Started] [   60] CRMService Client (4.0.0)
+		[ 123] [Active ] [     ] [Started] [   60] CRMService Service (4.0.0)
+      </computeroutput></literallayout>
 
-      <para>3. Deploy ReservationService into OSGi container.</para>
+      <para>3. Deploy ReservationService into the OSGi container.</para>
 
-      <para>Copy following bundles into the folder <code>&lt;Talend ESB
+      <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
           <member>reservationservice-common-4.0.jar</member>
 
@@ -303,12 +302,14 @@
 
       <para>4. Type the console command "list".</para>
 
-      <para>You will see demo bundles in the lists of installed bundles:
-      <programlisting>
-		[ 117] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
-		[ 118] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
-		[ 119] [Active     ] [            ] [Started] [   60] ReservationService Client (4.0.0)			
-				</programlisting></para>
+      <para>You will see demo bundles in the lists of installed bundles:</para>
+      <computeroutput>
+         <literallayout>
+		[ 117] [Active ] [     ] [       ] [   60] ReservationService Common (4.0.0)
+		[ 118] [Active ] [     ] [Started] [   60] ReservationService Service (4.0.0)
+		[ 119] [Active ] [     ] [Started] [   60] ReservationService Client (4.0.0)			
+	     </literallayout>
+      </computeroutput>                
     </section>
 
     <section>
@@ -320,32 +321,34 @@
       <para>2. Copy app-reservation-4.0.jar into the folder &lt;Talend ESB
       Runtime&gt;/container/deploy.</para>
 
-      <para>On the console you will see: <programlisting>		
+      <para>On the console you will see:</para><computeroutput>
+<literallayout>		
 ---TALEND ESB: Rent a Car (OSGi) Commands---
         car:GUI                                  (Show GUI)
         car:search &lt;user&gt; &lt;pickupDate&gt; &lt;returnDate&gt;
  (Search for cars to rent, date format yyyy/mm/dd)
         car:rent   &lt;pos&gt;
  (Rent a car listed in search result of carSearch)
-				</programlisting></para>
+</literallayout></computeroutput>
+
     </section>
   </chapter>
 
   <chapter>
-    <title>How to run Rent a Car demo</title>
+    <title>How to run the Rent a Car demo</title>
 
     <section>
       <title>Use Case Scenario to Rent a Car</title>
 
       <para>A customer enters prerequisite data into a form such as her name,
-      the pick-up and return dates, the preferred type of rental rates, and
+      the pick-up and return dates, the preferred range of rental rates, and
       submits her query.</para>
 
       <para>Next, the application calls the CRMService to retrieve the
       customer data and customer status information.</para>
 
-      <para>The customer is presented with a list of the available cars and
-      selects one from the presented list of results.</para>
+      <para>The customer is presented with a list of available cars and
+      selects one from the list.</para>
 
       <para>Finally, the application calls the ReservationService to submit
       the reservation request and then displays a reservation confirmation
@@ -386,7 +389,7 @@
         </imageobject>
       </mediaobject>
 
-      <para>Click Find to see the results. You will see list of available
+      <para>Click Find to see the results. You will see the list of available
       cars.</para>
 
       <mediaobject>
@@ -398,7 +401,7 @@
       <para>Click the highlighted line or select any other option and click
       Reserve.</para>
 
-      <para>You can now see the confirmation page.</para>
+      <para>You'll now see the confirmation page:</para>
 
       <mediaobject>
         <imageobject>
@@ -406,7 +409,7 @@
         </imageobject>
       </mediaobject>
 
-      <para>Click Close to stop the GUI.</para>
+      <para>Click Close to stop the application.</para>
     </section>
 
     <section>
@@ -416,7 +419,7 @@
 
       <para>car:search aebert 2011/01/26 2011/01/26</para>
 
-      <para>You will see list of available cars:</para>
+      <para>You will see the list of available cars:</para>
 
       <simplelist columns="1" type="vert">
         <member>Found 5 cars.</member>
@@ -455,9 +458,9 @@
 
         <member>eMail: info@sopera.de</member>
 
-        <member>City: Muenchen</member>
+        <member>City: Munich</member>
 
-        <member>Status: PLATIN</member>
+        <member>Status: PLATINUM</member>
 
         <member>Car details</member>
 

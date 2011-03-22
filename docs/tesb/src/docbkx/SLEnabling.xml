@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter xmlns:d="http://docbook.org/ns/docbook">
-  <title>Enabling Rent a Car demo to use Service Locator</title>
+  <title>Enabling the Service Locator for the Rent a Car demo</title>
 
   <section id="install">
     <title>Purpose of Service Locator</title>
 
     <para> The Service Locator is a service that provides service consumers
     with a mechanism to discover service endpoints at run time, thus isolating
-    consumers from knowledge of the endpoint’s physical location. Moreover, it
+    consumers from knowledge of the endpoint’s physical location. Additionally, it
     allows service providers to automatically register and unregister their
     service endpoints. Thus the providers actively advertise the availability
     of their service endpoints to consumers. </para>
@@ -15,8 +15,8 @@
     <para> The Service Locator consists of two parts: The Service Locator
     Server hosting an endpoint repository and the CXF feature used to enable
     usage of the locator for CXF service consumers and providers. Like any
-    standard CXF feature, it should be configured separately for the service
-    provider side service consumer side. A provider-side Locator Feature
+    standard CXF feature, it needs to be configured separately for the service
+    and consumer. A provider-side Locator Feature
     extension registers and deregisters service endpoints in the endpoint
     repository when the provider becomes available or unavailable. A
     consumer-side Locator Feature extension transparently retrieves service
@@ -34,7 +34,7 @@
         Locator Installation Manual. </para>
 
         <para>Since creating a distributed, fault-tolerant endpoint repository
-        is a non-trivial task, the Service Locator Server implementation based
+        is a non-trivial task, the Service Locator Server implementation is based
         on proven open source technology - Apache ZooKeeper. This is a highly
         reliable and available service that provides coordination between
         distributed processes. To learn more about Apache ZooKeeper, visit
@@ -44,15 +44,15 @@
       </listitem>
 
       <listitem>
-        <para> You need the client component of the Service Locator
-        (locator-4.0.jar) to enable your CFX service or consumer to use the
-        Service Locator. You need to add <code>locator-4.0.jar</code> into
-        your classpath or war file. Also add it to the OSGi conatiner. </para>
+        <para> You'll need the client component of the Service Locator
+        (locator-4.0.jar) to enable your CXF service or consumer to use the
+        Service Locator. This can be done by adding <code>locator-4.0.jar</code> to
+        your classpath or war file. Also add it to the OSGi container. </para>
       </listitem>
 
       <listitem>
-        <para> For enabling Service Locator Server in your maven build </para>
-        <para> 1. Put locator-4.0.jar into local maven repo. For it run the maven command  
+        <para> For enabling the Service Locator Server in your Maven build </para>
+        <para> 1. Put locator-4.0.jar into your local maven repository. For it run the maven command  
         <simplelist columns="1"
         type="vert">
         <member>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\Locator\locator-4.0.jar  -DgroupId=org.talend.esb</member> 
@@ -79,11 +79,11 @@
   </section>
 
   <section>
-    <title>How to enable Rent a Car demo</title>
+    <title>Enabling the Service Locator</title>
 
     <para>
       <emphasis role="strong">1. Add the Service Locator feature to the Spring
-      configuratons represented by the beans.xml files.</emphasis>
+      configurations represented by the beans.xml files.</emphasis>
     </para>
 
     <para> The Service Locator feature should be added to each endpoint and
@@ -200,7 +200,7 @@ Session establishment complete on server locator_host1/192.168.150.201:2181,
 sessionid = 0x32e71447e6b004c, negotiated timeout = 4000
  </programlisting>
 
-    <para> Also, we can judge about the feature work watching Locator logs in
+    <para> Also, we can judge how well the feature is working by watching the Locator logs in
     the console window. </para>
 
 <programlisting>
@@ -216,10 +216,10 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 </programlisting>           
 
     <para> In our example, enabling the Service Locator does not affect the
-    behavior of Rent a Car demo. Because the benefits are manifested in the
-    case of multiple providers for the service. In this case we can use such
-    useful features as automatic endpoint deregistration and failover. Locator
-    allows clients to failover from the initial target endpoint to another,
+    behavior of Rent a Car demo, because the benefits of Service Locator occur
+    when you have multiple providers for the service. In this case we can use such
+    useful features as automatic endpoint deregistration and failover. The Locator
+    will allow clients to failover from the initial target endpoint to another
     compatible endpoint for the target service. </para>
   </section>
 </chapter>
