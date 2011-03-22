@@ -33,7 +33,7 @@
     <para>The Enterprise Service Bus (ESB) has always been the cornerstone of
     every vendor’s Service Oriented Architecture (SOA) strategy. In the past, however, ESBs have often failed
     to help leverage the full value of SOA. This was due to their large
-    footprint, the centralized architecture, and the considerable effort
+    footprint, centralized architecture, and considerable effort
     required to properly integrate them into an existing application
     landscape.</para>
 
@@ -81,7 +81,7 @@
     available cars within a given time period. The search takes into account
     the status (silver, gold, platinum) of the given user. This criteria will then determine the
     outcome of the search. From the list of results you can select the car
-    that fulfills your requirement and then simply make your reservation by
+    that best fulfills your requirements and then make your reservation simply by
     clicking on the "Book" button. At the end of the submission process, the
     system will show you a confirmation page with your Reservation ID. To
     implement its business logic the client calls operations of both the CRM
@@ -144,11 +144,7 @@
       <code>...\examples\tesb\crmservice\pom.xml</code> file can be used to build
       and run the demo.</para>
 
-      <para>Using either UNIX or Windows, and Apache Maven:</para>
-
-      <literallayout><computeroutput>			
-      mvn install
-      </computeroutput></literallayout>
+      <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn install</userinput></para>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -212,9 +208,9 @@
 
       <para>Using either UNIX or Windows:</para>
 
-      <literallayout><computeroutput>			
+      <userinput>			
       mvn install
-      </computeroutput></literallayout>
+      </userinput>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -238,9 +234,9 @@
 
       <para>Using either UNIX or Windows:</para>
 
-      <literallayout><computeroutput>			
+      <userinput>			
       mvn install
-      </computeroutput></literallayout>
+      </userinput>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -289,9 +285,9 @@
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
        <literallayout><computeroutput>
-		[ 114] [Active ] [     ] [       ] [   60] CRMService Common (4.0.0)
-		[ 116] [Active ] [     ] [Started] [   60] CRMService Client (4.0.0)
-		[ 123] [Active ] [     ] [Started] [   60] CRMService Service (4.0.0)
+   [ 114] [Active ] [     ] [       ] [   60] CRMService Common (4.0.0)
+   [ 116] [Active ] [     ] [Started] [   60] CRMService Client (4.0.0)
+   [ 123] [Active ] [     ] [Started] [   60] CRMService Service (4.0.0)
       </computeroutput></literallayout>
       </step>
 
@@ -312,13 +308,11 @@
       <para>Type the console command "list".</para>
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
-      <computeroutput>
-         <literallayout>
-		[ 117] [Active ] [     ] [       ] [   60] ReservationService Common (4.0.0)
-		[ 118] [Active ] [     ] [Started] [   60] ReservationService Service (4.0.0)
-		[ 119] [Active ] [     ] [Started] [   60] ReservationService Client (4.0.0)			
-	     </literallayout>
-      </computeroutput>
+      <computeroutput><literallayout>
+  [ 117] [Active ] [     ] [       ] [   60] ReservationService Common (4.0.0)
+  [ 118] [Active ] [     ] [Started] [   60] ReservationService Service (4.0.0)
+  [ 119] [Active ] [     ] [Started] [   60] ReservationService Client (4.0.0)			
+</literallayout></computeroutput>
       </step>
       </procedure>            
     </section>
@@ -335,16 +329,6 @@
       <step>
       <para>Copy app-reservation-4.0.jar into the folder &lt;Talend ESB
       Runtime&gt;/container/deploy.</para>
-
-      <para>On the console you will see:</para><computeroutput>
-<literallayout>		
----TALEND ESB: Rent a Car (OSGi) Commands---
-        car:GUI                                  (Show GUI)
-        car:search &lt;user&gt; &lt;pickupDate&gt; &lt;returnDate&gt;
- (Search for cars to rent, date format yyyy/mm/dd)
-        car:rent   &lt;pos&gt;
- (Rent a car listed in search result of carSearch)
-</literallayout></computeroutput>
       </step>
       </procedure>
     </section>
@@ -378,24 +362,20 @@
       deployed in Talend ESB Runtime. Start OSGi console.</para>
 
       <para>On the console you will see:</para>
-
-      <simplelist columns="1" type="vert">
-        <member>---TALEND ESB: Rent a Car (OSGi) Commands---</member>
-
-        <member>car:GUI (Show GUI)</member>
-
-        <member>car:search {user} {pickupDate} {returnDate} (Search for cars
-        to rent, date format yyyy/mm/dd)</member>
-
-        <member>car:rent {pos} (Rent a car listed in search result of
-        carSearch)</member>
-      </simplelist>
+<computeroutput><literallayout>		
+---TALEND ESB: Rent a Car (OSGi) Commands---
+car:GUI        (Show GUI)
+car:search &lt;user&gt; &lt;pickupDate&gt; &lt;returnDate&gt;
+   (Search for cars to rent, date format yyyy/mm/dd)
+car:rent   &lt;pos&gt;
+   (Rent a car listed in search result of carSearch)
+</literallayout></computeroutput>
     </section>
 
     <section>
       <title>Using TALEND ESB Rental Client GUI</title>
 
-      <para>To start the GUI, type car:GUI in the console window.</para>
+      <para>To start the GUI, type <userinput>car:GUI</userinput> in the console window.</para>
 
       <para>Select aebert from the drop-down box.</para>
 
@@ -433,75 +413,54 @@
 
       <para>In console type:</para>
 
-      <para>car:search aebert 2011/01/26 2011/01/26</para>
+      <para><userinput>car:search aebert 2011/01/26 2011/01/26</userinput></para>
 
       <para>You will see the list of available cars:</para>
 
-      <simplelist columns="1" type="vert">
-        <member>Found 5 cars.</member>
+<computeroutput><literallayout>		
+   Found 5 cars.
 
-        <member>Car details</member>
-
-        <member>1 VW Golf Standard 50.00 75.00 40.00</member>
-
-        <member>2 BMW 320i Sport 60.00 90.00 45.00</member>
-
-        <member>3 Mazda MX5 Sport 65.00 95.00 50.00</member>
-
-        <member>4 Lexus LX400 SUV 85.00 120.00 100.00</member>
-
-        <member>5 Mercedes E320 Delux 95.00 140.00 100.00</member>
-      </simplelist>
+   Car details
+   1 VW Golf Standard 50.00 75.00 40.00
+   2 BMW 320i Sport 60.00 90.00 45.00
+   3 Mazda MX5 Sport 65.00 95.00 50.00
+   4 Lexus LX400 SUV 85.00 120.00 100.00
+   5 Mercedes E320 Delux 95.00 140.00 100.00
+</literallayout></computeroutput>
     </section>
 
     <section>
       <title>Using rent command</title>
 
-      <para>In console type:</para>
+      <para>In console type: <userinput>car:rent 2</userinput></para>
 
-      <para>car:rent 2</para>
+      <para>You can now see the confirmation:</para>
 
-      <para>You can now see confirmation</para>
+      <computeroutput><literallayout>
+    Reservation ID SGA-686277
 
-      <simplelist columns="1" type="vert">
-        <member>Reservation ID SGA-686277</member>
+    Customer details
+    ----------------
+    Name: Andrea Ebert
+    eMail: info@sopera.de
+    City: Munich
+    Status: PLATINUM
 
-        <member>Customer details</member>
+    Car details
+    -----------
+    Brand: BMW
+    Model: 320i
 
-        <member>----------------</member>
+    Reservation details
+    -------------------
+    Pick up date: 2011/01/26
+    Return date: 2011/01/26
+    Daily rate: 60.00
+    Weekend rate: 90.00
+    Credits: 210
+    Thank you for renting a car with Talend ESB :-)
+      </literallayout></computeroutput>
 
-        <member>Name: Andrea Ebert</member>
-
-        <member>eMail: info@sopera.de</member>
-
-        <member>City: Munich</member>
-
-        <member>Status: PLATINUM</member>
-
-        <member>Car details</member>
-
-        <member>-----------</member>
-
-        <member>Brand: BMW</member>
-
-        <member>Model: 320i</member>
-
-        <member>Reservation details</member>
-
-        <member>-------------------</member>
-
-        <member>Pick up date: 2011/01/26</member>
-
-        <member>Return date: 2011/01/26</member>
-
-        <member>Daily rate: 60.00</member>
-
-        <member>Weekend rate: 90.00</member>
-
-        <member>Credits: 210</member>
-
-        <member>Thank you for renting a car with Talend ESB :-)</member>
-      </simplelist>
     </section>
   </chapter>
 
