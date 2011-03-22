@@ -56,6 +56,26 @@ public class ConverterImplTest extends TestCase {
     }
 
     /**
+     * Unit test on the version from class name extraction.
+     *
+     * @throws Exception in case of extraction failure.
+     */
+    public void testExtractVersionFromClassName() throws Exception {
+        String className = "talenddemosjava.osgitif_0_1.OSGiTIF";
+        assertEquals("0.1", converter.extractVersionFromClassName(className));
+    }
+
+    /**
+     * Unit test on the name from class name extraction.
+     *
+     * @throws Exception in case of extraction failure.
+     */
+    public void testExtractNameFromClassName() throws Exception {
+        String className = "talenddemosjava.osgitif_0_1.OSGiTIF";
+        assertEquals("OSGiTIF", converter.extractNameFromClassName(className));
+    }
+
+    /**
      * Unit test on the Talend job transform.
      *
      * @throws Exception in case of transformation failure.
