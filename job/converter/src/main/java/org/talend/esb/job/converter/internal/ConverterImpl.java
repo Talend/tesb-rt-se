@@ -1,8 +1,7 @@
 package org.talend.esb.job.converter.internal;
 
 import java.io.*;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.*;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -131,6 +130,84 @@ public class ConverterImpl implements Converter {
 
     public void convertToBundle(File sourceJob, boolean deleteSourceJob) throws Exception {
         this.convertToBundle(sourceJob, null, null, deleteSourceJob);
+    }
+
+    /**
+     * Looking for a shell script in a Talend job zip file
+     * and extract the java command line.
+     *
+     * @param zip the Talend job zip.
+     * @return the first java command found the shell scripts.
+     * @throws Exception in case of lookup error.
+     */
+    protected String javaCommandLookup(ZipFile zip) throws Exception {
+        List<ZipEntry> shEntries = this.searchEntriesWithSuffix(zip, ".sh");
+        if (shEntries.size() > 0) {
+            String java = this.parseJobClassName(zip.getInputStream(shEntries.get(0)));
+            if (java != null) {
+                return java;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Looking for all entries with a given suffix.
+     *
+     * @param zip the zip file to search into.
+     * @param suffix the entry name suffix.
+     * @return a list containing zip entries matching the given suffix.
+     * @throws Exception in case of search error.
+     */
+    protected List<ZipEntry> searchEntriesWithSuffix(ZipFile zip, String suffix) throws Exception {
+        ArrayList<ZipEntry> entriesWithSuffix = new ArrayList<ZipEntry>();
+        Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zip.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            if (entry.getName().endsWith(suffix)) {
+                entriesWithSuffix.add(entry);
+            }
+        }
+        return entriesWithSuffix;
+    }
+
+    /**
+     * Looking for a Talend job java class name.
+     *
+     * @param inputStream the input stream where to look for Talend job java class name.
+     * @return the Talend java class nameor null if no java class found.
+     * @throws Exception in case of lookup failure.
+     */
+    protected String parseJobClassName(InputStream inputStream) throws Exception {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            if (line.contains("java")) {
+                StringTokenizer tokenizer = new StringTokenizer(line, " ");
+                if (tokenizer.hasMoreTokens()) {
+                    // ignore the starting java runner
+                    // and the classpath
+                    tokenizer.nextToken();
+                    // iterate in java args
+                    String previous = null;
+                    if (tokenizer.hasMoreTokens()) {
+                        previous = tokenizer.nextToken();
+                    }
+                    while (tokenizer.hasMoreTokens()) {
+                        String arg = tokenizer.nextToken();
+                        if (!arg.startsWith("-")) {
+                            if (previous != null && !previous.contains("-cp")) {
+                                // it's the first "non arg" which is not the cp
+                                bufferedReader.close();
+                                return arg;
+                            }
+                        }
+                        previous = arg;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
