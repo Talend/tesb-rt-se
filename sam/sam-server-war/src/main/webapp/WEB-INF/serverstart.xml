@@ -28,6 +28,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <import resource="classpath:/META-INF/spring/server.xml" />
 
     <!--  Sample filters -->
+    <!-- 
     <bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
         <property name="tagnames">
             <list>
@@ -46,6 +47,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     
     <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
         <property name="length" value="2000" />
+    </bean>
+    -->
+    
+    <bean class="org.talend.esb.sam.common.filter.impl.JxPathFilter">
+        <property name="expression" value="/content=''"></property>
     </bean>
 
 </beans>
