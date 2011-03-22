@@ -145,9 +145,9 @@
 
       <para>Using either UNIX or Windows, and Apache Maven:</para>
 
-      <programlisting>			
-       mvn install
-				</programlisting>
+      <literallayout><computeroutput>			
+      mvn install
+      </computeroutput></literallayout>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -211,9 +211,9 @@
 
       <para>Using either UNIX or Windows:</para>
 
-      <programlisting>			
-    mvn install
-				</programlisting>
+      <literallayout><computeroutput>			
+      mvn install
+      </computeroutput></literallayout>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -237,9 +237,9 @@
 
       <para>Using either UNIX or Windows:</para>
 
-      <programlisting>			
-        mvn install
-			</programlisting>
+      <literallayout><computeroutput>			
+      mvn install
+      </computeroutput></literallayout>
 
       <para>Running this command will build the demo and create OSGi bundles
       deployed to an OSGi container.</para>
@@ -269,7 +269,9 @@
     <section>
       <title>Deploy demo services</title>
 
-      <para>1. Deploy CRMService into the OSGi container.</para>
+      <procedure>
+      <step>
+      <para>Deploy CRMService into the OSGi container.</para>
 
       <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
@@ -279,8 +281,10 @@
 
           <member>crmservice-client-4.0.jar</member>
         </simplelist></para>
+      </step>
 
-      <para>2. Type the console command "list".</para>
+      <step>
+      <para>Type the console command "list".</para>
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
        <literallayout><computeroutput>
@@ -288,8 +292,10 @@
 		[ 116] [Active ] [     ] [Started] [   60] CRMService Client (4.0.0)
 		[ 123] [Active ] [     ] [Started] [   60] CRMService Service (4.0.0)
       </computeroutput></literallayout>
+      </step>
 
-      <para>3. Deploy ReservationService into the OSGi container.</para>
+      <step>
+      <para>Deploy ReservationService into the OSGi container.</para>
 
       <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
@@ -299,8 +305,10 @@
 
           <member>reservationservice-client-4.0.jar</member>
         </simplelist></para>
+      </step>
 
-      <para>4. Type the console command "list".</para>
+      <step>
+      <para>Type the console command "list".</para>
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
       <computeroutput>
@@ -309,16 +317,22 @@
 		[ 118] [Active ] [     ] [Started] [   60] ReservationService Service (4.0.0)
 		[ 119] [Active ] [     ] [Started] [   60] ReservationService Client (4.0.0)			
 	     </literallayout>
-      </computeroutput>                
+      </computeroutput>
+      </step>
+      </procedure>            
     </section>
 
     <section>
       <title>Deploy demo application</title>
 
-      <para>1. Make sure that the console was launched and the demo services
+      <procedure>
+      <step>
+      <para>Make sure that the console was launched and the demo services
       were deployed.</para>
-
-      <para>2. Copy app-reservation-4.0.jar into the folder &lt;Talend ESB
+      </step>
+      
+      <step>
+      <para>Copy app-reservation-4.0.jar into the folder &lt;Talend ESB
       Runtime&gt;/container/deploy.</para>
 
       <para>On the console you will see:</para><computeroutput>
@@ -330,7 +344,8 @@
         car:rent   &lt;pos&gt;
  (Rent a car listed in search result of carSearch)
 </literallayout></computeroutput>
-
+      </step>
+      </procedure>
     </section>
   </chapter>
 
