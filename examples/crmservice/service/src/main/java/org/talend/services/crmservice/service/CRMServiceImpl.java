@@ -106,14 +106,14 @@ public class CRMServiceImpl implements CRMService {
 				customer.setName("Bernardo Brindle");
 			} else if (user.contains("rlambert")) {
 				customer.setId(41250);
-				customer.setStatus(CRMStatusType.PLATIN);
+				customer.setStatus(CRMStatusType.PLATINUM);
 				customer.setName("Ricardo Lambert");
 			} else if (user.contains("aebert")) {
 				customer.setId(45229);
-				customer.setStatus(CRMStatusType.PLATIN);
+				customer.setStatus(CRMStatusType.PLATINUM);
 				customer.setName("Andrea Ebert");
 				customer.setGender("F");
-				customer.setCity("Muenchen");
+				customer.setCity("Munich");
 				customer.setStreet("Hohenlindnerstrasse 11b");
 				customer.setZip("85622");
 				customer.setEmail("info@talend.de");
