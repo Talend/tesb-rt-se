@@ -60,6 +60,13 @@ public class ConverterImpl implements Converter {
             }
         }
 
+        logger.debug("Get the job class name from the Talend job zip");
+        jobClassName = this.javaCommandLookup(jobZipFile);
+        logger.debug("Get the job name from the class name");
+        jobName = this.extractNameFromClassName(jobClassName);
+        logger.debug("Get the job version from the class name");
+        String jobVersion = this.extractVersionFromClassName(jobClassName);
+
         logger.debug("Create job.properties");
         Properties jobProperties = new Properties();
         jobProperties.setProperty("version", "1.0");
@@ -97,10 +104,9 @@ public class ConverterImpl implements Converter {
 
         logger.debug("Creating Talend bundle jar (using BND)");
         Builder builder = new Builder();
-        builder.setProperty("Bundle-Name", outputName);
-        builder.setProperty("Bundle-SymbolicName", outputName);
-        // TODO extract the bundle version from the file name
-        builder.setProperty("Bundle-Version", "4.0");
+        builder.setProperty("Bundle-Name", jobName);
+        builder.setProperty("Bundle-SymbolicName", jobName);
+        builder.setProperty("Bundle-Version", jobVersion);
         builder.setProperty("Export-Package", "!routines*,*");
         builder.setProperty("Private-Package", "routines*");
         builder.setProperty("Import-Package", "*;resolution:=optional");
@@ -147,6 +153,40 @@ public class ConverterImpl implements Converter {
             if (java != null) {
                 return java;
             }
+        }
+        return null;
+    }
+
+    /**
+     * Extract the Talend job version from the job class name.
+     *
+     * @param className the full qualified name of the job class.
+     * @return the extracted version
+     */
+    protected String extractVersionFromClassName(String className) {
+        if (className.lastIndexOf('.') != -1) {
+            className = className.substring(0, className.lastIndexOf('.'));
+            if (className.lastIndexOf('.') != -1) {
+                className = className.substring(className.lastIndexOf('.'));
+                if (className.indexOf('_') != -1) {
+                    className = className.substring(className.indexOf('_') + 1);
+                    className = className.replace('_', '.');
+                    return className;
+                }
+            }
+        }
+        return "0.0.0";
+    }
+
+    /**
+     * Extract the Talend job name from the job class name.
+     *
+     * @param className the full qualified name of the job class.
+     * @return the extracted name.
+     */
+    protected String extractNameFromClassName(String className) {
+        if (className.lastIndexOf('.') != -1) {
+            return className.substring(className.lastIndexOf('.') + 1);
         }
         return null;
     }
