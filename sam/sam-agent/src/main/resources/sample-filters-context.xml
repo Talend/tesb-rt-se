@@ -25,9 +25,9 @@
         </property>
     </bean>
     
-<!--    <bean class="org.talend.esb.sam.common.filter.impl.JxPathFilter">-->
-<!--        <constructor-arg value="content='test' and eventType='FAULT_IN' and customInfo/key1='value1'"/>-->
-<!--    </bean>-->
+    <bean class="org.talend.esb.sam.common.filter.impl.JxPathFilter">
+        <constructor-arg value="content='test' and eventType='FAULT_IN' and customInfo/key1='value1'"/>
+    </bean>
 
     <bean id="passwordHandler"
         class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
