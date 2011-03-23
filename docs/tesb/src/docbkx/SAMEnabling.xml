@@ -136,16 +136,18 @@ For more information please read the Service Activity Monitoring User Guide. </p
 	<step>
     <para>Deploy the SAM agent in the TSF container.</para>
 
-    <para> Copy the sam-agent-4.0.jar and sam-common-4.0.jar into deploy
+    <para> Copy the commons-lang-2.6.jar, sam-agent-4.0.jar and sam-common-4.0.jar into deploy
     directory of Talend Service Factory OSGi container </para>
 
-    <para> Type in console command "list". You will see zookeeper and locator
-    client bundles in the lists of installed bundles:               
+    <para> Type in console command "list". You will see sam-agent and sam-common
+    bundles in the lists of installed bundles: </para>
+<para>
 <programlisting>
-[ 114] [Installed  ] [            ] [       ] [   60] Service Activity Monitoring :: Common (4.0.0)
-[ 115] [Installed  ] [            ] [       ] [   60] Service Activity Monitoring :: Agent (4.0.0)
+[ 121] [Active     ] [            ] [       ] [   60] Service Activity Monitoring :: Common (4.0.0)
+[ 122] [Active     ] [            ] [       ] [   60] Service Activity Monitoring :: Agent (4.0.0)
+[ 123] [Active     ] [            ] [       ] [   60] Commons Lang (2.6)
 </programlisting>
-    </para>
+</para>
     </step>
 	
 	<step>
