@@ -67,36 +67,26 @@ public class ConverterImpl implements Converter {
         logger.debug("Get the job version from the class name");
         String jobVersion = this.extractVersionFromClassName(jobClassName);
 
-        logger.debug("Create job.properties");
-        Properties jobProperties = new Properties();
-        jobProperties.setProperty("version", "1.0");
-
-        logger.debug("Add job.properties in the resources zip");
         ZipOutputStream resourcesZip = new ZipOutputStream(new FileOutputStream(new File(uncompressDir, "resources_" + timestamp + ".zip")));
 
         if (jobName != null && jobClassName != null) {
-            logger.debug("Update job.properties");
-            jobProperties.setProperty("job.blueprint", "true");
-            jobProperties.setProperty("job.name", jobName);
-            jobProperties.setProperty("job.class.name", jobClassName);
             logger.debug("Append OSGi blueprint descriptor");
-            // TODO
-            logger.debug("Replace in the OSGi blueprint descriptor");
-            // TODO
-            logger.debug("Add OSGi blueprint descriptor in the resources zip");
-            ZipEntry resourceBlueprint = new ZipEntry("resources/OSGI-INF/blueprint/job.xml");
-            resourcesZip.putNextEntry(resourceBlueprint);
-            copyInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/OSGI-INF/blueprint/job.xml"), resourcesZip);
+            ZipEntry blueprint = new ZipEntry("OSGI-INF/blueprint/job.xml");
+            resourcesZip.putNextEntry(blueprint);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(resourcesZip));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/OSGI-INF/blueprint/job.xml")));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                line = line.replaceAll("@JOBNAME@", jobName);
+                line = line.replaceAll("@JOBCLASSNAME@", jobClassName);
+                writer.write(line);
+                writer.newLine();
+            }
+            reader.close();
+            writer.flush();
+            writer.close();
         }
-
-        logger.debug("Write job.properties");
-        File jobPropertiesFile = new File(uncompressDir, "job.properties");
-        jobProperties.store(new FileOutputStream(jobPropertiesFile), null);
-
-        logger.debug("Add job.properties in the resources zip");
-        ZipEntry resourceJobProperties = new ZipEntry("META-INF/job.properties");
-        resourcesZip.putNextEntry(resourceJobProperties);
-        copyInputStream(new FileInputStream(jobPropertiesFile), resourcesZip);
 
         logger.debug("Close the resources zip");
         resourcesZip.flush();

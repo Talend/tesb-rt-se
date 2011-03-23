@@ -114,7 +114,7 @@ public class ReservationServiceImpl implements ReservationService {
 	private RESCarListType getListOfAvailableCars(RESProfileType profile) {
 		/*
 		 * <xsd:enumeration value="NONE" /> <xsd:enumeration value="NORMAL" />
-		 * <xsd:enumeration value="GOLD" /> <xsd:enumeration value="PLATIN" />
+		 * <xsd:enumeration value="GOLD" /> <xsd:enumeration value="PLATINUM" />
 		 */
 		RESCarListType carList = resFactory.createRESCarListType();
 
@@ -146,7 +146,7 @@ public class ReservationServiceImpl implements ReservationService {
 			carList.getCar().add(
 					createCar("01-015-00002", "MX5", "Sport", "Mazda", "65.00",
 							"95.00", "50.00"));
-		} else if (status == CRMStatusType.PLATIN) {
+		} else if (status == CRMStatusType.PLATINUM) {
 			carList.getCar().add(
 					createCar("01-004-00022", "Golf", "Standard", "VW",
 							"50.00", "75.00", "40.00"));

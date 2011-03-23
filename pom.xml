@@ -53,7 +53,6 @@
         <module>sam</module>
         <module>job</module>
         <module>docs</module>
-        <module>talend-esb</module>
     </modules>
 
     <dependencyManagement>
@@ -241,4 +240,13 @@
             </plugins>
         </pluginManagement>
     </build>
+	<profiles>
+		<profile>
+			<id>packaging</id>
+			<modules>
+		        <module>talend-esb</module>
+			</modules>
+		</profile>
+	</profiles>
+
 </project>
