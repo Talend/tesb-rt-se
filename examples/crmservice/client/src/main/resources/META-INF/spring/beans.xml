@@ -30,7 +30,15 @@
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
 		address="http://localhost:8888/soap/CRMServiceProvider/"
-	/>
+	>
+		<!-- Uncomment following configuration to enable Service Locator feature -->
+		<!-- <jaxws:features>
+			<bean class="org.talend.esb.locator.LocatorFeature">
+				<property name="locatorEndpoints" 
+							 value="localhost:2181"/>
+			</bean>
+		</jaxws:features> -->
+	</jaxws:client>
 
 	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
 
