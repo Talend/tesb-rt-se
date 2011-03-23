@@ -76,11 +76,11 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * handler
 	 */
 	public void putEvents(List<Event> events) {
-		List<Event> filteredEvents = filterEvents(events);
-		executeHandlers(filteredEvents);
-		for (Event event : filteredEvents) {
-            persistenceHandler.writeEvent(event);
-        }
+	    List<Event> filteredEvents = filterEvents(events);
+	    executeHandlers(filteredEvents);
+	    for (Event event : filteredEvents) {
+	        persistenceHandler.writeEvent(event);
+	    }
 	}
 	
 	/**

@@ -45,7 +45,7 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
     }
 
     public void setDelayBetweenRetry(long delayBetweenRetry) {
-        if (numberOfRetries <= 0) {
+        if (delayBetweenRetry <= 0) {
             throw new IllegalStateException("Delay between retries must be > 0 but was " + delayBetweenRetry);
         }
         this.delayBetweenRetry = delayBetweenRetry;
