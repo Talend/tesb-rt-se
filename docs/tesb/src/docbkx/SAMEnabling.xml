@@ -13,32 +13,33 @@
   <section>
     <title>Installation prerequisites</title>
 
-    <itemizedlist>
-      <listitem>
+    <procedure>
+    <step>	
         <para> To enable the Rent-a-Car example initially install and run the
         Monitoring server. For more information please read Service
         Activity Monitoring Manual. </para>
-      </listitem>
 
-      <listitem>
+    </step>
+	<step>
         <para> You need the agent component and common component of the Service Activity Monitoring 
         (sam-agent-4.0.jar and sam-common-4.0.jar) to enable your CFX service or consumer to use the
         Service Activity Monitoring. You need to add <code>sam-agent-4.0.jar</code> and <code>sam-common-4.0.jar</code> into
         your classpath or war file. Also add it to the OSGi conatiner. </para>
-      </listitem>
+    </step>
 
-      <listitem>
+    <step>
         <para> For enabling Service Activity Monitoring in your maven build </para>
-        <para> 1. Put sam-agent-4.0.jar and sam-common-4.0.jar into local maven repo. For it run the maven command  
-		<programlisting>
-mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-agent-4.0.jar -DgroupId=org.talend.esb
--DartifactId=sam-agent -Dversion=4.0 -Dpackaging=jar
-
-mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-common-4.0.jar -DgroupId=org.talend.esb
--DartifactId=sam-common -Dversion=4.0 -Dpackaging=jar
-		</programlisting>
-        </para>         
-        <para> 2. Add the following dependency to your pom.xml file: </para>
+	    <itemizedlist>
+        <listitem>
+        <para>Put sam-agent-4.0.jar and sam-common-4.0.jar into local maven repo. For it run the maven command</para>
+		<para><userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-agent-4.0.jar -DgroupId=org.talend.esb
+-DartifactId=sam-agent -Dversion=4.0 -Dpackaging=jar</userinput></para>
+        <para><userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-common-4.0.jar -DgroupId=org.talend.esb
+-DartifactId=sam-common -Dversion=4.0 -Dpackaging=jar</userinput></para>
+        </listitem>		
+		
+		<listitem>
+        <para>Add the following dependency to your pom.xml file: </para>
       <programlisting>
 &lt;dependency&gt;
      &lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
@@ -55,24 +56,27 @@ mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-commo
         <para> Add these dependencies to projects using the Service Activity Monitoring. In
         our case these are the projects CRMService and ReservationService.
         </para>
-      </listitem>
-    </itemizedlist>
+		</listitem>
+		</itemizedlist>
+    </step>
+
+	</procedure>
   </section>
 
   <section>
     <title>How to enable Rent a Car demo</title>
 
-    <para>
-      <emphasis role="strong">1. Add the Service Activity Monitoring feature to the Spring
-      configuratons represented by the beans.xml files.</emphasis>
-    </para>
+	<procedure>
+	<step>
+    <para>Add the Service Activity Monitoring feature to the Spring configuratons represented by the beans.xml files.</para>
 
     <para> The Service Activity Monitoring feature should be added to each endpoint and
     client in the example configuration. </para>
 
-    <para> 1.1 Add the Service Activity Monitoring feature to the endpoint bean in the
-    <code>beans.xml</code> exactly the same way as a standard CXF feature.
-    </para>
+	<itemizedlist>
+    <listitem>
+    <para>Add the Service Activity Monitoring feature to the endpoint bean in the
+    <code>beans.xml</code> exactly the same way as a standard CXF feature.</para>
 
     <para> Apply these changes to the following files: <simplelist columns="1"
         type="vert">
@@ -96,10 +100,11 @@ mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-commo
 
     <para>
 For more information please read the Service Activity Monitoring User Guide. </para>
+    </listitem>
 
-    <para> 1.2 Add the Service Activity Monitoring feature to the client bean in the
-    <code>beans.xml</code> file exactly the same way as a standard CXF
-    feature. </para>
+    <listitem>
+    <para>Add the Service Activity Monitoring feature to the client bean in the
+    <code>beans.xml</code> file exactly the same way as a standard CXF feature.</para>
 
     <para>
             <programlisting>
@@ -123,11 +128,13 @@ For more information please read the Service Activity Monitoring User Guide. </p
         <member>../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml</member>
       </simplelist>
     </para>
+	</listitem>
+	</itemizedlist>
 
-    <para>
-      <emphasis role="strong">2. Deploy the SAM agent in the TSF
-      container</emphasis>
-    </para>
+    </step>
+	
+	<step>
+    <para>Deploy the SAM agent in the TSF container.</para>
 
     <para> Copy the sam-agent-4.0.jar and sam-common-4.0.jar into deploy
     directory of Talend Service Factory OSGi container </para>
@@ -139,9 +146,12 @@ For more information please read the Service Activity Monitoring User Guide. </p
 [ 115] [Installed  ] [            ] [       ] [   60] Service Activity Monitoring :: Agent (4.0.0)
 </programlisting>
     </para>
-
-    <para> <emphasis role="strong">3. Create and deploy OSGi
-    bundles</emphasis> as described earlier in this guide. </para>
+    </step>
+	
+	<step>
+    <para>Create and deploy OSGi bundles as described earlier in this guide.</para>
+	</step>
+  </procedure>	
   </section>
 
   <section>

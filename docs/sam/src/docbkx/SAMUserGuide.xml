@@ -45,9 +45,9 @@ In the left from this diagram the Agent is described. In the right is the Monito
 Event structure (from Database):	
 <informaltable>
           <tgroup cols="3">
-            <colspec colnum="1" colwidth="1*" />
+            <!--colspec colnum="1" colwidth="1*" />
             <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" />
+            <colspec colnum="3" colwidth="3*" /-->
             <thead>
               <row>
                 <entry>
