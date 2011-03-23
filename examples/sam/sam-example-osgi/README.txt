@@ -17,13 +17,8 @@ Start TESB Container
 
 > startup.bat
 
-> features:install war
-> features:install camel-cxf
-> install mvn:commons-lang/commons-lang/2.6
-> install mvn:org.talend.esb/sam-common/4.0
-> install mvn:org.talend.esb/sam-agent/4.0
-
-Copy the sam-example-osgi-4.0.jar to the deploy directory
+> features:addurl mvn:org.talend.esb/features/4.0/xml
+> features:install tesb-example-sam-osgi
 
 > list
 
