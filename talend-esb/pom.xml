@@ -275,6 +275,13 @@
 			<classifier>examples</classifier>
 			<type>zip</type>
 		</dependency>
+		<dependency>
+			<groupId>com.talend.sf.assebmly</groupId>
+			<artifactId>talend-sf</artifactId>
+			<version>${tsf.version}</version>
+			<classifier>doc</classifier>
+			<type>zip</type>
+		</dependency>
 
         <!-- ServiceMix Specs -->
         <dependency>
@@ -886,6 +893,25 @@
 									<type>zip</type>
 									<classifier>examples</classifier>
 									<outputDirectory>target/dependencies/tsf-examples</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-tsf-doc</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.talend.sf.assebmly</groupId>
+									<artifactId>talend-sf</artifactId>
+									<version>${TSF.version}</version>
+									<type>zip</type>
+									<classifier>doc</classifier>
+									<outputDirectory>target/dependencies/tsf-doc</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
