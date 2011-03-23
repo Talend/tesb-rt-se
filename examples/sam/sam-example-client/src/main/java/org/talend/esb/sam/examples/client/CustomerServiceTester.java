@@ -50,7 +50,10 @@ public final class CustomerServiceTester {
         System.out.println("Response received");
         Assert.assertEquals(2, customers.size());
         Assert.assertEquals("Smith", customers.get(0).getName());
-        
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e1) {
+        }
         // Then we test for an unknown Customer name and expect the NoSuchCustomerException
         try {
             customers = customerService.getCustomersByName("None");

@@ -35,7 +35,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.talend.esb.sam.examples.client.CustomerServiceClient</mainClass>
+                    <mainClass>org.talend.esb.sam.examples.client.ExampleClientMain</mainClass>
                 </configuration>
             </plugin>
 

@@ -13,7 +13,7 @@ Install
 
 Set the http port for TIF to 9090 in the file org.ops4j.pax.web.cfg.
 
-Sart TIF Container
+Start TESB Container
 
 > startup.bat
 
@@ -29,10 +29,16 @@ Copy the sam-example-osgi-4.0.jar to the deploy directory
 
 List should show that the example was started
 
+Check that the service can be reached on:
+http://localhost:9090/services/CustomerServicePort?wsdl
+
 Copy sam-server.war to the Tomcat webapps directory. Make sure tomcat listens on Port 8080.
 Start tomcat
 
 > startup.bat
+
+Check that the monitoring service can be reached on:
+http://localhost:8080/sam-server-war/services/MonitoringServiceSOAP?wsdl
 
 Run the client
 --------------
