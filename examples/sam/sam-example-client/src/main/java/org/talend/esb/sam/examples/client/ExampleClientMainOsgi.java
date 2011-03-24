@@ -26,11 +26,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ExampleClientMainOsgi {
     public static void main(String args[]) throws Exception {
-    	System.setProperty("serviceUrl", "http://localhost:9090/cxf/CustomerServicePort");
+    	System.setProperty("serviceUrl", "http://localhost:9090/services/CustomerServicePort");
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
         CustomerServiceTester tester = context.getBean(CustomerServiceTester.class);
         tester.testCustomerService();
-        Thread.sleep(100);
+        Thread.sleep(2000);
         context.close();
         System.exit(0); 
     }

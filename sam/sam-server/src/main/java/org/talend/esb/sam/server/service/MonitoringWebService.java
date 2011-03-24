@@ -35,60 +35,57 @@ import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
 
 public class MonitoringWebService implements MonitoringService {
 
-	private static Logger logger = Logger
-			.getLogger(MonitoringWebService.class.getName());
+    private static Logger logger = Logger.getLogger(MonitoringWebService.class.getName());
 
-	private org.talend.esb.sam.common.service.MonitoringService monitoringService;
+    private org.talend.esb.sam.common.service.MonitoringService monitoringService;
 
-	public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
-		logger.info("Received event(" + eventTypes.size() + ") from Agent.");
-		List<Event> events = new ArrayList<Event>();
+    public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
+        logger.info("Received event(" + eventTypes.size() + ") from Agent.");
+        List<Event> events = new ArrayList<Event>();
 
-		try {
-			for (EventType eventType : eventTypes) {
-			    Event event = EventTypeMapper.map(eventType);
-			    events.add(event);
-			}
-		} catch (RuntimeException e) {
-			throwFault("004", "Could not map web service data to event.", e);
-		}
+        try {
+            for (EventType eventType : eventTypes) {
+                Event event = EventTypeMapper.map(eventType);
+                events.add(event);
+            }
+        } catch (RuntimeException e) {
+            throwFault("004", "Could not map web service data to event." + e.getMessage(), e);
+        }
 
-		try {
-			monitoringService.putEvents(events);
-		} catch (MonitoringException e) {
-			e.logException(Level.SEVERE);
-			throwFault(e.getCode(), e.getMessage(), e);
-		} catch (Throwable t) {
-			throwFault("000", "Unknown error", t);
-		}
+        try {
+            monitoringService.putEvents(events);
+        } catch (MonitoringException e) {
+            e.logException(Level.SEVERE);
+            throwFault(e.getCode(), e.getMessage(), e);
+        } catch (Throwable t) {
+            throwFault("000", "Unknown error " + t.getMessage(), t);
+        }
 
-		return "success";
-	}
+        return "success";
+    }
 
-	private static void throwFault(String code, String message, Throwable t)
-			throws PutEventsFault {
-		logger.severe("Throw Fault " + code + " " + message);
+    private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
+        logger.severe("Throw Fault " + code + " " + message);
 
-		FaultType faultType = new FaultType();
-		faultType.setFaultCode(code);
-		faultType.setFaultMessage(message);
+        FaultType faultType = new FaultType();
+        faultType.setFaultCode(code);
+        faultType.setFaultMessage(message);
 
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
 
-		t.printStackTrace(printWriter);
-		String exception = stringWriter.toString();
+        t.printStackTrace(printWriter);
+        String exception = stringWriter.toString();
 
-		faultType.setStackTrace(exception);
+        faultType.setStackTrace(exception);
 
-		logger.log(Level.SEVERE, "Exception", t);
+        logger.log(Level.SEVERE, "Exception", t);
 
-		throw new PutEventsFault(message, faultType, t);
-	}
+        throw new PutEventsFault(message, faultType, t);
+    }
 
-	public void setMonitoringService(
-			org.talend.esb.sam.common.service.MonitoringService monitoringService) {
-		this.monitoringService = monitoringService;
-	}
+    public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
+        this.monitoringService = monitoringService;
+    }
 
 }
