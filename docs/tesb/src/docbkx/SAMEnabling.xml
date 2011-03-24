@@ -110,12 +110,12 @@ For more information please read the Service Activity Monitoring User Guide. </p
             <programlisting>
 &lt;import resource="classpath:/agent-context.xml" /&gt;
 ...		
-&lt;jaxws:endpoint id="..."
+&lt;jaxws:client id="..."
     ...
     &lt;jaxws:features&gt;
       &lt;ref bean="eventFeature"/&gt;
     &lt;/jaxws:features&gt;
-&lt;/jaxws:endpoint&gt;
+&lt;/jaxws:client&gt;
             </programlisting>
     </para>
 
