@@ -26,7 +26,13 @@
                 <exclude>**/.classpath</exclude>
                 <!-- Exclude Intellij IDEA files and directories -->
                 <exclude>**/*.i??</exclude>
+                <!-- Exclude parent pom -->
+                <exclude>parent/**</exclude>
             </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../examples/parent</directory>
+            <outputDirectory>/examples</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/tif-examples/talend-if-${tif.version}/examples</directory>
