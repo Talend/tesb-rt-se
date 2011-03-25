@@ -87,6 +87,21 @@
                 </resources>
             </build>
         </profile>
+        <profile>
+            <id>sam</id>
+            <build>
+                <finalName>${project.artifactId}-sam-${project.version}</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans-sam.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
     </profiles>
 
 </project>

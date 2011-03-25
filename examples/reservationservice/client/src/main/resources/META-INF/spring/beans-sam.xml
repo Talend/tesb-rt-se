@@ -9,30 +9,34 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
- <beans xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-">
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+	">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:/agent-context.xml" />
 
-	<bean id="ReservationServiceBean"
-		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
-
-	<!-- HTTP Endpoint -->
-	<jaxws:endpoint id="ReservationService"
+	<jaxws:client id="ReservationServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
-		serviceName="serviceNamespace:ReservationServiceProvider"
+		serviceClass="org.talend.services.reservationservice.ReservationService"
+		serviceName="serviceNamespace:ReservationerviceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
-		implementor="#ReservationServiceBean"
 		address="http://localhost:8888/soap/ReservationServiceProvider/"
-	/>
+	>
+		<jaxws:features>
+			<ref bean="eventFeature"/>
+		</jaxws:features>
+	</jaxws:client>
+
+	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
 </beans>
