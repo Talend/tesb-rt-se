@@ -53,5 +53,40 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <build>
+                <finalName>${project.artifactId}-locator-${project.version}</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans-locator.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
 

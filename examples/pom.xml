@@ -22,11 +22,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>locator</module>
         <module>crmservice</module>
         <module>reservationservice</module>
         <module>app-reservation</module>
-        <module>sam</module>
     </modules>
 
     <properties>
@@ -73,5 +71,26 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <modules>
+                <module>locator</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <modules>
+                <module>sam</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>

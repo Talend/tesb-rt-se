@@ -30,7 +30,13 @@
 		serviceName="serviceNamespace:ReservationerviceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
 		address="http://localhost:8888/soap/ReservationServiceProvider/"
-	/>
+	>
+		<jaxws:features>
+			<bean class="org.talend.esb.locator.LocatorFeature">
+				<property name="locatorEndpoints" value="localhost:2181"/>
+			</bean>
+		</jaxws:features>
+	</jaxws:client>
 
 	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
