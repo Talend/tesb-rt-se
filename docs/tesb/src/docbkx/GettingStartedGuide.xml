@@ -98,9 +98,47 @@
     <title>How to build the Demo</title>
 
     <section>
+      <title>System Requirements</title>
+      <para>The Talend ESB and examples can be installed, built, and run on
+      Windows o UNIX-style operating systems for which Java 6 is available.
+      The following software is required for installing, building, and running
+      the samples:</para>
+      <itemizedList>
+        <listItem>
+          <para>JDK 1.6.0 from Oracle should be installed, and the environment
+          variable <code>JAVA_HOME</code> should be set to the JDK
+          installation directory.</para>
+        </listItem>
+        <listItem>
+          <para>Maven 3.0.3 from Apache should be installed, and the
+          <code>mvn</code> executable should be in your<code>PATH</code>.
+          When running <code>mvn</code>, HTTP access to the internet is
+          required.</para>
+        </listItem>
+      </itemizedList>
+    </section>
+
+    <section>
+      <title>Installation of the Talend ESB</title>
+      <para>The Talend ESB is provided as two archives. For Windows, these are
+      <code>talend-esb-&lt;version&gt;.zip</code> and
+      <code>talend-esb-&lt;version&gt;-doc.zip</code>, for UNIX/Linux
+      <code>talend-esb-&lt;version&gt;.tar.gz</code> and
+      <code>talend-esb-&lt;version&gt;-doc.tar.gz</code>
+      (<code>&lt;version&gt</code> is replaced by the ESB version,
+      e.g. &quot;<code>4.0</code>&quot;). Both archives should be unpacked to a directory
+      of your choice. There, a directory
+      <code>talend-esb-&lt;version&gt;</code> is created which contains ESB
+      and examples. Directory paths mentioned in the following chapters will
+      by default be relative to this directory.</para>
+    </section>
+
+    <section>
       <title>Building the CRMService sample</title>
 
-      <para>This sample consists of 3 parts: <informaltable>
+      <para>This sample is found in directory
+      <code>talend-esb-&lt;version&gt;/examples/tesb/crmservice/</code>.
+      It consists of three parts: <informaltable>
           <tgroup cols="2">
             <colspec colnum="1" colwidth="1*" />
 
@@ -141,21 +179,21 @@
         </informaltable></para>
 
       <para>From the base directory of the CRMService sample, the maven
-      <code>...\examples\tesb\crmservice\pom.xml</code> file can be used to build
+      <code>.../examples/tesb/crmservice/pom.xml</code> file can be used to build
       and run the demo.</para>
 
       <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn install</userinput></para>
 
       <para>Running this command will build the demo and create OSGi bundles
-      deployed to an OSGi container.</para>
+      to be deployed to an OSGi container.</para>
 
       <para>Three OSGi bundles will be created: <simplelist columns="1"
           type="vert">
-          <member>...\common\target\crmservice-common-4.0.jar</member>
+          <member>.../common/target/crmservice-common-&lt;version&gt;.jar</member>
 
-          <member>...\service\target\crmservice-service-4.0.jar</member>
+          <member>.../service/target/crmservice-service-&lt;version&gt;.jar</member>
 
-          <member>...\client\target\crmservice-client-4.0.jar</member>
+          <member>.../client/target/crmservice-client-&lt;version&gt;.jar</member>
         </simplelist></para>
     </section>
 
@@ -203,7 +241,7 @@
         </informaltable></para>
 
       <para>From the base directory of ReservationService sample, the maven
-      <code>...\examples\tesb\reservationservice\pom.xml</code> file can be used to
+      <code>.../examples/tesb/reservationservice/pom.xml</code> file can be used to
       build and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -213,15 +251,15 @@
       </userinput>
 
       <para>Running this command will build the demo and create OSGi bundles
-      deployed to an OSGi container.</para>
+      to be deployed to an OSGi container.</para>
 
       <para>Three OSGi bundles will be created: <simplelist columns="1"
           type="vert">
-          <member>...\common\target\reservationservice-common-4.0.jar</member>
+          <member>.../common/target/reservationservice-common-&lt;version&gt;.jar</member>
 
-          <member>...\service\target\reservationservice-service-4.0.jar</member>
+          <member>.../service/target/reservationservice-service-&lt;version&gt;.jar</member>
 
-          <member>...\client\target\reservationservice-client-4.0.jar</member>
+          <member>.../client/target/reservationservice-client-&lt;version&gt;.jar</member>
         </simplelist></para>
     </section>
 
@@ -229,7 +267,7 @@
       <title>Building app-reservation project bundle</title>
 
       <para>From the base directory of app-reservation project, the maven
-      <code>...\examples\tesb\app-reservation\pom.xml</code> file can be used to
+      <code>.../examples/tesb/app-reservation\pom.xml</code> file can be used to
       build and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -239,12 +277,12 @@
       </userinput>
 
       <para>Running this command will build the demo and create OSGi bundles
-      deployed to an OSGi container.</para>
+      to be deployed to an OSGi container.</para>
 
       <para>The OSGi bundle will be created:</para>
 
       <para><simplelist columns="1" type="vert">
-          <member>...\app-reservation\target\app-reservation-4.0.jar</member>
+          <member>.../app-reservation/target/app-reservation-&lt;version&gt;.jar</member>
         </simplelist></para>
     </section>
   </chapter>
@@ -272,11 +310,11 @@
 
       <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
-          <member>crmservice-common-4.0.jar</member>
+          <member>crmservice-common-&lt;version&gt;.jar</member>
 
-          <member>crmservice-service-4.0.jar</member>
+          <member>crmservice-service-&lt;version&gt;.jar</member>
 
-          <member>crmservice-client-4.0.jar</member>
+          <member>crmservice-client-&lt;version&gt;.jar</member>
         </simplelist></para>
       </step>
 
@@ -296,11 +334,11 @@
 
       <para>Copy the following bundles into the folder <code>&lt;Talend ESB
       Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
-          <member>reservationservice-common-4.0.jar</member>
+          <member>reservationservice-common-&lt;version&gt;.jar</member>
 
-          <member>reservationservice-service-4.0.jar</member>
+          <member>reservationservice-service-&lt;version&gt;.jar</member>
 
-          <member>reservationservice-client-4.0.jar</member>
+          <member>reservationservice-client-&lt;version&gt;.jar</member>
         </simplelist></para>
       </step>
 
@@ -327,7 +365,7 @@
       </step>
       
       <step>
-      <para>Copy app-reservation-4.0.jar into the folder &lt;Talend ESB
+      <para>Copy app-reservation-&lt;version&gt;.jar into the folder &lt;Talend ESB
       Runtime&gt;/container/deploy.</para>
       </step>
       </procedure>
