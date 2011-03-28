@@ -97,7 +97,7 @@
                 <exclude>LICENSE.txt</exclude>
                 <exclude>NOTICE.txt</exclude>
                 <exclude>README.txt</exclude>
-                <exclude>dist-maven/*</exclude>
+                <exclude>dist-maven/**</exclude>
             </excludes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
