@@ -103,19 +103,19 @@
       Windows o UNIX-style operating systems for which Java 6 is available.
       The following software is required for installing, building, and running
       the samples:</para>
-      <itemizedList>
-        <listItem>
+      <procedure>
+        <step>
           <para>JDK 1.6.0 from Oracle should be installed, and the environment
           variable <code>JAVA_HOME</code> should be set to the JDK
           installation directory.</para>
-        </listItem>
-        <listItem>
+        </step>
+        <step>
           <para>Maven 3.0.3 from Apache should be installed, and the
-          <code>mvn</code> executable should be in your<code>PATH</code>.
+          <code>mvn</code> executable should be in your <code>PATH</code>.
           When running <code>mvn</code>, HTTP access to the internet is
           required.</para>
-        </listItem>
-      </itemizedList>
+        </step>
+      </procedure>
     </section>
 
     <section>
@@ -126,8 +126,8 @@
       <code>talend-esb-&lt;version&gt;.tar.gz</code> and
       <code>talend-esb-&lt;version&gt;-doc.tar.gz</code>
       (<code>&lt;version&gt;</code> is replaced by the ESB version,
-      e.g. &quot;<code>4.0</code>&quot;). Both archives should be unpacked to a directory
-      of your choice. There, a directory
+      e.g. &quot;<code>4.0</code>&quot;). Both archives should be unpacked to
+      a directory of your choice. There, a directory
       <code>talend-esb-&lt;version&gt;</code> is created which contains ESB
       and examples. Directory paths mentioned in the following chapters will
       by default be relative to this directory.</para>
@@ -267,7 +267,7 @@
       <title>Building app-reservation project bundle</title>
 
       <para>From the base directory of app-reservation project, the maven
-      <code>.../examples/tesb/app-reservation\pom.xml</code> file can be used to
+      <code>.../examples/tesb/app-reservation/pom.xml</code> file can be used to
       build and run the demo.</para>
 
       <para>Using either UNIX or Windows:</para>
@@ -293,7 +293,7 @@
     <section>
       <title>Start OSGi console</title>
 
-      <para>Start OSGi: run <code>&lt;Talend ESB Runtime&gt;/container/bin/tesb</code>.</para>
+      <para>Start OSGi: run <code>talend-esb-&lt;version&gt;/container/bin/tesb</code>.</para>
 
       <para>You can find out how to get started with OSGi container here:
       <link
@@ -308,8 +308,9 @@
       <step>
       <para>Deploy CRMService into the OSGi container.</para>
 
-      <para>Copy the following bundles into the folder <code>&lt;Talend ESB
-      Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
+      <para>Copy the following bundles into the folder
+      <code>talend-esb-&lt;version&gt;/container/deploy</code>
+        <simplelist columns="1" type="vert">
           <member>crmservice-common-&lt;version&gt;.jar</member>
 
           <member>crmservice-service-&lt;version&gt;.jar</member>
@@ -332,8 +333,9 @@
       <step>
       <para>Deploy ReservationService into the OSGi container.</para>
 
-      <para>Copy the following bundles into the folder <code>&lt;Talend ESB
-      Runtime&gt;/container/deploy</code> <simplelist columns="1" type="vert">
+      <para>Copy the following bundles into the folder
+      <code>talend-esb-&lt;version&gt;/container/deploy</code>
+        <simplelist columns="1" type="vert">
           <member>reservationservice-common-&lt;version&gt;.jar</member>
 
           <member>reservationservice-service-&lt;version&gt;.jar</member>
@@ -365,8 +367,8 @@
       </step>
       
       <step>
-      <para>Copy app-reservation-&lt;version&gt;.jar into the folder &lt;Talend ESB
-      Runtime&gt;/container/deploy.</para>
+      <para>Copy app-reservation-&lt;version&gt;.jar into the folder
+      talend-esb-&lt;version&gt;/container/deploy.</para>
       </step>
       </procedure>
     </section>
