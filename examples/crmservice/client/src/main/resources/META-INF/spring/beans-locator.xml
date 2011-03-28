@@ -29,7 +29,7 @@
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-		address="http://localhost:8888/soap/CRMServiceProvider/"
+		address="locator://CRMServiceProvider"
 	>
 		<jaxws:features>
 			<bean class="org.talend.esb.locator.LocatorFeature">
