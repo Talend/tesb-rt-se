@@ -125,7 +125,7 @@
       <code>talend-esb-&lt;version&gt;-doc.zip</code>, for UNIX/Linux
       <code>talend-esb-&lt;version&gt;.tar.gz</code> and
       <code>talend-esb-&lt;version&gt;-doc.tar.gz</code>
-      (<code>&lt;version&gt</code> is replaced by the ESB version,
+      (<code>&lt;version&gt;</code> is replaced by the ESB version,
       e.g. &quot;<code>4.0</code>&quot;). Both archives should be unpacked to a directory
       of your choice. There, a directory
       <code>talend-esb-&lt;version&gt;</code> is created which contains ESB
