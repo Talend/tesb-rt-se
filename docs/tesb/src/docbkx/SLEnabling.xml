@@ -43,37 +43,25 @@
         </para>
       </listitem>
 
-      <listitem>
+      <!-- listitem>
         <para> You'll need the client component of the Service Locator
         (locator-4.0.jar) to enable your CXF service or consumer to use the
         Service Locator. This can be done by adding <code>locator-4.0.jar</code> to
         your classpath or war file. Also add it to the OSGi container. </para>
-      </listitem>
+      </listitem-->
 
       <listitem>
-        <para> For enabling the Service Locator Server in your Maven build </para>
-        <para> 1. Put locator-4.0.jar into your local maven repository. For it run the maven command  
-        <simplelist columns="1"
-        type="vert">
-        <member>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\Locator\locator-4.0.jar  -DgroupId=org.talend.esb</member> 
-        <member>-DartifactId=locator -Dversion=4.0 -Dpackaging=jar</member>
-        </simplelist> 
-        </para>         
-        <para> 2. Add the following dependency to your pom.xml file: </para>
-      <programlisting>&lt;dependency&gt;
-     &lt;groupId&gt;log4j&lt;/groupId&gt;
-     &lt;artifactId&gt;log4j&lt;/artifactId&gt;
-     &lt;version&gt;1.2.16&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-     &lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
-     &lt;artifactId&gt;locator&lt;/artifactId&gt;
-     &lt;version&gt;4.0&lt;/version&gt;
-&lt;/dependency&gt;</programlisting>
-
-        <para> Add these dependencies to projects using the locator client. In
-        our case these are the projects CRMService and ReservationService.
-        </para>
+        <para>To enable the Service Locator for the Rent-a-Car example:</para>
+        <procedure>
+          <step>
+            <para>Put locator-4.0.jar into your local maven repository. For it run the maven command</para>
+            <userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\Locator\locator-4.0.jar -DgroupId=org.talend.esb -DartifactId=locator -Dversion=4.0 -Dpackaging=jar</userinput>
+          </step>
+          <step>
+            <para>Put zookeeper-3.3.3.jar into your local maven repository. For it run the maven command</para>
+            <userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\zookeeper\zookeeper-3.3.3.jar -DgroupId=org.apache.zookeeper -DartifactId=zookeeper -Dversion=3.3.3 -Dpackaging=jar</userinput>
+          </step>
+        </procedure>
       </listitem>
     </itemizedlist>
   </section>
