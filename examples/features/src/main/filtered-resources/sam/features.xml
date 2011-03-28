@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- 
       Licensed to the Apache Software Foundation (ASF) under one or more
       contributor license agreements.  See the NOTICE file distributed with
       this work for additional information regarding copyright ownership.
@@ -17,10 +16,21 @@
       limitations under the License.
 -->
 <features>
-    <feature name='tesb-rac-services' version='${project.version}'>
+    <feature name='tesb-rac-common' version='${project.version}'>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
+    </feature>
+    <feature name='tesb-rac-services' version='${project.version}'>
+        <feature version='${project.version}'>tesb-rac-common</feature>
+        <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
+    </feature>
+    <feature name='tesb-rac-app' version='${project.version}'>
+        <feature version='${project.version}'>tesb-rac-common</feature>
+        <bundle>mvn:${project.groupId}/crmservice-client/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-client/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/app-reservation/${project.version}</bundle>
     </feature>
 </features>
