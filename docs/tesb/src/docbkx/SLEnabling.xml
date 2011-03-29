@@ -133,7 +133,7 @@ clientPort=2181
             <programlisting>
 &lt;jaxws:client id="..."
     ...
-    address="locator://..."&gt;
+    address="locator://some_useful_information"&gt;
     &lt;jaxws:features&gt;
         &lt;bean class="org.talend.esb.locator.LocatorFeature"&gt;
             &lt;property name="locatorEndpoints" 
@@ -160,7 +160,9 @@ clientPort=2181
     </para>
 
     <para> Copy the locator JAR file and the zookeeper JAR file into deploy
-    directory of Talend Service Factory OSGi container </para>
+    directory of Talend Service Factory OSGi container. You can find locator JAR file in 
+	<emphasis role="strong">${Talend ESB Installation}/add-ons/Locator/</emphasis>.
+	Zookeeper JAR file is in <emphasis role="strong">${Talend ESB Installation}/zookeeper/</emphasis>.</para>
 
     <para> Type in console command "list". You will see zookeeper and locator
     client bundles in the lists of installed bundles:               
