@@ -30,8 +30,24 @@
     <itemizedlist>
       <listitem>
         <para> To enable the Rent-a-Car example initially install and run the
-        Service Locator server. For more information please read Service
-        Locator Installation Manual. </para>
+        Service Locator server. To start the Service Locator you need a
+		configuration file. Here is a sample, create it in <emphasis role="strong">conf/zoo.cfg</emphasis>:</para>
+
+      <example xml:id="ex.slstaloneconf">
+        <title>Service Locator standalone configuration</title>
+
+        <programlisting>
+tickTime=2000 
+dataDir=/var/locator 
+clientPort=2181
+		</programlisting>
+      </example>
+	  
+	  <para>Now that you created the configuration file, you can start Service
+      Locator server, bin directory contain scripts that allow easy access
+      (classpath in particular) to the Service Locator server and command line
+      client. For more information please read <emphasis role="strong">Service
+      Locator Installation Manual</emphasis>.</para>
 
         <para>Since creating a distributed, fault-tolerant endpoint repository
         is a non-trivial task, the Service Locator Server implementation is based
