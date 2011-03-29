@@ -19,8 +19,8 @@
     <feature name='tesb-rac-common' version='${project.version}'>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
+        <bundle>file:${basedir}/../../../add-ons/Monitoring/sam-common-4.0.jar</bundle>
+        <bundle>file:${basedir}/../../../add-ons/Monitoring/sam-agent-4.0.jar</bundle>
     </feature>
     <feature name='tesb-rac-services' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
