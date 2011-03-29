@@ -340,7 +340,7 @@
       </step>
 
       <step>
-      <para>Type the console command "list".</para>
+      <para>Type the console command <userinput>list</userinput>.</para>
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
        <literallayout><computeroutput>
@@ -403,7 +403,7 @@
       </step>
 
       <step>
-      <para>Type the console command "list".</para>
+      <para>Type the console command <userinput>list</userinput>.</para>
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
        <literallayout><computeroutput>

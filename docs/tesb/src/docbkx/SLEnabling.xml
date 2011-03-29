@@ -172,18 +172,17 @@ clientPort=2181
     <para> Copy the locator JAR file and the zookeeper JAR file into deploy
     directory of Talend Service Factory OSGi container. You can find locator JAR file in 
 	<emphasis role="strong">${Talend ESB Installation}/add-ons/Locator/</emphasis>.
-	Zookeeper JAR file is in <emphasis role="strong">${Talend ESB Installation}/zookeeper/</emphasis>.</para>
-
-    <para> Type in console command "list". You will see zookeeper and locator
-    client bundles in the lists of installed bundles:               
-<programlisting>
-[  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.2)
-[  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
-</programlisting>
-    </para-->
+	Zookeeper JAR file is in <emphasis role="strong">${Talend ESB Installation}/zookeeper/</emphasis>.</para-->
 
           <step>
     <para> <link linkend="rac.deploy">Create and deploy OSGi bundles</link> as described earlier in this guide.</para>
+    <para> Type in console command <userinput>list</userinput>. You will see zookeeper and locator
+    client bundles in the lists of installed bundles:               
+<programlisting>
+[  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.3)
+[  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
+</programlisting>
+    </para>
           </step>
         </procedure>
   </section>
