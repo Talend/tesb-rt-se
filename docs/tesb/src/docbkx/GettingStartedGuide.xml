@@ -3,12 +3,7 @@
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
 ]>
-<book version="5.0" xmlns="http://docbook.org/ns/docbook"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      xmlns:ns5="http://www.w3.org/1998/Math/MathML"
-      xmlns:ns4="http://www.w3.org/2000/svg"
-      xmlns:ns3="http://www.w3.org/1999/xhtml"
-      xmlns:ns="http://docbook.org/ns/docbook">
+<book version="5.0" xmlns="http://docbook.org/ns/docbook">
   <info>
     <title>Talend ESB</title>
 
@@ -31,7 +26,7 @@
     <title>Overview</title>
 
     <para>The Enterprise Service Bus (ESB) has always been the cornerstone of
-    every vendor’s Service Oriented Architecture (SOA) strategy. In the past, however, ESBs have often failed
+    every vendor's Service Oriented Architecture (SOA) strategy. In the past, however, ESBs have often failed
     to help leverage the full value of SOA. This was due to their large
     footprint, centralized architecture, and considerable effort
     required to properly integrate them into an existing application
@@ -235,7 +230,7 @@
     <section>
       <title>Building the Rent a Car Demo sample</title>
       <para>From the base directory of the ESB sample, the maven
-      <code>.../examples/tesb/pom.xml</code> file can be used to build
+      <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> file can be used to build
       the demo.</para>
 
       <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install</userinput></para>
@@ -269,46 +264,6 @@
 
     <section>
       <title>Building the ReservationService sample</title>
-
-      <para>This sample consists of 3 parts: <informaltable>
-          <tgroup cols="2">
-            <colspec colnum="1" colwidth="1*" />
-
-            <colspec colnum="2" colwidth="2*" />
-
-            <thead>
-              <row>
-                <entry><para>Sample part</para></entry>
-
-                <entry><para>Description</para></entry>
-              </row>
-            </thead>
-
-            <tbody>
-              <row>
-                <entry><code>common/</code></entry>
-
-                <entry>This directory contains the ReservationService.wsdl
-                which is used to generate the initial code.</entry>
-              </row>
-
-              <row>
-                <entry><code>service/</code></entry>
-
-                <entry>This is where the ReservationService implementation
-                shared by JAX-WS endpoints is located.</entry>
-              </row>
-
-              <row>
-                <entry><code>client/</code></entry>
-
-                <entry>This is a sample client application that shows how CXF
-                JAX-WS proxies invoke remote JAX-WS endpoints
-                represented by the ReservationService interface.</entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </informaltable></para>
 
       <para>From the base directory of ReservationService sample, the maven
       <code>.../examples/tesb/reservationservice/pom.xml</code> file can be used to
@@ -366,8 +321,7 @@
       <para>Start OSGi: run <code>talend-esb-&lt;version&gt;/container/bin/tesb</code>.</para>
 
       <para>You can find out how to get started with OSGi container here:
-      <link
-      xlink:href="http://karaf.apache.org/">http://karaf.apache.org/</link>.</para>
+      <ulink url="http://karaf.apache.org/">http://karaf.apache.org/</ulink>.</para>
 
     </section>
 
@@ -493,7 +447,7 @@
       deployed in Talend ESB Runtime. Start OSGi console.</para>
 
       <para>On the console you will see:</para>
-<computeroutput><literallayout>		
+<computeroutput><literallayout>
 ---TALEND ESB: Rent a Car (OSGi) Commands---
 car:GUI        (Show GUI)
 car:search &lt;user&gt; &lt;pickupDate&gt; &lt;returnDate&gt;
@@ -548,7 +502,7 @@ car:rent   &lt;pos&gt;
 
       <para>You will see the list of available cars:</para>
 
-<computeroutput><literallayout>		
+<computeroutput><literallayout>
    Found 5 cars.
 
    Car details
@@ -598,9 +552,7 @@ car:rent   &lt;pos&gt;
     <title>How to enable the sample in Eclipse</title>
     <para>
        To lean more about using Maven Eclipse Plugin read 
-       <ulink url="http://maven.apache.org/plugins/maven-eclipse-plugin/">
-        <link linkend="???">http://maven.apache.org/plugins/maven-eclipse-plugin/</link>
-       </ulink>
+       <ulink url="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</ulink>
     </para>
    <para>For generating the Eclipse configuration files from the base directory of the ESB sample <code>talend-esb-&lt;version&gt;/examples/tesb</code> 
        run:  <userinput>mvn eclipse:eclipse</userinput>.
