@@ -376,17 +376,13 @@
 
       <procedure>
       <step>
-      <para>Deploy CRMService into the OSGi container.</para>
+        <para>Add Rent A Car feature into the OSGi container.</para>
+        <para>Type the console command <userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput>.</para>
+      </step>
 
-      <para>Copy the following bundles into the folder
-      <code>talend-esb-&lt;version&gt;/container/deploy</code>
-        <simplelist columns="1" type="vert">
-          <member>crmservice-common-&lt;version&gt;.jar</member>
-
-          <member>crmservice-service-&lt;version&gt;.jar</member>
-
-          <member>crmservice-client-&lt;version&gt;.jar</member>
-        </simplelist></para>
+      <step>
+        <para>Install Rent A Car services feature into the OSGi container.</para>
+        <para>Type the console command <userinput>features:install tesb-rac-services</userinput>.</para>
       </step>
 
       <step>
@@ -394,13 +390,14 @@
 
       <para>You will see demo bundles in the lists of installed bundles:</para>
        <literallayout><computeroutput>
-   [ 114] [Active ] [     ] [       ] [   60] CRMService Common (4.0.0)
-   [ 116] [Active ] [     ] [Started] [   60] CRMService Client (4.0.0)
-   [ 123] [Active ] [     ] [Started] [   60] CRMService Service (4.0.0)
+[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
+[ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
+[ 139] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
+[ 140] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
       </computeroutput></literallayout>
       </step>
 
-      <step>
+      <!-- step>
       <para>Deploy ReservationService into the OSGi container.</para>
 
       <para>Copy the following bundles into the folder
@@ -423,15 +420,16 @@
   [ 118] [Active ] [     ] [Started] [   60] ReservationService Service (4.0.0)
   [ 119] [Active ] [     ] [Started] [   60] ReservationService Client (4.0.0)			
 </literallayout></computeroutput>
-      </step>
-      </procedure>            
+      </step-->
+
+      </procedure>
     </section>
 
     <section>
       <title>Deploy demo application</title>
 
       <procedure>
-      <step>
+      <!-- step>
       <para>Make sure that the console was launched and the demo services
       were deployed.</para>
       </step>
@@ -439,7 +437,30 @@
       <step>
       <para>Copy app-reservation-&lt;version&gt;.jar into the folder
       talend-esb-&lt;version&gt;/container/deploy.</para>
+      </step-->
+      <step>
+        <para>Add Rent A Car feature into the OSGi container.</para>
+        <para>Type the console command <userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput>.</para>
       </step>
+
+      <step>
+        <para>Install Rent A Car application feature into the OSGi container.</para>
+        <para>Type the console command <userinput>features:install tesb-rac-app</userinput>.</para>
+      </step>
+
+      <step>
+      <para>Type the console command "list".</para>
+
+      <para>You will see demo bundles in the lists of installed bundles:</para>
+       <literallayout><computeroutput>
+[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
+[ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
+[ 139] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0)
+[ 140] [Active     ] [            ] [Started] [   60] ReservationService Client (4.0.0)
+[ 141] [Active     ] [Created     ] [Started] [   60] App Reservation (4.0.0)
+      </computeroutput></literallayout>
+      </step>
+
       </procedure>
     </section>
   </chapter>
