@@ -67,7 +67,7 @@
     to:</para>
 
     <simplelist columns="1" type="vert">
-      <member>create Apache CXF services,</member>
+      <member>compile and build Apache CXF services,</member>
 
       <member>deploy services on the Karaf OSGi console,</member>
 
