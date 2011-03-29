@@ -35,8 +35,10 @@
     to help leverage the full value of SOA. This was due to their large
     footprint, centralized architecture, and considerable effort
     required to properly integrate them into an existing application
-    landscape.</para>
-
+    landscape. Unlike these ESB solutions Talend ESB has relatevely small size,
+	using of proven open source technologies allows to create and coordinate work of 
+	distributed, highly reliable business applications without much effort.</para>
+	
     <para>In this Getting Started Guide you will learn about Talend ESB/CXF. This
     guide contains a simplified real-world example, using the 
     domain of car rental companies to demonstrate the use of Talend ESB for
@@ -179,7 +181,7 @@
         </informaltable></para>
 
       <para>From the base directory of the CRMService sample, the maven
-      <code>.../examples/tesb/crmservice/pom.xml</code> file can be used to build
+      <code>${Talend ESB Installation}/examples/tesb/crmservice/pom.xml</code> file can be used to build
       and run the demo.</para>
 
       <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn install</userinput></para>
