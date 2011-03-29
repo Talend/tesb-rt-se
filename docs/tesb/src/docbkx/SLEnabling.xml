@@ -54,8 +54,7 @@ clientPort=2181
         on proven open source technology - Apache ZooKeeper. This is a highly
         reliable and available service that provides coordination between
         distributed processes. To learn more about Apache ZooKeeper, visit
-        <ulink url="http://zookeeper.apache.org"><link
-        linkend="???">http://zookeeper.apache.org</link>.</ulink>
+        <ulink url="http://zookeeper.apache.org">http://zookeeper.apache.org</ulink>.
         </para>
       </listitem>
 
@@ -66,7 +65,7 @@ clientPort=2181
         your classpath or war file. Also add it to the OSGi container. </para>
       </listitem-->
 
-      <listitem>
+      <!--listitem>
         <para>To enable the Service Locator for the Rent-a-Car example:</para>
         <procedure>
           <step>
@@ -78,14 +77,25 @@ clientPort=2181
             <userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\zookeeper\zookeeper-3.3.3.jar -DgroupId=org.apache.zookeeper -DartifactId=zookeeper -Dversion=3.3.3 -Dpackaging=jar</userinput>
           </step>
         </procedure>
-      </listitem>
+      </listitem-->
     </itemizedlist>
   </section>
 
   <section>
     <title>Enabling the Service Locator</title>
 
-    <para>
+        <procedure>
+          <step>
+      <para>From the base directory of the ESB sample, the maven
+      <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> file can be used to build
+      the demo.</para>
+
+      <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install -Plocator</userinput></para>
+
+      <para>Running this command will build the demo and create OSGi bundles
+      to be deployed to an OSGi container.</para>
+          </step>
+    <!-- para>
       <emphasis role="strong">1. Add the Service Locator feature to the Spring
       configurations represented by the beans.xml files.</emphasis>
     </para>
@@ -170,10 +180,12 @@ clientPort=2181
 [  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.2)
 [  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
 </programlisting>
-    </para>
+    </para-->
 
-    <para> <emphasis role="strong">3. Create and deploy OSGi
-    bundles</emphasis> as described earlier in this guide. </para>
+          <step>
+    <para> <link linkend="rac.deploy">Create and deploy OSGi bundles</link> as described earlier in this guide.</para>
+          </step>
+        </procedure>
   </section>
 
   <section>

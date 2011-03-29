@@ -312,7 +312,7 @@
     </section-->
   </chapter>
 
-  <chapter>
+  <chapter id="rac.deploy">
     <title>Deploying the Rent a Car demo in Talend ESB Runtime OSGi container</title>
 
     <section>
