@@ -134,8 +134,10 @@
     </section>
 
     <section>
-      <title>Building the CRMService sample</title>
-
+      <title>Rent a Car Demo structure</title>
+      <procedure>
+        <step>
+          <para>CRMService sample</para>
       <para>This sample is found in directory
       <code>talend-esb-&lt;version&gt;/examples/tesb/crmservice/</code>.
       It consists of three parts: <informaltable>
@@ -177,6 +179,72 @@
             </tbody>
           </tgroup>
         </informaltable></para>
+        </step>
+
+        <step>
+          <para>ReservationService sample</para>
+      <para>This sample consists of 3 parts: <informaltable>
+          <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+
+            <colspec colnum="2" colwidth="2*" />
+
+            <thead>
+              <row>
+                <entry><para>Sample part</para></entry>
+
+                <entry><para>Description</para></entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry><code>common/</code></entry>
+
+                <entry>This directory contains the ReservationService.wsdl
+                which is used to generate the initial code.</entry>
+              </row>
+
+              <row>
+                <entry><code>service/</code></entry>
+
+                <entry>This is where the ReservationService implementation
+                shared by JAX-WS endpoints is located.</entry>
+              </row>
+
+              <row>
+                <entry><code>client/</code></entry>
+
+                <entry>This is a sample client application that shows how CXF
+                JAX-WS proxies invoke remote JAX-WS endpoints
+                represented by the ReservationService interface.</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </informaltable></para>
+        </step>
+
+        <step>
+          <para>app-reservation project bundle</para>
+        </step>
+      </procedure>
+    </section>
+
+    <section>
+      <title>Building the Rent a Car Demo sample</title>
+      <para>From the base directory of the ESB sample, the maven
+      <code>.../examples/tesb/pom.xml</code> file can be used to build
+      the demo.</para>
+
+      <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install</userinput></para>
+
+      <para>Running this command will build the demo and create OSGi bundles
+      to be deployed to an OSGi container.</para>
+    </section>
+
+    <!-- section>
+      <title>Building the CRMService sample</title>
+
 
       <para>From the base directory of the CRMService sample, the maven
       <code>.../examples/tesb/crmservice/pom.xml</code> file can be used to build
@@ -284,7 +352,7 @@
       <para><simplelist columns="1" type="vert">
           <member>.../app-reservation/target/app-reservation-&lt;version&gt;.jar</member>
         </simplelist></para>
-    </section>
+    </section-->
   </chapter>
 
   <chapter>
