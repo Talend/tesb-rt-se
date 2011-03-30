@@ -228,15 +228,17 @@
         <section>
             <title>Start the OSGi console</title>
             <para>Start the OSGi container running program
-				<code>talend-esb-&lt;version&gt;/container/bin/tesb</code>.</para>
+                <code>talend-esb-&lt;version&gt;/container/bin/tesb</code> (UNIX/Linux)
+                resp. <code>talend-esb-&lt;version&gt;\container\bin\tesb.bat</code>
+                (Windows).</para>
             <para>Under UNIX/Linux, go to directory
                 <code>talend-esb-&lt;version&gt;</code> 
-				and execute the following command:</para>
+                and execute the following command:</para>
             <para><userinput>./container/bin/tesb</userinput></para>
             <para>Under Windows, go to directory
                 <code>talend-esb-&lt;version&gt;</code> 
                 and execute the following command:</para>
-            <para><userinput>.\container\bin\tesb</userinput></para>
+            <para><userinput>.\container\bin\tesb.bat</userinput></para>
             <para>You will see a short introduction followed by the OSGi console
                 command prompt:</para>
             <para><userinput>karaf@tesb&gt; </userinput></para>
