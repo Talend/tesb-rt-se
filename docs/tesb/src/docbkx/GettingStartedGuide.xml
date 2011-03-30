@@ -3,13 +3,13 @@
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
 ]>
-<book version="5.0" xmlns="http://docbook.org/ns/docbook">
+<book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
         <title>Talend ESB</title>
         <subtitle>Getting Started Guide</subtitle>
         <pubdate>10 March 2011</pubdate>
         <author>
-            <last>Talend ESB Runtime Team</last>
+            <orgname>Talend ESB Runtime Team</orgname>
         </author>
         <copyright>
             <year>2011</year>
@@ -222,7 +222,7 @@
                 are created for deployment into an OSGi container.</para>
         </section>
     </chapter>
-    <chapter id="rac.deploy">
+    <chapter xml:id="rac.deploy">
         <title>Deploying the &quot;Rent a Car&quot; demo in the Talend ESB
             Runtime OSGi container</title>
         <section>
@@ -247,7 +247,7 @@
             <para>You can find further information about the OSGi container
                 used by the TESB and how to get started it at the
                 &quot;Karaf&quot; site
-                <ulink url="http://karaf.apache.org/">http://karaf.apache.org/</ulink>.</para>
+                <link xlink:href="http://karaf.apache.org/">http://karaf.apache.org/</link>.</para>
         </section>
         <section>
             <title>Deploy the demo services</title>
@@ -420,23 +420,23 @@ Thank you for renting a car with Talend ESB :-)
     <chapter>
         <title>How to enable the sample in Eclipse</title>
         <para>To lean more about how to use Maven Eclipse Plugin read
-            <ulink url="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</ulink></para>
+            <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
             directory of the ESB sample
             <code>talend-esb-&lt;version&gt;/examples/tesb</code> run:
             <userinput>mvn eclipse:eclipse</userinput>.</para>
         <para>In the Eclipse IDE
             <procedure>
-                <step>From the main menu bar, select &quot;File &gt; Import...&quot;.
-                    The Import wizard opens.</step>
-                <step>Select &quot;General &gt; Existing Project into Workspace&quot;
-                    and click &quot;Next&quot;.</step>
-                <step>Choose &quot;Select root directory&quot; and click the
+                <step><para>From the main menu bar, select &quot;File &gt; Import...&quot;.
+                    The Import wizard opens.</para></step>
+                <step><para>Select &quot;General &gt; Existing Project into Workspace&quot;
+                    and click &quot;Next&quot;.</para></step>
+                <step><para>Choose &quot;Select root directory&quot; and click the
                     associated &quot;Browse&quot; to locate the ESB sample
-                    directory.</step>
-                <step>Under &quot;Projects&quot; select the project or projects
-                    which you would like to import.</step>
-                <step>Click &quot;Finish&quot; to start the import.</step>
+                    directory.</para></step>
+                <step><para>Under &quot;Projects&quot; select the project or projects
+                    which you would like to import.</para></step>
+                <step><para>Click &quot;Finish&quot; to start the import.</para></step>
             </procedure>
         </para>
         <para>TESB sample projects is imported into workspace and it is
