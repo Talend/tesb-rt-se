@@ -19,13 +19,6 @@
     <feature name='tesb-rac-common' version='${project.version}'>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/1.1.2</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/1.0.1</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/1.0.1</bundle>
-		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
-		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_2</bundle>
-		<bundle>mvn:commons-jxpath/commons-jxpath/1.3</bundle>
-		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
         <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
         <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
     </feature>
