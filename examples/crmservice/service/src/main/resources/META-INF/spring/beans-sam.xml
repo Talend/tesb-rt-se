@@ -36,9 +36,7 @@
 		address="http://localhost:8888/soap/CRMServiceProvider/"
 	>
 		<jaxws:features>
-			<bean class="org.talend.esb.locator.LocatorFeature">
-				<ref bean="eventFeature"/>
-			</bean>
+			<ref bean="eventFeature"/>
 		</jaxws:features>
 	</jaxws:endpoint>
 
