@@ -214,8 +214,8 @@
             <para>From the base directory of the ESB sample, i.e.
                 <code>talend-esb-&lt;version&gt;/examples/tesb/</code>,
                 the Maven project file <code>pom.xml</code> can be used to
-                build the demo.</para>
-            <para>Maven is invoked equally from a UNIX/Linux terminal or
+                build the demo. After changing to this directory,
+                Maven is invoked equally from a UNIX/Linux terminal or
                 the Windows command line:</para>
             <para><userinput>mvn clean install</userinput></para>
             <para>Running this command, the demo is built, and OSGi bundles
@@ -248,7 +248,7 @@
                 used by the TESB and how to get started it at the
                 &quot;Karaf&quot; site
                 <ulink url="http://karaf.apache.org/">http://karaf.apache.org/</ulink>.</para>
-		</section>
+        </section>
         <section>
             <title>Deploy the demo services</title>
             <procedure>
@@ -293,7 +293,7 @@
                 <step>
                     <para>Install the &quot;Rent A Car&quot; application
                         feature into the OSGi container.</para>
-					<para>Type the following console command:</para>
+                <para>Type the following console command:</para>
                     <para><userinput>features:install tesb-rac-app</userinput></para>
                 </step>
                 <step>
@@ -316,21 +316,21 @@
     <chapter>
         <title>How to run the &quot;Rent a Car&quot; demo</title>
         <section>
-            <title>Use Case Scenario to Rent a Car</title>
+            <title>Use Case Scenario for &quot;Rent a Car&quot;</title>
             <para>A customer enters prerequisite data into a form such as her
                 name, the pick-up and return dates, the preferred range of rental
                 rates, and submits her query.</para>
             <para>Next, the application calls the CRMService to retrieve the
                 customer data and customer status information.</para>
-            <para>The customer is presented with a list of available cars and
-                selects one from the list.</para>
+            <para>The customer is presented a list of available cars and
+                selects one car from the list.</para>
             <para>Finally, the application calls the ReservationService to
                 submit the reservation request and then displays a reservation
                 confirmation notice to the customer.</para>
         </section>
         <section>
             <title>Starting the application</title>
-            <para>ReservationService, CRMService and App-reservation is
+            <para>ReservationService, CRMService, and App-reservation are
                 already deployed in Talend ESB Runtime. Start the OSGi console
                 as described previously.</para>
             <para>On the console you will see:</para>
@@ -346,7 +346,7 @@ car:rent &lt;pos&gt;
         <section>
             <title>Using the TALEND ESB &quot;Rental Client GUI&quot;</title>
             <para>To start the GUI, type <userinput>car:GUI</userinput> in
-				the console window.</para>
+                the console window.</para>
             <para>Select &quot;aebert&quot; from the drop-down box.</para>
             <mediaobject>
                 <imageobject>
@@ -362,7 +362,7 @@ car:rent &lt;pos&gt;
             </mediaobject>
             <para>Click the highlighted line or select any other option and
                 click &quot;Reserve&quot;.</para>
-			<para>You&apos;ll now see the confirmation page:</para>
+            <para>You&apos;ll now see the confirmation page:</para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/cargui3.jpg" format="jpg"/>
@@ -391,7 +391,7 @@ Car details
             <para>In the console type:
                 <userinput>car:rent 2</userinput></para>
             <para>You can now see the confirmation:</para>
-			<literallayout><computeroutput>
+            <literallayout><computeroutput>
 Reservation ID SGA-686277
 
 Customer details
@@ -423,7 +423,7 @@ Thank you for renting a car with Talend ESB :-)
             <ulink url="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</ulink></para>
         <para>For generating the Eclipse configuration files from the base
             directory of the ESB sample
-            <code>talend-esb-&lt;version&gt;/examples/tesb</code>run:
+            <code>talend-esb-&lt;version&gt;/examples/tesb</code> run:
             <userinput>mvn eclipse:eclipse</userinput>.</para>
         <para>In the Eclipse IDE
             <procedure>
@@ -436,7 +436,7 @@ Thank you for renting a car with Talend ESB :-)
                     directory.</step>
                 <step>Under &quot;Projects&quot; select the project or projects
                     which you would like to import.</step>
-                <step>Click Finish to start the import.</step>
+                <step>Click &quot;Finish&quot; to start the import.</step>
             </procedure>
         </para>
         <para>TESB sample projects is imported into workspace and it is
