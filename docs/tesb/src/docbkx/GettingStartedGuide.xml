@@ -322,7 +322,8 @@
     <section>
       <title>Start OSGi console</title>
 
-      <para>Start OSGi: run <code>talend-esb-&lt;version&gt;/container/bin/tesb</code>.</para>
+      <para>Start OSGi: run <code>talend-esb-&lt;version&gt;/container/bin/tesb.bat</code> for Windows systems.</para>
+	  <para>Run <code>talend-esb-&lt;version&gt;/container/bin/tesb</code> for Unix systems.</para>
 
       <para>You can find out how to get started with OSGi container here:
       <ulink url="http://karaf.apache.org/">http://karaf.apache.org/</ulink>.</para>
