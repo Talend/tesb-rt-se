@@ -44,7 +44,8 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-                            org.springframework.beans
+                            org.springframework.beans,
+			    org.springframework.context,sam-agent,sam-common
                         </Require-Bundle>
                     </instructions>
                 </configuration>
@@ -95,6 +96,7 @@
                         <filtering>true</filtering>
                         <includes>
                           <include>**/beans-sam.xml</include>
+			<include>agent*</include>  
                         </includes>
                     </resource>
                 </resources>
