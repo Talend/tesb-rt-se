@@ -33,7 +33,7 @@
             the domain of car rental companies to demonstrate the use of Talend
             ESB for developing and deploying services.</para>
         <para>You will first learn the design of the Rent a Car Demo. Then
-            we&apos;ll show how to compile the demo, deploy it into the Talend
+            we will show how to compile the demo, deploy it into the Talend
             ESB Runtime OSGi container and then activate it. Also you will
             learn how to enable the Service Locator Component for the Rent a
             Car demo can be enabled.</para>
@@ -362,7 +362,7 @@ car:rent &lt;pos&gt;
             </mediaobject>
             <para>Click the highlighted line or select any other option and
                 click &quot;Reserve&quot;.</para>
-            <para>You&apos;ll now see the confirmation page:</para>
+            <para>You will now see the confirmation page:</para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="images/cargui3.jpg" format="jpg"/>
@@ -419,7 +419,7 @@ Thank you for renting a car with Talend ESB :-)
     </chapter>
     <chapter>
         <title>How to enable the sample in Eclipse</title>
-        <para>To lean more about how to use Maven Eclipse Plugin read
+        <para>For more information about how to use the Maven Eclipse Plugin read
             <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
             directory of the ESB sample
@@ -439,10 +439,10 @@ Thank you for renting a car with Talend ESB :-)
                 <step><para>Click &quot;Finish&quot; to start the import.</para></step>
             </procedure>
         </para>
-        <para>TESB sample projects is imported into workspace and it is
+        <para>The TESB sample projects are imported into the workspace and it is
             possible to see the sources, modify them, and to take advantage of
             all the eclipse features.</para>
-        <para>TESB sample projects can&apos;t be run in Eclipse IDE.</para>
+        <para>However, the TESB sample projects cannot be run in the Eclipse IDE.</para>
     </chapter>
     &chapSLEnabling;
     &chapSAMEnabling;
