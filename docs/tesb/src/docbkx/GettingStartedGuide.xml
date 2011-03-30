@@ -1,5 +1,8 @@
-<?xml version='1.0'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book [
+<!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
+<!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
+]>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook">
     <info>
         <title>Talend ESB</title>
@@ -42,12 +45,12 @@
             car rental companies.</para>
         <mediaobject>
             <imageobject>
-                <imagedata fileref="images/schema.jpg" format="jpg" />
+                <imagedata fileref="images/schema.jpg" format="jpg"/>
             </imageobject>
         </mediaobject>
         <para>In the course of working through this example you will learn
             how to:</para>
-        <simplelist columns="1">
+        <simplelist columns="1" type="vert">
             <member>compile and build Apache CXF services,</member>
             <member>deploy services on the Karaf OSGi console,</member>
             <member>use OSGi commands</member>
@@ -345,14 +348,14 @@ car:rent &lt;pos&gt;
             <para>Select &quot;aebert&quot; from the drop-down box.</para>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/cargui1.jpg" format="jpg" />
+                    <imagedata fileref="images/cargui1.jpg" format="jpg"/>
                 </imageobject>
             </mediaobject>
             <para>Click Find to see the results. You will see the list of
                 available cars.</para>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/cargui2.jpg" format="jpg" />
+                    <imagedata fileref="images/cargui2.jpg" format="jpg"/>
                 </imageobject>
             </mediaobject>
             <para>Click the highlighted line or select any other option and
@@ -360,7 +363,7 @@ car:rent &lt;pos&gt;
 			<para>You&apos;ll now see the confirmation page:</para>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="images/cargui3.jpg" format="jpg" />
+                    <imagedata fileref="images/cargui3.jpg" format="jpg"/>
                 </imageobject>
             </mediaobject>
             <para>Click Close to stop the application.</para>
@@ -431,7 +434,7 @@ Thank you for renting a car with Talend ESB :-)
                     directory.</step>
                 <step>Under &quot;Projects&quot; select the project or projects
                     which you would like to import.</step>
-                <step>Click Finish to start theimport.</step>
+                <step>Click Finish to start the import.</step>
             </procedure>
         </para>
         <para>TESB sample projects is imported into workspace and it is
