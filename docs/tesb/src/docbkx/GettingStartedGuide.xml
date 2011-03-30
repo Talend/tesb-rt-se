@@ -180,7 +180,9 @@
 
         <step>
           <para>ReservationService sample</para>
-      <para>This sample consists of 3 parts: <informaltable>
+      <para>This sample is found in directory
+      <code>talend-esb-&lt;version&gt;/examples/tesb/reservationservice/</code>.
+	  It consists of 3 parts: <informaltable>
           <tgroup cols="2">
             <colspec colnum="1" colwidth="1*" />
 
@@ -223,6 +225,8 @@
 
         <step>
           <para>app-reservation project bundle</para>
+		  <para>This sample is found in directory
+		<code>talend-esb-&lt;version&gt;/examples/tesb/app-reservation/</code></para>.
         </step>
       </procedure>
     </section>
