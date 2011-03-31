@@ -34,6 +34,7 @@
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-sam/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-sam/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-app' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
