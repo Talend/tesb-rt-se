@@ -23,6 +23,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
@@ -33,13 +34,19 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
 		http://www.springframework.org/schema/task
-		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/osgi-compendium
+        http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+        http://www.springframework.org/schema/osgi  
+        http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        ">
 
 	<context:annotation-config/>
+    
+    <osgix:cm-properties id="sam-properties" persistent-id="org.talend.esb.sam.agent"/>
 	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
-        <property name="location" value="classpath:agent.properties"/>
+        <property name="properties" ref="sam-properties"/>
     </bean>
     
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">

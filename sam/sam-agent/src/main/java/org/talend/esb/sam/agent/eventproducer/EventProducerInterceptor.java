@@ -37,6 +37,12 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
 
     public EventProducerInterceptor(MessageToEventMapper mapper, EventHandler eventSender) {
         super(Phase.PRE_INVOKE);
+        if (mapper == null) {
+            throw new RuntimeException("Mapper must be set on EventFeature");
+        }
+        if (eventSender == null) {
+            throw new RuntimeException("EventSender must be set on EventFeature");
+        }
         this.mapper = mapper;
         this.eventSender = eventSender;
     }
