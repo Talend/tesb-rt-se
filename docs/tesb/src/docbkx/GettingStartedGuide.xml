@@ -427,6 +427,61 @@ Thank you for renting a car with Talend ESB :-)
             </computeroutput></literallayout>
         </section>
     </chapter>
+    
+	<chapter>
+		<title>Distribute sample to two containers</title>
+		<para>
+			Install two instances of Talend ESB in different locations.
+		</para>
+		<para>			
+			For stable work two TESB karaf containers in the same time
+			change
+			parameter rmiRegistryPort in one of them in file<code>talend-esb-&lt;version&gt;\container\etc\org.apache.karaf.management.cfg</code>
+			.
+		</para>
+		<para>			
+			Build demo sample in both instances.
+		</para>
+		<para>Start first console. In one conteiner deploy only demo services.
+			For it in console of this karaf container type:
+		</para>
+		<para>			
+		<userinput>features:addurl
+			mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>			
+		<userinput>features:install tesb-rac-services</userinput>
+		</para>		
+		<para>Start second console. In it deploy only demo
+			application:
+		</para>
+		<para>			
+		<userinput>features:addurl
+			mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>			
+		<userinput>features:install tesb-rac-app</userinput>
+		</para>
+		<para>
+			Run demo application in this console. Type the command
+			<userinput>car:GUI</userinput>
+			.
+		</para>
+		<para>Demo sample now works in two container: services work in one
+			container, application - in another.
+		</para>
+		<para>
+			In
+			case during running command features:addurl the exception "Could not
+			add Feature Repository" appear change in file
+			<code>talend-esb-&lt;version&gt;\container\etc\org.ops4j.pax.url.mvn
+			</code>
+			parameter
+			<code>org.ops4j.pax.url.mvn.localRepository=&lt;local maven repo&gt;
+			</code>
+		</para>
+	</chapter>    
+    
     <chapter>
         <title>How to enable the sample in Eclipse</title>
         <para>For more information about how to use the Maven Eclipse Plugin read
@@ -454,6 +509,7 @@ Thank you for renting a car with Talend ESB :-)
             all the eclipse features.</para>
         <para>However, the TESB sample projects cannot be run in the Eclipse IDE.</para>
     </chapter>
+    
     &chapSLEnabling;
     &chapSAMEnabling;
  </book>

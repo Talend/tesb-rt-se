@@ -19,10 +19,13 @@
  */
 package org.talend.esb.sam.agent.feature;
 
+import java.util.logging.Logger;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
+import org.springframework.beans.factory.InitializingBean;
 import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
@@ -35,11 +38,12 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * Feature adds FlowIdProducer Interceptor and EventProducer Interceptor.
  * 
  */
-public class EventFeature extends AbstractFeature {
+public class EventFeature extends AbstractFeature implements InitializingBean {
 
     private MessageToEventMapper mapper;
     private EventHandler eventSender;
     private boolean logMessageContent;
+    protected static Logger logger = Logger.getLogger(EventFeature.class.getName());
 
     public EventFeature() {
         super();
@@ -47,6 +51,12 @@ public class EventFeature extends AbstractFeature {
 
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
+        if (mapper == null) {
+            throw new RuntimeException("Mapper must be set on EventFeature");
+        }
+        if (eventSender == null) {
+            throw new RuntimeException("EventSender must be set on EventFeature");
+        }
         super.initializeProvider(provider, bus);
 
         FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
@@ -78,6 +88,17 @@ public class EventFeature extends AbstractFeature {
 
     public void setLogMessageContent(boolean logMessageContent) {
         this.logMessageContent = logMessageContent;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (mapper == null) {
+            throw new RuntimeException("Mapper must be set on EventFeature");
+        }
+        if (eventSender == null) {
+            throw new RuntimeException("EventSender must be set on EventFeature");
+        }
+        logger.info("Eventsender and mapper are set correctly");
     }
     
 }
