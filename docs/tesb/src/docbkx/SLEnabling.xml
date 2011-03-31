@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter xmlns:d="http://docbook.org/ns/docbook">
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Enabling the Service Locator for the Rent a Car demo</title>
 
-  <section id="install">
+  <section xml:id="install">
     <title>Purpose of Service Locator</title>
 
     <para> The Service Locator is a service that provides service consumers
@@ -24,7 +24,7 @@
     provider is to be made. </para>
   </section>
 
-  <section id="starting_xxe">
+  <section xml:id="starting_xxe">
     <title>Installation prerequisites</title>
 
     <itemizedlist>
@@ -54,7 +54,7 @@ clientPort=2181
         on proven open source technology - Apache ZooKeeper. This is a highly
         reliable and available service that provides coordination between
         distributed processes. To learn more about Apache ZooKeeper, visit
-        <ulink url="http://zookeeper.apache.org">http://zookeeper.apache.org</ulink>.
+        <link xlink:href="http://zookeeper.apache.org">http://zookeeper.apache.org</link>.
         </para>
       </listitem>
 
