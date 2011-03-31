@@ -22,10 +22,19 @@
         <bundle>file:${basedir}/../../../add-ons/Locator/locator-4.0.jar</bundle>
         <bundle>file:${basedir}/../../../zookeeper/zookeeper-3.3.3.jar</bundle>
     </feature>
-    <feature name='tesb-rac-services' version='${project.version}'>
+    <feature name='tesb-rac-services-locator1' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/crmservice-service-endpoint-locator1/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator1/${project.version}</bundle>
+    </feature>
+    <feature name='tesb-rac-services-locator2' version='${project.version}'>
+        <feature version='${project.version}'>tesb-rac-common</feature>
+        <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/crmservice-service-endpoint-locator2/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator2/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-app' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>

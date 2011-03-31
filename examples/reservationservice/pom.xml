@@ -31,4 +31,29 @@
         <module>client</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>service-endpoint</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <modules>
+                <module>service-endpoint-locator1</module>
+                <module>service-endpoint-locator2</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <modules>
+                <module>service-endpoint-sam</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>
