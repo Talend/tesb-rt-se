@@ -224,6 +224,39 @@
         <title>Deploying the &quot;Rent a Car&quot; demo in the Talend ESB
             Runtime OSGi container</title>
         <section>
+            <title>Create a secondary OSGi container</title>
+            <para>One OSGi container is included in the installation in sub-directory
+                <code>container</code>. However, for trying out all aspects of the
+                examples it is recommended to have two OSGI containers. This can be
+                achieved by the following procedure:</para>
+            <procedure>
+                <step>
+                    <para>Create a copy of directory <code>container</code> with
+                        all its content. In a UNIX/Linux terminal resp. on the 
+                        Windows command line, change the current directory to 
+                        <code>talend-esb-&lt;version&gt;</code>. From there, under
+                        UNIX/Linux execute the following command:</para>
+                    <para><userinput>cp -r container alternate-container</userinput></para>
+                    <para>Under Windows, execute the following command instead:</para>
+                    <para><userinput>robocopy /e container alternate-container</userinput></para>
+                    <para>Now, you have a second OSGi container in directory
+                        <code>alternate-container</code>.</para>
+                </step>
+                <step>
+                    <para>In order to avoid conflicts between the two container instances,
+                        the configuration of the <code>alternate-container</code> needs
+                        to be adapted. For this purpose open the configuration file
+                        <code>alternate-container/etc/org.apache.karaf.management.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>rmiRegistryPort = 1199</computeroutput></para>
+                    <para>or another unused port.</para>
+                    <para>Now, two OSGi containers are available for running the examples.</para>
+                </step>
+            </procedure>
+        </section>
+        <section>
             <title>Start the OSGi console</title>
             <para>Start the OSGi container running program
                 <code>talend-esb-&lt;version&gt;/container/bin/tesb</code> (UNIX/Linux)
@@ -237,8 +270,10 @@
                 <code>talend-esb-&lt;version&gt;</code> 
                 and execute the following command:</para>
             <para><userinput>.\container\bin\tesb.bat</userinput></para>
-            <para>You will see a short introduction followed by the OSGi console
-                command prompt:</para>
+            <para>The second container is started up the same way. Just replace
+                <code>./container/...</code> by <code>./alternate-container/...</code>.</para>
+            <para>When the container starts up, you will see a short introduction
+                followed by the OSGi console command prompt:</para>
             <para><userinput>karaf@tesb&gt; </userinput></para>
             <para>The OSGi commands explained in the following sections will be
                 entered here.</para>
@@ -286,11 +321,14 @@
             </procedure>
         </section>
         <section>
-            <title>Deploy demo application</title>
+            <title>Deploy the demo application</title>
+            <para>The demo application can be deployed in the same OSGi container as
+                the service or in the second container.</para>
             <procedure>
                 <step>
-                    <para>If not done already, add the &quot;Rent A Car&quot; feature location into
-                        the OSGi container. The feature location needs to be added only once, even
+                    <para>If the second container is used for deployment of the demo application,
+                        add the &quot;Rent A Car&quot; feature location into this OSGi container.
+                        The feature location needs to be added only once in each container, even
                         if the container is shut down afterwards and re-started. However, if unsure,
                         you may add the feature location again at any time.</para>
                     <para>At the OSGi console prompt, type the following
@@ -323,6 +361,11 @@
                     </computeroutput></literallayout>
                 </step>
             </procedure>
+            <para>If you later want to uninstall the demo application, e.g.
+                because you want to move it to the other container, execute
+                this command at the OSGi console:</para>
+            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
+            <para>Then, you can install it again as described above.</para>
         </section>
     </chapter>
     <chapter>
@@ -344,8 +387,10 @@
             <title>Starting the application</title>
             <para>ReservationService, CRMService, and App-reservation are
                 already deployed in Talend ESB Runtime. Start the OSGi console
-                as described previously.</para>
-            <para>On the console you will see:</para>
+                as described previously. If demo services and demo application
+                are deployed in two different containers, both must be started.</para>
+            <para>On the console of the container with the demo application
+                you will see:</para>
             <literallayout><computeroutput>
 ---TALEND ESB: Rent a Car (OSGi) Commands---
 car:GUI        (Show GUI)
@@ -430,7 +475,7 @@ Thank you for renting a car with Talend ESB :-)
         </section>
     </chapter>
     
-	<chapter>
+	<!-- chapter>
 		<title>Distribute sample to two containers</title>
 		<para>
 			Install two instances of Talend ESB in different locations.
@@ -482,7 +527,7 @@ Thank you for renting a car with Talend ESB :-)
 			<code>org.ops4j.pax.url.mvn.localRepository=&lt;local maven repo&gt;
 			</code>
 		</para>
-	</chapter>    
+	</chapter -->    
     
     <chapter>
         <title>How to enable the sample in Eclipse</title>
