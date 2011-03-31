@@ -28,7 +28,7 @@
 	<jaxws:client id="ReservationServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceClass="org.talend.services.reservationservice.ReservationService"
-		serviceName="serviceNamespace:ReservationerviceProvider"
+		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
 		address="http://localhost:8888/soap/ReservationServiceProvider/"
 	>
