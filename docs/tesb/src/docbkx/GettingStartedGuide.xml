@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE book [
+<!DOCTYPE book[
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
 ]>
@@ -32,11 +32,10 @@
             ESB/CXF. This guide contains a simplified real-world example, using
             the domain of car rental companies to demonstrate the use of Talend
             ESB for developing and deploying services.</para>
-        <para>You will first learn the design of the Rent a Car Demo. Then
-            we will show how to compile the demo, deploy it into the Talend
-            ESB Runtime OSGi container and then activate it. Also you will
-            learn how to enable the Service Locator Component for the Rent a
-            Car demo can be enabled.</para>
+        <para>You will first learn the design of the Rent a Car Demo. Then we will show how to
+            compile the demo, deploy it into the Talend ESB Runtime OSGi container and then activate
+            it. You will also learn how to enable the Service Locator Component for the Rent a Car
+            demo, and how Service Activity Monitoring can be enabled.</para>
     </chapter>
     <chapter>
         <title>Rent a Car Demo Example</title>
@@ -52,7 +51,7 @@
             how to:</para>
         <simplelist columns="1" type="vert">
             <member>compile and build Apache CXF services,</member>
-            <member>deploy services on the Karaf OSGi console,</member>
+            <member>deploy services using the Karaf OSGi console,</member>
             <member>use OSGi commands</member>
         </simplelist>
         <para>In this scenario, there are two main services that will be
@@ -79,21 +78,20 @@
         <title>How to build the Demo</title>
         <section>
             <title>System Requirements</title>
-            <para>The Talend ESB and examples can be installed, built, and
-                run on Windows o UNIX-style operating systems for which Java 6
-                is available. The following software is required for
-                installing, building, and running the samples:</para>
+            <para>The Talend ESB and examples can be installed, built, and run on Windows or
+                UNIX-style operating systems for which Java 6 is available. The following software
+                is required for installing, building, and running the samples:</para>
             <procedure>
                 <step>
-                    <para>JDK 1.6.0 from Oracle should be installed, and the
-                        environment variable <code>JAVA_HOME</code> should be
-                        set to the JDK installation directory.</para>
+                    <para>JDK 1.6.0 from Oracle should be installed, and the environment variable
+                        <code>JAVA_HOME</code> should be set to the JDK installation directory.
+                        Later JDKs from Oracle or JDKs from other providers may work but have not
+                        been tested.</para>
                 </step>
                 <step>
-                    <para>Maven 3.0.3 from Apache should be installed, and the
-                        <code>mvn</code> executable should be in your
-                        <code>PATH</code>. When running <code>mvn</code>,
-                        HTTP access to the internet is required.</para>
+                    <para>Maven 3.0.3 or better from Apache should be installed, and the
+                        <code>mvn</code> executable should be in your <code>PATH</code>. When
+                        running <code>mvn</code>, HTTP access to the internet is required.</para>
                 </step>
             </procedure>
         </section>
@@ -122,8 +120,8 @@
                         It consists of three parts:
                         <informaltable>
                             <tgroup cols="2">
-                                <colspec colnum="1" colwidth="1*" />
-                                <colspec colnum="2" colwidth="2*" />
+                                <colspec colnum="1" colwidth="1*"/>
+                                <colspec colnum="2" colwidth="2*"/>
                                 <thead>
                                     <row>
                                         <entry><para>Sample part</para></entry>
@@ -163,8 +161,8 @@
                         It consists of 3 parts:
                         <informaltable>
                             <tgroup cols="2">
-                                <colspec colnum="1" colwidth="1*" />
-                                <colspec colnum="2" colwidth="2*" />
+                                <colspec colnum="1" colwidth="1*"/>
+                                <colspec colnum="2" colwidth="2*"/>
                                 <thead>
                                     <row>
                                         <entry><para>Sample part</para></entry>
@@ -253,7 +251,7 @@
             <title>Deploy the demo services</title>
             <procedure>
                 <step>
-                    <para>Add the &quot;Rent A Car&quot; feature into the OSGi
+                    <para>Add the &quot;Rent A Car&quot; feature location into the OSGi
                         container.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
@@ -279,8 +277,10 @@
                     <literallayout><computeroutput>
 [ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
 [ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
-[ 139] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
-[ 140] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
+[ 139] [Active     ] [            ] [       ] [   60] CRMService Service (4.0.0)
+[ 140] [Active     ] [            ] [Started] [   60] CRMService Service Endpoint (4.0.0)
+[ 141] [Active     ] [            ] [       ] [   60] ReservationService Service (4.0.0)
+[ 142] [Active     ] [            ] [Started] [   60] ReservationService Service Endpoint (4.0.0)
                     </computeroutput></literallayout>
                 </step>
             </procedure>
@@ -289,8 +289,10 @@
             <title>Deploy demo application</title>
             <procedure>
                 <step>
-                    <para>If not done already, add the &quot;Rent A Car&quot;
-                        feature into the OSGi container.</para>
+                    <para>If not done already, add the &quot;Rent A Car&quot; feature location into
+                        the OSGi container. The feature location needs to be added only once, even
+                        if the container is shut down afterwards and re-started. However, if unsure,
+                        you may add the feature location again at any time.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
                     <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
