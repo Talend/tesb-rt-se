@@ -442,7 +442,7 @@ Thank you for renting a car with Talend ESB :-)
 			.
 		</para>
 		<para>			
-			Build demo sample in both instances.
+			Build demo sample.
 		</para>
 		<para>Start first console. In one conteiner deploy only demo services.
 			For it in console of this karaf container type:

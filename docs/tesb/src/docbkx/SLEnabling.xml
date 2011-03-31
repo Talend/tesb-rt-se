@@ -239,4 +239,55 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
     will allow clients to failover from the initial target endpoint to another
     compatible endpoint for the target service. </para>
   </section>
+
+	<section>
+		<title>Make locator sample more realistic by having several instances
+			of the services</title>
+		<para>We will use two instances of karaf container, will deploy the
+			same services with different endpoins in this containers and will see
+			that Locator switch between services.
+   </para>
+		<para>Install two instances of talend ESB in different locations.
+		</para>
+		<para>
+			For stable work two TESB karaf containers in the same time change
+			parameter rmiRegistryPort in one of them
+			in file
+			talend-esb-&lt;version&gt;\container\etc\org.apache.karaf.management.cfg.
+		</para>
+		<para>
+			Build demo sample with parameter -Plocator.
+   </para>
+		<para>
+			Start first console. In conteiner deploy demo services for locator
+			(locator1) and demo application. For it in console of this karaf
+			container type:
+   </para>
+		<para>
+			<userinput>features:addurl
+				mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>				
+			<userinput>features:install tesb-rac-services-locator1</userinput>
+		</para>
+		<para>			
+			<userinput>features:install tesb-rac-app</userinput>
+		</para>
+		<para>
+			Start second console. In the container deploy only locator services	with another endpoint (loacotor2):
+   </para>
+		<para>
+			<userinput>features:addurl
+				mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>				
+			<userinput>features:install tesb-rac-services-locator2</userinput>
+		</para>
+		<para>
+			And run demo application in first console. Type the command car:GUI.
+		</para>
+		<para>
+			After it you can stop and start services in one of consoles and see that execution switched from service to service.
+   </para>
+	</section>
 </chapter>
