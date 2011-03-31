@@ -15,8 +15,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>crmservice-service</artifactId>
-    <name>CRMService Service</name>
+    <artifactId>crmservice-service-endpoint-locator1</artifactId>
+    <name>CRMService Service Endpoint Locator 1</name>
     <packaging>bundle</packaging>
 
     <parent>
@@ -26,19 +26,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.talend.esb.examples</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.osgi</groupId>
-            <artifactId>spring-osgi-core</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -47,14 +34,19 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans
-                        </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                  <include>**/beans.xml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

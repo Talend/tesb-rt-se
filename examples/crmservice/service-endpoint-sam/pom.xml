@@ -15,8 +15,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>crmservice-service</artifactId>
-    <name>CRMService Service</name>
+    <artifactId>crmservice-service-endpoint-sam</artifactId>
+    <name>CRMService Service Endpoint SAM</name>
     <packaging>bundle</packaging>
 
     <parent>
@@ -25,19 +25,6 @@
         <version>4.0</version>
         <relativePath>..</relativePath>
     </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.talend.esb.examples</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.osgi</groupId>
-            <artifactId>spring-osgi-core</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -49,12 +36,31 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-                            org.springframework.beans
+                            org.springframework.beans,
+			    org.springframework.context,sam-agent,sam-common,org.springframework.osgi.core
                         </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                  <include>**/beans.xml</include>
+			<include>agent*</include>  
+                </includes>
+            </resource>
+            <resource>
+                <directory>../../../sam/sam-agent/src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                  <include>agent-context.xml</include>
+                  <include>agent.properties</include>
+                </includes>
+            </resource>							
+        </resources>
     </build>
 
 </project>
