@@ -15,8 +15,11 @@
       See the License for the specific language governing permissions and
       limitations under the License.
 -->
-<features>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+    <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
     <feature name='tesb-rac-common' version='${project.version}'>
+        <feature>cxf</feature>
+        <feature>tesb-sam-agent</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
 		<bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/1.1.2</bundle>
@@ -24,10 +27,6 @@
 		<bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/1.0.1</bundle>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_2</bundle>
-		<bundle>mvn:commons-jxpath/commons-jxpath/1.3</bundle>
-		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>		
-        <bundle>file:${basedir}/../../../add-ons/Monitoring/sam-common-4.0.jar</bundle>
-        <bundle>file:${basedir}/../../../add-ons/Monitoring/sam-agent-4.0.jar</bundle>
     </feature>
     <feature name='tesb-rac-services' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
