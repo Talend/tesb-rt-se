@@ -319,6 +319,11 @@
                     </computeroutput></literallayout>
                 </step>
             </procedure>
+            <para>If you later want to uninstall the demo services, e.g.
+                because you want to move them to the other container or try another scenario, execute
+                this command at the OSGi console:</para>
+            <para><userinput>features:uninstall tesb-rac-services</userinput></para>
+            <para>Then, you can install them again as described above.</para>
         </section>
         <section>
             <title>Deploy the demo application</title>
