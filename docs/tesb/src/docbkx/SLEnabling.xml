@@ -31,7 +31,7 @@
       <listitem>
         <para> To enable the Rent-a-Car example initially install and run the
         Service Locator server. To start the Service Locator you need a
-		configuration file. Here is a sample, create it in <emphasis role="strong">conf/zoo.cfg</emphasis>:</para>
+		configuration file. Here is a sample, create it in <emphasis role="strong">talend-esb-&lt;version&gt;/zookeeper/conf/zoo.cfg</emphasis>:</para>
 
       <example xml:id="ex.slstaloneconf">
         <title>Service Locator standalone configuration</title>
