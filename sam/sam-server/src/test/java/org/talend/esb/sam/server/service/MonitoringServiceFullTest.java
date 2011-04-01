@@ -36,6 +36,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Test;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -106,8 +107,8 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         Assert.assertEquals("myValue2", customInfo.get("mykey2"));
     }
     
-//    @After
-//    public void tearDown() {
-//        executeSqlScript("drop.sql", true);
-//    }
+    @After
+    public void tearDown() {
+        executeSqlScript("drop.sql", true);
+    }
 }
