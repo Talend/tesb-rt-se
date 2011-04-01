@@ -341,7 +341,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 
 		<para>
 			Start second console. In the container deploy only locator
-			services with another endpoint (loacotor2):
+			services with another endpoint (locator2):
    </para>
 		<para>
 			<userinput>features:addurl
