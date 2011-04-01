@@ -48,7 +48,6 @@
                             org.springframework.beans,
 			    org.springframework.context,sam-agent,sam-common,org.springframework.osgi.core
                         </Require-Bundle>
-                        <Bundle-ClassPath></Bundle-ClassPath>
                     </instructions>
                 </configuration>
             </plugin>
@@ -121,7 +120,16 @@
 									org.springframework.beans,
 									org.springframework.context,sam-common,sam-agent
 								</Require-Bundle>
-								<Bundle-ClassPath></Bundle-ClassPath>
+                                <Import-Package>
+                                    org.talend.esb.sam.agent.collector,
+                                    org.talend.esb.sam.agent.eventproducer,
+                                    org.talend.esb.sam.agent.feature,
+                                    org.talend.esb.sam.agent.flowidprocessor,
+                                    org.talend.esb.sam.agent.message,
+                                    org.talend.esb.sam.agent.serviceclient,
+                                    org.talend.esb.sam.agent.wiretap,
+                                    *
+                                </Import-Package>
 							</instructions>
 						</configuration>
 					</plugin>

@@ -27,9 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
@@ -40,254 +40,225 @@ import org.talend.esb.sam.common.spi.EventFilter;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Event collector collects all events and stores them in a queue. This can be a
- * memory queue or a persistent queue. Asynchronously the events will be
- * processed and sent to MonitoringService
+ * Event collector collects all events and stores them in a queue. This can be a memory queue or a persistent
+ * queue. Asynchronously the events will be processed and sent to MonitoringService
  */
-public class EventCollectorImpl implements EventHandler, BusLifeCycleListener {
+public class EventCollectorImpl implements BusLifeCycleListener, InitializingBean {
 
-	private static Logger logger = Logger.getLogger(EventCollectorImpl.class
-			.getName());
+    private static Logger logger = Logger.getLogger(EventCollectorImpl.class.getName());
 
-	private MonitoringService monitoringServiceClient;
-	@Autowired(required=false)
-	private List<EventFilter> filters = new ArrayList<EventFilter>();
-	@Autowired(required=false)
-	private List<EventHandler> handlers = new ArrayList<EventHandler>();	
-	private Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
-	private TaskExecutor executor;
-	private TaskScheduler scheduler;
-	private long defaultInterval = 1000;
-	private boolean stopMessageFlowOnError = false;
-	private int eventsPerMessageCall = 10;
-	private boolean stopSending = false;
-	
-	public EventCollectorImpl() {
-	    Bus bus = BusFactory.getThreadDefaultBus();
-	    BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
-            if (null != lm) {
-                lm.registerLifeCycleListener(this);
+    private Bus bus;
+    private MonitoringService monitoringServiceClient;
+    @Autowired(required = false)
+    private List<EventFilter> filters = new ArrayList<EventFilter>();
+
+    private List<EventHandler> handlers = new ArrayList<EventHandler>();
+    private Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
+    private TaskExecutor executor;
+    private TaskScheduler scheduler;
+    private long defaultInterval = 1000;
+    private int eventsPerMessageCall = 10;
+    private boolean stopSending = false;
+
+    public EventCollectorImpl() {
+    }
+
+    /**
+     * Returns the number of events sent by one service call.
+     * 
+     * @return
+     */
+    public int getEventsPerMessageCall() {
+        if (eventsPerMessageCall <= 0) {
+            logger.warning("Message package size is not set or is lower then 1. Set package size to 1.");
+            return 1;
+        }
+        return eventsPerMessageCall;
+    }
+
+    /**
+     * Set by Spring. Define how many events will be sent within one service call.
+     * 
+     * @param eventsPerMessageCall
+     */
+    public void setEventsPerMessageCall(int eventsPerMessageCall) {
+        this.eventsPerMessageCall = eventsPerMessageCall;
+    }
+
+    /**
+     * Returns the default interval for sending events
+     * 
+     * @return
+     */
+    private long getDefaultInterval() {
+        return defaultInterval;
+    }
+
+    /**
+     * Set default interval for sending events to monitoring service. DefaultInterval will be used by
+     * scheduler.
+     * 
+     * @param defaultInterval
+     */
+    public void setDefaultInterval(long defaultInterval) {
+        this.defaultInterval = defaultInterval;
+    }
+
+    /**
+     * Scheduler will be set and configured by Spring. Spring executes every x milliseconds the sending
+     * process.
+     * 
+     * @param scheduler
+     */
+    public void setScheduler(TaskScheduler scheduler) {
+        logger.info("Scheduler startet for sending events to monitoring service");
+        this.scheduler = scheduler;
+
+        this.scheduler.scheduleAtFixedRate(new Runnable() {
+
+            public void run() {
+                sendEventsFromQueue();
+            }
+        }, getDefaultInterval());
+    }
+
+    /**
+     * Spring sets the executor. The executer is used for sending events to the web service.
+     * 
+     * @param executor
+     */
+    public void setExecutor(TaskExecutor executor) {
+        this.executor = executor;
+    }
+
+    /**
+     * Spring sets the queue. Within the spring configuration you can decide between memory queue and
+     * persistent queue.
+     * 
+     * @param queue
+     */
+    public void setQueue(Queue<Event> queue) {
+        this.queue = queue;
+    }
+
+    /**
+     * Spring sets the monitoring service client.
+     * 
+     * @param monitoringServiceClient
+     */
+    public void setMonitoringServiceClient(MonitoringService monitoringServiceClient) {
+        this.monitoringServiceClient = monitoringServiceClient;
+    }
+
+    public void setBus(Bus bus) {
+        this.bus = bus;
+    }
+
+    public List<EventFilter> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<EventFilter> filters) {
+        this.filters = filters;
+    }
+
+    public List<EventHandler> getHandlers() {
+        return handlers;
+    }
+
+    @Autowired(required = false)
+    public void setHandlers(List<EventHandler> newHandlers) {
+        this.handlers.clear();
+        for (EventHandler eventHandler : newHandlers) {
+            // TODO This shows that autowiring like we do it now is not such a good idea
+            if (!(eventHandler instanceof QueueSender)) {
+                this.handlers.add(eventHandler);
+            }
+        }
+    }
+
+    /**
+     * Method will be executed asynchronously from spring.
+     */
+    public void sendEventsFromQueue() {
+        if (this.stopSending == true) {
+            return;
+        }
+        logger.fine("Scheduler called for sending events");
+
+        int packageSize = getEventsPerMessageCall();
+
+        while (!queue.isEmpty()) {
+            final List<Event> list = new ArrayList<Event>();
+            int i = 0;
+            while (i < packageSize && !queue.isEmpty()) {
+                Event event = queue.remove();
+                if (event != null && !filter(event)) {
+                    list.add(event);
+                    i++;
+                }
+            }
+            if (list.size() > 0) {
+
+                // Need to call executer because @Async wouldn't work
+                // through proxy. This Method is inside a proxy and local
+                // proxy calls are not supported
+                executor.execute(new Runnable() {
+                    public void run() {
+                        try {
+                            sendEvents(list);
+                        } catch (MonitoringException e) {
+                            e.logException(Level.SEVERE);
+                        }
+                    }
+                });
+
             }
         }
 
-	/**
-	 * Returns the number of events sent by one service call.
-	 * 
-	 * @return
-	 */
-	public int getEventsPerMessageCall() {
-		if (eventsPerMessageCall <= 0) {
-			logger.warning("Message package size is not set or is lower then 1. Set package size to 1.");
-			return 1;
-		}
-		return eventsPerMessageCall;
-	}
+    }
 
-	/**
-	 * Set by Spring. Define how many events will be sent within one service
-	 * call.
-	 * 
-	 * @param eventsPerMessageCall
-	 */
-	public void setEventsPerMessageCall(int eventsPerMessageCall) {
-		this.eventsPerMessageCall = eventsPerMessageCall;
-	}
+    /**
+     * Execute all filters for the event.
+     * 
+     * @param event
+     * @return
+     */
+    private boolean filter(Event event) {
+        for (EventFilter filter : filters) {
+            if (filter.filter(event) == true)
+                return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Set by Spring. Stops the normal message flow if storing of event causes
-	 * errors. After storing event in queue there is no way to stop the message
-	 * flow.
-	 * 
-	 * @param stopMessageFlowOnError
-	 */
-	public void setStopMessageFlowOnError(boolean stopMessageFlowOnError) {
-		this.stopMessageFlowOnError = stopMessageFlowOnError;
-	}
+    /**
+     * Sends the events to monitoring service client.
+     * 
+     * @param events
+     */
+    private void sendEvents(final List<Event> events) {
+        for (EventHandler current : handlers) {
+            for (Event event : events) {
+                current.handleEvent(event);
+            }
+        }
 
-	/**
-	 * Returns the default interval for sending events
-	 * 
-	 * @return
-	 */
-	private long getDefaultInterval() {
-		return defaultInterval;
-	}
+        logger.info("Put events(" + events.size() + ") to Monitoring Server.");
+        try {
+            monitoringServiceClient.putEvents(events);
+        } catch (Exception e) {
+            if (e instanceof MonitoringException)
+                throw (MonitoringException)e;
+            throw new MonitoringException("002",
+                                          "Unknown error while execute put events to Monitoring Server", e);
+        }
 
-	/**
-	 * Set default interval for sending events to monitoring service.
-	 * DefaultInterval will be used by scheduler.
-	 * 
-	 * @param defaultInterval
-	 */
-	public void setDefaultInterval(long defaultInterval) {
-		this.defaultInterval = defaultInterval;
-	}
+    }
 
-	/**
-	 * Scheduler will be set and configured by Spring. Spring executes every x
-	 * milliseconds the sending process.
-	 * 
-	 * @param scheduler
-	 */
-	public void setScheduler(TaskScheduler scheduler) {
-		logger.info("Scheduler startet for sending events to monitoring service");
-		this.scheduler = scheduler;
+    public void stopSending() {
 
-		this.scheduler.scheduleAtFixedRate(new Runnable() {
-
-			public void run() {
-				sendEventsFromQueue();
-			}
-		}, getDefaultInterval());
-	}
-
-	/**
-	 * Spring sets the executor. The executer is used for sending events to the
-	 * web service.
-	 * 
-	 * @param executor
-	 */
-	public void setExecutor(TaskExecutor executor) {
-		this.executor = executor;
-	}
-
-	/**
-	 * Spring sets the queue. Within the spring configuration you can decide
-	 * between memory queue and persistent queue.
-	 * 
-	 * @param queue
-	 */
-	public void setQueue(Queue<Event> queue) {
-		this.queue = queue;
-	}
-
-	/**
-	 * Spring sets the monitoring service client.
-	 * 
-	 * @param monitoringServiceClient
-	 */
-	public void setMonitoringServiceClient(
-			MonitoringService monitoringServiceClient) {
-		this.monitoringServiceClient = monitoringServiceClient;
-	}
-
-	public List<EventFilter> getFilters() {
-		return filters;
-	}
-
-	public void setFilters(List<EventFilter> filters) {
-		this.filters = filters;
-	}
-
-	public List<EventHandler> getHandlers() {
-		return handlers;
-	}
-
-	public void setHandlers(List<EventHandler> handlers) {
-		this.handlers = handlers;
-	}
-
-	/**
-	 * Stores an event in the queue and returns. So the synchronous execution of
-	 * this service is as short as possible.
-	 */
-	@Override
-	public void handleEvent(Event event) {
-		String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
-		logger.fine("Store event [message_id=" + id + "] in cache.");
-		try {
-			queue.add(event);
-		} catch (RuntimeException e) {
-			if (stopMessageFlowOnError) {
-				throw e;
-			} else {
-				logger.severe("Could not store event in Queue: " + e.getMessage());
-			}
-		}
-	}
-
-	/**
-	 * Method will be executed asynchronously from spring.
-	 */
-	public void sendEventsFromQueue() {
-		if(this.stopSending == true){
-			return;
-		}
-		logger.fine("Scheduler called for sending events");
-
-		int packageSize = getEventsPerMessageCall();
-
-		while (!queue.isEmpty()) {
-			final List<Event> list = new ArrayList<Event>();
-			int i = 0;
-			while (i < packageSize && !queue.isEmpty()) {
-				Event event = queue.remove();
-				if (event!= null && !filter(event)) {
-					list.add(event);
-					i++;
-				}
-			}
-			if (list.size() > 0) {
-
-				// Need to call executer because @Async wouldn't work
-				// through proxy. This Method is inside a proxy and local
-				// proxy calls are not supported
-				executor.execute(new Runnable() {
-					public void run() {
-						try{
-							sendEvents(list);
-						}catch (MonitoringException e){
-							e.logException(Level.SEVERE);
-						}
-					}
-				});
-
-			}
-		}
-
-	}
-
-	/**
-	 * Execute all filters for the event.
-	 * 
-	 * @param event
-	 * @return
-	 */
-	private boolean filter(Event event) {
-		for (EventFilter filter : filters) {
-			if (filter.filter(event) == true)
-				return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Sends the events to monitoring service client.
-	 * 
-	 * @param events
-	 */
-	private void sendEvents(final List<Event> events) {
-		for (EventHandler current : handlers) {
-			for (Event event : events) {
-				current.handleEvent(event);
-			}
-		}
-
-		logger.info("Put events(" + events.size() + ") to Monitoring Server.");
-		try {
-	        monitoringServiceClient.putEvents(events);
-		} catch (Exception e) {
-			if (e instanceof MonitoringException)
-				throw (MonitoringException) e;
-			throw new MonitoringException("002",
-					"Unknown error while execute put events to Monitoring Server", e);
-		}
-
-	}
-	
-	public void stopSending(){
-		
-	}
+    }
 
     @Override
     public void initComplete() {
@@ -303,5 +274,15 @@ public class EventCollectorImpl implements EventHandler, BusLifeCycleListener {
     @Override
     public void postShutdown() {
         // Ignore
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (bus != null) {
+            BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
+            if (null != lm) {
+                lm.registerLifeCycleListener(this);
+            }
+        }
     }
 }
