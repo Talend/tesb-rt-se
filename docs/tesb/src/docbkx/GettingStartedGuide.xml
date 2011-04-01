@@ -254,7 +254,34 @@
                         in your favourite text editor. Search line</para>
                     <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
                     <para>and replace it with</para>
-                    <para><computeroutput>rmiRegistryPort = 1199</computeroutput></para>
+                    <para><computeroutput>rmiRegistryPort = 11099</computeroutput></para>
+                    <para>or another unused port.</para>
+                </step>
+                <step>
+                    <para>Next, open the configuration file
+                        <code>alternate-container/etc/org.apache.karaf.shell.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>sshPort = 8101</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>sshPort = 18101</computeroutput></para>
+                    <para>or another unused port.</para>
+                </step>
+                <step>
+                    <para>Next, open the configuration file
+                        <code>alternate-container/etc/org.ops4j.pax.web.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>org.osgi.service.http.port=8080</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>org.osgi.service.http.port=18080</computeroutput></para>
+                    <para>or another unused port.</para>
+                </step>
+                <step>
+                    <para>Finally, open the configuration file
+                        <code>alternate-container/etc/system.properties</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>org.osgi.service.http.port=8181</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>org.osgi.service.http.port=18181</computeroutput></para>
                     <para>or another unused port.</para>
                     <para>Now, two OSGi containers are available for running the examples.</para>
                 </step>
