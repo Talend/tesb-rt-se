@@ -14,6 +14,7 @@
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
@@ -36,7 +37,7 @@
 	>
 		<jaxws:features>
 			<bean class="org.talend.esb.locator.LocatorFeature">
-				<property name="endpointPrefix" value="http://localhost:8080/services"/>
+				<property name="endpointPrefix" value="http://localhost:8081/services"/>
 				<property name="locatorEndpoints" value="localhost:2181"/>
 			</bean>
 		</jaxws:features>

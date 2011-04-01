@@ -239,6 +239,10 @@
                     <para><userinput>cp -r container alternate-container</userinput></para>
                     <para>Under Windows, execute the following command instead:</para>
                     <para><userinput>robocopy /e container alternate-container</userinput></para>
+                    <para>or</para>
+                    <para><userinput>xcopy /e container alternate-container</userinput></para>
+                    <para>if you have an older Windows version where <code>robocopy</code>
+                        is not available.</para>
                     <para>Now, you have a second OSGi container in directory
                         <code>alternate-container</code>.</para>
                 </step>
@@ -319,6 +323,11 @@
                     </computeroutput></literallayout>
                 </step>
             </procedure>
+            <para>If you later want to uninstall the demo services, e.g.
+                because you want to move them to the other container or try another scenario, execute
+                this command at the OSGi console:</para>
+            <para><userinput>features:uninstall tesb-rac-services</userinput></para>
+            <para>Then, you can install them again as described above.</para>
         </section>
         <section>
             <title>Deploy the demo application</title>
