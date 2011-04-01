@@ -37,7 +37,7 @@
                         <Require-Bundle>
                             org.apache.cxf.bundle,
                             org.springframework.beans,
-			    org.springframework.context,sam-agent,sam-common,org.springframework.osgi.core
+			                org.springframework.context,sam-agent,sam-common,org.springframework.osgi.core
                         </Require-Bundle>
                     </instructions>
                 </configuration>
@@ -49,7 +49,6 @@
                 <filtering>true</filtering>
                 <includes>
                   <include>**/beans.xml</include>
-			<include>agent*</include>  
                 </includes>
             </resource>
             <resource>

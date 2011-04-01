@@ -15,8 +15,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>reservationservice-service-endpoint-locator2</artifactId>
-    <name>ReservationService Service Endpoint Locator 2</name>
+    <artifactId>reservationservice-service-endpoint-sam</artifactId>
+    <name>ReservationService Service Endpoint SAM</name>
     <packaging>bundle</packaging>
 
     <parent>
