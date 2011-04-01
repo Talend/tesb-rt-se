@@ -42,89 +42,10 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans
-                        </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                          <include>**/beans.xml</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>locator</id>
-            <build>
-                <finalName>${project.artifactId}-locator-${project.version}</finalName>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                          <include>**/beans-locator.xml</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>sam</id>
-            <build>
-                <finalName>${project.artifactId}-sam-${project.version}</finalName>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                          <include>**/beans-sam.xml</include>
-                        </includes>
-                    </resource>
-                    <resource>
-                        <directory>../../../sam/sam-agent/src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                          <include>agent-context.xml</include>
-						  <include>agent.properties</include>
-                        </includes>
-                    </resource>						
-                </resources>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.felix</groupId>
-						<artifactId>maven-bundle-plugin</artifactId>
-						<configuration>
-							<instructions>
-								<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-								<Require-Bundle>
-									org.apache.cxf.bundle,
-									org.springframework.beans,
-									org.springframework.context,sam-common,sam-agent
-								</Require-Bundle>
-								<Bundle-ClassPath></Bundle-ClassPath>
-							</instructions>
-						</configuration>
-					</plugin>
-				</plugins>								
-            </build>
-        </profile>
-    </profiles>
 
 </project>

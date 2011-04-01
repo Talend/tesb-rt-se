@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  ESB :: Manual
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
 <chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Enabling the Service Locator for the Rent a Car demo</title>
 
@@ -31,7 +51,7 @@
       <listitem>
         <para> To enable the Rent-a-Car example initially install and run the
         Service Locator server. To start the Service Locator you need a
-		configuration file. Here is a sample, create it in <emphasis role="strong">conf/zoo.cfg</emphasis>:</para>
+		configuration file. Here is a sample, create it in <emphasis role="strong">talend-esb-&lt;version&gt;/zookeeper/conf/zoo.cfg</emphasis>:</para>
 
       <example xml:id="ex.slstaloneconf">
         <title>Service Locator standalone configuration</title>
@@ -239,4 +259,149 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
     will allow clients to failover from the initial target endpoint to another
     compatible endpoint for the target service. </para>
   </section>
+
+	<section>
+		<title>Make locator sample more realistic by having several instances
+			of the services</title>
+		<para>We will use two instances of karaf container, will deploy the
+			same services with different endpoins in this containers and will see
+			that Locator switch between services.
+   </para>
+		<para>Install two instances of talend ESB in different locations.
+		</para>
+		<para>
+			For stable work two TESB karaf containers in the same time
+			change
+			parameter rmiRegistryPort in one of them
+			in file
+			talend-esb-&lt;version&gt;\container\etc\org.apache.karaf.management.cfg.
+		</para>
+		<para>
+			Build demo sample with parameter -Plocator.
+   </para>
+		<para>
+			Start first console. In conteiner deploy demo services for
+			locator
+			(locator1) and demo application. For it in console of this
+			karaf
+			container type:
+   </para>
+		<para>
+			<userinput>features:addurl
+				mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>
+			<userinput>features:install tesb-rac-services-locator1</userinput>
+		</para>
+		<para>
+			<userinput>features:install tesb-rac-app</userinput>
+		</para>
+		<para>
+			In second instance of TESB in file
+			talend-esb-&lt;version&gt;\container\etc\org.ops4j.pax.web.cfg search
+			line 
+		</para>
+		<para>
+			<userinput>org.osgi.service.http.port=8080</userinput>
+		</para>
+		<para>
+			and replace it with  
+		</para>
+		<para>
+			<userinput>org.osgi.service.http.port=8081</userinput>
+			.
+		</para>
+		<para>
+			And run demo application in first console. Type the command
+			<userinput>car:GUI</userinput>. During running application in console you will see: 
+		</para>
+		<programlisting>
+			###############################################
+			getCRMInformation() invoked ... request data:
+			org.talend.services.crm.types.LoginUserType@2ddb6b
+			###############################################
+			###############################################
+			getCRMInformation() invoked ... response data:
+			org.talend.services.crm.types.CustomerDetailsType@a075e6
+			###############################################
+			....
+			###############################################
+			getAvailableCars() invoked ... request data:
+			org.talend.services.reservation.types.RESProfileType@12b079a
+			###############################################
+			###############################################
+			getAvailableCars() invoked ... response data:
+			org.talend.services.reservation.types.RESCarListType@2abb
+			###############################################		
+</programlisting>
+		<para>
+			So you see requests and responses for CRM and reservation services in the console. Don't close
+			application, just click button <userinput>Back</userinput> 
+		</para>
+
+		<para>
+			Start second console. In the container deploy only locator
+			services with another endpoint (locator2):
+   </para>
+		<para>
+			<userinput>features:addurl
+				mvn:org.talend.esb.examples/features/4.0/xml</userinput>
+		</para>
+		<para>
+			<userinput>features:install tesb-rac-services-locator2</userinput>
+		</para>
+		<para>
+			In first console stop crm service. For it in console type command
+			<userinput>list</userinput>, select number of CRMService Service Endpoint
+		</para>
+		<programlisting>
+			[ 142] [Active ] [ ] [Started] [ 60] CRMService Service Endpoint
+			Locator 1 (4.0.0)
+</programlisting>
+		<para>
+			and stop it with command <userinput>stop 142</userinput>. In application click Find. In
+			first console you will see expected exception,
+</para>
+		<programlisting>
+			12:30:55,049 | WARN | AWT-EventQueue-0 | ache.cxf.common.logging.LogUtils 369
+			| - - | Interceptor for
+			{http://services.talend.org/CRMService}CRMServiceProv
+			ider#{http://services.talend.org/CRMService}getCRMInformation has
+			thrown excepti
+			on, unwinding now
+			org.apache.cxf.interceptor.Fault: Could not send Message.
+			</programlisting>
+		<para>
+			after it Locator will switch running to crm service in second
+			container and in second console you will see
+			</para>
+		<programlisting>
+			###############################################
+			getCRMInformation() invoked ... request data:
+			org.talend.services.crm.types.LoginUserType@1142653
+			###############################################
+			###############################################
+			getCRMInformation() invoked ... response data:
+			org.talend.services.crm.types.CustomerDetailsType@1e03fce
+			###############################################
+</programlisting>
+		<para>
+			In first console:
+</para>
+		<programlisting>
+			###############################################
+			getAvailableCars() invoked ... request data:
+			org.talend.services.reservation.types.RESProfileType@1d510be
+			###############################################
+			###############################################
+			getAvailableCars() invoked ... response data:
+			org.talend.services.reservation.types.RESCarListType@13e49a8
+			###############################################
+</programlisting>
+		<para>
+			So now reservation service works in first container, crm
+			service in second container. 			  
+        </para>
+
+	</section>
 </chapter>

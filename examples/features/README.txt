@@ -1,3 +1,13 @@
-> features:addurl mvn:org.talend.esb.examples/features/4.0/xml
-> features:install tesb-rac-services
-> features:install tesb-rac-app
+Common:
+features:addurl mvn:org.talend.esb.examples/features/4.0/xml
+features:install tesb-rac-app
+
+Rent A Car:
+features:install tesb-rac-services
+
+Rent A Car with Locator:
+features:install tesb-rac-services-locator1
+features:install tesb-rac-services-locator2
+
+Rent A Car with SAM:
+features:install tesb-rac-services-sam

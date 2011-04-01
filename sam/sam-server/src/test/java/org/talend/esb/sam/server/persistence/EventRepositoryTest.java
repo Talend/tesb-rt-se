@@ -44,7 +44,7 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
 
     @Before
     public void setUp() throws Exception {
-        executeSqlScript("create.sql", true);
+        //executeSqlScript("create.sql", true);
     }
 
     @Test

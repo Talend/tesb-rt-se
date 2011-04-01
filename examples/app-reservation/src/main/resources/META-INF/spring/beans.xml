@@ -17,33 +17,33 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
        http://www.springframework.org/schema/osgi  http://www.springframework.org/schema/osgi/spring-osgi.xsd">       
 
-	<!-- Reference the Swordfish client OSGi services -->
+	<!-- Reference to the client OSGi services -->
 	<osgi:reference id="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
 	<osgi:reference id="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
-	<!-- Create a car search model bean and inject the Swordfish clients -->
+	<!-- Create a car search model bean and inject service clients -->
     <spring:bean id="CarSearchModel" class="org.talend.esb.client.model.CarSearchImpl">
     	<spring:property name="crms" ref="CRMServiceClient"/>
     	<spring:property name="reserve" ref="ReservationServiceClient"/>
     </spring:bean>
 
-	<!-- Create a car reservation model bean and inject the Swordfish reservation client -->
+	<!-- Create a car reservation model bean and inject the reservation client -->
     <spring:bean id="CarReserveModel" class="org.talend.esb.client.model.CarReserveImpl">
     	<spring:property name="reserve" ref="ReservationServiceClient"/>
     </spring:bean>
     
+    <!-- Create the instance of GUI app -->
+    <spring:bean id="CarGUI" class="org.talend.esb.client.commands.CarGUI">
+    	<spring:property name="searcher" ref="CarSearchModel"/>
+    	<spring:property name="reserver" ref="CarReserveModel"/>
+    </spring:bean>
+
     <!-- Create the instance of the Equinox console command extension -->
     <!-- spring:bean id="ReservationCommand" class="org.talend.esb.client.app.CarRentalClientCommandProvider">
     	<spring:property name="searcher" ref="CarSearchModel"/>
     	<spring:property name="reserver" ref="CarReserveModel"/>
     </spring:bean-->
 
-        <!-- Create the instance of the Equinox console command extension -->
-    <spring:bean id="CarGUI" class="org.talend.esb.client.commands.CarGUI">
-    	<spring:property name="searcher" ref="CarSearchModel"/>
-    	<spring:property name="reserver" ref="CarReserveModel"/>
-    </spring:bean>
-    
     <!-- Register the console command extension as OSGi service-->
 	<!-- osgi:service ref="ReservationCommand" interface="org.eclipse.osgi.framework.console.CommandProvider" /--> 
     
