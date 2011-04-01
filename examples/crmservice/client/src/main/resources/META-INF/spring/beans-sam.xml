@@ -25,6 +25,8 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
+	<import resource="classpath:/agent-context.xml" />
+	
 	<jaxws:client id="CRMServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
