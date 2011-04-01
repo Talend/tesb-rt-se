@@ -111,7 +111,10 @@
                 <step>
                     <para>Maven 3.0.3 or better from Apache should be installed, and the
                         <code>mvn</code> executable should be in your <code>PATH</code>. When
-                        running <code>mvn</code>, HTTP access to the internet is required.</para>
+                        running <code>mvn</code>, HTTP access to the internet is required.
+                        The local Maven repository is expected to be created in its default
+                        location, i.e. the Maven configuration should not have been
+                        modified.</para>
                 </step>
             </procedure>
         </section>
