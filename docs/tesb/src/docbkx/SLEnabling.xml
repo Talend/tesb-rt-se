@@ -107,6 +107,8 @@ clientPort=2181
       <para>Running this command you will build the demo and create OSGi bundles to be deployed to
           an OSGi container.</para>
           </step>
+          <step><para>For the following example, ensure the Service Locator server is started as described
+              in the previous section.</para></step>
           <step>
     <para> <link linkend="rac.deploy">Start the primary OSGi container</link> in directory
       <code>container</code> as described earlier in this guide.</para>
