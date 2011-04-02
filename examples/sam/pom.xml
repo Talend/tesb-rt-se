@@ -20,6 +20,7 @@
         <module>sam-example-service</module>
         <module>sam-example-service2</module>
         <module>sam-example-osgi</module>
+		<module>sam-server-war</module>
     </modules>
 
 </project>

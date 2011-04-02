@@ -1,0 +1,12 @@
+.checkstyle
+.classpath
+.pmd
+.project
+.ruleset
+.settings/
+target/
+db/
+velocity.log
+*.i??
+Thumbs.db
+

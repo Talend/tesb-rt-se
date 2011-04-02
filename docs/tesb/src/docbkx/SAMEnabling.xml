@@ -31,55 +31,55 @@
   </section>
 
   <section>
-    <title>Installation prerequisites</title>
+  <title>Architecture</title>
+		<para>
+In the left from this diagram the Agent is described. In the right is the Monitoring Server. Agent will be used to collect all the Message data from the customer service/client and send them to Monitoring Server. The Monitoring Server will receive Events and store them into Database. The interface between Agent and Monitoring Server is WebService.		
+		</para>
+		<para>
+FlowId Producer is a component used to generate FlowId(UUID) in the Message Header and pass it to subsequent Messages.
+        </para>
+		<para>
+Filter/Handler can be set up on both Agent side and Monitoring Server side. They have been used to filter Events and manipulate Event's content. There are some built-in Filter/Handlers (eg. StringContentFilter, PasswordHandler) and user can develop own Filter/Handler by extend EventFilter/EventHandler SPI.
+		</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/sam_architecture.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>    
+  </section>
+  
+  <section>
+    <title>Configure and Run Monitoring Server</title>
+	<para>If you want to configure some properties (eg. db.url), please edit: </para>
+	<para>
+	<userinput>talend-esb-&lt;version&gt;/examples/sam/sam-server-war/src/main/webapp/WEB-INF/logserver.properties</userinput>
+	</para>
+
+	<para>For this example, using Jetty Database is best choice. For example: </para>
+<programlisting>	
+monitoringServiceUrl=/MonitoringServiceSOAP
+db.driver=org.apache.derby.jdbc.ClientDriver
+db.url=jdbc:derby://localhost:1527/db;create=true
+db.username=test
+db.password=test
+db.incrementer=derbyIncrementer
+
+db.recreate=true
+db.createsql=create.sql
+</programlisting>
+
+	<para>Start Monitoring Server: </para>
+	<para><userinput>cd talend-esb-&lt;version&gt;/examples/sam/sam-server-war</userinput></para>
+	<para><userinput>mvn jetty:run</userinput></para>
+	<para>then, Monitoring Server will be started.</para>
+  </section>
+  
+  <section>
+    <title>Enabling the Service Activity Monitoring</title>
 
     <procedure>
-    <step>	
-        <para> To enable the Rent-a-Car example initially install and run the
-        Monitoring server. For more information please read Service
-        Activity Monitoring Manual. </para>
 
-    </step>
-	<!-- step>
-        <para> You need the agent component and common component of the Service Activity Monitoring 
-        (sam-agent-4.0.jar and sam-common-4.0.jar) to enable your CFX service or consumer to use the
-        Service Activity Monitoring. You need to add <code>sam-agent-4.0.jar</code> and <code>sam-common-4.0.jar</code> into
-        your classpath or war file. Also add it to the OSGi conatiner. </para>
-    </step>
-
-    <step>
-        <para> For enabling Service Activity Monitoring in your maven build </para>
-	    <itemizedlist>
-        <listitem>
-        <para>Put sam-agent-4.0.jar and sam-common-4.0.jar into local maven repo. For it run the maven command</para>
-		<para><userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-agent-4.0.jar -DgroupId=org.talend.esb
--DartifactId=sam-agent -Dversion=4.0 -Dpackaging=jar</userinput></para>
-        <para><userinput>mvn install:install-file -Dfile=&lt;Talend ESB Runtime&gt;\add-ons\SAM\sam-common-4.0.jar -DgroupId=org.talend.esb
--DartifactId=sam-common -Dversion=4.0 -Dpackaging=jar</userinput></para>
-        </listitem>		
-		
-		<listitem>
-        <para>Add the following dependency to your pom.xml file: </para>
-      <programlisting>
-&lt;dependency&gt;
-     &lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
-     &lt;artifactId&gt;sam-agent&lt;/artifactId&gt;
-     &lt;version&gt;4.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-     &lt;groupId&gt;org.talend.esb&lt;/groupId&gt;
-     &lt;artifactId&gt;sam-common&lt;/artifactId&gt;
-     &lt;version&gt;4.0&lt;/version&gt;
-&lt;/dependency&gt;
-	  </programlisting>
-
-        <para> Add these dependencies to projects using the Service Activity Monitoring. In
-        our case these are the projects CRMService and ReservationService.
-        </para>
-		</listitem>
-		</itemizedlist>
-    </step-->
-          <step>
+      <step>
       <para>From the base directory of the ESB sample, the maven
       <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> file can be used to build
       the demo.</para>
@@ -88,127 +88,47 @@
 
       <para>Running this command will build the demo and create OSGi bundles
       to be deployed to an OSGi container.</para>
-          </step>
+      </step>
 
+	  <step>
+    <para> From TESB container directory, type in console command:</para>
+	<para><userinput>&gt;features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+	<para><userinput>&gt;features:install tesb-rac-services</userinput></para>
+	<para><userinput>&gt;features:install tesb-rac-services-sam</userinput></para>
+	<para>
+	Then, You can use list command to check if everything installed properly 
+	</para>
+	<userinput>&gt;list</userinput>
+    <para>For example: </para>
+<literallayout><computeroutput>
+[143] [Active][       ] [       ] [ 60] Service Activity Monitoring :: Common (4.0.0)
+[144] [Active][       ] [       ] [ 60] Service Activity Monitoring :: Agent (4.0.0)
+[145] [Active][       ] [       ] [ 60] CRMService Common (4.0.0)
+[146] [Active][       ] [       ] [ 60] ReservationService Common (4.0.0)
+[147] [Active][       ] [Started] [ 60] CRMService Client (4.0.0)
+[148] [Active][       ] [Started] [ 60] ReservationService Client (4.0.0)
+[149] [Active][Created] [Started] [ 60] App Reservation (4.0.0)
+[150] [Active][       ] [       ] [ 60] CRMService Service (4.0.0)
+[151] [Active][       ] [Started] [ 60] CRMService Service Endpoint SAM (4.0.0)
+[152] [Active][       ] [       ] [ 60] ReservationService Service (4.0.0)
+[153] [Active][       ] [Started] [ 60] ReservationService Service Endpoint SAM (4.0.0)
+</computeroutput></literallayout>	  
+	  </step>
 	</procedure>
   </section>
 
   <section>
-    <title>How to enable Rent a Car demo</title>
-
-	<!-- procedure>
-	<step>
-    <para>Add the Service Activity Monitoring feature to the Spring configuratons represented by the beans.xml files.</para>
-
-    <para> The Service Activity Monitoring feature should be added to each endpoint and
-    client in the example configuration. </para>
-
-	<itemizedlist>
-    <listitem>
-    <para>Add the Service Activity Monitoring feature to the endpoint bean in the
-    <code>beans.xml</code> exactly the same way as a standard CXF feature.</para>
-
-    <para> Apply these changes to the following files: <simplelist columns="1"
-        type="vert">
-        <member>../examples/reservationservice/service/src/main/resources/META-INF/spring/beans.xml</member>
-
-        <member>../examples/crmservice/service/src/main/resources/META-INF/spring/beans.xml</member>
-      </simplelist> </para>
-
-    <para> For example: 
-        <programlisting>
-&lt;import resource="classpath:/agent-context.xml" /&gt;
-...		
-&lt;jaxws:endpoint id="..."
-    ...
-    &lt;jaxws:features&gt;
-      &lt;ref bean="eventFeature"/&gt;
-    &lt;/jaxws:features&gt;
-&lt;/jaxws:endpoint&gt;
-        </programlisting> 
-    </para>
+    <title>View the Events in the Database</title>
 
     <para>
-For more information please read the Service Activity Monitoring User Guide. </para>
-    </listitem>
-
-    <listitem>
-    <para>Add the Service Activity Monitoring feature to the client bean in the
-    <code>beans.xml</code> file exactly the same way as a standard CXF feature.</para>
-
-    <para>
-            <programlisting>
-&lt;import resource="classpath:/agent-context.xml" /&gt;
-...		
-&lt;jaxws:client id="..."
-    ...
-    &lt;jaxws:features&gt;
-      &lt;ref bean="eventFeature"/&gt;
-    &lt;/jaxws:features&gt;
-&lt;/jaxws:client&gt;
-            </programlisting>
-    </para>
-
-    <para> Apply these changes to the following files: </para>
-
-    <para>
-      <simplelist columns="1" type="vert">
-        <member>../examples/reservationservice/client/src/main/resources/META-INF/spring/beans.xml</member>
-
-        <member>../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml</member>
-      </simplelist>
-    </para>
-	</listitem>
-	</itemizedlist>
-
-    </step>
-	
-	<step>
-    <para>Deploy the SAM agent in the TSF container.</para>
-
-    <para> Copy the commons-lang-2.6.jar, sam-agent-4.0.jar and sam-common-4.0.jar into deploy
-    directory of Talend Service Factory OSGi container </para>
-
-    <para> Type in console command "list". You will see sam-agent and sam-common
-    bundles in the lists of installed bundles: </para>
-
-<literallayout><computeroutput>
-[ 121] [Active  ] [     ] [     ] [   60] Service Activity Monitoring :: Common (4.0.0)
-[ 122] [Active  ] [     ] [     ] [   60] Service Activity Monitoring :: Agent (4.0.0)
-[ 123] [Active  ] [     ] [     ] [   60] Commons Lang (2.6)
-</computeroutput></literallayout>
-
-    </step>
-	
-          <step -->
-    <para> <link linkend="rac.deploy">Create and deploy OSGi bundles</link> as described earlier in this guide.</para>
-    <para> Type in console command <userinput>list</userinput>. You will see sam-agent and sam-common
-    bundles in the lists of installed bundles: </para>
-
-<literallayout><computeroutput>
-[ 121] [Active  ] [     ] [     ] [   60] Service Activity Monitoring :: Common (4.0.0)
-[ 122] [Active  ] [     ] [     ] [   60] Service Activity Monitoring :: Agent (4.0.0)
-[ 123] [Active  ] [     ] [     ] [   60] Commons Lang (2.6)
-</computeroutput></literallayout>
-          <!-- /step>
-  </procedure-->	
-  </section>
-
-  <section>
-    <title>What you will see after enabling the Service Activity Monitoring
-    feature:</title>
-
-    <para>
-When you are running Rent a Car demo, the Events which come from Endpoint and client have been stored into Database successfully, you can query them from DB. For example:
+Running Rent a Car demo, and using DbVisualizer to monitor the EVENTS table and EVENTS_CUSTOMINFO table, you will find the Events. For example:
 	</para>
 
 	<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/db.jpg" format="jpg"/>
+		 <imagedata fileref="images/sam_db.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  	
 	
-    <para> In our example, enabling the Service Activity Monitoring does not affect the
-    behavior of Rent a Car demo. Locator allows clients to monitor events come from services and clients. </para>
   </section>
 </chapter>
