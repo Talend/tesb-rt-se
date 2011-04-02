@@ -95,10 +95,8 @@ db.createsql=create.sql
 	<para><userinput>&gt;features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
 	<para><userinput>&gt;features:install tesb-rac-services</userinput></para>
 	<para><userinput>&gt;features:install tesb-rac-services-sam</userinput></para>
-	<para>
-	Then, You can use list command to check if everything installed properly 
-	</para>
-	<userinput>&gt;list</userinput>
+	<para>Then, You can use list command to check if everything installed properly:</para>
+	<para><userinput>&gt; list</userinput></para>
     <para>For example: </para>
 <literallayout><computeroutput>
 [143] [Active][       ] [       ] [ 60] Service Activity Monitoring :: Common (4.0.0)
