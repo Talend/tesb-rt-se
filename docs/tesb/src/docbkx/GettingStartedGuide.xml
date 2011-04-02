@@ -294,9 +294,10 @@
                         <code>alternate-container/etc/org.ops4j.pax.web.cfg</code>
                         in your favourite text editor. Search line</para>
                     <para><computeroutput>org.osgi.service.http.port=8080</computeroutput></para>
-                    <para>and replace it with</para>
-                    <para><computeroutput>org.osgi.service.http.port=18080</computeroutput></para>
-                    <para>or another unused port.</para>
+                    <para>and replace it exactly with</para>
+                    <para><computeroutput>org.osgi.service.http.port=8081</computeroutput></para>
+                    <para>because this alternate port (8081) will be needed
+                        in one of the examples.</para>
                 </step>
                 <step>
                     <para>Finally, open the configuration file
@@ -354,8 +355,12 @@
                 <step>
                     <para>Install the &quot;Rent A Car&quot; services feature
                         into the OSGi container.</para>
-                    <para>Type the followin console command:</para>
+                    <para>Type the following console command:</para>
                     <para><userinput>features:install tesb-rac-services</userinput></para>
+                    <para>The services feature must be installed in the primary container, not in
+                        the <code>alternat-container</code> because it relies on port 8080 to be
+                        opened for incoming HTTP calls, as it is configured for the primary
+                        container.</para>
                 </step>
                 <step>
                     <para>Check feature installation success.</para>
