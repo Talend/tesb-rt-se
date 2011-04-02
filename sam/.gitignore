@@ -5,6 +5,7 @@
 .ruleset
 .settings/
 target/
+db/
 velocity.log
 *.i??
 Thumbs.db
