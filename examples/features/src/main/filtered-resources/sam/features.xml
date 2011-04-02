@@ -28,7 +28,7 @@
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_2</bundle>
     </feature>
-    <feature name='tesb-rac-services' version='${project.version}'>
+    <feature name='tesb-rac-services-sam' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-sam/${project.version}</bundle>
