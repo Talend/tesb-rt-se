@@ -12,7 +12,7 @@ target
 .project
 .ruleset
 .settings
-bin
+#bin
 
 derby.log
 
