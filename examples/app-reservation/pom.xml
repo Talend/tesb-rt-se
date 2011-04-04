@@ -72,13 +72,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <!--Require-Bundle>
-                            crmservice-common,
-                            crmservice-client,
-                            reservationservice-common,
-                            reservationservice-client
-                        </Require-Bundle-->
-                        <Import-Package>org.osgi.service.command,*</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
