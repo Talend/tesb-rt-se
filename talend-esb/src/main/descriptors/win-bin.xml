@@ -97,6 +97,7 @@
             </includes>
             <excludes>
                 <exclude>*.bat</exclude>
+                <exclude>*.cmd</exclude>
             </excludes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
@@ -107,6 +108,7 @@
             <outputDirectory>/bin</outputDirectory>
             <includes>
                 <include>*.bat</include>
+                <include>*.cmd</include>
             </includes>
             <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>
