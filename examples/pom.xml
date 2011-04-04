@@ -85,13 +85,13 @@
         <profile>
             <id>locator</id>
             <modules>
-                <module>locator</module>
+                <!-- module>locator</module-->
             </modules>
         </profile>
         <profile>
             <id>sam</id>
             <modules>
-                <module>sam</module>
+                <!--module>sam</module-->
             </modules>
         </profile>
     </profiles>

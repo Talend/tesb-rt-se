@@ -71,6 +71,7 @@
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
 		<property name="executor" ref="defaultExecutor" />
 		<property name="scheduler" ref="defaultScheduler" />
+        <property name="bus" ref="cxf"/>
 	</bean>
 	
 	<bean id="memoryQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>

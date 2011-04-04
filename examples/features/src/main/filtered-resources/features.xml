@@ -15,8 +15,10 @@
       See the License for the specific language governing permissions and
       limitations under the License.
 -->
-<features>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+    <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='tesb-rac-common' version='${project.version}'>
+        <feature>cxf</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>

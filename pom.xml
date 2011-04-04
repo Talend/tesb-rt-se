@@ -262,14 +262,21 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
-	<profiles>
-		<profile>
-			<id>packaging</id>
-			<modules>
-		        <module>talend-esb</module>
-			</modules>
-		</profile>
-	</profiles>
+
+    <profiles>
+        <profile>
+            <id>packaging</id>
+            <modules>
+                <module>talend-esb</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>

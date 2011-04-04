@@ -15,7 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -45,12 +44,12 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
+import org.talend.esb.client.model.CarReserveModel;
+import org.talend.esb.client.model.CarSearchModel;
 import org.talend.services.crm.types.CustomerDetailsType;
 import org.talend.services.reservation.types.ConfirmationType;
 import org.talend.services.reservation.types.RESCarType;
 import org.talend.services.reservation.types.RESStatusType;
-import org.talend.esb.client.model.CarReserveModel;
-import org.talend.esb.client.model.CarSearchModel;
 
 public class CarRentalClientGui extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;

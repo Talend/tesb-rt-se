@@ -44,6 +44,7 @@ public class Messages extends NLS {
 	public static String CarRentalClient_CmdBack;
 	public static String CarRentalClient_Offering;
 	public static String CarRentalClient_SelectInfo;
+	public static String CarRentalClient_Help;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

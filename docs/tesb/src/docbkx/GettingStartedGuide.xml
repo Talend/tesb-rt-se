@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE book [
+<!--
+  #%L
+  ESB :: Manual
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<!DOCTYPE book[
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
 ]>
@@ -32,11 +52,10 @@
             ESB/CXF. This guide contains a simplified real-world example, using
             the domain of car rental companies to demonstrate the use of Talend
             ESB for developing and deploying services.</para>
-        <para>You will first learn the design of the Rent a Car Demo. Then
-            we will show how to compile the demo, deploy it into the Talend
-            ESB Runtime OSGi container and then activate it. Also you will
-            learn how to enable the Service Locator Component for the Rent a
-            Car demo can be enabled.</para>
+        <para>You will first learn the design of the Rent a Car Demo. Then we will show how to
+            compile the demo, deploy it into the Talend ESB Runtime OSGi container and then activate
+            it. You will also learn how to enable the Service Locator Component for the Rent a Car
+            demo, and how Service Activity Monitoring can be enabled.</para>
     </chapter>
     <chapter>
         <title>Rent a Car Demo Example</title>
@@ -52,7 +71,7 @@
             how to:</para>
         <simplelist columns="1" type="vert">
             <member>compile and build Apache CXF services,</member>
-            <member>deploy services on the Karaf OSGi console,</member>
+            <member>deploy services using the Karaf OSGi console,</member>
             <member>use OSGi commands</member>
         </simplelist>
         <para>In this scenario, there are two main services that will be
@@ -79,21 +98,23 @@
         <title>How to build the Demo</title>
         <section>
             <title>System Requirements</title>
-            <para>The Talend ESB and examples can be installed, built, and
-                run on Windows o UNIX-style operating systems for which Java 6
-                is available. The following software is required for
-                installing, building, and running the samples:</para>
+            <para>The Talend ESB and examples can be installed, built, and run on Windows or
+                UNIX-style operating systems for which Java 6 is available. The following software
+                is required for installing, building, and running the samples:</para>
             <procedure>
                 <step>
-                    <para>JDK 1.6.0 from Oracle should be installed, and the
-                        environment variable <code>JAVA_HOME</code> should be
-                        set to the JDK installation directory.</para>
+                    <para>JDK 1.6.0 from Oracle should be installed, and the environment variable
+                        <code>JAVA_HOME</code> should be set to the JDK installation directory.
+                        Later JDKs from Oracle or JDKs from other providers may work but have not
+                        been tested.</para>
                 </step>
                 <step>
-                    <para>Maven 3.0.3 from Apache should be installed, and the
-                        <code>mvn</code> executable should be in your
-                        <code>PATH</code>. When running <code>mvn</code>,
-                        HTTP access to the internet is required.</para>
+                    <para>Maven 3.0.3 or better from Apache should be installed, and the
+                        <code>mvn</code> executable should be in your <code>PATH</code>. When
+                        running <code>mvn</code>, HTTP access to the internet is required.
+                        The local Maven repository is expected to be created in its default
+                        location, i.e. the Maven configuration should not have been
+                        modified.</para>
                 </step>
             </procedure>
         </section>
@@ -122,8 +143,8 @@
                         It consists of three parts:
                         <informaltable>
                             <tgroup cols="2">
-                                <colspec colnum="1" colwidth="1*" />
-                                <colspec colnum="2" colwidth="2*" />
+                                <colspec colnum="1" colwidth="1*"/>
+                                <colspec colnum="2" colwidth="2*"/>
                                 <thead>
                                     <row>
                                         <entry><para>Sample part</para></entry>
@@ -139,9 +160,11 @@
                                     </row>
                                     <row>
                                         <entry><code>service/</code></entry>
-                                        <entry>This is where the CRMService
-                                            service implementation shared by
-                                            JAX-WS endpoints is located</entry>
+                                        <entry>CRMService service implementation.</entry>
+                                    </row>
+                                    <row>
+                                        <entry><code>service-endpoint/</code></entry>
+                                        <entry>CRMService service JAX-WS endpoint.</entry>
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
@@ -163,8 +186,8 @@
                         It consists of 3 parts:
                         <informaltable>
                             <tgroup cols="2">
-                                <colspec colnum="1" colwidth="1*" />
-                                <colspec colnum="2" colwidth="2*" />
+                                <colspec colnum="1" colwidth="1*"/>
+                                <colspec colnum="2" colwidth="2*"/>
                                 <thead>
                                     <row>
                                         <entry><para>Sample part</para></entry>
@@ -181,10 +204,11 @@
                                     </row>
                                     <row>
                                         <entry><code>service/</code></entry>
-                                        <entry>This is where the
-                                            ReservationService implementation
-                                            shared by JAX-WS endpoints is
-                                            located.</entry>
+                                        <entry>ReservationService service implementation.</entry>
+                                    </row>
+                                    <row>
+                                        <entry><code>service-endpoint/</code></entry>
+                                        <entry>ReservationService service JAX-WS endpoint.</entry>
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
@@ -226,6 +250,71 @@
         <title>Deploying the &quot;Rent a Car&quot; demo in the Talend ESB
             Runtime OSGi container</title>
         <section>
+            <title>Create a secondary OSGi container</title>
+            <para>One OSGi container is included in the installation in sub-directory
+                <code>container</code>. However, for trying out all aspects of the
+                examples it is recommended to have two OSGI containers. This can be
+                achieved by the following procedure:</para>
+            <procedure>
+                <step>
+                    <para>Create a copy of directory <code>container</code> with
+                        all its content. In a UNIX/Linux terminal resp. on the 
+                        Windows command line, change the current directory to 
+                        <code>talend-esb-&lt;version&gt;</code>. From there, under
+                        UNIX/Linux execute the following command:</para>
+                    <para><userinput>cp -r container alternate-container</userinput></para>
+                    <para>Under Windows, execute the following command instead:</para>
+                    <para><userinput>robocopy /e container alternate-container</userinput></para>
+                    <para>or</para>
+                    <para><userinput>xcopy /e container alternate-container</userinput></para>
+                    <para>if you have an older Windows version where <code>robocopy</code>
+                        is not available.</para>
+                    <para>Now, you have a second OSGi container in directory
+                        <code>alternate-container</code>.</para>
+                </step>
+                <step>
+                    <para>In order to avoid conflicts between the two container instances,
+                        the configuration of the <code>alternate-container</code> needs
+                        to be adapted. For this purpose open the configuration file
+                        <code>alternate-container/etc/org.apache.karaf.management.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>rmiRegistryPort = 11099</computeroutput></para>
+                    <para>or another unused port.</para>
+                </step>
+                <step>
+                    <para>Next, open the configuration file
+                        <code>alternate-container/etc/org.apache.karaf.shell.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>sshPort = 8101</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>sshPort = 18101</computeroutput></para>
+                    <para>or another unused port.</para>
+                </step>
+                <step>
+                    <para>Next, open the configuration file
+                        <code>alternate-container/etc/org.ops4j.pax.web.cfg</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>org.osgi.service.http.port=8080</computeroutput></para>
+                    <para>and replace it exactly with</para>
+                    <para><computeroutput>org.osgi.service.http.port=8081</computeroutput></para>
+                    <para>because this alternate port (8081) will be needed
+                        in one of the examples.</para>
+                </step>
+                <step>
+                    <para>Finally, open the configuration file
+                        <code>alternate-container/etc/system.properties</code>
+                        in your favourite text editor. Search line</para>
+                    <para><computeroutput>org.osgi.service.http.port=8181</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>org.osgi.service.http.port=18181</computeroutput></para>
+                    <para>or another unused port.</para>
+                    <para>Now, two OSGi containers are available for running the examples.</para>
+                </step>
+            </procedure>
+        </section>
+        <section>
             <title>Start the OSGi console</title>
             <para>Start the OSGi container running program
                 <code>talend-esb-&lt;version&gt;/container/bin/tesb</code> (UNIX/Linux)
@@ -239,8 +328,10 @@
                 <code>talend-esb-&lt;version&gt;</code> 
                 and execute the following command:</para>
             <para><userinput>.\container\bin\tesb.bat</userinput></para>
-            <para>You will see a short introduction followed by the OSGi console
-                command prompt:</para>
+            <para>The second container is started up the same way. Just replace
+                <code>./container/...</code> by <code>./alternate-container/...</code>.</para>
+            <para>When the container starts up, you will see a short introduction
+                followed by the OSGi console command prompt:</para>
             <para><userinput>karaf@tesb&gt; </userinput></para>
             <para>The OSGi commands explained in the following sections will be
                 entered here.</para>
@@ -253,7 +344,7 @@
             <title>Deploy the demo services</title>
             <procedure>
                 <step>
-                    <para>Add the &quot;Rent A Car&quot; feature into the OSGi
+                    <para>Add the &quot;Rent A Car&quot; feature location into the OSGi
                         container.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
@@ -267,8 +358,12 @@
                 <step>
                     <para>Install the &quot;Rent A Car&quot; services feature
                         into the OSGi container.</para>
-                    <para>Type the followin console command:</para>
+                    <para>Type the following console command:</para>
                     <para><userinput>features:install tesb-rac-services</userinput></para>
+                    <para>The services feature must be installed in the primary container, not in
+                        the <code>alternat-container</code> because it relies on port 8080 to be
+                        opened for incoming HTTP calls, as it is configured for the primary
+                        container.</para>
                 </step>
                 <step>
                     <para>Check feature installation success.</para>
@@ -279,18 +374,30 @@
                     <literallayout><computeroutput>
 [ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
 [ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
-[ 139] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
-[ 140] [Active     ] [            ] [Started] [   60] ReservationService Service (4.0.0)
+[ 139] [Active     ] [            ] [       ] [   60] CRMService Service (4.0.0)
+[ 140] [Active     ] [            ] [Started] [   60] CRMService Service Endpoint (4.0.0)
+[ 141] [Active     ] [            ] [       ] [   60] ReservationService Service (4.0.0)
+[ 142] [Active     ] [            ] [Started] [   60] ReservationService Service Endpoint (4.0.0)
                     </computeroutput></literallayout>
                 </step>
             </procedure>
+            <para>If you later want to uninstall the demo services, e.g.
+                because you want to move them to the other container or try another scenario, execute
+                this command at the OSGi console:</para>
+            <para><userinput>features:uninstall tesb-rac-services</userinput></para>
+            <para>Then, you can install them again as described above.</para>
         </section>
         <section>
-            <title>Deploy demo application</title>
+            <title>Deploy the demo application</title>
+            <para>The demo application can be deployed in the same OSGi container as
+                the service or in the second container.</para>
             <procedure>
                 <step>
-                    <para>If not done already, add the &quot;Rent A Car&quot;
-                        feature into the OSGi container.</para>
+                    <para>If the second container is used for deployment of the demo application,
+                        add the &quot;Rent A Car&quot; feature location into this OSGi container.
+                        The feature location needs to be added only once in each container, even
+                        if the container is shut down afterwards and re-started. However, if unsure,
+                        you may add the feature location again at any time.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
                     <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
@@ -321,6 +428,11 @@
                     </computeroutput></literallayout>
                 </step>
             </procedure>
+            <para>If you later want to uninstall the demo application, e.g.
+                because you want to move it to the other container, execute
+                this command at the OSGi console:</para>
+            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
+            <para>Then, you can install it again as described above.</para>
         </section>
     </chapter>
     <chapter>
@@ -342,8 +454,10 @@
             <title>Starting the application</title>
             <para>ReservationService, CRMService, and App-reservation are
                 already deployed in Talend ESB Runtime. Start the OSGi console
-                as described previously.</para>
-            <para>On the console you will see:</para>
+                as described previously. If demo services and demo application
+                are deployed in two different containers, both must be started.</para>
+            <para>On the console of the container with the demo application
+                you will see:</para>
             <literallayout><computeroutput>
 ---TALEND ESB: Rent a Car (OSGi) Commands---
 car:GUI        (Show GUI)
@@ -427,61 +541,6 @@ Thank you for renting a car with Talend ESB :-)
             </computeroutput></literallayout>
         </section>
     </chapter>
-    
-	<chapter>
-		<title>Distribute sample to two containers</title>
-		<para>
-			Install two instances of Talend ESB in different locations.
-		</para>
-		<para>			
-			For stable work two TESB karaf containers in the same time
-			change
-			parameter rmiRegistryPort in one of them in file<code>talend-esb-&lt;version&gt;\container\etc\org.apache.karaf.management.cfg</code>
-			.
-		</para>
-		<para>			
-			Build demo sample in both instances.
-		</para>
-		<para>Start first console. In one conteiner deploy only demo services.
-			For it in console of this karaf container type:
-		</para>
-		<para>			
-		<userinput>features:addurl
-			mvn:org.talend.esb.examples/features/4.0/xml</userinput>
-		</para>
-		<para>			
-		<userinput>features:install tesb-rac-services</userinput>
-		</para>		
-		<para>Start second console. In it deploy only demo
-			application:
-		</para>
-		<para>			
-		<userinput>features:addurl
-			mvn:org.talend.esb.examples/features/4.0/xml</userinput>
-		</para>
-		<para>			
-		<userinput>features:install tesb-rac-app</userinput>
-		</para>
-		<para>
-			Run demo application in this console. Type the command
-			<userinput>car:GUI</userinput>
-			.
-		</para>
-		<para>Demo sample now works in two container: services work in one
-			container, application - in another.
-		</para>
-		<para>
-			In
-			case during running command features:addurl the exception "Could not
-			add Feature Repository" appear change in file
-			<code>talend-esb-&lt;version&gt;\container\etc\org.ops4j.pax.url.mvn
-			</code>
-			parameter
-			<code>org.ops4j.pax.url.mvn.localRepository=&lt;local maven repo&gt;
-			</code>
-		</para>
-	</chapter>    
-    
     <chapter>
         <title>How to enable the sample in Eclipse</title>
         <para>For more information about how to use the Maven Eclipse Plugin read
@@ -509,7 +568,6 @@ Thank you for renting a car with Talend ESB :-)
             all the eclipse features.</para>
         <para>However, the TESB sample projects cannot be run in the Eclipse IDE.</para>
     </chapter>
-    
     &chapSLEnabling;
     &chapSAMEnabling;
  </book>

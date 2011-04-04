@@ -20,7 +20,6 @@
         <module>sam-common</module>
         <module>sam-agent</module>
         <module>sam-server</module>
-        <module>sam-server-war</module>
     </modules>
 
 	<build>

@@ -14,10 +14,15 @@
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-		http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd
-">
+	"
+>
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
 	<bean id="ReservationServiceBean"
 		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
@@ -28,9 +33,10 @@
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
 		implementor="#ReservationServiceBean"
-		address="http://localhost:8889/soap/ReservationServiceProvider/">
+		address="/ReservationServiceProvider2/">
 		<jaxws:features>
 			<bean class="org.talend.esb.locator.LocatorFeature">
+				<property name="endpointPrefix" value="http://localhost:8081/services"/>
 				<property name="locatorEndpoints" value="localhost:2181"/>
 			</bean>
 		</jaxws:features>
