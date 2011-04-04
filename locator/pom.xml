@@ -113,8 +113,8 @@
 						</goals>
 						<configuration>
 							<includeScope>runtime</includeScope>
-							<excludeGroupIds>org.talend.esb,org.apache.cxf,org.apache.zookeeper</excludeGroupIds>
-							<excludeTransitive>true</excludeTransitive>
+<!-- 							<excludeGroupIds>org.talend.esb,org.apache.cxf,org.apache.zookeeper</excludeGroupIds> -->
+<!-- 							<excludeTransitive>true</excludeTransitive> -->
 						</configuration>
 					</execution>
 				</executions>

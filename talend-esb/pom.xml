@@ -25,7 +25,6 @@
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
-		<camel.version>2.7.0</camel.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.7-SNAPSHOT</tif.version>
 		<tsf.version>2.4.0.0-SNAPSHOT</tsf.version>
