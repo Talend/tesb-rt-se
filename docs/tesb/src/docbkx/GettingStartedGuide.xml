@@ -160,9 +160,11 @@
                                     </row>
                                     <row>
                                         <entry><code>service/</code></entry>
-                                        <entry>This is where the CRMService
-                                            service implementation shared by
-                                            JAX-WS endpoints is located</entry>
+                                        <entry>CRMService service implementation.</entry>
+                                    </row>
+                                    <row>
+                                        <entry><code>service-endpoint/</code></entry>
+                                        <entry>CRMService service JAX-WS endpoint.</entry>
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
@@ -202,10 +204,11 @@
                                     </row>
                                     <row>
                                         <entry><code>service/</code></entry>
-                                        <entry>This is where the
-                                            ReservationService implementation
-                                            shared by JAX-WS endpoints is
-                                            located.</entry>
+                                        <entry>ReservationService service implementation.</entry>
+                                    </row>
+                                    <row>
+                                        <entry><code>service-endpoint/</code></entry>
+                                        <entry>ReservationService service JAX-WS endpoint.</entry>
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
