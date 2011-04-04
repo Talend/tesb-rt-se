@@ -16,7 +16,7 @@
       limitations under the License.
 -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
-    <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
+    <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='tesb-rac-common' version='${project.version}'>
         <feature>cxf</feature>
         <feature>tesb-sam-agent</feature>

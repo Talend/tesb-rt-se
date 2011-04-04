@@ -1,5 +1,7 @@
 Common:
 features:addurl mvn:org.talend.esb.examples/features/4.0/xml
+
+Rent A Car Application:
 features:install tesb-rac-app
 
 Rent A Car:
