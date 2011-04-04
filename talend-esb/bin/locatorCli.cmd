@@ -21,10 +21,10 @@ REM Display the contents of a Service Locator
 REM
 
 setlocal
-set TESB_ADDONS=%~dp0%..\add-ons
+set TESB_ADDONS=%~dp0..\add-ons
 REM set ZOO_LOG4J_PROP=INFO,CONSOLE
 
-CLASSPATH="%TESB_ADDONS%/Locator/locator-4.0.jar;%TESB_ADDONS%/lib/zookeeper-3.3.3.jar;%TESB_ADDONS%/lib/log4j-1.2.15.jar"
+set CLASSPATH="%TESB_ADDONS%/Locator/locator-4.0.jar;%TESB_ADDONS%/lib/zookeeper-3.3.3.jar;%TESB_ADDONS%/lib/log4j-1.2.15.jar"
 
 echo on
 java -cp "%CLASSPATH%" org.talend.esb.locator.ServiceLocatorMain  %*
