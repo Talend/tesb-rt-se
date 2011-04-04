@@ -35,8 +35,8 @@
     </licenses>
 
     <properties>
-        <camel.version>2.6.0</camel.version>
-        <cxf.version>2.3.3</cxf.version>
+        <camel.version>2.7.0</camel.version>
+        <cxf.version>2.4.0-SNAPSHOT</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
         <zookeeper.version>3.3.3</zookeeper.version>
         <derby.version>10.7.1.1</derby.version>
@@ -99,11 +99,32 @@
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
         </repository>
+          <repository>
+              <id>apache.snapshots</id>
+              <url>http://repository.apache.org/snapshots/</url>
+              <name>Apache Snapshot Repo</name>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+         </repository> 
     </repositories>
     <pluginRepositories>
          <pluginRepository>
              <id>codehaus</id>
              <url>https://nexus.codehaus.org/content/groups/public/</url>
+         </pluginRepository>
+         <pluginRepository>
+             <id>apache.snapshots</id>
+             <url>http://repository.apache.org/snapshots/</url>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
          </pluginRepository>
      </pluginRepositories>
 

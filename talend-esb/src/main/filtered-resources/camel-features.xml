@@ -18,7 +18,7 @@
 -->
 <features>
   <feature name='jetty7' version='${jetty.version}'>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-util/${jetty.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-io/${jetty.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-http/${jetty.version}</bundle>
@@ -68,7 +68,7 @@
     <bundle>mvn:org.springframework/spring-jms/${spring.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.asm/${asm.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.fastinfoset/${fastinfoset.bundle.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
     <bundle>mvn:org.codehaus.jettison/jettison/${jettison.version}</bundle>
@@ -81,14 +81,14 @@
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlresolver/${xmlresolver.bundle.version}</bundle>
     <bundle>mvn:org.codehaus.woodstox/woodstox-core-asl/${woodstox.version}</bundle>
     <bundle>mvn:org.codehaus.woodstox/stax2-api/${woodstox.stax2-api.version}</bundle>
-    <bundle>mvn:org.apache.ws.commons.schema/XmlSchema/${xmlschema.version}</bundle>
+    <bundle>mvn:org.apache.ws.xmlschema/xmlschema-core/${xmlschema.version}</bundle>
     <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <bundle>mvn:commons-collections/commons-collections/${commons-collections.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/${antlr2.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/${oro.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.velocity/${velocity.bundle.version}</bundle>
     <bundle>mvn:javax.mail/mail/${javax.mail.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.neethi/${neethi.bundle.version}</bundle>
+    <bundle>mvn:org.apache.neethi/neethi/${neethi.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera/${abdera.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/${servicemix.specs.version}</bundle>
     <bundle>mvn:org.apache.geronimo.specs/geronimo-annotation_1.0_spec/${geronimo-annotation.version}</bundle>
@@ -127,14 +127,14 @@
     <feature version='${camel.version}'>camel-core</feature>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${commons-httpclient.bundle.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.camel/camel-http/${camel.version}</bundle>
   </feature>
   <feature name='camel-http4' version='${camel.version}'>
     <feature version='${camel.version}'>camel-core</feature>
     <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore-osgi.version}</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpclient-osgi/${httpclient-osgi.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.camel/camel-http4/${camel.version}</bundle>
   </feature>
   <feature name='camel-mina' version='${camel.version}'>
@@ -220,7 +220,7 @@
     <bundle>mvn:org.apache.camel/camel-bindy/${camel.version}</bundle>
   </feature>
   <feature name='camel-cometd' version='${camel.version}'>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-util/${jetty.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-io/${jetty.version}</bundle>
     <bundle>mvn:org.eclipse.jetty/jetty-http/${jetty.version}</bundle>
@@ -240,7 +240,7 @@
   </feature>
   <feature name='camel-dozer' version='${camel.version}'>
     <feature version='${camel.version}'>camel-core</feature>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle>mvn:net.sf.dozer/dozer-osgi/${dozer-osgi.version}</bundle>
     <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
@@ -314,7 +314,7 @@
   <feature name='camel-ibatis' version='${camel.version}'>
     <feature version='${camel.version}'>camel-spring</feature>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-pool/${commons-pool.bundle.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oscache/${oscache.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/${cglib.bundle.version}</bundle>    
@@ -402,7 +402,7 @@
   </feature>
   <feature name='camel-jxpath' version='${camel.version}'>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
     <bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/${geronimo-jsp.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
@@ -413,7 +413,7 @@
   </feature>
   <feature name='camel-juel' version='${camel.version}'>
     <feature version='${camel.version}'>camel-core</feature>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.juel/${juel.bundle.version}</bundle>
     <bundle>mvn:org.apache.camel/camel-juel/${camel.version}</bundle>
@@ -622,7 +622,7 @@
     <bundle>mvn:org.apache.camel/camel-tagsoup/${camel.version}</bundle>
   </feature>
   <feature name='camel-velocity' version='${camel.version}'>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <bundle>mvn:commons-collections/commons-collections/${commons-collections.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>

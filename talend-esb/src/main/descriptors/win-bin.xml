@@ -105,7 +105,7 @@
 
         <!-- Expanded Karaf Runtime -->
         <fileSet>
-            <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
+            <directory>target/dependencies/win/apache-karaf-${karaf.version}</directory>
             <outputDirectory>/container</outputDirectory>
             <excludes>
                 <exclude>**/demos/**</exclude>
@@ -126,7 +126,7 @@
             </excludes>
         </fileSet>
 
-        <!-- Copy over bin/* separately to get the correct file mode -->
+        <!-- Copy over win bin/* separately to get the correct file mode -->
         <fileSet>
             <directory>target/dependencies/win/apache-karaf-${karaf.version}/bin</directory>
             <outputDirectory>/container/bin</outputDirectory>
@@ -180,7 +180,7 @@
             <includes>
                 <include>LICENSE.txt</include>
             </includes>
-            <lineEnding>unix</lineEnding>
+            <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>
         </fileSet>
 
@@ -237,7 +237,7 @@
             <outputDirectory>/container/bin/</outputDirectory>
             <destName>tesb</destName>
             <fileMode>0755</fileMode>
-            <lineEnding>unix</lineEnding>
+            <lineEnding>dos</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/classes/camel-features.xml</source>
@@ -246,13 +246,13 @@
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
-        <file>
+<!--        <file>
             <source>${basedir}/target/classes/activemq-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}</outputDirectory>
             <destName>activemq-karaf-${activemq.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
-        </file>
+        </file>  -->
         <file>
             <source>${basedir}/target/classes/tif-features.xml</source>
             <outputDirectory>/container/system/com/talend/if/talend-if/${tif.version}</outputDirectory>
@@ -260,16 +260,42 @@
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
-        <file>
-            <source>${basedir}/target/classes/tsf-features.xml</source>
-            <outputDirectory>/container/system/com/talend/sf/talend-sf/${tsf.version}</outputDirectory>
-            <destName>talend-sf-${tsf.version}-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
-        </file>
     </files>
 
     <dependencySets>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/cxf/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.cxf.karaf:apache-cxf:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/activemq/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.activemq:activemq-karaf:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <!--dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/camel/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.camel.karaf:apache-camel:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet-->
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <unpack>false</unpack>
@@ -366,6 +392,17 @@
             <includes>
                 <include>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</include>
                 <include>org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/ws/commons/schema/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.ws.commons.schema:XmlSchema</include>
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>

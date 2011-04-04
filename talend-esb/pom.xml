@@ -24,20 +24,20 @@
 		<osgi.version>3.6.0.v20100517</osgi.version>
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>1.5.9</spring.ws.version>
-		<activemq.version>5.4.2</activemq.version>
-		<camel.version>2.6.0</camel.version>
+		<activemq.version>5.5.0</activemq.version>
+		<camel.version>2.7.0</camel.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.6.0.0</tif.version>
-		<tsf.version>2.3.3.0</tsf.version>
+		<tif.version>2.7-SNAPSHOT</tif.version>
+		<tsf.version>2.4.0.0-SNAPSHOT</tsf.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
-		<aries.version>0.2-incubating</aries.version>
-		<karaf.version>2.1.4</karaf.version> 
-		<karaf.osgi.version>2.1.4</karaf.osgi.version>
+		<aries.version>0.3</aries.version>
+		<karaf.version>2.2.0</karaf.version> 
+<!-- 		<karaf.osgi.version>2.1.4</karaf.osgi.version> -->
 		<osgi.compendium.version>4.2.0</osgi.compendium.version>
 		<osgi.core.version>4.2.0</osgi.core.version>
 
-		<!-- Geronimo -->
+		<!-- Geronimo --> 
 		<geronimo-annotation.version>1.1.1</geronimo-annotation.version>
 		<geronimo-connector.version>2.1.3</geronimo-connector.version>
 		<geronimo-el.version>1.0.1</geronimo-el.version>
@@ -49,11 +49,11 @@
 		<geronimo-jsp.version>1.0.1</geronimo-jsp.version>
 		<geronimo-jta.version>1.1.1</geronimo-jta.version>
 		<geronimo-saaj.version>1.1</geronimo-saaj.version>
-		<geronimo-servlet.version>1.2</geronimo-servlet.version>
+		<geronimo-servlet.version>1.0</geronimo-servlet.version>
 		<geronimo-ws-metadata.version>1.1.3</geronimo-ws-metadata.version>
 		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
 
-		<!-- ServiceMix Bundles -->
+		<!-- ServiceMix Bundles --> 
 		<abdera.bundle.version>0.4.0-incubating_3</abdera.bundle.version>
 		<ant.bundle.version>1.7.0_4</ant.bundle.version>
 		<antlr2.bundle.version>2.7.7_3</antlr2.bundle.version>
@@ -92,15 +92,15 @@
 		<jain-sip-ri.bundle.version>1.2.154_1</jain-sip-ri.bundle.version>
 		<jasypt.bundle.version>1.6_1</jasypt.bundle.version>
 		<javassist.bundle.version>3.9.0.GA_1</javassist.bundle.version>
-		<jaxb-impl.bundle.version>2.1.13_1</jaxb-impl.bundle.version>
-		<jaxb-xjc.bundle.version>2.1.13_1</jaxb-xjc.bundle.version>
-		<jaxb-impl.version>2.1.13</jaxb-impl.version>
-		<jaxb-xjc.version>2.1.13</jaxb-xjc.version>
+		<jaxb-impl.bundle.version>2.2.1.1_1</jaxb-impl.bundle.version>
+		<jaxb-xjc.bundle.version>2.2.1.1_1</jaxb-xjc.bundle.version>
+		<jaxb-impl.version>2.2.1.1</jaxb-impl.version>
+		<jaxb-xjc.version>2.2.1.1</jaxb-xjc.version>
 		<jaxen.bundle.version>1.1.1_1</jaxen.bundle.version>
 		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
 		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
 		<jdom.bundle.version>1.1_3</jdom.bundle.version>
-		<jetty.version>7.2.2.v20101205</jetty.version>
+		<jetty.version>7.3.1.v20110307</jetty.version>
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
 		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
 		<jing.bundle.version>20030619_3</jing.bundle.version>
@@ -115,7 +115,7 @@
 		<lucene.bundle.version>3.0.3_1</lucene.bundle.version>
 		<mina.bundle.version>1.1.7_4</mina.bundle.version>
 		<mvel.bundle.version>2.0.8_4</mvel.bundle.version>
-		<neethi.bundle.version>2.0.4_3</neethi.bundle.version>
+		<neethi.bundle.version>3.0.0-SNAPSHOT</neethi.bundle.version>
 		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
@@ -157,8 +157,8 @@
 		<servicemix.specs.version>1.7.0</servicemix.specs.version>
 
 		<!-- Other Dependencies -->
-		<abdera.version>1.1</abdera.version>
-		<axiom.version>1.2.8</axiom.version>
+		<abdera.version>1.1.2</abdera.version>
+		<axiom.version>1.2.10</axiom.version>
 		<bouncycastle.version>140</bouncycastle.version>
 		<commons-codec.version>1.4</commons-codec.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
@@ -192,11 +192,18 @@
 		<restlet.version>1.1.10</restlet.version>
 		<pax-web-jsp.version>0.7.2</pax-web-jsp.version>
 		<tranql.version>1.6</tranql.version>
-		<woodstox.version>4.0.8</woodstox.version>
-		<woodstox.stax2-api.version>3.0.2</woodstox.stax2-api.version>
-		<wss4j.version>1.5.11</wss4j.version>
+		<woodstox.version>4.1.1</woodstox.version>
+		<woodstox.stax2-api.version>3.1.1</woodstox.stax2-api.version>
+        <wss4j.version>1.6-SNAPSHOT</wss4j.version>
+        <joda.time.version>1.6.2</joda.time.version>
+
+        <opensaml.version>2.4.1</opensaml.version>
+        <opensamlws.version>1.4.1</opensamlws.version>
+        <opensaml.xmltooling.version>1.3.1</opensaml.xmltooling.version>
+
 		<xbean.version>3.7</xbean.version>
-		<xmlschema.version>1.4.7</xmlschema.version>
+		<xmlschema.version>2.0</xmlschema.version>
+		
 	</properties>
 
 	<dependencies>
@@ -215,9 +222,16 @@
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
-            <groupId>org.apache.karaf</groupId>
-            <artifactId>apache-karaf</artifactId>
-			<version>${karaf.version}</version>
+            <groupId>org.apache.karaf.assemblies.features</groupId>
+            <artifactId>standard</artifactId>
+            <version>${karaf.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.assemblies.features</groupId>
+            <artifactId>enterprise</artifactId>
+            <version>${karaf.version}</version>
             <type>xml</type>
             <classifier>features</classifier>
 		</dependency>
@@ -231,6 +245,64 @@
 			<classifier>features</classifier>
 		</dependency>
 
+        <!-- CXF -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-bundle</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.karaf</groupId>
+            <artifactId>apache-cxf</artifactId>
+            <version>${cxf.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+
+        <!-- ActiveMQ -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-blueprint</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-console</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-karaf</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-ra</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>kahadb</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-karaf</artifactId>
+            <version>${activemq.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+        
 		<!-- Apache ZooKeeper -->
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
@@ -269,7 +341,7 @@
 
 		<!-- TSF -->
 		<dependency>
-			<groupId>com.talend.sf.assebmly</groupId>
+			<groupId>com.talend.sf.assembly</groupId>
 			<artifactId>talend-sf</artifactId>
 			<version>${tsf.version}</version>
 			<classifier>examples</classifier>
@@ -278,7 +350,8 @@
 		<dependency>
 			<groupId>com.talend.sf.assebmly</groupId>
 			<artifactId>talend-sf</artifactId>
-			<version>${tsf.version}</version>
+<!-- 			<version>${tsf.version}</version> -->
+			<version>2.3.3.0</version>
 			<classifier>doc</classifier>
 			<type>zip</type>
 		</dependency>
@@ -436,8 +509,8 @@
             <version>${mvel.bundle.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.neethi</artifactId>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi</artifactId>
             <version>${neethi.bundle.version}</version>
         </dependency>
         <dependency>
@@ -614,11 +687,16 @@
 						</goals>
 						<configuration>
 							<descriptors>
-                                <descriptor>mvn:org.apache.karaf/apache-karaf/${karaf.version}/xml/features</descriptor>
-								<descriptor>file:${basedir}/target/classes/activemq-features.xml</descriptor>
-								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
+                                <descriptor>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/2.3.3/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
+<!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
-								<descriptor>file:${basedir}/target/classes/tsf-features.xml</descriptor>
+								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
+<!-- 								<descriptor>file:${basedir}/target/classes/activemq-features.xml</descriptor> -->
+<!-- 								<descriptor>file:${basedir}/target/classes/tsf-features.xml</descriptor> -->
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -674,7 +752,6 @@
 								<feature>camel-jing</feature>
 								<feature>camel-jibx</feature>
 								<feature>camel-jdbc</feature>
-								<feature>camel-jdbc-aggregator</feature>
 								<feature>camel-josql</feature>
 								<feature>camel-jpa</feature>
 								<feature>camel-jxpath</feature>
@@ -719,7 +796,6 @@
 								<feature>camel-xstream</feature>
 								<!-- CXF Features -->
 								<feature>cxf</feature>
-								<feature>cxf-jaxrs</feature>
 								<!-- TIF Features -->
 								<feature>tif-core</feature>
 								<feature>tif-test</feature>
@@ -760,14 +836,14 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>tesb.jar</destFileName>
                                 </artifactItem>
-								<artifactItem>
-									<groupId>org.apache.camel.karaf</groupId>
-									<artifactId>apache-camel</artifactId>
-									<type>xml</type>
-									<classifier>features</classifier>
-									<outputDirectory>target/dependencies</outputDirectory>
-									<destFileName>apache-camel-features.xml</destFileName>
-								</artifactItem>
+<!-- 								<artifactItem> -->
+<!-- 									<groupId>org.apache.camel.karaf</groupId> -->
+<!-- 									<artifactId>apache-camel</artifactId> -->
+<!-- 									<type>xml</type> -->
+<!-- 									<classifier>features</classifier> -->
+<!-- 									<outputDirectory>target/dependencies</outputDirectory> -->
+<!-- 									<destFileName>apache-camel-features.xml</destFileName> -->
+<!-- 								</artifactItem> -->
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -887,9 +963,9 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.talend.sf.assebmly</groupId>
+									<groupId>com.talend.sf.assembly</groupId>
 									<artifactId>talend-sf</artifactId>
-									<version>${TSF.version}</version>
+									<version>${tsf.version}</version>
 									<type>zip</type>
 									<classifier>examples</classifier>
 									<outputDirectory>target/dependencies/tsf-examples</outputDirectory>
@@ -908,7 +984,7 @@
 								<artifactItem>
 									<groupId>com.talend.sf.assebmly</groupId>
 									<artifactId>talend-sf</artifactId>
-									<version>${TSF.version}</version>
+									<version>2.3.3.0</version>
 									<type>zip</type>
 									<classifier>doc</classifier>
 									<outputDirectory>target/dependencies/tsf-doc</outputDirectory>
@@ -942,6 +1018,15 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<copy todir="target/add-ons/lib">
+									<fileset dir="${basedir}/../sam">
+										<include name="**/target/dependency/*.jar" />
+									</fileset>
+									<fileset dir="${basedir}/../locator">
+										<include name="**/target/dependency/*.jar" />
+									</fileset>
+									<flattenmapper />
+								</copy>
 								<copy todir="target/docs">
 									<fileset dir="${basedir}/../docs">
 										<include name="**/target/**/*.pdf" />
@@ -959,7 +1044,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.2.1</version>
 				<executions>
 					<execution>
 						<id>unix-bin</id>
@@ -1039,6 +1124,19 @@
 			<url>http://sop-ip14.servicebackbone.org:8081/nexus/content/repositories/thirdparty-dev</url>
 		</repository>
 	</repositories>
+
+    <pluginRepositories>
+         <pluginRepository>
+             <id>apache.snapshots</id>
+             <url>http://repository.apache.org/snapshots/</url>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+         </pluginRepository>
+     </pluginRepositories>
 
 </project>
 
