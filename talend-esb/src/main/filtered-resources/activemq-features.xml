@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2010 Talend Inc. - www.talend.com
+    Copyright (C) 2011 Talend Inc. - www.talend.com
 -->
 <features name="activemq-${activemq.version}">
-    <repository>mvn:org.apache.karaf/apache-karaf/${karaf.version}/xml/features</repository>
     
     <feature name="activemq" version="${activemq.version}">
         <bundle>mvn:org.apache.geronimo.specs/geronimo-annotation_1.0_spec/${geronimo-annotation.version}</bundle>

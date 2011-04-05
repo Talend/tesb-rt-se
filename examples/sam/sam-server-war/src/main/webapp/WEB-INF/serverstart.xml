@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Service Activity Monitoring :: Server War
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:util="http://www.springframework.org/schema/util" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+">
+    <import resource="classpath:/META-INF/spring/server.xml" />
+
+    <!--  Sample filters -->
+    <!-- 
+    <bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler">
+        <property name="tagnames">
+            <list>
+                <value>Password</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="stringContentFilter" class="org.talend.esb.sam.common.filter.impl.StringContentFilter">
+        <property name="wordsToFilter">
+            <list>
+                <value>abc</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
+        <property name="length" value="2000" />
+    </bean>
+    -->
+    
+    <bean class="org.talend.esb.sam.common.filter.impl.JxPathFilter">
+        <property name="expression" value="/content=''"></property>
+    </bean>
+
+</beans>

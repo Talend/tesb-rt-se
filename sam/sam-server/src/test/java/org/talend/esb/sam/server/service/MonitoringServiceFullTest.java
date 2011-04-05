@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * Service Activity Monitoring :: Server
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.sam.server.service;
 
 import java.net.MalformedURLException;
@@ -5,6 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 import javax.annotation.Resource;
@@ -16,6 +36,7 @@ import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Test;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -23,7 +44,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.talend.esb.sam._2011._03.common.CustomInfoType;
 import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
@@ -82,16 +102,13 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         long id = simpleJdbcTemplate.queryForLong("select id from EVENTS");
         Event readEvent = eventRepository.readEvent(id);
         Assert.assertEquals(EventTypeEnum.REQ_OUT, readEvent.getEventType());
-        List<CustomInfo> ciList = readEvent.getCustomInfoList();
-        Assert.assertEquals("mykey1", ciList.get(0).getCustKey());
-        Assert.assertEquals("myValue1", ciList.get(0).getCustValue());
-        Assert.assertEquals("mykey2", ciList.get(1).getCustKey());
-        Assert.assertEquals("myValue2", ciList.get(1).getCustValue());
-
+        Map<String, String> customInfo = readEvent.getCustomInfo();
+        Assert.assertEquals("myValue1", customInfo.get("mykey1"));
+        Assert.assertEquals("myValue2", customInfo.get("mykey2"));
     }
     
-//    @After
-//    public void tearDown() {
-//        executeSqlScript("drop.sql", true);
-//    }
+    @After
+    public void tearDown() {
+        executeSqlScript("drop.sql", true);
+    }
 }

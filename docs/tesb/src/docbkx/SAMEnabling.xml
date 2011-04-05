@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  ESB :: Manual
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook">
+  <title>Enabling Rent a Car demo to use Service Activity Monitoring</title>
+
+  <section>
+    <title>Purpose of Service Activity Monitoring</title>
+
+    <para>The Service Activity Monitoring (SAM) allows to log / monitor service calls done with the Apache CXF Framework. Typical use cases are usage statistics and fault monitoring. The solution consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates events out of the requests and replies on service consumer and provider side. The events are first collected locally and then sent to the monitoring server periodically to not disturb the normal message flow. The Monitoring Server receives events from the Agent,  optinally filters/handlers events and stores them into a Database. The Agent is packaged as a jar that needs to be on the classpath of the service consumer and provider. The Monitoring Server is deployed as a WAR in a servlet container and needs access to a database. </para>
+
+    <para>For example: One service call can generate four events. Consumer is sending a request (REQ_OUT), service receives request (REQ_IN), service sends response (RESP_OUT) and consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". </para>
+  </section>
+
+  <section>
+  <title>Architecture</title>
+		<para>
+In the left from this diagram the Agent is described. In the right is the Monitoring Server. Agent will be used to collect all the Message data from the customer service/client and send them to Monitoring Server. The Monitoring Server will receive Events and store them into Database. The interface between Agent and Monitoring Server is WebService.		
+		</para>
+		<para>
+FlowId Producer is a component used to generate FlowId(UUID) in the Message Header and pass it to subsequent Messages.
+        </para>
+		<para>
+Filter/Handler can be set up on both Agent side and Monitoring Server side. They have been used to filter Events and manipulate Event's content. There are some built-in Filter/Handlers (eg. StringContentFilter, PasswordHandler) and user can develop own Filter/Handler by extend EventFilter/EventHandler SPI.
+		</para>
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/sam_architecture.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>    
+  </section>
+  
+  <section>
+    <title>Configure and Run Monitoring Server</title>
+	<para>If you want to configure some properties (eg. db.url), please edit: </para>
+	<para>
+	<userinput>talend-esb-&lt;version&gt;/examples/sam/sam-server-war/src/main/webapp/WEB-INF/logserver.properties</userinput>
+	</para>
+
+	<para>For this example, using Jetty Database is best choice. For example: </para>
+<programlisting>	
+monitoringServiceUrl=/MonitoringServiceSOAP
+db.driver=org.apache.derby.jdbc.ClientDriver
+db.url=jdbc:derby://localhost:1527/db;create=true
+db.username=test
+db.password=test
+db.incrementer=derbyIncrementer
+
+db.recreate=true
+db.createsql=create.sql
+</programlisting>
+
+	<para>Start Monitoring Server: </para>
+	<para><userinput>cd talend-esb-&lt;version&gt;/examples/sam/sam-server-war</userinput></para>
+	<para><userinput>mvn jetty:run</userinput></para>
+	<para>then, Monitoring Server will be started.</para>
+  </section>
+  
+  <section>
+    <title>Enabling the Service Activity Monitoring</title>
+
+    <procedure>
+
+      <step>
+      <para>From the base directory of the ESB sample, the maven
+      <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> file can be used to build
+      the demo.</para>
+
+      <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install -Psam</userinput></para>
+
+      <para>Running this command will build the demo and create OSGi bundles
+      to be deployed to an OSGi container.</para>
+      </step>
+
+	  <step>
+    <para> From TESB container directory, type in console command:</para>
+	<para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+	<para><userinput>features:install tesb-rac-app</userinput></para>
+	<para><userinput>features:install tesb-rac-services-sam</userinput></para>
+	<para>Then, You can use list command to check if everything installed properly:</para>
+	<para><userinput>list</userinput></para>
+    <para>For example: </para>
+<literallayout><computeroutput>
+[143] [Active][       ] [       ] [ 60] Service Activity Monitoring :: Common (4.0.0)
+[144] [Active][       ] [       ] [ 60] Service Activity Monitoring :: Agent (4.0.0)
+[145] [Active][       ] [       ] [ 60] CRMService Common (4.0.0)
+[146] [Active][       ] [       ] [ 60] ReservationService Common (4.0.0)
+[147] [Active][       ] [Started] [ 60] CRMService Client (4.0.0)
+[148] [Active][       ] [Started] [ 60] ReservationService Client (4.0.0)
+[149] [Active][Created] [Started] [ 60] App Reservation (4.0.0)
+[150] [Active][       ] [       ] [ 60] CRMService Service (4.0.0)
+[151] [Active][       ] [Started] [ 60] CRMService Service Endpoint SAM (4.0.0)
+[152] [Active][       ] [       ] [ 60] ReservationService Service (4.0.0)
+[153] [Active][       ] [Started] [ 60] ReservationService Service Endpoint SAM (4.0.0)
+</computeroutput></literallayout>	  
+	  </step>
+	</procedure>
+  </section>
+
+  <section>
+    <title>View the Events in the Database</title>
+
+    <para>
+Running Rent a Car demo, and using DbVisualizer to monitor the EVENTS table and EVENTS_CUSTOMINFO table, you will find the Events. For example:
+	</para>
+
+	<mediaobject>
+	  <imageobject>
+		 <imagedata fileref="images/sam_db.jpg" format="jpg"/>
+	  </imageobject>
+	</mediaobject>  	
+	
+  </section>
+</chapter>

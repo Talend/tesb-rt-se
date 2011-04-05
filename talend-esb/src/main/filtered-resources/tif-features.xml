@@ -6,6 +6,7 @@
     -->
 
     <repository>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</repository>
+    <repository>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</repository>
     <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
     <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
 
@@ -66,7 +67,6 @@
     <feature name="tif-db-connectivity" version="${tif.version}">
         <feature version="${camel.version}">camel-ibatis</feature>
         <feature version="${camel.version}">camel-jdbc</feature>
-        <feature version="${camel.version}">camel-jdbc-aggregator</feature>
         <feature version="${camel.version}">camel-josql</feature>
         <feature version="${camel.version}">camel-jpa</feature>
         <feature version="${camel.version}">camel-sql</feature>

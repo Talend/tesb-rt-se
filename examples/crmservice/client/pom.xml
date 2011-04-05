@@ -50,12 +50,92 @@
                     </instructions>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <build>
+                <finalName>${project.artifactId}-locator-${project.version}</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans-locator.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <build>
+                <finalName>${project.artifactId}-sam-${project.version}</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>**/beans-sam.xml</include>
+                        </includes>
+                    </resource>
+                    <resource>
+                        <directory>../../../sam/sam-agent/src/main/resources/</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                          <include>agent-context.xml</include>
+						  <include>agent.properties</include>
+                        </includes>
+                    </resource>					
+                </resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>maven-bundle-plugin</artifactId>
+						<configuration>
+							<instructions>
+								<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+								<Require-Bundle>
+									org.apache.cxf.bundle,
+									org.springframework.beans,
+									org.springframework.context,sam-common,sam-agent
+								</Require-Bundle>
+                                <Import-Package>
+                                    org.talend.esb.sam.agent.collector,
+                                    org.talend.esb.sam.agent.eventproducer,
+                                    org.talend.esb.sam.agent.feature,
+                                    org.talend.esb.sam.agent.flowidprocessor,
+                                    org.talend.esb.sam.agent.message,
+                                    org.talend.esb.sam.agent.serviceclient,
+                                    org.talend.esb.sam.agent.wiretap,
+                                    *
+                                </Import-Package>
+							</instructions>
+						</configuration>
+					</plugin>
+				</plugins>				
+            </build>
+        </profile>
+    </profiles>
 
 </project>
 

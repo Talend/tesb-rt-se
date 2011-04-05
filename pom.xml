@@ -1,42 +1,60 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-    http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2011 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.talend.esb</groupId>
     <artifactId>esb-parent</artifactId>
     <packaging>pom</packaging>
     <version>4.0</version>
     <name>Parent pom for the Talend ESB runtime project</name>
-    <inceptionYear>2011</inceptionYear>
+
     <organization>
         <name>Talend Inc.</name>
         <url>www.talend.com</url>
     </organization>
+    <inceptionYear>2011</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache Software License - Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
     <properties>
-        <cxf.version>2.3.3</cxf.version>
+        <camel.version>2.8-SNAPSHOT</camel.version>
+        <cxf.version>2.4.0-SNAPSHOT</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
         <zookeeper.version>3.3.3</zookeeper.version>
-        <osgi.version>3.6.0.v20100517</osgi.version>
-        <karaf.version>2.2.0</karaf.version>
         <derby.version>10.7.1.1</derby.version>
         <mysql.version>5.0.5</mysql.version>
         <bnd.version>1.15.0</bnd.version>
         <slf4j.version>1.6.0</slf4j.version>
-        <!--  Test dependencies -->
-        <jetty.version>7.2.2.v20101205</jetty.version>
+        <osgi.version>4.2.0</osgi.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
-        <module>common-build</module>
+        <module>branding</module>
         <module>locator</module>
         <module>sam</module>
         <module>job</module>
-        <module>examples</module>
         <module>docs</module>
-        <!-- <module>talend-esb</module>  -->
+        <module>features</module>
     </modules>
 
     <dependencyManagement>
@@ -45,17 +63,6 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>javax.persistence</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.gaborcselle.persistent</groupId>
-                <artifactId>PersistentQueue</artifactId>
-                <version>1.0</version>
             </dependency>
 
             <!-- Test dependencies  -->
@@ -83,12 +90,6 @@
                 <version>1.3.RC2</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -98,15 +99,28 @@
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
         </repository>
-        <repository>
-            <id>eclipselink</id>
-            <url>http://mirror.selfnet.de/eclipse/rt/eclipselink/maven.repo</url>
-        </repository>
+          <repository>
+              <id>apache.snapshots</id>
+              <url>http://repository.apache.org/snapshots/</url>
+              <name>Apache Snapshot Repo</name>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+         </repository> 
     </repositories>
     <pluginRepositories>
          <pluginRepository>
-             <id>codehaus</id>
-             <url>https://nexus.codehaus.org/content/groups/public/</url>
+             <id>apache.snapshots</id>
+             <url>http://repository.apache.org/snapshots/</url>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
          </pluginRepository>
      </pluginRepositories>
 
@@ -178,7 +192,7 @@
                 <plugin>
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>${jetty.version}</version>
+                    <version>7.2.2.v20101205</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.rat</groupId>
@@ -218,7 +232,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>1.0-SNAPSHOT</version>
+                    <version>1.0-beta-1</version>
                     <configuration>
                         <licenseName>apache_v2</licenseName>
                         <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
@@ -244,5 +258,21 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>packaging</id>
+            <modules>
+                <module>talend-esb</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>

@@ -30,15 +30,15 @@ Running this command will build the demo and create an OSGi bundle
 for deploying the service to OSGi containers.
 
 There are three OSGi bundles will be created:
-...\common\target\crmservice-common-1.0.jar
-...\server\target\crmservice-server-1.0.jar
-...\client\target\crmservice-client-1.0.jar
+...\common\target\crmservice-common-4.0.jar
+...\service\target\crmservice-service-4.0.jar
+...\client\target\crmservice-client-4.0.jar
 
 Starting the service
 ---------------------------------------
  * From within the Talend Service Factory OSGi container:
 
-1.Install Talend Service Factory Community Edition which include OSGi container version 2.3.2 or higher from http://www.talend.com/download.php.
+1.Install Talend Service Factory Community Edition which include OSGi container version 2.3.3 or higher from http://www.talend.com/download.php.
 
 You can find out how to get started with OSGi container here: http://karaf.apache.org/
 
@@ -46,15 +46,15 @@ You can find out how to get started with OSGi container here: http://karaf.apach
 run <takend-sf>/container/bin/start
 2.Deploy service into OSGi conteyner.
 
-copy follow bundles into folder <takend-sf>/container/deploy
-crmservice-common-1.0.jar
-crmservice-server-1.0.jar
-crmservice-client-1.0.jar
+copy follow bundles into folder <Talend ESB Runtime>/container/deploy
+crmservice-common-4.0.jar
+crmservice-service-4.0.jar
+crmservice-client-4.0.jar
 
 3.Type in console command "list".
 You will see 
-[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (1.0.0)
-[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (1.0.0)
-[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (1.0.0)
+[ 114] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
+[ 116] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0)
+[ 123] [Active     ] [            ] [Started] [   60] CRMService Service (4.0.0)
 
 

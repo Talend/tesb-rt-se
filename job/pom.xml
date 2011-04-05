@@ -16,8 +16,10 @@
 
     <modules>
         <module>job-api</module>
-        <module>launcher</module>
         <module>converter</module>
+        <module>deployer</module>
+        <module>controller</module>
+        <!-- <module>command</module> -->
         <!-- <module>features</module> -->
     </modules>
 

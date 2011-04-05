@@ -1,64 +1,64 @@
 Welcome to Talend ESB SE!
 =====================================
 
-Talend ESB SE includes: Service Factory + Integration Factory + AMQ,
-Camel 3rd party libraries, Service Locator, STS
-Tutorials, Documentation
-
-Talend Service Factory uses the industry leading 
-open source Apache CXF implementation of JAX-WS to help you service enable 
-your existing applications and interfaces. The CXF lightweight, modular 
-architecture is based on Spring, so it will work with your application 
-regardless of the platform on which it is running. It will run on 
-stand-alone JVM applications, as part of a servlet container such as 
-Tomcat, within a JEE server, or in an OSGi container such as Equinox.
-
-CXF supports Web Services using 
-SOAP with full WS-*functionality including support for WS-Addressing,
-WS-Reliable Messaging, and WS-Security over both HTTP and JMS transports.
-CXF's elegantly simple architecture allows declarative, policy-centric 
-support of these qualities of service through configuration rather than 
-code. It also supports non-SOAP bindings including REST. CXF open 
-standards and portability enable you to deliver interoperability for 
-your applications to maximize the value of your application to your users.
-
-Talend Integration Factory is a fully supported,
-stable, production ready distribution based on the industry leading open
-source integration framework Apache Camel. Apache Camel uses well known 
-Enterprise Integration Patterns to make message based system 
-integration simpler yet powerful and scalable. 
-
-The Apache Camel uses a lightweight, component based architecture 
-which allows a great flexibility in deployment scenarios: as stand-alone
-JVM applications or embedded in a servlet container such as Tomcat,
-or within a JEE server, or in an OSGi container such as Equinox. 
-
-Apache Camel and Talend Integration Factory come out of the box with 
-an impressive set of available components for all commonly used protocols 
-like http, https, ftp, xmpp, rss and many more. A large number of data
-formats like EDI, JSON, CSV, HL7 and languages like JS, Python, 
-Scala, are supported out of the box. Its extensible architecture
-allows developers to easily add support for proprietary protocols
-and data formats.
+Talend ESB SE bundles Service Factory + Integration Factory, 
+Service Locator, Service Activity Monitoring and a demo application 
+to a stable, production ready distribution based on the industry leading 
+open source frameworks Apache CXF and Apache Camel. 
+It includes Web Service support based on JAX-WS and enables simple and scalable
+massage based systems using well known Enterprise Integration Patterns.
+The Service Locator maintains a repository of service endpoints which 
+can be used by Service Consumers to support simple fail over and load 
+balancing scenarios. Service Activity Monitoring allows to log and 
+monitor service calls. A documented Car Rental demo application illustrates
+how to use these features. 
 
 Contents 
 ======== 
 
-Apache CXF
-OSGi Container
 Getting Started
 Examples
-
+OSGi Container
+Service Locator
+Service Activity Monitoring
+Talend Service Factory
+Talend Integration Factory
 Apache CXF
-==========
+Apache Camel
 
-This package contains a complete version of Apache CXF, the industry 
-leading open source solution for web services. It also includes value
-added components such as OSGi container and several new examples.
-For more information about Apache CXF see http://cxf.apache.org/ .
 
-OSGi container 
-============== 
+Getting Started 
+===============
+
+The Getting Started Guide can be found in a separate documentation package in the docs
+folder. It illustrates all features of Talend ESB using example applications. 
+
+The examples are documented individually and include instructions for building
+and running each example with just a few command lines. See below for obtaining 
+the examples.
+
+If you need more help try talking to us on our forums: http://talendforge.org/forum
+You can find more information about Apache CXF at http://cxf.apache.org/
+Please submit CXF bug reports with JIRA at https://issues.apache.org/jira/browse/CXF 
+Please submit TSF bug reports with JIRA at http://www.talendforge.org
+Please submit TIF bug reports with JIRA at http://www.talendforge.org
+
+Examples 
+========
+
+Talend ESB SE provides several examples in a separate documentation package in 
+the examples folder. The example applications and tutorials demonstrate functionality 
+and advanced features of Talend ESB SE.
+The examples demonstrate how to use different functionality including:
+*       Advanced WebServices with Camel 
+*       Security configuration within OSGi 
+*       Use of blueprint to define routes 
+*       Rent a Car demo 
+*       Locator sample 
+*       Monitoring sample 
+
+OSGi Container
+==============
 
 The container subdirectory contains a preconfigured OSGi container that 
 contains all the required OSGi bundles for the CXF 3rd party dependencies.
@@ -72,33 +72,75 @@ the basis for Eclipse and provides a lightweight alternative to more
 monolithic JEE containers while still retaining the powerful management 
 features necessary for the enterprise.
 
-Getting Started 
+Service Locator
 ===============
+The Service Locator in the add-ons directory is a service that provides its consumers with a mechanism 
+to discover service endpoints at run time. The Service Locator consists of two parts: 
+An Endpoint repository and a CXF feature used to configure the use of the Service Locator 
+at provider and consumer side. Like any standard CXF feature, the ServiceLocator Feature is configured 
+separately for the service provider side and service consumer side. The provider side Locator Feature 
+extension registers and deregisters service endpoints in the endpoint repository when the provider 
+becomes available or unavailable. The consumer side Locator Feature extension transparently retrieves 
+service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
 
-If you need more help try talking to us on our forums: http://talendforge.org/forum
+Service Activity Monitoring
+===========================
+The Service Activity Monitoring (SAM) in the add-ons directory allows to log / monitor service calls 
+done with the Apache CXF Framework. Typical use cases are usage statistics and fault monitoring. 
+The solution consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). 
+The Agent creates events out of the requests and replies on service consumer and provider side. 
+The events are first collected locally and then sent to the monitoring server periodically to not disturb 
+the normal message flow. The Monitoring Server receives events from the Agent, optionally filters/handlers 
+events and stores them into a Database.
 
-You can find more information about Apache CXF at http://cxf.apache.org/
+Talend Service Factory
+======================
 
-Please submit CXF bug reports with JIRA at https://issues.apache.org/jira/browse/CXF 
+Talend Service Factory uses the industry leading 
+open source Apache CXF implementation of JAX-WS to help you service enable 
+your existing applications and interfaces. The CXF lightweight, modular 
+architecture is based on Spring, so it will work with your application 
+regardless of the platform on which it is running. It will run on 
+stand-alone JVM applications, as part of a servlet container such as 
+Tomcat, within a JEE server, or in an OSGi container such as Equinox.
 
-Please submit TSF bug reports with JIRA at http://www.talendforge.org
+Talend Integration Factory
+==========================
 
-Please submit TIF bug reports with JIRA at http://www.talendforge.org
+Talend Integration Factory is a fully supported,
+stable, production ready distribution based on the industry leading open
+source integration framework Apache Camel. Apache Camel uses well known 
+Enterprise Integration Patterns to make message based system 
+integration simpler yet powerful and scalable. 
+Talend Integration Factory includes
+an impressive set of available components for all commonly used protocols 
+like http, https, ftp, xmpp, rss and many more. A large number of data
+formats like EDI, JSON, CSV, HL7 and languages like JS, Python, 
+Scala, are supported out of the box. Its extensible architecture
+allows developers to easily add support for proprietary protocols
+and data formats.
 
-Examples are documented individually and include instructions for building
-and running each example with just a few command lines. See below for obtaining 
-the examples.
+Apache CXF
+==========
 
-Examples 
-===============
-Talend ESB SE provides several examples in a separate documentation package in examples folder. 
-The example applications and tutorials demonstrate functionality and advanced 
-features of Talend ESB SE.
-The examples demonstrate how to use different functionality including:
-*       Advanced WebServices with Camel 
-*       Security configuration within OSGi 
-*       Use of blueprint to define routes 
-*       Rent a Car demo 
-*       Locator sample 
-*       Monitoring sample 
-and much more.
+Talend ESB contains a complete version of Apache CXF, the industry 
+leading open source solution for web services. It also includes value
+added components such as OSGi container and several new examples.
+For more information about Apache CXF see http://cxf.apache.org/ .
+CXF supports Web Services using 
+SOAP with full WS-*functionality including support for WS-Addressing,
+WS-Reliable Messaging, and WS-Security over both HTTP and JMS transports.
+CXF's elegantly simple architecture allows declarative, policy-centric 
+support of these qualities of service through configuration rather than 
+code. It also supports non-SOAP bindings including REST. CXF open 
+standards and portability enable you to deliver interoperability for 
+your applications to maximize the value of your application to your users.
+
+Apache Camel
+============
+Apache Camel uses well known Enterprise Integration Patterns to make 
+message based system integration simpler yet powerful and scalable.
+It uses a lightweight, component based architecture 
+which allows a great flexibility in deployment scenarios: as stand-alone
+JVM applications or embedded in a servlet container such as Tomcat,
+or within a JEE server, or in an OSGi container such as Equinox. 

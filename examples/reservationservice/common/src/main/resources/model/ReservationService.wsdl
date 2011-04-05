@@ -121,7 +121,7 @@
           <xsd:enumeration value="NONE"/>
           <xsd:enumeration value="NORMAL"/>
           <xsd:enumeration value="GOLD"/>
-          <xsd:enumeration value="PLATIN"/>
+          <xsd:enumeration value="PLATINUM"/>
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="RYLCStatusType">

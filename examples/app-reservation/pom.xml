@@ -10,10 +10,10 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>app-reservation</artifactId>
     <name>App Reservation</name>
@@ -21,7 +21,7 @@
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
-        <artifactId>esb-examples-parent</artifactId>
+        <artifactId>talend-esb-examples</artifactId>
         <version>4.0</version>
     </parent>
 
@@ -55,17 +55,11 @@
         <dependency>
             <groupId>org.eclipse.osgi</groupId>
             <artifactId>org.eclipse.osgi</artifactId>
-            <version>${osgi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
+            <version>${eclipse.osgi.version}</version>
         </dependency>
     </dependencies>
 
     <build>
-        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -73,19 +67,9 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <!--Require-Bundle>
-                            crmservice-common,
-                            crmservice-client,
-                            reservationservice-common,
-                            reservationservice-client
-                        </Require-Bundle-->
-                        <Import-Package>org.osgi.service.command,*</Import-Package>
+                        <Import-Package>org.apache.felix.service.command,*</Import-Package>
                     </instructions>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
         <resources>

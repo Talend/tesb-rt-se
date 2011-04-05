@@ -1,14 +1,22 @@
-/*******************************************************************************
-*
-* Copyright (c) 2011 Talend Inc. - www.talend.com
-* All rights reserved.
-*
-* This program and the accompanying materials are made available
-* under the terms of the Apache License v2.0
-* which accompanies this distribution, and is available at
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-*******************************************************************************/
+/*
+ * #%L
+ * Service Locator Client for CXF
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.locator;
 
 import static org.easymock.EasyMock.*;
@@ -34,8 +42,17 @@ import org.junit.Test;
 
 public class ServiceLocatorTest {
 
-	public static final QName SERVICE_NAME = new QName(
+	public static final QName SERVICE_QNAME_1 = new QName(
 			"http://example.com/services", "service1");
+
+	public static final QName SERVICE_QNAME_2 = new QName(
+			"http://example.com/services", "service2");
+
+	public static final QName SERVICE_QNAME = SERVICE_QNAME_1;
+
+	public static final String SERVICE_NAME_1 = "{http:%2F%2Fexample.com%2Fservices}service1";
+	
+	public static final String SERVICE_NAME_2 = "{http:%2F%2Fexample.com%2Fservices}service2";
 
 	public static final String ENDPOINT = "http://example.com/service1";
 
@@ -47,8 +64,13 @@ public class ServiceLocatorTest {
 
 	public static final String ENDPOINT_NODE_2 = "http:%2F%2Fexample.com%2Fservice2";
 
-	public static final String SERVICE_PATH = ServiceLocator.LOCATOR_ROOT_PATH
-			+ "/{http:%2F%2Fexample.com%2Fservices}service1";
+	public static final String SERVICE_PATH_1 = ServiceLocator.LOCATOR_ROOT_PATH
+	+ "/{http:%2F%2Fexample.com%2Fservices}service1";
+	
+	public static final String SERVICE_PATH_2 = ServiceLocator.LOCATOR_ROOT_PATH
+	+ "/{http:%2F%2Fexample.com%2Fservices}service2";
+
+	public static final String SERVICE_PATH = SERVICE_PATH_1;
 
 	public static final String ENDPOINT_PATH = SERVICE_PATH + "/"
 			+ ENDPOINT_NODE_1;
@@ -103,7 +125,7 @@ public class ServiceLocatorTest {
 
 		ServiceLocator slc = createServiceLocator();
 		slc.connect();
-		slc.register(SERVICE_NAME, ENDPOINT);
+		slc.register(SERVICE_QNAME, ENDPOINT);
 
 		verify(zkMock);
 	}
@@ -127,7 +149,7 @@ public class ServiceLocatorTest {
 
 		ServiceLocator slc = createServiceLocator();
 		slc.connect();
-		slc.register(SERVICE_NAME, ENDPOINT);
+		slc.register(SERVICE_QNAME, ENDPOINT);
 
 		verify(zkMock);
 	}
@@ -151,7 +173,7 @@ public class ServiceLocatorTest {
 
 		ServiceLocator slc = createServiceLocator();
 		slc.connect();
-		slc.register(SERVICE_NAME, ENDPOINT);
+		slc.register(SERVICE_QNAME, ENDPOINT);
 
 		verify(zkMock);
 	}
@@ -168,7 +190,7 @@ public class ServiceLocatorTest {
 		slc.connect();
 
 		try {
-			slc.register(SERVICE_NAME, ENDPOINT);
+			slc.register(SERVICE_QNAME, ENDPOINT);
 			fail("A ServiceLocatorException should have been thrown.");
 		} catch (ServiceLocatorException e) {
 		}
@@ -188,7 +210,7 @@ public class ServiceLocatorTest {
 		ServiceLocator slc = createServiceLocator();
 		slc.connect();
 
-		List<String> endpoints = slc.lookup(SERVICE_NAME);
+		List<String> endpoints = slc.lookup(SERVICE_QNAME);
 
 		assertThat(endpoints, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
 		verify(zkMock);
@@ -203,11 +225,44 @@ public class ServiceLocatorTest {
 		ServiceLocator slc = createServiceLocator();
 		slc.connect();
 
-		List<String> endpoints = slc.lookup(SERVICE_NAME);
+		List<String> endpoints = slc.lookup(SERVICE_QNAME);
 
 		Matcher<Iterable<String>> emptyStringIterable = emptyIterable();
 		assertThat(endpoints, emptyStringIterable);
 		verify(zkMock);
+	}
+
+	@Test
+	public void getServicesSuccessful() throws Exception {
+		expect(zkMock.getState()).andReturn(ZooKeeper.States.CONNECTED);
+		expect(zkMock.getChildren(ServiceLocator.LOCATOR_ROOT_PATH.toString(), false)).andReturn(
+				Arrays.asList(SERVICE_NAME_1, SERVICE_NAME_2));
+		replay(zkMock);
+
+		ServiceLocator slc = createServiceLocator();
+		slc.connect();
+
+		List<QName> services = slc.getServices();
+
+		assertThat(services, containsInAnyOrder(SERVICE_QNAME_1, SERVICE_QNAME_2));
+		verify(zkMock);
+	}
+
+	@Test
+	public void failureWhenGettingServices() throws Exception {
+		expect(zkMock.getState()).andReturn(ZooKeeper.States.CONNECTED);
+		expect(zkMock.getChildren(ServiceLocator.LOCATOR_ROOT_PATH.toString(), false)).andThrow(
+				new KeeperException.RuntimeInconsistencyException());
+		replay(zkMock);
+		
+		ServiceLocator slc = createServiceLocator();
+		slc.connect();
+
+		try {
+			slc.getServices();
+			fail("A ServiceLocatorException should have been thrown.");
+		} catch (ServiceLocatorException e) {
+		}
 	}
 
 	private ServiceLocator createServiceLocator() {

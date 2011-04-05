@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  ESB :: Manual
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Enabling the Service Locator for the Rent a Car demo</title>
+
+  <section xml:id="install">
+    <title>Purpose of Service Locator</title>
+
+    <para> The Service Locator is a technical service which provides service consumers
+    with a mechanism to discover service endpoints at runtime, thus isolating
+    consumers from the knowledge about the physical location of the enpoint. Additionally, it
+    allows service providers to automatically register and unregister their
+    service endpoints. In this way, the providers actively advertise the availability
+    of their service endpoints to consumers. </para>
+
+    <para> The Service Locator consists of two parts: The Service Locator
+    Server hosting an endpoint repository, and the CXF feature used to enable
+    usage of the locator for CXF service consumers and providers. Like any
+    standard CXF feature, it needs to be configured separately for service
+    and consumer. A provider-side Locator Feature
+    extension registers and deregisters service endpoints in the endpoint
+    repository when the provider becomes available or unavailable. A
+    consumer-side Locator Feature extension transparently retrieves service
+    endpoint addresses from the endpoint repository when a service call to a
+    provider is about to be made. </para>
+  </section>
+
+  <section xml:id="starting_xxe">
+    <title>Installation prerequisites</title>
+    <para>In order to enable the Rent-a-Car example with Locator, first install and run the
+      Service Locator server. To start the Service Locator you need to provide a
+	  configuration file. Here are the settings for our sample, create the new
+      config file <code>talend-esb-&lt;version&gt;/zookeeper/conf/zoo.cfg</code>
+      with the following content:</para>
+
+      <example xml:id="ex.slstaloneconf">
+        <title>Service Locator standalone configuration</title>
+
+        <programlisting>
+tickTime=2000 
+dataDir=./var/locator 
+clientPort=2181
+		</programlisting>
+      </example>
+	  
+	  <para>When the configuration file is set up as described, the following further steps
+	    are required for preparation of the Service Locator server:</para>
+        <procedure>
+          <step><para>Change the current directory to <code>talend-esb-&lt;version&gt;</code>
+            </para></step>
+          <step><para>Create the data directory for the locator</para>
+          <para>UNIX/Linux: <userinput>mkdir var; mkdir var/locator</userinput></para>
+          <para>Windows: <userinput>md var\locator</userinput></para></step>
+          <step><para>Under UNIX/Linux, ensure execution rights for the locator startup scripts:</para>
+          <para><userinput>chmod a+x zookeeper/bin/*.sh</userinput></para></step>
+        </procedure>
+      <para>Now, the Service Locator server can be started and stopped with the
+        scripts from the <code>zookeeper/bin</code> directory.</para>
+      <para>From directory <code>talend-esb-&lt;version&gt;</code>, it is started
+        by the following command:</para>
+      <para>UNIX/Linux: <userinput>./zookeeper/bin/zkServer.sh start</userinput></para>
+      <para>Windows: <userinput>.\zookeeper\bin\zkServer.bat start</userinput></para>
+      <para>and stopped by the following command:</para>
+      <para>UNIX/Linux: <userinput>./zookeeper/bin/zkServer.sh stop</userinput></para>
+      <para>Windows: <userinput>.\zookeeper\bin\zkServer.bat stop</userinput></para>
+      <para>For more information please read <emphasis role="strong">Service
+        Locator Installation Manual</emphasis>.</para>
+
+      <para>Since creating a distributed, fault-tolerant endpoint repository
+        is a non-trivial task, the Service Locator Server implementation is based
+        on proven open source technology - Apache ZooKeeper. This is a highly
+        reliable and available service that provides coordination between
+        distributed processes. To learn more about Apache ZooKeeper, visit
+        <link xlink:href="http://zookeeper.apache.org">http://zookeeper.apache.org</link>.
+        </para>
+  </section>
+
+  <section>
+    <title>Enabling the Service Locator</title>
+
+        <procedure>
+          <step>
+      <para>The Maven project file <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> can
+          be used to build the demo. Using Apache Maven with either UNIX or Windows,
+          run the following command from directory <code>.../examples/tesb/</code>:</para>
+      <para><userinput>mvn clean install -Plocator</userinput></para>
+
+      <para>Running this command you will build the demo and create OSGi bundles to be deployed to
+          an OSGi container.</para>
+          </step>
+          <step><para>For the following example, ensure the Service Locator server is started as described
+              in the previous section.</para></step>
+          <step>
+    <para> <link linkend="rac.deploy">Start the primary OSGi container</link> in directory
+      <code>container</code> as described earlier in this guide.</para>
+          </step>
+          <step>
+            <para>At the OSGi console prompt, enter the following commands:</para>
+            <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+            <para>(Eventually, the version sub-string <userinput>.../4.0/...</userinput> must be replaced)</para>
+            <para>The above command makes sure that the OSGi container can read the features from
+          the Maven repository.</para>
+            <para><userinput>features:uninstall tesb-rac-services</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
+            <para>The above commands uninstall eventually remaining bundles from previous
+          examples.</para>
+            <para><userinput>features:install tesb-rac-services-locator1</userinput></para>
+            <para>The above command finally installs the example services with locator
+          support.</para>
+            <para>In order to control the installation, type the command <userinput>list</userinput>
+              in the OSGi console. You will see the zookeeper and locator client bundles
+              in the lists of installed bundles:               
+<programlisting>
+[  36] [Active     ] [            ] [       ] [   60] ZooKeeper Bundle (3.3.3)
+[  31] [Active     ] [            ] [       ] [   60] Service Locator Client for CXF (4.0.0)
+</programlisting>
+    </para>
+          </step>
+        </procedure>
+  </section>
+
+  <section>
+    <title>What you will see after enabling the Service Locator
+    feature:</title>
+
+    <para>We can see additional INFO logs during deploy demo services and
+    clients into OSGi container.</para>
+
+    <para>We have following logs from Zookeeper about initiating and
+    established client connections.</para>
+
+<programlisting>
+18:41:37,843 | INFO  | ExtenderThread-8 | ZooKeeper | 
+org.apache.zookeeper.ZooKeeper    373 | 36 - org.apache.hadoop.zookeeper - 3.3.2 | 
+Initiating client connection, connectString=locator_host1:2181 sessionTimeout=5000 
+watcher=org.talend.esb.locator.ServiceLocator$WatcherImpl@1e26d9b
+ 
+18:41:37,843 | INFO  | d-8-SendThread() | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread 1041 | 36 - org.apache.hadoop.zookeeper - 3.3.2 |
+Opening socket connection to server locator_host1/192.168.150.201:2181
+ 
+18:41:37,843 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  949 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Socket connection established to locator_host1/192.168.150.201:2181, initiating session
+ 
+18:41:37,844 | INFO  | d(sop-td57:2181) | ClientCnxn  | 
+org.zookeeper.ClientCnxn$SendThread  738 | 36 -  org.apache.hadoop.zookeeper - 3.3.2 | 
+Session establishment complete on server locator_host1/192.168.150.201:2181, 
+sessionid = 0x32e71447e6b004c, negotiated timeout = 4000
+ </programlisting>
+
+    <para>Also, we can judge how well the feature is working by watching the Locator logs in
+    the console window.</para>
+
+<programlisting>
+18:41:38,765 | INFO  | ExtenderThread-8 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/CRMServiceProvider/ for service 
+ {http://services.talend.org/CRMService}CRMServiceProvider.
+ 
+18:44:07,250 | INFO  | xtenderThread-12 | ServiceLocator | 
+talend.esb.locator.ServiceLocator  177 |  - -  | Register endpoint 
+http://localhost:8888/soap/ReservationServiceProvider/ for service 
+ {http://services.talend.org/ReservationService}ReservationServiceProvider.
+</programlisting>           
+
+    <para>In our example, enabling the Service Locator does not affect the
+    behavior of Rent a Car demo, because the benefits of Service Locator occur
+    when you have multiple providers for the service. In this case we can use such
+    useful features as automatic endpoint deregistration and failover. The Locator
+    will allow clients to failover from the initial target endpoint to another
+    compatible endpoint for the target service. </para>
+  </section>
+
+	<section>
+		<title>Make locator sample more realistic by having several instances
+			of the services</title>
+		<para>We will use two instances of karaf container, will deploy the
+			same services with different endpoins in this containers and will see
+			that Locator switch between services.
+   </para>
+		<para>For the following scenario, two OSGi containers must be installed
+		  as described <link linkend="rac.deploy">above</link>.
+		</para>
+	  <para>Build demo sample with parameter <code>-Plocator</code>.</para>
+		<para>Start the first console (<code>./container/bin/tesb</code>).
+		  Deploy the demo services for locator &quot;locator1&quot; and
+		  the demo application with the known commands:</para>
+		<para><userinput>features:addurl
+		  mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+		<para><userinput>features:install
+		  tesb-rac-services-locator1</userinput></para>
+		<para><userinput>features:install tesb-rac-app</userinput></para>
+		<para>In second instance of the TESB OSGi container check file
+		  <code>talend-esb-&lt;version&gt;/alternate-container/etc/org.ops4j.pax.web.cfg</code>
+		  for the right HTTP port, i.e. the following line:</para>
+		<para><userinput>org.osgi.service.http.port=8081</userinput></para>
+		<para>Now run the demo application in first console. Type the command
+		  <userinput>car:GUI</userinput>. While running the application,
+		  you will see in the console: 
+		</para>
+		<programlisting>
+			###############################################
+			getCRMInformation() invoked ... request data:
+			org.talend.services.crm.types.LoginUserType@2ddb6b
+			###############################################
+			###############################################
+			getCRMInformation() invoked ... response data:
+			org.talend.services.crm.types.CustomerDetailsType@a075e6
+			###############################################
+			....
+			###############################################
+			getAvailableCars() invoked ... request data:
+			org.talend.services.reservation.types.RESProfileType@12b079a
+			###############################################
+			###############################################
+			getAvailableCars() invoked ... response data:
+			org.talend.services.reservation.types.RESCarListType@2abb
+			###############################################		
+</programlisting>
+		<para>So you see requests and responses for CRM and reservation services
+		  in the console. Now do not close the application, just click button
+		  <userinput>Back</userinput> in the GUI.</para>
+		<para>Start the second console (<code>./alternate-container/bin/tesb</code>). In thist container
+      deploy only the locator-based example services with an alternate endpoint (locator2):</para>
+		<para><userinput>features:addurl
+			mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+		<para><userinput>features:install
+		    tesb-rac-services-locator2</userinput></para>
+		<para>In first console stop the crm service. You get it typing the command
+			<userinput>list</userinput>. Now select the number of the
+		  CRMService Service Endpoint bundle:</para>
+		<programlisting>
+			[ 142] [Active ] [ ] [Started] [ 60] CRMService Service Endpoint
+			Locator 1 (4.0.0)
+        </programlisting>
+	    <para>(the number, here &quot;142&quot;, will probably be different in your console).
+			Stop it with the command <userinput>stop 142</userinput> (using the bundle number
+	      you have found). Afterwards, click In application click &quot;Find&quot;
+	      in the application GUI. In the first console you will see the expected
+	      Error message:</para>
+		<programlisting>
+			12:30:55,049 | WARN | AWT-EventQueue-0 | ache.cxf.common.logging.LogUtils 369
+			| - - | Interceptor for
+			{http://services.talend.org/CRMService}CRMServiceProv
+			ider#{http://services.talend.org/CRMService}getCRMInformation has
+			thrown excepti
+			on, unwinding now
+			org.apache.cxf.interceptor.Fault: Could not send Message.
+			</programlisting>
+		<para>But afterwards, the Locator will switch to the CRMService
+		  in the second container; and in the second console you will see:</para>
+		<programlisting>
+			###############################################
+			getCRMInformation() invoked ... request data:
+			org.talend.services.crm.types.LoginUserType@1142653
+			###############################################
+			###############################################
+			getCRMInformation() invoked ... response data:
+			org.talend.services.crm.types.CustomerDetailsType@1e03fce
+			###############################################
+</programlisting>
+		<para>
+			In first console:
+</para>
+		<programlisting>
+			###############################################
+			getAvailableCars() invoked ... request data:
+			org.talend.services.reservation.types.RESProfileType@1d510be
+			###############################################
+			###############################################
+			getAvailableCars() invoked ... response data:
+			org.talend.services.reservation.types.RESCarListType@13e49a8
+			###############################################
+</programlisting>
+		<para>Now we can see the ReservationService working in the first container,
+			and the CRMService in the second container.</para>
+	</section>
+</chapter>

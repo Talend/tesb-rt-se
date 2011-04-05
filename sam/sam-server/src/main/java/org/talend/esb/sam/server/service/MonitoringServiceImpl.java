@@ -1,14 +1,33 @@
+/*
+ * #%L
+ * Service Activity Monitoring :: Server
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.sam.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.common.service.MonitoringService;
 import org.talend.esb.sam.common.spi.EventFilter;
-import org.talend.esb.sam.common.spi.EventManipulator;
+import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * Implementation of MonitoringService. This service needs all handler for
@@ -17,8 +36,10 @@ import org.talend.esb.sam.common.spi.EventManipulator;
  */
 public class MonitoringServiceImpl implements MonitoringService {
 
-	private List<EventFilter> eventFilter;
-	private List<EventManipulator> eventManipulator;
+	@Autowired(required=false)
+	private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
+	@Autowired(required=false)
+	private List<EventHandler> eventHandlers = new ArrayList<EventHandler>();
 	private EventRepository persistenceHandler;
 
 	/**
@@ -26,8 +47,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventFilter
 	 */
-	public void setEventFilter(List<EventFilter> eventFilter) {
-		this.eventFilter = eventFilter;
+	public void setEventFilters(List<EventFilter> eventFilters) {
+		this.eventFilters = eventFilters;
 	}
 
 	/**
@@ -36,8 +57,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * 
 	 * @param eventManipulator
 	 */
-	public void setEventManipulator(List<EventManipulator> eventManipulator) {
-		this.eventManipulator = eventManipulator;
+	public void setEventHandlers(List<EventHandler> eventHandlers) {
+		this.eventHandlers = eventHandlers;
 	}
 
 
@@ -54,33 +75,43 @@ public class MonitoringServiceImpl implements MonitoringService {
 	 * Executes all event manipulating handler and writes the event with persist
 	 * handler
 	 */
-	@Transactional
 	public void putEvents(List<Event> events) {
-		List<Event> filteredEvents = new ArrayList<Event>();
-		if (eventFilter != null && eventFilter.size() > 0) {
-			for (EventFilter filter : eventFilter) {
-				for (Event event : events) {
-					if (!filter.filter(event))
-						filteredEvents.add(event);
-				}
-			}
-			if (filteredEvents.size() == 0)
-				return;
-		} else {
-			filteredEvents = events;
+	    List<Event> filteredEvents = filterEvents(events);
+	    executeHandlers(filteredEvents);
+	    for (Event event : filteredEvents) {
+	        persistenceHandler.writeEvent(event);
+	    }
+	}
+	
+	/**
+	 * Execute all filters for the event.
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private boolean filter(Event event) {
+		for (EventFilter filter : eventFilters) {
+			if (filter.filter(event) == true)
+				return true;
 		}
+		return false;
+	}
 
-		// Execute Filter (for example password filter and cutting content
-		if (eventManipulator != null && eventManipulator.size() > 0) {
-			for (EventManipulator current : eventManipulator) {
-				for (Event event : filteredEvents) {
-				    current.handleEvent(event);
-				}
+	private List<Event> filterEvents(List<Event> events) {
+		List<Event> filteredEvents = new ArrayList<Event>();
+		for (Event event : events) {
+			if (!filter(event)) {
+				filteredEvents.add(event);
 			}
 		}
-		
-		for (Event event : filteredEvents) {
-                    persistenceHandler.writeEvent(event);
-                }
+		return filteredEvents;
+	}
+
+	private void executeHandlers(List<Event> filteredEvents) {
+		for (EventHandler current : eventHandlers) {
+			for (Event event : filteredEvents) {
+				current.handleEvent(event);
+			}
+		}
 	}
 }

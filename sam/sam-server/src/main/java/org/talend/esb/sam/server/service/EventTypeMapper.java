@@ -1,10 +1,29 @@
+/*
+ * #%L
+ * Service Activity Monitoring :: Server
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.sam.server.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.activation.DataHandler;
 
@@ -14,7 +33,6 @@ import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam._2011._03.common.OriginatorType;
-import org.talend.esb.sam.common.event.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
@@ -31,22 +49,19 @@ public class EventTypeMapper {
         event.setMessageInfo(messageInfo);
         String content = mapContent(eventType.getContent());
         event.setContent(content);
-        event.setCustomInfoList(mapCustomInfo(eventType.getCustomInfo()));
+        event.getCustomInfo().clear();
+        event.getCustomInfo().putAll(mapCustomInfo(eventType.getCustomInfo()));
         return event;
     }
 
-    private static List<CustomInfo> mapCustomInfo(CustomInfoType ciType){
-    	List<CustomInfo> ciList = new ArrayList<CustomInfo>();
-    	
+    private static Map<String, String> mapCustomInfo(CustomInfoType ciType){
+    	HashMap<String, String> customInfo = new HashMap<String, String>();
     	if (ciType != null){
 	    	for (CustomInfoType.Item item : ciType.getItem()){
-	    		CustomInfo ci = new CustomInfo();
-	    		ci.setCustKey(item.getKey());
-	    		ci.setCustValue(item.getValue());
-	    		ciList.add(ci);
+	    		customInfo.put(item.getKey(), item.getValue());
 	    	}
     	}
-    	return ciList;
+    	return customInfo;
     }
     private static String mapContent(DataHandler dh) {
         if (dh == null) {
@@ -81,6 +96,7 @@ public class EventTypeMapper {
             originator.setHostname(originatorType.getHostname());
             originator.setIp(originatorType.getIp());
             originator.setProcessId(originatorType.getProcessId());
+            originator.setPrincipal(originatorType.getPrincipal());
         }
         return originator;
     }

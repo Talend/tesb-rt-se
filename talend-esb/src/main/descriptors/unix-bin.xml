@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (C) 2010 Talend Inc. - www.talend.com
+    Copyright (C) 2011 Talend Inc. - www.talend.com
 -->
 <assembly>
 
@@ -20,14 +20,14 @@
                 <exclude>README</exclude>
                 <exclude>README.txt</exclude>
                 <exclude>LICENSE.txt</exclude>
-                <exclude>NOTICE</exclude>
+                <exclude>NOTICE.txt</exclude>
                 <exclude>**/examples/**</exclude>
                 <exclude>doc/**</exclude>
             </excludes>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
-            <outputDirectory>/samples</outputDirectory>
+            <outputDirectory>/samples/camel</outputDirectory>
         </fileSet>
         <!-- 
         <fileSet>
@@ -53,7 +53,14 @@
                 <exclude>lib/geronimo-stax-api**</exclude>
                 <exclude>lib/geronimo-ws-metadata**</exclude>
                 <exclude>lib/geronimo-jaxws**</exclude>
+                <exclude>samples/**</exclude>
             </excludes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/samples</directory>
+            <outputDirectory>/samples/cxf</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
@@ -70,6 +77,56 @@
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
             <directoryMode>755</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>*.bat</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
+        <fileSet>
+            <directory>bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <excludes>
+                <exclude>*.bat</exclude>
+                <exclude>*.cmd</exclude>
+            </excludes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>*.bat</include>
+                <include>*.cmd</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
+        <!-- Expanded ZooKeeper Runtime -->
+        <fileSet>
+            <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.package.version}</directory>
+            <outputDirectory>/zookeeper</outputDirectory>
+            <excludes>
+                <exclude>LICENSE.txt</exclude>
+                <exclude>NOTICE.txt</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>dist-maven/**</exclude>
+            </excludes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
         </fileSet>
 
         <!-- Expanded Karaf Runtime -->
@@ -95,7 +152,22 @@
             </excludes>
         </fileSet>
 
-        <!-- Copy over bin/* separately to get the correct file mode -->
+        <!-- Copy over win bin/* separately to get the correct file mode -->
+        <fileSet>
+            <directory>target/dependencies/win/apache-karaf-${karaf.version}/bin</directory>
+            <outputDirectory>/container/bin</outputDirectory>
+            <includes>
+                <include>admin.bat</include>
+                <include>karaf.bat</include>
+                <!-- we need this one in here for admin:create'd instances to work -->
+                <include>start.bat</include>
+                <include>stop.bat</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+
+        <!-- Copy over unix bin/* separately to get the correct file mode -->
         <fileSet>
             <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
             <outputDirectory>/container</outputDirectory>
@@ -106,6 +178,7 @@
                 <include>bin/start</include>
                 <include>bin/stop</include>
             </includes>
+            <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
         </fileSet>
 
@@ -113,8 +186,7 @@
         <fileSet>
             <directory>target/dependencies</directory>
             <includes>
-                <include>tif.jar</include>
-                <include>tsf.jar</include>
+                <include>tesb.jar</include>
             </includes>
             <outputDirectory>/container/lib/</outputDirectory>
         </fileSet>
@@ -125,8 +197,16 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>README</include>
-                <include>LICENSE.txt</include>
                 <include>NOTICE</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>LICENSE.txt</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
@@ -170,9 +250,16 @@
 
     <files>
         <file>
+            <source>${basedir}/target/dependencies/win/apache-karaf-${karaf.version}/bin/karaf.bat</source>
+            <outputDirectory>/container/bin/</outputDirectory>
+            <destName>tesb.bat</destName>
+            <fileMode>0755</fileMode>
+            <lineEnding>dos</lineEnding>
+        </file>
+        <file>
             <source>${basedir}/target/dependencies/unix/apache-karaf-${karaf.version}/bin/karaf</source>
             <outputDirectory>/container/bin/</outputDirectory>
-            <destName>tif</destName>
+            <destName>tesb</destName>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
@@ -183,13 +270,13 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <file>
+<!--        <file>
             <source>${basedir}/target/classes/activemq-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}</outputDirectory>
             <destName>activemq-karaf-${activemq.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
+        </file>  --> 
         <file>
             <source>${basedir}/target/classes/tif-features.xml</source>
             <outputDirectory>/container/system/com/talend/if/talend-if/${tif.version}</outputDirectory>
@@ -198,15 +285,48 @@
             <lineEnding>unix</lineEnding>
         </file>
         <file>
-            <source>${basedir}/target/classes/tsf-features.xml</source>
-            <outputDirectory>/container/system/com/talend/sf/talend-sf/${tsf.version}</outputDirectory>
-            <destName>talend-sf-${tsf.version}-features.xml</destName>
+            <source>${basedir}/../features/target/classes/features.xml</source>
+            <outputDirectory>/container/system/org/talend/esb/features/${project.version}</outputDirectory>
+            <destName>features-${project.version}.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
     </files>
 
     <dependencySets>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/cxf/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.cxf.karaf:apache-cxf:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/activemq/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.activemq:activemq-karaf:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <!--dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <outputFileNameMapping>org/apache/camel/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>org.apache.camel.karaf:apache-camel:xml:features</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet-->
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <unpack>false</unpack>
@@ -303,6 +423,17 @@
             <includes>
                 <include>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</include>
                 <include>org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/apache/ws/commons/schema/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>org.apache.ws.commons.schema:XmlSchema</include>
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>

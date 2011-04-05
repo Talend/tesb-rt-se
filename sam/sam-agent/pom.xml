@@ -4,7 +4,7 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-agent</artifactId>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -33,8 +33,14 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.gaborcselle.persistent</groupId>
-            <artifactId>PersistentQueue</artifactId>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-local</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-addr</artifactId>
+            <version>${cxf.version}</version>
         </dependency>
 
         <dependency>
@@ -52,24 +58,15 @@
 
     <build>
         <plugins>
-<!--            <plugin>-->
-<!--                <artifactId>maven-remote-resources-plugin</artifactId>-->
-<!--                <version>1.2</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>process-remote-resources</id>-->
-<!--                        <goals>-->
-<!--                            <goal>process</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <resourceBundles>-->
-<!--                                <resourceBundle>org.talend.esb:common-build:4.0</resourceBundle>-->
-<!--                            </resourceBundles>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                    </instructions>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
@@ -80,6 +77,12 @@
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl</wsdl>
                                 </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/test/resources/wsdl/CustomerService.wsdl</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/test/resources/wsdl/binding.xml</bindingFile>
+                                    </bindingFiles>
+                                </wsdlOption>
                             </wsdlOptions>
                         </configuration>
                         <goals>
@@ -87,10 +90,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
