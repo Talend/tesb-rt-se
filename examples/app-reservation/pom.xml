@@ -67,7 +67,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>org.osgi.service.command,*</Import-Package>
+                        <Import-Package>org.apache.felix.service.command,*</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

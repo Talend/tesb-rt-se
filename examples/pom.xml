@@ -30,9 +30,9 @@
     </modules>
 
     <properties>
-        <cxf.version>2.3.3</cxf.version>
+        <cxf.version>2.4.0-SNAPSHOT</cxf.version>
         <eclipse.osgi.version>3.6.0.v20100517</eclipse.osgi.version>
-        <karaf.version>2.1.4</karaf.version>
+        <karaf.version>2.2.0</karaf.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <!--  Test dependencies -->
         <jetty.version>7.2.2.v20101205</jetty.version>
@@ -94,5 +94,32 @@
             </modules>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/snapshots/</url>
+            <name>Apache Snapshot Repo</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/snapshots/</url>
+            <name>Apache Snapshot Repo</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+     </pluginRepositories>
 
 </project>
