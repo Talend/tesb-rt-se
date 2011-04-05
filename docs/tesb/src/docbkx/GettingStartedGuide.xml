@@ -22,6 +22,7 @@
 <!DOCTYPE book[
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
+<!ENTITY chapSTSEnabling SYSTEM "STSEnabling.xml">
 ]>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
@@ -574,4 +575,5 @@ Thank you for renting a car with Talend ESB :-)
     </chapter>
     &chapSLEnabling;
     &chapSAMEnabling;
+    &chapSTSEnabling;
  </book>
