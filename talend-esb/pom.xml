@@ -1029,6 +1029,12 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten"/>
 											</present>
+											<present targetdir="target/add-ons/Monitoring">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/Locator">
+												<mapper type="flatten"/>
+											</present>
 										</none>
 									</fileset>
 									<fileset dir="${basedir}/../locator">
@@ -1041,6 +1047,12 @@
 												<mapper type="flatten"/>
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/Monitoring">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/Locator">
 												<mapper type="flatten"/>
 											</present>
 										</none>
