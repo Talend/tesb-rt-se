@@ -7,14 +7,14 @@
  *  which accompanies this distribution, and is available at
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package org.talend.esb.job;
+ ******************************************************************************/
+package routines.system;
 
 /**
- * Consumer callback to allow consumer components to send
- * requests and receive responses
+ * Consumer callback to allow consumer components
+ * to send requests and receive responses
  */
-public interface EndpointRegistry {
+public interface ESBEndpointRegistry {
 
     /**
      * This method will create consumer based on the
@@ -22,6 +22,6 @@ public interface EndpointRegistry {
      * @param endpoint
      * @return
      */
-    public Consumer createConsumer(Endpoint endpoint);
+    public ESBConsumer createConsumer(ESBEndpointInfo endpoint);
 
 }

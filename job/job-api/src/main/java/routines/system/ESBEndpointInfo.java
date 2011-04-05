@@ -7,19 +7,19 @@
  *  which accompanies this distribution, and is available at
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package org.talend.esb.job;
+ ******************************************************************************/
+package routines.system;
 
 import java.util.Map;
 
 /**
  * Describes the generic Endpoint
  */
-public interface Endpoint {
+public interface ESBEndpointInfo {
 
     /**
      * Returns a component identifier that should be used
-     * to be configured with given {@link Endpoint}
+     * to be configured with given {@link ESBEndpointInfo}
      *
      * @return a non-null {@link String} unique for type of endpoint
      */

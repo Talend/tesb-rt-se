@@ -7,15 +7,15 @@
  *  which accompanies this distribution, and is available at
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package org.talend.esb.job;
+ ******************************************************************************/
+package routines.system;
 
 /**
- * A special type of exception that will signal job
- * waiting for request that it should quit
- * it's listening cycle (if any)
+ * A special type of exception
+ * that will signal job waiting for request
+ * that it should quit it's listening cycle (if any)
  */
-public class JobInterruptedException extends Exception {
+public class ESBJobInterruptedException extends Exception {
 
     /**
      * Generated SV UID
@@ -27,7 +27,7 @@ public class JobInterruptedException extends Exception {
      *
      * @param message
      */
-    public JobInterruptedException(String message) {
+    public ESBJobInterruptedException(String message) {
         super(message);
     }
 
@@ -36,7 +36,7 @@ public class JobInterruptedException extends Exception {
      *
      * @param message
      */
-    public JobInterruptedException(String message, Throwable e) {
+    public ESBJobInterruptedException(String message, Throwable e) {
         super(message, e);
     }
 

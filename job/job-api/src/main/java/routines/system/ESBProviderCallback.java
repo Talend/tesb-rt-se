@@ -7,15 +7,15 @@
  *  which accompanies this distribution, and is available at
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package org.talend.esb.job;
+ ******************************************************************************/
+package routines.system;
 
 /**
- * This interface is used by tESB Provider components
- * to get a request from the ESB and to write a response
- * back to ESB.
+ * This interface is used by provider component
+ * to get a request from the ESB
+ * and to write a response back to ESB.
  */
-public interface ProviderCallback {
+public interface ESBProviderCallback {
 
     /**
      * Returns a request to the Job.
@@ -24,7 +24,7 @@ public interface ProviderCallback {
      *
      * @return
      */
-    Object getRequest() throws JobInterruptedException;
+    Object getRequest() throws ESBJobInterruptedException;
 
     /**
      * This method will be used by Job to send
