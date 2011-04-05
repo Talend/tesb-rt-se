@@ -7,17 +7,17 @@
  *  which accompanies this distribution, and is available at
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package org.talend.esb.job;
+ ******************************************************************************/
+package routines.system;
 
 /**
  * Consumer interface for handling calls
  * from ESB Job towards other ESB services
  */
-public interface Consumer {
+public interface ESBConsumer {
 
     /**
-     * A blocking method to invoke a service ouside of the Job
+     * A blocking method to invoke a service inside of the Job
      *
      * @param request Payload of request
      * @return Payload of response

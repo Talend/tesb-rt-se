@@ -113,10 +113,6 @@
     </repositories>
     <pluginRepositories>
          <pluginRepository>
-             <id>codehaus</id>
-             <url>https://nexus.codehaus.org/content/groups/public/</url>
-         </pluginRepository>
-         <pluginRepository>
              <id>apache.snapshots</id>
              <url>http://repository.apache.org/snapshots/</url>
              <snapshots>
@@ -236,7 +232,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>1.0-SNAPSHOT</version>
+                    <version>1.0-beta-1</version>
                     <configuration>
                         <licenseName>apache_v2</licenseName>
                         <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
