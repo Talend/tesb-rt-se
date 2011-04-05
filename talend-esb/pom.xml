@@ -1019,9 +1019,31 @@
 								<copy todir="target/add-ons/lib">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/dependency/*.jar" />
+										<none>
+											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
+												<mapper type="flatten"/>
+											</present>
+										</none>
 									</fileset>
 									<fileset dir="${basedir}/../locator">
 										<include name="**/target/dependency/*.jar" />
+										<none>
+											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
+												<mapper type="flatten"/>
+											</present>
+										</none>
 									</fileset>
 									<flattenmapper />
 								</copy>
