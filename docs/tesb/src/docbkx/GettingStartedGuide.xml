@@ -22,6 +22,7 @@
 <!DOCTYPE book[
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
+<!ENTITY chapSTSEnabling SYSTEM "STSEnabling.xml">
 ]>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
@@ -281,6 +282,10 @@
                     <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
                     <para>and replace it with</para>
                     <para><computeroutput>rmiRegistryPort = 11099</computeroutput></para>
+                    <para>or another unused port. Moreover, search line</para>
+                    <para><computeroutput>rmiServerPort = 44444</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>rmiServerPort = 44445</computeroutput></para>
                     <para>or another unused port.</para>
                 </step>
                 <step>
@@ -570,4 +575,5 @@ Thank you for renting a car with Talend ESB :-)
     </chapter>
     &chapSLEnabling;
     &chapSAMEnabling;
+    &chapSTSEnabling;
  </book>
