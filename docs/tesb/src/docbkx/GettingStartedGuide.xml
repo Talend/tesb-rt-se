@@ -281,6 +281,10 @@
                     <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
                     <para>and replace it with</para>
                     <para><computeroutput>rmiRegistryPort = 11099</computeroutput></para>
+                    <para>or another unused port. Moreover, search line</para>
+                    <para><computeroutput>rmiServerPort = 44444</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>rmiServerPort = 44445</computeroutput></para>
                     <para>or another unused port.</para>
                 </step>
                 <step>
