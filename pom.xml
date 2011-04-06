@@ -94,11 +94,11 @@
     </dependencyManagement>
 
     <repositories>
-        <repository>
+        <!--repository>
             <id>java.net</id>
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
-        </repository>
+        </repository-->
           <repository>
               <id>apache.snapshots</id>
               <url>http://repository.apache.org/snapshots/</url>
@@ -219,7 +219,7 @@
                 <plugin>
                     <groupId>com.agilejava.docbkx</groupId>
                     <artifactId>docbkx-maven-plugin</artifactId>
-                    <version>2.0.11</version>
+                    <version>2.0.12</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.docbook</groupId>
@@ -251,10 +251,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.4.3</version>
-                    <configuration>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
+                    <version>2.5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
