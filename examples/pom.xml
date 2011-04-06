@@ -120,6 +120,6 @@
                 <enabled>false</enabled>
             </releases>
         </pluginRepository>
-     </pluginRepositories>
+    </pluginRepositories>
 
 </project>
