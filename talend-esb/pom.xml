@@ -1129,17 +1129,6 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-			<name>Apache Snapshot Repo</name>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
 		<!-- for javax mail -->
 		<repository>
 			<id>java.net.m2</id>
@@ -1153,19 +1142,6 @@
 			<url>http://sop-ip14.servicebackbone.org:8081/nexus/content/repositories/thirdparty-dev</url>
 		</repository>
 	</repositories>
-
-    <pluginRepositories>
-         <pluginRepository>
-             <id>apache.snapshots</id>
-             <url>http://repository.apache.org/snapshots/</url>
-             <snapshots>
-                 <enabled>true</enabled>
-             </snapshots>
-             <releases>
-                 <enabled>false</enabled>
-             </releases>
-         </pluginRepository>
-     </pluginRepositories>
 
 </project>
 
