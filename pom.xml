@@ -43,6 +43,8 @@
         <bnd.version>1.15.0</bnd.version>
         <slf4j.version>1.6.0</slf4j.version>
         <osgi.version>4.2.0</osgi.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
@@ -91,7 +93,6 @@
     </dependencyManagement>
 
     <build>
-        <sourceEncoding>UTF-8</sourceEncoding>
         <defaultGoal>install</defaultGoal>
         <pluginManagement>
             <plugins>
