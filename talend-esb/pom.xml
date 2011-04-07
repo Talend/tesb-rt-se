@@ -813,6 +813,7 @@
 								<feature>tif-system</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
+								<feature>tesb-locator-client</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
