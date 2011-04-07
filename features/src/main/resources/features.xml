@@ -35,7 +35,9 @@
   </feature>
 <!--
   <feature name='tesb-example-sam-osgi' version='${project.version}'>
+-->
     <!--  Deploying the config does not yet work in karaf 2.1.3. From 2.2.x on it will work -->
+<!--
     <config name="org.talend.esb.sam.agent.cfg">
         collector.scheduler.interval=500
         collector.maxEventsPerCall=10
