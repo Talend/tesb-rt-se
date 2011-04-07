@@ -19,10 +19,13 @@
     <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='tesb-rac-common' version='${project.version}'>
         <feature>cxf</feature>
+        <feature version='${project.version}'>tesb-locator-client</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
+<!--
         <bundle>file:${basedir}/../../../add-ons/Locator/locator-4.0.jar</bundle>
         <bundle>file:${basedir}/../../../zookeeper/zookeeper-3.3.3.jar</bundle>
+-->
     </feature>
     <feature name='tesb-rac-services-locator1' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common</feature>
