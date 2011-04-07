@@ -156,7 +156,7 @@
                 <plugin>
                     <groupId>org.apache.rat</groupId>
                     <artifactId>apache-rat-plugin</artifactId>
-                    <version>0.6</version>
+                    <version>0.7</version>
                     <configuration>
                         <numUnapprovedLicenses>350</numUnapprovedLicenses>
                         <excludeSubProjects>false</excludeSubProjects>
