@@ -110,6 +110,20 @@
                 </resources>
             </build>
         </profile>
+		        <profile>
+            <id>sts</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/src/main/filtered-resources/sts</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>**/features.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
     </profiles>
 
 </project>

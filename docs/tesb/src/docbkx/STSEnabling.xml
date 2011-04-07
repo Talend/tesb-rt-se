@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  ESB :: Manual
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:ns6="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns4="http://www.w3.org/1999/xhtml"
+         xmlns:ns3="http://www.w3.org/2000/svg"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Enabling the STS for the Rent a Car demo</title>
+
+  <section>
+    <title>Purpose of the STS</title>
+
+    <para>In a heterogeneous environment Web services need to authenticate
+    service clients to control their access. To negotiate trust between
+    service clients and service providers an authentication broker can provide
+    a common access control infrastructure for a group of applications. To
+    negotiate trust the authentication broker issues signed security tokens to
+    be used by clients to authenticate themselves at the service.</para>
+
+    <para>A STS (Security Token Service) is a service providing such an
+    authentication broker. It issues Security Tokens based on the WS-Trust, a
+    standardized specification of Web services based on WS-Security. WS-Trust
+    combines two related functions.</para>
+
+    <para>The first function is to support working with security tokens —
+    specifically, the issuing, renewing, and canceling of security tokens. The
+    second function is to support brokering trust relationships. These two
+    functions may seem different, but they interrelate in that security tokens
+    must be trusted, and some form of token represents trust.</para>
+
+    <para>The core of WS-Trust is a set of messages used to issue, renew,
+    cancel, and validate security tokens. Clients calling a SOAP web service
+    called Security Token Service (STS) exchange these messages. The received
+    tokens are used for authentication. They may be transferred for instance
+    inside a security header of a request to another service.</para>
+
+    <para>An STS is implements a simple interface defined by the WS-Trust
+    specification. This interface allows clients to use security tokens to
+    submit requests for several types of operations. WS-SecurityPolicy can be
+    used to specify the types of credentials to be provided by clients or any
+    other security processing required on the messages.</para>
+  </section>
+
+  <section>
+    <title>Advantages of using STS</title>
+
+    <para>For a web service and its client to communicate securely there needs
+    to be a trust relationship established between the service and the client.
+    If the service and client are in the same security domain they can have a
+    direct trust relationship. In this type of relationship the service and
+    client can authenticate each other directly. But if the client and the
+    service placed in different security domains they not have direct trust
+    relationship.</para>
+
+    <para>You can use an STS to make trusted connection between it. STS also
+    used to issue a security token, that is, a collection of claims such as
+    name, role, and authorization code, for the client to access the
+    service.</para>
+  </section>
+
+  <section>
+    <title>How it works</title>
+
+    <para>The client sends an authentication request, with credentials, to the
+    STS. The STS verifies the credentials presented by the client, and sends
+    back a response with security token that provides proof that the client
+    has authenticated with the STS. The client presents the security token to
+    the Web service. The Web service verifies that the token was issued by a
+    trusted STS, which proves that the client has successfully authenticated
+    with the STS.</para>
+
+    <para>The protocol used for issuing security tokens is based on WS-Trust.
+    WS-Trust is a Web service specification that builds on WS-Security. It
+    describes a protocol used for issuance, exchange, and validation of
+    security tokens. WS-Trust provides a solution for interoperability by
+    defining a protocol for issuing and exchanging security tokens, based on
+    token format.</para>
+
+    <para>In WS-Trust, the type of message sent to an STS to request issuance
+    of a security token is known as a Request Security Token (RST) message.
+    The RST message contains credentials for the client to be authenticated,
+    such as the user ID and password contained in a UsernameToken. The
+    response message from the STS is known as a Request Security Token
+    Response (RSTR) message. The RSTR contains a security token, such as an
+    XML Security Assertion Markup Language (SAML).</para>
+
+    <para>SAML tokens provide cross-platform interoperability and exchange
+    security information between clients and services in different security
+    domains. They can be used as part of an interoperability solution allowing
+    a client to talk to services running on disparate technologies.</para>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="images/sts_scenario.jpg" format="jpg"></imagedata>
+      </imageobject>
+    </mediaobject>
+
+    <para>Sample STS scenario: </para>
+
+    <procedure>
+      <step>
+        <para>The client sends authentication request to the STS</para>
+      </step>
+
+      <step>
+        <para>The STS validates the client's credentials.</para>
+      </step>
+
+      <step>
+        <para>The STS issues a security token to the client.</para>
+      </step>
+
+      <step>
+        <para>The client initializes and sends a request message to the
+        service.</para>
+      </step>
+
+      <step>
+        <para>The service validates the security token and processes the
+        request.</para>
+      </step>
+
+      <step>
+        <para>The service initializes and sends a response message to the
+        client.</para>
+      </step>
+    </procedure>
+  </section>
+
+  <section>
+    <title>Installation prerequisites</title>
+
+    <para>To enable the Rent-a-Car example initially prepare and run the STS
+    server. For more information please read CXF STS server Installation and
+    Configuration Manual. Implementation of STS server is integrated with the
+    open source technology service framework - CXF. This is a highly reliable
+    and available framework that incorporates the modern standards of
+    web-services technologies . To learn more about CXF.</para>
+
+    <para>For more information about CXF visit http://cxf.apache.org/</para>
+  </section>
+
+  <section>
+    <title>How to enable STS based Authentication in the Rent a Car
+    Demo</title>
+
+    <procedure>
+      <step>
+        <para> Add the STS CXF client configuration to the Spring
+        configuration represented by the beans.xml files. - Add the STS CXF
+        client to the endpoint bean of CRMClient in the beans.xml . Apply
+        these changes to the following file:
+        ../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
+        (you can use preinstalled beans_sts.xml file for client configuring)
+        For example :</para>
+
+        <programlisting>&lt;bean class="org.apache.cxf.ws.security.trust.STSClient"&gt;
+&lt;constructor-arg ref="cxf" /&gt;
+&lt;property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" /&gt;
+&lt;property name="serviceName"
+ value="{http://docs.oasis-open.org/ws-sx/ws-trust/
+ 200512/wsdl}SecurityTokenServiceProvider"/&gt;
+&lt;property name="endpointName"
+ value="{http://docs.oasis-open.org/ws-sx/ws-trust/
+ 200512/wsdl}SecurityTokenServiceSOAP"/&gt;
+&lt;property name="properties"&gt;
+  &lt;map&gt;
+	&lt;entry key="ws-security.username" value="alice" /&gt;
+	&lt;entry key="ws-security.callback-handler" value="common.CommonCallbackHandler" /&gt;
+	&lt;entry key="ws-security.encryption.properties" value="clientKeystore.properties" /&gt;
+	&lt;entry key="ws-security.encryption.username" value="mystskey" /&gt;
+	&lt;entry key="ws-security.sts.token.username" value="talendcertificate" /&gt;
+	&lt;entry key="ws-security.sts.token.properties" value="clientKeystore1.properties" /&gt;
+	&lt;entry key="ws-security.sts.token.usecert" value="true" /&gt;
+	&lt;entry key="isBSPCompliant" value="false" /&gt;
+  &lt;/map&gt;
+&lt;/property&gt;
+&lt;/bean&gt;       
+</programlisting>
+
+        <para>For additional information about CXF STS client configuring
+        please read: http://cxf.apache.org/docs/ws-trust.html</para>
+      </step>
+
+      <step>
+        <para>Add the STS CXF client to the endpoint bean of CRMService in the
+        beans.xml .</para>
+
+        <para>Apply these changes to the following file:
+        ../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
+        (you can use preinstalled beans_sts.xml file for client
+        configuring</para>
+
+        <programlisting>&lt;jaxws:endpoint id="CRMService"
+	xmlns:serviceNamespace="http://services.talend.org/CRMService"
+	serviceName="serviceNamespace:CRMServiceProvider" 
+	endpointName="serviceNamespace:CRMServiceProvider"
+	implementor="#CRMServiceBean" 
+	address="http://localhost:8888/soap/CRMServiceProvider/"
+    
+&lt;jaxws:properties&gt;
+ &lt;entry key="ws-security.signature.username" value="myservicekey" /&gt;
+ &lt;entry key="ws-security.callback-handler" 
+ value="common.CommonCallbackHandler" /&gt;
+ &lt;entry key="ws-security.signature.properties" 
+ value="serviceKeystore.properties" /&gt;
+ &lt;entry key="ws-security.encryption.properties" 
+ value="serviceKeystore.properties" /&gt;
+&lt;/jaxws:properties&gt;
+&lt;/jaxws:endpoint&gt;
+
+</programlisting>
+      </step>
+
+      <step>
+        <para>Keystores and models for the client and service.</para>
+
+        <para>Note that the keys here are not meant for production use--they
+        are self-signed and naturally should have passwords different from the
+        ones.</para>
+
+        <para>Prepairing the consumer keystore and properties: Sample consumer
+        keystore for the CRM service is located in
+        crmservice\client\src\main\resources\META-INF\spring. It contains two
+        files: clientstore.jks and clientKeystore.properties.</para>
+
+        <para>Prepairing the client keystore and properties: Sample serivce
+        keystore for the CRM service is located in
+        crmservice\service\src\main\resources\META-INF\spring\. It contains
+        two files: clientstore.jks and clientKeystore.properties.</para>
+
+        <para>For additional information for keystore creation use read Java
+        keytool documentation and OpenSSL tutorial:
+        http://www.openssl.org/</para>
+      </step>
+
+      <step>
+        <para>Prepairing policies for the client and service.</para>
+
+        <para>WS-SecureConversation in theory can be used with multiparty
+        message exchanges, but the most common usage is for a client
+        communicating with a single server. When used in this configuration,
+        the STS that supplies the SCT to the client is co-located with the
+        server, accessed at the same endpoint address. This means that the web
+        services code on the server needs a way to distinguish between
+        messages intended for the STS and those intended for the service
+        itself; the action used on the request serves that purpose.</para>
+
+        <para>A major part of the WS-Security performance cost comes from the
+        wide use of asymmetric encryption. Asymmetric encryption is a useful
+        tool because it works with key pairs. Each key in the pair can be used
+        to encrypt messages that the other key can decrypt. The owner of a key
+        pair can make one key publicly available so that anyone can use it to
+        encrypt messages to the owner securely, and also decrypt messages from
+        the owner (thereby verifying the sender's identity).</para>
+
+        <para>WS-SecureConversation uses WS-Policy and WS-SecurityPolicy
+        configurations that are similar to those used by the basic
+        WS-Security. A big difference is that when WS-SecureConversation is
+        used, the policy must cover two separate exchanges — that between the
+        client and the STS, and that between the client and the actual
+        service. This is handled in the policy description by using a nested
+        policy for the exchange with the STS, while the main body of the
+        policy applies to the exchange between the client and the
+        service.</para>
+
+        <para>Add policies to the file
+        ../examples/crmservice/common/src/main/resources/model/CRMService.wsdl</para>
+
+        <para>Use the prepared file CRMService_policies.wsdl in the same
+        directory as an example how to add policies in the crmservice WSDL
+        file.</para>
+
+        <para>For additional information about policies using in CXF please
+        read: http://cxf.apache.org/docs/ws-securitypolicy.html and
+        http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-os.html</para>
+      </step>
+    </procedure>
+  </section>
+</chapter>

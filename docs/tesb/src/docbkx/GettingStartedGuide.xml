@@ -22,6 +22,7 @@
 <!DOCTYPE book[
 <!ENTITY chapSLEnabling SYSTEM "SLEnabling.xml">
 <!ENTITY chapSAMEnabling SYSTEM "SAMEnabling.xml">
+<!ENTITY chapSTSEnabling SYSTEM "STSEnabling.xml">
 ]>
 <book version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
@@ -281,6 +282,10 @@
                     <para><computeroutput>rmiRegistryPort = 1099</computeroutput></para>
                     <para>and replace it with</para>
                     <para><computeroutput>rmiRegistryPort = 11099</computeroutput></para>
+                    <para>or another unused port. Moreover, search line</para>
+                    <para><computeroutput>rmiServerPort = 44444</computeroutput></para>
+                    <para>and replace it with</para>
+                    <para><computeroutput>rmiServerPort = 44445</computeroutput></para>
                     <para>or another unused port.</para>
                 </step>
                 <step>
@@ -335,6 +340,29 @@
             <para><userinput>karaf@tesb&gt; </userinput></para>
             <para>The OSGi commands explained in the following sections will be
                 entered here.</para>
+            <para>However, especially if you start up an OSGi container for the first time, you
+                should allow some more 10 to 20 seconds for the OSGi container to start up and
+                configure itself properly before entering any command at the prompt. Especially, it
+                should not be shut down. Otherwise, when it is started up again, it will not
+                activate properly all components but only those which were up and running when it
+                was shut down.</para>
+            <para>In order to ensure that the container has started up and activated all components,
+                enter the following command at the OSGi console prompt:</para>
+            <para><userinput>list</userinput></para>
+            <para>You should get a listing like the following fragment:</para>
+            <literallayout><computeroutput>START LEVEL 100 , List Threshold: 50
+   ID   State         Blueprint      Spring    Level  Name
+[  42] [Active     ] [            ] [       ] [   60] Apache ServiceMix :: Bundles :: aopalliance (1.0.0.4)
+[  43] [Active     ] [            ] [       ] [   60] Spring Core (3.0.5.RELEASE)
+[  44] [Active     ] [            ] [       ] [   60] Spring ASM (3.0.5.RELEASE)
+[  45] [Active     ] [            ] [       ] [   60] Spring Expression Language (3.0.5.RELEASE)
+...         </computeroutput></literallayout>
+            <para>Make sure all components show state &quot;Active&quot; before you initiate any
+                further action. If any component remains in state &quot;Resolved&quot;, you can
+                manually activate it entering &quot;<userinput>start &lt;ID&gt;</userinput>&quot;
+                where &quot;&gt;ID&lt;&quot; becomes the number in the first column, e.g.
+                &quot;<userinput>start 100</userinput>&quot; activates the component with ID
+                &quot;100&quot;.</para>
             <para>You can find further information about the OSGi container
                 used by the TESB and how to get started it at the
                 &quot;Karaf&quot; site
@@ -570,4 +598,5 @@ Thank you for renting a car with Talend ESB :-)
     </chapter>
     &chapSLEnabling;
     &chapSAMEnabling;
+    &chapSTSEnabling;
  </book>
