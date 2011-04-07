@@ -23,7 +23,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
-	<import resource="classpath:/agent-context.xml" />
+	<import resource="classpath:META-INF/tesb/agent-context.xml" />
 
 	<bean id="ReservationServiceBean"
 		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
