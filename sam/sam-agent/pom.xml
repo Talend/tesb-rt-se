@@ -64,6 +64,12 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>
+                            {local-packages},
+                            META-INF.tesb
+                        </Export-Package>
+                        <_failok>true</_failok>
+                        <_nouses>true</_nouses>
                     </instructions>
                 </configuration>
             </plugin>
