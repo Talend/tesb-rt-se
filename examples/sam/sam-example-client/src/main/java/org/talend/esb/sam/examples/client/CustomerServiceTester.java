@@ -21,7 +21,7 @@ package org.talend.esb.sam.examples.client;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import com.example.customerservice.Customer;
 import com.example.customerservice.CustomerService;
