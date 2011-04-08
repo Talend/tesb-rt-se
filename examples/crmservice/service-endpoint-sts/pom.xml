@@ -15,13 +15,13 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>reservationservice-service-endpoint-sam</artifactId>
-    <name>ReservationService Service Endpoint SAM</name>
+    <artifactId>crmservice-service-endpoint-sts</artifactId>
+    <name>CRMService Service Endpoint STS</name>
     <packaging>bundle</packaging>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
-        <artifactId>reservationservice</artifactId>
+        <artifactId>crmservice</artifactId>
         <version>4.0</version>
         <relativePath>..</relativePath>
     </parent>
@@ -36,14 +36,12 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-                            org.springframework.beans,
-                            org.springframework.context,sam-common,sam-agent
+                            org.springframework.beans
                         </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-
         <resources>
             <resource>
                 <directory>src/main/resources/</directory>
@@ -53,7 +51,6 @@
                 </includes>
             </resource>
         </resources>
-
     </build>
 
 </project>

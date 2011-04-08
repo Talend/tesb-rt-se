@@ -1133,17 +1133,23 @@
 	</build>
 
 	<repositories>
+		<!-- TSF, TIF snapshots -->
+		<repository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshots</name>
+			<url>http://sop-ip14.servicebackbone.org:8081/nexus/content/repositories/thirdparty-snapshots/</url>
+		</repository>
+		<!-- Zookeeper -->
+		<repository>
+			<id>nexus-dev</id>
+			<name>Nexus Dev</name>
+			<url>http://sop-ip14.servicebackbone.org:8081/nexus/content/repositories/thirdparty-dev/</url>
+		</repository>
 		<!-- for javax mail -->
 		<repository>
 			<id>java.net.m2</id>
 			<name>Java.net Repository for Maven</name>
 			<url>http://download.java.net/maven/2/</url>
-		</repository>
-		<!-- TSF, TIF, Zookeeper -->
-		<repository>
-			<id>nexus</id>
-			<name>Nexus</name>
-			<url>http://sop-ip14.servicebackbone.org:8081/nexus/content/repositories/thirdparty-snapshots/</url>
 		</repository>
 	</repositories>
 
