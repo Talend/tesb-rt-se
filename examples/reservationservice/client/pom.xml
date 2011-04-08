@@ -98,14 +98,6 @@
                           <include>**/beans-sam.xml</include>
                         </includes>
                     </resource>
-                    <resource>
-                        <directory>../../../sam/sam-agent/src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                          <include>agent-context.xml</include>
-						  <include>agent.properties</include>
-                        </includes>
-                    </resource>							
                 </resources>
 				<plugins>
 					<plugin>
@@ -123,7 +115,7 @@
 							</instructions>
 						</configuration>
 					</plugin>
-				</plugins>								
+				</plugins>
             </build>
         </profile>
     </profiles>
