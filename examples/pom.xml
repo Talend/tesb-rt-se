@@ -113,9 +113,6 @@
         </profile>
         <profile>
             <id>sts</id>
-            <modules>
-                <!--module>sam</module-->
-            </modules>
         </profile>
     </profiles>
 
