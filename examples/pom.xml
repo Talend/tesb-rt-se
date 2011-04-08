@@ -41,35 +41,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-frontend-jaxws</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-transports-http</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-ws-security</artifactId>
-         <version>${cxf.version}</version>
-         <exclusions>
-             <exclusion>
-                 <groupId>org.bouncycastle</groupId>
-                 <artifactId>bcprov-jdk15</artifactId>
-             </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-ws-policy</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-    </dependencies>
-
     <build>
         <pluginManagement>
             <plugins>
