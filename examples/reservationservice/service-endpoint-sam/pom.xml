@@ -48,7 +48,7 @@
                 <directory>src/main/resources/</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/beans-sam.xml</include>
+                    <include>**/beans.xml</include>
                     </includes>
             </resource>
             <resource>
