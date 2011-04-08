@@ -32,6 +32,22 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+         <dependency>
+            <groupId>org.talend.esb.examples</groupId>
+            <artifactId>crmservice-common</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+             <exclusion>
+              <artifactId>org.opensaml</artifactId>
+              <groupId>opensaml</groupId>
+             </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
+            <version>2.4.1_1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -52,24 +68,5 @@
         </plugins>
     </build>
     
-    <dependencies>
- <dependency>
-            <groupId>org.talend.esb.examples</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-             <exclusion>
-              <artifactId>org.opensaml</artifactId>
-              <groupId>opensaml</groupId>
-             </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
-            <version>2.4.1_1-SNAPSHOT</version>
-        </dependency>
- </dependencies>
-
 </project>
 
