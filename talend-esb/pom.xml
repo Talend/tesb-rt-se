@@ -119,7 +119,7 @@
 		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
-		<opensaml.bundle.version>1.1_5</opensaml.bundle.version>
+		<opensaml.bundle.version>2.4.1_1-SNAPSHOT</opensaml.bundle.version>
 		<oscache.bundle.version>2.4_4</oscache.bundle.version>
 		<oscore.bundle.version>2.2.4_4</oscore.bundle.version>
 		<osworkflow.bundle.version>2.7.0_4</osworkflow.bundle.version>
