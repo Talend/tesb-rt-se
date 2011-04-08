@@ -43,6 +43,22 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/beans-sam.xml</include>
+                    </includes>
+            </resource>
+            <resource>
+                <directory>../../sam/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>agent.properties</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
