@@ -35,39 +35,11 @@
         <karaf.version>2.2.0</karaf.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <!--  Test dependencies -->
+		<junit.version>4.8.2</junit.version>
         <jetty.version>7.2.2.v20101205</jetty.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-frontend-jaxws</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-transports-http</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-ws-security</artifactId>
-         <version>${cxf.version}</version>
-         <exclusions>
-             <exclusion>
-                 <groupId>org.bouncycastle</groupId>
-                 <artifactId>bcprov-jdk15</artifactId>
-             </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-ws-policy</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>
@@ -112,9 +84,6 @@
         </profile>
         <profile>
             <id>sts</id>
-            <modules>
-                <!--module>sam</module-->
-            </modules>
         </profile>
     </profiles>
 

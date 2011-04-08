@@ -26,6 +26,14 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -42,15 +50,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-                <filtering>true</filtering>
-                <includes>
-                  <include>**/beans.xml</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
     
     <dependencies>

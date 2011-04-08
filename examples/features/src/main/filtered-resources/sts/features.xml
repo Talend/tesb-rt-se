@@ -19,7 +19,7 @@
     <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='tesb-rac-common-sts' version='${project.version}'>
         <feature>cxf</feature>
-        <bundle>mvn:${project.groupId}/crmservice-common-sts/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-services-sts' version='${project.version}'>
