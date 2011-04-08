@@ -31,7 +31,7 @@
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common-sts/src/main/resources/model/CRMService.wsdl"
+		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMServiceSTS.wsdl"
 		>
 	<jaxws:properties>
            <entry key="ws-security.signature.properties" value="META-INF/spring/clientKeystore.properties"/>

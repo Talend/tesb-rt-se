@@ -48,7 +48,7 @@
 		endpointName="serviceNamespace:CRMServiceProvider"
 		implementor="#CRMServiceBean"
 		address="/CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common-sts/src/main/resources/model/CRMService.wsdl">
+		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMServiceSTS.wsdl">
 	      <jaxws:properties>
          <entry key="ws-security.signature.username" value="myservicekey"/>
 		 <entry key="ws-security.callback-handler">
