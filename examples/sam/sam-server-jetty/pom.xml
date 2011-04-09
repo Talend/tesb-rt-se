@@ -15,28 +15,38 @@
     <name>Service Activity Monitoring :: Server Jetty</name>
     <url>http://www.talend.com</url>
 
-	<!--dependencies>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>7.2.2.v20101205</version>
-        </dependency>
-    </dependencies-->
-	
     <build>
         <finalName>${project.artifactId}</finalName>
+        <defaultGoal>jetty:run-war</defaultGoal>
         <plugins>
+	<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.talend.esb</groupId>
+                  <artifactId>sam-server-war</artifactId>
+                  <version>4.0</version>
+                  <type>war</type>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-				<version>8.0.0.M2</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>jetty-webapp</artifactId>
-						<version>7.0.0.pre5</version>
-					</dependency>
-				</dependencies>				
+                <version>7.3.1.v20110307</version>		
                 <configuration>
                     <connectors>
                         <connector
@@ -45,14 +55,7 @@
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-
-					<!--webApp>../sam/sam-server-war/target/sam-server-war.war</webApp-->
-					  <contextHandlers>           
-						<contextHandler implementation="org.mortbay.jetty.webapp.WebAppContext">
-							<war>../sam/sam-server-war/target/sam-server-war.war</war>
-							<contextPath>/other</contextPath>
-						</contextHandler>
-					  </contextHandlers>  
+		 <webApp>target/dependency/sam-server-war-4.0.war</webApp>
 					
                 </configuration>
             </plugin>
