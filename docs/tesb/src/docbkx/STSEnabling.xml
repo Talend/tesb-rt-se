@@ -114,7 +114,7 @@
       </imageobject>
     </mediaobject>
 
-    <para>Sample STS scenario: </para>
+    <para>Sample STS scenario:</para>
 
     <procedure>
       <step>
@@ -160,140 +160,116 @@
   </section>
 
   <section>
-    <title>How to enable STS based Authentication in the Rent a Car
-    Demo</title>
+    <title>Enabling STS configuration on Rent-a-Car example</title>
 
     <procedure>
       <step>
-        <para> Add the STS CXF client configuration to the Spring
-        configuration represented by the beans.xml files. - Add the STS CXF
-        client to the endpoint bean of CRMClient in the beans.xml . Apply
-        these changes to the following file:
-        ../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
-        (you can use preinstalled beans_sts.xml file for client configuring)
-        For example :</para>
+        <para>Build the STS feature.</para>
 
-        <programlisting>&lt;bean class="org.apache.cxf.ws.security.trust.STSClient"&gt;
-&lt;constructor-arg ref="cxf" /&gt;
-&lt;property name="wsdlLocation" value="model/ws-trust-1.4-service.wsdl" /&gt;
-&lt;property name="serviceName"
- value="{http://docs.oasis-open.org/ws-sx/ws-trust/
- 200512/wsdl}SecurityTokenServiceProvider"/&gt;
-&lt;property name="endpointName"
- value="{http://docs.oasis-open.org/ws-sx/ws-trust/
- 200512/wsdl}SecurityTokenServiceSOAP"/&gt;
-&lt;property name="properties"&gt;
-  &lt;map&gt;
-	&lt;entry key="ws-security.username" value="alice" /&gt;
-	&lt;entry key="ws-security.callback-handler" value="common.CommonCallbackHandler" /&gt;
-	&lt;entry key="ws-security.encryption.properties" value="clientKeystore.properties" /&gt;
-	&lt;entry key="ws-security.encryption.username" value="mystskey" /&gt;
-	&lt;entry key="ws-security.sts.token.username" value="talendcertificate" /&gt;
-	&lt;entry key="ws-security.sts.token.properties" value="clientKeystore1.properties" /&gt;
-	&lt;entry key="ws-security.sts.token.usecert" value="true" /&gt;
-	&lt;entry key="isBSPCompliant" value="false" /&gt;
-  &lt;/map&gt;
-&lt;/property&gt;
-&lt;/bean&gt;       
-</programlisting>
-
-        <para>For additional information about CXF STS client configuring
-        please read: http://cxf.apache.org/docs/ws-trust.html</para>
+        <para>Run in Rent-a-Car example root direcotry: <userinput>mvn clean
+        install -Psts</userinput></para>
       </step>
 
       <step>
-        <para>Add the STS CXF client to the endpoint bean of CRMService in the
-        beans.xml .</para>
-
-        <para>Apply these changes to the following file:
-        ../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
-        (you can use preinstalled beans_sts.xml file for client
-        configuring</para>
-
-        <programlisting>&lt;jaxws:endpoint id="CRMService"
-	xmlns:serviceNamespace="http://services.talend.org/CRMService"
-	serviceName="serviceNamespace:CRMServiceProvider" 
-	endpointName="serviceNamespace:CRMServiceProvider"
-	implementor="#CRMServiceBean" 
-	address="http://localhost:8888/soap/CRMServiceProvider/"
-    
-&lt;jaxws:properties&gt;
- &lt;entry key="ws-security.signature.username" value="myservicekey" /&gt;
- &lt;entry key="ws-security.callback-handler" 
- value="common.CommonCallbackHandler" /&gt;
- &lt;entry key="ws-security.signature.properties" 
- value="serviceKeystore.properties" /&gt;
- &lt;entry key="ws-security.encryption.properties" 
- value="serviceKeystore.properties" /&gt;
-&lt;/jaxws:properties&gt;
-&lt;/jaxws:endpoint&gt;
-
-</programlisting>
+        <para>Start the STS server on port : 8080</para>
       </step>
 
       <step>
-        <para>Keystores and models for the client and service.</para>
+        <para>Configure default port for the OSGI HTTP Service. In Talend ESB
+        container set in file etc\org.ops4j.pax.web.cfg:</para>
 
-        <para>Note that the keys here are not meant for production use--they
-        are self-signed and naturally should have passwords different from the
-        ones.</para>
+        <para><userinput>org.osgi.service.http.port=8081</userinput></para>
 
-        <para>Prepairing the consumer keystore and properties: Sample consumer
-        keystore for the CRM service is located in
-        crmservice\client\src\main\resources\META-INF\spring. It contains two
-        files: clientstore.jks and clientKeystore.properties.</para>
-
-        <para>Prepairing the client keystore and properties: Sample serivce
-        keystore for the CRM service is located in
-        crmservice\service\src\main\resources\META-INF\spring\. It contains
-        two files: clientstore.jks and clientKeystore.properties.</para>
-
-        <para>For additional information for keystore creation use read Java
-        keytool documentation and OpenSSL tutorial:
-        http://www.openssl.org/</para>
+        <para>and run container.</para>
       </step>
 
       <step>
-        <para>Prepairing policies for the client and service.</para>
+        <para>In Talend ESB console type</para>
 
-        <para>WS-SecureConversation in theory can be used with multiparty
-        message exchanges, but the most common usage is for a client
-        communicating with a single server. When used in this configuration,
-        the STS that supplies the SCT to the client is co-located with the
-        server, accessed at the same endpoint address. This means that the web
-        services code on the server needs a way to distinguish between
-        messages intended for the STS and those intended for the service
-        itself; the action used on the request serves that purpose.</para>
+        <para><userinput>features:addurl
+        mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
 
-        <para>A major part of the WS-Security performance cost comes from the
-        wide use of asymmetric encryption. Asymmetric encryption is a useful
-        tool because it works with key pairs. Each key in the pair can be used
-        to encrypt messages that the other key can decrypt. The owner of a key
-        pair can make one key publicly available so that anyone can use it to
-        encrypt messages to the owner securely, and also decrypt messages from
-        the owner (thereby verifying the sender's identity).</para>
+        <para><userinput>features:install
+        tesb-rac-services-sts</userinput></para>
 
-        <para>WS-SecureConversation uses WS-Policy and WS-SecurityPolicy
-        configurations that are similar to those used by the basic
-        WS-Security. A big difference is that when WS-SecureConversation is
-        used, the policy must cover two separate exchanges — that between the
-        client and the STS, and that between the client and the actual
-        service. This is handled in the policy description by using a nested
-        policy for the exchange with the STS, while the main body of the
-        policy applies to the exchange between the client and the
-        service.</para>
+        <para><userinput>features:install tesb-rac-app-sts</userinput></para>
 
-        <para>Add policies to the file
-        ../examples/crmservice/common/src/main/resources/model/CRMService.wsdl</para>
-
-        <para>Use the prepared file CRMService_policies.wsdl in the same
-        directory as an example how to add policies in the crmservice WSDL
-        file.</para>
-
-        <para>For additional information about policies using in CXF please
-        read: http://cxf.apache.org/docs/ws-securitypolicy.html and
-        http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-os.html</para>
+        <para>Now STS sample is installed and ready to run.</para>
       </step>
     </procedure>
+  </section>
+
+  <section>
+    <title>Configuration of STS based Authentication in the Rent-a-Car Demo
+    example</title>
+
+    <para>Sample STS client and service is configured using CXF.</para>
+
+    <para>For more information about client and service configuration
+    read:http://cxf.apache.org/docs/ws-trust.html</para>
+
+    <para>STS CXF client is represented in ../examples/crmservice/client-sts
+    folder. STS CXF client configuration located in:
+    ../examples/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml
+    file.</para>
+
+    <para>CXF service is represented in
+    ../examples/crmservice/service-endpoint-sts. Service configuration is
+    located in:
+    ../examples/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml
+    file.</para>
+
+    <para>Policies and WSDL</para>
+
+    <para>WS-SecureConversation in theory can be used with multiparty message
+    exchanges, but the most common usage is for a client communicating with a
+    single server. When used in this configuration, the STS that supplies the
+    SCT to the client is co-located with the server, accessed at the same
+    endpoint address. This means that the web services code on the server
+    needs a way to distinguish between messages intended for the STS and those
+    intended for the service itself; the action used on the request serves
+    that purpose.</para>
+
+    <para>A major part of the WS-Security performance cost comes from the wide
+    use of asymmetric encryption. Asymmetric encryption is a useful tool
+    because it works with key pairs. Each key in the pair can be used to
+    encrypt messages that the other key can decrypt. The owner of a key pair
+    can make one key publicly available so that anyone can use it to encrypt
+    messages to the owner securely, and also decrypt messages from the owner
+    (thereby verifying the sender's identity).</para>
+
+    <para>WS-SecureConversation uses WS-Policy and WS-SecurityPolicy
+    configurations that are similar to those used by the basic WS-Security. A
+    big difference is that when WS-SecureConversation is used, the policy must
+    cover two separate exchanges — that between the client and the STS, and
+    that between the client and the actual service. This is handled in the
+    policy description by using a nested policy for the exchange with the STS,
+    while the main body of the policy applies to the exchange between the
+    client and the service.</para>
+
+    <para>Policy configuration of Rent-a-Car STS sample is represented in
+    ../examples/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</para>
+
+    <para>For additional information about policies using in CXF please read:
+    http://cxf.apache.org/docs/ws-securitypolicy.html and
+    http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-
+    os.html.</para>
+
+    <para>Keystores and models for the client and service.</para>
+
+    <para>Note that the keys here are not meant for production use--they are
+    self-signed and naturally should have passwords different from the
+    ones.</para>
+
+    <para>Sample client keystore and configuration for the CRM service is
+    located in crmservice\client\src\main\resources\META-INF\spring. It
+    contains two files: clientstore.jks and clientKeystore.properties.</para>
+
+    <para>Sample service keystore and configuration for the CRM service is
+    located in crmservice\service\src\main\resources\META-INF\spring\. It
+    contains two files: clientstore.jks and clientKeystore.properties.</para>
+
+    <para>For additional information for keystore creation use read Java
+    keytool documentation and OpenSSL tutorial: http://www.openssl.org/</para>
   </section>
 </chapter>
