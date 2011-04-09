@@ -16,7 +16,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>crmservice-client-sts</artifactId>
+    <artifactId>crmservice-client</artifactId>
     <name>CRMService Client STS</name>
     <packaging>bundle</packaging>
 
