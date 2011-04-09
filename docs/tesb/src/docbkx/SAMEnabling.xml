@@ -69,8 +69,8 @@ db.createsql=create.sql
 </programlisting>
 
 	<para>Start Monitoring Server: </para>
-	<para><userinput>cd talend-esb-&lt;version&gt;/examples/sam/sam-server-war</userinput></para>
-	<para><userinput>mvn jetty:run</userinput></para>
+	<para><userinput>cd talend-esb-&lt;version&gt;/examples/sam/sam-server-jetty</userinput></para>
+	<para><userinput>mvn jetty:run-war</userinput></para>
 	<para>then, Monitoring Server will be started.</para>
   </section>
   
