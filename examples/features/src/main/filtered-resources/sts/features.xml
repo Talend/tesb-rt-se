@@ -24,6 +24,7 @@
     </feature>
     <feature name='tesb-rac-services-sts' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-sts</feature>
+		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/2.4.1_1-SNAPSHOT</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-sts/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>

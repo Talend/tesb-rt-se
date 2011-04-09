@@ -25,13 +25,16 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-policy.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-addr.xml" />
+
 	
 	<jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMServiceSTS.wsdl"
+		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMService-sts.wsdl"
 		>
 	<jaxws:properties>
            <entry key="ws-security.signature.properties" value="META-INF/spring/clientKeystore.properties"/>
@@ -51,7 +54,6 @@
       value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="alice"/>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>

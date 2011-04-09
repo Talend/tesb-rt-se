@@ -49,10 +49,6 @@
                             javax.xml.bind.annotation.adapters,
                             *
                         </Import-Package>
-                        <!--Export-Package>
-                            org.talend.services.crm.types,
-                            org.talend.services.crmservice
-                        </Export-Package-->
                     </instructions>
                 </configuration>
             </plugin>
@@ -106,7 +102,7 @@
                                 <configuration>
                                     <wsdlOptions>
                                         <wsdlOption>
-                                            <wsdl>${basedir}/src/main/resources/model/CRMServiceSTS.wsdl</wsdl>
+                                            <wsdl>${basedir}/src/main/resources/model/CRMService-sts.wsdl</wsdl>
                                         </wsdlOption>
                                     </wsdlOptions>
                                 </configuration>
