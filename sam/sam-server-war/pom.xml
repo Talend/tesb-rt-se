@@ -7,8 +7,8 @@
     <packaging>war</packaging>
 
     <parent>
-        <groupId>org.talend.esb.examples</groupId>
-        <artifactId>sam-examples</artifactId>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>esb-parent</artifactId>
         <version>4.0</version>
     </parent>
 
