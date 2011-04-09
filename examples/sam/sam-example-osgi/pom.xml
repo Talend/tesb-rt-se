@@ -48,6 +48,7 @@
                 <executions>
                     <execution>
                         <configuration>
+			<fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>

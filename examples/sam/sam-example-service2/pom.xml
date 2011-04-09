@@ -36,17 +36,17 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-	      <version>2.3.3</version>
                 <executions>
                     <execution>
                         <configuration>
+			<fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>
                                         ${basedir}/src/main/resources/wsdl/CustomerService.wsdl
                                  </wsdl>
                                     <bindingFiles>
-                                        <bindingFile>src/main/resources/wsdl/binding.xml</bindingFile>
+                                        <bindingFile>${basedir}/src/main/resources/wsdl/binding.xml</bindingFile>
                                     </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
