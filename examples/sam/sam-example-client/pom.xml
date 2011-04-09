@@ -46,9 +46,6 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <sourceRoot>
-                                ${basedir}/target/generated-sources
-                           </sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>
