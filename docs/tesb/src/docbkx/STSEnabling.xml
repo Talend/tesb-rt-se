@@ -166,7 +166,9 @@
       <step>
         <para>Build the STS feature.</para>
 
-        <para>Run in Rent-a-Car example root direcotry: <userinput>mvn clean
+        <para>Make sure you unpacked talend-esb-4.0-doc.zip and talend-esb-4.0.zip in the same directory.</para>
+
+        <para>Run in Rent-a-Car example root directory: <userinput>mvn clean
         install -Psts</userinput></para>
       </step>
 
@@ -180,7 +182,7 @@
 
         <para><userinput>org.osgi.service.http.port=8081</userinput></para>
 
-        <para>and run container.</para>
+        <para>and run container (execute ./container/bin/tesb in the talend-esb-4.0 directory).</para>
       </step>
 
       <step>
