@@ -55,12 +55,13 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>${cxf.version}</version>
+		<version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
                         <phase>generate-sources</phase>
                         <configuration>
+                            <fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/model/CRMService.wsdl</wsdl>
