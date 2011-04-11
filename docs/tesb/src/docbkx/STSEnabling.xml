@@ -24,7 +24,7 @@
          xmlns:ns4="http://www.w3.org/1999/xhtml"
          xmlns:ns3="http://www.w3.org/2000/svg"
          xmlns:ns="http://docbook.org/ns/docbook">
-  <title>Enabling the STS for the Rent a Car demo</title>
+  <title>Enabling WS-Security for the Rent a Car demo</title>
 
   <section>
     <title>Purpose of the STS</title>
@@ -146,21 +146,46 @@
     </procedure>
   </section>
 
-  <section>
-    <title>Installation prerequisites</title>
+	<section>
+		<title>Configuring and starting the STS Server</title>
+	    <para>To enable WS-security for the Rent-a-Car example the STS
+	    server has to be installed and deployed. A sample implementation of the 
+		STS server is integrated with the open source technology service framework CXF. 
+        </para>
+		
+		<para>Use maven pom.xml file from the directory <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
+		<para>Either for UNIX or Windows:</para>
+		<para><userinput>mvn clean install</userinput></para>
+		<para><userinput>mvn -Pserver  (from one command line window)</userinput></para>
+		<para><userinput>mvn -Pclient  (from a second command line window)</userinput></para>
 
-    <para>To enable the Rent-a-Car example initially prepare and run the STS
-    server. For more information please read CXF STS server Installation and
-    Configuration Manual. Implementation of STS server is integrated with the
-    open source technology service framework - CXF. This is a highly reliable
-    and available framework that incorporates the modern standards of
-    web-services technologies . To learn more about CXF.</para>
+		<para>To remove the code generated from the WSDL file and the .class files, run "mvn clean".</para>
+		<para><userinput>mvn clean</userinput></para>
+		<para>To run STS server using maven enter following commands on a single command line:</para>
+        <para><userinput>mvn jetty:run</userinput></para>
+		<para>This will start a jetty instance on port 8080 and run the STS provider configured with this sample Issue operation.</para>
+	</section>
+	
+	<section>
+    <title>Enabling logging on the STS server</title>
+	<para>To enable logging on STS server add org.apache.cxf.feature.LoggingFeature bean to the endpoint configuration in <code>samples/cxf/sts_issue_operation/src/main/webapp/WEB-INF/beans.xml</code> before executing the build using <userinput>mvn clean install</userinput>.</para>
+	<programlisting>    &lt;jaxws:endpoint id="SecurityTokenService"
+        implementor="#securityTokenServiceProviderBean"
+        address="/SecurityTokenService" 
+        wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
+        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
+        serviceName="ns1:SecurityTokenServiceProvider"
+        endpointName="ns1:SecurityTokenServiceSOAP"&gt;
 
-    <para>For more information about CXF visit http://cxf.apache.org/</para>
+        &lt;jaxws:features&gt;
+            &lt;bean class="org.apache.cxf.feature.LoggingFeature"/&gt;
+        &lt;/jaxws:features&gt;
+    &lt;/jaxws:endpoint&gt;
+	</programlisting>
   </section>
 
   <section>
-    <title>Enabling STS configuration on Rent-a-Car example</title>
+    <title>Enabling of WS-Security on the Rent-a-Car example</title>
 
     <procedure>
       <step>
@@ -285,37 +310,4 @@
     keytool documentation and OpenSSL tutorial: http://www.openssl.org/</para>
   </section>
   
-  <section>
-    <title>Enabling logging on STS server</title>
-	<para>To enable logging on STS server add org.apache.cxf.feature.LoggingFeature bean to endpoint configuration.</para>
-	<programlisting>    &lt;jaxws:endpoint id="SecurityTokenService"
-        implementor="#securityTokenServiceProviderBean"
-        address="/SecurityTokenService" 
-        wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
-        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
-        serviceName="ns1:SecurityTokenServiceProvider"
-        endpointName="ns1:SecurityTokenServiceSOAP"&gt;
-	    
-        &lt;jaxws:features&gt;
-            &lt;bean class="org.apache.cxf.feature.LoggingFeature"/&gt;
-        &lt;/jaxws:features&gt;
-    &lt;/jaxws:endpoint&gt;
-	</programlisting>
-  </section>
-  
-	<section>
-		<title>Configuring and starting STS Server</title>
-
-		<para>Use maven pom.xml file from the directory <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
-		<para>Either for UNIX or Windows:</para>
-		<para><userinput>mvn install</userinput></para>
-		<para><userinput>mvn -Pserver  (from one command line window)</userinput></para>
-		<para><userinput>mvn -Pclient  (from a second command line window)</userinput></para>
-
-		<para>To remove the code generated from the WSDL file and the .class files, run "mvn clean".</para>
-		<para><userinput>mvn clean</userinput></para>
-		<para>To run STS server using maven enter following commands on a single command line:</para>
-        <para><userinput>mvn jetty:run</userinput></para>
-		<para>This will start a jetty instance on port 8080 and run the STS provider configured with this sample Issue operation.</para>
-	</section>
 </chapter>
