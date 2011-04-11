@@ -30,30 +30,30 @@
     <title>Purpose of the STS</title>
 
     <para>In a heterogeneous environment Web services need to authenticate
-    service clients to control their access. To negotiate trust between
-    service clients and service providers an authentication broker can provide
-    a common access control infrastructure for a group of applications. To
-    negotiate trust the authentication broker issues signed security tokens to
-    be used by clients to authenticate themselves at the service.</para>
+    service clients to control their access. When negotiating trust between
+    service clients and service providers, an authentication broker can provide
+    a common access control infrastructure for a group of applications. For this
+    purpose, the authentication broker issues signed security tokens which are
+    used by clients to authenticate themselves at the service.</para>
 
-    <para>A STS (Security Token Service) is a service providing such an
+    <para>The STS (Security Token Service) is a service for providing such an
     authentication broker. It issues Security Tokens based on the WS-Trust, a
     standardized specification of Web services based on WS-Security. WS-Trust
     combines two related functions.</para>
 
-    <para>The first function is to support working with security tokens —
-    specifically, the issuing, renewing, and canceling of security tokens. The
-    second function is to support brokering trust relationships. These two
+    <para>The first function is support for working with security tokens —
+    specifically the issuing, renewing, and canceling of security tokens. The
+    second function is support for brokering of trust relationships. These two
     functions may seem different, but they interrelate in that security tokens
-    must be trusted, and some form of token represents trust.</para>
+    require an infrastructure which ensures trust whereever they are handled.</para>
 
     <para>The core of WS-Trust is a set of messages used to issue, renew,
     cancel, and validate security tokens. Clients calling a SOAP web service
-    called Security Token Service (STS) exchange these messages. The received
-    tokens are used for authentication. They may be transferred for instance
+    called Security Token Service (STS) exchange these messages. The tokens
+    received as response are used for authentication. They may for instance be transferred
     inside a security header of a request to another service.</para>
 
-    <para>An STS is implements a simple interface defined by the WS-Trust
+    <para>STS implements a simple interface defined by the WS-Trust
     specification. This interface allows clients to use security tokens to
     submit requests for several types of operations. WS-SecurityPolicy can be
     used to specify the types of credentials to be provided by clients or any
@@ -63,16 +63,23 @@
   <section>
     <title>Advantages of using STS</title>
 
-    <para>For a web service and its client to communicate securely there needs
-    to be a trust relationship established between the service and the client.
-    If the service and client are in the same security domain they can have a
+    <para>For secure communication of a web service and its client a trust
+    relationship needs to be established between both.
+    If the service and client are in the same security domain, they can have a
     direct trust relationship. In this type of relationship the service and
     client can authenticate each other directly. But if the client and the
-    service placed in different security domains they not have direct trust
+    service placed in different security domains they do not have direct trust
     relationship.</para>
 
-    <para>You can use an STS to make trusted connection between it. STS also
-    used to issue a security token, that is, a collection of claims such as
+    <para>Practically spoken, in a distributed security environment you do not
+    want to disclose login credentials and and give access to your user accounts
+    to external participants. Thus, you request a certificate-based authentication
+    token from the STS server which allows verification of the user authenticity
+    at any place where the certificate is known.</para>
+
+    <para>Thus, you can use an STS provider to make trusted connection between
+    service consumers and providers without sharing a security domain. STS is
+    used to issue a security token, that is a collection of claims such as
     name, role, and authorization code, for the client to access the
     service.</para>
   </section>
@@ -80,20 +87,19 @@
   <section>
     <title>How it works</title>
 
-    <para>The client sends an authentication request, with credentials, to the
-    STS. The STS verifies the credentials presented by the client, and sends
-    back a response with security token that provides proof that the client
+    <para>The client sends an authentication request with its credentials to the
+    STS. The STS verifies the credentials presented by the client and sends
+    back a response with a signed security token which certifies that the client
     has authenticated with the STS. The client presents the security token to
     the Web service. The Web service verifies that the token was issued by a
-    trusted STS, which proves that the client has successfully authenticated
-    with the STS.</para>
+    trusted STS, and on success accepts it in lieu of a successful login.</para>
 
     <para>The protocol used for issuing security tokens is based on WS-Trust.
     WS-Trust is a Web service specification that builds on WS-Security. It
     describes a protocol used for issuance, exchange, and validation of
     security tokens. WS-Trust provides a solution for interoperability by
-    defining a protocol for issuing and exchanging security tokens, based on
-    token format.</para>
+    defining a protocol for issuing and exchanging security tokens based on
+    the token format.</para>
 
     <para>In WS-Trust, the type of message sent to an STS to request issuance
     of a security token is known as a Request Security Token (RST) message.
@@ -101,7 +107,7 @@
     such as the user ID and password contained in a UsernameToken. The
     response message from the STS is known as a Request Security Token
     Response (RSTR) message. The RSTR contains a security token, such as an
-    XML Security Assertion Markup Language (SAML).</para>
+    XML Security Assertion Markup Language (SAML) token.</para>
 
     <para>SAML tokens provide cross-platform interoperability and exchange
     security information between clients and services in different security
@@ -131,11 +137,11 @@
 
       <step>
         <para>The client initializes and sends a request message to the
-        service.</para>
+        service which contains the token.</para>
       </step>
 
       <step>
-        <para>The service validates the security token and processes the
+        <para>The service validates the security token, and on success processes the
         request.</para>
       </step>
 
@@ -148,27 +154,33 @@
 
 	<section>
 		<title>Configuring and starting the STS Server</title>
-	    <para>To enable WS-security for the Rent-a-Car example the STS
+	    <para>In order to enable WS-security for the Rent-a-Car example, the STS
 	    server has to be installed and deployed. A sample implementation of the 
 		STS server is integrated with the open source technology service framework CXF. 
         </para>
 		
-		<para>Use maven pom.xml file from the directory <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
-		<para>Either for UNIX or Windows:</para>
+	    <para>Use the Maven &quot;pom.xml&quot; file from the directory
+	    <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
+		<para>Execute either in a UNIX terminal or the Windows command line:</para>
 		<para><userinput>mvn clean install</userinput></para>
-		<para><userinput>mvn -Pserver  (from one command line window)</userinput></para>
-		<para><userinput>mvn -Pclient  (from a second command line window)</userinput></para>
+	    <para><userinput>mvn -Pserver</userinput>  (from one command line window)</para>
+	    <para><userinput>mvn -Pclient</userinput>  (from a second command line window)</para>
 
-		<para>To remove the code generated from the WSDL file and the .class files, run "mvn clean".</para>
+	    <para>To remove the code generated from the WSDL file and the .class files,
+	    run &quot;mvn clean&quot;.</para>
 		<para><userinput>mvn clean</userinput></para>
-		<para>To run STS server using maven enter following commands on a single command line:</para>
+		<para>To run STS server using Maven, enter the following command on a single command line:</para>
         <para><userinput>mvn jetty:run</userinput></para>
-		<para>This will start a jetty instance on port 8080 and run the STS provider configured with this sample Issue operation.</para>
+		<para>This will start a jetty instance on port 8080 and run the STS provider
+		configured with this sample Issue operation.</para>
 	</section>
 	
 	<section>
     <title>Enabling logging on the STS server</title>
-	<para>To enable logging on STS server add org.apache.cxf.feature.LoggingFeature bean to the endpoint configuration in <code>samples/cxf/sts_issue_operation/src/main/webapp/WEB-INF/beans.xml</code> before executing the build using <userinput>mvn clean install</userinput>.</para>
+	    <para>To enable logging on STS server, add the &quot;org.apache.cxf.feature.LoggingFeature&quot;
+	    bean to the endpoint configuration in
+	    <code>samples/cxf/sts_issue_operation/src/main/webapp/WEB-INF/beans.xml</code>
+	    before executing the build using <userinput>mvn clean install</userinput>.</para>
 	<programlisting>    &lt;jaxws:endpoint id="SecurityTokenService"
         implementor="#securityTokenServiceProviderBean"
         address="/SecurityTokenService" 
@@ -185,7 +197,7 @@
   </section>
 
   <section>
-    <title>Enabling of WS-Security on the Rent-a-Car example</title>
+    <title>Enabling of WS-Security in the Rent-a-Car example</title>
 
     <procedure>
       <step>
@@ -202,7 +214,7 @@
       </step>
 
       <step>
-        <para>Configure default port for the OSGI HTTP Service. In Talend ESB
+        <para>Configure the default port for the OSGI HTTP Service. In Talend ESB
         container set in file etc\org.ops4j.pax.web.cfg:</para>
 
         <para><userinput>org.osgi.service.http.port=8081</userinput></para>
@@ -211,7 +223,7 @@
       </step>
 
       <step>
-        <para>In Talend ESB console type</para>
+        <para>In the Talend ESB console, type</para>
 
         <para><userinput>features:addurl
         mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
@@ -221,7 +233,7 @@
 
         <para><userinput>features:install tesb-rac-app-sts</userinput></para>
 
-        <para>Now STS sample is installed and ready to run.</para>
+        <para>Now the STS sample is installed and ready to run.</para>
 		
       </step>
 	  
