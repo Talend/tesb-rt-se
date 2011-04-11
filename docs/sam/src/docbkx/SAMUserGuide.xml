@@ -74,12 +74,12 @@ Event Structure please see Appendix.
     <chapter>
         <title>Install</title>
 		<para>
-		The distribution of SAM includes: sam-agent.jar, sam-server-war.war. and examples: sam-example-service.war, sam-example-service2.war
+		The installation of SAM includes Agent side installation and Monitoring Server side installation. And examples available (sam-example-service, sam-example-service2) for user install Agent onto them.
 		</para>
 		<section>
 		<title>Agent Installation</title>
 		<para>
-The Agent needs to be deployed with the customer application. The best way is to add it to the classpath using a maven depdency
+The Agent needs to be deployed with the customer application. The best way to install Agent is to add it to the classpath using a maven depdency
 		</para>
 	<mediaobject>
 	  <imageobject>
@@ -87,13 +87,13 @@ The Agent needs to be deployed with the customer application. The best way is to
 	  </imageobject>
 	</mediaobject>  
 		<para>
-<code>
-        <dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>sam-agent</artifactId>
-            <version>{talend esb version}</version>
-        </dependency>
-</code>
+<programlisting>
+&lt;dependency>
+	&lt;groupId>org.talend.esb&lt;/groupId>
+	&lt;artifactId>sam-agent&lt;/artifactId>
+	&lt;version>{talend esb version}&lt;/version>
+&lt;/dependency>
+</programlisting>
 
 		</para>
 		<para>
@@ -119,6 +119,9 @@ For spring related services add the feature to the service. Open the application
 		<title>Monitoring Server Installation</title>
 		<para>
 Monitoring Server can be deployed into any Servlet container. for example , it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war. The Monitoring Server needs a database to store event data, so make sure a RDBMS has been installed/accessed, you can find how to configure the database in the configuration chapter.
+		</para>
+		<para>
+The sam-server-war also can be running with <userinput>mvn jetty:run</userinput> which running on embeded jetty server. and if the Derby Database has been configured on Monitoring Server side, RDBMS installation will be skipped.	
 		</para>
 		</section>
 		
@@ -319,7 +322,22 @@ logserver.properties
           </tgroup>
         </informaltable>		
 	<para>
- The example (for Mysql):
+logserver.properties example (for Derby):
+	</para>
+<programlisting>
+monitoringServiceUrl=/MonitoringServiceSOAP
+db.driver=org.apache.derby.jdbc.ClientDriver
+db.url=jdbc:derby://localhost:1527/db;create=true
+db.username=test
+db.password=test
+db.incrementer=derbyIncrementer
+
+db.recreate=true
+db.createsql=create.sql
+</programlisting>
+	<para>
+logserver.properties example (for Mysql):
+	</para>
 <programlisting>
 monitoringServiceUrl=/MonitoringServiceSOAP
 
@@ -332,7 +350,7 @@ db.incrementer=mysqlIncrementer
 db.recreate=false
 db.createsql=create_mysql.sql
 </programlisting>
-	</para>
+
 	<para>
 About Filter/Handler configuration, please refer to Agent configuration section.	
 	</para>
@@ -343,7 +361,7 @@ About Filter/Handler configuration, please refer to Agent configuration section.
 	<chapter>
 	<title>Running and Testing</title>
 	<section>
-	<title>Prerequisite</title>
+	<title>Running</title>
 	<para>
 Make sure Database is running and accessible.	
 	</para>
