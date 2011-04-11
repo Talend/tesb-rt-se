@@ -8,7 +8,7 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>sam-parent</artifactId>
         <version>4.0</version>
     </parent>
 
