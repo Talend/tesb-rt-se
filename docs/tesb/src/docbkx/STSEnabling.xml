@@ -197,7 +197,17 @@
         <para><userinput>features:install tesb-rac-app-sts</userinput></para>
 
         <para>Now STS sample is installed and ready to run.</para>
+		
       </step>
+	  
+	  <step>
+	    
+		<para>Uninstall STS features.</para>
+		 
+		<para><userinput>features:uninstall tesb-rac-app-sts</userinput></para>
+		 
+		<para><userinput>features:uninstall tesb-rac-services-sts</userinput></para>
+	  </step>
     </procedure>
   </section>
 
@@ -292,4 +302,20 @@
     &lt;/jaxws:endpoint&gt;
 	</programlisting>
   </section>
+  
+	<section>
+		<title>Configuring and starting STS Server</title>
+
+		<para>Use maven pom.xml file from the directory <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
+		<para>Either for UNIX or Windows:</para>
+		<para><userinput>mvn install</userinput></para>
+		<para><userinput>mvn -Pserver  (from one command line window)</userinput></para>
+		<para><userinput>mvn -Pclient  (from a second command line window)</userinput></para>
+
+		<para>To remove the code generated from the WSDL file and the .class files, run "mvn clean".</para>
+		<para><userinput>mvn clean</userinput></para>
+		<para>To run STS server using maven enter following commands on a single command line:</para>
+        <para><userinput>mvn jetty:run</userinput></para>
+		<para>This will start a jetty instance on port 8080 and run the STS provider configured with this sample Issue operation.</para>
+	</section>
 </chapter>
