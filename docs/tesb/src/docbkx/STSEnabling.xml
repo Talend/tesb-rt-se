@@ -269,9 +269,27 @@
 
     <para>Sample service keystore and configuration for the CRM service is
     located in crmservice\service\src\main\resources\META-INF\spring\. It
-    contains two files: clientstore.jks and clientKeystore.properties.</para>
+    contains two files: servicestore.jks and serviceKeystore.properties.</para>
 
     <para>For additional information for keystore creation use read Java
     keytool documentation and OpenSSL tutorial: http://www.openssl.org/</para>
+  </section>
+  
+  <section>
+    <title>Enabling logging on STS server</title>
+	<para>To enable logging on STS server add org.apache.cxf.feature.LoggingFeature bean to endpoint configuration.</para>
+	<programlisting>    &lt;jaxws:endpoint id="SecurityTokenService"
+        implementor="#securityTokenServiceProviderBean"
+        address="/SecurityTokenService" 
+        wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
+        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
+        serviceName="ns1:SecurityTokenServiceProvider"
+        endpointName="ns1:SecurityTokenServiceSOAP"&gt;
+	    
+        &lt;jaxws:features&gt;
+            &lt;bean class="org.apache.cxf.feature.LoggingFeature"/&gt;
+        &lt;/jaxws:features&gt;
+    &lt;/jaxws:endpoint&gt;
+	</programlisting>
   </section>
 </chapter>
