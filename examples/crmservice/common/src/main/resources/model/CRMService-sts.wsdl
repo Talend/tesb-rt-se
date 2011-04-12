@@ -103,11 +103,6 @@
       <input message="tns:updateCRMStatusRequest"/>
     </operation>
   </portType>
-  <wsdl:service name="CRMServiceProvider">
-    <wsdl:port binding="tns:localhostBinding" name="CRMServiceProvider">
-		<soap:address location="http://localhost:8081/services/CRMServiceProvider/"/>
-	</wsdl:port>
-  </wsdl:service>
     <wsdl:binding name="localhostBinding" type="tns:CRMService">
     <wsp:PolicyReference URI="#CRMServiceBindingAsymmetricSAML2Policy"/>
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -141,6 +136,12 @@
       </wsdl:input>
     </wsdl:operation>
   </wsdl:binding>
+
+  <wsdl:service name="CRMServiceProvider">
+    <wsdl:port binding="tns:localhostBinding" name="CRMServiceProvider">
+		<soap:address location="http://localhost:8080/services/CRMServiceProvider/"/>
+	</wsdl:port>
+  </wsdl:service>
   
  <wsp:Policy wsu:Id="CRMServiceBindingAsymmetricSAML2Policy">
       <wsp:ExactlyOne>
@@ -161,12 +162,12 @@
                               <sp:RequireInternalReference/>
                            </wsp:Policy>
                            <sp:Issuer>
-                              <wsaw:Address>http://localhost:8080/sts/SecurityTokenService</wsaw:Address>
+                              <wsaw:Address>http://localhost:9081/sts/SecurityTokenService</wsaw:Address>
                               <wsaw:Metadata>
                                  <wsx:Metadata>
                                     <wsx:MetadataSection>
                                        <wsx:MetadataReference>
-                                          <wsaw:Address>http://localhost:8080/sts/SecurityTokenService/mex</wsaw:Address>
+                                          <wsaw:Address>http://localhost:9081/sts/SecurityTokenService/mex</wsaw:Address>
                                        </wsx:MetadataReference>
                                     </wsx:MetadataSection>
                                  </wsx:Metadata>

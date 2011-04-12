@@ -74,7 +74,7 @@
 
   <wsdl:service name="SecurityTokenServiceProvider">
     <wsdl:port binding="tns:SecurityTokenServiceSOAP" name="SecurityTokenServiceSOAP">
-      <soap:address location="http://localhost:8080/sts/SecurityTokenService/"/>
+      <soap:address location="http://localhost:9081/sts/SecurityTokenService/"/>
     </wsdl:port>
   </wsdl:service>
 
