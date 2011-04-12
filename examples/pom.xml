@@ -83,7 +83,7 @@
         <profile>
             <id>sam</id>
             <modules>
-                <module>sam</module>
+<!--                <module>sam</module> -->
             </modules>
         </profile>
         <profile>
