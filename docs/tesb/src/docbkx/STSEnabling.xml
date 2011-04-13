@@ -163,15 +163,13 @@
 	    <code>samples/cxf/sts_issue_operation</code> to build and run STS server.</para>
 		<para>Execute either in a UNIX terminal or the Windows command line:</para>
 		<para><userinput>mvn clean install</userinput></para>
-	    <para><userinput>mvn -Pserver</userinput>  (from one command line window)</para>
-	    <para><userinput>mvn -Pclient</userinput>  (from a second command line window)</para>
 
 	    <para>To remove the code generated from the WSDL file and the .class files,
 	    run &quot;mvn clean&quot;.</para>
 		<para><userinput>mvn clean</userinput></para>
 		<para>To run STS server using Maven, enter the following command on a single command line:</para>
-        <para><userinput>mvn jetty:run</userinput></para>
-		<para>This will start a jetty instance on port 8080 and run the STS provider
+        <para><userinput>mvn -Djetty.port=9081 jetty:run</userinput></para>
+		<para>This will start a jetty instance on port 9081 and run the STS provider
 		configured with this sample Issue operation.</para>
 	</section>
 	
@@ -210,14 +208,14 @@
       </step>
 
       <step>
-        <para>Start the STS server on port : 8080</para>
+        <para>Start the STS server on port : 9081</para>
       </step>
 
       <step>
         <para>Configure the default port for the OSGI HTTP Service. In Talend ESB
         container set in file etc\org.ops4j.pax.web.cfg:</para>
 
-        <para><userinput>org.osgi.service.http.port=8081</userinput></para>
+        <para><userinput>org.osgi.service.http.port=8080</userinput></para>
 
         <para>and run container (execute ./container/bin/tesb in the talend-esb-4.0 directory).</para>
       </step>
