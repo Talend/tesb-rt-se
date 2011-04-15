@@ -124,9 +124,20 @@
                 <exclude>NOTICE.txt</exclude>
                 <exclude>README.txt</exclude>
                 <exclude>dist-maven/**</exclude>
+                <exclude>bin/*.sh</exclude>
             </excludes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.package.version}/bin</directory>
+            <outputDirectory>/zookeeper/bin</outputDirectory>
+            <includes>
+                <include>*.sh</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <directoryMode>755</directoryMode>
+            <fileMode>0755</fileMode>
         </fileSet>
 
         <!-- Expanded Karaf Runtime -->
