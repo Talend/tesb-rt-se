@@ -119,14 +119,28 @@ db.createsql=create.sql
     <title>View the Events in the Database</title>
 
     <para>
-Running Rent a Car demo, and using DbVisualizer to monitor the EVENTS table and EVENTS_CUSTOMINFO table, you will find the Events. For example:
+When Rent-a-Car demo running, user can monitor the EVENTS table and EVENTS_CUSTOMINFO table using DbVisualizer(or other DB tools). 
 	</para>
-
+<literallayout><computeroutput>
+Database connection configuration (Default): 
+DB Driver:   org.apache.derby.jdbc.ClientDriver
+DB URL:      jdbc:derby://localhost:1527/db
+DB username: test
+DB password: test 	
+</computeroutput></literallayout>
+	<para>
+DB connection which configured in DbVisualizer must correspond to setting of sam-server-war/WEB-INF/logserver.properties. 
+	</para>
+	<para>
+Then, the data of EVENTS table and EVENTS_CUSTOMINFO table can be browsed/monitored in DbVisualizer. For example, the data of EVENTS table will be looked like:	
+	</para>
 	<mediaobject>
 	  <imageobject>
 		 <imagedata fileref="images/sam_db.jpg" format="jpg"/>
 	  </imageobject>
-	</mediaobject>  	
-	
+	</mediaobject>
+	<para>
+About table's schema definition, Please find Appendix A. Event Structure and Appendix B. EVENTS_CUSTOMINFO Structure from SAMUserGuide document.
+	</para>
   </section>
 </chapter>

@@ -68,7 +68,7 @@ Filter/Handler can be set up on both Agent side and Monitoring Server side. They
 	  </imageobject>
 	</mediaobject>  
 	<para>
-Event Structure please see Appendix.
+Event Structure please see Appendix A. Event Structure
 	</para>
 	</chapter>
     <chapter>
@@ -611,4 +611,52 @@ If the Events have been stored into Database successfully, you can query them fr
           </tgroup>
         </informaltable>
 	</appendix>
+	<appendix>
+	<title>EVENTS_CUSTOMINFO Structure</title>
+        <informaltable>
+          <tgroup cols="3">
+            <!--colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="2*" />
+            <colspec colnum="3" colwidth="3*" /-->
+            <thead>
+              <row>
+                <entry>
+                  <para>Field</para>
+                </entry>
+
+                <entry>
+                  <para>Type</para>
+                </entry>
+				
+                <entry>
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>ID</entry>
+                <entry>bigint(20)</entry>
+				<entry>Stores the unique persistence id of EVENTS_CUSTOMINFO</entry>
+              </row>
+              <row>
+                <entry>EVENT_ID</entry>
+                <entry>bigint(20)</entry>
+				<entry>Stores the relative EVENT's ID value</entry>
+              </row>
+              <row>
+                <entry>CUST_KEY</entry>
+                <entry>varchar(255)</entry>
+				<entry>custom property's key, e.g. Application name</entry>
+              </row>
+              <row>
+                <entry>CUST_VALUE</entry>
+                <entry>varchar(255)</entry>
+				<entry>custom property's value, e.g. Dummy App</entry>
+              </row>			  
+            </tbody>
+          </tgroup>
+        </informaltable>
+	</appendix>	
 </book>
