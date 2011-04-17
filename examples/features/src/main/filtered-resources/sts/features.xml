@@ -28,7 +28,7 @@
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-sts/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/reservationservice-service-endpoint/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-sts/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-app-sts' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-sts</feature>

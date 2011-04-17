@@ -28,24 +28,24 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
-	<bean id="CRMServiceBean"
-		class="org.talend.services.crmservice.service.CRMServiceImpl"/>
+	<bean id="ReservationServiceBean"
+		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
 
 	<!-- HTTP Endpoint -->
-	<jaxws:endpoint id="CRMService"
-		xmlns:serviceNamespace="http://services.talend.org/CRMService"
-		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
-		implementor="#CRMServiceBean"
-		address="/CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMService-sts.wsdl">
-     <jaxws:properties>
+	<jaxws:endpoint id="ReservationService" 
+		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+		serviceName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServiceProvider"
+		implementor="#ReservationServiceBean"
+		address="/ReservationServiceProvider"
+		wsdlLocation="../examples/tesb/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl">
+	  <jaxws:properties>
 		 <entry key="ws-security.callback-handler">
 					<bean class="common.talend.CommonCallbackHandler"/>
 		 </entry>
          <entry key="ws-security.signature.properties" value="META-INF\spring\serviceKeystore.properties"/>
          <entry key="ws-security.encryption.properties" value="META-INF\spring\serviceKeystore.properties"/>
-		 <entry key="ws-security.encryption.username" value="myclientkey"/>
+         <entry key="ws-security.encryption.username" value="myclientkey"/>
       </jaxws:properties> 
    </jaxws:endpoint>
 </beans>

@@ -23,14 +23,14 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-	
-	<jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
-		xmlns:serviceNamespace="http://services.talend.org/CRMService"
-		serviceClass="org.talend.services.crmservice.CRMService"
-		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMService-sts.wsdl">
-	<jaxws:properties>
+
+	<jaxws:client id="ReservationServiceClient" name="{http://services.talend.org/ReservationService}ReservationServiceProvider"
+		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+		serviceClass="org.talend.services.reservationservice.ReservationService"
+		serviceName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServiceProvider"
+		wsdlLocation="../examples/tesb/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl">
+			<jaxws:properties>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>
@@ -60,8 +60,8 @@
                </bean>            
            </entry> 
        </jaxws:properties>
- </jaxws:client>
+</jaxws:client>
 
-	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
-	
+	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
+
 </beans>

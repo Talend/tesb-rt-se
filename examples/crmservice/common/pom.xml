@@ -87,7 +87,7 @@
                         <directory>src/main/resources/</directory>
                         <filtering>true</filtering>
                         <includes>
-                            <include>model/CRMServiceSTS.wsdl</include>
+                            <include>model/CRMService-sts.wsdl</include>
                         </includes>
                     </resource>
                 </resources>

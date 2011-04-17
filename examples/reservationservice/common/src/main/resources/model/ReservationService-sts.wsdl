@@ -10,12 +10,14 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<definitions targetNamespace="http://services.talend.org/CRMService"
+<definitions
+  targetNamespace="http://services.talend.org/ReservationService"
   xmlns="http://schemas.xmlsoap.org/wsdl/"
   xmlns:crm="http://services.talend.org/crm/types"
   xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/"
+  xmlns:res="http://services.talend.org/reservation/types"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns:tns="http://services.talend.org/CRMService"
+  xmlns:tns="http://services.talend.org/ReservationService"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:wsp="http://www.w3.org/ns/ws-policy"
@@ -26,6 +28,75 @@
   xmlns:wsaw="http://www.w3.org/2005/08/addressing"
   xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex">
   <types>
+    <xsd:schema elementFormDefault="unqualified"
+      targetNamespace="http://services.talend.org/reservation/types" xmlns="http://services.talend.org/reservation/types">
+      <xsd:import namespace="http://services.talend.org/crm/types" />
+
+      <xsd:element name="RESProfile" type="res:RESProfileType"/>
+      <xsd:element name="RESCarList" type="res:RESCarListType"/>
+      <xsd:element name="Reservation" type="res:ReservationType"/>
+      <xsd:element name="ReservationStatus" type="res:RESStatusType"/>
+      <xsd:element name="ReservationToConfirm" type="res:ReservationType"/>
+      <xsd:element name="Confirmation" type="res:ConfirmationType"/>
+      <xsd:complexType name="ReservationType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="reservationId" type="xsd:string"/>
+          <xsd:element name="customer" type="crm:CustomerDetailsType"/>
+          <xsd:element name="car" type="res:RESCarType"/>
+          <xsd:element name="fromDate" type="xsd:string"/>
+          <xsd:element name="toDate" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ConfirmationType">
+        <xsd:sequence>
+          <xsd:element name="reservationId" type="xsd:string"/>
+          <xsd:element name="customer" type="crm:CustomerDetailsType"/>
+          <xsd:element name="car" type="res:RESCarType"/>
+          <xsd:element name="fromDate" type="xsd:string"/>
+          <xsd:element name="toDate" type="xsd:string"/>
+          <xsd:element name="creditPoints" type="xsd:integer"/>
+          <xsd:element minOccurs="0" name="description" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RESProfileType">
+        <xsd:sequence>
+          <xsd:element name="crmStatus" type="crm:CRMStatusType"/>
+          <xsd:element name="rylcStatus" type="crm:RYLCStatusCodeType"/>
+          <xsd:element name="fromDate" type="xsd:string"/>
+          <xsd:element name="toDate" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RESCarListType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="car" type="res:RESCarType"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RESCarType">
+        <xsd:sequence>
+          <xsd:element name="carId" type="xsd:string"/>
+          <xsd:element name="designModel" type="xsd:string"/>
+          <xsd:element name="class" type="xsd:string"/>
+          <xsd:element name="brand" type="xsd:string"/>
+          <xsd:element name="rateDay" type="xsd:string"/>
+          <xsd:element name="rateWeekend" type="xsd:string"/>
+          <xsd:element name="securityGuarantee" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RESStatusType">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:string"/>
+          <xsd:element name="code" type="res:RESStatucCodeType"/>
+          <xsd:element minOccurs="0" name="creditPoints" type="xsd:integer"/>
+          <xsd:element minOccurs="0" name="description" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="RESStatucCodeType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="OK"/>
+          <xsd:enumeration value="FAILED"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
     <xsd:schema elementFormDefault="unqualified"
       targetNamespace="http://services.talend.org/crm/types" xmlns="http://services.talend.org/crm/types">
       <xsd:element name="CustomerDetails" type="crm:CustomerDetailsType"/>
@@ -75,75 +146,83 @@
       </xsd:simpleType>
     </xsd:schema>
   </types>
-  <message name="getCRMInformationRequest">
-    <part element="crm:LoginUser" name="body"/>
+  <message name="getAvailableCarsRequest">
+    <part element="res:RESProfile" name="body"/>
   </message>
-  <message name="getCRMInformationResponse">
-    <part element="crm:CustomerDetails" name="body"/>
+  <message name="getAvailableCarsResponse">
+    <part element="res:RESCarList" name="body"/>
   </message>
-  <message name="getCRMStatusRequest">
-    <part element="crm:CustomerDetails" name="body"/>
+  <message name="submitCarReservationRequest">
+    <part element="res:Reservation" name="body"/>
   </message>
-  <message name="getCRMStatusResponse">
-    <part element="crm:RYLCStatus" name="body"/>
+  <message name="submitCarReservationResponse">
+    <part element="res:ReservationStatus" name="body"/>
   </message>
-  <message name="updateCRMStatusRequest">
-    <part element="crm:RYLCStatus" name="body"/>
+  <message name="getConfirmationRequest">
+    <part element="res:ReservationToConfirm" name="body"/>
   </message>
-  <portType name="CRMService">
-    <operation name="getCRMInformation">
-      <input message="tns:getCRMInformationRequest"/>
-      <output message="tns:getCRMInformationResponse"/>
+  <message name="getConfirmationResponse">
+    <part element="res:Confirmation" name="body"/>
+  </message>
+  <portType name="ReservationService">
+    <operation name="getAvailableCars">
+      <input message="tns:getAvailableCarsRequest"/>
+      <output message="tns:getAvailableCarsResponse"/>
     </operation>
-    <operation name="getCRMStatus">
-      <input message="tns:getCRMStatusRequest"/>
-      <output message="tns:getCRMStatusResponse"/>
+    <operation name="submitCarReservation">
+      <input message="tns:submitCarReservationRequest"/>
+      <output message="tns:submitCarReservationResponse"/>
     </operation>
-    <operation name="updateCRMStatus">
-      <input message="tns:updateCRMStatusRequest"/>
+    <operation name="getConfirmationOfReservation">
+      <input message="tns:getConfirmationRequest"/>
+      <output message="tns:getConfirmationResponse"/>
     </operation>
   </portType>
-    <wsdl:binding name="localhostBinding" type="tns:CRMService">
-    <wsp:PolicyReference URI="#CRMServiceBindingAsymmetricSAML2Policy"/>
+  <wsdl:binding name="localhostBinding" type="tns:ReservationService">
+    <wsp:PolicyReference URI="#ReservationServiceBindingAsymmetricSAML2Policy"/>
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getCRMInformation">
-      <soap:operation soapAction="getCRMInformation"/>
+    <wsdl:operation name="getAvailableCars">
+      <soap:operation soapAction="getAvailableCars"/>
       <wsdl:input>
         <soap:body use="literal"/>
-		<wsp:PolicyReference URI="#CRMServiceBinding_CRMService_Input_Policy"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Input_Policy"/>
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal"/>
-		<wsp:PolicyReference URI="#CRMServiceBinding_CRMService_Output_Policy"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Output_Policy"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="getCRMStatus">
-      <soap:operation soapAction="getCRMStatus"/>
+    <wsdl:operation name="submitCarReservation">
+      <soap:operation soapAction="submitCarReservation"/>
       <wsdl:input>
         <soap:body use="literal"/>
-		<wsp:PolicyReference URI="#CRMServiceBinding_CRMService_Input_Policy"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Input_Policy"/>
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal"/>
-		<wsp:PolicyReference URI="#CRMServiceBinding_CRMService_Output_Policy"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Output_Policy"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="updateCRMStatus">
-      <soap:operation soapAction="updateCRMStatus"/>
+    <wsdl:operation name="getConfirmationOfReservation">
+      <soap:operation soapAction="getConfirmationOfReservation"/>
       <wsdl:input>
         <soap:body use="literal"/>
-		<wsp:PolicyReference URI="#CRMServiceBinding_CRMService_Input_Policy"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Input_Policy"/>
       </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+		<wsp:PolicyReference URI="#ReservationServiceBinding_ReservationService_Output_Policy"/>
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
 
-  <wsdl:service name="CRMServiceProvider">
-    <wsdl:port binding="tns:localhostBinding" name="CRMServiceProvider">
-		<soap:address location="http://localhost:8080/services/CRMServiceProvider/"/>
-	</wsdl:port>
+  <wsdl:service name="ReservationServiceProvider">
+    <wsdl:port binding="tns:localhostBinding" name="ReservationServiceProvider">
+      <soap:address location="http://localhost:8080/services/ReservationServiceProvider/"/>
+    </wsdl:port>
   </wsdl:service>
   
- <wsp:Policy wsu:Id="CRMServiceBindingAsymmetricSAML2Policy">
+  <wsp:Policy wsu:Id="ReservationServiceBindingAsymmetricSAML2Policy">
       <wsp:ExactlyOne>
          <wsp:All>
             <wsam:Addressing wsp:Optional="false">
@@ -218,7 +297,7 @@
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>
-      <wsp:Policy wsu:Id="CRMServiceBinding_CRMService_Input_Policy">
+      <wsp:Policy wsu:Id="ReservationServiceBinding_ReservationService_Input_Policy">
       <wsp:ExactlyOne>
          <wsp:All>
             <sp:EncryptedParts>
@@ -242,7 +321,7 @@
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>
-   <wsp:Policy wsu:Id="CRMServiceBinding_CRMService_Output_Policy">
+   <wsp:Policy wsu:Id="ReservationServiceBinding_ReservationService_Output_Policy">
       <wsp:ExactlyOne>
          <wsp:All>
             <sp:EncryptedParts>
@@ -265,4 +344,5 @@
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>
+
 </definitions>
