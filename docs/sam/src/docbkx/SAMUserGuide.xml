@@ -35,7 +35,7 @@
     <chapter>
         <title>Introduction</title>
         	<para>
-The Service Activity Monitoring (SAM) allows to log / monitor service calls done with the Apache CXF Framework. Typical use cases are usage statistics and fault monitoring. The solution consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates events out of the requests and replies on service consumer and provider side. The events are first collected locally and then sent to the Monitoring Server periodically to not disturb the normal message flow. The Monitoring Server receives events from the Agent,  optinally filters/handlers events and stores them into a Database. The Agent is packaged as a jar that needs to be on the classpath of the service consumer and provider. The Monitoring Server is deployed as a WAR in a servlet container and needs access to a database. 
+The Service Activity Monitoring (SAM) component allows for logging and/or monitoring service calls made with the Apache CXF Framework. Typical use cases are for collecting usage statistics and fault monitoring. This component consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates events out of the requests and replies from both the service consumer and provider side. The events are first collected locally and then sent to the Monitoring Server periodically to not disturb the normal message flow. The Monitoring Server receives events from the Agent, optionally uses filters and/or handlers on those events and stores them into a database. The Agent is packaged as a jar that needs to be on the classpath of the service consumer and provider. The Monitoring Server is deployed as a WAR in a servlet container and needs access to a database. 
 			</para>
 			<para>
 For example: One service call can generate four events. Consumer is sending a request (REQ_OUT), service receives request (REQ_IN), service sends response (RESP_OUT) and consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". 
@@ -54,13 +54,13 @@ This User Guide describes the purpose of Service Activity Monitoring, how to ins
 	<chapter>
 	<title>Architecture</title>
 		<para>
-In the left from this diagram the Agent is described. In the right is the Monitoring Server. Agent will be used to collect all the Message data from the customer service/client and send them to Monitoring Server. The Monitoring Server will receive Events and store them into Database. The interface between Agent and Monitoring Server is WebService.		
+On the left of the below diagram the Agent is described, on the right the Monitoring Server. The Agent is used to collect all message data from both the service and client and send this data to the Monitoring Server. The Monitoring Server will receive events and store them into the database. A web service is used as the interface between the Agent and the Monitoring Server.		
 		</para>
 		<para>
-FlowId Producer is a component used to generate FlowId(UUID) in the Message Header and pass it to subsequent Messages.
+The FlowId Producer is a component used to generate the FlowId (a UUID) for the Message Header and pass it to subsequent messages.
         </para>
 		<para>
-Filter/Handler can be set up on both Agent side and Monitoring Server side. They have been used to filter Events and manipulate Event's content. There are some built-in Filter/Handlers (eg. StringContentFilter, PasswordHandler) and user can develop own Filter/Handler by extend EventFilter/EventHandler SPI.
+A Filter/Handler can be set up on both the Agent side and Monitoring Server side. Either can been used to filter events and manipulate the event's content. There are some built-in Filter/Handlers (eg. StringContentFilter, PasswordHandler) and the user can develop their own Filter/Handlers by extending the EventFilter/EventHandler SPI.
 		</para>
 	<mediaobject>
 	  <imageobject>
@@ -68,18 +68,18 @@ Filter/Handler can be set up on both Agent side and Monitoring Server side. They
 	  </imageobject>
 	</mediaobject>  
 	<para>
-Event Structure please see Appendix.
+Event Structure please see Appendix A. Event Structure
 	</para>
 	</chapter>
     <chapter>
-        <title>Install</title>
+        <title>Installation</title>
 		<para>
-		The installation of SAM includes Agent side installation and Monitoring Server side installation. And examples available (sam-example-service, sam-example-service2) for user install Agent onto them.
+		SAM installation of includes Agent side installation and Monitoring Server side installation. And examples available (sam-example-service, sam-example-service2) for user install Agent onto them.
 		</para>
 		<section>
 		<title>Agent Installation</title>
 		<para>
-The Agent needs to be deployed with the customer application. The best way to install Agent is to add it to the classpath using a maven depdency
+The Agent needs to be deployed with the customer application. The best way to install the agent is to add it to the classpath using a Maven dependency
 		</para>
 	<mediaobject>
 	  <imageobject>
@@ -97,12 +97,12 @@ The Agent needs to be deployed with the customer application. The best way to in
 
 		</para>
 		<para>
-In spring the agent has to be added to the spring context:
+With Spring, the Agent has to be added to the Spring context:
 
 <code>&lt;import resource="classpath:agent-context.xml" /&gt;</code>
 		</para>
 		<para>
-For spring related services add the feature to the service. Open the application context configuration and add the feature in the following style:
+For Spring related services add the feature to the service. Open the application context configuration and add the feature in the following manner:
 <programlisting>
 	&lt;jaxws:endpoint 
 		id="customerService" address="/CustomerServicePort" 
@@ -118,17 +118,17 @@ For spring related services add the feature to the service. Open the application
 		<section>
 		<title>Monitoring Server Installation</title>
 		<para>
-Monitoring Server can be deployed into any Servlet container. for example , it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war. The Monitoring Server needs a database to store event data, so make sure a RDBMS has been installed/accessed, you can find how to configure the database in the configuration chapter.
+The monitoring server can be deployed into any servlet container.  For example, it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war. The Monitoring Server needs a database to store event data, so make sure a RDBMS has been installed/accessed, you can find how to configure the database in the configuration chapter.
 		</para>
 		<para>
-The sam-server-war also can be running with <userinput>mvn jetty:run</userinput> which running on embeded jetty server. and if the Derby Database has been configured on Monitoring Server side, RDBMS installation will be skipped.	
+The sam-server-war also can be run with <userinput>mvn jetty:run</userinput> which runs on an embedded Jetty server. and if the Derby Database has been configured on Monitoring Server side, RDBMS installation will be skipped.	
 		</para>
 		</section>
 		
 		<section>
 		<title>Example Installation</title>
 		<para>
-sam-example-service.war and sam-example-service2.war provided as a whole customer application with sam-agent running. They can be deployed into any J2EE Web container. for example , they can be deployed into Tomcat: $TOMCAT_HOME/webapps/.
+sam-example-service.war and sam-example-service2.war provided as a whole customer application with sam-agent running. They can be deployed into any J2EE Web container. For example, they can be deployed into Tomcat: $TOMCAT_HOME/webapps/.
 		</para>
 		</section>
 	</chapter>
@@ -611,4 +611,52 @@ If the Events have been stored into Database successfully, you can query them fr
           </tgroup>
         </informaltable>
 	</appendix>
+	<appendix>
+	<title>EVENTS_CUSTOMINFO Structure</title>
+        <informaltable>
+          <tgroup cols="3">
+            <!--colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="2*" />
+            <colspec colnum="3" colwidth="3*" /-->
+            <thead>
+              <row>
+                <entry>
+                  <para>Field</para>
+                </entry>
+
+                <entry>
+                  <para>Type</para>
+                </entry>
+				
+                <entry>
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>ID</entry>
+                <entry>bigint(20)</entry>
+				<entry>Stores the unique persistence id of EVENTS_CUSTOMINFO</entry>
+              </row>
+              <row>
+                <entry>EVENT_ID</entry>
+                <entry>bigint(20)</entry>
+				<entry>Stores the relative EVENT's ID value</entry>
+              </row>
+              <row>
+                <entry>CUST_KEY</entry>
+                <entry>varchar(255)</entry>
+				<entry>custom property's key, e.g. Application name</entry>
+              </row>
+              <row>
+                <entry>CUST_VALUE</entry>
+                <entry>varchar(255)</entry>
+				<entry>custom property's value, e.g. Dummy App</entry>
+              </row>			  
+            </tbody>
+          </tgroup>
+        </informaltable>
+	</appendix>	
 </book>

@@ -27,7 +27,7 @@
         <feature version="${camel.version}">camel-amqp</feature>
     </feature>
     <feature name="tif-ws" version="${tif.version}">
-        <feature>jetty7</feature>
+        <feature>jetty</feature>
         <feature version="${camel.version}">camel-cxf</feature>
         <feature version="${camel.version}">camel-http</feature>
         <feature version="${camel.version}">camel-http4</feature>
