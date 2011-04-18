@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2011 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.talend.esb.examples.rent_a_car</groupId>
+    <artifactId>rent-a-car</artifactId>
+    <version>4.0</version>
+    <name>Talend ESB Runtime :: Rent-a-Car</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>crmservice</module>
+        <module>reservationservice</module>
+        <module>app-reservation</module>
+        <module>features</module>
+    </modules>
+
+    <properties>
+        <cxf.version>2.4.0</cxf.version>
+        <eclipse.osgi.version>3.6.0.v20100517</eclipse.osgi.version>
+        <karaf.version>2.2.0</karaf.version>
+        <zookeeper.version>3.3.3</zookeeper.version>
+        <!--  Test dependencies -->
+		<junit.version>4.8.2</junit.version>
+        <jetty.version>7.2.2.v20101205</jetty.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.4</version>
+                    <extensions>true</extensions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${cxf.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <modules>
+                <!-- module>locator</module-->
+            </modules>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <modules>
+<!--                <module>sam</module> -->
+            </modules>
+        </profile>
+        <profile>
+            <id>sts</id>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/releases/</url>
+            <name>Apache Snapshot Repo</name>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>http://repository.apache.org/releases/</url>
+            <name>Apache Snapshot Repo</name>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
