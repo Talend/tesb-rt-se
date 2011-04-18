@@ -91,11 +91,12 @@ db.createsql=create.sql
       </step>
 
 	  <step>
-    <para> From TESB container directory, type in console command:</para>
+    <para> From the TESB container directory, type in these console commands:</para>
 	<para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+	<para>Eventually (when previous examples have already been installed): <userinput>features:refreshurl</userinput></para>
 	<para><userinput>features:install tesb-rac-app</userinput></para>
 	<para><userinput>features:install tesb-rac-services-sam</userinput></para>
-	<para>Then, You can use list command to check if everything installed properly:</para>
+	<para>Then, You can use the <userinput>list</userinput> command to check if everything installed properly:</para>
 	<para><userinput>list</userinput></para>
     <para>For example: </para>
 <literallayout><computeroutput>
