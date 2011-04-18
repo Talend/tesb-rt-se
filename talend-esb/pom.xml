@@ -115,11 +115,11 @@
 		<lucene.bundle.version>3.0.3_1</lucene.bundle.version>
 		<mina.bundle.version>1.1.7_4</mina.bundle.version>
 		<mvel.bundle.version>2.0.8_4</mvel.bundle.version>
-		<neethi.bundle.version>3.0.0-SNAPSHOT</neethi.bundle.version>
+		<neethi.bundle.version>3.0.0</neethi.bundle.version>
 		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
-		<opensaml.bundle.version>2.4.1_1-SNAPSHOT</opensaml.bundle.version>
+		<opensaml.bundle.version>2.4.1_1</opensaml.bundle.version>
 		<oscache.bundle.version>2.4_4</oscache.bundle.version>
 		<oscore.bundle.version>2.2.4_4</oscore.bundle.version>
 		<osworkflow.bundle.version>2.7.0_4</osworkflow.bundle.version>
@@ -196,7 +196,7 @@
 		<tranql.version>1.6</tranql.version>
 		<woodstox.version>4.1.1</woodstox.version>
 		<woodstox.stax2-api.version>3.1.1</woodstox.stax2-api.version>
-        <wss4j.version>1.6-SNAPSHOT</wss4j.version>
+        <wss4j.version>1.6.0</wss4j.version>
         <joda.time.version>1.6.2</joda.time.version>
 
         <opensaml.version>2.4.1</opensaml.version>

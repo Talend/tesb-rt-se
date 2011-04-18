@@ -35,7 +35,7 @@
     </licenses>
 
     <properties>
-        <cxf.version>2.4.0-SNAPSHOT</cxf.version>
+        <cxf.version>2.4.0</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version> 
         <zookeeper.version>3.3.3</zookeeper.version>
         <derby.version>10.7.1.1</derby.version>
