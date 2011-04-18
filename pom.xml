@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Apache License v2.0 which accompanies this distribution, and 
+	is available at http://www.apache.org/licenses/LICENSE-2.0 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.talend.esb</groupId>
+	<artifactId>esb-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>4.0</version>
+	<name>Parent pom for the Talend ESB runtime project</name>
+
+	<organization>
+		<name>Talend Inc.</name>
+		<url>www.talend.com</url>
+	</organization>
+	<inceptionYear>2011</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>Apache Software License - Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<properties>
+		<cxf.version>2.4.0</cxf.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
+		<zookeeper.version>3.3.3</zookeeper.version>
+		<derby.version>10.7.1.1</derby.version>
+		<!--mysql.version>5.0.5</mysql.version -->
+		<bnd.version>1.15.0</bnd.version>
+		<slf4j.version>1.6.0</slf4j.version>
+		<osgi.version>4.2.0</osgi.version>
+		<commons-lang.version>2.4</commons-lang.version>
+		<commons-jxpath.version>1.3</commons-jxpath.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<modules>
+		<module>branding</module>
+		<module>locator</module>
+		<module>sam</module>
+		<module>job</module>
+		<module>docs</module>
+		<module>features</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>3.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>1.3.RC2</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-library</artifactId>
+				<version>1.3.RC2</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<configuration>
+						<downloadSources>true</downloadSources>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>2.3.4</version>
+					<extensions>true</extensions>
+					<!--configuration> <instructions> <Include-Resource> {maven-resources}, 
+						{maven-dependencies}, META-INF/LICENSE=${project.build.outputDirectory}/META-INF/LICENSE 
+						</Include-Resource> </instructions> </configuration -->
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.1.1</version>
+					<configuration>
+						<webResources>
+							<resource>
+								<directory>${project.build.directory}</directory>
+								<includes>
+									<include>LICENSE.txt</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.2</version>
+
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.rat</groupId>
+					<artifactId>apache-rat-plugin</artifactId>
+					<version>0.7</version>
+					<configuration>
+						<numUnapprovedLicenses>350</numUnapprovedLicenses>
+						<excludeSubProjects>false</excludeSubProjects>
+						<excludes>
+							<exclude>.git/**</exclude>
+							<exclude>.gitignore</exclude>
+							<exclude>velocity.log</exclude>
+							<exclude>**/target/**</exclude>
+							<exclude>distribution/**</exclude>
+							<exclude>**/jaxb.index</exclude>
+							<exclude>**/META-INF/MANIFEST</exclude>
+							<exclude>**/src/test/**/*.txt</exclude>
+							<exclude>**/.classpath</exclude>
+							<exclude>**/.settings/**/*</exclude>
+							<exclude>**/.project</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.agilejava.docbkx</groupId>
+					<artifactId>docbkx-maven-plugin</artifactId>
+					<version>2.0.12</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.docbook</groupId>
+							<artifactId>docbook-xml</artifactId>
+							<version>4.4</version>
+							<scope>runtime</scope>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.0-beta-1</version>
+					<configuration>
+						<licenseName>apache_v2</licenseName>
+						<licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+						<!--licenseFile>${project.build.outputDirectory}/META-INF/LICENSE.
+						   </licenseFile> 
+							<generateBundle>true</generateBundle>
+							 <bundleLicensePath>META-INF/LICENSE. 
+							</bundleLicensePath -->
+						<outputDirectory>${project.build.directory}</outputDirectory>
+						<thirdPartyFilename>DEPENDENCIES</thirdPartyFilename>
+						<groupByLicense>true</groupByLicense>
+						<licenseMerges>
+							<licenseMerge>The Apache Software License, Version 2.0|Apache
+								Software License - Version 2.0|Apache License|Apache 2</licenseMerge>
+							<licenseMerge>BSD License|BSD|BSD license|The BSD License</licenseMerge>
+							<licenseMerge>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)
+								Version 1.0|CDDL License|CDDL 1.0|Common Development and
+								Distribution License (CDDL) v1.0</licenseMerge>
+							<licenseMerge>Common Public License Version 1.0|CPL</licenseMerge>
+						</licenseMerges>
+						<excludedGroups>org.talend.esb|org.codehaus.jettison</excludedGroups>
+						<missingFile>./THIRD-PARTY.properties</missingFile>
+						<useMissingFile>true</useMissingFile>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>update-project-license</goal>
+								<goal>aggregate-add-third-party</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>packaging</id>
+			<modules>
+				<module>talend-esb</module>
+			</modules>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>apache.snapshots</id>
+			<url>http://repository.apache.org/snapshots/</url>
+			<name>Apache Snapshot Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache.snapshots</id>
+			<url>http://repository.apache.org/snapshots/</url>
+			<name>Apache Snapshot Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+
+</project>
