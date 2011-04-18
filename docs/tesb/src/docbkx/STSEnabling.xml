@@ -233,6 +233,9 @@
         <para><userinput>features:addurl
         mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
 
+        <para>Eventually (when previous examples have already been installed):
+          <userinput>features:refreshurl</userinput></para>
+        
         <para><userinput>features:install
         tesb-rac-services-sts</userinput></para>
 
