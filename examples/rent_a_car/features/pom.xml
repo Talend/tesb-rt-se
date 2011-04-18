@@ -20,8 +20,8 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>org.talend.esb.examples</groupId>
-        <artifactId>talend-esb-examples</artifactId>
+        <groupId>org.talend.esb.examples.rent_a_car</groupId>
+        <artifactId>rent-a-car</artifactId>
         <version>4.0</version>
     </parent>
 
