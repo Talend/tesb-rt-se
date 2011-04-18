@@ -23,7 +23,8 @@
          xmlns:ns5="http://www.w3.org/1998/Math/MathML"
          xmlns:ns4="http://www.w3.org/1999/xhtml"
          xmlns:ns3="http://www.w3.org/2000/svg"
-         xmlns:ns="http://docbook.org/ns/docbook">
+         xmlns:ns="http://docbook.org/ns/docbook" 
+         xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Enabling WS-Security for the Rent a Car demo</title>
 
   <section>
@@ -77,11 +78,11 @@
     token from the STS server which allows verification of the user authenticity
     at any place where the certificate is known.</para>
 
-    <para>Thus, you can use an STS provider to make trusted connection between
-    service consumers and providers without sharing a security domain. STS is
-    used to issue a security token, that is a collection of claims such as
-    name, role, and authorization code, for the client to access the
-    service.</para>
+    <para>Thus, you can use an STS provider to create a trusted connection between service consumers
+      and providers without sharing a security domain. STS is used to issue a security token, that
+      is a collection of claims such as name, role, and authorization code, for the client to access
+      the service. The message receiver only must know the certificate for verifying the token
+      signature to get a trusted statement of the authentication information.</para>
   </section>
 
   <section>
@@ -92,7 +93,8 @@
     back a response with a signed security token which certifies that the client
     has authenticated with the STS. The client presents the security token to
     the Web service. The Web service verifies that the token was issued by a
-    trusted STS, and on success accepts it in lieu of a successful login.</para>
+    trusted STS verifying its signature, and on success accepts it in lieu of
+    a successful login.</para>
 
     <para>The protocol used for issuing security tokens is based on WS-Trust.
     WS-Trust is a Web service specification that builds on WS-Security. It
@@ -112,7 +114,10 @@
     <para>SAML tokens provide cross-platform interoperability and exchange
     security information between clients and services in different security
     domains. They can be used as part of an interoperability solution allowing
-    a client to talk to services running on disparate technologies.</para>
+    a client to talk to services running on disparate technologies. As already
+    mentioned, the receiver of the message with the token only needs to know
+    the corresponding certificate in order to verify the token and to be able
+    to use the authentication information from the token.</para>
 
     <mediaobject>
       <imageobject>
@@ -212,12 +217,14 @@
       </step>
 
       <step>
-        <para>Configure the default port for the OSGI HTTP Service. In Talend ESB
-        container set in file etc\org.ops4j.pax.web.cfg:</para>
+        <para>Ensure the default port for the OSGI HTTP Service is configured. In the Talend ESB
+        container, the following property should be set in file
+          <code>./container/etc/org.ops4j.pax.web.cfg</code>:</para>
 
         <para><userinput>org.osgi.service.http.port=8080</userinput></para>
 
-        <para>and run container (execute ./container/bin/tesb in the talend-esb-4.0 directory).</para>
+        <para>Run the ontainer (execute <userinput>./container/bin/tesb</userinput>
+        in the talend-esb-4.0 directory).</para>
       </step>
 
       <step>
@@ -226,6 +233,9 @@
         <para><userinput>features:addurl
         mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
 
+        <para>Eventually (when previous examples have already been installed):
+          <userinput>features:refreshurl</userinput></para>
+        
         <para><userinput>features:install
         tesb-rac-services-sts</userinput></para>
 
@@ -253,20 +263,32 @@
     <para>Sample STS client and service is configured using CXF.</para>
 
     <para>For more information about client and service configuration
-    read:http://cxf.apache.org/docs/ws-trust.html</para>
+    read: <link xlink:href="http://cxf.apache.org/docs/ws-trust.html">http://cxf.apache.org/docs/ws-trust.html</link>.</para>
 
-    <para>STS CXF client is represented in ../examples/crmservice/client-sts
+    <para>STS CXF client for the CRM sample is represented in <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts</code>
     folder. STS CXF client configuration located in:
-    ../examples/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml
+    <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    file.</para>
+
+    <para>STS CXF client for the Reservation sample is represented in <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts</code>
+    folder. STS CXF client configuration located in:
+    <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <para>CXF service is represented in
-    ../examples/crmservice/service-endpoint-sts. Service configuration is
+    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts</code>. Service configuration is
     located in:
-    ../examples/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml
+    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>Policies and WSDL</para>
+    <para>Reservation service is represented in
+    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts</code>. Service configuration is
+    located in:
+    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    file.</para>
+
+     <ns:section>
+      <ns:title>Policies and WSDL</ns:title>
 
     <para>WS-SecureConversation in theory can be used with multiparty message
     exchanges, but the most common usage is for a client communicating with a
@@ -295,29 +317,41 @@
     client and the service.</para>
 
     <para>Policy configuration of Rent-a-Car STS sample is represented in
-    ../examples/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</para>
+    <code>talend-esb-&lt;version&gt;/examples/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</code> for the CRM sample and 
+    <code>talend-esb-&lt;version&gt;/examples/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl</code> for the Reservation sample.</para>
 
     <para>For additional information about policies using in CXF please read:
-    http://cxf.apache.org/docs/ws-securitypolicy.html and
-    http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-
-    os.html.</para>
-
-    <para>Keystores and models for the client and service.</para>
-
-    <para>Note that the keys here are not meant for production use--they are
+    <link xlink:href="http://cxf.apache.org/docs/ws-securitypolicy.html">http://cxf.apache.org/docs/ws-securitypolicy.html</link> and
+    <link xlink:href="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-os.html">http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/ws-securitypolicy-1.2-spec-os.html</link>.
+    </para>
+	</ns:section>
+	
+    <ns:section>
+      <ns:title>Keystores and models for the client and service</ns:title>
+    
+    <para>Note that the keys here are not meant for production use, they are
     self-signed and naturally should have passwords different from the
     ones.</para>
 
     <para>Sample client keystore and configuration for the CRM service is
-    located in crmservice\client\src\main\resources\META-INF\spring. It
+    located in <code>crmservice\client-sts\src\main\resources\META-INF\spring</code>. It
+    contains two files: clientstore.jks and clientKeystore.properties.</para>
+
+    <para>Sample client keystore and configuration for the Reservation service is
+    located in <code>reservationservice\client-sts\src\main\resources\META-INF\spring</code>. It
     contains two files: clientstore.jks and clientKeystore.properties.</para>
 
     <para>Sample service keystore and configuration for the CRM service is
-    located in crmservice\service\src\main\resources\META-INF\spring\. It
+    located in <code>crmservice\service-endpoint-sts\src\main\resources\META-INF\spring\</code>. It
+    contains two files: servicestore.jks and serviceKeystore.properties.</para>
+
+    <para>Sample service keystore and configuration for the Reservation service is
+    located in <code>reservationservic\service-endpoint-sts\src\main\resources\META-INF\spring\</code>. It
     contains two files: servicestore.jks and serviceKeystore.properties.</para>
 
     <para>For additional information for keystore creation use read Java
-    keytool documentation and OpenSSL tutorial: http://www.openssl.org/</para>
+    keytool documentation and OpenSSL tutorial: <link xlink:href="http://www.openssl.org/">http://www.openssl.org/</link>.</para>
+    </ns:section>
   </section>
   
 </chapter>
