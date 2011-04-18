@@ -78,11 +78,11 @@
     token from the STS server which allows verification of the user authenticity
     at any place where the certificate is known.</para>
 
-    <para>Thus, you can use an STS provider to make trusted connection between
-    service consumers and providers without sharing a security domain. STS is
-    used to issue a security token, that is a collection of claims such as
-    name, role, and authorization code, for the client to access the
-    service.</para>
+    <para>Thus, you can use an STS provider to create a trusted connection between service consumers
+      and providers without sharing a security domain. STS is used to issue a security token, that
+      is a collection of claims such as name, role, and authorization code, for the client to access
+      the service. The message receiver only must know the certificate for verifying the token
+      signature to get a trusted statement of the authentication information.</para>
   </section>
 
   <section>
@@ -93,7 +93,8 @@
     back a response with a signed security token which certifies that the client
     has authenticated with the STS. The client presents the security token to
     the Web service. The Web service verifies that the token was issued by a
-    trusted STS, and on success accepts it in lieu of a successful login.</para>
+    trusted STS verifying its signature, and on success accepts it in lieu of
+    a successful login.</para>
 
     <para>The protocol used for issuing security tokens is based on WS-Trust.
     WS-Trust is a Web service specification that builds on WS-Security. It
@@ -113,7 +114,10 @@
     <para>SAML tokens provide cross-platform interoperability and exchange
     security information between clients and services in different security
     domains. They can be used as part of an interoperability solution allowing
-    a client to talk to services running on disparate technologies.</para>
+    a client to talk to services running on disparate technologies. As already
+    mentioned, the receiver of the message with the token only needs to know
+    the corresponding certificate in order to verify the token and to be able
+    to use the authentication information from the token.</para>
 
     <mediaobject>
       <imageobject>
@@ -213,12 +217,14 @@
       </step>
 
       <step>
-        <para>Configure the default port for the OSGI HTTP Service. In Talend ESB
-        container set in file etc\org.ops4j.pax.web.cfg:</para>
+        <para>Ensure the default port for the OSGI HTTP Service is configured. In the Talend ESB
+        container, the following property should be set in file
+          <code>./container/etc/org.ops4j.pax.web.cfg</code>:</para>
 
         <para><userinput>org.osgi.service.http.port=8080</userinput></para>
 
-        <para>and run container (execute ./container/bin/tesb in the talend-esb-4.0 directory).</para>
+        <para>Run the ontainer (execute <userinput>./container/bin/tesb</userinput>
+        in the talend-esb-4.0 directory).</para>
       </step>
 
       <step>
