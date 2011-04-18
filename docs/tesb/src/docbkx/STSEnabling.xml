@@ -260,29 +260,29 @@
     <title>Configuration of STS based Authentication in the Rent-a-Car Demo
     example</title>
 
-    <para>Sample STS client and service is configured using CXF.</para>
+    <para>The sample STS client and service are configured using CXF.</para>
 
     <para>For more information about client and service configuration
     read: <link xlink:href="http://cxf.apache.org/docs/ws-trust.html">http://cxf.apache.org/docs/ws-trust.html</link>.</para>
 
-    <para>STS CXF client for the CRM sample is represented in <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts</code>
-    folder. STS CXF client configuration located in:
+    <para>The STS CXF client for the CRM sample is implemented in <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts</code>
+    folder. The STS CXF client configuration is located in:
     <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>STS CXF client for the Reservation sample is represented in <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts</code>
-    folder. STS CXF client configuration located in:
+    <para>The STS CXF client for the Reservation sample is implemented in <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts</code>
+    folder. The STS CXF client configuration is located in:
     <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>CXF service is represented in
-    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts</code>. Service configuration is
+    <para>The CXF service is implemented in
+    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts</code>. The service configuration is
     located in:
     <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>Reservation service is represented in
-    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts</code>. Service configuration is
+    <para>The Reservation service is implemented in
+    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts</code>. The service configuration is
     located in:
     <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
@@ -290,7 +290,7 @@
      <ns:section>
       <ns:title>Policies and WSDL</ns:title>
 
-    <para>WS-SecureConversation in theory can be used with multiparty message
+    <para>WS-SecureConversation can in theory be used with multiparty message
     exchanges, but the most common usage is for a client communicating with a
     single server. When used in this configuration, the STS that supplies the
     SCT to the client is co-located with the server, accessed at the same
@@ -331,25 +331,25 @@
     
     <para>Note that the keys here are not meant for production use, they are
     self-signed and naturally should have passwords different from the
-    ones.</para>
+    those finally used.</para>
 
     <para>Sample client keystore and configuration for the CRM service is
-    located in <code>crmservice\client-sts\src\main\resources\META-INF\spring</code>. It
-    contains two files: clientstore.jks and clientKeystore.properties.</para>
+    located in <code>crmservice/client-sts/src/main/resources/META-INF/spring/</code>. It
+    contains two files: <code>clientstore.jks</code> and <code>clientKeystore.properties</code>.</para>
 
     <para>Sample client keystore and configuration for the Reservation service is
-    located in <code>reservationservice\client-sts\src\main\resources\META-INF\spring</code>. It
-    contains two files: clientstore.jks and clientKeystore.properties.</para>
+    located in <code>reservationservice/client-sts/src/main/resources/META-INF/spring/</code>. It
+    contains two files: <code>clientstore.jks</code> and <code>clientKeystore.properties</code>.</para>
 
     <para>Sample service keystore and configuration for the CRM service is
-    located in <code>crmservice\service-endpoint-sts\src\main\resources\META-INF\spring\</code>. It
-    contains two files: servicestore.jks and serviceKeystore.properties.</para>
+    located in <code>crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/</code>. It
+    contains two files: <code>servicestore.jks</code> and <code>serviceKeystore.properties</code>.</para>
 
     <para>Sample service keystore and configuration for the Reservation service is
-    located in <code>reservationservic\service-endpoint-sts\src\main\resources\META-INF\spring\</code>. It
-    contains two files: servicestore.jks and serviceKeystore.properties.</para>
+    located in <code>reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/</code>. It
+    contains two files: <code>servicestore.jks</code> and <code>serviceKeystore.properties</code>.</para>
 
-    <para>For additional information for keystore creation use read Java
+    <para>For additional information for keystore creation and usage read Java
     keytool documentation and OpenSSL tutorial: <link xlink:href="http://www.openssl.org/">http://www.openssl.org/</link>.</para>
     </ns:section>
   </section>
