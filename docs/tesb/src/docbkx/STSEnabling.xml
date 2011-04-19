@@ -264,7 +264,7 @@
 
     <para>For more information about client and service configuration
     read: <link xlink:href="http://cxf.apache.org/docs/ws-trust.html">http://cxf.apache.org/docs/ws-trust.html</link>.
-    The location of the CXF clients and services of our car rental sample using STS for authentication are located in:</para>
+    The location of the CXF clients and services of our car rental sample using STS for authentication is:</para>
 
     <para>The CRM client is implemented in <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/client-sts</code>
     folder. The CRM client configuration is located in:
