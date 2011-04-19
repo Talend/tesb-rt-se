@@ -29,7 +29,7 @@
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServiceProvider"
-		wsdlLocation="../examples/tesb/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl">
+		wsdlLocation="model/reservation-wsdls/ReservationService-sts.wsdl">
 			<jaxws:properties>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>

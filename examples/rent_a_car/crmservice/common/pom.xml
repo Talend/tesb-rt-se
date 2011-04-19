@@ -32,7 +32,8 @@
                 <directory>src/main/resources/</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>model/CRMService.wsdl</include>
+                    <include>model/crmservice-wsdls/CRMService.wsdl</include>
+                    <include>model/crmservice-wsdls/CRMService-sts.wsdl</include>
                 </includes>
             </resource>
         </resources>
@@ -43,6 +44,11 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Export-Package>
+							model.crmservice-wsdls,
+							org.talend.services.crmservice,
+							org.talend.services.crm.types
+						</Export-Package>
                         <Import-Package>
                             javax.xml.bind,
                             javax.xml.bind.annotation,
@@ -64,7 +70,7 @@
                             <fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/model/CRMService.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/model/crmservice-wsdls/CRMService.wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
@@ -87,7 +93,7 @@
                         <directory>src/main/resources/</directory>
                         <filtering>true</filtering>
                         <includes>
-                            <include>model/CRMService-sts.wsdl</include>
+                            <include>model/crmservice-wsdls/CRMService-sts.wsdl</include>
                         </includes>
                     </resource>
                 </resources>
@@ -103,7 +109,7 @@
                                 <configuration>
                                     <wsdlOptions>
                                         <wsdlOption>
-                                            <wsdl>${basedir}/src/main/resources/model/CRMService-sts.wsdl</wsdl>
+                                            <wsdl>${basedir}/src/main/resources/model/crmservice-wsdls/CRMService-sts.wsdl</wsdl>
                                         </wsdlOption>
                                     </wsdlOptions>
                                 </configuration>

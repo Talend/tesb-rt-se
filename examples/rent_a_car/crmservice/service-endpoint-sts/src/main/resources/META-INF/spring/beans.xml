@@ -38,7 +38,7 @@
 		endpointName="serviceNamespace:CRMServiceProvider"
 		implementor="#CRMServiceBean"
 		address="/CRMServiceProvider"
-		wsdlLocation="../examples/tesb/crmservice/common/src/main/resources/model/CRMService-sts.wsdl">
+		wsdlLocation="model/crmservice-wsdls/CRMService-sts.wsdl">
      <jaxws:properties>
 		 <entry key="ws-security.callback-handler">
 					<bean class="common.talend.CommonCallbackHandler"/>

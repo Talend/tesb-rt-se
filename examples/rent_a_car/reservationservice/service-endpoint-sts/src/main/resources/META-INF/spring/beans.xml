@@ -38,13 +38,13 @@
 		endpointName="serviceNamespace:ReservationServiceProvider"
 		implementor="#ReservationServiceBean"
 		address="/ReservationServiceProvider"
-		wsdlLocation="../examples/tesb/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl">
+		wsdlLocation="model/reservation-wsdls/ReservationService-sts.wsdl">
 	  <jaxws:properties>
 		 <entry key="ws-security.callback-handler">
 					<bean class="common.talend.CommonCallbackHandler"/>
 		 </entry>
-         <entry key="ws-security.signature.properties" value="META-INF\spring\serviceKeystore.properties"/>
-         <entry key="ws-security.encryption.properties" value="META-INF\spring\serviceKeystore.properties"/>
+         <entry key="ws-security.signature.properties" value="META-INF/spring/serviceKeystore.properties"/>
+         <entry key="ws-security.encryption.properties" value="META-INF/spring/serviceKeystore.properties"/>
          <entry key="ws-security.encryption.username" value="myclientkey"/>
       </jaxws:properties> 
    </jaxws:endpoint>

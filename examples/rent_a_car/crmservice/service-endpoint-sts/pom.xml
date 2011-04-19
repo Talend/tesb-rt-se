@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
-            <version>2.4.1_1-SNAPSHOT</version>
+            <version>2.4.1_1</version>
         </dependency>
 	</dependencies>
     <build>
@@ -57,6 +57,10 @@
                             org.apache.cxf.bundle,
                             org.springframework.beans
                         </Require-Bundle>
+						<Import-Package>
+							model.crmservice-wsdls,
+							*
+						</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -64,9 +68,9 @@
         <resources>
             <resource>
                 <directory>src/main/resources/</directory>
+				<filtering>true</filtering>
                 <includes>
                   <include>**/beans.xml</include>
-                  <include>**/servicestore.jks</include>
                   <include>**/serviceKeystore.properties</include>
                </includes>
             </resource>

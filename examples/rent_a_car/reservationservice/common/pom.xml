@@ -48,10 +48,11 @@
                             javax.xml.bind.annotation.adapters,
                             *
                         </Import-Package>
-                        <!--Export-Package>
-                            org.talend.services.reservation.types,
-                            org.talend.services.reservationservice
-                        </Export-Package-->
+						<Export-Package>
+							model.reservation-wsdls,
+							org.talend.services.reservationservice,
+							org.talend.services.reservation.types
+						</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -67,7 +68,7 @@
                             <fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/model/ReservationService.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/model/reservation-wsdls/ReservationService.wsdl</wsdl>
                                     <extraargs>
                                         <!-- Do not generate these since already generated in another project -->
                                         <extraarg>-nexclude</extraarg>
@@ -94,7 +95,7 @@
                         <directory>src/main/resources/</directory>
                         <filtering>true</filtering>
                         <includes>
-                            <include>model/ReservationService-sts.wsdl</include>
+                            <include>model/reservation-wsdls/ReservationService-sts.wsdl</include>
                         </includes>
                     </resource>
                 </resources>
@@ -110,7 +111,7 @@
                                 <configuration>
                                     <wsdlOptions>
                                         <wsdlOption>
-                                            <wsdl>${basedir}/src/main/resources/model/ReservationService-sts.wsdl</wsdl>
+                                            <wsdl>${basedir}/src/main/resources/model/reservation-wsdls/ReservationService-sts.wsdl</wsdl>
                                         </wsdlOption>
                                     </wsdlOptions>
                                 </configuration>
