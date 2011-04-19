@@ -19,10 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.Controller;
 import routines.system.TalendJob;
 
@@ -34,34 +32,37 @@ import java.util.List;
  */
 public class ControllerImpl implements Controller {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ControllerImpl.class);
-
     private BundleContext bundleContext;
 
-    private List<TalendJob> services;
-
-    public List<Bundle> list() throws Exception {
-        LOGGER.debug("Looking for Talend job with META-INF/job.properties");
-        Bundle[] bundles = bundleContext.getBundles();
-        ArrayList<Bundle> jobBundles = new ArrayList<Bundle>();
-        for (int i = 0; i < bundles.length; i++) {
-            if (bundles[i].getEntry("META-INF/job.properties") != null) {
-                jobBundles.add(bundles[i]);
+    public List<String> list() throws Exception {
+        ArrayList<String> list = new ArrayList<String>();
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), null);
+        if (references != null) {
+            for (ServiceReference reference:references) {
+                if (reference != null) {
+                    String name = (String) reference.getProperty("name");
+                    if (name != null) {
+                        list.add(name);
+                    }
+                }
             }
         }
-        return jobBundles;
+        return list;
     }
 
-    public List<TalendJob> listServices() throws Exception {
-        return services;
+    public void run(String name) throws Exception {
+        this.run(name, null);
     }
 
-    public void start(Bundle job) throws Exception {
-        // TODO
-    }
-
-    public void stop(Bundle job) throws Exception {
-        // TODO
+    public void run(String name, String[] args) throws Exception {
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(name=" + name + ")");
+        if (references == null) {
+            throw new IllegalArgumentException("Talend job " + name + " not found");
+        }
+        TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+        if (job != null) {
+            job.runJob(args);
+        }
     }
 
     public void setBundleContext(BundleContext bundleContext) {

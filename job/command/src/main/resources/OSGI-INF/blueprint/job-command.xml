@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="eager">
+
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+        <command name="job/list">
+            <action class="org.talend.esb.job.command.ListCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+        </command>
+        <command name="job/run">
+            <action class="org.talend.esb.job.command.RunCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="jobCompleter"/>
+                <null/>
+            </completers>
+        </command>
+    </command-bundle>
+
+    <reference id="controller" interface="org.talend.esb.job.controller.Controller"/>
+
+    <bean id="jobCompleter" class="org.talend.esb.job.command.completers.JobCompleter">
+        <property name="controller" ref="controller"/>
+    </bean>
+
+</blueprint>

@@ -23,11 +23,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.talend.esb.job</groupId>
             <artifactId>org.talend.esb.job.api</artifactId>
             <version>${project.version}</version>
