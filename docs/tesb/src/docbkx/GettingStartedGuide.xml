@@ -140,9 +140,9 @@
                 <step>
                     <para>CRMService sample</para>
                     <para>This sample is found in directory
-                            <code>talend-esb-&lt;version&gt;/examples/tesb/crmservice/</code>. It
-                        consists of four parts (the other directories in this place belong to other
-                        examples and are described there):<informaltable>
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/</code>.
+                        It consists of four parts (the other directories in this place belong to
+                        other examples and are described there):<informaltable>
                             <tgroup cols="2">
                                 <colspec colnum="1" colwidth="1*"/>
                                 <colspec colnum="2" colwidth="2*"/>
@@ -184,25 +184,27 @@
                 <step>
                     <para>ReservationService sample</para>
                     <para>This sample is found in directory
-                        <code>talend-esb-&lt;version&gt;/examples/tesb/reservationservice/</code>.
-                        It consists of four parts (the other directories in this place belong to other
-                        examples and are described there):<informaltable>
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/</code>.
+                        It consists of four parts (the other directories in this place belong to
+                        other examples and are described there):<informaltable>
                             <tgroup cols="2">
                                 <colspec colnum="1" colwidth="1*"/>
                                 <colspec colnum="2" colwidth="2*"/>
                                 <thead>
                                     <row>
-                                        <entry><para>Sample part</para></entry>
-                                        <entry><para>Description</para></entry>
+                                        <entry>
+                                            <para>Sample part</para>
+                                        </entry>
+                                        <entry>
+                                            <para>Description</para>
+                                        </entry>
                                     </row>
                                 </thead>
                                 <tbody>
                                     <row>
                                         <entry><code>common/</code></entry>
-                                        <entry>This directory contains the
-                                            ReservationService.wsdl which is
-                                            used to generate the initial
-                                            code.</entry>
+                                        <entry>This directory contains the ReservationService.wsdl
+                                            which is used to generate the initial code.</entry>
                                     </row>
                                     <row>
                                         <entry><code>service/</code></entry>
@@ -214,12 +216,9 @@
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
-                                        <entry>This is a sample client
-                                            application that shows how CXF
-                                            JAX-WS proxies invoke remote
-                                            JAX-WS endpoints represented by
-                                            the ReservationService
-                                            interface.</entry>
+                                        <entry>This is a sample client application that shows how
+                                            CXF JAX-WS proxies invoke remote JAX-WS endpoints
+                                            represented by the ReservationService interface.</entry>
                                     </row>
                                 </tbody>
                             </tgroup>
@@ -229,20 +228,19 @@
                 <step>
                     <para>&quot;app-reservation&quot; project bundle</para>
                     <para>Directory
-                        <code>talend-esb-&lt;version&gt;/examples/tesb/app-reservation/</code>
-                        contains the Maven project for creating the car
-                        reservation sample application OSGi bundle.</para>
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/app-reservation/</code>
+                        contains the Maven project for creating the car reservation sample
+                        application OSGi bundle.</para>
                 </step>
             </procedure>
         </section>
         <section>
             <title>Building the &quot;Rent a Car&quot; Demo sample</title>
             <para>From the base directory of the ESB sample, i.e.
-                <code>talend-esb-&lt;version&gt;/examples/tesb/</code>,
-                the Maven project file <code>pom.xml</code> can be used to
-                build the demo. After changing to this directory,
-                Maven is invoked equally from a UNIX/Linux terminal or
-                the Windows command line:</para>
+                    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/</code>, the Maven
+                project file <code>pom.xml</code> can be used to build the demo. After changing to
+                this directory, Maven is invoked equally from a UNIX/Linux terminal or the Windows
+                command line:</para>
             <para><userinput>mvn clean install</userinput></para>
             <para>Running this command, the demo is built, and OSGi bundles
                 are created for deployment into an OSGi container.</para>
