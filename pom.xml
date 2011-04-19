@@ -190,7 +190,7 @@
 							 <bundleLicensePath>META-INF/LICENSE. 
 							</bundleLicensePath -->
 						<outputDirectory>${project.build.directory}</outputDirectory>
-						<thirdPartyFilename>DEPENDENCIES</thirdPartyFilename>
+						<thirdPartyFilename>TESBDEPENDENCIES.txt</thirdPartyFilename>
 						<groupByLicense>true</groupByLicense>
 						<licenseMerges>
 							<licenseMerge>The Apache Software License, Version 2.0|Apache
