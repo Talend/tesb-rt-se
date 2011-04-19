@@ -19,13 +19,12 @@
   #L%
   -->
 
-<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="eager">
 
     <bean id="controller" class="org.talend.esb.job.controller.internal.ControllerImpl">
         <property name="bundleContext" ref="blueprintBundleContext"/>
-        <property name="services">
-            <reference-list interface="routines.system.TalendJob"/>
-        </property>
     </bean>
+
+    <service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
 
 </blueprint>

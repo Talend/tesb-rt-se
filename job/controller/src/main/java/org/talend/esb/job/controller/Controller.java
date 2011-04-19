@@ -19,7 +19,6 @@
  */
 package org.talend.esb.job.controller;
 
-import org.osgi.framework.Bundle;
 import routines.system.TalendJob;
 
 import java.util.List;
@@ -29,12 +28,29 @@ import java.util.List;
  */
 public interface Controller {
 
-    public void start(Bundle job) throws Exception;
+    /**
+     * List of Talend Jobs identified by name property available in the running container.
+     *
+     * @return the list of Talend Jobs identified by the name property.
+     * @throws Exception in case of lookup failure.
+     */
+    public List<String> list() throws Exception;
 
-    public void stop(Bundle job) throws Exception;
+    /**
+     * Run a Talend job with the given name.
+     *
+     * @param name the Talend job name.
+     * @throws Exception in case of run exception.
+     */
+    public void run(String name) throws Exception;
 
-    public List<Bundle> list() throws Exception;
-
-    public List<TalendJob> listServices() throws Exception;
+    /**
+     * Run a Talend job with the given name and the given arguments.
+     *
+     * @param name the Talend job name.
+     * @param args the Talend job run arguments.
+     * @throws Exception in case of run exception.
+     */
+    public void run(String name, String[] args) throws Exception;
 
 }

@@ -91,19 +91,4 @@
         </profile>
     </profiles>
 
-    <repositories>
-        <repository>
-            <id>apache.snapshots</id>
-            <url>http://repository.apache.org/releases/</url>
-            <name>Apache Snapshot Repo</name>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>http://repository.apache.org/releases/</url>
-            <name>Apache Snapshot Repo</name>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>

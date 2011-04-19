@@ -21,7 +21,7 @@
             <artifactId>dom4j</artifactId>
             <version>1.6.1</version>
             <type>jar</type>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -33,7 +33,7 @@
                 <configuration>
                     <instructions>
                         <Export-Package>
-                            *
+                            routines.system;version="${project.version}"
                         </Export-Package>
                     </instructions>
                 </configuration>
