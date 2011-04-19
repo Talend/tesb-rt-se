@@ -24,8 +24,6 @@
             http://www.springframework.org/schema/beans/spring-beans.xsd">
 			
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
 	<bean id="CRMServiceBean"
@@ -38,7 +36,7 @@
 		endpointName="serviceNamespace:CRMServiceProvider"
 		implementor="#CRMServiceBean"
 		address="/CRMServiceProvider"
-		wsdlLocation="model/crmservice-wsdls/CRMService-sts.wsdl">
+		wsdlLocation="classpath:/model/crmservice-wsdls/CRMService-sts.wsdl">
      <jaxws:properties>
 		 <entry key="ws-security.callback-handler">
 					<bean class="common.talend.CommonCallbackHandler"/>

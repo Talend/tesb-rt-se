@@ -21,15 +21,13 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	
 	<jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="model/crmservice-wsdls/CRMService-sts.wsdl">
+		wsdlLocation="classpath:/model/crmservice-wsdls/CRMService-sts.wsdl">
 	<jaxws:properties>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
