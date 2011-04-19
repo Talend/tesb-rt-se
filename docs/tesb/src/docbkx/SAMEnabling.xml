@@ -81,8 +81,8 @@ db.createsql=create.sql
 
       <step>
       <para>From the base directory of the ESB sample, the maven
-      <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> file can be used to build
-      the demo.</para>
+            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/pom.xml</code> file can be
+          used to build the demo.</para>
 
       <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install -Psam</userinput></para>
 

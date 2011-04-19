@@ -99,9 +99,10 @@ clientPort=2181
 
         <procedure>
           <step>
-      <para>The Maven project file <code>talend-esb-&lt;version&gt;/examples/tesb/pom.xml</code> can
-          be used to build the demo. Using Apache Maven with either UNIX or Windows,
-          run the following command from directory <code>.../examples/tesb/</code>:</para>
+      <para>The Maven project file
+            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/pom.xml</code> can be used to
+          build the demo. Using Apache Maven with either UNIX or Windows, run the following command
+          from directory <code>.../examples/tesb/rent_a_car/</code>:</para>
       <para><userinput>mvn clean install -Plocator</userinput></para>
 
       <para>Running this command you will build the demo and create OSGi bundles to be deployed to

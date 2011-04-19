@@ -263,34 +263,35 @@
     <para>The sample STS client and service are configured using CXF.</para>
 
     <para>For more information about client and service configuration
-    read: <link xlink:href="http://cxf.apache.org/docs/ws-trust.html">http://cxf.apache.org/docs/ws-trust.html</link>.</para>
+    read: <link xlink:href="http://cxf.apache.org/docs/ws-trust.html">http://cxf.apache.org/docs/ws-trust.html</link>.
+    The location of the CXF clients and services of our car rental sample using STS for authentication is:</para>
 
-    <para>The STS CXF client for the CRM sample is implemented in <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts</code>
-    folder. The STS CXF client configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <para>The CRM client is implemented in <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/client-sts</code>
+    folder. The CRM client configuration is located in:
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>The STS CXF client for the Reservation sample is implemented in <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts</code>
-    folder. The STS CXF client configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <para>The Reservation client is implemented in <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/client-sts</code>
+    folder. The Reservation client configuration is located in:
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-    <para>The CXF service is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts</code>. The service configuration is
+    <para>The CRM service is implemented in
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/service-endpoint-sts</code>. The service configuration is
     located in:
-    <code>talend-esb-&lt;version&gt;/examples/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <para>The Reservation service is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts</code>. The service configuration is
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/service-endpoint-sts</code>. The service configuration is
     located in:
-    <code>talend-esb-&lt;version&gt;/examples/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
-     <ns:section>
+    <ns:section>
       <ns:title>Policies and WSDL</ns:title>
 
-    <para>WS-SecureConversation can in theory be used with multiparty message
+    <para>WS-SecureConversation can in theory be used with multi-party message
     exchanges, but the most common usage is for a client communicating with a
     single server. When used in this configuration, the STS that supplies the
     SCT to the client is co-located with the server, accessed at the same
@@ -317,8 +318,8 @@
     client and the service.</para>
 
     <para>Policy configuration of Rent-a-Car STS sample is represented in
-    <code>talend-esb-&lt;version&gt;/examples/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</code> for the CRM sample and 
-    <code>talend-esb-&lt;version&gt;/examples/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl</code> for the Reservation sample.</para>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</code> for the CRM sample and 
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl</code> for the Reservation sample.</para>
 
     <para>For additional information about policies using in CXF please read:
     <link xlink:href="http://cxf.apache.org/docs/ws-securitypolicy.html">http://cxf.apache.org/docs/ws-securitypolicy.html</link> and
