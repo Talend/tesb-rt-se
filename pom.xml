@@ -12,12 +12,26 @@
 	<packaging>pom</packaging>
 	<version>4.0</version>
 	<name>Parent pom for the Talend ESB runtime project</name>
+	<description>
+        Talend ESB SE bundles Service Factory and Integration Factory, 
+        Service Locator, Service Activity Monitoring and a demo application 
+        to a stable, production ready distribution based on the industry leading 
+        open source frameworks Apache CXF and Apache Camel. 
+        It includes Web Service support based on JAX-WS and enables simple and scalable
+        message based systems using well known Enterprise Integration Patterns.
+        The Service Locator maintains a repository of service endpoints which 
+        can be used by Service Consumers to support simple failover and load 
+        balancing scenarios. Service Activity Monitoring allows to log and 
+        monitor service calls. A documented Car Rental demo application illustrates
+        how to use these features. 
+	</description>
 
 	<organization>
 		<name>Talend Inc.</name>
 		<url>www.talend.com</url>
 	</organization>
 	<inceptionYear>2011</inceptionYear>
+    <url>http://talend.com</url>
 
 	<licenses>
 		<license>
@@ -27,7 +41,33 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
+	
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://jira.sopera.de/browse/TESB</url>
+    </issueManagement>
 
+    <scm>
+        <connection>scm:git:git@github.com:Talend/tesb-rt-se.git</connection>
+        <developerConnection>scm:git@github.com:Talend/tesb-rt-se.git</developerConnection>
+        <url>https://github.com/Talend/tesb-rt-se</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>xldai</id>
+            <name>Xilai Dai</name>
+            <email>xldai@talend.com</email>
+            <timezone>GMT+8</timezone>
+        </developer>
+        <developer>
+            <id>ilazebny</id>
+            <name>Igor Lazebny</name>
+            <email>ilazebny@talend.com</email>
+            <timezone>GMT+2</timezone>
+        </developer>
+    </developers>
+    
 	<properties>
 		<cxf.version>2.4.0</cxf.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -238,34 +278,5 @@
 			</modules>
 		</profile>
 	</profiles>
-
-	<repositories>
-		<repository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-			<name>Apache Snapshot Repo</name>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-			<name>Apache Snapshot Repo</name>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
-
-
 
 </project>
