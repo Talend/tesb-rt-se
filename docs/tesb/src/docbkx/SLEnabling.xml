@@ -78,10 +78,9 @@ clientPort=2181
       <para>From directory <code>talend-esb-&lt;version&gt;</code>, it is started
         by the following command:</para>
       <para>UNIX/Linux: <userinput>./zookeeper/bin/zkServer.sh start</userinput></para>
-      <para>Windows: <userinput>.\zookeeper\bin\zkServer.bat start</userinput></para>
+      <para>Windows: <userinput>.\zookeeper\bin\zkServer.cmd</userinput></para>
       <para>and stopped by the following command:</para>
       <para>UNIX/Linux: <userinput>./zookeeper/bin/zkServer.sh stop</userinput></para>
-      <para>Windows: <userinput>.\zookeeper\bin\zkServer.bat stop</userinput></para>
       <para>For more information please read <emphasis role="strong">Service
         Locator Installation Manual</emphasis>.</para>
 
@@ -102,7 +101,7 @@ clientPort=2181
       <para>The Maven project file
             <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/pom.xml</code> can be used to
           build the demo. Using Apache Maven with either UNIX or Windows, run the following command
-          from directory <code>.../examples/tesb/rent_a_car/</code>:</para>
+          from directory <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/</code>:</para>
       <para><userinput>mvn clean install -Plocator</userinput></para>
 
       <para>Running this command you will build the demo and create OSGi bundles to be deployed to
@@ -115,15 +114,21 @@ clientPort=2181
       <code>container</code> as described earlier in this guide.</para>
           </step>
           <step>
-            <para>At the OSGi console prompt, enter the following commands:</para>
+          <para>If you have already used the container for running previous examples, you should ensure all features from previos examples was uninstalled.</para>
+			<para><userinput>features:uninstall tesb-rac-services</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-common</userinput></para>
+            <para>The above commands uninstall eventually remaining bundles from basic
+          example.</para>          
+          </step>
+          <step>
+            <para>Enter the following commands at the OSGi console prompt:</para>
             <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
             <para>(Eventually, the version sub-string <userinput>.../4.0/...</userinput> must be replaced)</para>
-            <para>The above command makes sure that the OSGi container can read the features from
-          the Maven repository.</para>
-            <para><userinput>features:uninstall tesb-rac-services</userinput></para>
-            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
-            <para>The above commands uninstall eventually remaining bundles from previous
-          examples.</para>
+            <para>In case previous examples was run before:
+          <userinput>features:refreshurl</userinput></para>
+          <para>The above commands makes sure that the OSGi container can read the features from
+          the Maven repository.</para>    
             <para><userinput>features:install tesb-rac-services-locator1</userinput></para>
             <para>The above command finally installs the example services with locator
           support.</para>
@@ -301,4 +306,31 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		<para>Now we can see the ReservationService working in the first container,
 			and the CRMService in the second container.</para>
 	</section>
+	<section>
+    <title>Uninstall locator related features from container.</title>
+    <procedure><step>
+    <para>Enter the following commands at the OSGi console prompt of primary OSGi container:</para>
+            <para><userinput>features:uninstall tesb-rac-services-locator1</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-app</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-common-locator</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-common</userinput></para>
+    </step>
+    <step>
+    	<para>Enter <userinput>features:list</userinput> to ensure that all features were actually uninstalled.  You will see this in console:</para>
+    	<para>
+    		<programlisting>[uninstalled] [4.0            ] tesb-rac-common               repo-0
+[uninstalled] [4.0            ] tesb-rac-common-locator       repo-0
+[uninstalled] [4.0            ] tesb-rac-services-locator1    repo-0
+[uninstalled] [4.0            ] tesb-rac-services-locator2    repo-0
+[uninstalled] [4.0            ] tesb-rac-app                  repo-0
+			</programlisting>
+    	</para>
+    </step>
+    <step>
+    <para>Enter the following commands at the OSGi console prompt of alternate OSGi container:</para>
+            <para><userinput>features:uninstall tesb-rac-services-locator2</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-common-locator</userinput></para>
+            <para><userinput>features:uninstall tesb-rac-common</userinput></para>
+    </step></procedure>
+    </section>
 </chapter>
