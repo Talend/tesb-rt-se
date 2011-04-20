@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2011 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.talend.esb.examples.rent-a-car</groupId>
+    <artifactId>crmservice-client</artifactId>
+    <name>CRMService Client STS</name>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>org.talend.esb.examples.rent-a-car</groupId>
+        <artifactId>crmservice</artifactId>
+        <version>4.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.talend.esb.examples.rent-a-car</groupId>
+            <artifactId>crmservice-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans
+                        </Require-Bundle>
+						<Import-Package>
+							model.crmservice-wsdls,
+							*
+						</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+		<resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+				<filtering>true</filtering>
+                <includes>
+                  <include>**/beans.xml</include>
+                  <include>**/clientKeystore.properties</include>
+				  <include>**/model/*</include>
+               </includes>
+            </resource>
+        </resources>
+
+    </build>
+
+</project>
+

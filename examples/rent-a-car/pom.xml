@@ -16,15 +16,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.examples</groupId>
-    <artifactId>talend-esb-examples</artifactId>
+    <artifactId>rent-a-car</artifactId>
     <version>4.0</version>
-    <name>Talend ESB Runtime :: Examples</name>
+    <name>Talend ESB Runtime :: Rent-a-Car</name>
     <packaging>pom</packaging>
 
     <modules>
-        <module>rent-a-car</module>
-		<!--module>locator</module-->
-		<!--module>sam</module-->
+        <module>crmservice</module>
+        <module>reservationservice</module>
+        <module>app-reservation</module>
+        <module>features</module>
     </modules>
 
     <properties>
@@ -65,5 +66,29 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <modules>
+                <!-- module>locator</module-->
+            </modules>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <modules>
+<!--                <module>sam</module> -->
+            </modules>
+        </profile>
+        <profile>
+            <id>sts</id>
+        </profile>
+    </profiles>
 
 </project>
