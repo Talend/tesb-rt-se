@@ -23,8 +23,8 @@
 
     <modules>
         <module>rent-a-car</module>
-		<!--module>locator</module-->
-		<!--module>sam</module-->
+		<module>locator</module>
+		<module>sam</module>
     </modules>
 
     <properties>
