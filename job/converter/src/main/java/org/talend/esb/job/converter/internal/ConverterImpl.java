@@ -62,6 +62,7 @@ public class ConverterImpl implements Converter {
         while (jobZipEntries.hasMoreElements()) {
             ZipEntry jobZipEntry = jobZipEntries.nextElement();
             if (!jobZipEntry.isDirectory() && jobZipEntry.getName().endsWith(".jar")) {
+
                 logger.debug("Unzip {}", jobZipEntry.getName());
 
                 String name = jobZipEntry.getName();
@@ -116,9 +117,9 @@ public class ConverterImpl implements Converter {
         builder.setProperty("Bundle-Name", jobName);
         builder.setProperty("Bundle-SymbolicName", jobName);
         builder.setProperty("Bundle-Version", jobVersion);
-        builder.setProperty("Export-Package", "!routines*,*");
-        builder.setProperty("Private-Package", "routines*");
-        builder.setProperty("Import-Package", "*;resolution:=optional");
+        builder.setProperty("Export-Package", "!routines.system*,*");
+        builder.setProperty("Import-Package", "routines.system*;resolution:=optional,*;resolution:=optional");
+        builder.setProperty("Private-Package", "routines.system*");
         logger.debug("Iterate in the working directory");
         File[] files = uncompressDir.listFiles();
         for (int i = 0; i < files.length; i++) {
