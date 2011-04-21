@@ -599,7 +599,7 @@ Thank you for renting a car with Talend ESB :-)
             <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
             directory of the ESB sample
-            <code>talend-esb-&lt;version&gt;/examples/tesb</code> run:
+            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car</code> run:
             <userinput>mvn eclipse:eclipse</userinput>.</para>
         <para>In the Eclipse IDE
             <procedure>

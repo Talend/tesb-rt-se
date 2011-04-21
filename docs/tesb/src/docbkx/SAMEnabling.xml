@@ -52,7 +52,7 @@ Filter/Handler can be set up on both Agent side and Monitoring Server side. They
     <title>Configure and Run Monitoring Server</title>
 	<para>If you want to configure some properties (eg. db.url), please edit: </para>
 	<para>
-	<userinput>talend-esb-&lt;version&gt;/examples/sam/sam-server-war/src/main/webapp/WEB-INF/logserver.properties</userinput>
+	<userinput>talend-esb-&lt;version&gt;/examples/tesb/sam/sam-server-war/src/main/webapp/WEB-INF/logserver.properties</userinput>
 	</para>
 
 	<para>For this example, using Jetty Database is best choice. For example: </para>

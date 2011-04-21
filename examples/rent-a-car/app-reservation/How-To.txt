@@ -28,8 +28,8 @@ The Service Locator feature should be added to each endpoint and client in the e
 as a standard CXF feature.
 
 Make these changes in the following files:
-../examples/reservationservice/service/src/main/resources/META-INF/spring/beans.xml
-../examples/crmservice/service/src/main/resources/META-INF/spring/beans.xml
+../examples/tesb/rent_a_car/reservationservice/service/src/main/resources/META-INF/spring/beans.xml
+../examples/tesb/rent_a_car/crmservice/service/src/main/resources/META-INF/spring/beans.xml
 
 Example:
 
@@ -61,8 +61,8 @@ Also use the locator transport in the client address as shown in the example bel
 	</jaxws:client>
 
 Make these changes in the following files:
-../examples/reservationservice/client/src/main/resources/META-INF/spring/beans.xml
-../examples/crmservice/client/src/main/resources/META-INF/spring/beans.xml
+../examples/tesb/rent_a_car/reservationservice/client/src/main/resources/META-INF/spring/beans.xml
+../examples/tesb/rent_a_car/crmservice/client/src/main/resources/META-INF/spring/beans.xml
 
 
 Add dependencies to the pom.xml files
