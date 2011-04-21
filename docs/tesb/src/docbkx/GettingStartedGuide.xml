@@ -140,7 +140,7 @@
                 <step>
                     <para>CRMService sample</para>
                     <para>This sample is found in directory
-                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/</code>.
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/</code>.
                         It consists of four parts (the other directories in this place belong to
                         other examples and are described there):<informaltable>
                             <tgroup cols="2">
@@ -184,7 +184,7 @@
                 <step>
                     <para>ReservationService sample</para>
                     <para>This sample is found in directory
-                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/</code>.
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/</code>.
                         It consists of four parts (the other directories in this place belong to
                         other examples and are described there):<informaltable>
                             <tgroup cols="2">
@@ -228,7 +228,7 @@
                 <step>
                     <para>&quot;app-reservation&quot; project bundle</para>
                     <para>Directory
-                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/app-reservation/</code>
+                            <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/app-reservation/</code>
                         contains the Maven project for creating the car reservation sample
                         application OSGi bundle.</para>
                 </step>
@@ -237,7 +237,7 @@
         <section>
             <title>Building the &quot;Rent a Car&quot; Demo sample</title>
             <para>From the base directory of the ESB sample, i.e.
-                    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/</code>, the Maven
+                    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/</code>, the Maven
                 project file <code>pom.xml</code> can be used to build the demo. After changing to
                 this directory, Maven is invoked equally from a UNIX/Linux terminal or the Windows
                 command line:</para>
@@ -599,7 +599,7 @@ Thank you for renting a car with Talend ESB :-)
             <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
             directory of the ESB sample
-            <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car</code> run:
+            <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car</code> run:
             <userinput>mvn eclipse:eclipse</userinput>.</para>
         <para>In the Eclipse IDE
             <procedure>
