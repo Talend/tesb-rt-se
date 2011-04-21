@@ -76,24 +76,44 @@ db.createsql=create.sql
   </section>
   
   <section>
-    <title>Enabling the Service Activity Monitoring</title>
-
-    <procedure>
-
-      <step>
+    <title>Build the examples with SAM Agent enabled</title>
+	<procedure>
+		<step>
+		<para>Using Maven with sam profile</para>
       <para>From the base directory of the ESB sample, the maven
             <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/pom.xml</code> file can be
           used to build the demo.</para>
 
-      <para>Using Apache Maven with either UNIX or Windows: <userinput>mvn clean install -Psam</userinput></para>
+      <para>Running Maven command on either UNIX or Windows: <userinput>mvn clean install -Psam</userinput></para>
 
       <para>Running this command will build the demo and create OSGi bundles
       to be deployed to an OSGi container.</para>
-      </step>
+		</step>
+		
+		<step>
+		<para>What changed when build the examples with SAM Agent enabled:</para>
+		<para>
+The jaxws:features of SAM Agent will be added into spring beans xml file of related client/service-endpoint.
+<literallayout><computeroutput>
+&lt;import resource="classpath:META-INF/tesb/agent-context.xml" />
+...
+&lt;jaxws:features>
+	&lt;ref bean="eventFeature"/>
+&lt;/jaxws:features>
+</computeroutput></literallayout>	
+		</para>
+		<para>
+The MANIFEST.MF of related client/service-endpoint will be updated by adding Require-Bundle:sam-agent,sam-common.		
+		</para>
+		</step>
+	</procedure>
+  </section>
+  
+  <section>
+    <title>Install the examples on TESB Container</title>
 
-	  <step>
     <para> From the TESB container directory, type in these console commands:</para>
-	<para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+	<para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
 	<para>Eventually (when previous examples have already been installed): <userinput>features:refreshurl</userinput></para>
 	<para><userinput>features:install tesb-rac-app</userinput></para>
 	<para><userinput>features:install tesb-rac-services-sam</userinput></para>
@@ -113,8 +133,7 @@ db.createsql=create.sql
 [152] [Active][       ] [       ] [ 60] ReservationService Service (4.0.0)
 [153] [Active][       ] [Started] [ 60] ReservationService Service Endpoint SAM (4.0.0)
 </computeroutput></literallayout>	  
-	  </step>
-	</procedure>
+
   </section>
 
   <section>
