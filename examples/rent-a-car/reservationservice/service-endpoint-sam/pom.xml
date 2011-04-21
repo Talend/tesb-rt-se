@@ -52,7 +52,7 @@
                     </includes>
             </resource>
             <resource>
-                <directory>../../sam/</directory>
+                <directory>../../../sam/</directory>
                 <filtering>true</filtering>
                 <includes>
                     <include>agent.properties</include>

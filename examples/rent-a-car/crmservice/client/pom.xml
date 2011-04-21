@@ -96,11 +96,10 @@
                         <filtering>true</filtering>
                         <includes>
                           <include>**/beans-sam.xml</include>
-<!--                          <include>agent.properties</include>  -->
                         </includes>
                     </resource>
                     <resource>
-                        <directory>../../sam/</directory>
+                        <directory>../../../sam/</directory>
                         <filtering>true</filtering>
                         <includes>
                           <include>agent.properties</include>
