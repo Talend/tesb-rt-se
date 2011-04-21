@@ -31,5 +31,5 @@ fi
 TESB_BIN=`dirname "$ME"`
 TESB_ADDONS="$TESB_BIN/../add-ons"
 
-CLASSPATH="${TESB_ADDONS}/Locator/locator-4.0.jar:${TESB_ADDONS}/lib/zookeeper-3.3.3.jar:${TESB_ADDONS}/lib/log4j-1.2.15.jar"
+CLASSPATH="${TESB_ADDONS}/locator/locator-4.0.jar:${TESB_ADDONS}/lib/zookeeper-3.3.3.jar:${TESB_ADDONS}/lib/log4j-1.2.15.jar"
 $JAVA_HOME/bin/java -Xmx128M -cp "${CLASSPATH}" org.talend.esb.locator.ServiceLocatorMain "$@"

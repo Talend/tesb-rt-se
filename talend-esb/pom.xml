@@ -1008,7 +1008,7 @@
 						<phase>process-resources</phase>
 						<configuration>
 							<tasks>
-								<copy todir="target/add-ons/Monitoring">
+								<copy todir="target/add-ons/monitoring">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
@@ -1016,7 +1016,7 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
-								<copy todir="target/add-ons/Locator">
+								<copy todir="target/add-ons/locator">
 									<fileset dir="${basedir}/../locator">
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
@@ -1036,10 +1036,10 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten"/>
 											</present>
-											<present targetdir="target/add-ons/Monitoring">
+											<present targetdir="target/add-ons/monitoring">
 												<mapper type="flatten"/>
 											</present>
-											<present targetdir="target/add-ons/Locator">
+											<present targetdir="target/add-ons/locator">
 												<mapper type="flatten"/>
 											</present>
 										</none>
@@ -1056,10 +1056,10 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten"/>
 											</present>
-											<present targetdir="target/add-ons/Monitoring">
+											<present targetdir="target/add-ons/monitoring">
 												<mapper type="flatten"/>
 											</present>
-											<present targetdir="target/add-ons/Locator">
+											<present targetdir="target/add-ons/locator">
 												<mapper type="flatten"/>
 											</present>
 										</none>
