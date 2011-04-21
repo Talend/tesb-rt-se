@@ -231,7 +231,7 @@
         <para>In the Talend ESB console, type</para>
 
         <para><userinput>features:addurl
-        mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+        mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
 
         <para>Eventually (when previous examples have already been installed):
           <userinput>features:refreshurl</userinput></para>

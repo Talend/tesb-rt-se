@@ -127,7 +127,7 @@ clientPort=2181
           </step>
           <step>
             <para>Enter the following commands at the OSGi console prompt:</para>
-            <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+            <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
             <para>(Eventually, the version sub-string <userinput>.../4.0/...</userinput> must be replaced)</para>
             <para>In case previous examples have been installed previously in the same container,
               also execute the following command:
@@ -217,7 +217,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		  Deploy the demo services for locator &quot;locator1&quot; and
 		  the demo application with the known commands:</para>
 	    <para><userinput>features:addurl
-	      mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+	      mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
 	    <para>If you have already used the container for running previous
 	      examples, you should enter this command:</para>
 	    <para><userinput>features:refreshurl</userinput></para>
@@ -258,7 +258,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		<para>Start the second console (<code>./alternate-container/bin/tesb</code>). In thist container
       deploy only the locator-based example services with an alternate endpoint (locator2):</para>
 		<para><userinput>features:addurl
-		    mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+		    mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
 	    <para>eventually: <userinput>features:refreshurl</userinput></para>
 		<para><userinput>features:install
 		    tesb-rac-services-locator2</userinput></para>

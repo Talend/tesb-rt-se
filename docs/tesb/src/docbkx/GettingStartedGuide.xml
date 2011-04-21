@@ -375,7 +375,7 @@
                         container.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
-                    <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+                    <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
                     <para>This command allows to use the bundles directly from the Maven
                         repository where they have been installed by the Maven build.</para>
                     <para>Remark: This command refers to version &quot;4.0&quot;
@@ -424,7 +424,7 @@
                         you may add the feature location again at any time.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
-                    <para><userinput>features:addurl mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+                    <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
                     <para>Remark: This command refers to version &quot;4.0&quot;
                         of the Talend ESB. If you are using another version,
                         replace the version sub-string
