@@ -341,9 +341,9 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
             <para><userinput>features:uninstall tesb-rac-common</userinput></para>
     </step></procedure>
     </section>
-    <section><title>Service Locator spring configuration</title>
+    <section><title>Service Locator Spring configuration</title>
     <para>This section describe configuration steps needs to do manually to get the locator feature enabled for CXF sevices and clients. 
-    Let's look at the spring configuration of basic demo example and consider the necessary changes needed in the spring configurations to enable locator features.</para>
+    Let's look at the Spring configuration of basic demo example and consider the necessary changes needed there to enable locator features.</para>
 
     <para> We should add the Service Locator feature to the Spring
       configurations represented by the <code>beans.xml</code> files.</para>
@@ -380,10 +380,19 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
         </programlisting>
     </para>
 
-    <para> Property <code>locatorEndpoints</code> specifies hosts and ports,
-    on which the Zookeeper listens for client connections. For more
-    information please read the Service Locator Configuration Manual. </para>
+    <para> Property <code>locatorEndpoints</code> specifies host and port,
+    on which the Zookeeper listens for client connections. 
+    Specify the endpoints of all the instances belonging to the Zookeeper 
+    ensemble the CXF service might be talking to. In the case of several Zookeeper endpoints,
+    separate them with a comma. For example: <code>&lt;property name="locatorEndpoints"
+                         value="localhost:2181,localhost:2182,host2:2181"/&gt;</code></para>
 
+	<para> Property <code>endpointPrefix</code> necessary when running in a container 
+	where the endpoint is only relative to the conatiner. By default prefix is an empty string.</para>
+	
+	<para>For more
+    information please read the <emphasis role="strong">Service Locator Configuration Manual</emphasis>. </para>
+    
 	</section>
 
     <section>
@@ -411,7 +420,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
             </programlisting>
     </para>
 
-    <para> You can see these changes to the following files: </para>
+    <para> You can see these changes in the following files: </para>
 
     <para>
       <simplelist columns="1" type="vert">
