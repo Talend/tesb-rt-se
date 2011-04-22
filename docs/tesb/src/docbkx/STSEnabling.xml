@@ -75,7 +75,7 @@
     relationship.</para>
 
     <para>Practically spoken, in a distributed security environment you do not
-    want to disclose login credentials and and give access to your user
+    want to disclose login credentials and give access to your user
     accounts to external participants. Thus, you request a certificate-based
     authentication token from the STS server which allows verification of the
     user authenticity at any place where the certificate is known.</para>
@@ -268,7 +268,7 @@
         <para>In the Talend ESB console, type</para>
 
         <para><userinput>features:addurl
-        mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+        mvn:org.talend.esb.examples.rent-a-car/features-sts/4.0/xml</userinput></para>
 
         <para>Eventually (when previous examples have already been installed):
         <userinput>features:refreshurl</userinput></para>
@@ -285,7 +285,7 @@
         <para>In the Talend ESB console, type</para>
 
         <para><userinput>features:addurl
-        mvn:org.talend.esb.examples/features/4.0/xml</userinput></para>
+        mvn:org.talend.esb.examples.rent-a-car/features-sts/4.0/xml</userinput></para>
 
         <para>Eventually (when previous examples have already been installed):
         <userinput>features:refreshurl</userinput></para>
@@ -393,27 +393,27 @@ SecurityTokenServiceSOAP" /&gt;
     <para>You can see these changes in the following files: </para>
 
     <para>The CRM client is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/client-sts</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/client-sts</code>
     folder. The CRM client configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <para>The Reservation client is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/client-sts</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/client-sts</code>
     folder. The Reservation client configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/client-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <para>The CRM service is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/service-endpoint-sts</code>.
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/service-endpoint-sts</code>.
     The service configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <para>The Reservation service is implemented in
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/service-endpoint-sts</code>.
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/service-endpoint-sts</code>.
     The service configuration is located in:
-    <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
+    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/service-endpoint-sts/src/main/resources/META-INF/spring/beans.xml</code>
     file.</para>
 
     <section>
@@ -446,9 +446,9 @@ SecurityTokenServiceSOAP" /&gt;
       between the client and the service.</para>
 
       <para>Policy configuration of Rent-a-Car STS sample is represented in
-      <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</code>
+      <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/common/src/main/resources/model/CRMService-sts.wsdl</code>
       for the CRM sample and
-      <code>talend-esb-&lt;version&gt;/examples/tesb/rent_a_car/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl</code>
+      <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/common/src/main/resources/model/ReservationService-sts.wsdl</code>
       for the Reservation sample.</para>
 
       <para>For additional information about policies using in CXF please
