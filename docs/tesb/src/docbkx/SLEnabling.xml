@@ -124,10 +124,13 @@ clientPort=2181
             <para><userinput>features:uninstall tesb-rac-common</userinput></para>
             <para>These commands uninstall eventually remaining bundles from the basic
               example.</para>          
-          </step>
+            <para>You can also remove features for previos example from OSGi container:</para>
+			<para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
+			<para>This command remove features for simple scenario from container.</para>
+		  </step>
           <step>
             <para>Enter the following commands at the OSGi console prompt:</para>
-            <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
+            <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
             <para>(Eventually, the version sub-string <userinput>.../4.0/...</userinput> must be replaced)</para>
             <para>In case previous examples have been installed previously in the same container,
               also execute the following command:
@@ -217,14 +220,14 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		  Deploy the demo services for locator &quot;locator1&quot; and
 		  the demo application with the known commands:</para>
 	    <para><userinput>features:addurl
-	      mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
+	      mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
 	    <para>If you have already used the container for running previous
 	      examples, you should enter this command:</para>
 	    <para><userinput>features:refreshurl</userinput></para>
 	    <para>Continue with the installation commands:</para>
 	    <para><userinput>features:install
 		  tesb-rac-services-locator1</userinput></para>
-		<para><userinput>features:install tesb-rac-app</userinput></para>
+		<para><userinput>features:install tesb-rac-app-locator</userinput></para>
 		<para>In second instance of the TESB OSGi container check file
 		  <code>talend-esb-&lt;version&gt;/alternate-container/etc/org.ops4j.pax.web.cfg</code>
 		  for the right HTTP port, i.e. the following line:</para>
@@ -258,7 +261,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		<para>Start the second console (<code>./alternate-container/bin/tesb</code>). In thist container
       deploy only the locator-based example services with an alternate endpoint (locator2):</para>
 		<para><userinput>features:addurl
-		    mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
+		    mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
 	    <para>eventually: <userinput>features:refreshurl</userinput></para>
 		<para><userinput>features:install
 		    tesb-rac-services-locator2</userinput></para>
@@ -330,7 +333,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 [uninstalled] [4.0            ] tesb-rac-common-locator       repo-0
 [uninstalled] [4.0            ] tesb-rac-services-locator1    repo-0
 [uninstalled] [4.0            ] tesb-rac-services-locator2    repo-0
-[uninstalled] [4.0            ] tesb-rac-app                  repo-0
+[uninstalled] [4.0            ] tesb-rac-app-locator          repo-0
 			</programlisting>
     	</para>
     </step>
@@ -339,6 +342,11 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
             <para><userinput>features:uninstall tesb-rac-services-locator2</userinput></para>
             <para><userinput>features:uninstall tesb-rac-common-locator</userinput></para>
             <para><userinput>features:uninstall tesb-rac-common</userinput></para>
+    </step>
+	<step>
+    <para> You can remove locator features from OSGi container.Enter the following commands
+	    at the OSGi console prompt of the primary or alternate OSGi container:</para>
+            <para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
     </step></procedure>
     </section>
     <section><title>Service Locator Spring configuration</title>
@@ -423,8 +431,8 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 
     <para>
       <simplelist columns="1" type="vert">
-        <member>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/client/src/main/resources/META-INF/spring/beans-locator.xml</member>
-        <member>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/client/src/main/resources/META-INF/spring/beans-locator.xml</member>
+        <member>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/client-locator/src/main/resources/META-INF/spring/beans.xml</member>
+        <member>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/client-locator/src/main/resources/META-INF/spring/beans.xml</member>
       </simplelist>
     </para>    
     </section>
