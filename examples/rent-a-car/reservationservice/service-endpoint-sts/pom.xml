@@ -29,7 +29,7 @@
     <dependencies>
         <dependency>
             <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common-sts</artifactId>
+            <artifactId>crmservice-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

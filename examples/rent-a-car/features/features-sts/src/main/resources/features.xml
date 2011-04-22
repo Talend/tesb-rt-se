@@ -19,15 +19,15 @@
     <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='tesb-rac-common-sts' version='${project.version}'>
         <feature>cxf</feature>
-        <bundle>mvn:${project.groupId}/crmservice-common-sts/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/reservationservice-common-sts/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-services-sts' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-sts</feature>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/2.4.1_1</bundle>
-        <bundle>mvn:${project.groupId}/crmservice-service-sts/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-sts/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/reservationservice-service-sts/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-sts/${project.version}</bundle>
     </feature>
     <feature name='tesb-rac-app-sts' version='${project.version}'>

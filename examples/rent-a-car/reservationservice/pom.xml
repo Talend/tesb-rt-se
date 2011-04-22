@@ -24,6 +24,11 @@
         <artifactId>rent-a-car</artifactId>
         <version>4.0</version>
     </parent>
+    
+	<modules>
+        <module>common</module>
+		<module>service</module>
+    </modules>
 
     <profiles>
         <profile>
@@ -32,8 +37,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-				<module>common</module>
-				<module>service</module>
 				<module>client</module>
                 <module>service-endpoint</module>
             </modules>
@@ -41,8 +44,6 @@
         <profile>
             <id>locator</id>
             <modules>
-				<module>common</module>
-				<module>service</module>
 				<module>client-locator</module>
 				<module>service-endpoint-locator1</module>
                 <module>service-endpoint-locator2</module>
@@ -51,8 +52,6 @@
         <profile>
             <id>sam</id>
             <modules>
-				<module>common</module>
-				<module>service</module>
 				<module>client-sam</module>
                 <module>service-endpoint-sam</module>
             </modules>
@@ -60,8 +59,6 @@
         <profile>
             <id>sts</id>
             <modules>
-				<module>common-sts</module>
-				<module>service-sts</module>
 				<module>client-sts</module>
                 <module>service-endpoint-sts</module>
             </modules>

@@ -41,6 +41,7 @@
                 <filtering>true</filtering>
                 <includes>
 					<include>model/reservation-wsdls/ReservationService.wsdl</include>
+					<include>model/reservation-wsdls/ReservationService-sts.wsdl</include>
                 </includes>
             </resource>
         </resources>
@@ -77,7 +78,7 @@
                             <fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/model/reservation-wsdls/ReservationService.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/model/reservation-wsdls/ReservationService-sts.wsdl</wsdl>
                                     <extraargs>
                                         <!-- Do not generate these since already generated in another project -->
                                         <extraarg>-nexclude</extraarg>

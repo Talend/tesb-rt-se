@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>reservationservice-common-sts</artifactId>
+            <artifactId>reservationservice-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
