@@ -51,25 +51,10 @@ public class LocatorFeature extends AbstractFeature {
 		
 		ServiceLocator sl = null;
 
-		try {
-			sl = createServiceLocator();
+		sl = createServiceLocator();
 
-			if (LOG.isLoggable(Level.FINE)) {
-				LOG.log(Level.FINE, "Successfully initialized locator feature");
-			}
-
-		} catch (ServiceLocatorException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during initialization of the locator feature.",
-						e);
-			}
-		} catch (InterruptedException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during initialization of the locator feature.",
-						e);
-			}
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Successfully initialized locator feature");
 		}
 
 		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
@@ -141,8 +126,7 @@ public class LocatorFeature extends AbstractFeature {
 		this.prefix = prefix;
 	}
 
-	private ServiceLocator createServiceLocator() throws InterruptedException,
-			ServiceLocatorException {
+	private ServiceLocator createServiceLocator() {
 		ServiceLocator sl = new ServiceLocator();
 		if (locatorEndpoints != null) {
 			sl.setLocatorEndpoints(locatorEndpoints);
@@ -155,7 +139,25 @@ public class LocatorFeature extends AbstractFeature {
 		if (connectionTimeout > 0) {
 			sl.setConnectionTimeout(connectionTimeout);
 		}
-		sl.connect();
+		
+		try {
+			sl.connect();
+			
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.log(Level.FINE, "Successfully initialized locator feature");
+			}
+
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Interrupted Exception thrown during initialization of the locator feature.", e);
+			}
+		} catch (ServiceLocatorException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"ServiceLocator Exception thrown during initialization of the locator feature.", e);
+			}
+		}
 
 		return sl;
 	}
