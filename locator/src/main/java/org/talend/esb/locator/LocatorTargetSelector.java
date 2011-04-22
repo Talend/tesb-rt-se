@@ -61,6 +61,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
             	if (LOG.isLoggable(Level.SEVERE)) {
             		LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");
         		}
+            	throw new IllegalStateException("No endpoint found in Service Locator for service " + endpoint.getService().getName());
         	}
         }
 		super.prepare(message);
