@@ -478,7 +478,7 @@
             <para>Then enter <userinput>features:list</userinput> to ensure that
                 all features have actually been uninstalled. You should see this
                 in the console:</para>
-			<para>You can also remove "Rent A Car" feature location from the OSGi 
+			<para>You can also remove &quote;Rent A Car&quote; feature location from the OSGi 
 			    container.</para>
 			<para>At the OSGi console prompt, type the following command:</para>
 			<para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
