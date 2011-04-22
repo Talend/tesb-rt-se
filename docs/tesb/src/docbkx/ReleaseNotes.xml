@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE book>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <info>
+        <title>Release Notes for Talend ESB(SE)</title>
+        <subtitle>Covers 4.0.x</subtitle>
+                <pubdate>22 April 2011</pubdate>
+        <author>
+            <orgname>Talend ESB Runtime Team</orgname>
+        </author>
+        <copyright>
+            <year>2011</year>
+            <holder>Talend Corporation</holder>
+        </copyright>
+        <legalnotice>
+            <title>Copyleft</title>
+            <para>
+This documentation is provided under the terms of the Creative Commons Public License (CCPL).
+For more information about what you can and cannot do with this documentation in accordance with the
+CCPL, please read: http://creativecommons.org/licenses/by-nc-sa/2.0/
+            </para>
+            <para>
+                Portions of this document includes documentation produced at The Apache Software Foundation and is licensed under The Apache License 2.0.
+            </para>
+            <para>
+                Document includes Enterprise Integration Patterns graphics licensed under the Creative Commons Attribution License.
+                Book: Enterprise Integration Patterns by Gregor Hohpe and Bobby Woolf; Website: http://www.eaipatterns.com/eaipatterns.html.
+            </para>
+        </legalnotice>
+        <legalnotice>
+            <title>Notices</title>
+            <para>
+                Talend, Talend Integration Factory, and Talend Service Factory are trademarks of Talend, Inc.
+            </para>
+            <para>
+                Apache CXF, CXF, Apache Karaf, Karaf, Apache Camel, Camel, Apache Maven, and Maven are trademarks of The Apache Foundation.
+            </para>
+        </legalnotice>
+    </info>
+    <chapter>
+
+<title>Scope of Delivery</title>
+<para>
+Talend ESB SE 4.0 is delivered in two separate packages that should be extracted 
+to the same file system location: 
+<para><code>talend-esb-4.0.[tar.gz|zip]</code></para> 
+which contains the software
+<para><code>talend-esb-4.0-doc.[tar.gz|zip]</code></para>contains 
+which contains the accompanying documentation and source code for examples.
+</para>
+
+<para>Here is an overview of the package contents:</para>
+<para><emphasis role="strong">Talend ESB 4.0</emphasis></para>
+<para>directory: <emphasis role="strong">talend-esb-4.0/ </emphasis></para>
+
+<para>
+<informaltable>
+    <tgroup cols="2">
+        <colspec colnum="1" colname="col1" colwidth="20*" />
+		<colspec colnum="2" colname="col2" colwidth="80*" />  
+        <thead>
+            <row>
+              <entry>
+                <para>Subdirectory</para>
+              </entry>
+              <entry>
+                <para>Description</para>
+              </entry>
+            </row>
+        </thead>
+        <tbody>
+            <row>
+              <entry>
+                add-ons
+              </entry>
+              <entry>
+                Libraries required for the Talend ESB Service Locator and Monitoring features
+              </entry>
+            </row>
+            <row>
+              <entry>
+                bin
+              </entry>
+              <entry>
+                Command line tools/shell scripts (e.g. code generation)
+              </entry>
+            </row>
+            <row>
+              <entry>
+                container
+              </entry>
+              <entry>
+                Pre-configured OSGi container based on Eclipse Equinox and Apache Karaf
+              </entry>
+            </row>
+            <row>
+              <entry>
+               docs
+              </entry>
+              <entry>
+                 API documentation for Apache CXF in Javadoc format
+              </entry>
+            </row>  
+            <row>
+              <entry>
+                etc
+              </entry>
+              <entry>
+                Various configuration files for Apache CXF
+              </entry>
+            </row>            
+            <row>
+              <entry>
+                lib
+              </entry>
+              <entry>
+                Libraries required for using Talend ESB (see WHICH_JARS for more details)
+              </entry>
+            </row>
+            <row>
+              <entry>
+               licenses
+              </entry>
+              <entry>
+                 License documents for the third party components included in Talend ESB
+              </entry>
+            </row>                 
+            <row>
+              <entry>
+                modules
+              </entry>
+              <entry>
+                Libraries that comprise Apache CXF (used to create lightweight distributions of CXF if not all functionality is required)
+              </entry>
+            </row>
+            <row>
+              <entry>
+               samples
+              </entry>
+              <entry>
+                The standard example source code that comes with Apache CXF and Apache Camel
+              </entry>
+            </row>   
+            <row>
+              <entry>
+                zookeeper
+              </entry>
+              <entry>
+                Apache ZooKeeper which is required for the Talend ESB Service Locator feature
+              </entry>
+            </row>
+            </tbody>
+        </tgroup>
+    </informaltable> 
+</para>
+
+ 
+
+<para><emphasis role="strong">Talend ESB 4.0 (Documentation)</emphasis></para>
+<para>directory: <emphasis role="strong">talend-esb-4.0-doc/</emphasis></para>
+<para>
+<informaltable>
+    <tgroup cols="2">
+        <colspec colnum="1" colname="col1" colwidth="20*" />
+		<colspec colnum="2" colname="col2" colwidth="80*" />  
+        <thead>
+            <row>
+              <entry>
+                <para>Subdirectory</para>
+              </entry>
+              <entry>
+                <para>Description</para>
+              </entry>
+            </row>
+        </thead>
+        <tbody>
+            <row>
+              <entry>
+                docs
+              </entry>
+              <entry>
+                Manuals and User Guides for Talend ESB in PDF format
+              </entry>
+            </row>
+            <row>
+              <entry>
+                examples
+              </entry>
+              <entry>
+                Extended, documented examples for Talend ESB
+              </entry>
+            </row>
+            </tbody>
+        </tgroup>
+    </informaltable> 
+</para>
+
+
+</chapter>
+
+<chapter>
+<title>System Requirements</title>
+
+<section>
+<title>Hardware Requirements</title>
+Talend ESB does not require any specific hardware besides the minimal
+hardware requirements specified for the use of the supported operating systems and application servers / runtime container. However, we recommend
+using sufficient system resources to run Talend ESB 4.0 for development, test,
+and production purposes.
+</section>
+
+<section>
+<title>Software Requirements</title>
+<para>
+Talend ESB is supported for the following software:
+</para>
+<para>Operating System (Supported):</para>
+<para>
+<emphasis role="strong">Microsoft Windows</emphasis>
+<itemizedlist>
+    <listitem>
+        Windows XP (>= Service Pack 2), Windows Vista, Windows 7 
+    </listitem>
+    <listitem>
+        Windows Server 2003 (>= Service Pack 2), Windows Server 2008 or higher
+    </listitem>
+</itemizedlist>
+</para> 
+
+
+<para>
+<emphasis role="strong">Linux</emphasis>
+<itemizedlist>
+    <listitem>
+    RHEL 5.4 or higher
+    </listitem>
+    <listitem>
+    SUSE 10 or higher
+    </listitem>
+    <listitem>
+    CentOS 5.4 or higher
+    </listitem>
+    <listitem>
+    Ubuntu 10 or higher 
+    </listitem>
+    <listitem>
+    Debian 5 or higher
+    </listitem>
+</itemizedlist>   
+</para>
+ 
+<para><emphasis role="strong">Apple Mac</emphasis>
+<itemizedlist>
+    <listitem>
+    OS X 10.5 or higher
+    </listitem>
+</itemizedlist> 
+</para>
+
+<para><emphasis role="strong">Java Virtual Machine</emphasis>
+<itemizedlist>
+    <listitem>
+    ORACLE JRE / JDK 6 (Update 6 or higher) 
+    </listitem>
+</itemizedlist> 
+</para>
+
+<para><emphasis role="strong">Application Server</emphasis>
+<itemizedlist>
+    <listitem>
+    OSGi Runtime (Eclipse Equinox / Apache Karaf - included in this delivery)
+    </listitem>
+    <listitem>
+    Tomcat 6.0.x
+    </listitem>
+</itemizedlist> 
+</para>
+
+</section>
+
+
+
+</chapter>
+
+<chapter>
+<title>New Features, Changes and Fixes</title>
+
+<para>Talend ESB SE bundles Talend Service Factory 2.4.0 and Talend Integration Factory 2.7.1,
+Service Locator, Service Activity Monitoring and a demo application
+to a stable, production ready distribution based on the industry leading
+open source frameworks Apache CXF and Apache Camel.</para> 
+<para>
+It includes Web Service support based on JAX-WS and enables simple and scalable
+message based systems using well known Enterprise Integration Patterns.
+The Service Locator maintains a repository of service endpoints which
+can be used by Service Consumers to support loosely coupling, failover and load
+balancing. Service Activity Monitoring allows to log and
+monitor service calls. A documented Car Rental demo application illustrates
+how to use these features.
+</para>
+
+<section>
+<title>New Features</title>
+<para><emphasis role="strong">Note:</emphasis> These features are in addition to standard Apache CXF functionality.</para>
+<section>
+<title>Service Locator</title>
+<para>The Service Locator in the add-ons directory is a service that provides its consumers with a mechanism to discover service endpoints at 
+run time. The Service Locator consists of two parts:  An Endpoint repository and a CXF feature used to configure the use of the Service Locator 
+from both the provider and consumer sides. Like any standard CXF feature, the ServiceLocator Feature is configured separately for the service 
+provider and service consumer. The provider side Locator Feature extension registers and deregisters service endpoints in the endpoint 
+repository when the provider becomes available or unavailable. The consumer side Locator Feature extension transparently retrieves 
+service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
+</para>
+</section>
+
+<section>
+<title>Service Activity Monitoring (SAM)</title>
+The Service Activity Monitoring (SAM) in the add-ons directory allows to log / monitor service calls done with the Apache CXF Framework. 
+Typical use cases are usage statistics and fault monitoring.  The solution consists of two parts: Agent (sam-agent) and Monitoring Server 
+(sam-server). The Agent creates events out of the requests and replies on service consumer and provider side. The events are first collected 
+locally and then sent to the monitoring server periodically to not disturb the normal message flow. The Monitoring Server receives events 
+from the Agent, optionally filters/handlers events and stores them into a Database.
+</section>
+
+</section>
+
+<section><title>Changes</title>
+<para>
+Not applicable - first publicly released version.
+</para>
+</section>
+
+
+<section><title>Fixed Bugs</title>
+<para>
+Not applicable - first publicly released version.
+</para>
+</section>
+</chapter>
+
+<chapter><title>Known Limitations</title>
+
+<para><emphasis role="strong"> SAM Server only works on Tomcat 6 but not on ESB Server OSGi container</emphasis></para>
+<para>In this release of the Talend ESB the SAM (Service Activity Management Server needs to be deployed on Tomcat 6. 
+In future versions of Talend ESB we will also support the deployment within the Talend ESB Server (OSGi) 
+</para>
+
+</chapter>
+
+<chapter><title>Known Issues</title>
+<para>
+Not applicable - first publicly released version.
+</para>
+</chapter>
+
+<chapter><title>Export Notice</title>
+<para>
+This distribution includes cryptographic software.  The country in which
+you currently reside may have restrictions on the import, possession, use,
+and/or re-export to another country, of encryption software.  BEFORE using
+any encryption software, please check your country's laws, regulations and
+policies concerning the import, possession, or use, and re-export of
+encryption software, to see if this is permitted.  See
+&lt;http://www.wassenaar.org/> for more information. 
+
+The U.S. Government Department of Commerce, Bureau of Industry and Security
+(BIS), has classified this software as Export Commodity Control Number
+(ECCN) 5D002.C.1, which includes information security software using or
+performing cryptographic functions with asymmetric algorithms.  The form
+and manner of this Apache Software Foundation distribution makes it eligible
+for export under the License Exception ENC Technology Software Unrestricted
+(TSU) exception (see the BIS Export Administration Regulations, Section
+740.13) for both object code and source code.
+</para>
+</chapter>
+
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Reporting Defects and Issues</title>
+<para>
+For community technical support use the Talend
+User's Forum at
+<link  xlink:href="http://www.talendforge.org/forum/">http://www.talendforge.org/forum/</link> - ‘Talend ESB’. 
+You can also look at the Open and Fixed issues provided in the Bug tracker 
+<link  xlink:href="https://jira.sopera.de/secure/Dashboard.jspa">https://jira.sopera.de/secure/Dashboard.jspa</link> - Project: Talend ESB
+</para>
+<para>
+If you have a valid customer support contract for Talend ESB (SE/EE) 
+with Talend you can access the Talend Online Helpdesk or you can
+contact customer support by phone and e-mail as stated in your contracts.
+</para>
+<para>
+Please provide the following information:
+<itemizedlist>
+<listitem>
+Product and Version which you used (for example, Talend ESB 4.0 SE) 
+</listitem><listitem>
+Version of Java Platform Standard Edition Software Development Kit in
+use.
+</listitem><listitem>
+Log files
+</listitem>
+</itemizedlist>
+Also, in order to ensure that the technical support team has sufficient information to
+help you, describe at least the following in detail:
+<itemizedlist>
+<listitem>
+your actions up to the point when the problem occurred
+</listitem><listitem>
+the results you expected
+</listitem><listitem>
+the ensuing results that differ from your expected results.
+</listitem>
+</itemizedlist>
+</para>
+</chapter>
+
+
+</book>

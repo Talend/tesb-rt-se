@@ -34,6 +34,17 @@
                             <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
                         </configuration>
                     </execution>
+                   <execution>
+                        <phase>generate-resources</phase>
+                        <id>create-pdf-docs-rn</id>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <configuration>
+                            <includes>ReleaseNotes.xml</includes>
+                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
