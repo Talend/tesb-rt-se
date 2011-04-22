@@ -113,9 +113,9 @@ The MANIFEST.MF of related client/service-endpoint will be updated by adding Req
     <title>Install the examples on TESB Container</title>
 
     <para> From the TESB container directory, type in these console commands:</para>
-	<para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
+	<para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sam/4.0/xml</userinput></para>
 	<para>Eventually (when previous examples have already been installed): <userinput>features:refreshurl</userinput></para>
-	<para><userinput>features:install tesb-rac-app</userinput></para>
+	<para><userinput>features:install tesb-rac-app-sam</userinput></para>
 	<para><userinput>features:install tesb-rac-services-sam</userinput></para>
 	<para>Then, You can use the <userinput>list</userinput> command to check if everything installed properly:</para>
 	<para><userinput>list</userinput></para>
