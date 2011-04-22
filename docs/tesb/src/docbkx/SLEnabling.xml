@@ -219,8 +219,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		<para>Start the first console (<code>./container/bin/tesb</code>).
 		  Deploy the demo services for locator &quot;locator1&quot; and
 		  the demo application with the known commands:</para>
-	    <para><userinput>features:addurl
-	      mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
+	    <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
 	    <para>If you have already used the container for running previous
 	      examples, you should enter this command:</para>
 	    <para><userinput>features:refreshurl</userinput></para>
@@ -346,7 +345,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 	<step>
     <para> You can remove locator features from OSGi container.Enter the following commands
 	    at the OSGi console prompt of the primary or alternate OSGi container:</para>
-            <para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
+    <para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
     </step></procedure>
     </section>
     <section><title>Service Locator Spring configuration</title>
