@@ -25,11 +25,6 @@
         <version>4.0</version>
     </parent>
 
-    <modules>
-        <module>common</module>
-        <module>service</module>
-    </modules>
-
     <profiles>
         <profile>
             <id>default</id>
@@ -37,6 +32,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+				<module>common</module>
+				<module>service</module>
                 <module>service-endpoint</module>
 		        <module>client</module>
             </modules>
@@ -44,22 +41,28 @@
         <profile>
             <id>locator</id>
             <modules>
-                <module>service-endpoint-locator1</module>
+				<module>common</module>
+                <module>service</module>
+				<module>service-endpoint-locator1</module>
                 <module>service-endpoint-locator2</module>
-		        <module>client</module>
+		        <module>client-locator</module>
             </modules>
         </profile>
         <profile>
             <id>sam</id>
             <modules>
+				<module>common</module>
+				<module>service</module>
                 <module>service-endpoint-sam</module>
-				<module>client</module>
+				<module>client-sam</module>
             </modules>
         </profile>
         <profile>
             <id>sts</id>
             <modules>
-                <module>service-endpoint-sts</module>
+				<module>common-sts</module>
+                <module>service-sts</module>
+				<module>service-endpoint-sts</module>
 				<module>client-sts</module>
             </modules>
         </profile>

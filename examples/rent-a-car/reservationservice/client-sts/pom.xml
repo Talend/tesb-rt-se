@@ -16,7 +16,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>reservationservice-client</artifactId>
+    <artifactId>reservationservice-client-sts</artifactId>
     <name>ReservationService Client STS</name>
     <packaging>bundle</packaging>
 
@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>reservationservice-common</artifactId>
+            <artifactId>reservationservice-common-sts</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

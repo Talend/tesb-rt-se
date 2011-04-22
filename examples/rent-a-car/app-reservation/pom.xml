@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>app-reservation</artifactId>
+    <artifactId>app</artifactId>
     <name>App Reservation</name>
-    <packaging>bundle</packaging>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
@@ -25,29 +25,8 @@
         <version>4.0</version>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>reservationservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>reservationservice-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
+	<dependencies>
+		 <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
             <version>${karaf.version}</version>
@@ -57,34 +36,36 @@
             <artifactId>org.eclipse.osgi</artifactId>
             <version>${eclipse.osgi.version}</version>
         </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>org.apache.felix.service.command,*</Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
+	</dependencies>
+	
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+				<module>app-basic</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>locator</id>
+            <modules>
+				<module>app-locator</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sam</id>
+            <modules>
+				<module>app-sam</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sts</id>
+            <modules>
+				<module>app-sts</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
-

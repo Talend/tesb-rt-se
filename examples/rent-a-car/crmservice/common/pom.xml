@@ -33,7 +33,6 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>model/crmservice-wsdls/CRMService.wsdl</include>
-                    <include>model/crmservice-wsdls/CRMService-sts.wsdl</include>
                 </includes>
             </resource>
         </resources>
@@ -61,7 +60,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-		<version>${cxf.version}</version>
+				<version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -82,47 +81,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>sts</id>
-            <build>
-                <finalName>${project.artifactId}-sts-${project.version}</finalName>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>model/crmservice-wsdls/CRMService-sts.wsdl</include>
-                        </includes>
-                    </resource>
-                </resources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.cxf</groupId>
-                        <artifactId>cxf-codegen-plugin</artifactId>
-                        <version>${cxf.version}</version>
-                        <executions>
-                            <execution>
-                                <id>generate-sources</id>
-                                <phase>generate-sources</phase>
-                                <configuration>
-                                    <wsdlOptions>
-                                        <wsdlOption>
-                                            <wsdl>${basedir}/src/main/resources/model/crmservice-wsdls/CRMService-sts.wsdl</wsdl>
-                                        </wsdlOption>
-                                    </wsdlOptions>
-                                </configuration>
-                                <goals>
-                                    <goal>wsdl2java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
 

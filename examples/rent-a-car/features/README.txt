@@ -6,12 +6,12 @@ features:install tesb-rac-app
 features:install tesb-rac-services
 
 Rent A Car with Locator:
-features:install tesb-rac-app
+features:install tesb-rac-app-locator
 features:install tesb-rac-services-locator1
 features:install tesb-rac-services-locator2
 
 Rent A Car with SAM:
-features:install tesb-rac-app
+features:install tesb-rac-app-sam
 features:install tesb-rac-services-sam
 
 Rent A Car with STS:
