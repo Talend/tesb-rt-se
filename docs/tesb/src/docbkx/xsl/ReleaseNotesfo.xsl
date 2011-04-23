@@ -1,6 +1,6 @@
 <!--
   #%L
-  Locator :: Manual
+  ESB :: Manual
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -23,9 +23,8 @@
     exclude-result-prefixes="xslthl" version="1.0">
 
     <xsl:include href="../../../../common/xsl/customfo.xsl"/>
-    <xsl:param name="footer.column.widths">2 1 1</xsl:param>
     <xsl:template name="document.footer.name">
-        Talend ESB Service Locator Installation Manual
+        Talend ESB(SE) Release Notes
     </xsl:template>
 </xsl:stylesheet>
 

@@ -23,6 +23,8 @@
     exclude-result-prefixes="xslthl" version="1.0">
 
     <xsl:include href="../../../../common/xsl/customfo.xsl"/>
-
+    <xsl:template name="document.footer.name">
+        Talend ESB Getting Started Guide
+    </xsl:template>
 </xsl:stylesheet>
 
