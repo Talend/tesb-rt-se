@@ -21,9 +21,10 @@
 
 <book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
     <info>
-        <title>Talend ESB Service Activity Monitoring</title>
-        <subtitle>User Guide</subtitle>
-        <pubdate>18 March 2011</pubdate>
+        <title>Talend ESB</title>
+        <subtitle>Service Activity Monitoring (SAM) User Guide</subtitle>
+        <subtitle>Covers 4.0.x</subtitle>
+        <pubdate>23 April 2011</pubdate>
         <author>
             <last>Talend ESB Runtime Team</last>
         </author>
@@ -35,46 +36,95 @@
     <chapter>
         <title>Introduction</title>
         	<para>
-The Service Activity Monitoring (SAM) component allows for logging and/or monitoring service calls made with the Apache CXF Framework. Typical use cases are for collecting usage statistics and fault monitoring. This component consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates events out of the requests and replies from both the service consumer and provider side. The events are first collected locally and then sent to the Monitoring Server periodically to not disturb the normal message flow. The Monitoring Server receives events from the Agent, optionally uses filters and/or handlers on those events and stores them into a database. The Agent is packaged as a jar that needs to be on the classpath of the service consumer and provider. The Monitoring Server is deployed as a WAR in a servlet container and needs access to a database. 
+The Service Activity Monitoring (SAM) component allows for logging and monitoring service calls made with the Apache CXF Framework. 
+Typical use cases are: collecting usage statistics and fault monitoring. This component consists of two parts: 
+<itemizedlist>
+<listitem>
+<para>Agent (sam-agent): 
+</para>
+</listitem>
+<listitem> 
+<para>Monitoring Server (sam-server) 
+</para>
+</listitem>
+</itemizedlist>
+<para>The sequence of how these are used is as follows:</para>
+<orderedlist>
+<listitem> <para>
+The Agent creates events out of requests and replies from both the service consumer and provider side.
+</para></listitem>
+<listitem> <para>
+The events are first collected locally and then sent to the Monitoring Server periodically (so as not to disturb the normal message flow). 
+</para></listitem> 
+<listitem> <para>
+When the Monitoring Server receives events from the Agent, it optionally uses filters and/or handlers on those events and stores them into a database.
+</para></listitem>
+</orderedlist>
+<para>The Agent and Monitoring Service are made available as follows:</para>
+<itemizedlist> 
+<listitem><para>
+The Agent is packaged as a JAR that needs to be on the classpath of the service consumer and provider. </para></listitem> 
+<listitem> <para> 
+The Monitoring Server is deployed as a WAR in a servlet container and needs access to a database. </para></listitem> 
+</itemizedlist>
 			</para>
-			<para>
-For example: One service call can generate four events. Consumer is sending a request (REQ_OUT), service receives request (REQ_IN), service sends response (RESP_OUT) and consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". 
-			</para>
-
-			<mediaobject>
+			<section>
+			<title>Messages, Events and Flow IDs</title>
+    <mediaobject>
 	  <imageobject>
 		 <imagedata fileref="images/GeneratedEvents.jpg" format="jpg"/>
 	  </imageobject>
-	</mediaobject>  
+	</mediaobject>  			<para>
+One service call can generate four events.</para>
+<para> For example: A consumer is sending a request (REQ_OUT), the service receives request (REQ_IN), the service sends response (RESP_OUT) and the consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". 
+			</para>
 
+
+</section>
+			<section>
+			<title>Structure of this manual</title>
 			<para>
-This User Guide describes the purpose of Service Activity Monitoring, how to install it, how to configure it and how to run/test it.
+			In <xref linkend="SAM_arch" />, we overview the architecture of how an Agent and Monitoring Server interact.
+			</para>
+			<para>
+			In <xref linkend="SAM_install" />, we look at installing an Agent and Monitoring Server into a customer application.
+			</para><para>
+			In <xref linkend="SAM_configure" />, we look at configuration files and values for Agents and Monitoring Servers.
+			</para><para>
+			In <xref linkend="SAM_run_test" />, we look at running and testing the system.
  			</para>
+ 			</section>
 	</chapter>
-	<chapter>
+	<chapter xml:id="SAM_arch">
 	<title>Architecture</title>
 		<para>
-On the left of the below diagram the Agent is described, on the right the Monitoring Server. The Agent is used to collect all message data from both the service and client and send this data to the Monitoring Server. The Monitoring Server will receive events and store them into the database. A web service is used as the interface between the Agent and the Monitoring Server.		
-		</para>
-		<para>
-The FlowId Producer is a component used to generate the FlowId (a UUID) for the Message Header and pass it to subsequent messages.
-        </para>
-		<para>
-A Filter/Handler can be set up on both the Agent side and Monitoring Server side. Either can been used to filter events and manipulate the event's content. There are some built-in Filter/Handlers (eg. StringContentFilter, PasswordHandler) and the user can develop their own Filter/Handlers by extending the EventFilter/EventHandler SPI.
+On the left of the below diagram the Agent is described, on the right the Monitoring Server. The Agent is used to collect all message data from both the service and client and sends this data to the Monitoring Server. The Monitoring Server will receive events and store them into the database. A web service is used as the interface between the Agent and the Monitoring Server.		
 		</para>
 	<mediaobject>
 	  <imageobject>
 		 <imagedata fileref="images/architecture.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  
+		<para>
+The FlowId Producer is a component used to generate the FlowId (a UUID) for the Message Header and pass it to subsequent messages.
+
+For each message exchange, the flow id is created if there is no flow id present. So, for the first client the flow id 
+is created for each service call. When you have an intermediary this receives a service call, but also calls other services; then the flow id 
+is carried from the incoming call to all calls that follow this call. Then on the server side the flow id is taken from the request and also 
+set on the response.
+</para>
+		<para>
+Filters or handlers can be set up on both the Agent side and Monitoring Server side, and can subsequently be used to filter events and manipulate the event's content. There are some built-in filters and handlers (eg. StringContentFilter, PasswordHandler) and you can develop your own filters and handlers by extending the EventFilter or EventHandler Service Provider Interface (SPI).
+		</para>
 	<para>
-Event Structure please see Appendix A. Event Structure
+For the structure of information on events, please see <xref linkend="SAM_event_structure" />.
 	</para>
 	</chapter>
-    <chapter>
+    <chapter xml:id="SAM_install">
         <title>Installation</title>
 		<para>
-		SAM installation of includes Agent side installation and Monitoring Server side installation. And examples available (sam-example-service, sam-example-service2) for user install Agent onto them.
+		The SAM installation includes Agent side installation and Monitoring Server side installation. 
+		Examples are available (sam-example-service, sam-example-service2) for you to install an Agent onto them.
 		</para>
 		<section>
 		<title>Agent Installation</title>
@@ -89,28 +139,29 @@ The Agent needs to be deployed with the customer application. The best way to in
 		<para>
 <programlisting>
 &lt;dependency>
-	&lt;groupId>org.talend.esb&lt;/groupId>
-	&lt;artifactId>sam-agent&lt;/artifactId>
-	&lt;version>{talend esb version}&lt;/version>
+    &lt;groupId>org.talend.esb&lt;/groupId>
+    &lt;artifactId>sam-agent&lt;/artifactId>
+    &lt;version>{talend esb version}&lt;/version>
 &lt;/dependency>
 </programlisting>
 
 		</para>
 		<para>
 With Spring, the Agent has to be added to the Spring context:
-
+<para>
 <code>&lt;import resource="classpath:agent-context.xml" /&gt;</code>
+</para>
 		</para>
 		<para>
-For Spring related services add the feature to the service. Open the application context configuration and add the feature in the following manner:
+For Spring-related services add the feature to the service; open the application context configuration and add the feature in the following manner:
 <programlisting>
-	&lt;jaxws:endpoint 
-		id="customerService" address="/CustomerServicePort" 
-		implementor="com.example.customerservice.server.CustomerServiceImpl"&gt; 
-		&lt;jaxws:features>
-			&lt;ref bean="eventFeature"/&gt;
-		&lt;/jaxws:features&gt;
-	&lt;/jaxws:endpoint&gt;
+&lt;jaxws:endpoint 
+    id="customerService" address="/CustomerServicePort" 
+    implementor="com.example.customerservice.server.CustomerServiceImpl"&gt; 
+    &lt;jaxws:features>
+        &lt;ref bean="eventFeature"/&gt;
+    &lt;/jaxws:features&gt;
+&lt;/jaxws:endpoint&gt;
 </programlisting>
 		</para>
 		</section>
@@ -118,10 +169,10 @@ For Spring related services add the feature to the service. Open the application
 		<section>
 		<title>Monitoring Server Installation</title>
 		<para>
-The monitoring server can be deployed into any servlet container.  For example, it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war. The Monitoring Server needs a database to store event data, so make sure a RDBMS has been installed/accessed, you can find how to configure the database in the configuration chapter.
+The monitoring server can be deployed into any servlet container.  For example, it can be deployed into Tomcat: $TOMCAT_HOME/webapps/sam-server-war. The Monitoring Server needs a database to store event data, so make sure a RDBMS has been installed/accessed, you can find how to configure the database in <xref linkend="SAM_configure" />.
 		</para>
 		<para>
-The sam-server-war also can be run with <userinput>mvn jetty:run</userinput> which runs on an embedded Jetty server. and if the Derby Database has been configured on Monitoring Server side, RDBMS installation will be skipped.	
+The sam-server-war also can be run with <userinput>mvn jetty:run</userinput> which runs on an embedded Jetty server. If the Apache Derby database has been configured on Monitoring Server side, RDBMS installation will be skipped.	
 		</para>
 		</section>
 		
@@ -133,21 +184,23 @@ sam-example-service.war and sam-example-service2.war provided as a whole custome
 		</section>
 	</chapter>
 	
-	<chapter>
+	<chapter xml:id="SAM_configure">
 	<title>Configuration</title>
-	<section>
+	<section xml:id="SAM_agent_configure">
 	<title>Agent Configuration</title>
 	<para>
-The main configuration files for Agent are agent.properties and Filter/Handler configuration. agent.properties can be created by user and put it into own Application's classpath. Filter/Handlers are based on spring bean configuration and user can add them into own Application context (eg. beans.xml).
+The main configuration files for Agents are agent.properties and filter, handler configuration files. 
+agent.properties can be created by you and put it into own Application's classpath. Filter and handlers are based on 
+Spring bean configuration and you can add them into your own Application context (for example, beans.xml).
 	</para>
-	<para>
-agent.properties
+	<para>Possible values in
+<emphasis role="strong">agent.properties</emphasis>:
     </para>
         <informaltable>
           <tgroup cols="3">
-            <!--colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" /-->
+            <colspec colnum="1" colwidth="30*"/>
+            <colspec colnum="2" colwidth="20*"/>
+            <colspec colnum="3" colwidth="50*"/>
             <thead>
               <row>
                 <entry>
@@ -168,7 +221,7 @@ agent.properties
               <row>
                 <entry>collector.scheduler.interval</entry>
                 <entry></entry>
-				<entry>Interval for scheduler. Start every X milliseconds sent Events to Monitoring Server</entry>
+				<entry>Interval for scheduler. Start every X milliseconds sent events to Monitoring Server</entry>
               </row>
               <row>
                 <entry>collector.maxEventsPerCall</entry>
@@ -183,7 +236,7 @@ agent.properties
               <row>
                 <entry>log.maxContentLength</entry>
                 <entry>-1</entry>
-				<entry>Maximum Event's content length. -1 is no limited.</entry>
+				<entry>Maximum content length of event. -1 is unlimited.</entry>
               </row>
               <row>
                 <entry>service.url</entry>
@@ -198,7 +251,7 @@ agent.properties
               <row>
                 <entry>service.retry.delay</entry>
                 <entry>1000</entry>
-				<entry>Delay in milliseconds between the next attemp to send Events to Monitoring Server</entry>
+				<entry>Delay in milliseconds between the next attempt to send events to Monitoring Server</entry>
               </row>
             </tbody>
           </tgroup>
@@ -216,7 +269,10 @@ service.retry.delay=5000
 </programlisting>
 	</para>
 	<para>
-To filter or manipulate Events the user can add pre-defined or own filters / handlers to the Agent. Put the filter/handler beans into any spring configuration file. Some example bean definitions can be found below: 
+To filter or manipulate events you can add pre-defined or your own filters and handlers to the Agent. Put the filter or handler beans into any Spring configuration file. Some example bean definitions can be found below: 
+
+<para>Example 1: filters out all messages that contain "contractor" in the body:</para>
+
 <programlisting>
 &lt;bean id="filterD" class="org.talend.esb.sam.common.filter.impl.StringContentFilter"&gt;
 	&lt;property name="wordsToFilter"&gt;
@@ -225,7 +281,9 @@ To filter or manipulate Events the user can add pre-defined or own filters / han
 		&lt;/list&gt;
 	&lt;/property&gt;
 &lt;/bean&gt;
-
+</programlisting>
+<para>Example 2: the jxpath filter filters out all events for the Service CasePort and method ping:</para>
+<programlisting>
 &lt;bean id="noPingMetadataFilter" class="org.talend.esb.sam.common.filter.impl.MetadataFilter"&gt;
 	&lt;property name="andCondition" value="true" /&gt;
 	&lt;property name="hostname" value="" /&gt;
@@ -236,8 +294,10 @@ To filter or manipulate Events the user can add pre-defined or own filters / han
 		value="{http://namespace}CasePort" /&gt;
 	&lt;property name="transportType" value="" /&gt;
 &lt;/bean&gt;
-
-&lt;bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
+</programlisting>
+<para>Example 3: the Passwordhandler replaces &lt;Password> tags with &lt;Replaced>: </para> 
+<programlisting>
+&lt;bean id="passwordHandler" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
 	&lt;property name="tagnames"&gt;
 		&lt;list&gt;
 			&lt;value>Password&lt;/value&gt;
@@ -251,16 +311,17 @@ To filter or manipulate Events the user can add pre-defined or own filters / han
 	<section>
 	<title>Monitoring Server Configuration</title>
 	<para>
-The main configuration files for Monitoring Server are logserver.properties and Filter/Handler configuration. 
+The main configuration files for Monitoring Server are logserver.properties and filter, handler configuration files. 
     </para>
 	<para>
-logserver.properties
+	Possible values in <emphasis role="strong">logserver.properties</emphasis>:
+
     </para>
         <informaltable>
           <tgroup cols="3">
-            <!--colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" /-->
+            <colspec colnum="1" colwidth="30*"/>
+            <colspec colnum="2" colwidth="20*"/>
+            <colspec colnum="3" colwidth="50*"/>
             <thead>
               <row>
                 <entry>
@@ -306,7 +367,7 @@ logserver.properties
               <row>
                 <entry>db.incrementer</entry>
                 <entry></entry>
-				<entry>ID Incrementer or sequence generator used to generator unique Event ID</entry>
+				<entry>ID Incrementer or sequence generator used to generator unique event ID</entry>
               </row>
               <row>
                 <entry>db.recreate</entry>
@@ -322,7 +383,7 @@ logserver.properties
           </tgroup>
         </informaltable>		
 	<para>
-logserver.properties example (for Derby):
+logserver.properties example (for Apache Derby):
 	</para>
 <programlisting>
 monitoringServiceUrl=/MonitoringServiceSOAP
@@ -352,24 +413,29 @@ db.createsql=create_mysql.sql
 </programlisting>
 
 	<para>
-About Filter/Handler configuration, please refer to Agent configuration section.	
+For filter, handler configuration, please refer to <xref linkend="SAM_agent_configure" />.	
 	</para>
 	</section>
 
 	</chapter>
 	
-	<chapter>
+	<chapter xml:id="SAM_run_test">
 	<title>Running and Testing</title>
 	<section>
-	<title>Running</title>
+	<title>Pre-requisites</title>
 	<para>
-Make sure Database is running and accessible.	
-	</para>
-	<para>
-Make sure sam-server-war.war, sam-example-service.war, sam-example-service2.war deployed into your J2EE container.	
-	</para>
-	<para>
-Make sure agent.properties, logserver.properties configured correctly.	
+	This section shows you how to run the sample tests (sam-example-service, sam-example-service2). First, please check the following:
+	<itemizedlist>
+	<listitem>
+     your database is running and accessible.	
+	</listitem>
+	<listitem>
+    sam-server-war.war, sam-example-service.war, sam-example-service2.war deployed into your J2EE container.	
+	</listitem>
+	<listitem>
+    agent.properties, logserver.properties are configured correctly.	
+	</listitem>
+	</itemizedlist>
 	</para>
 	</section>
 	<section>
@@ -377,8 +443,8 @@ Make sure agent.properties, logserver.properties configured correctly.
 	<para>
 Start SoapUI tool, send SOAP message below to sam-example-service2 endpoint, for example like this: <code>http://localhost:8080/sam-example-service2/services/CustomerServicePort</code>
 <programlisting>
-
-&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/"&gt;
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+        xmlns:cus="http://customerservice.example.com/"&gt;
    &lt;soapenv:Header/&gt;
    &lt;soapenv:Body&gt;
       &lt;cus:getCustomersByName&gt;
@@ -391,40 +457,46 @@ Start SoapUI tool, send SOAP message below to sam-example-service2 endpoint, for
 	</para>
 	<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/soap1.jpg" format="jpg"/>
+		 <imagedata fileref="images/soap1.jpg" format="jpg" scale="95"/>
 	  </imageobject>
 	</mediaobject>  
 	</section>
 	
 	<section>
-	<title>Filter/Handler Test</title>
+	<title>Filters and Handlers Test</title>
+	<para>This test consists of three steps:</para>
 	<procedure>
 	<step>
 	<para>Add a PasswordHandler to your Application Service/Client</para>
 	<para>
-PasswordHandler is a pre-defined handler used to replace the real password characters with '' for security consideration. User can set the tag name which has password and need to be replaced. For example:
+PasswordHandler is a pre-defined handler used to replace the real password characters with null('') for security considerations. You can set the tag name which has the password and need to be replaced. For example:
 <programlisting>
-&lt;bean id="passwordFilter" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
-	&lt;property name="tagnames"&gt;
-		&lt;list&gt;
-			&lt;value&gt;Password&lt;/value&gt;
-		&lt;/list&gt;
-	&lt;/property&gt;
+&lt;bean id="passwordFilter" 
+      class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
+   &lt;property name="tagnames"&gt;
+      &lt;list&gt;
+         &lt;value&gt;Password&lt;/value&gt;
+      &lt;/list&gt;
+   &lt;/property&gt;
 &lt;/bean&gt;
 </programlisting>
 	</para>
 	<para>
-Then, Send a Message which has the &lt;Password> tag:
+Then, send a Message which has the &lt;Password> tag:
 <programlisting>
 &lt;soapenv:Header>
-  &lt;wsse:Security xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="0">
+   &lt;wsse:Security 
+      xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-ws
+security-secext-1.0.xsd" soapenv:mustUnderstand="0">
 
-  &lt;wsse:UsernameToken>
-	 &lt;wsse:Username>user1&lt;/wsse:Username>
-	 &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-usernametoken-profile-1.0#PasswordDigest">IR55epSSTb7sg3Z3+HKNb9MqAWg=&lt;/wsse:Password>
- &lt;/wsse:UsernameToken>
+   &lt;wsse:UsernameToken>
+      &lt;wsse:Username>user1&lt;/wsse:Username>
+      &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-2004
+01-wss-usernametoken-profile-1.0#PasswordDigest">
+      IR55epSSTb7sg3Z3+HKNb9MqAWg=&lt;/wsse:Password>
+   &lt;/wsse:UsernameToken>
 
- &lt;/wsse:Security>
+   &lt;/wsse:Security>
 &lt;/soapenv:Header>   
 </programlisting>	
 	</para>
@@ -432,36 +504,38 @@ Then, Send a Message which has the &lt;Password> tag:
 The value of &lt;Password> Element will be replaced with ''.
 <programlisting>
 &lt;soapenv:Header>
-  &lt;wsse:Security xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soapenv:mustUnderstand="0">
+   &lt;wsse:Security 
+      xmlns:wsse="http://docs.oasisopen.org/wss/2004/01/oasis-200401-wss-ws
+security-secext-1.0.xsd" soapenv:mustUnderstand="0">
 
-  &lt;wsse:UsernameToken>
-	 &lt;wsse:Username>user1&lt;/wsse:Username>
-	 &lt;replaced xmlns=""/>
- &lt;/wsse:UsernameToken>
+   &lt;wsse:UsernameToken>
+      &lt;wsse:Username>user1&lt;/wsse:Username>
+      &lt;replaced xmlns=""/>
+   &lt;/wsse:UsernameToken>
 
- &lt;/wsse:Security>
+   &lt;/wsse:Security>
 &lt;/soapenv:Header>
 </programlisting>   
 	</para>
 	</step>
 	
 	<step>
-	<para>Add a CustomInfoHandler to your Application Service/Client</para>
-	<para>
-CustomInfoHandler is a pre-defined handler used to store user defined key/value into Database. For example:
+	<para>Next, add a CustomInfoHandler to your application service or client. 
+CustomInfoHandler is a pre-defined handler used to store user-defined key/value in the database. For example:
 <programlisting>
-	&lt;bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
-		&lt;property name="customInfo">
-		    &lt;map>
-		        &lt;entry key="Application name" value="Dummy App"/>
-		        &lt;entry key="Stage" value="Dev"/>
-		    &lt;/map>
-		&lt;/property>	
-	&lt;/bean>    
+&lt;bean id="fixedProperties" 
+      class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+   &lt;property name="customInfo">
+      &lt;map>
+         &lt;entry key="Application name" value="Dummy App"/>
+         &lt;entry key="Stage" value="Dev"/>
+      &lt;/map>
+   &lt;/property>	
+&lt;/bean>    
 </programlisting>
 	</para>
 	<para>
-Then send a Message, the custom key/value properties will be stored into Database.
+Then send a message, and the custom key/value properties will be stored in the database.
 	</para>
 	<mediaobject>
 	  <imageobject>
@@ -470,51 +544,56 @@ Then send a Message, the custom key/value properties will be stored into Databas
 	</mediaobject>  
 	</step>
 	<step>
-	<para>Adding Filter/Handler configuration on the Monitoring Server side</para>
+	<para>Finally, add a filter configuration on the Monitoring Server side</para>
 	<para>
 Modify server.xml on the Monitoring Server. For example:
 <programlisting>
 ......
-&lt;bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
-		&lt;property name="eventFilter">
-			&lt;list>
-				&lt;ref local="stringContentFilter" />
-			&lt;/list>
-		&lt;/property>
-		&lt;property name="eventManipulator">
-			&lt;list>
-				&lt;ref local="contentLengthHandler" />
-			&lt;/list>
-		&lt;/property>
-        &lt;property name="persistenceHandler" ref="eventRepository" />    
+&lt;bean id="monitoringService" 
+      class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+   &lt;property name="eventFilter">
+      &lt;list>
+         &lt;ref local="stringContentFilter" />
+      &lt;/list>
+      &lt;/property>
+         &lt;property name="eventManipulator">
+         &lt;list>
+            &lt;ref local="contentLengthHandler" />
+         &lt;/list>
+      &lt;/property>
+   &lt;property name="persistenceHandler" ref="eventRepository" />    
 &lt;/bean>
 ......
 </programlisting>
     </para>
 	</step>
+	<step>
+	The information should now be stored in the database.
+	</step>
 	</procedure>
 	</section>
-	</chapter>
-	
-	<chapter>
+	<section>
 	<title>Monitoring Events from Database</title>
 	<para>
-If the Events have been stored into Database successfully, you can query them from DB. For example:
+If the events have been stored into a database successfully, you can query them from the database. For example:
 	</para>
 	<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/db.jpg" format="jpg"/>
+		 <imagedata fileref="images/db.jpg" format="jpg" scale="60"/>
 	  </imageobject>
-	</mediaobject>  	
+	</mediaobject> 
+	</section> 	
 	</chapter>
 	
-	<appendix>
-	<title>Event Structure</title>
+<appendix xml:id="SAM_event_structure">
+<title>Event Structure</title>
+<para>This is the information stored in the Monitoring Server database on a particular event:</para>
         <informaltable>
           <tgroup cols="3">
-            <!--colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" /-->
+            <colspec colnum="1" colwidth="30*"/>
+            <colspec colnum="2" colwidth="20*"/>
+            <colspec colnum="3" colwidth="50*"/>
+            
             <thead>
               <row>
                 <entry>
@@ -590,7 +669,7 @@ If the Events have been stored into Database successfully, you can query them fr
               <row>
                 <entry>MI_FLOW_ID</entry>
                 <entry>varchar(64)</entry>
-				<entry>Unique id for the message flow. (UUID) All events with the same id belongs together</entry>
+				<entry>Unique id for the message flow. (UUID) All events with the same id belong together</entry>
               </row>	
               <row>
                 <entry>MI_TRANSPORT_TYPE</entry>
@@ -610,14 +689,16 @@ If the Events have been stored into Database successfully, you can query them fr
             </tbody>
           </tgroup>
         </informaltable>
+
 	</appendix>
 	<appendix>
 	<title>EVENTS_CUSTOMINFO Structure</title>
+
         <informaltable>
           <tgroup cols="3">
-            <!--colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="2*" />
-            <colspec colnum="3" colwidth="3*" /-->
+            <colspec colnum="1" colwidth="30*"/>
+            <colspec colnum="2" colwidth="20*"/>
+            <colspec colnum="3" colwidth="50*"/>
             <thead>
               <row>
                 <entry>
@@ -658,5 +739,6 @@ If the Events have been stored into Database successfully, you can query them fr
             </tbody>
           </tgroup>
         </informaltable>
+
 	</appendix>	
 </book>
