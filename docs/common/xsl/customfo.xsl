@@ -57,13 +57,16 @@
             </xsl:when>
 
             <xsl:when test="$position='left'">
-                Talend ESB Runtime: User Guide
+                <xsl:call-template name="document.footer.name"/>
             </xsl:when>
 
             <xsl:otherwise>
                 <!-- nop -->
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    <xsl:template name="document.footer.name">
+        (Need to override template document.footer.name)
     </xsl:template>
 
     <xsl:template name="head.sep.rule">
