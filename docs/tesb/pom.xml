@@ -42,7 +42,7 @@
                         </goals>
                         <configuration>
                             <includes>ReleaseNotes.xml</includes>
-                            <foCustomization>${basedir}/src/docbkx/xsl/customfo.xsl</foCustomization>
+                            <foCustomization>${basedir}/src/docbkx/xsl/ReleaseNotesfo.xsl</foCustomization>
                         </configuration>
                     </execution>
                 </executions>
