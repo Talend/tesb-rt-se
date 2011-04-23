@@ -124,7 +124,7 @@ clientPort=2181
             <para><userinput>features:uninstall tesb-rac-common</userinput></para>
             <para>These commands uninstall eventually remaining bundles from the basic
               example.</para>          
-            <para>You can also remove features for previos example from OSGi container:</para>
+            <para>You can also remove uninstalled features for previos example from OSGi container:</para>
 			<para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
 			<para>This command remove features for simple scenario from container.</para>
 		  </step>
@@ -132,7 +132,7 @@ clientPort=2181
             <para>Enter the following commands at the OSGi console prompt:</para>
             <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
             <para>(Eventually, the version sub-string <userinput>.../4.0/...</userinput> must be replaced)</para>
-            <para>In case previous examples have been installed previously in the same container,
+            <para>In case locator example have been installed previously in the same container,
               also execute the following command:
           <userinput>features:refreshurl</userinput></para>
           <para>The above commands makes sure that the OSGi container can read the features from
@@ -220,8 +220,8 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
 		  Deploy the demo services for locator &quot;locator1&quot; and
 		  the demo application with the known commands:</para>
 	    <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
-	    <para>If you have already used the container for running previous
-	      examples, you should enter this command:</para>
+	    <para>If you have already used the container for running locator
+	      example, you should enter this command:</para>
 	    <para><userinput>features:refreshurl</userinput></para>
 	    <para>Continue with the installation commands:</para>
 	    <para><userinput>features:install
@@ -322,14 +322,12 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
             <para><userinput>features:uninstall tesb-rac-services-locator1</userinput></para>
             <para><userinput>features:uninstall tesb-rac-app</userinput></para>
             <para><userinput>features:uninstall tesb-rac-common-locator</userinput></para>
-            <para><userinput>features:uninstall tesb-rac-common</userinput></para>
     </step>
     <step>
     	<para>Enter <userinput>features:list</userinput> to ensure that all features have
     	  actually been uninstalled. You will see this in the console:</para>
     	<para>
-    		<programlisting>[uninstalled] [4.0            ] tesb-rac-common               repo-0
-[uninstalled] [4.0            ] tesb-rac-common-locator       repo-0
+    		<programlisting>[uninstalled] [4.0            ] tesb-rac-common-locator       repo-0
 [uninstalled] [4.0            ] tesb-rac-services-locator1    repo-0
 [uninstalled] [4.0            ] tesb-rac-services-locator2    repo-0
 [uninstalled] [4.0            ] tesb-rac-app-locator          repo-0
@@ -340,10 +338,9 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
     <para>Enter the following commands at the OSGi console prompt of the alternate OSGi container:</para>
             <para><userinput>features:uninstall tesb-rac-services-locator2</userinput></para>
             <para><userinput>features:uninstall tesb-rac-common-locator</userinput></para>
-            <para><userinput>features:uninstall tesb-rac-common</userinput></para>
     </step>
 	<step>
-    <para> You can remove locator features from OSGi container.Enter the following commands
+    <para> You can remove uninstalled locator features from OSGi container. Enter the following commands
 	    at the OSGi console prompt of the primary or alternate OSGi container:</para>
     <para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features-locator/4.0/xml</userinput></para>
     </step></procedure>
@@ -412,8 +409,7 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
     as shown in the example below: </para>
 
     <para>
-            <programlisting>
-&lt;jaxws:client id="CRMServiceClient"
+            <programlisting>&lt;jaxws:client id="CRMServiceClient"
     ...
     address="locator://CRMServiceProvider"&gt;
     &lt;jaxws:features&gt;

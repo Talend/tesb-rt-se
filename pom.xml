@@ -73,7 +73,6 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<zookeeper.version>3.3.3</zookeeper.version>
 		<derby.version>10.7.1.1</derby.version>
-		<!--mysql.version>5.0.5</mysql.version -->
 		<bnd.version>1.15.0</bnd.version>
 		<slf4j.version>1.6.0</slf4j.version>
 		<osgi.version>4.2.0</osgi.version>
@@ -147,9 +146,6 @@
 					<artifactId>maven-bundle-plugin</artifactId>
 					<version>2.3.4</version>
 					<extensions>true</extensions>
-					<!--configuration> <instructions> <Include-Resource> {maven-resources}, 
-						{maven-dependencies}, META-INF/LICENSE=${project.build.outputDirectory}/META-INF/LICENSE 
-						</Include-Resource> </instructions> </configuration -->
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -224,11 +220,6 @@
 					<configuration>
 						<licenseName>apache_v2</licenseName>
 						<licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
-						<!-- licenseFile>${project.build.outputDirectory}/META-INF/LICENSE.
-						   </licenseFile> 
-							<generateBundle>true</generateBundle>
-							 <bundleLicensePath>META-INF/LICENSE. 
-							</bundleLicensePath-->
 						<outputDirectory>${project.build.directory}</outputDirectory>
 						<thirdPartyFilename>TESBDEPENDENCIES.txt</thirdPartyFilename>
 						<groupByLicense>true</groupByLicense>
@@ -258,6 +249,16 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>8.0.0.M2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.5</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
