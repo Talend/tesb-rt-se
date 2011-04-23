@@ -161,41 +161,18 @@
     </procedure>
   </section>
 
-  <section>
+  <section xml:id="rac.startsts">
     <title>Configuring and starting the STS Server</title>
 
     <para>In order to enable WS-security for the Rent-a-Car example, the STS
     server has to be installed and deployed. A sample implementation of the
     STS server is integrated with the open source technology service framework
     CXF.</para>
+    
+      <section>
+    	<title>Enabling logging</title>
 
-    <para>Use the Maven "pom.xml" file from the directory
-    <code>samples/cxf/sts_issue_operation</code> to build and run STS
-    server.</para>
-
-    <para>Execute either in a UNIX terminal or the Windows command
-    line:</para>
-
-    <para><userinput>mvn clean install</userinput></para>
-
-    <para>To remove the code generated from the WSDL file and the .class
-    files, run "mvn clean".</para>
-
-    <para><userinput>mvn clean</userinput></para>
-
-    <para>To run STS server using Maven, enter the following command on a
-    single command line:</para>
-
-    <para><userinput>mvn -Djetty.port=9081 jetty:run</userinput></para>
-
-    <para>This will start a jetty instance on port 9081 and run the STS
-    provider configured with this sample Issue operation.</para>
-  </section>
-
-  <section>
-    <title>Enabling logging on the STS server</title>
-
-    <para>To enable logging on STS server, add the
+    	<para>To enable logging on STS server, add the
     "org.apache.cxf.feature.LoggingFeature" bean to the endpoint configuration
     in
     <code>samples/cxf/sts_issue_operation/src/main/webapp/WEB-INF/beans.xml</code>
@@ -215,6 +192,33 @@
         &lt;/jaxws:features&gt;
     &lt;/jaxws:endpoint&gt;
 	</programlisting>
+  		</section>
+    
+      <section>
+    	<title>Build and run STS server</title>
+
+    	<para>Use the Maven "pom.xml" file from the directory
+    	<code>samples/cxf/sts_issue_operation</code> to build and run STS
+    	server.</para>
+
+    	<para>Execute either in a UNIX terminal or the Windows command
+    	line:</para>
+
+    	<para><userinput>mvn clean install</userinput></para>
+
+    	<para>To run STS server using Maven, enter the following command on a
+    	single command line:</para>
+
+    	<para><userinput>mvn -Djetty.port=9081 jetty:run</userinput></para>
+
+    	<para>This will start a jetty instance on port 9081 and run the STS
+    	provider configured with this sample Issue operation.</para>
+
+    	<para>To remove the code generated from the WSDL file and the .class
+    	files, run "mvn clean".</para>
+
+    	<para><userinput>mvn clean</userinput></para>
+      </section>
   </section>
 
   <section>
@@ -227,12 +231,12 @@
         <para>Make sure you unpacked talend-esb-4.0-doc.zip and
         talend-esb-4.0.zip in the same directory.</para>
 
-        <para>Run in Rent-a-Car example root directory: <userinput>mvn clean
+        <para>Run from directory <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/</code>: <userinput>mvn clean
         install -Psts</userinput></para>
       </step>
 
       <step>
-        <para>Start the STS server on port : 9081</para>
+        <para><link linkend="rac.startsts">Start the STS server</link> on port : 9081</para>
       </step>
 
       <step>
@@ -270,7 +274,7 @@
         <para><userinput>features:addurl
         mvn:org.talend.esb.examples.rent-a-car/features-sts/4.0/xml</userinput></para>
 
-        <para>Eventually (when previous examples have already been installed):
+        <para>Eventually (when sts example have already been installed):
         <userinput>features:refreshurl</userinput></para>
 
         <para><userinput>features:install
@@ -306,7 +310,7 @@
         <userinput>md keystores</userinput>
 
         <para>and copy file clientstore.jks from
-        crmservice\client-sts\src\main\resources\META-INF\spring\ to keystores
+        <code>crmservice\client-sts\src\main\resources\META-INF\spring\</code> to <code>keystores</code>
         directory.</para>
 
         <para>Now the STS sample is installed and ready to run.</para>
@@ -319,18 +323,22 @@
 
         <para><userinput>features:uninstall
         tesb-rac-app-sts</userinput></para>
+        <para><userinput>features:uninstall
+        tesb-rac-common-sts</userinput></para>
 
         <para>Type the primary container</para>
 
         <para><userinput>features:uninstall
         tesb-rac-services-sts</userinput></para>
+        <para><userinput>features:uninstall
+        tesb-rac-common-sts</userinput></para>
       </step>
     </procedure>
 
-    <para>NOTE: To prevent the "Illegal key size or default parameters"
+    <para><emphasis role="strong">NOTE:</emphasis> To prevent the "Illegal key size or default parameters"
     exception, please check installed or download the Java(TM) Cryptography
     Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6 and replace
-    JAVA_HOME/jre/lib/security/local_policy.jar and US_export_policy.jar with
+    <code>JAVA_HOME/jre/lib/security/local_policy.jar</code> and <code>US_export_policy.jar</code> with
     new jars to use 256bit keys encription in the STS sample.</para>
   </section>
 
@@ -360,25 +368,25 @@
  wsdlLocation="classpath:/model/crmservice-wsdls/CRMService-sts.wsdl"&gt;
   &lt;jaxws:properties&gt;
 		.........
- &lt;entry key="ws-security.sts.client"&gt;
-   &lt;bean class="org.apache.cxf.ws.security.trust.STSClient"&gt;
-	&lt;constructor-arg ref="cxf" /&gt;
-	&lt;property name="wsdlLocation"
-value="META-INF/spring/model/ws-trust-1.4-service.wsdl" /&gt;
-	&lt;property name="serviceName"
-value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}
-SecurityTokenServiceProvider" /&gt;
-	&lt;property name="endpointName"
-value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}
-SecurityTokenServiceSOAP" /&gt;
-	&lt;property name="properties"&gt;
-	&lt;map&gt;
+    &lt;entry key="ws-security.sts.client"&gt;
+        &lt;bean class="org.apache.cxf.ws.security.trust.STSClient"&gt;
+	        &lt;constructor-arg ref="cxf" /&gt;
+	        &lt;property name="wsdlLocation"
+                value="META-INF/spring/model/ws-trust-1.4-service.wsdl" /&gt;
+	        &lt;property name="serviceName"
+                value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}
+                SecurityTokenServiceProvider" /&gt;
+	        &lt;property name="endpointName"
+                value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}
+                SecurityTokenServiceSOAP" /&gt;
+	        &lt;property name="properties"&gt;
+	           &lt;map&gt;
 		........
-	&lt;/map&gt;
-	&lt;/property&gt;
-	&lt;/bean&gt;
- &lt;/entry&gt;
- &lt;/jaxws:properties&gt;
+	           &lt;/map&gt;
+	       &lt;/property&gt;
+	       &lt;/bean&gt;
+       &lt;/entry&gt;
+    &lt;/jaxws:properties&gt;
 &lt;/jaxws:client&gt; 
         </programlisting>
 
