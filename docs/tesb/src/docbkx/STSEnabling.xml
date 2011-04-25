@@ -319,14 +319,14 @@
       <step>
         <para>Uninstall STS features.</para>
 
-        <para>Type the secondary container</para>
+        <para>Type in the secondary container</para>
 
         <para><userinput>features:uninstall
         tesb-rac-app-sts</userinput></para>
         <para><userinput>features:uninstall
         tesb-rac-common-sts</userinput></para>
 
-        <para>Type the primary container</para>
+        <para>Type in the primary container</para>
 
         <para><userinput>features:uninstall
         tesb-rac-services-sts</userinput></para>
@@ -338,7 +338,7 @@
     <para><emphasis role="strong">NOTE:</emphasis> To prevent the "Illegal key size or default parameters"
     exception, please check installed or download the Java(TM) Cryptography
     Extension (JCE) Unlimited Strength Jurisdiction Policy Files 6 and replace
-    <code>JAVA_HOME/jre/lib/security/local_policy.jar</code> and <code>US_export_policy.jar</code> with
+    <code>$JAVA_HOME/jre/lib/security/local_policy.jar</code> and <code>US_export_policy.jar</code> with
     new jars to use 256bit keys encription in the STS sample.</para>
   </section>
 
