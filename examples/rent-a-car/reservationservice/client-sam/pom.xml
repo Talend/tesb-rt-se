@@ -61,7 +61,8 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-                            org.springframework.beans
+                            org.springframework.beans,
+                            org.springframework.context,sam-common,sam-agent
                         </Require-Bundle>
                     </instructions>
                 </configuration>
