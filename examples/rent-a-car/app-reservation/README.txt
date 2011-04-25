@@ -24,23 +24,30 @@ Use Case Scenario to Rent a Car
 Running app-reservation 
 -----------------------
 Start CRMService and ReservationService as it described in 
-...\crmservice\README.txt and ...\reservationservice\README.txt
+../crmservice/README.txt and ../reservationservice/README.txt
 
 From the base directory of this sample (i.e., where this README file is located), the maven pom.xml file can be used to build and run the demo. 
 Using either UNIX or Windows:
 
-    mvn install
+mvn clean install                 (for basic app-reservation)
+mvn clean install -Plocator       (for Service Locator enabled app-reservation)
+mvn clean install -Psam           (for Service Activity Monitoring enabled app-reservation)
+mvn clean install -Psts           (for Security Token Service enabled app-reservation)
 
 Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
 
 The OSGi bundle will be created:
-...\app-reservation\target\app-reservation-4.0.jar
+app-basic/target/app-reservation-4.0.jar            (for basic app-reservation)
+app-locator/target/app-reservation-locator-4.0.jar  (for Service Locator enabled app-reservation)
+app-sam/target/app-reservation-sam-4.0.jar          (for Service Activity Monitoring enabled app-reservation)
+app-sts/target/app-reservation-sts-4.0.jar          (for Security Token Service enabled app-reservation)
 
 Starting the application
 ------------------------
 
 1.Start OSGi console
-2.Copy app-reservation-4.0.jar into folder <Talend ESB Runtime>/container/deploy.
+2.Copy app-reservation-4.0.jar (or app-reservation-locator-4.0.jar, app-reservation-sam-4.0.jar, app-reservation-sts-4.0.jar)
+  into folder <Talend ESB Runtime>/container/deploy.
 
 In console you will see:
 

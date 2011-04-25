@@ -4,9 +4,7 @@ Example how to use Service Activity Monitoring in OSGi
 Prerequisite
 ------------
 
-You need an installation of the TIF container and an Apche Tomcat installation.
-You should have built the tesb from source with 
-> mvn clean install
+You need an installation of the TESB OSGI container and an Apche Tomcat installation.
 
 Install
 -------

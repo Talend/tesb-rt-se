@@ -8,14 +8,13 @@ but they are also all setup to be run in the Talend ESB SE
 OSGi container that can be obtained from:
 http://www.talend.com/download.php#ESB
 
-crmservice: CRM service for Rent a Car Demo Example.
+rent-a-car/crmservice: CRM service for Rent a Car Demo Example.
 
-reservationservice: Reservation service for Rent a Car Demo Example.
+rent-a-car/reservationservice: Reservation service for Rent a Car Demo Example.
 
-app-reservation: Rental Client provides the basic functionality to search for
-the available cars within a given time period.
+rent-a-car/app-reservation: Rental Client provides the basic functionality to 
+search for the available cars within a given time period.
 
 locator: Service Locator example.
 
-sam: illustrates how to deploy and configure Service Activity Monitoring on
-CXF based project.
+sam: Service Activity Monitoring example.
