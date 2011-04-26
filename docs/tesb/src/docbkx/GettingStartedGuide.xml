@@ -20,7 +20,8 @@
     <info>
         <title>Talend ESB</title>
         <subtitle>Getting Started Guide</subtitle>
-        <pubdate>10 March 2011</pubdate>
+         <subtitle>Covers 4.0</subtitle>
+        <pubdate>26 April 2011</pubdate>
         <author>
             <orgname>Talend Corporation</orgname>
         </author>
@@ -70,14 +71,16 @@
             ESB for developing and deploying services.</para>
         <para>You will first learn the design of the Rent a Car Demo. Then we will show how to
             compile the demo, deploy it into the Talend ESB Runtime OSGi container and then activate
-            it. You will also learn how to enable the Service Locator Component for the Rent a Car
+            it. </para> 
+            <para>You will also learn how to enable the Service Locator Component for the Rent a Car
             demo, and how Service Activity Monitoring can be enabled.</para>
     </chapter>
     <chapter>
         <title>Rent a Car Demo Example</title>
         <para>For this demo example we have chosen a common business use
             case scenario: a simplified real-world example from the domain of
-            car rental companies.</para>
+            car rental companies. This uses the functionality of the Customer Relationship Management(CRM) service
+            to supply information about the customer, and the reservation service to reserve the car.</para>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="images/schema.jpg" format="jpg"/>
@@ -85,25 +88,34 @@
         </mediaobject>
         <para>In the course of working through this example you will learn
             how to:</para>
-        <simplelist columns="1" type="vert">
-            <member>compile and build Apache CXF services,</member>
-            <member>deploy services using the Karaf OSGi console,</member>
-            <member>use OSGi commands</member>
-        </simplelist>
+        <itemizedlist>
+            <listitem>compile and build Apache CXF services</listitem>
+            <listitem>deploy services using the Karaf OSGi console</listitem>
+            <listitem>use OSGi commands</listitem>
+        </itemizedlist>
         <para>In this scenario, there are two main services that will be
-            demonstrated, CRMService and ReservationService. You will create
+            demonstrated, ReservationService and CRMService. You will create
             and orchestrate these services with the help of a simple graphical
-            front-end application.</para>
+            rent-a-car client application, called Rental Client.</para>
         <para>Rental Client provides the basic functionality to search for
-            the available cars within a given time period. The search takes
-            into account the status (silver, gold, platinum) of the given user.
-            This criteria will then determine the outcome of the search. From
+            the available cars within a given time period.  To implement its business logic 
+            the rental client calls operations of
+            both the CRM Service and the Reservation Service, and this is described in the diagram below.
+            <orderedlist>
+            <listitem>
+            The <emphasis role="strong">search</emphasis> takes
+            into account the status (silver, gold, platinum) of the client name 
+            you select - the customer profile information
+            is passed to the reservation service.
+            This criteria will then determine the outcome of the search. </listitem>
+            <listitem>From
             the list of results you can select the car that best fulfills your
             requirements and then make your reservation simply by clicking on
-            the &quot;Book&quot; button. At the end of the submission process,
-            the system will show you a confirmation page with your Reservation
-            ID. To implement its business logic the client calls operations of
-            both the CRM Service and the Reservation Service.</para>
+            the <emphasis role="strong">Book</emphasis> button. </listitem>
+            <listitem>At the end of the submission process,
+            <emphasis role="strong">confirmation</emphasis> of your booking is displayed with your Reservation
+            ID. </listitem>
+            </orderedlist></para>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="images/operations.jpg" format="jpg" scale="85"/>
@@ -114,8 +126,8 @@
         <title>How to build the Demo</title>
         <section>
             <title>System Requirements</title>
-            <para>The Talend ESB and examples can be installed, built, and run on Windows or
-                UNIX-style operating systems for which Java 6 is available. The following software
+            <para>The Talend ESB and examples can be installed, built, and run on Windows or on
+                UNIX/Linux for which Java 6 is available. The following software
                 is required for installing, building, and running the samples:</para>
             <procedure>
                 <step>
@@ -125,36 +137,43 @@
                         been tested.</para>
                 </step>
                 <step>
-                    <para>Maven 3.0.3 or better from Apache should be installed, and the
+                    <para>Apache Maven 3.0.3 or later should be installed, and the
                         <code>mvn</code> executable should be in your <code>PATH</code>. When
                         running <code>mvn</code>, HTTP access to the internet is required.
                         The local Maven repository is expected to be created in its default
-                        location, i.e. the Maven configuration should not have been
+                        location, that is, the Maven configuration should not have been
                         modified.</para>
                 </step>
             </procedure>
         </section>
         <section>
             <title>Installation of the Talend ESB</title>
-            <para>The Talend ESB is provided as two archives. For Windows,
-                these are <code>talend-esb-&lt;version&gt;.zip</code> and
-                <code>talend-esb-&lt;version&gt;-doc.zip</code>, for
-                UNIX/Linux <code>talend-esb-&lt;version&gt;.tar.gz</code>
-                and <code>talend-esb-&lt;version&gt;-doc.tar.gz</code>
-                (<code>&lt;version&gt;</code> is replaced by the ESB version,
-                e.g. &quot;<code>4.0</code>&quot;). Both archives should be
-                unpacked to a directory of your choice. There, a directory
+            <para>The Talend ESB is provided as two archives 
+              (<code>&lt;version&gt;</code> is replaced by the ESB version,
+                for example: &quot;<code>4.0</code>&quot;). These are:
+                
+                <para>For Windows:
+                <para> <code>talend-esb-&lt;version&gt;.zip</code> and
+                <code>talend-esb-&lt;version&gt;-doc.zip</code></para></para>
+                
+                <para>for
+                UNIX/Linux: <para> <code>talend-esb-&lt;version&gt;.tar.gz</code>
+                and <code>talend-esb-&lt;version&gt;-doc.tar.gz</code></para></para>
+                
+                <para>When unpacked to a directory of your choice, a directory
                 <code>talend-esb-&lt;version&gt;</code> is created which
-                contains ESB and examples. Directory paths mentioned in the
+                contains Talend ESB and examples. Directory paths mentioned in the
                 following chapters will by default be relative to this
                 directory.</para>
+                </para>
         </section>
         <section>
             <title>Rent a Car Demo structure</title>
+            This consists of three items:
             <procedure>
                 <step>
-                    <para>CRMService sample</para>
-                    <para>This sample is found in directory
+                    <para>CRMService example</para>
+                    <para>This example for the CRMService Web service is found in directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/</code>.
                         It consists of four parts (the other directories in this place belong to
                         other examples and are described there):<informaltable>
@@ -164,7 +183,7 @@
                                 <thead>
                                     <row>
                                         <entry>
-                                            <para>Sample part</para>
+                                            <para>Example part</para>
                                         </entry>
                                         <entry>
                                             <para>Description</para>
@@ -187,7 +206,7 @@
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
-                                        <entry>This is a sample client application that shows how
+                                        <entry>This is an example client application that shows how
                                             CXF JAX-WS proxies invoke remote JAX-WS endpoints
                                             hosting the CRMService interface</entry>
                                     </row>
@@ -197,8 +216,8 @@
                     </para>
                 </step>
                 <step>
-                    <para>ReservationService sample</para>
-                    <para>This sample is found in directory
+                    <para>ReservationService example</para>
+                    <para>This example is found in directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/</code>.
                         It consists of four parts (the other directories in this place belong to
                         other examples and are described there):<informaltable>
@@ -208,7 +227,7 @@
                                 <thead>
                                     <row>
                                         <entry>
-                                            <para>Sample part</para>
+                                            <para>Example part</para>
                                         </entry>
                                         <entry>
                                             <para>Description</para>
@@ -231,7 +250,7 @@
                                     </row>
                                     <row>
                                         <entry><code>client/</code></entry>
-                                        <entry>This is a sample client application that shows how
+                                        <entry>This is an example client application that shows how
                                             CXF JAX-WS proxies invoke remote JAX-WS endpoints
                                             represented by the ReservationService interface.</entry>
                                     </row>
@@ -244,14 +263,14 @@
                     <para>&quot;app-reservation&quot; project bundle</para>
                     <para>Directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/app-reservation/</code>
-                        contains the Maven project for creating the car reservation sample
+                        contains the Maven project for creating the car reservation example
                         application OSGi bundle.</para>
                 </step>
             </procedure>
         </section>
         <section>
-            <title>Building the &quot;Rent a Car&quot; Demo sample</title>
-            <para>From the base directory of the ESB sample, i.e.
+            <title>Building the &quot;Rent a Car&quot; Demo example</title>
+            <para>From the base directory of the ESB example, that is
                     <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/</code>, the Maven
                 project file <code>pom.xml</code> can be used to build the demo. After changing to
                 this directory, Maven is invoked equally from a UNIX/Linux terminal or the Windows
@@ -364,17 +383,22 @@
                 enter the following command at the OSGi console prompt:</para>
             <para><userinput>list</userinput></para>
             <para>You should get a listing like the following fragment:</para>
-            <literallayout><computeroutput>START LEVEL 100 , List Threshold: 50
+            <literallayout><computeroutput>
+START LEVEL 100 , List Threshold: 50
    ID   State         Blueprint      Spring    Level  Name
-[  42] [Active     ] [            ] [       ] [   60] Apache ServiceMix :: Bundles :: aopalliance (1.0.0.4)
-[  43] [Active     ] [            ] [       ] [   60] Spring Core (3.0.5.RELEASE)
-[  44] [Active     ] [            ] [       ] [   60] Spring ASM (3.0.5.RELEASE)
-[  45] [Active     ] [            ] [       ] [   60] Spring Expression Language (3.0.5.RELEASE)
+[  42] [Active     ] [            ] [       ] [   60] Apache ServiceMix :: Bun
+dles :: aopalliance (1.0.0.4)
+[  43] [Active     ] [            ] [       ] [   60] Spring Core (3.0.5.RELEA
+SE)
+[  44] [Active     ] [            ] [       ] [   60] Spring ASM (3.0.5.RELEAS
+E)
+[  45] [Active     ] [            ] [       ] [   60] Spring Expression Langua
+ge (3.0.5.RELEASE)
 ...         </computeroutput></literallayout>
             <para>Make sure all components show state &quot;Active&quot; before you initiate any
                 further action. If any component remains in state &quot;Resolved&quot;, you can
                 manually activate it entering &quot;<userinput>start &lt;ID&gt;</userinput>&quot;
-                where &quot;&gt;ID&lt;&quot; becomes the number in the first column, e.g.
+                where &quot;&gt;ID&lt;&quot; becomes the number in the first column, for example,
                 &quot;<userinput>start 100</userinput>&quot; activates the component with ID
                 &quot;100&quot;.</para>
             <para>You can find further information about the OSGi container
@@ -386,14 +410,14 @@
             <title>Deploy the demo services</title>
             <procedure>
                 <step>
-                    <para>Add the &quot;Rent A Car&quot; feature location into the OSGi
-                        container.</para>
+                    <para>Add the &quot;Rent A Car&quot; feature location into the primary 
+                    (<code>talend-esb-&lt;version>/container/</code>) OSGI container, not in the alternate-container.</para>
                     <para>At the OSGi console prompt, type the following
                         command:</para>
                     <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
                     <para>This command allows to use the bundles directly from the Maven
                         repository where they have been installed by the Maven build.</para>
-                    <para>Remark: This command refers to version &quot;4.0&quot;
+                    <para>Note: This command refers to version &quot;4.0&quot;
                         of the Talend ESB. If you are using another version,
                         replace the version sub-string
                         <userinput>.../4.0/...</userinput>
@@ -416,12 +440,18 @@
                     <para>You will see the demo bundles in the list of
                         installed bundles:</para>
                     <literallayout><computeroutput>
-[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
-[ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
-[ 139] [Active     ] [            ] [       ] [   60] CRMService Service (4.0.0)
-[ 140] [Active     ] [            ] [Started] [   60] CRMService Service Endpoint (4.0.0)
-[ 141] [Active     ] [            ] [       ] [   60] ReservationService Service (4.0.0)
-[ 142] [Active     ] [            ] [Started] [   60] ReservationService Service Endpoint (4.0.0)
+[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0
+)
+[ 138] [Active     ] [            ] [       ] [   60] ReservationService Commo
+n (4.0.0)
+[ 139] [Active     ] [            ] [       ] [   60] CRMService Service (4.0.
+0)
+[ 140] [Active     ] [            ] [Started] [   60] CRMService Service Endpo
+int (4.0.0)
+[ 141] [Active     ] [            ] [       ] [   60] ReservationService Servi
+ce (4.0.0)
+[ 142] [Active     ] [            ] [Started] [   60] ReservationService Servi
+ce Endpoint (4.0.0)
                     </computeroutput></literallayout>
                 </step>
             </procedure>
@@ -440,7 +470,7 @@
                     <para>At the OSGi console prompt, type the following
                         command:</para>
                     <para><userinput>features:addurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
-                    <para>Remark: This command refers to version &quot;4.0&quot;
+                    <para>Note: This command refers to version &quot;4.0&quot;
                         of the Talend ESB. If you are using another version,
                         replace the version sub-string
                         <userinput>.../4.0/...</userinput>
@@ -463,17 +493,21 @@
                     <para>You will see the demo bundles in the list of
                         installed bundles:</para>
                     <literallayout><computeroutput>
-[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0)
-[ 138] [Active     ] [            ] [       ] [   60] ReservationService Common (4.0.0)
-[ 139] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0)
-[ 140] [Active     ] [            ] [Started] [   60] ReservationService Client (4.0.0)
+[ 137] [Active     ] [            ] [       ] [   60] CRMService Common (4.0.0
+)
+[ 138] [Active     ] [            ] [       ] [   60] ReservationService Commo
+n (4.0.0)
+[ 139] [Active     ] [            ] [Started] [   60] CRMService Client (4.0.0
+)
+[ 140] [Active     ] [            ] [Started] [   60] ReservationService Clien
+t (4.0.0)
 [ 141] [Active     ] [Created     ] [Started] [   60] App Reservation (4.0.0)
                     </computeroutput></literallayout>
                 </step>
             </procedure>
         </section>
         <section><title>Undeploy the demo</title>
-             <para>If you later want to uninstall the demo services, e.g.
+             <para>If you later want to uninstall the demo services, for example,
                 because you want to move them to the other container, execute
                 this command at the OSGi console:</para>
             <para><userinput>features:uninstall tesb-rac-services</userinput></para>
@@ -484,7 +518,7 @@
             <para><userinput>features:uninstall tesb-rac-app</userinput></para>
             <para>Then, you can install it again as described above.</para>
         
-            <para>If you want to uninstall all the demo features, e.g.
+            <para>If you want to uninstall all the demo features, for example,
                 because you want to try another scenarios from this guide, execute
                 following commands at the OSGi console:</para>
             <para><userinput>features:uninstall tesb-rac-services</userinput></para>
@@ -503,7 +537,7 @@
 			    container.</para>
 			<para>At the OSGi console prompt, type the following command:</para>
 			<para><userinput>features:removeurl mvn:org.talend.esb.examples.rent-a-car/features/4.0/xml</userinput></para>
-			<para>Remark: This command refers to version &quot;4.0&quot;
+			<para>Note: This command refers to version &quot;4.0&quot;
                 of the Talend ESB. If you are using another version,
                 replace the version sub-string
                 <userinput>.../4.0/...</userinput>
@@ -543,9 +577,10 @@ car:rent &lt;pos&gt;
             </computeroutput></literallayout>
         </section>
         <section>
-            <title>Using the TALEND ESB &quot;Rental Client GUI&quot;</title>
+            <title>Using the Talend ESB &quot;Rental Client GUI&quot;</title>
             <para>To start the GUI, type <userinput>car:GUI</userinput> in
-                the console window.</para>
+                the karaf alternate-container console window, that is <code>karaf@test>car:GUI</code>.</para>
+                
             <para>Select &quot;aebert&quot; from the drop-down box.</para>
             <mediaobject>
                 <imageobject>
@@ -617,11 +652,11 @@ Thank you for renting a car with Talend ESB :-)
         </section>
     </chapter>
     <chapter>
-        <title>How to enable the sample in Eclipse</title>
+        <title>How to enable the example in Eclipse</title>
         <para>For more information about how to use the Maven Eclipse Plugin read
             <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
-            directory of the ESB sample
+            directory of the ESB example
             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car</code> run:
             <userinput>mvn eclipse:eclipse</userinput>.</para>
         <para>In the Eclipse IDE
@@ -631,17 +666,17 @@ Thank you for renting a car with Talend ESB :-)
                 <step><para>Select &quot;General &gt; Existing Project into Workspace&quot;
                     and click &quot;Next&quot;.</para></step>
                 <step><para>Choose &quot;Select root directory&quot; and click the
-                    associated &quot;Browse&quot; to locate the ESB sample
+                    associated &quot;Browse&quot; to locate the ESB example
                     directory.</para></step>
                 <step><para>Under &quot;Projects&quot; select the project or projects
                     which you would like to import.</para></step>
                 <step><para>Click &quot;Finish&quot; to start the import.</para></step>
             </procedure>
         </para>
-        <para>The TESB sample projects are imported into the workspace and it is
+        <para>The TESB example projects are imported into the workspace and it is
             possible to see the sources, modify them, and to take advantage of
             all the eclipse features.</para>
-        <para>However, the TESB sample projects cannot be run in the Eclipse IDE.</para>
+        <para>However, the TESB example projects cannot be run in the Eclipse IDE.</para>
     </chapter>
     &chapSLEnabling;
     &chapSAMEnabling;
