@@ -51,7 +51,7 @@ public class ControllerImpl implements Controller {
     }
 
     public void run(String name) throws Exception {
-        this.run(name, null);
+        this.run(name, new String[0]);
     }
 
     public void run(String name, String[] args) throws Exception {
