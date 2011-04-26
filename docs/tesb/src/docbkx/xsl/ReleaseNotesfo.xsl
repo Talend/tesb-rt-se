@@ -24,7 +24,7 @@
 
     <xsl:include href="../../../../common/xsl/customfo.xsl"/>
     <xsl:template name="document.footer.name">
-        Talend ESB(SE) Release Notes
+        Talend ESB Release Notes
     </xsl:template>
 </xsl:stylesheet>
 

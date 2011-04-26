@@ -5,19 +5,12 @@
   %%
   Copyright (C) 2011 Talend Inc.
   %%
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-       http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+	This documentation is provided under the terms of the Creative Commons Public License (CCPL).
+	For more information about what you can and cannot do with this documentation in accordance with the
+	CCPL, please read: http://creativecommons.org/licenses/by-nc-sa/2.0/
   #L%
   -->
+
 
 <book version="5.0" xmlns="http://docbook.org/ns/docbook"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -33,14 +26,36 @@
     <pubdate>26 April 2011</pubdate>
 
     <author>
-      <last>Talend ESB Runtime Team</last>
+      <orgname>Talend Corporation</orgname>
     </author>
 
     <copyright>
       <year>2011</year>
-
       <holder>Talend Corporation</holder>
     </copyright>
+    <legalnotice>
+        <title>Copyleft</title>
+        <para>
+			This documentation is provided under the terms of the Creative Commons Public License (CCPL).
+			For more information about what you can and cannot do with this documentation in accordance with the
+			CCPL, please read: http://creativecommons.org/licenses/by-nc-sa/2.0/
+        </para>
+    </legalnotice>
+    <legalnotice>
+        <title>Notices</title>
+        <para>
+            Talend, Talend Integration Factory, and Talend Service Factory are trademarks of Talend, Inc.
+        </para>
+        <para>
+            Apache CXF, CXF, Apache Karaf, Karaf, Apache Camel, Camel, Apache Maven, and Maven are trademarks of The Apache Foundation.
+        </para>
+        <para>
+            Eclipse Equinox is a trademark of the Eclipse Foundation.
+        </para>
+        <para>
+            All other brands, product names, company names, trademarks and service marks are the properties of their respective owners.
+        </para>
+    </legalnotice>
   </info>
 
   <chapter>
