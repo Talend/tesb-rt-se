@@ -29,6 +29,9 @@ public class RunCommand extends OsgiCommandSupport {
         if (args != null) {
             arguments = args.split(" ");
         }
+        if (arguments == null) {
+            arguments = new String[0];
+        }
         controller.run(job, arguments);
         return null;
     }
