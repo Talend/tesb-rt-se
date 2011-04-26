@@ -45,7 +45,7 @@ Talend ESB SE 4.0 is delivered in two separate packages that should be extracted
 to the same file system location: 
 <para><code>talend-esb-4.0.[tar.gz|zip]</code></para> 
 which contains the software
-<para><code>talend-esb-4.0-doc.[tar.gz|zip]</code></para>contains 
+<para><code>talend-esb-4.0-doc.[tar.gz|zip]</code></para> 
 which contains the accompanying documentation and source code for examples.
 </para>
 
