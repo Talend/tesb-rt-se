@@ -75,8 +75,12 @@ The Monitoring Server is deployed as a WAR in a servlet container and needs acce
 		 <imagedata fileref="images/GeneratedEvents.jpg" format="jpg"/>
 	  </imageobject>
 	</mediaobject>  			<para>
-One service call can generate four events.</para>
-<para> For example: A consumer is sending a request (REQ_OUT), the service receives request (REQ_IN), the service sends response (RESP_OUT) and the consumer receives response (RESP_IN). In this service call all events belong together. For further event processing all of these events will get the same "flow id". 
+One service call can generate four events:
+For example: A consumer is sending a request (REQ_OUT), the service receives request (REQ_IN), 
+the service sends response (RESP_OUT) and the consumer receives response (RESP_IN). </para>
+<para> An Agent can be configured to collect all four events in this service call, on both the consumer and provider side. 
+For further event processing all of these events will get the same "flow id". This described in more 
+detail in <xref linkend="SAM_arch" />.
 			</para>
 
 
@@ -102,7 +106,7 @@ On the left of the below diagram the Agent is described, on the right the Monito
 		</para>
 	<mediaobject>
 	  <imageobject>
-		 <imagedata fileref="images/architecture.jpg" format="jpg"/>
+		 <imagedata fileref="images/architecture.jpg" format="jpg" scale="95"/>
 	  </imageobject>
 	</mediaobject>  
 		<para>
@@ -274,7 +278,8 @@ To filter or manipulate events you can add pre-defined or your own filters and h
 <para>Example 1: filters out all messages that contain "contractor" in the body:</para>
 
 <programlisting>
-&lt;bean id="filterD" class="org.talend.esb.sam.common.filter.impl.StringContentFilter"&gt;
+&lt;bean id="stringContentFilter" 
+        class="org.talend.esb.sam.common.filter.impl.StringContentFilter"&gt;
 	&lt;property name="wordsToFilter"&gt;
 		&lt;list&gt;
 			&lt;value>contractor&lt;/value&gt;
@@ -282,22 +287,11 @@ To filter or manipulate events you can add pre-defined or your own filters and h
 	&lt;/property&gt;
 &lt;/bean&gt;
 </programlisting>
-<para>Example 2: the jxpath filter filters out all events for the Service CasePort and method ping:</para>
+
+<para>Example 2: the Passwordhandler replaces &lt;Password> tags with &lt;Replaced>: </para> 
 <programlisting>
-&lt;bean id="noPingMetadataFilter" class="org.talend.esb.sam.common.filter.impl.MetadataFilter"&gt;
-	&lt;property name="andCondition" value="true" /&gt;
-	&lt;property name="hostname" value="" /&gt;
-	&lt;property name="ip" value="" /&gt;
-	&lt;property name="operationName"
-		value="{http://namespace}ping" /&gt;
-	&lt;property name="portType"
-		value="{http://namespace}CasePort" /&gt;
-	&lt;property name="transportType" value="" /&gt;
-&lt;/bean&gt;
-</programlisting>
-<para>Example 3: the Passwordhandler replaces &lt;Password> tags with &lt;Replaced>: </para> 
-<programlisting>
-&lt;bean id="passwordHandler" class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
+&lt;bean id="passwordHandler" 
+        class="org.talend.esb.sam.common.handler.impl.PasswordHandler"&gt;
 	&lt;property name="tagnames"&gt;
 		&lt;list&gt;
 			&lt;value>Password&lt;/value&gt;
