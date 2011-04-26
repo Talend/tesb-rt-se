@@ -798,12 +798,8 @@
 								<feature>tif-test</feature>
 								<feature>tif-messaging</feature>
 								<feature>tif-ws</feature>
-								<feature>tif-communication</feature>
 								<feature>tif-logging</feature>
-								<feature>tif-languages</feature>
 								<feature>tif-monitoring</feature>
-								<feature>tif-db-connectivity</feature>
-								<feature>tif-databinding</feature>
 								<feature>tif-encryption</feature>
 								<feature>tif-ldap</feature>
 								<feature>tif-scheduler</feature>
