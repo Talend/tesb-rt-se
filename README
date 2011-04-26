@@ -23,8 +23,6 @@ Service Locator
 Service Activity Monitoring
 Talend Service Factory
 Talend Integration Factory
-Apache CXF
-Apache Camel
 
 
 Getting Started 
@@ -39,11 +37,12 @@ the examples.
 
 If you need more help try talking to us on our forums: http://talendforge.org/forum
 You can find more information about Apache CXF at http://cxf.apache.org/
+You can find more information about Apache Camel at http://camel.apache.org/
 
 Please submit bug reports using one of the following JIRAs:
 CXF bug reports: https://issues.apache.org/jira/browse/CXF 
 Camel bug reports: https://issues.apache.org/jira/browse/CAMEL
-Talend ESB (including Service and Integration Factory) bug reports: https://jira.sopera.de/secure/Dashboard.jspa
+Talend ESB (including Service and Integration Factory) bug reports: https://jira.sopera.de/
 
 
 Examples 
@@ -78,33 +77,48 @@ features necessary for the enterprise.
 
 Service Locator
 ===============
-The Service Locator in the add-ons directory is a service that provides its consumers with a mechanism 
-to discover service endpoints at run time. The Service Locator consists of two parts: 
-An Endpoint repository and a CXF feature used to configure the use of the Service Locator 
-from both the provider and consumer sides. Like any standard CXF feature, the ServiceLocator Feature is
-configured separately for the service provider and service consumer. The provider side Locator Feature 
-extension registers and deregisters service endpoints in the endpoint repository when the provider 
-becomes available or unavailable. The consumer side Locator Feature extension transparently retrieves 
-service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
+The Service Locator in the add-ons directory is a service that provides its
+consumers with a mechanism to discover service endpoints at run time. The
+Service Locator consists of two parts: An Endpoint repository and a CXF feature
+used to configure the use of the Service Locator from both the provider and
+consumer sides. Like any standard CXF feature, the ServiceLocator Feature is
+configured separately for the service provider and service consumer. The
+provider side Locator Feature extension registers and deregisters service
+endpoints in the endpoint repository when the provider becomes available or
+unavailable. The consumer side Locator Feature extension transparently retrieves 
+service endpoint addresses from the endpoint repository when a service call to a
+provider is to be made.
 
 Service Activity Monitoring
 ===========================
-The Service Activity Monitoring (SAM) in the add-ons directory allows to log / monitor service calls 
-done with the Apache CXF Framework. Typical use cases are usage statistics and fault monitoring. 
-The solution consists of two parts: Agent (sam-agent) and Monitoring Server (sam-server). 
-The Agent creates events out of the requests and replies on service consumer and provider side. 
-The events are first collected locally and then sent to the monitoring server periodically to not disturb 
-the normal message flow. The Monitoring Server receives events from the Agent, optionally filters/handlers 
-events and stores them into a Database.
+The Service Activity Monitoring (SAM) in the add-ons directory allows to
+log / monitor service calls done with the Apache CXF Framework. Typical use
+cases are usage statistics and fault monitoring. The solution consists of two
+parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates
+events out of the requests and replies on service consumer and provider side.The
+events are first collected locally and then sent to the monitoring server
+periodically to not disturb the normal message flow. The Monitoring Server
+receives events from the Agent, optionally filters/handlers events and stores them
+into a Database.
 
 Talend Service Factory
 ======================
 Talend Service Factory uses the industry leading 
 open source Apache CXF implementation of JAX-WS to help you service enable 
-your existing applications and interfaces. The CXF lightweight, modular 
-architecture is based on Spring, so it will work with your application 
-regardless of the platform on which it is running. It will run on 
-stand-alone JVM applications, as part of a servlet container such as 
+your existing applications and interfaces. It also includes value
+added components such as an OSGi container and several new examples. 
+For more information about Apache CXF see http://cxf.apache.org/ .
+CXF supports Web Services using SOAP with full WS-*functionality 
+including support for WS-Addressing, WS-Reliable Messaging, and 
+WS-Security over both HTTP and JMS transports.  CXF's elegantly 
+simple architecture allows declarative, policy-centric support of 
+these qualities of service through configuration rather than 
+code. It also supports non-SOAP bindings including REST. CXF open 
+standards and portability enable you to deliver interoperability for 
+your applications to maximize the value of your application to your users.
+The lightweight, modular architecture is based on Spring, so it will work with
+your application regardless of the platform on which it is running. It will run
+on stand-alone JVM applications, as part of a servlet container such as
 Tomcat, within a JEE server, or in an OSGi container such as Equinox.
 
 Talend Integration Factory
@@ -121,27 +135,7 @@ formats like EDI, JSON, CSV, HL7 and languages like JS, Python,
 Scala, are supported out of the box. Its extensible architecture
 allows developers to easily add support for proprietary protocols
 and data formats.
-
-Apache CXF
-==========
-Talend ESB contains a complete version of Apache CXF, the industry 
-leading open source solution for web services. It also includes value
-added components such as an OSGi container and several new examples.
-For more information about Apache CXF see http://cxf.apache.org/ .
-CXF supports Web Services using SOAP with full WS-*functionality 
-including support for WS-Addressing, WS-Reliable Messaging, and 
-WS-Security over both HTTP and JMS transports.  CXF's elegantly 
-simple architecture allows declarative, policy-centric support of 
-these qualities of service through configuration rather than 
-code. It also supports non-SOAP bindings including REST. CXF open 
-standards and portability enable you to deliver interoperability for 
-your applications to maximize the value of your application to your users.
-
-Apache Camel
-============
-Apache Camel uses well known Enterprise Integration Patterns to make 
-message based system integration simpler yet powerful and scalable.
-It uses a lightweight, component based architecture 
+It uses a lightweight, component based architecture
 which allows a great flexibility in deployment scenarios: as stand-alone
 JVM applications or embedded in a servlet container such as Tomcat,
-or within a JEE server, or in an OSGi container such as Equinox. 
+or within a JEE server, or in an OSGi container such as Equinox.
