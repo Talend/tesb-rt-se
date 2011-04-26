@@ -29,8 +29,8 @@
     <title>Talend ESB Service Locator</title>
 
     <subtitle>Installation Manual</subtitle>
-
-    <pubdate>1 March 2011</pubdate>
+    <subtitle>Covers 4.0.x</subtitle>
+    <pubdate>26 April 2011</pubdate>
 
     <author>
       <last>Talend ESB Runtime Team</last>
@@ -53,7 +53,7 @@
     run the <emphasis role="strong">Service Locator</emphasis>.</para>
 
     <para>Since creating a distributed, fault-tolerant endpoint repository is
-    a non-trivial task, the Service Locator implementation based on proven
+    a non-trivial task, the Service Locator implementation is based on proven
     open source technology - Apache ZooKeeper. This is a highly reliable
     service that provides coordination between distributed processes.</para>
 
@@ -75,7 +75,7 @@
       <para>Setting up the Service Locator server in standalone mode is
       straightforward. The server is contained in a single JAR file, so
       installation consists of creating a configuration. Once you've
-      downloaded a stable Service Locator server release unpack it and
+      downloaded a stable Service Locator server release, unpack it and
       navigate to its root directory. To start the Service Locator you need a
       configuration file. Here is a sample, create it in <emphasis
       role="strong">conf/zoo.cfg</emphasis>:</para>
@@ -91,9 +91,9 @@ clientPort=2181
       </example>
 
       <para>This file can be named as you wish, but for the sake of this
-      discussion call it <emphasis role="strong">conf/zoo.cfg</emphasis>.
+      discussion we call it <emphasis role="strong">conf/zoo.cfg</emphasis>.
       Change the value of dataDir to specify an existing (empty to start with)
-      directory. Here are the meanings for each of the fields: <informaltable>
+      directory. Here is a description for each of the fields: <informaltable>
           <tgroup cols="2">
             <colspec colnum="1" colwidth="1*" />
 
@@ -111,8 +111,8 @@ clientPort=2181
               <row>
                 <entry><code>tickTime</code></entry>
 
-                <entry>the basic time unit in milliseconds used by Service
-                Locator. It is used to do heartbeats and the minimum session
+                <entry>the basic time unit in milliseconds used by the Service
+                Locator. It is used to do heartbeats, and the minimum session
                 timeout will be twice the <code>tickTime</code></entry>
               </row>
 
@@ -137,8 +137,8 @@ clientPort=2181
     <section>
       <title>Start using command line</title>
 
-      <para>Now that you created the configuration file, you can start Service
-      Locator server, bin directory contain scripts that allow easy access
+      <para>Now that you have created the configuration file, you can start Service
+      Locator server. The bin directory contain scripts that allow easy access
       (classpath in particular) to the Service Locator server and command line
       client:</para>
 
@@ -152,9 +152,9 @@ bin/zkServer.sh start configFilename (if configFilename != <emphasis
       Files ending in <code>.cmd</code> are msdos/windows compatible. The
       Service Locator server logs messages using log4j. You will see log
       messages logged at the console (default) and/or a log file depending on
-      the log4j configuration. The steps outlined here run the Service Locator
+      the log4j configuration. The steps outlined in this section run the Service Locator
       in standalone mode. There is no replication, so if the Service Locator
-      process fails, the service will go down.</para>
+      process fails, the service will go down, so you may want to consider using a replicated Service Locator.</para>
     </section>
 
     <section>
@@ -185,7 +185,7 @@ server.3=locator_host3:2888:3888
 
       <para>The new configuration entry, <code>initLimit</code> limits the
       time the Service Locator servers in quorum have to connect to a leader.
-      The configuration entry syncLimit limits how far out of date a server
+      The configuration entry <code>syncLimit</code> limits how far out of date a server
       can be from a leader. For both of these timeouts the unit of time is
       specified using <code>tickTime</code>.</para>
 
@@ -244,8 +244,8 @@ server.3=locator_host3:2888:3888
 
     <para>To use the Locator client in CXF you need to add the
     <code>locator-4.0.jar</code> into your classpath or war file. Also add it
-    to the OSGi conatiner if uses one. To learn more about Locator client
+    to the OSGi container if it uses one. To learn more about Locator client
     configuration for both provider or consumer please see the Service Locator
-    Configuration Manual</para>
+    Configuration Manual.</para>
   </chapter>
 </book>
