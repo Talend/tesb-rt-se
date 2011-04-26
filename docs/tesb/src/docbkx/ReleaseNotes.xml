@@ -71,7 +71,7 @@ which contains the accompanying documentation and source code for examples.
         <tbody>
             <row>
               <entry>
-                add-ons
+                <code>add-ons/</code>
               </entry>
               <entry>
                 Libraries required for the Talend ESB Service Locator and Monitoring features
@@ -79,7 +79,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-                bin
+                <code>bin/</code>
               </entry>
               <entry>
                 Command line tools/shell scripts (e.g. code generation)
@@ -87,7 +87,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-                container
+                <code>container/</code>
               </entry>
               <entry>
                 Pre-configured OSGi container based on Eclipse Equinox and Apache Karaf
@@ -95,7 +95,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-               docs
+               <code>docs/</code>
               </entry>
               <entry>
                  API documentation for Apache CXF in Javadoc format
@@ -103,7 +103,7 @@ which contains the accompanying documentation and source code for examples.
             </row>  
             <row>
               <entry>
-                etc
+                <code>etc/</code>
               </entry>
               <entry>
                 Various configuration files for Apache CXF
@@ -111,7 +111,7 @@ which contains the accompanying documentation and source code for examples.
             </row>            
             <row>
               <entry>
-                lib
+                <code>lib/</code>
               </entry>
               <entry>
                 Libraries required for using Talend ESB (see WHICH_JARS for more details)
@@ -119,7 +119,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-               licenses
+               <code>licenses/</code>
               </entry>
               <entry>
                  License documents for the third party components included in Talend ESB
@@ -127,7 +127,7 @@ which contains the accompanying documentation and source code for examples.
             </row>                 
             <row>
               <entry>
-                modules
+               <code>modules/</code>
               </entry>
               <entry>
                 Libraries that comprise Apache CXF (used to create lightweight distributions of CXF if not all functionality is required)
@@ -135,7 +135,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-               samples
+               <code>samples/</code>
               </entry>
               <entry>
                 The standard example source code that comes with Apache CXF and Apache Camel
@@ -143,7 +143,7 @@ which contains the accompanying documentation and source code for examples.
             </row>   
             <row>
               <entry>
-                zookeeper
+                <code>zookeeper/</code>
               </entry>
               <entry>
                 Apache ZooKeeper which is required for the Talend ESB Service Locator feature
@@ -176,7 +176,7 @@ which contains the accompanying documentation and source code for examples.
         <tbody>
             <row>
               <entry>
-                docs
+                <code>docs/</code>
               </entry>
               <entry>
                 Manuals and User Guides for Talend ESB in PDF format
@@ -184,7 +184,7 @@ which contains the accompanying documentation and source code for examples.
             </row>
             <row>
               <entry>
-                examples
+                <code>examples/</code>
               </entry>
               <entry>
                 Extended, documented examples for Talend ESB
