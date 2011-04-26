@@ -3,10 +3,10 @@
 <book xmlns="http://docbook.org/ns/docbook" version="5.0">
     <info>
         <title>Release Notes for Talend ESB(SE)</title>
-        <subtitle>Covers 4.0.x</subtitle>
+        <subtitle>Covers 4.0</subtitle>
                 <pubdate>22 April 2011</pubdate>
         <author>
-            <orgname>Talend ESB Runtime Team</orgname>
+            <orgname>Talend Corporation</orgname>
         </author>
         <copyright>
             <year>2011</year>
@@ -19,13 +19,6 @@ This documentation is provided under the terms of the Creative Commons Public Li
 For more information about what you can and cannot do with this documentation in accordance with the
 CCPL, please read: http://creativecommons.org/licenses/by-nc-sa/2.0/
             </para>
-            <para>
-                Portions of this document includes documentation produced at The Apache Software Foundation and is licensed under The Apache License 2.0.
-            </para>
-            <para>
-                Document includes Enterprise Integration Patterns graphics licensed under the Creative Commons Attribution License.
-                Book: Enterprise Integration Patterns by Gregor Hohpe and Bobby Woolf; Website: http://www.eaipatterns.com/eaipatterns.html.
-            </para>
         </legalnotice>
         <legalnotice>
             <title>Notices</title>
@@ -35,6 +28,13 @@ CCPL, please read: http://creativecommons.org/licenses/by-nc-sa/2.0/
             <para>
                 Apache CXF, CXF, Apache Karaf, Karaf, Apache Camel, Camel, Apache Maven, and Maven are trademarks of The Apache Foundation.
             </para>
+            <para>
+                Eclipse Equinox is a trademark of the Eclipse Foundation.
+            </para>
+            <para>
+                All other brands, product names, company names, trademarks and service marks are the properties of their respective owners.
+            </para>
+
         </legalnotice>
     </info>
     <chapter>
@@ -203,10 +203,8 @@ which contains the accompanying documentation and source code for examples.
 
 <section>
 <title>Hardware Requirements</title>
-Talend ESB does not require any specific hardware besides the minimal
-hardware requirements specified for the use of the supported operating systems and application servers / runtime container. However, we recommend
-using sufficient system resources to run Talend ESB 4.0 for development, test,
-and production purposes.
+Talend ESB does not require any specific hardware besides the recommended 
+hardware requirements specified for the use of the supported operating systems and application servers / runtime container. 
 </section>
 
 <section>
@@ -214,7 +212,7 @@ and production purposes.
 <para>
 Talend ESB is supported for the following software:
 </para>
-<para>Operating System (Supported):</para>
+<para>Operating System:</para>
 <para>
 <emphasis role="strong">Microsoft Windows</emphasis>
 <itemizedlist>
@@ -243,16 +241,13 @@ Talend ESB is supported for the following software:
     <listitem>
     Ubuntu 10 or higher 
     </listitem>
-    <listitem>
-    Debian 5 or higher
-    </listitem>
 </itemizedlist>   
 </para>
  
-<para><emphasis role="strong">Apple Mac</emphasis>
+<para><emphasis role="strong">Apple MacOS</emphasis>
 <itemizedlist>
     <listitem>
-    OS X 10.5 or higher
+    10.5 or higher
     </listitem>
 </itemizedlist> 
 </para>
@@ -300,8 +295,7 @@ how to use these features.
 </para>
 
 <section>
-<title>New Features</title>
-<para><emphasis role="strong">Note:</emphasis> These features are in addition to standard Apache CXF functionality.</para>
+<title>Highlighted Features</title>
 <section>
 <title>Service Locator</title>
 <para>The Service Locator in the add-ons directory is a service that provides its consumers with a mechanism to discover service endpoints at 
@@ -341,8 +335,8 @@ Not applicable - first publicly released version.
 <chapter><title>Known Limitations</title>
 
 <para><emphasis role="strong"> SAM Server only works on Tomcat 6 but not on ESB Server OSGi container</emphasis></para>
-<para>In this release of the Talend ESB the SAM (Service Activity Management Server needs to be deployed on Tomcat 6. 
-In future versions of Talend ESB we will also support the deployment within the Talend ESB Server (OSGi) 
+<para>In this release of Talend ESB the SAM (Service Activity Management) Server needs to be deployed on Tomcat 6. 
+In future versions of Talend ESB we will also support the deployment within the Talend ESB OSGi container. 
 </para>
 
 </chapter>
@@ -394,8 +388,7 @@ Please provide the following information:
 <listitem>
 Product and Version which you used (for example, Talend ESB 4.0 SE) 
 </listitem><listitem>
-Version of Java Platform Standard Edition Software Development Kit in
-use.
+Version of Java Platform JDK / JRE in use.
 </listitem><listitem>
 Log files
 </listitem>
