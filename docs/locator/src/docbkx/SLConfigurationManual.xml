@@ -29,8 +29,8 @@
     <title>Talend ESB Service Locator</title>
 
     <subtitle>Configuration Manual</subtitle>
-
-    <pubdate>1 March 2011</pubdate>
+         <subtitle>Covers 4.0.x</subtitle>
+        <pubdate>26 April 2011</pubdate>
 
     <author>
       <last>Talend ESB Runtime Team</last>
@@ -44,11 +44,11 @@
   </info>
 
   <chapter>
-    <title>Introdaction</title>
+    <title>Introduction</title>
 
     <para>The Service Locator is a service that provides its consumers with a
     mechanism to discover service endpoints at run time. The Service Locator
-    consists of two parts: An Endpoint repository and a CXF feature used to
+    consists of two parts: an Endpoint repository and a CXF feature used to
     configure the use of the Service Locator at provider and consumer side.
     Like any standard CXF feature, the ServiceLocator Feature is configured
     separately for the service provider side and service consumer side. The
@@ -59,7 +59,7 @@
     service call to a provider is to be made.</para>
 
     <para>The configuration manual describes in detail the Service Locator
-    Feature spring configuration.</para>
+    Feature Spring configuration.</para>
   </chapter>
 
   <chapter>
@@ -111,7 +111,7 @@
                 new endpoints via setLocatorEndpoints. Specify the endpoints
                 of all the instances belonging to the service locator ensemble
                 the service locator client might be talking to. The service
-                locator client will one by one pick an endpoint (the order is
+                locator client will pick an endpoint one by one (the order is
                 non-deterministic) to connect to the service locator until a
                 connection is established.</entry>
               </row>
@@ -145,9 +145,12 @@
             <example xml:id="ex.slspringconfendpoint">
                     <title>Talend ESB ServiceLocator Feature configuration for endpoint </title>
                     <programlisting>
- &lt;beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+            xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     &lt;import resource="classpath:META-INF/cxf/cxf.xml" />
     &lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
@@ -160,7 +163,8 @@
             address="/GreeterService">
         &lt;jaxws:features>
             &lt;bean class="org.talend.esb.locator.LocatorFeature">
-                &lt;property name="endpointPrefix" value="http://localhost:8080/locator-demo-war"/>
+                &lt;property name="endpointPrefix" 
+                    value="http://localhost:8080/locator-demo-war"/>
             &lt;/bean>
         &lt;/jaxws:features>
     &lt;/jaxws:endpoint>
@@ -168,19 +172,20 @@
                     </programlisting>
                 </example>
 
-      <para>In In the example above you can see that locator client was added
+      <para>In the example above you can see that locator client was added
       through configuration exactly the same way as a standard CXF feature
       using <code>&lt;jaxws:features&gt;</code>, and property endpointPrefix
       was set to locator faeture.</para>
 
-      <para>So in this example endpoint will register into the endpoint
-      repository using name
+      <para>So in this example, endpoint will register into the endpoint
+      repository using the name
       <code>http://localhost:8080/locator-demo-war/GreeterService</code>.</para>
 
-      <para>Property locatorEndpoints was not set. Default value will use for
-      it. This means Locator server must started on localhost and configured
+      <para>Note: Property locatorEndpoints was not set, which means the 
+      default value will be used. This means the Locator server must started on 
+      localhost and configured
       for the 2181 port to listen for client connections. To learn more about
-      installation and configuration Locator server, read Servicee Locator
+      installation and configuration Locator server, read the Service Locator
       Installation Manual.</para>
     </section>
 
@@ -194,26 +199,28 @@
                 <example xml:id="ex.slproguseprovside">
                     <title>Talend ESB ServiceLocator Feature programmatically using provider side</title>
                     <programlisting>
-        String port = "8080";
-        String address = String.format("http://provider_host:%1$s/services/Greeter", port);
+String port = "8080";
+String address = String.format(
+    "http://provider_host:%1$s/services/Greeter", port);
         
-        LocatorFeature locatorFeature = new LocatorFeature();
-        locatorFeature.setLocatorEndpoints("locator_host1:2181,locator_host2:2181");
+LocatorFeature locatorFeature = new LocatorFeature();
+locatorFeature.setLocatorEndpoints(
+    "locator_host1:2181,locator_host2:2181");
 
-        Greeter greeterService = new GreeterImpl();
-        JaxWsServerFactoryBean server = new JaxWsServerFactoryBean();
-        server.setServiceBean(greeterService);
-        server.setAddress(address);
+Greeter greeterService = new GreeterImpl();
+JaxWsServerFactoryBean server = new JaxWsServerFactoryBean();
+server.setServiceBean(greeterService);
+server.setAddress(address);
         
-        server.getFeatures().add(locatorFeature);
-        server.create();
-                    </programlisting>
-                </example>  
+server.getFeatures().add(locatorFeature);
+server.create();
+</programlisting>
+</example>  
 
-    <para>In the code above only one property for the feature was set. So
-    default values will be used for all other. For example, endpointPrefix
-    will be empty string. So in this example endpoint will register into the
-    endpoint repository using name
+    <para>In the code above only one property for the feature was set, so the
+    default values will be used for all other properties. For example, endpointPrefix
+    will be an empty string. So in this example endpoint will be registered into the
+    endpoint repository using the name
     <code>http://provider_host:8080/services/Greeter</code>.</para>
   </chapter>
 
@@ -257,7 +264,7 @@
               new endpoints via setLocatorEndpoints. Specify the endpoints of
               all the instances belonging to the service locator ensemble the
               service locator client might be talking to. The service locator
-              client will one by one pick an endpoint (the order is
+              client will pick an endpoint one by one (the order is
               non-deterministic) to connect to the service locator until a
               connection is established.</entry>
             </row>
@@ -292,10 +299,11 @@
                     <title>Talend ESB ServiceLocator Feature configuration for client </title>
                     <programlisting>
 &lt;beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
-                      http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
-                      http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     &lt;import resource="classpath:META-INF/cxf/cxf.xml" />
     &lt;import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
@@ -314,10 +322,10 @@
                 </example>
 
     <para>In the example above you can see that Locator client was added
-    through configuration exactly the same way as a standard CXF feature using
-    <code>&lt;jaxws:features&gt;</code>, and property
+    through configuration in exactly the same way as a standard CXF feature using
+    <code>&lt;jaxws:features&gt;</code>, and the property
     <code>locatorEndpoints</code> was set to locator feature. Another
-    important point is to configure jaxws client address. We must use localor
+    important point is to configure the JAX-WS client address. We must use the locator
     protocol for client:
     <code>address="locator://more_useful_information"</code>.</para>
 
@@ -331,20 +339,20 @@
                 <example xml:id="ex.slproguseconsside">
                     <title>Talend ESB ServiceLocator Feature programmatically using consumer side</title>
                     <programlisting>
-        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        LocatorFeature locatorFeature = new LocatorFeature();
-        locatorFeature.setLocatorEndpoints("sop-td57:2181");
+JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+LocatorFeature locatorFeature = new LocatorFeature();
+locatorFeature.setLocatorEndpoints("sop-td57:2181");
 
-        factory.getFeatures().add(locatorFeature);
-        factory.setServiceClass(Greeter.class);
-        factory.setAddress("locator://more_useful_information");
-        Greeter client = (Greeter) factory.create();
+factory.getFeatures().add(locatorFeature);
+factory.setServiceClass(Greeter.class);
+factory.setAddress("locator://more_useful_information");
+Greeter client = (Greeter) factory.create();
 
-        String response = client.greetMe("MyName");
+String response = client.greetMe("MyName");
                     </programlisting>
                 </example>
         <para>In the code above only one property for the feature was set. So
-    default values will be used for all other. Address with locator protocol
+    default values will be used for all other properties. The address with the locator protocol
     was set in factorybean:
     <code>factory.setAddress("locator://more_useful_information");</code></para>
   </chapter>
