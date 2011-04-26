@@ -341,7 +341,7 @@ Not applicable - first publicly released version.
 <chapter><title>Known Limitations</title>
 
 <para><emphasis role="strong"> SAM Server only works on Tomcat 6 but not on ESB Server OSGi container</emphasis></para>
-<para>In this release of the Talend ESB the SAM (Service Activity Management Server needs to be deployed on Tomcat 6. 
+<para>In this release of the Talend ESB the Service Activity Management (SAM) Server needs to be deployed on Tomcat 6. 
 In future versions of Talend ESB we will also support the deployment within the Talend ESB Server (OSGi) 
 </para>
 
