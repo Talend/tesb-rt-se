@@ -55,6 +55,24 @@
 
     <developers>
         <developer>
+            <id>vromaniuk</id>
+            <name>Volodymyr Romaniuk</name>
+            <email>vromaniuk@talend.com</email>
+            <timezone>GMT+2</timezone>
+        </developer>
+        <developer>
+            <id>mirom</id>
+            <name>Roman Minko</name>
+            <email>rnminko@gmail.com</email>
+            <timezone>GMT+2</timezone>
+        </developer>
+        <developer>
+            <id>aosadchiy</id>
+            <name>Alexander Osadchiy</name>
+            <email>Alexander.G.Osadchiy@gmail.com</email>
+            <timezone>GMT+2</timezone>
+        </developer>
+        <developer>
             <id>xldai</id>
             <name>Xilai Dai</name>
             <email>xldai@talend.com</email>
