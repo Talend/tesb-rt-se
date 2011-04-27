@@ -1,124 +1,129 @@
-Copyright (c) 2011 Talend Inc. - www.talend.com
-All rights reserved.
+ Copyright (c) 2011 Talend Inc. - www.talend.com
+ All rights reserved.
 
-This program and the accompanying materials are made available
-under the terms of the Apache License v2.0
-which accompanies this distribution, and is available at
-http://www.apache.org/licenses/LICENSE-2.0
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
 
-This product includes software developed at ASF 2.0 : 
-  * Code Generation Library (cglib:cglib-nodep:2.2 - http://cglib.sourceforge.net/)
+This product includes software developed at
+Talend Inc. (http://www.talend.com/).
 
-All files contained in this JAR are licensed under the Apache
-         2.0 license, unless noted differently in their source (see
-         swing2swt). : 
-  * aQute Bundle Tool Library (biz.aQute:bndlib:1.15.0 - http://www.aQute.biz/Code/Bnd)
+This product also includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
 
-This product includes software developed at BSD License : 
-  * ASM Core (asm:asm:3.3 - http://asm.objectweb.org/asm/)
-  * JLine (jline:jline:0.9.94 - http://jline.sourceforge.net)
-  * Stax2 API (org.codehaus.woodstox:stax2-api:3.1.1 - http://woodstox.codehaus.org/StAX2)
-  * JLine (org.sonatype.jline:jline:2.5 - http://forge.sonatype.com/jline/)
-  * dom4j (dom4j:dom4j:1.6.1 - http://dom4j.org)
+This product includes software developed at
+Spring Framework (http://www.springframework.net/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)
-								Version 1.0 : 
-  * JAXB RI (com.sun.xml.bind:jaxb-impl:2.1.13 - https://jaxb.dev.java.net/)
+This product includes software developed at
+Apache CXF (http://cxf.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at Common Development and Distribution License (CDDL) v1.0 : 
-  * JavaBeans Activation Framework (JAF) (javax.activation:activation:1.1 - http://java.sun.com/products/javabeans/jaf/index.jsp)
-  * JavaMail API (javax.mail:mail:1.4 - https://glassfish.dev.java.net/javaee5/mail/)
+This product includes software developed at
+The Eclipse Foundation (http://www.eclipse.org/).
+Licensed under the Apache License 2.0.
 
-This product includes software developed at Common Public License Version 1.0 : 
-  * JUnit (junit:junit:4.8.2 - http://junit.org)
-  * WSDL4J (wsdl4j:wsdl4j:1.6.2 - http://sf.net/projects/wsdl4j)
+This product includes software developed at
+Karaf (http://karaf.apache.org/)
+Licensed under the  Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at Eclipse Public License - Version 1.0 : 
-  * Jetty :: Continuation (org.eclipse.jetty:jetty-continuation:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-continuation)
-  * Jetty :: Http Utility (org.eclipse.jetty:jetty-http:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-http)
-  * Jetty :: IO Utility (org.eclipse.jetty:jetty-io:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-io)
-  * Jetty :: Security (org.eclipse.jetty:jetty-security:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-security)
-  * Jetty :: Server Core (org.eclipse.jetty:jetty-server:7.3.1.v20110307 - http://www.eclipse.org/jetty)
-  * Jetty :: Utilities (org.eclipse.jetty:jetty-util:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-util)
+This product includes software developed at
+Apache Derby (http://db.apache.org/derby/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at GPL2 w/ CPE : 
-  * JAXB RI (com.sun.xml.bind:jaxb-impl:2.1.13 - https://jaxb.dev.java.net/)
+This product includes software developed at
+Apache commons-lang (http://commons.apache.org/lang/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at MIT License : 
-  * SLF4J API Module (org.slf4j:slf4j-api:1.5.11 - http://www.slf4j.org)
-  * SLF4J API Module (org.slf4j:slf4j-api:1.6.0 - http://www.slf4j.org)
-  * SLF4J API Module (org.slf4j:slf4j-api:1.6.1 - http://www.slf4j.org)
-  * SLF4J LOG4J-12 Binding (org.slf4j:slf4j-log4j12:1.6.0 - http://www.slf4j.org)
+This product includes software developed at
+Apache ZooKeeper (http://zookeeper.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at New BSD License : 
-  * Hamcrest Core (org.hamcrest:hamcrest-core:1.3.RC2 - http://code.google.com/p/hamcrest/)
-  * Hamcrest library (org.hamcrest:hamcrest-library:1.3.RC2 - http://code.google.com/p/hamcrest/)
+This product includes software developed at
+Apache ActiveMQ (http://activemq.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at Public Domain : 
-  * AOP alliance (aopalliance:aopalliance:1.0 - http://aopalliance.sourceforge.net)
+This product includes software developed at
+Apache Camel (http://camel.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-This product includes software developed at The Apache Software License, Version 2.0 : 
-  * Commons JXPath (commons-jxpath:commons-jxpath:1.3 - http://commons.apache.org/jxpath/)
-  * Commons Lang (commons-lang:commons-lang:2.4 - http://commons.apache.org/lang/)
-  * Commons Logging (commons-logging:commons-logging:1.1.1 - http://commons.apache.org/logging)
-  * Log4j (log4j:log4j:1.2.14 - http://logging.apache.org/log4j/docs/)
-  * Apache Log4j (log4j:log4j:1.2.15 - http://logging.apache.org:80/log4j/1.2/)
-  * Apache Aries Util (org.apache.aries:org.apache.aries.util:0.3 - http://aries.apache.org/default-parent/java5-parent/org.apache.aries.util/)
-  * Apache Aries Blueprint Bundle (org.apache.aries.blueprint:org.apache.aries.blueprint:0.3 - http://aries.apache.org/default-parent/java5-parent/blueprint/org.apache.aries.blueprint/)
-  * Apache Aries Proxy (org.apache.aries.proxy:org.apache.aries.proxy.api:0.3 - http://aries.apache.org/default-parent/java5-parent/proxy/org.apache.aries.proxy.api/)
-  * Apache Aries Unit Test Support (org.apache.aries.testsupport:org.apache.aries.testsupport.unit:0.3 - http://aries.apache.org/default-parent/java5-parent/testsupport/org.apache.aries.testsupport.unit/)
-  * Apache CXF API (org.apache.cxf:cxf-api:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Common Utilities (org.apache.cxf:cxf-common-utilities:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime SOAP Binding (org.apache.cxf:cxf-rt-bindings-soap:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime XML Binding (org.apache.cxf:cxf-rt-bindings-xml:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime Core (org.apache.cxf:cxf-rt-core:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime JAXB DataBinding (org.apache.cxf:cxf-rt-databinding-jaxb:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime JAX-WS Frontend (org.apache.cxf:cxf-rt-frontend-jaxws:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime Simple Frontend (org.apache.cxf:cxf-rt-frontend-simple:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime Transport Common Used Classes (org.apache.cxf:cxf-rt-transports-common:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime HTTP Transport (org.apache.cxf:cxf-rt-transports-http:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime HTTP Jetty Transport (org.apache.cxf:cxf-rt-transports-http-jetty:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime Local Transport (org.apache.cxf:cxf-rt-transports-local:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Runtime WS Addressing (org.apache.cxf:cxf-rt-ws-addr:2.4.0 - http://cxf.apache.org)
-  * Apache CXF Command Line Tools Common (org.apache.cxf:cxf-tools-common:2.4.0 - http://cxf.apache.org)
-  * Apache Derby Database Engine and Embedded JDBC Driver (org.apache.derby:derby:10.7.1.1 - http://db.apache.org/derby/derby/)
-  * Apache Derby Client JDBC Driver (org.apache.derby:derbyclient:10.7.1.1 - http://db.apache.org/derby/derbyclient/)
-  * Apache Derby Network Server (org.apache.derby:derbynet:10.7.1.1 - http://db.apache.org/derby/derbynet/)
-  * Apache Felix File Install (org.apache.felix:org.apache.felix.fileinstall:3.1.10 - http://felix.apache.org/site/apache-felix-file-install.html)
-  * Apache Felix Gogo Runtime (org.apache.felix:org.apache.felix.gogo.runtime:0.6.1 - http://felix.apache.org/gogo-parent/org.apache.felix.gogo.runtime/)
-  * JavaMail 1.4 (org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1 - http://geronimo.apache.org/maven/specs/geronimo-javamail_1.4_spec/1.7.1)
-  * Servlet 3.0 (org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0 - http://geronimo.apache.org/maven/specs/geronimo-servlet_3.0_spec/1.0)
-  * Apache Karaf :: Util (org.apache.karaf:org.apache.karaf.util:2.2.0 - http://www.apache.org/karaf/org.apache.karaf.util/)
-  * Apache Karaf :: JAAS :: Boot (org.apache.karaf.jaas:org.apache.karaf.jaas.boot:2.2.0 - http://www.apache.org/karaf/jaas/org.apache.karaf.jaas.boot/)
-  * Apache Karaf :: JAAS :: Config (org.apache.karaf.jaas:org.apache.karaf.jaas.config:2.2.0 - http://www.apache.org/karaf/jaas/org.apache.karaf.jaas.config/)
-  * Apache Karaf :: JAAS :: Modules (org.apache.karaf.jaas:org.apache.karaf.jaas.modules:2.2.0 - http://www.apache.org/karaf/jaas/org.apache.karaf.jaas.modules/)
-  * Apache Karaf :: Shell :: Console (org.apache.karaf.shell:org.apache.karaf.shell.console:2.2.0 - http://www.apache.org/karaf/shell/org.apache.karaf.shell.console/)
-  * Apache Neethi (org.apache.neethi:neethi:3.0.0 - http://ws.apache.org/neethi/)
-  * XmlSchema Core (org.apache.ws.xmlschema:xmlschema-core:2.0 - http://ws.apache.org/commons/XmlSchema/xmlschema-core)
-  * zookeeper (org.apache.zookeeper:zookeeper:3.3.3 - no url defined)
-  * Woodstox (org.codehaus.woodstox:woodstox-core-asl:4.1.1 - http://woodstox.codehaus.org)
-  * EasyMock (org.easymock:easymock:3.0 - http://www.easymock.org/easymock)
-  * jansi (org.fusesource.jansi:jansi:1.4 - http://jansi.fusesource.org)
-  * Objenesis (org.objenesis:objenesis:1.2 - http://objenesis.googlecode.com/svn/docs/index.html)
-  * org.osgi.compendium (org.osgi:org.osgi.compendium:4.1.0 - http://www.osgi.org/)
-  * org.osgi.compendium (org.osgi:org.osgi.compendium:4.2.0 - http://www.osgi.org/)
-  * org.osgi.core (org.osgi:org.osgi.core:4.1.0 - http://www.osgi.org/)
-  * org.osgi.core (org.osgi:org.osgi.core:4.2.0 - http://www.osgi.org/)
-  * spring-aop (org.springframework:spring-aop:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-asm (org.springframework:spring-asm:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-beans (org.springframework:spring-beans:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-context (org.springframework:spring-context:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-core (org.springframework:spring-core:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-expression (org.springframework:spring-expression:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-jdbc (org.springframework:spring-jdbc:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-test (org.springframework:spring-test:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-tx (org.springframework:spring-tx:3.0.5.RELEASE - http://www.springsource.org/)
-  * spring-web (org.springframework:spring-web:3.0.5.RELEASE - http://www.springsource.org/)
-  * XML Commons External Components XML APIs (xml-apis:xml-apis:1.0.b2 - http://xml.apache.org/commons/#external)
-  * XML Commons Resolver Component (xml-resolver:xml-resolver:1.2 - http://xml.apache.org/commons/components/resolver/)
-  * Jetty :: Continuation (org.eclipse.jetty:jetty-continuation:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-continuation)
-  * Jetty :: Http Utility (org.eclipse.jetty:jetty-http:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-http)
-  * Jetty :: IO Utility (org.eclipse.jetty:jetty-io:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-io)
-  * Jetty :: Security (org.eclipse.jetty:jetty-security:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-security)
-  * Jetty :: Server Core (org.eclipse.jetty:jetty-server:7.3.1.v20110307 - http://www.eclipse.org/jetty)
-  * Jetty :: Utilities (org.eclipse.jetty:jetty-util:7.3.1.v20110307 - http://www.eclipse.org/jetty/jetty-util)
+This product includes software developed at
+Apache Log4j (http://logging.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+Apache Aries (http://logging.apache.org/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+Apache Felix (http://felix.apache.org)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+Apache Geronimo (http://geronimo.apache.org)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+Apache Neethi (http://ws.apache.org/neethi/)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+XmlSchema (http://ws.apache.org/commons/XmlSchema)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+Woodstox (http://woodstox.codehaus.org)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+OSGI (http://www.osgi.org)
+Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+
+This product includes software developed at
+AOP alliance (http://aopalliance.sourceforge.net)
+
+This product includes software developed at
+SLF4J API Module (http://www.slf4j.org)
+Licensed under the MIT License
+
+This product includes software developed at
+JUnit (http://junit.org)
+Licensed under the Common Public License Version 1.0
+
+This product includes software developed at
+WSDL4J ( http://sf.net/projects/wsdl4j)
+Licensed under the Common Public License Version 1.0
+
+This product includes software developed at
+JavaBeans Activation Framework (JAF) (http://java.sun.com/products/javabeans/jaf/index.jsp)
+Licensed under the Common Development and Distribution License (CDDL) v1.0
+
+This product includes software developed at
+JavaMail API (http://glassfish.dev.java.net/javaee5/mail/)
+Licensed under the Common Development and Distribution License (CDDL) v1.0
+
+This product includes software developed at
+JAXB RI (https//jaxb.dev.java.net/)
+Licensed under the Common Development and Distribution License (CDDL) v1.0
+
+This product includes software developed at
+ASM Core (http://asm.objectweb.org/asm/)
+Licensed under the BSD License
+
+This product includes software developed at
+JLine (http://jline.sourceforge.net)
+Licensed under the BSD License
+
+This product includes software developed at
+Stax2 API (http://woodstox.codehaus.org/StAX2)
+Licensed under the BSD License
+
+This product includes software developed at
+dom4j (http://dom4j.org)
+Licensed under the BSD License
+
+This product includes software developed at
+Code Generation Library (http://cglib.sourceforge.net/)
+Licensed under the ASF 2.0
+
