@@ -19,8 +19,6 @@
  */
 package org.talend.esb.job.controller;
 
-import routines.system.TalendJob;
-
 import java.util.List;
 
 /**

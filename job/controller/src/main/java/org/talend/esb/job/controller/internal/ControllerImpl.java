@@ -22,7 +22,7 @@ package org.talend.esb.job.controller.internal;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.Controller;
-import routines.system.TalendJob;
+import routines.system.api.TalendJob;
 
 import java.util.ArrayList;
 import java.util.List;

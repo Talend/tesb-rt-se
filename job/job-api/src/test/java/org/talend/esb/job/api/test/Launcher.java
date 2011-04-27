@@ -2,13 +2,13 @@ package org.talend.esb.job.api.test;
 
 import org.dom4j.DocumentException;
 
-import routines.system.ESBConsumer;
-import routines.system.ESBEndpointInfo;
-import routines.system.ESBEndpointRegistry;
-import routines.system.ESBJobInterruptedException;
-import routines.system.ESBProviderCallback;
-import routines.system.TalendESBJob;
-import routines.system.TalendJob;
+import routines.system.api.ESBConsumer;
+import routines.system.api.ESBEndpointInfo;
+import routines.system.api.ESBEndpointRegistry;
+import routines.system.api.ESBJobInterruptedException;
+import routines.system.api.ESBProviderCallback;
+import routines.system.api.TalendESBJob;
+import routines.system.api.TalendJob;
 
 public class Launcher {
 

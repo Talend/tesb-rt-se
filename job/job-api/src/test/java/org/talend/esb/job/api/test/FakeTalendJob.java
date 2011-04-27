@@ -1,6 +1,6 @@
 package org.talend.esb.job.api.test;
 
-import routines.system.TalendJob;
+import routines.system.api.TalendJob;
 
 public class FakeTalendJob implements TalendJob {
 
