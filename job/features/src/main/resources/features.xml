@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+
+    <!--
+        Copyright (c) 2011 Talend Inc. - www.talend.com
+    -->
+
+    <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.api/${project.version}</bundle>
+    </feature>
+
+    <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
+    </feature>
+
+</features>

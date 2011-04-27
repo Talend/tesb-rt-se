@@ -20,7 +20,7 @@
         <module>deployer</module>
         <module>controller</module>
         <module>command</module>
-        <!-- <module>features</module> -->
+        <module>features</module>
     </modules>
 
 </project>
