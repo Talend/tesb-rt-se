@@ -700,6 +700,7 @@
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
+								<descriptor>file:${basedir}/../job/features/target/classes/features.xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -813,6 +814,8 @@
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-locator-client</feature>
+								<feature>talend-job-api</feature>
+								<feature>talend-job-controller</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
@@ -1031,6 +1034,13 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<copy todir="target/add-ons/job">
+									<fileset dir="${basedir}/../job">
+										<include name="**/target/*.jar" />
+										<include name="**/target/*.war" />
+									</fileset>
+									<flattenmapper />
+								</copy>
 								<copy todir="target/add-ons/lib">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/dependency/*.jar" />
@@ -1048,6 +1058,9 @@
 												<mapper type="flatten"/>
 											</present>
 											<present targetdir="target/add-ons/locator">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/job">
 												<mapper type="flatten"/>
 											</present>
 										</none>
@@ -1068,6 +1081,32 @@
 												<mapper type="flatten"/>
 											</present>
 											<present targetdir="target/add-ons/locator">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/job">
+												<mapper type="flatten"/>
+											</present>
+										</none>
+									</fileset>
+									<fileset dir="${basedir}/../job">
+										<include name="**/target/dependency/*.jar" />
+										<none>
+											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/monitoring">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/locator">
+												<mapper type="flatten"/>
+											</present>
+											<present targetdir="target/add-ons/job">
 												<mapper type="flatten"/>
 											</present>
 										</none>
