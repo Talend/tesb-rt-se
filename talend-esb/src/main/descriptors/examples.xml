@@ -55,8 +55,16 @@
             <directoryMode>755</directoryMode>
         </fileSet>
         <fileSet>
-<!--             <directory>target/dependencies/tsf-doc/talend-sf-${tsf.version}/pdf</directory> -->
-            <directory>target/dependencies/tsf-doc/talend-sf-2.3.3.0/pdf</directory>
+             <directory>target/dependencies/tsf-doc/talend-sf-${tsf.version}/pdf</directory>
+            <outputDirectory>/docs</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+            <includes>
+            	<include>*.pdf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+             <directory>target/dependencies/tif-doc/talend-if-${tif.version}/pdf</directory>
             <outputDirectory>/docs</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>

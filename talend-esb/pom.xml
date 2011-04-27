@@ -25,8 +25,8 @@
 		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.7-SNAPSHOT</tif.version>
-		<tsf.version>2.4.0.0-SNAPSHOT</tsf.version>
+		<tif.version>2.7.1.0</tif.version>
+		<tsf.version>2.4.0.0</tsf.version>
         <camel.version>2.7.1</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
@@ -338,6 +338,13 @@
 			<classifier>examples</classifier>
 			<type>tar.gz</type>
 		</dependency>
+		<dependency>
+			<groupId>com.talend.if.assembly</groupId>
+			<artifactId>talend-if</artifactId>
+ 			<version>${tif.version}</version>
+			<classifier>doc</classifier>
+			<type>zip</type>
+		</dependency>
 
 		<!-- TSF -->
 		<dependency>
@@ -348,10 +355,9 @@
 			<type>zip</type>
 		</dependency>
 		<dependency>
-			<groupId>com.talend.sf.assebmly</groupId>
+			<groupId>com.talend.sf.assembly</groupId>
 			<artifactId>talend-sf</artifactId>
-<!-- 			<version>${tsf.version}</version> -->
-			<version>2.3.3.0</version>
+ 			<version>${tsf.version}</version>
 			<classifier>doc</classifier>
 			<type>zip</type>
 		</dependency>
@@ -970,12 +976,31 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.talend.sf.assebmly</groupId>
+									<groupId>com.talend.sf.assembly</groupId>
 									<artifactId>talend-sf</artifactId>
-									<version>2.3.3.0</version>
+									<version>${tsf.version}</version>
 									<type>zip</type>
 									<classifier>doc</classifier>
 									<outputDirectory>target/dependencies/tsf-doc</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-tif-doc</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.talend.if.assembly</groupId>
+									<artifactId>talend-if</artifactId>
+									<version>${tif.version}</version>
+									<type>zip</type>
+									<classifier>doc</classifier>
+									<outputDirectory>target/dependencies/tif-doc</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

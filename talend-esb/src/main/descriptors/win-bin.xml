@@ -452,17 +452,6 @@
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/apache/ws/commons/schema/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.ws.commons.schema:XmlSchema</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
     </dependencySets>
 
 </assembly>
