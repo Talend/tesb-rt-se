@@ -14,9 +14,10 @@
 <!DOCTYPE book>
 <book xmlns="http://docbook.org/ns/docbook" version="5.0">
     <info>
-        <title>Release Notes for Talend ESB(SE)</title>
-        <subtitle>Covers 4.0</subtitle>
-                <pubdate>22 April 2011</pubdate>
+        <title>Talend ESB Standard Edition(SE)</title>
+        <subtitle>Release Notes</subtitle>
+        <subtitle>Version 4.0</subtitle>
+                <pubdate>April 2011</pubdate>
         <author>
             <orgname>Talend Corporation</orgname>
         </author>
@@ -35,7 +36,7 @@
         <legalnotice>
             <title>Notices</title>
             <para>
-                Talend, Talend Integration Factory, and Talend Service Factory are trademarks of Talend, Inc.
+                Talend, Talend ESB, Talend Integration Factory, and Talend Service Factory are trademarks of Talend, Inc.
             </para>
             <para>
                 Apache CXF, CXF, Apache Karaf, Karaf, Apache Camel, Camel, Apache Maven, and Maven are trademarks of The Apache Foundation.
@@ -50,20 +51,22 @@
     </info>
     <chapter>
 
-<title>Scope of Delivery</title>
+<title>Installation and Documentation Packages</title>
 <para>
-Talend ESB SE 4.0 is delivered in two separate packages that should be extracted 
-to the same file system location: 
+Talend ESB SE is delivered as two separate packages, one containing the software and the other containing the documentation and examples. It is recommended that both packages be extracted to a common directory location.
+<para>Binary distribution:</para>
 <para><code>talend-esb-4.0.[tar.gz|zip]</code></para> 
-which contains the software
+<para>Documentation and Examples:</para>
 <para><code>talend-esb-4.0-doc.[tar.gz|zip]</code></para> 
-which contains the accompanying documentation and source code for examples.
 </para>
 
-<para>Here is an overview of the package contents:</para>
-<para><emphasis role="strong">Talend ESB 4.0</emphasis></para>
-<para>directory: <emphasis role="strong">talend-esb-4.0/ </emphasis></para>
 
+<para><emphasis role="strong">Talend ESB 4.0</emphasis></para>
+<para>
+<para>The following outlines the installation directory structure for both packages.</para>
+
+<para>directory: <emphasis role="strong">talend-esb-4.0/ </emphasis></para>
+</para>
 <para>
 <informaltable>
     <tgroup cols="2">
@@ -214,16 +217,14 @@ which contains the accompanying documentation and source code for examples.
 
 <section>
 <title>Hardware Requirements</title>
-Talend ESB does not require any specific hardware besides the recommended 
-hardware requirements specified for the use of the supported operating systems and application servers / runtime container. 
+Talend ESB does not have any specific hardware requirements, beyond the recommended hardware requirements for the supporting application server or Java runtime environment.
 </section>
 
 <section>
 <title>Software Requirements</title>
 <para>
-Talend ESB is supported for the following software:
+Talend ESB is supported on the following operating systems:
 </para>
-<para>Operating System:</para>
 <para>
 <emphasis role="strong">Microsoft Windows</emphasis>
 <itemizedlist>
@@ -263,6 +264,10 @@ Talend ESB is supported for the following software:
 </itemizedlist> 
 </para>
 
+<para>
+Talend ESB is supported on the following Appserver and Java runtime environments:
+</para>
+<!-- <para>-->
 <para><emphasis role="strong">Java Virtual Machine</emphasis>
 <itemizedlist>
     <listitem>
@@ -274,10 +279,10 @@ Talend ESB is supported for the following software:
 <para><emphasis role="strong">Application Server</emphasis>
 <itemizedlist>
     <listitem>
-    OSGi Runtime (Eclipse Equinox / Apache Karaf - included in this delivery)
+    OSGi Runtime (Eclipse Equinox 3.6 / Apache Karaf 2.2.0 - included in this delivery)
     </listitem>
     <listitem>
-    Tomcat 6.0.x
+    Apache Tomcat 6.0.x and 7.0.x
     </listitem>
 </itemizedlist> 
 </para>
@@ -289,21 +294,15 @@ Talend ESB is supported for the following software:
 </chapter>
 
 <chapter>
-<title>New Features, Changes and Fixes</title>
+<title>Highlighted Features, Changes and Fixes</title>
 
-<para>Talend ESB SE bundles Talend Service Factory 2.4.0 and Talend Integration Factory 2.7.1,
-Service Locator, Service Activity Monitoring and a demo application
-to a stable, production ready distribution based on the industry leading
-open source frameworks Apache CXF and Apache Camel.</para> 
-<para>
-It includes Web Service support based on JAX-WS and enables simple and scalable
-message based systems using well known Enterprise Integration Patterns.
-The Service Locator maintains a repository of service endpoints which
-can be used by Service Consumers to support loosely coupling, failover and load
-balancing. Service Activity Monitoring allows to log and
-monitor service calls. A documented Car Rental demo application illustrates
-how to use these features.
-</para>
+<para>Talend ESB SE includes both the Talend Service Factory 2.4.0 and Talend Integration Factory 2.7.1 distributions.</para>
+<para>In additional, Talend ESB SE 4.0 includes the following features:</para>
+<itemizedlist>
+<listitem>Service Locator</listitem>
+<listitem>Service Activity Monitoring(SAM)</listitem>
+<listitem>"Car Rental" demo application</listitem>
+</itemizedlist>
 
 <section>
 <title>Highlighted Features</title>
@@ -316,37 +315,133 @@ provider and service consumer. The provider side Locator Feature extension regis
 repository when the provider becomes available or unavailable. The consumer side Locator Feature extension transparently retrieves 
 service endpoint addresses from the endpoint repository when a service call to a provider is to be made.
 </para>
+<para>For more information how to install and configure the Service Locator see the Service Locator Installation Manual (docs/SLInstallationManual.pdf) and the
+Service Locator Configuration Manual (docs/SLConfigurationManual.pdf).</para>
 </section>
 
 <section>
 <title>Service Activity Monitoring (SAM)</title>
-The Service Activity Monitoring (SAM) in the add-ons directory allows to log / monitor service calls done with the Apache CXF Framework. 
-Typical use cases are usage statistics and fault monitoring.  The solution consists of two parts: Agent (sam-agent) and Monitoring Server 
-(sam-server). The Agent creates events out of the requests and replies on service consumer and provider side. The events are first collected 
+<para>The Service Activity Monitoring (SAM) in the add-ons directory allows to log / monitor service calls done with the Apache CXF Framework. 
+Typical use cases are usage statistics, fault monitoring and correlation of message across multiple services. SAM consists of two parts: 1. Agent (sam-agent) and 2. Monitoring Server (sam-server). 
+The Agent creates events out of the requests and replies on service consumer and provider side. The events are first collected 
 locally and then sent to the monitoring server periodically to not disturb the normal message flow. The Monitoring Server receives events 
-from the Agent, optionally filters/handlers events and stores them into a Database.
+from the Agent, optionally filters/handlers events and stores them into a Database.</para>
+<para>For more information about the Service Activity Monitoring feature see the Service Activity Monitoring User Guide (docs/SAMUserGuide.pdf).</para>
 </section>
 
+<section>
+<title>Car Rental Demo</title>
+<para>The Car Rental Demo is a simplified real-world example, using
+the domain of car rental companies to demonstrate the use of Talend
+ESB for developing and deploying services. It comes with a detailed 
+Getting Started Guide that step by step describes how to compile the
+demo, deploy it into the Talend ESB Runtime OSGi container and then
+activate it.
+The demo also shows how to enable the Service Locator Component for the
+services deployed in the demo, and how Service Activity Monitoring can be
+enabled.
+</para>
+<para>For more information about the Car Rental Demo see the Getting Started Guide (docs/GettingStartedGuide.pdf).</para>
+</section>
+
+<section>
+<title>Talend Service Factory 2.4.0</title>
+<para>
+Talend ESB contains the Talend Service Factory 2.4.0 with a lot of new features.
+</para>
+<itemizedlist>
+    <listitem>
+	LogBrowser console
+	</listitem>
+    <listitem>
+	Transformation feature provides for a fast and effective way to transform inbound and/or outbound XML messages.
+	</listitem>
+    <listitem>
+    JiBX databinding
+	</listitem>
+    <listitem>
+	Faster startup and reduced spring configuration. The Spring support has been redone to be based on the ExtensionManagerBus. This results in much faster startup. It also means that all of the imports of META-INF/cxf/cxf-extension-*.xml are no longer needed.
+	</listitem>
+    <listitem>
+    WSS4J has been updated from 1.5.x to 1.6. Some notable new features for CXF users include: 
+	<itemizedlist>
+	<listitem>
+    SAML2 support: WSS4J 1.6 includes full support for creating, manipulating and parsing SAML2 assertions, via the Opensaml2 library.
+	</listitem>
+    <listitem>
+	Performance work: A general code-rewrite has been done with a focus on improving performance.
+	</listitem>
+	<listitem>
+	Support for Crypto trust-stores: WSS4J 1.6 separates the concept of keystore and truststores.
+	</listitem>
+	</itemizedlist>
+	</listitem>
+	<listitem>
+    WS-SecurityPolicy support for SAML tokens.
+	</listitem>
+    <listitem>
+	Initial Apache Aries Blueprint support. This is a work in progress, but many of the Spring namespace handlers that are used with Spring to start/create/configure clients and services now have Blueprint versions as well. See http://cxf.apache.org/schemas/blueprint/ for some of the schemas that have been ported to Blueprint.
+    </listitem>
+</itemizedlist> 
+<para>For more information about the Talend Service Factory see the Talend Service Factory User Guide (docs/TSFUsersGuide.pdf).</para>
+<para  xmlns:xlink="http://www.w3.org/1999/xlink">
+For more details please see: <link  xlink:href="http://cxf.apache.org/docs/24-migration-guide.html">Apache CXF 2.4 migration guide</link>. 
+</para>
+</section>
+
+<section>
+<title>Talend Integration Factory 2.7.1</title>
+<para>
+Talend ESB contains the Talend Integration Factory 2.7.1 with a lot of new features.
+</para>
+<itemizedlist>
+    <listitem>
+	Added 4 new components: Context, Hazelcast Component, DNS and MyBatis 
+	</listitem>
+    <listitem>
+    Switched to using slf4j as the logger instead of commons logging 
+	</listitem>
+    <listitem>
+    Added support for MDC logging with Camel 
+	</listitem>
+    <listitem>
+    DSL improvements 
+	</listitem>
+    <listitem>
+    Improvements for a few components like JMS, HTTP, File, Quartz 
+	</listitem>
+	<listitem>
+    Improvements of the test kit and Mock component 
+	</listitem>
+    <listitem>
+	fixes and improvements related to using Camel in OSGi 
+    </listitem>
+</itemizedlist>
+<para>For more information about the Talend Integration Factory see the Talend Integration Factory User Guide (docs/TIFUsersGuide.pdf).</para>
+<para xmlns:xlink="http://www.w3.org/1999/xlink">
+For more details please see the: <link  xlink:href="http://camel.apache.org/camel-270-release.html">Apache Camel 2.7.0 release notes</link> and the <link  xlink:href="http://camel.apache.org/camel-271-release.html">Apache Camel 2.7.1 release notes</link>.
+</para>
+</section>
 </section>
 
 <section><title>Changes</title>
 <para>
-Not applicable - first publicly released version.
+Not applicable.
 </para>
 </section>
 
 
 <section><title>Fixed Bugs</title>
 <para>
-Not applicable - first publicly released version.
+Not applicable.
 </para>
 </section>
 </chapter>
 
 <chapter><title>Known Limitations</title>
 
-<para><emphasis role="strong"> SAM Server only works on Tomcat 6 but not on ESB Server OSGi container</emphasis></para>
-<para>In this release of the Talend ESB the Service Activity Management (SAM) Server needs to be deployed on Tomcat 6. 
+<para><emphasis role="strong"> SAM Server is required to be deployed on Apache Tomcat container.</emphasis></para>
+<para>In this release of the Talend ESB the Service Activity Management (SAM) Server is required to be deployed on Tomcat 6. 
 In future versions of Talend ESB we will also support the deployment within the Talend ESB OSGi container. 
 </para>
 
@@ -354,7 +449,7 @@ In future versions of Talend ESB we will also support the deployment within the 
 
 <chapter><title>Known Issues</title>
 <para>
-Not applicable - first publicly released version.
+Not applicable..
 </para>
 </chapter>
 
@@ -367,12 +462,13 @@ any encryption software, please check your country's laws, regulations and
 policies concerning the import, possession, or use, and re-export of
 encryption software, to see if this is permitted.  See
 &lt;http://www.wassenaar.org/> for more information. 
-
+</para>
+<para>
 The U.S. Government Department of Commerce, Bureau of Industry and Security
 (BIS), has classified this software as Export Commodity Control Number
 (ECCN) 5D002.C.1, which includes information security software using or
 performing cryptographic functions with asymmetric algorithms.  The form
-and manner of this Apache Software Foundation distribution makes it eligible
+and manner of this Talend distribution makes it eligible
 for export under the License Exception ENC Technology Software Unrestricted
 (TSU) exception (see the BIS Export Administration Regulations, Section
 740.13) for both object code and source code.
@@ -384,9 +480,9 @@ for export under the License Exception ENC Technology Software Unrestricted
 <para>
 For community technical support use the Talend
 User's Forum at
-<link  xlink:href="http://www.talendforge.org/forum/">http://www.talendforge.org/forum/</link> - ‘Talend ESB’. 
+<link  xlink:href="http://www.talendforge.org/forum/">Talend Forum - Talend ESB</link>. 
 You can also look at the Open and Fixed issues provided in the Bug tracker 
-<link  xlink:href="https://jira.sopera.de/secure/Dashboard.jspa">https://jira.sopera.de/secure/Dashboard.jspa</link> - Project: Talend ESB
+<link  xlink:href="https://jira.sopera.de/secure/Dashboard.jspa">Talend Bug Tracker - Project: Talend ESB</link>
 </para>
 <para>
 If you have a valid customer support contract for Talend ESB (SE/EE) 
