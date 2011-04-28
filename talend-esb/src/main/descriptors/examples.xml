@@ -53,6 +53,9 @@
             <outputDirectory>/docs</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
+            <excludes>
+            	<exclude>ReleaseNotes.*</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
              <directory>target/dependencies/tsf-doc/talend-sf-${tsf.version}/pdf</directory>
