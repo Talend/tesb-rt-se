@@ -9,79 +9,48 @@
 This product includes software developed at
 Talend Inc. (http://www.talend.com/).
 
-This product also includes software developed at
+This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
+Licensed under the Apache License Version 2.0
 
 This product includes software developed at
-Spring Framework (http://www.springframework.net/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Spring Source (http://www.springsource.org).
+Licensed under the Apache License Version 2.0
 
 This product includes software developed at
-Apache CXF (http://cxf.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+the Eclipse Foundation (http://www.eclipse.org/).
+Licensed under the Eclipse Public License - v 1.0
 
 This product includes software developed at
-The Eclipse Foundation (http://www.eclipse.org/).
-Licensed under the Apache License 2.0.
+The Codehaus Foundation (http://www.codehaus.org/).
+Licensed under the Apache License Version 2.0
 
 This product includes software developed at
-Karaf (http://karaf.apache.org/)
-Licensed under the  Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Derby (http://db.apache.org/derby/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache commons-lang (http://commons.apache.org/lang/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache ZooKeeper (http://zookeeper.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache ActiveMQ (http://activemq.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Camel (http://camel.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Log4j (http://logging.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Aries (http://logging.apache.org/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Felix (http://felix.apache.org)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Geronimo (http://geronimo.apache.org)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Apache Neethi (http://ws.apache.org/neethi/)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-XmlSchema (http://ws.apache.org/commons/XmlSchema)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
-
-This product includes software developed at
-Woodstox (http://woodstox.codehaus.org)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+FuseSource (http://www.fusesource.org).
+Licensed under the Apache License Version 2.0
 
 This product includes software developed at
 OSGI (http://www.osgi.org)
-Licensed under the Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
+Licensed under the Apache License Version 2.0
+
+This product includes software (joda time, Code Generation Library, Dozer) developed at
+sourceforge (http://sourceforge.net)
+Licensed under the Apache License Version 2.0
+
+This product includes software (JLine) developed at
+sourceforge (http://sourceforge.net)
+Licensed under the BSD License
+
+This product includes software (WSDL4J) developed at
+sourceforge (http://sourceforge.net)
+Licensed under the Common Public License Version 1.0
 
 This product includes software developed at
 AOP alliance (http://aopalliance.sourceforge.net)
+
+This product includes software developed at
+OPS4J (http://www.ops4j.org/).
+Licensed under the Apache License 2.0.
 
 This product includes software developed at
 SLF4J API Module (http://www.slf4j.org)
@@ -91,39 +60,18 @@ This product includes software developed at
 JUnit (http://junit.org)
 Licensed under the Common Public License Version 1.0
 
-This product includes software developed at
-WSDL4J ( http://sf.net/projects/wsdl4j)
-Licensed under the Common Public License Version 1.0
-
-This product includes software developed at
-JavaBeans Activation Framework (JAF) (http://java.sun.com/products/javabeans/jaf/index.jsp)
+This product includes software (JavaBeans Activation Framework) developed at
+Sun (http://java.sun.com/)
 Licensed under the Common Development and Distribution License (CDDL) v1.0
 
-This product includes software developed at
-JavaMail API (http://glassfish.dev.java.net/javaee5/mail/)
+This product includes software (JavaMail API, JAXB) developed at
+GlassFish (http://glassfish.java.net/)
 Licensed under the Common Development and Distribution License (CDDL) v1.0
 
-This product includes software developed at
-JAXB RI (https//jaxb.dev.java.net/)
-Licensed under the Common Development and Distribution License (CDDL) v1.0
-
-This product includes software developed at
-ASM Core (http://asm.objectweb.org/asm/)
-Licensed under the BSD License
-
-This product includes software developed at
-JLine (http://jline.sourceforge.net)
-Licensed under the BSD License
-
-This product includes software developed at
-Stax2 API (http://woodstox.codehaus.org/StAX2)
+This product includes software (ASM Core) developed at
+the OW2 Consortium (http://asm.ow2.org/)
 Licensed under the BSD License
 
 This product includes software developed at
 dom4j (http://dom4j.org)
 Licensed under the BSD License
-
-This product includes software developed at
-Code Generation Library (http://cglib.sourceforge.net/)
-Licensed under the ASF 2.0
-
