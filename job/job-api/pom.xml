@@ -33,7 +33,7 @@
                 <configuration>
                     <instructions>
                         <Export-Package>
-                            routines.system;version="${project.version}"
+                            routines.system.api;version="${project.version}"
                         </Export-Package>
                     </instructions>
                 </configuration>
