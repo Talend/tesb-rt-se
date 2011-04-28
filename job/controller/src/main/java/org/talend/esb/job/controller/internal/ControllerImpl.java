@@ -54,14 +54,20 @@ public class ControllerImpl implements Controller {
         this.run(name, new String[0]);
     }
 
-    public void run(String name, String[] args) throws Exception {
+    public void run(String name, final String[] args) throws Exception {
         ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(name=" + name + ")");
         if (references == null) {
             throw new IllegalArgumentException("Talend job " + name + " not found");
         }
-        TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
         if (job != null) {
-            job.runJob(args);
+            new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					job.runJob(args);
+				}
+			}).start();
         }
     }
 
