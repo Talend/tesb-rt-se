@@ -1,0 +1,64 @@
+body {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font: 10px verdana, sans-serif;
+}
+
+div.top {
+    background-color: #ffffff;
+    text-align: left;
+    border: 0px;
+}
+
+div.searchbox {
+    position: absolute;
+    right: 1%;
+    top: 40px;
+    background-color: #ffffff;
+}
+
+div.wmenu {
+    position: absolute;
+    margin: 5px;
+    left: 1%;
+    padding: 1em;
+    width: 18%;
+    background-color: #a3b3b2;
+    border: 1px solid grey;
+}
+
+div.content {
+    position: absolute;
+    margin: 5px;
+    right: 1%;
+    width: 72%;
+    border: 1px solid grey;
+    padding: 1em 1%;
+    background-color: #c6dbda;
+}
+
+.searchform {
+    font: 8px verdana, sans-serif;
+}
+
+.splitter {
+    color: white;
+    background-color: grey;
+    text-align: right;
+    padding: 3px;
+    font: 15px verdana, sans-serif;
+}
+
+body.upload {
+    background-color: #c6dbda;
+}
+
+pre {
+    font: 8px monospace;
+}
+
+tt {
+    font: 8px monospace;
+}
+

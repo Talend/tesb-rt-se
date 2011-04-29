@@ -15,4 +15,10 @@
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
     </feature>
 
+    <feature name="talend-job-console" version="${project.version}" resolver="(obr)">
+        <feature>talend-job-controller</feature>
+        <feature>war</feature>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.console/${project.version}</bundle>
+    </feature>
+
 </features>

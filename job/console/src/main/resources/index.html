@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <title>Talend Job Console</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="talend.css" title="Talend"/>
+</head>
+
+<body>
+
+    <div class="top">
+        <img src="images/talend.jpg" alt="Talend"/>
+        <div class="searchbox">
+            <form action="search.do">
+                <input class="searchform" type="text" name="query" size="15"/>
+                <input class="searchform" type="submit" name="ok" value="Search"/><br>
+            </form>
+        </div>
+        <div class="splitter">
+           <b>ESB Job Console</b>
+        </div>
+    </div>
+
+    <div class="wmenu">
+        <h3>Jobs</h3>
+        <div class="wmenufooter">
+            <form action="uploadjob.do" method="POST" enctype="multipart/form-data">
+                <input class="searchform" type="file" name="job" size="15"/>
+                <input class="searchform" type="submit" name="ok" value="Upload Job"/><br>
+            </form>
+        </div>
+    </div>
+
+    <div class="content">
+        <h3>Detail</h3>
+    </div>
+
+</body>
+
+</html>

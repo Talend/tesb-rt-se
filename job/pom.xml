@@ -20,6 +20,7 @@
         <module>deployer</module>
         <module>controller</module>
         <module>command</module>
+        <module>console</module>
         <module>features</module>
     </modules>
 
