@@ -91,7 +91,7 @@ public class HomeServlet extends HttpServlet {
                 writer.println("<input type=\"submit\" value=\"Run\"/>");
                 writer.println("</form>");
             } else {
-                writer.println("<h2>Welcome to Talend EJB Job Console</h2>");
+                writer.println("<h2>Welcome to Talend ESB Job Console</h2>");
                 writer.println("<br>");
                 writer.println("The available Talend Jobs are displayed on the left menu.<br>");
                 writer.println("Click on a job to display job detail.<br>");
