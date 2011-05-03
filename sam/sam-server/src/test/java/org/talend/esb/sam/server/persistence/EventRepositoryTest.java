@@ -36,7 +36,8 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.common.util.EventCreator;
 
-@ContextConfiguration("/META-INF/spring/persistence.xml")
+//@ContextConfiguration("/META-INF/spring/persistence.xml")
+@ContextConfiguration(locations = {"/server.xml", "/server-config.xml", "/persistence.xml"})
 public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     
     @Resource

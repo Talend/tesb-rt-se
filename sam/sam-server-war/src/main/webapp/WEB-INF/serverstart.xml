@@ -25,7 +25,18 @@ xmlns:util="http://www.springframework.org/schema/util"
 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 ">
-    <import resource="classpath:/META-INF/spring/server.xml" />
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="WEB-INF/logserver.properties"/>
+        <property name="properties">
+            <props>
+                <prop key="db.recreate">false</prop>
+                <prop key="db.createsql">create.sql</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <import resource="classpath:/server.xml" />
 
     <!--  Sample filters -->
     <!-- 
@@ -48,10 +59,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="contentLengthHandler" class="org.talend.esb.sam.common.handler.impl.ContentLengthHandler">
         <property name="length" value="2000" />
     </bean>
-    -->
     
     <bean class="org.talend.esb.sam.common.filter.impl.JxPathFilter">
         <property name="expression" value="/content=''"></property>
     </bean>
+-->
+    
+
 
 </beans>

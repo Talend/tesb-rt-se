@@ -40,7 +40,7 @@ import org.talend.esb.sam.server.persistence.EventRowMapper;
  * Tests the sevice implementation together with the database
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/META-INF/spring/server.xml"})
+@ContextConfiguration(locations = {"/server.xml", "/server-config.xml"})
 public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource
     MonitoringService monitoringSerivce;
