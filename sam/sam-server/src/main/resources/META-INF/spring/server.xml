@@ -21,18 +21,36 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:ctx="http://www.springframework.org/schema/context"
     xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	http://www.springframework.org/schema/osgi-compendium 
+	   http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 	
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<!--import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /-->
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-    
+   
+   <!-- Configuration Admin entry -->
+   <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
+      <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
+	  <prop key="db.driver">org.apache.derby.jdbc.ClientDriver</prop>
+	  <prop key="db.url">jdbc:derby://localhost:1527/db;create=true</prop>
+	  <prop key="db.username">test</prop>
+	  <prop key="db.password">test</prop>
+	  <prop key="db.incrementer">derbyIncrementer</prop>
+	  <prop key="db.recreate">true</prop>
+	  <prop key="db.createsql">create.sql</prop>
+   </osgix:cm-properties>
+
+   <!-- placeholder configurer -->
+   <ctx:property-placeholder properties-ref="sam-server-props" />
+	
     <import resource="persistence.xml"/>
 
     <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">

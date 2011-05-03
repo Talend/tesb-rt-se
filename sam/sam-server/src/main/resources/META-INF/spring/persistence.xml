@@ -32,7 +32,7 @@
     <context:annotation-config />
     <tx:annotation-driven />
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <!--bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="WEB-INF/logserver.properties"/>
         <property name="properties">
             <props>
@@ -40,7 +40,7 @@
                 <prop key="db.createsql">create.sql</prop>
             </props>
         </property>
-    </bean>
+    </bean-->
     
     <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="dataSource"/>
