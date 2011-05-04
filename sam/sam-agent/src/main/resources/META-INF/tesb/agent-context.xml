@@ -36,8 +36,7 @@
 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-	<!--import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" /-->
+
 	<context:annotation-config/>
 	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

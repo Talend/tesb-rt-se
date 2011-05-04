@@ -31,6 +31,9 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
+    
+   <import resource="classpath:/server.xml" />
+   <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
    <!-- Configuration Admin entry -->
    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
@@ -48,8 +51,5 @@
 
    <!-- placeholder configurer -->
    <context:property-placeholder properties-ref="sam-server-props" />
-
-   <import resource="classpath:/server.xml" />
-	
 	
 </beans>

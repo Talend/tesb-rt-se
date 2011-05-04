@@ -28,6 +28,7 @@
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_2</bundle>
     </feature>
+
     <feature name='tesb-rac-services-sam' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-sam</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
@@ -37,18 +38,6 @@
     </feature>
 
   <feature name='tesb-example-sam-osgi' version='${project.version}'>
-    <!--  Deploying the config does not yet work in karaf 2.1.3. From 2.2.x on it will work -->
-    <config name="org.talend.esb.sam.agent.cfg">
-        collector.scheduler.interval=500
-        collector.maxEventsPerCall=10
-
-        log.messageContent=true
-        log.maxContentLength=-1
-
-        service.url=http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP
-        service.retry.number=3
-        service.retry.delay=5000
-    </config>
     <feature version='${project.version}'>tesb-sam-agent</feature>
     <feature>war</feature>
     <bundle>mvn:org.talend.esb.examples/sam-example-osgi/${project.version}</bundle>
