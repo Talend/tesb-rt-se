@@ -47,20 +47,21 @@ public class DBInitializer implements InitializingBean {
 
 	@Override
     public void afterPropertiesSet() throws Exception {
-		StartDerbyThread sdt = new StartDerbyThread();
+/*		StartDerbyThread sdt = new StartDerbyThread();
 		sdt.start();
 		
 		try{
 			Thread.sleep(5000);
 		}catch(Exception ex){
 			ex.printStackTrace();
-		}
-		
+		}*/
+
         SimpleJdbcTemplate sjdbcTemplate = new SimpleJdbcTemplate(dataSource);
         if (recreateDb) {
         	Resource resource = new ClassPathResource(createSql);
         	SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
         }
+        
     }
 
 }

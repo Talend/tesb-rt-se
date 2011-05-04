@@ -35,6 +35,8 @@
    <!-- Configuration Admin entry -->
    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
       <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
+	  <!--prop key="db.driver">org.apache.derby.jdbc.EmbeddedDriver</prop>
+	  <prop key="db.url">jdbc:derby:target/db;create=true</prop-->	  
 	  <prop key="db.driver">org.apache.derby.jdbc.ClientDriver</prop>
 	  <prop key="db.url">jdbc:derby://localhost:1527/db;create=true</prop>
 	  <prop key="db.username">test</prop>
