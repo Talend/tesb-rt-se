@@ -48,8 +48,12 @@
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="${db.driver}" />
+	<bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
+	 	 <constructor-arg value="${db.driver}" />
+	 </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" ref="jdbcDriverClass" />
         <property name="url" value="${db.url}" />
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}" />

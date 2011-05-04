@@ -61,7 +61,7 @@ public class DBInitializer implements InitializingBean {
         	Resource resource = new ClassPathResource(createSql);
         	SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
         }
-        
+
     }
 
 }
