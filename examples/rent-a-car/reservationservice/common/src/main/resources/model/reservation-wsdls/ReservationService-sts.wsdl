@@ -300,9 +300,6 @@
       <wsp:Policy wsu:Id="ReservationServiceBinding_ReservationService_Input_Policy">
       <wsp:ExactlyOne>
          <wsp:All>
-            <sp:EncryptedParts>
-               <sp:Body/>
-            </sp:EncryptedParts>
             <sp:SignedParts>
                <sp:Body/>
                <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
@@ -324,9 +321,6 @@
    <wsp:Policy wsu:Id="ReservationServiceBinding_ReservationService_Output_Policy">
       <wsp:ExactlyOne>
          <wsp:All>
-            <sp:EncryptedParts>
-               <sp:Body/>
-            </sp:EncryptedParts>
             <sp:SignedParts>
                <sp:Body/>
                <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>

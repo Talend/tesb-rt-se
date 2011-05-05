@@ -32,9 +32,9 @@
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>
-           <entry key="ws-security.encryption.properties" value="META-INF/spring/clientKeystore.properties"/> 
+           <!-- <entry key="ws-security.encryption.properties" value="META-INF/spring/clientKeystore.properties"/> -->
            <entry key="ws-security.signature.properties" value="META-INF/spring/clientKeystore.properties"/>
-           <entry key="ws-security.encryption.username" value="myservicekey"/>
+           <!-- <entry key="ws-security.encryption.username" value="myservicekey"/> -->
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
