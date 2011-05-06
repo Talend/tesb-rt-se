@@ -155,6 +155,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.8</version>
 					<configuration>
 						<downloadSources>true</downloadSources>
 					</configuration>
@@ -189,7 +190,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>2.2</version>
-
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -308,6 +308,16 @@
                                 <configuration>
                                     <aggregate>true</aggregate>
                                     <targetJdk>1.6</targetJdk>
+                                </configuration>
+                            </plugin>
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-checkstyle-plugin</artifactId>
+                                <version>2.6</version>
+                                <configuration>
+                                    <!-- http://jira.codehaus.org/browse/MCHECKSTYLE-62 -->
+                                    <!--aggregate>true</aggregate-->
+                                    <!--configLocation>checkstyle.xml</configLocation-->
                                 </configuration>
                             </plugin>
                         </reportPlugins>
