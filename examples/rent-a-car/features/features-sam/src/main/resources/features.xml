@@ -16,17 +16,12 @@
       limitations under the License.
 -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
-    <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
+    <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
     <feature name='tesb-rac-common-sam' version='${project.version}'>
-        <feature>cxf</feature>
-        <feature>tesb-sam-agent</feature>
+        <feature version='${cxf.version}'>cxf</feature>
+        <feature version='${project.version}'>tesb-sam-agent</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/1.1.2</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/1.0.1</bundle>
-		<bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/1.0.1</bundle>
-		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
-		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_2</bundle>
     </feature>
 
     <feature name='tesb-rac-services-sam' version='${project.version}'>
@@ -36,12 +31,6 @@
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-sam/${project.version}</bundle>
     </feature>
-
-  <feature name='tesb-example-sam-osgi' version='${project.version}'>
-    <feature version='${project.version}'>tesb-sam-agent</feature>
-    <feature>war</feature>
-    <bundle>mvn:org.talend.esb.examples/sam-example-osgi/${project.version}</bundle>
-  </feature>
 
     <feature name='tesb-rac-app-sam' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-sam</feature>

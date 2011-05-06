@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Service Activity Monitoring :: Agent
+  Service Activity Monitoring :: Server
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -21,6 +21,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium" 
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
@@ -28,6 +29,8 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://cxf.apache.org/jaxws 
 		http://cxf.apache.org/schemas/jaxws.xsd 
+		http://www.springframework.org/schema/osgi-compendium 
+		http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd 
 		http://www.springframework.org/schema/aop 
@@ -38,12 +41,21 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
 
 	<context:annotation-config/>
-	
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
-        <property name="location" value="classpath:agent.properties"/>
-    </bean>
-	   
+
+   <!-- Configuration Admin entry -->
+   <osgix:cm-properties id="sam-agent-props" persistent-id="org.talend.esb.sam.agent">
+      <prop key="collector.scheduler.interval">500</prop>
+	  <prop key="collector.maxEventsPerCall">10</prop>
+	  <prop key="log.messageContent">true</prop>
+	  <prop key="log.maxContentLength">-1</prop>
+	  <prop key="service.url">http://localhost:8080/services/MonitoringServiceSOAP</prop>
+	  <prop key="service.retry.number">3</prop>
+	  <prop key="service.retry.delay">5000</prop>
+   </osgix:cm-properties>
+
+   <!-- placeholder configurer -->
+   <context:property-placeholder properties-ref="sam-agent-props" />
+
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="mapper" ref="eventMapper" />
         <property name="eventSender" ref="queueSender" />

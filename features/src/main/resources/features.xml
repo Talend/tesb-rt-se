@@ -58,6 +58,11 @@
     <bundle>mvn:org.talend.esb/derby-starter/${project.version}</bundle>
   </feature>  
   
+  <!--feature name='tesb-example-sam-osgi' version='${project.version}'>
+    <feature version='${project.version}'>tesb-sam-agent</feature>
+    <feature>war</feature>
+    <bundle>mvn:org.talend.esb.examples/sam-example-osgi/${project.version}</bundle>
+  </feature-->
 <!--
   <feature name='tesb-example-sam-osgi' version='${project.version}'>
 -->
