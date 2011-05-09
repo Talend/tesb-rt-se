@@ -81,13 +81,7 @@
             <artifactId>derbyclient</artifactId>
             <version>${derby.version}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbynet</artifactId>
-            <version>${derby.version}</version>
-        </dependency>
-                
+                        
 <!--
         <dependency>
             <groupId>mysql</groupId>
