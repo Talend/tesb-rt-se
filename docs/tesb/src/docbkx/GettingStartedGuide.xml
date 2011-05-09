@@ -281,9 +281,10 @@
         </section>
     </chapter>
     <chapter xml:id="rac.deploy">
-        <title>Deploying the &quot;Rent a Car&quot; demo in the Talend ESB
-            Runtime OSGi container</title>
+        <title>Deploying the demo in the OSGi container</title>
         <section>
+        <para>This section describes how to deploy the &quot;Rent a Car&quot; demo in the Talend ESB
+            Runtime OSGi container. This involves a number of steps:</para>
             <title>Create a secondary OSGi container</title>
             <para>One OSGi container is included in the installation in sub-directory
                 <code>container</code>. However, for trying out all aspects of the
@@ -545,7 +546,7 @@ t (4.0.0)
         </section>
     </chapter>
     <chapter>
-        <title>How to run the &quot;Rent a Car&quot; demo</title>
+        <title>Running the &quot;Rent a Car&quot; demo</title>
         <section>
             <title>Use Case Scenario for &quot;Rent a Car&quot;</title>
             <para>A customer enters prerequisite data into a form such as her
@@ -652,7 +653,7 @@ Thank you for renting a car with Talend ESB :-)
         </section>
     </chapter>
     <chapter>
-        <title>How to enable the example in Eclipse</title>
+        <title>Enabling the example in Eclipse</title>
         <para>For more information about how to use the Maven Eclipse Plugin read
             <link xlink:href="http://maven.apache.org/plugins/maven-eclipse-plugin/">http://maven.apache.org/plugins/maven-eclipse-plugin/</link></para>
         <para>For generating the Eclipse configuration files from the base
