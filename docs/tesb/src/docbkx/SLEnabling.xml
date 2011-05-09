@@ -20,7 +20,7 @@
   -->
 
 <chapter version="5.0" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" >
-  <title>Enabling the Service Locator for the Rent a Car demo</title>
+  <title>Enabling the Service Locator for the demo</title>
 
   <section xml:id="install">
     <title>Purpose of Service Locator</title>
@@ -154,10 +154,10 @@ for CXF (4.0.0)
   </section>
 
   <section>
-    <title>What you will see after enabling the Service Locator
-    feature:</title>
+    <title>Results of enabling the Service Locator
+    feature</title>
 
-    <para>We can see additional INFO logs during deploy demo services and
+    <para>After enabling the Service Locator, we can see additional INFO logs during deploy demo services and
     clients into OSGi container.</para>
 
     <para>We have following logs from Zookeeper about initiating and
@@ -213,9 +213,9 @@ http://localhost:8888/soap/ReservationServiceProvider/ for service
   </section>
 
 	<section>
-		<title>Make locator sample more realistic by having several instances
-			of the services</title>
-		<para>We will use two instances of karaf container, will deploy the
+		<title>Increasing the instances of services</title>
+		<para>Now we make locator sample more realistic by having several instances
+			of the services. We will use two instances of karaf container, will deploy the
 			same services with different endpoins in this containers and will see
 			that Locator switch between services.
    </para>

@@ -24,7 +24,7 @@
          xmlns:ns4="http://www.w3.org/1999/xhtml"
          xmlns:ns3="http://www.w3.org/2000/svg"
          xmlns:ns="http://docbook.org/ns/docbook">
-  <title>Enabling WS-Security for the Rent a Car demo</title>
+  <title>Enabling WS-Security for the demo</title>
 
   <section>
     <title>Purpose of the STS</title>
@@ -222,7 +222,7 @@
   </section>
 
   <section>
-    <title>Enabling of WS-Security in the Rent-a-Car example</title>
+    <title>Enabling of WS-Security in the demo</title>
 
     <procedure>
       <step>
@@ -343,8 +343,8 @@
   </section>
 
   <section>
-    <title>Configuration of STS based Authentication in the Rent-a-Car Demo
-    example</title>
+    <title>Configuration of the STS based Authentication in the demo
+    </title>
 
     <para>This section describe configuration steps needs to do manually to
     get the STS feature enabled for CXF sevices and clients. </para>
