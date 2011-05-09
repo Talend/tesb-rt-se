@@ -59,14 +59,14 @@
             cornerstone of every vendor&apos;s Service Oriented Architecture
             (SOA) strategy. In the past, however, ESBs have often failed to
             help leverage the full value of SOA. This was due to their large
-            footprint, centralized architecture, and considerable effort
+            footprint, centralized architecture, and the considerable effort
             required to properly integrate them into an existing application
-            landscape. Unlike these ESB solutions Talend ESB has relatively
-            small size, using of proven open source technologies allows to
-            create and coordinate work of distributed, highly reliable business
+            landscape. Unlike these ESB solutions, Talend ESB has a relatively
+            small size, uses proven open source technologies, and allows for
+            creating and coordinating work of distributed, highly reliable business
             applications without much effort.</para>
         <para>In this Getting Started Guide you will learn about Talend
-            ESB/CXF. This guide contains a simplified real-world example, using
+            ESB. This guide contains a simplified real-world example using
             the domain of car rental companies to demonstrate the use of Talend
             ESB for developing and deploying services.</para>
         <para>You will first learn the design of the Rent a Car Demo. Then we will show how to
@@ -79,8 +79,8 @@
         <title>Rent a Car Demo Example</title>
         <para>For this demo example we have chosen a common business use
             case scenario: a simplified real-world example from the domain of
-            car rental companies. This uses the functionality of the Customer Relationship Management(CRM) service
-            to supply information about the customer, and the reservation service to reserve the car.</para>
+            car rental companies. This uses the functionality of the Customer Relationship Management (CRM) service
+            to supply information about the customer, and the reservation service to reserve a car.</para>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="images/schema.jpg" format="jpg"/>
@@ -89,31 +89,31 @@
         <para>In the course of working through this example you will learn
             how to:</para>
         <itemizedlist>
-            <listitem>compile and build Apache CXF services</listitem>
-            <listitem>deploy services using the Karaf OSGi console</listitem>
-            <listitem>use OSGi commands</listitem>
+            <listitem>Compile and build Apache CXF services</listitem>
+            <listitem>Deploy services using the Karaf OSGi console</listitem>
+            <listitem>Use OSGi commands</listitem>
         </itemizedlist>
         <para>In this scenario, there are two main services that will be
             demonstrated, ReservationService and CRMService. You will create
             and orchestrate these services with the help of a simple graphical
-            rent-a-car client application, called Rental Client.</para>
-        <para>Rental Client provides the basic functionality to search for
-            the available cars within a given time period.  To implement its business logic 
-            the rental client calls operations of
-            both the CRM Service and the Reservation Service, and this is described in the diagram below.
+            rent-a-car client application, simply called the Rental Client.</para>
+        <para>The Rental Client provides the basic functionality to search for
+            the cars available within a given time period.  To implement its business logic 
+            the Rental Client calls operations from
+            both the CRM Service and the Reservation Service as shown in the diagram below.
             <orderedlist>
             <listitem>
             The <emphasis role="strong">search</emphasis> takes
-            into account the status (silver, gold, platinum) of the client name 
-            you select - the customer profile information
-            is passed to the reservation service.
-            This criteria will then determine the outcome of the search. </listitem>
+            into account the status (silver, gold, platinum) of the customer
+            you select.  This customer profile information
+            is passed to the reservation service and is used to 
+            determine the outcome of the search. </listitem>
             <listitem>From
-            the list of results you can select the car that best fulfills your
-            requirements and then make your reservation simply by clicking on
+            the list of results you can select the car that best fulfills the customer
+            requirements and then make a reservation simply by clicking on
             the <emphasis role="strong">Book</emphasis> button. </listitem>
-            <listitem>At the end of the submission process,
-            <emphasis role="strong">confirmation</emphasis> of your booking is displayed with your Reservation
+            <listitem>At the end of the submission process, booking
+            <emphasis role="strong">confirmation</emphasis> is displayed along with a Reservation
             ID. </listitem>
             </orderedlist></para>
         <mediaobject>
@@ -131,17 +131,17 @@
                 is required for installing, building, and running the samples:</para>
             <procedure>
                 <step>
-                    <para>JDK 1.6.0 from Oracle should be installed, and the environment variable
-                        <code>JAVA_HOME</code> should be set to the JDK installation directory.
+                    <para>The JDK 1.6.0 from Oracle should be installed and the environment variable
+                        <constant>JAVA_HOME</constant> set to the JDK installation directory.
                         Later JDKs from Oracle or JDKs from other providers may work but have not
                         been tested.</para>
                 </step>
                 <step>
                     <para>Apache Maven 3.0.3 or later should be installed, and the
-                        <code>mvn</code> executable should be in your <code>PATH</code>. When
-                        running <code>mvn</code>, HTTP access to the internet is required.
+                        <code>mvn</code> executable should be in your <constant>PATH</constant>. When
+                        running <code>mvn</code>, HTTP access to the Internet is required.
                         The local Maven repository is expected to be created in its default
-                        location, that is, the Maven configuration should not have been
+                        location, that is, standard Maven configuration should not be
                         modified.</para>
                 </step>
             </procedure>
@@ -156,7 +156,7 @@
                 <para> <code>talend-esb-&lt;version&gt;.zip</code> and
                 <code>talend-esb-&lt;version&gt;-doc.zip</code></para></para>
                 
-                <para>for
+                <para>For
                 UNIX/Linux: <para> <code>talend-esb-&lt;version&gt;.tar.gz</code>
                 and <code>talend-esb-&lt;version&gt;-doc.tar.gz</code></para></para>
                 
@@ -170,13 +170,12 @@
         <section>
             <title>Rent a Car Demo structure</title>
             This consists of three items:
-            <procedure>
-                <step>
+            <orderedlist>
+                <listitem>
                     <para>CRMService example</para>
                     <para>This example for the CRMService Web service is found in directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/crmservice/</code>.
-                        It consists of four parts (the other directories in this place belong to
-                        other examples and are described there):<informaltable>
+                        It contains the following four subdirectories (other subdirectories are also present and will be explained later):<informaltable>
                             <tgroup cols="2">
                                 <colspec colnum="1" colwidth="1*"/>
                                 <colspec colnum="2" colwidth="2*"/>
@@ -208,19 +207,19 @@
                                         <entry><code>client/</code></entry>
                                         <entry>This is an example client application that shows how
                                             CXF JAX-WS proxies invoke remote JAX-WS endpoints
-                                            hosting the CRMService interface</entry>
+                                            hosting the CRMService interface.</entry>
                                     </row>
                                 </tbody>
                             </tgroup>
                         </informaltable>
                     </para>
-                </step>
-                <step>
+                </listitem>
+                <listitem>
                     <para>ReservationService example</para>
                     <para>This example is found in directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/reservationservice/</code>.
-                        It consists of four parts (the other directories in this place belong to
-                        other examples and are described there):<informaltable>
+                        It contains the following four subdirectories (other subdirectories are also present and will be explained later):
+                        <informaltable>
                             <tgroup cols="2">
                                 <colspec colnum="1" colwidth="1*"/>
                                 <colspec colnum="2" colwidth="2*"/>
@@ -258,21 +257,21 @@
                             </tgroup>
                         </informaltable>
                     </para>
-                </step>
-                <step>
+                </listitem>
+                <listitem>
                     <para>&quot;app-reservation&quot; project bundle</para>
                     <para>Directory
                             <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/app-reservation/</code>
                         contains the Maven project for creating the car reservation example
                         application OSGi bundle.</para>
-                </step>
-            </procedure>
+                </listitem>
+            </orderedlist>
         </section>
         <section>
             <title>Building the &quot;Rent a Car&quot; Demo example</title>
             <para>From the base directory of the ESB example, that is
-                    <code>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/</code>, the Maven
-                project file <code>pom.xml</code> can be used to build the demo. After changing to
+                    <filename>talend-esb-&lt;version&gt;/examples/tesb/rent-a-car/</filename>, the Maven
+                project file <filename>pom.xml</filename> can be used to build the demo. After changing to
                 this directory, Maven is invoked equally from a UNIX/Linux terminal or the Windows
                 command line:</para>
             <para><userinput>mvn clean install</userinput></para>
@@ -287,7 +286,7 @@
             Runtime OSGi container. This involves a number of steps:</para>
             <title>Create a secondary OSGi container</title>
             <para>One OSGi container is included in the installation in sub-directory
-                <code>container</code>. However, for trying out all aspects of the
+                <filename>container</filename>. However, for trying out all aspects of the
                 examples it is recommended to have two OSGI containers. This can be
                 achieved by the following procedure:</para>
             <procedure>
