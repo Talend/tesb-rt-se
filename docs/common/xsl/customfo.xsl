@@ -13,7 +13,10 @@
     <xsl:param name="section.autolabel.max.depth" select="3" />
     <xsl:param name="admon.graphics" select="1" />    
     <xsl:param name="admon.graphics.extension">.svg</xsl:param>    
-    <xsl:param name="admon.graphics.path">../../../common/images/</xsl:param>    
+    <xsl:param name="admon.graphics.path">../../../common/images/</xsl:param> 
+   <!-- set a large enough size for chapter and book name texts. These three numbers are relative to each other. -->  
+    <xsl:param name="header.column.widths">1 1 3</xsl:param>
+    <xsl:param name="footer.column.widths">3 1 1</xsl:param>
     
     <!-- Background shading for tips, notes, caution, etc. -->
 	<xsl:attribute-set name="admonition.properties">
@@ -25,6 +28,16 @@
     <!-- Make hyperlinks blue and don't display the underlying URL -->
     <xsl:attribute-set name="xref.properties">
         <xsl:attribute name="color">blue</xsl:attribute>
+    </xsl:attribute-set>
+    
+    <xsl:attribute-set name="section.title.properties">
+        <xsl:attribute name="space-before.minimum">3.0em</xsl:attribute>
+        <xsl:attribute name="space-before.optimum">3.5em</xsl:attribute>
+        <xsl:attribute name="space-before.maximum">4.0em</xsl:attribute>
+        
+        <xsl:attribute name="space-after.minimum">1.0em</xsl:attribute>
+        <xsl:attribute name="space-after.optimum">1.5em</xsl:attribute>
+        <xsl:attribute name="space-after.maximum">1.5em</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:template match="d:caption">
@@ -149,6 +162,8 @@
     <xsl:template name="book.titlepage.before.recto">
         <fo:external-graphic src="url(../../../common/images/ESB_CoverBridge.jpg)" width="auto" height="auto" content-width="80%" content-type="content-type:image/png"/>
     </xsl:template>
+    
+    
 
 </xsl:stylesheet>
 
