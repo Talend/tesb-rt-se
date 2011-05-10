@@ -47,7 +47,7 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
-        <!-- Copy Docs -->
+        <!-- Copy Docs
         <fileSet>
             <directory>target/docs</directory>
             <outputDirectory>/docs</outputDirectory>
@@ -56,7 +56,7 @@
             <excludes>
             	<exclude>ReleaseNotes.*</exclude>
             </excludes>
-        </fileSet>
+        </fileSet> -->
         <fileSet>
              <directory>target/dependencies/tsf-doc/talend-sf-${tsf.version}/pdf</directory>
             <outputDirectory>/docs</outputDirectory>

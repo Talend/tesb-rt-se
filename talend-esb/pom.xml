@@ -1113,12 +1113,14 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+<!-- 
 								<copy todir="target/docs">
 									<fileset dir="${basedir}/../docs">
 										<include name="**/target/**/*.pdf" />
 									</fileset>
 									<flattenmapper />
 								</copy>
+ -->								
 							</tasks>
 						</configuration>
 						<goals>
