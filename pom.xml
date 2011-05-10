@@ -105,7 +105,6 @@
 		<module>locator</module>
 		<module>sam</module>
 		<module>job</module>
-		<module>docs</module>
 		<module>features</module>
 	</modules>
 
