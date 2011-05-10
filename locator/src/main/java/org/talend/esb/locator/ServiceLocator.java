@@ -63,6 +63,8 @@ public class ServiceLocator {
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 
+	public static final int MAX_TIMEOUT = 60000;
+
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
@@ -328,9 +330,14 @@ public class ServiceLocator {
 	 * @param sessionTimeout timeout in milliseconds, must be greater than zero and less than 60000. 
 	 */
 	public void setSessionTimeout(int timeout) {
-		sessionTimeout = timeout;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.fine("Locator session timeout set to: " + sessionTimeout);
+		if (MAX_TIMEOUT < timeout) {
+			sessionTimeout = MAX_TIMEOUT;
+			LOG.warning("Locator session timeout truncated to " + MAX_TIMEOUT);
+		} else {
+			sessionTimeout = timeout;
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.fine("Locator session timeout set to: " + sessionTimeout);
+			}
 		}
 	}
 
@@ -340,9 +347,14 @@ public class ServiceLocator {
 	 * @param connectionTimeout timeout in milliseconds, must be greater than zero
 	 */
 	public void setConnectionTimeout(int timeout) {
-		connectionTimeout = timeout;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.fine("Locator connection timeout set to: " + connectionTimeout);
+		if (MAX_TIMEOUT < timeout) {
+			connectionTimeout = MAX_TIMEOUT;
+			LOG.warning("Locator connection timeout truncated to " + MAX_TIMEOUT);
+		} else {
+			connectionTimeout = timeout;
+			if (LOG.isLoggable(Level.FINE)) {
+				LOG.fine("Locator connection timeout set to: " + connectionTimeout);
+			}
 		}
 	}
 
