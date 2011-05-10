@@ -66,6 +66,12 @@
 				<module>app-sts</module>
             </modules>
         </profile>
+        <profile>
+            <id>jmx</id>
+            <modules>
+				<module>app-jmx</module>
+            </modules>
+        </profile>
     </profiles>
 
 </project>

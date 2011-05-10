@@ -89,6 +89,9 @@
         <profile>
             <id>sts</id>
         </profile>
+		<profile>
+            <id>jmx</id>
+        </profile>
     </profiles>
 
 </project>

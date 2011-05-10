@@ -63,6 +63,13 @@
 				<module>client-sts</module>
             </modules>
         </profile>
+		<profile>
+            <id>jmx</id>
+            <modules>
+				<module>service-endpoint-jmx</module>
+				<module>client-jmx</module>
+            </modules>
+        </profile>
     </profiles>
 
 </project>

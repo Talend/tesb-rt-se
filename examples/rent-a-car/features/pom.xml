@@ -53,6 +53,12 @@
 				<module>features-sts</module>
             </modules>
         </profile>
+        <profile>
+          <id>jmx</id>
+            <modules>
+              <module>features-jmx</module>
+            </modules>
+          </profile>
     </profiles>
 
 </project>
