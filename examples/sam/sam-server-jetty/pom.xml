@@ -55,7 +55,7 @@
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-		 <webApp>target/dependency/sam-server-war-4.0.war</webApp>
+		 <webApp>target/dependency/sam-server-war-4.1-SNAPSHOT.war</webApp>
 					
                 </configuration>
             </plugin>

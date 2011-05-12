@@ -44,13 +44,6 @@
 					<include>**/beans.xml</include>
                 </includes>
             </resource>
-            <resource>
-                <directory>../../../sam/</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>agent.properties</include>
-                </includes>
-            </resource>
         </resources>
         <plugins>
             <plugin>
