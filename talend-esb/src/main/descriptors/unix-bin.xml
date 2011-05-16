@@ -255,16 +255,16 @@
             <outputDirectory>/add-ons</outputDirectory>
         </fileSet>
 
-        <!-- Copy Docs
+        <!-- Copy Docs -->
         <fileSet>
-            <directory>target/docs</directory>
+            <directory>target/docs/esb-docs-${project.version}</directory>
             <outputDirectory>/docs</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
             <includes>
             	<include>ReleaseNotes.*</include>
             </includes>
-        </fileSet> -->
+        </fileSet>
 
     </fileSets>
 

@@ -26,7 +26,9 @@
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.7.1.0</tif.version>
+		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.0.0</tsf.version>
+		<tsf-doc.version>2.5.0</tsf-doc.version>
         <camel.version>2.7.1</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
@@ -339,10 +341,10 @@
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
-			<groupId>com.talend.if.assembly</groupId>
-			<artifactId>talend-if</artifactId>
- 			<version>${tif.version}</version>
-			<classifier>doc</classifier>
+			<groupId>org.talend.tif.docs</groupId>
+			<artifactId>tif-manual</artifactId>
+ 			<version>${tif-doc.version}</version>
+			<classifier>pdf</classifier>
 			<type>zip</type>
 		</dependency>
 
@@ -355,10 +357,10 @@
 			<type>zip</type>
 		</dependency>
 		<dependency>
-			<groupId>com.talend.sf.assembly</groupId>
-			<artifactId>talend-sf</artifactId>
- 			<version>${tsf.version}</version>
-			<classifier>doc</classifier>
+			<groupId>org.talend.tsf.docs</groupId>
+			<artifactId>tsf-manual</artifactId>
+ 			<version>${tsf-doc.version}</version>
+			<classifier>pdf</classifier>
 			<type>zip</type>
 		</dependency>
 
@@ -971,6 +973,25 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>unpack-tesb-doc</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.talend.esb.docs</groupId>
+									<artifactId>esb-docs</artifactId>
+									<version>${project.version}</version>
+									<type>zip</type>
+									<classifier>pdf</classifier>
+									<outputDirectory>target/docs</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
 						<id>unpack-tsf-doc</id>
 						<phase>generate-resources</phase>
 						<goals>
@@ -979,11 +1000,11 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.talend.sf.assembly</groupId>
-									<artifactId>talend-sf</artifactId>
-									<version>${tsf.version}</version>
+									<groupId>org.talend.tsf.docs</groupId>
+									<artifactId>tsf-manual</artifactId>
+									<version>${tsf-doc.version}</version>
 									<type>zip</type>
-									<classifier>doc</classifier>
+									<classifier>pdf</classifier>
 									<outputDirectory>target/dependencies/tsf-doc</outputDirectory>
 								</artifactItem>
 							</artifactItems>
@@ -998,11 +1019,11 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.talend.if.assembly</groupId>
-									<artifactId>talend-if</artifactId>
-									<version>${tif.version}</version>
+									<groupId>org.talend.tif.docs</groupId>
+									<artifactId>tif-manual</artifactId>
+									<version>${tif-doc.version}</version>
 									<type>zip</type>
-									<classifier>doc</classifier>
+									<classifier>pdf</classifier>
 									<outputDirectory>target/dependencies/tif-doc</outputDirectory>
 								</artifactItem>
 							</artifactItems>
@@ -1113,14 +1134,6 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
-<!-- 
-								<copy todir="target/docs">
-									<fileset dir="${basedir}/../docs">
-										<include name="**/target/**/*.pdf" />
-									</fileset>
-									<flattenmapper />
-								</copy>
- -->								
 							</tasks>
 						</configuration>
 						<goals>
