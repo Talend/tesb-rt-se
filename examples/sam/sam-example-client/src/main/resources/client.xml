@@ -31,7 +31,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<import resource="classpath:/agent-context.xml" />
+	<import resource="classpath:META-INF/tesb/agent-context.xml" />
 
     <bean id="fixedProperties"
         class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
