@@ -27,19 +27,20 @@ import java.util.logging.Logger;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
+import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRepository {
+	
 	private static Logger logger = Logger.getLogger(EventRepositoryImpl.class.getName());
 	
-    DataFieldMaxValueIncrementer incrementer;
+    DatabaseDialect dialect;
 
-    public void setIncrementer(DataFieldMaxValueIncrementer incrementer) {
-        this.incrementer = incrementer;
+    public void setDialect(DatabaseDialect dialect) {
+        this.dialect = dialect;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         Originator originator = event.getOriginator();
         MessageInfo messageInfo = event.getMessageInfo();
 
-        long id = incrementer.nextLongValue();
+        long id = dialect.nextLongValue();
         event.setPersistedId(id);
 
         getSimpleJdbcTemplate()
@@ -84,7 +85,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     private void writeCustomInfo(Event event) {
         // insert customInfo (key/value) into DB
     	for (Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
-    		long cust_id = incrementer.nextLongValue();
+    		long cust_id = dialect.nextLongValue();
             getSimpleJdbcTemplate()
             	.update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE) values (?,?,?,?)",
                             cust_id, event.getPersistedId(), customInfo.getKey(),

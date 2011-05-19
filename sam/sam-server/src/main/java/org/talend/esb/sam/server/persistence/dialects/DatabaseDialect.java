@@ -17,15 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.persistence;
-import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
+package org.talend.esb.sam.server.persistence.dialects;
 
+import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
-public class DerbySequenceIncrementer extends AbstractSequenceMaxValueIncrementer {
-
-    @Override
-    protected String getSequenceQuery() {
-        return "VALUES (NEXT VALUE FOR " + getIncrementerName() + ")";
-    }
+/**
+ * Interface to encapsulate difference between databases
+ * 
+ * @author zubairov
+ *
+ */
+public interface DatabaseDialect extends DataFieldMaxValueIncrementer {
 
 }
