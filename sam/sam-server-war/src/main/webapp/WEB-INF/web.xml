@@ -31,9 +31,20 @@
     <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+    <description>SAM Server UI API</description>
+    <display-name>api</display-name>
+    <servlet-name>api</servlet-name>
+    <servlet-class>org.talend.esb.sam.server.ui.APIServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
     <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>api</servlet-name>
+    <url-pattern>/v1.0/api</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>
