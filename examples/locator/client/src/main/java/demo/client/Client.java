@@ -14,7 +14,7 @@ package demo.client;
 
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.talend.esb.locator.LocatorFeature;
+import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import demo.common.Greeter;
 
 public class Client {
@@ -24,7 +24,7 @@ public class Client {
 		String response = null;
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 		LocatorFeature locatorFeature = new LocatorFeature();
-		locatorFeature.setLocatorEndpoints("localhost:2181");
+//		locatorFeature.setLocatorEndpoints("localhost:2181");
 
 		factory.getFeatures().add(locatorFeature);
 		factory.setServiceClass(Greeter.class);
