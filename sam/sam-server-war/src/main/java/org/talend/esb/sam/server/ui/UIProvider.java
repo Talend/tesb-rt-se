@@ -19,8 +19,6 @@
  */
 package org.talend.esb.sam.server.ui;
 
-import java.sql.SQLException;
-
 import com.google.gson.JsonObject;
 
 /**
@@ -30,7 +28,15 @@ import com.google.gson.JsonObject;
  */
 public interface UIProvider {
 
-	JsonObject getEvents() throws SQLException;
+	/**
+	 * Retrieve an aggregated list of events starting with
+	 * start maximum number of items is limit
+	 * 
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	JsonObject getEvents(long start, long limit);
 	
 	
 }

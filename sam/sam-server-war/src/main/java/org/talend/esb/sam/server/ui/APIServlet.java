@@ -47,8 +47,10 @@ public class APIServlet extends HttpServlet {
 		resp.setContentType("application/json");
 		try {
 			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+			long start = req.getParameter("start") == null ? 1 : Long.parseLong(req.getParameter("start"));
+			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));			
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			JsonObject result = provider.getEvents();
+			JsonObject result = provider.getEvents(start, limit);
 			resp.getWriter().println(result);
 		} catch (Exception e) {
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

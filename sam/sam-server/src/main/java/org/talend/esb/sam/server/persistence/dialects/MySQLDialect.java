@@ -27,5 +27,10 @@ package org.talend.esb.sam.server.persistence.dialects;
  *
  */
 public class MySQLDialect extends AbstractDatabaseDialect {
+
+	@Override
+	public String getDataQuery(long start, long limit) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 	
 }

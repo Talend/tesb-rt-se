@@ -36,4 +36,11 @@ public interface DatabaseDialect {
 	 */
 	DataFieldMaxValueIncrementer getIncrementer();
 	
+	/**
+	 * Should return a query that list data
+	 * 
+	 * @return
+	 */
+	public String getDataQuery(long start, long limit);
+	
 }
