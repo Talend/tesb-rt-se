@@ -34,9 +34,21 @@
     
     <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="dataSource"/>
-        <property name="incrementer" ref="${db.incrementer}" />
+        <property name="dialect" ref="${db.dialect}" />
     </bean>
     
+    <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
+        <property name="incrementer" ref="derbyIncrementer" />
+    </bean>
+    
+    <bean id="mysqlDialect" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
+        <property name="incrementer" ref="mysqlIncrementer" />
+    </bean>
+
+    <bean id="h2Dialect" class="org.talend.esb.sam.server.persistence.dialects.H2Dialect">
+        <property name="incrementer" ref="h2Incrementer" />
+    </bean>
+
     <bean id="derbyIncrementer" class="org.springframework.jdbc.support.incrementer.DerbyMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="TAB_SEQUENCE" />
