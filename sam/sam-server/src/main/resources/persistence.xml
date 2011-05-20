@@ -38,17 +38,35 @@
     </bean>
     
     <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
-        <property name="dataSource" ref="dataSource" />
-        <property name="incrementerName" value="EVENT_ID" />
+        <property name="incrementer" ref="derbyIncrementer" />
     </bean>
     
     <bean id="mysqlDialect" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
+        <property name="incrementer" ref="mysqlIncrementer" />
+    </bean>
+
+    <bean id="h2Dialect" class="org.talend.esb.sam.server.persistence.dialects.H2Dialect">
+        <property name="incrementer" ref="h2Incrementer" />
+    </bean>
+
+    <bean id="derbyIncrementer" class="org.springframework.jdbc.support.incrementer.DerbyMaxValueIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="TAB_SEQUENCE" />
+        <property name="columnName" value="ID_VALUE"/>
+    </bean>
+    
+    <bean id="mysqlIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="SEQUENCE" />
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
-
-	<bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
+    
+    <bean id="h2Incrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="ID_SEQUENCE" />
+    </bean>
+    
+   	<bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
 	 	 <constructor-arg value="${db.driver}" />
 	 </bean>
 

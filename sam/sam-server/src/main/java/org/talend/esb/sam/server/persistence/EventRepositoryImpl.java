@@ -48,7 +48,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         Originator originator = event.getOriginator();
         MessageInfo messageInfo = event.getMessageInfo();
 
-        long id = dialect.nextLongValue();
+        long id = dialect.getIncrementer().nextLongValue();
         event.setPersistedId(id);
 
         getSimpleJdbcTemplate()
@@ -85,7 +85,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     private void writeCustomInfo(Event event) {
         // insert customInfo (key/value) into DB
     	for (Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
-    		long cust_id = dialect.nextLongValue();
+    		long cust_id = dialect.getIncrementer().nextLongValue();
             getSimpleJdbcTemplate()
             	.update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE) values (?,?,?,?)",
                             cust_id, event.getPersistedId(), customInfo.getKey(),

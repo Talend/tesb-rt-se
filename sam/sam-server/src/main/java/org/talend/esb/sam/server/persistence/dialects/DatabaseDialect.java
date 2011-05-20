@@ -1,5 +1,5 @@
 /*
- * #%L
+ * #%L 
  * Service Activity Monitoring :: Server
  * %%
  * Copyright (C) 2011 Talend Inc.
@@ -27,6 +27,13 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  * @author zubairov
  *
  */
-public interface DatabaseDialect extends DataFieldMaxValueIncrementer {
+public interface DatabaseDialect {
 
+	/**
+	 * Returns {@link DataFieldMaxValueIncrementer} for specific database
+	 * 
+	 * @return
+	 */
+	DataFieldMaxValueIncrementer getIncrementer();
+	
 }

@@ -18,7 +18,6 @@
  * #L%
  */
 package org.talend.esb.sam.server.persistence.dialects;
-import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
 
 
 /**
@@ -27,11 +26,6 @@ import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncr
  * @author zubairov
  *
  */
-public class DerbyDialect extends AbstractSequenceMaxValueIncrementer implements DatabaseDialect {
-
-    @Override
-    protected String getSequenceQuery() {
-        return "VALUES (NEXT VALUE FOR " + getIncrementerName() + ")";
-    }
-
+public class DerbyDialect extends AbstractDatabaseDialect {
+	
 }

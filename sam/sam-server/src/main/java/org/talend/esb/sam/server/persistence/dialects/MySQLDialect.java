@@ -19,7 +19,6 @@
  */
 package org.talend.esb.sam.server.persistence.dialects;
 
-import org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer;
 
 /**
  * Class to encapsulate difference between databases
@@ -27,6 +26,6 @@ import org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer;
  * @author zubairov
  *
  */
-public class MySQLDialect extends MySQLMaxValueIncrementer implements DatabaseDialect {
-
+public class MySQLDialect extends AbstractDatabaseDialect {
+	
 }
