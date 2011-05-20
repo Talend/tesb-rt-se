@@ -139,6 +139,9 @@ public interface ServiceLocator {
 	List<QName> getServices() throws InterruptedException,
 		ServiceLocatorException;
 
+	List<SLEndpoint> getEndpoints(QName serviceName)
+		throws ServiceLocatorException, InterruptedException;
+
 	/**
 	 * For the given service return all endpoints that currently registered at
 	 * the Service Locator Service.
@@ -153,7 +156,7 @@ public interface ServiceLocator {
 	 *             the current <code>Thread</code> was interrupted when waiting
 	 *             for a response of the ServiceLocator
 	 */
-	List<String> getEndpoints(QName serviceName)
+	List<String> getEndpointNames(QName serviceName)
 		throws ServiceLocatorException, InterruptedException;
 
 	/**

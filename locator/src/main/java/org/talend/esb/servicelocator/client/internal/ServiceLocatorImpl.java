@@ -40,7 +40,9 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
+import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
 /**
@@ -67,12 +69,42 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
 	public static final byte[] EMPTY_CONTENT = new byte[0];
 
+	private static final NodePathBinder<NodePath> IDENTICAL_BINDER =
+		new NodePathBinder<NodePath>() {
+			@Override
+			public NodePath bind(NodePath nodepath) {
+				return nodepath;
+			}
+		};	
+
+	private static final NodePathBinder<String> TO_NAME__BINDER =
+		new NodePathBinder<String>() {
+			@Override
+			public String bind(NodePath nodePath) {
+				return nodePath.getNodeName();
+			}
+		};
+
+			private static final NodePathBinder<QName> TO_SERVICENAME__BINDER =
+		new NodePathBinder<QName>() {
+			@Override
+			public QName bind(NodePath nodePath) {
+				return QName.valueOf(nodePath.getNodeName());
+			}
+		};
+
+
 	public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
 
 		@Override
 		public void process(ServiceLocator lc) {
 		}
 	};
+	
+	private static interface NodePathBinder<T> {
+		T bind(NodePath nodepath) throws KeeperException, InterruptedException;
+	}
+
 
 	private String locatorEndpoints = "localhost:2181";
 
@@ -192,27 +224,89 @@ public class ServiceLocatorImpl implements ServiceLocator {
 		}
 		checkConnection();
 
-		List<NodePath> serviceNodePaths;
-		
 		try {
-			serviceNodePaths = getChildNodePaths(LOCATOR_ROOT_PATH);
+			return getChildren(LOCATOR_ROOT_PATH, TO_SERVICENAME__BINDER);
 		} catch (KeeperException e) {
 			throw locatorException(e);
 		}
-		
-		List<QName> services = new ArrayList<QName>();
-		for (NodePath serviceNodePath : serviceNodePaths) {
-			QName service = QName.valueOf(serviceNodePath.getNodeName());
-			services.add(service);
-		}
-		return services;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	synchronized public List<String> getEndpoints(QName serviceName)
+	public List<SLEndpoint> getEndpoints(final QName serviceName)
+			throws ServiceLocatorException, InterruptedException {
+		
+		NodePathBinder<SLEndpoint> slEndpointBinder = new NodePathBinder<SLEndpoint>() {
+			
+			@Override
+			public SLEndpoint bind(final NodePath nodePath) throws KeeperException, InterruptedException {
+				final long olderTime = 23678782200l;
+				final long laterTime = olderTime + 24 * 60 * 60* 1000;
+
+				final boolean isLive = isLive(nodePath);
+			
+				SLEndpoint endpoint = new SLEndpoint() {
+					@Override
+					public String getAddress() {
+						return nodePath.getNodeName();
+					}
+
+					@Override
+					public boolean isLive() {
+							return isLive;
+					}
+					
+					@Override
+					public String getBinding() {
+						return "HTTP/SOAP";
+					}
+
+					@Override
+					public SLProperties getProperties() {
+						return new SLPropertiesImpl();
+					}
+
+					@Override
+					public long getLastTimeStarted() {
+						return isLive ? laterTime : olderTime;
+					}
+
+					@Override
+						public long getLastTimeStopped() {
+						return isLive ? olderTime  :laterTime;
+					}
+
+					@Override
+					public QName forService() {
+						return serviceName;
+					}
+						
+				};
+				return endpoint;
+			}
+		};
+		
+		checkConnection();
+		try {
+			NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
+					.toString());
+			if (nodeExists(servicePath)) {
+				return getChildren(servicePath, slEndpointBinder);
+			} else {
+				return Collections.emptyList();
+			}
+		} catch (KeeperException e) {
+			throw locatorException(e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	synchronized public List<String> getEndpointNames(QName serviceName)
 			throws ServiceLocatorException, InterruptedException {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine("Get all endpoints of service " + serviceName + "...");
@@ -220,10 +314,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
 		checkConnection();
 		List<String> children;
 		try {
-			NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
+			NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
 					.toString());
-			if (nodeExists(providerPath)) {
-				children = getChildren(providerPath);
+			if (nodeExists(servicePath)) {
+				children = getChildren(servicePath, TO_NAME__BINDER);
 			} else {
 				if (LOG.isLoggable(Level.FINE)) {
 					LOG.fine("Lookup of service " + serviceName
@@ -254,11 +348,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
 					.toString());
 			if (nodeExists(providerPath)) {
 				liveEndpoints = new ArrayList<String>();
-				List<NodePath> childNodePaths = getChildNodePaths(providerPath);
+				List<NodePath> childNodePaths = getChildren(providerPath, IDENTICAL_BINDER);
 				for (NodePath childNodePath : childNodePaths) {
-					NodePath liveNodePath = childNodePath.child("live");
 					
-					if (nodeExists(liveNodePath)) {
+					if (isLive(childNodePath)) {
 						liveEndpoints.add(childNodePath.getNodeName());
 					}
 				}
@@ -451,28 +544,23 @@ public class ServiceLocatorImpl implements ServiceLocator {
 		}
 	}
 
-	private List<String> getChildren(NodePath path) throws KeeperException,
-			InterruptedException {
+	private <T> List<T> getChildren(NodePath path, NodePathBinder<T> binder) throws KeeperException,
+	InterruptedException {
 		List<String> encoded = zk.getChildren(path.toString(), false);
 
-		List<String> raw = new ArrayList<String>();
+		List<T> boundChildren = new ArrayList<T>();
 
 		for (String oneEncoded : encoded) {
-			raw.add(NodePath.decode(oneEncoded));
+			T boundChild = binder.bind(path.child(oneEncoded, true));
+			boundChildren.add(boundChild);
 		}
-
-		return raw;
+		
+		return boundChildren;
 	}
 
-	private List<NodePath> getChildNodePaths(NodePath path) throws KeeperException,
-			InterruptedException {
-		List<String> children = zk.getChildren(path.toString(), false);
-		
-		List<NodePath> childNodes = new ArrayList<NodePath>(children.size());
-		for (String child : children) {
-			childNodes.add(path.child(child, true));
-		}
-		return childNodes;
+	private boolean isLive(NodePath endpointPath) throws KeeperException, InterruptedException {
+		NodePath liveNodePath = endpointPath.child("live");
+		return nodeExists(liveNodePath);
 	}
 	
 	private byte[] serializePropertis(SLProperties props) throws ServiceLocatorException {
@@ -546,6 +634,5 @@ public class ServiceLocatorImpl implements ServiceLocator {
 				}
 			}
 		}
-	}
-
+	}	
 }

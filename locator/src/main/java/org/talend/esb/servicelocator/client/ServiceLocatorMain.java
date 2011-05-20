@@ -65,7 +65,7 @@ public class ServiceLocatorMain {
 
 	private void printEndpoints(QName service) throws InterruptedException,
 	ServiceLocatorException {
-		List<String> endpoints = sl.getEndpoints(service);
+		List<String> endpoints = sl.getEndpointNames(service);
 		
 		for (String endpoint : endpoints) {
 			out.println(" |--" + endpoint);

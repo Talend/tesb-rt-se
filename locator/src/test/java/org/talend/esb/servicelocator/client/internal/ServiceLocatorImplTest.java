@@ -309,7 +309,7 @@ public class ServiceLocatorImplTest {
 
 		ServiceLocatorImpl slc = createServiceLocatorAndConnect();
 
-		List<String> endpoints = slc.getEndpoints(SERVICE_QNAME_1);
+		List<String> endpoints = slc.getEndpointNames(SERVICE_QNAME_1);
 
 		assertThat(endpoints, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
 		verify();
