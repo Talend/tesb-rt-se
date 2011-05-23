@@ -26,9 +26,6 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
-import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy;
-import org.talend.esb.servicelocator.cxf.internal.LocatorTargetSelector;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
@@ -40,43 +37,34 @@ public class LocatorFeature extends AbstractFeature {
 	private static final Logger LOG = Logger.getLogger(LocatorFeature.class
 			.getName());
 
-/*
-	private String locatorEndpoints;
-
-	private int sessionTimeout;
-
-	private int connectionTimeout;
-
-	private String prefix;
-*/
-
 	@Override
 	public void initialize(Bus bus) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + ".");
+		}
+
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.registerAllServers();
+		slm.listenForAllServers();
+		slm.listenForAllClients();
+		
 	}
 	
 	@Override
 	public void initialize(Client client, Bus bus) {
-		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(client.getEndpoint());
-		
-		ServiceLocator sl = slm.getServiceLocator();
-
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Successfully initialized locator feature");
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and client ." + client);
 		}
 
-		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
-		lfs.setServiceLocator(sl);
-		selector.setLocatorFailoverStrategy(lfs);
-        client.setConduitSelector(selector);
-
+		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
+		slm.enableClient(client);
 	}
 
 	@Override
 	public void initialize(Server server, Bus bus) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and server ." + server);
+		}
+
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
 		slm.registerServer(server);
 	}

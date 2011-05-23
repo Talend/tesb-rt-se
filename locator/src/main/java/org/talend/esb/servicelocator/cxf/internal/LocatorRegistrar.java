@@ -20,6 +20,7 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.servicelocator.client.ServiceLocator;
@@ -47,24 +49,44 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 
 	private String endpointPrefix = "";
 
-	private Set<Server> registeredServer = new HashSet<Server>();
+	private Set<Server> registeredServers = new HashSet<Server>();
+	
+	private boolean listenForServersEnabled;
 	
 	@Override
-	public void startServer(Server server) {}
+	public void startServer(Server server) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Server " + server + " starting...");
+		}
+		if (listenForServersEnabled) {
+			registerServer(server);
+		}
+	
+	}
 
 	@Override
 	public void stopServer(Server server) {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Server " + server + " stopping...");
 		}
-		if (registeredServer.remove(server)) {
+		if (registeredServers.remove(server)) {
 			unregisterServer(server);
 		}
 	}
 
+	public void startListenForServers() {
+		check(bus, "bus", "startListenForServers");
+		listenForServersEnabled = true;
+		registerAvailableServers();
+	}
+
+	public void stopListenForServers() {
+		listenForServersEnabled = false;
+	}
+
 	@Override
 	public void process(ServiceLocator lc) {
-		for (Server server : registeredServer) {
+		for (Server server : registeredServers) {
 			registerServer(server);
 		}
 	}
@@ -120,7 +142,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 						"Interrupted Exception thrown when registering endpoint.", e);
 			}
 		}
-		registeredServer.add(server);
+		registeredServers.add(server);
 	}
 
 	private void unregisterServer(Server server) {
@@ -141,6 +163,15 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 			}
 		}
 	}
+	
+	private void registerAvailableServers() {
+		ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
+		List<Server> servers = serverRegistry.getServers();
+		for (Server server : servers) {
+			registerServer(server);
+		}
+	}
+
 
 	private QName getServiceName(Server server) {
 		EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();

@@ -45,15 +45,14 @@
         <property name="endpointPrefix" value=""/>
     </bean>
 
-    <bean id="locatorRegistrarListener" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrarListener">
+    <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
         <property name="bus" ref="cxf" />
-        <property name="locatorRegistrar" ref="locatorRegistrar" />
+        <property name="serviceLocator" ref="serviceLocator" />
     </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">
         <property name="bus" ref="cxf" />
-        <property name="serviceLocator" ref="serviceLocator" />
         <property name="locatorRegistrar" ref="locatorRegistrar" />
-        <property name="locatorRegistrarListener" ref="locatorRegistrarListener" />
+        <property name="locatorClientEnabler" ref="locatorClientEnabler" />
     </bean>     
 </beans>

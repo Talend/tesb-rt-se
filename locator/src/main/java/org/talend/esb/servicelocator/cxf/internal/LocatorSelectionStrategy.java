@@ -109,6 +109,10 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 		this.serviceLocator = serviceLocator;
 	}
 
+	public ServiceLocator getServiceLocator() {
+		return serviceLocator;
+	}
+
 	private List<String> getEndpoints(QName serviceName) {
 		List<String> endpoints = Collections.emptyList();
 		try {
