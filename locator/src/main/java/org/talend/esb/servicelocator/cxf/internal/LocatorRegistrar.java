@@ -19,6 +19,7 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,19 +38,28 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
 
+/**
+ * The LocatorRegistrar is responsible for registering the endpoints of CXF Servers at the
+ * Service Locator. The Servers endpoint can either be {@link #registerServer(Server) registered
+ * explicitly} or the LocatorRegistrar can be {@link #startListenForServers() enabled to listen 
+ * for all Servers} that are in the process to start and to register them all.
+ * <p>
+ * If a server which was registered before stops the LocatorRegistrar automatically unregisters
+ * from the Service Locator.
+ */
 public class LocatorRegistrar implements ServerLifeCycleListener,
-		ServiceLocator.PostConnectAction {
+        ServiceLocator.PostConnectAction {
 
-	private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class
-			.getPackage().getName());
+    private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class
+        .getPackage().getName());
 
-	private Bus bus;
+    private Bus bus;
 
-	private ServiceLocator locatorClient;
+    private ServiceLocator locatorClient;
 
-	private String endpointPrefix = "";
+    private String endpointPrefix = "";
 
-	private Set<Server> registeredServers = new HashSet<Server>();
+    private Set<Server> registeredServers = Collections.synchronizedSet(new HashSet<Server>());
 	
 	private boolean listenForServersEnabled;
 	
@@ -163,7 +173,10 @@ public class LocatorRegistrar implements ServerLifeCycleListener,
 			}
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
 	private void registerAvailableServers() {
 		ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
 		List<Server> servers = serverRegistry.getServers();

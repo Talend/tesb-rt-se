@@ -42,7 +42,7 @@
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="endpointPrefix" value=""/>
+        <property name="endpointPrefix" value="http://localhost:8080/services"/>
     </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
