@@ -30,7 +30,9 @@ import org.apache.cxf.feature.AbstractFeature;
 /**
  * CXF feature to enable the locator client with an CXF service.
  *
+ * @deprecated use {@link org.talend.esb.servicelocator.cxf.LocatorFeature} instead.
  */
+@Deprecated
 public class LocatorFeature extends AbstractFeature {
 
 	private static final Logger LOG = Logger.getLogger(ServiceLocator.class
