@@ -15,8 +15,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />	
+	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
+<!--	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />	-->
 
 	<jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
 			id="greeter"
@@ -24,8 +24,7 @@
 			serviceName="tns:GreeterService"
 			address="/GreeterService">
 		<jaxws:features>
-			<bean class="org.talend.esb.locator.LocatorFeature">
-		        <property name="endpointPrefix" value="http://localhost:8080/services"/>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
 			</bean>
 		</jaxws:features>
 	</jaxws:endpoint>

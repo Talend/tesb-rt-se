@@ -12,26 +12,16 @@
 
 package demo.client;
 
-
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.talend.esb.servicelocator.cxf.LocatorFeature;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import demo.common.Greeter;
 
 public class Client {
 
 	public static void main(String[] args) throws Exception {
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
+		Greeter client = (Greeter) context.getBean("greeterService");
 
 		String response = null;
-		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		LocatorFeature locatorFeature = new LocatorFeature();
-//		locatorFeature.setLocatorEndpoints("localhost:2181");
-
-		factory.getFeatures().add(locatorFeature);
-		factory.setServiceClass(Greeter.class);
-		factory.setAddress("locator://more_useful_information");
-//		factory.setAddress("http://example.com");
-		Greeter client = (Greeter) factory.create();
-
 		for (int i = 0; i < 10; i++) {
 			System.out.println("BEGIN...");
 
@@ -43,7 +33,9 @@ public class Client {
 
 		}
 
-		System.out.println("END.");
+		Thread.sleep(2000);
+		context.close();
+		System.exit(0); 
 
 	}
 }
