@@ -48,7 +48,7 @@ import org.easymock.IExpectationSetters;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
 public class ServiceLocatorImplTest {

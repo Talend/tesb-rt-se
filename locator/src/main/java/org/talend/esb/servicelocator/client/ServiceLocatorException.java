@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.client.internal;
+package org.talend.esb.servicelocator.client;
 
 
 public class ServiceLocatorException extends Exception {

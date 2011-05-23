@@ -69,6 +69,10 @@ public class LocatorFeature extends AbstractFeature {
 		slm.registerServer(server);
 	}
 
+	protected ServiceLocatorManager getLocatorManager(Bus bus) {
+		return bus.getExtension(ServiceLocatorManager.class);
+	}
+
 	/**
 	 * Specify the endpoints of all the instances belonging to the service locator ensemble the
 	 * service locator client might be talking to. The service locator client will one by one pick

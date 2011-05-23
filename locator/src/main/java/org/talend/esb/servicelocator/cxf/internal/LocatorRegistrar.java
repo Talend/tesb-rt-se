@@ -36,7 +36,7 @@ import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 /**
  * The LocatorRegistrar is responsible for registering the endpoints of CXF Servers at the
