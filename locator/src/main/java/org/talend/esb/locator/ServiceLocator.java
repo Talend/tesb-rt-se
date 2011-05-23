@@ -53,7 +53,10 @@ import org.apache.zookeeper.ZooDefs.Ids;
  * clients can be looked up.
  * </ul>
  * 
+ * @deprecated use {@link org.talend.esb.servicelocator.client.ServiceLocator} instead.
+ * 
  */
+@Deprecated
 public class ServiceLocator {
 
 	private static final Logger LOG = Logger.getLogger(ServiceLocator.class

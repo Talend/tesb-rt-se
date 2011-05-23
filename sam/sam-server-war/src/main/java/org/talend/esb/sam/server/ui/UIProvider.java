@@ -17,20 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.persistence.dialects;
+package org.talend.esb.sam.server.ui;
 
+import com.google.gson.JsonObject;
 
 /**
- * Class to encapsulate difference between databases
+ * Interface of the data provider for SAM UI
  * 
  * @author zubairov
- *
  */
-public class MySQLDialect extends AbstractDatabaseDialect {
+public interface UIProvider {
 
-	@Override
-	public String getDataQuery(long start, long limit) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+	/**
+	 * Retrieve an aggregated list of events starting with
+	 * start maximum number of items is limit
+	 * 
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	JsonObject getEvents(long start, long limit);
+	
 	
 }

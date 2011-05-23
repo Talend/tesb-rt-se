@@ -44,7 +44,7 @@
 	  <prop key="db.url">jdbc:derby://localhost:1527/db;create=true</prop>
 	  <prop key="db.username">test</prop>
 	  <prop key="db.password">test</prop>
-	  <prop key="db.incrementer">derbyIncrementer</prop>
+	  <prop key="db.dialect">derbyDialect</prop>
 	  <prop key="db.recreate">true</prop>
 	  <prop key="db.createsql">create.sql</prop>
    </osgix:cm-properties>

@@ -27,7 +27,7 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  * @author zubairov
  *
  */
-public class AbstractDatabaseDialect implements DatabaseDialect {
+public abstract class AbstractDatabaseDialect implements DatabaseDialect {
 
 	private DataFieldMaxValueIncrementer incrementer;
 

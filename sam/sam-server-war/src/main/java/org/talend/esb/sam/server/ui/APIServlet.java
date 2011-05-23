@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -41,10 +44,27 @@ public class APIServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		JsonObject result = new JsonObject();
-		result.add("message", new JsonPrimitive("Hello world!"));
 		resp.setContentType("application/json");
-		resp.getWriter().println(result.toString());	
+		try {
+			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+			long start = req.getParameter("start") == null ? 1 : Long.parseLong(req.getParameter("start"));
+			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));			
+			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
+			JsonObject result = provider.getEvents(start, limit);
+			resp.getWriter().println(result);
+		} catch (Exception e) {
+			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			resp.getWriter().println(toJSON(e));
+		}
+	}
+
+	/**
+	 * Converts {@link Exception} to {@link JsonObject}
+	 */
+	private JsonObject toJSON(Exception e) {
+		JsonObject result = new JsonObject();
+		result.add("message", new JsonPrimitive(e.getMessage()));
+		return result;
 	}
 
 }
