@@ -33,7 +33,7 @@ import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
 import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public class LocatorSelectionStrategy implements FailoverStrategy {
 
@@ -107,6 +107,10 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
+	}
+
+	public ServiceLocator getServiceLocator() {
+		return serviceLocator;
 	}
 
 	private List<String> getEndpoints(QName serviceName) {

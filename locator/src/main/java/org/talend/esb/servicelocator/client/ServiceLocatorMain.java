@@ -28,7 +28,6 @@ import java.util.NoSuchElementException;
 
 import javax.xml.namespace.QName;
 
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
 public class ServiceLocatorMain {

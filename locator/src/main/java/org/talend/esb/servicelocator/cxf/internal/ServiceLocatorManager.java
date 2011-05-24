@@ -20,34 +20,32 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.extension.BusExtension;
-import org.talend.esb.servicelocator.client.ServiceLocator;
 
 public class ServiceLocatorManager implements BusExtension {
 	
-	private ServiceLocator serviceLocator;
-	
 	private LocatorRegistrar locatorRegistrar;
+	
+	private LocatorClientEnabler clientEnabler;
 	
 	private Bus bus;
 	
-	private LocatorRegistrarListener locatorRegistrarListener;
-	
-	public void registerAllServers() {
-		locatorRegistrarListener.enable();
+	public void listenForAllServers() {
+		locatorRegistrar.startListenForServers();
 	}
-	
+
 	public void registerServer(Server server) {
 		locatorRegistrar.registerServer(server);
 	}
 
-	public void setServiceLocator(ServiceLocator serviceLocator) {
-		this.serviceLocator = serviceLocator;
+	public void listenForAllClients() {
+		clientEnabler.startListenForAllClients();
 	}
 
-	public ServiceLocator getServiceLocator() {
-		return serviceLocator;
+	public void enableClient(Client client) {
+		clientEnabler.enable(client);
 	}
 
 	public void setBus(Bus bus) {
@@ -63,8 +61,8 @@ public class ServiceLocatorManager implements BusExtension {
 		this.locatorRegistrar = locatorRegistrar;
 	}
 
-	public void setLocatorRegistrarListener(LocatorRegistrarListener locatorRegistrarListener) {
-		this.locatorRegistrarListener = locatorRegistrarListener;
+	public void setLocatorClientEnabler(LocatorClientEnabler clientEnabler) {
+		this.clientEnabler = clientEnabler;
 	}
 
 	@Override

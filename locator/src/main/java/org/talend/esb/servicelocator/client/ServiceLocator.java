@@ -23,7 +23,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorException;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the

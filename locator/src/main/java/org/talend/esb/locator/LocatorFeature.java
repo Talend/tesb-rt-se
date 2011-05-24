@@ -23,9 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.feature.AbstractFeature;
+import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
+import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
  * CXF feature to enable the locator client with an CXF service.
@@ -33,9 +32,9 @@ import org.apache.cxf.feature.AbstractFeature;
  * @deprecated use {@link org.talend.esb.servicelocator.cxf.LocatorFeature} instead.
  */
 @Deprecated
-public class LocatorFeature extends AbstractFeature {
+public class LocatorFeature extends org.talend.esb.servicelocator.cxf.LocatorFeature {
 
-	private static final Logger LOG = Logger.getLogger(ServiceLocator.class
+	private static final Logger LOG = Logger.getLogger(LocatorFeature.class
 			.getName());
 
 	private String locatorEndpoints;
@@ -45,49 +44,9 @@ public class LocatorFeature extends AbstractFeature {
 	private int connectionTimeout;
 
 	private String prefix;
+	
+	private ServiceLocatorManager serviceLocatorManager;
 
-	@Override
-	public void initialize(Client client, Bus bus) {
-		LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(client.getEndpoint());
-		
-		ServiceLocator sl = null;
-
-		sl = createServiceLocator();
-
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Successfully initialized locator feature");
-		}
-
-		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
-		lfs.setServiceLocator(sl);
-		selector.setLocatorFailoverStrategy(lfs);
-        client.setConduitSelector(selector);
-
-	}
-
-	@Override
-	public void initialize(Server server, Bus bus) {
-		try {
-			ServiceLocator sl = createServiceLocator();
-			createLocatorRegistrar(bus, sl);
-			
-			if (LOG.isLoggable(Level.FINE)) {
-				LOG.log(Level.FINE, "Successfully initialized locator feature");
-			}
-
-		} catch (InterruptedException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Interrupted Exception thrown during initialization of the locator feature.", e);
-			}
-		} catch (ServiceLocatorException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"ServiceLocator Exception thrown during initialization of the locator feature.", e);
-			}
-		}
-	}
 
 	/**
 	 * Specify the endpoints of all the instances belonging to the service locator ensemble the
@@ -127,9 +86,19 @@ public class LocatorFeature extends AbstractFeature {
 	public void setEndpointPrefix(String prefix) {
 		this.prefix = prefix;
 	}
+	
+	@Override
+	protected ServiceLocatorManager getLocatorManager(Bus bus) {
+		if (serviceLocatorManager == null) {
+			serviceLocatorManager = createLocatorManager(bus);
+		}
+		return serviceLocatorManager;
+	}
 
-	private ServiceLocator createServiceLocator() {
-		ServiceLocator sl = new ServiceLocator();
+
+	
+	private org.talend.esb.servicelocator.client.ServiceLocator createServiceLocator() {
+		ServiceLocatorImpl sl = new ServiceLocatorImpl();
 		if (locatorEndpoints != null) {
 			sl.setLocatorEndpoints(locatorEndpoints);
 		}
@@ -154,7 +123,7 @@ public class LocatorFeature extends AbstractFeature {
 				LOG.log(Level.SEVERE,
 						"Interrupted Exception thrown during initialization of the locator feature.", e);
 			}
-		} catch (ServiceLocatorException e) {
+		} catch (org.talend.esb.servicelocator.client.ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
 						"ServiceLocator Exception thrown during initialization of the locator feature.", e);
@@ -163,17 +132,28 @@ public class LocatorFeature extends AbstractFeature {
 
 		return sl;
 	}
-	
-	private LocatorRegistrar createLocatorRegistrar(Bus bus, ServiceLocator sl)
-			throws InterruptedException, ServiceLocatorException {
-		LocatorRegistrar lr = new LocatorRegistrar();
-		lr.setBus(bus);
-		lr.setLocatorClient(sl);
-		
-		if (prefix != null) {
-			lr.setEndpointPrefix(prefix);
-		}
-		lr.init();
-		return lr;
-	}
+
+    private ServiceLocatorManager createLocatorManager(Bus bus) {
+        org.talend.esb.servicelocator.client.ServiceLocator sl =
+		    createServiceLocator();
+
+        org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar locatorRegistrar =
+            new org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar();
+        locatorRegistrar.setBus(bus);
+        locatorRegistrar.setServiceLocator(sl);
+        locatorRegistrar.setEndpointPrefix(prefix);
+
+        org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler clientEnabler =
+            new org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler();
+        
+        clientEnabler.setBus(bus);
+        clientEnabler.setServiceLocator(sl);
+
+        org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager locatorManager =
+        	new org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager();
+        locatorManager.setLocatorRegistrar(locatorRegistrar);
+        locatorManager.setLocatorClientEnabler(clientEnabler);
+        
+        return locatorManager;
+    }
 }

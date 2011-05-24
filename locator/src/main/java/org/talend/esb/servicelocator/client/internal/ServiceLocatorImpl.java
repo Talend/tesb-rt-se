@@ -44,6 +44,7 @@ import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
