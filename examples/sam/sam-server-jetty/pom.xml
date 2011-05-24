@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>sam-examples</artifactId>
-        <version>4.1-SNAPSHOT</version>
+        <version>4.2-SNAPSHOT</version>
     </parent>
 
     <name>Service Activity Monitoring :: Server Jetty</name>
@@ -35,7 +35,7 @@
                 <artifactItem>
                   <groupId>org.talend.esb</groupId>
                   <artifactId>sam-server-war</artifactId>
-                  <version>4.1-SNAPSHOT</version>
+                  <version>4.2-SNAPSHOT</version>
                   <type>war</type>
                 </artifactItem>
               </artifactItems>
@@ -55,7 +55,7 @@
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-		 <webApp>target/dependency/sam-server-war-4.1-SNAPSHOT.war</webApp>
+		 <webApp>target/dependency/sam-server-war-4.2-SNAPSHOT.war</webApp>
 					
                 </configuration>
             </plugin>
