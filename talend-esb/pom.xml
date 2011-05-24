@@ -29,11 +29,11 @@
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.0.0</tsf.version>
 		<tsf-doc.version>2.5.0</tsf-doc.version>
-        <camel.version>2.7.1</camel.version>
+        <camel.version>2.7-SNAPSHOT</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
-		<karaf.version>2.2.0</karaf.version> 
+		<karaf.version>2.2.1</karaf.version> 
 		<osgi.compendium.version>4.2.0</osgi.compendium.version>
 		<osgi.core.version>4.2.0</osgi.core.version>
 
@@ -894,7 +894,7 @@
 									<groupId>org.apache.camel</groupId>
 									<artifactId>apache-camel</artifactId>
 									<version>${camel.version}</version>
-									<type>tar.gz</type>
+									<type>zip</type>
 									<outputDirectory>target/dependencies/camel</outputDirectory>
 								</artifactItem>
 							</artifactItems>
