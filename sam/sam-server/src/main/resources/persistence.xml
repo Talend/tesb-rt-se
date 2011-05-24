@@ -54,7 +54,7 @@
     </bean>
     
     <bean id="sqlServerDialect" class="org.talend.esb.sam.server.persistence.dialects.SqlServerDialect">
-        <property name="incrementer" ref="h2Incrementer" />
+        <property name="incrementer" ref="sqlServerIncrementer" />
     </bean>
 
     <bean id="derbyIncrementer" class="org.springframework.jdbc.support.incrementer.DerbyMaxValueIncrementer">
