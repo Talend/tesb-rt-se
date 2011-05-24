@@ -20,12 +20,17 @@
 package org.talend.esb.sam.server.ui;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -40,7 +45,9 @@ import com.google.gson.JsonPrimitive;
  */
 @SuppressWarnings("serial")
 public class APIServlet extends HttpServlet {
-
+	
+	private Logger log = LoggerFactory.getLogger(APIServlet.class);
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -48,11 +55,22 @@ public class APIServlet extends HttpServlet {
 		try {
 			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 			long start = req.getParameter("start") == null ? 1 : Long.parseLong(req.getParameter("start"));
-			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));			
+			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
+			Map<String, String> attrs = new HashMap<String, String>();
+			@SuppressWarnings("rawtypes")
+			Enumeration attributeNames = req.getAttributeNames();
+			while(attributeNames.hasMoreElements()) {
+				String name = (String) attributeNames.nextElement();
+				String value = (String) req.getAttribute(name);
+				if (value != null) {
+					attrs.put(name, value);
+				}
+			}
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			JsonObject result = provider.getEvents(start, limit);
+			JsonObject result = provider.getEvents(start, limit, attrs);
 			resp.getWriter().println(result);
 		} catch (Exception e) {
+			log.error("Exception processing request", e);
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			resp.getWriter().println(toJSON(e));
 		}
@@ -63,7 +81,7 @@ public class APIServlet extends HttpServlet {
 	 */
 	private JsonObject toJSON(Exception e) {
 		JsonObject result = new JsonObject();
-		result.add("message", new JsonPrimitive(e.getMessage()));
+		result.add("message", new JsonPrimitive(String.valueOf(e.getMessage())));
 		return result;
 	}
 

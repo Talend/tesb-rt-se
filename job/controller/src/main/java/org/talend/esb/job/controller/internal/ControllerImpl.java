@@ -33,6 +33,7 @@ import java.util.List;
 public class ControllerImpl implements Controller {
 
     private BundleContext bundleContext;
+    private TalendJobLauncher talendJobLauncher = new TalendJobLauncher();
 
     public List<String> list() throws Exception {
         ArrayList<String> list = new ArrayList<String>();
@@ -61,13 +62,7 @@ public class ControllerImpl implements Controller {
         }
         final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
         if (job != null) {
-            new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					job.runJob(args);
-				}
-			}).start();
+            talendJobLauncher.runTalendJob(job, args);
         }
     }
 
