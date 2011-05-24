@@ -17,29 +17,14 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.ui;
-
-import java.util.Map;
-
-import com.google.gson.JsonObject;
+package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Interface of the data provider for SAM UI
+ * Type of the Flow for filtering
  * 
  * @author zubairov
+ *
  */
-public interface UIProvider {
-
-	/**
-	 * Retrieve an aggregated list of events starting with
-	 * start maximum number of items is limit
-	 * 
-	 * @param start
-	 * @param limit
-	 * @param attributes
-	 * @return
-	 */
-	JsonObject getEvents(long start, long limit, Map<String, String> attributes);
-	
-	
+public enum FlowTypeEnum {
+	REQ_RESP, ONE_WAY
 }

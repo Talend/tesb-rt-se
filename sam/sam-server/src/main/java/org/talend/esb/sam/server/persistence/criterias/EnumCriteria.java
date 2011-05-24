@@ -17,29 +17,34 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.ui;
-
-import java.util.Map;
-
-import com.google.gson.JsonObject;
+package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Interface of the data provider for SAM UI
+ * Criteria based on enumeration
  * 
  * @author zubairov
+ * 
  */
-public interface UIProvider {
+public class EnumCriteria extends Criteria {
 
-	/**
-	 * Retrieve an aggregated list of events starting with
-	 * start maximum number of items is limit
-	 * 
-	 * @param start
-	 * @param limit
-	 * @param attributes
-	 * @return
-	 */
-	JsonObject getEvents(long start, long limit, Map<String, String> attributes);
-	
-	
+	@SuppressWarnings("rawtypes")
+	private Class<? extends Enum> enumClass;
+
+	private Enum<?> value;
+
+	public EnumCriteria(String name, String colunmName,
+			@SuppressWarnings("rawtypes") Class<? extends Enum> clazz) {
+		super(name, colunmName);
+		this.enumClass = clazz;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Criteria parseValue(String value) {
+		EnumCriteria result = new EnumCriteria(this.name, this.columnName,
+				(Class<? extends Enum<?>>) this.enumClass);
+		result.value = Enum.valueOf(enumClass, value);
+		return result;
+	}
+
 }

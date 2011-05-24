@@ -17,29 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.ui;
-
-import java.util.Map;
-
-import com.google.gson.JsonObject;
+package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Interface of the data provider for SAM UI
+ * Criteria for patterns
  * 
  * @author zubairov
  */
-public interface UIProvider {
+public class PatternCriteria extends Criteria {
 
-	/**
-	 * Retrieve an aggregated list of events starting with
-	 * start maximum number of items is limit
-	 * 
-	 * @param start
-	 * @param limit
-	 * @param attributes
-	 * @return
-	 */
-	JsonObject getEvents(long start, long limit, Map<String, String> attributes);
+	String pattern;
 	
-	
+	public PatternCriteria(String name, String colunmName) {
+		super(name, colunmName);
+	}
+
+	@Override
+	public Criteria parseValue(String attribute) {
+		PatternCriteria result = new PatternCriteria(this.name, this.columnName);
+		result.pattern = attribute;
+		return result;
+	}
+
 }
