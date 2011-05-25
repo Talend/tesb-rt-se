@@ -60,5 +60,12 @@ public abstract class Criteria {
 	 * @return
 	 */
 	public abstract Criteria parseValue(String attribute);
+
+	/**
+	 * Returns a value of the Criteria that in suitable SQL type
+	 *
+	 * @return
+	 */
+	public abstract Object getValue();
 	
 }

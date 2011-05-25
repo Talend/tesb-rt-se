@@ -23,6 +23,7 @@ Service Locator
 Service Activity Monitoring
 Talend Service Factory
 Talend Integration Factory
+Building with SNAPSHOT versions of Apache products
 
 
 Getting Started 
@@ -139,3 +140,40 @@ It uses a lightweight, component based architecture
 which allows a great flexibility in deployment scenarios: as stand-alone
 JVM applications or embedded in a servlet container such as Tomcat,
 or within a JEE server, or in an OSGi container such as Equinox.
+
+Building with SNAPSHOT versions of Apache products
+==================================================
+
+To be able build Talend ESB SE with SNAPSHOT versions of Apache products, 
+either use "apache-snapshots" profile for build:
+
+mvn clean install -Papache-snapshots
+
+or extend maven settings file (~/.m2/settings.xml) with next information:
+
+	<repositories>
+		<repository>
+			<id>apache-snapshots</id>
+			<url>http://repository.apache.org/snapshots</url>
+			<name>Apache Snapshots Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache-snapshots</id>
+			<url>http://repository.apache.org/snapshots</url>
+			<name>Apache Snapshots Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>

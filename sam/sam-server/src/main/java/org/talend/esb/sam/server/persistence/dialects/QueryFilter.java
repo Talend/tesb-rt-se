@@ -19,18 +19,20 @@
  */
 package org.talend.esb.sam.server.persistence.dialects;
 
-
 /**
- * Class to encapsulate difference between databases
+ * Interface that is responsible to deliver
+ * variable filtering part of the SQL query
  * 
  * @author zubairov
- *
  */
-public class MySQLDialect extends AbstractDatabaseDialect {
+public interface QueryFilter {
 
-	@Override
-	public String getDataQuery(QueryFilter filter) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+	/**
+	 * This method should return where clause according to 
+	 * filtering conditions
+	 * 
+	 * @return
+	 */
+	String getWhereClause();
 
 }

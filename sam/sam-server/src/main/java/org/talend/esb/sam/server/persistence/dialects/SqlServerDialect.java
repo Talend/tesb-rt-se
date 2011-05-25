@@ -28,8 +28,8 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class SqlServerDialect extends AbstractDatabaseDialect {
 
-  @Override
-	public String getDataQuery(long start, long limit) {
+	@Override
+	public String getDataQuery(QueryFilter filter) {
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	

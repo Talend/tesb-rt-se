@@ -47,4 +47,9 @@ public class EnumCriteria extends Criteria {
 		return result;
 	}
 
+	@Override
+	public Object getValue() {
+		return String.valueOf(value);
+	}
+
 }

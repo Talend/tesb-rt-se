@@ -22,7 +22,7 @@ package org.talend.esb.sam.server.persistence.dialects;
 public class OracleDialect extends AbstractDatabaseDialect{
 	
 	@Override
-	 public String getDataQuery(long start, long limit) {
-	  throw new UnsupportedOperationException("Not implemented yet");
-	 }
+	public String getDataQuery(QueryFilter filter) {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 }

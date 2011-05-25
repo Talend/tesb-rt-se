@@ -27,14 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.talend.esb.sam.server.persistence.criterias.Criteria;
-import org.talend.esb.sam.server.persistence.criterias.EnumCriteria;
-import org.talend.esb.sam.server.persistence.criterias.FlowTypeEnum;
-import org.talend.esb.sam.server.persistence.criterias.PatternCriteria;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 import com.google.gson.Gson;
@@ -60,15 +54,6 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
 	private DatabaseDialect dialect;
 	
-	private Logger log = LoggerFactory.getLogger(UIProviderImpl.class);
-	
-	private static final Criteria[] FILTER_CRITERIAS = {
-		new EnumCriteria("type", "EI_EVENT_TYPE", FlowTypeEnum.class),
-		new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
-		new PatternCriteria("port", "MI_PORT_TYPE"),
-		new PatternCriteria("operation", "MI_OPERATION_NAME")
-	};
-
 	/**
 	 * Injector method for {@link DatabaseDialect}
 	 * 
@@ -106,15 +91,13 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	}
 
 	@Override
-	public JsonObject getEvents(long start, long limit, Map<String, String> params) {
-		Set<Criteria> criterias = getCriterias(params);
-		int rowCount = getJdbcTemplate().queryForInt(COUNT_QUERY);
+	public JsonObject getEvents(long start, CriteriaAdapter criteria) {
+		int rowCount = getSimpleJdbcTemplate().queryForInt(COUNT_QUERY);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
 		if (start < rowCount) {
-			String dataQuery = dialect.getDataQuery(start, limit);
-			List<JsonObject> objects = getJdbcTemplate().query(dataQuery,
-					new Mapper());
+			String dataQuery = dialect.getDataQuery(criteria);
+			List<JsonObject> objects = getSimpleJdbcTemplate().query(dataQuery, new Mapper(), criteria);
 			
 			// Render RAW data
 			Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
@@ -153,32 +136,6 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		return result;
 	}
 
-	/**
-	 * Reads filter parameters
-	 * 
-	 * @param req
-	 * @return
-	 */
-	private Set<Criteria> getCriterias(Map<String, String> params) {
-		Set<Criteria> result = new HashSet<Criteria>();
-		Set<String> keys = params.keySet();
-		for (String key : keys) {
-			for (Criteria criteria : FILTER_CRITERIAS) {
-				if (criteria.getName().equals(key)) {
-					try {
-						String value = params.get(key);
-						result.add(criteria.parseValue(value));
-					} catch (Exception e) {
-						// Exception happened during paring
-						log.error("Error parsing parameter " + key, e);
-					}
-				}
-			}
-		}
-		return result;
-	}
-	
-	
 	/**
 	 * Creates a copy of {@link JsonObject}
 	 * 
