@@ -36,7 +36,9 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 	private ServiceLocator locatorClient;
 
 	private Bus bus;
-	
+
+	LocatorSelectionStrategy locatorSelectionStrategy;
+
 	public void setServiceLocator(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
 		if (LOG.isLoggable(Level.FINE)) {
@@ -46,19 +48,24 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 	
 	public void setBus(Bus bus) {
 		this.bus = bus;
-
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Bus " + bus + " was set for LocatorClientRegistrar.");
 		}
-}
+	}
+	
+	public void setLocatorSelectionStrategy(LocatorSelectionStrategy locatorSelectionStrategy) {
+		this.locatorSelectionStrategy = locatorSelectionStrategy;
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "LocatorSelectionStrategy " + locatorSelectionStrategy + " was set for LocatorClientRegistrar.");
+		}
+	}
 
 	public void enable(Client client) {
 		LocatorTargetSelector selector = new LocatorTargetSelector();
         selector.setEndpoint(client.getEndpoint());
 
-		LocatorSelectionStrategy lfs = new LocatorSelectionStrategy();
-		lfs.setServiceLocator(locatorClient);
-		selector.setLocatorFailoverStrategy(lfs);
+        locatorSelectionStrategy.setServiceLocator(locatorClient);
+		selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
         client.setConduitSelector(selector);
 
 		if (LOG.isLoggable(Level.FINE)) {

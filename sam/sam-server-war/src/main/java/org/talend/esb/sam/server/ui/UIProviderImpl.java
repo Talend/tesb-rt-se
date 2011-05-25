@@ -92,12 +92,12 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
 	@Override
 	public JsonObject getEvents(long start, CriteriaAdapter criteria) {
-		int rowCount = getJdbcTemplate().queryForInt(COUNT_QUERY);
+		int rowCount = getSimpleJdbcTemplate().queryForInt(COUNT_QUERY);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
 		if (start < rowCount) {
 			String dataQuery = dialect.getDataQuery(criteria);
-			List<JsonObject> objects = getJdbcTemplate().query(dataQuery, new Mapper(), criteria);
+			List<JsonObject> objects = getSimpleJdbcTemplate().query(dataQuery, new Mapper(), criteria);
 			
 			// Render RAW data
 			Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();

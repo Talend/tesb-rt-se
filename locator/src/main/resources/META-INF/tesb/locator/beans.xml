@@ -45,9 +45,18 @@
         <property name="endpointPrefix" value="http://localhost:8080/services"/>
     </bean>
 
+    <bean id="defaultSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy">
+    </bean>
+
+    <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
+        <property name="reloadAdressesCount" value="10" />
+    </bean>
+
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
+        <property name="locatorSelectionStrategy" ref="evenDistributionSelectionStrategy" />
+<!--         <property name="locatorSelectionStrategy" ref="defaultSelectionStrategy" /> -->
     </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">

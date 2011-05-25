@@ -1,6 +1,6 @@
 /*
  * #%L
- * Service Locator Client for CXF
+ * Abstract base class for Service Locator Selection Strategy
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -20,9 +20,7 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,29 +33,14 @@ import org.apache.cxf.message.Exchange;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
-public class LocatorSelectionStrategy implements FailoverStrategy {
+public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
-	private static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class
+	protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class
 			.getName());
 	
-	private ServiceLocator serviceLocator;
+	protected ServiceLocator serviceLocator;
 	
-	private Random random = new Random();
-
-	private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> getAlternateAddresses(Exchange exchange) {
-		QName serviceName = getServiceName(exchange);
-		List<String> alternateAddresses= getEndpoints(serviceName);
-		synchronized (this) {
-			primaryAddresses.remove(serviceName);
-		}
-		return alternateAddresses;
-	}
+	protected Random random = new Random();
 
 	@Override
 	public String selectAlternateAddress(List<String> alternates) {
@@ -90,21 +73,8 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 	 * @param exchange
 	 * @return
 	 */
-	synchronized public String getPrimaryAddress(Exchange exchange) {
-		QName serviceName = getServiceName(exchange);
-		String primaryAddress = primaryAddresses.get(serviceName);
-
-		if (primaryAddress == null) {
-			List<String> availableAddresses = getEndpoints(serviceName);
-			if (! availableAddresses.isEmpty()) {
-				int index = random.nextInt(availableAddresses.size());
-				primaryAddress = availableAddresses.get(index);
-				primaryAddresses.put(serviceName, primaryAddress);
-			}
-		}
-		return primaryAddress;
-	}
-
+	abstract public String getPrimaryAddress(Exchange exchange);
+	
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
 	}
@@ -112,8 +82,12 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 	public ServiceLocator getServiceLocator() {
 		return serviceLocator;
 	}
-
-	private List<String> getEndpoints(QName serviceName) {
+	
+	protected QName getServiceName(Exchange exchange) {
+		return exchange.getEndpoint().getService().getName();
+	}
+	
+	protected List<String> getEndpoints(QName serviceName) {
 		List<String> endpoints = Collections.emptyList();
 		try {
 			endpoints = serviceLocator.lookup(serviceName);
@@ -131,7 +105,4 @@ public class LocatorSelectionStrategy implements FailoverStrategy {
 		return endpoints;
 	}
 	
-	private QName getServiceName(Exchange exchange) {
-		return exchange.getEndpoint().getService().getName();
-	}
 }

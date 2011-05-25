@@ -34,10 +34,10 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
 	private static final String LOCATOR_PROTOCOL = "locator://";
 	
-	private LocatorSelectionStrategy strategy = new LocatorSelectionStrategy();
+	private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
 
 	public LocatorTargetSelector(LocatorSelectionStrategy strategy) {
-		setLocatorFailoverStrategy(strategy);
+		setLocatorSelectionStrategy(strategy);
 	}
 	
 	public LocatorTargetSelector() {
@@ -67,7 +67,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 		super.prepare(message);
 	}
 	
-	public void setLocatorFailoverStrategy(LocatorSelectionStrategy strategy) {
+	public void setLocatorSelectionStrategy(LocatorSelectionStrategy strategy) {
 		this.strategy = strategy;
 		setStrategy(strategy);
 	}

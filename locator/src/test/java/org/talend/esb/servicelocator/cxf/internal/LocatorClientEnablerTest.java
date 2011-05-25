@@ -53,6 +53,8 @@ public class LocatorClientEnablerTest {
 
 		LocatorClientEnabler clientRegistrar = new LocatorClientEnabler();
 		clientRegistrar.setServiceLocator(sl);
+		// clientRegistrar.setLocatorSelectionStrategy(new DefaultSelectionStrategy());
+		clientRegistrar.setLocatorSelectionStrategy(new EvenDistributionSelectionStrategy());
 		clientRegistrar.enable(client);
 		
 		LocatorTargetSelector selector = capturedSelector.getValue();
