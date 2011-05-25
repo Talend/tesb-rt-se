@@ -31,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.talend.esb.sam.server.persistence.criterias.Criteria;
-import org.talend.esb.sam.server.persistence.criterias.EnumCriteria;
-import org.talend.esb.sam.server.persistence.criterias.FlowTypeEnum;
 import org.talend.esb.sam.server.persistence.criterias.PatternCriteria;
 import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
 
@@ -53,7 +51,6 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	private long limit;
 
 	private static final Criteria[] FILTER_CRITERIAS = {
-			new EnumCriteria("type", "EI_EVENT_TYPE", FlowTypeEnum.class),
 			new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
 			new PatternCriteria("port", "MI_PORT_TYPE"),
 			new PatternCriteria("operation", "MI_OPERATION_NAME") };
@@ -140,10 +137,8 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 			if (result.length() > 0) {
 				result.append(" AND ");
 			}
-			result.append("("); 
-			result.append(criteria.getColumnName());
-			result.append(" ").append(criteria.getComparisonOperator()).append(" ");
-			result.append(":").append(criteria.getName());
+			result.append("(");
+			result.append(criteria.getFilterClause());
 			result.append(")");
 		}
 		return result.toString();

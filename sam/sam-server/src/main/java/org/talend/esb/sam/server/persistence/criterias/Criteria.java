@@ -53,14 +53,6 @@ public abstract class Criteria {
 	}
 
 	/**
-	 * Getter for column name
-	 * @return
-	 */
-	public String getColumnName() {
-		return columnName;
-	}
-	
-	/**
 	 * Creates a copy of the given {@link Criteria} populated
 	 * with the parsed value or throws an exception 
 	 * 
@@ -77,10 +69,8 @@ public abstract class Criteria {
 	public abstract Object getValue();
 
 	/**
-	 * Returns a comparison operator for specified criteria
-	 * 
+	 * Returns something like (COLUMN = :name)
 	 * @return
 	 */
-	public abstract String getComparisonOperator();
-	
+	public abstract StringBuilder getFilterClause();
 }

@@ -35,14 +35,7 @@ public class PatternCriteria extends Criteria {
 	@Override
 	public Criteria parseValue(String attribute) {
 		PatternCriteria result = new PatternCriteria(this.name, this.columnName);
-		String pattern = attribute.replace("*", "%");
-		if (!pattern.startsWith("%")) {
-			pattern = "%" + pattern;
-		}
-		if (!pattern.endsWith("%")) {
-			pattern = pattern.concat("%");
-		}
-		result.pattern = pattern;
+		result.pattern = toSQLPattern(attribute);
 		return result;
 	}
 
@@ -52,8 +45,23 @@ public class PatternCriteria extends Criteria {
 	}
 
 	@Override
-	public String getComparisonOperator() {
-		return "LIKE";
+	public StringBuilder getFilterClause() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(columnName);
+		builder.append(" LIKE ");
+		builder.append(":" + name);
+		return builder;
+	}
+
+	private String toSQLPattern(String attribute) {
+		String pattern = attribute.replace("*", "%");
+		if (!pattern.startsWith("%")) {
+			pattern = "%" + pattern;
+		}
+		if (!pattern.endsWith("%")) {
+			pattern = pattern.concat("%");
+		}
+		return pattern;
 	}
 
 }
