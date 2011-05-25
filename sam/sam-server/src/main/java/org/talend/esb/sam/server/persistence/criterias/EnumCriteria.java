@@ -30,7 +30,7 @@ public class EnumCriteria extends Criteria {
 	@SuppressWarnings("rawtypes")
 	private Class<? extends Enum> enumClass;
 
-	private Enum<?> value;
+	protected Enum<?> value;
 
 	public EnumCriteria(String name, String colunmName,
 			@SuppressWarnings("rawtypes") Class<? extends Enum> clazz) {
@@ -50,6 +50,15 @@ public class EnumCriteria extends Criteria {
 	@Override
 	public Object getValue() {
 		return String.valueOf(value);
+	}
+
+	@Override
+	public StringBuilder getFilterClause() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(columnName);
+		builder.append(" =");
+		builder.append(":" + name);
+		return builder;
 	}
 
 }

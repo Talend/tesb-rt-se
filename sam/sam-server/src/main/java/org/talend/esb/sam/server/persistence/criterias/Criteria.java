@@ -67,5 +67,10 @@ public abstract class Criteria {
 	 * @return
 	 */
 	public abstract Object getValue();
-	
+
+	/**
+	 * Returns something like (COLUMN = :name)
+	 * @return
+	 */
+	public abstract StringBuilder getFilterClause();
 }

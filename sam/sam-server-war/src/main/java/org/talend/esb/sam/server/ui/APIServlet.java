@@ -58,10 +58,10 @@ public class APIServlet extends HttpServlet {
 			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
 			Map<String, String> attrs = new HashMap<String, String>();
 			@SuppressWarnings("rawtypes")
-			Enumeration attributeNames = req.getAttributeNames();
-			while(attributeNames.hasMoreElements()) {
-				String name = (String) attributeNames.nextElement();
-				String value = (String) req.getAttribute(name);
+			Enumeration parameterNames = req.getParameterNames();
+			while(parameterNames.hasMoreElements()) {
+				String name = (String) parameterNames.nextElement();
+				String value = (String) req.getParameter(name);
 				if (value != null) {
 					attrs.put(name, value);
 				}

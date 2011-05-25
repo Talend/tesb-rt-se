@@ -54,10 +54,9 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 	}
 	
 	/**
-	 * 
-	 * @param exchange
-	 * @return
+	 * {@inheritDoc}
 	 */
+	@Override
 	synchronized public String getPrimaryAddress(Exchange exchange) {
 		QName serviceName = getServiceName(exchange);
 		String primaryAddress = null;

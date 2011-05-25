@@ -19,7 +19,10 @@
  */
 package org.talend.esb.sam.server.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.talend.esb.sam.server.persistence.criterias.Criteria;
-import org.talend.esb.sam.server.persistence.criterias.EnumCriteria;
-import org.talend.esb.sam.server.persistence.criterias.FlowTypeEnum;
 import org.talend.esb.sam.server.persistence.criterias.PatternCriteria;
 import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
 
@@ -50,7 +51,6 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	private long limit;
 
 	private static final Criteria[] FILTER_CRITERIAS = {
-			new EnumCriteria("type", "EI_EVENT_TYPE", FlowTypeEnum.class),
 			new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
 			new PatternCriteria("port", "MI_PORT_TYPE"),
 			new PatternCriteria("operation", "MI_OPERATION_NAME") };
@@ -85,6 +85,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 						// Exception happened during paring
 						log.error("Error parsing parameter " + key, e);
 					}
+					break;
 				}
 			}
 		}
@@ -128,7 +129,19 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
 	@Override
 	public String getWhereClause() {
-		return "";
+		StringBuilder result = new StringBuilder();
+		List<String> names = new ArrayList<String>(criterias.keySet());
+		Collections.sort(names);
+		for (String key : names) {
+			Criteria criteria = criterias.get(key);
+			if (result.length() > 0) {
+				result.append(" AND ");
+			}
+			result.append("(");
+			result.append(criteria.getFilterClause());
+			result.append(")");
+		}
+		return result.toString();
 	}
 
 }
