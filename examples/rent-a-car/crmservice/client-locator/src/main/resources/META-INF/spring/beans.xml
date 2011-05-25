@@ -21,8 +21,7 @@
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
 
 	<jaxws:client id="CRMServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
@@ -32,9 +31,7 @@
 		address="locator://CRMServiceProvider"
 	>
 		<jaxws:features>
-			<bean class="org.talend.esb.locator.LocatorFeature">
-				<property name="locatorEndpoints" value="localhost:2181"/>
-			</bean>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 		</jaxws:features>
 	</jaxws:client>
 
