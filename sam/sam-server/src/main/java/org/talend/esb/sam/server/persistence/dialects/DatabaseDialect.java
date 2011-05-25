@@ -41,6 +41,6 @@ public interface DatabaseDialect {
 	 * 
 	 * @return
 	 */
-	public String getDataQuery(long start, long limit);
+	public String getDataQuery(QueryFilter filter);
 	
 }

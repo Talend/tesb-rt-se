@@ -39,4 +39,9 @@ public class PatternCriteria extends Criteria {
 		return result;
 	}
 
+	@Override
+	public Object getValue() {
+		return pattern;
+	}
+
 }

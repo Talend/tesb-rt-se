@@ -67,7 +67,8 @@ public class APIServlet extends HttpServlet {
 				}
 			}
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			JsonObject result = provider.getEvents(start, limit, attrs);
+			CriteriaAdapter adapter = new CriteriaAdapter(start, limit, attrs);
+			JsonObject result = provider.getEvents(start, adapter);
 			resp.getWriter().println(result);
 		} catch (Exception e) {
 			log.error("Exception processing request", e);

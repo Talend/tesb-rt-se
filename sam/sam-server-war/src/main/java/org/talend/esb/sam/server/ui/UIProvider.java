@@ -19,8 +19,6 @@
  */
 package org.talend.esb.sam.server.ui;
 
-import java.util.Map;
-
 import com.google.gson.JsonObject;
 
 /**
@@ -39,7 +37,7 @@ public interface UIProvider {
 	 * @param attributes
 	 * @return
 	 */
-	JsonObject getEvents(long start, long limit, Map<String, String> attributes);
+	JsonObject getEvents(long start, CriteriaAdapter criteria);
 	
 	
 }

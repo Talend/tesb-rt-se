@@ -32,6 +32,7 @@ import org.easymock.EasyMock;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.talend.esb.sam.server.persistence.dialects.DerbyDialect;
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.server.ui.UIProviderImpl;
 
 import com.google.gson.JsonArray;
@@ -69,31 +70,23 @@ public class UIProviderTest extends TestCase {
 		assertEquals(3, res.get("elapsed").getAsInt());
 		assertEquals(2, res.get("types").getAsJsonArray().size());
 	}
-	
-	public void testNonEmptyCriterias() throws Exception {
-		Capture<RowMapper<JsonObject>> mapper = new Capture<RowMapper<JsonObject>>();
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("type", "REQ_RESP");
-		params.put("port", "port");
-		fetchResult(mapper, params);
-	}
-	
 
 	private JsonObject fetchResult(Capture<RowMapper<JsonObject>> mapper, Map<String, String> parameters) {
 		UIProviderImpl provider = new UIProviderImpl();
 		JdbcTemplate template = EasyMock.createMock(JdbcTemplate.class);
 		provider.setJdbcTemplate(template);
 		provider.setDialect(new DerbyDialect());
+		
 		// Expectations
 		EasyMock.expect(template.queryForInt((String) EasyMock.anyObject()))
 				.andReturn(10);
 		EasyMock.expect(
 				template.query((String) EasyMock.anyObject(),
-						EasyMock.capture(mapper))).andReturn(
+						EasyMock.capture(mapper), EasyMock.anyObject())).andReturn(
 				objects);
 		// Test
 		EasyMock.replay(template);
-		JsonObject result = provider.getEvents(0, 100, parameters);
+		JsonObject result = provider.getEvents(0, new CriteriaAdapter(0, 100, parameters));
 		EasyMock.verify(template);
 		return result;
 	}
