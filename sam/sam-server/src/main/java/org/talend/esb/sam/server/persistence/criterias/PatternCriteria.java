@@ -35,7 +35,14 @@ public class PatternCriteria extends Criteria {
 	@Override
 	public Criteria parseValue(String attribute) {
 		PatternCriteria result = new PatternCriteria(this.name, this.columnName);
-		result.pattern = attribute;
+		String pattern = attribute.replace("*", "%");
+		if (!pattern.startsWith("%")) {
+			pattern = "%" + pattern;
+		}
+		if (!pattern.endsWith("%")) {
+			pattern = pattern.concat("%");
+		}
+		result.pattern = pattern;
 		return result;
 	}
 

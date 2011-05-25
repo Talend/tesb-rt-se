@@ -20,7 +20,7 @@
 package org.talend.esb.sam.server.ui.test;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,10 +57,12 @@ public class UIProviderTest extends TestCase {
 		objects.add((JsonObject) parser.parse(sampleTwo));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testEmptyCriterias() throws Exception {
 		Capture<RowMapper<JsonObject>> mapper = new Capture<RowMapper<JsonObject>>();
-		JsonObject result = fetchResult(mapper, Collections.EMPTY_MAP);
+		Capture<PreparedStatementCreator> creator = new Capture<PreparedStatementCreator>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("port", "test");
+		JsonObject result = fetchResult(mapper, creator, params);
 		@SuppressWarnings("unused")
 		RowMapper<JsonObject> rowMapper = mapper.getValue();
 		assertEquals(10, result.get("count").getAsInt());
@@ -69,10 +71,11 @@ public class UIProviderTest extends TestCase {
 		JsonObject res = (JsonObject) aggregated.get(0);
 		assertEquals(3, res.get("elapsed").getAsInt());
 		assertEquals(2, res.get("types").getAsJsonArray().size());
+		System.err.println(creator.getValue());
 	}
 
 	private JsonObject fetchResult(Capture<RowMapper<JsonObject>> mapper,
-			Map<String, String> parameters) {
+			Capture<PreparedStatementCreator> creator, Map<String, String> parameters) {
 		UIProviderImpl provider = new UIProviderImpl();
 		JdbcTemplate template = EasyMock.createMock(JdbcTemplate.class);
 		provider.setJdbcTemplate(template);
@@ -82,7 +85,7 @@ public class UIProviderTest extends TestCase {
 		EasyMock.expect(template.queryForInt((String) EasyMock.anyObject()))
 				.andReturn(10);
 		EasyMock.expect(
-				template.query(EasyMock.anyObject(PreparedStatementCreator.class),
+				template.query(EasyMock.capture(creator),
 						EasyMock.capture(mapper))).andReturn(
 				objects);
 		// Test
