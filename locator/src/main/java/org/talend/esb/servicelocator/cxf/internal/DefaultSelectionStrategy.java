@@ -46,10 +46,9 @@ public class DefaultSelectionStrategy extends LocatorSelectionStrategy implement
 	}
 
 	/**
-	 * 
-	 * @param exchange
-	 * @return
+	 * {@inheritDoc}
 	 */
+	@Override
 	synchronized public String getPrimaryAddress(Exchange exchange) {
 		QName serviceName = getServiceName(exchange);
 		String primaryAddress = primaryAddresses.get(serviceName);
