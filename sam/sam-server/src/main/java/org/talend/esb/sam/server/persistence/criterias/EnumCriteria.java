@@ -52,4 +52,9 @@ public class EnumCriteria extends Criteria {
 		return String.valueOf(value);
 	}
 
+	@Override
+	public String getComparisonOperator() {
+		return "=";
+	}
+
 }

@@ -1,0 +1,64 @@
+/*
+ * #%L
+ * Service Activity Monitoring :: Server
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+package org.talend.esb.sam.server.ui.test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.TestCase;
+
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
+
+public class CriteriaAdapterTest extends TestCase {
+
+	public void testWhereClause() throws Exception {
+		Map<String, String> params = new HashMap<String, String>();
+		assertEquals("", getWhereClause(params));
+		params.put("ignore", "ha ha");
+		assertEquals("", getWhereClause(params));
+		params.put("type", "WRONG");
+		assertEquals("", getWhereClause(params));
+		params.put("type", "REQ_RESP");
+		assertEquals("(EI_EVENT_TYPE = :type)", getWhereClause(params));
+		params.put("port", "port*");
+		assertEquals("(MI_PORT_TYPE LIKE :port)"
+				+ " AND (EI_EVENT_TYPE = :type)", getWhereClause(params));
+		params.put("operation", "blah");
+		assertEquals("(MI_OPERATION_NAME LIKE :operation) "
+				+ "AND (MI_PORT_TYPE LIKE :port) "
+				+ "AND (EI_EVENT_TYPE = :type)", getWhereClause(params));
+	}
+	
+	public void testSQLValuesProvider() throws Exception {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("ignore", "ha ha");
+		params.put("port", "port*");
+		params.put("operation", "blah");
+		params.put("type", "REQ_RESP");
+		CriteriaAdapter adapter = new CriteriaAdapter(0, 100, params);
+		assertTrue(adapter.hasValue("limit") && adapter.hasValue("start"));
+		assertTrue(adapter.hasValue("type") && adapter.hasValue("port") && adapter.hasValue("operation"));
+	}
+
+	private String getWhereClause(Map<String, String> params) {
+		return new CriteriaAdapter(0, 100, params).getWhereClause();
+	}
+
+}

@@ -44,4 +44,9 @@ public class PatternCriteria extends Criteria {
 		return pattern;
 	}
 
+	@Override
+	public String getComparisonOperator() {
+		return "LIKE";
+	}
+
 }

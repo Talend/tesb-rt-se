@@ -19,7 +19,10 @@
  */
 package org.talend.esb.sam.server.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -85,6 +88,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 						// Exception happened during paring
 						log.error("Error parsing parameter " + key, e);
 					}
+					break;
 				}
 			}
 		}
@@ -128,7 +132,21 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
 	@Override
 	public String getWhereClause() {
-		return "";
+		StringBuilder result = new StringBuilder();
+		List<String> names = new ArrayList<String>(criterias.keySet());
+		Collections.sort(names);
+		for (String key : names) {
+			Criteria criteria = criterias.get(key);
+			if (result.length() > 0) {
+				result.append(" AND ");
+			}
+			result.append("("); 
+			result.append(criteria.getColumnName());
+			result.append(" ").append(criteria.getComparisonOperator()).append(" ");
+			result.append(":").append(criteria.getName());
+			result.append(")");
+		}
+		return result.toString();
 	}
 
 }
