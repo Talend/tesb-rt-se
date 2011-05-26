@@ -33,17 +33,10 @@ public class CriteriaAdapterTest extends TestCase {
 		assertEquals("", getWhereClause(params));
 		params.put("ignore", "ha ha");
 		assertEquals("", getWhereClause(params));
-		params.put("type", "WRONG");
-		assertEquals("", getWhereClause(params));
-		params.put("type", "REQ_RESP");
-		assertEquals("(EI_EVENT_TYPE = :type)", getWhereClause(params));
 		params.put("port", "port*");
-		assertEquals("(MI_PORT_TYPE LIKE :port)"
-				+ " AND (EI_EVENT_TYPE = :type)", getWhereClause(params));
+		assertEquals("(MI_PORT_TYPE LIKE :port)", getWhereClause(params));
 		params.put("operation", "blah");
-		assertEquals("(MI_OPERATION_NAME LIKE :operation) "
-				+ "AND (MI_PORT_TYPE LIKE :port) "
-				+ "AND (EI_EVENT_TYPE = :type)", getWhereClause(params));
+		assertEquals("(MI_OPERATION_NAME LIKE :operation) AND (MI_PORT_TYPE LIKE :port)", getWhereClause(params));
 	}
 	
 	public void testSQLValuesProvider() throws Exception {
@@ -51,10 +44,9 @@ public class CriteriaAdapterTest extends TestCase {
 		params.put("ignore", "ha ha");
 		params.put("port", "port*");
 		params.put("operation", "blah");
-		params.put("type", "REQ_RESP");
 		CriteriaAdapter adapter = new CriteriaAdapter(0, 100, params);
 		assertTrue(adapter.hasValue("limit") && adapter.hasValue("start"));
-		assertTrue(adapter.hasValue("type") && adapter.hasValue("port") && adapter.hasValue("operation"));
+		assertTrue(adapter.hasValue("port") && adapter.hasValue("operation"));
 	}
 
 	private String getWhereClause(Map<String, String> params) {
