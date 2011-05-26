@@ -147,4 +147,9 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		return (JsonObject) parser.parse(obj.toString());
 	}
 
+	@Override
+	public JsonObject getFlowDetails(String flowID) {
+		return null;
+	}
+
 }
