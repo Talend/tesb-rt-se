@@ -38,7 +38,7 @@ public class DerbyDialect extends AbstractDatabaseDialect {
 			+ "where "
 			+ "MI_FLOW_ID in ("
 			+ "select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MIN(EI_TIMESTAMP) OFFSET :start ROWS FETCH FIRST :limit ROWS ONLY"
-			+ ") order by EI_TIMESTAMP ";
+			+ ") order by EI_TIMESTAMP";
 
 	@Override
 	public String getDataQuery(QueryFilter filter) {
