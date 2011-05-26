@@ -97,13 +97,13 @@
   <wsdl:binding name="CustomerServiceServiceSoapBinding" type="tns:CustomerService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="updateCustomer">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="updateCustomer" style="document"/>
       <wsdl:input name="updateCustomer">
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="getCustomersByName">
-      <soap:operation soapAction="" style="document"/>
+      <soap:operation soapAction="getCustomersByName" style="document"/>
       <wsdl:input name="getCustomersByName">
         <soap:body use="literal"/>
       </wsdl:input>
