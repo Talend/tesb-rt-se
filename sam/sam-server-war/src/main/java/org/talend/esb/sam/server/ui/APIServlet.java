@@ -20,9 +20,6 @@
 package org.talend.esb.sam.server.ui;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -56,19 +53,12 @@ public class APIServlet extends HttpServlet {
 			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
 			long start = req.getParameter("start") == null ? 1 : Long.parseLong(req.getParameter("start"));
 			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
-			Map<String, String> attrs = new HashMap<String, String>();
-			@SuppressWarnings("rawtypes")
-			Enumeration parameterNames = req.getParameterNames();
-			while(parameterNames.hasMoreElements()) {
-				String name = (String) parameterNames.nextElement();
-				String value = (String) req.getParameter(name);
-				if (value != null) {
-					attrs.put(name, value);
-				}
-			}
+			StringBuffer url = req.getRequestURL();
+			String base = url.substring(0, url.length() - req.getRequestURI().length()) + req.getContextPath() + "/";
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			CriteriaAdapter adapter = new CriteriaAdapter(start, limit, attrs);
-			JsonObject result = provider.getEvents(start, adapter);
+			@SuppressWarnings("unchecked")
+			CriteriaAdapter adapter = new CriteriaAdapter(start, limit, req.getParameterMap());
+			JsonObject result = provider.getEvents(start, base, adapter);
 			resp.getWriter().println(result);
 		} catch (Exception e) {
 			log.error("Exception processing request", e);

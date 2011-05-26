@@ -29,27 +29,27 @@ import org.talend.esb.sam.server.ui.CriteriaAdapter;
 public class CriteriaAdapterTest extends TestCase {
 
 	public void testWhereClause() throws Exception {
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, String[]> params = new HashMap<String, String[]>();
 		assertEquals("", getWhereClause(params));
-		params.put("ignore", "ha ha");
+		params.put("ignore", new String[] {"ha ha"});
 		assertEquals("", getWhereClause(params));
-		params.put("port", "port*");
+		params.put("port", new String[] {"port*"});
 		assertEquals("(MI_PORT_TYPE LIKE :port)", getWhereClause(params));
-		params.put("operation", "blah");
+		params.put("operation", new String[] {"blah"});
 		assertEquals("(MI_OPERATION_NAME LIKE :operation) AND (MI_PORT_TYPE LIKE :port)", getWhereClause(params));
 	}
 	
 	public void testSQLValuesProvider() throws Exception {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("ignore", "ha ha");
-		params.put("port", "port*");
-		params.put("operation", "blah");
+		Map<String, String[]> params = new HashMap<String, String[]>();
+		params.put("ignore", new String[] {"ha ha"});
+		params.put("port", new String[] {"port*"});
+		params.put("operation", new String[] {"blah"});
 		CriteriaAdapter adapter = new CriteriaAdapter(0, 100, params);
 		assertTrue(adapter.hasValue("limit") && adapter.hasValue("start"));
 		assertTrue(adapter.hasValue("port") && adapter.hasValue("operation"));
 	}
 
-	private String getWhereClause(Map<String, String> params) {
+	private String getWhereClause(Map<String, String[]> params) {
 		return new CriteriaAdapter(0, 100, params).getWhereClause();
 	}
 

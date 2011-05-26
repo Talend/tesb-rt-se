@@ -37,7 +37,7 @@ public interface UIProvider {
 	 * @param attributes
 	 * @return
 	 */
-	JsonObject getEvents(long start, CriteriaAdapter criteria);
+	JsonObject getEvents(long start, String baseURL, CriteriaAdapter criteria);
 	
 	
 }

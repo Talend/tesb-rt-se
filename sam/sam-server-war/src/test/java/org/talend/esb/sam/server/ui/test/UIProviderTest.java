@@ -60,8 +60,8 @@ public class UIProviderTest extends TestCase {
 	public void testEmptyCriterias() throws Exception {
 		Capture<RowMapper<JsonObject>> mapper = new Capture<RowMapper<JsonObject>>();
 		Capture<PreparedStatementCreator> creator = new Capture<PreparedStatementCreator>();
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("port", "test");
+		Map<String, String[]> params = new HashMap<String, String[]>();
+		params.put("port", new String[] {"test"});
 		JsonObject result = fetchResult(mapper, creator, params);
 		@SuppressWarnings("unused")
 		RowMapper<JsonObject> rowMapper = mapper.getValue();
@@ -75,7 +75,7 @@ public class UIProviderTest extends TestCase {
 	}
 
 	private JsonObject fetchResult(Capture<RowMapper<JsonObject>> mapper,
-			Capture<PreparedStatementCreator> creator, Map<String, String> parameters) {
+			Capture<PreparedStatementCreator> creator, Map<String, String[]> parameters) {
 		UIProviderImpl provider = new UIProviderImpl();
 		JdbcTemplate template = EasyMock.createMock(JdbcTemplate.class);
 		provider.setJdbcTemplate(template);
@@ -90,7 +90,7 @@ public class UIProviderTest extends TestCase {
 				objects);
 		// Test
 		EasyMock.replay(template);
-		JsonObject result = provider.getEvents(0, new CriteriaAdapter(0, 100,
+		JsonObject result = provider.getEvents(0, "base", new CriteriaAdapter(0, 100,
 				parameters));
 		EasyMock.verify(template);
 		return result;

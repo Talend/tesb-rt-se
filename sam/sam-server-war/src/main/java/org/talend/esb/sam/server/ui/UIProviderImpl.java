@@ -91,7 +91,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	}
 
 	@Override
-	public JsonObject getEvents(long start, CriteriaAdapter criteria) {
+	public JsonObject getEvents(long start, String baseURL, CriteriaAdapter criteria) {
 		int rowCount = getSimpleJdbcTemplate().queryForInt(COUNT_QUERY);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
@@ -104,7 +104,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 			JsonArray rawData = new JsonArray();
 			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").toString();
+				String flowID = obj.get("flowID").getAsString();
 				long timestamp = obj.get("timestamp").getAsLong();
 				rawData.add(copy(obj));
 				flowLastTimestamp.put(flowID, timestamp);
@@ -118,7 +118,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			// Aggregated data
 			JsonArray aggregated = new JsonArray();
 			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").toString();
+				String flowID = obj.get("flowID").getAsString();
 				long timestamp = obj.get("timestamp").getAsLong();
 				Long endTime = flowLastTimestamp.get(flowID);
 				if (endTime != null) {
@@ -128,6 +128,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 							new JsonPrimitive(endTime - timestamp));
 					newObj.remove("type");
 					newObj.add("types", gson.toJsonTree(flowTypes.get(flowID)));
+					newObj.add("details", new JsonPrimitive(baseURL + "flow/" + flowID));
 					aggregated.add(newObj);
 				}
 			}

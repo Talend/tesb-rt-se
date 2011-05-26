@@ -59,7 +59,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
 	private static final String START_NAME = "start";
 
-	public CriteriaAdapter(long start, long limit, Map<String, String> params) {
+	public CriteriaAdapter(long start, long limit, Map<String, String[]> params) {
 		this.start = start;
 		this.limit = limit;
 		this.criterias = getCriterias(params);
@@ -72,14 +72,14 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	 * @param req
 	 * @return
 	 */
-	private Map<String, Criteria> getCriterias(Map<String, String> params) {
+	private Map<String, Criteria> getCriterias(Map<String, String[]> params) {
 		Map<String, Criteria> result = new HashMap<String, Criteria>();
 		Set<String> keys = params.keySet();
 		for (String key : keys) {
 			for (Criteria criteria : FILTER_CRITERIAS) {
 				if (criteria.getName().equals(key)) {
 					try {
-						String value = params.get(key);
+						String value = params.get(key)[0];
 						result.put(key, criteria.parseValue(value));
 					} catch (Exception e) {
 						// Exception happened during paring
