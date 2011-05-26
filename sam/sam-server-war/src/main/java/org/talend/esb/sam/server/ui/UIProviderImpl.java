@@ -19,8 +19,6 @@
  */
 package org.talend.esb.sam.server.ui;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,12 +46,18 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
 	private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS";
 
+	private static final String SELECT_FLOW_QUERY = "select "
+			+ "ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
+			+ "ORIG_HOSTNAME, ORIG_IP, ORIG_PRINCIPAL, MI_PORT_TYPE, MI_OPERATION_NAME, "
+			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
+			+ "from EVENTS where MI_FLOW_ID = :flowID";
+
 	private JsonParser parser = new JsonParser();
 
 	private Gson gson = new Gson();
 
 	private DatabaseDialect dialect;
-	
+
 	/**
 	 * Injector method for {@link DatabaseDialect}
 	 * 
@@ -63,48 +67,25 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		this.dialect = dialect;
 	}
 
-	/**
-	 * Result mapper
-	 * 
-	 * @author zubairov
-	 * 
-	 */
-	private class Mapper implements RowMapper<JsonObject> {
-
-		@Override
-		public JsonObject mapRow(ResultSet rs, int rowNum) throws SQLException {
-			JsonObject row = new JsonObject();
-			row.add("flowID", new JsonPrimitive(rs.getString("MI_FLOW_ID")));
-			row.add("timestamp",
-					new JsonPrimitive(rs.getTimestamp("EI_TIMESTAMP").getTime()));
-			row.add("type", new JsonPrimitive(rs.getString("EI_EVENT_TYPE")));
-			row.add("port", new JsonPrimitive(rs.getString("MI_PORT_TYPE")));
-			row.add("operation",
-					new JsonPrimitive(rs.getString("MI_OPERATION_NAME")));
-			row.add("transport",
-					new JsonPrimitive(rs.getString("MI_TRANSPORT_TYPE")));
-			row.add("host", new JsonPrimitive(rs.getString("ORIG_HOSTNAME")));
-			row.add("ip", new JsonPrimitive(rs.getString("ORIG_IP")));
-			return row;
-		}
-
-	}
-
+	private RowMapper<JsonObject> mapper = new JsonRowMapper(); 
+	
 	@Override
-	public JsonObject getEvents(long start, CriteriaAdapter criteria) {
+	public JsonObject getEvents(long start, String baseURL,
+			CriteriaAdapter criteria) {
 		int rowCount = getSimpleJdbcTemplate().queryForInt(COUNT_QUERY);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
 		if (start < rowCount) {
 			String dataQuery = dialect.getDataQuery(criteria);
-			List<JsonObject> objects = getSimpleJdbcTemplate().query(dataQuery, new Mapper(), criteria);
-			
+			List<JsonObject> objects = getSimpleJdbcTemplate().query(dataQuery,
+					mapper, criteria);
+
 			// Render RAW data
 			Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
 			Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 			JsonArray rawData = new JsonArray();
 			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").toString();
+				String flowID = obj.get("flowID").getAsString();
 				long timestamp = obj.get("timestamp").getAsLong();
 				rawData.add(copy(obj));
 				flowLastTimestamp.put(flowID, timestamp);
@@ -118,7 +99,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			// Aggregated data
 			JsonArray aggregated = new JsonArray();
 			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").toString();
+				String flowID = obj.get("flowID").getAsString();
 				long timestamp = obj.get("timestamp").getAsLong();
 				Long endTime = flowLastTimestamp.get(flowID);
 				if (endTime != null) {
@@ -128,12 +109,33 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 							new JsonPrimitive(endTime - timestamp));
 					newObj.remove("type");
 					newObj.add("types", gson.toJsonTree(flowTypes.get(flowID)));
+					newObj.add("details", new JsonPrimitive(baseURL + "flow/"
+							+ flowID));
 					aggregated.add(newObj);
 				}
 			}
 			result.add("aggregated", aggregated);
 		}
 		return result;
+	}
+
+	@Override
+	public JsonObject getFlowDetails(String flowID) {
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("flowID", flowID);
+		JsonObject result = new JsonObject();
+		JsonArray events = new JsonArray();
+		List<JsonObject> list = getSimpleJdbcTemplate().query(
+				SELECT_FLOW_QUERY, mapper, params);
+		if (list.isEmpty()) {
+			return null;
+		} else {
+			for (JsonObject obj : list) {
+				events.add(obj);
+			}
+			result.add("events", events);
+			return result;
+		}
 	}
 
 	/**

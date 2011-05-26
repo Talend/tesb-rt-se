@@ -17,12 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.ui;
+package org.talend.esb.sam.server.ui.servlets;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,49 +30,53 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.talend.esb.sam.server.ui.UIProvider;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 /**
- * The JSON API servlet serves simple requests
+ * Common class for API Servlets
  * 
  * @author zubairov
- *
+ * 
  */
-@SuppressWarnings("serial")
-public class APIServlet extends HttpServlet {
+public abstract class AbstractAPIServlet extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	private Logger log = LoggerFactory.getLogger(APIServlet.class);
-	
+	private Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
+
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.setContentType("application/json");
+		WebApplicationContext ctx = WebApplicationContextUtils
+				.getRequiredWebApplicationContext(this.getServletContext());
 		try {
-			WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
-			long start = req.getParameter("start") == null ? 1 : Long.parseLong(req.getParameter("start"));
-			long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
-			Map<String, String> attrs = new HashMap<String, String>();
-			@SuppressWarnings("rawtypes")
-			Enumeration parameterNames = req.getParameterNames();
-			while(parameterNames.hasMoreElements()) {
-				String name = (String) parameterNames.nextElement();
-				String value = (String) req.getParameter(name);
-				if (value != null) {
-					attrs.put(name, value);
-				}
-			}
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			CriteriaAdapter adapter = new CriteriaAdapter(start, limit, attrs);
-			JsonObject result = provider.getEvents(start, adapter);
-			resp.getWriter().println(result);
+			resp.setContentType("application/json");
+			processRequest(req, resp, provider);
 		} catch (Exception e) {
-			log.error("Exception processing request", e);
+			log.error("Exception processing request " + req.getRequestURI() + " with parameters " + req.getQueryString(), e);
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			resp.getWriter().println(toJSON(e));
 		}
 	}
+
+	/**
+	 * This method should be implemented by the extensions of
+	 * {@link AbstractAPIServlet}
+	 * 
+	 * @param req
+	 * @param resp
+	 * @param provider
+	 */
+	abstract void processRequest(HttpServletRequest req,
+			HttpServletResponse resp, UIProvider provider) throws Exception;
 
 	/**
 	 * Converts {@link Exception} to {@link JsonObject}

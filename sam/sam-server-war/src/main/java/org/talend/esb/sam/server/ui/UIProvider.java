@@ -37,7 +37,15 @@ public interface UIProvider {
 	 * @param attributes
 	 * @return
 	 */
-	JsonObject getEvents(long start, CriteriaAdapter criteria);
+	JsonObject getEvents(long start, String baseURL, CriteriaAdapter criteria);
+
+	/**
+	 * Returns a detailed information about flow with given ID or null if no such flow was found
+	 * 
+	 * @param flowID
+	 * @return
+	 */
+	JsonObject getFlowDetails(String flowID);
 	
 	
 }
