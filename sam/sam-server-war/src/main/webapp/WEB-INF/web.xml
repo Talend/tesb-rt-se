@@ -35,8 +35,14 @@
     <description>SAM Server UI API :: List</description>
     <display-name>list</display-name>
     <servlet-name>list</servlet-name>
-    <servlet-class>org.talend.esb.sam.server.ui.APIServlet</servlet-class>
+    <servlet-class>org.talend.esb.sam.server.ui.servlets.ListServlet</servlet-class>
     <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet>
+  	<description>SAM Server UI API :: Flow Details</description>
+  	<display-name>flow</display-name>
+  	<servlet-name>flow</servlet-name>
+  	<servlet-class>org.talend.esb.sam.server.ui.servlets.FlowDetailsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
@@ -45,6 +51,10 @@
   <servlet-mapping>
     <servlet-name>list</servlet-name>
     <url-pattern>/api/v1.0/list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>flow</servlet-name>
+    <url-pattern>/api/v1.0/flow/*</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>

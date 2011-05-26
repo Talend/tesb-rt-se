@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.ui;
+package org.talend.esb.sam.server.ui.servlets;
 
 import java.io.IOException;
 
@@ -30,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
+import org.talend.esb.sam.server.ui.UIProvider;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -41,9 +43,9 @@ import com.google.gson.JsonPrimitive;
  *
  */
 @SuppressWarnings("serial")
-public class APIServlet extends HttpServlet {
+public class ListServlet extends HttpServlet {
 	
-	private Logger log = LoggerFactory.getLogger(APIServlet.class);
+	private Logger log = LoggerFactory.getLogger(ListServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
