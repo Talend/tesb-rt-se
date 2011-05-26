@@ -44,8 +44,7 @@
         <profile>
             <id>locator</id>
             <modules>
-				<module>service-endpoint-locator1</module>
-                <module>service-endpoint-locator2</module>
+				<module>service-endpoint-locator</module>
 		        <module>client-locator</module>
             </modules>
         </profile>

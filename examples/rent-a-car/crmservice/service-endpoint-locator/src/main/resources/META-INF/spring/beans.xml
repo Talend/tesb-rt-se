@@ -23,16 +23,17 @@
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
 
-	<bean id="ReservationServiceBean"
-		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
+	<bean id="CRMServiceBean"
+		class="org.talend.services.crmservice.service.CRMServiceImpl"/>
 
 	<!-- HTTP Endpoint -->
-	<jaxws:endpoint id="ReservationService"
-		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
-		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
-		implementor="#ReservationServiceBean"
-		address="/ReservationServiceProvider2/">
+	<jaxws:endpoint id="CRMService"
+		xmlns:serviceNamespace="http://services.talend.org/CRMService"
+		serviceName="serviceNamespace:CRMServiceProvider"
+		endpointName="serviceNamespace:CRMServiceProvider"
+		implementor="#CRMServiceBean"
+		address="/CRMServiceProvider/"
+	>
 		<jaxws:features>
 			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 		</jaxws:features>
