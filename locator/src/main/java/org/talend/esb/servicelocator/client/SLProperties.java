@@ -1,8 +1,3 @@
-package org.talend.esb.servicelocator.client;
-
-import java.io.Serializable;
-import java.util.Collection;
-
 /*
  * #%L
  * Service Locator Client for CXF
@@ -22,16 +17,26 @@ import java.util.Collection;
  * limitations under the License.
  * #L%
  */
+package org.talend.esb.servicelocator.client;
+
+import java.io.Serializable;
+import java.util.Collection;
+
 public interface SLProperties extends Serializable {
 
-	Collection<? extends String> getPropertyNames();
+	Collection<String> getPropertyNames();
 	
 	boolean hasProperty(String name);
 
-	String getValue(String name);
+//	PropertyType getType(String name);
 
-	Collection<? extends String> getValues(String name);
+//	String getValue(String name);
+
+	Collection<String> getValues(String name);
 
 	boolean includesValues(String name, String... values);
 
+//	public static enum PropertyType {
+//	    SINGLE, MULTI
+//	}
 }

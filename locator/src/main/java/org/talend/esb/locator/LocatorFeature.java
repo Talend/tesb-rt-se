@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
@@ -88,16 +89,23 @@ public class LocatorFeature extends org.talend.esb.servicelocator.cxf.LocatorFea
 	}
 	
 	@Override
-	protected ServiceLocatorManager getLocatorManager(Bus bus) {
+	protected ServiceLocatorManager getLocatorManager(Bus bus)  {
 		if (serviceLocatorManager == null) {
-			serviceLocatorManager = createLocatorManager(bus);
+			try {
+                serviceLocatorManager = createLocatorManager(bus);
+            } catch (ServiceLocatorException e) {
+                if (LOG.isLoggable(Level.SEVERE)) {
+                    LOG.log(Level.SEVERE,
+                            "ServiceLocator Exception thrown during initialization of the locator feature.", e);
+                }
+            }
 		}
 		return serviceLocatorManager;
 	}
 
 
-	
-	private org.talend.esb.servicelocator.client.ServiceLocator createServiceLocator() {
+	private org.talend.esb.servicelocator.client.ServiceLocator createServiceLocator()
+	    throws ServiceLocatorException {
 		ServiceLocatorImpl sl = new ServiceLocatorImpl();
 		if (locatorEndpoints != null) {
 			sl.setLocatorEndpoints(locatorEndpoints);
@@ -133,7 +141,7 @@ public class LocatorFeature extends org.talend.esb.servicelocator.cxf.LocatorFea
 		return sl;
 	}
 
-    private ServiceLocatorManager createLocatorManager(Bus bus) {
+    private ServiceLocatorManager createLocatorManager(Bus bus) throws ServiceLocatorException {
         org.talend.esb.servicelocator.client.ServiceLocator sl =
 		    createServiceLocator();
 

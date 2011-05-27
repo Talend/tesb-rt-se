@@ -21,246 +21,243 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.service.model.EndpointInfo;
-import org.apache.cxf.service.model.ServiceInfo;
 import org.easymock.Capture;
+import org.easymock.CaptureType;
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
+import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_1;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
 
 public class LocatorRegistrarTest extends EasyMockSupport {
 
     public static final String PREFIX = "prefix";
 
-    public static final Server SERVER_1 = createServerStub(SERVICE_QNAME_1, ENDPOINT_1);
-
-    public static final Server SERVER_2 = createServerStub(SERVICE_QNAME_2, ENDPOINT_2);
-
     private ServiceLocator sl = createMock(ServiceLocator.class);
-	
-	@Test
-	public void postConnectActionRegistered() {
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setServiceLocator(sl);
-
-		verifyAll();
-		
-	}
-
-	@Test
-	public void registerEndpoint() throws Exception {
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		sl.register(SERVICE_QNAME_1, ENDPOINT_1);
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setServiceLocator(sl);
-		
-		locatorRegistrar.registerServer(SERVER_1);
-
-		verifyAll();
-	}
-
-	@Test
-	public void registerEndpointWithPrefixSet() throws Exception {
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		sl.register(SERVICE_QNAME_1, PREFIX + ENDPOINT_1);
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setEndpointPrefix(PREFIX);
-		locatorRegistrar.setServiceLocator(sl);
-		
-		locatorRegistrar.registerServer(SERVER_1);
-
-		verifyAll();
-	}
-
-	@Test
-	public void registerEndpointLocatorNull() throws Exception {
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		
-		try {
-			locatorRegistrar.registerServer(SERVER_1);
-			fail("An IllegalStateException should have been thrown.");
-		} catch (IllegalStateException e) {
-			
-		}
-
-		verifyAll();
-	}
-
-	@Test
-	public void registerServerLifeCycleListener() {
-		ServerLifeCycleManager slcm = createMock(ServerLifeCycleManager.class);
-		slcm.registerListener((ServerLifeCycleListener) anyObject());
-		Bus bus = createMock(Bus.class);
-		expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
-		EasyMock.replay(slcm, bus);
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setBus(bus);
-
-		EasyMock.verify(slcm, bus);
-	}
-
-	@Test
-	public void startListenForServer() throws Exception {
-		Bus bus = createMock(Bus.class);
-
-		Capture<ServerLifeCycleListener> slclCapture = 
-			addServerLifeCycleManager(bus);
-		
-		List<Server> servers = Collections.emptyList();
-		addRegisteredServers(bus, servers);
-		
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		sl.register(SERVICE_QNAME_1, ENDPOINT_1);
-
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setBus(bus);
-		locatorRegistrar.setServiceLocator(sl);
-		locatorRegistrar.startListenForServers();
-
-		ServerLifeCycleListener listener =  slclCapture.getValue();
-		listener.startServer(SERVER_1);
-
-		verifyAll();
-	}
-
-	@Test
-	public void ignoreStartedServersIfNotStartListenForServerCalled() throws Exception {
-		Bus bus = createMock(Bus.class);
-
-		Capture<ServerLifeCycleListener> slclCapture = 
-			addServerLifeCycleManager(bus);
-		
-		List<Server> servers = Collections.emptyList();
-		addRegisteredServers(bus, servers);
-		
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setBus(bus);
-		locatorRegistrar.setServiceLocator(sl);
-
-		ServerLifeCycleListener listener =  slclCapture.getValue();
-		listener.startServer(SERVER_1);
-		
-		verifyAll();
-	}
-
-	@Test
-	public void serverStopsThenEndpointUnregistered() throws Exception {
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		sl.register(SERVICE_QNAME_1, ENDPOINT_1);
-		sl.unregister(SERVICE_QNAME_1, ENDPOINT_1);
-
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setServiceLocator(sl);
-
-		locatorRegistrar.registerServer(SERVER_1);
-		locatorRegistrar.stopServer(SERVER_1);
-
-		verifyAll();
-	}
-
-	@Test
-	public void serverStopsIfNotRegisteredBeforeDoNothing() throws Exception {
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setServiceLocator(sl);
-
-		locatorRegistrar.stopServer(SERVER_1);
-
-		verifyAll();
-	}
-
-	@Test
-	public void processReregisterAllEndpoints() throws Exception {
-
-		sl.setPostConnectAction((PostConnectAction) anyObject());
-		sl.register(SERVICE_QNAME_1, ENDPOINT_1);
-		sl.register(SERVICE_QNAME_2, ENDPOINT_2);
-		sl.register(SERVICE_QNAME_1, ENDPOINT_1);
-		sl.register(SERVICE_QNAME_2, ENDPOINT_2);
-		replayAll();
-
-		LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-		locatorRegistrar.setServiceLocator(sl);
-
-		locatorRegistrar.registerServer(SERVER_1);
-		locatorRegistrar.registerServer(SERVER_2);
-
-		locatorRegistrar.process(sl);
-		verifyAll();
-	}
-	
-	private Capture<ServerLifeCycleListener> addServerLifeCycleManager(Bus bus) {
-		Capture<ServerLifeCycleListener> slclCapture = new Capture<ServerLifeCycleListener>();
-
-		ServerLifeCycleManager slcm = createMock(ServerLifeCycleManager.class);
-		slcm.registerListener(capture(slclCapture));
-
-		expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
-
-		return slclCapture;
-	}
-	
-	private Bus addRegisteredServers(Bus bus, List<Server> registeredServers) {
-		ServerRegistry sr = createMock(ServerRegistry.class);
-		expect(sr.getServers()).andStubReturn(registeredServers);
-
-		expect(bus.getExtension(ServerRegistry.class)).andStubReturn(sr);
-		return null;	
-	}
+    
+    private Capture<EndpointProvider> eppCapture = new Capture<EndpointProvider>(CaptureType.ALL);
 
 
-	private static Server createServerStub(QName serviceName, String endpointName) {
-		ServiceInfo serviceInfo = EasyMock.createNiceMock(ServiceInfo.class);
-		expect(serviceInfo.getName()).andStubReturn(serviceName);
+    @Test
+    public void postConnectActionRegistered() {
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        replayAll();
 
-		EndpointInfo endpointInfo = EasyMock.createMock(EndpointInfo.class);
-		expect(endpointInfo.getAddress()).andStubReturn(endpointName);
-		expect(endpointInfo.getService()).andStubReturn(serviceInfo);
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setServiceLocator(sl);
 
-		Endpoint endpoint = EasyMock.createNiceMock(Endpoint.class);
-		expect(endpoint.getEndpointInfo()).andStubReturn(endpointInfo);
+        verifyAll();
+    }
 
-		Server server = EasyMock.createNiceMock(Server.class);
-		expect(server.getEndpoint()).andStubReturn(endpoint);
+    @Test
+    public void registerEndpoint() throws Exception {
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(capture(eppCapture));
+        replayAll();
 
-		EasyMock.replay(serviceInfo, endpointInfo, endpoint, server);
-		return server;
-	}
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.registerServer(SERVER_1);
+
+        EndpointProvider epp = eppCapture.getValue();
+        assertEquals(SERVICE_QNAME_1, epp.getServiceName());
+        assertEquals(ENDPOINT_1, epp.getAddress());
+        verifyAll();
+    }
+
+    @Test
+    public void registerEndpointWithPrefixSet() throws Exception {
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(capture(eppCapture));
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setEndpointPrefix(PREFIX);
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.registerServer(SERVER_1);
+
+        EndpointProvider epp = eppCapture.getValue();
+        assertEquals(SERVICE_QNAME_1, epp.getServiceName());
+        assertEquals(PREFIX + ENDPOINT_1, epp.getAddress());
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerEndpointLocatorNull() throws Exception {
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+
+        try {
+            locatorRegistrar.registerServer(SERVER_1);
+            fail("An IllegalStateException should have been thrown.");
+        } catch (IllegalStateException e) {
+
+        }
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerServerLifeCycleListener() {
+        ServerLifeCycleManager slcm = createMock(ServerLifeCycleManager.class);
+        slcm.registerListener((ServerLifeCycleListener) anyObject());
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
+        EasyMock.replay(slcm, bus);
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setBus(bus);
+
+        EasyMock.verify(slcm, bus);
+    }
+
+    @Test
+    public void startListenForServer() throws Exception {
+        Bus bus = createMock(Bus.class);
+
+        Capture<ServerLifeCycleListener> slclCapture = addServerLifeCycleManager(bus);
+
+        List<Server> servers = Collections.emptyList();
+        addRegisteredServers(bus, servers);
+
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(capture(eppCapture));
+
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setBus(bus);
+        locatorRegistrar.setServiceLocator(sl);
+        locatorRegistrar.startListenForServers();
+
+        ServerLifeCycleListener listener = slclCapture.getValue();
+        listener.startServer(SERVER_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void ignoreStartedServersIfNotStartListenForServerCalled() throws Exception {
+        Bus bus = createMock(Bus.class);
+
+        Capture<ServerLifeCycleListener> slclCapture = addServerLifeCycleManager(bus);
+
+        List<Server> servers = Collections.emptyList();
+        addRegisteredServers(bus, servers);
+
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setBus(bus);
+        locatorRegistrar.setServiceLocator(sl);
+
+        ServerLifeCycleListener listener = slclCapture.getValue();
+        listener.startServer(SERVER_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void serverStopsThenEndpointUnregistered() throws Exception {
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(capture(eppCapture));
+        sl.unregister(SERVICE_QNAME_1, ENDPOINT_1);
+
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.registerServer(SERVER_1);
+        locatorRegistrar.stopServer(SERVER_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void serverStopsIfNotRegisteredBeforeDoNothing() throws Exception {
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.stopServer(SERVER_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void processReregisterAllEndpoints() throws Exception {
+
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(capture(eppCapture));
+        expectLastCall().times(4);
+        replayAll();
+
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.registerServer(SERVER_1);
+        locatorRegistrar.registerServer(SERVER_2);
+
+        locatorRegistrar.process(sl);
+
+        List<EndpointProvider> epps = eppCapture.getValues();
+        assertHasValues(SERVICE_QNAME_1, ENDPOINT_1, epps.get(0));
+        assertHasValues(SERVICE_QNAME_2, ENDPOINT_2, epps.get(1));
+        assertHasValues(SERVICE_QNAME_1, ENDPOINT_1, epps.get(2));
+        assertHasValues(SERVICE_QNAME_2, ENDPOINT_2, epps.get(3));
+
+        verifyAll();
+    }
+
+    private static void assertHasValues(QName serviceName, String address, EndpointProvider epp) {
+        
+    }
+    
+    private Capture<ServerLifeCycleListener> addServerLifeCycleManager(Bus bus) {
+        Capture<ServerLifeCycleListener> slclCapture = new Capture<ServerLifeCycleListener>();
+
+        ServerLifeCycleManager slcm = createMock(ServerLifeCycleManager.class);
+        slcm.registerListener(capture(slclCapture));
+
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
+
+        return slclCapture;
+    }
+
+    private Bus addRegisteredServers(Bus bus, List<Server> registeredServers) {
+        ServerRegistry sr = createMock(ServerRegistry.class);
+        expect(sr.getServers()).andStubReturn(registeredServers);
+
+        expect(bus.getExtension(ServerRegistry.class)).andStubReturn(sr);
+        return null;
+    }
 }

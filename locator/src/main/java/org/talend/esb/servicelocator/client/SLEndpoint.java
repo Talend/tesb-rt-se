@@ -38,11 +38,18 @@ public interface SLEndpoint {
 	/**
 	 * Return the binding of the endpoint.
 	 * 
-	 * @return the binding
+	 * @return the type of binding
 	 */
-	String getBinding();
+	BindingType getBinding();
 	
-	/**
+    /**
+     * Return the binding of the endpoint.
+     * 
+     * @return the type of binding
+     */
+    TransportType getTransport();
+
+    /**
 	 * Indicates whether the server is up and running.
 	 * 
 	 * @return <code>true</code> iff the service locator deems the endpoint running.
@@ -76,4 +83,20 @@ public interface SLEndpoint {
 	 * @return the service name 
 	 */
 	QName forService();
+	
+	enum BindingType {
+	    SOAP,
+	    
+	    REST,
+	    
+	    OTHER
+	}
+	
+	enum TransportType {
+	    HTTP,
+	    
+	    HTTPS,
+	    
+	    JMS
+	}
 }

@@ -32,11 +32,16 @@ import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
 public class ServiceLocatorMain {
 
-	private ServiceLocatorImpl sl = new ServiceLocatorImpl();
+	private ServiceLocatorImpl sl;
 
 	private PrintStream out;
 
 	public ServiceLocatorMain() {
+	    try {
+            sl = new ServiceLocatorImpl();
+        } catch (ServiceLocatorException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public void setLocatorEndpoints(String locatorEndpoints) {
@@ -55,19 +60,26 @@ public class ServiceLocatorMain {
 	private void printServices() throws InterruptedException,
 			ServiceLocatorException {
 		List<QName> services = sl.getServices();
+		boolean first = true;
 		
 		for(QName service : services) {
+		    if (! first) {
+	            out.println(" |");		        
+		    }
 			out.println(service);
 			printEndpoints(service);
+			first = false;
 		}
 	}
 
 	private void printEndpoints(QName service) throws InterruptedException,
 	ServiceLocatorException {
-		List<String> endpoints = sl.getEndpointNames(service);
+		List<SLEndpoint> endpoints = sl.getEndpoints(service);
 		
-		for (String endpoint : endpoints) {
-			out.println(" |--" + endpoint);
+		for (SLEndpoint endpoint : endpoints) {
+			out.println(" |--- " + endpoint.getAddress());
+            out.println(" |    |-- " + (endpoint.isLive() ? "running" : "stopped"));
+            out.println(" |    |-- last time started " + endpoint.getLastTimeStarted());
 		}
 	}
 	

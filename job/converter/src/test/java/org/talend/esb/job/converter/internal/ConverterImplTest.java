@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.talend.esb.job.converter.Converter;

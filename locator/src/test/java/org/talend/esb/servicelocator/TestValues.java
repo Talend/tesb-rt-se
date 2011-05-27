@@ -34,7 +34,11 @@ public class TestValues {
 
 	public static final String NAME_2 = "name2";
 
-	public static final String VALUE_1 = "value1";
+    public static final String NAME_3 = "name3";
+
+    public static final String NAME_4 = "name4";
+
+    public static final String VALUE_1 = "value1";
 
 	public static final String VALUE_2 = "value2";
 
@@ -92,7 +96,7 @@ public class TestValues {
 
 	static {
 		PROPERTIES.addMultiProperty(NAME_1, VALUE_1, VALUE_2);
-		PROPERTIES.addProperty(NAME_2, VALUE_3);
+		PROPERTIES.addMultiProperty(NAME_2, VALUE_3);
 		
 		try {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();

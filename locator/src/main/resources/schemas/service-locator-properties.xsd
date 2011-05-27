@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    targetNamespace="http://talend.org/esb/serviceLocator/4.2"
+    elementFormDefault="qualified"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://talend.org/esb/serviceLocator/4.2"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing">
+
+    <element name="EndpointData" type="tns:EndpointDataType"></element>
+
+    <complexType name="EndpointDataType">
+    	<sequence>
+    		<element name="LastTimeStarted" type="string" minOccurs="0" maxOccurs="1"/>
+    		<element name="LastTimeStopped" type="string" minOccurs="0" maxOccurs="1"/>
+    		<element name="Binding" type="string" minOccurs="1" maxOccurs="1"/>
+    		<any namespace="http://www.w3.org/2005/08/addressing" minOccurs="1" maxOccurs="1"/>
+    	</sequence>
+    </complexType>
+
+    <element name="ServiceLocatorProperties" type="tns:ServiceLocatorPropertiesType"></element>
+
+    <complexType name="ServiceLocatorPropertiesType">
+        <sequence>
+            <element name="Entry" type="tns:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence> 	
+    </complexType>
+
+    <complexType name="EntryType">
+        <sequence>
+    		<element name="Value" type="string" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="key" type="string"/>
+    </complexType>
+</schema>

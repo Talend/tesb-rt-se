@@ -22,8 +22,7 @@ package org.talend.esb.servicelocator.client;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +30,7 @@ public class SLPropertiesImpl implements SLProperties {
 	
 	private static final long serialVersionUID = -3527977700696163706L;
 	
-	private Map<String, Object> properties = new HashMap<String, Object>();
-
-	public void addProperty(String name, String value) {
-		properties.put(name, value);
-	}
+	private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();
 
 	public void addMultiProperty(String name, String... values) {
 		List<String> valueList = new ArrayList<String>();
@@ -65,50 +60,21 @@ public class SLPropertiesImpl implements SLProperties {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getValue(String name) {
-		Object rawValue =  properties.get(name);
-
-		if (rawValue == null || rawValue instanceof String) {
-			return (String) properties.get(name);
-		} else {
-			throw new IllegalArgumentException(
-				"The property " + name + "is multivalued. Use the method getValues instead to retrieve the collection of values");
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
 	public Collection<String> getValues(String name) {
-		Object rawValue =  properties.get(name);
-		
-		if (rawValue instanceof String) {
-			return Collections.singletonList((String)rawValue);
-		} else {
-			return (Collection<String>) rawValue;
-		}
+		return  properties.get(name);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.talend.esb.servicelocator.SLProperties#includesValue(java.lang.String, java.lang.String)
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean includesValues(String name, String... values) {
-		Object rawValue =  properties.get(name);
+        Collection<String> propValues = properties.get(name);
 
-		if (rawValue == null) {
+		if (propValues == null) {
 			return false;
 		}
 
-		Collection<? extends String> propValues = null;
-		if (rawValue instanceof String) {
-			propValues = Collections.singletonList((String) rawValue);
-		} else {
-			propValues = (Collection<? extends String>) rawValue;
-		}
 		return propValues.containsAll(Arrays.asList(values));
 	}
 }
