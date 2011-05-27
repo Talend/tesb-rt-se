@@ -64,6 +64,9 @@ class ESBProvider extends Thread implements javax.xml.ws.Provider<javax.xml.tran
 	}
 	
 	public void run() {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+	    try{
+	    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
 		javax.xml.ws.Endpoint endpoint = javax.xml.ws.Endpoint.create(this);
 		
 		@SuppressWarnings("serial")
@@ -79,6 +82,9 @@ class ESBProvider extends Thread implements javax.xml.ws.Provider<javax.xml.tran
 		endpoint.publish(publishedEndpointUrl);
 		System.out.println("web service [endpoint: "
 				+ publishedEndpointUrl + "] published");
+        }finally{
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        }
 	}
 	
 	@Override
