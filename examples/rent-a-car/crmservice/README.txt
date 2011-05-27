@@ -1,10 +1,18 @@
+###############################################################################
+#
+# Copyright (c) 2011 Talend Inc. - www.talend.com
+# All rights reserved.
+#
+# This program and the accompanying materials are made available
+# under the terms of the Apache License v2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+###############################################################################
 Rent-a-Car Description Example 
 =======================================
 
-For this tutorial we have chosen a common business use case scenario: a simplified 
-real-world example from the domain of car rental companies.
-In this scenarios there are two services: CRMService and ReservationService.
-
+rent-a-car/crmservice: CRM service for Rent a Car Demo Example.
 
 Building the Demo
 ---------------------------------------
@@ -20,8 +28,7 @@ client-locator/   - This directory contains the locator enabled crmservice clien
 client-sam/   - This directory contains the sam enabled crmservice client
 client-sts/   - This directory contains the sts enabled crmservice client
 service-endpoint/   - This directory contains the basic crmservice endpoint
-service-endpoint-locator1/   - This directory contains the locator enabled crmservice endpoint
-service-endpoint-locator2/   - This directory contains the locator enabled crmservice endpoint
+service-endpoint-locator/   - This directory contains the locator enabled crmservice endpoint
 service-endpoint-sam/   - This directory contains the sam enabled crmservice endpoint
 service-endpoint-sts/   - This directory contains the sts enabled crmservice endpoint
 
@@ -47,8 +54,7 @@ client-locator/target/crmservice-client-locator-4.0.jar
 client-sam/target/crmservice-client-sam-4.0.jar
 client-sts/target/crmservice-client-sts-4.0.jar
 service-endpoint/target/crmservice-service-endpoint-4.0.jar
-service-endpoint-locator1/crmservice-service-endpoint-locator1-4.0.jar
-service-endpoint-locator2/crmservice-service-endpoint-locator2-4.0.jar
+service-endpoint-locator/crmservice-service-endpoint-locator-4.0.jar
 service-endpoint-sam/crmservice-service-endpoint-sam-4.0.jar
 service-endpoint-sts/crmservice-service-endpoint-sts-4.0.jar
 
@@ -74,8 +80,7 @@ crmservice-service-endpoint-4.0.jar
 for locator enabled:
 crmservice-common-4.0.jar
 crmservice-service-4.0.jar
-crmservice-service-endpoint-locator1-4.0.jar
-crmservice-service-endpoint-locator2-4.0.jar
+crmservice-service-endpoint-locator-4.0.jar
 crmservice-client-locator-4.0.jar
 
 for sam enabled:

@@ -1,10 +1,18 @@
+###############################################################################
+#
+# Copyright (c) 2011 Talend Inc. - www.talend.com
+# All rights reserved.
+#
+# This program and the accompanying materials are made available
+# under the terms of the Apache License v2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+###############################################################################
 Rent-a-Car Description Example 
 =======================================
 
-For this tutorial we have chosen a common business use case scenario: a simplified 
-real-world example from the domain of car rental companies.
-In this scenarios there are two services: CRMService and ReservationService.
-
+rent-a-car/reservationservice: Reservation service for Rent a Car Demo Example.
 
 Building the Demo
 ---------------------------------------
@@ -20,8 +28,7 @@ client-locator/   - This directory contains the locator enabled reservationservi
 client-sam/   - This directory contains the sam enabled reservationservice client
 client-sts/   - This directory contains the sts enabled reservationservice client
 service-endpoint/   - This directory contains the basic reservationservice endpoint
-service-endpoint-locator1/   - This directory contains the locator enabled reservationservice endpoint
-service-endpoint-locator2/   - This directory contains the locator enabled reservationservice endpoint
+service-endpoint-locator/   - This directory contains the locator enabled reservationservice endpoint
 service-endpoint-sam/   - This directory contains the sam enabled reservationservice endpoint
 service-endpoint-sts/   - This directory contains the sts enabled reservationservice endpoint
 
@@ -47,8 +54,7 @@ client-locator/target/reservationservice-client-locator-4.0.jar
 client-sam/target/reservationservice-client-sam-4.0.jar
 client-sts/target/reservationservice-client-sts-4.0.jar
 service-endpoint/target/reservationservice-service-endpoint-4.0.jar
-service-endpoint-locator1/reservationservice-service-endpoint-locator1-4.0.jar
-service-endpoint-locator2/reservationservice-service-endpoint-locator2-4.0.jar
+service-endpoint-locator/reservationservice-service-endpoint-locator-4.0.jar
 service-endpoint-sam/reservationservice-service-endpoint-sam-4.0.jar
 service-endpoint-sts/reservationservice-service-endpoint-sts-4.0.jar
 
@@ -73,8 +79,7 @@ reservationservice-client-4.0.jar
 for locator enabled:
 reservationservice-common-4.0.jar
 reservationservice-service-4.0.jar
-reservationservice-service-endpoint-locator1-4.0.jar
-reservationservice-service-endpoint-locator2-4.0.jar
+reservationservice-service-endpoint-locator-4.0.jar
 reservationservice-client-locator-4.0.jar
 
 for sam enabled:

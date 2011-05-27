@@ -12,7 +12,7 @@
 Rent-a-Car Description Example 
 =======================================
 
-For this example we have chosen a common business use case scenario: a simplified real-world example from the domain of car rental companies. It contains two services: CRMService and ReservationService.
+rent-a-car/app-reservation: Rental Client provides the basic functionality to search for the available cars within a given time period.
 
 Use Case Scenario to Rent a Car
 -------------------------------
