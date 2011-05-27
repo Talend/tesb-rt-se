@@ -37,6 +37,9 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle
+                        </Require-Bundle>
                         <Export-Package>
                             org.talend.esb.job.controller;version=${project.version}
                         </Export-Package>

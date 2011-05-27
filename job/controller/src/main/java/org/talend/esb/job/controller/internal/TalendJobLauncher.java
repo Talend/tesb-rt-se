@@ -81,9 +81,9 @@ public class TalendJobLauncher {
 //				        at javax.xml.ws.Endpoint.create(Endpoint.java:37)
 //				        at org.talend.esb.job.controller.internal.ESBProvider.run(ESBProvider.java:67)
 				
-//				ESBProviderCallback esbProviderCallback =
-//					esbProvider.getESBProviderCallback(defaultOperationName);
-//				talendESBJob.setProviderCallback(esbProviderCallback);
+				ESBProviderCallback esbProviderCallback =
+					esbProvider.getESBProviderCallback(defaultOperationName);
+				talendESBJob.setProviderCallback(esbProviderCallback);
 			}
 		}
 		
