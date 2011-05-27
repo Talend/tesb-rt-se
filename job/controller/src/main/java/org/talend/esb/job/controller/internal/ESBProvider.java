@@ -28,6 +28,10 @@ import javax.xml.transform.Source;
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
 
+@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
+@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE)
+@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
+@javax.xml.ws.WebServiceProvider()
 class ESBProvider extends Thread implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	
 	private Map<String, ESBProviderCallback> callbacks = new ConcurrentHashMap<String, ESBProviderCallback>();
