@@ -18,33 +18,23 @@ limitations under the License.
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"   
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd" >
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
-    <context:annotation-config />
-    <tx:annotation-driven />
 
-	<!-- Configuration Admin entry -->
-   <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
-	  <prop key="locator.endpoints">localhost:2181</prop>
-	  <prop key="endpoint.prefix">http://localhost:8080/services</prop>
-   </osgix:cm-properties>
-   
-      <!-- placeholder configurer -->
-   <context:property-placeholder properties-ref="locator-server-props" />
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+<property name="ignoreUnresolvablePlaceholders" value="true" />
+<property name="location" value="classpath:META-INF/tesb/locator/agent.properties"/>
+</bean>
+
 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
           init-method="connect" destroy-method="disconnect">
-        <property name="locatorEndpoints" value="${locator.endpoints}"/>
+  <!--      <property name="locatorEndpoints" value="localhost:2181"/> -->
+ 		  <property name="locatorEndpoints" value="${locator.endpoints}"/> 
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
@@ -71,5 +61,5 @@ limitations under the License.
         <property name="bus" ref="cxf" />
         <property name="locatorRegistrar" ref="locatorRegistrar" />
         <property name="locatorClientEnabler" ref="locatorClientEnabler" />
-    </bean> 
+    </bean>
 </beans>
