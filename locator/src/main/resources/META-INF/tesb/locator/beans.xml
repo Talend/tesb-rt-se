@@ -26,15 +26,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 <property name="ignoreUnresolvablePlaceholders" value="true" />
-<property name="location" value="classpath:META-INF/tesb/locator/agent.properties"/>
+<property name="location" value="classpath:META-INF/tesb/locator/locator.properties"/>
 </bean>
 
 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
           init-method="connect" destroy-method="disconnect">
-  <!--      <property name="locatorEndpoints" value="localhost:2181"/> -->
  		  <property name="locatorEndpoints" value="${locator.endpoints}"/> 
+          <property name="connectionTimeout" value="${connection.timeout}"/>
+          <property name="sessionTimeout" value="${session.timeout}"/>
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
