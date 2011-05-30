@@ -28,7 +28,7 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class MySQLDialect extends AbstractDatabaseDialect {
 
-	private static final String QUERY = "select "
+	static final String QUERY = "select "
 			+ "EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
 			+ "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
 			+ "ORIG_HOSTNAME,  ORIG_IP "
