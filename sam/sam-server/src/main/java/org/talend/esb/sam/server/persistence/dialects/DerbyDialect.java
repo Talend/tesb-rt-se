@@ -27,8 +27,6 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class DerbyDialect extends AbstractDatabaseDialect {
 
-	private static final String SUBSTITUTION_STRING = "%%FILTER%%";
-
 	private static final String QUERY = "select "
 			+ "MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
 			+ "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
@@ -38,18 +36,10 @@ public class DerbyDialect extends AbstractDatabaseDialect {
 			+ "where "
 			+ "MI_FLOW_ID in ("
 			+ "select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MIN(EI_TIMESTAMP) OFFSET :start ROWS FETCH FIRST :limit ROWS ONLY"
-			+ ") order by EI_TIMESTAMP ";
+			+ ") order by EI_TIMESTAMP";
 
 	@Override
-	public String getDataQuery(QueryFilter filter) {
-		String whereClause = filter.getWhereClause();
-		String result = null;
-		if (whereClause != null && whereClause.length() > 0) {
-			result = QUERY.replaceAll(SUBSTITUTION_STRING, " WHERE " + whereClause);	
-		} else {
-			result = QUERY.replaceAll(SUBSTITUTION_STRING, "");
-		}
-		return result;
+	String getQuery() {
+		return QUERY;
 	}
-
 }

@@ -43,9 +43,6 @@ import com.google.gson.JsonPrimitive;
  */
 public abstract class AbstractAPIServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);

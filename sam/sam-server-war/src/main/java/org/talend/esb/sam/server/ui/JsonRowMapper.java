@@ -54,9 +54,21 @@ public class JsonRowMapper implements RowMapper<JsonObject>{
 	final Gson gson;
 	
 	public JsonRowMapper() {
+		nameMapping.put("ID", "id");
 		nameMapping.put("MI_FLOW_ID", "flowID");
 		nameMapping.put("EI_TIMESTAMP", "timestamp");
 		nameMapping.put("EI_EVENT_TYPE", "type");
+		nameMapping.put("MI_PORT_TYPE", "port");
+		nameMapping.put("MI_OPERATION_NAME", "operation");
+		nameMapping.put("MI_TRANSPORT_TYPE", "transport");
+		nameMapping.put("ORIG_HOSTNAME", "host");
+		nameMapping.put("ORIG_IP", "ip");
+		nameMapping.put("ORIG_CUSTOM_ID", "customID");
+		nameMapping.put("ORIG_PROCESS_ID", "process");
+		nameMapping.put("ORIG_PRINCIPAL", "principal");
+		nameMapping.put("MI_MESSAGE_ID", "messageID");
+		nameMapping.put("CONTENT_CUT", "contentCut");
+		nameMapping.put("MESSAGE_CONTENT", "content");
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Timestamp.class, new JsonSerializer<Timestamp>() {
 
