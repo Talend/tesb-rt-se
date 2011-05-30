@@ -31,6 +31,8 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
 
 	private DataFieldMaxValueIncrementer incrementer;
 
+	private static final String SUBSTITUTION_STRING = "%%FILTER%%";
+	
 	@Override
 	public DataFieldMaxValueIncrementer getIncrementer() {
 		return incrementer;
@@ -44,4 +46,25 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
 	public void setIncrementer(DataFieldMaxValueIncrementer incrementer) {
 		this.incrementer = incrementer;
 	}
+	
+	@Override
+	public String getDataQuery(QueryFilter filter) {
+		String query = getQuery();
+		String whereClause = filter.getWhereClause();
+		String result = null;
+		if (whereClause != null && whereClause.length() > 0) {
+			result = query.replaceAll(SUBSTITUTION_STRING, " WHERE " + whereClause);	
+		} else {
+			result = query.replaceAll(SUBSTITUTION_STRING, "");
+		}
+		return result;
+	}
+
+	/**
+	 * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
+	 * for where clause
+	 * 
+	 * @return
+	 */
+	abstract String getQuery();
 }
