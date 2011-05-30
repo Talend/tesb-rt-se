@@ -29,7 +29,7 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd ">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:/META-INF/tesb/locator/beans.xml" />
+	<import resource="classpath:/META-INF/tesb/locator/beans-osgi.xml" />
 
     
 	<jaxws:client id="greeterService" 

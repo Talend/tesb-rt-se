@@ -28,7 +28,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="location"
-			value="classpath:META-INF/tesb/locator/locator.properties" />
+			value="classpath:locator.properties" />
 	</bean>
 
     <bean id="serviceLocator"
@@ -47,7 +47,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
     </bean>
 
     <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
-        <property name="reloadAdressesCount" value=${evenDistribution.reloadAdressesCount}/>
+        <property name="reloadAdressesCount" value="${evenDistribution.reloadAdressesCount}"/>
     </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
@@ -59,7 +59,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" value=${locator.strategy} />
+        <property name="locatorSelectionStrategy" value="${locator.strategy}" />
      </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">

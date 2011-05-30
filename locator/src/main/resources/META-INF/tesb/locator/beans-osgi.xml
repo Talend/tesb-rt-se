@@ -63,7 +63,7 @@ limitations under the License.
     </bean>
 
    <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
-        <property name="reloadAdressesCount" value=${evenDistribution.reloadAdressesCount}/>
+        <property name="reloadAdressesCount" value="${evenDistribution.reloadAdressesCount}"/>
    </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
@@ -75,7 +75,7 @@ limitations under the License.
         </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" value=${locator.strategy} />
+        <property name="locatorSelectionStrategy" value="${locator.strategy}" />
       </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">
