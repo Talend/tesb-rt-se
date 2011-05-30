@@ -36,6 +36,8 @@ limitations under the License.
    <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
 	  <prop key="locator.endpoints">localhost:2181</prop>
 	  <prop key="endpoint.prefix">http://localhost:8082/services</prop>
+	  <prop key="locator.strategy">defaultSelectionStrategy</prop>
+	  <prop key="evenDistribution.reloadAdresses">10</prop>
 	  <prop key="connection.timeout">5000</prop>
 	  <prop key="session.timeout">5000</prop>
    </osgix:cm-properties>
@@ -60,16 +62,21 @@ limitations under the License.
     <bean id="defaultSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy">
     </bean>
 
-    <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
-        <property name="reloadAdressesCount" value="10" />
-    </bean>
+   <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
+        <property name="reloadAdressesCount" value=${evenDistribution.reloadAdressesCount}/>
+   </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
+      	<property name="locatorSelectionStrategies">
+            <map>
+				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
+				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
+			</map>
+        </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" ref="evenDistributionSelectionStrategy" />
-<!-- <property name="locatorSelectionStrategy" ref="defaultSelectionStrategy" /> -->
-    </bean>
+        <property name="locatorSelectionStrategy" value=${locator.strategy} />
+      </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">
         <property name="bus" ref="cxf" />
