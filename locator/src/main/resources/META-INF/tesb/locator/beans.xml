@@ -17,25 +17,24 @@ limitations under the License.
 #L%
 -->
 
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
-
-<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-<property name="ignoreUnresolvablePlaceholders" value="true" />
-<property name="location" value="classpath:META-INF/tesb/locator/locator.properties"/>
-</bean>
-
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location"
+			value="classpath:META-INF/tesb/locator/locator.properties" />
+	</bean>
 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
           init-method="connect" destroy-method="disconnect">
- 		  <property name="locatorEndpoints" value="${locator.endpoints}"/> 
-          <property name="connectionTimeout" value="${connection.timeout}"/>
-          <property name="sessionTimeout" value="${session.timeout}"/>
+        <property name="locatorEndpoints" value="${locator.endpoints}"/>
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
@@ -48,19 +47,24 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
     </bean>
 
     <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
-        <property name="reloadAdressesCount" value="10" />
+        <property name="reloadAdressesCount" value=${evenDistribution.reloadAdressesCount}/>
     </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
+       <property name="locatorSelectionStrategies">
+            <map>
+				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
+				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
+			</map>
+        </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" ref="evenDistributionSelectionStrategy" />
-<!-- <property name="locatorSelectionStrategy" ref="defaultSelectionStrategy" /> -->
-    </bean>
+        <property name="locatorSelectionStrategy" value=${locator.strategy} />
+     </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">
         <property name="bus" ref="cxf" />
         <property name="locatorRegistrar" ref="locatorRegistrar" />
         <property name="locatorClientEnabler" ref="locatorClientEnabler" />
-    </bean>
+    </bean> 
 </beans>

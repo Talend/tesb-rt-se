@@ -19,6 +19,7 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,12 +33,16 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 
 	private static final Logger LOG = Logger.getLogger(LocatorClientEnabler.class
 			.getPackage().getName());
-
+	
+	private static final String DEFAULT_STRATEGY = "defaultSelectionStrategy";
+	
 	private ServiceLocator locatorClient;
 
 	private Bus bus;
 
-	LocatorSelectionStrategy locatorSelectionStrategy;
+	private Map<String,LocatorSelectionStrategy> locatorSelectionStrategies;
+	
+	private LocatorSelectionStrategy locatorSelectionStrategy;
 
 	public void setServiceLocator(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
@@ -52,11 +57,19 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 			LOG.log(Level.FINE, "Bus " + bus + " was set for LocatorClientRegistrar.");
 		}
 	}
-	
-	public void setLocatorSelectionStrategy(LocatorSelectionStrategy locatorSelectionStrategy) {
-		this.locatorSelectionStrategy = locatorSelectionStrategy;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "LocatorSelectionStrategy " + locatorSelectionStrategy + " was set for LocatorClientRegistrar.");
+
+	public void setLocatorSelectionStrategies(
+			Map<String, LocatorSelectionStrategy> locatorSelectionStrategies) {
+		this.locatorSelectionStrategies = locatorSelectionStrategies;
+		this.locatorSelectionStrategy = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
+	}
+
+	public void setLocatorSelectionStrategy(String locatorSelectionStrategy) {
+		if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
+			this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
+		} else {
+			if (LOG.isLoggable(Level.WARNING))
+				LOG.log(Level.WARNING, "LocatorSelectionStrategy " + locatorSelectionStrategy + " not registered at LocatorClientEnabler.");
 		}
 	}
 

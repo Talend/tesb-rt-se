@@ -29,7 +29,7 @@ public class H2Dialect extends AbstractDatabaseDialect  {
 
 	@Override
 	public String getQuery() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return MySQLDialect.QUERY;
 	}
 
 

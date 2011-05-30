@@ -61,7 +61,6 @@ public class ServiceLocatorImplTest {
 	public void setup() {
 		zkMock = createNiceMock(ZooKeeper.class);
 		expect(zkMock.getState()).andStubReturn(ZooKeeper.States.CONNECTED);		
-
 		pcaMock = createMock(PostConnectAction.class);
 	}
 	
