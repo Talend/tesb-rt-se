@@ -50,7 +50,7 @@
                 <configuration>
                     <instructions>
                         <Require-Bundle>
-                            org.apache.cxf.bundle
+                            org.apache.cxf.bundle, org.apache.servicemix.bundles.dom4j
                         </Require-Bundle>
                         <Export-Package>
                             org.talend.esb.job.controller;version=${project.version}
