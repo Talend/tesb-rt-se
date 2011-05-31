@@ -1136,6 +1136,12 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<copy todir="target/add-ons/monitoring/db">
+									<fileset dir="${basedir}/../sam/sam-server/target/classes">
+										<include name="*.sql" />
+									</fileset>
+									<flattenmapper />
+								</copy>
 							</tasks>
 						</configuration>
 						<goals>
