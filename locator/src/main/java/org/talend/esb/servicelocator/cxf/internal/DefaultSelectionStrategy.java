@@ -62,8 +62,8 @@ public class DefaultSelectionStrategy extends LocatorSelectionStrategy implement
 				primaryAddresses.put(serviceName, primaryAddress);
 			}
 		}
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Get address for service " + serviceName + 
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Get address for service " + serviceName + 
 					" using strategy " + this.getClass().getName() + " selecting from "
 					+ primaryAddresses.entrySet().toArray() + " selected = " + primaryAddress);
 		}

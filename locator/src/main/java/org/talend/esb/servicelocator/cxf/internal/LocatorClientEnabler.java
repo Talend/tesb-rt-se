@@ -82,8 +82,8 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 
         locatorSelectionStrategy.setServiceLocator(locatorClient);
 		selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
 		}
         client.setConduitSelector(selector);
 

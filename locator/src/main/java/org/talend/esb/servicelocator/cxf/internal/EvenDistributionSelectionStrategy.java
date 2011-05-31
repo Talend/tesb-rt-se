@@ -63,8 +63,8 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 		List<String> availableAddresses = getRotatedAdresses(serviceName, false);
 		if (!availableAddresses.isEmpty())
 			primaryAddress = availableAddresses.get(0);
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Get address for service " + serviceName + 
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Get address for service " + serviceName + 
 					" using strategy " + this.getClass().getName() + " selecting from "
 					+ availableAddresses.toArray() + " selected = " + primaryAddress);
 		}
