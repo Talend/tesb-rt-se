@@ -22,6 +22,7 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
@@ -60,6 +61,11 @@ public class DefaultSelectionStrategy extends LocatorSelectionStrategy implement
 				primaryAddress = availableAddresses.get(index);
 				primaryAddresses.put(serviceName, primaryAddress);
 			}
+		}
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Get address for service " + serviceName + 
+					" using strategy " + this.getClass().getName() + " selecting from "
+					+ primaryAddresses.entrySet().toArray() + " selected = " + primaryAddress);
 		}
 		return primaryAddress;
 	}
