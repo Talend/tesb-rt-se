@@ -66,7 +66,7 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 		if (LOG.isLoggable(Level.INFO)) {
 			LOG.log(Level.INFO, "Get address for service " + serviceName + 
 					" using strategy " + this.getClass().getName() + " selecting from "
-					+ availableAddresses.toArray() + " selected = " + primaryAddress);
+					+ availableAddresses + " selected = " + primaryAddress);
 		}
  		return primaryAddress;
 	}
