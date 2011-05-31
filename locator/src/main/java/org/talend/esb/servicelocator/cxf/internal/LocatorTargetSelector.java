@@ -50,6 +50,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
         if (ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
         	if (LOG.isLoggable(Level.INFO)) {
     			LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
+    			LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
     		}
 
         	String physAddress = strategy.getPrimaryAddress(exchange);
