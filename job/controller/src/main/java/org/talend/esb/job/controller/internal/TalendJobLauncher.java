@@ -24,12 +24,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.namespace.QName;
 
+import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
+import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.ESBProviderCallback;
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendJob;
 
-public class TalendJobLauncher {
+public class TalendJobLauncher implements ESBEndpointRegistry {
 
 	private static final String PUBLISHED_ENDPOINT_URL = "publishedEndpointUrl";
 	private static final String DEFAULT_OPERATION_NAME = "defaultOperationName";
@@ -46,45 +48,17 @@ public class TalendJobLauncher {
 			// get provider end point information
 			final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
 			if (null != endpoint) {
-//				System.out.println("endpoint.getEndpointKey()="+endpoint.getEndpointKey());
-//				System.out.println("endpoint.getEndpointUri()="+endpoint.getEndpointUri());
-//				System.out.println("endpoint.getEndpointProperties()="+endpoint.getEndpointProperties());
-
-//				endpoint.getEndpointKey()=cxf
-//				endpoint.getEndpointUri()=TOS_TEST_ProviderJob
-//				endpoint.getEndpointProperties()=
-//					defaultOperationNameSpace=,
-//					defaultOperationName=invoke,
-//					dataFormat=PAYLOAD,
-//					publishedEndpointUrl=http://127.0.0.1:8088/esb/provider,
-//					portName={http://talend.org/esb/service/job}TalendJobAsWebService,
-//					serviceName={http://talend.org/esb/service/job}TOS_TEST_ProviderJob,
-//					COMMUNICATION_STYLE=request-response}
-				
 				Map<String, Object> props = endpoint.getEndpointProperties();
 				
 				ESBProvider esbProvider = createEndpoint(props);
 				String defaultOperationName = (String)props.get(DEFAULT_OPERATION_NAME);
 				
-				// uncomment following lines to get
-//				karaf@tesb> Exception in thread "Thread-27" javax.xml.ws.spi.FactoryFinder$ConfigurationError: Provider org.apache.cxf.j
-//				axws.spi.ProviderImpl not found
-//				        at javax.xml.ws.spi.FactoryFinder$2.run(FactoryFinder.java:130)
-//				        at javax.xml.ws.spi.FactoryFinder.doPrivileged(FactoryFinder.java:220)
-//				        at javax.xml.ws.spi.FactoryFinder.newInstance(FactoryFinder.java:124)
-//				        at javax.xml.ws.spi.FactoryFinder.access$200(FactoryFinder.java:44)
-//				        at javax.xml.ws.spi.FactoryFinder$3.run(FactoryFinder.java:211)
-//				        at javax.xml.ws.spi.FactoryFinder.doPrivileged(FactoryFinder.java:220)
-//				        at javax.xml.ws.spi.FactoryFinder.find(FactoryFinder.java:160)
-//				        at javax.xml.ws.spi.Provider.provider(Provider.java:43)
-//				        at javax.xml.ws.Endpoint.create(Endpoint.java:41)
-//				        at javax.xml.ws.Endpoint.create(Endpoint.java:37)
-//				        at org.talend.esb.job.controller.internal.ESBProvider.run(ESBProvider.java:67)
-				
 				ESBProviderCallback esbProviderCallback =
 					esbProvider.getESBProviderCallback(defaultOperationName);
 				talendESBJob.setProviderCallback(esbProviderCallback);
 			}
+			
+//			talendESBJob.setEndpointRegistry(this);
 		}
 		
         new Thread(new Runnable() {
@@ -105,10 +79,19 @@ public class TalendJobLauncher {
 					QName.valueOf((String)props.get(SERVICE_NAME)),
 					QName.valueOf((String)props.get(PORT_NAME)));
 			
-			esbProvider.start();
+			esbProvider.run();
 
 			endpoints.put(publishedEndpointUrl, esbProvider);
 		}
 		return esbProvider;
+	}
+
+	@Override
+	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
+		System.out.println("getEndpointKey="+endpoint.getEndpointKey());
+		System.out.println("getEndpointUri="+endpoint.getEndpointUri());
+		System.out.println("getEndpointProperties="+endpoint.getEndpointProperties());
+//		ESBProvider esbProvider = endpoints.get(endpoint.get);
+		return null;
 	}
 }

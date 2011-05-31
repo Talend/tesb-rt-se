@@ -34,6 +34,12 @@
             <version>${dom4j.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
