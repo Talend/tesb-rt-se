@@ -21,6 +21,12 @@
     <name>Talend ESB Runtime :: Rent-a-Car</name>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>org.talend.esb.examples</groupId>
+        <artifactId>talend-esb-examples</artifactId>
+        <version>4.2-SNAPSHOT</version>
+    </parent>
+
     <modules>
         <module>crmservice</module>
         <module>reservationservice</module>
