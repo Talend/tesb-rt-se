@@ -20,9 +20,23 @@
 package org.talend.esb.sam.server.persistence.dialects;
 
 public class OracleDialect extends AbstractDatabaseDialect{
+
+	private static final String QUERY = "select "
+		+ "MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
+		+ "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
+		+ "ORIG_HOSTNAME,  ORIG_IP "
+		+ "from "
+		+ "EVENTS "
+		+ "where "
+		+ "MI_FLOW_ID in ("
+		+ "select MI_FLOW_ID from ("
+		+ "select E.MI_FLOW_ID, rownum rn from (select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MIN(EI_TIMESTAMP)) E WHERE rownum <= (:start + :limit)"
+		+ ") where rn > :start "
+		+ ") order by EI_TIMESTAMP";
+
 	
 	@Override
 	public String getQuery() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return QUERY;
 	}
 }
