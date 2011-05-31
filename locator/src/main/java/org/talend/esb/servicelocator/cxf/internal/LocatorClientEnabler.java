@@ -65,6 +65,9 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 	}
 
 	public void setLocatorSelectionStrategy(String locatorSelectionStrategy) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy + " was set for LocatorClientRegistrar.");
+		}
 		if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
 			this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
 		} else {
@@ -79,6 +82,9 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 
         locatorSelectionStrategy.setServiceLocator(locatorClient);
 		selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
+		}
         client.setConduitSelector(selector);
 
 		if (LOG.isLoggable(Level.FINE)) {
