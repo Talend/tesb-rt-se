@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,7 +40,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private static final String SERVICE_NAME = "serviceName";
 	private static final String PORT_NAME = "portName";
 
-	private Map<String, ESBProvider> endpoints = new ConcurrentHashMap<String, ESBProvider>();
+	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints = new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
 
 	public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		
@@ -50,15 +52,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			if (null != endpoint) {
 				Map<String, Object> props = endpoint.getEndpointProperties();
 				
-				ESBProvider esbProvider = createEndpoint(props);
-				String defaultOperationName = (String)props.get(DEFAULT_OPERATION_NAME);
-				
-				ESBProviderCallback esbProviderCallback =
-					esbProvider.getESBProviderCallback(defaultOperationName);
-				talendESBJob.setProviderCallback(esbProviderCallback);
+				talendESBJob.setProviderCallback(getESBProviderCallback(props));
 			}
 			
-//			talendESBJob.setEndpointRegistry(this);
+			talendESBJob.setEndpointRegistry(this);
 		}
 		
         new Thread(new Runnable() {
@@ -66,32 +63,88 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			@Override
 			public void run() {
 				talendJob.runJob(args);
+				System.out.println("!!! job done");
 			}
 		}).start();
 
 	}
 
-	private ESBProvider createEndpoint(final Map<String, Object> props) {
+	private ESBProviderCallback getESBProviderCallback(final Map<String, Object> props) {
 		String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
-		ESBProvider esbProvider = endpoints.get(publishedEndpointUrl);
-		if(null == esbProvider) {
+		QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+		QName portName = QName.valueOf((String)props.get(PORT_NAME));
+		
+		System.out.println("original serviceName=" + serviceName);
+		System.out.println("original portName=" + portName);
+		
+		serviceName = QName.valueOf("{http://customerservice.example.com/}TESB_JOBS_ProviderJob");
+		portName = QName.valueOf("{http://customerservice.example.com/}TESB_JOBS_ProviderJobSoapBinding");
+
+		System.out.println("fixed serviceName=" + serviceName);
+		System.out.println("fixed portName=" + portName);
+
+		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
+		Collection<ESBProvider> esbProviders = endpoints.get(key);
+		if(null == esbProviders) {
+			esbProviders = new ArrayList<ESBProvider>(1);
+			endpoints.put(key, esbProviders);
+		}
+
+		ESBProvider esbProvider = null;
+		for(ESBProvider provider : esbProviders) {
+			if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
+				esbProvider = provider;
+				break;
+			}
+		}
+		if(esbProvider == null) {
 			esbProvider = new ESBProvider(publishedEndpointUrl,
-					QName.valueOf((String)props.get(SERVICE_NAME)),
-					QName.valueOf((String)props.get(PORT_NAME)));
+					serviceName,
+					portName);
 			
 			esbProvider.run();
-
-			endpoints.put(publishedEndpointUrl, esbProvider);
+			esbProviders.add(esbProvider);
 		}
-		return esbProvider;
+
+		String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+		System.out.println("operationName="+operationName);
+		// TEMP
+		operationName = "getCustomersByName";
+		ESBProviderCallback esbProviderCallback =
+			esbProvider.createESBProviderCallback(operationName);
+
+		return esbProviderCallback;
 	}
 
 	@Override
 	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
-		System.out.println("getEndpointKey="+endpoint.getEndpointKey());
-		System.out.println("getEndpointUri="+endpoint.getEndpointUri());
 		System.out.println("getEndpointProperties="+endpoint.getEndpointProperties());
-//		ESBProvider esbProvider = endpoints.get(endpoint.get);
-		return null;
+		
+		Map<String, Object> props = endpoint.getEndpointProperties();
+
+		QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+		QName portName = QName.valueOf((String)props.get(PORT_NAME));
+
+		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
+		Collection<ESBProvider> esbProviders = endpoints.get(key);
+		if(esbProviders == null) {
+			// TODO: create generic consumer
+			throw new RuntimeException("No provider available for serviceName=" + serviceName + "; portName=" + portName);
+		}
+		
+		String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+		System.out.println("operationName="+operationName);
+		RuntimeESBProviderCallback esbProviderCallback = null;
+		for(ESBProvider provider : esbProviders) {
+			esbProviderCallback = provider.getESBProviderCallback(operationName);
+			if(esbProviderCallback != null) {
+				break;
+			}
+		}
+		if(esbProviderCallback == null) {
+			// TODO: create generic consumer
+			throw new RuntimeException("No provider available for operationName=" + operationName);
+		}
+		return esbProviderCallback;
 	}
 }

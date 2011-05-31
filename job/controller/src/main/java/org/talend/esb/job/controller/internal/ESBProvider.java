@@ -28,9 +28,6 @@ import javax.xml.transform.Source;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
-import routines.system.api.ESBJobInterruptedException;
-import routines.system.api.ESBProviderCallback;
-
 //@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE)
 //@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
@@ -40,31 +37,10 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	private javax.xml.transform.TransformerFactory factory =
 		javax.xml.transform.TransformerFactory.newInstance();
 
-	private Map<String, ESBProviderCallback> callbacks = new ConcurrentHashMap<String, ESBProviderCallback>();
+	private Map<String, RuntimeESBProviderCallback> callbacks = new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 	private String publishedEndpointUrl;
 	private QName serviceName;
 	private QName portName;
-
-	class TalendESBProviderCallback implements ESBProviderCallback {
-		@Override
-		public Object getRequest() throws ESBJobInterruptedException {
-			System.out.println("getRequest");
-			while(true) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-//				return null;
-		}
-
-		@Override
-		public void sendResponse(Object arg0) {
-			System.out.println("sendResponse");
-		}
-	}
 
 	public ESBProvider(String publishedEndpointUrl,
 			final QName serviceName,
@@ -72,17 +48,13 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		this.publishedEndpointUrl = publishedEndpointUrl;
 		this.serviceName = serviceName;
 		this.portName = portName;
-		
-		System.out.println("original serviceName=" + this.serviceName);
-		System.out.println("original portName=" + this.portName);
-		
-		this.serviceName = QName.valueOf("{http://customerservice.example.com/}TOS_TEST_ProviderJob");
-		this.portName = QName.valueOf("{http://customerservice.example.com/}TOS_TEST_ProviderJobSoapBinding");
-
-		System.out.println("fixed serviceName=" + this.serviceName);
-		System.out.println("fixed portName=" + this.portName);
 	}
 	
+	
+	public String getPublishedEndpointUrl() {
+		return publishedEndpointUrl;
+	}
+
 	public void run() {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 	    try{
@@ -140,16 +112,19 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		return null;
 	}
 
-	public ESBProviderCallback getESBProviderCallback(String defaultOperationName) {
-		if(callbacks.get(defaultOperationName) != null) {
-			throw new RuntimeException("Operation '" + defaultOperationName + "' for endpoint '" + publishedEndpointUrl + "' already registered");
+	public RuntimeESBProviderCallback createESBProviderCallback(String operationName) {
+		if(callbacks.get(operationName) != null) {
+			throw new RuntimeException("Operation '" + operationName + "' for endpoint '" + publishedEndpointUrl + "' already registered");
 		}
-		ESBProviderCallback esbProviderCallback = new TalendESBProviderCallback();
-		callbacks.put(defaultOperationName, esbProviderCallback);
+		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback();
+		callbacks.put(operationName, esbProviderCallback);
 		
-//		this.getClass().getAnnotation(javax.jws.WebMethod.class).
-		
+		// TODO: add operation
 
 		return esbProviderCallback;
+	}
+	
+	public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
+		return callbacks.get(operationName);
 	}
 }
