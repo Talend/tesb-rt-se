@@ -240,15 +240,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
             NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
                 .toString());
             NodePath endpointNodePath = serviceNodePath.child(endpoint);
-
             NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
         
             ensurePathDeleted(endpointStatusNodePath, false);
 
-        
             byte[] content = getContent(endpointNodePath);
             ContentHolder holder = new ContentHolder(content);
-            holder.getEndpointData().setLastTimeStopped(Long.toString(System.currentTimeMillis()));
+            holder.getEndpointData().setLastTimeStopped(System.currentTimeMillis());
             setNodeData(endpointNodePath, holder.getContent());
         } catch (KeeperException e) {
             throw locatorException(e);
@@ -628,7 +626,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private EndpointDataType createEndpointData(EndpointProvider eprProvider) {
         ObjectFactory of = new ObjectFactory();
         EndpointDataType endpointData = of.createEndpointDataType();
-        endpointData.setLastTimeStarted(Long.toString(System.currentTimeMillis()));
+        endpointData.setLastTimeStarted(System.currentTimeMillis());
         
         Document doc;
         synchronized (docBuilder) {

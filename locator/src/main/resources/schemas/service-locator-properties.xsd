@@ -10,8 +10,8 @@
 
     <complexType name="EndpointDataType">
     	<sequence>
-    		<element name="LastTimeStarted" type="string" minOccurs="0" maxOccurs="1"/>
-    		<element name="LastTimeStopped" type="string" minOccurs="0" maxOccurs="1"/>
+    		<element name="LastTimeStarted" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
+    		<element name="LastTimeStopped" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
     		<element name="Binding" type="string" minOccurs="1" maxOccurs="1"/>
     		<any namespace="http://www.w3.org/2005/08/addressing" minOccurs="1" maxOccurs="1"/>
     	</sequence>

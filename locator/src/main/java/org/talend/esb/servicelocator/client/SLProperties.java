@@ -28,15 +28,7 @@ public interface SLProperties extends Serializable {
 	
 	boolean hasProperty(String name);
 
-//	PropertyType getType(String name);
-
-//	String getValue(String name);
-
 	Collection<String> getValues(String name);
 
 	boolean includesValues(String name, String... values);
-
-//	public static enum PropertyType {
-//	    SINGLE, MULTI
-//	}
 }

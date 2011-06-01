@@ -31,8 +31,6 @@ import org.junit.Test;
 import org.talend.esb.servicelocator.TestContent;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
-import static org.apache.zookeeper.CreateMode.EPHEMERAL;
-import static org.apache.zookeeper.CreateMode.PERSISTENT;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -42,7 +40,6 @@ import static org.hamcrest.collection.IsEmptyIterable.emptyIterable;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
@@ -117,7 +114,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         
         byte[] updatedContent = contentCapture.getValue();
         ContentHolder holder = new ContentHolder(updatedContent);
-        long newLastTimeStopped = Long.parseLong(holder.getEndpointData().getLastTimeStopped());
+        long newLastTimeStopped = holder.getEndpointData().getLastTimeStopped();
 
         assertThat(newLastTimeStopped, greaterThan(currentTime));
         verifyAll();
