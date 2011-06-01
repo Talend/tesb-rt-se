@@ -27,10 +27,29 @@ package org.talend.esb.sam.server.persistence.dialects;
  *
  */
 public class SqlServerDialect extends AbstractDatabaseDialect {
+	private static final String QUERY = "select " 
+	+ "[MI_FLOW_ID], [EI_TIMESTAMP], [EI_EVENT_TYPE], "
+	+ "[MI_PORT_TYPE], [MI_OPERATION_NAME], [MI_TRANSPORT_TYPE], "
+	+ "[ORIG_HOSTNAME], [ORIG_IP] " 
+	+ "FROM " 
+	+ "[EVENTS] "
+	+ "WHERE "
+	+ "[MI_FLOW_ID] in ( "
+	+ "select [MI_FLOW_ID] from ( "
+	+ "select [MI_FLOW_ID], rn from " 
+	+ "( "
+	+ "select [MI_FLOW_ID], ROW_NUMBER() over(order by MIN([EI_TIMESTAMP])) as rn "  
+	+ "from [EVENTS] as subq " 
+	+ "%%FILTER%% " 
+	+ "group by [MI_FLOW_ID] "
+	+ ") as subq1 where rn <= :start + :limit "
+	+ ") as subq2 where rn > :start " 
+	+ ") "
+	+ "order by [EI_TIMESTAMP]";
 
 	@Override
 	public String getQuery() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return QUERY;
 	}
 	
 }
