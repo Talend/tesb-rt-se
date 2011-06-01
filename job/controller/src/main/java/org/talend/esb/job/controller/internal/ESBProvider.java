@@ -54,6 +54,8 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		this.publishedEndpointUrl = publishedEndpointUrl;
 		this.serviceName = serviceName;
 		this.portName = portName;
+
+		run();
 	}
 	
 	
@@ -61,7 +63,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		return publishedEndpointUrl;
 	}
 
-	public void run() {
+	private void run() {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 	    try{
 		    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
@@ -103,6 +105,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 //	partName = "response")
 	public Source invoke(Source request) {
 		QName operationName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
+		System.out.println("operationName="+operationName);
 		RuntimeESBProviderCallback esbProviderCallback =
 			getESBProviderCallback(operationName.getLocalPart());
 		if(esbProviderCallback == null) {

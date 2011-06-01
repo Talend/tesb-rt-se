@@ -40,7 +40,8 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private static final String SERVICE_NAME = "serviceName";
 	private static final String PORT_NAME = "portName";
 
-	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints = new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
+	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
+		new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
 
 	public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		
@@ -50,14 +51,13 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			// get provider end point information
 			final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
 			if (null != endpoint) {
-				Map<String, Object> props = endpoint.getEndpointProperties();
-				
-				talendESBJob.setProviderCallback(getESBProviderCallback(props));
+				talendESBJob.setProviderCallback(
+					getESBProviderCallback(endpoint.getEndpointProperties()));
 			}
 			
 			talendESBJob.setEndpointRegistry(this);
 		}
-		
+
         new Thread(new Runnable() {
 			
 			@Override
@@ -92,8 +92,6 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			esbProvider = new ESBProvider(publishedEndpointUrl,
 					serviceName,
 					portName);
-			
-			esbProvider.run();
 			esbProviders.add(esbProvider);
 		}
 
@@ -106,12 +104,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 
 	@Override
 	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
-		System.out.println("getEndpointProperties="+endpoint.getEndpointProperties());
-		
-		Map<String, Object> props = endpoint.getEndpointProperties();
+		final Map<String, Object> props = endpoint.getEndpointProperties();
 
-		QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-		QName portName = QName.valueOf((String)props.get(PORT_NAME));
+		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
 
 		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
 		Collection<ESBProvider> esbProviders = endpoints.get(key);
@@ -120,8 +116,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			throw new RuntimeException("No provider available for serviceName=" + serviceName + "; portName=" + portName);
 		}
 		
-		String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-		System.out.println("operationName="+operationName);
+		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 		RuntimeESBProviderCallback esbProviderCallback = null;
 		for(ESBProvider provider : esbProviders) {
 			esbProviderCallback = provider.getESBProviderCallback(operationName);
