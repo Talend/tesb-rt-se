@@ -35,7 +35,7 @@ limitations under the License.
 	<!-- Configuration Admin entry -->
    <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
 	  <prop key="locator.endpoints">localhost:2181</prop>
-	  <prop key="endpoint.prefix">http://localhost:8082/services</prop>
+	  <prop key="endpoint.prefix"></prop>
 	  <prop key="locator.strategy">defaultSelectionStrategy</prop>
 	  <prop key="evenDistribution.reloadAdresses">10</prop>
 	  <prop key="connection.timeout">5000</prop>
