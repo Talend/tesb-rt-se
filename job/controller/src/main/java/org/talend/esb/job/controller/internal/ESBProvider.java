@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -97,19 +98,28 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
 	}
-	
-	// TODO: add dynamic WebMethod
+
 	@Override
 //	@javax.jws.WebMethod(operationName = "getCustomersByName", action = "http://talend.org/esb/service/job/invoke")
 //	@javax.jws.WebResult(name = "jobOutput", targetNamespace = "http://talend.org/esb/service/job",
 //	partName = "response")
 	public Source invoke(Source request) {
-		QName operationName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
+		String operationName = null;
+		Map<?, ?> headers = (Map<?, ?>)context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS);
+		List<?> sopaAction = (List<?>)headers.get("SOAPAction");
+		if(!sopaAction.isEmpty()) {
+			operationName = (String)sopaAction.get(0);
+			// remove quotes
+			operationName = operationName.substring(1, operationName.length() - 1);
+		} else {
+			QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
+			operationName = operationQName.getLocalPart();
+		}
 		System.out.println("operationName="+operationName);
 		RuntimeESBProviderCallback esbProviderCallback =
-			getESBProviderCallback(operationName.getLocalPart());
+			getESBProviderCallback(operationName);
 		if(esbProviderCallback == null) {
-			throw new RuntimeException("Handler for operation '" + operationName.getLocalPart() + "' cannot be found");
+			throw new RuntimeException("Handler for operation '" + operationName + "' cannot be found");
 		}
 		try {
 			org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
