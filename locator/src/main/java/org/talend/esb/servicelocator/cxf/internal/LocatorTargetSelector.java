@@ -29,6 +29,8 @@ import org.apache.cxf.service.model.EndpointInfo;
 
 public class LocatorTargetSelector extends FailoverTargetSelector {
 	
+	private boolean locator_protocol = false;
+	
 	private static final Logger LOG = Logger.getLogger(LocatorTargetSelector.class
 			.getPackage().getName());
 
@@ -47,7 +49,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 	public synchronized void prepare(Message message) {
 		Exchange exchange = message.getExchange();
         EndpointInfo ei = endpoint.getEndpointInfo();
-        if (ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
+        if (locator_protocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
         	if (LOG.isLoggable(Level.INFO)) {
     			LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
     			LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
@@ -56,7 +58,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
         	String physAddress = strategy.getPrimaryAddress(exchange);
 
         	if (physAddress != null) {
-        		ei.setAddress(physAddress);
+        		ei.setAddress(physAddress); locator_protocol = true;
         		message.put(Message.ENDPOINT_ADDRESS, physAddress);
         	} else {
             	if (LOG.isLoggable(Level.SEVERE)) {
