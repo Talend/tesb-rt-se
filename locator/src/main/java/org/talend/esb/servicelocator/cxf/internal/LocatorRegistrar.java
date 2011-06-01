@@ -26,10 +26,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
@@ -39,14 +35,9 @@ import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.ws.addressing.AttributedURIType;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.apache.cxf.ws.addressing.MetadataType;
-import org.apache.cxf.ws.addressing.ObjectFactory;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
-import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 
 /**
  * The LocatorRegistrar is responsible for registering the endpoints of CXF Servers at the Service Locator.
@@ -147,11 +138,12 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
     public void registerServer(Server server, SLProperties props) {
         check(locatorClient, "serviceLocator", "registerEndpoint");
-        QName serviceName = getServiceName(server);
+        String absAddress = endpointPrefix + getAddress(server);
 
-//        printEPR(server);
-        EndpointReferenceType epr = createEPR(server, props);
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(serviceName, epr);
+//        QName serviceName = getServiceName(server);
+
+//        EndpointReferenceType epr = createEPR(server, props);
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
         try {
             locatorClient.register(endpoint);
         } catch (ServiceLocatorException e) {
@@ -204,69 +196,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
         return eInfo.getAddress();
     }
-
-    private void printEPR(Server server) {
-        EndpointReferenceType wsAddr = server.getEndpoint().getEndpointInfo().getTarget();
-        if (wsAddr != null) {
-            try {
-                ObjectFactory of = new ObjectFactory();
-
-                JAXBElement<EndpointReferenceType> ep = of.createEndpointReference(wsAddr);
-                JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing");
-                Marshaller m = jc.createMarshaller();
-                System.out.println("Server Address");
-                m.marshal(ep, System.out);
-            } catch (JAXBException jbe) {
-                jbe.printStackTrace();
-            }
-        } else {
-            System.out.println("No WS Addressing information for server " + server);
-        }
-    }
-
-    private EndpointReferenceType createEPR(Server server, SLProperties props) {
-        EndpointReferenceType sourceEpr = server.getEndpoint().getEndpointInfo().getTarget();
-
-        org.apache.cxf.ws.addressing.ObjectFactory of = new org.apache.cxf.ws.addressing.ObjectFactory();
-        EndpointReferenceType targetEpr = of.createEndpointReferenceType();
-
-        AttributedURIType addr = createAddress(sourceEpr.getAddress());
-        targetEpr.setAddress(addr);
-
-        MetadataType targetMetadata = createMetadata(sourceEpr.getMetadata(), props);
-        targetEpr.setMetadata(targetMetadata);
-        
-        targetEpr.setReferenceParameters(sourceEpr.getReferenceParameters());
-        targetEpr.getOtherAttributes().putAll(sourceEpr.getOtherAttributes());
-        targetEpr.getAny().addAll(sourceEpr.getAny());
-
-        return targetEpr;
-    }
-
-    private AttributedURIType createAddress(AttributedURIType sourceAddress) {
-        org.apache.cxf.ws.addressing.ObjectFactory of = new org.apache.cxf.ws.addressing.ObjectFactory();
-        AttributedURIType targetAddress = of.createAttributedURIType();
-        targetAddress.setValue(endpointPrefix + sourceAddress.getValue());
-        targetAddress.getOtherAttributes().putAll(sourceAddress.getOtherAttributes());
-
-        return targetAddress;
-    }
-    
-    private MetadataType createMetadata(MetadataType sourceMetadata, SLProperties props) {
-        org.apache.cxf.ws.addressing.ObjectFactory of = new org.apache.cxf.ws.addressing.ObjectFactory();
-        MetadataType targetMetadata = of.createMetadataType();
-        if (sourceMetadata != null) {
-            targetMetadata.getOtherAttributes().putAll(sourceMetadata.getOtherAttributes());
-            targetMetadata.getAny().addAll(sourceMetadata.getAny());
-        }
-        
-        if (props != null) {
-            ServiceLocatorPropertiesType jaxbProps = SLPropertiesConverter.toServiceLocatorPropertiesType(props);
-            targetMetadata.getAny().add(jaxbProps);
-        }
-        return targetMetadata;
-    }
-
+ 
     private  void check(Object obj, String propertyName, String methodName) {
         if (obj == null) {
             throw new IllegalStateException("The property " + propertyName + " must be set before "

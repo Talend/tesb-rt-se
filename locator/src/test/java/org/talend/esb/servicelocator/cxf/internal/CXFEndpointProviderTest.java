@@ -19,63 +19,89 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-
-
-import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+
 import org.junit.Test;
-import org.talend.esb.DomMother;
-import org.talend.esb.servicelocator.NamespaceContextImpl;
+
+import org.talend.esb.servicelocator.cxf.internal.CXFTestStubs;
+
 import org.w3c.dom.Element;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.talend.esb.DomMother.newDocument;
+import static org.talend.esb.servicelocator.NamespaceContextImpl.SL_NS;
+import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.PROPERTIES;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
 
 public class CXFEndpointProviderTest {
 
     @Test
     public void getServiceName() {
-        EndpointReferenceType epr = createEndpointReference(ENDPOINT_1);
+        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_1);
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, epr);
         assertEquals(SERVICE_QNAME_1, epp.getServiceName());
     }
 
     @Test
     public void getAddress() {
-        EndpointReferenceType epr = createEndpointReference(ENDPOINT_2);
+        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, epr);
         assertEquals(ENDPOINT_2, epp.getAddress());
     }
 
     @Test
-    public void addEndpointReference() {
-        Element root = newDocument("EndpointData");
+    public void addEndpointReferenceWithEprGiven() {
+        Element root = newDocument(SL_NS, "EndpointData");
 
-        EndpointReferenceType epr = createEndpointReference(ENDPOINT_1);
+        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_1);
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, epr);
         epp.addEndpointReference(root);
         
-        DomMother.serialize(root, System.out);
+//        DomMother.serialize(root, System.out);
 
-        assertThat(root, hasXPath("/EndpointData/wsa:EndpointReference/wsa:Address",
-            new NamespaceContextImpl("wsa" , "http://www.w3.org/2005/08/addressing")));
+        assertThat(root,
+            hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address", WSA_SL_NS_CONTEXT));
     }
 
-    public static EndpointReferenceType createEndpointReference(String address) {
-        org.apache.cxf.ws.addressing.ObjectFactory of = new org.apache.cxf.ws.addressing.ObjectFactory();
+    @Test
+    public void addEndpointReferenceWithEndpointAndPropertiesGiven() {
+        Element root = newDocument(SL_NS, "EndpointData");
+
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+        epp.addEndpointReference(root);
+
+//       DomMother.serialize(root, System.out);
         
-        AttributedURIType addr = of.createAttributedURIType();
-        addr.setValue(address);
+        assertThat(root, 
+            hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
+                equalTo(ENDPOINT_1)));
+        assertThat(root, 
+                hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
+                    WSA_SL_NS_CONTEXT));
+    }
+
+    @Test
+    public void addEndpointReferenceWithServerEndpointAndPropertiesGiven() {
+        Element root = newDocument(SL_NS, "EndpointData");
+
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVER_2, ENDPOINT_1, PROPERTIES);
+        epp.addEndpointReference(root);
+
+//       DomMother.serialize(root, System.out);
         
-        EndpointReferenceType epr = of.createEndpointReferenceType();
-        epr.setAddress(addr);
-        return epr;
-        
+        assertThat(root, 
+            hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
+                equalTo(ENDPOINT_1)));
+//        assertThat(root, 
+//                hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
+//                    WSA_SL_NS_CONTEXT));
     }
 }

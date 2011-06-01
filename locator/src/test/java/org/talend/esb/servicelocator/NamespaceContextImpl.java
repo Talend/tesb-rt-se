@@ -11,6 +11,23 @@ import javax.xml.namespace.NamespaceContext;
 
 public class NamespaceContextImpl implements NamespaceContext {
 
+    public static String SL_NS = "http://talend.org/esb/serviceLocator/4.2";
+
+    public static String SL_PREFIX = "sl";
+
+    public static String WSA_NS = "http://www.w3.org/2005/08/addressing";
+
+    public static String WSA_PREFIX = "wsa";
+
+    public static final NamespaceContext Sl_NS_CONTEXT =
+        new NamespaceContextImpl(SL_PREFIX , SL_NS);
+
+    public static final NamespaceContext WSA_NS_CONTEXT =
+        new NamespaceContextImpl(WSA_PREFIX , WSA_NS);
+
+    public static final NamespaceContext WSA_SL_NS_CONTEXT =
+        new NamespaceContextImpl(WSA_PREFIX , WSA_NS).add(SL_PREFIX, SL_NS);
+
     private Map<String, String> prefixMap = new HashMap<String, String>();
 
     private Map<String, List<String>> namespaceURIMap = new HashMap<String, List<String>>();

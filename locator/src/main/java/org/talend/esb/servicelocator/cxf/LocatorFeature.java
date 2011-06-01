@@ -19,6 +19,8 @@
  */
 package org.talend.esb.servicelocator.cxf;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
@@ -36,6 +39,8 @@ public class LocatorFeature extends AbstractFeature {
 
 	private static final Logger LOG = Logger.getLogger(LocatorFeature.class
 			.getName());
+
+    private SLPropertiesImpl slProps;
 
 	@Override
 	public void initialize(Bus bus) {
@@ -66,7 +71,7 @@ public class LocatorFeature extends AbstractFeature {
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.registerServer(server);
+		slm.registerServer(server, slProps);
 	}
 
 	protected ServiceLocatorManager getLocatorManager(Bus bus) {
@@ -74,45 +79,23 @@ public class LocatorFeature extends AbstractFeature {
 	}
 
 	/**
-	 * Specify the endpoints of all the instances belonging to the service locator ensemble the
-	 * service locator client might be talking to. The service locator client will one by one pick
-	 * an endpoint (the order is non-deterministic) to connect to the service locator until a
-	 * connection is established.
-	 * 
-	 * @param endpoints comma separated list of endpoints,each corresponding to a servicelocator
-	 *           instance. Each endpoint is specified as a host:port pair. At least one endpoint
-	 *           must be specified. Valid exmaples are: "127.0.0.1:2181" or
-	 *           "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
+	 *
+	 *
+	 * @param properties
 	 */
-/*
-	public void setLocatorEndpoints(String endpoints) {
-		locatorEndpoints = endpoints;
-	}
-*/
-	/**
-	 * Specify the time out of the session established at the server. The session is kept alive by
-	 * requests sent by the client. If the session is idle for a period of time that would timeout
-	 * the session, the client will send a PING request to keep the session alive.
-	 * 
-	 * @param sessionTimeout timeout in milliseconds, must be greater than  zero and less than 60000. 
-	 */
-/*
-	public void setSessionTimeout(int sessionTimeout) {
-		this.sessionTimeout = sessionTimeout;
-	}
-*/
-	/**
-	 * Specify the time the service locator client waits for a connection to get established.
-	 * 
-	 * @param connectionTimeout timeout in milliseconds, must be greater than zero
-	 */
-/*
-	public void setConnectionTimeout(int connectionTimeout) {
-		this.connectionTimeout = connectionTimeout;
+    @SuppressWarnings("unchecked")
+	public void setEndpointProperties(Map<String, ?> properties) {
+	    slProps = new SLPropertiesImpl();
+	    
+	    for(String key : properties.keySet()) {
+	        Object val = properties.get(key);
+	        if (val instanceof Collection) {
+                Collection<String> values = (Collection<String>) val;
+	            slProps.addProperty(key, values);
+	        } else if (val instanceof String) {
+                slProps.addProperty(key, (String)val);
+	        }
+	    }
 	}
 
-	public void setEndpointPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-*/
 }

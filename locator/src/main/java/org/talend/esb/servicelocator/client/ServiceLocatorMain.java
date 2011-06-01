@@ -21,7 +21,10 @@ package org.talend.esb.servicelocator.client;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,11 +40,7 @@ public class ServiceLocatorMain {
 	private PrintStream out;
 
 	public ServiceLocatorMain() {
-	    try {
-            sl = new ServiceLocatorImpl();
-        } catch (ServiceLocatorException e) {
-            e.printStackTrace();
-        }
+	    sl = new ServiceLocatorImpl();
 	}
 	
 	public void setLocatorEndpoints(String locatorEndpoints) {
@@ -76,11 +75,34 @@ public class ServiceLocatorMain {
 	ServiceLocatorException {
 		List<SLEndpoint> endpoints = sl.getEndpoints(service);
 		
-		for (SLEndpoint endpoint : endpoints) {
+		for (SLEndpoint endpoint : endpoints) {		    
 			out.println(" |--- " + endpoint.getAddress());
             out.println(" |    |-- " + (endpoint.isLive() ? "running" : "stopped"));
-            out.println(" |    |-- last time started " + endpoint.getLastTimeStarted());
+            out.println(" |    |-- last time started " + formatTimeStamp(endpoint.getLastTimeStarted()));
+            out.println(" |    |-- transport " + endpoint.getTransport());
+            out.println(" |    |-- protocol " + endpoint.getBinding());
+            printProperties(endpoint.getProperties());
 		}
+	}
+	
+	private String formatTimeStamp(long timestamp) {
+        Calendar timeStarted = Calendar.getInstance();
+        DateFormat dFormat = DateFormat.getDateInstance();
+        DateFormat tFormat = DateFormat.getTimeInstance();
+        timeStarted.setTimeInMillis(timestamp);
+        return dFormat.format(timeStarted.getTime()) + " " + tFormat.format(timeStarted.getTime());
+	}
+	
+	private void printProperties(SLProperties props) {
+	    Collection<String> names = props.getPropertyNames();
+	    if (names.isEmpty()) {
+	        out.println(" |    |-- no properties defined");
+	    } else {
+	        for(String name : props.getPropertyNames()) {
+	            props.getValues(name);
+	            out.println(" |    |-- key: " + name + ", values: " + props.getValues(name));
+	        }
+	    }
 	}
 	
 	public static void main(String[] args) {

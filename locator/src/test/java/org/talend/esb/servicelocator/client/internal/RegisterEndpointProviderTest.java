@@ -53,7 +53,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     private Capture<byte[]> contentCapture;
 
     @Test
-    public void registerWithEndpointProviderServiceExistsEndpointExists() throws Exception {
+    public void registerServiceExistsEndpointExists() throws Exception {
         serviceExists(SERVICE_PATH_1);
         endpointExists(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
@@ -70,7 +70,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     @Test
-    public void registerWithEndpointEndpointStatusExists() throws Exception {
+    public void registerEndpointStatusExists() throws Exception {
         serviceExists(SERVICE_PATH_1);
         endpointExists(ENDPOINT_PATH_11);
 
@@ -92,8 +92,50 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     @Test
-    public void registerWithEndpointProviderServiceExistsEndpointExistsNot() throws Exception {
+    public void registerServiceExistsEndpointExistsNot() throws Exception {
         serviceExists(SERVICE_PATH_1);
+
+        endpointExistsNot(ENDPOINT_PATH_11);
+        createEndpoint(ENDPOINT_PATH_11);
+
+        createEndpointStatus(ENDPOINT_PATH_11);
+
+        EndpointProvider epProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.register(epProvider);
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerServiceExistsNot() throws Exception {
+        serviceExistsNot(SERVICE_PATH_1);
+        createService(SERVICE_PATH_1);
+
+        endpointExistsNot(ENDPOINT_PATH_11);
+        createEndpoint(ENDPOINT_PATH_11);
+
+        createEndpointStatus(ENDPOINT_PATH_11);
+
+        EndpointProvider epProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.register(epProvider);
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerServiceExistsNotButConcurrentlyCreated() throws Exception {
+        serviceExistsNot(SERVICE_PATH_1);
+        createServiceFails(SERVICE_PATH_1);
 
         endpointExistsNot(ENDPOINT_PATH_11);
         createEndpoint(ENDPOINT_PATH_11);
@@ -139,9 +181,12 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         verifyAll();
     }
 
-    
     private void serviceExists(String path) throws KeeperException, InterruptedException {
         pathExists(path);
+    }
+
+    private void serviceExistsNot(String path) throws KeeperException, InterruptedException {
+        pathExistsNot(path);
     }
 
     private void endpointExists(String path) throws KeeperException, InterruptedException {
@@ -152,6 +197,14 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
     private void endpointExistsNot(String path) throws KeeperException, InterruptedException {
         expect(zkMock.exists(path, false)).andReturn(null);
+    }
+
+    private void createService(String path) throws KeeperException, InterruptedException {
+        createNode(path, PERSISTENT);
+    }
+
+    private void createServiceFails(String path) throws KeeperException, InterruptedException {
+        createNode(path, PERSISTENT, new KeeperException.NodeExistsException());
     }
 
     private void createEndpoint(String path) throws KeeperException, InterruptedException {

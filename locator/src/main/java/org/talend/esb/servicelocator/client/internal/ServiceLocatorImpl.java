@@ -21,7 +21,6 @@ package org.talend.esb.servicelocator.client.internal;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +54,7 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
+import org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider;
 import org.w3c.dom.Document;
 
 /**
@@ -125,13 +125,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     private DocumentBuilder docBuilder;
 
-    public ServiceLocatorImpl() throws ServiceLocatorException {
+    public ServiceLocatorImpl() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         try {
             docBuilder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            throw locatorException(e); 
+            throw new IllegalStateException("Failed to create a default DOM DocumentBuilder.", e); 
         }
     }
     
@@ -199,28 +199,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
             InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Registering endpoint " + endpoint + " for service "
-                    + serviceName + "...");
+                    + serviceName + " with properties " + properties + "...");
         }
-        checkConnection();
-        NodePath serviceNodePath = ensureServiceExists(serviceName);
 
-        byte[] content = serializeProperties(properties);
-        NodePath endpointNodePath = ensureEndpointExists(serviceNodePath, endpoint, content);
-
-        NodePath endpointStatusNodePath = endpointNodePath.child("live");
-        ensurePathExists(endpointStatusNodePath, CreateMode.EPHEMERAL);
+        register(new CXFEndpointProvider(serviceName, endpoint, properties));
     }
 
-    // @Override
-    public void register(EndpointProvider eprProvider)
+    @Override
+    public void register(EndpointProvider epProvider)
         throws ServiceLocatorException, InterruptedException {
 
-        QName serviceName = eprProvider.getServiceName();
-        String endpoint = eprProvider.getAddress();
+        QName serviceName = epProvider.getServiceName();
+        String endpoint = epProvider.getAddress();
         
         NodePath serviceNodePath = ensureServiceExists(serviceName);
 
-        byte[] content = createContent(eprProvider);
+        byte[] content = createContent(epProvider);
         NodePath endpointNodePath = 
             ensureEndpointExists(serviceNodePath, endpoint, content);
 
@@ -610,26 +604,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
             InterruptedException {
         NodePath liveNodePath = endpointPath.child("live");
         return nodeExists(liveNodePath);
-    }
-
-    private byte[] serializeProperties(SLProperties props)
-        throws ServiceLocatorException {
-        if (props != null) {
-            try {
-                ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-                ObjectOutputStream objectStream = new ObjectOutputStream(
-                        byteStream);
-
-                objectStream.writeObject(props);
-                objectStream.close();
-                return byteStream.toByteArray();
-            } catch (IOException e) {
-                throw new ServiceLocatorException(
-                        "Failed to serialize properties: " + props, e);
-            }
-        } else {
-            return EMPTY_CONTENT;
-        }
     }
 
     private byte[] createContent(EndpointProvider eprProvider) throws ServiceLocatorException  {

@@ -20,6 +20,8 @@
 package org.talend.esb.servicelocator;
 
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.NAME_1;
+import static org.talend.esb.servicelocator.TestValues.VALUE_1;
 
 import java.io.ByteArrayOutputStream;
 
@@ -45,7 +47,12 @@ public class TestContent {
         Element root = DomMother.newDocument(SL, "EndpointData");
         Element epr = DomMother.addElement(root, WSA, "EndpointReference");
         DomMother.addLeafElement(epr, WSA, "Address", addressVal);
-        
+        Element metadata  = DomMother.addElement(epr, WSA, "Metadata");
+        Element slProps  = DomMother.addElement(metadata, SL, "ServiceLocatorProperties");
+        Element entry  = DomMother.addElement(slProps, SL, "Entry");
+        DomMother.addAttribute(entry, "key",  NAME_1);
+        DomMother.addLeafElement(entry, SL, "Value", VALUE_1);
+
         if (lastStartTime != null) {
             DomMother.addLeafElement(root, SL, "LastTimeStarted", lastStartTime.toString());
         }

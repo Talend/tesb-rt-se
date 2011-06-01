@@ -23,10 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import javax.xml.namespace.NamespaceContext;
-
 import org.junit.Test;
-import org.talend.esb.servicelocator.NamespaceContextImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.internal.endpoint.EntryType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
@@ -43,14 +40,11 @@ public class SLPropertiesConverterTest {
 
     public static final String VALUE_3 = "value3";
 
-    public static final NamespaceContext Sl_NS_CONTEXT =
-        new NamespaceContextImpl("sl" , "http://talend.org/tesb/serviceLocator");
-
     @Test
     public void slProperties2JAXBSlPropertiesType() throws Exception {
         SLPropertiesImpl props = new SLPropertiesImpl();
-        props.addMultiProperty(KEY_1, VALUE_1, VALUE_2);
-        props.addMultiProperty(KEY_2, VALUE_2, VALUE_3);
+        props.addProperty(KEY_1, VALUE_1, VALUE_2);
+        props.addProperty(KEY_2, VALUE_2, VALUE_3);
         
         ServiceLocatorPropertiesType jaxbProperties = SLPropertiesConverter.toServiceLocatorPropertiesType(props);
         List<EntryType> entries = jaxbProperties.getEntry();

@@ -23,6 +23,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.extension.BusExtension;
+import org.talend.esb.servicelocator.client.SLProperties;
 
 public class ServiceLocatorManager implements BusExtension {
 	
@@ -40,6 +41,11 @@ public class ServiceLocatorManager implements BusExtension {
 		locatorRegistrar.registerServer(server);
 	}
 
+    public void registerServer(Server server, SLProperties props) {
+        locatorRegistrar.registerServer(server, props);
+    }
+//	registerServer(Server server, SLProperties props)
+	
 	public void listenForAllClients() {
 		clientEnabler.startListenForAllClients();
 	}

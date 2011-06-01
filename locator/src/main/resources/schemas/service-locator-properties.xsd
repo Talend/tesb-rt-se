@@ -6,7 +6,7 @@
     xmlns:tns="http://talend.org/esb/serviceLocator/4.2"
     xmlns:wsa="http://www.w3.org/2005/08/addressing">
 
-    <element name="EndpointData" type="tns:EndpointDataType"></element>
+    <element name="EndpointData" type="tns:EndpointDataType"/>
 
     <complexType name="EndpointDataType">
     	<sequence>
@@ -17,7 +17,7 @@
     	</sequence>
     </complexType>
 
-    <element name="ServiceLocatorProperties" type="tns:ServiceLocatorPropertiesType"></element>
+    <element name="ServiceLocatorProperties" type="tns:ServiceLocatorPropertiesType"/>
 
     <complexType name="ServiceLocatorPropertiesType">
         <sequence>

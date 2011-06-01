@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.internal.endpoint.EntryType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
@@ -39,6 +40,18 @@ public class SLPropertiesConverter {
             entries.add(createEntry(props, name));
         }
         return slPropertiesType;
+    }
+
+    public static SLProperties toSLProperties(ServiceLocatorPropertiesType props) {
+        SLPropertiesImpl slProperties = new SLPropertiesImpl();
+        
+        for(EntryType entry : props.getEntry()) {
+            String key = entry.getKey();
+            List<String> values = entry.getValue();
+            slProperties.addProperty(key, values);
+        }
+        
+        return slProperties;
     }
 
     private static EntryType createEntry(SLProperties props, String name) {

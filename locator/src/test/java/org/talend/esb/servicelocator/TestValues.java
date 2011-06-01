@@ -95,8 +95,8 @@ public class TestValues {
 	
 
 	static {
-		PROPERTIES.addMultiProperty(NAME_1, VALUE_1, VALUE_2);
-		PROPERTIES.addMultiProperty(NAME_2, VALUE_3);
+		PROPERTIES.addProperty(NAME_1, VALUE_1, VALUE_2);
+		PROPERTIES.addProperty(NAME_2, VALUE_3);
 		
 		try {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();

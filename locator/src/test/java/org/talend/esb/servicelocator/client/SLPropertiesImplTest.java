@@ -40,8 +40,8 @@ public class SLPropertiesImplTest {
     public void setUp() {
         properties = new SLPropertiesImpl();
         
-        properties.addMultiProperty(NAME_1, VALUE_1, VALUE_2);
-        properties.addMultiProperty(NAME_2, VALUE_2, VALUE_3);
+        properties.addProperty(NAME_1, VALUE_1, VALUE_2);
+        properties.addProperty(NAME_2, VALUE_2, VALUE_3);
 //        properties.addMultiProperty(NAME_3, VALUE_1, VALUE_3);
     }
     

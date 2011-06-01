@@ -31,8 +31,8 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.ws.addressing.AttributedURIType;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.apache.cxf.wsdl.WSAEndpointReferenceUtils;
 import org.easymock.EasyMock;
 
 public class CXFTestStubs {
@@ -40,7 +40,7 @@ public class CXFTestStubs {
 
     public static final Server SERVER_2 = createServerStub(SERVICE_QNAME_2, ENDPOINT_2);
 
-    private static Server createServerStub(QName serviceName, String endpointName) {
+    public static Server createServerStub(QName serviceName, String endpointName) {
         EndpointReferenceType epr = createEPR(endpointName);
         ServiceInfo serviceInfo = EasyMock.createNiceMock(ServiceInfo.class);
         expect(serviceInfo.getName()).andStubReturn(serviceName);
@@ -60,11 +60,9 @@ public class CXFTestStubs {
         return server;
     }
     
-    private static EndpointReferenceType createEPR (String address) {
-        AttributedURIType aut = new AttributedURIType();
-        aut.setValue(address);
-        EndpointReferenceType epr = new EndpointReferenceType();
-        epr.setAddress(aut);
+    public static EndpointReferenceType createEPR (String address) {
+        EndpointReferenceType epr =
+            WSAEndpointReferenceUtils.getEndpointReference(address);
         
         return epr;
     }

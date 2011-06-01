@@ -32,7 +32,7 @@ public class SLPropertiesImpl implements SLProperties {
 	
 	private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();
 
-	public void addMultiProperty(String name, String... values) {
+	public void addProperty(String name, String... values) {
 		List<String> valueList = new ArrayList<String>();
 		for (String value : values) {
 			valueList.add(value);
@@ -40,7 +40,12 @@ public class SLPropertiesImpl implements SLProperties {
 		properties.put(name, valueList);		
 	}
 
-	/**
+    public void addProperty(String name, Collection<String> values) {
+        List<String> valueList = new ArrayList<String>(values);
+        properties.put(name, valueList);        
+    }
+
+    /**
 	 * {@inheritDoc}
 	 */
 	@Override
