@@ -89,7 +89,7 @@ public class TestValues {
 	         
 	public static final SLPropertiesImpl PROPERTIES = new SLPropertiesImpl();
 	
-	public static final byte[] SERIALIZED_PROPERTIES;
+//	public static final byte[] SERIALIZED_PROPERTIES;
 	
 	
 	
@@ -97,7 +97,8 @@ public class TestValues {
 	static {
 		PROPERTIES.addProperty(NAME_1, VALUE_1, VALUE_2);
 		PROPERTIES.addProperty(NAME_2, VALUE_3);
-		
+
+/*
 		try {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 			ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
@@ -108,5 +109,6 @@ public class TestValues {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+*/
 	}
 }

@@ -75,6 +75,8 @@ import org.w3c.dom.Document;
 public class ServiceLocatorImpl implements ServiceLocator {
 
     public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
+    
+    public static final  String LIVE = "live"; 
 
     public static final byte[] EMPTY_CONTENT = new byte[0];
 
@@ -232,13 +234,25 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     + serviceName + "...");
         }
 
-        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
-                .toString());
-        NodePath endpointNodePath = serviceNodePath.child(endpoint);
-
         checkConnection();
-        ensurePathDeleted(endpointNodePath, false);
-        ensurePathDeleted(serviceNodePath, true);
+
+        try {
+            NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
+                .toString());
+            NodePath endpointNodePath = serviceNodePath.child(endpoint);
+
+            NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
+        
+            ensurePathDeleted(endpointStatusNodePath, false);
+
+        
+            byte[] content = getContent(endpointNodePath);
+            ContentHolder holder = new ContentHolder(content);
+            holder.getEndpointData().setLastTimeStopped(Long.toString(System.currentTimeMillis()));
+            setNodeData(endpointNodePath, holder.getContent());
+        } catch (KeeperException e) {
+            throw locatorException(e);
+        }
     }
 
     /**
@@ -274,11 +288,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 
                 try {
                     byte[] content = getContent(nodePath);
-                
-                
-//                final long olderTime = 23678782200L;
-//                final long laterTime = olderTime + 24 * 60 * 60 * 1000;
-
                     final boolean isLive = isLive(nodePath);
 
                     return new SLEndpointImpl(serviceName, content, isLive);
@@ -499,7 +508,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     LOG.fine(new String(content, "utf-8"));
                 }
             } else {
-                zk.setData(endpointNodePath.toString(), content, -1);
+                setNodeData(endpointNodePath, content);
                 if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Node " + endpoint
                             + " already exists, updated content with data:");
@@ -561,6 +570,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private void createNode(NodePath path, CreateMode mode, byte[] content)
         throws KeeperException, InterruptedException {
         zk.create(path.toString(), content, Ids.OPEN_ACL_UNSAFE, mode);
+    }
+
+    private void setNodeData(NodePath path, byte[] content)
+    throws KeeperException, InterruptedException {
+        zk.setData(path.toString(), content, -1);
     }
 
     private boolean deleteNode(NodePath path, boolean canHaveChildren)
@@ -626,7 +640,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         
         return endpointData;
     }
-    
+
     private byte[] serialize(EndpointDataType endpointData) throws ServiceLocatorException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(50000);
         try {

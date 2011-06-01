@@ -102,7 +102,6 @@ public interface ServiceLocator {
 	void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException;
 
-	@Deprecated
 	void register(QName serviceName, String endpoint, SLProperties properties)
 	throws ServiceLocatorException, InterruptedException;
 

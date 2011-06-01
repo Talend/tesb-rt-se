@@ -24,17 +24,25 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.data.Stat;
+import org.easymock.Capture;
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.talend.esb.servicelocator.TestContent;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 import static org.apache.zookeeper.CreateMode.EPHEMERAL;
 import static org.apache.zookeeper.CreateMode.PERSISTENT;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsEmptyIterable.emptyIterable;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
@@ -72,21 +80,6 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
     }
 
     @Test
-    public void registerServiceExistsEndPointExists() throws Exception {
-        pathExists(SERVICE_PATH_1);
-        pathExists(ENDPOINT_PATH_11);
-
-        createNode(ENDPOINT_STATUS_PATH_11, EPHEMERAL);
-
-        replayAll();
-
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-        slc.register(SERVICE_QNAME_1, ENDPOINT_1);
-
-        verifyAll();
-    }
-
-    @Test
     public void failureWhenRegisteringService() throws Exception {
         pathExists(SERVICE_PATH_1, new KeeperException.RuntimeInconsistencyException());
 
@@ -106,24 +99,37 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
     @Test
     public void unregisterEndpoint() throws Exception {
-        delete(ENDPOINT_PATH_11);
+        long currentTime = System.currentTimeMillis();
+        Capture<byte[]> contentCapture;
 
+        byte[] content = TestContent.createContent(ENDPOINT_1, 12345678L, -1L);
+        expect(zkMock.getData(ENDPOINT_PATH_11, false, null)).andReturn(content);
+        delete(ENDPOINT_STATUS_PATH_11);
+
+        contentCapture = new Capture<byte[]>();
+        expect(zkMock.setData(eq(ENDPOINT_PATH_11), capture(contentCapture), eq(-1))).andReturn(new Stat());
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-        slc.connect();
-        slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
 
+        slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
+        
+        
+        byte[] updatedContent = contentCapture.getValue();
+        ContentHolder holder = new ContentHolder(updatedContent);
+        long newLastTimeStopped = Long.parseLong(holder.getEndpointData().getLastTimeStopped());
+
+        assertThat(newLastTimeStopped, greaterThan(currentTime));
         verifyAll();
     }
 
     @Test
     public void unregisterEndpointDeleteFails() throws Exception {
-        delete(ENDPOINT_PATH_11, new KeeperException.RuntimeInconsistencyException());
+        delete(ENDPOINT_STATUS_PATH_11, new KeeperException.RuntimeInconsistencyException());
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-        slc.connect();
+
         try {
             slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
             fail("A ServiceLocatorException should have been thrown.");

@@ -37,13 +37,13 @@ public class TestContent {
     
     public static final long LAST_TIME_STARTED = 9874534433L;
 
-    public static final byte[] CONTENT_ENDPOINT_1 = createContent(ENDPOINT_1, LAST_TIME_STARTED);
+    public static final byte[] CONTENT_ENDPOINT_1 = createContent(ENDPOINT_1, LAST_TIME_STARTED, null);
 
     public static byte[] createContent(String addressVal) {
-        return createContent(addressVal, null);
+        return createContent(addressVal, null, null);
     }
     
-    public static byte[] createContent(String addressVal, Long lastStartTime) {
+    public static byte[] createContent(String addressVal, Long lastStartTime, Long lastStopTime) {
         Element root = DomMother.newDocument(SL, "EndpointData");
         Element epr = DomMother.addElement(root, WSA, "EndpointReference");
         DomMother.addLeafElement(epr, WSA, "Address", addressVal);
@@ -57,6 +57,10 @@ public class TestContent {
             DomMother.addLeafElement(root, SL, "LastTimeStarted", lastStartTime.toString());
         }
         
+        if (lastStopTime != null) {
+            DomMother.addLeafElement(root, SL, "LastTimeStopped", lastStopTime.toString());
+        }
+
         ByteArrayOutputStream outStream = new ByteArrayOutputStream(10000);
         DomMother.serialize(root, outStream);
         return outStream.toByteArray();

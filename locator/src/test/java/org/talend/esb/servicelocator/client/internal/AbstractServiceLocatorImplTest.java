@@ -50,7 +50,7 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
 
     @Before
     public void setUp() {
-        zkMock = createNiceMock(ZooKeeper.class);
+        zkMock = createMock(ZooKeeper.class);
         expect(zkMock.getState()).andStubReturn(ZooKeeper.States.CONNECTED);
 
         pcaMock = createMock(PostConnectAction.class);
