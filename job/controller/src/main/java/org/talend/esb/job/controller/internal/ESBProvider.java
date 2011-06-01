@@ -98,7 +98,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	
 	// TODO: add dynamic WebMethod
 	@Override
-	@javax.jws.WebMethod(operationName = "getCustomersByName", action = "http://talend.org/esb/service/job/invoke")
+//	@javax.jws.WebMethod(operationName = "getCustomersByName", action = "http://talend.org/esb/service/job/invoke")
 //	@javax.jws.WebResult(name = "jobOutput", targetNamespace = "http://talend.org/esb/service/job",
 //	partName = "response")
 	public Source invoke(Source request) {

@@ -70,19 +70,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	}
 
 	private ESBProviderCallback getESBProviderCallback(final Map<String, Object> props) {
-		String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
-		QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-		QName portName = QName.valueOf((String)props.get(PORT_NAME));
+		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
 		
-		System.out.println("original serviceName=" + serviceName);
-		System.out.println("original portName=" + portName);
-		
-		serviceName = QName.valueOf("{http://customerservice.example.com/}TESB_JOBS_ProviderJob");
-		portName = QName.valueOf("{http://customerservice.example.com/}TESB_JOBS_ProviderJobSoapBinding");
-
-		System.out.println("fixed serviceName=" + serviceName);
-		System.out.println("fixed portName=" + portName);
-
 		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
 		Collection<ESBProvider> esbProviders = endpoints.get(key);
 		if(null == esbProviders) {
@@ -106,10 +97,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			esbProviders.add(esbProvider);
 		}
 
-		String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-		System.out.println("operationName="+operationName);
-		// TEMP
-		operationName = "getCustomersByName";
+		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 		ESBProviderCallback esbProviderCallback =
 			esbProvider.createESBProviderCallback(operationName);
 
