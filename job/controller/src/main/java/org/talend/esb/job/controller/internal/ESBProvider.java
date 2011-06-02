@@ -88,7 +88,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	}
 
 	@Override
-	@javax.jws.WebMethod(exclude=true)
+	//@javax.jws.WebMethod(exclude=true)
 	public Source invoke(Source request) {
 		QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
 		System.out.println("operationName: "+operationQName);
@@ -102,12 +102,12 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			factory.newTransformer().transform(request, docResult);
 			org.dom4j.Document requestDoc = docResult.getDocument();
 
-			System.out.println("request: " +requestDoc.asXML());
+			//System.out.println("request: " +requestDoc.asXML());
 			Object result = esbProviderCallback.invoke(requestDoc);
 
-			// TODO: improve oneway
+			// oneway
 			if(result == null) {
-				return request;
+				return null;
 			}
 			if(result instanceof org.dom4j.Document) {
 				return new org.dom4j.io.DocumentSource(
