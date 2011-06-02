@@ -28,11 +28,15 @@ import routines.system.api.ESBProviderCallback;
 
 class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
 
-	private BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
+	private final boolean isRequestResponse;
+	private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
 
 	private Object request = null;
 	private Object response = null;
 
+	public RuntimeESBProviderCallback(boolean isRequestResponse) {
+		this.isRequestResponse = isRequestResponse;
+	}
 	@Override
 	public Object getRequest() throws ESBJobInterruptedException {
 		try {
@@ -54,6 +58,9 @@ class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
 	@Override
 	public Object invoke(Object payload) throws Exception {
 		requests.put(payload);
+		if(!isRequestResponse) {
+			return null;
+		}
 		synchronized (payload) {
 			payload.wait();
 		}

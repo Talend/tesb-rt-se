@@ -39,6 +39,8 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private static final String DEFAULT_OPERATION_NAME = "defaultOperationName";
 	private static final String SERVICE_NAME = "serviceName";
 	private static final String PORT_NAME = "portName";
+	private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
+	private static final String VALUE_REQUEST_RESPONSE = "request-response";
 
 	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
 		new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
@@ -97,7 +99,8 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 
 		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 		ESBProviderCallback esbProviderCallback =
-			esbProvider.createESBProviderCallback(operationName);
+			esbProvider.createESBProviderCallback(operationName,
+					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)));
 
 		return esbProviderCallback;
 	}
