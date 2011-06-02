@@ -115,7 +115,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
 			operationName = operationQName.getLocalPart();
 		}
-		System.out.println("operationName="+operationName);
+		System.out.println("operationName: "+operationName);
 		RuntimeESBProviderCallback esbProviderCallback =
 			getESBProviderCallback(operationName);
 		if(esbProviderCallback == null) {
@@ -125,31 +125,35 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
 			factory.newTransformer().transform(request, docResult);
 			org.dom4j.Document requestDoc = docResult.getDocument();
-			
+
 			System.out.println("request: " +requestDoc.asXML());
 			Object result = esbProviderCallback.invoke(requestDoc);
-			
+
+			// TODO: improve oneway
+			if(result == null) {
+				return request;
+			}
 			if(result instanceof org.dom4j.Document) {
 				return new org.dom4j.io.DocumentSource(
 						(org.dom4j.Document)result);
 			} else {
-				throw new RuntimeException("Provider return incompatible object: " + result.getClass().getName());
+				throw new RuntimeException(
+					"Provider return incompatible object: " + result.getClass().getName());
 			}
 
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
 
-	public RuntimeESBProviderCallback createESBProviderCallback(String operationName) {
+	public RuntimeESBProviderCallback createESBProviderCallback(String operationName, boolean isRequestResponse) {
 		if(callbacks.get(operationName) != null) {
 			throw new RuntimeException("Operation '" + operationName + "' for endpoint '" + publishedEndpointUrl + "' already registered");
 		}
-		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback();
+		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback(isRequestResponse);
 		callbacks.put(operationName, esbProviderCallback);
 		
 		// TODO: add operation
