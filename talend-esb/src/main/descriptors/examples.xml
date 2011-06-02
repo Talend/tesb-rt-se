@@ -16,7 +16,7 @@
         <!-- Copy Examples -->
         <fileSet>
             <directory>${basedir}/../examples</directory>
-            <outputDirectory>/examples/tesb</outputDirectory>
+            <outputDirectory>/examples/talend/tesb</outputDirectory>
             <excludes>
                 <!-- Exclude maven build target directory -->
                 <exclude>**/target/**</exclude>
@@ -32,17 +32,17 @@
         </fileSet>
         <fileSet>
             <directory>${basedir}/../examples/parent</directory>
-            <outputDirectory>/examples</outputDirectory>
+            <outputDirectory>/examples/talend</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/tif-examples/talend-if-${tif.version}/examples</directory>
-            <outputDirectory>/examples/tif</outputDirectory>
+            <outputDirectory>/examples/talend/tif</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/tsf-examples/talend-sf-${tsf.version}/examples</directory>
-            <outputDirectory>/examples/tsf</outputDirectory>
+            <outputDirectory>/examples/talend/tsf</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>

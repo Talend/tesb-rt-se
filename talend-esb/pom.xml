@@ -1042,7 +1042,7 @@
 						<phase>process-resources</phase>
 						<configuration>
 							<tasks>
-								<copy todir="target/add-ons/monitoring">
+								<copy todir="target/add-ons/sam">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
@@ -1136,7 +1136,7 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
-								<copy todir="target/add-ons/monitoring/db">
+								<copy todir="target/add-ons/sam/db">
 									<fileset dir="${basedir}/../sam/sam-server/target/classes">
 										<include name="*.sql" />
 									</fileset>

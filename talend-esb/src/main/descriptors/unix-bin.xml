@@ -27,7 +27,7 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
-            <outputDirectory>/samples/camel</outputDirectory>
+            <outputDirectory>/examples/apache/camel</outputDirectory>
         </fileSet>
         <!-- 
         <fileSet>
@@ -44,6 +44,8 @@
                 <exclude>NOTICE</exclude>
                 <exclude>README</exclude>
                 <exclude>bin/*</exclude>
+                <exclude>docs/**</exclude>
+                <exclude>etc/**</exclude>
                 <exclude>release_notes.txt</exclude>
                 <exclude>lib/endorsed/**</exclude>
                 <exclude>lib/jaxb-*.jar</exclude>
@@ -60,7 +62,19 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/samples</directory>
-            <outputDirectory>/samples/cxf</outputDirectory>
+            <outputDirectory>/examples/apache/cxf</outputDirectory>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/etc</directory>
+            <outputDirectory>/examples/apache/etc</outputDirectory>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/docs/api</directory>
+            <outputDirectory>/docs/cxf-api</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
