@@ -84,7 +84,7 @@
         <property name="incrementerName" value="SEQUENCE" />
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
-    
+<!--     
 	<bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
 	 	 <constructor-arg value="${db.driver}" />
 	 </bean>
@@ -95,6 +95,16 @@
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}" />
     </bean>
+-->    
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${db.driver}"/>
+	    <property name="url" value="${db.url}"/>
+	    <property name="username" value="${db.username}"/>
+	    <property name="password" value="${db.password}"/>
+		<property name="initialSize" value="5"/>
+		<property name="maxActive" value="20"/>
+		<property name="maxWait" value="-1"/>
+	</bean>    
         
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>

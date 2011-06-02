@@ -83,6 +83,12 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+        
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -122,7 +128,7 @@
                         <Require-Bundle>
                             org.apache.cxf.bundle,
 							org.springframework.beans,org.springframework.jdbc,
-							derby,derbyclient
+							org.apache.commons.dbcp,derby,derbyclient
                         </Require-Bundle>
                     </instructions>
                 </configuration>				
