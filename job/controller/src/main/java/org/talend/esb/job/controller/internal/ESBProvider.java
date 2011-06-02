@@ -19,7 +19,6 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,10 +30,18 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+import org.apache.cxf.service.Service;
+import org.apache.cxf.service.model.BindingInfo;
+import org.apache.cxf.service.model.BindingOperationInfo;
+import org.apache.cxf.service.model.InterfaceInfo;
+import org.apache.cxf.service.model.MessageInfo;
+import org.apache.cxf.service.model.MessagePartInfo;
+import org.apache.cxf.service.model.OperationInfo;
+import org.apache.cxf.service.model.ServiceInfo;
 
 //@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE)
-//@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
+@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.PAYLOAD)
 @javax.xml.ws.WebServiceProvider()
 class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	
@@ -45,6 +52,8 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	private String publishedEndpointUrl;
 	private QName serviceName;
 	private QName portName;
+
+	Service service;
 
 	@Resource
 	private WebServiceContext context;
@@ -65,61 +74,28 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	}
 
 	private void run() {
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-	    try{
-		    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-			
-		    javax.xml.ws.Endpoint endpoint = javax.xml.ws.Endpoint.create(this);
-			
-			@SuppressWarnings("serial")
-			java.util.Map<String, Object> properties = new java.util.HashMap<String, Object>() {
-				{
-					put(javax.xml.ws.Endpoint.WSDL_SERVICE,
-						serviceName);
-					put(javax.xml.ws.Endpoint.WSDL_PORT,
-						portName);
-				}
-			};
-			endpoint.setProperties(properties);
-			endpoint.publish(publishedEndpointUrl);
+		JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
+		sf.setServiceName(serviceName);
+		sf.setEndpointName(portName);
+		sf.setAddress(publishedEndpointUrl);
+		sf.setServiceBean(this);
 
-//			JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
-//			sf.setServiceName(serviceName);
-//			sf.setEndpointName(portName);
-//			sf.setAddress(publishedEndpointUrl);
-//			sf.setServiceBean(this);
-//			//sf.setInvoker(invoker)
-//
-//			Server srv = sf.create();
-			
-			System.out.println("web service [endpoint: "
-					+ publishedEndpointUrl + "] published");
-        }finally{
-            Thread.currentThread().setContextClassLoader(contextClassLoader);
-        }
+		Server srv = sf.create();
+		service = srv.getEndpoint().getService();
+		
+		System.out.println("web service [endpoint: "
+				+ publishedEndpointUrl + "] published");
 	}
 
 	@Override
-//	@javax.jws.WebMethod(operationName = "getCustomersByName", action = "http://talend.org/esb/service/job/invoke")
-//	@javax.jws.WebResult(name = "jobOutput", targetNamespace = "http://talend.org/esb/service/job",
-//	partName = "response")
+	@javax.jws.WebMethod(exclude=true)
 	public Source invoke(Source request) {
-		String operationName = null;
-		Map<?, ?> headers = (Map<?, ?>)context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS);
-		List<?> sopaAction = (List<?>)headers.get("SOAPAction");
-		if(!sopaAction.isEmpty()) {
-			operationName = (String)sopaAction.get(0);
-			// remove quotes
-			operationName = operationName.substring(1, operationName.length() - 1);
-		} else {
-			QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
-			operationName = operationQName.getLocalPart();
-		}
-		System.out.println("operationName: "+operationName);
+		QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
+		System.out.println("operationName: "+operationQName);
 		RuntimeESBProviderCallback esbProviderCallback =
-			getESBProviderCallback(operationName);
+			getESBProviderCallback(operationQName.getLocalPart());
 		if(esbProviderCallback == null) {
-			throw new RuntimeException("Handler for operation '" + operationName + "' cannot be found");
+			throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
 		}
 		try {
 			org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
@@ -156,12 +132,39 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback(isRequestResponse);
 		callbacks.put(operationName, esbProviderCallback);
 		
-		// TODO: add operation
+		// add operation
+		ServiceInfo si = service.getServiceInfos().get(0);
+		InterfaceInfo ii = si.getInterface();
+		OperationInfo oi = createOperation(ii, operationName, isRequestResponse);
+		
+		BindingInfo bi = si.getBindings().iterator().next();
+        BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
+        bi.addOperation(boi);
 
 		return esbProviderCallback;
 	}
 	
 	public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
 		return callbacks.get(operationName);
+	}
+
+	private OperationInfo createOperation(InterfaceInfo ii,
+			String operationName, boolean isRequestResponse) {
+		OperationInfo oi = ii.addOperation(new QName(serviceName.getNamespaceURI(),
+				operationName));
+		MessageInfo mii = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+				operationName + "RequestMsg"), MessageInfo.Type.INPUT);
+		oi.setInput(operationName + "RequestMsg", mii);
+		MessagePartInfo mpi = mii.addMessagePart("request");
+		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
+
+		if(isRequestResponse) {
+			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
+			oi.setOutput(operationName + "ResponseMsg", mio);
+			mpi = mio.addMessagePart("response");
+			mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+		}
+		return oi;
 	}
 }

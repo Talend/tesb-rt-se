@@ -111,26 +111,24 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-
-		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
-		Collection<ESBProvider> esbProviders = endpoints.get(key);
-		if(esbProviders == null) {
-			// TODO: create generic consumer
-			throw new RuntimeException("No provider available for serviceName=" + serviceName + "; portName=" + portName);
-		}
-		
 		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-		RuntimeESBProviderCallback esbProviderCallback = null;
-		for(ESBProvider provider : esbProviders) {
-			esbProviderCallback = provider.getESBProviderCallback(operationName);
-			if(esbProviderCallback != null) {
-				break;
+
+		ESBConsumer esbConsumer = null;
+		Collection<ESBProvider> esbProviders = endpoints.get(
+				new ESBProviderKey(serviceName, portName));
+		if(esbProviders != null) {
+			for(ESBProvider provider : esbProviders) {
+				esbConsumer = provider.getESBProviderCallback(operationName);
+				if(esbConsumer != null) {
+					break;
+				}
 			}
 		}
-		if(esbProviderCallback == null) {
-			// TODO: create generic consumer
-			throw new RuntimeException("No provider available for operationName=" + operationName);
+
+		// create generic consumer
+		if(esbConsumer == null) {
+			esbConsumer = new RuntimeESBConsumer(serviceName, portName, operationName);
 		}
-		return esbProviderCallback;
+		return esbConsumer;
 	}
 }
