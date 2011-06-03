@@ -48,7 +48,8 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	private javax.xml.transform.TransformerFactory factory =
 		javax.xml.transform.TransformerFactory.newInstance();
 
-	private Map<String, RuntimeESBProviderCallback> callbacks = new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
+	private Map<String, RuntimeESBProviderCallback> callbacks =
+		new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 	private String publishedEndpointUrl;
 	private QName serviceName;
 	private QName portName;
