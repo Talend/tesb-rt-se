@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * Talend :: ESB :: Job :: Controller
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.job.controller.internal;
 
 import javax.xml.namespace.QName;
@@ -8,7 +27,6 @@ import org.apache.cxf.BusException;
 import org.apache.cxf.binding.BindingFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.binding.soap.SoapBindingConstants;
-import org.apache.cxf.binding.soap.model.SoapOperationInfo;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.ClientImpl;
 import org.apache.cxf.endpoint.Endpoint;
@@ -17,7 +35,6 @@ import org.apache.cxf.endpoint.EndpointImpl;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.service.model.BindingInfo;
-import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.MessageInfo;
@@ -99,13 +116,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		ei.setAddress("http://localhost:9090/CustomerServicePort");
 		si.addEndpoint(ei);
 
-		BindingOperationInfo boi = bi.getOperation(oi);
-		SoapOperationInfo soi = boi.getExtensor(SoapOperationInfo.class);
-		if (soi == null) {
-			soi = new SoapOperationInfo();
-			boi.addExtensor(soi);
-		}
-		soi.setAction(operationName);
+//		BindingOperationInfo boi = bi.getOperation(oi);
+//		SoapOperationInfo soi = boi.getExtensor(SoapOperationInfo.class);
+//		if (soi == null) {
+//			soi = new SoapOperationInfo();
+//			boi.addExtensor(soi);
+//		}
+//		soi.setAction(operationName);
 		service.setDataBinding(new SourceDataBinding());
 
 		Endpoint endpoint = new EndpointImpl(bus, service, ei);
@@ -123,11 +140,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				factory.newTransformer().transform((Source)result[0], docResult);
 				return docResult.getDocument();
 			}
+			return null;
 		} else {
 			throw new RuntimeException(
 				"Consumer try to send incompatible object: " + payload.getClass().getName());
 		}
-		return null;
 	}
 
 }
