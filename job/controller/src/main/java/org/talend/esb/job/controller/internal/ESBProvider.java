@@ -83,7 +83,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		Server srv = sf.create();
 		service = srv.getEndpoint().getService();
-		
+
 		System.out.println("web service [endpoint: "
 				+ publishedEndpointUrl + "] published");
 	}
@@ -151,20 +151,24 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 	private OperationInfo createOperation(InterfaceInfo ii,
 			String operationName, boolean isRequestResponse) {
-		OperationInfo oi = ii.addOperation(new QName(serviceName.getNamespaceURI(),
+		final String namespace = ii.getName().getNamespaceURI();
+		OperationInfo oi = ii.addOperation(new QName(namespace,
 				operationName));
-		MessageInfo mii = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+		MessageInfo mii = oi.createMessage(new QName(namespace,
 				operationName + "RequestMsg"), MessageInfo.Type.INPUT);
 		oi.setInput(operationName + "RequestMsg", mii);
 		MessagePartInfo mpi = mii.addMessagePart("request");
-		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
-
+		//SchemaInfo si = ii.getService().getSchemas().get(0);
+		//mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
+		mpi.setTypeQName(new QName("http://www.w3.org/2001/XMLSchema", "anyType"));
+		
 		if(isRequestResponse) {
-			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+			MessageInfo mio = oi.createMessage(new QName(namespace,
 					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
 			oi.setOutput(operationName + "ResponseMsg", mio);
 			mpi = mio.addMessagePart("response");
-			mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+			//mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+			mpi.setTypeQName(new QName("http://www.w3.org/2001/XMLSchema", "anyType"));
 		}
 		return oi;
 	}
