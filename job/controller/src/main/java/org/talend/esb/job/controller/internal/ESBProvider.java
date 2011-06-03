@@ -30,7 +30,6 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
@@ -132,13 +131,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback(isRequestResponse);
 		callbacks.put(operationName, esbProviderCallback);
 		
-		// add operation
-		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
-		InterfaceInfo ii = si.getInterface();
-		OperationInfo oi = createOperation(ii, operationName, isRequestResponse);
-		BindingInfo bi = si.getBindings().iterator().next();
-        BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
-        bi.addOperation(boi);
+		addOperation(operationName, isRequestResponse);
 
 		return esbProviderCallback;
 	}
@@ -149,16 +142,20 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 	public boolean destroyESBProviderCallback(String operationName) {
 		callbacks.remove(operationName);
-		if(callbacks.isEmpty()) {
+		if(!callbacks.isEmpty()) {
+			removeOperation(operationName);
+		} else {
 			server.destroy();
 			return true;
 		}
 		return false;
 	}
 
-	private OperationInfo createOperation(InterfaceInfo ii,
-			String operationName, boolean isRequestResponse) {
-		final String namespace = ii.getName().getNamespaceURI();
+	private void addOperation(String operationName, boolean isRequestResponse) {
+		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
+		InterfaceInfo ii = si.getInterface();
+
+        final String namespace = ii.getName().getNamespaceURI();
 		OperationInfo oi = ii.addOperation(new QName(namespace,
 				operationName));
 		MessageInfo mii = oi.createMessage(new QName(namespace,
@@ -177,6 +174,23 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			//mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
 			mpi.setTypeQName(new QName("http://www.w3.org/2001/XMLSchema", "anyType"));
 		}
-		return oi;
+
+		BindingInfo bi = si.getBindings().iterator().next();
+        BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
+        bi.addOperation(boi);
+	}
+
+	private void removeOperation(String operationName) {
+		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
+		InterfaceInfo ii = si.getInterface();
+
+        final String namespace = ii.getName().getNamespaceURI();
+		OperationInfo oi = ii.getOperation(new QName(namespace,
+				operationName));
+		ii.removeOperation(oi);
+
+		BindingInfo bi = si.getBindings().iterator().next();
+        BindingOperationInfo boi = bi.getOperation(oi);
+        bi.removeOperation(boi);
 	}
 }

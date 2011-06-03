@@ -69,7 +69,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
 					final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
 					if (null != endpoint) {
-						destroyProvider(endpoint.getEndpointProperties());
+						destroyESBProvider(endpoint.getEndpointProperties());
 					}
 				}
 			}
@@ -111,7 +111,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		return esbProviderCallback;
 	}
 
-	private void destroyProvider(final Map<String, Object> props) {
+	private void destroyESBProvider(final Map<String, Object> props) {
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
