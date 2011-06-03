@@ -101,9 +101,9 @@
 	    <property name="url" value="${db.url}"/>
 	    <property name="username" value="${db.username}"/>
 	    <property name="password" value="${db.password}"/>
-		<property name="initialSize" value="5"/>
-		<property name="maxActive" value="20"/>
-		<property name="maxWait" value="-1"/>
+		<property name="initialSize" value="${db.pool.initsize}"/>
+		<property name="maxActive" value="${db.pool.maxactive}"/>
+		<property name="maxWait" value="${db.pool.maxwait}"/>
 	</bean>    
         
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

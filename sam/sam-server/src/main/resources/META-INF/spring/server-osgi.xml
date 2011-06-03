@@ -45,6 +45,9 @@
 	  <prop key="db.dialect">derbyDialect</prop>
 	  <prop key="db.recreate">true</prop>
 	  <prop key="db.createsql">create.sql</prop>
+	  <prop key="db.pool.initsize">5</prop>
+	  <prop key="db.pool.maxactive">20</prop>
+	  <prop key="db.pool.maxwait">-1</prop>
    </osgix:cm-properties>
 
    <!-- placeholder configurer -->
