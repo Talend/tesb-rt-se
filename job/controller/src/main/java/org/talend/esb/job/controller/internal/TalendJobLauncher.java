@@ -54,28 +54,33 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
 			if (null != endpoint) {
 				talendESBJob.setProviderCallback(
-					getESBProviderCallback(endpoint.getEndpointProperties()));
+					createESBProvider(endpoint.getEndpointProperties()));
 			}
 			
 			talendESBJob.setEndpointRegistry(this);
 		}
 
         new Thread(new Runnable() {
-			
 			@Override
 			public void run() {
 				talendJob.runJob(args);
 				System.out.println("!!! job done");
+				if (talendJob instanceof TalendESBJob) {
+					TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
+					final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
+					if (null != endpoint) {
+						destroyProvider(endpoint.getEndpointProperties());
+					}
+				}
 			}
 		}).start();
-
 	}
 
-	private ESBProviderCallback getESBProviderCallback(final Map<String, Object> props) {
+	private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-		
+
 		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
 		Collection<ESBProvider> esbProviders = endpoints.get(key);
 		if(null == esbProviders) {
@@ -83,6 +88,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			endpoints.put(key, esbProviders);
 		}
 
+		// TODO: add publishedEndpointUrl to ESBProviderKey
 		ESBProvider esbProvider = null;
 		for(ESBProvider provider : esbProviders) {
 			if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
@@ -103,6 +109,27 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)));
 
 		return esbProviderCallback;
+	}
+
+	private void destroyProvider(final Map<String, Object> props) {
+		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
+		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+
+		Collection<ESBProvider> esbProviders = endpoints.get(
+				new ESBProviderKey(serviceName, portName));
+		ESBProvider esbProvider = null;
+		for(ESBProvider provider : esbProviders) {
+			if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
+				esbProvider = provider;
+				break;
+			}
+		}
+
+		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+		if(esbProvider.destroyESBProviderCallback(operationName)) {
+			esbProviders.remove(esbProvider);
+		}
 	}
 
 	@Override

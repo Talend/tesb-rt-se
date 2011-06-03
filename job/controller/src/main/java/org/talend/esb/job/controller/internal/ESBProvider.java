@@ -54,7 +54,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	private QName serviceName;
 	private QName portName;
 
-	Service service;
+	private Server server;
 
 	@Resource
 	private WebServiceContext context;
@@ -81,8 +81,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		sf.setAddress(publishedEndpointUrl);
 		sf.setServiceBean(this);
 
-		Server srv = sf.create();
-		service = srv.getEndpoint().getService();
+		server = sf.create();
 
 		System.out.println("web service [endpoint: "
 				+ publishedEndpointUrl + "] published");
@@ -134,19 +133,27 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		callbacks.put(operationName, esbProviderCallback);
 		
 		// add operation
-		ServiceInfo si = service.getServiceInfos().get(0);
+		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
 		InterfaceInfo ii = si.getInterface();
 		OperationInfo oi = createOperation(ii, operationName, isRequestResponse);
-		
 		BindingInfo bi = si.getBindings().iterator().next();
         BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
         bi.addOperation(boi);
 
 		return esbProviderCallback;
 	}
-	
+
 	public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
 		return callbacks.get(operationName);
+	}
+
+	public boolean destroyESBProviderCallback(String operationName) {
+		callbacks.remove(operationName);
+		if(callbacks.isEmpty()) {
+			server.destroy();
+			return true;
+		}
+		return false;
 	}
 
 	private OperationInfo createOperation(InterfaceInfo ii,
