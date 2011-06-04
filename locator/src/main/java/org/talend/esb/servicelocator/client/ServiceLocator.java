@@ -177,8 +177,10 @@ public interface ServiceLocator {
 	List<String> lookup(QName serviceName)
 		throws ServiceLocatorException, InterruptedException;
 
-	void setPostConnectAction(
-		PostConnectAction postConnectAction);
+    List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
+        throws ServiceLocatorException, InterruptedException;
+
+    void setPostConnectAction(PostConnectAction postConnectAction);
 
 	/**
 	 * Callback interface to define actions that must be executed after a

@@ -27,12 +27,16 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
+import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.easymock.IExpectationSetters;
 import org.junit.Before;
+import org.talend.esb.DomMother;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.w3c.dom.Document;
 
 import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -44,6 +48,9 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     ZooKeeper zkMock;
 
     PostConnectAction pcaMock;
+    
+    Capture<byte[]> contentCapture = new Capture<byte[]>();
+
     
     public static void ignore(String txt) {
     }
@@ -76,6 +83,15 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
                 return zkMock;
             }
         };
+    }
+    
+    protected Document capturedContentAsXML() {
+        byte[] content = contentCapture.getValue();
+        return DomMother.parse(content);
+    }
+
+    protected byte[] getContent() { 
+        return contentCapture.getValue();
     }
 
     protected void pathExists(String path) throws KeeperException, InterruptedException {
@@ -117,6 +133,14 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
 
     protected void getChildren(String node, KeeperException exc) throws KeeperException, InterruptedException {
         expect(zkMock.getChildren(node, false)).andThrow(exc);
+    }
+    
+    protected void getData(String path, byte[] content) throws KeeperException, InterruptedException {
+        expect(zkMock.getData(path, false, null)).andReturn(content);
+    }
+    
+    protected void setData(String path) throws KeeperException, InterruptedException {
+        expect(zkMock.setData(eq(path), capture(contentCapture), eq(-1))).andReturn(new Stat());
     }
 
     protected void delete(String node) throws KeeperException, InterruptedException {

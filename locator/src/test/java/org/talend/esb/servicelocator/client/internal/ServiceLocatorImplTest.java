@@ -24,22 +24,19 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.data.Stat;
-import org.easymock.Capture;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.talend.esb.servicelocator.TestContent;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
-import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsEmptyIterable.emptyIterable;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.talend.esb.servicelocator.TestContent.createContent;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
@@ -97,24 +94,21 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
     @Test
     public void unregisterEndpoint() throws Exception {
         long currentTime = System.currentTimeMillis();
-        Capture<byte[]> contentCapture;
 
         byte[] content = TestContent.createContent(ENDPOINT_1, 12345678L, -1L);
-        expect(zkMock.getData(ENDPOINT_PATH_11, false, null)).andReturn(content);
+        getData(ENDPOINT_PATH_11, content);
         delete(ENDPOINT_STATUS_PATH_11);
 
-        contentCapture = new Capture<byte[]>();
-        expect(zkMock.setData(eq(ENDPOINT_PATH_11), capture(contentCapture), eq(-1))).andReturn(new Stat());
+        setData(ENDPOINT_PATH_11);
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-
         slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
         
+        byte[] updatedContent = getContent();
         
-        byte[] updatedContent = contentCapture.getValue();
         ContentHolder holder = new ContentHolder(updatedContent);
-        long newLastTimeStopped = holder.getEndpointData().getLastTimeStopped();
+        long newLastTimeStopped = holder.getLastTimeStopped();
 
         assertThat(newLastTimeStopped, greaterThan(currentTime));
         verifyAll();
@@ -148,10 +142,32 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-
         List<String> endpoints = slc.lookup(SERVICE_QNAME_1);
 
         assertThat(endpoints, hasItem(ENDPOINT_1));
+        verifyAll();
+    }
+
+    @Test
+    public void lookupServiceKnownEndpointsAvailableWithProperties() throws Exception {
+        SLPropertiesMatcher matcher = new SLPropertiesMatcher();
+        matcher.addAssertion(NAME_1, VALUE_2);
+        
+        pathExists(SERVICE_PATH_1);
+        getChildren(SERVICE_PATH_1, ENDPOINT_NODE_1, ENDPOINT_NODE_2);
+
+        pathExists(ENDPOINT_STATUS_PATH_11);
+        getData(ENDPOINT_PATH_11, createContent(PROPERTIES_1));
+        
+        pathExists(ENDPOINT_STATUS_PATH_12);
+        getData(ENDPOINT_PATH_12, createContent(PROPERTIES_2));
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        List<String> endpoints = slc.lookup(SERVICE_QNAME_1, matcher);
+        
+        assertThat(endpoints, containsInAnyOrder(ENDPOINT_1));
         verifyAll();
     }
 

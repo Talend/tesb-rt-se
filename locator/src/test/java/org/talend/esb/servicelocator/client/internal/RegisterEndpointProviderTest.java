@@ -19,7 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 
 import org.w3c.dom.Document;
@@ -29,12 +28,10 @@ import org.w3c.dom.Node;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
-import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.junit.Test;
 import org.talend.esb.DomMother;
-import org.talend.esb.servicelocator.NamespaceContextImpl;
 import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -46,11 +43,13 @@ import static org.easymock.EasyMock.expect;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
+//import static org.talend.esb.servicelocator.NamespaceContextImpl.SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest {
 
-    private Capture<byte[]> contentCapture;
+//    private Capture<byte[]> contentCapture;
 
     @Test
     public void registerServiceExistsEndpointExists() throws Exception {
@@ -170,14 +169,9 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         Document contentAsXML = capturedContentAsXML();
         DomMother.serialize(contentAsXML, System.out);
 
-        NamespaceContext edpNamespaceContext = 
-            new NamespaceContextImpl("sl", "http://talend.org/esb/serviceLocator/4.2")
-            .add("wsa", "http://www.w3.org/2005/08/addressing");
-
-
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData", edpNamespaceContext));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", edpNamespaceContext));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", edpNamespaceContext));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
         verifyAll();
     }
 
@@ -191,7 +185,6 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
     private void endpointExists(String path) throws KeeperException, InterruptedException {
         expect(zkMock.exists(path, false)).andReturn(new Stat());
-        contentCapture = new Capture<byte[]>();
         expect(zkMock.setData(eq(path), capture(contentCapture), eq(-1))).andReturn(new Stat());
     }
 
@@ -208,7 +201,6 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     private void createEndpoint(String path) throws KeeperException, InterruptedException {
-        contentCapture = new Capture<byte[]>();
         expect(zkMock.create(eq(path), capture(contentCapture), eq(Ids.OPEN_ACL_UNSAFE), eq(PERSISTENT))).andReturn(path);
     }
 
@@ -222,11 +214,6 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
         createNode(endpointStatusPath, EPHEMERAL,new KeeperException.NodeExistsException());
-    }
-
-    private Document capturedContentAsXML() {
-        byte[] content = contentCapture.getValue();
-        return DomMother.parse(content);
     }
 
     private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) {
