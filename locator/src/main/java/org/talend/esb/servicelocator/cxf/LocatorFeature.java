@@ -19,7 +19,8 @@
  */
 package org.talend.esb.servicelocator.cxf;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
@@ -42,10 +44,12 @@ public class LocatorFeature extends AbstractFeature {
 
     private SLPropertiesImpl slProps;
 
-	@Override
+    private SLPropertiesMatcher slPropsMatcher;
+
+    @Override
 	public void initialize(Bus bus) {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + ".");
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus);
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
@@ -57,17 +61,17 @@ public class LocatorFeature extends AbstractFeature {
 	@Override
 	public void initialize(Client client, Bus bus) {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and client ." + client);
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and client " + client);
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.enableClient(client);
+		slm.enableClient(client, slPropsMatcher);
 	}
 
 	@Override
 	public void initialize(Server server, Bus bus) {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and server ." + server);
+			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and server " + server);
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
@@ -78,24 +82,41 @@ public class LocatorFeature extends AbstractFeature {
 		return bus.getExtension(ServiceLocatorManager.class);
 	}
 
-	/**
-	 *
-	 *
-	 * @param properties
-	 */
-    @SuppressWarnings("unchecked")
-	public void setEndpointProperties(Map<String, ?> properties) {
-	    slProps = new SLPropertiesImpl();
-	    
-	    for(String key : properties.keySet()) {
-	        Object val = properties.get(key);
-	        if (val instanceof Collection) {
-                Collection<String> values = (Collection<String>) val;
-	            slProps.addProperty(key, values);
-	        } else if (val instanceof String) {
-                slProps.addProperty(key, (String)val);
-	        }
-	    }
-	}
+    /**
+    *
+    *
+    * @param properties
+    */
+   public void setAvailableEndpointProperties(Map<String, String> properties) {
+       slProps = new SLPropertiesImpl();
+       
+       for(String key : properties.keySet()) {
+           String valueList = properties.get(key);
+           List<String> values = tokenize(valueList);
+           slProps.addProperty(key, values);
+       }
+   }
+   
+   public void setRequiredEndpointProperties(Map<String, String> properties) {
+       slPropsMatcher = new SLPropertiesMatcher();
+       
+       for(String key : properties.keySet()) {
+           String valueList = properties.get(key);
+           List<String> values = tokenize(valueList);
+           for(String value : values) {
+               slPropsMatcher.addAssertion(key, value);
+           }
+       }
+   }
+
+   List<String> tokenize(String valueList) {
+       List<String> normalizedValues = new ArrayList<String>();
+       String[] values = valueList.split(",");
+       
+       for(String value : values) {
+           normalizedValues.add(value.trim());
+       }
+       return normalizedValues;
+   }
 
 }

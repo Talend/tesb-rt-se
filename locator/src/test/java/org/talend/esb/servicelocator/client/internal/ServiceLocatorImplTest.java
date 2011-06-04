@@ -137,6 +137,8 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         getChildren(SERVICE_PATH_1, ENDPOINT_NODE_1, ENDPOINT_NODE_2);
 
         pathExists(ENDPOINT_STATUS_PATH_11);
+        getData(ENDPOINT_PATH_11, createContent(PROPERTIES_1));
+
         pathExistsNot(ENDPOINT_STATUS_PATH_12);
 
         replayAll();

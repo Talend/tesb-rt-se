@@ -27,6 +27,7 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
 public class LocatorClientEnabler implements ClientLifeCycleListener {
@@ -76,22 +77,30 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 		}
 	}
 
-	public void enable(Client client) {
-		LocatorTargetSelector selector = new LocatorTargetSelector();
+    public void enable(Client client) {
+        enable(client, null);
+	}
+
+    public void enable(Client client, SLPropertiesMatcher matcher) {
+        LocatorTargetSelector selector = new LocatorTargetSelector();
         selector.setEndpoint(client.getEndpoint());
 
         locatorSelectionStrategy.setServiceLocator(locatorClient);
-		selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
-		}
+        if (matcher != null) {
+            locatorSelectionStrategy.setMatcher(matcher);
+        }
+        selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
+
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
+        }
         client.setConduitSelector(selector);
 
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Successfully enabled client " + client + " for the service locator");
-		}
-	}
-
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Successfully enabled client " + client + " for the service locator");
+        }
+    }
+    
 	public void startListenForAllClients() {
 		ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
 		clcm.registerListener(this);
