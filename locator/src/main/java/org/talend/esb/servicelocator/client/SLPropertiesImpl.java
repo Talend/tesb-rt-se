@@ -74,12 +74,18 @@ public class SLPropertiesImpl implements SLProperties {
      */
 	@Override
 	public boolean includesValues(String name, String... values) {
+		return includesValues(name, Arrays.asList(values));
+	}
+
+    @Override
+    public boolean includesValues(String name, Collection<String> values) {
         Collection<String> propValues = properties.get(name);
 
-		if (propValues == null) {
-			return false;
-		}
+        if (propValues == null) {
+            return false;
+        }
 
-		return propValues.containsAll(Arrays.asList(values));
-	}
+        return propValues.containsAll(values);
+    }
+	
 }

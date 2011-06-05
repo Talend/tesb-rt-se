@@ -31,4 +31,6 @@ public interface SLProperties extends Serializable {
 	Collection<String> getValues(String name);
 
 	boolean includesValues(String name, String... values);
+
+    boolean includesValues(String name, Collection<String> values);
 }

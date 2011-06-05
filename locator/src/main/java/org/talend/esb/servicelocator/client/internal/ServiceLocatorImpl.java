@@ -50,6 +50,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
@@ -110,11 +111,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
             return QName.valueOf(nodePath.getNodeName());
         }
     };
-
-    private static interface NodePathBinder<T> {
+    
+    private interface NodePathBinder<T> {
         T bind(NodePath nodepath) throws ServiceLocatorException, InterruptedException;
-    }
 
+    }
+    
     private String locatorEndpoints = "localhost:2181";
 
     private int sessionTimeout = 5000;
@@ -246,7 +248,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
             byte[] content = getContent(endpointNodePath);
             ContentHolder holder = new ContentHolder(content);
-            holder.getEndpointData().setLastTimeStopped(System.currentTimeMillis());
+            holder.setLastTimeStopped(System.currentTimeMillis());
             setNodeData(endpointNodePath, holder.getContent());
         } catch (KeeperException e) {
             throw locatorException(e);
@@ -342,8 +344,19 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public synchronized List<String> lookup(QName serviceName)
+    public List<String> lookup(QName serviceName)
         throws ServiceLocatorException, InterruptedException {
+        
+        return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
+        throws ServiceLocatorException, InterruptedException {
+
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Looking up endpoints of service " + serviceName + "...");
         }
@@ -360,7 +373,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 for (NodePath childNodePath : childNodePaths) {
 
                     if (isLive(childNodePath)) {
-                        liveEndpoints.add(childNodePath.getNodeName());
+                        SLProperties props = getProperties(childNodePath);
+                        if (matcher.isMatching(props)) {
+                            liveEndpoints.add(childNodePath.getNodeName());
+                        }
                     }
                 }
             } else {
@@ -606,6 +622,16 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
 
         return boundChildren;
+    }
+    
+    private SLProperties getProperties(NodePath path) throws ServiceLocatorException, InterruptedException {
+        try {
+            byte[] content = getContent(path);
+            ContentHolder holder = new ContentHolder(content);
+            return holder.getProperties();
+        } catch (KeeperException e) {
+            throw locatorException(e);
+        }
     }
     
     private byte[] getContent(NodePath path) throws KeeperException, InterruptedException {

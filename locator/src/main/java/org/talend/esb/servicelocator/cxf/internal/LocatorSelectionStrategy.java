@@ -30,6 +30,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -38,7 +39,9 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 	protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class
 			.getName());
 	
-	protected ServiceLocator serviceLocator;
+	private ServiceLocator serviceLocator;
+	
+	private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
 	
 	protected Random random = new Random();
 
@@ -75,6 +78,12 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 	 */
 	abstract public String getPrimaryAddress(Exchange exchange);
 	
+	public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
+	    if(propertiesMatcher != null) {
+	        matcher = propertiesMatcher;
+	    }
+	}
+	
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
 	}
@@ -82,7 +91,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 	public ServiceLocator getServiceLocator() {
 		return serviceLocator;
 	}
-	
+
 	protected QName getServiceName(Exchange exchange) {
 		return exchange.getEndpoint().getService().getName();
 	}
@@ -90,7 +99,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 	protected List<String> getEndpoints(QName serviceName) {
 		List<String> endpoints = Collections.emptyList();
 		try {
-			endpoints = serviceLocator.lookup(serviceName);
+			endpoints = serviceLocator.lookup(serviceName, matcher);
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,

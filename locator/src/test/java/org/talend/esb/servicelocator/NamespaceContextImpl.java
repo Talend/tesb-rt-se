@@ -19,7 +19,7 @@ public class NamespaceContextImpl implements NamespaceContext {
 
     public static String WSA_PREFIX = "wsa";
 
-    public static final NamespaceContext Sl_NS_CONTEXT =
+    public static final NamespaceContext SL_NS_CONTEXT =
         new NamespaceContextImpl(SL_PREFIX , SL_NS);
 
     public static final NamespaceContext WSA_NS_CONTEXT =

@@ -19,9 +19,10 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.isOneOf;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
 import static org.hamcrest.core.Is.is;
@@ -38,15 +39,16 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.service.Service;
-import org.easymock.EasyMock;
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy;
 
-public class LocatorSelectionStrategyTest {
+public class LocatorSelectionStrategyTest extends EasyMockSupport {
 	
 	EvenDistributionSelectionStrategy evenDistributionStrategy;
 
@@ -77,100 +79,79 @@ public class LocatorSelectionStrategyTest {
 	
 	@Test
 	public void defaultGetAlternateAddresses() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
-		lookup(SERVICE_QNAME_1, adresses);
-		replay();
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		List<String> result = defaultStrategy.getAlternateAddresses(exchangeMock);
 		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
-		verify();
+		verifyAll();
 	}
 
 	@Test
 	public void defaultGetPrimaryAddress() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
-		lookup(SERVICE_QNAME_1, adresses);
-		replay();
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		String primary = defaultStrategy.getPrimaryAddress(exchangeMock);
-		assertThat(adresses, hasItemInArray(primary));
-		verify();
+        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
+		verifyAll();
 	}
 
 	@Test
 	public void defaultDistribution() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
-		lookup(SERVICE_QNAME_1, adresses);
-		replay();
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		String primary = null;
 		String lastPrimary = null;
 		boolean distributed = false;
 		for (int i = 0; i < 100; i++) {	
 			lastPrimary = primary;
 			primary = defaultStrategy.getPrimaryAddress(exchangeMock);
-			assertThat(adresses, hasItemInArray(primary));
+	        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
 			if (lastPrimary != null && !primary.equals(lastPrimary))
 				distributed = true;
 		}
 		assertThat(distributed, is(false));
-		verify();
+		verifyAll();
 	}
 
 	@Test
 	public void evenGetAlternateAddresses() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
-		lookup(SERVICE_QNAME_1, adresses);
-		replay();
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		List<String> result = evenDistributionStrategy.getAlternateAddresses(exchangeMock);
 		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
-		verify();
+		verifyAll();
 	}
 
 	@Test
 	public void evenGetPrimaryAddress() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
-		lookup(SERVICE_QNAME_1, adresses);
-		replay();
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		String primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
-		assertThat(adresses, hasItemInArray(primary));
-		verify();
+        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
+		verifyAll();
 	}
 	
 	@Test
 	public void evenDistribution() throws Exception {
-		String[] adresses = new String[]{ENDPOINT_1,ENDPOINT_2};
 		evenDistributionStrategy.setReloadAdressesCount(10);
 		for (int i = 0; i < 10; i++)
-			lookup(SERVICE_QNAME_1, adresses);
-		replay();
+			lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
 		String primary = null;
 		String lastPrimary = null;
 		boolean distributed = false;
 		for (int i = 0; i < 10*10; i++) {	
 			lastPrimary = primary;
 			primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
-			assertThat(adresses, hasItemInArray(primary));
+            assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
 			if (lastPrimary != null && !primary.equals(lastPrimary))
 				distributed = true;
 		}
 		assertThat(distributed, is(true));
-		verify();
+		verifyAll();
 	}
 
-	private void lookup(QName serviceName, String[] adresses) throws ServiceLocatorException, InterruptedException {
-		expect(locatorMock.lookup(eq(serviceName))).andReturn(Arrays.asList(adresses));
+	private void lookup(QName serviceName, String... adresses) throws ServiceLocatorException, InterruptedException {
+		expect(locatorMock.lookup(eq(serviceName), (SLPropertiesMatcher) anyObject())).andReturn(Arrays.asList(adresses));
 	}
-
-	private void replay() {
-		EasyMock.replay(locatorMock);
-		EasyMock.replay(exchangeMock);
-		EasyMock.replay(endpointMock);
-		EasyMock.replay(serviceMock);
-	}
-
-	private void verify() {
-		EasyMock.verify(locatorMock);
-		EasyMock.verify(exchangeMock);
-		EasyMock.verify(endpointMock);
-		EasyMock.verify(serviceMock);
-	}
-
 }

@@ -30,7 +30,6 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
@@ -48,12 +47,13 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	private javax.xml.transform.TransformerFactory factory =
 		javax.xml.transform.TransformerFactory.newInstance();
 
-	private Map<String, RuntimeESBProviderCallback> callbacks = new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
+	private Map<String, RuntimeESBProviderCallback> callbacks =
+		new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 	private String publishedEndpointUrl;
 	private QName serviceName;
 	private QName portName;
 
-	Service service;
+	private Server server;
 
 	@Resource
 	private WebServiceContext context;
@@ -80,9 +80,8 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		sf.setAddress(publishedEndpointUrl);
 		sf.setServiceBean(this);
 
-		Server srv = sf.create();
-		service = srv.getEndpoint().getService();
-		
+		server = sf.create();
+
 		System.out.println("web service [endpoint: "
 				+ publishedEndpointUrl + "] published");
 	}
@@ -132,39 +131,66 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback(isRequestResponse);
 		callbacks.put(operationName, esbProviderCallback);
 		
-		// add operation
-		ServiceInfo si = service.getServiceInfos().get(0);
-		InterfaceInfo ii = si.getInterface();
-		OperationInfo oi = createOperation(ii, operationName, isRequestResponse);
-		
-		BindingInfo bi = si.getBindings().iterator().next();
-        BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
-        bi.addOperation(boi);
+		addOperation(operationName, isRequestResponse);
 
 		return esbProviderCallback;
 	}
-	
+
 	public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
 		return callbacks.get(operationName);
 	}
 
-	private OperationInfo createOperation(InterfaceInfo ii,
-			String operationName, boolean isRequestResponse) {
-		OperationInfo oi = ii.addOperation(new QName(serviceName.getNamespaceURI(),
+	public boolean destroyESBProviderCallback(String operationName) {
+		callbacks.remove(operationName);
+		if(!callbacks.isEmpty()) {
+			removeOperation(operationName);
+		} else {
+			server.destroy();
+			return true;
+		}
+		return false;
+	}
+
+	private void addOperation(String operationName, boolean isRequestResponse) {
+		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
+		InterfaceInfo ii = si.getInterface();
+
+        final String namespace = ii.getName().getNamespaceURI();
+		OperationInfo oi = ii.addOperation(new QName(namespace,
 				operationName));
-		MessageInfo mii = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+		MessageInfo mii = oi.createMessage(new QName(namespace,
 				operationName + "RequestMsg"), MessageInfo.Type.INPUT);
 		oi.setInput(operationName + "RequestMsg", mii);
 		MessagePartInfo mpi = mii.addMessagePart("request");
-		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
-
+		//SchemaInfo si = ii.getService().getSchemas().get(0);
+		//mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
+		mpi.setTypeQName(new QName("http://www.w3.org/2001/XMLSchema", "anyType"));
+		
 		if(isRequestResponse) {
-			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
+			MessageInfo mio = oi.createMessage(new QName(namespace,
 					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
 			oi.setOutput(operationName + "ResponseMsg", mio);
 			mpi = mio.addMessagePart("response");
-			mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+			//mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+			mpi.setTypeQName(new QName("http://www.w3.org/2001/XMLSchema", "anyType"));
 		}
-		return oi;
+
+		BindingInfo bi = si.getBindings().iterator().next();
+        BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
+        bi.addOperation(boi);
+	}
+
+	private void removeOperation(String operationName) {
+		ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
+		InterfaceInfo ii = si.getInterface();
+
+        final String namespace = ii.getName().getNamespaceURI();
+		OperationInfo oi = ii.getOperation(new QName(namespace,
+				operationName));
+		ii.removeOperation(oi);
+
+		BindingInfo bi = si.getBindings().iterator().next();
+        BindingOperationInfo boi = bi.getOperation(oi);
+        bi.removeOperation(boi);
 	}
 }
