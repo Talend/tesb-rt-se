@@ -14,11 +14,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.MetadataType;
+import org.apache.cxf.wsdl.WSAEndpointReferenceUtils;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
-import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.talend.esb.servicelocator.cxf.internal.SLPropertiesConverter;
 import org.w3c.dom.Element;
@@ -27,6 +27,12 @@ public class ContentHolder {
     private static final Logger LOG = Logger.getLogger(ContentHolder.class
             .getName());
 
+    private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
+        ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    
+    private static final org.apache.cxf.ws.addressing.ObjectFactory WSA_OBJECT_FACTORY = 
+        new org.apache.cxf.ws.addressing.ObjectFactory();
+    
     protected EndpointDataType epd;
     
     protected EndpointReferenceType epr;
@@ -37,7 +43,7 @@ public class ContentHolder {
         epd = endpointData;
     }
     
-    public ContentHolder(byte[] content) throws ServiceLocatorException {
+    public ContentHolder(byte[] content)  {
         if (content != null) {
             epd = toEndPointData(content);
             
@@ -58,6 +64,10 @@ public class ContentHolder {
         return epd.getLastTimeStarted();
     }
 
+    public void  setLastTimeStarted(long lastTimeStarted) {
+        epd.setLastTimeStarted(lastTimeStarted);       
+    }
+
     public long getLastTimeStopped() {
         return  epd.getLastTimeStopped();       
     }
@@ -67,7 +77,14 @@ public class ContentHolder {
     }
 
     public String getAddress() {
-        return epr.getAddress().getValue();
+        return WSAEndpointReferenceUtils.getAddress(epr);
+//        return epr.getAddress() != null
+//            ?  epr.getAddress().getValue()
+//            : null;
+    }
+
+    public void setAddress(String address) {
+        WSAEndpointReferenceUtils.setAddress(epr, address);
     }
 
     public SLProperties getProperties() {
@@ -77,10 +94,8 @@ public class ContentHolder {
     private static byte[] serialize(EndpointDataType endpointData) throws ServiceLocatorException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(50000);
         try {
-            ObjectFactory of = new ObjectFactory();
-
             JAXBElement<EndpointDataType> epd =
-                of.createEndpointData(endpointData);
+                ENDPOINT_OBJECT_FACTORY.createEndpointData(endpointData);
             JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
             Marshaller m = jc.createMarshaller();
             m.marshal(epd, outputStream);
@@ -96,7 +111,7 @@ public class ContentHolder {
     }
 
     @SuppressWarnings("unchecked")
-    private static EndpointDataType toEndPointData(byte[] content) throws ServiceLocatorException {
+    private static EndpointDataType toEndPointData(byte[] content) {
         
         ByteArrayInputStream is = new ByteArrayInputStream(content);
         try {
@@ -111,26 +126,39 @@ public class ContentHolder {
                 LOG.log(Level.SEVERE,
                         "Failed to deserialize endpoint data", e);
             }
-            throw new ServiceLocatorException("Failed to deserialize endpoint data", e);
+            EndpointDataType endpointData = ENDPOINT_OBJECT_FACTORY.createEndpointDataType();
+            endpointData.setLastTimeStarted(-1);
+            endpointData.setLastTimeStopped(-1);
+            return endpointData;
         }
     }
     
     @SuppressWarnings("unchecked")
-    private EndpointReferenceType toEndPointReference(Element root) throws ServiceLocatorException {
+    private EndpointReferenceType toEndPointReference(Element root) {
 
-        try {
-            JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing");
-            Unmarshaller um = jc.createUnmarshaller();
-            
-            JAXBElement<EndpointReferenceType> epr = (JAXBElement<EndpointReferenceType>) um.unmarshal(root);
+        EndpointReferenceType epr = null;
+        if (root != null) {
 
-            return epr.getValue();
-        } catch( JAXBException e ){
-            throw new ServiceLocatorException(e);
+            try {
+                JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing");
+                Unmarshaller um = jc.createUnmarshaller();
+
+                JAXBElement<EndpointReferenceType> eprElem = (JAXBElement<EndpointReferenceType>) um.unmarshal(root);
+
+                epr = eprElem.getValue();
+            } catch( JAXBException e ){
+                if (LOG.isLoggable(Level.SEVERE)) {
+                    LOG.log(Level.SEVERE,
+                            "Failed to deserialize endpoint reference", e);
+                }
+            }
+        } else {
+            LOG.log(Level.SEVERE, "No endpoint reference found in content");
         }
+        return epr != null ? epr : WSA_OBJECT_FACTORY.createEndpointReferenceType();
     }
 
-    private SLProperties extractProperties(EndpointReferenceType epr) throws ServiceLocatorException {
+    private SLProperties extractProperties(EndpointReferenceType epr) {
         MetadataType metadata = epr.getMetadata();
         if (metadata != null) {
             List<Object> metaAny = metadata.getAny();
@@ -148,7 +176,7 @@ public class ContentHolder {
     }
 
     @SuppressWarnings("unchecked")
-    private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) throws ServiceLocatorException {
+    private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) {
 
         try {
             JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
@@ -158,7 +186,11 @@ public class ContentHolder {
 
             return slp.getValue();
         } catch( JAXBException e ){
-            throw new ServiceLocatorException(e);
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE,
+                        "Failed to deserialize service locator properties", e);
+            }
+            return ENDPOINT_OBJECT_FACTORY.createServiceLocatorPropertiesType();
         }
     }
 }

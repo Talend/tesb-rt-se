@@ -55,22 +55,21 @@ public class TestContent {
 
     public static byte[] createContent(String addressVal, long lastStartTime, long lastStopTime, SLProperties props) {
         Element root = DomMother.newDocument(SL, "EndpointData");
-        Element epr = DomMother.addElement(root, WSA, "EndpointReference");
-        DomMother.addLeafElement(epr, WSA, "Address", addressVal);
-        Element metadata  = DomMother.addElement(epr, WSA, "Metadata");
-        
-        if (props != null) {
-            addProperties(metadata, props);
-        }
+        addEPR(root, addressVal, props);
 
         DomMother.addLeafElement(root, SL, "LastTimeStarted", Long.toString(lastStartTime));
         DomMother.addLeafElement(root, SL, "LastTimeStopped", Long.toString(lastStopTime));
 
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream(10000);
-        DomMother.serialize(root, outStream);
-        return outStream.toByteArray();
+        return serialize(root);
     }
     
+    public static byte[] createContentInvalidEPR() {
+        Element root = DomMother.newDocument(SL, "EndpointData");
+        DomMother.addElement(root, "invalidNamespace", "EndpointReference");
+
+        return serialize(root);
+    }
+
     public static void addProperties(Element parent, SLProperties properties) {
         Element slProps  = DomMother.addElement(parent, SL, "ServiceLocatorProperties");
         for(String name : properties.getPropertyNames()) {
@@ -84,4 +83,19 @@ public class TestContent {
         }
     }
 
+    private static void addEPR(Element parent, String addressVal, SLProperties props) {
+        Element epr = DomMother.addElement(parent, WSA, "EndpointReference");
+        DomMother.addLeafElement(epr, WSA, "Address", addressVal);
+        Element metadata  = DomMother.addElement(epr, WSA, "Metadata");
+        
+        if (props != null) {
+            addProperties(metadata, props);
+        }    
+    }
+    
+    private static byte[] serialize(Element root) {
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream(10000);
+        DomMother.serialize(root, outStream);
+        return outStream.toByteArray();
+    }
 }
