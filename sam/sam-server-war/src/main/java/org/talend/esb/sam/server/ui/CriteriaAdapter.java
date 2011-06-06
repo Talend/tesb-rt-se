@@ -85,7 +85,10 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 				if (criteria.getName().equals(key)) {
 					try {
 						String value = params.get(key)[0];
-						result.put(key, criteria.parseValue(value));
+						Criteria[] parsedCriterias = criteria.parseValue(value);
+						for (Criteria parsedCriteria : parsedCriterias) {
+							result.put(parsedCriteria.getName(), parsedCriteria);
+						}
 					} catch (Exception e) {
 						// Exception happened during paring
 						log.error("Error parsing parameter " + key, e);

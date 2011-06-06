@@ -29,21 +29,24 @@ public class DateCriteriaTest extends TestCase {
 
 	public void testCriteria() throws Exception {
 		DateCriteria criteria = new DateCriteria("timestamp_before", "TIMESTAMP");
-		Criteria value = criteria.parseValue("1307570400000");
+		Criteria value = criteria.parseValue("1307570400000")[0];
 		assertEquals("TIMESTAMP < :timestamp_before", value.getFilterClause().toString());
 
 		criteria = new DateCriteria("timestamp_after", "TIMESTAMP");
-		value = criteria.parseValue("1307570400000");
+		value = criteria.parseValue("1307570400000")[0];
 		assertEquals("TIMESTAMP > :timestamp_after", value.getFilterClause().toString());
 
-		criteria = new DateCriteria("timestamp_on", "TIMESTAMP");
-		value = criteria.parseValue("1307570400000");
-		assertEquals("TIMESTAMP = :timestamp_on", value.getFilterClause().toString());
-
 		criteria = new DateCriteria("timestamp", "TIMESTAMP");
-		value = criteria.parseValue("1307570400000");
+		value = criteria.parseValue("1307570400000")[0];
 		assertEquals("TIMESTAMP = :timestamp", value.getFilterClause().toString());
-}
+	}
+	
+	public void testOnDayCriteria() throws Exception {
+		DateCriteria criteria = new DateCriteria("timestamp_on", "TIMESTAMP");
+		Criteria[] values = criteria.parseValue("1307570400000");
+		assertEquals("TIMESTAMP > :timestamp_on_after", values[0].getFilterClause().toString());
+		assertEquals("TIMESTAMP < :timestamp_on_before", values[1].getFilterClause().toString());
+	}
 
 	
 }

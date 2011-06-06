@@ -19,7 +19,7 @@
  */
 package org.talend.esb.sam.server.persistence.criterias;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * Criteria for date values
@@ -28,17 +28,32 @@ import java.sql.Date;
  */
 public class DateCriteria extends Criteria {
 
-	protected Date value = null;
+	protected Timestamp value = null;
+	
+	/**
+	 * Number of milliseconds in day without one millisecond 
+	 */
+	private static long MILLS_IN_DAY = (24 * 60 * 60 * 1000) - 1;
 	
 	public DateCriteria(String name, String colunmName) {
 		super(name, colunmName);
 	}
 
 	@Override
-	public Criteria parseValue(String attribute) {
-		DateCriteria result = new DateCriteria(name, columnName);
-		result.value = new Date(Long.parseLong(attribute));
-		return result;
+	public Criteria[] parseValue(String attribute) {
+		long attributeValue = Long.parseLong(attribute);
+		if (name.endsWith("_on")) {
+			// We have timestamp_on case
+			DateCriteria after = new DateCriteria(name + "_after", columnName);
+			after.value = new Timestamp(attributeValue);
+			DateCriteria before = new DateCriteria(name + "_before", columnName);
+			before.value = new Timestamp(attributeValue + MILLS_IN_DAY);
+			return new Criteria[] {after, before};
+		} else {
+			DateCriteria result = new DateCriteria(name, columnName);
+			result.value = new Timestamp(attributeValue);
+			return new Criteria[] {result};
+		}
 	}
 
 	@Override

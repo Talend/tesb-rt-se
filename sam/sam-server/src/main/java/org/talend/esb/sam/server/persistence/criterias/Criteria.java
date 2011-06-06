@@ -59,7 +59,7 @@ public abstract class Criteria {
 	 * @param attribute
 	 * @return
 	 */
-	public abstract Criteria parseValue(String attribute);
+	public abstract Criteria[] parseValue(String attribute);
 
 	/**
 	 * Returns a value of the Criteria that in suitable SQL type

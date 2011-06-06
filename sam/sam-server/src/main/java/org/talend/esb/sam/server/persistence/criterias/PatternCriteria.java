@@ -33,10 +33,10 @@ public class PatternCriteria extends Criteria {
 	}
 
 	@Override
-	public Criteria parseValue(String attribute) {
+	public Criteria[] parseValue(String attribute) {
 		PatternCriteria result = new PatternCriteria(this.name, this.columnName);
 		result.pattern = toSQLPattern(attribute);
-		return result;
+		return new Criteria[] {result};
 	}
 
 	@Override

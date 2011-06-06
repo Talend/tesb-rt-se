@@ -40,11 +40,11 @@ public class EnumCriteria extends Criteria {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Criteria parseValue(String value) {
+	public Criteria[] parseValue(String value) {
 		EnumCriteria result = new EnumCriteria(this.name, this.columnName,
 				(Class<? extends Enum<?>>) this.enumClass);
 		result.value = Enum.valueOf(enumClass, value);
-		return result;
+		return new Criteria[] {result};
 	}
 
 	@Override
