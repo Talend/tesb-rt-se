@@ -112,6 +112,10 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			if(result instanceof org.dom4j.Document) {
 				return new org.dom4j.io.DocumentSource(
 						(org.dom4j.Document)result);
+			} else if (result instanceof RuntimeException){
+				throw (RuntimeException)result;
+			} else if (result instanceof Throwable){
+				throw new RuntimeException((Throwable)result);
 			} else {
 				throw new RuntimeException(
 					"Provider return incompatible object: " + result.getClass().getName());
