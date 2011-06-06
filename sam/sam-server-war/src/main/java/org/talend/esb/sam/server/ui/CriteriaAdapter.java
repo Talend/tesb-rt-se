@@ -57,7 +57,8 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 			new PatternCriteria("operation", "MI_OPERATION_NAME"),
 			new DateCriteria("timestamp_before", "EI_TIMESTAMP"),
 			new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
-			new DateCriteria("timestamp_on", "EI_TIMESTAMP")
+			new DateCriteria("timestamp_on", "EI_TIMESTAMP"),
+			new PatternCriteria("flowID", "MI_FLOW_ID")
 			};
 
 	private static final String LIMIT_NAME = "limit";
