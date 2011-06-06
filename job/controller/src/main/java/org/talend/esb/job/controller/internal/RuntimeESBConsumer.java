@@ -87,6 +87,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		MessagePartInfo mpi = mii.addMessagePart("request");
 		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
 
+		// TODO: use communication style from ESBEndpointInfo
 //		if(isRequestResponse) {
 			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
 					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
@@ -105,6 +106,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				null);
 		si.addBinding(bi);
 
+		// TODO: use endpoint URL from ESBEndpointInfo
 		ConduitInitiatorManager cim = bus
 				.getExtension(ConduitInitiatorManager.class);
 		ConduitInitiator ci = cim.getConduitInitiatorForUri("http://localhost:9090/CustomerServicePort");
