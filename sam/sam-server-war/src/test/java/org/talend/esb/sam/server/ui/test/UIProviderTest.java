@@ -74,16 +74,19 @@ public class UIProviderTest extends TestCase {
 		System.err.println(creator.getValue());
 	}
 
+	@SuppressWarnings("unchecked")
 	private JsonObject fetchResult(Capture<RowMapper<JsonObject>> mapper,
 			Capture<PreparedStatementCreator> creator, Map<String, String[]> parameters) {
+		List<Number> countRes = new ArrayList<Number>();
+		countRes.add(10);
 		UIProviderImpl provider = new UIProviderImpl();
 		JdbcTemplate template = EasyMock.createMock(JdbcTemplate.class);
 		provider.setJdbcTemplate(template);
 		provider.setDialect(new DerbyDialect());
 
 		// Expectations
-		EasyMock.expect(template.queryForInt((String) EasyMock.anyObject()))
-				.andReturn(10);
+		EasyMock.expect(template.query(EasyMock.anyObject(PreparedStatementCreator.class), EasyMock.anyObject(RowMapper.class)))
+				.andReturn(countRes);
 		EasyMock.expect(
 				template.query(EasyMock.capture(creator),
 						EasyMock.capture(mapper))).andReturn(
