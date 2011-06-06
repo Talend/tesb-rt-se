@@ -178,13 +178,10 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		BindingInfo bi = si.getBindings().iterator().next();
         BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
-		SoapOperationInfo soi = boi.getExtensor(SoapOperationInfo.class);
-		if (soi == null) {
-			soi = new SoapOperationInfo();
-			boi.addExtensor(soi);
-		}
+		SoapOperationInfo soi = new SoapOperationInfo();
 		soi.setAction(operationName);
-        
+		boi.addExtensor(soi);
+
         bi.addOperation(boi);
 	}
 
