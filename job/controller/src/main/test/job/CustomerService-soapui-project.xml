@@ -131,6 +131,13 @@
          <name>Sidorov</name>
       </cus:getCustomersByName>
    </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="getCustomersByName"/><con:wsrmConfig version="1.2"/></con:call><con:call name="FaultRequest"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cus:getCustomersByName>
+         <name>Pupkin</name>
+      </cus:getCustomersByName>
+   </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="getCustomersByName"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="updateCustomer" name="updateCustomer" bindingOperationName="updateCustomer" type="One-Way" inputName="updateCustomer" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
    <soapenv:Header/>
    <soapenv:Body>

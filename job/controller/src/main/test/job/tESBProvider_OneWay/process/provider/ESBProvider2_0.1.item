@@ -104,7 +104,7 @@
     <elementParameter field="TEXT" name="ESB_ENDPOINT" value="&quot;http://localhost:9090/CustomerServicePort&quot;"/>
     <elementParameter field="CHECK" name="SERVICELOCATOR" value="false"/>
     <elementParameter field="CHECK" name="SERVICEACTIVITYMONITOR" value="false"/>
-    <elementParameter field="CHECK" name="KEEPLISTENING" value="true"/>
+    <elementParameter field="CHECK" name="KEEPLISTENING" value="false"/>
     <elementParameter field="EXTERNAL" name="SERVICE_CONFIGURATION" value=""/>
     <elementParameter field="TEXT" name="METHOD" value="updateCustomer(parameters):"/>
     <elementParameter field="TEXT" name="ENDPOINT" value="&quot;D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl&quot;"/>
