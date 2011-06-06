@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
@@ -42,6 +43,8 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
 	private static final String VALUE_REQUEST_RESPONSE = "request-response";
 
+	private static final Logger LOG = Logger.getLogger(TalendJobLauncher.class.getName());
+
 	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
 		new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
 
@@ -56,15 +59,15 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 				talendESBJob.setProviderCallback(
 					createESBProvider(endpoint.getEndpointProperties()));
 			}
-			
 			talendESBJob.setEndpointRegistry(this);
 		}
 
         new Thread(new Runnable() {
 			@Override
 			public void run() {
-				talendJob.runJob(args);
-				System.out.println("!!! job done");
+				LOG.info("Talend Job started");
+				int ret = talendJob.runJobInTOS(args);
+				LOG.info("Talend Job finished with code " + ret);
 				if (talendJob instanceof TalendESBJob) {
 					TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
 					final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();

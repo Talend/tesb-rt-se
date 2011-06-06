@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
@@ -45,6 +46,7 @@ import org.apache.cxf.service.model.ServiceInfo;
 @javax.xml.ws.WebServiceProvider()
 class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 	
+	private static final Logger LOG = Logger.getLogger(ESBProvider.class.getName());
 	private javax.xml.transform.TransformerFactory factory =
 		javax.xml.transform.TransformerFactory.newInstance();
 
@@ -68,8 +70,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		run();
 	}
-	
-	
+
 	public String getPublishedEndpointUrl() {
 		return publishedEndpointUrl;
 	}
@@ -83,15 +84,15 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		server = sf.create();
 
-		System.out.println("web service [endpoint: "
-				+ publishedEndpointUrl + "] published");
+		LOG.info("Web service '" + serviceName + "' published at endpoint '"
+				+ publishedEndpointUrl + "'");
 	}
 
 	@Override
 	//@javax.jws.WebMethod(exclude=true)
 	public Source invoke(Source request) {
 		QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
-		System.out.println("operationName: "+operationQName);
+		LOG.info("Invoke operation '" + operationQName + "' for service '" + serviceName + "'");
 		RuntimeESBProviderCallback esbProviderCallback =
 			getESBProviderCallback(operationQName.getLocalPart());
 		if(esbProviderCallback == null) {
@@ -120,7 +121,6 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 				throw new RuntimeException(
 					"Provider return incompatible object: " + result.getClass().getName());
 			}
-
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
@@ -150,6 +150,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		if(!callbacks.isEmpty()) {
 			removeOperation(operationName);
 		} else {
+			LOG.info("Web service '" + serviceName + "' stopped");
 			server.destroy();
 			return true;
 		}
