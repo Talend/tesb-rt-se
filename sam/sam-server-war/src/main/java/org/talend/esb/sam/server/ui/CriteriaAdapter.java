@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.talend.esb.sam.server.persistence.criterias.Criteria;
+import org.talend.esb.sam.server.persistence.criterias.DateCriteria;
 import org.talend.esb.sam.server.persistence.criterias.PatternCriteria;
 import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
 
@@ -53,7 +54,11 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	private static final Criteria[] FILTER_CRITERIAS = {
 			new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
 			new PatternCriteria("port", "MI_PORT_TYPE"),
-			new PatternCriteria("operation", "MI_OPERATION_NAME") };
+			new PatternCriteria("operation", "MI_OPERATION_NAME"),
+			new DateCriteria("timestamp_before", "EI_TIMESTAMP"),
+			new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
+			new DateCriteria("timestamp_on", "EI_TIMESTAMP")
+			};
 
 	private static final String LIMIT_NAME = "limit";
 
