@@ -51,6 +51,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private final QName serviceName;
 	private final QName portName;
 	private final String operationName;
+	private final String publishedEndpointUrl;
+	private final boolean isRequestResponse;
 
 	private ClientImpl client;
 	private javax.xml.transform.TransformerFactory factory =
@@ -59,10 +61,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	public RuntimeESBConsumer(
 			final QName serviceName,
 			final QName portName,
-			String operationName) {
+			String operationName,
+			String publishedEndpointUrl,
+			boolean isRequestResponse) {
 		this.serviceName = serviceName;
 		this.portName = portName;
 		this.operationName = operationName;
+		this.publishedEndpointUrl = publishedEndpointUrl;
+		this.isRequestResponse = isRequestResponse;
 	
 		try {
 			create();
@@ -87,14 +93,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		MessagePartInfo mpi = mii.addMessagePart("request");
 		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
 
-		// TODO: use communication style from ESBEndpointInfo
-//		if(isRequestResponse) {
+		if(isRequestResponse) {
 			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
 					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
 			oi.setOutput(operationName + "ResponseMsg", mio);
 			mpi = mio.addMessagePart("response");
 			mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
-//		}
+		}
 		
 		si.setInterface(ii);
 		Service service = new ServiceImpl(si);
@@ -106,16 +111,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				null);
 		si.addBinding(bi);
 
-		// TODO: use endpoint URL from ESBEndpointInfo
 		ConduitInitiatorManager cim = bus
 				.getExtension(ConduitInitiatorManager.class);
-		ConduitInitiator ci = cim.getConduitInitiatorForUri("http://localhost:9090/CustomerServicePort");
+		ConduitInitiator ci = cim.getConduitInitiatorForUri(publishedEndpointUrl);
 		String transportId = ci.getTransportIds().get(0);
 
 		EndpointInfo ei = new EndpointInfo(si, transportId);
 		ei.setBinding(bi);
 		ei.setName(portName);
-		ei.setAddress("http://localhost:9090/CustomerServicePort");
+		ei.setAddress(publishedEndpointUrl);
 		si.addEndpoint(ei);
 
 //		BindingOperationInfo boi = bi.getOperation(oi);

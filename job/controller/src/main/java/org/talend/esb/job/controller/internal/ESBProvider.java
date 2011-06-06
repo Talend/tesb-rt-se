@@ -124,7 +124,6 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -135,7 +134,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		}
 		RuntimeESBProviderCallback esbProviderCallback = new RuntimeESBProviderCallback(isRequestResponse);
 		callbacks.put(operationName, esbProviderCallback);
-		
+
 		addOperation(operationName, isRequestResponse);
 
 		return esbProviderCallback;
