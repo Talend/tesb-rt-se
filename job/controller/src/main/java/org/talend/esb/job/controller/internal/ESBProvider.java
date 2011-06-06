@@ -28,6 +28,7 @@ import javax.xml.transform.Source;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import org.apache.cxf.binding.soap.model.SoapOperationInfo;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.model.BindingInfo;
@@ -177,6 +178,13 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		BindingInfo bi = si.getBindings().iterator().next();
         BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
+		SoapOperationInfo soi = boi.getExtensor(SoapOperationInfo.class);
+		if (soi == null) {
+			soi = new SoapOperationInfo();
+			boi.addExtensor(soi);
+		}
+		soi.setAction(operationName);
+        
         bi.addOperation(boi);
 	}
 
