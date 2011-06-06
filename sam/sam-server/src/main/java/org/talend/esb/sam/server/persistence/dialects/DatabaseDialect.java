@@ -29,6 +29,9 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  */
 public interface DatabaseDialect {
 
+	public static final String SUBSTITUTION_STRING = "%%FILTER%%";
+	
+
 	/**
 	 * Returns {@link DataFieldMaxValueIncrementer} for specific database
 	 * 

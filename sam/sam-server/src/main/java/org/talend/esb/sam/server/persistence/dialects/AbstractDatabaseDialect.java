@@ -31,8 +31,6 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
 
 	private DataFieldMaxValueIncrementer incrementer;
 
-	private static final String SUBSTITUTION_STRING = "%%FILTER%%";
-	
 	@Override
 	public DataFieldMaxValueIncrementer getIncrementer() {
 		return incrementer;

@@ -19,6 +19,8 @@
  */
 package org.talend.esb.sam.server.ui;
 
+import static org.talend.esb.sam.server.persistence.dialects.DatabaseDialect.SUBSTITUTION_STRING;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +46,7 @@ import com.google.gson.JsonPrimitive;
  */
 public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
-	private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS";
+	private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS %%FILTER%%";
 
 	private static final String SELECT_FLOW_QUERY = "select "
 			+ "ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
@@ -72,7 +74,14 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	@Override
 	public JsonObject getEvents(long start, String baseURL,
 			CriteriaAdapter criteria) {
-		int rowCount = getSimpleJdbcTemplate().queryForInt(COUNT_QUERY);
+		String countQuery = COUNT_QUERY;
+		String whereClause = criteria.getWhereClause();
+		if (whereClause != null && whereClause.length() > 0) {
+			countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, " WHERE " + whereClause);	
+		} else {
+			countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, "");
+		}
+		int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
 		if (start < rowCount) {
