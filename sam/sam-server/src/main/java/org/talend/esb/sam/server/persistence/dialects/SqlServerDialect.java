@@ -38,14 +38,14 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
 	+ "select [MI_FLOW_ID] from ( "
 	+ "select [MI_FLOW_ID], rn from " 
 	+ "( "
-	+ "select [MI_FLOW_ID], ROW_NUMBER() over(order by MIN([EI_TIMESTAMP])) as rn "  
+	+ "select [MI_FLOW_ID], ROW_NUMBER() over(order by MAX([EI_TIMESTAMP]) DESC) as rn "  
 	+ "from [EVENTS] as subq " 
 	+ "%%FILTER%% " 
 	+ "group by [MI_FLOW_ID] "
 	+ ") as subq1 where rn <= :start + :limit "
 	+ ") as subq2 where rn > :start " 
 	+ ") "
-	+ "order by [EI_TIMESTAMP]";
+	+ "order by [EI_TIMESTAMP] DESC";
 
 	@Override
 	public String getQuery() {

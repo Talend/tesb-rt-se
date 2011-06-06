@@ -92,18 +92,15 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			// Render RAW data
 			Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
 			Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
-			JsonArray rawData = new JsonArray();
 			for (JsonObject obj : objects) {
 				String flowID = obj.get("flowID").getAsString();
 				long timestamp = obj.get("timestamp").getAsLong();
-				rawData.add(copy(obj));
 				flowLastTimestamp.put(flowID, timestamp);
 				if (!flowTypes.containsKey(flowID)) {
 					flowTypes.put(flowID, new HashSet<String>());
 				}
 				flowTypes.get(flowID).add(obj.get("type").getAsString());
 			}
-			result.add("raw", rawData);
 
 			// Aggregated data
 			JsonArray aggregated = new JsonArray();
@@ -115,7 +112,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 					flowLastTimestamp.remove(flowID);
 					JsonObject newObj = copy(obj);
 					newObj.add("elapsed",
-							new JsonPrimitive(endTime - timestamp));
+							new JsonPrimitive(timestamp - endTime));
 					newObj.remove("type");
 					newObj.add("types", gson.toJsonTree(flowTypes.get(flowID)));
 					newObj.add("details", new JsonPrimitive(baseURL + "flow/"
