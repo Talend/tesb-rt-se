@@ -41,10 +41,10 @@ import com.google.gson.JsonParser;
 
 public class UIProviderTest extends TestCase {
 
-	String sampleOne = "{" + "flowID: 'flowID'," + "timestamp: 1305737271353,"
+	String sampleOne = "{" + "flowID: 'flowID'," + "timestamp: 1305737271356,"
 			+ "type: 'REQ_OUT'" + "}";
 
-	String sampleTwo = "{" + "flowID: 'flowID'," + "timestamp: 1305737271356,"
+	String sampleTwo = "{" + "flowID: 'flowID'," + "timestamp: 1305737271353,"
 			+ "type: REQ_IN" + "}";
 
 	List<JsonObject> objects = new ArrayList<JsonObject>();
