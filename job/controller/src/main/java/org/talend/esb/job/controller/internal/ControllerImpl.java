@@ -34,6 +34,7 @@ public class ControllerImpl implements Controller {
 
     private BundleContext bundleContext;
     private TalendJobLauncher talendJobLauncher = new TalendJobLauncher();
+    private TalendJobServiceListener bundleListener = new TalendJobServiceListener(talendJobLauncher);
 
     public List<String> list() throws Exception {
         ArrayList<String> list = new ArrayList<String>();
@@ -68,6 +69,7 @@ public class ControllerImpl implements Controller {
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
+        this.bundleContext.addServiceListener(bundleListener);
     }
 
 }
