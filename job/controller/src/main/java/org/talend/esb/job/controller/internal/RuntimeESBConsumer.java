@@ -28,6 +28,7 @@ import org.apache.cxf.binding.BindingFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.binding.soap.SoapBindingConstants;
 import org.apache.cxf.databinding.source.SourceDataBinding;
+import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientImpl;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
@@ -54,10 +55,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private final String publishedEndpointUrl;
 	private final boolean isRequestResponse;
 
-	private ClientImpl client;
-	private javax.xml.transform.TransformerFactory factory =
-		javax.xml.transform.TransformerFactory.newInstance();
-	
 	public RuntimeESBConsumer(
 			final QName serviceName,
 			final QName portName,
@@ -69,16 +66,28 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		this.operationName = operationName;
 		this.publishedEndpointUrl = publishedEndpointUrl;
 		this.isRequestResponse = isRequestResponse;
-	
-		try {
-			create();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
+	}
+
+	@Override
+	public Object invoke(Object payload) throws Exception {
+		if(payload instanceof org.dom4j.Document) {
+			Client client = createClient();
+			Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
+					(org.dom4j.Document)payload));
+			if(result != null) {
+				org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
+				javax.xml.transform.TransformerFactory.newInstance().
+					newTransformer().transform((Source)result[0], docResult);
+				return docResult.getDocument();
+			}
+			return null;
+		} else {
+			throw new RuntimeException(
+				"Consumer try to send incompatible object: " + payload.getClass().getName());
 		}
 	}
 
-	private void create() throws BusException, EndpointException {
+	private Client createClient() throws BusException, EndpointException {
 		Bus bus = org.apache.cxf.bus.spring.SpringBusFactory.getDefaultBus(true);
 
 		ServiceInfo si = new ServiceInfo();
@@ -122,35 +131,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		ei.setAddress(publishedEndpointUrl);
 		si.addEndpoint(ei);
 
-//		BindingOperationInfo boi = bi.getOperation(oi);
-//		SoapOperationInfo soi = boi.getExtensor(SoapOperationInfo.class);
-//		if (soi == null) {
-//			soi = new SoapOperationInfo();
-//			boi.addExtensor(soi);
-//		}
-//		soi.setAction(operationName);
 		service.setDataBinding(new SourceDataBinding());
 
 		Endpoint endpoint = new EndpointImpl(bus, service, ei);
 
-		client = new ClientImpl(bus, endpoint);
-	}
-
-	@Override
-	public Object invoke(Object payload) throws Exception {
-		if(payload instanceof org.dom4j.Document) {
-			Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
-					(org.dom4j.Document)payload));
-			if(result != null) {
-				org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-				factory.newTransformer().transform((Source)result[0], docResult);
-				return docResult.getDocument();
-			}
-			return null;
-		} else {
-			throw new RuntimeException(
-				"Consumer try to send incompatible object: " + payload.getClass().getName());
-		}
+		return new ClientImpl(bus, endpoint);
 	}
 
 }
