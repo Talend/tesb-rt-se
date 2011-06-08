@@ -78,7 +78,6 @@ public class ControllerImpl implements Controller, ServiceListener {
         if(event.getType() == ServiceEvent.UNREGISTERING){
             String type = (String)event.getServiceReference().getProperty("type");
             if(type != null && type.equalsIgnoreCase("job")) {
-                BundleContext bundleContext = event.getServiceReference().getBundle().getBundleContext();
                 TalendJob talendJob = (TalendJob)bundleContext.getService(event.getServiceReference());
                 talendJobLauncher.stopTalendJob(talendJob);
             }
