@@ -20,6 +20,8 @@
 package org.talend.esb.job.controller.internal;
 
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.Controller;
 import routines.system.api.TalendJob;
@@ -30,11 +32,15 @@ import java.util.List;
 /**
  * Implementation of Talend job controller.
  */
-public class ControllerImpl implements Controller {
+public class ControllerImpl implements Controller, ServiceListener {
 
     private BundleContext bundleContext;
     private TalendJobLauncher talendJobLauncher = new TalendJobLauncher();
-    private TalendJobServiceListener bundleListener = new TalendJobServiceListener(talendJobLauncher);
+
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+        this.bundleContext.addServiceListener(this);
+    }
 
     public List<String> list() throws Exception {
         ArrayList<String> list = new ArrayList<String>();
@@ -67,9 +73,16 @@ public class ControllerImpl implements Controller {
         }
     }
 
-    public void setBundleContext(BundleContext bundleContext) {
-        this.bundleContext = bundleContext;
-        this.bundleContext.addServiceListener(bundleListener);
+    @Override
+    public void serviceChanged(ServiceEvent event) {
+        if(event.getType() == ServiceEvent.UNREGISTERING){
+            String type = (String)event.getServiceReference().getProperty("type");
+            if(type != null && type.equalsIgnoreCase("job")) {
+                BundleContext bundleContext = event.getServiceReference().getBundle().getBundleContext();
+                TalendJob talendJob = (TalendJob)bundleContext.getService(event.getServiceReference());
+                talendJobLauncher.stopTalendJob(talendJob);
+            }
+        }
     }
 
 }

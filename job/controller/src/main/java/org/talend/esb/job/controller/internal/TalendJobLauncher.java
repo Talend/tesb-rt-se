@@ -41,12 +41,17 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private static final String SERVICE_NAME = "serviceName";
 	private static final String PORT_NAME = "portName";
 	private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
+	private static final String USE_SERVICE_LOCATOR = "useServiceLocator";
+	private static final String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
+
 	private static final String VALUE_REQUEST_RESPONSE = "request-response";
 
 	private static final Logger LOG = Logger.getLogger(TalendJobLauncher.class.getName());
 
-	private Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
+	private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
 		new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
+	private final Map<TalendJob, Thread > jobs =
+		new ConcurrentHashMap<TalendJob, Thread>();
 
 	public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		
@@ -62,24 +67,41 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			talendESBJob.setEndpointRegistry(this);
 		}
 
-        new Thread(new Runnable() {
+		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				LOG.info("Talend Job started");
-				int ret = talendJob.runJobInTOS(args);
-				LOG.info("Talend Job finished with code " + ret);
-				if (talendJob instanceof TalendESBJob) {
-					TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
-					final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
-					if (null != endpoint) {
-						destroyESBProvider(endpoint.getEndpointProperties());
+				try {
+					LOG.info("Talend Job started");
+					int ret = talendJob.runJobInTOS(args);
+					LOG.info("Talend Job finished with code " + ret);
+					if (talendJob instanceof TalendESBJob) {
+						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
+						final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
+						if (null != endpoint) {
+							destroyESBProvider(endpoint.getEndpointProperties());
+						}
 					}
+				} finally {
+					jobs.remove(talendJob);
 				}
 			}
-		}).start();
+		});
+		thread.start();
+		jobs.put(talendJob, thread);
+	}
+
+	public void stopTalendJob(final TalendJob talendJob) {
+		jobs.get(talendJob).interrupt();
 	}
 
 	private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
+		boolean useServiceLocator =
+			((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+		System.out.println("useServiceLocator="+useServiceLocator);
+		boolean useServiceActivityMonitor =
+			((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+		System.out.println("useServiceActivityMonitor="+useServiceActivityMonitor);
+
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
@@ -114,7 +136,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		return esbProviderCallback;
 	}
 
-	protected void destroyESBProvider(final Map<String, Object> props) {
+	private void destroyESBProvider(final Map<String, Object> props) {
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
