@@ -44,7 +44,6 @@
          <entry key="ws-security.signature.properties" value="META-INF\spring\serviceKeystore.properties"/>
          <!-- <entry key="ws-security.encryption.properties" value="META-INF\spring\serviceKeystore.properties"/>
               <entry key="ws-security.encryption.username" value="myclientkey"/> -->
-		 <entry key="ws-security.is-bsp-compliant" value="false"/>
       </jaxws:properties> 
    </jaxws:endpoint>
 </beans>
