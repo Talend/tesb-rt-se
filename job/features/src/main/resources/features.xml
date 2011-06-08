@@ -31,6 +31,8 @@
 
     <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
         <feature version='${project.version}'>talend-job-api</feature>
+        <feature version='${project.version}'>tesb-locator-client</feature>
+        <feature version='${project.version}'>tesb-sam-agent</feature>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_3</bundle>
