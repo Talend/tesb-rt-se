@@ -54,7 +54,7 @@
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
             <excludes>
-            	<exclude>ReleaseNotes.*</exclude>
+            	<exclude>ReleaseNotes*.*</exclude>
             </excludes>
         </fileSet>
         <fileSet>
