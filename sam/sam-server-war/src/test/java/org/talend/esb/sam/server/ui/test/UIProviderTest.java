@@ -71,6 +71,10 @@ public class UIProviderTest extends TestCase {
 		JsonObject res = (JsonObject) aggregated.get(0);
 		assertEquals(3, res.get("elapsed").getAsInt());
 		assertEquals(2, res.get("types").getAsJsonArray().size());
+		assertEquals("consumer_host", res.get("consumer_host").getAsString());
+		assertEquals("consumer_ip", res.get("consumer_ip").getAsString());
+		assertEquals("provider_ip", res.get("provider_ip").getAsString());
+		assertEquals("provider_host", res.get("provider_host").getAsString());
 		System.err.println(creator.getValue());
 	}
 
