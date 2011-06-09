@@ -1,7 +1,7 @@
-Welcome to Talend ESB SE!
+Welcome to Talend ESB!
 =====================================
 
-Talend ESB SE bundles Service Factory and Integration Factory, 
+Talend ESB bundles Service Factory and Integration Factory, 
 Service Locator, Service Activity Monitoring and a demo application 
 to a stable, production ready distribution based on the industry leading 
 open source frameworks Apache CXF and Apache Camel. 
@@ -48,9 +48,9 @@ Talend ESB (including Service and Integration Factory) bug reports: https://jira
 Examples 
 ========
 
-Talend ESB SE provides several examples in a separate documentation package in 
+Talend ESB provides several examples in a separate documentation package in 
 the examples folder. The example applications and tutorials demonstrate functionality 
-and advanced features of Talend ESB SE.
+and advanced features of Talend ESB.
 The examples demonstrate how to use different functionality including:
 
 *    Advanced WebServices with Camel 
