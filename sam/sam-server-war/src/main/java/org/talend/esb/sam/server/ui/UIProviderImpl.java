@@ -22,19 +22,15 @@ package org.talend.esb.sam.server.ui;
 import static org.talend.esb.sam.server.persistence.dialects.DatabaseDialect.SUBSTITUTION_STRING;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 /**
@@ -54,11 +50,11 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
 			+ "from EVENTS where MI_FLOW_ID = :flowID";
 
-	private JsonParser parser = new JsonParser();
-
-	private Gson gson = new Gson();
-
 	private DatabaseDialect dialect;
+
+	private RowMapper<JsonObject> mapper = new JsonRowMapper();
+
+	private UIProviderUtils utils = new UIProviderUtils();
 
 	/**
 	 * Injector method for {@link DatabaseDialect}
@@ -69,59 +65,30 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		this.dialect = dialect;
 	}
 
-	private RowMapper<JsonObject> mapper = new JsonRowMapper(); 
-	
 	@Override
 	public JsonObject getEvents(long start, String baseURL,
 			CriteriaAdapter criteria) {
 		String countQuery = COUNT_QUERY;
 		String whereClause = criteria.getWhereClause();
 		if (whereClause != null && whereClause.length() > 0) {
-			countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, " WHERE " + whereClause);	
+			countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, " WHERE "
+					+ whereClause);
 		} else {
 			countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, "");
 		}
-		int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
+		int rowCount = getSimpleJdbcTemplate()
+				.queryForInt(countQuery, criteria);
 		JsonObject result = new JsonObject();
 		result.add("count", new JsonPrimitive(rowCount));
+		// Aggregated data
+		JsonArray aggregated = new JsonArray();
 		if (start < rowCount) {
 			String dataQuery = dialect.getDataQuery(criteria);
 			List<JsonObject> objects = getSimpleJdbcTemplate().query(dataQuery,
 					mapper, criteria);
-
-			// Render RAW data
-			Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
-			Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
-			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").getAsString();
-				long timestamp = obj.get("timestamp").getAsLong();
-				flowLastTimestamp.put(flowID, timestamp);
-				if (!flowTypes.containsKey(flowID)) {
-					flowTypes.put(flowID, new HashSet<String>());
-				}
-				flowTypes.get(flowID).add(obj.get("type").getAsString());
-			}
-
-			// Aggregated data
-			JsonArray aggregated = new JsonArray();
-			for (JsonObject obj : objects) {
-				String flowID = obj.get("flowID").getAsString();
-				long timestamp = obj.get("timestamp").getAsLong();
-				Long endTime = flowLastTimestamp.get(flowID);
-				if (endTime != null) {
-					flowLastTimestamp.remove(flowID);
-					JsonObject newObj = copy(obj);
-					newObj.add("elapsed",
-							new JsonPrimitive(timestamp - endTime));
-					newObj.remove("type");
-					newObj.add("types", gson.toJsonTree(flowTypes.get(flowID)));
-					newObj.add("details", new JsonPrimitive(baseURL + "flow/"
-							+ flowID));
-					aggregated.add(newObj);
-				}
-			}
-			result.add("aggregated", aggregated);
+			aggregated = utils.aggregateRawData(objects, baseURL);
 		}
+		result.add("aggregated", aggregated);
 		return result;
 	}
 
@@ -142,16 +109,6 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			result.add("events", events);
 			return result;
 		}
-	}
-
-	/**
-	 * Creates a copy of {@link JsonObject}
-	 * 
-	 * @param obj
-	 * @return
-	 */
-	private JsonObject copy(JsonObject obj) {
-		return (JsonObject) parser.parse(obj.toString());
 	}
 
 }
