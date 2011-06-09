@@ -43,6 +43,10 @@ import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
  */
 public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
+	private static final String CONSUMER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_OUT' or EI_EVENT_TYPE = 'RESP_IN')";
+
+	private static final String PROVIDER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_IN' or EI_EVENT_TYPE = 'RESP_OUT')";
+	
 	private Logger log = LoggerFactory.getLogger(UIProviderImpl.class);
 
 	private final Map<String, Criteria> criterias;
@@ -58,7 +62,11 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 			new DateCriteria("timestamp_before", "EI_TIMESTAMP"),
 			new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
 			new DateCriteria("timestamp_on", "EI_TIMESTAMP"),
-			new PatternCriteria("flowID", "MI_FLOW_ID")
+			new PatternCriteria("flowID", "MI_FLOW_ID"),
+			new PatternCriteria("consumer_ip", "ORIG_IP", CONSUMER_EVENT_TYPES),
+			new PatternCriteria("consumer_host", "ORIG_HOSTNAME", CONSUMER_EVENT_TYPES),
+			new PatternCriteria("provider_ip", "ORIG_IP", PROVIDER_EVENT_TYPES),
+			new PatternCriteria("provider_host", "ORIG_HOSTNAME", PROVIDER_EVENT_TYPES)
 			};
 
 	private static final String LIMIT_NAME = "limit";
