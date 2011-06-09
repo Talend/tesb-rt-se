@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.message.Exchange;
 
-public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
+public class RandomSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
 	
 	private int reloadAdressesCount = 10;
 	
@@ -77,7 +77,7 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 			availableAddresses = getEndpoints(serviceName);		
 		}
 		if (!availableAddresses.isEmpty()) {
-			availableAddresses = getRotatedBy1List(availableAddresses);
+			availableAddresses = getRotatedList(availableAddresses);
 			if (LOG.isLoggable(Level.FINE)) {
 				LOG.log(Level.FINE,
 						"List of endpoints for service " +  serviceName + ": " + availableAddresses);
@@ -92,8 +92,8 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 		return availableAddresses;
 	}
 	
-	private List<String> getRotatedBy1List(List<String> strings) {
-		int index = 1;
+	private List<String> getRotatedList(List<String> strings) {
+		int index = random.nextInt(strings.size());
 		List<String> rotated = new ArrayList<String>();
 		for (int i = 0; i < strings.size(); i++) {
 			rotated.add(strings.get(index));

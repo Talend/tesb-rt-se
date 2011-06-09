@@ -22,9 +22,9 @@ package org.talend.esb.servicelocator.client.internal;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
-import static org.hamcrest.Matchers.isOneOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertThat;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
@@ -46,10 +46,13 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy;
+import org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy;
 
 public class LocatorSelectionStrategyTest extends EasyMockSupport {
 	
 	EvenDistributionSelectionStrategy evenDistributionStrategy;
+
+	RandomSelectionStrategy randomStrategy;
 
 	DefaultSelectionStrategy defaultStrategy;
 
@@ -63,9 +66,11 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Before
 	public void setup() {
+		randomStrategy = new RandomSelectionStrategy();
 		evenDistributionStrategy = new EvenDistributionSelectionStrategy();
 		defaultStrategy = new DefaultSelectionStrategy();
 		locatorMock = createNiceMock(ServiceLocator.class);
+		randomStrategy.setServiceLocator(locatorMock);
 		evenDistributionStrategy.setServiceLocator(locatorMock);
 		defaultStrategy.setServiceLocator(locatorMock);
 		serviceMock = createNiceMock(Service.class);
@@ -133,6 +138,43 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 	@Test
 	public void evenDistribution() throws Exception {
 		evenDistributionStrategy.setReloadAdressesCount(10);
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
+		String primary = null;
+		String lastPrimary = null;
+		boolean distributed = false;
+		for (int i = 0; i < 2; i++) {	
+			lastPrimary = primary;
+			primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
+            assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
+			if (lastPrimary != null && !primary.equals(lastPrimary))
+				distributed = true;
+		}
+		assertThat(distributed, is(true));
+		verifyAll();
+	}
+
+	@Test
+	public void randomGetAlternateAddresses() throws Exception {
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
+		List<String> result = randomStrategy.getAlternateAddresses(exchangeMock);
+		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
+		verifyAll();
+	}
+
+	@Test
+	public void randomGetPrimaryAddress() throws Exception {
+		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
+		replayAll();
+		String primary = randomStrategy.getPrimaryAddress(exchangeMock);
+        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
+		verifyAll();
+	}
+	
+	@Test
+	public void randomDistribution() throws Exception {
+		randomStrategy.setReloadAdressesCount(10);
 		for (int i = 0; i < 10; i++)
 			lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
 		replayAll();
@@ -141,7 +183,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 		boolean distributed = false;
 		for (int i = 0; i < 10*10; i++) {	
 			lastPrimary = primary;
-			primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
+			primary = randomStrategy.getPrimaryAddress(exchangeMock);
             assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
 			if (lastPrimary != null && !primary.equals(lastPrimary))
 				distributed = true;

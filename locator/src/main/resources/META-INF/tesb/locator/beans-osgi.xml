@@ -63,13 +63,18 @@ limitations under the License.
     </bean>
 
    <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
-        <property name="reloadAdressesCount" value="${evenDistribution.reloadAdressesCount}"/>
+        <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
+   </bean>
+
+   <bean id="randomSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy">
+        <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
    </bean>
 
     <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
       	<property name="locatorSelectionStrategies">
             <map>
 				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
+				<entry key="randomSelectionSelectionStrategy" value-ref="randomSelectionStrategy" />
 				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
 			</map>
         </property>
