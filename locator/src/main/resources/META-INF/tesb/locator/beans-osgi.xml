@@ -74,7 +74,7 @@ limitations under the License.
       	<property name="locatorSelectionStrategies">
             <map>
 				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
-				<entry key="randomSelectionSelectionStrategy" value-ref="randomSelectionStrategy" />
+				<entry key="randomSelectionStrategy" value-ref="randomSelectionStrategy" />
 				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
 			</map>
         </property>

@@ -58,7 +58,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
        <property name="locatorSelectionStrategies">
             <map>
 				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
-				<entry key="randomSelectionSelectionStrategy" value-ref="randomSelectionStrategy" />
+				<entry key="randomSelectionStrategy" value-ref="randomSelectionStrategy" />
 				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
 			</map>
         </property>
