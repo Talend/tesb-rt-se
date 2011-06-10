@@ -151,19 +151,19 @@ public class CRMServiceImpl implements CRMService {
 		String user = customer.getUsername();
 	
 		if (user != null) {
-			if (user.contains("rlalyko")) {
+			if (user.contains("jdoe")) {
 				status.setCode(RYLCStatusCodeType.ACTIVE);
 				status.setCreditPoints(new BigInteger("230"));
 				status.setDescription("All your bookings are closed!");
-			} else if (user.contains("btrops")) {
+			} else if (user.contains("bbrindle")) {
 				status.setCode(RYLCStatusCodeType.ACTIVE);
 				status.setCreditPoints(new BigInteger("1050"));
 				status.setDescription("You can pay with your bonus points!");
-			} else if (user.contains("rdeutscher")) {
+			} else if (user.contains("rlambert")) {
 				status.setCode(RYLCStatusCodeType.ACTIVE);
 				status.setCreditPoints(new BigInteger("660"));
 				status.setDescription("All your bookings are closed!");
-			} else if (user.contains("amoerike")) {
+			} else if (user.contains("aebert")) {
 				status.setCode(RYLCStatusCodeType.ACTIVE);
 				status.setCreditPoints(new BigInteger("790"));
 				status.setDescription("Last reservation was canceled by reservation system!");
