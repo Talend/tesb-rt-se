@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
 /**
  * Adapter that implements {@link SqlParameterSource} to be used to map HTTP URL
  * parameters to the SQL parameters
- * 
+ *
  * @author zubairov
  */
 public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
@@ -46,12 +46,12 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	private static final String CONSUMER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_OUT' or EI_EVENT_TYPE = 'RESP_IN')";
 
 	private static final String PROVIDER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_IN' or EI_EVENT_TYPE = 'RESP_OUT')";
-	
+
 	private Logger log = LoggerFactory.getLogger(UIProviderImpl.class);
 
 	private final Map<String, Criteria> criterias;
 
-	private long start;
+	private long offset;
 
 	private long limit;
 
@@ -71,10 +71,10 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
 	private static final String LIMIT_NAME = "limit";
 
-	private static final String START_NAME = "start";
+	private static final String OFFSET_NAME = "offset";
 
-	public CriteriaAdapter(long start, long limit, Map<String, String[]> params) {
-		this.start = start;
+	public CriteriaAdapter(long offset, long limit, Map<String, String[]> params) {
+		this.offset = offset;
 		this.limit = limit;
 		this.criterias = getCriterias(params);
 
@@ -82,7 +82,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
 	/**
 	 * Reads filter parameters
-	 * 
+	 *
 	 * @param req
 	 * @return
 	 */
@@ -112,7 +112,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 	@Override
 	public boolean hasValue(String paramName) {
 		return criterias.containsKey(paramName) || LIMIT_NAME.equals(paramName)
-				|| START_NAME.equals(paramName);
+				|| OFFSET_NAME.equals(paramName);
 	}
 
 	@Override
@@ -124,8 +124,8 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 		if (LIMIT_NAME.equals(paramName)) {
 			return limit;
 		}
-		if (START_NAME.equals(paramName)) {
-			return start;
+		if (OFFSET_NAME.equals(paramName)) {
+			return offset;
 		}
 		return criterias.get(paramName).getValue();
 	}
