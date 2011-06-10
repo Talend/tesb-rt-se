@@ -83,3 +83,15 @@ Licensed under the BSD License
 This product includes software developed at
 dom4j (http://dom4j.org)
 Licensed under the BSD License
+
+This product includes software developed at
+Gson (http://code.google.com/p/google-gson)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+Objenesis (http://code.google.com/p/objenesis)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+Hamcrest (http://code.google.com/p/hamcrest)
+Licensed under the New BSD License.
