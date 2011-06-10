@@ -79,6 +79,7 @@ public class ServiceLocatorMain {
 			out.println(" |--- " + endpoint.getAddress());
             out.println(" |    |-- " + (endpoint.isLive() ? "running" : "stopped"));
             out.println(" |    |-- last time started " + formatTimeStamp(endpoint.getLastTimeStarted()));
+            out.println(" |    |-- last time stopped " + formatTimeStamp(endpoint.getLastTimeStopped()));
             out.println(" |    |-- transport " + endpoint.getTransport());
             out.println(" |    |-- protocol " + endpoint.getBinding());
             printProperties(endpoint.getProperties());

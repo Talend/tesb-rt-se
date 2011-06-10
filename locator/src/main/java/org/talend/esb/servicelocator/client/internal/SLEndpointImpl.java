@@ -21,7 +21,6 @@ package org.talend.esb.servicelocator.client.internal;
 
 import javax.xml.namespace.QName;
 
-import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -40,16 +39,6 @@ public class SLEndpointImpl extends ContentHolder implements SLEndpoint{
     @Override
     public QName forService() {
         return sName;
-    }
-
-    @Override
-    public BindingType getBinding() {
-        return BindingType.SOAP11;
-    }
-
-    @Override
-    public TransportType getTransport() {
-        return TransportType.HTTP;
     }
 
     @Override

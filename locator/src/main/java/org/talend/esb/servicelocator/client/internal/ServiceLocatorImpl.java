@@ -53,8 +53,10 @@ import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
+import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 import org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider;
 import org.w3c.dom.Document;
 
@@ -652,6 +654,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private EndpointDataType createEndpointData(EndpointProvider eprProvider) throws ServiceLocatorException {
         ObjectFactory of = new ObjectFactory();
         EndpointDataType endpointData = of.createEndpointDataType();
+
+        endpointData.setBinding(
+            BindingType.fromValue(eprProvider.getBinding().getValue()));
+        endpointData.setTransport(
+                TransportType.fromValue(eprProvider.getTransport().getValue()));
         endpointData.setLastTimeStarted(System.currentTimeMillis());
         
         Document doc;

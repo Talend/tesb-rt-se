@@ -27,6 +27,8 @@ import java.util.Collection;
 
 import org.talend.esb.DomMother;
 import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
+import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 import org.w3c.dom.Element;
 
 public class TestContent {
@@ -39,26 +41,34 @@ public class TestContent {
 
     public static final long LAST_TIME_STOPPED = 129885675343L;
 
-    public static final byte[] CONTENT_ENDPOINT_1 = createContent(ENDPOINT_1, LAST_TIME_STARTED, -1, null);
+    public static final byte[] CONTENT_ENDPOINT_1 = createContent(ENDPOINT_1, LAST_TIME_STARTED, -1, BindingType.SOAP_11, TransportType.HTTP, null);
 
     public static byte[] createContent(String addressVal) {
-        return createContent(addressVal, -1, -1, null);
+        return createContent(addressVal, -1, -1, BindingType.SOAP_11, TransportType.HTTP, null);
     }
 
     public static byte[] createContent(String addressVal, Long lastStartTime, Long lastStopTime) {
-        return createContent(addressVal, lastStartTime, lastStopTime, null);
+        return createContent(addressVal, lastStartTime, lastStopTime, BindingType.SOAP_11, TransportType.HTTP, null);
     }
     
     public static byte[] createContent(SLProperties props) {
-        return createContent("", LAST_TIME_STARTED, LAST_TIME_STOPPED, props);
+        return createContent("", LAST_TIME_STARTED, LAST_TIME_STOPPED, BindingType.SOAP_11, TransportType.HTTP, props);
     }
 
     public static byte[] createContent(String addressVal, long lastStartTime, long lastStopTime, SLProperties props) {
+        return createContent(addressVal, lastStartTime, lastStopTime, BindingType.SOAP_11, TransportType.HTTP, props);
+    }
+
+    public static byte[] createContent(String addressVal, long lastStartTime, long lastStopTime, 
+            BindingType binding, TransportType transport,  SLProperties props) {
         Element root = DomMother.newDocument(SL, "EndpointData");
         addEPR(root, addressVal, props);
 
         DomMother.addLeafElement(root, SL, "LastTimeStarted", Long.toString(lastStartTime));
         DomMother.addLeafElement(root, SL, "LastTimeStopped", Long.toString(lastStopTime));
+
+        DomMother.addLeafElement(root, SL, "Binding", binding.value());
+        DomMother.addLeafElement(root, SL, "Transport", transport.value());
 
         return serialize(root);
     }

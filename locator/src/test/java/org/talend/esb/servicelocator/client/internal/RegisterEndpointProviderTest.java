@@ -31,9 +31,10 @@ import org.apache.zookeeper.data.Stat;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.junit.Test;
-import org.talend.esb.DomMother;
+import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.TransportType;
 
 import static org.apache.zookeeper.CreateMode.EPHEMERAL;
 import static org.apache.zookeeper.CreateMode.PERSISTENT;
@@ -44,12 +45,9 @@ import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
-//import static org.talend.esb.servicelocator.NamespaceContextImpl.SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest {
-
-//    private Capture<byte[]> contentCapture;
 
     @Test
     public void registerServiceExistsEndpointExists() throws Exception {
@@ -159,7 +157,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createEndpointStatus(ENDPOINT_PATH_11);
 
         EndpointProvider eprProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS, TransportType.HTTP);
 
         replayAll();
 
@@ -167,10 +165,11 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         slc.register(eprProvider);
 
         Document contentAsXML = capturedContentAsXML();
-        DomMother.serialize(contentAsXML, System.out);
 
         assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
         assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()", WSA_SL_NS_CONTEXT));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()", WSA_SL_NS_CONTEXT));        
         assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
         verifyAll();
     }
@@ -217,9 +216,15 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
+        return createEPProviderStub(serviceName, endpoint, BindingType.JAXRS, TransportType.HTTP);
+    }
+    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
+            BindingType bindingType, TransportType transportType) throws Exception {
         EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
         expect(eprProvider.getServiceName()).andStubReturn(serviceName);
         expect(eprProvider.getAddress()).andStubReturn(endpoint);
+        expect(eprProvider.getBinding()).andStubReturn(bindingType);
+        expect(eprProvider.getTransport()).andStubReturn(transportType);
         eprProvider.addEndpointReference( anyDOM());
 
         return eprProvider;

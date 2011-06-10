@@ -43,11 +43,11 @@ public class CXFTestStubs {
     public static final Server SERVER_2 = createServerStub(SERVICE_QNAME_2, ENDPOINT_2);
 
     public static Server createServerStub(QName serviceName, String endpointName) {
-        return createServerStub(serviceName, endpointName, null);
+        return createServerStub(serviceName, endpointName, null, null);
     }
 
-    public static Server createServerStub(QName serviceName, String endpointName, String bindingId) {
-        EndpointInfo endpointInfo = createEndpointInfoStub(serviceName, endpointName);
+    public static Server createServerStub(QName serviceName, String endpointName, String bindingId, String transportId) {
+        EndpointInfo endpointInfo = createEndpointInfoStub(serviceName, endpointName, transportId);
         Binding binding = createBindingStub(bindingId);
         Endpoint endpoint = createEndpointStub(endpointInfo, binding);
 
@@ -80,7 +80,7 @@ public class CXFTestStubs {
         return endpoint;
     }
 
-    public static EndpointInfo createEndpointInfoStub(QName serviceName, String endpointName) {
+    public static EndpointInfo createEndpointInfoStub(QName serviceName, String endpointName, String transportId) {
         EndpointReferenceType epr = createEPR(endpointName);
         ServiceInfo serviceInfo = EasyMock.createNiceMock(ServiceInfo.class);
         expect(serviceInfo.getName()).andStubReturn(serviceName);
@@ -89,6 +89,7 @@ public class CXFTestStubs {
         expect(endpointInfo.getAddress()).andStubReturn(endpointName);
         expect(endpointInfo.getService()).andStubReturn(serviceInfo);
         expect(endpointInfo.getTarget()).andStubReturn(epr);
+        expect(endpointInfo.getTransportId()).andStubReturn(transportId);
 
         EasyMock.replay(serviceInfo, endpointInfo);
 

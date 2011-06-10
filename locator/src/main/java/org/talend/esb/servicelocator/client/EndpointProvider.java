@@ -45,6 +45,10 @@ public interface EndpointProvider {
      */
     String getAddress();
 
+    BindingType getBinding();
+
+    TransportType getTransport();
+
     /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 

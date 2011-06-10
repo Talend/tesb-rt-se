@@ -28,7 +28,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
-import org.apache.cxf.common.WSDLConstants;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.service.model.BindingInfo;
@@ -41,6 +40,7 @@ import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.w3c.dom.Node;
 
@@ -60,12 +60,16 @@ public class CXFEndpointProvider implements EndpointProvider {
     public static final String SOAP12_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap12/";
     
     public static final String JAXRS_BINDING_ID = "http://apache.org/cxf/binding/jaxrs";
+    
+    public static final String HTTP_TRANSPORT_ID = "http://cxf.apache.org/transports/http";
 
     private QName sName;
     
     private EndpointReferenceType epr;
-    
+
     private BindingType bindingType;
+
+    private TransportType transportType;
 
     public CXFEndpointProvider(QName serviceName, EndpointReferenceType endpointReference) {
         this(serviceName, null, endpointReference);
@@ -83,6 +87,8 @@ public class CXFEndpointProvider implements EndpointProvider {
 
     public CXFEndpointProvider(Server server, String address, SLProperties properties) {
         this(getServiceName(server), getBindingId(server), createEPR(server, address, properties));
+        String transportId = getTransportId(server);
+        transportType = map2TransportType(transportId);
     }
 
     @Override
@@ -95,8 +101,14 @@ public class CXFEndpointProvider implements EndpointProvider {
         return epr.getAddress().getValue();
     }
 
+    @Override
     public BindingType getBinding() {
         return bindingType;
+    }
+
+    @Override
+    public TransportType getTransport() {
+        return transportType;
     }
 
     @Override
@@ -167,6 +179,11 @@ public class CXFEndpointProvider implements EndpointProvider {
         BindingInfo bi = ep.getBinding().getBindingInfo();
         return bi.getBindingId();
     }
+   
+   private static String getTransportId(Server server) {
+       EndpointInfo ei = server.getEndpoint().getEndpointInfo();
+       return  ei.getTransportId();
+   }
 
    private static BindingType map2BindingType(String bindingId) {       
        BindingType type = BindingType.OTHER;
@@ -178,6 +195,14 @@ public class CXFEndpointProvider implements EndpointProvider {
            type = BindingType.JAXRS;
        }
        
+       return type;
+   }
+
+   private static TransportType map2TransportType(String transportId) {
+       TransportType type = TransportType.OTHER;
+       if (HTTP_TRANSPORT_ID.equals(transportId)) {
+           type = TransportType.HTTP;
+       } 
        return type;
    }
 }

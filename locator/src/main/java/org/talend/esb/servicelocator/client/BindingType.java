@@ -27,6 +27,16 @@ public enum BindingType {
 
     JAXRS,
     
-    OTHER
+    OTHER;
 
+    public String getValue() {
+        return name();
+    }
+
+    public static BindingType fromValue(String v) {
+        return valueOf(v);
+    }
 }
+
+
+
