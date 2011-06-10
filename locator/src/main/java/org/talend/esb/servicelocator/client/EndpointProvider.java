@@ -51,6 +51,6 @@ public interface EndpointProvider {
      * @param parent the node where to add the endpoint reference, is not null and either an 
      * {@link org.w3c.dom.Element} or a {@link org.w3c.dom.Document}. 
      */
-    void addEndpointReference(Node parent);
+    void addEndpointReference(Node parent) throws ServiceLocatorException;
 
 }

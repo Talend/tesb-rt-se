@@ -83,14 +83,7 @@ public interface SLEndpoint {
 	 * @return the service name 
 	 */
 	QName forService();
-	
-	enum BindingType {
-	    SOAP,
-	    
-	    REST,
-	    
-	    OTHER
-	}
+
 	
 	enum TransportType {
 	    HTTP,

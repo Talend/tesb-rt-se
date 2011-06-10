@@ -216,7 +216,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createNode(endpointStatusPath, EPHEMERAL,new KeeperException.NodeExistsException());
     }
 
-    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) {
+    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
         EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
         expect(eprProvider.getServiceName()).andStubReturn(serviceName);
         expect(eprProvider.getAddress()).andStubReturn(endpoint);

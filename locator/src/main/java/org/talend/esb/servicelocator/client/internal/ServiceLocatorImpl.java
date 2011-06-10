@@ -649,7 +649,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return serialize(endpointData);
     }
     
-    private EndpointDataType createEndpointData(EndpointProvider eprProvider) {
+    private EndpointDataType createEndpointData(EndpointProvider eprProvider) throws ServiceLocatorException {
         ObjectFactory of = new ObjectFactory();
         EndpointDataType endpointData = of.createEndpointDataType();
         endpointData.setLastTimeStarted(System.currentTimeMillis());
