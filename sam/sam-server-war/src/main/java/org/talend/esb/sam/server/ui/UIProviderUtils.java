@@ -46,6 +46,40 @@ public class UIProviderUtils {
 
 	private Gson gson = new Gson();
 	
+	public JsonArray aggregateFlowDetails(List<JsonObject> objects) {
+		Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
+		Set<Long> allEvents = new HashSet<Long>();
+		for (JsonObject obj : objects) {
+			long eventID = obj.get("id").getAsLong();
+			allEvents.add(eventID);
+			String custKey = obj.get("custKey").isJsonNull() ? null : obj.get("custKey").getAsString();
+			String custValue = obj.get("custValue").isJsonNull() ? null : obj.get("custValue").getAsString();
+			if (custKey != null) {
+				if (!customInfo.containsKey(eventID)) {
+					customInfo.put(eventID, new HashMap<String, String>());
+				}
+				customInfo.get(eventID).put(custKey, custValue);
+			}
+		}
+		JsonArray result = new JsonArray();
+		for (JsonObject obj : objects) {
+			long eventID = obj.get("id").getAsLong();
+			if (allEvents.contains(eventID)) {
+				allEvents.remove(eventID);
+				JsonObject newObj = copy(obj);
+				if (customInfo.containsKey(eventID)) {
+					newObj.add("customInfo", gson.toJsonTree(customInfo.get(eventID)));
+				}
+				newObj.remove("custKey");
+				newObj.remove("custValue");
+				
+				result.add(newObj);				
+			}
+		}
+		
+		return result;
+	}
+	
 	public JsonArray aggregateRawData(List<JsonObject> objects, String baseURL) {
 		// Render RAW data
 		Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();

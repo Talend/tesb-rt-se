@@ -45,10 +45,13 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS %%FILTER%%";
 
 	private static final String SELECT_FLOW_QUERY = "select "
-			+ "ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
+			+ "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
 			+ "ORIG_HOSTNAME, ORIG_IP, ORIG_PRINCIPAL, MI_PORT_TYPE, MI_OPERATION_NAME, "
-			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
-			+ "from EVENTS where MI_FLOW_ID = :flowID";
+			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT, "
+			+ "CUST_KEY, CUST_VALUE "
+			+ "from EVENTS "
+			+ "left join EVENTS_CUSTOMINFO on EVENTS_CUSTOMINFO.EVENT_ID = EVENTS.ID "
+			+ "where MI_FLOW_ID = :flowID";
 
 	private static final String SELECT_EVENT_QUERY = "select "
 		+ "ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
@@ -109,9 +112,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		if (list.isEmpty()) {
 			return null;
 		} else {
-			for (JsonObject obj : list) {
-				events.add(obj);
-			}
+			events = utils.aggregateFlowDetails(list);
 			result.add("events", events);
 			return result;
 		}
