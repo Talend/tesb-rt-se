@@ -75,6 +75,10 @@ public class TestValues {
     public static final String ENDPOINT_STATUS_PATH_12 = ENDPOINT_PATH_12 + "/" + STATUS_NODE;
 
     public static final byte[] EMPTY_CONTENT = new byte[0];
+    
+    public static long LAST_TIME_STARTED = 1302458583L;
+
+    public static long LAST_TIME_STOPPED = 1302468588L;
 
     public static final SLPropertiesImpl PROPERTIES = new SLPropertiesImpl();
 

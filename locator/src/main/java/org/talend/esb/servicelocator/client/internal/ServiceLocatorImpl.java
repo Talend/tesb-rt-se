@@ -200,24 +200,23 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public void register(QName serviceName, String endpoint,
-            SLProperties properties) throws ServiceLocatorException,
-            InterruptedException {
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Registering endpoint " + endpoint + " for service "
-                    + serviceName + " with properties " + properties + "...");
-        }
-
+    public void register(QName serviceName, String endpoint, SLProperties properties)
+            throws ServiceLocatorException, InterruptedException {
         register(new CXFEndpointProvider(serviceName, endpoint, properties));
     }
 
     @Override
-    public void register(EndpointProvider epProvider)
+    public synchronized  void register(EndpointProvider epProvider)
         throws ServiceLocatorException, InterruptedException {
-
+        
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
-        
+
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Registering endpoint " + endpoint + " for service "
+                    + serviceName + "...");
+        }
+
         NodePath serviceNodePath = ensureServiceExists(serviceName);
 
         byte[] content = createContent(epProvider);
@@ -226,35 +225,68 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
         createEndpointStatus(endpointNodePath);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
-    public synchronized void unregister(QName serviceName, String endpoint)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void unregister(EndpointProvider epProvider)
+    throws ServiceLocatorException, InterruptedException {
+
+        QName serviceName = epProvider.getServiceName();
+        String endpoint = epProvider.getAddress();
+
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Unregistering endpoint " + endpoint + " for service "
                     + serviceName + "...");
         }
 
-        checkConnection();
-
-        try {
-            NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
+        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
                 .toString());
-            NodePath endpointNodePath = serviceNodePath.child(endpoint);
-            NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
-        
-            ensurePathDeleted(endpointStatusNodePath, false);
+        NodePath endpointNodePath = serviceNodePath.child(endpoint);
 
-            byte[] content = getContent(endpointNodePath);
-            ContentHolder holder = new ContentHolder(content);
-            holder.setLastTimeStopped(System.currentTimeMillis());
-            setNodeData(endpointNodePath, holder.getContent());
+        try {            
+            if (nodeExists(endpointNodePath)) {
+                NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
+        
+                ensurePathDeleted(endpointStatusNodePath, false);
+
+                byte[] content = createContent(epProvider);
+                setNodeData(endpointNodePath, content);
+            }
         } catch (KeeperException e) {
             throw locatorException(e);
         }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void unregister(QName serviceName, String endpoint)
+            throws ServiceLocatorException, InterruptedException {
+        
+        unregister(new CXFEndpointProvider(serviceName, endpoint, null));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void removeEndpoint(QName serviceName, String endpoint)
+        throws ServiceLocatorException, InterruptedException {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Removing endpoint " + endpoint + " for service "
+                    + serviceName + "...");
+        }
+
+        checkConnection();
+
+        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
+            .toString());
+        NodePath endpointNodePath = serviceNodePath.child(endpoint);
+        NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
+        
+        ensurePathDeleted(endpointStatusNodePath, false);
+        ensurePathDeleted(endpointNodePath, false);
+
     }
 
     /**
@@ -317,10 +349,39 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
+    public SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
+        throws ServiceLocatorException, InterruptedException {
+
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Get endpoint information for endpoint " + endpoint + " within service " + serviceName + "...");
+        }
+
+        checkConnection();
+        try {
+            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
+                    .toString());
+            NodePath endpointPath = servicePath.child(endpoint);
+            if (nodeExists(endpointPath)) {
+                byte[] content = getContent(endpointPath);
+                final boolean isLive = isLive(endpointPath);
+
+                return new SLEndpointImpl(serviceName, content, isLive);
+            } else {
+                return null;
+            }
+        } catch (KeeperException e) {
+            throw locatorException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized List<String> getEndpointNames(QName serviceName)
         throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Get all endpoints of service " + serviceName + "...");
+            LOG.fine("Get all endpoint names of service " + serviceName + "...");
         }
         checkConnection();
         List<String> children;
@@ -556,21 +617,20 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private void ensurePathDeleted(NodePath path, boolean canHaveChildren)
         throws ServiceLocatorException, InterruptedException {
         try {
-            if (/* nodeExists(path) && */deleteNode(path, canHaveChildren)) {
+            if (deleteNode(path, canHaveChildren)) {
                 if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Node " + path + " deteted.");
                 }
             } else {
                 if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " has already been deleted.");
+                    LOG.fine("Node " + path + " cannot be deleted because it has children.");
                 }
             }
 
         } catch (KeeperException e) {
             if (e.code().equals(Code.NONODE)) {
                 if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Some other client deleted node" + path
-                            + " concurrently.");
+                    LOG.fine("Node" + path + " already deleted.");
                 }
             } else {
                 throw locatorException(e);
@@ -659,7 +719,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
             BindingType.fromValue(eprProvider.getBinding().getValue()));
         endpointData.setTransport(
                 TransportType.fromValue(eprProvider.getTransport().getValue()));
-        endpointData.setLastTimeStarted(System.currentTimeMillis());
+        endpointData.setLastTimeStarted(eprProvider.getLastTimeStarted());
+        endpointData.setLastTimeStopped(eprProvider.getLastTimeStopped());
         
         Document doc;
         synchronized (docBuilder) {

@@ -49,6 +49,10 @@ public interface EndpointProvider {
 
     TransportType getTransport();
 
+    long getLastTimeStarted();
+
+    long getLastTimeStopped();
+
     /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 

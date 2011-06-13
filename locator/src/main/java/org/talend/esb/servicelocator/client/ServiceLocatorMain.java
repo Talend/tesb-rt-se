@@ -87,11 +87,17 @@ public class ServiceLocatorMain {
 	}
 	
 	private String formatTimeStamp(long timestamp) {
-        Calendar timeStarted = Calendar.getInstance();
-        DateFormat dFormat = DateFormat.getDateInstance();
-        DateFormat tFormat = DateFormat.getTimeInstance();
-        timeStarted.setTimeInMillis(timestamp);
-        return dFormat.format(timeStarted.getTime()) + " " + tFormat.format(timeStarted.getTime());
+	    String timeStampStr;
+	    if (timestamp >= 0) {
+            Calendar timeStarted = Calendar.getInstance();
+            DateFormat dFormat = DateFormat.getDateInstance();
+            DateFormat tFormat = DateFormat.getTimeInstance();
+            timeStarted.setTimeInMillis(timestamp);
+            timeStampStr = dFormat.format(timeStarted.getTime()) + " " + tFormat.format(timeStarted.getTime());
+	    } else {
+	        timeStampStr =  "n/a";
+	    }
+	    return timeStampStr;
 	}
 	
 	private void printProperties(SLProperties props) {

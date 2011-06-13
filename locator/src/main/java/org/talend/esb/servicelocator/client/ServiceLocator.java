@@ -125,6 +125,12 @@ public interface ServiceLocator {
 	 */
 	void unregister(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException;
+	
+    void unregister(EndpointProvider epProvider) throws ServiceLocatorException, InterruptedException;
+
+
+    void removeEndpoint(QName serviceName, String endpoint)
+        throws ServiceLocatorException, InterruptedException;
 
 	/**
 	 * Return all services for which endpoints are registered at the Service Locator Service.  
@@ -139,6 +145,9 @@ public interface ServiceLocator {
 	 */
 	List<QName> getServices() throws InterruptedException,
 		ServiceLocatorException;
+
+	SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
+        throws ServiceLocatorException, InterruptedException;
 
 	List<SLEndpoint> getEndpoints(QName serviceName)
 		throws ServiceLocatorException, InterruptedException;

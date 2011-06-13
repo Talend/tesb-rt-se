@@ -31,15 +31,18 @@ import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
 import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 import org.w3c.dom.Element;
 
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STOPPED;
+
 public class TestContent {
 
     public static final String WSA = "http://www.w3.org/2005/08/addressing";
     
     public static final String SL = "http://talend.org/esb/serviceLocator/4.2";
 
-    public static final long LAST_TIME_STARTED = 129874534433L;
+//    public static final long LAST_TIME_STARTED = 129874534433L;
 
-    public static final long LAST_TIME_STOPPED = 129885675343L;
+//    public static final long LAST_TIME_STOPPED = 129885675343L;
 
     public static final byte[] CONTENT_ENDPOINT_1 = createContent(ENDPOINT_1, LAST_TIME_STARTED, -1, BindingType.SOAP_11, TransportType.HTTP, null);
 

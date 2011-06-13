@@ -61,7 +61,9 @@ public class CXFEndpointProvider implements EndpointProvider {
     
     public static final String JAXRS_BINDING_ID = "http://apache.org/cxf/binding/jaxrs";
     
-    public static final String HTTP_TRANSPORT_ID = "http://cxf.apache.org/transports/http";
+    public static final String CXF_HTTP_TRANSPORT_ID = "http://cxf.apache.org/transports/http";
+    
+    public static final String SOAP_HTTP_TRANSPORT_ID = "http://schemas.xmlsoap.org/soap/http";
 
     private QName sName;
     
@@ -70,15 +72,21 @@ public class CXFEndpointProvider implements EndpointProvider {
     private BindingType bindingType;
 
     private TransportType transportType;
+    
+    private long lastTimeStarted = -1;
+
+    private long lastTimeStopped = -1;
 
     public CXFEndpointProvider(QName serviceName, EndpointReferenceType endpointReference) {
-        this(serviceName, null, endpointReference);
+        this(serviceName, null, null, endpointReference);
     }
 
-    public CXFEndpointProvider(QName serviceName, String bindingId, EndpointReferenceType endpointReference) {
+    public CXFEndpointProvider(QName serviceName, String bindingId, String transportId,
+            EndpointReferenceType endpointReference) {
         sName = serviceName;
         epr = endpointReference;
         bindingType = map2BindingType(bindingId);
+        transportType = map2TransportType(transportId);
     }
 
     public CXFEndpointProvider(QName serviceName, String address, SLProperties properties) {
@@ -86,9 +94,7 @@ public class CXFEndpointProvider implements EndpointProvider {
     }
 
     public CXFEndpointProvider(Server server, String address, SLProperties properties) {
-        this(getServiceName(server), getBindingId(server), createEPR(server, address, properties));
-        String transportId = getTransportId(server);
-        transportType = map2TransportType(transportId);
+        this(getServiceName(server), getBindingId(server), getTransportId(server), createEPR(server, address, properties));
     }
 
     @Override
@@ -109,6 +115,28 @@ public class CXFEndpointProvider implements EndpointProvider {
     @Override
     public TransportType getTransport() {
         return transportType;
+    }
+
+    public void setLastTimeStartedToCurrent() {
+        lastTimeStarted = System.currentTimeMillis();
+    }
+
+    @Override
+    public long getLastTimeStarted() {
+        return lastTimeStarted;    
+    }
+
+    public void setLastTimeStoppedToCurrent() {
+        lastTimeStopped = System.currentTimeMillis();
+    }
+
+    public void setLastTimeStopped(long lastTimeStopped) {
+        this.lastTimeStopped = lastTimeStopped;
+    }
+
+    @Override
+    public long getLastTimeStopped() {
+        return lastTimeStopped;    
     }
 
     @Override
@@ -200,9 +228,9 @@ public class CXFEndpointProvider implements EndpointProvider {
 
    private static TransportType map2TransportType(String transportId) {
        TransportType type = TransportType.OTHER;
-       if (HTTP_TRANSPORT_ID.equals(transportId)) {
+       if (CXF_HTTP_TRANSPORT_ID.equals(transportId) || SOAP_HTTP_TRANSPORT_ID.equals(transportId)) {
            type = TransportType.HTTP;
-       } 
+       }
        return type;
    }
 }
