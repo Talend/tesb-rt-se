@@ -47,7 +47,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	private static final String SELECT_FLOW_QUERY = "select "
 			+ "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
 			+ "ORIG_HOSTNAME, ORIG_IP, ORIG_PRINCIPAL, MI_PORT_TYPE, MI_OPERATION_NAME, "
-			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT, "
+			+ "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, "
 			+ "CUST_KEY, CUST_VALUE "
 			+ "from EVENTS "
 			+ "left join EVENTS_CUSTOMINFO on EVENTS_CUSTOMINFO.EVENT_ID = EVENTS.ID "
@@ -102,7 +102,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	}
 
 	@Override
-	public JsonObject getFlowDetails(String flowID) {
+	public JsonObject getFlowDetails(String flowID, String baseURL) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("flowID", flowID);
 		JsonObject result = new JsonObject();
@@ -112,7 +112,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 		if (list.isEmpty()) {
 			return null;
 		} else {
-			events = utils.aggregateFlowDetails(list);
+			events = utils.aggregateFlowDetails(list, baseURL);
 			result.add("events", events);
 			return result;
 		}
@@ -122,6 +122,7 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 	public JsonObject getEventDetails(String eventID) {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("eventID", eventID);
+/*
 		JsonObject result = new JsonObject();
 		JsonArray events = new JsonArray();
 		List<JsonObject> list = getSimpleJdbcTemplate().query(
@@ -135,6 +136,10 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 			result.add("events", events);
 			return result;
 		}
+*/
+		JsonObject result = getSimpleJdbcTemplate().queryForObject(
+				SELECT_EVENT_QUERY, mapper, params);
+		return result;
 	}
 
 }
