@@ -21,10 +21,15 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.ClientLifeCycleListener;
+import org.apache.cxf.endpoint.ClientLifeCycleManager;
+import org.apache.cxf.endpoint.ConduitSelector;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.extension.BusExtension;
+import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
+import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
 
 public class ServiceLocatorManager implements BusExtension {
 	
@@ -47,15 +52,47 @@ public class ServiceLocatorManager implements BusExtension {
     }
 	
 	public void listenForAllClients() {
-		clientEnabler.startListenForAllClients();
+        ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
+        clcm.registerListener(new ClientLifeCycleListenerForLocator());
 	}
 
 	public void enableClient(Client client) {
-		clientEnabler.enable(client);
+		enableClient( client, null);
 	}
 
-    public void enableClient(Client client, SLPropertiesMatcher matcher) {
-        clientEnabler.enable(client, matcher);
+    public void enableClient(final Client client, SLPropertiesMatcher matcher) {
+        clientEnabler.enable( new ConduitSelectorHolder() {
+            
+            @Override
+            public void setConduitSelector(ConduitSelector selector) {
+                client.setConduitSelector(selector);
+            }
+            
+            @Override
+            public ConduitSelector getConduitSelector() {
+                return client.getConduitSelector();
+            }
+        }, matcher);
+    }
+    
+    public void enableClient(ClientConfiguration clientConf) {
+        enableClient( clientConf, null);
+    }
+
+
+    public void enableClient(final ClientConfiguration clientConfiguration, SLPropertiesMatcher matcher) {
+        clientEnabler.enable( new ConduitSelectorHolder() {
+            
+            @Override
+            public void setConduitSelector(ConduitSelector selector) {
+                clientConfiguration.setConduitSelector(selector);
+            }
+            
+            @Override
+            public ConduitSelector getConduitSelector() {
+                return clientConfiguration.getConduitSelector();
+            }
+        }, matcher);
     }
 
     public void setBus(Bus bus) {
@@ -79,4 +116,16 @@ public class ServiceLocatorManager implements BusExtension {
 	public Class<?> getRegistrationType() {
 		return ServiceLocatorManager.class;
 	}
+
+    class ClientLifeCycleListenerForLocator implements ClientLifeCycleListener {
+
+        @Override
+        public void clientCreated(Client client) {
+            enableClient(client);
+        }
+
+        @Override
+        public void clientDestroyed(Client client) {
+        }
+    }
 }
