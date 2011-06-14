@@ -84,6 +84,9 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		server = sf.create();
 
+		// remove default operation
+		removeOperation("invoke");
+
 		LOG.info("Web service '" + serviceName + "' published at endpoint '"
 				+ publishedEndpointUrl + "'");
 	}
