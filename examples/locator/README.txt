@@ -22,7 +22,6 @@ Prerequisite
 ------------
 
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
-A servlet container is Tomcat 5.5 or above.
 
 
 The Service Locator server should be running.
@@ -112,16 +111,11 @@ Starting the service
     karaf@tsf> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-4.2.jar
     karaf@tsf> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-4.2.jar
     
-
-   (Make sure you've first installed the examples features repository as described in the
-   parent README.)
-
     
 Running the client
 ---------------------------------------
  
 * From the command line
-   - cd client
-   - mvn exec:java
+   cd client; mvn exec:java
 
 
