@@ -26,15 +26,30 @@ package org.talend.esb.sam.server.persistence.criterias;
  */
 public class PatternCriteria extends Criteria {
 
-	String pattern;
+	String pattern = null;
+	
+	String condition = null;
 	
 	public PatternCriteria(String name, String colunmName) {
 		super(name, colunmName);
 	}
+	
+	/**
+	 * Conditional pattern criteria
+	 * 
+	 * @param name
+	 * @param columnName
+	 * @param condition condittion that will be concatenated to the pattern condition
+	 */
+	public PatternCriteria(String name, String columnName, String condition) {
+		super(name, columnName);
+		this.condition = condition;
+	}
+	
 
 	@Override
 	public Criteria[] parseValue(String attribute) {
-		PatternCriteria result = new PatternCriteria(this.name, this.columnName);
+		PatternCriteria result = new PatternCriteria(this.name, this.columnName, this.condition);
 		result.pattern = toSQLPattern(attribute);
 		return new Criteria[] {result};
 	}
@@ -50,6 +65,10 @@ public class PatternCriteria extends Criteria {
 		builder.append(columnName);
 		builder.append(" LIKE ");
 		builder.append(":" + name);
+		if (condition != null) {
+			builder.append(" AND ");
+			builder.append(condition);
+		}
 		return builder;
 	}
 

@@ -17,32 +17,26 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.client.internal;
+package org.talend.esb.servicelocator.client;
 
-import javax.xml.namespace.QName;
+public enum BindingType {
 
-import org.talend.esb.servicelocator.client.SLEndpoint;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
-
-public class SLEndpointImpl extends ContentHolder implements SLEndpoint{
-
-    private QName sName;
+    SOAP11,
     
-    private boolean isLive;
+    SOAP12,
+
+    JAXRS,
     
-    public SLEndpointImpl(QName serviceName, byte[] content, boolean live) throws ServiceLocatorException{
-        super(content);
-        sName = serviceName;
-        isLive = live;
+    OTHER;
+
+    public String getValue() {
+        return name();
     }
 
-    @Override
-    public QName forService() {
-        return sName;
-    }
-
-    @Override
-    public boolean isLive() {
-        return isLive;
+    public static BindingType fromValue(String v) {
+        return valueOf(v);
     }
 }
+
+
+

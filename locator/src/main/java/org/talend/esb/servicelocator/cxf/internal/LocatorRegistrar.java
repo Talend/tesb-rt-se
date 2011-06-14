@@ -20,9 +20,9 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +34,7 @@ import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.apache.cxf.service.model.ServiceInfo;
+import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -58,7 +58,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
     private String endpointPrefix = "";
 
-    private Set<Server> registeredServers = Collections.synchronizedSet(new HashSet<Server>());
+    private Map<Server, CXFEndpointProvider> registeredServers = 
+        Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
 
     private boolean listenForServersEnabled;
 
@@ -77,7 +78,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Server " + server + " stopping...");
         }
-        if (registeredServers.remove(server)) {
+        if (registeredServers.containsKey(server)) {
             unregisterServer(server);
         }
     }
@@ -94,8 +95,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
     @Override
     public void process(ServiceLocator lc) {
-        for (Server server : registeredServers) {
-            registerServer(server);
+        for (Server server : registeredServers.keySet()) {
+            registerServer(registeredServers.get(server));
         }
     }
 
@@ -140,30 +141,49 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         check(locatorClient, "serviceLocator", "registerEndpoint");
         String absAddress = endpointPrefix + getAddress(server);
 
-//        QName serviceName = getServiceName(server);
-
-//        EndpointReferenceType epr = createEPR(server, props);
         CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
+        endpoint.setLastTimeStartedToCurrent();
+        QName serviceName = endpoint.getServiceName();
+
         try {
-            locatorClient.register(endpoint);
+            SLEndpoint slEndpoint = locatorClient.getEndpoint(serviceName, absAddress);
+            if (slEndpoint != null) {
+                long lastTimeStopped = slEndpoint.getLastTimeStopped();
+                endpoint.setLastTimeStopped(lastTimeStopped);
+            }
+            registerServer(endpoint);
         } catch (ServiceLocatorException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering endpoint. ", e);
+                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering endpoint.", e);
             }
         } catch (InterruptedException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering endpoint.", e);
             }
         }
-        registeredServers.add(server);
+        registeredServers.put(server, endpoint);
+    }
+    
+    private void registerServer(CXFEndpointProvider endpointProvider) {
+        try {
+            locatorClient.register(endpointProvider);        
+        } catch (ServiceLocatorException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering for endpoint "+ endpointProvider, e);
+            }
+        } catch (InterruptedException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering  for endpoint "+ endpointProvider, e);
+            }
+        }
     }
 
-    private void unregisterServer(Server server) {
-        QName serviceName = getServiceName(server);
-        String endpointAddress = endpointPrefix + getAddress(server);
 
+    private void unregisterServer(Server server) {
         try {
-            locatorClient.unregister(serviceName, endpointAddress);
+            CXFEndpointProvider epp = registeredServers.get(server);
+            epp.setLastTimeStoppedToCurrent();
+            locatorClient.unregister(epp);
         } catch (ServiceLocatorException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE, "ServiceLocator Exception thrown during unregister endpoint. ", e);
@@ -184,12 +204,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         for (Server server : servers) {
             registerServer(server);
         }
-    }
-
-    private QName getServiceName(Server server) {
-        EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
-        ServiceInfo serviceInfo = eInfo.getService();
-        return serviceInfo.getName();
     }
 
     private String getAddress(Server server) {

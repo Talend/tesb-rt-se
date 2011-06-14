@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,9 @@ package org.talend.esb.sam.server.persistence.dialects;
 
 /**
  * Class to encapsulate difference between databases.
- * 
+ *
  * @author zubairov
- * 
+ *
  */
 public class DerbyDialect extends AbstractDatabaseDialect {
 
@@ -35,7 +35,7 @@ public class DerbyDialect extends AbstractDatabaseDialect {
 			+ "EVENTS "
 			+ "where "
 			+ "MI_FLOW_ID in ("
-			+ "select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC OFFSET :start ROWS FETCH FIRST :limit ROWS ONLY"
+			+ "select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY"
 			+ ") order by EI_TIMESTAMP DESC";
 
 	@Override

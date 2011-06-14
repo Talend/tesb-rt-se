@@ -31,30 +31,31 @@ import org.apache.zookeeper.data.Stat;
 import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.junit.Test;
-import org.talend.esb.DomMother;
+import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.TransportType;
 
 import static org.apache.zookeeper.CreateMode.EPHEMERAL;
 import static org.apache.zookeeper.CreateMode.PERSISTENT;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
-//import static org.talend.esb.servicelocator.NamespaceContextImpl.SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.*;
 
 public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest {
-
-//    private Capture<byte[]> contentCapture;
 
     @Test
     public void registerServiceExistsEndpointExists() throws Exception {
         serviceExists(SERVICE_PATH_1);
         endpointExists(ENDPOINT_PATH_11);
+        setData(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
 
         EndpointProvider eprProvider = 
@@ -72,6 +73,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     public void registerEndpointStatusExists() throws Exception {
         serviceExists(SERVICE_PATH_1);
         endpointExists(ENDPOINT_PATH_11);
+        setData(ENDPOINT_PATH_11);
 
         createEndpointStatusFails(ENDPOINT_PATH_11);
 
@@ -95,7 +97,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         serviceExists(SERVICE_PATH_1);
 
         endpointExistsNot(ENDPOINT_PATH_11);
-        createEndpoint(ENDPOINT_PATH_11);
+        createEndpointAndSetData(ENDPOINT_PATH_11);
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
@@ -116,7 +118,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createService(SERVICE_PATH_1);
 
         endpointExistsNot(ENDPOINT_PATH_11);
-        createEndpoint(ENDPOINT_PATH_11);
+        createEndpointAndSetData(ENDPOINT_PATH_11);
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
@@ -137,7 +139,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createServiceFails(SERVICE_PATH_1);
 
         endpointExistsNot(ENDPOINT_PATH_11);
-        createEndpoint(ENDPOINT_PATH_11);
+        createEndpointAndSetData(ENDPOINT_PATH_11);
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
@@ -156,10 +158,12 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     public void registerWithEndpointReferenceProviderCheckContent() throws Exception {
         serviceExists(SERVICE_PATH_1);
         endpointExists(ENDPOINT_PATH_11);
+        setData(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
 
         EndpointProvider eprProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
+                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
 
         replayAll();
 
@@ -167,13 +171,81 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         slc.register(eprProvider);
 
         Document contentAsXML = capturedContentAsXML();
-        DomMother.serialize(contentAsXML, System.out);
 
         assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()", WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()", WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
         assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
         verifyAll();
     }
+    
+    @Test
+    public void unregister() throws Exception {
+        endpointExists(ENDPOINT_PATH_11);
+        deleteEndpointStatus(ENDPOINT_PATH_11);
+        setData(ENDPOINT_PATH_11);
+
+        EndpointProvider eprProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
+                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.unregister(eprProvider);
+
+        Document contentAsXML = capturedContentAsXML();
+
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()", WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()", WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
+
+        verifyAll();
+    }
+
+    @Test
+    public void unregisterEndpointExistsNot() throws Exception {
+        endpointExistsNot(ENDPOINT_PATH_11);
+
+        EndpointProvider eprProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
+                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.unregister(eprProvider);
+
+        verifyAll();
+    }
+    
+    @Test
+    public void unregisterEndpointDeleteFails() throws Exception {
+        endpointExists(ENDPOINT_PATH_11);
+        delete(ENDPOINT_STATUS_PATH_11, new KeeperException.RuntimeInconsistencyException());
+
+        EndpointProvider eprProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
+                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+
+        try {
+            slc.unregister(eprProvider);
+            fail("A ServiceLocatorException should have been thrown.");
+        } catch (ServiceLocatorException e) {
+            ignore("Expected exception");
+        }
+
+        verifyAll();
+    }
+
 
     private void serviceExists(String path) throws KeeperException, InterruptedException {
         pathExists(path);
@@ -185,7 +257,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
     private void endpointExists(String path) throws KeeperException, InterruptedException {
         expect(zkMock.exists(path, false)).andReturn(new Stat());
-        expect(zkMock.setData(eq(path), capture(contentCapture), eq(-1))).andReturn(new Stat());
+//        expect(zkMock.setData(eq(path), capture(contentCapture), eq(-1))).andReturn(new Stat());
     }
 
     private void endpointExistsNot(String path) throws KeeperException, InterruptedException {
@@ -200,7 +272,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createNode(path, PERSISTENT, new KeeperException.NodeExistsException());
     }
 
-    private void createEndpoint(String path) throws KeeperException, InterruptedException {
+    private void createEndpointAndSetData(String path) throws KeeperException, InterruptedException {
         expect(zkMock.create(eq(path), capture(contentCapture), eq(Ids.OPEN_ACL_UNSAFE), eq(PERSISTENT))).andReturn(path);
     }
 
@@ -210,17 +282,33 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createNode(endpointStatusPath, EPHEMERAL);
     }
 
+    private void deleteEndpointStatus(String endpointPath)
+            throws KeeperException, InterruptedException {
+        String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
+        delete(endpointStatusPath);
+    }   
+
     private void createEndpointStatusFails(String endpointPath)
         throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
         createNode(endpointStatusPath, EPHEMERAL,new KeeperException.NodeExistsException());
     }
 
-    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) {
+    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
+        return createEPProviderStub(serviceName, endpoint, BindingType.JAXRS, TransportType.HTTP, -1, -1);
+    }
+    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
+            BindingType bindingType, TransportType transportType, long lastTimeStarted, long lastTimeStopped)
+            throws Exception {
         EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
         expect(eprProvider.getServiceName()).andStubReturn(serviceName);
         expect(eprProvider.getAddress()).andStubReturn(endpoint);
+        expect(eprProvider.getBinding()).andStubReturn(bindingType);
+        expect(eprProvider.getTransport()).andStubReturn(transportType);
+        expect(eprProvider.getLastTimeStarted()).andStubReturn(lastTimeStarted);
+        expect(eprProvider.getLastTimeStopped()).andStubReturn(lastTimeStopped);
         eprProvider.addEndpointReference( anyDOM());
+        expectLastCall().asStub();
 
         return eprProvider;
     }

@@ -12,7 +12,8 @@
     	<sequence>
     		<element name="LastTimeStarted" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
     		<element name="LastTimeStopped" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
-    		<element name="Binding" type="string" minOccurs="1" maxOccurs="1"/>
+    		<element name="Binding" type="tns:BindingType" minOccurs="1" maxOccurs="1"/>
+    		<element name="Transport" type="tns:TransportType" minOccurs="1" maxOccurs="1"/>
     		<any namespace="http://www.w3.org/2005/08/addressing" minOccurs="1" maxOccurs="1"/>
     	</sequence>
     </complexType>
@@ -31,4 +32,22 @@
         </sequence>
         <attribute name="key" type="string"/>
     </complexType>
+
+    <simpleType name="BindingType">
+        <restriction base="string">
+            <enumeration value="SOAP11"/>
+            <enumeration value="SOAP12"/>
+            <enumeration value="JAXRS"/>
+            <enumeration value="OTHER"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="TransportType">
+        <restriction base="string">
+            <enumeration value="HTTP"/>
+            <enumeration value="HTTPS"/>
+            <enumeration value="JMS"/>
+            <enumeration value="OTHER"/>
+        </restriction>
+    </simpleType>
 </schema>

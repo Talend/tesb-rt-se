@@ -24,13 +24,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ClientLifeCycleListener;
-import org.apache.cxf.endpoint.ClientLifeCycleManager;
+import org.apache.cxf.endpoint.ConduitSelector;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
-public class LocatorClientEnabler implements ClientLifeCycleListener {
+public class LocatorClientEnabler {
 
 	private static final Logger LOG = Logger.getLogger(LocatorClientEnabler.class
 			.getPackage().getName());
@@ -77,13 +75,13 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
 		}
 	}
 
-    public void enable(Client client) {
-        enable(client, null);
+    public void enable(ConduitSelectorHolder conduitSelectorHolder) {
+        enable(conduitSelectorHolder, null);
 	}
 
-    public void enable(Client client, SLPropertiesMatcher matcher) {
+    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher) {
         LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(client.getEndpoint());
+        selector.setEndpoint(conduitSelectorHolder.getConduitSelector().getEndpoint());
 
         locatorSelectionStrategy.setServiceLocator(locatorClient);
         if (matcher != null) {
@@ -94,29 +92,16 @@ public class LocatorClientEnabler implements ClientLifeCycleListener {
         if (LOG.isLoggable(Level.INFO)) {
             LOG.log(Level.INFO, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
         }
-        client.setConduitSelector(selector);
+        conduitSelectorHolder.setConduitSelector(selector);
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Successfully enabled client " + client + " for the service locator");
+            LOG.log(Level.FINE, "Successfully enabled client " + conduitSelectorHolder + " for the service locator");
         }
     }
     
-	public void startListenForAllClients() {
-		ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
-		clcm.registerListener(this);
-	}
-
-	public void stopListenForAllClients() {
-		ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
-		clcm.unRegisterListener(this);
-	}
-
-	@Override
-	public void clientCreated(Client client) {
-		enable(client);
-	}
-
-	@Override
-	public void clientDestroyed(Client client) {
-	}
+    public interface ConduitSelectorHolder {
+        ConduitSelector getConduitSelector();
+        
+        void setConduitSelector(ConduitSelector selector);
+    }
 }

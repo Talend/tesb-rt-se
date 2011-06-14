@@ -26,13 +26,11 @@ import javax.xml.namespace.QName;
 import org.apache.zookeeper.KeeperException;
 import org.hamcrest.Matcher;
 import org.junit.Test;
-import org.talend.esb.servicelocator.TestContent;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.collection.IsEmptyIterable.emptyIterable;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -92,42 +90,54 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
     }
 
     @Test
-    public void unregisterEndpoint() throws Exception {
-        long currentTime = System.currentTimeMillis();
-
-        byte[] content = TestContent.createContent(ENDPOINT_1, 12345678L, -1L);
-        getData(ENDPOINT_PATH_11, content);
+    public void removeEndpoint() throws Exception {
         delete(ENDPOINT_STATUS_PATH_11);
-
-        setData(ENDPOINT_PATH_11);
+        delete(ENDPOINT_PATH_11);
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
-        slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
-        
-        byte[] updatedContent = getContent();
-        
-        ContentHolder holder = new ContentHolder(updatedContent);
-        long newLastTimeStopped = holder.getLastTimeStopped();
+        slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
-        assertThat(newLastTimeStopped, greaterThan(currentTime));
         verifyAll();
     }
 
     @Test
-    public void unregisterEndpointDeleteFails() throws Exception {
-        delete(ENDPOINT_STATUS_PATH_11, new KeeperException.RuntimeInconsistencyException());
+    public void removeEndpointNotLiving() throws Exception {
+        delete(ENDPOINT_STATUS_PATH_11, new KeeperException.NoNodeException());
+        delete(ENDPOINT_PATH_11);
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
+        verifyAll();
+    }
+
+    @Test
+    public void removeEndpointNotExistingAtAll() throws Exception {
+        delete(ENDPOINT_STATUS_PATH_11, new KeeperException.NoNodeException());
+        delete(ENDPOINT_PATH_11, new KeeperException.NoNodeException());
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void removeEndpointFails() throws Exception {
+        delete(ENDPOINT_STATUS_PATH_11);
+        delete(ENDPOINT_PATH_11,new KeeperException.RuntimeInconsistencyException());
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
         try {
-            slc.unregister(SERVICE_QNAME_1, ENDPOINT_1);
+            slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
             fail("A ServiceLocatorException should have been thrown.");
         } catch (ServiceLocatorException e) {
             ignore("Expected exception");
         }
-
         verifyAll();
     }
 

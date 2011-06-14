@@ -22,7 +22,9 @@ package org.talend.esb.servicelocator.client.internal;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
@@ -71,7 +73,37 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
         assertFalse(endpoint.isLive());
         verifyAll();
     }
-    
+
+    @Test
+    public void getEndpoint() throws Exception {
+        pathExists(ENDPOINT_PATH_11);
+        pathExistsNot(ENDPOINT_PATH_11 + "/" + STATUS_NODE);
+        getContent(ENDPOINT_PATH_11, CONTENT_ENDPOINT_1);
+
+        replayAll();
+        
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+
+        SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
+
+        assertFalse(endpoint.isLive());
+        assertEquals(SERVICE_QNAME_1, endpoint.forService());
+        assertEquals(LAST_TIME_STARTED, endpoint.getLastTimeStarted());
+        verifyAll();
+    }
+
+    @Test
+    public void getEndpointExistsNot() throws Exception {
+        pathExistsNot(ENDPOINT_PATH_11);
+        replayAll();
+        
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+
+        SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
+
+        assertNull(endpoint);
+        verifyAll();
+    }
 
     protected void getContent(String path, byte[] content) throws KeeperException,
             InterruptedException {

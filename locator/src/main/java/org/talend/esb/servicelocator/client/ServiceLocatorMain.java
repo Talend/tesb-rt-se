@@ -79,6 +79,7 @@ public class ServiceLocatorMain {
 			out.println(" |--- " + endpoint.getAddress());
             out.println(" |    |-- " + (endpoint.isLive() ? "running" : "stopped"));
             out.println(" |    |-- last time started " + formatTimeStamp(endpoint.getLastTimeStarted()));
+            out.println(" |    |-- last time stopped " + formatTimeStamp(endpoint.getLastTimeStopped()));
             out.println(" |    |-- transport " + endpoint.getTransport());
             out.println(" |    |-- protocol " + endpoint.getBinding());
             printProperties(endpoint.getProperties());
@@ -86,11 +87,17 @@ public class ServiceLocatorMain {
 	}
 	
 	private String formatTimeStamp(long timestamp) {
-        Calendar timeStarted = Calendar.getInstance();
-        DateFormat dFormat = DateFormat.getDateInstance();
-        DateFormat tFormat = DateFormat.getTimeInstance();
-        timeStarted.setTimeInMillis(timestamp);
-        return dFormat.format(timeStarted.getTime()) + " " + tFormat.format(timeStarted.getTime());
+	    String timeStampStr;
+	    if (timestamp >= 0) {
+            Calendar timeStarted = Calendar.getInstance();
+            DateFormat dFormat = DateFormat.getDateInstance();
+            DateFormat tFormat = DateFormat.getTimeInstance();
+            timeStarted.setTimeInMillis(timestamp);
+            timeStampStr = dFormat.format(timeStarted.getTime()) + " " + tFormat.format(timeStarted.getTime());
+	    } else {
+	        timeStampStr =  "n/a";
+	    }
+	    return timeStampStr;
 	}
 	
 	private void printProperties(SLProperties props) {

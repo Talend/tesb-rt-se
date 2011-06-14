@@ -45,12 +45,20 @@ public interface EndpointProvider {
      */
     String getAddress();
 
+    BindingType getBinding();
+
+    TransportType getTransport();
+
+    long getLastTimeStarted();
+
+    long getLastTimeStopped();
+
     /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 
      * @param parent the node where to add the endpoint reference, is not null and either an 
      * {@link org.w3c.dom.Element} or a {@link org.w3c.dom.Document}. 
      */
-    void addEndpointReference(Node parent);
+    void addEndpointReference(Node parent) throws ServiceLocatorException;
 
 }
