@@ -108,7 +108,10 @@ Starting the service
  * From within the Talend Service Factory OSGi container:
 
  * From the OSGi command line, run:
-    karaf@tsf> features:install tsf-example-jaxrs-attachments
+    karaf@tsf> features:install tesb-locator-client
+    karaf@tsf> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-4.2.jar
+    karaf@tsf> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-4.2.jar
+    
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -121,8 +124,4 @@ Running the client
    - cd client
    - mvn exec:java
 
-By default, the client will use the http port 8080 for constructing the URIs.
-This port value is set during the build in the client.properties resource file. If the server is listening on an alternative port then you can use an 'http.port' system property during the build :
-   
-- mvn install -Dhttp.port=8181
 
