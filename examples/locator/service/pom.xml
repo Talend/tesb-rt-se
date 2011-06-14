@@ -64,7 +64,10 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans, locator</Require-Bundle>
+<Import-Package>
+META-INF.tesb.locator, demo.common, javax.jws, org.springframework.context.support, org.talend.esb.servicelocator.cxf
+</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
