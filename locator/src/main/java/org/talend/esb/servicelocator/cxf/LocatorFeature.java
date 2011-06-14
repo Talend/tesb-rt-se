@@ -29,6 +29,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.interceptor.InterceptorProvider;
+import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
@@ -61,7 +63,7 @@ public class LocatorFeature extends AbstractFeature {
 	@Override
 	public void initialize(Client client, Bus bus) {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and client " + client);
+			LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client " + client);
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
@@ -71,12 +73,33 @@ public class LocatorFeature extends AbstractFeature {
 	@Override
 	public void initialize(Server server, Bus bus) {
 		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus + " and server " + server);
+			LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and server " + server);
 		}
 
 		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
 		slm.registerServer(server, slProps);
 	}
+
+    @Override
+    public void initialize(InterceptorProvider interceptorProvider, Bus bus) {
+        if (interceptorProvider instanceof ClientConfiguration) {
+            initialize((ClientConfiguration)interceptorProvider, bus);
+        } else {
+            if (LOG.isLoggable(Level.WARNING)) {
+                LOG.log(Level.WARNING, "Tried to initialize locator feature with unknown interceptor provider " + interceptorProvider);
+            }            
+        }
+    }
+    
+    public void initialize(ClientConfiguration clientConf, Bus bus) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client configuration" + clientConf);
+        }
+
+        ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
+        slm.enableClient(clientConf, slPropsMatcher);
+    }
+
 
 	protected ServiceLocatorManager getLocatorManager(Bus bus) {
 		return bus.getExtension(ServiceLocatorManager.class);

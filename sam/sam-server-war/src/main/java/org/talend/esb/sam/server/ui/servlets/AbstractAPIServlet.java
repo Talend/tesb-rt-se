@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,14 +37,14 @@ import com.google.gson.JsonPrimitive;
 
 /**
  * Common class for API Servlets
- * 
+ *
  * @author zubairov
- * 
+ *
  */
 public abstract class AbstractAPIServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
 
 
@@ -67,7 +67,7 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 	/**
 	 * This method should be implemented by the extensions of
 	 * {@link AbstractAPIServlet}
-	 * 
+	 *
 	 * @param req
 	 * @param resp
 	 * @param provider
@@ -84,4 +84,15 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 		return result;
 	}
 
+
+	protected String getBaseUrl(HttpServletRequest req) {
+		StringBuffer url = req.getRequestURL();
+		// protocol://host:port
+		String base = url.substring(0, url.length() - req.getRequestURI().length());
+		// + application context
+		base += req.getContextPath();
+		// + rest base context
+		base += "/api/v1.0/";
+		return base;
+	}
 }

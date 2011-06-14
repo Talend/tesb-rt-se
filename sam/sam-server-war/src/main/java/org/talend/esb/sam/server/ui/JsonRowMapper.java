@@ -69,6 +69,8 @@ public class JsonRowMapper implements RowMapper<JsonObject>{
 		nameMapping.put("MI_MESSAGE_ID", "messageID");
 		nameMapping.put("CONTENT_CUT", "contentCut");
 		nameMapping.put("MESSAGE_CONTENT", "content");
+		nameMapping.put("CUST_KEY", "custKey");
+		nameMapping.put("CUST_VALUE", "custValue");
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Timestamp.class, new JsonSerializer<Timestamp>() {
 

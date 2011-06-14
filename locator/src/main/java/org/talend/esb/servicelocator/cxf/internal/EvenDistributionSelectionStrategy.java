@@ -93,7 +93,7 @@ public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy 
 	}
 	
 	private List<String> getRotatedBy1List(List<String> strings) {
-		int index = 1;
+		int index = 1 % strings.size();
 		List<String> rotated = new ArrayList<String>();
 		for (int i = 0; i < strings.size(); i++) {
 			rotated.add(strings.get(index));

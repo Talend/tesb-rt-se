@@ -37,7 +37,7 @@ limitations under the License.
 	  <prop key="locator.endpoints">localhost:2181</prop>
 	  <prop key="endpoint.prefix"></prop>
 	  <prop key="locator.strategy">defaultSelectionStrategy</prop>
-	  <prop key="evenDistribution.reloadAdresses">10</prop>
+	  <prop key="locator.reloadAdressesCount">10</prop>
 	  <prop key="connection.timeout">5000</prop>
 	  <prop key="session.timeout">5000</prop>
    </osgix:cm-properties>

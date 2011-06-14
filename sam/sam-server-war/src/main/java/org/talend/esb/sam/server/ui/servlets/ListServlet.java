@@ -41,11 +41,9 @@ public class ListServlet extends AbstractAPIServlet {
 			UIProvider provider) throws Exception {
 		long offset = req.getParameter("offset") == null ? 1 : Long.parseLong(req.getParameter("offset"));
 		long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
-		StringBuffer url = req.getRequestURL();
-		String base = url.substring(0, url.length() - req.getRequestURI().length()) + req.getContextPath() + "/api/v1.0/";
 		@SuppressWarnings("unchecked")
 		CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, req.getParameterMap());
-		JsonObject result = provider.getEvents(offset, base, adapter);
+		JsonObject result = provider.getEvents(offset, getBaseUrl(req), adapter);
 		resp.getWriter().println(result);
 	}
 

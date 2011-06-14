@@ -45,7 +45,7 @@ public class FlowDetailsServlet extends AbstractAPIServlet {
 			UIProvider provider) throws Exception {
 		String requestURI = req.getRequestURI();
 		String flowID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
-		JsonObject result = provider.getFlowDetails(flowID);
+		JsonObject result = provider.getFlowDetails(flowID, getBaseUrl(req));
 		if (result != null) {
 			resp.getWriter().println(result);
 		} else {

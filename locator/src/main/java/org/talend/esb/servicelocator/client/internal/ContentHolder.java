@@ -34,9 +34,11 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.MetadataType;
 import org.apache.cxf.wsdl.WSAEndpointReferenceUtils;
+import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.talend.esb.servicelocator.cxf.internal.SLPropertiesConverter;
@@ -97,6 +99,14 @@ public class ContentHolder {
 
     public void  setLastTimeStopped(long lastTimeStopped) {
         epd.setLastTimeStopped(lastTimeStopped);       
+    }
+
+    public BindingType getBinding() {
+        return BindingType.fromValue(epd.getBinding().value());
+    }
+
+    public TransportType getTransport() {
+        return TransportType.fromValue(epd.getTransport().value());
     }
 
     public String getAddress() {

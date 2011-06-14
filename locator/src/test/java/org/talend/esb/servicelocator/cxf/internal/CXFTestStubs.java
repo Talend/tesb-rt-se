@@ -27,8 +27,10 @@ import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.binding.Binding;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
@@ -41,6 +43,44 @@ public class CXFTestStubs {
     public static final Server SERVER_2 = createServerStub(SERVICE_QNAME_2, ENDPOINT_2);
 
     public static Server createServerStub(QName serviceName, String endpointName) {
+        return createServerStub(serviceName, endpointName, null, null);
+    }
+
+    public static Server createServerStub(QName serviceName, String endpointName, String bindingId, String transportId) {
+        EndpointInfo endpointInfo = createEndpointInfoStub(serviceName, endpointName, transportId);
+        Binding binding = createBindingStub(bindingId);
+        Endpoint endpoint = createEndpointStub(endpointInfo, binding);
+
+        return createServerStub(endpoint);
+    }
+
+    public static Server createServerStub(Endpoint endpoint) {
+        Server server = EasyMock.createNiceMock(Server.class);
+        expect(server.getEndpoint()).andStubReturn(endpoint);
+
+        EasyMock.replay(server);
+        return server;
+    }
+
+    public static Server createJAXRSServerStub(QName serviceName, String endpointName) {        
+        EndpointInfo endpointInfo = createJAXRSEndpointInfoStub(serviceName, endpointName);
+        Binding binding = createBindingStub(CXFEndpointProvider.JAXRS_BINDING_ID);
+        Endpoint endpoint = createEndpointStub(endpointInfo, binding);
+
+        return createServerStub(endpoint);
+    }
+
+    public static Endpoint createEndpointStub(EndpointInfo endpointInfo, Binding binding) {
+        Endpoint endpoint = EasyMock.createNiceMock(Endpoint.class);
+        expect(endpoint.getEndpointInfo()).andStubReturn(endpointInfo);
+        expect(endpoint.getBinding()).andStubReturn(binding);
+
+        EasyMock.replay(endpoint);
+
+        return endpoint;
+    }
+
+    public static EndpointInfo createEndpointInfoStub(QName serviceName, String endpointName, String transportId) {
         EndpointReferenceType epr = createEPR(endpointName);
         ServiceInfo serviceInfo = EasyMock.createNiceMock(ServiceInfo.class);
         expect(serviceInfo.getName()).andStubReturn(serviceName);
@@ -49,15 +89,37 @@ public class CXFTestStubs {
         expect(endpointInfo.getAddress()).andStubReturn(endpointName);
         expect(endpointInfo.getService()).andStubReturn(serviceInfo);
         expect(endpointInfo.getTarget()).andStubReturn(epr);
+        expect(endpointInfo.getTransportId()).andStubReturn(transportId);
 
-        Endpoint endpoint = EasyMock.createNiceMock(Endpoint.class);
-        expect(endpoint.getEndpointInfo()).andStubReturn(endpointInfo);
+        EasyMock.replay(serviceInfo, endpointInfo);
 
-        Server server = EasyMock.createNiceMock(Server.class);
-        expect(server.getEndpoint()).andStubReturn(endpoint);
+        return endpointInfo;
+    }
 
-        EasyMock.replay(serviceInfo, endpointInfo, endpoint, server);
-        return server;
+    public static EndpointInfo createJAXRSEndpointInfoStub(QName serviceName, String endpointName) {
+        EndpointReferenceType epr = createEPR(endpointName);
+
+        EndpointInfo endpointInfo = EasyMock.createNiceMock(EndpointInfo.class);
+        expect(endpointInfo.getName()).andStubReturn(serviceName);
+        expect(endpointInfo.getAddress()).andStubReturn(endpointName);
+        expect(endpointInfo.getTarget()).andStubReturn(epr);
+
+        EasyMock.replay(endpointInfo);
+
+        return endpointInfo;
+    }
+
+    public static Binding createBindingStub(String bindingId) {
+        BindingInfo bindingInfo = EasyMock.createNiceMock(BindingInfo.class);
+        expect(bindingInfo.getBindingId()).andStubReturn(bindingId);
+
+        Binding binding = EasyMock.createNiceMock(Binding.class);
+        expect(binding.getBindingInfo()).andStubReturn(bindingInfo);
+        expect(binding.getBindingInfo()).andStubReturn(bindingInfo);
+
+        EasyMock.replay(bindingInfo, binding);
+
+        return binding;
     }
     
     public static EndpointReferenceType createEPR (String address) {

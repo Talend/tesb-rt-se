@@ -23,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
+import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
+import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
@@ -48,7 +50,7 @@ public class ContentHolderTest {
         props = new SLPropertiesImpl();
         props.addProperty(NAME_1, VALUE_1, VALUE_2);
 
-        content = createContent(ENDPOINT_1, LAST_TIME_STARTED, LAST_TIME_STOPPED, props);
+        content = createContent(ENDPOINT_1, LAST_TIME_STARTED, LAST_TIME_STOPPED, BindingType.JAXRS, TransportType.HTTP, props);
     }
 
     @Test
@@ -62,11 +64,23 @@ public class ContentHolderTest {
         holder = new ContentHolder(content);
         assertEquals(LAST_TIME_STARTED, holder.getLastTimeStarted());
     }
-    
+
     @Test
     public void getLastTimeStopped() {
         holder = new ContentHolder(content);
         assertEquals(LAST_TIME_STOPPED, holder.getLastTimeStopped());
+    }
+
+    @Test
+    public void getBinding() {
+        holder = new ContentHolder(content);
+        assertEquals(org.talend.esb.servicelocator.client.BindingType.JAXRS, holder.getBinding());
+    }
+
+    @Test
+    public void getTransport() {
+        holder = new ContentHolder(content);
+        assertEquals(org.talend.esb.servicelocator.client.TransportType.HTTP, holder.getTransport());
     }
 
     @Test

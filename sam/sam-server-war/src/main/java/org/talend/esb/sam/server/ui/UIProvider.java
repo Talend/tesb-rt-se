@@ -44,9 +44,10 @@ public interface UIProvider {
 	 * Returns a detailed information about flow with given ID or null if no such flow was found
 	 *
 	 * @param flowID
+	 * @param baseURL
 	 * @return
 	 */
-	JsonObject getFlowDetails(String flowID);
+	JsonObject getFlowDetails(String flowID, String baseURL);
 
 	/**
 	 * Returns a detailed information about event with given ID or null if no such event was found
