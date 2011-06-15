@@ -76,7 +76,7 @@
 		<commons-net.bundle.version>1.4.1_4</commons-net.bundle.version>
 		<commons-pool.bundle.version>1.5.4_2</commons-pool.bundle.version>
 		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
-		<dom4j.bundle.version>1.6.1_3</dom4j.bundle.version>
+		<!--dom4j.bundle.version>1.6.1_3</dom4j.bundle.version-->
 		<dozer.bundle.version>5.2.0_2</dozer.bundle.version>
 		<ehcache.bundle.version>2.3.0_1</ehcache.bundle.version>
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>

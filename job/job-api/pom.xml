@@ -17,10 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-            <type>jar</type>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
+            <version>${dom4j.bundle.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
