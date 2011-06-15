@@ -50,7 +50,13 @@
                 <configuration>
                     <instructions>
                         <Require-Bundle>
-                            org.apache.cxf.bundle
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.context,
+                            org.springframework.osgi.core,
+                            locator,
+                            sam-agent,
+                            sam-common
                         </Require-Bundle>
                         <Export-Package>
                             org.talend.esb.job.controller;version=${project.version}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Talend :: ESB :: Job :: Controller
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+	"
+>
+    <!-- SL -->
+    <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
+    <!-- SAM -->
+    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+
+    <bean id="controller" class="org.talend.esb.job.controller.internal.ControllerImpl">
+        <property name="bundleContext" ref="bundleContext"/>
+        <property name="launcher" ref="launcher"/>
+    </bean>
+
+    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
+
+    <bean id="launcher" class="org.talend.esb.job.controller.internal.TalendJobLauncher">
+        <property name="serviceLocator">
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+        </property>
+        <property name="serviceActivityMonitoring" ref="eventFeature"/>
+    </bean>
+
+</beans>

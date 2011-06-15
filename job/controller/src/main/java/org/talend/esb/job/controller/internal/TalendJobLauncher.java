@@ -27,6 +27,8 @@ import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.feature.AbstractFeature;
+
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
@@ -53,27 +55,42 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private final Map<TalendJob, Thread > jobs =
 		new ConcurrentHashMap<TalendJob, Thread>();
 
-	public void runTalendJob(final TalendJob talendJob, final String[] args) {
-		
-		if (talendJob instanceof TalendESBJob) {
-			// We have an ESB Job;
-			TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
-			// get provider end point information
-			final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
-			if (null != endpoint) {
-				talendESBJob.setProviderCallback(
-					createESBProvider(endpoint.getEndpointProperties()));
-			}
-			talendESBJob.setEndpointRegistry(this);
-		}
+	private AbstractFeature serviceLocator;
+	private AbstractFeature serviceActivityMonitoring;
 
+	public void setServiceLocator(AbstractFeature serviceLocator) {
+		this.serviceLocator = serviceLocator;
+	}
+
+	public void setServiceActivityMonitoring(
+			AbstractFeature serviceActivityMonitoring) {
+		this.serviceActivityMonitoring = serviceActivityMonitoring;
+	}
+
+	public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
+		        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				try {
-					LOG.info("Talend Job started");
+				    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+
+					if (talendJob instanceof TalendESBJob) {
+						// We have an ESB Job;
+						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
+						// get provider end point information
+						final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
+						if (null != endpoint) {
+							talendESBJob.setProviderCallback(
+								createESBProvider(endpoint.getEndpointProperties()));
+						}
+						talendESBJob.setEndpointRegistry(TalendJobLauncher.this);
+					}
+
+					LOG.info("Talend Job starting...");
 					int ret = talendJob.runJobInTOS(args);
 					LOG.info("Talend Job finished with code " + ret);
+
 					if (talendJob instanceof TalendESBJob) {
 						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
 						final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
@@ -83,6 +100,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					}
 				} finally {
 					jobs.remove(talendJob);
+		            Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
 			}
 		});
@@ -95,13 +113,6 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	}
 
 	private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
-		boolean useServiceLocator =
-			((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
-		System.out.println("useServiceLocator="+useServiceLocator);
-		boolean useServiceActivityMonitor =
-			((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
-		System.out.println("useServiceActivityMonitor="+useServiceActivityMonitor);
-
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
 		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
 		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
@@ -122,9 +133,16 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			}
 		}
 		if(esbProvider == null) {
+			boolean useServiceLocator =
+				((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+			boolean useServiceActivityMonitor =
+				((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+
 			esbProvider = new ESBProvider(publishedEndpointUrl,
 					serviceName,
-					portName);
+					portName,
+					useServiceLocator ? serviceLocator : null,
+					useServiceActivityMonitor ? serviceActivityMonitoring : null);
 			esbProviders.add(esbProvider);
 		}
 
@@ -180,12 +198,18 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		// create generic consumer
 		if(esbConsumer == null) {
 			final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+			boolean useServiceLocator =
+				((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+			boolean useServiceActivityMonitor =
+				((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
 			esbConsumer = new RuntimeESBConsumer(
 					serviceName,
 					portName,
 					operationName,
 					publishedEndpointUrl,
-					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)));
+					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)),
+					useServiceLocator ? serviceLocator : null,
+					useServiceActivityMonitor ? serviceActivityMonitoring : null);
 		}
 		return esbConsumer;
 	}

@@ -35,11 +35,15 @@ import java.util.List;
 public class ControllerImpl implements Controller, ServiceListener {
 
     private BundleContext bundleContext;
-    private TalendJobLauncher talendJobLauncher = new TalendJobLauncher();
+    private TalendJobLauncher talendJobLauncher;
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
         this.bundleContext.addServiceListener(this);
+    }
+
+    public void setLauncher(TalendJobLauncher talendJobLauncher) {
+        this.talendJobLauncher = talendJobLauncher;
     }
 
     public List<String> list() throws Exception {

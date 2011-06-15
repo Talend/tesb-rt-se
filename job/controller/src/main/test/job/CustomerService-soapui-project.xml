@@ -17,9 +17,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   #L%
-  -->
-
-<con:soapui-project name="CustomerService" resourceRoot="" soapui-version="3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CustomerServiceServiceSoapBinding" type="wsdl" bindingName="{http://customerservice.example.com/}CustomerServiceServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl"><con:part><con:url>file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+  --><con:soapui-project name="CustomerService" resourceRoot="" soapui-version="3.6" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="CustomerServiceServiceSoapBinding" type="wsdl" bindingName="{http://customerservice.example.com/}CustomerServiceServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl"><con:part><con:url>file:/D:/TOS-All-r61515-V4.2.2NB/CustomerService.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
   or more contributor license agreements. See the NOTICE file
   distributed with this work for additional information
   regarding copyright ownership. The ASF licenses this file
@@ -130,14 +128,14 @@
       <soap:address location="http://localhost:9090/CustomerServicePort"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint></con:endpoints><con:operation isOneWay="false" action="getCustomersByName" name="getCustomersByName" bindingOperationName="getCustomersByName" type="Request-Response" outputName="getCustomersByNameResponse" inputName="getCustomersByName" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint></con:endpoints><con:operation isOneWay="false" action="getCustomersByName" name="getCustomersByName" bindingOperationName="getCustomersByName" type="Request-Response" outputName="getCustomersByNameResponse" inputName="getCustomersByName" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
    <soapenv:Header/>
    <soapenv:Body>
       <cus:getCustomersByName>
          <name>Ivanov</name>
       </cus:getCustomersByName>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="getCustomersByName"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="getCustomersByName"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:9090/CustomerServicePort</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
    <soapenv:Header/>
    <soapenv:Body>
       <cus:getCustomersByName>

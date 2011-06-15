@@ -19,34 +19,26 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
-import org.apache.cxf.binding.BindingFactory;
-import org.apache.cxf.binding.BindingFactoryManager;
-import org.apache.cxf.binding.soap.SoapBindingConstants;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ClientImpl;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
-import org.apache.cxf.endpoint.EndpointImpl;
+import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
-import org.apache.cxf.service.ServiceImpl;
-import org.apache.cxf.service.model.BindingInfo;
-import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
-import org.apache.cxf.service.model.MessageInfo;
-import org.apache.cxf.service.model.MessagePartInfo;
-import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.transport.ConduitInitiator;
-import org.apache.cxf.transport.ConduitInitiatorManager;
 
 import routines.system.api.ESBConsumer;
 
+@WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
 
 	private final QName serviceName;
@@ -54,18 +46,24 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private final String operationName;
 	private final String publishedEndpointUrl;
 	private final boolean isRequestResponse;
+	private final AbstractFeature serviceLocator;
+	private final AbstractFeature serviceActivityMonitoring;
 
 	public RuntimeESBConsumer(
 			final QName serviceName,
 			final QName portName,
 			String operationName,
 			String publishedEndpointUrl,
-			boolean isRequestResponse) {
+			boolean isRequestResponse,
+			final AbstractFeature serviceLocator,
+			final AbstractFeature serviceActivityMonitoring) {
 		this.serviceName = serviceName;
 		this.portName = portName;
 		this.operationName = operationName;
 		this.publishedEndpointUrl = publishedEndpointUrl;
 		this.isRequestResponse = isRequestResponse;
+		this.serviceLocator = serviceLocator;
+		this.serviceActivityMonitoring = serviceActivityMonitoring;
 	}
 
 	@Override
@@ -88,54 +86,40 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	}
 
 	private Client createClient() throws BusException, EndpointException {
-		Bus bus = org.apache.cxf.bus.spring.SpringBusFactory.getDefaultBus(true);
 
-		ServiceInfo si = new ServiceInfo();
-		si.setName(serviceName);
-
-		InterfaceInfo ii = new InterfaceInfo(si, serviceName);
-		OperationInfo oi = ii.addOperation(new QName(serviceName.getNamespaceURI(),
-				operationName));
-		MessageInfo mii = oi.createMessage(new QName(serviceName.getNamespaceURI(),
-				operationName + "RequestMsg"), MessageInfo.Type.INPUT);
-		oi.setInput(operationName + "RequestMsg", mii);
-		MessagePartInfo mpi = mii.addMessagePart("request");
-		mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Request"));
-
-		if(isRequestResponse) {
-			MessageInfo mio = oi.createMessage(new QName(serviceName.getNamespaceURI(),
-					operationName + "ResponseMsg"), MessageInfo.Type.OUTPUT);
-			oi.setOutput(operationName + "ResponseMsg", mio);
-			mpi = mio.addMessagePart("response");
-			mpi.setElementQName(new QName(serviceName.getNamespaceURI(), operationName + "Response"));
+		final JaxWsClientFactoryBean cf = new JaxWsClientFactoryBean();
+		cf.setServiceName(serviceName);
+		cf.setEndpointName(portName);
+		String endpointUrl =
+			(serviceLocator == null)
+				? publishedEndpointUrl
+				: "locator://" + serviceName.getLocalPart();
+		cf.setAddress(endpointUrl);
+		cf.setServiceClass(this.getClass());
+		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
+		if(serviceLocator != null) {
+			features.add(serviceLocator);
 		}
+		if(serviceActivityMonitoring != null) {
+			features.add(serviceActivityMonitoring);
+		}
+		cf.setFeatures(features);
+
+		final Client client = cf.create();
 		
-		si.setInterface(ii);
-		Service service = new ServiceImpl(si);
+		final Service service = client.getEndpoint().getService();
+        service.setDataBinding(new SourceDataBinding());
 
-		BindingFactoryManager bfm = bus
-				.getExtension(BindingFactoryManager.class);
-		BindingFactory bindingFactory = bfm.getBindingFactory(SoapBindingConstants.SOAP11_BINDING_ID);
-		BindingInfo bi = bindingFactory.createBindingInfo(service, SoapBindingConstants.SOAP11_BINDING_ID,
-				null);
-		si.addBinding(bi);
+        final ServiceInfo si = service.getServiceInfos().get(0);
+		// fix namespace
+		InterfaceInfo ii = si.getInterface();
+		QName name = ii.getName();
+		ii.setName(new QName(serviceName.getNamespaceURI(), name.getLocalPart()));
 
-		ConduitInitiatorManager cim = bus
-				.getExtension(ConduitInitiatorManager.class);
-		ConduitInitiator ci = cim.getConduitInitiatorForUri(publishedEndpointUrl);
-		String transportId = ci.getTransportIds().get(0);
+        ESBProvider.addOperation(si,
+				operationName, isRequestResponse);
 
-		EndpointInfo ei = new EndpointInfo(si, transportId);
-		ei.setBinding(bi);
-		ei.setName(portName);
-		ei.setAddress(publishedEndpointUrl);
-		si.addEndpoint(ei);
-
-		service.setDataBinding(new SourceDataBinding());
-
-		Endpoint endpoint = new EndpointImpl(bus, service, ei);
-
-		return new ClientImpl(bus, endpoint);
+		return client;
 	}
 
 }
