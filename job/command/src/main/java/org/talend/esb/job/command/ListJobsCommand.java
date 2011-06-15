@@ -17,18 +17,18 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.job.command.completers;
+package org.talend.esb.job.command;
 
-import jline.console.completer.StringsCompleter;
-import org.apache.karaf.shell.console.Completer;
+import org.apache.felix.gogo.commands.Command;
+import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.talend.esb.job.controller.Controller;
-
 import java.util.List;
 
 /**
- * A JLine completer for Talend job.
+ * List available Talend Jobs.
  */
-public class JobCompleter implements Completer {
+@Command(scope = "job", name = "list", description = "Lists all existing Talend jobs.")
+public class ListJobsCommand extends OsgiCommandSupport {
 
     private Controller controller;
 
@@ -36,17 +36,12 @@ public class JobCompleter implements Completer {
         this.controller = controller;
     }
 
-    public int complete(String buffer, int cursor, List candidates) {
-        try {
-            StringsCompleter delegate = new StringsCompleter();
-            for (String name : controller.listJobs()) {
-                delegate.getStrings().add(name);
-            }
-            return delegate.complete(buffer, cursor, candidates);
-        } catch (Exception e) {
-            // nothing to do, no completion
+    protected Object doExecute() throws Exception {
+        List<String> list = controller.listJobs();
+        for (String name:list) {
+            System.out.println(name);
         }
-        return 0;
+        return null;
     }
 
 }

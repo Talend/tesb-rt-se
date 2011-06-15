@@ -26,15 +26,15 @@ import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.talend.esb.job.controller.Controller;
 
 /**
- * Run a Talend job identified by name.
+ * Start a Talend route identified by name.
  */
-@Command(scope = "job", name = "run", description ="Run a Talend job")
-public class RunCommand extends OsgiCommandSupport {
+@Command(scope = "route", name = "start", description ="Start a Talend route")
+public class StartRouteCommand extends OsgiCommandSupport {
 
-    @Option(name = "-a", aliases = {"--args"}, description = "Arguments to use when running the Talend job", required = false, multiValued = false)
+    @Option(name = "-a", aliases = {"--args"}, description = "Arguments to use when running the Talend route", required = false, multiValued = false)
     String args;
 
-    @Argument(index = 0, name = "name", description = "The name of the Talend job to run", required = true, multiValued = false)
+    @Argument(index = 0, name = "name", description = "The name of the Talend route to run", required = true, multiValued = false)
     String job = null;
 
     private Controller controller;

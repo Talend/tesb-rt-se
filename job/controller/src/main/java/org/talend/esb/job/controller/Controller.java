@@ -20,6 +20,7 @@
 package org.talend.esb.job.controller;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface describing Talend job controller behaviors.
@@ -27,12 +28,28 @@ import java.util.List;
 public interface Controller {
 
     /**
-     * List of Talend Jobs identified by name property available in the running container.
+     * List of Talend jobs and routes available in the running container.
      *
-     * @return the list of Talend Jobs identified by the name property.
+     * @return the list of Talend jobs and routes.
      * @throws Exception in case of lookup failure.
      */
-    public List<String> list() throws Exception;
+    public Map<String, List<String>> list() throws Exception;
+
+    /**
+     * List of Talend jobs available in the running container.
+     *
+     * @return the list of Talend jobs.
+     * @throws Exception in case of lookup failure.
+     */
+    public List<String> listJobs() throws Exception;
+
+    /**
+     * List of Talend routes available in the running container.
+     *
+     * @return the list of Talend jobs
+     * @throws Exception in case of lookup failure
+     */
+    public List<String> listRoutes() throws Exception;
 
     /**
      * Run a Talend job with the given name.

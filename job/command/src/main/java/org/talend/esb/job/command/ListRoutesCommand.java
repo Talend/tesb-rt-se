@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.job.command.completers;
+package org.talend.esb.job.command;
 
-import jline.console.completer.StringsCompleter;
-import org.apache.karaf.shell.console.Completer;
+import org.apache.felix.gogo.commands.Command;
+import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.talend.esb.job.controller.Controller;
 
 import java.util.List;
 
 /**
- * A JLine completer for Talend job.
+ * List available Talend routes.
  */
-public class JobCompleter implements Completer {
+@Command(scope = "route", name = "list", description = "Lists all existing Talend routes.")
+public class ListRoutesCommand extends OsgiCommandSupport {
 
     private Controller controller;
 
@@ -36,17 +37,12 @@ public class JobCompleter implements Completer {
         this.controller = controller;
     }
 
-    public int complete(String buffer, int cursor, List candidates) {
-        try {
-            StringsCompleter delegate = new StringsCompleter();
-            for (String name : controller.listJobs()) {
-                delegate.getStrings().add(name);
-            }
-            return delegate.complete(buffer, cursor, candidates);
-        } catch (Exception e) {
-            // nothing to do, no completion
+    protected Object doExecute() throws Exception {
+        List<String> list = controller.listRoutes();
+        for (String name:list) {
+            System.out.println(name);
         }
-        return 0;
+        return null;
     }
 
 }
