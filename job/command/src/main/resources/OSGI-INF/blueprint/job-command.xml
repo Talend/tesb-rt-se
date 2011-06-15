@@ -23,16 +23,30 @@
 
     <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
         <command name="job/list">
-            <action class="org.talend.esb.job.command.ListCommand">
+            <action class="org.talend.esb.job.command.ListJobsCommand">
                 <property name="controller" ref="controller"/>
             </action>
         </command>
         <command name="job/run">
-            <action class="org.talend.esb.job.command.RunCommand">
+            <action class="org.talend.esb.job.command.RunJobCommand">
                 <property name="controller" ref="controller"/>
             </action>
             <completers>
                 <ref component-id="jobCompleter"/>
+                <null/>
+            </completers>
+        </command>
+        <command name="route/list">
+            <action class="org.talend.esb.job.command.ListRoutesCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+        </command>
+        <command name="route/start">
+            <action class="org.talend.esb.job.command.StartRouteCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="routeCompleter"/>
                 <null/>
             </completers>
         </command>
@@ -41,6 +55,9 @@
     <reference id="controller" interface="org.talend.esb.job.controller.Controller"/>
 
     <bean id="jobCompleter" class="org.talend.esb.job.command.completers.JobCompleter">
+        <property name="controller" ref="controller"/>
+    </bean>
+    <bean id="routeCompleter" class="org.talend.esb.job.command.completers.RouteCompleter">
         <property name="controller" ref="controller"/>
     </bean>
 

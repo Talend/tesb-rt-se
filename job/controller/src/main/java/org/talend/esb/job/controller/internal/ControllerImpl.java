@@ -27,7 +27,9 @@ import org.talend.esb.job.controller.Controller;
 import routines.system.api.TalendJob;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of Talend job controller.
@@ -42,9 +44,32 @@ public class ControllerImpl implements Controller, ServiceListener {
         this.bundleContext.addServiceListener(this);
     }
 
-    public List<String> list() throws Exception {
+    public Map<String, List<String>> list() throws Exception {
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        map.put("jobs", this.listJobs());
+        map.put("routes", this.listRoutes());
+        return map;
+    }
+
+    public List<String> listJobs() throws Exception {
         ArrayList<String> list = new ArrayList<String>();
-        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), null);
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "!(type=route)");
+        if (references != null) {
+            for (ServiceReference reference:references) {
+                if (reference != null) {
+                    String name = (String) reference.getProperty("name");
+                    if (name != null) {
+                        list.add(name);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public List<String> listRoutes() throws Exception {
+        ArrayList<String> list = new ArrayList<String>();
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(type=route)");
         if (references != null) {
             for (ServiceReference reference:references) {
                 if (reference != null) {
