@@ -40,8 +40,8 @@ if "%1"=="start" (
 	echo  "Starting zookeeper ... "
 	title zookeeper
 	for /F "tokens=2 delims= " %%A in ('TASKLIST /FI ^"WINDOWTITLE eq zookeeper^" /NH') do ( 
-	set /A ZOOPIDFILE=%%A 
-	echo !ZOOPIDFILE!>zookeeper_server.pid
+	set /A ZOOPID=%%A 
+	echo !ZOOPID!>zookeeper_server.pid
 )
 	start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
 	echo STARTED
@@ -51,10 +51,10 @@ if "%1"=="stop" (
 	echo  "Stopping zookeeper ... "
 	if not exist zookeeper_server.pid ( echo "error: could not find file zookeeper_server.pid"
 	exit /B 1 )
-	For /F "Delims=" %%I In (zookeeper_server.pid) Do Set ZOOPIDFILE=%%~I
-	set /A ZOOPIDFILE=!ZOOPIDFILE!
+	For /F "Delims=" %%I In (zookeeper_server.pid) Do Set ZOOPID=%%~I
+	set /A ZOOPID=!ZOOPID!
 	del zookeeper_server.pid
-	taskkill /t /f /pid !ZOOPIDFILE!
+	taskkill /t /f /pid !ZOOPID!
 	echo STOPED
 )
  
