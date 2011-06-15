@@ -63,3 +63,23 @@ Using jconsole
 5) find org.apache.cxf
 6) If the first invocation of the service is done, you can find Performance folder, 
 where CXF MBeans with Attributes can be found
+
+Building the simple-service-bundle
+============================================
+To build and deploy this example:
+1) run: 	mvn clean install
+2) start TESB container
+3) type command in TESB container: 		
+features:addurl mvn:org.talend.esb.examples/simple-service-bundle/4.2-SNAPSHOT/xml
+4) type command in TESB container
+features:install simple-service-bundle
+5) run SimpleClient
+Using jconsole
+1) run jconsole
+2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
+Username: karaf Password: karaf
+3) connect
+4) choose Mbean Tab
+5) find org.apache.cxf
+6) If the first invocation of the service is done, you can find Performance folder, 
+where CXF MBeans with Attributes can be found
