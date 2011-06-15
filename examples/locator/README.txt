@@ -11,7 +11,7 @@
 ###############################################################################
 Example for Service Locator
 ============================================
-This example illustrates the usage of Service locator for CXF based participants.
+This example illustrates the usage of Service Locator for CXF based participants.
 Service Locator is a technical service which provides service consumers with a mechanism to 
 discover service endpoints at runtime, thus isolating consumers from the knowledge about the 
 physical location of the endpoint. Additionally, it allows service providers to automatically 
@@ -22,14 +22,13 @@ Prerequisite
 ------------
 
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
-A servlet container is Tomcat 5.5 or above.
 
 
-The Service Locator server should be running.
+The Service Locator Server (zookeeper) should be running.
 
 1)
-To start the Service Locator you need to provide a configuration file.
-Create the new config file for a standalone Service Locator: 
+To start the Service Locator Server (zookeeper) you need to provide a configuration file.
+Create the new config file for a standalone Service Locator Server (zookeeper): 
 talend-esb-<version>/zookeeper/conf/zoo.cfg with the following content:
 
 tickTime=2000 
@@ -37,16 +36,6 @@ dataDir=./var/locator
 clientPort=2181
 
 2)
-Change the current directory to talend-esb-<version> and create a data directory for the locator
-
-Linux: 
-mkdir var; 
-mkdir var/locator
-
-Windows:
-md var\locator 
-
-3)
 Under Linux, ensure execution rights for the locator startup scripts:
 
 chmod a+x zookeeper/bin/*.sh
@@ -70,7 +59,7 @@ by pressing Ctrl-C
 
 
 Building the Demo
----------------------------------------
+-----------------
 
 This sample consists of 3 parts:
 common/   - This directory contains the code that is common
@@ -95,34 +84,32 @@ Using either UNIX or Windows:
 Running this command will build the demo and create a WAR archive and an OSGi bundle 
 for deploying the service either to servlet or OSGi containers.
 
-Usage
-===============================================================================
+Running the Demo
+----------------
+	
 
+Starting the Demo service
 
-Starting the service
----------------------------------------
- * In the servlet container
+ * starting Demo service in the embeded servlet container (Jetty):
 
     cd war; mvn jetty:run
 
- * From within the Talend Service Factory OSGi container:
-
- * From the OSGi command line, run:
-    karaf@tsf> features:install tsf-example-jaxrs-attachments
-
-   (Make sure you've first installed the examples features repository as described in the
-   parent README.)
-
+ * starting Demo service in the TESB OSGi container:
+ 
+    cd talend-esb-<version>/container/bin
+	Linux: ./tesb
+	Windows: tesb.bat
+	
+	then enter the following command in the console:
+    karaf@tesb> features:install tesb-locator-client
+    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-4.2.jar
+    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-4.2.jar
     
-Running the client
----------------------------------------
+    
+Running the Demo client
  
 * From the command line
-   - cd client
-   - mvn exec:java
 
-By default, the client will use the http port 8080 for constructing the URIs.
-This port value is set during the build in the client.properties resource file. If the server is listening on an alternative port then you can use an 'http.port' system property during the build :
-   
-- mvn install -Dhttp.port=8181
+   cd client; mvn exec:java
+
 

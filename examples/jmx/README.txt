@@ -1,0 +1,65 @@
+###############################################################################
+#
+# Copyright (c) 2011 Talend Inc. - www.talend.com
+# All rights reserved.
+#
+# This program and the accompanying materials are made available
+# under the terms of the Apache License v2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+###############################################################################
+Examples to enable CXF for JMX
+============================================
+simple-service-bundle and simple-service-war illustrate how to enable CXF for
+JMX (For war file, deployed in Tomcat, and jar OSGI bundle, deployed in TESB container).
+Examples provide sayHi and doubleIt web methods.
+Additionally, after deploying this samples you can see CXF MBeans and their Attributes, 
+that can be monitored using jconsole.
+
+Enable CXF samples for JMX
+============================================
+To enable CXF for JMX two beans are added to Spring context
+
+<bean id="org.apache.cxf.management.InstrumentationManager"
+		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+		<property name="bus" ref="cxf" />
+		<property name="usePlatformMBeanServer" value="true" />
+		<property name="enabled" value="true" />
+</bean>
+	
+<bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
+		<property name="bus" ref="cxf" />
+</bean>
+
+Creating CXF MBeans for monitoring Attributes
+============================================
+It is important to make the first invocation of the deployed CXF services
+, using WebService clients. Only after this step MBeans with Attributes will be created for CXF.
+If you don`t make the invocation of CXF service, you won`t see CXF MBeans 
+and their Attributes, as they won`t be created. 
+(Using SimpleClient the first invocation can be done )
+
+
+To build and run these examples, you must install the J2SE Development Kit (JDK) 5.0 or above.
+
+Building the simple-service-war
+============================================
+To enable tomcat for jmx:
+ 
+set CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+should be added to startup script of tomcat.
+
+To build and deploy this example:
+1) run: 	mvn clean install
+2) copy war file from the target folder to webapp folder in tomcat.
+3) start tomcat
+4) run SimpleClient
+Using jconsole
+1) run jconsole
+2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
+3) connect
+4) choose Mbean Tab
+5) find org.apache.cxf
+6) If the first invocation of the service is done, you can find Performance folder, 
+where CXF MBeans with Attributes can be found
