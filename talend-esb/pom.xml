@@ -25,11 +25,11 @@
 		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.7.1.0</tif.version>
+		<tif.version>2.7.2.0</tif.version>
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.0.0</tsf.version>
 		<tsf-doc.version>2.5.0</tsf-doc.version>
-        <camel.version>2.7.1</camel.version>
+        <camel.version>2.7.2</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
@@ -699,8 +699,9 @@
                                 <descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
-								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
+<!-- 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor> -->
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
 								<descriptor>file:${basedir}/../job/features/target/classes/features.xml</descriptor>
 							</descriptors>
