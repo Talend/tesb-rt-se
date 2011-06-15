@@ -1,0 +1,27 @@
+<!--
+/*
+ * Copyright (C) 2011, Talend Inc. – www.talend.com
+ * This file is part of Talend ESB
+ *
+ * Talend ESB is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as published by
+ * the Free Software Foundation.
+ *
+ * Talend ESB is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Talend ESB.  If not, see <http://www.gnu.org/licenses/>.
+ */ 
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<jaxws:client id="simpleClient" serviceClass="org.talend.esb.examples.SimpleService"
+		address="http://localhost:8081/simpleService" />
+
+</beans>
