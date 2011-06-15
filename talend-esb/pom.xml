@@ -29,7 +29,7 @@
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.0.0</tsf.version>
 		<tsf-doc.version>2.5.0</tsf-doc.version>
-        <camel.version>2.7.1</camel.version>
+        <camel.version>2.7.2</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
