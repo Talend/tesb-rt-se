@@ -28,7 +28,7 @@
             </action>
         </command>
         <command name="job/run">
-            <action class="org.talend.esb.job.command.RunJobCommand">
+            <action class="org.talend.esb.job.command.StartJobCommand">
                 <property name="controller" ref="controller"/>
             </action>
             <completers>
