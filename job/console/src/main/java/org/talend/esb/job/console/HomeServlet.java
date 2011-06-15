@@ -142,7 +142,7 @@ public class HomeServlet extends HttpServlet {
             controller = (Controller) bundleContext.getService(ref);
         }
         if (controller != null) {
-            List<String> jobs = controller.list();
+            List<String> jobs = controller.listJobs();
             for (String job : jobs) {
                 buffer.append("<a href=\"home.do?job=" + job + "\">" + job + "</a><br>\n");
             }

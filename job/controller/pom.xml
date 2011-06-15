@@ -29,10 +29,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>${dom4j.version}</version>
-            <scope>compile</scope>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
+            <version>${dom4j.bundle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.jaxen</artifactId>
+            <version>${jaxen.bundle.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -50,7 +54,13 @@
                 <configuration>
                     <instructions>
                         <Require-Bundle>
-                            org.apache.cxf.bundle
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.context,
+                            org.springframework.osgi.core,
+                            locator,
+                            sam-agent,
+                            sam-common
                         </Require-Bundle>
                         <Export-Package>
                             org.talend.esb.job.controller;version=${project.version}

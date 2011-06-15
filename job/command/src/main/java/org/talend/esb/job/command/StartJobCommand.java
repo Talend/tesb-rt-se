@@ -28,13 +28,13 @@ import org.talend.esb.job.controller.Controller;
 /**
  * Run a Talend job identified by name.
  */
-@Command(scope = "job", name = "run", description ="Run a Talend job")
-public class RunJobCommand extends OsgiCommandSupport {
+@Command(scope = "job", name = "start", description ="Start a Talend job")
+public class StartJobCommand extends OsgiCommandSupport {
 
     @Option(name = "-a", aliases = {"--args"}, description = "Arguments to use when running the Talend job", required = false, multiValued = false)
     String args;
 
-    @Argument(index = 0, name = "name", description = "The name of the Talend job to run", required = true, multiValued = false)
+    @Argument(index = 0, name = "name", description = "The name of the Talend job to start", required = true, multiValued = false)
     String job = null;
 
     private Controller controller;

@@ -14,7 +14,8 @@ Examples to enable CXF for JMX
 simple-service-bundle and simple-service-war illustrate how to enable CXF for
 JMX (For war file, deployed in Tomcat, and jar OSGI bundle, deployed in TESB container).
 Examples provide sayHi and doubleIt web methods.
-Additionally, after deploying this samples you can see CXF MBeans and their Attributes, 
+Additionally, after deploying this samples you can see CXF MBeans and their Attributes
+(actually attributes are the metrics which we will monitor with help of HypericHQ), 
 that can be monitored using jconsole.
 
 Enable CXF samples for JMX
@@ -55,7 +56,9 @@ To build and deploy this example:
 2) copy war file from the target folder to webapp folder in tomcat.
 3) start tomcat
 4) run SimpleClient
-Using jconsole
+
+Using jconsole to find MBean Attributes
+============================================
 1) run jconsole
 2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
 3) connect
@@ -74,7 +77,9 @@ features:addurl mvn:org.talend.esb.examples/simple-service-bundle/4.2-SNAPSHOT/x
 4) type command in TESB container
 features:install simple-service-bundle
 5) run SimpleClient
-Using jconsole
+
+Using jconsole to find MBean Attributes
+============================================
 1) run jconsole
 2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
 Username: karaf Password: karaf
