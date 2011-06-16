@@ -88,3 +88,76 @@ Username: karaf Password: karaf
 5) find org.apache.cxf
 6) If the first invocation of the service is done, you can find Performance folder, 
 where CXF MBeans with Attributes can be found
+
+
+Examples to enable Camel for JMX
+============================================
+camel-example-management-karaf and camel-example-management-tomcat illustrate how to enable Camel for
+JMX (For war file, deployed in Tomcat, and jar OSGI bundle, deployed in TESB container).
+Examples are based on standard Apache Camel camel-example-management.
+This example have three routes:
+
+    -A route that produces a file with 100 stock quotes every fifth second.
+   This is done using a timer endpoint.
+
+    -A route that uses a file consumer to read files produced from route 1.
+   This route then splits the file and extract each stock quote and send every
+   quote to a JMS queue for further processing. However to avoid exhausting the
+   JMS broker Camel uses a throttler to limit how fast it send the JMS
+   messages. By default its limited to the very low value of 10 msg/second.
+
+    -The last route consumes stock quotes from the JMS queue and simulate some
+   CPU processing (by delaying 100 milliseconds). Camel then transforms the
+   payload to another format before the route ends using a logger which reports
+   the progress. The logger will log the progress by logging how long time it
+   takes to process 100 messages.
+
+As a default, camel application doesn`t need any configuration 
+to enable Camel routes for JMX.
+
+After deploying this samples you can see Camel MBeans and their Attributes
+(actually attributes are the metrics which we will monitor with help of HypericHQ), 
+that can be monitored using jconsole.
+
+To build and run these examples, you must install the J2SE Development Kit (JDK) 5.0 or above.
+
+Building the camel-example-management-tomcat
+============================================
+To enable tomcat for jmx:
+ 
+set CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
+should be added to startup script of tomcat.
+
+To build and deploy this example:
+1) run: 	mvn clean install
+2) copy war file from the target folder to webapp folder in tomcat.
+3) start tomcat
+
+Using jconsole to find MBean Attributes
+============================================
+1) run jconsole
+2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
+3) connect
+4) choose Mbean Tab
+5) find org.apache.camel
+6) in the routes folder MBeans with Attributes can be found.
+
+Building the camel-example-management-karaf
+============================================
+To build and deploy this example:
+1) run: 	mvn clean install
+2) start TESB container
+3) type command in TESB container: 		
+features:addurl mvn:org.talend.esb.examples/camel-example-management-karaf/4.2-SNAPSHOT/xml
+4) type command in TESB container
+features:install camel-example-management-karaf
+
+Using jconsole to find MBean Attributes
+============================================
+1) run jconsole
+2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
+Username: karaf Password: karaf
+3) connect
+4) choose Mbean Tab
+5) find org.apache.camel
+6) in the routes folder MBeans with Attributes can be found.
