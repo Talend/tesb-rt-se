@@ -39,9 +39,9 @@
     <osgi:service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
 
     <bean id="launcher" class="org.talend.esb.job.controller.internal.TalendJobLauncher">
-        <!-- property name="serviceLocator">
+        <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
-        </property-->
+        </property>
         <property name="serviceActivityMonitoring" ref="eventFeature"/>
     </bean>
 
