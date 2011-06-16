@@ -34,7 +34,7 @@
 		<property name="brokerURL" value="vm://localhost?broker.persistent=false" />
 	</bean>
 
-	<bean id="stock" class="org.apache.camel.example.management.StockService"
+	<bean id="stock" class="org.talend.esb.camel.example.management.StockService"
 		depends-on="camel">
 		<property name="symbols" ref="symbols" />
 	</bean>

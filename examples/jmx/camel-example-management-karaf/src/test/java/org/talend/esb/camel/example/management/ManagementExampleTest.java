@@ -20,7 +20,7 @@
  * #L%
  */
 
-package org.apache.camel.example.management;
+package org.talend.esb.camel.example.management;
 
 import java.util.Set;
 import javax.management.MBeanServer;

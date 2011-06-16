@@ -1,6 +1,6 @@
 /*
  * #%L
- * Camel :: Example :: Management :: TESB container
+ * Camel :: Example :: Management :: Tomcat
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -19,8 +19,7 @@
  * This project is based on  the standard Apache Camel camel-example-management
  * #L%
  */
-
-package org.apache.camel.example.management;
+package org.talend.esb.camel.example.management;
 
 import java.util.List;
 import java.util.Map;
