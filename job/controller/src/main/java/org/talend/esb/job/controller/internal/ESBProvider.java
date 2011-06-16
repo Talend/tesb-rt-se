@@ -95,7 +95,11 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
 		sf.setServiceName(serviceName);
 		sf.setEndpointName(portName);
-		sf.setAddress(publishedEndpointUrl);
+		String endpointUrl =
+			(serviceLocator == null)
+				? publishedEndpointUrl
+				: '/' + serviceName.getLocalPart() + '/';
+		sf.setAddress(endpointUrl);
 		sf.setServiceBean(this);
 		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
 		if(serviceLocator != null) {
