@@ -26,6 +26,8 @@
 		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
 	"
 >
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
     <!-- SL -->
     <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
     <!-- SAM -->

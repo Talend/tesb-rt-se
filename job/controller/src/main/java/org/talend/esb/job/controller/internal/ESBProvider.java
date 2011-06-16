@@ -121,7 +121,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		ii.setName(new QName(serviceName.getNamespaceURI(), name.getLocalPart()));
 
 		LOG.info("Web service '" + serviceName + "' published at endpoint '"
-				+ publishedEndpointUrl + "'");
+				+ endpointUrl + "'");
 	}
 
 	@Override
