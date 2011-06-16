@@ -324,13 +324,13 @@
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <file>
+        <!--file>
             <source>${basedir}/target/classes/camel-features.xml</source>
             <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}</outputDirectory>
             <destName>apache-camel-${camel.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
-        </file>
+        </file-->
         <file>
             <source>${basedir}/target/classes/tif-features.xml</source>
             <outputDirectory>/container/system/com/talend/if/talend-if/${tif.version}</outputDirectory>
@@ -389,7 +389,7 @@
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </dependencySet>
-        <!--dependencySet>
+        <dependencySet>
             <outputDirectory>/container/system</outputDirectory>
             <outputFileNameMapping>org/apache/camel/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
             <unpack>false</unpack>
@@ -399,7 +399,7 @@
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
-        </dependencySet-->
+        </dependencySet>
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <unpack>false</unpack>
