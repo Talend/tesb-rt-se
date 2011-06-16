@@ -85,15 +85,13 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		this.portName = portName;
 		this.serviceLocator = serviceLocator;
 		this.serviceActivityMonitoring = serviceActivityMonitoring;
-
-		run();
 	}
 
 	public String getPublishedEndpointUrl() {
 		return publishedEndpointUrl;
 	}
 
-	private void run() {
+	public void run(Bus bus) {
 		JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
 		sf.setServiceName(serviceName);
 		sf.setEndpointName(portName);
@@ -107,8 +105,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			features.add(serviceActivityMonitoring);
 		}
 		sf.setFeatures(features);
-//		sf.setBus(
-//			org.apache.cxf.bus.spring.SpringBusFactory.getDefaultBus());
+		sf.setBus(bus);
 
 		server = sf.create();
 

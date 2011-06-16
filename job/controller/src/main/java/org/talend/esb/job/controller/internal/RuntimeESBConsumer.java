@@ -26,6 +26,7 @@ import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
@@ -48,6 +49,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private final boolean isRequestResponse;
 	private final AbstractFeature serviceLocator;
 	private final AbstractFeature serviceActivityMonitoring;
+	private final Bus bus;
 
 	public RuntimeESBConsumer(
 			final QName serviceName,
@@ -56,7 +58,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
 			String publishedEndpointUrl,
 			boolean isRequestResponse,
 			final AbstractFeature serviceLocator,
-			final AbstractFeature serviceActivityMonitoring) {
+			final AbstractFeature serviceActivityMonitoring,
+			final Bus bus) {
 		this.serviceName = serviceName;
 		this.portName = portName;
 		this.operationName = operationName;
@@ -64,6 +67,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		this.isRequestResponse = isRequestResponse;
 		this.serviceLocator = serviceLocator;
 		this.serviceActivityMonitoring = serviceActivityMonitoring;
+		this.bus = bus;
 	}
 
 	@Override
@@ -96,6 +100,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				: "locator://" + serviceName.getLocalPart();
 		cf.setAddress(endpointUrl);
 		cf.setServiceClass(this.getClass());
+		cf.setBus(bus);
 		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
 		if(serviceLocator != null) {
 			features.add(serviceLocator);

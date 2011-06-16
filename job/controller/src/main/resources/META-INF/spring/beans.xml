@@ -39,6 +39,7 @@
     <osgi:service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
 
     <bean id="launcher" class="org.talend.esb.job.controller.internal.TalendJobLauncher">
+        <property name="bus" ref="cxf" />
         <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </property>

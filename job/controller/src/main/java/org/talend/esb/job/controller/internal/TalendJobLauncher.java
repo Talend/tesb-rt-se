@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
 
 import routines.system.api.ESBConsumer;
@@ -55,26 +56,28 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 	private final Map<TalendJob, Thread > jobs =
 		new ConcurrentHashMap<TalendJob, Thread>();
 
+	private Bus bus;
 	private AbstractFeature serviceLocator;
 	private AbstractFeature serviceActivityMonitoring;
 
-	public void setServiceLocator(AbstractFeature serviceLocator) {
-		this.serviceLocator = serviceLocator;
-	}
+    public void setBus(Bus bus) {
+        this.bus = bus;
+    }
 
-	public void setServiceActivityMonitoring(
-			AbstractFeature serviceActivityMonitoring) {
-		this.serviceActivityMonitoring = serviceActivityMonitoring;
-	}
+    public void setServiceLocator(AbstractFeature serviceLocator) {
+        this.serviceLocator = serviceLocator;
+    }
+
+    public void setServiceActivityMonitoring(
+            AbstractFeature serviceActivityMonitoring) {
+        this.serviceActivityMonitoring = serviceActivityMonitoring;
+    }
 
 	public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-		        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				try {
-				    Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-
 					if (talendJob instanceof TalendESBJob) {
 						// We have an ESB Job;
 						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
@@ -100,10 +103,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					}
 				} finally {
 					jobs.remove(talendJob);
-		            Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
 			}
 		});
+		thread.setContextClassLoader(this.getClass().getClassLoader());
 		thread.start();
 		jobs.put(talendJob, thread);
 	}
@@ -143,6 +146,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					portName,
 					useServiceLocator ? serviceLocator : null,
 					useServiceActivityMonitor ? serviceActivityMonitoring : null);
+			esbProvider.run(bus);
 			esbProviders.add(esbProvider);
 		}
 
@@ -209,7 +213,8 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					publishedEndpointUrl,
 					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)),
 					useServiceLocator ? serviceLocator : null,
-					useServiceActivityMonitor ? serviceActivityMonitoring : null);
+					useServiceActivityMonitor ? serviceActivityMonitoring : null,
+					bus);
 		}
 		return esbConsumer;
 	}
