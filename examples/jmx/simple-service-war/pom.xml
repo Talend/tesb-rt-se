@@ -6,6 +6,7 @@
 
 	<groupId>org.talend.esb.examples</groupId>
 	<artifactId>simple-service-war</artifactId>
+	<name>CXF :: Example :: SimpleService :: Tomcat</name>
 	<version>4.0</version>
 	<packaging>war</packaging>
 
@@ -14,10 +15,6 @@
 		<artifactId>jmx-examples</artifactId>
 		<version>4.2-SNAPSHOT</version>
 	</parent>
-    
-	<properties>
-		<cxf.version>2.4.0</cxf.version>
-	</properties>
 
 	<dependencies>
 		<dependency>

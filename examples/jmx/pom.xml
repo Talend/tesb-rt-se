@@ -18,6 +18,8 @@
     <modules>
         <module>simple-service-bundle</module>
         <module>simple-service-war</module>
+        <module>camel-example-management-karaf</module>
+        <module>camel-example-management-tomcat</module>
     </modules>
 
 </project>
