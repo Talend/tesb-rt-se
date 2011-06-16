@@ -27,7 +27,7 @@
                 <property name="controller" ref="controller"/>
             </action>
         </command>
-        <command name="job/run">
+        <command name="job/start">
             <action class="org.talend.esb.job.command.StartJobCommand">
                 <property name="controller" ref="controller"/>
             </action>
