@@ -57,7 +57,7 @@ public class ControllerImpl implements Controller, ServiceListener {
 
     public List<String> listJobs() throws Exception {
         ArrayList<String> list = new ArrayList<String>();
-        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "!(type=route)");
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(!(type=route))");
         if (references != null) {
             for (ServiceReference reference:references) {
                 if (reference != null) {
