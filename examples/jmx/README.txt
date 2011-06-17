@@ -55,7 +55,14 @@ To build and deploy this example:
 1) run: 	mvn clean install
 2) copy war file from the target folder to webapp folder in tomcat.
 3) start tomcat
-4) run SimpleClient
+4) run SimpleClient with command:
+mvn exec:java -Dexec.mainClass="org.talend.esb.examples.SimpleClient". 
+Build will fail, but this is expected behavior to see how Hyperic will show exception.
+You will see:
+[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
+on project simple-service-bundle: An exception occured while executing the Java class. null:
+InvocationTargetException: Incorrect name
+Also you'll see exception in Tomcat window.
 
 Using jconsole to find MBean Attributes
 ============================================
@@ -76,7 +83,13 @@ To build and deploy this example:
 features:addurl mvn:org.talend.esb.examples/simple-service-bundle/4.2-SNAPSHOT/xml
 4) type command in TESB container
 features:install simple-service-bundle
-5) run SimpleClient
+5) run SimpleClient with command: 
+mvn exec:java -Dexec.mainClass="org.talend.esb.examples.SimpleClient". 
+Build will fail, but this is expected behavior to see how Hyperic will show exception.
+You will see:
+[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
+on project simple-service-bundle: An exception occured while executing the Java class. null:
+InvocationTargetException: Incorrect name
 
 Using jconsole to find MBean Attributes
 ============================================
