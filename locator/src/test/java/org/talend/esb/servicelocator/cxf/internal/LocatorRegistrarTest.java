@@ -120,7 +120,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void registerEndpointWithPrefixSet() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(capture(eppCapture));
-        expect(sl.getEndpoint(SERVICE_QNAME_1, PREFIX + ENDPOINT_1)).andReturn(oldEndointContent);
+        expect(sl.getEndpoint(SERVICE_QNAME_1, /*PREFIX +*/ ENDPOINT_1)).andReturn(oldEndointContent);
         replayAll();
 
         LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
@@ -131,7 +131,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
         EndpointProvider epp = eppCapture.getValue();
         assertEquals(SERVICE_QNAME_1, epp.getServiceName());
-        assertEquals(PREFIX + ENDPOINT_1, epp.getAddress());
+        assertEquals(/*PREFIX +*/ ENDPOINT_1, epp.getAddress());
 
         verifyAll();
     }

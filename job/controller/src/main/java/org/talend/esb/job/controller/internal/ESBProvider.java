@@ -95,11 +95,11 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
 		sf.setServiceName(serviceName);
 		sf.setEndpointName(portName);
-		String endpointUrl =
-			(serviceLocator == null)
-				? publishedEndpointUrl
-				: '/' + serviceName.getLocalPart() + '/';
-		sf.setAddress(endpointUrl);
+//		String endpointUrl =
+//			(serviceLocator == null)
+//				? publishedEndpointUrl
+//				: '/' + serviceName.getLocalPart() + '/';
+		sf.setAddress(publishedEndpointUrl);
 		sf.setServiceBean(this);
 		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
 		if(serviceLocator != null) {
@@ -121,7 +121,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		ii.setName(new QName(serviceName.getNamespaceURI(), name.getLocalPart()));
 
 		LOG.info("Web service '" + serviceName + "' published at endpoint '"
-				+ endpointUrl + "'");
+				+ publishedEndpointUrl + "'");
 	}
 
 	@Override
