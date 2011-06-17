@@ -139,7 +139,10 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
     public void registerServer(Server server, SLProperties props) {
         check(locatorClient, "serviceLocator", "registerEndpoint");
-        String absAddress = endpointPrefix + getAddress(server);
+        String absAddress = getAddress(server);
+        if(!absAddress.startsWith("http://")) { // relative address
+            absAddress = endpointPrefix + absAddress;
+        }
 
         CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
         endpoint.setLastTimeStartedToCurrent();
