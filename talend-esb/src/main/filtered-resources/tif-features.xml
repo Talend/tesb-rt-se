@@ -37,18 +37,18 @@
         <feature version="${camel.version}">camel-jms</feature>
     </feature>
     <feature name="tif-test" version="${tif.version}" resolver='(obr)'>
-        <feature version='${project.version}'>tif-core</feature>
+        <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-test</feature>
     </feature>
     <feature name="tif-messaging" version="${tif.version}" resolver='(obr)'>
-        <feature version='${project.version}'>tif-core</feature>
+        <feature version='${tif.version}'>tif-core</feature>
         <feature version="${activemq.version}">activemq</feature>
         <feature version="${activemq.version}">activemq-spring</feature>
         <feature version="${activemq.version}">activemq-blueprint</feature>
         <feature version="${camel.version}">camel-amqp</feature>
     </feature>
     <feature name="tif-ws" version="${tif.version}" resolver='(obr)'>
-        <feature version='${project.version}'>tif-core</feature>
+        <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-http</feature>
         <feature version="${camel.version}">camel-http4</feature>
         <feature version="${camel.version}">camel-jetty</feature>
@@ -58,30 +58,30 @@
         <feature>jetty</feature>
     </feature>
     <feature name="tif-logging" version="${tif.version}" resolver='(obr)'>
-        <feature version='${project.version}'>tif-core</feature>
+        <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-paxlogging</feature>
         <feature version="${camel.version}">camel-syslog</feature>
     </feature>
     <feature name="tif-monitoring" version="${tif.version}" resolver='(obr)'>
-       <feature version='${project.version}'>tif-core</feature>
+       <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-jmx</feature>
         <feature version="${camel.version}">camel-nagios</feature>
     </feature>
     <feature name="tif-encryption" version="${tif.version}" resolver='(obr)'>
-       <feature version='${project.version}'>tif-core</feature>
+       <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-crypto</feature>
         <feature version="${camel.version}">camel-jasypt</feature>
     </feature>
     <feature name="tif-ldap" version="${tif.version}" resolver='(obr)'>
-       <feature version='${project.version}'>tif-core</feature>
+       <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-ldap</feature>
     </feature>
     <feature name="tif-scheduler" version="${tif.version}" resolver='(obr)'>
-       <feature version='${project.version}'>tif-core</feature>
+       <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-quartz</feature>
     </feature>
     <feature name="tif-system" version="${tif.version}" resolver='(obr)'>
-       <feature version='${project.version}'>tif-core</feature>
+       <feature version='${tif.version}'>tif-core</feature>
         <feature version="${camel.version}">camel-syslog</feature>
         <feature version="${camel.version}">camel-exec</feature>
     </feature>
