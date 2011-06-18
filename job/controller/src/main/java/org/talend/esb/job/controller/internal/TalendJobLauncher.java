@@ -22,6 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
@@ -78,28 +79,40 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 			@Override
 			public void run() {
 				try {
+					LazyProviderCallbackDelegate cb = null;
 					if (talendJob instanceof TalendESBJob) {
 						// We have an ESB Job;
-						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
+						final TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
+						// Create callback delegate
+						cb = new LazyProviderCallbackDelegate(new Callable<ESBProviderCallback>() {
+							
+							@Override
+							public ESBProviderCallback call() throws Exception {
+								// This will be run after #getRequest will be called from the job
+								ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
+								if (null != endpoint) {
+									return createESBProvider(endpoint.getEndpointProperties());
+								}
+								throw new NullPointerException("TalendESBJob#getEndpoint() returned null");
+							}
+						}, new Runnable() {
+							
+							@Override
+							public void run() {
+								destroyESBProvider(talendESBJob.getEndpoint().getEndpointProperties());								
+							}
+						});
+						// Inject lazy initialization callback to the job
+						talendESBJob.setProviderCallback(cb);
 						// get provider end point information
-						final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
-						if (null != endpoint) {
-							talendESBJob.setProviderCallback(
-								createESBProvider(endpoint.getEndpointProperties()));
-						}
 						talendESBJob.setEndpointRegistry(TalendJobLauncher.this);
 					}
 
 					LOG.info("Talend Job starting...");
 					int ret = talendJob.runJobInTOS(args);
 					LOG.info("Talend Job finished with code " + ret);
-
-					if (talendJob instanceof TalendESBJob) {
-						TalendESBJob talendESBJob =  (TalendESBJob) talendJob;
-						final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
-						if (null != endpoint) {
-							destroyESBProvider(endpoint.getEndpointProperties());
-						}
+					if (cb != null) {
+						cb.shutdown();
 					}
 				} finally {
 					jobs.remove(talendJob);
