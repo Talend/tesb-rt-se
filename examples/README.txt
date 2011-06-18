@@ -18,10 +18,4 @@ but they are also all setup to be run in the Talend ESB SE
 OSGi container that can be obtained from:
 http://www.talend.com/download.php#ESB
 
-rent-a-car: For this tutorial we have chosen a common business use case scenario: 
-a simplified real-world example from the domain of car rental companies.
-In this scenarios there are two services: CRMService and ReservationService.
-
-locator: Service Locator example.
-
-sam: Service Activity Monitoring example.
+To build and run the examples, refer to the README.txt files in the individual example folders.
