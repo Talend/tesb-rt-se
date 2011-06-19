@@ -74,7 +74,9 @@ public class LazyProviderCallbackDelegate implements ESBProviderCallback {
 	 * Do proper shutdown actions if delegate was initialized
 	 */
 	public void shutdown() {
-		shutdownRunnable.run();
+		if (delegate != null) {
+			shutdownRunnable.run();
+		}
 	}
 
 }

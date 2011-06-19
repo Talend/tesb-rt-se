@@ -99,7 +99,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 							
 							@Override
 							public void run() {
-								destroyESBProvider(talendESBJob.getEndpoint().getEndpointProperties());								
+								ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
+								if (endpoint != null) {
+									destroyESBProvider(endpoint.getEndpointProperties());
+								}
 							}
 						});
 						// Inject lazy initialization callback to the job
