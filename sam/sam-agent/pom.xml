@@ -65,7 +65,6 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
-		        !com.example.customerservice,
                             {local-packages},
                             META-INF.tesb
                         </Export-Package>
@@ -78,12 +77,27 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
                 <executions>
-                    <execution>
+                    <execution>                      
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
                         <configuration>
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl</wsdl>
                                 </wsdlOption>
+                            </wsdlOptions>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <fork>once</fork>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                    <execution>                      
+                        <id>generate-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <configuration>
+                            <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/test/resources/wsdl/CustomerService.wsdl</wsdl>
                                     <bindingFiles>
@@ -91,6 +105,7 @@
                                     </bindingFiles>
                                 </wsdlOption>
                             </wsdlOptions>
+                            <testSourceRoot>${basedir}/target/generated/src/test/java</testSourceRoot>
                         </configuration>
                         <goals>
                             <goal>wsdl2java</goal>
