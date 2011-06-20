@@ -117,8 +117,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 		removeOperation("invoke");
 		// fix namespace
 		InterfaceInfo ii = server.getEndpoint().getService().getServiceInfos().get(0).getInterface();
-		QName name = ii.getName();
-		ii.setName(new QName(serviceName.getNamespaceURI(), name.getLocalPart()));
+		ii.setName(portName);
 
 		LOG.info("Web service '" + serviceName + "' published at endpoint '"
 				+ publishedEndpointUrl + "'");
