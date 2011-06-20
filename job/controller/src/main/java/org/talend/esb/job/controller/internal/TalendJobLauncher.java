@@ -181,17 +181,14 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 
 		Collection<ESBProvider> esbProviders = endpoints.get(
 				new ESBProviderKey(serviceName, portName));
-		ESBProvider esbProvider = null;
-		for(ESBProvider provider : esbProviders) {
-			if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
-				esbProvider = provider;
+		for(ESBProvider esbProvider : esbProviders) {
+			if(publishedEndpointUrl.equals(esbProvider.getPublishedEndpointUrl())) {
+				final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+				if(esbProvider.destroyESBProviderCallback(operationName)) {
+					esbProviders.remove(esbProvider);
+				}
 				break;
 			}
-		}
-
-		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-		if(esbProvider.destroyESBProviderCallback(operationName)) {
-			esbProviders.remove(esbProvider);
 		}
 	}
 
