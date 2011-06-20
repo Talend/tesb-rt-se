@@ -115,9 +115,9 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
 		// remove default operation
 		removeOperation("invoke");
-		// fix namespace
+		// set portType = serviceName
 		InterfaceInfo ii = server.getEndpoint().getService().getServiceInfos().get(0).getInterface();
-		ii.setName(portName);
+		ii.setName(serviceName);
 
 		LOG.info("Web service '" + serviceName + "' published at endpoint '"
 				+ publishedEndpointUrl + "'");
