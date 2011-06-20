@@ -42,89 +42,88 @@ import routines.system.api.ESBConsumer;
 @WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
 
-	private final QName serviceName;
-	private final QName portName;
-	private final String operationName;
-	private final String publishedEndpointUrl;
-	private final boolean isRequestResponse;
-	private final AbstractFeature serviceLocator;
-	private final AbstractFeature serviceActivityMonitoring;
-	private final Bus bus;
+    private final QName serviceName;
+    private final QName portName;
+    private final String operationName;
+    private final String publishedEndpointUrl;
+    private final boolean isRequestResponse;
+    private final AbstractFeature serviceLocator;
+    private final AbstractFeature serviceActivityMonitoring;
+    private final Bus bus;
 
-	public RuntimeESBConsumer(
-			final QName serviceName,
-			final QName portName,
-			String operationName,
-			String publishedEndpointUrl,
-			boolean isRequestResponse,
-			final AbstractFeature serviceLocator,
-			final AbstractFeature serviceActivityMonitoring,
-			final Bus bus) {
-		this.serviceName = serviceName;
-		this.portName = portName;
-		this.operationName = operationName;
-		this.publishedEndpointUrl = publishedEndpointUrl;
-		this.isRequestResponse = isRequestResponse;
-		this.serviceLocator = serviceLocator;
-		this.serviceActivityMonitoring = serviceActivityMonitoring;
-		this.bus = bus;
-	}
+    public RuntimeESBConsumer(
+            final QName serviceName,
+            final QName portName,
+            String operationName,
+            String publishedEndpointUrl,
+            boolean isRequestResponse,
+            final AbstractFeature serviceLocator,
+            final AbstractFeature serviceActivityMonitoring,
+            final Bus bus) {
+        this.serviceName = serviceName;
+        this.portName = portName;
+        this.operationName = operationName;
+        this.publishedEndpointUrl = publishedEndpointUrl;
+        this.isRequestResponse = isRequestResponse;
+        this.serviceLocator = serviceLocator;
+        this.serviceActivityMonitoring = serviceActivityMonitoring;
+        this.bus = bus;
+    }
 
-	@Override
-	public Object invoke(Object payload) throws Exception {
-		if(payload instanceof org.dom4j.Document) {
-			Client client = createClient();
-			Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
-					(org.dom4j.Document)payload));
-			if(result != null) {
-				org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-				javax.xml.transform.TransformerFactory.newInstance().
-					newTransformer().transform((Source)result[0], docResult);
-				return docResult.getDocument();
-			}
-			return null;
-		} else {
-			throw new RuntimeException(
-				"Consumer try to send incompatible object: " + payload.getClass().getName());
-		}
-	}
+    @Override
+    public Object invoke(Object payload) throws Exception {
+        if(payload instanceof org.dom4j.Document) {
+            Client client = createClient();
+            Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
+                    (org.dom4j.Document)payload));
+            if(result != null) {
+                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
+                javax.xml.transform.TransformerFactory.newInstance().
+                    newTransformer().transform((Source)result[0], docResult);
+                return docResult.getDocument();
+            }
+            return null;
+        } else {
+            throw new RuntimeException(
+                "Consumer try to send incompatible object: " + payload.getClass().getName());
+        }
+    }
 
-	private Client createClient() throws BusException, EndpointException {
+    private Client createClient() throws BusException, EndpointException {
 
-		final JaxWsClientFactoryBean cf = new JaxWsClientFactoryBean();
-		cf.setServiceName(serviceName);
-		cf.setEndpointName(portName);
-		String endpointUrl =
-			(serviceLocator == null)
-				? publishedEndpointUrl
-				: "locator://" + serviceName.getLocalPart();
-		cf.setAddress(endpointUrl);
-		cf.setServiceClass(this.getClass());
-		cf.setBus(bus);
-		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
-		if(serviceLocator != null) {
-			features.add(serviceLocator);
-		}
-		if(serviceActivityMonitoring != null) {
-			features.add(serviceActivityMonitoring);
-		}
-		cf.setFeatures(features);
+        final JaxWsClientFactoryBean cf = new JaxWsClientFactoryBean();
+        cf.setServiceName(serviceName);
+        cf.setEndpointName(portName);
+        String endpointUrl =
+            (serviceLocator == null)
+                ? publishedEndpointUrl
+                : "locator://" + serviceName.getLocalPart();
+        cf.setAddress(endpointUrl);
+        cf.setServiceClass(this.getClass());
+        cf.setBus(bus);
+        List<AbstractFeature> features = new ArrayList<AbstractFeature>();
+        if(serviceLocator != null) {
+            features.add(serviceLocator);
+        }
+        if(serviceActivityMonitoring != null) {
+            features.add(serviceActivityMonitoring);
+        }
+        cf.setFeatures(features);
 
-		final Client client = cf.create();
-		
-		final Service service = client.getEndpoint().getService();
+        final Client client = cf.create();
+        
+        final Service service = client.getEndpoint().getService();
         service.setDataBinding(new SourceDataBinding());
 
         final ServiceInfo si = service.getServiceInfos().get(0);
-		// fix namespace
-		InterfaceInfo ii = si.getInterface();
-		QName name = ii.getName();
-		ii.setName(new QName(serviceName.getNamespaceURI(), name.getLocalPart()));
+        // set portType = serviceName
+        InterfaceInfo ii = si.getInterface();
+        ii.setName(serviceName);
 
         ESBProvider.addOperation(si,
-				operationName, isRequestResponse);
+                operationName, isRequestResponse);
 
-		return client;
-	}
+        return client;
+    }
 
 }
