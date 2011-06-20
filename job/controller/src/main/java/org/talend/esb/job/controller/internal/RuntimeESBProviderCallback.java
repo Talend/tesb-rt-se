@@ -28,42 +28,43 @@ import routines.system.api.ESBProviderCallback;
 
 class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
 
-	private final boolean isRequestResponse;
-	private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
+    private final boolean isRequestResponse;
+    private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
 
-	private Object request = null;
-	private Object response = null;
+    private Object request = null;
+    private Object response = null;
 
-	public RuntimeESBProviderCallback(boolean isRequestResponse) {
-		this.isRequestResponse = isRequestResponse;
-	}
-	@Override
-	public Object getRequest() throws ESBJobInterruptedException {
-		try {
-			request = requests.take();
-			return request;
-		} catch (InterruptedException e) {
-			throw new ESBJobInterruptedException(e.getMessage(), e);
-		}
-	}
+    public RuntimeESBProviderCallback(boolean isRequestResponse) {
+        this.isRequestResponse = isRequestResponse;
+    }
 
-	@Override
-	public void sendResponse(Object response) {
-		this.response = response;
-		synchronized (request) {
-			request.notify();
-		}
-	}
+    @Override
+    public Object getRequest() throws ESBJobInterruptedException {
+        try {
+            request = requests.take();
+            return request;
+        } catch (InterruptedException e) {
+            throw new ESBJobInterruptedException(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public Object invoke(Object payload) throws Exception {
-		requests.put(payload);
-		if(!isRequestResponse) {
-			return null;
-		}
-		synchronized (payload) {
-			payload.wait();
-		}
-		return response;
-	}
+    @Override
+    public void sendResponse(Object response) {
+        this.response = response;
+        synchronized (request) {
+            request.notify();
+        }
+    }
+
+    @Override
+    public Object invoke(Object payload) throws Exception {
+        requests.put(payload);
+        if(!isRequestResponse) {
+            return null;
+        }
+        synchronized (payload) {
+            payload.wait();
+        }
+        return response;
+    }
 }
