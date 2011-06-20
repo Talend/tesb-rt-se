@@ -204,6 +204,10 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 
 		ESBConsumer esbConsumer = null;
+		/*
+		 * commenting out this code coz of issue https://jira.sopera.de/browse/TESB-2074
+		 * If we get the consumer in the following way, SAM featuer is not set for the consumer
+		 * hence the consumer doesnt send out SAM events.
 		Collection<ESBProvider> esbProviders = endpoints.get(
 				new ESBProviderKey(serviceName, portName));
 		if(esbProviders != null) {
@@ -217,6 +221,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 
 		// create generic consumer
 		if(esbConsumer == null) {
+		*/
 			final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
 			boolean useServiceLocator =
 				((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
@@ -231,7 +236,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					useServiceLocator ? serviceLocator : null,
 					useServiceActivityMonitor ? serviceActivityMonitoring : null,
 					bus);
-		}
+		//}
 		return esbConsumer;
 	}
 }
