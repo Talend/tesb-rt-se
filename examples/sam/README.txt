@@ -19,22 +19,38 @@ Prerequisite
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
 A servlet container is Tomcat 5.5 or above.
 
-Building and running the example using Maven
---------------------------------------------
 
-From the base directory of this sample (i.e., where this README file is
-located), the pom.xml file is used to build and run this sample. 
+Start sam-server and Derby database in OSGI Container
+-----------------------------------------------------
 
-Using either UNIX or Windows:
+ * starting the TESB OSGi container:
+ 
+    cd talend-esb-<version>/container/bin
+	Linux: ./tesb
+	Windows: tesb.bat
 
-  mvn install   (builds the example)
+ * starting sam-server and Derby database in TESB OSGi container:
+ 	
+	Enter the following command on the OSGI console:
+    karaf@tesb> features:install tesb-derby-starter
+    karaf@tesb> features:install tesb-sam-server
 
-To remove the generated target/*.* files, run "mvn clean".  
+By default the TESB OSGI Container runs on 8080 port and the sam-server is accessible under that port.
+
 
 Configurations
 --------------
+Adopt the agent.properties file for the sam-server url.
+
+Edit the following files:
 ./sam-example-service/src/main/resources/agent.properties
 ./sam-example-service2/src/main/resources/agent.properties
+
+and if you are using the default port for the TESB OSGI container, change the service.url property to the following:
+
+service.url=http://localhost:8080/services/MonitoringServiceSOAP
+
+Find below the detailed description of the properties defined in agent.properties file:
 
 <!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
 collector.scheduler.interval=60000
@@ -50,16 +66,34 @@ service.retry.number=3
 <!-- Delay in milliseconds between the next attemp to send. Default: 1000 -->
 service.retry.delay=5000
 
+
+Building and running the example using Maven
+--------------------------------------------
+
+From the base directory of this sample (i.e., where this README file is
+located), the pom.xml file is used to build and run this sample. 
+
+Using either UNIX or Windows:
+
+  mvn install   (builds the example)
+
+To remove the generated target/*.* files, run "mvn clean".  
+
+
 Deploy into Tomcat
 ------------------
+
+TESB OSGI container by default runs on 8080 port, so make sure your tomcat is configured to run on a different port.
+
 copy ./sam-example-service/target/sam-example-service.war to $TOMCAT_HOME/webapps/sam-example-service.war
 copy ./sam-example-service2/target/sam-example-service2.war to $TOMCAT_HOME/webapps/sam-example-service2.war
 
 start Tomcat.
 
+
 Testing with Soap messages
 --------------------------
-From SoapUI, send soap messages to endpoint: http://localhost:8080/sam-example-service2/services/CustomerServicePort
+From SoapUI, send soap messages to endpoint: http://localhost:<tomcat_port>/sam-example-service2/services/CustomerServicePort
 
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
    <soapenv:Header/>
@@ -70,11 +104,5 @@ From SoapUI, send soap messages to endpoint: http://localhost:8080/sam-example-s
    </soapenv:Body>
 </soapenv:Envelope>
 
-you can monitor the console log from Tomcat.
+You will see the events sent out on the console log from Tomcat.
 
-Start sam-server in the Jetty embeded container
------------------------------------------------
-cd sam-server-jetty
-mvn jetty:run-war
-
-then, sam-server will be started in the Jetty embeded container.
