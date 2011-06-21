@@ -24,18 +24,27 @@ import java.util.List;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
+import javax.xml.ws.WebServiceException;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
+import org.apache.cxf.binding.soap.SoapFault;
+import org.apache.cxf.binding.soap.saaj.SAAJFactoryResolver;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
 
@@ -74,14 +83,29 @@ public class RuntimeESBConsumer implements ESBConsumer {
     public Object invoke(Object payload) throws Exception {
         if(payload instanceof org.dom4j.Document) {
             Client client = createClient();
-            Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
-                    (org.dom4j.Document)payload));
-            if(result != null) {
-                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-                javax.xml.transform.TransformerFactory.newInstance().
-                    newTransformer().transform((Source)result[0], docResult);
-                return docResult.getDocument();
-            }
+        	try {
+	            Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
+	                    (org.dom4j.Document)payload));
+	            if(result != null) {
+	                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
+	                javax.xml.transform.TransformerFactory.newInstance().
+	                    newTransformer().transform((Source)result[0], docResult);
+	                return docResult.getDocument();
+	            }
+			} catch (org.apache.cxf.binding.soap.SoapFault e) {
+				// org.apache.cxf.jaxws.JaxWsClientProxy
+	                SOAPFault soapFault = createSoapFault(e);
+	                if (soapFault == null) {
+	                    throw new WebServiceException(e);
+	                }
+	                SOAPFaultException exception = new SOAPFaultException(soapFault);
+	                if (e instanceof Fault && e.getCause() != null) {
+	                    exception.initCause(e.getCause());
+	                } else {
+	                    exception.initCause(e);
+	                }
+	                throw exception;
+			}
             return null;
         } else {
             throw new RuntimeException(
@@ -124,6 +148,46 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 operationName, isRequestResponse);
 
         return client;
+    }
+
+    static SOAPFault createSoapFault(Exception ex) throws SOAPException {
+		SOAPFault soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault(); 
+        if (ex instanceof SoapFault) {
+            if (!soapFault.getNamespaceURI().equals(((SoapFault)ex).getFaultCode().getNamespaceURI())
+                && SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE
+                    .equals(((SoapFault)ex).getFaultCode().getNamespaceURI())) {
+                //change to 1.1
+                try {
+                    soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault();
+                } catch (Throwable t) {
+                    //ignore
+                }
+            }
+            soapFault.setFaultString(((SoapFault)ex).getReason());
+            soapFault.setFaultCode(((SoapFault)ex).getFaultCode());
+            soapFault.setFaultActor(((SoapFault)ex).getRole());
+            if (((SoapFault)ex).getSubCode() != null) {
+                soapFault.appendFaultSubcode(((SoapFault)ex).getSubCode());
+            }
+
+            if (((SoapFault)ex).hasDetails()) {
+                Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
+                                                                  true);
+                nd = nd.getFirstChild();
+                soapFault.addDetail();
+                while (nd != null) {
+                    Node next = nd.getNextSibling();
+                    soapFault.getDetail().appendChild(nd);
+                    nd = next;
+                }
+            }
+        } else {
+            String msg = ex.getMessage();
+            if (msg != null) {
+                soapFault.setFaultString(msg);
+            }
+        }      
+        return soapFault;
     }
 
 }
