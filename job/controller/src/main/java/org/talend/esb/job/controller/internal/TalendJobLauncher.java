@@ -40,26 +40,27 @@ import routines.system.api.TalendJob;
 
 public class TalendJobLauncher implements ESBEndpointRegistry {
 
-	private static final String PUBLISHED_ENDPOINT_URL = "publishedEndpointUrl";
-	private static final String DEFAULT_OPERATION_NAME = "defaultOperationName";
-	private static final String SERVICE_NAME = "serviceName";
-	private static final String PORT_NAME = "portName";
-	private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
-	private static final String USE_SERVICE_LOCATOR = "useServiceLocator";
-	private static final String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
+    private static final String PUBLISHED_ENDPOINT_URL = "publishedEndpointUrl";
+    private static final String DEFAULT_OPERATION_NAME = "defaultOperationName";
+    private static final String SERVICE_NAME = "serviceName";
+    private static final String PORT_NAME = "portName";
+    private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
+    private static final String USE_SERVICE_LOCATOR = "useServiceLocator";
+    private static final String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
 
-	private static final String VALUE_REQUEST_RESPONSE = "request-response";
+    private static final String VALUE_REQUEST_RESPONSE = "request-response";
+    private static final String VALUE_ONE_WAY = "one-way";
 
-	private static final Logger LOG = Logger.getLogger(TalendJobLauncher.class.getName());
+    private static final Logger LOG = Logger.getLogger(TalendJobLauncher.class.getName());
 
-	private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
-		new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
-	private final Map<TalendJob, Thread > jobs =
-		new ConcurrentHashMap<TalendJob, Thread>();
+    private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
+        new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
+    private final Map<TalendJob, Thread > jobs =
+        new ConcurrentHashMap<TalendJob, Thread>();
 
-	private Bus bus;
-	private AbstractFeature serviceLocator;
-	private AbstractFeature serviceActivityMonitoring;
+    private Bus bus;
+    private AbstractFeature serviceLocator;
+    private AbstractFeature serviceActivityMonitoring;
 
     public void setBus(Bus bus) {
         this.bus = bus;
@@ -127,9 +128,9 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		jobs.put(talendJob, thread);
 	}
 
-	public void stopTalendJob(final TalendJob talendJob) {
-		jobs.get(talendJob).interrupt();
-	}
+    public void stopTalendJob(final TalendJob talendJob) {
+        jobs.get(talendJob).interrupt();
+    }
 
 	private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
 		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
@@ -169,7 +170,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 		ESBProviderCallback esbProviderCallback =
 			esbProvider.createESBProviderCallback(operationName,
-					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)));
+				isRequestResponse((String)props.get(COMMUNICATION_STYLE)));
 
 		return esbProviderCallback;
 	}
@@ -229,11 +230,21 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					portName,
 					operationName,
 					publishedEndpointUrl,
-					VALUE_REQUEST_RESPONSE.equals(props.get(COMMUNICATION_STYLE)),
+					isRequestResponse((String)props.get(COMMUNICATION_STYLE)),
 					useServiceLocator ? serviceLocator : null,
 					useServiceActivityMonitor ? serviceActivityMonitoring : null,
 					bus);
 		//}
 		return esbConsumer;
 	}
+
+    private static boolean isRequestResponse(String value) {
+        if (VALUE_ONE_WAY.equals(value)) {
+            return false;
+        } else if (VALUE_REQUEST_RESPONSE.equals(value)) {
+            return true;
+        }
+        throw new RuntimeException("Unsupported communication style: " + value);
+    }
+
 }

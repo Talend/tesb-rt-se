@@ -32,9 +32,11 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.Soap12;
+import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -148,6 +150,8 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 			if(result instanceof org.dom4j.Document) {
 				return new org.dom4j.io.DocumentSource(
 						(org.dom4j.Document)result);
+			} else if (result instanceof SOAPFaultException){
+				throw mapSoapFault((SOAPFaultException)result);
 			} else if (result instanceof RuntimeException){
 				throw (RuntimeException)result;
 			} else if (result instanceof Throwable){
@@ -256,4 +260,16 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
         BindingOperationInfo boi = bi.getOperation(oi);
         bi.removeOperation(boi);
 	}
+
+	// org.apache.cxf.jaxws.handler.HandlerChainInvoker
+    private SoapFault mapSoapFault(SOAPFaultException sfe) {
+        SoapFault sf = new SoapFault(sfe.getFault().getFaultString(),
+                                      sfe,
+                                      sfe.getFault().getFaultCodeAsQName());
+        sf.setRole(sfe.getFault().getFaultActor());
+        if (sfe.getFault().hasDetail()) {
+            sf.setDetail(sfe.getFault().getDetail());
+        }
+        return sf;
+    }
 }

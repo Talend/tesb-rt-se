@@ -216,7 +216,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Registering endpoint " + endpoint + " for service "
                     + serviceName + "...");
         }
-
+        checkConnection();
         NodePath serviceNodePath = ensureServiceExists(serviceName);
 
         byte[] content = createContent(epProvider);
@@ -237,7 +237,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Unregistering endpoint " + endpoint + " for service "
                     + serviceName + "...");
         }
-
+        checkConnection();
         NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
                 .toString());
         NodePath endpointNodePath = serviceNodePath.child(endpoint);
