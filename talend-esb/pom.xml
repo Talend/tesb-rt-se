@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<!-- 
 		Copyright (C) 2010-2011 Talend Inc. - www.talend.com 
@@ -11,7 +10,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>4.2-SNAPSHOT</version>
+		<version>4.2</version>
 	</parent>
 
 	<groupId>org.talend.esb.assembly</groupId>
@@ -1070,22 +1069,22 @@
 										<include name="**/target/dependency/*.jar" />
 										<none>
 											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/monitoring">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/job">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 										</none>
 									</fileset>
@@ -1093,22 +1092,22 @@
 										<include name="**/target/dependency/*.jar" />
 										<none>
 											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/monitoring">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/job">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 										</none>
 									</fileset>
@@ -1116,22 +1115,22 @@
 										<include name="**/target/dependency/*.jar" />
 										<none>
 											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/monitoring">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/job">
-												<mapper type="flatten"/>
+												<mapper type="flatten" />
 											</present>
 										</none>
 									</fileset>
