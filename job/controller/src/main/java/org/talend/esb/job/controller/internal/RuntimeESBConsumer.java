@@ -83,29 +83,29 @@ public class RuntimeESBConsumer implements ESBConsumer {
     public Object invoke(Object payload) throws Exception {
         if(payload instanceof org.dom4j.Document) {
             Client client = createClient();
-        	try {
-	            Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
-	                    (org.dom4j.Document)payload));
-	            if(result != null) {
-	                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-	                javax.xml.transform.TransformerFactory.newInstance().
-	                    newTransformer().transform((Source)result[0], docResult);
-	                return docResult.getDocument();
-	            }
-			} catch (org.apache.cxf.binding.soap.SoapFault e) {
-				// org.apache.cxf.jaxws.JaxWsClientProxy
-	                SOAPFault soapFault = createSoapFault(e);
-	                if (soapFault == null) {
-	                    throw new WebServiceException(e);
-	                }
-	                SOAPFaultException exception = new SOAPFaultException(soapFault);
-	                if (e instanceof Fault && e.getCause() != null) {
-	                    exception.initCause(e.getCause());
-	                } else {
-	                    exception.initCause(e);
-	                }
-	                throw exception;
-			}
+            try {
+                Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
+                        (org.dom4j.Document)payload));
+                if(result != null) {
+                    org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
+                    javax.xml.transform.TransformerFactory.newInstance().
+                        newTransformer().transform((Source)result[0], docResult);
+                    return docResult.getDocument();
+                }
+            } catch (org.apache.cxf.binding.soap.SoapFault e) {
+                // org.apache.cxf.jaxws.JaxWsClientProxy
+                SOAPFault soapFault = createSoapFault(e);
+                if (soapFault == null) {
+                    throw new WebServiceException(e);
+                }
+                SOAPFaultException exception = new SOAPFaultException(soapFault);
+                if (e instanceof Fault && e.getCause() != null) {
+                    exception.initCause(e.getCause());
+                } else {
+                    exception.initCause(e);
+                }
+                throw exception;
+            }
             return null;
         } else {
             throw new RuntimeException(
@@ -151,7 +151,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     }
 
     static SOAPFault createSoapFault(Exception ex) throws SOAPException {
-		SOAPFault soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault(); 
+        SOAPFault soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault(); 
         if (ex instanceof SoapFault) {
             if (!soapFault.getNamespaceURI().equals(((SoapFault)ex).getFaultCode().getNamespaceURI())
                 && SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE
