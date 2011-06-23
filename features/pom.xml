@@ -16,13 +16,13 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>features</artifactId>
     <packaging>pom</packaging>
-    <version>4.2</version>
+    <version>5.0-SNAPSHOT</version>
     <name>TESB :. Features</name>
     
      <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>esb-parent</artifactId>
-        <version>4.2</version>
+        <version>5.0-SNAPSHOT</version>
     </parent>
 
     <build>
