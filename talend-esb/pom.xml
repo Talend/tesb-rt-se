@@ -25,9 +25,9 @@
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.7.2.0</tif.version>
-		<tif-doc.version>2.7.2.0</tif-doc.version>
+		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.1.0</tsf.version>
-		<tsf-doc.version>2.4.1.0</tsf-doc.version>
+		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
         <camel.version>2.7.2</camel.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
