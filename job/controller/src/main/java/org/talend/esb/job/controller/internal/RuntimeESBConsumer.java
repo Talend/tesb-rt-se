@@ -22,7 +22,6 @@ package org.talend.esb.job.controller.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
@@ -48,7 +47,7 @@ import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
 
-@WebService()
+@javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
 
     private final QName serviceName;
@@ -86,7 +85,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             try {
                 Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
                         (org.dom4j.Document)payload));
-                if(result != null) {
+                if (result != null) {
                     org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
                     javax.xml.transform.TransformerFactory.newInstance().
                         newTransformer().transform((Source)result[0], docResult);
