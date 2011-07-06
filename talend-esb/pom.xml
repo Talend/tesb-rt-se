@@ -39,16 +39,16 @@
 		<!-- Geronimo --> 
 		<geronimo-annotation.version>1.1.1</geronimo-annotation.version>
 		<geronimo-connector.version>2.1.3</geronimo-connector.version>
-		<geronimo-el.version>1.0.1</geronimo-el.version>
+		<!-- geronimo-el.version>1.0.1</geronimo-el.version-->
 		<geronimo-j2ee-connector.version>2.0.0</geronimo-j2ee-connector.version>
 		<geronimo-j2ee-management.version>1.0.1</geronimo-j2ee-management.version>
 		<geronimo-jaxws.version>1.0</geronimo-jaxws.version>
 		<geronimo-jms.version>1.1.1</geronimo-jms.version>
 		<geronimo-jpa.version>1.1</geronimo-jpa.version>
-		<geronimo-jsp.version>1.0.1</geronimo-jsp.version>
+		<!-- geronimo-jsp.version>1.0.1</geronimo-jsp.version-->
 		<geronimo-jta.version>1.1.1</geronimo-jta.version>
 		<geronimo-saaj.version>1.1</geronimo-saaj.version>
-		<geronimo-servlet.version>1.1.2</geronimo-servlet.version>
+		<!-- geronimo-servlet.version>1.1.2</geronimo-servlet.version-->
 		<geronimo-ws-metadata.version>1.1.3</geronimo-ws-metadata.version>
 		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
 
@@ -65,7 +65,7 @@
 		<castor.bundle.version>1.3.1_1</castor.bundle.version>
 		<cglib.bundle.version>2.2_1</cglib.bundle.version>
 		<cometd-java-server.bundle.version>1.0.1_1</cometd-java-server.bundle.version>
-		<commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version>
+		<!-- commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version-->
 		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
 		<commons-csv.bundle.version>1.0-r706899_4</commons-csv.bundle.version>
@@ -98,7 +98,7 @@
 		<jaxen.bundle.version>1.1.1_1</jaxen.bundle.version>
 		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
 		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
-		<jdom.bundle.version>1.1_3</jdom.bundle.version>
+		<!-- jdom.bundle.version>1.1_3</jdom.bundle.version-->
 		<jetty.version>7.3.1.v20110307</jetty.version>
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
 		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
