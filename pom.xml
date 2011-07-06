@@ -99,6 +99,12 @@
         <jaxen.bundle.version>1.1.1_2</jaxen.bundle.version>
         <servicemix.specs.version>1.7.0</servicemix.specs.version>
         <saaj-impl.bundle.version>1.3.2_2</saaj-impl.bundle.version>
+        <karaf.version>2.2.1</karaf.version>
+        <javax.servlet.version>2.4</javax.servlet.version>
+        <felix.fileinstall.version>3.1.10</felix.fileinstall.version>
+        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <gson.version>1.7.1</gson.version>
+
         <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
