@@ -46,8 +46,8 @@
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.derby/derby/${derby.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
-    <bundle>mvn:org.springframework/spring-jdbc/${jdom.bundle.version}</bundle>
-    <bundle>mvn:org.springframework/spring-test/${jdom.bundle.version}</bundle>
+    <bundle>mvn:org.springframework/spring-jdbc/${spring.version}</bundle>
+    <bundle>mvn:org.springframework/spring-test/${spring.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>
   </feature>
