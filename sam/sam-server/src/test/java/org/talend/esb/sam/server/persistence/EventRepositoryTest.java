@@ -50,10 +50,9 @@ public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContex
 
     @Test
     public void testWriteEvent() {
-        EventCreator creator = new EventCreator();
         GregorianCalendar cal = new GregorianCalendar(2000, Calendar.JANUARY, 1, 01 , 01, 10);
         
-        Event event = creator.createEvent("content", cal.getTime(),
+        Event event = EventCreator.createEvent("content", cal.getTime(),
                             EventTypeEnum.REQ_IN, "orig_id", "localhost", "10.0.0.1", "1", "2", "3", "operation",
                             "service", "http");
         event.getCustomInfo().put("mykey1", "myValue1");
