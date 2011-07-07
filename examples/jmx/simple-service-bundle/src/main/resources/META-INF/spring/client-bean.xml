@@ -24,6 +24,6 @@
 						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<jaxws:client id="simpleClient" serviceClass="org.talend.esb.examples.SimpleService"
-		address="http://localhost:8080/services/simpleService" />
+		address="http://localhost:${tesb.port}/services/simpleService" />
 
 </beans>
