@@ -39,4 +39,9 @@
         <bundle>mvn:${project.groupId}/reservationservice-client-locator/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/app-reservation-locator/${project.version}</bundle>
     </feature>
+    <feature name='tesb-locator-client' version='5.0-SNAPSHOT'>
+        <feature>cxf</feature>
+        <bundle>mvn:org.talend.esb/locator/5.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.apache.zookeeper/zookeeper/3.3.3</bundle>
+  </feature>
 </features>
