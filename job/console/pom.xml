@@ -20,7 +20,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
-            <scope>compile</scope> 
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
