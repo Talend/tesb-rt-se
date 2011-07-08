@@ -12,7 +12,6 @@
     </parent>
 
     <name>Service Activity Monitoring :: Server</name>
-    <url>http://www.talend.com</url>
 
     <dependencies>
         <dependency>

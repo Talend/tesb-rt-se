@@ -13,7 +13,6 @@
     </parent>
 
     <name>Service Activity Monitoring :: Example Service OSGi</name>
-    <url>http://www.talend.com</url>
 
     <dependencies>
         <dependency>
