@@ -86,37 +86,86 @@ public class HomeServlet extends HttpServlet {
             PrintWriter writer = response.getWriter();
             writer.println(Template.header());
 
-            writer.println(jobList());
+            writer.println("<div id=\"toolsbar_bc\">");
+            writer.println("<div id=\"dc_refresh\" class=\"bc_btn\"><div class=\"bb\"><div><a href=\"home.do\"><img src=\"img/icons/database_refresh.gif\" alt=\"Refresh\" /><span>Refresh</span></a></div></div></div>");
+            writer.println("<div id=\"dc_deploy\" class=\"bc_btn\"><div><div><img src=\"img/icons/package_go.gif\" alt=\"Deploy\" /><span>Deploy</span></div></div></div>");
+            writer.println("<div id=\"dc_run\" class=\"disabled bc_btn\"><div><div><img src=\"img/icons/resultset_next_d.gif\" alt=\"Run\" /><span>Run</span></div></div></div>");
+            writer.println("<div id=\"dc_undeploy\" class=\"disabled bc_btn\"><div><div><img src=\"img/icons/package_d.gif\" alt=\"Undeploy\" /><span>Undeploy</span></div></div></div>");
+            writer.println("</div>");
 
-            writer.println("<div class=\"content\">");
+            writer.println("<div id=\"body_bc\">");
+            writer.println("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" id=\"bc_grid\">");
+            writer.println("\t\t  <thead>\n" +
+                    "\t\t  \t<tr>\n" +
+                    "\t\t  \t  <th align=\"left\">Label</th>\n" +
+                    "\t\t\t  <th>Type</th>\n" +
+                    "\t\t\t  <th>Name</th>\n" +
+                    "\t\t\t  <th>Version</th>\n" +
+                    "\t\t\t  <th>Status</th>\n" +
+                    "\t\t\t</tr>\n" +
+                    "\t\t  </thead>");
+            writer.println("<tbody>");
 
-            if (job != null) {
-
-                writer.println("<h2>" + job + " job detail</h2>");
-                writer.println("Job name: " + job + "<br>");
-                String result = request.getParameter("result");
-                String message = request.getParameter("message");
-                writer.println("Status: ");
-                if (result != null) {
-                    writer.println(result + "<br><i>" + message + "</i><br>");
-                } else {
-                    writer.println("runnable<br>");
-                }
-                writer.println("<br><br>");
-                writer.println("<form action=\"home.do\">");
-                writer.println("<input type=\"hidden\" name=\"job\" value=\"" + job + "\"/>");
-                writer.println("<input type=\"hidden\" name=\"action\" value=\"run\"/>");
-                writer.println("Arguments (optional): <input type=\"text\" name=\"args\" size=\"100\"/>");
-                writer.println("<input type=\"submit\" value=\"Run\"/>");
-                writer.println("</form>");
-            } else {
-                writer.println("<h2>Welcome to Talend ESB Job Console</h2>");
-                writer.println("<br>");
-                writer.println("The available Talend Jobs are displayed on the left menu.<br>");
-                writer.println("Click on a job to display job detail.<br>");
+            // list job
+            Controller controller = null;
+            ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
+            if (ref != null) {
+                controller = (Controller) bundleContext.getService(ref);
             }
 
+            if (controller != null) {
+                List<String> jobs = controller.listJobs();
+                for (String jobName : jobs) {
+                    writer.println("<tr>");
+                    writer.println("<td class=\"td0\"><span>" + jobName + "</span></td>");
+                    writer.println("<td><img src=\"img/icons/job.gif\" alt=\"Job\" /><span>Job</span></td>");
+                    writer.println("<td><span>" + jobName + "</span></td>");
+                    writer.println("<td><span></span></td>");
+                    writer.println("<td><div><img src=\"img/icons/package_go.gif\" altr=\"Deployed\" /><span>Deployed</span></div></td>");
+                    writer.println("</tr>");
+                }
+                List<String> routes = controller.listRoutes();
+                for (String routeName : routes) {
+                    writer.println("<tr>");
+                    writer.println("<td class=\"td0\"><span>" + routeName + "</span></td>");
+                    writer.println("<td><img src=\"img/icons/route.gif\" alt=\"Route\" /><span>Route</span></td>");
+                    writer.println("<td><span>" + routeName + "</span></td>");
+                    writer.println("<td><span></span></td>");
+                    writer.println("<td><div><img src=\"img/icons/package_go.gif\" altr=\"Deployed\" /><span>Deployed</span></div></td>");
+                    writer.println("</tr>");
+                }
+            }
+
+            writer.println("</tbody>");
+            writer.println("</table>");
             writer.println("</div>");
+
+            writer.println("\t<div id=\"bc_box\">\n" +
+                    "\t\t<h2>Deploy new bundle</h2>\n" +
+                    "\t\t<table cellpadding=\"0\" cellspacing=\"5\">\n" +
+                    "\t\t <tr>\n" +
+                    "\t\t \t<td><span>Bundle</span></td>\n" +
+                    "<form action=\"deploy.do\" method=\"POST\" enctype=\"multipart/form-data\">" +
+                    "\t\t\t<td><input type=\"file\" name=\"file\" size=\"25\" /></td>\n" +
+                    "\t\t </tr>\n" +
+                    "\t\t <tr><td colspan=\"3\">&nbsp;</td></tr>\n" +
+                    "\t\t <tr>\n" +
+                    "\t\t \t<td></td>\n" +
+                    "\t\t\t<td>\n" +
+                    "\t\t\t\t<input type=\"submit\" value=\"Ok\" id=\"bc_box_ok\" class=\"button\"/>&nbsp;&nbsp;\n" +
+                    "\t\t\t\t<input type=\"button\" value=\"Cancel\" id=\"bc_box_cancel\" class=\"button\" />\n" +
+                    "</form>" +
+                    "\t\t\t</td>\n" +
+                    "\t\t\t<td></td>\t\t\t\n" +
+                    "\t\t </tr>\n" +
+                    "\t\t</table>\n" +
+                    "\t</div>");
+
+            if (request.getParameter("error") != null) {
+                writer.println("<script type=\"text/javascript\">");
+                writer.println("window.alert('Job/Route Action Error: " + request.getParameter("error") + "')");
+                writer.println("</script>");
+            }
 
             writer.println(Template.footer());
             writer.flush();
@@ -126,39 +175,5 @@ public class HomeServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Use the job controller to get the job list and format it in HTML.
-     *
-     * @return the job list HTML formatted.
-     */
-    private String jobList() throws Exception {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("<div class=\"wmenu\">\n");
-        buffer.append("<h3>Jobs</h3>\n");
-
-        Controller controller = null;
-        ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
-        if (ref != null) {
-            controller = (Controller) bundleContext.getService(ref);
-        }
-        if (controller != null) {
-            List<String> jobs = controller.listJobs();
-            for (String job : jobs) {
-                buffer.append("<a href=\"home.do?job=" + job + "\">" + job + "</a><br>\n");
-            }
-        } else {
-            buffer.append("<h2><font style=\"color: red\">Job controller not found</font></h2><br>\n");
-        }
-        buffer.append("<br>");
-
-        buffer.append("<div class=\"wmenufooter\">\n");
-        buffer.append("<form action=\"uploadjob.do\" method=\"POST\" enctype=\"multipart/form-data\">\n");
-        buffer.append("<input class=\"searchform\" type=\"file\" name=\"job\" size=\"15\"/>\n");
-        buffer.append("<input class=\"searchform\" type=\"submit\" name=\"ok\" value=\"Upload Job\"/><br>\n");
-        buffer.append("</form>\n");
-        buffer.append("</div>\n");
-        buffer.append("</div>\n");
-        return buffer.toString();
-    }
 
 }

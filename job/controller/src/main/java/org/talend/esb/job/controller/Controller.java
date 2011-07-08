@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller;
 
+import org.osgi.framework.Bundle;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,11 @@ public interface Controller {
      * @throws Exception in case of lookup failure
      */
     public List<String> listRoutes() throws Exception;
+
+    /**
+     * Get the bundle corresponding to the job/route name.
+     */
+    public Bundle getBundle(String name) throws Exception;
 
     /**
      * Run a Talend job with the given name.

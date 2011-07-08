@@ -1,0 +1,44 @@
+body,html{padding:0; margin:0; font-family:Arial, Helvetica, sans-serif; font-size:12px}
+body{border:solid 1px #D0D0D0; padding-bottom:26px; height:100%; min-height:100%; border-bottom:none; background-color:#EEE; min-width:570px}
+
+/** Header **/
+#header_bc{background:url(../img/bc_head_b.png) repeat-x top}
+#header_bc div{background:url(../img/bc_head_l.png) no-repeat top left}
+#header_bc div div{background:url(../img/bc_head_r.png) no-repeat top right;height:41px}
+#header_bc h1{color:#FFF; margin:0; padding:0; margin-left:66px; line-height:41px; vertical-align:middle; font-weight:normal}
+
+/** Tools bar **/
+#toolsbar_bc{background:url(../img/bc_tools_bg.png) repeat-x top; height:24px}
+#toolsbar_bc div.bc_btn{float:left; padding:0px 10px 0 8px; margin-right:1px; height:20px; cursor:pointer; margin-top:1px}
+#toolsbar_bc div span, #toolsbar_bc div img{margin:0; border:0; padding:0}
+#toolsbar_bc div img{margin-top:-1px}
+#toolsbar_bc div span{margin-left:8px;padding-left:4px; padding-right:6px; line-height:15px; vertical-align:top}
+#toolsbar_bc div a{text-decoration:none; color:black}
+#toolsbar_bc div a:visited{text-decoration:none; color:black}
+
+#toolsbar_bc div.hover div{background:url(../img/dc_btn_a_l.gif) left top no-repeat}
+#toolsbar_bc div div div{padding:4px 16px 4px 8px; height:20px}
+#toolsbar_bc div.hover div div{background:url(../img/dc_btn_a_r.gif) right top no-repeat}
+
+#toolsbar_bc div.disabled{color:#C9C9C9;cursor:default}
+
+/** Head Grid **/
+#bc_grid thead{background:url(../img/bc_grid_h_bg.png) repeat-x top}
+#bc_grid th{background:url(../img/bc_h_r.png) right top no-repeat; height:25px}
+#bc_grid th, #bc_grid td{font-weight:normal; padding:0 5px}
+#bc_grid th.selected{background:url(../img/bc_grid_h_a.png) repeat-x top; border-right:solid 1px #ACCBF7}
+
+/** Body Grid **/
+#bc_grid tbody{background-color:#FFF}
+#bc_grid tbody td{padding:8px}
+#bc_grid tbody td{text-align:center}
+#bc_grid tbody td.td0{text-align:left}
+#bc_grid tbody td span{padding-left:8px; line-height:16px; vertical-align:top}
+
+#bc_grid tbody tr.selected td{background-color:#EBF4FD}
+
+/** Box **/
+#bc_box{width:347px; height:205px; background:url(../img/bc_popup.png) no-repeat; position:absolute; left:37%; top:40%; display:none}
+#bc_box h2{text-align:center; font-weight:normal; margin-top:30px; font-size:16px}
+#bc_box table{margin-left:35px}
+#bc_box .button{width:84px}
