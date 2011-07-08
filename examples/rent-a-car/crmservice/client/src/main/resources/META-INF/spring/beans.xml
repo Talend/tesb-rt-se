@@ -38,7 +38,7 @@
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServiceProvider"
-		address="http://localhost:8080/services/CRMServiceProvider"
+		address="http://localhost:${tesb.port}/services/CRMServiceProvider"
 	/>
 
 	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>

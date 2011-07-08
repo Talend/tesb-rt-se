@@ -35,16 +35,10 @@ public class EventCreator {
 	private static final Logger logger = Logger.getLogger(EventCreator.class
 			.getName());
 	
-	public EventCreator(){
-	}
-	
-	public Event generateEvent(){
-		Date cal = Calendar.getInstance().getTime();
-		String generated = Integer.valueOf(cal.toString().hashCode()).toString();
-		return createEvent("<request><values><value>a</value></values></request>", cal, EventTypeEnum.REQ_IN, "JUnit", "localhost", "127.0.0.1", generated, generated, generated, "testOperation", "testPort", "JAVA");
+	private EventCreator(){
 	}
 
-	public Event createEvent(String content, Date timestamp, EventTypeEnum eventType
+	public static Event createEvent(String content, Date timestamp, EventTypeEnum eventType
 			, String customOriginatorId, String hostname, String ip, String processId, String flowId,
 			String messageId, String operarionName, String portType, String transportType) {
 		
