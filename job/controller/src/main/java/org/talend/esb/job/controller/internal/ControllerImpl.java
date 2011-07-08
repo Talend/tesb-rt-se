@@ -19,10 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceEvent;
-import org.osgi.framework.ServiceListener;
-import org.osgi.framework.ServiceReference;
+import org.osgi.framework.*;
 import org.talend.esb.job.controller.Controller;
 import routines.system.api.TalendJob;
 
@@ -85,6 +82,14 @@ public class ControllerImpl implements Controller, ServiceListener {
             }
         }
         return list;
+    }
+
+    public Bundle getBundle(String name) throws Exception {
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(name=" + name + ")");
+        if (references == null) {
+            throw new IllegalArgumentException("Talend job " + name + " not found");
+        }
+        return references[0].getBundle();
     }
 
     public void run(String name) throws Exception {

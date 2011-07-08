@@ -26,25 +26,23 @@ public class Template {
 
     public static String header() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
-        buffer.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n");
-        buffer.append("<head>\n");
-        buffer.append("<title>Talend Job Console</title>\n");
-        buffer.append("<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"talend.css\" title=\"Talend\"/>\n");
-        buffer.append("</head>\n");
-        buffer.append("<body>\n");
-        buffer.append("<div class=\"top\">\n");
-        buffer.append("<img src=\"images/talend.jpg\" alt=\"Talend\"/>\n");
-        buffer.append("<div class=\"searchbox\">\n");
-        buffer.append("<form action=\"search.do\">\n");
-        buffer.append("<input class=\"searchform\" type=\"text\" name=\"query\" size=\"15\"/>\n");
-        buffer.append("<input class=\"searchform\" type=\"submit\" name=\"ok\" value=\"Search\"/><br>\n");
-        buffer.append("</form>\n");
-        buffer.append("</div>\n");
-        buffer.append("<div class=\"splitter\">\n");
-        buffer.append("<b>ESB Job Console</b>\n");
-        buffer.append("</div>\n");
-        buffer.append("</div>\n");
+        buffer.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+        buffer.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
+        buffer.append("<head>");
+        buffer.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />");
+        buffer.append("<title>Bundle Conductor</title>");
+        buffer.append("<link rel=\"stylesheet\" href=\"css/core.css\" type=\"text/css\" />");
+        buffer.append("<script type=\"text/javascript\" src=\"js/jquery.js\"></script>");
+        buffer.append("<script type=\"text/javascript\" src=\"js/core.js\"></script>");
+        buffer.append("</head>");
+        buffer.append("<body>");
+        buffer.append("<div id=\"header_bc\">");
+        buffer.append("<div>");
+        buffer.append("<div>");
+        buffer.append("<h1>BUNDLE CONDUCTOR</h1>");
+        buffer.append("</div>");
+        buffer.append("</div>");
+        buffer.append("</div>");
         return buffer.toString();
     }
 

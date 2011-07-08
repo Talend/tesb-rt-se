@@ -27,6 +27,11 @@
             <version>${osgi.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.talend.esb.job</groupId>
             <artifactId>org.talend.esb.job.api</artifactId>
             <version>${project.version}</version>
@@ -48,8 +53,8 @@
                         <Import-Package>
                             *
                         </Import-Package>
-                        <Web-ContextPath>jobconsole</Web-ContextPath>
-                        <Webapp-Context>jobconsole</Webapp-Context>
+                        <Web-ContextPath>bundle-conductor</Web-ContextPath>
+                        <Webapp-Context>bundle-conductor</Webapp-Context>
                     </instructions>
                 </configuration>
             </plugin>

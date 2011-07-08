@@ -24,7 +24,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    <display-name>Talend Job WebConsole</display-name>
+    <display-name>Bundle Conductor</display-name>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -34,10 +34,50 @@
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>org.talend.esb.job.console.HomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeployServlet</servlet-name>
+        <servlet-class>org.talend.esb.job.console.DeployServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StartServlet</servlet-name>
+        <servlet-class>org.talend.esb.job.console.StartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StopServlet</servlet-name>
+        <servlet-class>org.talend.esb.job.console.StopServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RunServlet</servlet-name>
+        <servlet-class>org.talend.esb.job.console.RunServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UndeployServlet</servlet-name>
+        <servlet-class>org.talend.esb.job.console.UndeployServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeployServlet</servlet-name>
+        <url-pattern>/deploy.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartServlet</servlet-name>
+        <url-pattern>/start.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StopServlet</servlet-name>
+        <url-pattern>/stop.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RunServlet</servlet-name>
+        <url-pattern>/run.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UndeployServlet</servlet-name>
+        <url-pattern>/undeploy.do</url-pattern>
     </servlet-mapping>
 
 </web-app>
