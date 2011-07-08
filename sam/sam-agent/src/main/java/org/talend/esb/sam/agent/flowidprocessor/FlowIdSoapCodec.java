@@ -67,6 +67,12 @@ public class FlowIdSoapCodec {
     		return;
     	}
         SoapMessage soapMessage = (SoapMessage)message;
+        Header hdFlowId = soapMessage.getHeader(FlowIdHelper.FLOW_ID_QNAME);
+        if (hdFlowId != null) {
+        	logger.warning("FlowId already existing in soap header, need not to write FlowId header.");
+        	return;
+        }
+        
         List<Header> headers = soapMessage.getHeaders();
         Header flowIdHeader;
         try {
