@@ -54,27 +54,32 @@ public class RunServlet extends HttpServlet {
     public void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String args = request.getParameter("args");
+        String error = null;
         if (name != null && name.trim().length() > 0) {
             // looking for the controler
             ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
             if (ref != null) {
                 Controller controller = (Controller) bundleContext.getService(ref);
-                try {
                 if (controller != null) {
-                    if (args != null) {
-                        String[] argArray = args.split(" ");
-                        controller.run(name, argArray);
-                    } else {
-                        controller.run(name);
+                    try {
+                        if (args != null) {
+                            String[] argArray = args.split(" ");
+                            controller.run(name, argArray);
+                        } else {
+                            controller.run(name);
+                        }
+                    } catch (Exception e) {
+                        error = e.getMessage();
                     }
                 }
-                } catch (Exception e) {
-                    response.sendRedirect("home.do?error=" + e.getMessage());
-                    return;
-                }
+                bundleContext.ungetService(ref);
             }
         }
-        response.sendRedirect("home.do");
+        if (error != null) {
+            response.sendRedirect("home.do?error=" + error);
+        } else {
+            response.sendRedirect("home.do");
+        }
     }
 
 }
