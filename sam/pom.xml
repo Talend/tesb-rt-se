@@ -13,7 +13,6 @@
     </parent>
 
     <name>Service Activity Monitoring</name>
-    <url>http://www.talend.com</url>
 
     <modules>
         <module>sam-common</module>

@@ -7,7 +7,6 @@
     <packaging>jar</packaging>
 
     <name>Service Activity Monitoring :: Example Client</name>
-    <url>http://www.talend.com</url>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
