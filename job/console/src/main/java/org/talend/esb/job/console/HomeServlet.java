@@ -136,6 +136,10 @@ public class HomeServlet extends HttpServlet {
                 }
             }
 
+            if (ref != null) {
+                bundleContext.ungetService(ref);
+            }
+
             writer.println("</tbody>");
             writer.println("</table>");
             writer.println("</div>");

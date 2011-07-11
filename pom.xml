@@ -109,6 +109,8 @@
         <geronimo-jsp.version>1.0.1</geronimo-jsp.version>
         <commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version>
         <jdom.bundle.version>1.1_3</jdom.bundle.version>
+        <commons-fileupload.version>1.2.2</commons-fileupload.version>
+        <commons-io.bundle.version>1.4_1</commons-io.bundle.version>
 
         <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
         <cxf.resources.base.path />

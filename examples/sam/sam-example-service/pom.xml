@@ -7,7 +7,6 @@
     <packaging>war</packaging>
 
     <name>Service Activity Monitoring :: Example Service</name>
-    <url>http://www.talend.com</url>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>

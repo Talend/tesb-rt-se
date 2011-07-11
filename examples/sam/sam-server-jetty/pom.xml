@@ -13,7 +13,6 @@
     </parent>
 
     <name>Service Activity Monitoring :: Server Jetty</name>
-    <url>http://www.talend.com</url>
 
     <build>
         <finalName>${project.artifactId}</finalName>

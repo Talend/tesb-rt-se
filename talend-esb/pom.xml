@@ -70,7 +70,7 @@
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
 		<commons-csv.bundle.version>1.0-r706899_4</commons-csv.bundle.version>
 		<commons-httpclient.bundle.version>3.1_5</commons-httpclient.bundle.version>
-		<commons-io.bundle.version>1.4_1</commons-io.bundle.version>
+		<!--commons-io.bundle.version>1.4_1</commons-io.bundle.version-->
 		<commons-lang.bundle.version>2.4_4</commons-lang.bundle.version>
 		<commons-net.bundle.version>1.4.1_4</commons-net.bundle.version>
 		<commons-pool.bundle.version>1.5.4_2</commons-pool.bundle.version>

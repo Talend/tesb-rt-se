@@ -54,6 +54,7 @@ public class StopServlet extends HttpServlet {
 
     public void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
+        String error = null;
         if (name != null && name.trim().length() > 0) {
             // looking for the controller
             ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
@@ -64,13 +65,17 @@ public class StopServlet extends HttpServlet {
                         Bundle bundle = controller.getBundle(name);
                         bundle.stop();
                     } catch (Exception e) {
-                        response.sendRedirect("home.do?error=" + e.getMessage());
-                        return;
+                        error = e.getMessage();
                     }
                 }
+                bundleContext.ungetService(ref);
             }
         }
-        response.sendRedirect("home.do");
+        if (error != null) {
+            response.sendRedirect("home.do?error=" + error);
+        } else {
+            response.sendRedirect("home.do");
+        }
     }
 
 }

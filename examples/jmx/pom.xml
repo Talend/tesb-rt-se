@@ -17,7 +17,6 @@
     </parent>
 
     <name>Java Management Extension :: Examples</name>
-    <url>http://www.talend.com</url>
   
     <modules>
         <module>simple-service-bundle</module>
