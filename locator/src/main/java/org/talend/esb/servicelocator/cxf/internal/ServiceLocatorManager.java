@@ -57,10 +57,14 @@ public class ServiceLocatorManager implements BusExtension {
 	}
 
 	public void enableClient(Client client) {
-		enableClient( client, null);
+		enableClient( client, null, null);
 	}
 
     public void enableClient(final Client client, SLPropertiesMatcher matcher) {
+    	enableClient( client, matcher, null);
+    }
+
+    public void enableClient(final Client client, SLPropertiesMatcher matcher, String selectionStrategy) {
         clientEnabler.enable( new ConduitSelectorHolder() {
             
             @Override
@@ -72,15 +76,18 @@ public class ServiceLocatorManager implements BusExtension {
             public ConduitSelector getConduitSelector() {
                 return client.getConduitSelector();
             }
-        }, matcher);
+        }, matcher, selectionStrategy);
     }
     
     public void enableClient(ClientConfiguration clientConf) {
         enableClient( clientConf, null);
     }
 
+    public void enableClient(final ClientConfiguration clientConf, SLPropertiesMatcher matcher) {
+    	enableClient( clientConf, matcher, null);
+    }
 
-    public void enableClient(final ClientConfiguration clientConfiguration, SLPropertiesMatcher matcher) {
+    public void enableClient(final ClientConfiguration clientConfiguration, SLPropertiesMatcher matcher, String selectionStrategy) {
         clientEnabler.enable( new ConduitSelectorHolder() {
             
             @Override
@@ -92,10 +99,11 @@ public class ServiceLocatorManager implements BusExtension {
             public ConduitSelector getConduitSelector() {
                 return clientConfiguration.getConduitSelector();
             }
-        }, matcher);
+        }, matcher, selectionStrategy);
     }
+    
 
-    public void setBus(Bus bus) {
+     public void setBus(Bus bus) {
 		if (bus != this.bus) {
 			this.bus = bus;
 			if (bus != null) {

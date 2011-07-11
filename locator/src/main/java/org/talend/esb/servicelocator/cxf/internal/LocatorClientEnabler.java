@@ -80,9 +80,17 @@ public class LocatorClientEnabler {
 	}
 
     public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher) {
+    	enable(conduitSelectorHolder, matcher, null);
+    }
+
+    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher, String selectionStrategy) {
         LocatorTargetSelector selector = new LocatorTargetSelector();
         selector.setEndpoint(conduitSelectorHolder.getConduitSelector().getEndpoint());
 
+        if (selectionStrategy != null) {
+        	setLocatorSelectionStrategy(selectionStrategy);
+        } 
+        
         locatorSelectionStrategy.setServiceLocator(locatorClient);
         if (matcher != null) {
             locatorSelectionStrategy.setMatcher(matcher);
