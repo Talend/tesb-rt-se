@@ -1,63 +1,81 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb.examples</groupId>
-    <artifactId>sam-server-jetty</artifactId>
-    <packaging>pom</packaging>
+	<groupId>org.talend.esb.examples</groupId>
+	<artifactId>sam-server-jetty</artifactId>
+	<packaging>war</packaging>
 
-    <parent>
-        <groupId>org.talend.esb.examples</groupId>
-        <artifactId>sam-examples</artifactId>
-        <version>5.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.talend.esb.examples</groupId>
+		<artifactId>sam-examples</artifactId>
+		<version>5.0-SNAPSHOT</version>
+	</parent>
 
-    <name>Service Activity Monitoring :: Server Jetty</name>
+	<name>Service Activity Monitoring :: Server Jetty</name>
 
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <defaultGoal>jetty:run-war</defaultGoal>
-        <plugins>
-	<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.2</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.talend.esb</groupId>
-                  <artifactId>sam-server-war</artifactId>
-                  <version>5.0-SNAPSHOT</version>
-                  <type>war</type>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>7.3.1.v20110307</version>		
-                <configuration>
-                    <connectors>
-                        <connector
-                            implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>9080</port>
-                            <maxIdleTime>60000</maxIdleTime>
-                        </connector>
-                    </connectors>
-		            <webApp>target/dependency/sam-server-war-${project.version}.war</webApp>
-					
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<defaultGoal>jetty:run-war</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.talend.esb</groupId>
+									<artifactId>sam-server-war</artifactId>
+									<version>5.0-SNAPSHOT</version>
+									<type>war</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.3.1.v20110307</version>
+				<configuration>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>9080</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
+					<webApp>target/dependency/sam-server-war-${project.version}.war</webApp>
+					<contextHandlers>
+						<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+							<war>target/dependency/sam-server-war-${project.version}.war</war>
+							<contextPath>/sam-server-war</contextPath>
+						</contextHandler>
+					</contextHandlers>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbynet</artifactId>
+			<version>${derby.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>
