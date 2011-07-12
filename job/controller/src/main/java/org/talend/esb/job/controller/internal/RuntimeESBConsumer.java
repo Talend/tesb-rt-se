@@ -44,7 +44,6 @@ import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
-import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
 
@@ -60,7 +59,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final AbstractFeature serviceActivityMonitoring;
     private final CustomInfoHandler customPropertiesHandler;
     private final Bus bus;
-    private Client client = null;
+    private Client client;
 
     public RuntimeESBConsumer(
             final QName serviceName,
@@ -195,12 +194,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             if (((SoapFault)ex).hasDetails()) {
-                Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
+                org.w3c.dom.Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
                                                                   true);
                 nd = nd.getFirstChild();
                 soapFault.addDetail();
                 while (nd != null) {
-                    Node next = nd.getNextSibling();
+                    org.w3c.dom.Node next = nd.getNextSibling();
                     soapFault.getDetail().appendChild(nd);
                     nd = next;
                 }

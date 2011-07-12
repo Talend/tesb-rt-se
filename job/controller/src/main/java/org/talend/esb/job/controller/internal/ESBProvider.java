@@ -57,14 +57,15 @@ import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 @javax.xml.ws.WebServiceProvider()
 class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
 
-    private static final Logger LOG = Logger.getLogger(ESBProvider.class.getName());
-    private static final javax.xml.transform.TransformerFactory factory =
-        javax.xml.transform.TransformerFactory.newInstance();
-    private static final QName XSD_ANY_TYPE =
-        new QName("http://www.w3.org/2001/XMLSchema", "anyType");
     public static final String REQUEST_PAYLOAD = "PAYLOAD";
     public static final String REQUEST_SAM_PROPS = "SAM-PROPS";
     public static final String REQUEST_SL_PROPS = "SL-PROPS";
+
+    private static final Logger LOG = Logger.getLogger(ESBProvider.class.getName());
+    private static final javax.xml.transform.TransformerFactory FACTORY =
+        javax.xml.transform.TransformerFactory.newInstance();
+    private static final QName XSD_ANY_TYPE =
+        new QName("http://www.w3.org/2001/XMLSchema", "anyType");
 
     private final Map<String, RuntimeESBProviderCallback> callbacks =
         new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
@@ -138,7 +139,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
         }
         try {
             org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-            factory.newTransformer().transform(request, docResult);
+            FACTORY.newTransformer().transform(request, docResult);
             org.dom4j.Document requestDoc = docResult.getDocument();
 
             //System.out.println("request: " +requestDoc.asXML());
@@ -164,7 +165,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
                 }
                 return new org.dom4j.io.DocumentSource(
                         (org.dom4j.Document)map.get(REQUEST_PAYLOAD));
-            } else if (result instanceof RuntimeException){
+            } else if (result instanceof RuntimeException) {
                 throw (RuntimeException)result;
             } else if (result instanceof Throwable){
                 throw new RuntimeException((Throwable)result);
