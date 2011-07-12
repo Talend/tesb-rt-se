@@ -43,6 +43,7 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
@@ -57,6 +58,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
     private final AbstractFeature serviceActivityMonitoring;
+    private final CustomInfoHandler customPropertiesHandler;
     private final Bus bus;
     private Client client = null;
 
@@ -68,6 +70,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
             final AbstractFeature serviceActivityMonitoring,
+            final CustomInfoHandler customPropertiesHandler,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -76,6 +79,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
         this.serviceActivityMonitoring = serviceActivityMonitoring;
+        this.customPropertiesHandler = customPropertiesHandler;
         this.bus = bus;
     }
 
@@ -85,8 +89,18 @@ public class RuntimeESBConsumer implements ESBConsumer {
             return sendDocument((org.dom4j.Document)payload);
         } else if (payload instanceof java.util.Map) {
             @SuppressWarnings("unchecked")
-            java.util.Map<String, Object> map = (java.util.Map<String, Object>)payload;
-            return sendDocument((org.dom4j.Document)map.get("PAYLOAD"));
+            java.util.Map<String, Object> map =
+                (java.util.Map<String, Object>)payload;
+            if (serviceActivityMonitoring != null) {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, String> samProps =
+                    (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
+                if (samProps != null) {
+                    customPropertiesHandler.setCustomInfo(samProps);
+                }
+            }
+            return sendDocument(
+                (org.dom4j.Document)map.get(ESBProvider.REQUEST_PAYLOAD));
         } else {
             throw new RuntimeException(
                 "Consumer try to send incompatible object: " + payload.getClass().getName());

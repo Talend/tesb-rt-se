@@ -21,10 +21,6 @@
 
 <features>
 
-    <!--
-        Copyright (c) 2011 Talend Inc. - www.talend.com
-    -->
-
     <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.api/${project.version}</bundle>
     </feature>

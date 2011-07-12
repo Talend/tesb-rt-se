@@ -49,6 +49,7 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.tools.common.extensions.soap.SoapOperation;
 import org.apache.cxf.tools.util.SOAPBindingUtil;
 import org.apache.cxf.wsdl.WSDLManager;
+import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 //@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE, style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = javax.jws.soap.SOAPBinding.Use.LITERAL)
@@ -61,6 +62,9 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
         javax.xml.transform.TransformerFactory.newInstance();
     private static final QName XSD_ANY_TYPE =
         new QName("http://www.w3.org/2001/XMLSchema", "anyType");
+    public static final String REQUEST_PAYLOAD = "PAYLOAD";
+    public static final String REQUEST_SAM_PROPS = "SAM-PROPS";
+    public static final String REQUEST_SL_PROPS = "SL-PROPS";
 
     private final Map<String, RuntimeESBProviderCallback> callbacks =
         new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
@@ -69,6 +73,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
     private final QName portName;
     private final AbstractFeature serviceLocator;
     private final AbstractFeature serviceActivityMonitoring;
+    private final CustomInfoHandler customPropertiesHandler;
 
     private Server server;
 
@@ -79,12 +84,14 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
             final QName serviceName,
             final QName portName,
             final AbstractFeature serviceLocator,
-            final AbstractFeature serviceActivityMonitoring) {
+            final AbstractFeature serviceActivityMonitoring,
+            final CustomInfoHandler customPropertiesHandler) {
         this.publishedEndpointUrl = publishedEndpointUrl;
         this.serviceName = serviceName;
         this.portName = portName;
         this.serviceLocator = serviceLocator;
         this.serviceActivityMonitoring = serviceActivityMonitoring;
+        this.customPropertiesHandler = customPropertiesHandler;
     }
 
     public String getPublishedEndpointUrl() {
@@ -147,10 +154,16 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
             } else if (result instanceof java.util.Map) {
                 @SuppressWarnings("unchecked")
                 java.util.Map<String, Object> map = (java.util.Map<String, Object>)result;
-//              "SL-PROPS"
-//              "SAM-PROPS"
+                if (serviceActivityMonitoring != null) {
+                    @SuppressWarnings("unchecked")
+                    java.util.Map<String, String> samProps =
+                        (java.util.Map<String, String>)map.get(REQUEST_SAM_PROPS);
+                    if (samProps != null) {
+                        customPropertiesHandler.setCustomInfo(samProps);
+                    }
+                }
                 return new org.dom4j.io.DocumentSource(
-                        (org.dom4j.Document)map.get("PAYLOAD"));
+                        (org.dom4j.Document)map.get(REQUEST_PAYLOAD));
             } else if (result instanceof RuntimeException){
                 throw (RuntimeException)result;
             } else if (result instanceof Throwable){

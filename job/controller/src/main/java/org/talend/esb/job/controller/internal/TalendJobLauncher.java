@@ -30,6 +30,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
+import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
@@ -61,6 +62,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
     private Bus bus;
     private AbstractFeature serviceLocator;
     private AbstractFeature serviceActivityMonitoring;
+    private CustomInfoHandler customPropertiesHandler;
 
     public void setBus(Bus bus) {
         this.bus = bus;
@@ -75,7 +77,11 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
         this.serviceActivityMonitoring = serviceActivityMonitoring;
     }
 
-	public void runTalendJob(final TalendJob talendJob, final String[] args) {
+    public void setCustomPropertiesHandler(CustomInfoHandler customPropertiesHandler) {
+        this.customPropertiesHandler = customPropertiesHandler;
+    }
+
+    public void runTalendJob(final TalendJob talendJob, final String[] args) {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -132,66 +138,69 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
         jobs.get(talendJob).interrupt();
     }
 
-	private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
-		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
-		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
+    private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
+        final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
 
-		ESBProviderKey key = new ESBProviderKey(serviceName, portName);
-		Collection<ESBProvider> esbProviders = endpoints.get(key);
-		if(null == esbProviders) {
-			esbProviders = new ArrayList<ESBProvider>(1);
-			endpoints.put(key, esbProviders);
-		}
+        ESBProviderKey key = new ESBProviderKey(serviceName, portName);
+        Collection<ESBProvider> esbProviders = endpoints.get(key);
+        if(null == esbProviders) {
+            esbProviders = new ArrayList<ESBProvider>(1);
+            endpoints.put(key, esbProviders);
+        }
 
-		// TODO: add publishedEndpointUrl to ESBProviderKey
-		ESBProvider esbProvider = null;
-		for(ESBProvider provider : esbProviders) {
-			if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
-				esbProvider = provider;
-				break;
-			}
-		}
-		if(esbProvider == null) {
-			boolean useServiceLocator =
-				((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
-			boolean useServiceActivityMonitor =
-				((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+        // TODO: add publishedEndpointUrl to ESBProviderKey
+        ESBProvider esbProvider = null;
+        for(ESBProvider provider : esbProviders) {
+            if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
+                esbProvider = provider;
+                break;
+            }
+        }
+        if(esbProvider == null) {
+            boolean useServiceLocator =
+                ((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+            boolean useServiceActivityMonitor =
+                ((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
 
-			esbProvider = new ESBProvider(publishedEndpointUrl,
-					serviceName,
-					portName,
-					useServiceLocator ? serviceLocator : null,
-					useServiceActivityMonitor ? serviceActivityMonitoring : null);
-			esbProvider.run(bus);
-			esbProviders.add(esbProvider);
-		}
+            esbProvider = new ESBProvider(publishedEndpointUrl,
+                serviceName,
+                portName,
+                useServiceLocator ? serviceLocator : null,
+                useServiceActivityMonitor ? serviceActivityMonitoring : null,
+                customPropertiesHandler);
+            esbProvider.run(bus);
+            esbProviders.add(esbProvider);
+        }
 
-		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-		ESBProviderCallback esbProviderCallback =
-			esbProvider.createESBProviderCallback(operationName,
-				isRequestResponse((String)props.get(COMMUNICATION_STYLE)));
+        final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+        ESBProviderCallback esbProviderCallback =
+            esbProvider.createESBProviderCallback(operationName,
+                isRequestResponse((String)props.get(COMMUNICATION_STYLE)));
 
-		return esbProviderCallback;
-	}
+        return esbProviderCallback;
+    }
 
-	private void destroyESBProvider(final Map<String, Object> props) {
-		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-		final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+    private void destroyESBProvider(final Map<String, Object> props) {
+        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
+        final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
 
-		Collection<ESBProvider> esbProviders = endpoints.get(
-				new ESBProviderKey(serviceName, portName));
-		for(ESBProvider esbProvider : esbProviders) {
-			if(publishedEndpointUrl.equals(esbProvider.getPublishedEndpointUrl())) {
-				final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
-				if(esbProvider.destroyESBProviderCallback(operationName)) {
-					esbProviders.remove(esbProvider);
-				}
-				break;
-			}
-		}
-	}
+        final Collection<ESBProvider> esbProviders = endpoints.get(
+            new ESBProviderKey(serviceName, portName));
+        if (esbProviders != null) {
+            for (ESBProvider esbProvider : esbProviders) {
+                if(publishedEndpointUrl.equals(esbProvider.getPublishedEndpointUrl())) {
+                    final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+                    if(esbProvider.destroyESBProviderCallback(operationName)) {
+                        esbProviders.remove(esbProvider);
+                    }
+                    break;
+                }
+            }
+        }
+    }
 
 	@Override
 	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
@@ -233,6 +242,7 @@ public class TalendJobLauncher implements ESBEndpointRegistry {
 					isRequestResponse((String)props.get(COMMUNICATION_STYLE)),
 					useServiceLocator ? serviceLocator : null,
 					useServiceActivityMonitor ? serviceActivityMonitoring : null,
+					customPropertiesHandler,
 					bus);
 		//}
 		return esbConsumer;
