@@ -98,10 +98,10 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
         sf.setAddress(publishedEndpointUrl);
         sf.setServiceBean(this);
         List<AbstractFeature> features = new ArrayList<AbstractFeature>();
-        if(serviceLocator != null) {
+        if (serviceLocator != null) {
             features.add(serviceLocator);
         }
-        if(serviceActivityMonitoring != null) {
+        if (serviceActivityMonitoring != null) {
             features.add(serviceActivityMonitoring);
         }
         sf.setFeatures(features);
@@ -144,6 +144,13 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
             if (result instanceof org.dom4j.Document) {
                 return new org.dom4j.io.DocumentSource(
                     (org.dom4j.Document)result);
+            } else if (result instanceof java.util.Map) {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, Object> map = (java.util.Map<String, Object>)result;
+//              "SL-PROPS"
+//              "SAM-PROPS"
+                return new org.dom4j.io.DocumentSource(
+                        (org.dom4j.Document)map.get("PAYLOAD"));
             } else if (result instanceof RuntimeException){
                 throw (RuntimeException)result;
             } else if (result instanceof Throwable){
