@@ -29,8 +29,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
+	
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-    
     <import resource="persistence.xml"/>
 
     <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
