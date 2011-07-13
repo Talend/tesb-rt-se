@@ -38,6 +38,7 @@ import org.apache.cxf.endpoint.ConduitSelector;
 import org.apache.cxf.endpoint.Endpoint;
 import org.easymock.Capture;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
@@ -50,7 +51,7 @@ public class LocatorClientEnablerTest {
 
     private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
 
-	@Before
+	@Before 
 	public void setUp() {
         locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategy>();
         locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategy());

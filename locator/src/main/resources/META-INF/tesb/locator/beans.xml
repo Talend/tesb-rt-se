@@ -64,7 +64,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" value="${locator.strategy}" />
+        <property name="defaultLocatorSelectionStrategy" value="${locator.strategy}" />
      </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">

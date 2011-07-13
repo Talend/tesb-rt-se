@@ -52,12 +52,16 @@ public class ServiceLocatorManager implements BusExtension {
     }
 	
 	public void listenForAllClients() {
+		listenForAllClients(null);
+	}
+	
+	public void listenForAllClients(String selectionStrategy) {
         ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
         clcm.registerListener(new ClientLifeCycleListenerForLocator());
 	}
 
 	public void enableClient(Client client) {
-		enableClient( client, null, null);
+		enableClient( client, null);
 	}
 
     public void enableClient(final Client client, SLPropertiesMatcher matcher) {
