@@ -27,10 +27,8 @@
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd ">
+	
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-
 	<import resource="classpath:META-INF/tesb/agent-context.xml" />
 
     <bean id="fixedProperties"

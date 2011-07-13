@@ -31,10 +31,8 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
     ">
+	
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <!--import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-extension-http-jetty.xml" /-->
 
     <jaxws:client id="monitoringServiceV1Client"
         serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"

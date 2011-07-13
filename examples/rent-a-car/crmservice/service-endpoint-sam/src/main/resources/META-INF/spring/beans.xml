@@ -28,10 +28,7 @@
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
-
 	<import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
 	<bean id="CRMServiceBean"

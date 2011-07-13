@@ -43,7 +43,7 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.w3c.dom.Node;
+import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
 
@@ -57,7 +57,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
     private final AbstractFeature serviceActivityMonitoring;
+    private final CustomInfoHandler customPropertiesHandler;
     private final Bus bus;
+    private Client client;
 
     public RuntimeESBConsumer(
             final QName serviceName,
@@ -67,6 +69,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
             final AbstractFeature serviceActivityMonitoring,
+            final CustomInfoHandler customPropertiesHandler,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -75,45 +78,66 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
         this.serviceActivityMonitoring = serviceActivityMonitoring;
+        this.customPropertiesHandler = customPropertiesHandler;
         this.bus = bus;
     }
 
     @Override
     public Object invoke(Object payload) throws Exception {
-        if(payload instanceof org.dom4j.Document) {
-            Client client = createClient();
-            try {
-                Object[] result = client.invoke(operationName, new org.dom4j.io.DocumentSource(
-                        (org.dom4j.Document)payload));
-                if (result != null) {
-                    org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-                    javax.xml.transform.TransformerFactory.newInstance().
-                        newTransformer().transform((Source)result[0], docResult);
-                    return docResult.getDocument();
+        if (payload instanceof org.dom4j.Document) {
+            return sendDocument((org.dom4j.Document)payload);
+        } else if (payload instanceof java.util.Map) {
+            @SuppressWarnings("unchecked")
+            java.util.Map<String, Object> map =
+                (java.util.Map<String, Object>)payload;
+            if (serviceActivityMonitoring != null) {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, String> samProps =
+                    (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
+                if (samProps != null) {
+                    customPropertiesHandler.setCustomInfo(samProps);
                 }
-            } catch (org.apache.cxf.binding.soap.SoapFault e) {
-                // org.apache.cxf.jaxws.JaxWsClientProxy
-                SOAPFault soapFault = createSoapFault(e);
-                if (soapFault == null) {
-                    throw new WebServiceException(e);
-                }
-                SOAPFaultException exception = new SOAPFaultException(soapFault);
-                if (e instanceof Fault && e.getCause() != null) {
-                    exception.initCause(e.getCause());
-                } else {
-                    exception.initCause(e);
-                }
-                throw exception;
             }
-            return null;
+            return sendDocument(
+                (org.dom4j.Document)map.get(ESBProvider.REQUEST_PAYLOAD));
         } else {
             throw new RuntimeException(
                 "Consumer try to send incompatible object: " + payload.getClass().getName());
         }
     }
 
-    private Client createClient() throws BusException, EndpointException {
+    private Object sendDocument(org.dom4j.Document doc) throws Exception {
+        Client client = createClient();
+        try {
+            Object[] result = client.invoke(operationName,
+                new org.dom4j.io.DocumentSource(doc));
+            if (result != null) {
+                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
+                javax.xml.transform.TransformerFactory.newInstance().
+                    newTransformer().transform((Source)result[0], docResult);
+                return docResult.getDocument();
+            }
+        } catch (org.apache.cxf.binding.soap.SoapFault e) {
+            // org.apache.cxf.jaxws.JaxWsClientProxy
+            SOAPFault soapFault = createSoapFault(e);
+            if (soapFault == null) {
+                throw new WebServiceException(e);
+            }
+            SOAPFaultException exception = new SOAPFaultException(soapFault);
+            if (e instanceof Fault && e.getCause() != null) {
+                exception.initCause(e.getCause());
+            } else {
+                exception.initCause(e);
+            }
+            throw exception;
+        }
+        return null;
+    }
 
+    private Client createClient() throws BusException, EndpointException {
+        if (client != null) {
+            return client;
+        }
         final JaxWsClientFactoryBean cf = new JaxWsClientFactoryBean();
         cf.setServiceName(serviceName);
         cf.setEndpointName(portName);
@@ -133,7 +157,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         cf.setFeatures(features);
 
-        final Client client = cf.create();
+        client = cf.create();
         
         final Service service = client.getEndpoint().getService();
         service.setDataBinding(new SourceDataBinding());
@@ -170,12 +194,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             if (((SoapFault)ex).hasDetails()) {
-                Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
+                org.w3c.dom.Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
                                                                   true);
                 nd = nd.getFirstChild();
                 soapFault.addDetail();
                 while (nd != null) {
-                    Node next = nd.getNextSibling();
+                    org.w3c.dom.Node next = nd.getNextSibling();
                     soapFault.getDetail().appendChild(nd);
                     nd = next;
                 }
