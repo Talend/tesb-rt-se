@@ -187,7 +187,7 @@
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<jettison.version>1.3</jettison.version>
 		<junit.version>4.7</junit.version>
-		<log4j.version>1.2.16</log4j.version>
+		<log4j.version>1.2.15</log4j.version>
 		<mybatis.version>3.0.4</mybatis.version>
 		<openjpa.version>2.0.0</openjpa.version>
 		<restlet.version>2.0.5</restlet.version>
@@ -700,6 +700,11 @@
 				<includes>
 					<include>**/*</include>
 				</includes>
+			</resource>
+			<resource>
+				<directory>${project.basedir}/bin</directory>
+				<filtering>true</filtering>
+				<targetPath>bin</targetPath>
 			</resource>
 		</resources>
 		<plugins>

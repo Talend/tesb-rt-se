@@ -22,11 +22,11 @@ REM
 
 setlocal
 set TESB_ADDONS=%~dp0..\add-ons
-set CXF_MODULES=%~dp0..\modules"
+set CXF_MODULES=%~dp0..\modules
 
-set CLASSPATH="%TESB_ADDONS%/locator/locator-4..2-SNAPSHOT.jar;%TESB_ADDONS%/lib/zookeeper-3.3.3.jar;%TESB_ADDONS%/lib/log4j-1.2.15.jar,%CXF_MODULES%\cxf-api-2.4.1.jar""
+set CLASSPATH="%TESB_ADDONS%/locator/locator-${project.version}.jar;%TESB_ADDONS%/lib/zookeeper-${zookeeper.version}.jar;%TESB_ADDONS%/lib/log4j-${log4j.version}.jar,%CXF_MODULES%\cxf-api-${cxf.version}.jar"
 
 echo on
-java -cp "%CLASSPATH%" org.talend.esb.locator.ServiceLocatorMain  %*
+java -cp %CLASSPATH% org.talend.esb.locator.ServiceLocatorMain  %*
 
 endlocal
