@@ -16,6 +16,11 @@ REM limitations under the License.
 
 setlocal enabledelayedexpansion
 
+if "%1"=="" (
+	echo Usage: %~dp0zkServer.cmd { start : stop }
+	goto END
+)
+
 if not defined JMXLOCALONLY ( 
 	set JMXLOCALONLY=false 
 )
@@ -43,8 +48,19 @@ if "%1"=="start" (
 	set /A ZOOPID=%%A 
 	echo !ZOOPID!>zookeeper_server.pid
 )
+	if exist java (
 	start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
-	echo STARTED
+    echo STARTED	
+	)
+	if not exist java (
+		if defined JAVA_HOME (
+		path=%PATH%;%JAVA_HOME%\bin
+		start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
+		echo STARTED
+	 ) else (
+	  echo JAVA_HOME doesn`t exist
+	 )
+)
 )
 
 if "%1"=="stop" (
@@ -57,5 +73,7 @@ if "%1"=="stop" (
 	taskkill /t /f /pid !ZOOPID!
 	echo STOPED
 )
+ 
+:END
  
 endlocal
