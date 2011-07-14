@@ -19,26 +19,18 @@
   -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:cxf="http://cxf.apache.org/core"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xsi:schemaLocation="
-	    http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
 >
-	<cxf:bus>
-        <cxf:features>
-			<bean id="LocatorFeatureBean" class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
-        </cxf:features>
-    </cxf:bus> 
-
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
-	
+
 	<jaxws:client id="CRMServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
@@ -46,6 +38,9 @@
 		endpointName="serviceNamespace:CRMServiceProvider"
 		address="locator://CRMServiceProvider"
 	>
+		<jaxws:features>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+		</jaxws:features>
 	</jaxws:client>
 
 	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
