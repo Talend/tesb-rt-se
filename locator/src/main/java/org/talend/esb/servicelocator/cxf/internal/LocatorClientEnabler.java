@@ -43,6 +43,8 @@ public class LocatorClientEnabler {
 	
 	private LocatorSelectionStrategy locatorSelectionStrategy;
 
+	private String defaultLocatorSelectionStrategy;
+
 	public void setServiceLocator(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
 		if (LOG.isLoggable(Level.FINE)) {
@@ -75,7 +77,22 @@ public class LocatorClientEnabler {
 		}
 	}
 
-    public void enable(ConduitSelectorHolder conduitSelectorHolder) {
+    public void setDefaultLocatorSelectionStrategy(
+			String defaultLocatorSelectionStrategy) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Default strategy " + defaultLocatorSelectionStrategy + " was set for LocatorClientRegistrar.");
+		}
+		if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
+			this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
+			this.defaultLocatorSelectionStrategy = defaultLocatorSelectionStrategy;
+			setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
+		} else {
+			if (LOG.isLoggable(Level.WARNING))
+				LOG.log(Level.WARNING, "Default LocatorSelectionStrategy " + defaultLocatorSelectionStrategy + " not registered at LocatorClientEnabler.");
+		}
+	}
+
+	public void enable(ConduitSelectorHolder conduitSelectorHolder) {
         enable(conduitSelectorHolder, null);
 	}
 
@@ -89,7 +106,7 @@ public class LocatorClientEnabler {
 
         if (selectionStrategy != null) {
         	setLocatorSelectionStrategy(selectionStrategy);
-        } 
+        } else setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
         
         locatorSelectionStrategy.setServiceLocator(locatorClient);
         if (matcher != null) {

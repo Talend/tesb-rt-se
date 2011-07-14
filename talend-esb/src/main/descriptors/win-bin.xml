@@ -121,7 +121,7 @@
         </fileSet>
 
         <fileSet>
-            <directory>bin</directory>
+            <directory>target/classes/bin</directory>
             <outputDirectory>/bin</outputDirectory>
             <includes>
                 <include>**/*</include>
@@ -135,7 +135,7 @@
             <directoryMode>755</directoryMode>
         </fileSet>
         <fileSet>
-            <directory>bin</directory>
+            <directory>target/classes/bin</directory>
             <outputDirectory>/bin</outputDirectory>
             <includes>
                 <include>*.bat</include>

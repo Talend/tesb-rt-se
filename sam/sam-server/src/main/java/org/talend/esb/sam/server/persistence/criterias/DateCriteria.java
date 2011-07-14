@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,18 +23,18 @@ import java.sql.Timestamp;
 
 /**
  * Criteria for date values
- * 
+ *
  * @author zubairov
  */
 public class DateCriteria extends Criteria {
 
 	protected Timestamp value = null;
-	
+
 	/**
-	 * Number of milliseconds in day without one millisecond 
+	 * Number of milliseconds in day without one millisecond
 	 */
 	private static long MILLS_IN_DAY = (24 * 60 * 60 * 1000) - 1;
-	
+
 	public DateCriteria(String name, String colunmName) {
 		super(name, colunmName);
 	}
@@ -45,9 +45,9 @@ public class DateCriteria extends Criteria {
 		if (name.endsWith("_on")) {
 			// We have timestamp_on case
 			DateCriteria after = new DateCriteria(name + "_after", columnName);
-			after.value = new Timestamp(attributeValue);
+			after.value = new Timestamp(attributeValue - MILLS_IN_DAY/2);
 			DateCriteria before = new DateCriteria(name + "_before", columnName);
-			before.value = new Timestamp(attributeValue + MILLS_IN_DAY);
+			before.value = new Timestamp(attributeValue + MILLS_IN_DAY/2);
 			return new Criteria[] {after, before};
 		} else {
 			DateCriteria result = new DateCriteria(name, columnName);

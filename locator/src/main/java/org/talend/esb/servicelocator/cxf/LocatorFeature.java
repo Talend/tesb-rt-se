@@ -99,7 +99,7 @@ public class LocatorFeature extends AbstractFeature {
         }
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-        slm.enableClient(clientConf, slPropsMatcher);
+        slm.enableClient(clientConf, slPropsMatcher, selectionStrategy);
     }
 
 

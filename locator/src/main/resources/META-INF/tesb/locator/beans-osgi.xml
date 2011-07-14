@@ -84,7 +84,7 @@ limitations under the License.
         </property>
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="locatorSelectionStrategy" value="$sl{locator.strategy}" />
+        <property name="defaultLocatorSelectionStrategy" value="$sl{locator.strategy}" />
     </bean>
 
     <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager" lazy-init="true">

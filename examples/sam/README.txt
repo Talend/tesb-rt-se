@@ -13,58 +13,63 @@ Example for Service Activity Monitoring(SAM)
 ============================================
 This example illustrates how to deploy and configure Service Activity Monitoring on CXF based project. 
 
+
 Prerequisite
 ------------
 
-To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
-A servlet container is Tomcat 5.5 or above.
+To build and run this example, you must install:
+    J2SE Development Kit (JDK) 5.0 or above
+    Apache Maven 3.x or above
+    Servlet container (Tomcat 5.5 or above)
+    OSGI Container (TESB Container or Karaf 2.2.x or above)
 
+	
+Start Derby database and sam-server
+-----------------------------------
 
-Start sam-server and Derby database in OSGI Container
------------------------------------------------------
+There are two ways to start Derby database and sam-server alternatively.
 
- * starting the TESB OSGi container:
- 
-    cd talend-esb-<version>/container/bin
+Start Derby database and sam-server using sam-server-jetty
+
+	cd talend-esb-<version>/examples/talend/tesb/sam/sam-server-jetty
+	mvn clean install
+	mvn jetty:run
+
+	By default the Jetty server runs on 9080 port and the sam-server can be accessible under this url: 
+	http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP?wsdl
+	
+Start Derby database and sam-server in OSGI Container
+
+	* starting the TESB OSGi container:
+
+	cd talend-esb-<version>/container/bin
 	Linux: ./tesb
 	Windows: tesb.bat
 
- * starting sam-server and Derby database in TESB OSGi container:
- 	
-	Enter the following command on the OSGI console:
-    karaf@tesb> features:install tesb-derby-starter
-    karaf@tesb> features:install tesb-sam-server
+	* starting Derby database and sam-server in TESB OSGi container:
 
-By default the TESB OSGI Container runs on 8080 port and the sam-server is accessible under that port.
+	Enter the following command on the OSGI console:
+	karaf@tesb> features:install tesb-derby-starter
+	karaf@tesb> features:install tesb-sam-server
+
+	By default the TESB OSGI Container runs on 8040 port and the sam-server can be accessible under this url: 
+	http://localhost:8040/services/MonitoringServiceSOAP?wsdl
 
 
 Configurations
 --------------
-Adopt the agent.properties file for the sam-server url.
 
 Edit the following files:
 ./sam-example-service/src/main/resources/agent.properties
 ./sam-example-service2/src/main/resources/agent.properties
 
-and if you are using the default port for the TESB OSGI container, change the service.url property to the following:
+change the service.url property to the following:
+    service.url=http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP
+    (if Start Derby database and sam-server using sam-server-jetty)
 
-service.url=http://localhost:8080/services/MonitoringServiceSOAP
+    service.url=http://localhost:8040/services/MonitoringServiceSOAP
+    (if Start Derby database and sam-server in OSGI Container)
 
-Find below the detailed description of the properties defined in agent.properties file:
-
-<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
-collector.scheduler.interval=60000
-<!-- Number of events within one service call. This is a maximum number. 
-	If there are events in the queue, the events will be processed. -->
-collector.maxEventsPerCall=200
-<!-- Enable message content logging for event producer. true/false Default: false -->
-log.messageContent=true
-<!-- Configure url to monitoring service -->
-service.url=http://localhost:8080/sam-server-war/services/MonitoringServiceSOAP
-<!-- Number of retries to access monitoring service, Default: 5 -->
-service.retry.number=3
-<!-- Delay in milliseconds between the next attemp to send. Default: 1000 -->
-service.retry.delay=5000
 
 
 Building and running the example using Maven
@@ -80,21 +85,20 @@ Using either UNIX or Windows:
 To remove the generated target/*.* files, run "mvn clean".  
 
 
-Deploy into Tomcat
-------------------
-
-TESB OSGI container by default runs on 8080 port, so make sure your tomcat is configured to run on a different port.
+Deploy examples into Tomcat
+---------------------------
 
 copy ./sam-example-service/target/sam-example-service.war to $TOMCAT_HOME/webapps/sam-example-service.war
 copy ./sam-example-service2/target/sam-example-service2.war to $TOMCAT_HOME/webapps/sam-example-service2.war
 
-start Tomcat.
+then start Tomcat.
 
 
 Testing with Soap messages
 --------------------------
-From SoapUI, send soap messages to endpoint: http://localhost:<tomcat_port>/sam-example-service2/services/CustomerServicePort
+From SoapUI Tool, send soap messages to endpoint: http://localhost:8080/sam-example-service2/services/CustomerServicePort
 
+Example soap message:
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://customerservice.example.com/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -104,5 +108,7 @@ From SoapUI, send soap messages to endpoint: http://localhost:<tomcat_port>/sam-
    </soapenv:Body>
 </soapenv:Envelope>
 
-You will see the events sent out on the console log from Tomcat.
+then, you will see the SAM events generated and stored into Derby database (or from Tomcat logs).
 
+
+Please find more information from SAMUserGuide doc and GettingStartedGuide doc.
