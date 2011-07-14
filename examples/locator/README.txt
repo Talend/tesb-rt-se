@@ -47,7 +47,7 @@ Linux:
  ./zookeeper/bin/zkServer.sh start 
 
 Windows: 
-.\zookeeper\bin\zkServer.cmd
+.\zookeeper\bin\zkServer.cmd start
 
 
 Following command can be used to stop the Locator server:
@@ -55,7 +55,7 @@ Linux:
 ./zookeeper/bin/zkServer.sh stop 
 
 Windows:
-by pressing Ctrl-C
+.\zookeeper\bin\zkServer.cmd stop
 
 
 Building the Demo
@@ -102,8 +102,8 @@ Starting the Demo service
 	
 	then enter the following command in the console:
     karaf@tesb> features:install tesb-locator-client
-    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-4.2.jar
-    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-4.2.jar
+    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-5.0-SNAPSHOT.jar
+    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-5.0-SNAPSHOT.jar
     
     
 Running the Demo client
