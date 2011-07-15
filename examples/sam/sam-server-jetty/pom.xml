@@ -4,7 +4,7 @@
 
 	<groupId>org.talend.esb.examples</groupId>
 	<artifactId>sam-server-jetty</artifactId>
-	<packaging>war</packaging>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
@@ -30,6 +30,7 @@
 							<goal>copy</goal>
 						</goals>
 						<configuration>
+						<stripVersion>true</stripVersion>
 							<artifactItems>
 								<artifactItem>
 									<groupId>org.talend.esb</groupId>
@@ -52,29 +53,9 @@
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
-					<webApp>target/dependency/sam-server-war-${project.version}.war</webApp>
-					<contextHandlers>
-						<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
-							<war>target/dependency/sam-server-war-${project.version}.war</war>
-							<contextPath>/sam-server-war</contextPath>
-						</contextHandler>
-					</contextHandlers>
+					<webApp>target/dependency/sam-server-war.war</webApp>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.derby</groupId>
-			<artifactId>derbynet</artifactId>
-			<version>${derby.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet.api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 </project>
