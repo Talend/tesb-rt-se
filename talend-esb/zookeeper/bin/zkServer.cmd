@@ -50,17 +50,16 @@ if "%1"=="start" (
 )
 	if exist java (
 	start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
-    echo STARTED	
+    	echo STARTED
 	)
 	if not exist java (
 		if defined JAVA_HOME (
-		path=%PATH%;%JAVA_HOME%\bin
-		start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
-		echo STARTED
-	 ) else (
-	  echo JAVA_HOME doesn`t exist
-	 )
-)
+			start "zookeeper" /b %JAVA_HOME%\bin\java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
+			echo STARTED
+		) else (
+			echo JAVA_HOME doesn`t exist
+		)
+	)
 )
 
 if "%1"=="stop" (
