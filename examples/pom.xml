@@ -132,6 +132,14 @@
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>8.0.0.M2</version>
 				</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
