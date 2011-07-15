@@ -14,11 +14,19 @@ REM WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 REM See the License for the specific language governing permissions and
 REM limitations under the License.
 
+
 setlocal enabledelayedexpansion
+
+set ISJAVA=NO
+	for %%G in ("%path:;=" "%") do (
+	if exist %%G\java.exe (
+	set ISJAVA=YES
+	)
+)
 
 if "%1"=="" (
 	echo Usage: %~dp0zkServer.cmd { start : stop }
-	goto END
+	goto NOCOMMAND
 )
 
 if not defined JMXLOCALONLY ( 
@@ -32,32 +40,33 @@ if not defined JMXDISABLE (
 	echo "JMX disabled by user request"
     set ZOOMAIN="org.apache.zookeeper.server.quorum.QuorumPeerMain"
 )
-
 call "%~dp0zkEnv.cmd"
-
 if not "%2"=="" (
 	set ZOOCFG="%ZOOCFGDIR%\%2"
 )
 
 echo "Using config: %ZOOCFG%"
-
+    
 if "%1"=="start" (
 	echo  "Starting zookeeper ... "
 	title zookeeper
 	for /F "tokens=2 delims= " %%A in ('TASKLIST /FI ^"WINDOWTITLE eq zookeeper^" /NH') do ( 
 	set /A ZOOPID=%%A 
 	echo !ZOOPID!>zookeeper_server.pid
-)
-	if exist java (
-	start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
-    	echo STARTED
-	)
-	if not exist java (
+ )
+   	if %ISJAVA%==YES (
+		start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
+		echo STARTED
+	) else (
 		if defined JAVA_HOME (
-			start "zookeeper" /b %JAVA_HOME%\bin\java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
+	        if exist "%JAVA_HOME%"\bin\java.exe (
+			start "zookeeper" /b "%JAVA_HOME%"\bin\java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
 			echo STARTED
+			) else (
+			echo JAVA_HOME is set uncorrectly
+		    )
 		) else (
-			echo JAVA_HOME doesn`t exist
+		    echo JAVA_HOME must be set
 		)
 	)
 )
@@ -73,6 +82,6 @@ if "%1"=="stop" (
 	echo STOPED
 )
  
-:END
+:NOCOMMAND
  
 endlocal
