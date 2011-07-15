@@ -160,6 +160,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
                     java.util.Map<String, String> samProps =
                         (java.util.Map<String, String>)map.get(REQUEST_SAM_PROPS);
                     if (samProps != null) {
+					    LOG.info("SAM custom properties received: " + samProps);
                         customPropertiesHandler.setCustomInfo(samProps);
                     }
                 }

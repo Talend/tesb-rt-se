@@ -39,15 +39,15 @@
 
     <osgi:service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
 
+	<bean id="customInfoHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
+	
     <bean id="launcher" class="org.talend.esb.job.controller.internal.TalendJobLauncher">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </property>
         <property name="serviceActivityMonitoring" ref="eventFeature"/>
-        <property name="customPropertiesHandler">
-            <bean class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
-        </property>
+        <property name="customPropertiesHandler" ref="customInfoHandler"/>
     </bean>
 
 </beans>

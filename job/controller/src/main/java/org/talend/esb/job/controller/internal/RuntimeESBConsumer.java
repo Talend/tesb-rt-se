@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
@@ -49,7 +50,8 @@ import routines.system.api.ESBConsumer;
 
 @javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
-
+    private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class.getName());
+	
     private final QName serviceName;
     private final QName portName;
     private final String operationName;
@@ -95,6 +97,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 java.util.Map<String, String> samProps =
                     (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
                 if (samProps != null) {
+				    LOG.info("SAM custom properties received: " + samProps);
                     customPropertiesHandler.setCustomInfo(samProps);
                 }
             }
