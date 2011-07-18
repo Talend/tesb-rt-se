@@ -13,7 +13,7 @@ public class DerbyStarterContextListener implements ServletContextListener {
 
 	public DerbyStarterContextListener() {
 		startDerby = false;
-		String startDerbyProperty = System.getenv("org.talend.esb.sam.server.embedded");
+		String startDerbyProperty = System.getProperty("org.talend.esb.sam.server.embedded");
 		if ((startDerbyProperty != null)
 				&& (startDerbyProperty.toUpperCase().equals("TRUE"))) {
 			startDerby = true;
