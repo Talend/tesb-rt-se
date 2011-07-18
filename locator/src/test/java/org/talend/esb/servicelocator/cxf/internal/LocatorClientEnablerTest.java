@@ -77,6 +77,7 @@ public class LocatorClientEnablerTest {
 		clientRegistrar.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		// clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
 		clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+		clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 		clientRegistrar.enable(wrap(client));
 		
 		LocatorTargetSelector selector = capturedSelector.getValue();
