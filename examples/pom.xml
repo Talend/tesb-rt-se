@@ -97,7 +97,6 @@
 					<configuration>
 						<licenseName>apache_v2</licenseName>
 						<licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
-						<outputDirectory>${project.build.directory}</outputDirectory>
 						<thirdPartyFilename>TESBDEPENDENCIES.txt</thirdPartyFilename>
 						<groupByLicense>true</groupByLicense>
 						<licenseMerges>
