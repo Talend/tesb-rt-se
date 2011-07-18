@@ -82,10 +82,10 @@ public class LocatorClientEnabler {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Default strategy " + defaultLocatorSelectionStrategy + " was set for LocatorClientRegistrar.");
 		}
-		if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
-			this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
+		if (locatorSelectionStrategies.containsKey(defaultLocatorSelectionStrategy)) {
+			this.locatorSelectionStrategy = locatorSelectionStrategies.get(defaultLocatorSelectionStrategy);
 			this.defaultLocatorSelectionStrategy = defaultLocatorSelectionStrategy;
-			setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
+			//setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
 		} else {
 			if (LOG.isLoggable(Level.WARNING))
 				LOG.log(Level.WARNING, "Default LocatorSelectionStrategy " + defaultLocatorSelectionStrategy + " not registered at LocatorClientEnabler.");
