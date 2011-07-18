@@ -38,6 +38,9 @@
 	</licenses>
 
 	<properties>
+		<tesb.port>8040</tesb.port>	
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
 		<cxf.version>2.4.1</cxf.version>
 		<camel.version>2.7.2</camel.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -49,12 +52,9 @@
 		<servlet.api.version>2.5</servlet.api.version>
 		<!-- Test dependencies -->
 		<junit.version>4.8.2</junit.version>
-		<jetty.version>7.2.2.v20101205</jetty.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Log dependencies -->
 		<log4j.version>1.2.16</log4j.version>
 		<slf4j.version>1.6.1</slf4j.version>
-		<tesb.port>8040</tesb.port>	
 	</properties>
 
 	<build>
