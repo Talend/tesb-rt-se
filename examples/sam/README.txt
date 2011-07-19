@@ -35,7 +35,7 @@ Start Derby database and sam-server using sam-server-jetty
 	mvn -Dorg.talend.esb.sam.server.embedded=true jetty:run-war
 
 	By default the Jetty server runs on 9080 port and the sam-server can be accessible under this url: 
-	http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP?wsdl
+	http://localhost:9080/services/MonitoringServiceSOAP?wsdl
 	
 Start Derby database and sam-server in OSGI Container
 
@@ -63,7 +63,7 @@ Edit the following files:
 ./sam-example-service2/src/main/resources/agent.properties
 
 change the service.url property to the following:
-    service.url=http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP
+    service.url=http://localhost:9080/services/MonitoringServiceSOAP
     (if Start Derby database and sam-server using sam-server-jetty)
 
     service.url=http://localhost:8040/services/MonitoringServiceSOAP

@@ -46,6 +46,8 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <!-- the generated bundle will have a MANIFEST.MF with wrong Import-Package: info if without this version setting -->
+				<version>2.0.1</version>
 				<extensions>true</extensions>
                 <configuration>
                     <instructions>
