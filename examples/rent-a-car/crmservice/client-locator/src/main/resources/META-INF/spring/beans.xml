@@ -39,7 +39,9 @@
 		address="locator://CRMServiceProvider"
 	>
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+				<property name="selectionStrategy" value="randomSelectionStrategy"/>
+			</bean>
 		</jaxws:features>
 	</jaxws:client>
 
