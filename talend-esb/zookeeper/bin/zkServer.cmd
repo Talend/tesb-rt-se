@@ -63,7 +63,7 @@ if "%1"=="start" (
 			start "zookeeper" /b "%JAVA_HOME%"\bin\java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
 			echo STARTED
 			) else (
-			echo JAVA_HOME is set uncorrectly
+			echo JAVA_HOME is set incorrectly
 		    )
 		) else (
 		    echo JAVA_HOME must be set
