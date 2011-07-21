@@ -22,6 +22,7 @@
 
 package org.talend.esb.camel.example.management;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -29,13 +30,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.language.XPath;
 
+
 /**
  * @version 
  */
 public class StockService {
 
-    private List<String> symbols;
+    private final List<String> symbols = new ArrayList<String>();
     private Map<String, Integer> stat = new ConcurrentHashMap<String, Integer>();
+
+    public StockService() {
+        symbols.add("IBM");
+        symbols.add("APPLE");
+        symbols.add("ORCL");
+    }
 
     public String transform(@XPath("/stock/symbol/text()") String symbol, @XPath("/stock/value/text()") String value) {
         Integer hits = stat.get(symbol);
@@ -73,7 +81,4 @@ public class StockService {
         return xml.toString();
     }
 
-    public void setSymbols(List<String> symbols) {
-        this.symbols = symbols;
-    }
 }
