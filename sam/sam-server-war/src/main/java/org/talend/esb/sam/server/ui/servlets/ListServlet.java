@@ -44,6 +44,9 @@ public class ListServlet extends AbstractAPIServlet {
 		@SuppressWarnings("unchecked")
 		CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, req.getParameterMap());
 		JsonObject result = provider.getEvents(offset, getBaseUrl(req), adapter);
+
+		resp.setHeader("Cache-Control", "no-cache");
+		resp.setHeader("Pragma", "no-cache");
 		resp.getWriter().println(result);
 	}
 

@@ -47,6 +47,8 @@ public class FlowDetailsServlet extends AbstractAPIServlet {
 		String flowID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
 		JsonObject result = provider.getFlowDetails(flowID, getBaseUrl(req));
 		if (result != null) {
+			resp.setHeader("Cache-Control", "no-cache");
+			resp.setHeader("Pragma", "no-cache");
 			resp.getWriter().println(result);
 		} else {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
