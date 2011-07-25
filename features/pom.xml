@@ -36,19 +36,19 @@
             </resource>
         </resources>
         <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <executions>
-             <execution>
-                <id>filter</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>resources</goal>
-                </goals>
-             </execution>
-          </executions>
-        </plugin>
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-resources-plugin</artifactId>
+	          <executions>
+	             <execution>
+	                <id>filter</id>
+	                <phase>generate-resources</phase>
+	                <goals>
+	                  <goal>resources</goal>
+	                </goals>
+	             </execution>
+	          </executions>
+	        </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -70,6 +70,13 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+	              	<generateReports>false</generateReports>
+	            </configuration>
+			</plugin>
 	    </plugins>
     </build>
 </project>

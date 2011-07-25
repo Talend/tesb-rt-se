@@ -299,7 +299,7 @@
 							<plugin>
 								<groupId>org.apache.maven.plugins</groupId>
 								<artifactId>maven-project-info-reports-plugin</artifactId>
-								<version>2.2</version>
+								<version>2.4</version>
 								<configuration>
 									<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
 									<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
@@ -313,7 +313,7 @@
                             <plugin>
                                 <groupId>org.codehaus.mojo</groupId>
                                 <artifactId>cobertura-maven-plugin</artifactId>
-                                <version>2.3</version>
+                                <version>2.5.1</version>
                                 <configuration>
                                     <aggregate>true</aggregate>
                                     <outputDirectory>${project.reporting.outputDirectory}/cobertura</outputDirectory>

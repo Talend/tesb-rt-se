@@ -19,37 +19,20 @@
  */
 package org.talend.esb.sam.server.ui.servlets;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.talend.esb.sam.server.ui.UIProvider;
-
-import com.google.gson.JsonObject;
-
 /**
- * API Service that returns event details
+ * Resource not found exception
  *
  * @author telesh
  *
  */
-public class EventDetailsServlet extends AbstractAPIServlet {
+public class NotFoundException extends Exception {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -799338434124236891L;
+	private static final long serialVersionUID = -8327757550558772684L;
 
-	public EventDetailsServlet() {
-		super(true);
-	}
-
-	@Override
-	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
-		String requestURI = req.getRequestURI();
-		String eventID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
-		JsonObject result = provider.getEventDetails(eventID);
-		if (null == result) {
-			throw new NotFoundException("Can't find event with ID: " + eventID);
-		}
-		return result;
+	public NotFoundException(String message) {
+		super(message);
 	}
 }
