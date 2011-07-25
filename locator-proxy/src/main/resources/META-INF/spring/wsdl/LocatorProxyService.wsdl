@@ -10,21 +10,21 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<definitions targetNamespace="http://services.talend.org/LocatorProxy"
+<definitions targetNamespace="http://service.proxy.locator.esb.talend.org/"
   xmlns="http://schemas.xmlsoap.org/wsdl/" 
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
   xmlns:tns="http://cxf.apache.org/schemas/cxf/idl/Bank" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:corbatm="http://cxf.apache.org/schemas/cxf/idl/Bank/corba/typemap"
   xmlns:wsa="http://www.w3.org/2005/08/addressing" 
-  xmlns:lpx="http://services.talend.org/locatorproxy/types"
-  xmlns:lps="http://services.talend.org/LocatorProxy"
+  xmlns:lpx="http://service.proxy.locator.esb.talend.org/types"
+  xmlns:lps="http://service.proxy.locator.esb.talend.org/"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
   >
   
 	<types>
 	<xsd:schema elementFormDefault="unqualified"
-      targetNamespace="http://services.talend.org/locatorproxy/types" 
+      targetNamespace="http://service.proxy.locator.esb.talend.org/types" 
       xmlns="http://services.talend.org/locatorproxy/types"
 	  xmlns:wsa="http://www.w3.org/2005/08/addressing">
       <xsd:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd"/>
@@ -82,9 +82,9 @@
 		</operation>
 	</portType>
 
-    <wsdl:service name="LocatorProxyServiceProvider">
+    <wsdl:service name="LocatorProxyServiceImpl">
 		<wsdl:port binding="lps:localhostBinding" name="localhost">
-			<soap:address location="http://localhost:8888/soap/LocatorProxyProvider/"/>
+			<soap:address location="http://localhost:8888/soap/LocatorProxyServiceProvider/"/>
 		</wsdl:port>
 	</wsdl:service>
   
