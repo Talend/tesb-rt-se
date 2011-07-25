@@ -432,9 +432,9 @@
 		</profile>
 		<profile>
 			<id>examples</id>
-			<activation>
+			<!-- activation>
 				<activeByDefault>true</activeByDefault>
-			</activation>
+			</activation-->
 			<modules>
 				<module>examples</module>
 			</modules>
