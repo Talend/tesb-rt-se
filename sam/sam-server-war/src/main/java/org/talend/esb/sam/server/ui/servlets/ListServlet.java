@@ -20,7 +20,6 @@
 package org.talend.esb.sam.server.ui.servlets;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.server.ui.UIProvider;
@@ -33,21 +32,28 @@ import com.google.gson.JsonObject;
  * @author zubairov
  *
  */
-@SuppressWarnings("serial")
 public class ListServlet extends AbstractAPIServlet {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6145158514605088533L;
+
 	@Override
-	void processRequest(HttpServletRequest req, HttpServletResponse resp,
-			UIProvider provider) throws Exception {
-		long offset = req.getParameter("offset") == null ? 1 : Long.parseLong(req.getParameter("offset"));
-		long limit = req.getParameter("limit") == null ? 10 : Long.parseLong(req.getParameter("limit"));
+	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
+		long offset = getRequestLongParam(req, "offset", 1);
+		long limit = getRequestLongParam(req, "limit", 10);
 		@SuppressWarnings("unchecked")
 		CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, req.getParameterMap());
-		JsonObject result = provider.getEvents(offset, getBaseUrl(req), adapter);
-
-		resp.setHeader("Cache-Control", "no-cache");
-		resp.setHeader("Pragma", "no-cache");
-		resp.getWriter().println(result);
+		return provider.getEvents(offset, getBaseUrl(req), adapter);
 	}
 
+	private long getRequestLongParam(HttpServletRequest req, String paramName, long defaultValue)
+			throws Exception {
+		String paramValue = req.getParameter(paramName);
+		if (null == paramValue) {
+			return defaultValue;
+		}
+		return Long.parseLong(paramValue);
+	}
 }

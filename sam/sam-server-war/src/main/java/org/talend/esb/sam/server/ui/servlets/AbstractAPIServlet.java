@@ -47,20 +47,41 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 
 	private Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
 
+	private final boolean noCache;
+
+	protected AbstractAPIServlet() {
+		this.noCache = true;
+	}
+
+	protected AbstractAPIServlet(boolean cachingAllowed) {
+		this.noCache = !cachingAllowed;
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		WebApplicationContext ctx = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(this.getServletContext());
+		String callback = req.getParameter("callback");
 		try {
 			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
-			resp.setContentType("application/json");
-			processRequest(req, resp, provider);
+			JsonObject result = process(req, provider);
+
+			if (noCache) {
+				resp.setHeader("Cache-Control", "no-cache, must-revalidate");
+				resp.setHeader("Expires", "Thu, 09 May 1974 03:35:00 GMT");
+				resp.setHeader("Pragma", "no-cache");
+			}
+
+			writeResponse(resp, result, callback);
+		} catch (NotFoundException e) {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			writeResponse(resp, toJSON(e), callback);
 		} catch (Exception e) {
-			log.error("Exception processing request " + req.getRequestURI() + " with parameters " + req.getQueryString(), e);
+			log.error("Exception processing request " + req.getRequestURI()
+					+ " with parameters " + req.getQueryString(), e);
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			resp.getWriter().println(toJSON(e));
+			writeResponse(resp, toJSON(e), callback);
 		}
 	}
 
@@ -69,18 +90,27 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 	 * {@link AbstractAPIServlet}
 	 *
 	 * @param req
-	 * @param resp
 	 * @param provider
 	 */
-	abstract void processRequest(HttpServletRequest req,
-			HttpServletResponse resp, UIProvider provider) throws Exception;
+	abstract JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception;
+
+	private void writeResponse(HttpServletResponse resp, JsonObject output, String callback)
+			throws IOException {
+		if (null == callback || callback.trim().isEmpty()) {
+			resp.setContentType("application/json");
+			resp.getWriter().println(output);
+		} else {
+			resp.setContentType("text/javascript");
+			resp.getWriter().println(callback + "(" + output + ");");
+		}
+	}
 
 	/**
 	 * Converts {@link Exception} to {@link JsonObject}
 	 */
 	private JsonObject toJSON(Exception e) {
 		JsonObject result = new JsonObject();
-		result.add("message", new JsonPrimitive(String.valueOf(e.getMessage())));
+		result.add(/*"message"*/"error", new JsonPrimitive(String.valueOf(e.getMessage())));
 		return result;
 	}
 
