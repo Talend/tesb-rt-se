@@ -20,10 +20,10 @@
 package org.talend.esb.sam.agent.serviceclient;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.GregorianCalendar;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -124,25 +124,17 @@ public class EventMapper {
     	}
         XMLGregorianCalendar gCal = null;
 
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTimeInMillis(date.getTime());
+        
         try {
-            gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar();
+            gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
         } catch (DatatypeConfigurationException ex) {
             ex.printStackTrace();
             return null;
         }
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        gCal.setYear(cal.get(Calendar.YEAR));
-        gCal.setMonth(cal.get(Calendar.MONTH) + 1);
-        gCal.setDay(cal.get(Calendar.DAY_OF_MONTH));
-        gCal.setHour(cal.get(Calendar.HOUR_OF_DAY));
-        gCal.setMinute(cal.get(Calendar.MINUTE));
-        gCal.setSecond(cal.get(Calendar.SECOND));
-        gCal.setMillisecond(cal.get(Calendar.MILLISECOND));
-        gCal.setTimezone(cal.get(Calendar.ZONE_OFFSET) / 60000);
+        
         return gCal;
-
     }
 
     private static EventEnumType convertEventType(org.talend.esb.sam.common.event.EventTypeEnum eventType) {
