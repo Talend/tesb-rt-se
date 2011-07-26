@@ -19,6 +19,35 @@
  */
 package org.talend.esb.locator.proxy.service;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
+
+import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+
 public class LocatorProxyServiceImpl implements LocatorProxyService {
+
+	@Override
+	public void registerEndpoint(QName serviceName, String endpointURL) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public W3CEndpointReference lookupEndpoint(QName serviceName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EndpointReferenceListType lookupEndpoints(QName serviceName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean unregisterEnpoint(QName serviceName, String endpointURL) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

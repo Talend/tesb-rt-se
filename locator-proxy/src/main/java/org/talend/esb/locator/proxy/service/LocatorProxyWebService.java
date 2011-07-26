@@ -26,8 +26,37 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
+
+import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+
 public class LocatorProxyWebService implements LocatorProxyService {
 
     private static Logger logger = Logger.getLogger(LocatorProxyWebService.class.getName());
+
+	@Override
+	public void registerEndpoint(QName serviceName, String endpointURL) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public W3CEndpointReference lookupEndpoint(QName serviceName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EndpointReferenceListType lookupEndpoints(QName serviceName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean unregisterEnpoint(QName serviceName, String endpointURL) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

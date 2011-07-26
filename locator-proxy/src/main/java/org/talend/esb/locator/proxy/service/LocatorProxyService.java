@@ -19,6 +19,48 @@
  */
 package org.talend.esb.locator.proxy.service;
 
+import javax.jws.Oneway;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
+
+@WebService(targetNamespace = "http://service.proxy.locator.esb.talend.org/", name = "LocatorProxyService")
+@SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public interface LocatorProxyService {
 
+    @Oneway
+    @WebMethod(action = "registerEndpoint")
+    public void registerEndpoint(
+        @WebParam(partName = "serviceName", name = "serviceName", targetNamespace = "")
+        javax.xml.namespace.QName serviceName,
+        @WebParam(partName = "endpointURL", name = "endpointURL", targetNamespace = "")
+        java.lang.String endpointURL
+    );
+
+    @WebResult(name = "EndpointReferenceType", targetNamespace = "http://service.proxy.locator.esb.talend.org/types", partName = "return")
+    @WebMethod(action = "lookupEndpoint")
+    public W3CEndpointReference lookupEndpoint(
+        @WebParam(partName = "serviceName", name = "serviceName", targetNamespace = "")
+        javax.xml.namespace.QName serviceName
+    );
+
+    @WebResult(name = "EndpointReferenceListType", targetNamespace = "http://service.proxy.locator.esb.talend.org/types", partName = "body")
+    @WebMethod(action = "lookupEndpoints")
+    public EndpointReferenceListType lookupEndpoints(
+        @WebParam(partName = "serviceName", name = "serviceName", targetNamespace = "")
+        javax.xml.namespace.QName serviceName
+    );
+
+    @WebResult(name = "succes", targetNamespace = "", partName = "succes")
+    @WebMethod(action = "unregisterEnpoint")
+    public boolean unregisterEnpoint(
+        @WebParam(partName = "serviceName", name = "serviceName", targetNamespace = "")
+        javax.xml.namespace.QName serviceName,
+        @WebParam(partName = "endpointURL", name = "endpointURL", targetNamespace = "")
+        java.lang.String endpointURL
+    );
 }
