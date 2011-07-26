@@ -31,8 +31,23 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     ">
-    
-   <import resource="classpath:/proxy.xml" />
-   <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
+  
+  <import resource="classpath:META-INF/cxf/cxf.xml" />  
+  <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
+  
+  	<jaxws:endpoint id="ServiceLocatorProxyService"
+		implementor="#serviceLocatorProxyBean"
+		address="/ServiceLocatorProxyService" 
+        wsdlLocation="/WEB-INF/wsdl/LocatorProxyService.wsdl"
+        serviceName="ServiceLocatorProxyProvider"
+        endpointName="ServiceLocatorProxySOAP">
+        		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
+	
+	<bean id="serviceLocatorProxyBean"
+		class="org.talend.esb.locator.proxy.service.LocatorProxyWebService">
+	</bean>
 
 </beans>
