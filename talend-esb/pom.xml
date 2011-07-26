@@ -206,6 +206,8 @@
 		<xbean.version>3.7</xbean.version>
 		<xmlschema.version>2.0</xmlschema.version>
 		
+		<org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
+		
 	</properties>
 
 	<dependencies>
