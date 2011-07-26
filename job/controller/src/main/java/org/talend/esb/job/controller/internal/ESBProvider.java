@@ -149,10 +149,7 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
             if (result == null) {
                 return null;
             }
-            if (result instanceof org.dom4j.Document) {
-                return new org.dom4j.io.DocumentSource(
-                    (org.dom4j.Document)result);
-            } else if (result instanceof java.util.Map) {
+            if (result instanceof java.util.Map) {
                 @SuppressWarnings("unchecked")
                 java.util.Map<String, Object> map = (java.util.Map<String, Object>)result;
                 if (serviceActivityMonitoring != null) {
@@ -160,24 +157,32 @@ class ESBProvider implements javax.xml.ws.Provider<javax.xml.transform.Source> {
                     java.util.Map<String, String> samProps =
                         (java.util.Map<String, String>)map.get(REQUEST_SAM_PROPS);
                     if (samProps != null) {
-					    LOG.info("SAM custom properties received: " + samProps);
+                        LOG.info("SAM custom properties received: " + samProps);
                         customPropertiesHandler.setCustomInfo(samProps);
                     }
                 }
-                return new org.dom4j.io.DocumentSource(
-                        (org.dom4j.Document)map.get(REQUEST_PAYLOAD));
-            } else if (result instanceof RuntimeException) {
-                throw (RuntimeException)result;
-            } else if (result instanceof Throwable){
-                throw new RuntimeException((Throwable)result);
+                return processResult(map.get(REQUEST_PAYLOAD));
             } else {
-                throw new RuntimeException(
-                    "Provider return incompatible object: " + result.getClass().getName());
+                return processResult(result);
             }
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private Source processResult(Object result) {
+        if (result instanceof org.dom4j.Document) {
+            return new org.dom4j.io.DocumentSource(
+                (org.dom4j.Document)result);
+        } else if (result instanceof RuntimeException) {
+            throw (RuntimeException)result;
+        } else if (result instanceof Throwable){
+            throw new RuntimeException((Throwable)result);
+        } else {
+            throw new RuntimeException(
+                "Provider return incompatible object: " + result.getClass().getName());
         }
     }
 
