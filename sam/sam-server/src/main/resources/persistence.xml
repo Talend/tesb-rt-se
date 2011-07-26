@@ -41,6 +41,10 @@
         <property name="incrementer" ref="derbyIncrementer" />
     </bean>
     
+	<bean id="DB2Dialect" class="org.talend.esb.sam.server.persistence.dialects.DB2Dialect">
+        <property name="incrementer" ref="db2Incrementer" />
+    </bean>
+	
     <bean id="mysqlDialect" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
         <property name="incrementer" ref="mysqlIncrementer" />
     </bean>
@@ -72,6 +76,11 @@
     <bean id="h2Incrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="ID_SEQUENCE" />
+    </bean>
+	
+	<bean id="db2Incrementer" class="org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="incrementerName" value="EVENT_ID" />
     </bean>
     
     <bean id="oracleIncrementer" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
