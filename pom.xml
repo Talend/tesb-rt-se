@@ -115,7 +115,8 @@
         <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
-
+		<org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
