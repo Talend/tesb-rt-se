@@ -27,15 +27,6 @@
     </parent>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>model/locator-proxy-wsdl/LocatorProxyService.wsdl</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -43,11 +34,9 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Export-Package>
-							model.locator-proxy-wsdl,
-							org.talend.esb.locator.proxy.service,
-							org.talend.esb.locator.proxy.service.types
-						</Export-Package>
+                        <Export-Package>
+                            *,model.locator-proxy-wsdl
+                        </Export-Package>
                         <Import-Package>
                             javax.xml.bind,
                             javax.xml.bind.annotation,
@@ -60,7 +49,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
+                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
