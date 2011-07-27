@@ -31,12 +31,22 @@
 	  <xsd:element name="EndpointReferenceListType">
 			<xsd:complexType>
 				<xsd:sequence>
-    <xsd:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="wsa:EndpointReferenceType" />
+    				<xsd:element  maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="wsa:EndpointReferenceType" />
 				</xsd:sequence>
 			</xsd:complexType>
-		</xsd:element>    
+	  </xsd:element>    
 	  <xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
-		</xsd:element>    
+		</xsd:element> 
+		
+		<xsd:element name="InterruptedExceptionFault" type="lpx:InterruptedExceptionFault"/>		
+		<xsd:complexType name="InterruptedExceptionFault"> 
+			<xsd:sequence/>
+		</xsd:complexType>
+		   
+		<xsd:element name="ServiceLocatorFault" type="lpx:ServiceLocatorFault"/>		
+		<xsd:complexType name="ServiceLocatorFault"> 
+			<xsd:sequence/>
+		</xsd:complexType>  
 	</xsd:schema>
 	</types>
 	
@@ -63,22 +73,36 @@
 	<message name="lookupEndpointsResponse">
 		<part name="body" element="lpx:EndpointReferenceListType" />
 	</message>
+   <wsdl:message name="InterruptedExceptionFault">
+     <wsdl:part name="InterruptedExceptionFault" element="lpx:InterruptedExceptionFault"/>
+   </wsdl:message>
+   <wsdl:message name="ServiceLocatorFault">
+     <wsdl:part name="ServiceLocatorFault" element="lpx:ServiceLocatorFault"/>
+   </wsdl:message>
 
 	<portType name="LocatorProxyService">
 		<operation name="registerEndpoint">
 			<input message="lps:registerEndpointRequest"/>
+			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
+			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
 		</operation>
 		<operation name="unregisterEnpoint">
 			<input message="lps:unregisterEnpointRequest"/>
 			<output message="lps:unregisterEnpointResponse"/>
+			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
+			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
 		</operation>
 		<operation name="lookupEndpoint">
 			<input message="lps:lookupEndpointRequest"/>
 			<output message="lps:lookupEndpointResponse"/>
+			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
+			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
 		</operation>
 		<operation name="lookupEndpoints">
 			<input message="lps:lookupEndpointsRequest"/>
 			<output message="lps:lookupEndpointsResponse"/>
+			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
+			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
 		</operation>
 	</portType>
 
@@ -91,10 +115,16 @@
 	<wsdl:binding name="localhostBinding" type="lps:LocatorProxyService">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="registerEndpoint">
-			<soap:operation soapAction="registerEndpoint"/>
-				<wsdl:input>
-					<soap:body use="literal"/>
-				</wsdl:input>
+		<soap:operation soapAction="registerEndpoint"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal"/>
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterEnpoint">
 			<soap:operation soapAction="unregisterEnpoint"/>
@@ -104,6 +134,12 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
+			<wsdl:fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal"/>
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="lookupEndpoint">
 			<soap:operation soapAction="lookupEndpoint"/>
@@ -113,6 +149,12 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
+			<wsdl:fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal"/>
+			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="lookupEndpoints">
 			<soap:operation soapAction="lookupEndpoints"/>
@@ -122,6 +164,12 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
+			<wsdl:fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal"/>
+			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
  </definitions>

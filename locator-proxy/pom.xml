@@ -25,6 +25,14 @@
         <version>5.0-SNAPSHOT</version>
     </parent>
 
+	<dependencies>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>locator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 	<modules>
         <module>locator-proxy-common</module>
 		<module>locator-proxy-service</module>
