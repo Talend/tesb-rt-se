@@ -19,19 +19,44 @@
  */
 package org.talend.esb.locator.proxy.service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+import org.talend.esb.servicelocator.client.ServiceLocator;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar;
 
 public class LocatorProxyServiceImpl implements LocatorProxyService {
 
+    private static final Logger LOG = Logger.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
+	
+	private ServiceLocator locatorClient;
+
+    public void setServiceLocator(ServiceLocator locatorClient) {
+        this.locatorClient = locatorClient;
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Locator client was set.");
+        }
+    }
+	
 	@Override
 	public void registerEndpoint(QName serviceName, String endpointURL) {
-		// TODO Auto-generated method stub
+		try {
+			locatorClient.register(serviceName, endpointURL);
+		} catch (ServiceLocatorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
-
+	
 	@Override
 	public W3CEndpointReference lookupEndpoint(QName serviceName) {
 		// TODO Auto-generated method stub
@@ -46,7 +71,17 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	@Override
 	public boolean unregisterEnpoint(QName serviceName, String endpointURL) {
-		// TODO Auto-generated method stub
+		try {
+			locatorClient.unregister(serviceName, endpointURL);
+			return true;
+		} catch (ServiceLocatorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
