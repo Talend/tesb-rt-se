@@ -40,6 +40,8 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
 
 	private ServiceLocator locatorClient;
+	
+	private String endpointPrefix = "";
 
 	private Random random = new Random();
 
@@ -50,6 +52,10 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
+    public void setEndpointPrefix(String endpointPrefix) {
+        this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
+    }
+	
 	@Override
 	public void registerEndpoint(QName serviceName, String endpointURL)
 			throws InterruptedExceptionFault, ServiceLocatorFault {

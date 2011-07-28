@@ -22,23 +22,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
->
+	>
   
+    <context:annotation-config />
+    <tx:annotation-driven />
+
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
+ <!-- Configuration Admin entry -->
+    <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
+        <prop key="locator.endpoints">localhost:2181</prop>
+        <prop key="endpoint.prefix"></prop>
+        <prop key="connection.timeout">5000</prop>
+        <prop key="session.timeout">5000</prop>
+   </osgix:cm-properties>
+
+    <!-- placeholder configurer -->
+    <!-- context:property-placeholder properties-ref="locator-server-props" /-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="locator-server-props" />
+        <property name="placeholderPrefix" value="$sl{" />
+    </bean>
+ 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
           init-method="connect" destroy-method="disconnect" lazy-init="true">
-        <property name="locatorEndpoints" value="localhost:2181"/>
-        <property name="connectionTimeout" value="5000"/>
-        <property name="sessionTimeout" value="5000"/>
+        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
+        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
+        <property name="sessionTimeout" value="$sl{session.timeout}"/>
     </bean>
 
   
@@ -62,8 +85,9 @@
 	</jaxws:endpoint> -->
 	
 	<bean id="serviceLocatorProxyBean"
-		class="org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl">
+		class="org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl" lazy-init="true">
 		 <property name="serviceLocator" ref="serviceLocator" />
+		 <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
 	</bean>
 
 </beans>
