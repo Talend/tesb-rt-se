@@ -35,7 +35,9 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
-                            *,model.locator-proxy-wsdl
+							org.talend.esb.locator.proxy.service,
+							org.talend.esb.locator.proxy.service.types,
+                            model.locator-proxy-wsdl
                         </Export-Package>
                         <Import-Package>
                             javax.xml.bind,
