@@ -20,5 +20,20 @@
 package org.talend.esb.sam.common.event;
 
 public enum EventTypeEnum {
-	REQ_IN,REQ_OUT,RESP_IN,RESP_OUT, FAULT_IN, FAULT_OUT, LOG, UNKNOWN;
+	REQ_IN,
+	REQ_OUT,
+	RESP_IN,
+	RESP_OUT,
+	FAULT_IN,
+	FAULT_OUT,
+    SERVER_START,
+    SERVER_STOP,
+    SERVICE_START,
+    SERVICE_STOP,
+    CLIENT_CREATE,
+    CLIENT_DESTROY,
+    JOB_START,
+    JOB_STOP,	
+	LOG,
+	UNKNOWN;
 }

@@ -65,6 +65,14 @@
             <enumeration value="RESP_OUT"/>
             <enumeration value="FAULT_IN"/>
             <enumeration value="FAULT_OUT"/>
+			<enumeration value="SERVER_START"/>
+			<enumeration value="SERVER_STOP"/>
+			<enumeration value="SERVICE_START"/>
+			<enumeration value="SERVICE_STOP"/>
+			<enumeration value="CLIENT_CREATE"/>
+			<enumeration value="CLIENT_DESTROY"/>
+			<enumeration value="JOB_START"/>
+			<enumeration value="JOB_STOP"/>
             <enumeration value="LOG"/>
             <enumeration value="UNKNOWN"/>
         </restriction>

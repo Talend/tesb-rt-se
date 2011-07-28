@@ -20,16 +20,11 @@
 package org.talend.esb.sam.agent.serviceclient;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.GregorianCalendar;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.attachment.ByteDataSource;
@@ -41,6 +36,7 @@ import org.talend.esb.sam._2011._03.common.OriginatorType;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
+import org.talend.esb.sam.agent.util.Converter;
 
 public class EventMapper {
 
@@ -52,7 +48,7 @@ public class EventMapper {
      */
     public static EventType map(Event event) {
         EventType eventType = new EventType();
-        eventType.setTimestamp(convertDate(event.getTimestamp()));
+        eventType.setTimestamp(Converter.convertDate(event.getTimestamp()));
         eventType.setEventType(convertEventType(event.getEventType()));
         OriginatorType origType = mapOriginator(event.getOriginator());
         eventType.setOriginator(origType);
@@ -116,25 +112,6 @@ public class EventMapper {
         }
 
         return ciType;
-    }
-
-    private static XMLGregorianCalendar convertDate(Date date) {
-    	if (date == null) {
-    		return null;
-    	}
-        XMLGregorianCalendar gCal = null;
-
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTimeInMillis(date.getTime());
-        
-        try {
-            gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        } catch (DatatypeConfigurationException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        
-        return gCal;
     }
 
     private static EventEnumType convertEventType(org.talend.esb.sam.common.event.EventTypeEnum eventType) {

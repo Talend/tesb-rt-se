@@ -42,11 +42,37 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
-                            org.talend.esb.sam.common.*,org.talend.esb.sam.common.handler.impl,org.talend.esb.sam.common.filter.impl
+                            org.talend.esb.sam.common.*,
+							org.talend.esb.sam.common.handler.impl,
+							org.talend.esb.sam.common.filter.impl,
+							org.talend.esb.sam._2011._03.common,
+							org.talend.esb.sam.monitoringservice.v1
                         </Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>                      
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/wsdl/MonitoringService_v1.wsdl</wsdl>
+                                </wsdlOption>
+                            </wsdlOptions>
+                            <disableDirectoryScan>true</disableDirectoryScan>
+                            <fork>once</fork>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>			
         </plugins>
     </build>
 
