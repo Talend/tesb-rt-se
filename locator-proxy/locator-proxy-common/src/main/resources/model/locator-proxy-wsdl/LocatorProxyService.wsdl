@@ -13,7 +13,6 @@
 <definitions targetNamespace="http://service.proxy.locator.esb.talend.org/"
   xmlns="http://schemas.xmlsoap.org/wsdl/" 
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-  xmlns:tns="http://cxf.apache.org/schemas/cxf/idl/Bank" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:corbatm="http://cxf.apache.org/schemas/cxf/idl/Bank/corba/typemap"
   xmlns:wsa="http://www.w3.org/2005/08/addressing" 

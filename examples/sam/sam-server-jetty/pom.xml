@@ -47,6 +47,12 @@
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<configuration>
+					<systemProperties>
+						<systemProperty>
+							<name>org.talend.esb.sam.server.embedded</name>
+							<value>true</value>
+						</systemProperty>
+					</systemProperties>
 					<connectors>
 						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 							<port>9080</port>

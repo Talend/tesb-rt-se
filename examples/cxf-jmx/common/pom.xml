@@ -11,12 +11,26 @@
 	<groupId>org.talend.esb.examples</groupId>
 	<artifactId>cxf-jmx-common</artifactId>
 	<name>Talend ESB Runtime::CXF JMX Example Common</name>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
 		<artifactId>cxf-jmx</artifactId>
 		<version>5.0-SNAPSHOT</version>
 	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

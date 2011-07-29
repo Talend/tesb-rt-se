@@ -23,21 +23,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-
-	<bean id="org.apache.cxf.management.InstrumentationManager"
-		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
-		<property name="bus" ref="cxf" />
-		<property name="usePlatformMBeanServer" value="true" />
-		<property name="enabled" value="true" />
-	</bean>
-	
-	<bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
-		<property name="bus" ref="cxf" />
-	</bean>
-	
-	<jaxws:endpoint id="simple-service"
-		implementor="org.talend.esb.examples.SimpleServiceImpl" 
-		address="/simpleService" />
+	<jaxws:client id="simpleClient" serviceClass="org.talend.esb.examples.SimpleService"
+		address="http://localhost:8040/services/simpleService" />
 
 </beans>
