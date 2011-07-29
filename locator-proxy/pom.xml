@@ -36,6 +36,7 @@
 	<modules>
         <module>locator-proxy-common</module>
 		<module>locator-proxy-service</module>
+		<module>locator-proxy-client</module>
     </modules>
 	
 	<build>
