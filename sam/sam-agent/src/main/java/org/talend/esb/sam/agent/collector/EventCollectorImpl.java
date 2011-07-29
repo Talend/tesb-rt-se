@@ -29,15 +29,20 @@ import java.util.logging.Logger;
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.apache.cxf.endpoint.ServerLifeCycleManager;
+import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
+
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.common.service.MonitoringService;
 import org.talend.esb.sam.common.spi.EventFilter;
 import org.talend.esb.sam.common.spi.EventHandler;
+import org.talend.esb.sam.agent.lifecycle.ClientListenerImpl;
+import org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl;
 
 /**
  * Event collector collects all events and stores them in a queue. This can be a memory queue or a persistent
@@ -282,6 +287,20 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
             BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
             if (null != lm) {
                 lm.registerLifeCycleListener(this);
+            }
+            
+            ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
+            if (null != slcm){
+            	ServiceListenerImpl svrListener = new ServiceListenerImpl();
+            	svrListener.setQueue(queue);
+            	slcm.registerListener(svrListener);
+            }
+            
+            ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
+            if (null != clcm){
+            	ClientListenerImpl cltListener = new ClientListenerImpl();
+            	cltListener.setQueue(queue);
+            	clcm.registerListener(cltListener);
             }
         }
     }

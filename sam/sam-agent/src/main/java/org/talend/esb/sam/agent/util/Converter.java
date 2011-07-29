@@ -1,5 +1,6 @@
 package org.talend.esb.sam.agent.util;
 
+import java.lang.management.ManagementFactory;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -32,4 +33,10 @@ public class Converter {
         
         return gCal;
     }	
+    
+    public static String getPID(){
+        String mxName = ManagementFactory.getRuntimeMXBean().getName();
+        String pId = mxName.split("@")[0];
+        return pId;
+    }
 }
