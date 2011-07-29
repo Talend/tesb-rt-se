@@ -56,8 +56,10 @@ public class EventMapper {
         eventType.setMessageInfo(miType);
         eventType.setCustomInfo(convertCustomInfo(event.getCustomInfo()));
         eventType.setContentCut(event.isContentCut());
-        DataHandler datHandler = getDataHandlerForString(event);
-        eventType.setContent(datHandler);
+        if (event.getContent() != null){
+	        DataHandler datHandler = getDataHandlerForString(event);
+	        eventType.setContent(datHandler);
+        }
         return eventType;
     }
 
