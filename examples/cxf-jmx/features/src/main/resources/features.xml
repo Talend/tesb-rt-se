@@ -20,8 +20,9 @@
   -->
 
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
-    <feature name='tesb-examples-cxf-jmx' version='${pom.version}'>
-        <bundle>mvn:${project.groupId}/tesb-examples-cxf-jmx/${project.version}</bundle>
+    <feature name='cxf-jmx-service' version='${pom.version}'>
+        <bundle>mvn:${project.groupId}/cxf-jmx-common/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/cxf-jmx-service/${project.version}</bundle>
     </feature>
 
 </features>

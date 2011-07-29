@@ -10,8 +10,9 @@
 
 	<groupId>org.talend.esb.examples</groupId>
 	<artifactId>cxf-jmx-service</artifactId>
+	<version>5.0-SNAPSHOT</version>
 	<name>Talend ESB Runtime::CXF JMX Example Service</name>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
@@ -21,30 +22,26 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http-jetty</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-management-web</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>cxf-jmx-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

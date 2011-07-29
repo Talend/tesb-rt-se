@@ -29,8 +29,15 @@ public final class SimpleClient {
 
 	public static void main(String[] args) throws Exception {
 
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "META-INF/spring/client-beans.xml" });
+		ClassPathXmlApplicationContext context = null;
+		
+		if (args[0].equals("war")) {
+			context = new ClassPathXmlApplicationContext(
+				new String[] { "META-INF/spring/client-beans-war.xml" });
+		} else {
+			context = new ClassPathXmlApplicationContext(
+				new String[] { "META-INF/spring/client-beans-osgi.xml" });
+		}
 
 		SimpleService client = (SimpleService) context.getBean("simpleClient");
 
