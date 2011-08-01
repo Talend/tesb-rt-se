@@ -30,7 +30,7 @@
 	  <xsd:element name="EndpointReferenceListType">
 			<xsd:complexType>
 				<xsd:sequence>
-    				<xsd:element  maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="wsa:EndpointReferenceType" />
+    				<xsd:element  maxOccurs="unbounded" minOccurs="0" name="return" nillable="false" type="wsa:EndpointReferenceType" />
 				</xsd:sequence>
 			</xsd:complexType>
 	  </xsd:element>    
@@ -50,15 +50,12 @@
 	</types>
 	
 	<message name="registerEndpointRequest">
-        <part name="serviceName" type="xsd:QName"/>
+        <part name="serviceName" type="xsd:QName" />
         <part name="endpointURL" type="xsd:anyURI"/>
 	</message>
 	<message name="unregisterEnpointRequest">
         <part name="serviceName" type="xsd:QName"/>
         <part name="endpointURL" type="xsd:anyURI"/>
-	</message>
-	<message name="unregisterEnpointResponse">
-        <part name="succes" type="xsd:boolean"/>
 	</message>
 	<message name="lookupEndpointRequest">
         <part name="serviceName" type="xsd:QName"/>
@@ -87,7 +84,6 @@
 		</operation>
 		<operation name="unregisterEnpoint">
 			<input message="lps:unregisterEnpointRequest"/>
-			<output message="lps:unregisterEnpointResponse"/>
 			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
 			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
 		</operation>
@@ -105,12 +101,6 @@
 		</operation>
 	</portType>
 
-    <wsdl:service name="LocatorProxyServiceImpl">
-		<wsdl:port binding="lps:localhostBinding" name="localhost">
-			<soap:address location="http://localhost:8040/services/ServiceLocatorProxyService"/>
-		</wsdl:port>
-	</wsdl:service>
-  
 	<wsdl:binding name="localhostBinding" type="lps:LocatorProxyService">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="registerEndpoint">
@@ -130,9 +120,6 @@
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
 			<wsdl:fault name="InterruptedExceptionFault">
 				<soap:fault name="InterruptedExceptionFault" use="literal"/>
 			</wsdl:fault>
@@ -171,4 +158,11 @@
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
+
+    <wsdl:service name="LocatorProxyServiceImpl">
+		<wsdl:port binding="lps:localhostBinding" name="localhost">
+			<soap:address location="http://localhost:8040/services/ServiceLocatorProxyService"/>
+		</wsdl:port>
+	</wsdl:service>
+
  </definitions>

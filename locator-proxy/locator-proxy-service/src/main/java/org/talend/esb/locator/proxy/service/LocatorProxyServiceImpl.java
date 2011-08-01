@@ -113,7 +113,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	}
 
 	@Override
-	public boolean unregisterEnpoint(QName serviceName, String endpointURL)
+	public void unregisterEnpoint(QName serviceName, String endpointURL)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		try {
 			initLocator();
@@ -126,7 +126,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		} catch (InterruptedException e) {
 			throw new ServiceLocatorFault("", e);
 		}
-		return true;
+		return;
 	}
 
 	@Override

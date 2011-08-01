@@ -80,8 +80,8 @@ public final class LocatorProxyService_Localhost_Client {
         System.out.println("Invoking unregisterEnpoint...");
         javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName("", "");
         java.lang.String _unregisterEnpoint_endpointURL = "";
-        boolean _unregisterEnpoint__return = port.unregisterEnpoint(_unregisterEnpoint_serviceName, _unregisterEnpoint_endpointURL);
-        System.out.println("unregisterEnpoint.result=" + _unregisterEnpoint__return);
+        port.unregisterEnpoint(_unregisterEnpoint_serviceName, _unregisterEnpoint_endpointURL);
+        //System.out.println("unregisterEnpoint.result=" + _unregisterEnpoint__return);
 
 
         }
