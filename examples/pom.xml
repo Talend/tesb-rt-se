@@ -18,7 +18,8 @@
 		<module>rent-a-car</module>
 		<module>locator</module>
 		<module>sam</module>
-		<module>jmx</module>
+		<module>cxf-jmx</module>
+		<module>camel-jmx</module>
 	</modules>
 
 	<organization>
