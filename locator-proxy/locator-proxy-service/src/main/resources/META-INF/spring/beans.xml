@@ -56,16 +56,7 @@
         <property name="placeholderPrefix" value="$sl{" />
     </bean>
  
-    <bean id="serviceLocator"
-          class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
-          init-method="connect" destroy-method="disconnect" lazy-init="true">
-        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
-        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
-        <property name="sessionTimeout" value="$sl{session.timeout}"/>
-    </bean>
-
-  
-	<jaxws:endpoint id="ServiceLocatorProxyService"
+ 	<jaxws:endpoint id="ServiceLocatorProxyService"
 		xmlns:serviceNamespace="http://services.talend.org/ServiceLocatorProxyService"
 		serviceName="serviceNamespace:ServiceLocatorProxyProvider"
 		endpointName="serviceNamespace:ServiceLocatorProxyProvider"
@@ -85,9 +76,11 @@
 	</jaxws:endpoint> -->
 	
 	<bean id="serviceLocatorProxyBean"
-		class="org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl" lazy-init="true">
-		 <property name="serviceLocator" ref="serviceLocator" />
-		 <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
+		class="org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl" destroy-method="disconnectLocator" >
+        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
+        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
+        <property name="sessionTimeout" value="$sl{session.timeout}"/>
+  	    <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
 	</bean>
 
 </beans>

@@ -32,6 +32,7 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
 
 public class LocatorProxyServiceImpl implements LocatorProxyService {
@@ -39,11 +40,17 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	private static final Logger LOG = Logger
 			.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
 
-	private ServiceLocator locatorClient;
+	private ServiceLocator locatorClient = null;
 	
 	private String endpointPrefix = "";
 
 	private Random random = new Random();
+	
+    private String locatorEndpoints = "localhost:2181";
+
+    private int sessionTimeout = 5000;
+
+    private int connectionTimeout = 5000;
 
 	public void setServiceLocator(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
@@ -51,15 +58,52 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			LOG.log(Level.FINE, "Locator client was set for proxy service.");
 		}
 	}
-
+	
     public void setEndpointPrefix(String endpointPrefix) {
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
     }
 	
-	@Override
+    public void setLocatorClient(ServiceLocator locatorClient) {
+		this.locatorClient = locatorClient;
+	}
+
+	public void setLocatorEndpoints(String locatorEndpoints) {
+		this.locatorEndpoints = locatorEndpoints;
+	}
+
+	public void setSessionTimeout(int sessionTimeout) {
+		this.sessionTimeout = sessionTimeout;
+	}
+
+	public void setConnectionTimeout(int connectionTimeout) {
+		this.connectionTimeout = connectionTimeout;
+	}
+
+	public void initLocator() throws InterruptedException, ServiceLocatorException {
+    	if (locatorClient == null) {
+    		ServiceLocatorImpl client = new ServiceLocatorImpl();
+    		client.setLocatorEndpoints(locatorEndpoints);
+    		client.setConnectionTimeout(connectionTimeout);
+    		client.setSessionTimeout(sessionTimeout);
+    		locatorClient = client;
+    		locatorClient.connect();
+    	}
+    }
+	
+	public void disconnectLocator() throws InterruptedException, ServiceLocatorException {
+		if (locatorClient != null) {
+			locatorClient.disconnect();
+		}
+	}
+	
+    @Override
 	public void registerEndpoint(QName serviceName, String endpointURL)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		try {
+			initLocator();
+	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
+	        	endpointURL = endpointPrefix + endpointURL;
+	        }
 			locatorClient.register(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
 			throw new InterruptedExceptionFault("", e);
@@ -72,6 +116,10 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	public boolean unregisterEnpoint(QName serviceName, String endpointURL)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		try {
+			initLocator();
+	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
+	        	endpointURL = endpointPrefix + endpointURL;
+	        }
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
 			throw new InterruptedExceptionFault("", e);
@@ -87,6 +135,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		List<String> names = null;
 		String adress;
 		try {
+			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
 			throw new InterruptedExceptionFault("", e);
@@ -112,6 +161,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		List<W3CEndpointReference> endpointRefList = Collections.emptyList();
 		String adress;
 		try {
+			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
 			throw new InterruptedExceptionFault("", e);
