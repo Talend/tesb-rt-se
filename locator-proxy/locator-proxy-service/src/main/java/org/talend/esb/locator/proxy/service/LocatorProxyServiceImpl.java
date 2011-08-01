@@ -34,6 +34,7 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+import org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType;
 
 public class LocatorProxyServiceImpl implements LocatorProxyService {
 
@@ -96,21 +97,40 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 	
-    @Override
-	public void registerEndpoint(QName serviceName, String endpointURL)
+    
+	@Override
+	public void registerEndpoint(RegisterEndpointRequestType imput)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
+		String endpointURL = imput.getEndpointURL();
+		QName serviceName = imput.getServiceName();
 		try {
-			initLocator();
-	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
-	        	endpointURL = endpointPrefix + endpointURL;
-	        }
-			locatorClient.register(serviceName, endpointURL);
-		} catch (ServiceLocatorException e) {
-			throw new InterruptedExceptionFault("", e);
-		} catch (InterruptedException e) {
-			throw new ServiceLocatorFault("", e);
-		}
+		initLocator();
+        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
+        	endpointURL = endpointPrefix + endpointURL;
+        }
+		locatorClient.register(serviceName, endpointURL);
+	} catch (ServiceLocatorException e) {
+		throw new ServiceLocatorFault("", e);
+	} catch (InterruptedException e) {
+		throw new InterruptedExceptionFault("", e);
 	}
+		
+	}
+
+//	public void registerEndpoint(QName serviceName, String endpointURL)
+//			throws InterruptedExceptionFault, ServiceLocatorFault {
+//		try {
+//			initLocator();
+//	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
+//	        	endpointURL = endpointPrefix + endpointURL;
+//	        }
+//			locatorClient.register(serviceName, endpointURL);
+//		} catch (ServiceLocatorException e) {
+//			throw new InterruptedExceptionFault("", e);
+//		} catch (InterruptedException e) {
+//			throw new ServiceLocatorFault("", e);
+//		}
+//	}
 
 	@Override
 	public void unregisterEnpoint(QName serviceName, String endpointURL)
@@ -122,9 +142,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	        }
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
-			throw new InterruptedExceptionFault("", e);
-		} catch (InterruptedException e) {
 			throw new ServiceLocatorFault("", e);
+		} catch (InterruptedException e) {
+			throw new InterruptedExceptionFault("", e);
 		}
 		return;
 	}
@@ -138,9 +158,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
-			throw new InterruptedExceptionFault("", e);
-		} catch (InterruptedException e) {
 			throw new ServiceLocatorFault("", e);
+		} catch (InterruptedException e) {
+			throw new InterruptedExceptionFault("", e);
 		}
 		if (names != null && !names.isEmpty()) {
 			names = getRotatedList(names);
@@ -164,9 +184,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
-			throw new InterruptedExceptionFault("", e);
-		} catch (InterruptedException e) {
 			throw new ServiceLocatorFault("", e);
+		} catch (InterruptedException e) {
+			throw new InterruptedExceptionFault("", e);
 		}
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {

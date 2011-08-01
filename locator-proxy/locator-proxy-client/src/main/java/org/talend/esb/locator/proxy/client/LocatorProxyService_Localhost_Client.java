@@ -56,7 +56,11 @@ public final class LocatorProxyService_Localhost_Client {
         System.out.println("Invoking registerEndpoint...");
         javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName("", "");
         java.lang.String _registerEndpoint_endpointURL = "";
-        port.registerEndpoint(_registerEndpoint_serviceName, _registerEndpoint_endpointURL);
+        org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType imput = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
+        imput.setServiceName(_registerEndpoint_serviceName);
+        imput.setEndpointURL(_registerEndpoint_endpointURL);
+        //port.registerEndpoint(_registerEndpoint_serviceName, _registerEndpoint_endpointURL);
+        port.registerEndpoint(imput);
 
 
         }

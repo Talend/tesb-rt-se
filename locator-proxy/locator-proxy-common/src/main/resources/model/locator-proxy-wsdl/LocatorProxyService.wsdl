@@ -46,12 +46,20 @@
 		<xsd:complexType name="ServiceLocatorFault"> 
 			<xsd:sequence/>
 		</xsd:complexType>  
+		
+        <xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType"/>
+		<xsd:complexType name="registerEndpointRequestType">
+        	<xsd:sequence>
+            	<xsd:element name="serviceName" type="xsd:QName" />
+            	<xsd:element name="endpointURL" type="xsd:anyURI" />
+        	</xsd:sequence>
+        </xsd:complexType>
+		
 	</xsd:schema>
 	</types>
 	
 	<message name="registerEndpointRequest">
-        <part name="serviceName" type="xsd:QName" />
-        <part name="endpointURL" type="xsd:anyURI"/>
+		<part element="lpx:registerEndpointRequest" name="imput"/>
 	</message>
 	<message name="unregisterEnpointRequest">
         <part name="serviceName" type="xsd:QName"/>
