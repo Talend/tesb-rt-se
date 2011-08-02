@@ -125,9 +125,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		QName serviceName = input.getServiceName();
 		try {
 			initLocator();
-			if (!endpointURL.startsWith("http://")
-					&& !endpointURL.startsWith("https://")) { // relative
-																// address
+			if (!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
 				endpointURL = endpointPrefix + endpointURL;
 			}
 			locatorClient.unregister(serviceName, endpointURL);
