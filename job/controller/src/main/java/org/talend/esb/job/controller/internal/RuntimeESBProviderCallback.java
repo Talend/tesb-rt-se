@@ -26,7 +26,7 @@ import routines.system.api.ESBConsumer;
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
 
-class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
+public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
 
     private final boolean isRequestResponse;
     private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();

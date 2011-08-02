@@ -21,6 +21,8 @@ package org.talend.esb.job.controller.internal;
 
 import org.osgi.framework.*;
 import org.talend.esb.job.controller.Controller;
+import org.talend.esb.job.controller.JobLauncher;
+
 import routines.system.api.TalendJob;
 
 import java.util.ArrayList;
@@ -34,15 +36,15 @@ import java.util.Map;
 public class ControllerImpl implements Controller, ServiceListener {
 
     private BundleContext bundleContext;
-    private TalendJobLauncher talendJobLauncher;
+    private JobLauncher jobLauncher;
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
         this.bundleContext.addServiceListener(this);
     }
 
-    public void setLauncher(TalendJobLauncher talendJobLauncher) {
-        this.talendJobLauncher = talendJobLauncher;
+    public void setJobLauncher(JobLauncher jobLauncher) {
+        this.jobLauncher = jobLauncher;
     }
 
     public Map<String, List<String>> list() throws Exception {
@@ -103,17 +105,18 @@ public class ControllerImpl implements Controller, ServiceListener {
         }
         final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
         if (job != null) {
-            talendJobLauncher.runTalendJob(job, args);
+            jobLauncher.startJob(job, args);
         }
     }
 
     @Override
     public void serviceChanged(ServiceEvent event) {
         if(event.getType() == ServiceEvent.UNREGISTERING){
+            // TODO: any service can contains "type=job"
             String type = (String)event.getServiceReference().getProperty("type");
             if(type != null && type.equalsIgnoreCase("job")) {
                 TalendJob talendJob = (TalendJob)bundleContext.getService(event.getServiceReference());
-                talendJobLauncher.stopTalendJob(talendJob);
+                jobLauncher.stopJob(talendJob);
             }
         }
     }

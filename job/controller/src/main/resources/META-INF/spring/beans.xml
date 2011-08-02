@@ -32,22 +32,20 @@
     <!-- SAM -->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-    <bean id="controller" class="org.talend.esb.job.controller.internal.ControllerImpl">
-        <property name="bundleContext" ref="bundleContext"/>
-        <property name="launcher" ref="launcher"/>
-    </bean>
+    <!-- CustomInfoHandler must as a bean because setHandlers() in EventCollectorImpl
+         marked as Autowired. Otherwise, it will not work after testing. (c) Xilai Dai -->
+    <bean id="customInfoHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
 
-    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="controller"/>
-
-	<bean id="customInfoHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
-	
-    <bean id="launcher" class="org.talend.esb.job.controller.internal.TalendJobLauncher">
+    <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </property>
         <property name="serviceActivityMonitoring" ref="eventFeature"/>
-        <property name="customPropertiesHandler" ref="customInfoHandler"/>
+        <property name="customInfoHandler" ref="customInfoHandler"/>
+        <property name="bundleContext" ref="bundleContext"/>
     </bean>
+
+    <osgi:service interface="org.talend.esb.job.controller.JobLauncher" ref="jobLauncher"/>
 
 </beans>

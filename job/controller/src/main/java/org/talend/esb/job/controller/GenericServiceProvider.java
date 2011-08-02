@@ -1,46 +1,55 @@
+/*
+ * #%L
+ * Talend :: ESB :: Job :: Controller
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.job.controller;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-import javax.xml.transform.Source;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 
-@javax.xml.ws.WebServiceProvider()
-public class GenericServiceProvider
-	implements javax.xml.ws.Provider<javax.xml.transform.Source> {
+import org.talend.esb.job.controller.internal.ESBProviderBase;
+import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
 
-	private Map<String, String> operations;
-    private Controller controller;
+public class GenericServiceProvider extends ESBProviderBase {
 
-    @Resource
-    private WebServiceContext context;
-	
-	public void setOperations(Map<String, String> operations) {
-		this.operations = operations;
-	}
+    private Map<String, String> operations;
+    private JobLauncher jobLauncher;
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void setOperations(Map<String, String> operations) {
+        this.operations = operations;
     }
 
-	@Override
-    public Source invoke(Source request) {
-        QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
-        System.out.println("operationQName="+operationQName);
-		final String jobName = operations.get(operationQName.getLocalPart());
-		if (jobName == null) {
-			throw new RuntimeException("Job for operation '" + operationQName + "' not found");
-		}
-		try {
-//			controller.run(jobName);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		return null;
+    public void setJobLauncher(JobLauncher jobLauncher) {
+        this.jobLauncher = jobLauncher;
+    }
+
+    @Override
+    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName) {
+        final String jobName = operations.get(operationQName.getLocalPart());
+        if (jobName == null) {
+            throw new RuntimeException("Job for operation '" + operationQName + "' not found");
+        }
+        // TODO: set communication style
+        RuntimeESBProviderCallback esbProviderCallback =
+                createESBProviderCallback(operationQName.getLocalPart(), true);
+        jobLauncher.startJob(jobName, esbProviderCallback);
+        return esbProviderCallback;
     }
 
 }
