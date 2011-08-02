@@ -293,6 +293,7 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
             if (null != slcm){
             	ServiceListenerImpl svrListener = new ServiceListenerImpl();
             	svrListener.setQueue(queue);
+            	svrListener.setMonitoringServiceClient(monitoringServiceClient);
             	slcm.registerListener(svrListener);
             }
             
@@ -300,6 +301,7 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
             if (null != clcm){
             	ClientListenerImpl cltListener = new ClientListenerImpl();
             	cltListener.setQueue(queue);
+            	cltListener.setMonitoringServiceClient(monitoringServiceClient);
             	clcm.registerListener(cltListener);
             }
         }

@@ -55,12 +55,12 @@ public class AgentActivator implements BundleActivator{
 			initWsClient(context);
 		}
 		
-		EventType stopStartEvent = createEventType(EventEnumType.SERVER_STOP);
+		EventType serverStopEvent = createEventType(EventEnumType.SERVER_STOP);
 		int retryNumInt = Integer.parseInt(retryNum);
 		long retryDelayLong = Long.parseLong(retryDelay);
-		putEvent(stopStartEvent, retryNumInt, retryDelayLong);
+		putEvent(serverStopEvent, retryNumInt, retryDelayLong);
 		
-		logger.info("Send SERVER_START event to SAM Server successful!");		
+		logger.info("Send SERVER_STOP event to SAM Server successful!");		
 	}
 	
 	private EventType createEventType(EventEnumType type){
