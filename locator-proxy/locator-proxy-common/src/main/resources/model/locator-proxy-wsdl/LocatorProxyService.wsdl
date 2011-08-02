@@ -98,7 +98,7 @@
 		</operation>
 	</portType>
 
-	<wsdl:binding name="localhostBinding" type="lps:LocatorProxy">
+	<wsdl:binding name="localhostBinding" type="lps:LocatorProxyService">
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="registerEndpoint">
@@ -157,7 +157,7 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:service name="LocatorProxyImpl">
+	<wsdl:service name="LocatorProxyServiceImpl">
 		<wsdl:port binding="lps:localhostBinding" name="localhost">
 			<soap:address
 				location="http://localhost:8040/services/ServiceLocatorProxyService" />
