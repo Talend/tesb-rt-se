@@ -27,6 +27,17 @@
     </parent>
     
      <dependencies>
+            <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-api</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.talend.esb.locator.proxy</groupId>
             <artifactId>locatorproxyservice-common</artifactId>
