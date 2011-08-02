@@ -1,176 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
- Copyright (c) 2011 Talend Inc. - www.talend.com
- All rights reserved.
-
- This program and the accompanying materials are made available
- under the terms of the Apache License v2.0
- which accompanies this distribution, and is available at
- http://www.apache.org/licenses/LICENSE-2.0
-
- -->
+<!-- Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Apache License v2.0 which accompanies this distribution, and 
+	is available at http://www.apache.org/licenses/LICENSE-2.0 -->
 <definitions targetNamespace="http://service.proxy.locator.esb.talend.org/"
-  xmlns="http://schemas.xmlsoap.org/wsdl/" 
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:corbatm="http://cxf.apache.org/schemas/cxf/idl/Bank/corba/typemap"
-  xmlns:wsa="http://www.w3.org/2005/08/addressing" 
-  xmlns:lpx="http://service.proxy.locator.esb.talend.org/types"
-  xmlns:lps="http://service.proxy.locator.esb.talend.org/"
-  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-  >
-  
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:corbatm="http://cxf.apache.org/schemas/cxf/idl/Bank/corba/typemap"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:lpx="http://service.proxy.locator.esb.talend.org/types"
+	xmlns:lps="http://service.proxy.locator.esb.talend.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
 	<types>
-	<xsd:schema elementFormDefault="unqualified"
-      targetNamespace="http://service.proxy.locator.esb.talend.org/types" 
-      xmlns="http://services.talend.org/locatorproxy/types"
-	  xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <xsd:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd"/>
-	  <xsd:element name="EndpointReferenceListType">
-			<xsd:complexType>
+		<xsd:schema elementFormDefault="unqualified"
+			targetNamespace="http://service.proxy.locator.esb.talend.org/types"
+			xmlns="http://services.talend.org/locatorproxy/types" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+			<xsd:import namespace="http://www.w3.org/2005/08/addressing"
+				schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" />
+			<xsd:element name="EndpointReferenceListType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
+							nillable="false" type="wsa:EndpointReferenceType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
+			</xsd:element>
+
+			<xsd:element name="InterruptedExceptionFault" type="lpx:InterruptedExceptionFault" />
+			<xsd:complexType name="InterruptedExceptionFault">
+				<xsd:sequence />
+			</xsd:complexType>
+
+			<xsd:element name="ServiceLocatorFault" type="lpx:ServiceLocatorFault" />
+			<xsd:complexType name="ServiceLocatorFault">
+				<xsd:sequence />
+			</xsd:complexType>
+
+			<xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType" />
+			<xsd:complexType name="registerEndpointRequestType">
 				<xsd:sequence>
-    				<xsd:element  maxOccurs="unbounded" minOccurs="0" name="return" nillable="false" type="wsa:EndpointReferenceType" />
+					<xsd:element name="serviceName" type="xsd:QName" />
+					<xsd:element name="endpointURL" type="xsd:anyURI" />
 				</xsd:sequence>
 			</xsd:complexType>
-	  </xsd:element>    
-	  <xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
-		</xsd:element> 
-		
-		<xsd:element name="InterruptedExceptionFault" type="lpx:InterruptedExceptionFault"/>		
-		<xsd:complexType name="InterruptedExceptionFault"> 
-			<xsd:sequence/>
-		</xsd:complexType>
-		   
-		<xsd:element name="ServiceLocatorFault" type="lpx:ServiceLocatorFault"/>		
-		<xsd:complexType name="ServiceLocatorFault"> 
-			<xsd:sequence/>
-		</xsd:complexType>  
-		
-        <xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType"/>
-		<xsd:complexType name="registerEndpointRequestType">
-        	<xsd:sequence>
-            	<xsd:element name="serviceName" type="xsd:QName" />
-            	<xsd:element name="endpointURL" type="xsd:anyURI" />
-        	</xsd:sequence>
-        </xsd:complexType>
-		
-	</xsd:schema>
+
+		</xsd:schema>
 	</types>
-	
+
 	<message name="registerEndpointRequest">
-		<part element="lpx:registerEndpointRequest" name="imput"/>
+		<part element="lpx:registerEndpointRequest" name="imput" />
 	</message>
 	<message name="unregisterEnpointRequest">
-        <part name="serviceName" type="xsd:QName"/>
-        <part name="endpointURL" type="xsd:anyURI"/>
+		<part name="serviceName" type="xsd:QName" />
+		<part name="endpointURL" type="xsd:anyURI" />
 	</message>
 	<message name="lookupEndpointRequest">
-        <part name="serviceName" type="xsd:QName"/>
+		<part name="serviceName" type="xsd:QName" />
 	</message>
 	<message name="lookupEndpointResponse">
-		<part name="return" element="lpx:EndpointReferenceType"/>
+		<part name="return" element="lpx:EndpointReferenceType" />
 	</message>
 	<message name="lookupEndpointsRequest">
-        <part name="serviceName" type="xsd:QName"/>
+		<part name="serviceName" type="xsd:QName" />
 	</message>
 	<message name="lookupEndpointsResponse">
 		<part name="body" element="lpx:EndpointReferenceListType" />
 	</message>
-   <wsdl:message name="InterruptedExceptionFault">
-     <wsdl:part name="InterruptedExceptionFault" element="lpx:InterruptedExceptionFault"/>
-   </wsdl:message>
-   <wsdl:message name="ServiceLocatorFault">
-     <wsdl:part name="ServiceLocatorFault" element="lpx:ServiceLocatorFault"/>
-   </wsdl:message>
+	<wsdl:message name="InterruptedExceptionFault">
+		<wsdl:part name="InterruptedExceptionFault" element="lpx:InterruptedExceptionFault" />
+	</wsdl:message>
+	<wsdl:message name="ServiceLocatorFault">
+		<wsdl:part name="ServiceLocatorFault" element="lpx:ServiceLocatorFault" />
+	</wsdl:message>
 
 	<portType name="LocatorProxyService">
 		<operation name="registerEndpoint">
-			<input message="lps:registerEndpointRequest"/>
-			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:registerEndpointRequest" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="unregisterEnpoint">
-			<input message="lps:unregisterEnpointRequest"/>
-			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:unregisterEnpointRequest" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="lookupEndpoint">
-			<input message="lps:lookupEndpointRequest"/>
-			<output message="lps:lookupEndpointResponse"/>
-			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:lookupEndpointRequest" />
+			<output message="lps:lookupEndpointResponse" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="lookupEndpoints">
-			<input message="lps:lookupEndpointsRequest"/>
-			<output message="lps:lookupEndpointsResponse"/>
-			<fault  name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault  name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:lookupEndpointsRequest" />
+			<output message="lps:lookupEndpointsResponse" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 	</portType>
 
-	<wsdl:binding name="localhostBinding" type="lps:LocatorProxyService">
-		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+	<wsdl:binding name="localhostBinding" type="lps:LocatorProxy">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="registerEndpoint">
-		<soap:operation soapAction="registerEndpoint"/>
+			<soap:operation soapAction="registerEndpoint" />
 			<wsdl:input>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
+				<soap:fault name="ServiceLocatorFault" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="unregisterEnpoint">
-			<soap:operation soapAction="unregisterEnpoint"/>
+			<soap:operation soapAction="unregisterEnpoint" />
 			<wsdl:input>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
+				<soap:fault name="ServiceLocatorFault" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="lookupEndpoint">
-			<soap:operation soapAction="lookupEndpoint"/>
+			<soap:operation soapAction="lookupEndpoint" />
 			<wsdl:input>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
+				<soap:fault name="ServiceLocatorFault" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="lookupEndpoints">
-			<soap:operation soapAction="lookupEndpoints"/>
+			<soap:operation soapAction="lookupEndpoints" />
 			<wsdl:input>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output>
-				<soap:body use="literal"/>
+				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
 			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
+				<soap:fault name="ServiceLocatorFault" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
 
-    <wsdl:service name="LocatorProxyServiceImpl">
+	<wsdl:service name="LocatorProxyImpl">
 		<wsdl:port binding="lps:localhostBinding" name="localhost">
-			<soap:address location="http://localhost:8040/services/ServiceLocatorProxyService"/>
+			<soap:address
+				location="http://localhost:8040/services/ServiceLocatorProxyService" />
 		</wsdl:port>
 	</wsdl:service>
 
- </definitions>
+</definitions>
