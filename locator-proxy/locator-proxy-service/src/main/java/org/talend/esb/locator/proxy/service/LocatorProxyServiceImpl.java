@@ -35,6 +35,7 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
 import org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType;
 
 public class LocatorProxyServiceImpl implements LocatorProxyService {
 
@@ -99,10 +100,10 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	
     
 	@Override
-	public void registerEndpoint(RegisterEndpointRequestType imput)
+	public void registerEndpoint(RegisterEndpointRequestType input)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
-		String endpointURL = imput.getEndpointURL();
-		QName serviceName = imput.getServiceName();
+		String endpointURL = input.getEndpointURL();
+		QName serviceName = input.getServiceName();
 		try {
 		initLocator();
         if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
@@ -133,21 +134,41 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 //	}
 
 	@Override
-	public void unregisterEnpoint(QName serviceName, String endpointURL)
+	public void unregisterEnpoint(UnregisterEndpointRequestType input)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
+		String endpointURL = input.getEndpointURL();
+		QName serviceName = input.getServiceName();
 		try {
 			initLocator();
-	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
-	        	endpointURL = endpointPrefix + endpointURL;
-	        }
+			if (!endpointURL.startsWith("http://")
+					&& !endpointURL.startsWith("https://")) { // relative
+																// address
+				endpointURL = endpointPrefix + endpointURL;
+			}
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
 			throw new ServiceLocatorFault("", e);
 		} catch (InterruptedException e) {
 			throw new InterruptedExceptionFault("", e);
 		}
-		return;
 	}
+
+//	@Override
+//	public void unregisterEnpoint(QName serviceName, String endpointURL)
+//			throws InterruptedExceptionFault, ServiceLocatorFault {
+//		try {
+//			initLocator();
+//	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
+//	        	endpointURL = endpointPrefix + endpointURL;
+//	        }
+//			locatorClient.unregister(serviceName, endpointURL);
+//		} catch (ServiceLocatorException e) {
+//			throw new ServiceLocatorFault("", e);
+//		} catch (InterruptedException e) {
+//			throw new InterruptedExceptionFault("", e);
+//		}
+//		return;
+//	}
 
 	@Override
 	public W3CEndpointReference lookupEndpoint(QName serviceName)

@@ -56,11 +56,11 @@ public final class LocatorProxyService_Localhost_Client {
         System.out.println("Invoking registerEndpoint...");
         javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName("", "");
         java.lang.String _registerEndpoint_endpointURL = "";
-        org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType imput = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
-        imput.setServiceName(_registerEndpoint_serviceName);
-        imput.setEndpointURL(_registerEndpoint_endpointURL);
+        org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
+        input.setServiceName(_registerEndpoint_serviceName);
+        input.setEndpointURL(_registerEndpoint_endpointURL);
         //port.registerEndpoint(_registerEndpoint_serviceName, _registerEndpoint_endpointURL);
-        port.registerEndpoint(imput);
+        port.registerEndpoint(input);
 
 
         }
@@ -84,7 +84,10 @@ public final class LocatorProxyService_Localhost_Client {
         System.out.println("Invoking unregisterEnpoint...");
         javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName("", "");
         java.lang.String _unregisterEnpoint_endpointURL = "";
-        port.unregisterEnpoint(_unregisterEnpoint_serviceName, _unregisterEnpoint_endpointURL);
+        org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType();
+        input.setServiceName(_unregisterEnpoint_serviceName);
+        input.setEndpointURL(_unregisterEnpoint_endpointURL);
+        port.unregisterEnpoint(input);
         //System.out.println("unregisterEnpoint.result=" + _unregisterEnpoint__return);
 
 

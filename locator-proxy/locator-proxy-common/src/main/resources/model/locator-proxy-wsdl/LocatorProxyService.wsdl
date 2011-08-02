@@ -44,15 +44,22 @@
 				</xsd:sequence>
 			</xsd:complexType>
 
+			<xsd:element name="unregisterEndpointRequest" type="lpx:unregisterEndpointRequestType" />
+			<xsd:complexType name="unregisterEndpointRequestType">
+				<xsd:sequence>
+					<xsd:element name="serviceName" type="xsd:QName" />
+					<xsd:element name="endpointURL" type="xsd:anyURI" />
+				</xsd:sequence>
+			</xsd:complexType>
+
 		</xsd:schema>
 	</types>
 
 	<message name="registerEndpointRequest">
-		<part element="lpx:registerEndpointRequest" name="imput" />
+		<part element="lpx:registerEndpointRequest" name="input" />
 	</message>
 	<message name="unregisterEnpointRequest">
-		<part name="serviceName" type="xsd:QName" />
-		<part name="endpointURL" type="xsd:anyURI" />
+		<part element="lpx:unregisterEndpointRequest" name="input" />
 	</message>
 	<message name="lookupEndpointRequest">
 		<part name="serviceName" type="xsd:QName" />
@@ -72,15 +79,18 @@
 	<wsdl:message name="ServiceLocatorFault">
 		<wsdl:part name="ServiceLocatorFault" element="lpx:ServiceLocatorFault" />
 	</wsdl:message>
+	<wsdl:message name="empty"/>
 
 	<portType name="LocatorProxyService">
 		<operation name="registerEndpoint">
 			<input message="lps:registerEndpointRequest" />
+			<output message="lps:empty"/>
 			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
 			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="unregisterEnpoint">
 			<input message="lps:unregisterEnpointRequest" />
+			<output message="lps:empty"/>
 			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
 			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
@@ -106,6 +116,7 @@
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
+			<wsdl:output/>			
 			<wsdl:fault name="InterruptedExceptionFault">
 				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
@@ -118,6 +129,7 @@
 			<wsdl:input>
 				<soap:body use="literal" />
 			</wsdl:input>
+			<wsdl:output/>
 			<wsdl:fault name="InterruptedExceptionFault">
 				<soap:fault name="InterruptedExceptionFault" use="literal" />
 			</wsdl:fault>
