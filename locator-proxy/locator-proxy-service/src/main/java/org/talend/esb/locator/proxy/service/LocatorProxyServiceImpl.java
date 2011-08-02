@@ -22,7 +22,6 @@ package org.talend.esb.locator.proxy.service;
 import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,20 +117,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		
 	}
 
-//	public void registerEndpoint(QName serviceName, String endpointURL)
-//			throws InterruptedExceptionFault, ServiceLocatorFault {
-//		try {
-//			initLocator();
-//	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
-//	        	endpointURL = endpointPrefix + endpointURL;
-//	        }
-//			locatorClient.register(serviceName, endpointURL);
-//		} catch (ServiceLocatorException e) {
-//			throw new InterruptedExceptionFault("", e);
-//		} catch (InterruptedException e) {
-//			throw new ServiceLocatorFault("", e);
-//		}
-//	}
 
 	@Override
 	public void unregisterEnpoint(UnregisterEndpointRequestType input)
@@ -153,22 +138,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
-//	@Override
-//	public void unregisterEnpoint(QName serviceName, String endpointURL)
-//			throws InterruptedExceptionFault, ServiceLocatorFault {
-//		try {
-//			initLocator();
-//	        if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
-//	        	endpointURL = endpointPrefix + endpointURL;
-//	        }
-//			locatorClient.unregister(serviceName, endpointURL);
-//		} catch (ServiceLocatorException e) {
-//			throw new ServiceLocatorFault("", e);
-//		} catch (InterruptedException e) {
-//			throw new InterruptedExceptionFault("", e);
-//		}
-//		return;
-//	}
 
 	@Override
 	public W3CEndpointReference lookupEndpoint(QName serviceName)
@@ -199,7 +168,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	@Override
 	public EndpointReferenceListType lookupEndpoints(QName serviceName) throws InterruptedExceptionFault, ServiceLocatorFault {
 		List<String> names = null;
-		List<W3CEndpointReference> endpointRefList = Collections.emptyList();
+		EndpointReferenceListType result = new EndpointReferenceListType();
 		String adress;
 		try {
 			initLocator();
@@ -212,9 +181,8 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {
 				adress = names.get(i);
-				endpointRefList.add(buildEndpoint(serviceName, adress));
+				result.getReturn().add(buildEndpoint(serviceName, adress));
 			}
-			adress = names.get(0);
 		} else {
 			if (LOG.isLoggable(Level.WARNING)) {
 				LOG.log(Level.WARNING, "lookup Endpoint " + serviceName
@@ -222,7 +190,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 			return null;
 		}
-		return (EndpointReferenceListType)endpointRefList;
+		return result;
 	}
 
 	private List<String> getRotatedList(List<String> strings) {
