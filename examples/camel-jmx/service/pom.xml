@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+<!-- Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Apache License v2.0 which accompanies this distribution, and 
+	is available at http://www.apache.org/licenses/LICENSE-2.0 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
- Copyright (c) 2011 Talend Inc. - www.talend.com
- All rights reserved.
+	<modelVersion>4.0.0</modelVersion>
 
- This program and the accompanying materials are made available
- under the terms of the Apache License v2.0
- which accompanies this distribution, and is available at
- http://www.apache.org/licenses/LICENSE-2.0
+	<groupId>org.talend.esb.examples</groupId>
+	<artifactId>camel-jmx-service</artifactId>
+	<name>Talend ESB Runtime::Camel JMX OSGI Example</name>
+	<packaging>bundle</packaging>
 
- -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.talend.esb.examples</groupId>
+		<artifactId>camel-jmx</artifactId>
+		<version>5.0-SNAPSHOT</version>
+	</parent>
 
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.talend.esb.examples</groupId>
-    <artifactId>camel-jmx-service</artifactId>
-    <name>Talend ESB Runtime::Camel JMX OSGI Example</name>
-    <packaging>bundle</packaging>
-
-    <parent>
-        <groupId>org.talend.esb.examples</groupId>
-        <artifactId>camel-jmx</artifactId>
-        <version>5.0-SNAPSHOT</version>
-    </parent>
-	
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jms</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
@@ -42,19 +46,19 @@
 			<version>${activemq.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test</artifactId>
-            <version>${camel.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test</artifactId>
+			<version>${camel.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -66,10 +70,10 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.felix</groupId> 
-				<artifactId>maven-bundle-plugin</artifactId> 
-				<extensions>true</extensions> 
- 				<configuration>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 					</instructions>
@@ -77,5 +81,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

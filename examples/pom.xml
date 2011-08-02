@@ -51,7 +51,6 @@
 		<zookeeper.version>3.3.3</zookeeper.version>
 		<derby.version>10.8.1.2</derby.version>
 		<servlet.api.version>2.5</servlet.api.version>
-		<xbean.spring.version>3.6</xbean.spring.version>
 		<!-- Test dependencies -->
 		<junit.version>4.8.2</junit.version>
 		<!-- Log dependencies -->

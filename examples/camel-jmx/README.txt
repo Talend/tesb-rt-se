@@ -61,13 +61,17 @@ for deploying the service either to servlet or OSGi containers.
 Starting the service
 ============================================
 To enable Tomcat for jmx:
- 
+
+for Windows:
+open command prompt and set temporary environment variable CATALINA_OPTS with command:
 set CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
-should be added to startup script of tomcat.
+
+for Linux:
+export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 
 * In servlet container (Tomcat):
 1) Copy war file from the camel-jmx/war/target folder to webapp folder in Tomcat.
-2) Start Tomcat
+2) Start Tomcat (use the same command prompt to start tomcat)
 
 * In Talend ESB OSGi container:
 1) Start TESB container.
