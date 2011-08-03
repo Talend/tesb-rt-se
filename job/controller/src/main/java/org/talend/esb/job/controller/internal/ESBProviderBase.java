@@ -39,12 +39,13 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
     //@javax.jws.WebMethod(exclude=true)
     public final Source invoke(Source request) {
         QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
-        System.out.println("context.getMessageContext()="+context.getMessageContext());
         LOG.info("Invoke operation '" + operationQName + "'");
         RuntimeESBProviderCallback esbProviderCallback =
             getESBProviderCallback(operationQName.getLocalPart());
         if (esbProviderCallback == null) {
-            esbProviderCallback = resolveESBProviderCallback(operationQName);
+            esbProviderCallback = resolveESBProviderCallback(operationQName,
+                // is better way to get communication style?
+                null != context.getMessageContext().get(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
         }
         try {
             Object result = esbProviderCallback.invoke(
@@ -112,7 +113,7 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
         return callbacks.isEmpty();
     }
 
-    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName) {
+    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName, boolean isRequestResponse) {
         throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
     }
 

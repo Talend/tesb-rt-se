@@ -40,14 +40,13 @@ public class GenericServiceProvider extends ESBProviderBase {
     }
 
     @Override
-    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName) {
+    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName, boolean isRequestResponse) {
         final String jobName = operations.get(operationQName.getLocalPart());
         if (jobName == null) {
             throw new RuntimeException("Job for operation '" + operationQName + "' not found");
         }
-        // TODO: set communication style
         RuntimeESBProviderCallback esbProviderCallback =
-                createESBProviderCallback(operationQName.getLocalPart(), true);
+                createESBProviderCallback(operationQName.getLocalPart(), isRequestResponse);
         jobLauncher.startJob(jobName, esbProviderCallback);
         return esbProviderCallback;
     }
