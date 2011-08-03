@@ -70,6 +70,14 @@
                     </connectors>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<packagingExcludes>WEB-INF/lib/jaxb-impl-*.jar</packagingExcludes>
+				</configuration>
+			</plugin>			
         </plugins>
     </build>
 </project>
