@@ -80,8 +80,20 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		this.connectionTimeout = connectionTimeout;
 	}
 
+	/**
+	 * Instantiate Service Locator client.
+	 * After successful instantiation establish a connection to the Service Locator server.
+	 * This method will be called if property locatorClient is null.
+     * For this purpose was defined additional properties to instantiate ServiceLocatorImpl.
+	 * @throws InterruptedException
+	 * @throws ServiceLocatorException
+	 */
 	public void initLocator() throws InterruptedException, ServiceLocatorException {
     	if (locatorClient == null) {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Instantiate locatorClient client for Locator Server "
+                        + locatorEndpoints + "...");
+            }
     		ServiceLocatorImpl client = new ServiceLocatorImpl();
     		client.setLocatorEndpoints(locatorEndpoints);
     		client.setConnectionTimeout(connectionTimeout);
@@ -91,18 +103,39 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
     	}
     }
 	
+	/**
+	 * Should use as destroy method. Disconnects from a Service Locator server. 
+	 * All endpoints that were registered before are removed from the server.
+	 * Set property locatorClient to null.
+	 * @throws InterruptedException
+	 * @throws ServiceLocatorException
+	 */
 	public void disconnectLocator() throws InterruptedException, ServiceLocatorException {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Destroy Locator client");
+        }
 		if (locatorClient != null) {
 			locatorClient.disconnect();
+			locatorClient = null;
 		}
 	}
 	
     
+	/**
+	 * Register the endpoint for given service.
+	 * @param input 
+	 * 			RegisterEndpointRequestType encapsulate name of service and endpointURL.
+	 * 			Must not be <code>null</code>  
+	 */
 	@Override
 	public void registerEndpoint(RegisterEndpointRequestType input)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		String endpointURL = input.getEndpointURL();
 		QName serviceName = input.getServiceName();
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Registering endpoint " + endpointURL + " for service "
+                    + serviceName + "...");
+        }
 		try {
 		initLocator();
         if(!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
@@ -110,19 +143,29 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
         }
 		locatorClient.register(serviceName, endpointURL);
 	} catch (ServiceLocatorException e) {
-		throw new ServiceLocatorFault("", e);
+		throw new ServiceLocatorFault(e.getMessage(), e);
 	} catch (InterruptedException e) {
-		throw new InterruptedExceptionFault("", e);
+		throw new InterruptedExceptionFault(e.getMessage(), e);
 	}
 		
 	}
 
 
+	/**
+	 * Unregister the endpoint for given service.
+	 * @param input 
+	 * 			UnregisterEndpointRequestType encapsulate name of service and endpointURL. 
+	 * 			Must not be <code>null</code>  
+	 */
 	@Override
 	public void unregisterEnpoint(UnregisterEndpointRequestType input)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		String endpointURL = input.getEndpointURL();
 		QName serviceName = input.getServiceName();
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Unregistering endpoint " + endpointURL + " for service "
+                    + serviceName + "...");
+        }
 		try {
 			initLocator();
 			if (!endpointURL.startsWith("http://") && !endpointURL.startsWith("https://")) { // relative address
@@ -130,13 +173,21 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault("", e);
+			throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault("", e);
+			throw new InterruptedExceptionFault(e.getMessage(), e);
 		}
 	}
 
 
+	/**
+	 * For the given service return endpoint reference randomly selected from list of endpoints
+	 * currently registered at the service locator server.
+	 * @param serviceName
+	 *            the name of the service for which to get the endpoints, must
+	 *            not be <code>null</code>
+	 * @return endpoint references or <code>null</code>
+	 */
 	@Override
 	public W3CEndpointReference lookupEndpoint(QName serviceName)
 			throws InterruptedExceptionFault, ServiceLocatorFault {
@@ -146,9 +197,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault("", e);
+			throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault("", e);
+			throw new InterruptedExceptionFault(e.getMessage(), e);
 		}
 		if (names != null && !names.isEmpty()) {
 			names = getRotatedList(names);
@@ -163,6 +214,15 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		return buildEndpoint(serviceName, adress);
 	}
 
+	/**
+	 * For the given service name return list of endpoint references currently registered at
+	 * the service locator server endpoints.
+	 * @param serviceName
+	 *            the name of the service for which to get the endpoints, must
+	 *            not be <code>null</code>
+	 * @return EndpointReferenceListType encapsulate list of endpoint references or <code>null</code>
+	 * 
+	 */
 	@Override
 	public EndpointReferenceListType lookupEndpoints(QName serviceName) throws InterruptedExceptionFault, ServiceLocatorFault {
 		List<String> names = null;
@@ -172,9 +232,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			initLocator();
 			names = locatorClient.getEndpointNames(serviceName);
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault("", e);
+			throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault("", e);
+			throw new InterruptedExceptionFault(e.getMessage(), e);
 		}
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {
@@ -191,6 +251,11 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		return result;
 	}
 
+	/**
+	 * Rotate list of String. Used for randomize selection of received endpoints
+	 * @param strings list of Strings
+	 * @return the same list in random order
+	 */
 	private List<String> getRotatedList(List<String> strings) {
 		int index = random.nextInt(strings.size());
 		List<String> rotated = new ArrayList<String>();
@@ -201,6 +266,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		return rotated;
 	}
 
+	/**
+	 * Build Endpoint Reference for giving service name and address
+	 * @param serviceName
+	 * @param adress
+	 * @return
+	 */
 	private W3CEndpointReference buildEndpoint(QName serviceName, String adress) {
 		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
 		builder.serviceName(serviceName);
