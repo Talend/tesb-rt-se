@@ -13,9 +13,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.talend.esb.examples.locator-proxy</groupId>
-    <artifactId>locator-demo</artifactId>
+    <artifactId>locator-proxy-demo</artifactId>
     <name>Demo for using the locator proxy</name>
     <packaging>pom</packaging>
 
@@ -26,8 +25,8 @@
     </parent>
 
     <modules>
-        <module>common</module>
         <module>client</module>
+		<module>common</module>
         <module>service</module>
         <module>war</module>
     </modules>

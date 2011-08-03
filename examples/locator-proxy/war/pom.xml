@@ -27,11 +27,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>locator-proxy</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-api</artifactId>
             <version>${cxf.version}</version>
