@@ -27,11 +27,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd ">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-
-    
-	<jaxws:client id="greeterService" 
-        address="locator://more_useful_information"
-		serviceClass="demo.common.Greeter">
+	<jaxws:client id="locatorProxyService" 
+        address="http://localhost:8040/services/ServiceLocatorProxyService"
+		serviceClass="org.talend.esb.locator.proxy.service.LocatorProxyService">
 	</jaxws:client>
 </beans>
