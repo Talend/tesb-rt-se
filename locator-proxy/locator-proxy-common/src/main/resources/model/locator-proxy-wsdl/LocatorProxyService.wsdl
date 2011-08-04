@@ -12,7 +12,8 @@
 	<types>
 		<xsd:schema elementFormDefault="unqualified"
 			targetNamespace="http://service.proxy.locator.esb.talend.org/types"
-			xmlns="http://services.talend.org/locatorproxy/types" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+			xmlns="http://services.talend.org/locatorproxy/types" xmlns:wsa="http://www.w3.org/2005/08/addressing"
+			xmlns:sl="http://talend.org/esb/serviceLocator/4.2">
 			<xsd:import namespace="http://www.w3.org/2005/08/addressing"
 				schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" />
 			<xsd:element name="EndpointReferenceListType">
@@ -41,8 +42,44 @@
 				<xsd:sequence>
 					<xsd:element name="serviceName" type="xsd:QName" />
 					<xsd:element name="endpointURL" type="xsd:anyURI" />
+					<xsd:element name="properties" type="lpx:SLPropertiesType" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 			</xsd:complexType>
+
+    		<xsd:complexType name="SLPropertiesType">
+    		    <xsd:sequence>
+	            	<xsd:element name="Entry" type="lpx:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+		        </xsd:sequence> 	
+		    </xsd:complexType>
+
+    		<xsd:complexType name="EntryType">
+        		<xsd:sequence>
+    				<xsd:element name="Value" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+        		</xsd:sequence>
+        	<xsd:attribute name="key" type="xsd:string"/>
+	    	</xsd:complexType>
+
+			<xsd:element name="lookupEndpointRequest" type="lpx:lookupRequestType" />
+			<xsd:element name="lookupEndpointsRequest" type="lpx:lookupRequestType" />
+			<xsd:complexType name="lookupRequestType">
+				<xsd:sequence>
+					<xsd:element name="serviceName" type="xsd:QName" />
+					<xsd:element name="matcherData" type="lpx:MatcherDataType" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:complexType>
+
+    		<xsd:complexType name="MatcherDataType">
+    		    <xsd:sequence>
+	            	<xsd:element name="Entry" type="lpx:AssertionType" minOccurs="0" maxOccurs="unbounded"/>
+		        </xsd:sequence> 	
+		    </xsd:complexType>
+
+    		<xsd:complexType name="AssertionType">
+        		<xsd:sequence>
+    				<xsd:element name="Value" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        		</xsd:sequence>
+        	<xsd:attribute name="key" type="xsd:string"/>
+	    	</xsd:complexType>
 
 			<xsd:element name="unregisterEndpointRequest" type="lpx:unregisterEndpointRequestType" />
 			<xsd:complexType name="unregisterEndpointRequestType">
@@ -62,13 +99,13 @@
 		<part element="lpx:unregisterEndpointRequest" name="input" />
 	</message>
 	<message name="lookupEndpointRequest">
-		<part name="serviceName" type="xsd:QName" />
+		<part name="input" element="lpx:lookupEndpointRequest" />
+	</message>
+	<message name="lookupEndpointsRequest">
+		<part name="input" element="lpx:lookupEndpointsRequest" />
 	</message>
 	<message name="lookupEndpointResponse">
 		<part name="return" element="lpx:EndpointReferenceType" />
-	</message>
-	<message name="lookupEndpointsRequest">
-		<part name="serviceName" type="xsd:QName" />
 	</message>
 	<message name="lookupEndpointsResponse">
 		<part name="body" element="lpx:EndpointReferenceListType" />
