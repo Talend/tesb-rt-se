@@ -84,7 +84,7 @@
   </feature>
 -->
   <feature name='tesb-locator-client' version='${project.version}'>
-        <feature>cxf</feature>
+        <feature version='${cxf.version}'>cxf</feature>
         <bundle>mvn:org.talend.esb/locator/${project.version}</bundle>
         <bundle>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
   </feature>
@@ -96,7 +96,7 @@
   
   <feature name='tesb-locator-proxy' version='${project.version}'>
         <feature>tesb-locator-client</feature>
-		<bundle>mvn:org.talend.esb/locator/proxy/locatorproxyservice-common/${project.version}</bundle>
+		<bundle>mvn:org.talend.esb/locator/proxy/locator-proxy-service-common/${project.version}</bundle>
 		<bundle>mvn:org.talend.esb/locator/proxy/locator-proxy-service/${project.version}</bundle>
   </feature>
 </features>
