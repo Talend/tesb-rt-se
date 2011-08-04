@@ -58,22 +58,24 @@ public final class LocatorProxyService_Localhost_Client {
 		LocatorProxyService port = ss.getLocalhost();
 
 		{
-			System.out.println("Invoking registerEndpoint...");
-			javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName(
-					"http://service.proxy.locator.esb.talend.org/", "Service");
-			java.lang.String _registerEndpoint_endpointURL = "http://Service";
-			org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
-			input.setServiceName(_registerEndpoint_serviceName);
-			input.setEndpointURL(_registerEndpoint_endpointURL);
-			port.registerEndpoint(input);
+//			System.out.println("Invoking registerEndpoint...");
+//			javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName(
+//					"http://service.proxy.locator.esb.talend.org/", "Service");
+//			java.lang.String _registerEndpoint_endpointURL = "http://Service";
+//			org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
+//			input.setServiceName(_registerEndpoint_serviceName);
+//			input.setEndpointURL(_registerEndpoint_endpointURL);
+//			port.registerEndpoint(input);
 
 		}
 		{
 			System.out.println("Invoking lookupEndpoint...");
 			javax.xml.namespace.QName _lookupEndpoint_serviceName = new javax.xml.namespace.QName(
-					"http://service.proxy.locator.esb.talend.org/", "Service");
+					"http://services.talend.org/ReservationService", "ReservationServiceProvider");
+			org.talend.esb.locator.proxy.service.types.LookupRequestType input = new org.talend.esb.locator.proxy.service.types.LookupRequestType();
+			input.setServiceName(_lookupEndpoint_serviceName);
 			javax.xml.ws.wsaddressing.W3CEndpointReference _lookupEndpoint__return = port
-					.lookupEndpoint(_lookupEndpoint_serviceName);
+					.lookupEndpoint(input);
 			System.out.println("lookupEndpoint.result="
 					+ _lookupEndpoint__return);
 
@@ -81,9 +83,11 @@ public final class LocatorProxyService_Localhost_Client {
 		{
 			System.out.println("Invoking lookupEndpoints...");
 			javax.xml.namespace.QName _lookupEndpoints_serviceName = new javax.xml.namespace.QName(
-					"http://service.proxy.locator.esb.talend.org/", "Service");
+					"http://services.talend.org/ReservationService", "ReservationServiceProvider");
+			org.talend.esb.locator.proxy.service.types.LookupRequestType input = new org.talend.esb.locator.proxy.service.types.LookupRequestType();
+			input.setServiceName(_lookupEndpoints_serviceName);
 			org.talend.esb.locator.proxy.service.types.EndpointReferenceListType _lookupEndpoints__return = port
-					.lookupEndpoints(_lookupEndpoints_serviceName);
+					.lookupEndpoints(input);
 			List<W3CEndpointReference> endpointRefList = _lookupEndpoints__return
 					.getReturn();
 			System.out.println("lookupEndpoints.result="
@@ -95,20 +99,20 @@ public final class LocatorProxyService_Localhost_Client {
 			}
 
 		}
-		{
-			System.out.println("Invoking unregisterEnpoint...");
-			javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName(
-					"http://service.proxy.locator.esb.talend.org/", "Service");
-			java.lang.String _unregisterEnpoint_endpointURL = "http://Service";
-			org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType();
-			input.setServiceName(_unregisterEnpoint_serviceName);
-			input.setEndpointURL(_unregisterEnpoint_endpointURL);
-
-			port.unregisterEnpoint(input);
-			// System.out.println("unregisterEnpoint.result=" +
-			// _unregisterEnpoint__return);
-
-		}
+//		{
+//			System.out.println("Invoking unregisterEnpoint...");
+//			javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName(
+//					"http://service.proxy.locator.esb.talend.org/", "Service");
+//			java.lang.String _unregisterEnpoint_endpointURL = "http://Service";
+//			org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType();
+//			input.setServiceName(_unregisterEnpoint_serviceName);
+//			input.setEndpointURL(_unregisterEnpoint_endpointURL);
+//
+//			port.unregisterEnpoint(input);
+//			// System.out.println("unregisterEnpoint.result=" +
+//			// _unregisterEnpoint__return);
+//
+//		}
 
 		System.exit(0);
 	}

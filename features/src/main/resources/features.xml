@@ -94,4 +94,9 @@
         <bundle>mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-discovery-distributed-zookeeper-server/${org.apache.cxf.dosgi.version}</bundle>
   </feature>
   
+  <feature name='tesb-locator-proxy' version='${project.version}'>
+        <feature>tesb-locator-client</feature>
+		<bundle>mvn:org.talend.esb/locator/proxy/locatorproxyservice-common/${project.version}</bundle>
+		<bundle>mvn:org.talend.esb/locator/proxy/locator-proxy-service/${project.version}</bundle>
+  </feature>
 </features>
