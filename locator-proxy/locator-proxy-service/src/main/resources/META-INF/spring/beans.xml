@@ -44,7 +44,6 @@
  <!-- Configuration Admin entry -->
     <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
         <prop key="locator.endpoints">localhost:2181</prop>
-        <prop key="endpoint.prefix"></prop>
         <prop key="connection.timeout">5000</prop>
         <prop key="session.timeout">5000</prop>
    </osgix:cm-properties>
@@ -63,24 +62,12 @@
 		implementor="#serviceLocatorProxyBean"
 		address="/ServiceLocatorProxyService"
 	/>
-<!--  	
-  	<jaxws:endpoint id="ServiceLocatorProxyService"
-		implementor="#serviceLocatorProxyBean"
-		address="/ServiceLocatorProxyService" 
-        wsdlLocation="/META-INF/spring/wsdl/LocatorProxyService.wsdl"
-        serviceName="ServiceLocatorProxyProvider"
-        endpointName="ServiceLocatorProxySOAP">
-        		<jaxws:features>
-			<bean class="org.apache.cxf.feature.LoggingFeature" />
-		</jaxws:features>
-	</jaxws:endpoint> -->
-	
+
 	<bean id="serviceLocatorProxyBean"
 		class="org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl" destroy-method="disconnectLocator" >
         <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
         <property name="connectionTimeout" value="$sl{connection.timeout}"/>
         <property name="sessionTimeout" value="$sl{session.timeout}"/>
-  	    <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
 	</bean>
 
 </beans>

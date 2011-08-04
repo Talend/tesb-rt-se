@@ -49,8 +49,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	private ServiceLocator locatorClient = null;
 
-	private String endpointPrefix = "";
-
 	private Random random = new Random();
 
 	private String locatorEndpoints = "localhost:2181";
@@ -64,10 +62,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Locator client was set for proxy service.");
 		}
-	}
-
-	public void setEndpointPrefix(String endpointPrefix) {
-		this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
 	}
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
@@ -156,11 +150,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 		try {
 			initLocator();
-			if (!endpointURL.startsWith("http://")
-					&& !endpointURL.startsWith("https://")) { // relative
-																// address
-				endpointURL = endpointPrefix + endpointURL;
-			}
 			if (properties == null) {
 				locatorClient.register(serviceName, endpointURL);
 			} else {
@@ -191,11 +180,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 		try {
 			initLocator();
-			if (!endpointURL.startsWith("http://")
-					&& !endpointURL.startsWith("https://")) { // relative
-																// address
-				endpointURL = endpointPrefix + endpointURL;
-			}
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
 			throw new ServiceLocatorFault(e.getMessage(), e);
@@ -237,10 +221,11 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			adress = names.get(0);
 		} else {
 			if (LOG.isLoggable(Level.WARNING)) {
-				LOG.log(Level.WARNING, "lookup Endpoint " + serviceName
+				LOG.log(Level.WARNING, "lookup Endpoint for " + serviceName
 						+ " failed, service is not known.");
 			}
-			return null;
+			throw new ServiceLocatorFault("lookup Endpoint for " + serviceName
+					+ " failed, service is not known.");
 		}
 		return buildEndpoint(serviceName, adress);
 	}
@@ -283,10 +268,11 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 		} else {
 			if (LOG.isLoggable(Level.WARNING)) {
-				LOG.log(Level.WARNING, "lookup Endpoint " + serviceName
+				LOG.log(Level.WARNING, "lookup Endpoints for " + serviceName
 						+ " failed, service is not known.");
 			}
-			return null;
+			throw new ServiceLocatorFault("lookup Endpoints for " + serviceName
+					+ " failed, service is not known.");
 		}
 		return result;
 	}

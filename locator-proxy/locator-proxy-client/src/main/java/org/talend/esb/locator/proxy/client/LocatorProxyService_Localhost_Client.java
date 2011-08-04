@@ -58,20 +58,20 @@ public final class LocatorProxyService_Localhost_Client {
 		LocatorProxyService port = ss.getLocalhost();
 
 		{
-//			System.out.println("Invoking registerEndpoint...");
-//			javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName(
-//					"http://service.proxy.locator.esb.talend.org/", "Service");
-//			java.lang.String _registerEndpoint_endpointURL = "http://Service";
-//			org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
-//			input.setServiceName(_registerEndpoint_serviceName);
-//			input.setEndpointURL(_registerEndpoint_endpointURL);
-//			port.registerEndpoint(input);
+			System.out.println("Invoking registerEndpoint...");
+			javax.xml.namespace.QName _registerEndpoint_serviceName = new javax.xml.namespace.QName(
+					"http://services.talend.org/TestService", "TestServiceProvider");
+			java.lang.String _registerEndpoint_endpointURL = "http://Service";
+			org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType();
+			input.setServiceName(_registerEndpoint_serviceName);
+			input.setEndpointURL(_registerEndpoint_endpointURL);
+			port.registerEndpoint(input);
 
 		}
 		{
 			System.out.println("Invoking lookupEndpoint...");
 			javax.xml.namespace.QName _lookupEndpoint_serviceName = new javax.xml.namespace.QName(
-					"http://services.talend.org/ReservationService", "ReservationServiceProvider");
+					"http://services.talend.org/TestService", "TestServiceProvider");
 			org.talend.esb.locator.proxy.service.types.LookupRequestType input = new org.talend.esb.locator.proxy.service.types.LookupRequestType();
 			input.setServiceName(_lookupEndpoint_serviceName);
 			javax.xml.ws.wsaddressing.W3CEndpointReference _lookupEndpoint__return = port
@@ -83,7 +83,7 @@ public final class LocatorProxyService_Localhost_Client {
 		{
 			System.out.println("Invoking lookupEndpoints...");
 			javax.xml.namespace.QName _lookupEndpoints_serviceName = new javax.xml.namespace.QName(
-					"http://services.talend.org/ReservationService", "ReservationServiceProvider");
+					"http://services.talend.org/TestService", "TestServiceProvider");
 			org.talend.esb.locator.proxy.service.types.LookupRequestType input = new org.talend.esb.locator.proxy.service.types.LookupRequestType();
 			input.setServiceName(_lookupEndpoints_serviceName);
 			org.talend.esb.locator.proxy.service.types.EndpointReferenceListType _lookupEndpoints__return = port
@@ -99,20 +99,20 @@ public final class LocatorProxyService_Localhost_Client {
 			}
 
 		}
-//		{
-//			System.out.println("Invoking unregisterEnpoint...");
-//			javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName(
-//					"http://service.proxy.locator.esb.talend.org/", "Service");
-//			java.lang.String _unregisterEnpoint_endpointURL = "http://Service";
-//			org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType();
-//			input.setServiceName(_unregisterEnpoint_serviceName);
-//			input.setEndpointURL(_unregisterEnpoint_endpointURL);
-//
-//			port.unregisterEnpoint(input);
-//			// System.out.println("unregisterEnpoint.result=" +
-//			// _unregisterEnpoint__return);
-//
-//		}
+		{
+			System.out.println("Invoking unregisterEnpoint...");
+			javax.xml.namespace.QName _unregisterEnpoint_serviceName = new javax.xml.namespace.QName(
+					"http://services.talend.org/TestService", "TestServiceProvider");
+			java.lang.String _unregisterEnpoint_endpointURL = "http://Service";
+			org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType input = new org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType();
+			input.setServiceName(_unregisterEnpoint_serviceName);
+			input.setEndpointURL(_unregisterEnpoint_endpointURL);
+
+			port.unregisterEnpoint(input);
+			// System.out.println("unregisterEnpoint.result=" +
+			// _unregisterEnpoint__return);
+
+		}
 
 		System.exit(0);
 	}
