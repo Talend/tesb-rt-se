@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>org.talend.esb.locator.proxy</groupId>
-            <artifactId>locatorproxyservice-common</artifactId>
+            <artifactId>locator-proxy-service-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
