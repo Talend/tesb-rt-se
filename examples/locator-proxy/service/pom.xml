@@ -14,14 +14,14 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.examples.locator</groupId>
-    <artifactId>locator-demo-client</artifactId>
-    <name>Locator Demo Client</name>
+    <groupId>org.talend.esb.examples.locator-proxy</groupId>
+    <artifactId>locator-proxy-demo-service</artifactId>
+    <name>Locator Proxy Demo Server</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.esb.examples.locator</groupId>
-        <artifactId>locator-demo</artifactId>
+        <groupId>org.talend.esb.examples.locator-proxy</groupId>
+        <artifactId>locator-proxy-demo</artifactId>
         <version>5.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
@@ -44,16 +44,12 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>locator</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>locator-demo-common</artifactId>
+            <artifactId>locator-proxy-demo-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
@@ -63,6 +59,10 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans</Require-Bundle>
+<Import-Package>
+ demo.common, javax.jws, org.springframework.context.support
+</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -70,42 +70,10 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>demo.client.Client</mainClass>
+                    <mainClass>demo.service.Server</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-	    <profiles>
-        <profile>
-            <id>httpsclient</id>
-            <build>
-                <defaultGoal>test</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-classpath</argument>
-                                        <classpath />
-                                        <argument>demo.client.Https_client</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-	    </profiles>
-
 
 </project>
