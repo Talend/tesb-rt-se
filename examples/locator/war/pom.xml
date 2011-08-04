@@ -54,6 +54,21 @@
 		    <plugin>
 		        <groupId>org.mortbay.jetty</groupId>
 		        <artifactId>jetty-maven-plugin</artifactId>
+
+
+		        <configuration>
+		            <connectors>
+		                <connector
+		                    implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
+		                    <port>9001</port>
+                            <keystore>src/main/webapp/certs/server_111.jks</keystore>
+                            <keyPassword>password</keyPassword>
+                            <password>password</password>
+                            <truststore>src/main/webapp/certs/truststore_111.jks</truststore>
+		                </connector>
+		            </connectors>
+		        </configuration>		        
+		        
 <!--
 		        <configuration>
 		            <connectors>

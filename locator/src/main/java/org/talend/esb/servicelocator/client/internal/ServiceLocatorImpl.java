@@ -740,7 +740,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
             JAXBElement<EndpointDataType> epd =
                 of.createEndpointData(endpointData);
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
+            ClassLoader cl = this.getClass().getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",cl);
             Marshaller m = jc.createMarshaller();
             m.marshal(epd, outputStream);
         } catch( JAXBException e ){

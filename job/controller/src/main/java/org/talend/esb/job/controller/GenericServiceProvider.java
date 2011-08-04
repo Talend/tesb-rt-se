@@ -21,10 +21,10 @@ package org.talend.esb.job.controller;
 
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import org.talend.esb.job.controller.internal.ESBProviderBase;
 import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
+
+import routines.system.api.ESBProviderCallback;
 
 public class GenericServiceProvider extends ESBProviderBase {
 
@@ -40,15 +40,54 @@ public class GenericServiceProvider extends ESBProviderBase {
     }
 
     @Override
-    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName, boolean isRequestResponse) {
-        final String jobName = operations.get(operationQName.getLocalPart());
-        if (jobName == null) {
-            throw new RuntimeException("Job for operation '" + operationQName + "' not found");
-        }
+    public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
         RuntimeESBProviderCallback esbProviderCallback =
-                createESBProviderCallback(operationQName.getLocalPart(), isRequestResponse);
-        jobLauncher.startJob(jobName, esbProviderCallback);
+            super.getESBProviderCallback(operationName);
+        if (null == esbProviderCallback) {
+            final String jobName = operations.get(operationName);
+            if (jobName == null) {
+                throw new RuntimeException("Job for operation '" + operationName + "' not found");
+            }
+            esbProviderCallback =
+                createESBProviderCallback(operationName, isOperationRequestResponse(operationName));
+            jobLauncher.startJob(jobName,
+                new GenericRuntimeESBProviderCallbackController(
+                    operationName, isOperationRequestResponse(operationName),
+                    esbProviderCallback));
+        }
         return esbProviderCallback;
+    }
+
+    class GenericRuntimeESBProviderCallbackController implements RuntimeESBProviderCallbackController {
+
+        private final String operationName;
+        private final boolean isRequestResponse;
+        private final RuntimeESBProviderCallback esbProviderCallback;
+
+        public GenericRuntimeESBProviderCallbackController(
+            String operationName,
+            boolean isRequestResponse,
+            RuntimeESBProviderCallback esbProviderCallback) {
+            this.operationName = operationName;
+            this.isRequestResponse = isRequestResponse;
+            this.esbProviderCallback = esbProviderCallback;
+        }
+
+        public ESBProviderCallback createESBProviderCallback(
+            String operationName, boolean isRequestResponse) {
+            if(!operationName.equals(this.operationName)) {
+                throw new IllegalArgumentException("Different operations found");
+            }
+            if(isRequestResponse != this.isRequestResponse) {
+                throw new IllegalArgumentException("Found incompatible communication styles");
+            }
+            return esbProviderCallback;
+        }
+
+        public void destroyESBProviderCallback(String operationName) {
+            GenericServiceProvider.this.destroyESBProviderCallback(operationName);
+        }
+
     }
 
 }
