@@ -34,6 +34,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.JobLauncher;
+import org.talend.esb.job.controller.RuntimeESBProviderCallbackController;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
@@ -90,26 +91,29 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
         this.bundleContext = bundleContext;
     }
 
-    class ESBJobRunnable implements Runnable {
+    class ESBJobThread extends Thread {
         private final TalendJob talendJob;
         private final String[] args;
-        private final ESBProviderCallback esbProviderCallback;
+        private final RuntimeESBProviderCallbackController controller;
 
-        public ESBJobRunnable(final TalendJob talendJob, final String[] args) {
+        public ESBJobThread(final TalendJob talendJob, final String[] args) {
             this.talendJob = talendJob;
             this.args = args;
-            esbProviderCallback = null;
+            controller = null;
         }
 
-        public ESBJobRunnable(final TalendJob talendJob, final ESBProviderCallback esbProviderCallback) {
+        public ESBJobThread(final TalendJob talendJob,
+            final RuntimeESBProviderCallbackController controller) {
             this.talendJob = talendJob;
             args = new String[0];
-            this.esbProviderCallback = esbProviderCallback;
+            this.controller = controller;
         }
 
         @Override
         public void run() {
+            jobs.put(talendJob, this);
             try {
+                String operationName = null;
                 LazyProviderCallbackDelegate cb = null;
                 if (talendJob instanceof TalendESBJob) {
                     // We have an ESB Job;
@@ -117,8 +121,13 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                     // get provider endpoint information
                     final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
                     if (null != endpoint) {
-                        ESBProviderCallback esbProviderCallback = this.esbProviderCallback;
-                        if(esbProviderCallback == null) {
+                        ESBProviderCallback esbProviderCallback;
+                        if (null != controller) {
+                            operationName = (String)endpoint.getEndpointProperties().get(DEFAULT_OPERATION_NAME);
+                            esbProviderCallback = controller.createESBProviderCallback(
+                                operationName,
+                                isRequestResponse((String)endpoint.getEndpointProperties().get(COMMUNICATION_STYLE)));
+                        } else {
                             // Create callback delegate
                             cb = new LazyProviderCallbackDelegate(new Callable<ESBProviderCallback>() {
                                 public ESBProviderCallback call() throws Exception {
@@ -132,17 +141,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                             });
                             // Inject lazy initialization callback to the job
                             esbProviderCallback = cb;
-                        } else {
-                            // check for compatible communication style
-                            if(esbProviderCallback instanceof RuntimeESBProviderCallback) {
-                                if(((RuntimeESBProviderCallback) esbProviderCallback).isRequestResponse() !=
-                                    isRequestResponse((String)endpoint.getEndpointProperties().get(COMMUNICATION_STYLE))) {
-                                    throw new IllegalArgumentException("Found incompatible communication styles");
-                                }
-                            }
                         }
                         talendESBJob.setProviderCallback(esbProviderCallback);
-                    } else if (esbProviderCallback != null) {
+                    } else if (controller != null) {
                         throw new IllegalArgumentException("Provider job expected");
                     }
                     talendESBJob.setEndpointRegistry(JobLauncherImpl.this);
@@ -152,7 +153,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                 int ret = talendJob.runJobInTOS(args);
                 LOG.info("Talend Job finished with code " + ret);
 
-                // TODO: add cleanup for external esbProviderCallback
+                if (null != operationName) {
+                    controller.destroyESBProviderCallback(operationName);
+                }
                 if (cb != null) {
                     cb.shutdown();
                 }
@@ -160,17 +163,14 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                 jobs.remove(talendJob);
             }
         }
-
-        public TalendJob getTalendJob() {
-            return talendJob;
-        }
     }
 
     public void startJob(final TalendJob talendJob, final String[] args) {
-        startJob(new ESBJobRunnable(talendJob, args));
+        startJob(new ESBJobThread(talendJob, args));
     }
 
-    public void startJob(String name, final ESBProviderCallback esbProviderCallback) {
+    public void startJob(String name,
+        final RuntimeESBProviderCallbackController controller) {
         // ControllerImpl
         ServiceReference[] references;
         try {
@@ -182,14 +182,12 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
             throw new IllegalArgumentException("Talend job '" + name + "' not found");
         }
         final TalendJob talendJob = (TalendJob) bundleContext.getService(references[0]);
-        startJob(new ESBJobRunnable(talendJob, esbProviderCallback));
+        startJob(new ESBJobThread(talendJob, controller));
     }
 
-    private void startJob(final ESBJobRunnable runnable) {
-        Thread thread = new Thread(runnable);
+    private void startJob(final Thread thread) {
         thread.setContextClassLoader(this.getClass().getClassLoader());
         thread.start();
-        jobs.put(runnable.getTalendJob(), thread);
     }
 
     public void stopJob(final TalendJob talendJob) {
@@ -315,7 +313,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
         } else if (VALUE_REQUEST_RESPONSE.equals(value)) {
             return true;
         }
-        throw new RuntimeException("Unsupported communication style: " + value);
+        throw new IllegalArgumentException(
+            "Unsupported communication style: " + value);
     }
 
 }

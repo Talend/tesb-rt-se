@@ -38,7 +38,6 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
         this.isRequestResponse = isRequestResponse;
     }
 
-    @Override
     public Object getRequest() throws ESBJobInterruptedException {
         try {
             request = requests.take();
@@ -48,7 +47,6 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
         }
     }
 
-    @Override
     public void sendResponse(Object response) {
         this.response = response;
         synchronized (request) {
@@ -56,7 +54,6 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
         }
     }
 
-    @Override
     public Object invoke(Object payload) throws Exception {
         requests.put(payload);
         if(!isRequestResponse) {
@@ -66,10 +63,6 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
             payload.wait();
         }
         return response;
-    }
-
-    public boolean isRequestResponse() {
-        return isRequestResponse;
     }
 
 }
