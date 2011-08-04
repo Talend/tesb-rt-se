@@ -29,8 +29,9 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
             new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 
     @javax.annotation.Resource
-    protected javax.xml.ws.WebServiceContext context;
+    private javax.xml.ws.WebServiceContext context;
 
+    // allow to use as spring property
     public void setCustomInfoHandler(CustomInfoHandler customInfoHandler) {
         this.customInfoHandler = customInfoHandler;
     }
@@ -43,9 +44,7 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
         RuntimeESBProviderCallback esbProviderCallback =
             getESBProviderCallback(operationQName.getLocalPart());
         if (esbProviderCallback == null) {
-            esbProviderCallback = resolveESBProviderCallback(operationQName,
-                // is better way to get communication style?
-                null != context.getMessageContext().get(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
+            throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
         }
         try {
             Object result = esbProviderCallback.invoke(
@@ -113,8 +112,9 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
         return callbacks.isEmpty();
     }
 
-    public RuntimeESBProviderCallback resolveESBProviderCallback(QName operationQName, boolean isRequestResponse) {
-        throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
+    protected boolean isOperationRequestResponse(String operationName) {
+        // is better way to get communication style?
+        return (null != context.getMessageContext().get(MessageContext.OUTBOUND_MESSAGE_ATTACHMENTS));
     }
 
 }

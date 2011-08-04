@@ -19,7 +19,6 @@
  */
 package org.talend.esb.job.controller;
 
-import routines.system.api.ESBProviderCallback;
 import routines.system.api.TalendJob;
 
 /**
@@ -39,9 +38,10 @@ public interface JobLauncher {
      * Start a Talend job with the given name and the given callback.
      *
      * @param name the Talend job name.
-     * @param esbProviderCallback the ESBProviderCallback.
+     * @param controller the RuntimeESBProviderCallbackController.
      */
-    public void startJob(String name, final ESBProviderCallback esbProviderCallback);
+    public void startJob(String name,
+        final RuntimeESBProviderCallbackController controller);
 
     /**
      * Stop a given Talend job.
