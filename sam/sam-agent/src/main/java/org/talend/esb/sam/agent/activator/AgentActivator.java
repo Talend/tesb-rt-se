@@ -37,10 +37,13 @@ public class AgentActivator implements BundleActivator{
 	private String retryDelay;
 	
 	public void start(BundleContext context) throws Exception {
+		if (!checkConfig(context)){
+			return;
+		}
 		
 		if (monitoringService == null){
 			initWsClient(context);
-		}	
+		}
 		
 		EventType serverStartEvent = createEventType(EventEnumType.SERVER_START);
 		int retryNumInt = Integer.parseInt(retryNum);
@@ -51,6 +54,10 @@ public class AgentActivator implements BundleActivator{
 	}
 	
 	public void stop(BundleContext context) throws Exception {
+		if (!checkConfig(context)){
+			return;
+		}
+		
 		if (monitoringService == null){
 			initWsClient(context);
 		}
@@ -117,6 +124,19 @@ public class AgentActivator implements BundleActivator{
             throw new Exception("Send SERVER_START/SERVER_STOP event to SAM Server failed");
         }
 
+	}
+	
+	private boolean checkConfig(BundleContext context) throws Exception{
+		ServiceReference serviceRef = context.getServiceReference(ConfigurationAdmin.class.getName());
+		ConfigurationAdmin cfgAdmin = (ConfigurationAdmin)context.getService(serviceRef); 
+		Configuration config = cfgAdmin.getConfiguration("org.talend.esb.sam.agent");
+
+		String sendServerLifecycleEvent = (String)config.getProperties().get("activator.sendServerLifecycleEvent");
+		if (sendServerLifecycleEvent != null && sendServerLifecycleEvent.equals("false")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	
 	private void initWsClient(BundleContext context) throws Exception{

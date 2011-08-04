@@ -117,14 +117,12 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                     // get provider endpoint information
                     final ESBEndpointInfo endpoint = talendESBJob.getEndpoint();
                     if (null != endpoint) {
-                        // TODO: check for compatible communication style
                         ESBProviderCallback esbProviderCallback = this.esbProviderCallback;
                         if(esbProviderCallback == null) {
                             // Create callback delegate
                             cb = new LazyProviderCallbackDelegate(new Callable<ESBProviderCallback>() {
                                 public ESBProviderCallback call() throws Exception {
                                     // This will be run after #getRequest will be called from the job
-                                    // TODO: check if getEndpoint static
                                     return createESBProvider(endpoint.getEndpointProperties());
                                 }
                             }, new Runnable() {
@@ -134,6 +132,14 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                             });
                             // Inject lazy initialization callback to the job
                             esbProviderCallback = cb;
+                        } else {
+                            // check for compatible communication style
+                            if(esbProviderCallback instanceof RuntimeESBProviderCallback) {
+                                if(((RuntimeESBProviderCallback) esbProviderCallback).isRequestResponse() !=
+                                    isRequestResponse((String)endpoint.getEndpointProperties().get(COMMUNICATION_STYLE))) {
+                                    throw new IllegalArgumentException("Found incompatible communication styles");
+                                }
+                            }
                         }
                         talendESBJob.setProviderCallback(esbProviderCallback);
                     } else if (esbProviderCallback != null) {

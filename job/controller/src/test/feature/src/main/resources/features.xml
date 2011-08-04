@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+    <feature name="CustomerService-feature" version="1.0.0">
+         <feature version='5.0-SNAPSHOT'>talend-job-controller</feature>
+         <bundle>mvn:talend/job-control-bundle/1.0</bundle>
+         <bundle>mvn:talend/ProviderJob/0.1</bundle>
+         <bundle>mvn:talend/ESBProvider2/0.1</bundle>
+   </feature>
+</features>

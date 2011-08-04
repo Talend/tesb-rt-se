@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>talend</groupId>
+    <artifactId>multijob-feature</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <!--dependencies>
+        <dependency>
+			<groupId>org.talend.esb.job</groupId>
+			<artifactId>org.talend.esb.job.controller</artifactId>
+			<version>5.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies-->
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>features-maven-plugin</artifactId>
+                <version>2.99.99-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>archive-kar</id>
+                        <goals>
+                            <goal>archive-kar</goal>
+                        </goals>
+                        <configuration>
+                            <featuresFile>src/main/resources/features.xml</featuresFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+	<repositories>
+		<repository>
+			<id>apache-snapshots</id>
+			<url>http://repository.apache.org/snapshots</url>
+			<name>Apache Snapshots Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache-snapshots</id>
+			<url>http://repository.apache.org/snapshots</url>
+			<name>Apache Snapshots Repo</name>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

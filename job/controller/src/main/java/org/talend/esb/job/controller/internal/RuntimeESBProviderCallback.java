@@ -67,4 +67,9 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
         }
         return response;
     }
+
+    public boolean isRequestResponse() {
+        return isRequestResponse;
+    }
+
 }
