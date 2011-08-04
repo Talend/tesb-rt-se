@@ -148,7 +148,8 @@ public class CXFEndpointProvider implements EndpointProvider {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
-            JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint");
+            ClassLoader cl = this.getClass().getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint", cl);
             Marshaller m = jc.createMarshaller();
             m.marshal(ep, parent);
         } catch( JAXBException e ){
