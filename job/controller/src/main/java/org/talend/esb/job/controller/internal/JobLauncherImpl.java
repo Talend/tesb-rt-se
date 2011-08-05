@@ -59,16 +59,18 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
 
     private static final Logger LOG = Logger.getLogger(JobLauncherImpl.class.getName());
 
-    private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
-        new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
-    private final Map<TalendJob, Thread > jobs =
-        new ConcurrentHashMap<TalendJob, Thread>();
-
-    private Bus bus;
     private AbstractFeature serviceLocator;
     private AbstractFeature serviceActivityMonitoring;
     private CustomInfoHandler customInfoHandler;
+    private Bus bus;
     private BundleContext bundleContext;
+
+    private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
+            new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
+    private final Map<TalendJob, Thread > jobs =
+            new ConcurrentHashMap<TalendJob, Thread>();
+    private ThreadLocal<RuntimeESBConsumer> tlsConsumer =
+            new ThreadLocal<RuntimeESBConsumer>();
 
     public void setBus(Bus bus) {
         this.bus = bus;
@@ -160,6 +162,11 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                     cb.shutdown();
                 }
             } finally {
+                RuntimeESBConsumer runtimeESBConsumer = tlsConsumer.get();
+                if (runtimeESBConsumer != null) {
+                    runtimeESBConsumer.destroy();
+                }
+
                 jobs.remove(talendJob);
             }
         }
@@ -261,15 +268,15 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
         }
     }
 
-	@Override
-	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
-		final Map<String, Object> props = endpoint.getEndpointProperties();
+    @Override
+    public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
+        final Map<String, Object> props = endpoint.getEndpointProperties();
 
-		final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-		final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-		final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
+        final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
 
-		ESBConsumer esbConsumer = null;
+        ESBConsumer esbConsumer = null;
 		/*
 		 * commenting out this code coz of issue https://jira.sopera.de/browse/TESB-2074
 		 * If we get the consumer in the following way, SAM featuer is not set for the consumer
@@ -288,24 +295,26 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
 		// create generic consumer
 		if(esbConsumer == null) {
 		*/
-			final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
-			boolean useServiceLocator =
-				((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
-			boolean useServiceActivityMonitor =
-				((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
-			esbConsumer = new RuntimeESBConsumer(
-					serviceName,
-					portName,
-					operationName,
-					publishedEndpointUrl,
-					isRequestResponse((String)props.get(COMMUNICATION_STYLE)),
-					useServiceLocator ? serviceLocator : null,
-					useServiceActivityMonitor ? serviceActivityMonitoring : null,
-					customInfoHandler,
-					bus);
+            final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+            boolean useServiceLocator =
+                ((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+            boolean useServiceActivityMonitor =
+                ((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+            final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
+                serviceName,
+                portName,
+                operationName,
+                publishedEndpointUrl,
+                isRequestResponse((String)props.get(COMMUNICATION_STYLE)),
+                useServiceLocator ? serviceLocator : null,
+                useServiceActivityMonitor ? serviceActivityMonitoring : null,
+                customInfoHandler,
+                bus);
+            tlsConsumer.set(runtimeESBConsumer);
+            esbConsumer = runtimeESBConsumer;
 		//}
-		return esbConsumer;
-	}
+        return esbConsumer;
+    }
 
     private static boolean isRequestResponse(String value) {
         if (VALUE_ONE_WAY.equals(value)) {
