@@ -96,7 +96,7 @@
   
   <feature name='tesb-locator-proxy' version='${project.version}'>
         <feature>tesb-locator-client</feature>
-		<bundle>mvn:org.talend.esb/locator/proxy/locator-proxy-service-common/${project.version}</bundle>
-		<bundle>mvn:org.talend.esb/locator/proxy/locator-proxy-service/${project.version}</bundle>
+		<bundle>mvn:org.talend.esb/locatorproxy/locator-proxy-service-common/${project.version}</bundle>
+		<bundle>mvn:org.talend.esb/locatorproxy/locator-proxy-service/${project.version}</bundle>
   </feature>
 </features>

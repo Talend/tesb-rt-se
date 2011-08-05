@@ -14,7 +14,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb.locator.proxy</groupId>
+    <groupId>org.talend.esb.locatorproxy</groupId>
     <artifactId>locator-proxy-parent</artifactId>
     <name>Locator Proxy Service</name>
     <packaging>pom</packaging>
