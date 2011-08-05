@@ -33,6 +33,8 @@ import org.apache.cxf.feature.AbstractFeature;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.talend.esb.job.controller.ESBEndpointConstants;
+import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.job.controller.RuntimeESBProviderCallbackController;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
@@ -45,17 +47,6 @@ import routines.system.api.TalendESBJob;
 import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
-
-    private static final String PUBLISHED_ENDPOINT_URL = "publishedEndpointUrl";
-    private static final String DEFAULT_OPERATION_NAME = "defaultOperationName";
-    private static final String SERVICE_NAME = "serviceName";
-    private static final String PORT_NAME = "portName";
-    private static final String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
-    private static final String USE_SERVICE_LOCATOR = "useServiceLocator";
-    private static final String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
-
-    private static final String VALUE_REQUEST_RESPONSE = "request-response";
-    private static final String VALUE_ONE_WAY = "one-way";
 
     private static final Logger LOG = Logger.getLogger(JobLauncherImpl.class.getName());
 
@@ -125,10 +116,10 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
                     if (null != endpoint) {
                         ESBProviderCallback esbProviderCallback;
                         if (null != controller) {
-                            operationName = (String)endpoint.getEndpointProperties().get(DEFAULT_OPERATION_NAME);
+                            operationName = (String)endpoint.getEndpointProperties().get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
                             esbProviderCallback = controller.createESBProviderCallback(
                                 operationName,
-                                isRequestResponse((String)endpoint.getEndpointProperties().get(COMMUNICATION_STYLE)));
+                                OperationStyle.isRequestResponse((String)endpoint.getEndpointProperties().get(ESBEndpointConstants.COMMUNICATION_STYLE)));
                         } else {
                             // Create callback delegate
                             cb = new LazyProviderCallbackDelegate(new Callable<ESBProviderCallback>() {
@@ -205,9 +196,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
     }
 
     private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
-        final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
-        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
+        final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
+        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
 
         ESBProviderKey key = new ESBProviderKey(serviceName, portName);
         Collection<ESBProvider> esbProviders = endpoints.get(key);
@@ -226,9 +217,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
         }
         if(esbProvider == null) {
             boolean useServiceLocator =
-                ((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
             boolean useServiceActivityMonitor =
-                ((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
 
             esbProvider = new ESBProvider(publishedEndpointUrl,
                 serviceName,
@@ -240,25 +231,25 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
             esbProviders.add(esbProvider);
         }
 
-        final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+        final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
         ESBProviderCallback esbProviderCallback =
             esbProvider.createESBProviderCallback(operationName,
-                isRequestResponse((String)props.get(COMMUNICATION_STYLE)));
+                OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)));
 
         return esbProviderCallback;
     }
 
     private void destroyESBProvider(final Map<String, Object> props) {
-        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-        final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
+        final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
 
         final Collection<ESBProvider> esbProviders = endpoints.get(
             new ESBProviderKey(serviceName, portName));
         if (esbProviders != null) {
             for (ESBProvider esbProvider : esbProviders) {
                 if(publishedEndpointUrl.equals(esbProvider.getPublishedEndpointUrl())) {
-                    final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+                    final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
                     if(esbProvider.destroyESBProviderCallback(operationName)) {
                         esbProviders.remove(esbProvider);
                     }
@@ -272,9 +263,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
     public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
         final Map<String, Object> props = endpoint.getEndpointProperties();
 
-        final QName serviceName = QName.valueOf((String)props.get(SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(PORT_NAME));
-        final String operationName = (String)props.get(DEFAULT_OPERATION_NAME);
+        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
+        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
+        final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
 
         ESBConsumer esbConsumer = null;
 		/*
@@ -295,17 +286,17 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
 		// create generic consumer
 		if(esbConsumer == null) {
 		*/
-            final String publishedEndpointUrl = (String)props.get(PUBLISHED_ENDPOINT_URL);
+            final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
             boolean useServiceLocator =
-                ((Boolean)props.get(USE_SERVICE_LOCATOR)).booleanValue();
+                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
             boolean useServiceActivityMonitor =
-                ((Boolean)props.get(USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
+                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
             final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
                 serviceName,
                 portName,
                 operationName,
                 publishedEndpointUrl,
-                isRequestResponse((String)props.get(COMMUNICATION_STYLE)),
+                OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? serviceLocator : null,
                 useServiceActivityMonitor ? serviceActivityMonitoring : null,
                 customInfoHandler,
@@ -314,16 +305,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry {
             esbConsumer = runtimeESBConsumer;
 		//}
         return esbConsumer;
-    }
-
-    private static boolean isRequestResponse(String value) {
-        if (VALUE_ONE_WAY.equals(value)) {
-            return false;
-        } else if (VALUE_REQUEST_RESPONSE.equals(value)) {
-            return true;
-        }
-        throw new IllegalArgumentException(
-            "Unsupported communication style: " + value);
     }
 
 }
