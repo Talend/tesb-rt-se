@@ -50,13 +50,14 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>WEB-INF/beans.xml</param-value>
   </context-param>
-<!--
   <context-param>
     <param-name>serviceHost</param-name>
-    <param-value>http://localhost:8080/locator-proxy-sample-tomcat</param-value>
+    <param-value>http://localhost:8080/services/services/GreeterService</param-value>
   </context-param>
--->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>demo.service.ContextListener</listener-class>
   </listener>
 </web-app>
