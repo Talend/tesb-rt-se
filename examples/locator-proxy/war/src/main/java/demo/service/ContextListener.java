@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.locator.proxy.service.InterruptedExceptionFault;
 import org.talend.esb.locator.proxy.service.LocatorProxyService;
 import org.talend.esb.locator.proxy.service.ServiceLocatorFault;
+import org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType;
 
 public class ContextListener implements ServletContextListener {
 
@@ -40,20 +41,18 @@ public class ContextListener implements ServletContextListener {
 		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
 
 		String serviceHost = this.context.getInitParameter("serviceHost");
-		System.out.println("****" + serviceHost + this.context.getContextPath());
 
-		// W3CEndpointReference endpointReference;
-		// try {
-		// endpointReference = client.lookupEndpoint(new
-		// QName("http://services.talend.org/CRMService",
-		// "CRMServiceProvider"));
-		// System.out.println(endpointReference.toString());
-		// } catch (InterruptedExceptionFault e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// } catch (ServiceLocatorFault e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		try {
+			RegisterEndpointRequestType registerEndpointRequestType = new RegisterEndpointRequestType();
+			registerEndpointRequestType.setEndpointURL(serviceHost);
+			registerEndpointRequestType.setServiceName(new QName("http://talend.org/esb/examples/", "GreeterService"));
+			client.registerEndpoint(registerEndpointRequestType);
+		 } catch (InterruptedExceptionFault e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 } catch (ServiceLocatorFault e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }
 	}
 }

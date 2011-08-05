@@ -47,7 +47,7 @@ public class Client {
 		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
 
 		LookupRequestType lookupRequestType = new LookupRequestType();
-		lookupRequestType.setServiceName(new QName("http://services.talend.org/CRMService", "CRMServiceProvider"));
+		lookupRequestType.setServiceName(new QName("http://talend.org/esb/examples/", "GreeterService"));
 		W3CEndpointReference endpointReference = client.lookupEndpoint(lookupRequestType);
 		System.out.println(endpointReference.toString());
 		
