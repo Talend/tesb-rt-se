@@ -18,6 +18,11 @@ physical location of the endpoint. Additionally, it allows service providers to 
 register and unregister their service endpoints. 
 In this way, the providers actively advertise the availability of their service endpoints to consumers. 
 
+
+In this sample, we provide two types of endpoints (HTTP endpoint and HTTPS endpoint)
+to illustrate Service Locator feature at runtime.
+
+
 Prerequisite
 ------------
 
@@ -108,8 +113,15 @@ Starting the Demo service
     
 Running the Demo client
  
+For HTTP endpoint:
+
 * From the command line
 
    cd client; mvn exec:java
 
+For HTTPs endpoint:
+
+* From the command line
+
+   cd client; mvn -Phttpsclient
 

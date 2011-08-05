@@ -216,4 +216,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         return soapFault;
     }
 
+    public void destroy() {
+        if (client != null) {
+            client.destroy();
+        }
+    }
 }
