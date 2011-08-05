@@ -36,6 +36,8 @@ import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.locator.proxy.service.LocatorProxyService;
+import org.talend.esb.locator.proxy.service.types.LookupRequestType;
+
 import demo.common.Greeter;
 
 public class Client {
@@ -44,7 +46,9 @@ public class Client {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
 		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
 
-		W3CEndpointReference endpointReference = client.lookupEndpoint(new QName("http://services.talend.org/CRMService", "CRMServiceProvider"));
+		LookupRequestType lookupRequestType = new LookupRequestType();
+		lookupRequestType.setServiceName(new QName("http://services.talend.org/CRMService", "CRMServiceProvider"));
+		W3CEndpointReference endpointReference = client.lookupEndpoint(lookupRequestType);
 		System.out.println(endpointReference.toString());
 		
 		Thread.sleep(2000);
