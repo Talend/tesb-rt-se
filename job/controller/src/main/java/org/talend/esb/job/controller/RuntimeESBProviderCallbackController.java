@@ -19,14 +19,17 @@
  */
 package org.talend.esb.job.controller;
 
+import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBProviderCallback;
 
 
 public interface RuntimeESBProviderCallbackController {
 
-    ESBProviderCallback createESBProviderCallback(String operationName,
-        boolean isRequestResponse);
+    ESBProviderCallback createESBProviderCallback(
+            ESBEndpointInfo esbEndpointInfo);
 
-    void destroyESBProviderCallback(String operationName);
+    void destroyESBProviderCallback();
+
+    boolean isRequired();
 
 }
