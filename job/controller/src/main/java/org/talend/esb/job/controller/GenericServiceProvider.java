@@ -53,20 +53,20 @@ public class GenericServiceProvider extends ESBProviderBase {
             esbProviderCallback =
                 createESBProviderCallback(operationName, isOperationRequestResponse(operationName));
             jobLauncher.startJob(jobName,
-                new GenericRuntimeESBProviderCallbackController(
+                new GenericESBProviderCallbackController(
                     operationName, isOperationRequestResponse(operationName),
                     esbProviderCallback));
         }
         return esbProviderCallback;
     }
 
-    class GenericRuntimeESBProviderCallbackController implements RuntimeESBProviderCallbackController {
+    class GenericESBProviderCallbackController implements ESBProviderCallbackController {
 
         private final String operationName;
         private final boolean isRequestResponse;
         private final RuntimeESBProviderCallback esbProviderCallback;
 
-        public GenericRuntimeESBProviderCallbackController(
+        public GenericESBProviderCallbackController(
             String operationName,
             boolean isRequestResponse,
             RuntimeESBProviderCallback esbProviderCallback) {

@@ -23,7 +23,7 @@ import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBProviderCallback;
 
 
-public interface RuntimeESBProviderCallbackController {
+public interface ESBProviderCallbackController {
 
     ESBProviderCallback createESBProviderCallback(
             ESBEndpointInfo esbEndpointInfo);

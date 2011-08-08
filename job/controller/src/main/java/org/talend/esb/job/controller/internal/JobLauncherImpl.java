@@ -34,7 +34,7 @@ import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.JobLauncher;
-import org.talend.esb.job.controller.RuntimeESBProviderCallbackController;
+import org.talend.esb.job.controller.ESBProviderCallbackController;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
@@ -82,13 +82,13 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
     }
 
     public void startJob(final TalendJob talendJob, final String[] args) {
-        final RuntimeESBProviderCallbackController controller =
-            new LazyRuntimeESBProviderCallbackController();
+        final ESBProviderCallbackController controller =
+            new LazyESBProviderCallbackController();
         startJob(new ESBJobThread(talendJob, args, controller, this, this));
     }
 
     public void startJob(String name,
-        final RuntimeESBProviderCallbackController controller) {
+        final ESBProviderCallbackController controller) {
         // ControllerImpl
         ServiceReference[] references;
         try {
@@ -244,7 +244,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         return esbConsumer;
     }
 
-    class LazyRuntimeESBProviderCallbackController implements RuntimeESBProviderCallbackController, ESBProviderCallback {
+    class LazyESBProviderCallbackController
+            implements ESBProviderCallbackController, ESBProviderCallback {
 
         private ESBEndpointInfo esbEndpointInfo;
         private ESBProviderCallback delegate;

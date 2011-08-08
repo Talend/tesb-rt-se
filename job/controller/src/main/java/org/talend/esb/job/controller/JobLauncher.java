@@ -41,7 +41,7 @@ public interface JobLauncher {
      * @param controller the RuntimeESBProviderCallbackController.
      */
     public void startJob(String name,
-        final RuntimeESBProviderCallbackController controller);
+        final ESBProviderCallbackController controller);
 
     /**
      * Stop a given Talend job.

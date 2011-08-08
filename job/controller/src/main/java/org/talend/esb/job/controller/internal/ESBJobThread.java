@@ -2,7 +2,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.logging.Logger;
 
-import org.talend.esb.job.controller.RuntimeESBProviderCallbackController;
+import org.talend.esb.job.controller.ESBProviderCallbackController;
 
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
@@ -17,14 +17,14 @@ class ESBJobThread extends Thread {
 
 	private final TalendJob talendJob;
     private final String[] args;
-    private final RuntimeESBProviderCallbackController controller;
+    private final ESBProviderCallbackController controller;
     private final ESBEndpointRegistry esbEndpointRegistry;
     private final JobThreadListener jobThreadListener;
 
     public ESBJobThread(
             final TalendJob talendJob,
             final String[] args,
-            final RuntimeESBProviderCallbackController controller,
+            final ESBProviderCallbackController controller,
             final JobThreadListener jobThreadListener,
             final ESBEndpointRegistry esbEndpointRegistry) {
         this.talendJob = talendJob;
