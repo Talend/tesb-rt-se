@@ -57,15 +57,18 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	private int connectionTimeout = 5000;
 
-	public void setServiceLocator(ServiceLocator locatorClient) {
+//	public void setServiceLocator(ServiceLocator locatorClient) {
+//		this.locatorClient = locatorClient;
+//		if (LOG.isLoggable(Level.FINE)) {
+//			LOG.log(Level.FINE, "Locator client was set for proxy service.");
+//		}
+//	}
+
+	public void setLocatorClient(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.log(Level.FINE, "Locator client was set for proxy service.");
 		}
-	}
-
-	public void setLocatorClient(ServiceLocator locatorClient) {
-		this.locatorClient = locatorClient;
 	}
 
 	public void setLocatorEndpoints(String locatorEndpoints) {
