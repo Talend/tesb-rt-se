@@ -31,12 +31,36 @@
 
 package demo.client;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import java.io.IOException;
+import java.io.StringReader;
 
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.ws.Endpoint;
+import javax.xml.ws.EndpointReference;
+import javax.xml.ws.Service;
+import javax.xml.ws.soap.AddressingFeature;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.apache.cxf.wsdl.EndpointReferenceUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.format.Printer;
 import org.talend.esb.locator.proxy.service.LocatorProxyService;
 import org.talend.esb.locator.proxy.service.types.LookupRequestType;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import demo.common.Greeter;
 
@@ -51,9 +75,30 @@ public class Client {
 		W3CEndpointReference endpointReference = client.lookupEndpoint(lookupRequestType);
 		System.out.println(endpointReference.toString());
 		
-		Thread.sleep(2000);
-		context.close();
-		System.exit(0);
+		//Printer myPrinterProxy = jaxwsServiceObject.getPort(endpointReference, Printer.class, new AddressingFeature());
+		
+//		String resource_identifier = EndpointReferenceManager.getReferenceParameterFromMessageContext("");
+//		
+//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder builder = factory.newDocumentBuilder();
+//        org.w3c.dom.Document doc = builder.parse(new java.io.ByteArrayInputStream(endpointReference.toString().getBytes()));
+//        XPathFactory xPathFactory = XPathFactory.newInstance();
+//        XPath xpath = xPathFactory.newXPath();
+//        XPathExpression expr = xpath.compile("/EndpointReference/Address/text()");
+//        Object result = expr.evaluate(doc, XPathConstants.NODE);
+//        Node node = (Node) result;
+//        String address = node.getNodeValue().trim();
+//		Thread.sleep(2000);
+//		context.close();
+//		System.exit(0);
+		
+		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+		factory.setServiceClass(Greeter.class);
+		factory.setAddress("http://localhost:8080/services/services/GreeterService");
+		Greeter greeter = (Greeter) factory.create();
+
+		String reply = greeter.greetMe("HI");
+		System.out.println("Server said: " + reply);
 
 	}
 }
