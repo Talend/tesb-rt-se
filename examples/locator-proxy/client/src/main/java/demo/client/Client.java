@@ -49,7 +49,7 @@ import demo.common.Greeter;
 public class Client {
 
 	public static void main(String[] args) throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/client.xml");
 		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
 
 		LookupRequestType lookupRequestType = new LookupRequestType();

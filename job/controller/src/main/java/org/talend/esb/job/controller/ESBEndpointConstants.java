@@ -43,9 +43,9 @@ public interface ESBEndpointConstants {
             return REQUEST_RESPONSE.equals(fromString(value));
         }
 
-        public static OperationStyle fromString(String value) {
+        private static OperationStyle fromString(String value) {
             for (OperationStyle style : OperationStyle.values()) {
-                if (style.style.equalsIgnoreCase(value)) {
+                if (style.style.equals(value)) {
                     return style;
                 }
             }

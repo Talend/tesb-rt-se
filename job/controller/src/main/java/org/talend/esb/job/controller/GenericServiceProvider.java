@@ -21,9 +21,11 @@ package org.talend.esb.job.controller;
 
 import java.util.Map;
 
+import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.internal.ESBProviderBase;
 import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
 
+import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBProviderCallback;
 
 public class GenericServiceProvider extends ESBProviderBase {
@@ -51,20 +53,20 @@ public class GenericServiceProvider extends ESBProviderBase {
             esbProviderCallback =
                 createESBProviderCallback(operationName, isOperationRequestResponse(operationName));
             jobLauncher.startJob(jobName,
-                new GenericRuntimeESBProviderCallbackController(
+                new GenericESBProviderCallbackController(
                     operationName, isOperationRequestResponse(operationName),
                     esbProviderCallback));
         }
         return esbProviderCallback;
     }
 
-    class GenericRuntimeESBProviderCallbackController implements RuntimeESBProviderCallbackController {
+    class GenericESBProviderCallbackController implements ESBProviderCallbackController {
 
         private final String operationName;
         private final boolean isRequestResponse;
         private final RuntimeESBProviderCallback esbProviderCallback;
 
-        public GenericRuntimeESBProviderCallbackController(
+        public GenericESBProviderCallbackController(
             String operationName,
             boolean isRequestResponse,
             RuntimeESBProviderCallback esbProviderCallback) {
@@ -74,18 +76,27 @@ public class GenericServiceProvider extends ESBProviderBase {
         }
 
         public ESBProviderCallback createESBProviderCallback(
-            String operationName, boolean isRequestResponse) {
-            if(!operationName.equals(this.operationName)) {
+            final ESBEndpointInfo esbEndpointInfo) {
+            if(!operationName.equals(
+                    (String)esbEndpointInfo.getEndpointProperties().get(
+                        ESBEndpointConstants.DEFAULT_OPERATION_NAME))) {
                 throw new IllegalArgumentException("Different operations found");
             }
-            if(isRequestResponse != this.isRequestResponse) {
+            if(isRequestResponse !=
+                OperationStyle.isRequestResponse(
+                    (String)esbEndpointInfo.getEndpointProperties().get(
+                        ESBEndpointConstants.COMMUNICATION_STYLE))) {
                 throw new IllegalArgumentException("Found incompatible communication styles");
             }
             return esbProviderCallback;
         }
 
-        public void destroyESBProviderCallback(String operationName) {
+        public void destroyESBProviderCallback() {
             GenericServiceProvider.this.destroyESBProviderCallback(operationName);
+        }
+
+        public boolean isRequired() {
+            return true;
         }
 
     }
