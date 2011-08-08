@@ -46,8 +46,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			id="greeter"
 			implementor="demo.service.GreeterImpl"
 			serviceName="tns:GreeterService"
-			address="/GreeterService">			
-<!-- 			address="http://localhost:8080/services/GreeterService">  -->
+			address="http://localhost:8040/services/GreeterService">			
+<!-- 			address="/GreeterService">  -->
 		<jaxws:features>
 			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
 			</bean>
