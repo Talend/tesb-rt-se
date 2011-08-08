@@ -1,6 +1,6 @@
 /*
  * #%L
- * Locator Demo Client
+ * Locator Proxy Demo Client
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -31,36 +31,18 @@
 
 package demo.client;
 
-import java.io.IOException;
-import java.io.StringReader;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.ws.Endpoint;
-import javax.xml.ws.EndpointReference;
+
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
-import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
-import org.apache.cxf.wsdl.EndpointReferenceUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.format.Printer;
+
 import org.talend.esb.locator.proxy.service.LocatorProxyService;
 import org.talend.esb.locator.proxy.service.types.LookupRequestType;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
 
 import demo.common.Greeter;
 
@@ -74,6 +56,12 @@ public class Client {
 		lookupRequestType.setServiceName(new QName("http://talend.org/esb/examples/", "GreeterService"));
 		W3CEndpointReference endpointReference = client.lookupEndpoint(lookupRequestType);
 		System.out.println(endpointReference.toString());
+		
+		javax.xml.ws.Service jaxwsServiceObject = Service.create(new QName("http://talend.org/esb/examples/", "GreeterService"));
+		
+		Greeter greeterProxy = jaxwsServiceObject.getPort(endpointReference, Greeter.class, new AddressingFeature());
+		String reply = greeterProxy.greetMe("HI");
+		System.out.println("Server said: " + reply);
 		
 		//Printer myPrinterProxy = jaxwsServiceObject.getPort(endpointReference, Printer.class, new AddressingFeature());
 		
@@ -92,13 +80,13 @@ public class Client {
 //		context.close();
 //		System.exit(0);
 		
-		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-		factory.setServiceClass(Greeter.class);
-		factory.setAddress("http://localhost:8080/services/services/GreeterService");
-		Greeter greeter = (Greeter) factory.create();
-
-		String reply = greeter.greetMe("HI");
-		System.out.println("Server said: " + reply);
+//		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+//		factory.setServiceClass(Greeter.class);
+//		factory.setAddress("http://localhost:8080/services/services/GreeterService");
+//		Greeter greeter = (Greeter) factory.create();
+//
+//		String reply = greeter.greetMe("HI");
+//		System.out.println("Server said: " + reply);
 
 	}
 }
