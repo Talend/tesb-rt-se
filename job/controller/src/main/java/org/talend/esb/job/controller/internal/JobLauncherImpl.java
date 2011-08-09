@@ -33,8 +33,8 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
-import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.job.controller.ESBProviderCallbackController;
+import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
@@ -92,7 +92,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         // ControllerImpl
         ServiceReference[] references;
         try {
-            references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(name=" + name + ")");
+            references = bundleContext.getServiceReferences(
+                TalendJob.class.getName(), "(name=" + name + ")");
         } catch (InvalidSyntaxException e) {
             throw new IllegalArgumentException(e);
         }
@@ -121,12 +122,12 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
 
     public void jobFinished(TalendJob talendJob, Thread thread) {
         Thread registeredThread = jobs.remove(talendJob);
-        if(registeredThread != thread) {
+        if (registeredThread != thread) {
             throw new IllegalArgumentException(
                 "Different threads found for the talend job");
         }
 
-        RuntimeESBConsumer runtimeESBConsumer = tlsConsumer.get();
+        final RuntimeESBConsumer runtimeESBConsumer = tlsConsumer.get();
         if (runtimeESBConsumer != null) {
             runtimeESBConsumer.destroy();
         }
@@ -247,19 +248,19 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
     class LazyESBProviderCallbackController
             implements ESBProviderCallbackController, ESBProviderCallback {
 
-        private ESBEndpointInfo esbEndpointInfo;
+        private ESBEndpointInfo endpointInfo;
         private ESBProviderCallback delegate;
 
         public ESBProviderCallback createESBProviderCallback(
             final ESBEndpointInfo esbEndpointInfo) {
-            this.esbEndpointInfo = esbEndpointInfo;
+            this.endpointInfo = esbEndpointInfo;
             // Inject lazy initialization callback to the job
             return this;
         }
 
         public void destroyESBProviderCallback() {
-            if (null != esbEndpointInfo) {
-                destroyESBProvider(esbEndpointInfo.getEndpointProperties());
+            if (null != endpointInfo) {
+                destroyESBProvider(endpointInfo.getEndpointProperties());
             }
         }
 
@@ -270,7 +271,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         public synchronized Object getRequest() throws ESBJobInterruptedException {
             if (delegate == null) {
                 // This will be run after #getRequest will be called from the job
-                delegate = createESBProvider(esbEndpointInfo.getEndpointProperties());
+                delegate = createESBProvider(endpointInfo.getEndpointProperties());
             }
             return delegate.getRequest();
         }

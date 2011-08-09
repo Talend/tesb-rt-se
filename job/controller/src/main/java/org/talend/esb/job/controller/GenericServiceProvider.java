@@ -77,13 +77,12 @@ public class GenericServiceProvider extends ESBProviderBase {
 
         public ESBProviderCallback createESBProviderCallback(
             final ESBEndpointInfo esbEndpointInfo) {
-            if(!operationName.equals(
+            if (!operationName.equals(
                     (String)esbEndpointInfo.getEndpointProperties().get(
                         ESBEndpointConstants.DEFAULT_OPERATION_NAME))) {
                 throw new IllegalArgumentException("Different operations found");
             }
-            if(isRequestResponse !=
-                OperationStyle.isRequestResponse(
+            if (isRequestResponse != OperationStyle.isRequestResponse(
                     (String)esbEndpointInfo.getEndpointProperties().get(
                         ESBEndpointConstants.COMMUNICATION_STYLE))) {
                 throw new IllegalArgumentException("Found incompatible communication styles");
