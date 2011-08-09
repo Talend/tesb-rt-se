@@ -8,18 +8,10 @@ package org.talend.esb.locator.proxy.client;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
-import javax.jws.Oneway;
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.talend.esb.locator.proxy.service.LocatorProxyService;
 import org.talend.esb.locator.proxy.service.LocatorProxyServiceImpl;
