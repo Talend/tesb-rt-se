@@ -59,34 +59,9 @@ public class Client {
 		
 		javax.xml.ws.Service jaxwsServiceObject = Service.create(new QName("http://talend.org/esb/examples/", "GreeterService"));
 		
-		Greeter greeterProxy = jaxwsServiceObject.getPort(endpointReference, Greeter.class, new AddressingFeature());
+		Greeter greeterProxy = jaxwsServiceObject.getPort(endpointReference, Greeter.class);
 		String reply = greeterProxy.greetMe("HI");
 		System.out.println("Server said: " + reply);
 		
-		//Printer myPrinterProxy = jaxwsServiceObject.getPort(endpointReference, Printer.class, new AddressingFeature());
-		
-//		String resource_identifier = EndpointReferenceManager.getReferenceParameterFromMessageContext("");
-//		
-//		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder builder = factory.newDocumentBuilder();
-//        org.w3c.dom.Document doc = builder.parse(new java.io.ByteArrayInputStream(endpointReference.toString().getBytes()));
-//        XPathFactory xPathFactory = XPathFactory.newInstance();
-//        XPath xpath = xPathFactory.newXPath();
-//        XPathExpression expr = xpath.compile("/EndpointReference/Address/text()");
-//        Object result = expr.evaluate(doc, XPathConstants.NODE);
-//        Node node = (Node) result;
-//        String address = node.getNodeValue().trim();
-//		Thread.sleep(2000);
-//		context.close();
-//		System.exit(0);
-		
-//		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-//		factory.setServiceClass(Greeter.class);
-//		factory.setAddress("http://localhost:8080/services/services/GreeterService");
-//		Greeter greeter = (Greeter) factory.create();
-//
-//		String reply = greeter.greetMe("HI");
-//		System.out.println("Server said: " + reply);
-
 	}
 }
