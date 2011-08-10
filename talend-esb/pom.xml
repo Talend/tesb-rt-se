@@ -19,7 +19,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<osgi.version>3.6.0.v20100517</osgi.version>
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>1.5.9</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
@@ -33,8 +32,8 @@
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
 		<!--karaf.version>2.2.1</karaf.version-->
-		<osgi.compendium.version>4.2.0</osgi.compendium.version>
-		<osgi.core.version>4.2.0</osgi.core.version>
+		<!--osgi.compendium.version>4.2.0</osgi.compendium.version-->
+		<!--osgi.core.version>4.2.0</osgi.core.version-->
 
 		<!-- Geronimo --> 
 		<geronimo-annotation.version>1.1.1</geronimo-annotation.version>
