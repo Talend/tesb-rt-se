@@ -129,7 +129,8 @@ public class ContentHolder {
         try {
             JAXBElement<EndpointDataType> epd =
                 ENDPOINT_OBJECT_FACTORY.createEndpointData(endpointData);
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
+            ClassLoader cl = ContentHolder.class.getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",cl);
             Marshaller m = jc.createMarshaller();
             m.marshal(epd, outputStream);
         } catch( JAXBException e ){
@@ -148,7 +149,8 @@ public class ContentHolder {
         
         ByteArrayInputStream is = new ByteArrayInputStream(content);
         try {
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
+            ClassLoader cl = ContentHolder.class.getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",cl);
             Unmarshaller um = jc.createUnmarshaller();
             
             JAXBElement<EndpointDataType> slEndpoint = (JAXBElement<EndpointDataType>) um.unmarshal(is);
@@ -173,7 +175,8 @@ public class ContentHolder {
         if (root != null) {
 
             try {
-                JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing");
+                ClassLoader cl = this.getClass().getClassLoader();
+                JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing",cl);
                 Unmarshaller um = jc.createUnmarshaller();
 
                 JAXBElement<EndpointReferenceType> eprElem = (JAXBElement<EndpointReferenceType>) um.unmarshal(root);
@@ -212,7 +215,8 @@ public class ContentHolder {
     private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) {
 
         try {
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint");
+            ClassLoader cl = this.getClass().getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",cl);
             Unmarshaller um = jc.createUnmarshaller();
             
             JAXBElement<ServiceLocatorPropertiesType> slp = (JAXBElement<ServiceLocatorPropertiesType>) um.unmarshal(root);
