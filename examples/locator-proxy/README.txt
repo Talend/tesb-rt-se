@@ -1,0 +1,38 @@
+###############################################################################
+#
+# Copyright (c) 2011 Talend Inc. - www.talend.com
+# All rights reserved.
+#
+# This program and the accompanying materials are made available
+# under the terms of the Apache License v2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+###############################################################################
+
+Example for Service Locator Proxy
+
+============================================
+This example illustrates the usage of Locator Proxy Service
+
+This example consists of the following components:
+
+service/
+	- Greeter service which is registered with the locator proxy after the starting.
+	
+common/   
+	- This directory contains the code that is common to both the client and the Greeter server. 
+	
+client/
+	- This is a sample client application that uses the Locator Proxy Service to dynamically discover service endpoint and invokes the service.
+
+
+Starting the Demo
+
+- Start zookeeper
+
+- Start locator proxy service in container
+
+- Start service on tomcat
+
+- Start client (from the command line cd client; mvn exec:java)
