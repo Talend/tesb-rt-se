@@ -46,9 +46,9 @@
 		<cxf.version>2.5.0-SNAPSHOT</cxf.version>
 		<camel.version>2.9-SNAPSHOT</camel.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
-		<activemq.version>5.4.2</activemq.version>
-		<eclipse.osgi.version>3.6.0.v20100517</eclipse.osgi.version>
 		<karaf.version>2.2.3-SNAPSHOT</karaf.version>
+		<activemq.version>5.5.0</activemq.version>
+		<eclipse.osgi.version>3.6.0.v20100517</eclipse.osgi.version>
 		<zookeeper.version>3.3.3</zookeeper.version>
 		<derby.version>10.8.1.2</derby.version>
 		<servlet.api.version>2.5</servlet.api.version>

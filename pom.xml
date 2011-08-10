@@ -84,23 +84,22 @@
             <timezone>GMT+2</timezone>
         </developer>
     </developers>
-    
+
     <properties>
         <cxf.version>2.5.0-SNAPSHOT</cxf.version>
         <spring.version>3.0.5.RELEASE</spring.version>
+        <karaf.version>2.2.3-SNAPSHOT</karaf.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
-        <bnd.version>1.15.0</bnd.version>
-        <slf4j.version>1.6.0</slf4j.version>
-        <osgi.version>4.2.0</osgi.version>
+        <bnd.version>1.43.0</bnd.version>
+        <slf4j.version>1.6.1</slf4j.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-jxpath.version>1.3</commons-jxpath.version>
-        <dom4j.bundle.version>1.6.1_3</dom4j.bundle.version>
+        <dom4j.bundle.version>1.6.1_4</dom4j.bundle.version>
         <jaxen.bundle.version>1.1.1_2</jaxen.bundle.version>
-        <servicemix.specs.version>1.7.0</servicemix.specs.version>
-        <saaj-impl.bundle.version>1.3.2_2</saaj-impl.bundle.version>
-        <karaf.version>2.2.3-SNAPSHOT</karaf.version>
-        <javax.servlet.version>2.4</javax.servlet.version>
+        <servicemix.specs.version>1.8.0</servicemix.specs.version>
+        <saaj-impl.bundle.version>1.3.2_3</saaj-impl.bundle.version>
+        <javax.servlet.version>2.5</javax.servlet.version>
         <felix.fileinstall.version>3.1.10</felix.fileinstall.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
@@ -111,14 +110,16 @@
         <jdom.bundle.version>1.1_3</jdom.bundle.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.bundle.version>1.4_1</commons-io.bundle.version>
+        <org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
+        <osgi.core.version>4.3.0</osgi.core.version>
+        <osgi.compendium.version>4.2.0</osgi.compendium.version>
 
         <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
-		<org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
-		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 	<modules>
 		<module>branding</module>
@@ -288,7 +289,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0-beta-3</version>
+                    <version>3.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.cxf.build-utils</groupId>
