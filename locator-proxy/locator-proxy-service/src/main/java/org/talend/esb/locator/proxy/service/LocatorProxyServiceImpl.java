@@ -20,6 +20,7 @@
 package org.talend.esb.locator.proxy.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -57,12 +58,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	private int connectionTimeout = 5000;
 
-//	public void setServiceLocator(ServiceLocator locatorClient) {
-//		this.locatorClient = locatorClient;
-//		if (LOG.isLoggable(Level.FINE)) {
-//			LOG.log(Level.FINE, "Locator client was set for proxy service.");
-//		}
-//	}
+	// public void setServiceLocator(ServiceLocator locatorClient) {
+	// this.locatorClient = locatorClient;
+	// if (LOG.isLoggable(Level.FINE)) {
+	// LOG.log(Level.FINE, "Locator client was set for proxy service.");
+	// }
+	// }
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
@@ -143,20 +144,17 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			LOG.fine("Registering endpoint " + endpointURL + " for service "
 					+ serviceName + "...");
 		}
-		SLProperties properties = null;
-		if (input.getProperties() != null) {
-			properties = new SLPropertiesImpl();
-			List<EntryType> entries = input.getProperties().getEntry();
-			for (EntryType entry : entries) {
-				properties.includesValues(entry.getKey(), entry.getValue());
-			}
-		}
 		try {
 			initLocator();
-			if (properties == null) {
+			if (input.getProperties() == null) {
 				locatorClient.register(serviceName, endpointURL);
 			} else {
-				locatorClient.register(serviceName, endpointURL, properties);
+				SLPropertiesImpl slProps = new SLPropertiesImpl();
+				List<EntryType> entries = input.getProperties().getEntry();
+				for (EntryType entry : entries) {
+					slProps.addProperty(entry.getKey(), entry.getValue());
+				}
+				locatorClient.register(serviceName, endpointURL, slProps);
 			}
 		} catch (ServiceLocatorException e) {
 			throw new ServiceLocatorFault(e.getMessage(), e);

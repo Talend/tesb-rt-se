@@ -861,6 +861,7 @@
 								<feature>tesb-locator-proxy</feature>
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
+								<feature>tesb-zookeeper-server</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
