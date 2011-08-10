@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project name="LocatorProxyService" resourceRoot="" soapui-version="3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="localhostBinding" type="wsdl" bindingName="{http://service.proxy.locator.esb.talend.org/}localhostBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/LocatorProxyService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/LocatorProxyService.wsdl"><con:part><con:url>file:/D:/LocatorProxyService.wsdl</con:url><con:content><![CDATA[<!--Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
+<con:soapui-project name="LocatorProxyService" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="localhostBinding" type="wsdl" bindingName="{http://service.proxy.locator.esb.talend.org/}localhostBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/LocatorProxyService.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/LocatorProxyService.wsdl"><con:part><con:url>file:/D:/LocatorProxyService.wsdl</con:url><con:content><![CDATA[<!--Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
 	This program and the accompanying materials are made available under the 
 	terms of the Apache License v2.0 which accompanies this distribution, and 
 	is available at http://www.apache.org/licenses/LICENSE-2.0-->
@@ -313,21 +313,26 @@
 	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
       </typ:lookupEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:lookupEndpointRequest>
 	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
       </typ:lookupEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="lookupEndpoints" name="lookupEndpoints" bindingOperationName="lookupEndpoints" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="lookupEndpoints" name="lookupEndpoints" bindingOperationName="lookupEndpoints" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:lookupEndpointsRequest>
 	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
-       </typ:lookupEndpointsRequest>
+          <matcherData>
+            <Entry key="test">
+               <Value>22</Value>
+            </Entry>
+         </matcherData>
+      </typ:lookupEndpointsRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoints"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="registerEndpoint" name="registerEndpoint" bindingOperationName="registerEndpoint" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service 1Endpoint1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoints"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="registerEndpoint" name="registerEndpoint" bindingOperationName="registerEndpoint" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service 1Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -344,7 +349,7 @@
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 1Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 1Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -360,7 +365,7 @@
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 1Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 1Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -371,12 +376,12 @@
             <!--Zero or more repetitions:-->
             <Entry key="test">
                <!--1 or more repetitions:-->
-               <Value>25</Value>
+               <Value>22</Value>
             </Entry>
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -392,7 +397,7 @@
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -408,7 +413,7 @@
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service 2Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:registerEndpointRequest>
@@ -424,7 +429,7 @@
          </properties>
       </typ:registerEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="unregisterEnpoint" name="unregisterEnpoint" bindingOperationName="unregisterEnpoint" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service1Endpoint3"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="unregisterEnpoint" name="unregisterEnpoint" bindingOperationName="unregisterEnpoint" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service1Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:unregisterEndpointRequest>
@@ -432,7 +437,23 @@
          <endpointURL>http://service1Endpoint3.com</endpointURL>
       </typ:unregisterEndpointRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEnpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="localhostBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lookupEndpoint TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lookupEndpoint - Service1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>localhostBinding</con:interface><con:operation>lookupEndpoint</con:operation><con:request name="lookupEndpoint - Service1" outgoingWss="" incomingWss="" wssPasswordType=""><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEnpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:unregisterEndpointRequest>
+	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+         <endpointURL>http://service1Endpoint2.com</endpointURL>
+      </typ:unregisterEndpointRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEnpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <typ:unregisterEndpointRequest>
+	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+         <endpointURL>http://service1Endpoint1.com</endpointURL>
+      </typ:unregisterEndpointRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEnpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="localhostBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lookupEndpoint TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lookupEndpoint - Service1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>localhostBinding</con:interface><con:operation>lookupEndpoint</con:operation><con:request name="lookupEndpoint - Service1" outgoingWss="" incomingWss="" wssPasswordType=""><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorProxyService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://service.proxy.locator.esb.talend.org/types">
    <soapenv:Header/>
    <soapenv:Body>
       <typ:lookupEndpointRequest>
