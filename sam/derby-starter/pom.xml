@@ -39,6 +39,12 @@
             <artifactId>derby-all</artifactId>
             <version>10.8.1.2</version>
         </dependency>
+		
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
