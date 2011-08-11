@@ -111,7 +111,7 @@
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.bundle.version>1.4_1</commons-io.bundle.version>
         <org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
-        <osgi.core.version>4.3.0</osgi.core.version>
+        <osgi.core.version>4.2.0</osgi.core.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
 
         <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
@@ -121,14 +121,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-	<modules>
-		<module>branding</module>
-		<module>locator</module>
-		<module>locator-proxy</module>
-		<module>sam</module>
-		<module>job</module>
-		<module>features</module>
-	</modules>
+    <modules>
+        <module>branding</module>
+        <module>locator</module>
+        <module>locator-proxy</module>
+        <module>sam</module>
+        <module>job</module>
+        <module>features</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
