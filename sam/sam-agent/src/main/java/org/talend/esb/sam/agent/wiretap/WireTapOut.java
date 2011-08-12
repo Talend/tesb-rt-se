@@ -37,25 +37,28 @@ import org.apache.cxf.phase.Phase;
  */
 public class WireTapOut extends AbstractPhaseInterceptor<Message> {
 	private Interceptor<Message> wireTap;
-	private boolean logMessage;
+	private boolean logMessageContent;
 
-	public WireTapOut(Interceptor<Message> wireTap, boolean logMessage) {
+	public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent) {
 		super(Phase.PRE_STREAM);
 		this.wireTap = wireTap;
-		this.logMessage = logMessage;
+		this.logMessageContent = logMessageContent;
 	}
 
 	@Override
 	public void handleMessage(final Message message) throws Fault {
 		final OutputStream os = message.getContent(OutputStream.class);
-		if (os != null && logMessage) {
-			final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(
-					os);
-			message.setContent(OutputStream.class, newOut);
+		
+		final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(
+				os);
+		message.setContent(OutputStream.class, newOut);
+		
+		if (os != null && logMessageContent) {
 			message.setContent(CachedOutputStream.class, newOut);
-			if (wireTap != null) {
-				newOut.registerCallback(new CallBack(message));
-			}
+		}
+		
+		if (wireTap != null) {
+			newOut.registerCallback(new CallBack(message));
 		}
 	}
 

@@ -38,17 +38,17 @@ import org.apache.cxf.phase.Phase;
  * continue on the message
  */
 public class WireTapIn extends AbstractPhaseInterceptor<Message> {
-    private boolean logMessage;
+    private boolean logMessageContent;
 
-    public WireTapIn(boolean logMessage) {
+    public WireTapIn(boolean logMessageContent) {
         super(Phase.RECEIVE);
-        this.logMessage = logMessage;
+        this.logMessageContent = logMessageContent;
     }
 
     @Override
     public void handleMessage(final Message message) throws Fault {
         InputStream is = message.getContent(InputStream.class);
-        if (is != null || !logMessage) {
+        if (is != null && logMessageContent) {
             try {
                 CachedOutputStream cos = new CachedOutputStream();
                 // TODO: We should try to make this streaming
