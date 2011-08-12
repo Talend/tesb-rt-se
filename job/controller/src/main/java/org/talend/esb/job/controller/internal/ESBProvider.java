@@ -28,8 +28,11 @@ import javax.wsdl.extensions.ExtensionRegistry;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.BusException;
 import org.apache.cxf.binding.soap.Soap12;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
@@ -77,8 +80,24 @@ class ESBProvider extends ESBProviderBase {
         return publishedEndpointUrl;
     }
 
-    public void run(Bus bus) {
-        JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean();
+    public void run(final Bus bus) {
+        final JaxWsServerFactoryBean sf = new JaxWsServerFactoryBean() {
+            @Override
+            protected Endpoint createEndpoint() throws BusException,
+                EndpointException {
+                final Endpoint endpoint = super.createEndpoint();
+
+                final ServiceInfo si =
+                    endpoint.getService().getServiceInfos().get(0);
+                // remove default operation
+                removeOperation(si, "invoke");
+
+                // set portType = serviceName
+                InterfaceInfo ii = si.getInterface();
+                ii.setName(serviceName);
+                return endpoint;
+            }
+        };
         sf.setServiceName(serviceName);
         sf.setEndpointName(portName);
         sf.setAddress(publishedEndpointUrl);
@@ -95,18 +114,13 @@ class ESBProvider extends ESBProviderBase {
 
         server = sf.create();
 
-        // remove default operation
-        removeOperation("invoke");
-        // set portType = serviceName
-        InterfaceInfo ii = server.getEndpoint().getService().getServiceInfos().get(0).getInterface();
-        ii.setName(serviceName);
-
         LOG.info("Web service '" + serviceName + "' published at endpoint '"
             + publishedEndpointUrl + "'");
     }
 
     @Override
-    public RuntimeESBProviderCallback createESBProviderCallback(String operationName, boolean isRequestResponse) {
+    public RuntimeESBProviderCallback createESBProviderCallback(
+            String operationName, boolean isRequestResponse) {
         RuntimeESBProviderCallback esbProviderCallback =
             super.createESBProviderCallback(operationName, isRequestResponse);
 
@@ -118,9 +132,11 @@ class ESBProvider extends ESBProviderBase {
 
     @Override
     public boolean destroyESBProviderCallback(String operationName) {
-    	boolean destroyed = super.destroyESBProviderCallback(operationName);
+        boolean destroyed = super.destroyESBProviderCallback(operationName);
         if (!destroyed) {
-            removeOperation(operationName);
+            removeOperation(
+                server.getEndpoint().getService().getServiceInfos().get(0),
+                operationName);
         } else {
             LOG.info("Web service '" + serviceName + "' stopped");
             server.destroy();
@@ -128,7 +144,8 @@ class ESBProvider extends ESBProviderBase {
         return destroyed;
     }
 
-    public static void addOperation(final ServiceInfo si, String operationName, boolean isRequestResponse) {
+    public static void addOperation(final ServiceInfo si,
+            String operationName, boolean isRequestResponse) {
         final InterfaceInfo ii = si.getInterface();
         final String namespace = ii.getName().getNamespaceURI();
 
@@ -164,8 +181,8 @@ class ESBProvider extends ESBProviderBase {
             ExtensionRegistry extensionRegistry = m.getExtensionRegistry();
             boolean isSoap12 = sbi.getSoapVersion() instanceof Soap12;
             try {
-                SoapOperation soapOperation = SOAPBindingUtil.createSoapOperation(extensionRegistry,
-                            isSoap12);
+                SoapOperation soapOperation =
+                    SOAPBindingUtil.createSoapOperation(extensionRegistry, isSoap12);
                 soapOperation.setSoapActionURI(operationName/*soi.getAction()*/);
 //                soapOperation.setStyle(soi.getStyle());
                 boi.addExtensor(soapOperation);
@@ -175,8 +192,7 @@ class ESBProvider extends ESBProviderBase {
         }
     }
 
-    private void removeOperation(String operationName) {
-        ServiceInfo si = server.getEndpoint().getService().getServiceInfos().get(0);
+    private static void removeOperation(final ServiceInfo si, String operationName) {
         InterfaceInfo ii = si.getInterface();
 
         final String namespace = ii.getName().getNamespaceURI();

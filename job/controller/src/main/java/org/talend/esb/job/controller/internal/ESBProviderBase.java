@@ -36,7 +36,6 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
         this.customInfoHandler = customInfoHandler;
     }
 
-    @Override
     //@javax.jws.WebMethod(exclude=true)
     public final Source invoke(Source request) {
         QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
