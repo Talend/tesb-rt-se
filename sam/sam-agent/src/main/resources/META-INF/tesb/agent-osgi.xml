@@ -109,4 +109,13 @@
         <property name="delayBetweenRetry" value="$sam{service.retry.delay}" />
     </bean>
 
+	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
+	    <property name="queue" ref="queue"/>
+		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+	</bean>
+	
+	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
+	    <property name="queue" ref="queue"/>
+		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+	</bean>	
 </beans>
