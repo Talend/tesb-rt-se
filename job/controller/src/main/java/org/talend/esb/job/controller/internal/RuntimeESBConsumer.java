@@ -41,6 +41,7 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
@@ -48,8 +49,9 @@ import routines.system.api.ESBConsumer;
 
 @javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
-    private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class.getName());
-	
+    private static final Logger LOG =
+        Logger.getLogger(RuntimeESBConsumer.class.getName());
+
     private final QName serviceName;
     private final QName portName;
     private final String operationName;
@@ -111,12 +113,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         Client client = createClient();
         try {
             Object[] result = client.invoke(operationName,
-                new org.dom4j.io.DocumentSource(doc));
+                    DOM4JMarshaller.documentToSource(doc));
             if (result != null) {
-                org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-                javax.xml.transform.TransformerFactory.newInstance().
-                    newTransformer().transform((Source)result[0], docResult);
-                return docResult.getDocument();
+                return DOM4JMarshaller.sourceToDocument((Source)result[0]);
             }
         } catch (org.apache.cxf.binding.soap.SoapFault e) {
             SOAPFault soapFault = ServiceHelper.createSoapFault(e);
@@ -152,7 +151,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         };
         cf.setServiceName(serviceName);
         cf.setEndpointName(portName);
-        String endpointUrl =
+        final String endpointUrl =
             (serviceLocator == null)
                 ? publishedEndpointUrl
                 : "locator://" + serviceName.getLocalPart();

@@ -20,28 +20,22 @@
 package org.talend.esb.job.controller.internal.util;
 
 import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-
-import org.dom4j.Document;
-import org.dom4j.io.DOMWriter;
+import javax.xml.transform.TransformerException;
 
 public class DOM4JMarshaller {
 
     private static final javax.xml.transform.TransformerFactory FACTORY =
             javax.xml.transform.TransformerFactory.newInstance();
 
-    public static org.dom4j.Document sourceToDocument(Source source) throws Exception {
+    public static org.dom4j.Document sourceToDocument(Source source)
+            throws TransformerException {
         org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
         FACTORY.newTransformer().transform(source, docResult);
         return docResult.getDocument();
     }
 
-    public static Source documentToSource(Document document) throws Exception{
-        
-        DOMWriter domWriter = new DOMWriter();
-        org.w3c.dom.Document w3cDocument = domWriter.write(document);
-        DOMSource domSource = new DOMSource(w3cDocument);
-        return domSource;
+    public static Source documentToSource(org.dom4j.Document document) {
+        return new org.dom4j.io.DocumentSource(document);
     }
-    
+
 }

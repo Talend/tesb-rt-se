@@ -78,8 +78,7 @@ public class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transfor
 
     private Source processResult(Object result) {
         if (result instanceof org.dom4j.Document) {
-            return new org.dom4j.io.DocumentSource(
-                (org.dom4j.Document)result);
+            return DOM4JMarshaller.documentToSource((org.dom4j.Document)result);
         } else if (result instanceof RuntimeException) {
             throw (RuntimeException)result;
         } else if (result instanceof Throwable) {
