@@ -205,6 +205,7 @@
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
                 <include>admin.bat</include>
+                <include>client.bat</include>
                 <include>karaf.bat</include>
                 <!-- we need this one in here for admin:create'd instances to work -->
                 <include>start.bat</include>
@@ -220,6 +221,7 @@
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
                 <include>admin</include>
+                <include>client</include>
                 <include>karaf</include>
                 <!-- we need this one in here for admin:create'd instances to work -->
                 <include>start</include>
