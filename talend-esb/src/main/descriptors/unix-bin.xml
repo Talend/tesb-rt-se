@@ -204,6 +204,7 @@
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
                 <include>admin.bat</include>
+                <include>client.bat</include>
                 <include>karaf.bat</include>
                 <!-- we need this one in here for admin:create'd instances to work -->
                 <include>start.bat</include>
@@ -215,14 +216,15 @@
 
         <!-- Copy over unix bin/* separately to get the correct file mode -->
         <fileSet>
-            <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
-            <outputDirectory>/container</outputDirectory>
+            <directory>target/dependencies/unix/apache-karaf-${karaf.version}/bin</directory>
+            <outputDirectory>/container/bin</outputDirectory>
             <includes>
-                <include>bin/admin</include>
-                <include>bin/karaf</include>
+                <include>admin</include>
+                <include>client</include>
+                <include>karaf</include>
                 <!-- we need this one in here for admin:create'd instances to work -->
-                <include>bin/start</include>
-                <include>bin/stop</include>
+                <include>start</include>
+                <include>stop</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
