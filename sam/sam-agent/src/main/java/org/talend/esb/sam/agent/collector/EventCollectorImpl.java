@@ -176,9 +176,7 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
         this.handlers.clear();
         for (EventHandler eventHandler : newHandlers) {
             // TODO This shows that autowiring like we do it now is not such a good idea
-            if (!(eventHandler instanceof QueueSender)) {
-                this.handlers.add(eventHandler);
-            }
+            this.handlers.add(eventHandler);
         }
     }
 

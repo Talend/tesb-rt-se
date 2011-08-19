@@ -54,19 +54,20 @@ import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.junit.Assert;
 import org.junit.Test;
-import org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl;
+import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 public class MessageToEventMapperTest {
-    private static final String TESTCONTENT = "This content may be too long";
-    private static final int MAXCONTENTLENGTH = 4;
+    private static final String TESTCONTENT = 
+    	"This is a long long long long long long long long long long content";
+    private static final int MAXCONTENTLENGTH = 30;
     
     @Test
     public void testMapEvent() throws IOException, EndpointException {
         Message message = getTestMessage();
-        Event event = new MessageToEventMapperImpl().mapToEvent(message);
+        Event event = new MessageToEventMapper().mapToEvent(message);
         Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
         Assert.assertEquals("{interfaceNs}interfaceName", event.getMessageInfo().getPortType());
         Assert.assertEquals("{namespace}opName", event.getMessageInfo().getOperationName());
@@ -91,11 +92,12 @@ public class MessageToEventMapperTest {
     @Test
     public void testMaxContentLength() throws IOException, EndpointException {
         Message message = getTestMessage();
-        MessageToEventMapperImpl mapper = new MessageToEventMapperImpl();
+        MessageToEventMapper mapper = new MessageToEventMapper();
         mapper.setMaxContentLength(MAXCONTENTLENGTH);
         Event event = mapper.mapToEvent(message);
+        //System.out.println(event.getContent());
         Assert.assertEquals(MAXCONTENTLENGTH, event.getContent().length());
-        Assert.assertEquals(TESTCONTENT.substring(0, MAXCONTENTLENGTH), event.getContent());
+        Assert.assertEquals("<cut><![CDATA[" + TESTCONTENT.substring(0, MAXCONTENTLENGTH - 23) + "]]></cut>", event.getContent());
         Assert.assertTrue(event.isContentCut());
     }
     

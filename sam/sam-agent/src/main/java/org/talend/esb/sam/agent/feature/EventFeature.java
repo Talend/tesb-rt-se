@@ -19,6 +19,7 @@
  */
 package org.talend.esb.sam.agent.feature;
 
+import java.util.Queue;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
@@ -32,6 +33,7 @@ import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
@@ -40,9 +42,10 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class EventFeature extends AbstractFeature implements InitializingBean {
 
-    private MessageToEventMapper mapper;
-    private EventHandler eventSender;
     private boolean logMessageContent;
+	private int maxContentLength = -1;
+    private Queue<Event> queue;
+
     protected static Logger logger = Logger.getLogger(EventFeature.class.getName());
 
     public EventFeature() {
@@ -51,12 +54,6 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
 
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
-        if (mapper == null) {
-            throw new RuntimeException("Mapper must be set on EventFeature");
-        }
-        if (eventSender == null) {
-            throw new RuntimeException("EventSender must be set on EventFeature");
-        }
         super.initializeProvider(provider, bus);
 
         FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
@@ -67,7 +64,10 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
         provider.getOutInterceptors().add(flowIdProducerOut);
         provider.getOutFaultInterceptors().add(flowIdProducerOut);
 
-        EventProducerInterceptor epi = new EventProducerInterceptor(mapper, eventSender);
+        MessageToEventMapper mapper = new MessageToEventMapper();
+        mapper.setMaxContentLength(maxContentLength);
+        
+        EventProducerInterceptor epi = new EventProducerInterceptor(mapper, queue);
         WireTapIn wireTapIn = new WireTapIn(logMessageContent);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
@@ -78,27 +78,21 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
         provider.getOutFaultInterceptors().add(wireTapOut);
     }
 
-    public void setMapper(MessageToEventMapper mapper) {
-        this.mapper = mapper;
-    }
-
-    public void setEventSender(EventHandler eventSender) {
-        this.eventSender = eventSender;
-    }
-
     public void setLogMessageContent(boolean logMessageContent) {
         this.logMessageContent = logMessageContent;
+    }
+    
+    public void setMaxContentLength(int maxContentLength) {
+        this.maxContentLength = maxContentLength;
+    }
+    
+    public void setQueue(Queue<Event> queue) {
+        this.queue = queue;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (mapper == null) {
-            throw new RuntimeException("Mapper must be set on EventFeature");
-        }
-        if (eventSender == null) {
-            throw new RuntimeException("EventSender must be set on EventFeature");
-        }
-        logger.info("Eventsender and mapper are set correctly");
+
     }
     
 }

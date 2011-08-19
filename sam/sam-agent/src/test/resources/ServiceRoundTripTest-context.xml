@@ -37,17 +37,13 @@
         </property>
     </bean>
 
-
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
-        <property name="mapper" ref="eventMapper" />
-        <property name="eventSender" ref="mockEventSender" />
         <property name="logMessageContent" value="true" />
+        <property name="maxContentLength" value="30"/>
+        <property name="queue" ref="queue" />
     </bean>
 
-    <bean id="mockEventSender" class="org.talend.esb.sam.agent.interceptor.MockEventSender" />
-
-    <bean id="eventMapper"
-        class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl" />
+	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
     <jaxws:client id="customerService" address="local:/CustomerServicePort"
         serviceClass="com.example.customerservice.CustomerService">

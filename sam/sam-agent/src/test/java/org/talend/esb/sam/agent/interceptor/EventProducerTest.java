@@ -19,7 +19,9 @@
  */
 package org.talend.esb.sam.agent.interceptor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.annotation.Resource;
 
@@ -42,14 +44,17 @@ public class EventProducerTest {
     CustomerService customerService;
     
     @Resource
-    MockEventSender eventSender;
+    Queue<Event> queue;
 
     @Test
     public void testServiceCallSuccess() throws NoSuchCustomerException, InterruptedException {
-        eventSender.getEventList().clear();
+        queue.clear();
         List<Customer> customers = customerService.getCustomersByName("test");
         Assert.assertEquals(2, customers.size());
-        List<Event> eventsList = eventSender.getEventList();
+        List<Event> eventsList = new ArrayList<Event>();
+        while(!queue.isEmpty()){
+        	eventsList.add(queue.remove());
+        }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));
@@ -60,14 +65,17 @@ public class EventProducerTest {
 
     @Test
     public void testServiceCallFault() throws NoSuchCustomerException, InterruptedException {
-        eventSender.getEventList().clear();
+    	queue.clear();
         try {
             customerService.getCustomersByName("None");
             Assert.fail("We should get an exception for this request");
         } catch (NoSuchCustomerException e) {
             // That is what we expect to happen
         }
-        List<Event> eventsList = eventSender.getEventList();
+        List<Event> eventsList = new ArrayList<Event>();
+        while(!queue.isEmpty()){
+        	eventsList.add(queue.remove());
+        }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));

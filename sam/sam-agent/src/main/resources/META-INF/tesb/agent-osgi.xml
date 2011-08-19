@@ -56,16 +56,8 @@
     </bean>
 
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
-        <property name="mapper" ref="eventMapper" />
-        <property name="eventSender" ref="queueSender" />
-        <property name="logMessageContent" value="$sam{log.messageContent}" />
-    </bean>
-
-    <bean id="eventMapper" class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl">
+        <property name="logMessageContent" value="$sam{log.messageContent}" />	
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>
-    </bean>
-
-    <bean id="queueSender" class="org.talend.esb.sam.agent.collector.QueueSender">
         <property name="queue" ref="queue"/>
     </bean>
 

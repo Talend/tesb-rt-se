@@ -46,8 +46,6 @@ public class EventCollectorTest {
     @Test
     public void testEventCollector() throws InterruptedException {
         Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
-        QueueSender sender = new QueueSender();
-        sender.setQueue(queue );
 
         EventCollectorImpl eventCollector = new EventCollectorImpl();
         eventCollector.setDefaultInterval(500);
@@ -61,9 +59,9 @@ public class EventCollectorTest {
         eventCollector.setMonitoringServiceClient(monitoringService);
 
         // Add events
-        sender.handleEvent(createEvent("1"));
-        sender.handleEvent(createEvent("2"));
-        sender.handleEvent(createEvent("3"));
+        queue.add(createEvent("1"));
+        queue.add(createEvent("2"));
+        queue.add(createEvent("3"));
 
         // Send from Queue
         eventCollector.sendEventsFromQueue();
