@@ -26,13 +26,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.talend.esb.sam.agent.collector.EventCollectorImpl;
+import org.talend.esb.sam.agent.collector.EventCollector;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/META-INF/tesb/agent-context.xml", "/META-INF/tesb/sample-filters-context.xml"})
 public class MonitoringServiceWrapperFiltersTest {
 	@Resource
-	EventCollectorImpl eventCollector;
+	EventCollector eventCollector;
 
     @Test
     public void testWrapper() {

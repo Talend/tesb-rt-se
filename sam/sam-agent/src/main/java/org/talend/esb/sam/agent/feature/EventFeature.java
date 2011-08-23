@@ -37,14 +37,21 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Feature adds FlowIdProducer Interceptor and EventProducer Interceptor.
+ * Feature for adding FlowId Interceptor and EventProducer Interceptor.
  * 
  */
 public class EventFeature extends AbstractFeature implements InitializingBean {
 
-    private boolean logMessageContent;
+	/*
+	 * Log the message content to Event as Default
+	 */
+    private boolean logMessageContent = true;
+    /*
+     * No max message content limitation as Default
+     */
 	private int maxContentLength = -1;
     private Queue<Event> queue;
+    private EventProducerInterceptor epi;
 
     protected static Logger logger = Logger.getLogger(EventFeature.class.getName());
 
@@ -67,7 +74,7 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
         MessageToEventMapper mapper = new MessageToEventMapper();
         mapper.setMaxContentLength(maxContentLength);
         
-        EventProducerInterceptor epi = new EventProducerInterceptor(mapper, queue);
+        epi = new EventProducerInterceptor(mapper, queue);
         WireTapIn wireTapIn = new WireTapIn(logMessageContent);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
@@ -90,6 +97,10 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
         this.queue = queue;
     }
 
+    public void setHandler(EventHandler handler) {
+		this.epi.setHandler(handler);
+	}
+    
     @Override
     public void afterPropertiesSet() throws Exception {
 

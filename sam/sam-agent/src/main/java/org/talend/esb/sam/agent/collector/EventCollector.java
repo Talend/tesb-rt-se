@@ -22,7 +22,6 @@ package org.talend.esb.sam.agent.collector;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,12 +44,12 @@ import org.talend.esb.sam.common.spi.EventFilter;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Event collector collects all events and stores them in a queue. This can be a memory queue or a persistent
- * queue. Asynchronously the events will be processed and sent to MonitoringService
+ * EventCollector reads the events from Queue. 
+ * After processing with filter/handler, the events will be sent to SAM Server periodically.
  */
-public class EventCollectorImpl implements BusLifeCycleListener, InitializingBean {
+public class EventCollector implements BusLifeCycleListener, InitializingBean {
 
-    private static Logger logger = Logger.getLogger(EventCollectorImpl.class.getName());
+    private static Logger logger = Logger.getLogger(EventCollector.class.getName());
 
     private Bus bus;
     private MonitoringService monitoringServiceClient;
@@ -58,14 +57,14 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
     private List<EventFilter> filters = new ArrayList<EventFilter>();
 
     private List<EventHandler> handlers = new ArrayList<EventHandler>();
-    private Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
+    private Queue<Event> queue;
     private TaskExecutor executor;
     private TaskScheduler scheduler;
     private long defaultInterval = 1000;
     private int eventsPerMessageCall = 10;
     private boolean stopSending = false;
 
-    public EventCollectorImpl() {
+    public EventCollector() {
     }
 
     /**
@@ -116,7 +115,7 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
      * @param scheduler
      */
     public void setScheduler(TaskScheduler scheduler) {
-        logger.info("Scheduler startet for sending events to monitoring service");
+        logger.info("Scheduler startet for sending events to SAM Server");
         this.scheduler = scheduler;
 
         this.scheduler.scheduleAtFixedRate(new Runnable() {
@@ -175,7 +174,6 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
     public void setHandlers(List<EventHandler> newHandlers) {
         this.handlers.clear();
         for (EventHandler eventHandler : newHandlers) {
-            // TODO This shows that autowiring like we do it now is not such a good idea
             this.handlers.add(eventHandler);
         }
     }
@@ -202,10 +200,6 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
                 }
             }
             if (list.size() > 0) {
-
-                // Need to call executer because @Async wouldn't work
-                // through proxy. This Method is inside a proxy and local
-                // proxy calls are not supported
                 executor.execute(new Runnable() {
                     public void run() {
                         try {
@@ -256,10 +250,6 @@ public class EventCollectorImpl implements BusLifeCycleListener, InitializingBea
             throw new MonitoringException("002",
                                           "Unknown error while execute put events to Monitoring Server", e);
         }
-
-    }
-
-    public void stopSending() {
 
     }
 

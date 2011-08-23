@@ -47,7 +47,7 @@ public class EventCollectorTest {
     public void testEventCollector() throws InterruptedException {
         Queue<Event> queue = new ConcurrentLinkedQueue<Event>();
 
-        EventCollectorImpl eventCollector = new EventCollectorImpl();
+        EventCollector eventCollector = new EventCollector();
         eventCollector.setDefaultInterval(500);
         eventCollector.getFilters().add(new StringContentFilter());
         eventCollector.getHandlers().add(new ContentLengthHandler());

@@ -37,13 +37,13 @@
         </property>
     </bean>
 
+	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+		
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="true" />
         <property name="maxContentLength" value="30"/>
         <property name="queue" ref="queue" />
     </bean>
-
-	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
     <jaxws:client id="customerService" address="local:/CustomerServicePort"
         serviceClass="com.example.customerservice.CustomerService">

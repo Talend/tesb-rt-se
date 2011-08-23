@@ -55,26 +55,26 @@
         <property name="placeholderPrefix" value="$sam{" />
     </bean>
 
+	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+		
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="$sam{log.messageContent}" />	
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>
         <property name="queue" ref="queue"/>
     </bean>
 
-    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollectorImpl" >
+    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" >
+        <property name="bus" ref="cxf" />
+        <property name="queue" ref="queue" />	
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
         <!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
         <property name="defaultInterval" value="$sam{collector.scheduler.interval}" />
         <!-- Number of events within one service call. This is a maximum number. 
             If there are events in the queue, the events will be processed. -->
         <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}" />
-        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
         <property name="executor" ref="defaultExecutor" />
         <property name="scheduler" ref="defaultScheduler" />
-        <property name="bus" ref="cxf" />
-        <property name="queue" ref="queue" />
     </bean>
-
-    <bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
     <task:annotation-driven executor="defaultExecutor"
         scheduler="defaultScheduler" />

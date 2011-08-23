@@ -38,7 +38,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
 	
     private MessageToEventMapper mapper;
     private Queue<Event> queue;
-
+    private EventHandler handler;
+    
     public EventProducerInterceptor(MessageToEventMapper mapper, Queue<Event> queue) {
         super(Phase.PRE_INVOKE);
         if (mapper == null) {
@@ -51,9 +52,17 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         this.queue = queue;
     }
 
-    @Override
+    public void setHandler(EventHandler handler) {
+		this.handler = handler;
+	}
+
+	@Override
     public void handleMessage(Message message) throws Fault {
         Event event = mapper.mapToEvent(message);
+        
+        if (handler != null){
+        	handler.handleEvent(event);
+        }
         
         String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
         logger.fine("Store event [message_id=" + id + "] in cache.");
