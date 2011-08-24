@@ -55,17 +55,17 @@
         <property name="placeholderPrefix" value="$sam{" />
     </bean>
 
-	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 		
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="$sam{log.messageContent}" />	
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>
-        <property name="queue" ref="queue"/>
+        <property name="queue" ref="samQueue"/>
     </bean>
 
     <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" >
         <property name="bus" ref="cxf" />
-        <property name="queue" ref="queue" />	
+        <property name="queue" ref="samQueue" />
         <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
         <!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
         <property name="defaultInterval" value="$sam{collector.scheduler.interval}" />
@@ -102,12 +102,12 @@
     </bean>
 
 	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
-	    <property name="queue" ref="queue"/>
+	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>
 	
 	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
-	    <property name="queue" ref="queue"/>
+	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>	
 </beans>

@@ -71,10 +71,6 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
         provider.getOutInterceptors().add(flowIdProducerOut);
         provider.getOutFaultInterceptors().add(flowIdProducerOut);
 
-        MessageToEventMapper mapper = new MessageToEventMapper();
-        mapper.setMaxContentLength(maxContentLength);
-        
-        epi = new EventProducerInterceptor(mapper, queue);
         WireTapIn wireTapIn = new WireTapIn(logMessageContent);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
@@ -95,10 +91,18 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
     
     public void setQueue(Queue<Event> queue) {
         this.queue = queue;
+        if (epi == null){
+	        MessageToEventMapper mapper = new MessageToEventMapper();
+	        mapper.setMaxContentLength(maxContentLength);
+	        
+	        epi = new EventProducerInterceptor(mapper, queue);
+        }
     }
 
     public void setHandler(EventHandler handler) {
-		this.epi.setHandler(handler);
+    	if (this.epi != null){
+    		this.epi.setHandler(handler);
+    	}
 	}
     
     @Override

@@ -109,6 +109,7 @@ public class MessageToEventMapper {
         event.setEventType(eventType);
         
         CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
+        //System.out.println("custom props: " + customInfo);
         event.getCustomInfo().putAll(customInfo);
         
         return event;
