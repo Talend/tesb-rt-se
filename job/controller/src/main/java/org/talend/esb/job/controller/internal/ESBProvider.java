@@ -21,6 +21,8 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -35,6 +37,8 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
+import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 class ESBProvider extends ESBProviderBase {
@@ -46,22 +50,23 @@ class ESBProvider extends ESBProviderBase {
     private final QName serviceName;
     private final QName portName;
     private final AbstractFeature serviceLocator;
-    private final AbstractFeature serviceActivityMonitoring;
-
+    private EventFeature eventFeature;
     private Server server;
 
     public ESBProvider(String publishedEndpointUrl,
             final QName serviceName,
             final QName portName,
             final AbstractFeature serviceLocator,
-            final AbstractFeature serviceActivityMonitoring,
-            final CustomInfoHandler customInfoHandler) {
+            Queue<Event> queue
+            ) {
         this.publishedEndpointUrl = publishedEndpointUrl;
         this.serviceName = serviceName;
         this.portName = portName;
         this.serviceLocator = serviceLocator;
-        this.serviceActivityMonitoring = serviceActivityMonitoring;
-        setCustomInfoHandler(customInfoHandler);
+        if (null != queue){
+            this.eventFeature = new EventFeature();
+            this.eventFeature.setQueue(queue);
+        }
     }
 
     public String getPublishedEndpointUrl() {
@@ -94,9 +99,10 @@ class ESBProvider extends ESBProviderBase {
         if (serviceLocator != null) {
             features.add(serviceLocator);
         }
-        if (serviceActivityMonitoring != null) {
-            features.add(serviceActivityMonitoring);
+        if (eventFeature != null) {
+            features.add(eventFeature);
         }
+        
         sf.setFeatures(features);
         sf.setBus(bus);
 
@@ -132,5 +138,14 @@ class ESBProvider extends ESBProviderBase {
         }
         return destroyed;
     }
+
+	@Override
+	protected void processCustomProp(Map<String, String> samProps) {
+		if (eventFeature != null) {
+            CustomInfoHandler ciHandler = new CustomInfoHandler();
+            ciHandler.setCustomInfo(samProps);
+            eventFeature.setHandler(ciHandler);
+		}
+	}
 
 }

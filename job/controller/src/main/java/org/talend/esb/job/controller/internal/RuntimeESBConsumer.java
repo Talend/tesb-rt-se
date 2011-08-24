@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -43,7 +44,9 @@ import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+import org.talend.esb.sam.agent.feature.EventFeature;
 
 import routines.system.api.ESBConsumer;
 
@@ -58,8 +61,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String publishedEndpointUrl;
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
-    private final AbstractFeature serviceActivityMonitoring;
-    private final CustomInfoHandler customPropertiesHandler;
+    private EventFeature eventFeature;
     private final Bus bus;
     private Client client;
 
@@ -70,8 +72,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             String publishedEndpointUrl,
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
-            final AbstractFeature serviceActivityMonitoring,
-            final CustomInfoHandler customPropertiesHandler,
+            final Queue<Event> queue,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -79,8 +80,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.publishedEndpointUrl = publishedEndpointUrl;
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
-        this.serviceActivityMonitoring = serviceActivityMonitoring;
-        this.customPropertiesHandler = customPropertiesHandler;
+        if (null != queue){
+        	this.eventFeature = new EventFeature();
+        	this.eventFeature.setQueue(queue);
+        }
         this.bus = bus;
     }
 
@@ -92,15 +95,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
             @SuppressWarnings("unchecked")
             java.util.Map<String, Object> map =
                 (java.util.Map<String, Object>)payload;
-            if (serviceActivityMonitoring != null) {
-                @SuppressWarnings("unchecked")
-                java.util.Map<String, String> samProps =
-                    (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
-                if (samProps != null) {
-                    LOG.info("SAM custom properties received: " + samProps);
-                    customPropertiesHandler.setCustomInfo(samProps);
+
+            @SuppressWarnings("unchecked")
+            java.util.Map<String, String> samProps =
+                (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
+            if (samProps != null) {
+                LOG.info("SAM custom properties received: " + samProps);
+                //System.out.println("Consumer/" + "SAM custom properties received: " + samProps);
+                if (eventFeature != null){
+                    CustomInfoHandler ciHandler = new CustomInfoHandler();
+                    ciHandler.setCustomInfo(samProps);                	
+                    eventFeature.setHandler(ciHandler);
                 }
             }
+
             return sendDocument(
                 (org.dom4j.Document)map.get(ESBProvider.REQUEST_PAYLOAD));
         } else {
@@ -162,9 +170,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if(serviceLocator != null) {
             features.add(serviceLocator);
         }
-        if(serviceActivityMonitoring != null) {
-            features.add(serviceActivityMonitoring);
+        if(eventFeature != null) {
+            features.add(eventFeature);
         }
+        
         cf.setFeatures(features);
 
         client = cf.create();

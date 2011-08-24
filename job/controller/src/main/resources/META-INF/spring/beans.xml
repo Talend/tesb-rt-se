@@ -32,17 +32,12 @@
     <!-- SAM -->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-    <!-- CustomInfoHandler must as a bean because setHandlers() in EventCollectorImpl
-         marked as Autowired. Otherwise, it will not work after testing. (c) Xilai Dai -->
-    <bean id="customInfoHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
-
     <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </property>
-        <property name="serviceActivityMonitoring" ref="eventFeature"/>
-        <property name="customInfoHandler" ref="customInfoHandler"/>
+		<property name="samQueue" ref="samQueue"/>
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
 

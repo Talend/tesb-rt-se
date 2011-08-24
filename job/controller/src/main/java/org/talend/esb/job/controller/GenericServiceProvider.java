@@ -100,4 +100,10 @@ public class GenericServiceProvider extends ESBProviderBase {
 
     }
 
+	@Override
+	protected void processCustomProp(Map<String, String> samProps) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
