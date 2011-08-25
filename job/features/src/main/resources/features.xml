@@ -41,7 +41,7 @@
         <feature>talend-job-controller</feature>
         <feature>war</feature>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-io/${commons-io.bundle.version}</bundle>
-        <bundle>mvn:commons-fileupload/commons-fileupload/{commons-fileupload.version}</bundle>
+        <bundle>mvn:commons-fileupload/commons-fileupload/${commons-fileupload.version}</bundle>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.console/${project.version}</bundle>
     </feature>
 
