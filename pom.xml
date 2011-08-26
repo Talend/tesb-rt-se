@@ -87,7 +87,7 @@
 
     <properties>
         <cxf.version>2.5.0-SNAPSHOT</cxf.version>
-        <spring.version>3.0.6.RELEASE</spring.version>
+        <spring.version>3.0.5.RELEASE</spring.version>
         <karaf.version>2.2.3-SNAPSHOT</karaf.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
@@ -114,7 +114,7 @@
         <osgi.core.version>4.2.0</osgi.core.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
 
-        <cxf.build-utils.version>2.3.2</cxf.build-utils.version>
+        <cxf.build-utils.version>2.4.0</cxf.build-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
 
@@ -136,7 +136,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.8.2</version>
+				<version>4.9</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
