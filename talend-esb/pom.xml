@@ -53,7 +53,7 @@
 
 		<!-- ServiceMix Bundles --> 
 		<abdera.bundle.version>0.4.0-incubating_3</abdera.bundle.version>
-		<ant.bundle.version>1.7.0_4</ant.bundle.version>
+		<ant.bundle.version>1.7.0_5</ant.bundle.version>
 		<antlr2.bundle.version>2.7.7_3</antlr2.bundle.version>
 		<antlr.bundle.version>3.0.1_4</antlr.bundle.version>
 		<antlr-runtime.bundle.version>3.0.1_2</antlr-runtime.bundle.version>
