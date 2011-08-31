@@ -95,7 +95,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>1.0-beta-2</version>
+					<version>1.0-beta-3</version>
 					<configuration>
 						<licenseName>apache_v2</licenseName>
 						<licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
