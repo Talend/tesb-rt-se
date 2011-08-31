@@ -98,7 +98,7 @@
 		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
 		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
 		<!-- jdom.bundle.version>1.1_3</jdom.bundle.version-->
-		<jetty.version>7.4.2.v20110526</jetty.version>
+		<jetty.version>7.4.5.v20110725</jetty.version>
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
 		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
 		<jing.bundle.version>20030619_3</jing.bundle.version>
@@ -113,7 +113,7 @@
 		<lucene.bundle.version>3.0.3_1</lucene.bundle.version>
 		<mina.bundle.version>1.1.7_4</mina.bundle.version>
 		<mvel.bundle.version>2.0.8_4</mvel.bundle.version>
-		<neethi.bundle.version>3.0.0</neethi.bundle.version>
+		<neethi.bundle.version>3.0.1</neethi.bundle.version>
 		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
@@ -184,18 +184,18 @@
 		<jackson-mapper-asl.version>1.7.5</jackson-mapper-asl.version>
 		<jaxp-ri.version>1.4.2</jaxp-ri.version>
 		<jaxws-api.version>2.1</jaxws-api.version>
-		<javax.mail.version>1.4.3</javax.mail.version>
+		<javax.mail.version>1.4.4</javax.mail.version>
 		<jettison.version>1.3</jettison.version>
 		<junit.version>4.7</junit.version>
 		<log4j.version>1.2.15</log4j.version>
 		<mybatis.version>3.0.4</mybatis.version>
 		<openjpa.version>2.0.0</openjpa.version>
 		<restlet.version>2.0.5</restlet.version>
-		<pax-web-jsp.version>1.0.4</pax-web-jsp.version>
+		<pax-web-jsp.version>1.0.6</pax-web-jsp.version>
 		<tranql.version>1.6</tranql.version>
 		<woodstox.version>4.1.1</woodstox.version>
 		<woodstox.stax2-api.version>3.1.1</woodstox.stax2-api.version>
-        <wss4j.version>1.6.0</wss4j.version>
+        <wss4j.version>1.6.3-SNAPSHOT</wss4j.version>
         <joda.time.version>1.6.2</joda.time.version>
 
         <opensaml.version>2.4.1</opensaml.version>
