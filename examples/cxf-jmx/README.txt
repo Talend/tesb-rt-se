@@ -11,16 +11,17 @@
 ###############################################################################
 CXF-JMX example
 ============================================
-cxf-jmx example illustrate how to enable CXF for
-JMX (For war file, deployed in Tomcat, and jar OSGI bundle, deployed in TESB OSGi container).
-Examples provide sayHi and doubleIt web methods.
-Additionally, after deploying this samples you can see CXF MBeans and their Attributes
-(actually attributes are the metrics which we will monitor with help of HypericHQ), 
-that can be monitored using jconsole.
+The cxf-jmx example illustrates how to enable CXF for JMX (For both a war file 
+deployed in Tomcat and a jar OSGI bundle deployed in the TESB OSGi container).
 
-Enable CXF samples for JMX
+Examples provide sayHi and doubleIt web methods.
+Additionally, after deploying the samples you can see CXF MBeans and their Attributes
+(Actually attributes are the metrics which we will monitor with help of HypericHQ), 
+that can be monitored using JConsole.
+
+Enabling CXF samples for JMX
 ============================================
-To enable CXF for JMX two beans are added to Spring context
+To enable CXF for JMX two beans need to be added to the Spring context:
 
 <bean id="org.apache.cxf.management.InstrumentationManager"
 		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
@@ -35,16 +36,15 @@ To enable CXF for JMX two beans are added to Spring context
 
 Creating CXF MBeans for monitoring Attributes
 ============================================
-It is important to make the first invocation of the deployed CXF services
-, using WebService clients. Only after this step MBeans with Attributes will be created for CXF.
-If you don`t make the invocation of CXF service, you won`t see CXF MBeans 
-and their Attributes, as they won`t be created. 
+It is important to make the first invocation of the deployed CXF services using WebService 
+clients. Only after this step MBeans with Attributes will be created for CXF.
+If you don`t make the invocation of CXF service, you won`t see CXF MBeans and their 
+Attributes, as they won`t be created. 
 (Using SimpleClient the first invocation can be done )
-
 
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
 
-Building the cxf-jmx
+Building the cxf-jmx examples
 ============================================
 This sample consists of 4 parts:
 common/   - This directory contains the code that is common
@@ -69,7 +69,7 @@ for deploying the service either to servlet or OSGi containers.
 
 Starting the service
 ============================================
-To enable Tomcat for jmx:
+To enable Tomcat for JMX:
 for Windows:
 open command prompt and set temporary environment variable CATALINA_OPTS with command:
 set CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false
@@ -79,7 +79,7 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 
 * In servlet container (Tomcat):
 1) Copy war file from the cxf-jmx/war/target folder to webapp folder in Tomcat.
-2) Start Tomcat (use the same command prompt to start tomcat)
+2) Start Tomcat (use the same command prompt to start Tomcat)
 3) You can find wsdl at http://localhost:8080/simpleService/simpleService?wsdl
 
 * In Talend ESB OSGi container:
@@ -114,23 +114,23 @@ on project simple-service-bundle: An exception occured while executing the Java 
 InvocationTargetException: Incorrect name
 Also you'll see exception in Tomcat window.
 
-Using jconsole to find MBean Attributes
+Using JConsole to find MBean Attributes
 ============================================
 * Tomcat:
-1) run jconsole
+1) run JConsole
 2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
 3) connect
 4) choose Mbean Tab
 5) find org.apache.cxf
-6) If the first invocation of the service is done, you can find Performance folder, 
+6) After the first invocation of the service is done, you can find Performance folder, 
 where CXF MBeans with Attributes can be found
 
 *Talend ESB OSGi container:
-1) run jconsole
+1) run JConsole
 2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
 Username: karaf Password: karaf
 3) connect
 4) choose Mbean Tab
 5) find org.apache.cxf
-6) If the first invocation of the service is done, you can find Performance folder, 
-where CXF MBeans with Attributes can be found.
+6) After the first invocation of the service is done, you can find the Performance folder, 
+where CXF MBeans with attributes can be found.
