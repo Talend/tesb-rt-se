@@ -1,8 +1,8 @@
 Karaf-jmx Demo
 ==================================================
 
-This sample demonstrates a client application, manageing resources using 
-the JMX technology. Client applicvation use MBean server connection by 
+This sample demonstrates a client application, managing resources using 
+the JMX technology. Client application use MBean server connection by 
 creating an MBean proxy. It implement the access to the Karaf MBean server.
 This MBean proxy is local to the client, and emulates the remote Karaf MBean server.
 
