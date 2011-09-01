@@ -9,56 +9,64 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
+
 CXF-JMX example
 ============================================
-The cxf-jmx example illustrates how to enable CXF for JMX (For both a war file 
-deployed in Tomcat and a jar OSGI bundle deployed in the TESB OSGi container).
+The cxf-jmx example illustrates how to enable CXF for JMX for web service 
+providers contained both a war file deployed in Tomcat and an OSGI bundle 
+deployed in the TESB OSGi container.
 
-Examples provide sayHi and doubleIt web methods.
-Additionally, after deploying the samples you can see CXF MBeans and their Attributes
-(Actually attributes are the metrics which we will monitor with help of HypericHQ), 
-that can be monitored using JConsole.
+The web service provides simple sayHi and doubleIt operations.
+
+After deploying the samples you can see CXF MBeans and their attributes that
+can be monitored using the Sun JDK's JConsole.  Attributes also form the metrics 
+that we will monitor with help of HypericHQ.
+
+See also:
+https://cwiki.apache.org/CXF20DOC/jmx-management.html
+http://download.oracle.com/javase/1.5.0/docs/guide/management/jconsole.html
+
 
 Enabling CXF samples for JMX
 ============================================
 To enable CXF for JMX two beans need to be added to the Spring context:
 
 <bean id="org.apache.cxf.management.InstrumentationManager"
-		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
-		<property name="bus" ref="cxf" />
-		<property name="usePlatformMBeanServer" value="true" />
-		<property name="enabled" value="true" />
+    class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+    <property name="bus" ref="cxf" />
+    <property name="usePlatformMBeanServer" value="true" />
+    <property name="enabled" value="true" />
 </bean>
 	
 <bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
-		<property name="bus" ref="cxf" />
+    <property name="bus" ref="cxf" />
 </bean>
 
-Creating CXF MBeans for monitoring Attributes
-============================================
-It is important to make the first invocation of the deployed CXF services using WebService 
-clients. Only after this step MBeans with Attributes will be created for CXF.
-If you don`t make the invocation of CXF service, you won`t see CXF MBeans and their 
-Attributes, as they won`t be created. 
-(Using SimpleClient the first invocation can be done )
+Creating CXF MBeans for monitoring attributes
+=============================================
+After deploying the web service it is important to make SOAP calls against it.  Only 
+after doing so will CXF create MBeans with attributes for that web service.  (The SOAP
+calls can easily be made with the provided client discussed below.)
 
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
 
 Building the cxf-jmx examples
 ============================================
 This sample consists of 4 parts:
-common/   - This directory contains the code that is common
-            for both the client and the server. 
-            
-service/  - This is the CXF service packaged as an OSGi bundle.
-             
-war/      - This module creates a WAR archive containing the code from common and service modules.   
 
-client/   - This is a sample client application that uses
-            the CXF JAX-WS API to create client and makes several calls with it.
+service/  - This is the CXF web service provider packaged as an OSGi bundle.
+
+client/   - This is a sample client application that uses the CXF JAX-WS API
+            to create a SOAP client and make several calls with it.
+
+common/   - This directory contains the code that is common
+            for both the client and the server.          
+             
+war/      - This module creates a WAR archive containing code from common and 
+            service modules.  Servlet container use only, not used in OSGi deployment.
 
 From the base directory of this sample (i.e., where this README file is
-located), the maven pom.xml file can be used to build and run the demo. 
+located), the Maven pom.xml file can be used to build and run the demo. 
 
 Using either UNIX or Windows:
 
@@ -80,15 +88,16 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 * In servlet container (Tomcat):
 1) Copy war file from the cxf-jmx/war/target folder to webapp folder in Tomcat.
 2) Start Tomcat (use the same command prompt to start Tomcat)
-3) You can find wsdl at http://localhost:8080/simpleService/simpleService?wsdl
+3) Be sure you can see the WSDL at http://localhost:8080/simpleService/simpleService?wsdl before
+   continuing.
 
 * In Talend ESB OSGi container:
 1) Start TESB container.
-2) Type command in TESB container: 		
+2) Type this command in TESB container: 		
 features:addurl mvn:org.talend.esb.examples/cxf-jmx-feature/5.0-SNAPSHOT/xml
-4) Type command in TESB container
+3) Type this command in TESB container:
 features:install cxf-jmx-service
-5) You can find wsdl at http://localhost:8040/services/simpleService?wsdl
+4) You can find wsdl at http://localhost:8040/services/simpleService?wsdl
 
 Running the client
 ============================================
@@ -96,41 +105,31 @@ Running the client
     From cxf-jmx folder run:
     mvn exec:java -pl client
 	
-Build will fail, but this is expected behavior to see how Hyperic will show exception.
-You will see:
-[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
-on project simple-service-bundle: An exception occured while executing the Java class. null:
-InvocationTargetException: Incorrect name
-Also you'll see exception in TESB container window.
-
-*For servlet container:
+* For servlet container:
     From cxf-jmx folder run:
 	mvn exec:java -pl client -Pwar
 
-Build will fail, but this is expected behavior to see how Hyperic will show exception.
-You will see:
+For either case, after making many successful SOAP calls, the execution will intentionally
+fail to show how Hyperic reports exceptions.  You should see:
+
 [ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
 on project simple-service-bundle: An exception occured while executing the Java class. null:
 InvocationTargetException: Incorrect name
-Also you'll see exception in Tomcat window.
+
+You'll also see this exception in the console window.
 
 Using JConsole to find MBean Attributes
 ============================================
-* Tomcat:
-1) run JConsole
-2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
-3) connect
-4) choose Mbean Tab
-5) find org.apache.cxf
-6) After the first invocation of the service is done, you can find Performance folder, 
-where CXF MBeans with Attributes can be found
+1) run JConsole: {JAVA_HOME}/bin/jconsole from a command prompt
 
-*Talend ESB OSGi container:
-1) run JConsole
-2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
-Username: karaf Password: karaf
+2) If you're deploying the web service on Tomcat: 
+put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
+
+If you're using the TESB OSGi container:
+put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
+
 3) connect
-4) choose Mbean Tab
-5) find org.apache.cxf
-6) After the first invocation of the service is done, you can find the Performance folder, 
-where CXF MBeans with attributes can be found.
+4) choose Mbean tab, and open the org.apache.cxf item in the left-side treeview
+5) After SOAP calls on the web service have been done, you'll see the "Performance.Counter.Server" folder, 
+where CXF MBeans with their attributes will be listed.
+
