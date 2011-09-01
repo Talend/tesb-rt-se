@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 
+import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.remote.JMXConnector;
 
 import org.apache.karaf.features.management.FeaturesServiceMBean;
+import org.osgi.jmx.framework.FrameworkMBean;
 
 public interface ApplicationManager {
-
-	public HashMap<String, String[]> authorize();
 
 	public JMXConnector createRMIconnector(String serviceUrl,
 			HashMap<String, String[]> environment)
@@ -21,20 +21,34 @@ public interface ApplicationManager {
 	public MBeanServerConnection getMBeanServerConnection(JMXConnector jmxc)
 			throws IOException;
 
-	public FeaturesServiceMBean createProxy(MBeanServerConnection mbsc)
-			throws MalformedObjectNameException, NullPointerException;
-
-	public void addRepository(FeaturesServiceMBean mbeanProxy) throws Exception;
-
 	public void closeConnection(JMXConnector jmxc) throws IOException;
 
-	public void uninstallFeature(FeaturesServiceMBean mbeanProxy)
+	public FeaturesServiceMBean createFeaturesServiceMBeanProxy(
+			MBeanServerConnection mbsc) throws MalformedObjectNameException,
+			NullPointerException, InstanceNotFoundException, IOException;
+
+	public FrameworkMBean createOsgiFrameworkMBeanProxy(
+			MBeanServerConnection mbsc) throws MalformedObjectNameException,
+			NullPointerException;
+
+	public void addRepository(FeaturesServiceMBean featuresServiceMBeanProxy,
+			String url) throws Exception;
+
+	public void removeRepository(
+			FeaturesServiceMBean featuresServiceMBeanProxy, String url)
 			throws Exception;
 
-	public void removeRepository(FeaturesServiceMBean mbeanProxy)
+	public void installFeature(FeaturesServiceMBean featuresServiceMBeanProxy,
+			String featureName) throws Exception;
+
+	public void uninstallFeature(
+			FeaturesServiceMBean featuresServiceMBeanProxy, String featureName)
 			throws Exception;
 
-	public void installFeature(FeaturesServiceMBean mbeanProxy)
+	public void startBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
+			throws Exception;
+
+	public void stopBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
 			throws Exception;
 
 }
