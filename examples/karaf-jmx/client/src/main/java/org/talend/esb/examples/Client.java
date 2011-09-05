@@ -1,5 +1,6 @@
 package org.talend.esb.examples;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.management.MBeanServerConnection;
@@ -21,7 +22,7 @@ public class Client {
 	public void setApplicationManager(ApplicationManager applicationManager) {
 		Client.applicationManager = applicationManager;
 	}
-	
+
 	public HashMap<String, String[]> getEnvironment() {
 		return environment;
 	}
@@ -33,11 +34,11 @@ public class Client {
 	public String getServiceURL() {
 		return serviceURL;
 	}
-	
+
 	public void setServiceURL(String serviceURL) {
 		this.serviceURL = serviceURL;
 	}
-	
+
 	public String getRepositoryURL() {
 		return repositoryURL;
 	}
@@ -71,19 +72,22 @@ public class Client {
 
 			FeaturesServiceMBean featuresServiceMBeanProxy = applicationManager
 					.createFeaturesServiceMBeanProxy(mbsc);
-
+		
 			FrameworkMBean osgiFrameworkProxy = applicationManager
 					.createOsgiFrameworkMBeanProxy(mbsc);
 
 			applicationManager.addRepository(featuresServiceMBeanProxy,
 					client.getRepositoryURL());
-
+	
 			applicationManager.installFeature(featuresServiceMBeanProxy,
 					client.getFeatureName());
 
-			applicationManager.startBundle(osgiFrameworkProxy, 131);
+			long bundleNumber = applicationManager
+					.startBundle(osgiFrameworkProxy,
+							"mvn:org.talend.esb.examples.rent-a-car/crmservice-common/4.2.1");
 
-			applicationManager.stopBundle(osgiFrameworkProxy, 131);
+			applicationManager.stopBundle(osgiFrameworkProxy, bundleNumber);
+			waitForEnterPressed();
 
 			applicationManager.uninstallFeature(featuresServiceMBeanProxy,
 					client.getFeatureName());
@@ -91,11 +95,32 @@ public class Client {
 			applicationManager.removeRepository(featuresServiceMBeanProxy,
 					client.getRepositoryURL());
 
-			applicationManager.closeConnection(jmxc);
+			sleep(5000);
 			
-			Thread.sleep(5000);
+			applicationManager.closeConnection(jmxc);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void echo(String msg) {
+		System.out.println(msg);
+	}
+
+	private static void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void waitForEnterPressed() {
+		try {
+			echo("\nPress <Enter> to continue...");
+			System.in.read();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -21,21 +21,26 @@ import org.talend.esb.examples.ClientListener;
 public class ApplicationManagerImpl implements ApplicationManager {
 
 	private ClientListener clientListener;
-	
+
 	public JMXConnector createRMIconnector(String serviceUrl,
 			HashMap<String, String[]> environment)
 			throws MalformedURLException, IOException {
+
+		echo("\nCreate an RMI connector client and "
+				+ "connect it to the RMI connector server");
 		JMXServiceURL url = new JMXServiceURL(serviceUrl);
 		JMXConnector jmxc = JMXConnectorFactory.connect(url, environment);
 		return jmxc;
 	}
 
 	public void closeConnection(JMXConnector jmxc) throws IOException {
+		echo("\n>>> Close conection <<<");
 		jmxc.close();
 	}
 
 	public MBeanServerConnection getMBeanServerConnection(JMXConnector jmxc)
 			throws IOException {
+		echo("\nGet an MBeanServerConnection");
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 		return mbsc;
 	}
@@ -43,11 +48,14 @@ public class ApplicationManagerImpl implements ApplicationManager {
 	public FeaturesServiceMBean createFeaturesServiceMBeanProxy(
 			MBeanServerConnection mbsc) throws MalformedObjectNameException,
 			NullPointerException, InstanceNotFoundException, IOException {
+		
+		echo("\n>>> Create FeatureService MBean <<<");
 		ObjectName mbeanName = new ObjectName(
 				"org.apache.karaf:type=features,name=tesb");
 		FeaturesServiceMBean featuresServiceMBeanProxy = JMX.newMBeanProxy(
 				mbsc, mbeanName, FeaturesServiceMBean.class, true);
 
+		echo("\n>>> Add notification listener to FeatureService MBean <<<");
 		mbsc.addNotificationListener(mbeanName, clientListener, null, null);
 
 		return featuresServiceMBeanProxy;
@@ -56,42 +64,51 @@ public class ApplicationManagerImpl implements ApplicationManager {
 	public FrameworkMBean createOsgiFrameworkMBeanProxy(
 			MBeanServerConnection mbsc) throws MalformedObjectNameException,
 			NullPointerException {
+		echo("\n>>> Create Framework MBean <<<");
 		ObjectName mbeanName = new ObjectName(
 				"osgi.core:type=framework,version=1.5");
 		FrameworkMBean osgiFrameworkProxy = JMX.newMBeanProxy(mbsc, mbeanName,
-				FrameworkMBean.class, false);	
+				FrameworkMBean.class, false);
 		return osgiFrameworkProxy;
 	}
 
 	public void addRepository(FeaturesServiceMBean featuresServiceMBeanProxy,
 			String url) throws Exception {
+		echo("\n>>> Perform addRepository on FeaturesService MBean <<<");
 		featuresServiceMBeanProxy.addRepository(url);
 	}
 
 	public void removeRepository(
 			FeaturesServiceMBean featuresServiceMBeanProxy, String url)
 			throws Exception {
+		echo("\n>>> Perform removeRepository on FeaturesService MBean <<<");
 		featuresServiceMBeanProxy.removeRepository(url);
 	}
 
 	public void installFeature(FeaturesServiceMBean featuresServiceMBeanProxy,
 			String featureName) throws Exception {
+		echo("\n>>> Perform installFeature on FeaturesService MBean <<<");
 		featuresServiceMBeanProxy.installFeature(featureName);
 	}
 
 	public void uninstallFeature(
 			FeaturesServiceMBean featuresServiceMBeanProxy, String featureName)
 			throws Exception {
+		echo("\n>>> Perform uninstallFeature on FeaturesService MBean <<<");
 		featuresServiceMBeanProxy.uninstallFeature(featureName);
 	}
 
-	public void startBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
+	public long startBundle(FrameworkMBean osgiFrameworkProxy, String bundleName)
 			throws Exception {
+		echo("\n>>> Perform startBundle on Framework MBean <<<");
+		long bundleNumber = osgiFrameworkProxy.installBundle(bundleName);
 		osgiFrameworkProxy.startBundle(bundleNumber);
+		return bundleNumber;
 	}
 
 	public void stopBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
 			throws Exception {
+		echo("\n>>> Perform stopBundle on Framework MBean <<<");
 		osgiFrameworkProxy.stopBundle(bundleNumber);
 	}
 
@@ -101,6 +118,10 @@ public class ApplicationManagerImpl implements ApplicationManager {
 
 	public void setClientListener(ClientListener clientListener) {
 		this.clientListener = clientListener;
+	}
+
+	private static void echo(String msg) {
+		System.out.println(msg);
 	}
 
 }

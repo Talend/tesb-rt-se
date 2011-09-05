@@ -22,8 +22,8 @@
 		<property name="serviceURL"
 			value="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb" />
 		<property name="repositoryURL"
-			value="mvn:com.talend.if.examples/osgi/1.0/xml/features" />
-		<property name="featureName" value="tif-example-claimcheck" />
+			value="mvn:org.talend.esb.examples.rent-a-car/features/4.2.1/xml" />
+		<property name="featureName" value="tesb-rac-services" />
 	</bean>
 
 </beans>

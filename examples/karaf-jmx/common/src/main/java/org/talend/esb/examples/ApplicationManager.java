@@ -45,7 +45,7 @@ public interface ApplicationManager {
 			FeaturesServiceMBean featuresServiceMBeanProxy, String featureName)
 			throws Exception;
 
-	public void startBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
+	public long startBundle(FrameworkMBean osgiFrameworkProxy, String bundleName)
 			throws Exception;
 
 	public void stopBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
