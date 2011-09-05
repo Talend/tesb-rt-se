@@ -417,7 +417,7 @@
 		<repository>
 			<id>esb-releases</id>
 			<name>ESB releases Repository</name>
-			<url>${esb.snapshots.repo.url}</url>
+			<url>${esb.releases.repo.url}</url>
 		</repository>
 		<snapshotRepository>
 			<id>esb-snapshots</id>
