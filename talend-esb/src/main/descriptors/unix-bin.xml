@@ -343,13 +343,6 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <file>
-            <source>${basedir}/../job/features/target/classes/features.xml</source>
-            <outputDirectory>/container/system/org/talend/esb/talend-job/${project.version}</outputDirectory>
-            <destName>talend-job-${project.version}-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
     </files>
 
     <dependencySets>

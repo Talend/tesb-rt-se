@@ -19,3 +19,11 @@ install locator client in a Talend ESB container
 tesb-zookeeper-server
 ---------------------
 install and run zookeeper server in a Talend ESB container.
+
+talend-job-api
+---------------------
+install Talend Job API in a Talend ESB container.
+
+talend-job-controller
+---------------------
+install and run Job Controller in a Talend ESB container.

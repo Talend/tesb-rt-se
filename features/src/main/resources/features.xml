@@ -57,32 +57,6 @@
     <bundle>mvn:org.talend.esb/derby-starter/${project.version}</bundle>
   </feature>
 
-  <!--feature name='tesb-example-sam-osgi' version='${project.version}'>
-    <feature version='${project.version}'>tesb-sam-agent</feature>
-    <feature>war</feature>
-    <bundle>mvn:org.talend.esb.examples/sam-example-osgi/${project.version}</bundle>
-  </feature-->
-<!--
-  <feature name='tesb-example-sam-osgi' version='${project.version}'>
--->
-    <!--  Deploying the config does not yet work in karaf 2.1.3. From 2.2.x on it will work -->
-<!--
-    <config name="org.talend.esb.sam.agent.cfg">
-        collector.scheduler.interval=500
-        collector.maxEventsPerCall=10
-
-        log.messageContent=true
-        log.maxContentLength=-1
-
-        service.url=http://localhost:9080/sam-server-war/services/MonitoringServiceSOAP
-        service.retry.number=3
-        service.retry.delay=5000
-    </config>
-    <feature version='${project.version}'>tesb-sam-agent</feature>
-    <feature>war</feature>
-    <bundle>mvn:org.talend.esb.examples/sam-example-osgi/${project.version}</bundle>
-  </feature>
--->
   <feature name='tesb-locator-client' version='${project.version}'>
         <feature version='${cxf.version}'>cxf</feature>
         <bundle>mvn:org.talend.esb/locator/${project.version}</bundle>
@@ -96,7 +70,32 @@
   
   <feature name='tesb-locator-proxy' version='${project.version}'>
         <feature>tesb-locator-client</feature>
-		<bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service-common/${project.version}</bundle>
-		<bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service/${project.version}</bundle>
   </feature>
+
+    <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.api/${project.version}</bundle>
+    </feature>
+
+    <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
+        <feature version='${project.version}'>talend-job-api</feature>
+        <feature version='${project.version}'>tesb-locator-client</feature>
+        <feature version='${project.version}'>tesb-sam-agent</feature>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxen/${jaxen.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix.specs.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.bundle.version}</bundle>
+    </feature>
+
+    <feature name="talend-job-console" version="${project.version}" resolver="(obr)">
+        <feature>talend-job-controller</feature>
+        <feature>war</feature>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-io/${commons-io.bundle.version}</bundle>
+        <bundle>mvn:commons-fileupload/commons-fileupload/${commons-fileupload.version}</bundle>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.console/${project.version}</bundle>
+    </feature>
+
 </features>

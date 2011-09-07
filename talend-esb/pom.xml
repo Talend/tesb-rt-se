@@ -742,7 +742,6 @@
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
-								<descriptor>file:${basedir}/../job/features/target/classes/features.xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
