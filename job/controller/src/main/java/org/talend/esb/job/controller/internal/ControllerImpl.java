@@ -109,14 +109,11 @@ public class ControllerImpl implements Controller, ServiceListener {
         }
     }
 
-    @Override
     public void serviceChanged(ServiceEvent event) {
-        if(event.getType() == ServiceEvent.UNREGISTERING){
-            // TODO: any service can contains "type=job"
-            String type = (String)event.getServiceReference().getProperty("type");
-            if(type != null && type.equalsIgnoreCase("job")) {
-                TalendJob talendJob = (TalendJob)bundleContext.getService(event.getServiceReference());
-                jobLauncher.stopJob(talendJob);
+        if (event.getType() == ServiceEvent.UNREGISTERING) {
+            Object service = bundleContext.getService(event.getServiceReference());
+            if (service instanceof TalendJob) {
+                jobLauncher.stopJob((TalendJob)service);
             }
         }
     }
