@@ -1,83 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright (c) 2011 Talend Inc. - www.talend.com All rights reserved. 
-	This program and the accompanying materials are made available under the 
-	terms of the Apache License v2.0 which accompanies this distribution, and 
-	is available at http://www.apache.org/licenses/LICENSE-2.0 -->
+    This program and the accompanying materials are made available under the 
+    terms of the Apache License v2.0 which accompanies this distribution, and 
+    is available at http://www.apache.org/licenses/LICENSE-2.0 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.talend.esb.examples</groupId>
-	<artifactId>cxf-jmx-client</artifactId>
-	<name>Talend ESB Runtime::CXF JMX Example Client</name>
-	<packaging>jar</packaging>
+    <artifactId>cxf-jmx-client</artifactId>
+    <name>Talend ESB Runtime::CXF JMX Example Client</name>
+    <packaging>jar</packaging>
 
-	<parent>
-		<groupId>org.talend.esb.examples</groupId>
-		<artifactId>cxf-jmx</artifactId>
-		<version>5.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.talend.esb.examples</groupId>
+        <artifactId>cxf-jmx</artifactId>
+        <version>5.0-SNAPSHOT</version>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cxf-jmx-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>cxf-jmx-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
-	<profiles>
-		<profile>
-			<id>osgi</id>
-			<activation>
-				<activeByDefault>true</activeByDefault> 
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<executable>java</executable>
-							<mainClass>org.talend.esb.examples.SimpleClient</mainClass>
-							<commandlineArgs>osgi</commandlineArgs>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		
-		<profile>
-			<id>war</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<executable>java</executable>
-							<mainClass>org.talend.esb.examples.SimpleClient</mainClass>
-							<commandlineArgs>war</commandlineArgs>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>osgi</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <commandline.args>osgi</commandline.args>
+            </properties>
+        </profile>
+        <profile>
+            <id>war</id>
+            <properties>
+                <commandline.args>war</commandline.args>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <mainClass>org.talend.esb.examples.SimpleClient</mainClass>
+                    <commandlineArgs>${commandline.args}</commandlineArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
