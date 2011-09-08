@@ -9,6 +9,8 @@ import javax.xml.transform.Source;
 import javax.xml.ws.handler.MessageContext;
 
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
+import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 //@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE, style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = javax.jws.soap.SOAPBinding.Use.LITERAL)
@@ -16,7 +18,7 @@ import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 @javax.xml.ws.WebServiceProvider()
 public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml.transform.Source> {
     private static final Logger LOG = Logger.getLogger(ESBProviderBase.class.getName());
-    
+
     public static final String REQUEST_PAYLOAD = "PAYLOAD";
     public static final String REQUEST_SAM_PROPS = "SAM-PROPS";
     public static final String REQUEST_SL_PROPS = "SL-PROPS";
@@ -24,11 +26,17 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
     private final Map<String, RuntimeESBProviderCallback> callbacks =
             new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 
+    protected EventFeature eventFeature;
+
     @javax.annotation.Resource
     private javax.xml.ws.WebServiceContext context;
 
+    public void setEventFeature(EventFeature eventFeature) {
+        this.eventFeature = eventFeature;
+    }
+
     //@javax.jws.WebMethod(exclude=true)
-	public final Source invoke(Source request) {
+    public final Source invoke(Source request) {
         QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
         LOG.info("Invoke operation '" + operationQName + "'");
         RuntimeESBProviderCallback esbProviderCallback =
@@ -52,10 +60,11 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
                 @SuppressWarnings("unchecked")
                 Map<String, String> samProps =
                     (Map<String, String>)map.get(REQUEST_SAM_PROPS);
-                if (samProps != null) {
+                if (samProps != null && eventFeature != null) {
                     LOG.info("SAM custom properties received: " + samProps);
-                    //System.out.println("Provider/" + "SAM custom properties received: " + samProps);
-                    processCustomProp(samProps);
+                    CustomInfoHandler ciHandler = new CustomInfoHandler();
+                    ciHandler.setCustomInfo(samProps);
+                    eventFeature.setHandler(ciHandler);
                 }
 
                 return processResult(map.get(REQUEST_PAYLOAD));
@@ -68,8 +77,6 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
             throw new RuntimeException(e);
         }
     }
-    
-    protected abstract void processCustomProp(Map<String, String> samProps);
 
     private Source processResult(Object result) {
         if (result instanceof org.dom4j.Document) {

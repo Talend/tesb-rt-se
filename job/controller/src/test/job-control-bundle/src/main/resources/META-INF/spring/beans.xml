@@ -13,7 +13,6 @@
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
     <!-- (1) SL
     <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
@@ -39,10 +38,6 @@
 	    </jaxws:features>
     </jaxws:endpoint>
 
-    <!-- CustomInfoHandler must as a bean because setHandlers() in EventCollectorImpl
-         marked as Autowired. Otherwise, it will not work after testing. (c) Xilai Dai -->
-    <bean id="customInfoHandler" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler"/>
-
 	<bean id="genericServiceProvider" class="org.talend.esb.job.controller.GenericServiceProvider">
 		<property name="operations">
 			<map>
@@ -59,7 +54,9 @@
         <property name="jobLauncher">
 		    <osgi:reference interface="org.talend.esb.job.controller.JobLauncher"/>
         </property>
-        <property name="customInfoHandler" ref="customInfoHandler"/>
+	    <!-- (2) SAM
+        <property name="eventFeature" ref="eventFeature"/>
+	     -->
 	</bean>
 
 </beans>
