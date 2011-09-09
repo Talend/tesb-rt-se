@@ -37,7 +37,7 @@
         <property name="serviceLocator">
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </property>
-        <property name="eventFeature" ref="eventFeature"/>
+        <property name="samQueue" ref="samQueue"/>
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
 

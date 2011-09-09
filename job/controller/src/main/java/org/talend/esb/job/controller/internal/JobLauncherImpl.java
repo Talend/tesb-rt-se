@@ -22,6 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.namespace.QName;
@@ -35,7 +36,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.ESBProviderCallbackController;
 import org.talend.esb.job.controller.JobLauncher;
-import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.sam.common.event.Event;
 
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
@@ -48,7 +49,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         JobThreadListener {
 
     private AbstractFeature serviceLocator;
-    private EventFeature eventFeature;
+    private Queue<Event> samQueue;
     private Bus bus;
     private BundleContext bundleContext;
 
@@ -67,8 +68,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         this.serviceLocator = serviceLocator;
     }
 
-    public void setEventFeature(EventFeature eventFeature) {
-        this.eventFeature = eventFeature;
+    public void setSamQueue(Queue<Event> samQueue) {
+        this.samQueue = samQueue;
     }
 
     public void setBundleContext(BundleContext bundleContext) {
@@ -157,7 +158,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
                 serviceName,
                 portName,
                 useServiceLocator ? serviceLocator : null,
-                useServiceActivityMonitor ? eventFeature : null);
+                useServiceActivityMonitor ? samQueue : null);
             esbProvider.run(bus);
             esbProviders.add(esbProvider);
         }
@@ -229,7 +230,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
                 publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? serviceLocator : null,
-                useServiceActivityMonitor ? eventFeature : null,
+                useServiceActivityMonitor ? samQueue : null,
                 bus);
 
             tlsConsumer.set(runtimeESBConsumer);
