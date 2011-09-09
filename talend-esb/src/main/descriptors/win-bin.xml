@@ -496,6 +496,17 @@
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </dependencySet>
+        <dependencySet>
+            <outputDirectory>/add-ons/sts</outputDirectory>
+            <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <includes>
+                <include>com.talend.sf:cxf-sts-war:war</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
     </dependencySets>
 
 </assembly>

@@ -20,7 +20,7 @@
 
 	<properties>
         <spring.osgi.version>1.2.1</spring.osgi.version>
-		<spring.ws.version>1.5.9</spring.ws.version>
+		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.7.2.0</tif.version>
@@ -28,6 +28,7 @@
 		<tsf.version>2.4.1.0</tsf.version>
 		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
         <camel.version>2.9-SNAPSHOT</camel.version>
+        <cxf-sts.version>1.1-SNAPSHOT</cxf-sts.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
@@ -68,6 +69,7 @@
 		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
 		<commons-csv.bundle.version>1.0-r706899_4</commons-csv.bundle.version>
+		<commons-dbcp.bundle.version>1.4_1</commons-dbcp.bundle.version>
 		<commons-httpclient.bundle.version>3.1_5</commons-httpclient.bundle.version>
 		<!--commons-io.bundle.version>1.4_1</commons-io.bundle.version-->
 		<commons-lang.bundle.version>2.4_4</commons-lang.bundle.version>
@@ -76,7 +78,7 @@
 		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
 		<!--dom4j.bundle.version>1.6.1_3</dom4j.bundle.version-->
 		<dozer.bundle.version>5.2.0_2</dozer.bundle.version>
-		<ehcache.bundle.version>2.3.0_1</ehcache.bundle.version>
+		<ehcache.bundle.version>2.3.0_3</ehcache.bundle.version>
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
 		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
 		<freemarker.bundle.version>2.3.15_4</freemarker.bundle.version>
@@ -102,7 +104,7 @@
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
 		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
 		<jing.bundle.version>20030619_3</jing.bundle.version>
-		<jruby.bundle.version>1.1.2_3</jruby.bundle.version>
+		<jruby.bundle.version>1.5.6_1</jruby.bundle.version>
 		<joda-time.bundle.version>1.5.2_3</joda-time.bundle.version>
 		<josql.bundle.version>1.5_4</josql.bundle.version>
 		<jsch.bundle.version>0.1.44_1</jsch.bundle.version>
@@ -135,7 +137,7 @@
 		<scala-library.bundle.version>2.8.1_1</scala-library.bundle.version>
 		<serp.bundle.version>1.13.1_3</serp.bundle.version>
 		<shiro.bundle.version>1.1.0_1</shiro.bundle.version>
-		<smack.bundle.version>3.1.0_2</smack.bundle.version>
+		<smack.bundle.version>3.2.0_1</smack.bundle.version>
 		<snmp4j.bundle.version>1.8.1_4</snmp4j.bundle.version>
 		<spymemcached.bundle.version>2.5_1</spymemcached.bundle.version>
 		<stringtemplate.bundle.version>3.2_4</stringtemplate.bundle.version>
@@ -157,7 +159,7 @@
 
 		<!-- Other Dependencies -->
 		<abdera.version>1.1.2</abdera.version>
-		<axiom.version>1.2.10</axiom.version>
+		<axiom.version>1.2.12</axiom.version>
 		<bouncycastle.version>140</bouncycastle.version>
 		<commons-codec.version>1.4</commons-codec.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
@@ -172,13 +174,13 @@
 		<derby.version>10.5.3.0_1</derby.version>
 		<dozer-osgi.version>5.3.1</dozer-osgi.version>
 		<easymock.version>2.4</easymock.version>
-		<groovy.version>1.7.9</groovy.version>
+		<groovy.version>1.8.1</groovy.version>
 		<hawtbuf.version>1.2</hawtbuf.version>
 		<hawtdb.version>1.5</hawtdb.version>
-		<hazelcast.version>1.9.2</hazelcast.version>
+		<hazelcast.version>1.9.3</hazelcast.version>
 		<httpclient-osgi.version>4.1</httpclient-osgi.version>
 		<httpcomponents.version>4.0.1</httpcomponents.version>
-		<httpcore-osgi.version>4.1</httpcore-osgi.version>
+		<httpcore-osgi.version>4.1.1</httpcore-osgi.version>
 		<jackrabbit.version>1.5.3</jackrabbit.version>
 		<jackson-core-asl.version>1.7.5</jackson-core-asl.version>
 		<jackson-mapper-asl.version>1.7.5</jackson-mapper-asl.version>
@@ -361,6 +363,12 @@
  			<version>${tsf-doc.version}</version>
 			<classifier>pdf</classifier>
 			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>com.talend.sf</groupId>
+			<artifactId>cxf-sts-war</artifactId>
+			<version>${cxf-sts.version}</version>
+			<type>war</type>
 		</dependency>
 
         <!-- ServiceMix Specs -->
