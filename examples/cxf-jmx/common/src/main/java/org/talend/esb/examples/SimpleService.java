@@ -26,9 +26,9 @@ import javax.jws.WebService;
 @WebService
 public interface SimpleService {
 
-	@WebMethod
-	String sayHi(String name);
+    @WebMethod
+    String sayHi(String name);
 
-	@WebMethod
-	int doubleIt(int arg);
+    @WebMethod
+    int doubleIt(int arg);
 }

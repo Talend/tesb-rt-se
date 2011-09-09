@@ -87,6 +87,9 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 
 * In servlet container (Tomcat):
 1) Copy war file from the cxf-jmx/war/target folder to webapp folder in Tomcat.
+Alternatively, if your Tomcat installation is configured to work with the Tomcat Maven Plugin (http://tinyurl.com/4yxzjna) 
+you can also deploy the war by entering "mvn tomcat:deploy" for Tomcat 7 or "mvn tomcat:deploy -PTomcat6" for Tomcat 6.
+
 2) Start Tomcat (use the same command prompt to start Tomcat)
 3) Be sure you can see the WSDL at http://localhost:8080/simpleService/simpleService?wsdl before
    continuing.
@@ -113,7 +116,7 @@ For either case, after making many successful SOAP calls, the execution will int
 fail to show how Hyperic reports exceptions.  You should see:
 
 [ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
-on project simple-service-bundle: An exception occured while executing the Java class. null:
+on project simple-service-bundle: An exception occurred while executing the Java class. null:
 InvocationTargetException: Incorrect name
 
 You'll also see this exception in the console window.

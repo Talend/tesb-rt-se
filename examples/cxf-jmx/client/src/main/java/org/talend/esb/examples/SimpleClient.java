@@ -24,38 +24,37 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public final class SimpleClient {
 
-	public SimpleClient() {
-	}
+    public SimpleClient() {
+    }
 
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = null;
 
-		ClassPathXmlApplicationContext context = null;
-		
-		if (args[0].equals("war")) {
-			context = new ClassPathXmlApplicationContext(
-				new String[] { "META-INF/spring/client-beans-war.xml" });
-		} else {
-			context = new ClassPathXmlApplicationContext(
-				new String[] { "META-INF/spring/client-beans-osgi.xml" });
-		}
+        if (args[0].equals("war")) {
+            context = new ClassPathXmlApplicationContext(
+                    new String[] { "META-INF/spring/client-beans-war.xml" });
+        } else {
+            context = new ClassPathXmlApplicationContext(
+                    new String[] { "META-INF/spring/client-beans-osgi.xml" });
+        }
 
-		SimpleService client = (SimpleService) context.getBean("simpleClient");
+        SimpleService client = (SimpleService) context.getBean("simpleClient");
 
-		for (int i = 0; i < 100; i++) {
-			String response = client.sayHi("Alex");
-			System.out.println(response);
-		}
+        for (int i = 0; i < 100; i++) {
+            String response = client.sayHi("Alex");
+            System.out.println(response);
+        }
 
-		for (int i = 1; i < 6; i++) {
-			int result = client.doubleIt(i);
-			System.out.println(result);
-		}
+        for (int i = 1; i < 6; i++) {
+            int result = client.doubleIt(i);
+            System.out.println(result);
+        }
 
-		// "Incorrect name" exception would be thrown
-		String response = client.sayHi("Joe");
-		System.out.println(response);
+        // "Incorrect name" exception would be thrown
+        String response = client.sayHi("Joe");
+        System.out.println(response);
 
-		System.exit(0);
-	}
+        System.exit(0);
+    }
 
 }
