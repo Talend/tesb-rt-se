@@ -19,17 +19,24 @@
 	</parent>
 
 	<dependencies>
-       <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-api</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -43,7 +50,11 @@
 						<Export-Package>
 							org.talend.esb.locator.proxy.service,
 							org.talend.esb.locator.proxy.service.types,
-							model.locator-proxy-wsdl
+							model.locator-proxy-wsdl,
+							org.talend.esb.locator.rest.proxy.service,
+							org.talend.esb.locator.rest.proxy.service.types,
+							model.locator-proxy-wadl,
+							org.w3._2005._08.addressing
                         </Export-Package>
 						<Import-Package>
 							javax.xml.bind,
@@ -79,6 +90,37 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-wadl2java-plugin</artifactId>
+				<version>2.4.2</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>${basedir}/target/generated-sources/cxf</sourceRoot>
+							<wadlOptions>
+								<wadlOption>
+									<wadl>${basedir}/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.xml</wadl>
+									<impl>false</impl>
+
+									<packagename>org.talend.esb.locator.rest.proxy.service</packagename>
+									<!-- <schemaPackagenames> -->
+									<!-- <schemaPackagename>http://superbooks=org.rest.example.schema</schemaPackagename> -->
+									<!-- </schemaPackagenames> -->
+
+								</wadlOption>
+							</wadlOptions>
+						</configuration>
+						<goals>
+							<goal>wadl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
