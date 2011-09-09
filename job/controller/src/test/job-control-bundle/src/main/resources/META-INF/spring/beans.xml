@@ -17,8 +17,9 @@
     <!-- (1) SL
     <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
      -->
-    <!-- SAM -->
+    <!-- (2) SAM
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+     -->
 
 	<jaxws:endpoint
 		xmlns:serviceNamespace="http://customerservice.example.com/"
