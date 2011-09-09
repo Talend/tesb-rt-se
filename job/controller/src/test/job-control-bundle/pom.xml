@@ -33,6 +33,7 @@
                             org.springframework.beans,
                             org.springframework.context,
                             org.springframework.osgi.core,
+                            locator,
                             sam-agent,
                             sam-common
                         </Require-Bundle>
