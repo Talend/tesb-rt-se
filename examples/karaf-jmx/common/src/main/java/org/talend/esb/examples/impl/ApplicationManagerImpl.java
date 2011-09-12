@@ -20,108 +20,108 @@ import org.talend.esb.examples.ClientListener;
 
 public class ApplicationManagerImpl implements ApplicationManager {
 
-	private ClientListener clientListener;
+    private ClientListener clientListener;
 
-	public JMXConnector createRMIconnector(String serviceUrl,
-			HashMap<String, String[]> environment)
-			throws MalformedURLException, IOException {
+    public JMXConnector createRMIconnector(String serviceUrl,
+            HashMap<String, String[]> environment)
+            throws MalformedURLException, IOException {
 
-		echo("\nCreate an RMI connector client and "
-				+ "connect it to the RMI connector server");
-		JMXServiceURL url = new JMXServiceURL(serviceUrl);
-		JMXConnector jmxc = JMXConnectorFactory.connect(url, environment);
-		return jmxc;
-	}
+        echo("\nCreate an RMI connector client and "
+                + "connect it to the RMI connector server");
+        JMXServiceURL url = new JMXServiceURL(serviceUrl);
+        JMXConnector jmxc = JMXConnectorFactory.connect(url, environment);
+        return jmxc;
+    }
 
-	public void closeConnection(JMXConnector jmxc) throws IOException {
-		echo("\n>>> Close conection <<<");
-		jmxc.close();
-	}
+    public void closeConnection(JMXConnector jmxc) throws IOException {
+        echo("\n>>> Close connection <<<");
+        jmxc.close();
+    }
 
-	public MBeanServerConnection getMBeanServerConnection(JMXConnector jmxc)
-			throws IOException {
-		echo("\nGet an MBeanServerConnection");
-		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-		return mbsc;
-	}
+    public MBeanServerConnection getMBeanServerConnection(JMXConnector jmxc)
+            throws IOException {
+        echo("\nGet an MBeanServerConnection");
+        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+        return mbsc;
+    }
 
-	public FeaturesServiceMBean createFeaturesServiceMBeanProxy(
-			MBeanServerConnection mbsc) throws MalformedObjectNameException,
-			NullPointerException, InstanceNotFoundException, IOException {
-		
-		echo("\n>>> Create FeatureService MBean <<<");
-		ObjectName mbeanName = new ObjectName(
-				"org.apache.karaf:type=features,name=tesb");
-		FeaturesServiceMBean featuresServiceMBeanProxy = JMX.newMBeanProxy(
-				mbsc, mbeanName, FeaturesServiceMBean.class, true);
+    public FeaturesServiceMBean createFeaturesServiceMBeanProxy(
+            MBeanServerConnection mbsc) throws MalformedObjectNameException,
+            NullPointerException, InstanceNotFoundException, IOException {
 
-		echo("\n>>> Add notification listener to FeatureService MBean <<<");
-		mbsc.addNotificationListener(mbeanName, clientListener, null, null);
+        echo("\n>>> Create FeatureService MBean <<<");
+        ObjectName mbeanName = new ObjectName(
+                "org.apache.karaf:type=features,name=tesb");
+        FeaturesServiceMBean featuresServiceMBeanProxy = JMX.newMBeanProxy(
+                mbsc, mbeanName, FeaturesServiceMBean.class, true);
 
-		return featuresServiceMBeanProxy;
-	}
+        echo("\n>>> Add notification listener to FeatureService MBean <<<");
+        mbsc.addNotificationListener(mbeanName, clientListener, null, null);
 
-	public FrameworkMBean createOsgiFrameworkMBeanProxy(
-			MBeanServerConnection mbsc) throws MalformedObjectNameException,
-			NullPointerException {
-		echo("\n>>> Create Framework MBean <<<");
-		ObjectName mbeanName = new ObjectName(
-				"osgi.core:type=framework,version=1.5");
-		FrameworkMBean osgiFrameworkProxy = JMX.newMBeanProxy(mbsc, mbeanName,
-				FrameworkMBean.class, false);
-		return osgiFrameworkProxy;
-	}
+        return featuresServiceMBeanProxy;
+    }
 
-	public void addRepository(FeaturesServiceMBean featuresServiceMBeanProxy,
-			String url) throws Exception {
-		echo("\n>>> Perform addRepository on FeaturesService MBean <<<");
-		featuresServiceMBeanProxy.addRepository(url);
-	}
+    public FrameworkMBean createOsgiFrameworkMBeanProxy(
+            MBeanServerConnection mbsc) throws MalformedObjectNameException,
+            NullPointerException {
+        echo("\n>>> Create Framework MBean <<<");
+        ObjectName mbeanName = new ObjectName(
+                "osgi.core:type=framework,version=1.5");
+        FrameworkMBean osgiFrameworkProxy = JMX.newMBeanProxy(mbsc, mbeanName,
+                FrameworkMBean.class, false);
+        return osgiFrameworkProxy;
+    }
 
-	public void removeRepository(
-			FeaturesServiceMBean featuresServiceMBeanProxy, String url)
-			throws Exception {
-		echo("\n>>> Perform removeRepository on FeaturesService MBean <<<");
-		featuresServiceMBeanProxy.removeRepository(url);
-	}
+    public void addRepository(FeaturesServiceMBean featuresServiceMBeanProxy,
+            String url) throws Exception {
+        echo("\n>>> Perform addRepository on FeaturesService MBean <<<");
+        featuresServiceMBeanProxy.addRepository(url);
+    }
 
-	public void installFeature(FeaturesServiceMBean featuresServiceMBeanProxy,
-			String featureName) throws Exception {
-		echo("\n>>> Perform installFeature on FeaturesService MBean <<<");
-		featuresServiceMBeanProxy.installFeature(featureName);
-	}
+    public void removeRepository(
+            FeaturesServiceMBean featuresServiceMBeanProxy, String url)
+            throws Exception {
+        echo("\n>>> Perform removeRepository on FeaturesService MBean <<<");
+        featuresServiceMBeanProxy.removeRepository(url);
+    }
 
-	public void uninstallFeature(
-			FeaturesServiceMBean featuresServiceMBeanProxy, String featureName)
-			throws Exception {
-		echo("\n>>> Perform uninstallFeature on FeaturesService MBean <<<");
-		featuresServiceMBeanProxy.uninstallFeature(featureName);
-	}
+    public void installFeature(FeaturesServiceMBean featuresServiceMBeanProxy,
+            String featureName) throws Exception {
+        echo("\n>>> Perform installFeature on FeaturesService MBean <<<");
+        featuresServiceMBeanProxy.installFeature(featureName);
+    }
 
-	public long startBundle(FrameworkMBean osgiFrameworkProxy, String bundleName)
-			throws Exception {
-		echo("\n>>> Perform startBundle on Framework MBean <<<");
-		long bundleNumber = osgiFrameworkProxy.installBundle(bundleName);
-		osgiFrameworkProxy.startBundle(bundleNumber);
-		return bundleNumber;
-	}
+    public void uninstallFeature(
+            FeaturesServiceMBean featuresServiceMBeanProxy, String featureName)
+            throws Exception {
+        echo("\n>>> Perform uninstallFeature on FeaturesService MBean <<<");
+        featuresServiceMBeanProxy.uninstallFeature(featureName);
+    }
 
-	public void stopBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
-			throws Exception {
-		echo("\n>>> Perform stopBundle on Framework MBean <<<");
-		osgiFrameworkProxy.stopBundle(bundleNumber);
-	}
+    public long startBundle(FrameworkMBean osgiFrameworkProxy, String bundleName)
+            throws Exception {
+        echo("\n>>> Perform startBundle on Framework MBean <<<");
+        long bundleNumber = osgiFrameworkProxy.installBundle(bundleName);
+        osgiFrameworkProxy.startBundle(bundleNumber);
+        return bundleNumber;
+    }
 
-	public ClientListener getClientListener() {
-		return clientListener;
-	}
+    public void stopBundle(FrameworkMBean osgiFrameworkProxy, long bundleNumber)
+            throws Exception {
+        echo("\n>>> Perform stopBundle on Framework MBean <<<");
+        osgiFrameworkProxy.stopBundle(bundleNumber);
+    }
 
-	public void setClientListener(ClientListener clientListener) {
-		this.clientListener = clientListener;
-	}
+    public ClientListener getClientListener() {
+        return clientListener;
+    }
 
-	private static void echo(String msg) {
-		System.out.println(msg);
-	}
+    public void setClientListener(ClientListener clientListener) {
+        this.clientListener = clientListener;
+    }
+
+    private static void echo(String msg) {
+        System.out.println(msg);
+    }
 
 }
