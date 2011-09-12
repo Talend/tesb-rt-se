@@ -25,7 +25,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml"/>
 	
 	  <jaxrs:client id="restClient"
-         address="http://localhost:8040/rest"
+         address="http://localhost:8040/services/rest"
          serviceClass="demo.common.OrderService"
          inheritHeaders="true">
          <jaxrs:headers>
