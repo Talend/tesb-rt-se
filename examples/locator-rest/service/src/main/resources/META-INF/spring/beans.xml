@@ -28,16 +28,17 @@ http://cxf.apache.org/jaxrs
 http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-
+	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
+	
 	<!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" /> -->
 	<!-- <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" /> -->
 	
 	<bean id="orderService" class="demo.service.OrderServiceImpl">
 	</bean>
 
-
 	<jaxrs:server id="orderRESTService" address="/rest">
 		<jaxrs:features>
+			<bean id="orderServiceLocator" class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 		</jaxrs:features>
 		<jaxrs:serviceBeans>
 			<ref bean="orderService" />
