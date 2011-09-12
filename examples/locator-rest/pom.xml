@@ -25,7 +25,7 @@
     </parent>
 
     <modules>
-<!--         <module>client</module> -->
+        <module>client</module>
 		<module>common</module>
         <module>service</module>
     </modules>
