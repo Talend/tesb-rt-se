@@ -697,7 +697,11 @@
             <artifactId>org.osgi.compendium</artifactId>
             <version>1.2.0</version>
         </dependency>
-
+        <dependency>
+        	<groupId>org.fusesource.commonman</groupId>
+        	<artifactId>commons-management</artifactId>
+        	<version>${commons-management.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>
