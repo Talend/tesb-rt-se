@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 
-import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
 import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -94,16 +93,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
-	public EndpointReferenceType lookupEndpoint(String arg0, List<String> arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public EndpointReferenceListType lookupEndpoints(String arg0,
-			List<String> arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public Response registerEndpoint(RegisterEndpointRequestType arg0) {
 		// TODO Auto-generated method stub
@@ -113,5 +103,20 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	public Response unregisterEndpoint(String arg0, String arg1) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Response lookupEndpoint(String arg0, List<String> arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Response lookupEndpoints(String arg0,
+			List<String> arg1) {
+		// TODO Auto-generated method stub
+		Response resp = Response.ok("Hello World").build();
+		Response.status(Response.Status.OK);
+		return resp;
 	}
 }

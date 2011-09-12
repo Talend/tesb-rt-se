@@ -3,7 +3,7 @@
 	<grammars>
 		<include href="locator-proxy-schema/types.xsd" />
 	</grammars>
-	<resources base="http://localhost:8040/services/ServiceLocatorProxyService">
+	<resources base="http://localhost:8040/services/ServiceLocatorRESTProxyService">
 		<resource id="LocatorProxyService" path="/locator/">
 		
 			<resource path="/endpoint/{serviceName}">
@@ -15,10 +15,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml"
-							element="ns1:EndpointReferenceType" />
-						<representation mediaType="application/json"
-							element="ns1:EndpointReferenceType" />
+						<representation mediaType="application/xml" />
+						<representation mediaType="application/json" />
 					</response>
 				</method>
 			</resource>
@@ -32,10 +30,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml"
-							element="ns:EndpointReferenceListType" />
-						<representation mediaType="application/json"
-							element="ns:EndpointReferenceListType" />
+						<representation mediaType="application/xml" />
+						<representation mediaType="application/json" />
 					</response>
 				</method>
 			</resource>
