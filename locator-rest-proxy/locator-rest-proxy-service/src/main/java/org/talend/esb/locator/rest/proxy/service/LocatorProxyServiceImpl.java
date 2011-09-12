@@ -19,14 +19,24 @@
  */
 package org.talend.esb.locator.rest.proxy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.namespace.QName;
+import javax.xml.ws.wsaddressing.W3CEndpointReference;
+import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.talend.esb.locator.proxy.service.InterruptedExceptionFault;
+import org.talend.esb.locator.proxy.service.ServiceLocatorFault;
+import org.talend.esb.locator.proxy.service.types.AssertionType;
+import org.talend.esb.locator.proxy.service.types.LookupRequestType;
 import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
@@ -66,6 +76,15 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		this.connectionTimeout = connectionTimeout;
 	}
 
+	/**
+	 * Instantiate Service Locator client. After successful instantiation
+	 * establish a connection to the Service Locator server. This method will be
+	 * called if property locatorClient is null. For this purpose was defined
+	 * additional properties to instantiate ServiceLocatorImpl.
+	 * 
+	 * @throws InterruptedException
+	 * @throws ServiceLocatorException
+	 */
 	public void initLocator() throws InterruptedException,
 			ServiceLocatorException {
 		if (locatorClient == null) {
@@ -82,6 +101,14 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
+	/**
+	 * Should use as destroy method. Disconnects from a Service Locator server.
+	 * All endpoints that were registered before are removed from the server.
+	 * Set property locatorClient to null.
+	 * 
+	 * @throws InterruptedException
+	 * @throws ServiceLocatorException
+	 */
 	public void disconnectLocator() throws InterruptedException,
 			ServiceLocatorException {
 		if (LOG.isLoggable(Level.FINE)) {
@@ -92,8 +119,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			locatorClient = null;
 		}
 	}
-
-
 
 	public Response registerEndpoint(RegisterEndpointRequestType arg0) {
 		// TODO Auto-generated method stub
@@ -107,8 +132,35 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	@Override
 	public Response lookupEndpoint(String arg0, List<String> arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		QName serviceName = QName.valueOf(arg0);
+		List<String> names = null;
+		String adress = null;
+		SLPropertiesMatcher matcher = createMatcher(arg1);
+		try {
+			initLocator();
+			if (matcher == null) {
+				names = locatorClient.lookup(serviceName);
+			} else {
+				names = locatorClient.lookup(serviceName, matcher);
+			}
+		} catch (ServiceLocatorException e) {
+			Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			//throw new ServiceLocatorFault(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			//throw new InterruptedExceptionFault(e.getMessage(), e);
+			Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+		if (names != null && !names.isEmpty()) {
+			names = getRotatedList(names);
+			adress = names.get(0);
+		} else {
+			if (LOG.isLoggable(Level.WARNING)) {
+				LOG.log(Level.WARNING, "lookup Endpoint for " + serviceName 	+ " failed, service is not known.");
+			}
+			Response.status(404).entity("lookup Endpoint for " + serviceName	+ " failed, service is not known.").type(MediaType.TEXT_PLAIN).build();
+		}
+		W3CEndpointReference ref = buildEndpoint(serviceName, adress);
+		return Response.ok(ref).build();
 	}
 
 	@Override
@@ -118,5 +170,51 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		Response resp = Response.ok("Hello World").build();
 		Response.status(Response.Status.OK);
 		return resp;
+	}
+	
+	private SLPropertiesMatcher createMatcher(List<String> input) {
+		SLPropertiesMatcher matcher = null;
+		if (input != null && input.size() > 0) {
+			matcher = new SLPropertiesMatcher();
+			for (String pair : input) {
+				String[] assertion = pair.split(",");
+				if(assertion.length == 2)
+				{
+					matcher.addAssertion(assertion[0], assertion[1]);
+				}
+			}
+		}
+		return matcher;
+	}
+
+	/**
+	 * Rotate list of String. Used for randomize selection of received endpoints
+	 * 
+	 * @param strings
+	 *            list of Strings
+	 * @return the same list in random order
+	 */
+	private List<String> getRotatedList(List<String> strings) {
+		int index = random.nextInt(strings.size());
+		List<String> rotated = new ArrayList<String>();
+		for (int i = 0; i < strings.size(); i++) {
+			rotated.add(strings.get(index));
+			index = (index + 1) % strings.size();
+		}
+		return rotated;
+	}
+
+	/**
+	 * Build Endpoint Reference for giving service name and address
+	 * 
+	 * @param serviceName
+	 * @param adress
+	 * @return
+	 */
+	private W3CEndpointReference buildEndpoint(QName serviceName, String adress) {
+		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
+		builder.serviceName(serviceName);
+		builder.address(adress);
+		return builder.build();
 	}
 }
