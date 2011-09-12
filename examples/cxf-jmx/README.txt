@@ -129,7 +129,8 @@ Using JConsole to find MBean Attributes
 put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
 
 If you're using the TESB OSGi container:
-put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
+put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field,
+with (default) username of "karaf" and password of "karaf".
 
 3) connect
 4) choose Mbean tab, and open the org.apache.cxf item in the left-side treeview

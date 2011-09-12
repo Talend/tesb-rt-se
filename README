@@ -42,7 +42,7 @@ You can find more information about Apache Camel at http://camel.apache.org/
 Please submit bug reports using one of the following JIRAs:
 CXF bug reports: https://issues.apache.org/jira/browse/CXF 
 Camel bug reports: https://issues.apache.org/jira/browse/CAMEL
-Talend ESB (including Service and Integration Factory) bug reports: https://jira.sopera.de/
+Talend ESB (including Service and Integration Factory) bug reports: http://www.talendforge.org/bugs/
 
 
 Examples 
