@@ -9,34 +9,40 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
+
 Camel JMX Example
 ============================================
-camel-jmx example illustrates how to enable Camel for
-JMX (For war file, deployed in Tomcat, and jar OSGI bundle, deployed in TESB container).
-Examples are based on standard Apache Camel camel-example-management.
-This example have three routes:
+The camel-jmx example illustrates how to enable Apache Camel for JMX within either
+a war file deployed in Tomcat or an OSGI bundle deployed in the TESB OSGi container.
 
-    -A route that produces a file with 100 stock quotes every fifth second.
+Examples are based on the camel-example-management sample provided with Camel.
+This example has three routes:
+
+    -A route that produces a file with 100 stock quotes every five seconds.
    This is done using a timer endpoint.
 
-    -A route that uses a file consumer to read files produced from route 1.
-   This route then splits the file and extract each stock quote and send every
+    -A route that uses a file consumer to read files produced from the previous route.
+   This route then splits the file and extracts each stock quote and send every
    quote to a JMS queue for further processing. However to avoid exhausting the
-   JMS broker Camel uses a throttler to limit how fast it send the JMS
-   messages. By default its limited to the very low value of 10 msg/second.
+   JMS broker Camel uses a throttler to limit how fast it sends the JMS
+   messages. By default it's limited to the very low value of 10 msg/second.
 
-    -The last route consumes stock quotes from the JMS queue and simulate some
+    -The last route consumes stock quotes from the JMS queue and simulates
    CPU processing (by delaying 100 milliseconds). Camel then transforms the
    payload to another format before the route ends using a logger which reports
    the progress. The logger will log the progress by logging how long time it
    takes to process 100 messages.
 
-As a default, camel application doesn`t need any configuration 
-to enable Camel routes for JMX.
+By default, Camel routes already have JMX enabled, no special configuration is
+necessary.
 
-After deploying this samples you can see Camel MBeans and their Attributes
-(actually attributes are the metrics which we will monitor with help of HypericHQ), 
-that can be monitored using jconsole.
+After deploying the samples you can see Camel MBeans and their attributes which
+can be monitored using the JDK's JConsole.  Attributes also form the metrics 
+that we will monitor with help of HypericHQ.
+
+See also:
+http://camel.apache.org/camel-jmx.html
+http://download.oracle.com/javase/1.5.0/docs/guide/management/jconsole.html
 
 To build and run these examples, you must install the J2SE Development Kit (JDK) 5.0 or above.
 
@@ -46,10 +52,11 @@ This sample consists of 2 parts:
             
 service/  - This is the CXF service packaged as an OSGi bundle.
              
-war/      - This module creates a WAR archive containing the code from common and service modules.   
+war/      - This module creates a WAR archive containing the service module.
+            Servlet container use only, not used in OSGi deployment.
 
 From the base directory of this sample (i.e., where this README file is
-located), the maven pom.xml file can be used to build and run the demo. 
+located), the Maven pom.xml file can be used to build and run the demo. 
 
 Using either UNIX or Windows:
 
@@ -58,9 +65,10 @@ Using either UNIX or Windows:
 Running this command will build the demo and create a WAR archive and an OSGi bundle 
 for deploying the service either to servlet or OSGi containers.
 
+
 Starting the service
 ============================================
-To enable Tomcat for jmx:
+To enable Tomcat for JMX:
 
 for Windows:
 open command prompt and set temporary environment variable CATALINA_OPTS with command:
@@ -71,7 +79,11 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 
 * In servlet container (Tomcat):
 1) Copy war file from the camel-jmx/war/target folder to webapp folder in Tomcat.
-2) Start Tomcat (use the same command prompt to start tomcat)
+Alternatively, if your Tomcat installation is configured to work with the Tomcat Maven Plugin (http://tinyurl.com/4yxzjna) 
+you can also start Tomcat and then deploy the war by entering "mvn tomcat:deploy" for Tomcat 7 or "mvn tomcat:deploy -PTomcat6"
+for Tomcat 6.
+
+2) Start Tomcat
 
 * In Talend ESB OSGi container:
 1) Start TESB container.
@@ -80,19 +92,18 @@ features:addurl mvn:org.talend.esb.examples/camel-jmx-feature/5.0-SNAPSHOT/xml
 4) Type command in TESB container
 features:install camel-jmx-service
 
-Using jconsole to find MBean Attributes
+Using JConsole to find MBean Attributes
 ============================================
-* Tomcat:
-1) run jconsole
-2) put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
-3) connect
-4) choose Mbean Tab
-5) find org.apache.camel
+1) run JConsole: {JAVA_HOME}/bin/jconsole from a command prompt
 
-*Talend ESB OSGi container:
-1) run jconsole
-2) put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field.
-Username: karaf Password: karaf
+2) If you're deploying the Camel route on Tomcat: 
+put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
+
+If you're using the TESB OSGi container:
+put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field,
+with (default) username of "karaf" and password of "karaf"
+
 3) connect
-4) choose Mbean Tab
-5) find org.apache.camel
+4) choose Mbean tab, and look in the org.apache.camel and org.apache.activemq 
+items in the left-side treeview
+
