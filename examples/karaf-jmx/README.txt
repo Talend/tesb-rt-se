@@ -1,25 +1,27 @@
 Karaf-jmx Demo
 ==================================================
 
-This sample demonstrates a client application, managing resources using 
-the JMX technology. Client application use MBean server connection by 
-creating an MBean proxy. It implement the access to the Karaf MBean server.
-This MBean proxy is local to the client, and emulates the remote Karaf MBean server.
-
+This sample demonstrates a client application whose resources 
+can be monitored using JMX technology.  The client application uses
+an MBean server connection by creating an MBean proxy, and then
+accesses the Karaf MBean server.  This MBean proxy is local to the 
+client, and emulates the remote Karaf MBean server.
 
 This sample consists of 2 parts:
+
 common/   - This directory contains the code that is common
-            for clients you would like to create for remote managment.
-			This implementation allows you to:
-				- connect to remote MBean server
-				- create MBean proxies to access an MBean through a Java interface
-				- add/remove repository to required instance of Karaf container
-				- install/uninstall Karaf features in remote container
-				- start/stop bundles in remote Karaf container
+            for clients you would like to create for remote management.
+
+            This implementation allows you to:
+            - connect to remote MBean server
+            - create MBean proxies to access an MBean through a Java interface
+            - add/remove repository to required instance of Karaf container
+            - install/uninstall Karaf features in remote container
+            - start/stop bundles in remote Karaf container
 			
-client/   - This is a sample client application that uses
-			implementation of common project and demonstrate 
-			all of the previously described operations work
+client/   - This is a sample client application that uses an
+            implementation of the common project and demonstrates 
+            all of the previously described operations
 
 
 Usage
@@ -27,23 +29,24 @@ Usage
 
 Building the Demo
 ---------------------------------------
-  
 Using either Linux or Windows:
-
-    mvn install
+    mvn clean install
 
 Configure the Client
 ---------------------------------------
-We expect that the remote MBean server is already running somewhere,
+We expect that the remote MBean server is already running for TESB
 and we are able connect to it. To do this we must define the settings
-on client side spring configuration:
+on client side Spring configuration (client-beans.xml):
  - JMX service URL (by default = "service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb")
  - user (by default = "karaf")
  - password (by default = "karaf")
-You do not need to define this settings if you have started default TESB container on localhost.
+
+The above settings are already configured in the client-beans.xml and so will
+work as-is if you started the default TESB container on localhost.
+
 
 Running the Client
 ---------------------------------------
   * From the command line:
-     cd client ; mvn exec:java
-	 
+    cd client ; mvn exec:java
+
