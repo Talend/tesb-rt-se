@@ -35,7 +35,9 @@ import org.talend.esb.locator.proxy.service.InterruptedExceptionFault;
 import org.talend.esb.locator.proxy.service.ServiceLocatorFault;
 import org.talend.esb.locator.proxy.service.types.AssertionType;
 import org.talend.esb.locator.proxy.service.types.LookupRequestType;
+import org.talend.esb.locator.rest.proxy.service.types.EntryType;
 import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -121,12 +123,35 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	}
 
 	public Response registerEndpoint(RegisterEndpointRequestType arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		String endpointURL = arg0.getEndpointURL();
+		QName serviceName = arg0.getServiceName();
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Registering endpoint " + endpointURL + " for service "
+					+ serviceName + "...");
+		}
+		try {
+			initLocator();
+			if (arg0.getProperties() == null) {
+				locatorClient.register(serviceName, endpointURL);
+			} else {
+				SLPropertiesImpl slProps = new SLPropertiesImpl();
+				List<EntryType> entries = arg0.getProperties();
+				for (EntryType entry : entries) {
+					slProps.addProperty(entry.getKey(), entry.getValue());
+				}
+				locatorClient.register(serviceName, endpointURL, slProps);
+			}
+		} catch (ServiceLocatorException e) {
+			//throw new ServiceLocatorFault(e.getMessage(), e);
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		} catch (InterruptedException e) {
+			//throw new InterruptedExceptionFault(e.getMessage(), e);
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok().build();
 	}
 
 	public Response unregisterEndpoint(String arg0, String arg1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
