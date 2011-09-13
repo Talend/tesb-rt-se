@@ -40,7 +40,7 @@
 	<context:annotation-config/>
 	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
+    	<property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="location" value="classpath:agent.properties"/>
     </bean>
 
@@ -61,6 +61,7 @@
 		<!-- Number of events within one service call. This is a maximum number. 
 			If there are events in the queue, the events will be processed. -->
 		<property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}" />
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
 		<property name="executor" ref="defaultExecutor" />
 		<property name="scheduler" ref="defaultScheduler" />
 	</bean>
@@ -91,11 +92,13 @@
 	</bean>
 	
 	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>
 	
 	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>		

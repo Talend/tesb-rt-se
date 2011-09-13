@@ -26,10 +26,16 @@ import org.talend.esb.sam.common.service.MonitoringService;
 public class ClientListenerImpl implements ClientLifeCycleListener{
 	private static Logger logger = Logger.getLogger(ClientListenerImpl.class.getName());
 
-	private Queue<Event> queue;
+	private static String AGENT_PORT_TYPE = "{http://www.talend.org/esb/sam/MonitoringService/v1}MonitoringService";
 	
+	private boolean sendLifecycleEvent;
+	private Queue<Event> queue;
 	private MonitoringService monitoringServiceClient;
 	
+    public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
+        this.sendLifecycleEvent = sendLifecycleEvent;
+    }
+
     public void setQueue(Queue<Event> queue) {
         this.queue = queue;
     }
@@ -40,8 +46,14 @@ public class ClientListenerImpl implements ClientLifeCycleListener{
     
 	@Override
 	public void clientCreated(Client client) {
+	    if (!sendLifecycleEvent) {
+	        return;
+	    }
+	    
 		Event event = createEvent(client, EventTypeEnum.CLIENT_CREATE);
-		queue.add(event);
+		if (null != event){
+		    queue.add(event);
+		}
 /*		List<Event> eventList = new ArrayList<Event>();
 		eventList.add(event);
 		monitoringServiceClient.putEvents(eventList);
@@ -50,16 +62,27 @@ public class ClientListenerImpl implements ClientLifeCycleListener{
 
 	@Override
 	public void clientDestroyed(Client client) {
+        if (!sendLifecycleEvent) {
+            return;
+        }
+	       
 		Event event = createEvent(client, EventTypeEnum.CLIENT_DESTROY);
-		List<Event> eventList = new ArrayList<Event>();
-		eventList.add(event);
-		monitoringServiceClient.putEvents(eventList);
-		logger.info("Send CLIENT_DESTROY event to SAM Server successful!");
+		if (null != event){
+    		List<Event> eventList = new ArrayList<Event>();
+    		eventList.add(event);
+    		monitoringServiceClient.putEvents(eventList);
+    		logger.info("Send CLIENT_DESTROY event to SAM Server successful!");
+		}
 	}
 
 	private Event createEvent(Client client, EventTypeEnum type){
 		String portType = client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName().toString();
 		//System.out.println("port_type: " + portType);
+		
+		//ignore the event that agent itself
+		if (AGENT_PORT_TYPE.equals(portType)){
+		    return null;
+		}
 		
 		String transportType = null;
 		if (client.getEndpoint().getBinding() instanceof SoapBinding){

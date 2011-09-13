@@ -37,7 +37,14 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-bundle>org.apache.cxf.bundle,org.springframework.beans,org.springframework.context,sam-agent</Require-bundle>
+                        <Require-bundle>
+						    org.apache.cxf.bundle,
+							org.springframework.beans,
+							org.springframework.context,
+							sam-agent,
+							sam-common,
+							org.springframework.osgi.core
+						</Require-bundle>
                     </instructions>
                 </configuration>
             </plugin>
