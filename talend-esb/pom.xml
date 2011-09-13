@@ -42,7 +42,7 @@
 		<!-- geronimo-el.version>1.0.1</geronimo-el.version-->
 		<geronimo-j2ee-connector.version>2.0.0</geronimo-j2ee-connector.version>
 		<geronimo-j2ee-management.version>1.0.1</geronimo-j2ee-management.version>
-		<geronimo-jaxws.version>1.0</geronimo-jaxws.version>
+		<geronimo-jaxws.version>1.1</geronimo-jaxws.version>
 		<geronimo-jms.version>1.1.1</geronimo-jms.version>
 		<geronimo-jpa.version>1.1</geronimo-jpa.version>
 		<!-- geronimo-jsp.version>1.0.1</geronimo-jsp.version-->
@@ -82,7 +82,6 @@
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
 		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
 		<freemarker.bundle.version>2.3.15_4</freemarker.bundle.version>
-		<groovy.bundle.version>1.5.6_4</groovy.bundle.version>
 		<guice.bundle.version>2.0_1</guice.bundle.version>
 		<hapi.bundle.version>0.5.1_4</hapi.bundle.version>
 		<hibernate-validator.bundle.version>4.1.0.Final_1</hibernate-validator.bundle.version>
@@ -512,11 +511,6 @@
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.fastinfoset</artifactId>
             <version>${fastinfoset.bundle.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.groovy</artifactId>
-            <version>${groovy.bundle.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
