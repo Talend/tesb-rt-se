@@ -131,11 +131,11 @@ public class AgentActivator implements BundleActivator{
 		ConfigurationAdmin cfgAdmin = (ConfigurationAdmin)context.getService(serviceRef); 
 		Configuration config = cfgAdmin.getConfiguration("org.talend.esb.sam.agent");
 
-		String sendServerLifecycleEvent = (String)config.getProperties().get("activator.sendServerLifecycleEvent");
-		if (sendServerLifecycleEvent != null && sendServerLifecycleEvent.equals("false")){
-			return false;
-		}else{
+		String sendServerLifecycleEvent = (String)config.getProperties().get("collector.lifecycleEvent");
+		if (sendServerLifecycleEvent != null && sendServerLifecycleEvent.equals("true")){
 			return true;
+		}else{
+			return false;
 		}
 	}
 	

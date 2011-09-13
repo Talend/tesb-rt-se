@@ -19,6 +19,8 @@
  */
 package org.talend.esb.locator.rest.proxy.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -157,7 +159,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	@Override
 	public Response lookupEndpoint(String arg0, List<String> arg1) {
-		QName serviceName = QName.valueOf(arg0);
+		QName serviceName = null;
+		try {
+			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			return Response.status(500).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
 		List<String> names = null;
 		String adress = null;
 		SLPropertiesMatcher matcher = createMatcher(arg1);
@@ -169,11 +176,11 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 				names = locatorClient.lookup(serviceName, matcher);
 			}
 		} catch (ServiceLocatorException e) {
-			Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
 			//throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
 			//throw new InterruptedExceptionFault(e.getMessage(), e);
-			Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
 		}
 		if (names != null && !names.isEmpty()) {
 			names = getRotatedList(names);
@@ -182,7 +189,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			if (LOG.isLoggable(Level.WARNING)) {
 				LOG.log(Level.WARNING, "lookup Endpoint for " + serviceName 	+ " failed, service is not known.");
 			}
-			Response.status(404).entity("lookup Endpoint for " + serviceName	+ " failed, service is not known.").type(MediaType.TEXT_PLAIN).build();
+			return Response.status(404).entity("lookup Endpoint for " + serviceName	+ " failed, service is not known.").type(MediaType.TEXT_PLAIN).build();
 		}
 		W3CEndpointReference ref = buildEndpoint(serviceName, adress);
 		return Response.ok(ref).build();
