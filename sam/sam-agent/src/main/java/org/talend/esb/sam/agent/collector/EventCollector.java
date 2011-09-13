@@ -62,6 +62,7 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
     private TaskScheduler scheduler;
     private long defaultInterval = 1000;
     private int eventsPerMessageCall = 10;
+    private boolean sendLifecycleEvent = false;
     private boolean stopSending = false;
 
     public EventCollector() {
@@ -106,6 +107,14 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
      */
     public void setDefaultInterval(long defaultInterval) {
         this.defaultInterval = defaultInterval;
+    }
+
+    /**
+     * Set if collect/send lifecycle events to sam-server
+     * @param sendLifecycleEvent
+     */
+    public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
+        this.sendLifecycleEvent = sendLifecycleEvent;
     }
 
     /**
@@ -280,6 +289,7 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
             ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
             if (null != slcm){
             	ServiceListenerImpl svrListener = new ServiceListenerImpl();
+            	svrListener.setSendLifecycleEvent(sendLifecycleEvent);
             	svrListener.setQueue(queue);
             	svrListener.setMonitoringServiceClient(monitoringServiceClient);
             	slcm.registerListener(svrListener);
@@ -288,10 +298,12 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
             ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
             if (null != clcm){
             	ClientListenerImpl cltListener = new ClientListenerImpl();
+            	cltListener.setSendLifecycleEvent(sendLifecycleEvent);
             	cltListener.setQueue(queue);
             	cltListener.setMonitoringServiceClient(monitoringServiceClient);
             	clcm.registerListener(cltListener);
             }
+
         }
     }
 }

@@ -173,7 +173,7 @@
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/${commons-httpclient.bundle.version}</bundle>
     <bundle dependency="true">mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.stax-api-1.0/${servicemix.specs.version}</bundle>
-    <bundle dependency="true">mvn:org.codehaus.jackson/jackson-core-asl/1.7.5</bundle>
+    <bundle dependency="true">mvn:org.codehaus.jackson/jackson-core-asl/${jackson-core-asl.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aws-java-sdk/${aws-java-sdk.bundle.version}</bundle>
     <feature version="${camel.version}">camel-core</feature>
     <bundle>mvn:org.apache.camel/camel-aws/${camel.version}</bundle>
@@ -291,11 +291,11 @@
   <feature name="camel-hdfs" version="${camel.version}" resolver="(obr)" start-level="50">
     <feature version="${camel.version}">camel-core</feature>
     <feature>war</feature>
-    <bundle dependency="true">mvn:org.apache.geronimo.specs/geronimo-jaxws_2.2_spec/1.1</bundle>
-    <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0</bundle>
-    <bundle dependency="true">mvn:org.apache.geronimo.specs/geronimo-jta_1.1_spec/1.1.1</bundle>
-    <bundle dependency="true">mvn:javax.mail/mail/1.4.4</bundle>
-    <bundle dependency="true">mvn:commons-codec/commons-codec/1.4</bundle>
+    <bundle dependency="true">mvn:org.apache.geronimo.specs/geronimo-jaxws_2.2_spec/${geronimo-jaxws.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix.specs.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.geronimo.specs/geronimo-jta_1.1_spec/${geronimo-jta.version}</bundle>
+    <bundle dependency="true">mvn:javax.mail/mail/${javax.mail.version}</bundle>
+    <bundle dependency="true">mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.7.0_3</bundle>
     <bundle dependency="true">mvn:commons-collections/commons-collections/3.2.1</bundle>
     <bundle dependency="true">mvn:commons-digester/commons-digester/2.1</bundle>
@@ -549,9 +549,9 @@
     <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.scripting-api-1.0/${servicemix.specs.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.asm/2.2.3_4</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/${antlr2.bundle.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.rhino/1.7R1_3</bundle>
-    <bundle>mvn:org.codehaus.groovy/groovy-all/1.8.1</bundle>
-    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jruby/1.5.6_1</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.rhino/${rhino.bundle.version}</bundle>
+    <bundle>mvn:org.codehaus.groovy/groovy-all/${groovy.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jruby/${jruby.bundle.version}</bundle>
     <bundle>mvn:com.google.code.scriptengines/scriptengines-groovy/1.1</bundle>
     <bundle>mvn:com.google.code.scriptengines/scriptengines-javascript/1.1</bundle>
     <bundle>mvn:com.google.code.scriptengines/scriptengines-jruby/1.1</bundle>

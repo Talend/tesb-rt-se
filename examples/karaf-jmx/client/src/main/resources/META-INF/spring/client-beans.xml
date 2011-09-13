@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="beans.xml"/>
-	
-	<bean id="Client" class="org.talend.esb.examples.Client">
-		<property name="applicationManager" ref="ApplicationManager"/>
-		<property name="environment">
-			<map>
-				<entry key="jmx.remote.credentials">
-					<array>
-						<value>karaf</value>
-						<value>karaf</value>
-					</array>
-				</entry>
-			</map>
-		</property>
-		<property name="serviceURL"
-			value="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb" />
-		<property name="repositoryURL"
-			value="mvn:org.talend.esb.examples.rent-a-car/features/4.2.1/xml" />
-		<property name="featureName" value="tesb-rac-services" />
-	</bean>
+    <import resource="beans.xml" />
+
+    <bean id="Client" class="org.talend.esb.examples.Client">
+        <property name="applicationManager" ref="ApplicationManager" />
+        <property name="environment">
+            <map>
+                <entry key="jmx.remote.credentials">
+                    <array>
+                        <value>karaf</value>
+                        <value>karaf</value>
+                    </array>
+                </entry>
+            </map>
+        </property>
+        <property name="serviceURL"
+            value="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb" />
+        <property name="repositoryURL"
+            value="mvn:org.talend.esb.examples.rent-a-car/features/${project.version}/xml" />
+        <property name="featureName" value="tesb-rac-services" />
+        <property name="bundleName"
+            value="mvn:org.talend.esb.examples.rent-a-car/crmservice-common/${project.version}" />
+    </bean>
 
 </beans>

@@ -497,6 +497,17 @@
             <fileMode>0644</fileMode>
         </dependencySet>
         <dependencySet>
+            <outputDirectory>/container/system</outputDirectory>
+            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputFileNameMapping>org/fusesource/commonman/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+            <includes>
+                <include>commons-management</include>
+            </includes>
+            <directoryMode>755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <dependencySet>
             <outputDirectory>/add-ons/sts</outputDirectory>
             <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
             <unpack>false</unpack>

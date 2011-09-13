@@ -13,7 +13,7 @@
 CXF-JMX example
 ============================================
 The cxf-jmx example illustrates how to enable CXF for JMX for web service 
-providers contained both a war file deployed in Tomcat and an OSGI bundle 
+providers contained either within a war file deployed in Tomcat or an OSGI bundle 
 deployed in the TESB OSGi container.
 
 The web service provides simple sayHi and doubleIt operations.
@@ -88,9 +88,11 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 * In servlet container (Tomcat):
 1) Copy war file from the cxf-jmx/war/target folder to webapp folder in Tomcat.
 Alternatively, if your Tomcat installation is configured to work with the Tomcat Maven Plugin (http://tinyurl.com/4yxzjna) 
-you can also deploy the war by entering "mvn tomcat:deploy" for Tomcat 7 or "mvn tomcat:deploy -PTomcat6" for Tomcat 6.
+you can also start Tomcat and then deploy the war by entering "mvn tomcat:deploy" for Tomcat 7 or "mvn tomcat:deploy -PTomcat6"
+for Tomcat 6.
 
-2) Start Tomcat (use the same command prompt to start Tomcat)
+2) Start Tomcat
+
 3) Be sure you can see the WSDL at http://localhost:8080/simpleService/simpleService?wsdl before
    continuing.
 

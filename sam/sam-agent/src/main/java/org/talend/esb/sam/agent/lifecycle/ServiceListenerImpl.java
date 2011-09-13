@@ -26,10 +26,14 @@ import org.talend.esb.sam.agent.util.Converter;
 public class ServiceListenerImpl implements ServerLifeCycleListener{
 	private static Logger logger = Logger.getLogger(ServiceListenerImpl.class.getName());
 
+	private boolean sendLifecycleEvent;
 	private Queue<Event> queue;
-	
 	private MonitoringService monitoringServiceClient;
 	
+    public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
+        this.sendLifecycleEvent = sendLifecycleEvent;
+    }
+    
     public void setQueue(Queue<Event> queue) {
         this.queue = queue;
     }
@@ -40,6 +44,10 @@ public class ServiceListenerImpl implements ServerLifeCycleListener{
     
 	@Override
 	public void startServer(Server server) {
+        if (!sendLifecycleEvent) {
+            return;
+        }
+        
 		Event event = createEvent(server, EventTypeEnum.SERVICE_START);
 		queue.add(event);
 /*		List<Event> eventList = new ArrayList<Event>();
@@ -50,6 +58,10 @@ public class ServiceListenerImpl implements ServerLifeCycleListener{
 
 	@Override
 	public void stopServer(Server server) {
+        if (!sendLifecycleEvent) {
+            return;
+        }
+        
 		Event event = createEvent(server, EventTypeEnum.SERVICE_STOP);
 		List<Event> eventList = new ArrayList<Event>();
 		eventList.add(event);
