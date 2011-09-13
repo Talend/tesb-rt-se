@@ -1,12 +1,12 @@
 <application xmlns="http://wadl.dev.java.net/2009/02"
-	xmlns:ns="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:ns1="http://www.w3.org/2005/08/addressing">
+	xmlns:ns="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:ns1="http://www.w3.org/2005/08/addressing" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<grammars>
 		<include href="locator-proxy-schema/types.xsd" />
 	</grammars>
-	<resources base="http://localhost:8040/services/ServiceLocatorRESTProxyService">
+	<resources base="http://localhost:8040/services/ServiceLocatorRestProxyService">
 		<resource id="LocatorProxyService" path="/locator/">
 		
-			<resource path="/endpoint/{serviceName}">
+			<resource path="endpoint/{serviceName}">
 				<method name="GET" id="lookupEndpoint">
 					<request>
 						<param name="serviceName" type="xsd:string" style="template"
@@ -21,7 +21,7 @@
 				</method>
 			</resource>
 			
-			<resource path="/endpoints">
+			<resource path="endpoints">
 				<method name="GET" id="lookupEndpoints">
 					<request>
 						<param name="serviceName" type="xsd:string" style="query"
@@ -36,7 +36,7 @@
 				</method>
 			</resource>
 			
-			<resource path="/endpoint">
+			<resource path="endpoint">
 				<method name="POST" id="registerEndpoint">
 					<request>
 					<representation mediaType="application/xml"
