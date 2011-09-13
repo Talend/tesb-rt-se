@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.locatorproxy</groupId>
     <artifactId>locator-proxy-client</artifactId>
-    <name>Service Locator Proxy Client</name>
+    <name>Service Locator Proxy :: Client</name>
     <packaging>bundle</packaging>
 
     <parent>

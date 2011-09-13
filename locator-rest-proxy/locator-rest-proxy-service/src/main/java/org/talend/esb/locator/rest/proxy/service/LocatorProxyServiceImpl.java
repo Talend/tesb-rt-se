@@ -131,11 +131,11 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 		try {
 			initLocator();
-			if (arg0.getProperties() == null) {
+			if (arg0.getEntryType() == null) {
 				locatorClient.register(serviceName, endpointURL);
 			} else {
 				SLPropertiesImpl slProps = new SLPropertiesImpl();
-				List<EntryType> entries = arg0.getProperties();
+				List<EntryType> entries = arg0.getEntryType();
 				for (EntryType entry : entries) {
 					slProps.addProperty(entry.getKey(), entry.getValue());
 				}
