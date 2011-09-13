@@ -18,72 +18,33 @@
 	<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
 	</xsd:element>
 
-<!--	<xsd:element name="InterruptedExceptionFault" type="lpx:InterruptedExceptionFault" />-->
-<!--	<xsd:complexType name="InterruptedExceptionFault">-->
-<!--		<xsd:sequence />-->
-<!--	</xsd:complexType>-->
-
-<!--	<xsd:element name="ServiceLocatorFault" type="lpx:ServiceLocatorFault" />-->
-<!--	<xsd:complexType name="ServiceLocatorFault">-->
-<!--		<xsd:sequence />-->
-<!--	</xsd:complexType>-->
-
-	<xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType" />
+	<xsd:element name="RegisterEndpointRequestType" type="lpx:registerEndpointRequestType" />
 	<xsd:complexType name="registerEndpointRequestType">
 		<xsd:sequence>
-			<xsd:element name="serviceName" type="xsd:QName" />
+			<xsd:element name="serviceName" type="xsd:string" />
 			<xsd:element name="endpointURL" type="xsd:anyURI" />
-			<xsd:element name="properties" type="lpx:EntryType"
+			<xsd:element name="EntryType" type="lpx:EntryType"
 				minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-<!--	<xsd:complexType name="SLPropertiesType">-->
-<!--		<xsd:sequence>-->
-<!--			<xsd:element name="Entry" type="lpx:EntryType" minOccurs="0"-->
-<!--				maxOccurs="unbounded" />-->
-<!--		</xsd:sequence>-->
-<!--	</xsd:complexType>-->
-
 	<xsd:complexType name="EntryType">
 		<xsd:sequence>
-			<xsd:element name="Value" type="xsd:string" minOccurs="1"
+			<xsd:element name="key" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
 				maxOccurs="unbounded" />
+
 		</xsd:sequence>
-		<xsd:attribute name="key" type="xsd:string" />
 	</xsd:complexType>
-
-<!--	<xsd:element name="lookupEndpointRequest" type="lpx:lookupRequestType" />-->
-<!--	<xsd:element name="lookupEndpointsRequest" type="lpx:lookupRequestType" />-->
-<!--	<xsd:complexType name="lookupRequestType">-->
-<!--		<xsd:sequence>-->
-<!--			<xsd:element name="serviceName" type="xsd:QName" />-->
-<!--			<xsd:element name="matcherData" type="lpx:MatcherDataType"-->
-<!--				minOccurs="0" maxOccurs="1" />-->
-<!--		</xsd:sequence>-->
-<!--	</xsd:complexType>-->
-
-<!--	<xsd:complexType name="MatcherDataType">-->
-<!--		<xsd:sequence>-->
-<!--			<xsd:element name="Entry" type="lpx:AssertionType"-->
-<!--				minOccurs="0" maxOccurs="unbounded" />-->
-<!--		</xsd:sequence>-->
-<!--	</xsd:complexType>-->
 
 	<xsd:complexType name="AssertionType">
 		<xsd:sequence>
-			<xsd:element name="Value" type="xsd:string" minOccurs="1"
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="key" type="xsd:string" minOccurs="1"
 				maxOccurs="1" />
 		</xsd:sequence>
-		<xsd:attribute name="key" type="xsd:string" />
 	</xsd:complexType>
-
-<!--	<xsd:element name="unregisterEndpointRequest" type="lpx:unregisterEndpointRequestType" />-->
-<!--	<xsd:complexType name="unregisterEndpointRequestType">-->
-<!--		<xsd:sequence>-->
-<!--			<xsd:element name="serviceName" type="xsd:QName" />-->
-<!--			<xsd:element name="endpointURL" type="xsd:anyURI" />-->
-<!--		</xsd:sequence>-->
-<!--	</xsd:complexType>-->
 
 </xsd:schema>

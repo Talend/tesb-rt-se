@@ -124,7 +124,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 
 	public Response registerEndpoint(RegisterEndpointRequestType arg0) {
 		String endpointURL = arg0.getEndpointURL();
-		QName serviceName = arg0.getServiceName();
+		QName serviceName = QName.valueOf(arg0.getServiceName());
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine("Registering endpoint " + endpointURL + " for service "
 					+ serviceName + "...");
