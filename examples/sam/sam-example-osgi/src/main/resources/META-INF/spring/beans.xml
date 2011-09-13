@@ -18,92 +18,31 @@
   limitations under the License.
   #L%
   -->
-  
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:util="http://www.springframework.org/schema/util" 
-    xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-    http://www.springframework.org/schema/task
-    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
-
-	<context:annotation-config/>
+    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 	
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="ignoreUnresolvablePlaceholders" value="true" />    	
-        <property name="location" value="classpath:agent.properties"/>
-    </bean>
-    
-    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
-        <property name="mapper" ref="eventMapper" />
-        <property name="eventSender" ref="eventCollector" />
-        <property name="logMessageContent" value="${log.messageContent}" />
-    </bean>
-    
-    <bean id="eventMapper" class="org.talend.esb.sam.agent.eventproducer.MessageToEventMapperImpl">
-        <property name="maxContentLength" value="${log.maxContentLength}"/>
-    </bean>
-
-	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollectorImpl" >
-		<!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
-		<property name="defaultInterval" value="${collector.scheduler.interval}" />
-		<!-- Stops the message flow if there is an error before storing event to 
-			queue -->
-		<property name="stopMessageFlowOnError" value="false" />
-		<!-- Number of events within one service call. This is a maximum number. 
-			If there are events in the queue, the events will be processed. -->
-		<property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}" />
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
-		<property name="executor" ref="defaultExecutor" />
-		<property name="scheduler" ref="defaultScheduler" />
-	</bean>
-	
-	<bean id="memoryQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
-
-	<!-- Scheduler starts in the interval of defaultInterval property. Within 
-		the execution of the scheduler new tasks will be created. This tasks will 
-		be managed by executor. Change this parameters only for performance tuning. -->
-	<task:scheduler id="defaultScheduler" pool-size="2" />
-	<task:executor id="defaultExecutor" pool-size="10" />
-
-	<jaxws:client id="monitoringServiceV1Client"
-		serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
-		address="${service.url}">
-        <jaxws:properties>
-            <entry key="mtom-enabled" value="true"/>
-        </jaxws:properties>
-    </jaxws:client>
-
-	<bean id="monitoringServceV1Wrapper" class="org.talend.esb.sam.agent.serviceclient.MonitoringServiceWrapper">
-		<property name="monitoringService" ref="monitoringServiceV1Client" />
-		<!-- Number of retries Default: 5 -->
-		<property name="numberOfRetries" value="${service.retry.number}" />
-		<!-- Delay in milliseconds between the next attemp to send. Thread is blocked 
-			for this time. Default: 1000 -->
-		<property name="delayBetweenRetry" value="${service.retry.delay}" />
-	</bean>
-
     <bean id="fixedProperties"
         class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
         <property name="customInfo">
             <map>
-                <entry key="Application name" value="Service2" />
+                <entry key="Application name" value="OSGI Service" />
             </map>
         </property>
-    </bean> 
+    </bean>
 
 	<jaxws:endpoint
-		id="customerService" address="/CustomerServicePort"
-		implementor="com.example.customerservice.server.CustomerServiceImpl">
+		id="customerService"
+		implementor="com.example.customerservice.server.CustomerServiceImpl"
+		address="/CustomerServicePort">
 		<jaxws:features>
 			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" />-->
 			<ref bean="eventFeature"/>

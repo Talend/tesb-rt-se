@@ -38,9 +38,9 @@
 
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sam-agent-props" persistent-id="org.talend.esb.sam.agent">
-	    <prop key="activator.sendServerLifecycleEvent">false</prop>
         <prop key="collector.scheduler.interval">500</prop>
         <prop key="collector.maxEventsPerCall">10</prop>
+	    <prop key="collector.lifecycleEvent">false</prop>
         <prop key="log.messageContent">true</prop>
         <prop key="log.maxContentLength">-1</prop>
         <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
@@ -72,6 +72,7 @@
         <!-- Number of events within one service call. This is a maximum number. 
             If there are events in the queue, the events will be processed. -->
         <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}" />
+		<property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
         <property name="executor" ref="defaultExecutor" />
         <property name="scheduler" ref="defaultScheduler" />
     </bean>
@@ -102,11 +103,13 @@
     </bean>
 
 	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
+	    <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>
 	
 	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
+	    <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>	
