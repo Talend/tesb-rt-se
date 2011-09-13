@@ -23,14 +23,21 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
 	
 	  <jaxrs:client id="restClient"
-         address="http://localhost:8040/services/rest"
+         address="locator://some_usefull_information"
          serviceClass="demo.common.OrderService"
+         xmlns:serviceNamespace="http://service.demo/"
+         serviceName="serviceNamespace:OrderServiceImpl"
          inheritHeaders="true">
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>
          </jaxrs:headers>
-  </jaxrs:client>
-	
+		<jaxrs:features>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+				<property name="selectionStrategy" value="randomSelectionStrategy"/>
+			</bean>
+		</jaxrs:features>
+		</jaxrs:client>
 </beans>
