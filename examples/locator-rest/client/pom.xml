@@ -28,6 +28,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>locator</artifactId>
+            <version>${project.version}</version>
+        </dependency> 
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>locator-rest-demo-common</artifactId>
             <version>${project.version}</version>

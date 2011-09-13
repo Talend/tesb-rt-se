@@ -32,18 +32,27 @@
 package demo.client;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import demo.common.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
 
+	private static final Logger LOG = Logger
+	.getLogger(Client.class.getPackage().getName());
+
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "beans.xml" });
+				new String[] { "META-INF/client.xml" });
 		OrderService client = (OrderService) context.getBean("restClient");
 		Order ord = client.getOrder("1");
 		
 		System.out.println(ord.getDescription());
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, ord.getDescription());
+		}
 		System.exit(0);
 
 	}
