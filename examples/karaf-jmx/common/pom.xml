@@ -25,7 +25,7 @@
 		<version>5.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
-	
+
 	<dependencies>
 		<dependency>
   			<groupId>org.apache.karaf.features</groupId>
@@ -35,8 +35,8 @@
   		<dependency>
   			<groupId>org.apache.aries.jmx</groupId>
   			<artifactId>org.apache.aries.jmx</artifactId>
-  			<version>0.3</version>
+  			<version>${aries.version}</version>
   		</dependency>
 	</dependencies>
-	
+
 </project>

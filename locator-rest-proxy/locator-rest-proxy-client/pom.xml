@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.locatorrestproxy</groupId>
     <artifactId>locator-rest-proxy-client</artifactId>
-    <name>REST Service Locator Proxy Client</name>
+    <name>REST Service Locator Proxy :: Client</name>
     <packaging>bundle</packaging>
 
     <parent>
