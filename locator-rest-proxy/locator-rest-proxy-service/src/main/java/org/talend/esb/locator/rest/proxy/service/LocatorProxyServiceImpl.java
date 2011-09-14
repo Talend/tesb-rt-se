@@ -36,6 +36,7 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import org.talend.esb.locator.proxy.service.InterruptedExceptionFault;
 import org.talend.esb.locator.proxy.service.ServiceLocatorFault;
 import org.talend.esb.locator.proxy.service.types.AssertionType;
+import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
 import org.talend.esb.locator.proxy.service.types.LookupRequestType;
 import org.talend.esb.locator.rest.proxy.service.types.EntryType;
 import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
@@ -196,12 +197,43 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	}
 
 	@Override
-	public Response lookupEndpoints(String arg0,
-			List<String> arg1) {
-		// TODO Auto-generated method stub
-		Response resp = Response.ok("Hello World").build();
-		Response.status(Response.Status.OK);
-		return resp;
+	public Response lookupEndpoints(String arg0, List<String> arg1) {
+		QName serviceName = null;
+		try {
+			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			return Response.status(500).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
+		List<String> names = null;
+		String adress = null;
+		SLPropertiesMatcher matcher = createMatcher(arg1);
+		EndpointReferenceListType refs = new EndpointReferenceListType();
+		try {
+			initLocator();
+			if (matcher == null) {
+				names = locatorClient.lookup(serviceName);
+			} else {
+				names = locatorClient.lookup(serviceName, matcher);
+			}
+		} catch (ServiceLocatorException e) {
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			//throw new ServiceLocatorFault(e.getMessage(), e);
+		} catch (InterruptedException e) {
+			return Response.status(500).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			//throw new InterruptedExceptionFault(e.getMessage(), e);
+		}
+		if (names != null && !names.isEmpty()) {
+			for (int i = 0; i < names.size(); i++) {
+				adress = names.get(i);
+				refs.getReturn().add(buildEndpoint(serviceName, adress));
+			}
+		} else {
+			if (LOG.isLoggable(Level.WARNING)) {
+				LOG.log(Level.WARNING, "lookup Endpoints for " + serviceName + " failed, service is not known.");
+			}
+			return Response.status(404).entity("lookup Endpoint for " + serviceName	+ " failed, service is not known.").type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok(refs).build();
 	}
 	
 	private SLPropertiesMatcher createMatcher(List<String> input) {
