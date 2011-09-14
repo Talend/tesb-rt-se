@@ -67,7 +67,7 @@
         <bundle>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>        
         <bundle>mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-discovery-distributed-zookeeper-server/${org.apache.cxf.dosgi.version}</bundle>
   </feature>
-  
+
   <feature name='tesb-locator-proxy' version='${project.version}'>
         <feature>tesb-locator-client</feature>
         <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service-common/${project.version}</bundle>
@@ -78,16 +78,23 @@
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.api/${project.version}</bundle>
     </feature>
 
-    <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
-        <feature version='${project.version}'>talend-job-api</feature>
-        <feature version='${project.version}'>tesb-locator-client</feature>
-        <feature version='${project.version}'>tesb-sam-agent</feature>
-        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
+    <feature name="talend-job-dependencies" version="${project.version}" resolver="(obr)">
+        <feature version='${cxf.version}'>cxf</feature>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxen/${jaxen.bundle.version}</bundle>
         <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix.specs.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.bundle.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/${servicemix.specs.version}</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-ws-metadata_2.0_spec/${geronimo-ws-metadata.version}</bundle>
+    </feature>
+
+    <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
+        <feature version='${project.version}'>talend-job-api</feature>
+        <feature version='${project.version}'>tesb-locator-client</feature>
+        <feature version='${project.version}'>tesb-sam-agent</feature>
+        <feature version='${project.version}'>talend-job-dependencies</feature>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
     </feature>
 
     <feature name="talend-job-console" version="${project.version}" resolver="(obr)">
