@@ -21,6 +21,7 @@
 		<module>sam</module>
 		<module>cxf-jmx</module>
 		<module>camel-jmx</module>
+		<module>karaf-jmx</module>
 	</modules>
 
 	<organization>
@@ -52,6 +53,7 @@
 		<zookeeper.version>3.3.3</zookeeper.version>
 		<derby.version>10.8.1.2</derby.version>
 		<servlet.api.version>2.5</servlet.api.version>
+        <aries.version>0.3</aries.version>
 		<!-- Test dependencies -->
 		<junit.version>4.9</junit.version>
 		<!-- Log dependencies -->
