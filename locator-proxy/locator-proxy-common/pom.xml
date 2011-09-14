@@ -103,14 +103,9 @@
 							<sourceRoot>${basedir}/target/generated-sources/cxf</sourceRoot>
 							<wadlOptions>
 								<wadlOption>
-									<wadl>${basedir}/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.xml</wadl>
+									<wadl>${basedir}/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl</wadl>
 									<impl>false</impl>
-
 									<packagename>org.talend.esb.locator.rest.proxy.service</packagename>
-									<!-- <schemaPackagenames> -->
-									<!-- <schemaPackagename>http://superbooks=org.rest.example.schema</schemaPackagename> -->
-									<!-- </schemaPackagenames> -->
-
 								</wadlOption>
 							</wadlOptions>
 						</configuration>
