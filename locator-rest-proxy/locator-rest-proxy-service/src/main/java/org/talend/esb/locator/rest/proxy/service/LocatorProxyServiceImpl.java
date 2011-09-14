@@ -167,7 +167,29 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	}
 
 	public Response unregisterEndpoint(String arg0, String arg1) {
-		return null;
+		String endpointURL = null;
+		QName serviceName = null;
+		try {
+			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
+			endpointURL = URLDecoder.decode(arg1, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Unregistering endpoint " + endpointURL + " for service "
+					+ serviceName + "...");
+		}
+		try {
+			initLocator();
+			locatorClient.unregister(serviceName, endpointURL);
+		} catch (ServiceLocatorException e) {
+//			throw new ServiceLocatorFault(e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		} catch (InterruptedException e) {
+//			throw new InterruptedExceptionFault(e.getMessage(), e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.status(Response.Status.OK).build();
 	}
 
 	@Override
