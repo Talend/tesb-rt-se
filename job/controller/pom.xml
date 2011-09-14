@@ -41,12 +41,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.aries.jmx</groupId>
-            <artifactId>org.apache.aries.jmx</artifactId>
-            <version>${aries.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
@@ -97,11 +91,17 @@
                             org.apache.servicemix.bundles.saaj-impl
                         </Require-Bundle>
                         <Export-Package>
-                            org.talend.esb.job.controller;version=${project.version}
+                            org.talend.esb.job.controller;version=${project.version},
+                            org.talend.esb.job.controller.management;version=${project.version}
                         </Export-Package>
                         <Private-Package>
                             org.talend.esb.job.controller.internal*
                         </Private-Package>
+                        <Import-Package>
+                            javax.management,
+                            javax.management.loading,
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
