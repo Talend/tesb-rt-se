@@ -28,6 +28,7 @@
         <module>client</module>
 		<module>common</module>
         <module>service</module>
+		<module>features</module>
     </modules>
 
 </project>
