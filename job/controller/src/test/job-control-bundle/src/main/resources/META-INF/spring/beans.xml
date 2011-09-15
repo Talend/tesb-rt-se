@@ -29,6 +29,7 @@
 		wsdlLocation="classpath:/model/CustomerService.wsdl"
 		implementor="#genericServiceProvider"
 		id="service"
+		publish="false"
 	>
 	    <jaxws:features>
 		    <!-- (1) SL
@@ -61,7 +62,7 @@
 	     -->
 	</bean>
 
-	<osgi:service ref="genericServiceProvider" interface="routines.system.api.TalendJob">
+	<osgi:service ref="service" interface="javax.xml.ws.Endpoint">
 		<osgi:service-properties>
 			<entry key="name" value="CustomerService" />
 			<entry key="type" value="service" />

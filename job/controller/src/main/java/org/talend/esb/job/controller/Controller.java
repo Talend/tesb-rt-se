@@ -54,7 +54,7 @@ public interface Controller {
     public List<String> listRoutes() throws Exception;
 
     /**
-     * List of Talend Data services available in the running container.
+     * List of Talend Data Services available in the running container.
      *
      * @return the list of Talend services
      * @throws Exception in case of lookup failure
@@ -84,11 +84,27 @@ public interface Controller {
     public void run(String name, String[] args) throws Exception;
 
     /**
+     * Run a Talend Data Service with the given name.
+     *
+     * @param name the Talend service name.
+     * @throws Exception in case of run exception.
+     */
+    public void runService(String name) throws Exception;
+
+    /**
      * Stop a Talend job with the given name.
      *
      * @param name the Talend job name.
      * @throws Exception in case of run exception.
      */
     public void stop(String name) throws Exception;
+
+    /**
+     * Stop a Talend Data Service with the given name.
+     *
+     * @param name the Talend service name.
+     * @throws Exception in case of run exception.
+     */
+    public void stopService(String name) throws Exception;
 
 }

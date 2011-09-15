@@ -63,7 +63,19 @@ public class ControllerImpl implements Controller, ServiceListener {
     }
 
     public List<String> listServices() throws Exception {
-        return list("(type=service)");
+        ArrayList<String> list = new ArrayList<String>();
+        ServiceReference[] references = bundleContext.getServiceReferences(javax.xml.ws.Endpoint.class.getName(), "(type=service)");
+        if (references != null) {
+            for (ServiceReference reference:references) {
+                if (reference != null) {
+                    String name = (String) reference.getProperty("name");
+                    if (name != null) {
+                        list.add(name);
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     private List<String> list(String filter) throws Exception {
@@ -99,13 +111,20 @@ public class ControllerImpl implements Controller, ServiceListener {
         if (references == null) {
             throw new IllegalArgumentException("Talend job " + name + " not found");
         }
-        if ("service".equals(references[0].getProperty("type"))) {
-            references[0].getBundle().start();
-        } else {
-            final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
-            if (job != null) {
-                jobLauncher.startJob(job, args);
-            }
+        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+        if (job != null) {
+            jobLauncher.startJob(job, args);
+        }
+    }
+
+    public void runService(String name) throws Exception {
+        ServiceReference[] references = bundleContext.getServiceReferences(javax.xml.ws.Endpoint.class.getName(), "(name=" + name + ")");
+        if (references == null) {
+            throw new IllegalArgumentException("Talend service " + name + " not found");
+        }
+        final javax.xml.ws.Endpoint service = (javax.xml.ws.Endpoint) bundleContext.getService(references[0]);
+        if (service != null) {
+            service.publish(null);
         }
     }
 
@@ -114,13 +133,20 @@ public class ControllerImpl implements Controller, ServiceListener {
         if (references == null) {
             throw new IllegalArgumentException("Talend job " + name + " not found");
         }
-        if ("service".equals(references[0].getProperty("type"))) {
-            references[0].getBundle().stop();
-        } else {
-            final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
-            if (job != null) {
-                jobLauncher.stopJob(job);
-            }
+        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+        if (job != null) {
+            jobLauncher.stopJob(job);
+        }
+    }
+
+    public void stopService(String name) throws Exception {
+        ServiceReference[] references = bundleContext.getServiceReferences(javax.xml.ws.Endpoint.class.getName(), "(name=" + name + ")");
+        if (references == null) {
+            throw new IllegalArgumentException("Talend service " + name + " not found");
+        }
+        final javax.xml.ws.Endpoint service = (javax.xml.ws.Endpoint) bundleContext.getService(references[0]);
+        if (service != null) {
+            service.stop();
         }
     }
 

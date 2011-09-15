@@ -44,11 +44,11 @@ public class ServiceControllerMBeanImpl extends StandardMBean implements Control
     }
 
     public void start(String name) throws Exception {
-        controller.run(name);
+        controller.runService(name);
     }
 
     public void stop(String name) throws Exception {
-        controller.stop(name);
+        controller.stopService(name);
     }
 
 }
