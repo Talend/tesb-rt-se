@@ -44,11 +44,11 @@ public class ServiceControllerMBeanImpl extends StandardMBean implements Control
     }
 
     public void start(String name) throws Exception {
-        throw new UnsupportedOperationException();
+        controller.run(name);
     }
 
     public void stop(String name) throws Exception {
-        throw new UnsupportedOperationException();
+        controller.stop(name);
     }
 
 }

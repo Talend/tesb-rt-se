@@ -99,9 +99,13 @@ public class ControllerImpl implements Controller, ServiceListener {
         if (references == null) {
             throw new IllegalArgumentException("Talend job " + name + " not found");
         }
-        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
-        if (job != null) {
-            jobLauncher.startJob(job, args);
+        if ("service".equals(references[0].getProperty("type"))) {
+            references[0].getBundle().start();
+        } else {
+            final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+            if (job != null) {
+                jobLauncher.startJob(job, args);
+            }
         }
     }
 
@@ -110,9 +114,13 @@ public class ControllerImpl implements Controller, ServiceListener {
         if (references == null) {
             throw new IllegalArgumentException("Talend job " + name + " not found");
         }
-        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
-        if (job != null) {
-            jobLauncher.stopJob(job);
+        if ("service".equals(references[0].getProperty("type"))) {
+            references[0].getBundle().stop();
+        } else {
+            final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+            if (job != null) {
+                jobLauncher.stopJob(job);
+            }
         }
     }
 
