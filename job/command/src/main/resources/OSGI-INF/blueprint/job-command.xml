@@ -69,6 +69,30 @@
                 <null/>
             </completers>
         </command>
+
+        <command name="service/list">
+            <action class="org.talend.esb.job.command.ListServicesCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+        </command>
+        <command name="service/start">
+            <action class="org.talend.esb.job.command.StartServiceCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="serviceCompleter"/>
+                <null/>
+            </completers>
+        </command>
+        <command name="service/stop">
+            <action class="org.talend.esb.job.command.StopServiceCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="serviceCompleter"/>
+                <null/>
+            </completers>
+        </command>
     </command-bundle>
 
     <reference id="controller" interface="org.talend.esb.job.controller.Controller"/>
@@ -77,6 +101,9 @@
         <property name="controller" ref="controller"/>
     </bean>
     <bean id="routeCompleter" class="org.talend.esb.job.command.completers.RouteCompleter">
+        <property name="controller" ref="controller"/>
+    </bean>
+    <bean id="serviceCompleter" class="org.talend.esb.job.command.completers.ServiceCompleter">
         <property name="controller" ref="controller"/>
     </bean>
 
