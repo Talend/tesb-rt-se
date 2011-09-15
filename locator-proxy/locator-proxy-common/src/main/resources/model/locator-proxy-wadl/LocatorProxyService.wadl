@@ -21,7 +21,7 @@
 				</method>
 			</resource>
 			
-			<resource path="endpoints">
+			<resource path="endpoints/{serviceName}">
 				<method name="GET" id="lookupEndpoints">
 					<request>
 						<param name="serviceName" type="xsd:string" style="template"
