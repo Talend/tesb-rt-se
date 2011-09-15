@@ -19,7 +19,6 @@
  */
 package org.talend.esb.job.controller.internal.management;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.management.NotCompliantMBeanException;
@@ -41,13 +40,15 @@ public class ServiceControllerMBeanImpl extends StandardMBean implements Control
     }
 
     public List<String> list() throws Exception {
-        return Collections.emptyList();
+        throw new UnsupportedOperationException();
     }
 
     public void start(String name) throws Exception {
+        throw new UnsupportedOperationException();
     }
 
     public void stop(String name) throws Exception {
+        throw new UnsupportedOperationException();
     }
 
 }

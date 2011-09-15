@@ -48,6 +48,7 @@ public class JobControllerMBeanImpl extends StandardMBean implements ControllerM
     }
 
     public void stop(String name) throws Exception {
+        throw new UnsupportedOperationException();
     }
 
 }
