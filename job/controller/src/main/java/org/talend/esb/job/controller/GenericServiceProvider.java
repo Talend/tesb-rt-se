@@ -27,8 +27,9 @@ import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
 
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBProviderCallback;
+import routines.system.api.TalendJob;
 
-public class GenericServiceProvider extends ESBProviderBase {
+public class GenericServiceProvider extends ESBProviderBase implements TalendJob {
 
     private Map<String, String> operations;
     private JobLauncher jobLauncher;
@@ -98,6 +99,14 @@ public class GenericServiceProvider extends ESBProviderBase {
             return true;
         }
 
+    }
+
+    public String[][] runJob(String[] arg0) {
+        return null;
+    }
+
+    public int runJobInTOS(String[] arg0) {
+        return 0;
     }
 
 }

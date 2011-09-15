@@ -28,6 +28,7 @@
 		address="http://localhost:9090/CustomerServicePort"
 		wsdlLocation="classpath:/model/CustomerService.wsdl"
 		implementor="#genericServiceProvider"
+		id="service"
 	>
 	    <jaxws:features>
 		    <!-- (1) SL
@@ -59,5 +60,12 @@
         <property name="eventFeature" ref="eventFeature"/>
 	     -->
 	</bean>
+
+	<osgi:service ref="genericServiceProvider" interface="routines.system.api.TalendJob">
+		<osgi:service-properties>
+			<entry key="name" value="CustomerService" />
+			<entry key="type" value="service" />
+		</osgi:service-properties>
+	</osgi:service>
 
 </beans>
