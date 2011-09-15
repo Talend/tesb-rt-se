@@ -14,7 +14,7 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
+import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
 import org.talend.esb.locator.rest.proxy.service.types.EntryType;
 import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
 //import org.talend.esb.locator.proxy.service.types.LookupRequestType;
