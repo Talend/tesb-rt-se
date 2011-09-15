@@ -50,7 +50,6 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
-import org.w3._2005._08.addressing.EndpointReferenceType;
 
 public class LocatorProxyServiceImpl implements LocatorProxyService {
 
