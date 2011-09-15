@@ -18,8 +18,8 @@
 	<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
 	</xsd:element>
 
-	<xsd:element name="RegisterEndpointRequestType" type="lpx:registerEndpointRequestType" />
-	<xsd:complexType name="registerEndpointRequestType">
+	<xsd:element name="RegisterEndpointRequestType" type="lpx:registerEndpointRequestType">
+	<xsd:complexType>
 		<xsd:sequence>
 			<xsd:element name="serviceName" type="xsd:string" />
 			<xsd:element name="endpointURL" type="xsd:anyURI" />
@@ -27,6 +27,7 @@
 				minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
+	</xsd:element>
 
 	<xsd:complexType name="EntryType">
 		<xsd:sequence>
