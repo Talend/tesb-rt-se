@@ -48,10 +48,18 @@ public interface Controller {
     /**
      * List of Talend routes available in the running container.
      *
-     * @return the list of Talend jobs
+     * @return the list of Talend routes
      * @throws Exception in case of lookup failure
      */
     public List<String> listRoutes() throws Exception;
+
+    /**
+     * List of Talend Data services available in the running container.
+     *
+     * @return the list of Talend services
+     * @throws Exception in case of lookup failure
+     */
+    public List<String> listServices() throws Exception;
 
     /**
      * Get the bundle corresponding to the job/route name.

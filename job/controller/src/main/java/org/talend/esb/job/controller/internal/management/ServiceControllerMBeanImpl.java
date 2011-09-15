@@ -40,7 +40,7 @@ public class ServiceControllerMBeanImpl extends StandardMBean implements Control
     }
 
     public List<String> list() throws Exception {
-        throw new UnsupportedOperationException();
+        return controller.listServices();
     }
 
     public void start(String name) throws Exception {
