@@ -22,6 +22,7 @@ package org.talend.esb.locator.rest.proxy.service;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -197,7 +198,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 		List<String> names = null;
 		String adress = null;
-		SLPropertiesMatcher matcher = createMatcher(arg1);
+		SLPropertiesMatcher matcher = null;
+		try {
+			matcher = createMatcher(arg1);
+		} catch (UnsupportedEncodingException e1) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
 		try {
 			initLocator();
 			if (matcher == null) {
@@ -235,7 +241,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 		List<String> names = null;
 		String adress = null;
-		SLPropertiesMatcher matcher = createMatcher(arg1);
+		SLPropertiesMatcher matcher = null;
+		try {
+			matcher = createMatcher(arg1);
+		} catch (UnsupportedEncodingException e1) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
 		EndpointReferenceListType refs = new EndpointReferenceListType();
 		try {
 			initLocator();
@@ -265,12 +276,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		return Response.ok(refs).build();
 	}
 	
-	private SLPropertiesMatcher createMatcher(List<String> input) {
+	private SLPropertiesMatcher createMatcher(List<String> input) throws UnsupportedEncodingException {
 		SLPropertiesMatcher matcher = null;
 		if (input != null && input.size() > 0) {
 			matcher = new SLPropertiesMatcher();
 			for (String pair : input) {
-				String[] assertion = pair.split(",");
+				String[] assertion = URLDecoder.decode(pair, "UTF-8").split(",");
 				if(assertion.length == 2)
 				{
 					matcher.addAssertion(assertion[0], assertion[1]);
