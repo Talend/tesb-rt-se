@@ -23,8 +23,10 @@ import java.util.List;
 
 public interface ControllerMBean {
 
-    List<String> listJobs() throws Exception;
-    List<String> listRoutes() throws Exception;
-    void run(String name) throws Exception;
+    List<String> list() throws Exception;
+
+    void start(String name) throws Exception;
+
+    void stop(String name) throws Exception;
 
 }

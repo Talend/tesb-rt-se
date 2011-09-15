@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller.internal.management;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.management.NotCompliantMBeanException;
@@ -27,7 +28,7 @@ import javax.management.StandardMBean;
 import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.management.ControllerMBean;
 
-public class ControllerMBeanImpl extends StandardMBean implements ControllerMBean {
+public class ServiceControllerMBeanImpl extends StandardMBean implements ControllerMBean {
 
     private Controller controller;
 
@@ -35,19 +36,18 @@ public class ControllerMBeanImpl extends StandardMBean implements ControllerMBea
         this.controller = controller;
     }
 
-    public ControllerMBeanImpl() throws NotCompliantMBeanException {
+    public ServiceControllerMBeanImpl() throws NotCompliantMBeanException {
         super(ControllerMBean.class);
     }
 
-    public List<String> listJobs() throws Exception {
-        return controller.listJobs();
+    public List<String> list() throws Exception {
+        return Collections.emptyList();
     }
 
-    public List<String> listRoutes() throws Exception {
-        return controller.listRoutes();
+    public void start(String name) throws Exception {
     }
 
-    public void run(String name) throws Exception {
-        controller.run(name);
+    public void stop(String name) throws Exception {
     }
+
 }
