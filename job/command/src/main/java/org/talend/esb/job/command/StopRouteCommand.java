@@ -21,20 +21,16 @@ package org.talend.esb.job.command;
 
 import org.apache.felix.gogo.commands.Argument;
 import org.apache.felix.gogo.commands.Command;
-import org.apache.felix.gogo.commands.Option;
 import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.talend.esb.job.controller.Controller;
 
 /**
- * Start a Talend route identified by name.
+ * Stop a Talend route identified by name.
  */
-@Command(scope = "route", name = "start", description ="Start a Talend route")
-public class StartRouteCommand extends OsgiCommandSupport {
+@Command(scope = "route", name = "stop", description ="Stop a Talend route")
+public class StopRouteCommand extends OsgiCommandSupport {
 
-    @Option(name = "-a", aliases = {"--args"}, description = "Arguments to use when running the Talend route", required = false, multiValued = false)
-    String args;
-
-    @Argument(index = 0, name = "name", description = "The name of the Talend route to start", required = true, multiValued = false)
+    @Argument(index = 0, name = "name", description = "The name of the Talend route to stop", required = true, multiValued = false)
     String route = null;
 
     private Controller controller;
@@ -44,14 +40,7 @@ public class StartRouteCommand extends OsgiCommandSupport {
     }
 
     public Object doExecute() throws Exception {
-        String[] arguments = null;
-        if (args != null) {
-            arguments = args.split(" ");
-        }
-        if (arguments == null) {
-            arguments = new String[0];
-        }
-        controller.run(route, arguments);
+        controller.stop(route);
         return null;
     }
 

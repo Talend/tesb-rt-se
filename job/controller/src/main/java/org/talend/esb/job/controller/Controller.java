@@ -75,4 +75,12 @@ public interface Controller {
      */
     public void run(String name, String[] args) throws Exception;
 
+    /**
+     * Stop a Talend job with the given name.
+     *
+     * @param name the Talend job name.
+     * @throws Exception in case of run exception.
+     */
+    public void stop(String name) throws Exception;
+
 }

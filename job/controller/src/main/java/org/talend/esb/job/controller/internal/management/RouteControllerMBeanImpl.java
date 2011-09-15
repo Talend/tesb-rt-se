@@ -48,7 +48,7 @@ public class RouteControllerMBeanImpl extends StandardMBean implements Controlle
     }
 
     public void stop(String name) throws Exception {
-        throw new UnsupportedOperationException();
+        controller.stop(name);
     }
 
 }

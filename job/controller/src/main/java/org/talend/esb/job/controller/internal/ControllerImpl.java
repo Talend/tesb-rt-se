@@ -109,6 +109,17 @@ public class ControllerImpl implements Controller, ServiceListener {
         }
     }
 
+    public void stop(String name) throws Exception {
+        ServiceReference[] references = bundleContext.getServiceReferences(TalendJob.class.getName(), "(name=" + name + ")");
+        if (references == null) {
+            throw new IllegalArgumentException("Talend job " + name + " not found");
+        }
+        final TalendJob job = (TalendJob) bundleContext.getService(references[0]);
+        if (job != null) {
+            jobLauncher.stopJob(job);
+        }
+    }
+
     public void serviceChanged(ServiceEvent event) {
         if (event.getType() == ServiceEvent.UNREGISTERING) {
             Object service = bundleContext.getService(event.getServiceReference());

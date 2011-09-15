@@ -36,6 +36,16 @@
                 <null/>
             </completers>
         </command>
+        <command name="job/stop">
+            <action class="org.talend.esb.job.command.StopJobCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="jobCompleter"/>
+                <null/>
+            </completers>
+        </command>
+
         <command name="route/list">
             <action class="org.talend.esb.job.command.ListRoutesCommand">
                 <property name="controller" ref="controller"/>
@@ -43,6 +53,15 @@
         </command>
         <command name="route/start">
             <action class="org.talend.esb.job.command.StartRouteCommand">
+                <property name="controller" ref="controller"/>
+            </action>
+            <completers>
+                <ref component-id="routeCompleter"/>
+                <null/>
+            </completers>
+        </command>
+        <command name="route/stop">
+            <action class="org.talend.esb.job.command.StopRouteCommand">
                 <property name="controller" ref="controller"/>
             </action>
             <completers>
