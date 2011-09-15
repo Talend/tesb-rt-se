@@ -129,4 +129,13 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		
 		Assert.assertTrue(status == 404);
 	}
+	
+	@Test
+	public void unregisterEndpoint() throws ServiceLocatorException, InterruptedException{
+		sl.unregister(SERVICE_NAME, ENDPOINTURL);
+		EasyMock.expectLastCall();
+		replayAll();
+		int status = lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL).getStatus();
+		Assert.assertTrue(status == 200);
+	}
 }
