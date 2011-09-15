@@ -24,7 +24,7 @@
 			<resource path="endpoints">
 				<method name="GET" id="lookupEndpoints">
 					<request>
-						<param name="serviceName" type="xsd:string" style="query"
+						<param name="serviceName" type="xsd:string" style="template"
 							required="true" />
 						<param name="param" type="xsd:string" style="matrix"
 							repeating="true" />
