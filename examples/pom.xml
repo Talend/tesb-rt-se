@@ -22,6 +22,7 @@
 		<module>cxf-jmx</module>
 		<module>camel-jmx</module>
 		<module>karaf-jmx</module>
+		<module>locator-rest</module>
 	</modules>
 
 	<organization>
