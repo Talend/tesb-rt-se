@@ -157,9 +157,18 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		UriBuilder locationBuilder = uriInfo.getBaseUriBuilder();
 		locationBuilder =locationBuilder.uri(uriInfo.getRequestUri());
 		System.out.println(serviceName);
-		URI endpointlocation =
-		locationBuilder.path("{seviceName}/{endpointURL}").build(arg0.getServiceName(),endpointURL);
-		return Response.status(Response.Status.OK).location(endpointlocation).build();
+		URI endpointLocation = null;
+		URI serviceLocation = null;
+		try{
+	    endpointLocation =
+		locationBuilder.path("{seviceName}/{endpointURL}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8") ,URLEncoder.encode(endpointURL,"UTF-8"));
+	    locationBuilder = uriInfo.getBaseUriBuilder();
+		serviceLocation = locationBuilder.path("{seviceName}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8"));
+		}
+		catch (UnsupportedEncodingException e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.status(Response.Status.OK).entity(serviceLocation.toString()).location(endpointLocation).build();
 	}
 
 	public Response unregisterEndpoint(String arg0, String arg1) {
