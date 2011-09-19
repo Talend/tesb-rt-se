@@ -28,7 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.feature.AbstractFeature;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
@@ -37,6 +36,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.ESBProviderCallbackController;
 import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.sam.common.event.Event;
+import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
@@ -48,7 +48,6 @@ import routines.system.api.TalendJob;
 public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         JobThreadListener {
 
-    private AbstractFeature serviceLocator;
     private Queue<Event> samQueue;
     private Bus bus;
     private BundleContext bundleContext;
@@ -62,10 +61,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
 
     public void setBus(Bus bus) {
         this.bus = bus;
-    }
-
-    public void setServiceLocator(AbstractFeature serviceLocator) {
-        this.serviceLocator = serviceLocator;
     }
 
     public void setSamQueue(Queue<Event> samQueue) {
@@ -157,7 +152,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
             esbProvider = new ESBProvider(publishedEndpointUrl,
                 serviceName,
                 portName,
-                useServiceLocator ? serviceLocator : null,
+                useServiceLocator ? new LocatorFeature() : null,
                 useServiceActivityMonitor ? samQueue : null);
             esbProvider.run(bus);
             esbProviders.add(esbProvider);
@@ -229,7 +224,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
                 operationName,
                 publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
-                useServiceLocator ? serviceLocator : null,
+                useServiceLocator ? new LocatorFeature() : null,
                 useServiceActivityMonitor ? samQueue : null,
                 bus);
 

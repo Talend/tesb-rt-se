@@ -32,11 +32,8 @@
     <!-- SAM -->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-    <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl" lazy-init="true">
+    <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl">
         <property name="bus" ref="cxf" />
-        <property name="serviceLocator">
-            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
-        </property>
         <property name="samQueue" ref="samQueue"/>
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
