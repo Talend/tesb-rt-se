@@ -24,12 +24,6 @@
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
-            <artifactId>locator</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -40,7 +34,6 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
@@ -58,6 +51,24 @@
             <artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
             <version>${dom4j.bundle.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.jaxen</artifactId>
+            <version>${jaxen.bundle.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.specs</groupId>
+            <artifactId>org.apache.servicemix.specs.saaj-api-1.3</artifactId>
+            <version>${servicemix.specs.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.saaj-impl</artifactId>
+            <version>${saaj-impl.bundle.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
