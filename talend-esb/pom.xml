@@ -1125,7 +1125,7 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten" />
 											</present>
-											<present targetdir="target/add-ons/monitoring">
+											<present targetdir="target/add-ons/sam">
 												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
@@ -1148,7 +1148,7 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten" />
 											</present>
-											<present targetdir="target/add-ons/monitoring">
+											<present targetdir="target/add-ons/sam">
 												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
@@ -1171,7 +1171,7 @@
 											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
 												<mapper type="flatten" />
 											</present>
-											<present targetdir="target/add-ons/monitoring">
+											<present targetdir="target/add-ons/sam">
 												<mapper type="flatten" />
 											</present>
 											<present targetdir="target/add-ons/locator">
