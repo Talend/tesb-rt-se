@@ -23,7 +23,7 @@
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
 		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.8.2.0-SNAPSHOT</tif.version>
+		<tif.version>2.7.2.0</tif.version>
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.1.0</tsf.version>
 		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
