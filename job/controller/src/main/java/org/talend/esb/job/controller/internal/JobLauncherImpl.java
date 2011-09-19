@@ -265,7 +265,11 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
         public synchronized Object getRequest() throws ESBJobInterruptedException {
             if (delegate == null) {
                 // This will be run after #getRequest will be called from the job
-                delegate = createESBProvider(endpointInfo.getEndpointProperties());
+                try {
+                    delegate = createESBProvider(endpointInfo.getEndpointProperties());
+                } catch (Exception e) {
+                    throw new ESBJobInterruptedException(e.getMessage(), e);
+                }
             }
             return delegate.getRequest();
         }
