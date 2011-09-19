@@ -15,8 +15,6 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-	<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
-	</xsd:element>
 
 	<xsd:element name="RegisterEndpointRequestType">
 	<xsd:complexType>
