@@ -31,30 +31,58 @@
 
 package demo.client;
 
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import demo.common.*;
+
+import org.apache.cxf.jaxrs.client.WebClient;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
 
-	private static final Logger LOG = Logger
-	.getLogger(Client.class.getPackage().getName());
+	private static final Logger LOG = Logger.getLogger(Client.class
+			.getPackage().getName());
+
+	private static void usingClientReset(ClassPathXmlApplicationContext context) {
+		OrderService proxy = (OrderService) context.getBean("restClient");
+		org.apache.cxf.jaxrs.client.Client client = WebClient.client(proxy);
+		for (int i = 0; i < 5; i++) {
+			Order ord = proxy.getOrder("1");
+			client.reset();
+			System.out.println(ord.getDescription());
+		}
+	}
+
+	private static void standardClient(ClassPathXmlApplicationContext context) {
+		OrderService proxy = (OrderService) context.getBean("restClient");
+		for (int i = 0; i < 5; i++) {
+			Order ord = proxy.getOrder("1");
+			System.out.println(ord.getDescription());
+		}
+
+	}
 
 	public static void main(String[] args) {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "META-INF/client.xml" });
-		OrderService client = (OrderService) context.getBean("restClient");
-		Order ord = client.getOrder("1");
-		
-		System.out.println(ord.getDescription());
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, ord.getDescription());
+		// Use client reset after each invoke
+		try {
+			usingClientReset(context);
+			System.out.println("\nNo exceptions during reset usecase - OK\n");
+		} catch (Exception e) {
+			System.out.println("Exception during reset usecase\n");
+			e.printStackTrace();
+		}
+		// Use client proxy as usual
+		try {
+			standardClient(context);
+			System.out.println("\nNo exceptions during usual usecase - OK\n");
+		} catch (Exception e) {
+			System.out.println("Exception during usual usecase\n");
+			e.printStackTrace();
 		}
 		System.exit(0);
-
 	}
 
 }

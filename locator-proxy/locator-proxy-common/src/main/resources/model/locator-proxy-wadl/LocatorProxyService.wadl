@@ -15,8 +15,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml" />
-						<representation mediaType="application/json" />
+						<representation mediaType="application/xml" element="ns1:EndpointReferenceType" />
+						<representation mediaType="application/json" element="ns1:EndpointReferenceType" />
 					</response>
 				</method>
 			</resource>
@@ -30,8 +30,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml" />
-						<representation mediaType="application/json" />
+						<representation mediaType="application/xml" element="ns:EndpointReferenceListType" />
+						<representation mediaType="application/json" element="ns:EndpointReferenceListType" />
 					</response>
 				</method>
 			</resource>
@@ -44,14 +44,10 @@
 						<representation mediaType="application/json"
 							element="ns:RegisterEndpointRequestType" />
 					</request>
-					<response status="200">
-						<representation mediaType="application/xml" />
-						<representation mediaType="application/json" />
-					</response>
 				</method>
 			</resource>
 			
-			<resource path="endpoint/{serviceName}/{endpointURL}/">
+			<resource path="endpoint/{serviceName}/{endpointURL}">
 				<method name="DELETE" id="unregisterEndpoint">
 					<request>
 						<param name="serviceName" type="xsd:string" style="template"
@@ -59,10 +55,6 @@
 						<param name="endpointURL" type="xsd:string" style="template"
 							required="true" />
 					</request>
-					<response status="200">
-						<representation mediaType="application/xml" />
-						<representation mediaType="application/json" />
-					</response>
 				</method>
 			</resource>
 			

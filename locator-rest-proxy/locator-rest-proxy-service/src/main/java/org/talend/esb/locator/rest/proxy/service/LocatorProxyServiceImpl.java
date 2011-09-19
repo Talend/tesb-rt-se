@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -128,7 +129,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
-	public Response registerEndpoint(RegisterEndpointRequestType arg0) {
+	public void registerEndpoint(RegisterEndpointRequestType arg0) {
 		String endpointURL = arg0.getEndpointURL();
 		QName serviceName = QName.valueOf(arg0.getServiceName());
 		if (LOG.isLoggable(Level.FINE)) {
@@ -149,27 +150,35 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 		} catch (ServiceLocatorException e) {
 			//throw new ServiceLocatorFault(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		} catch (InterruptedException e) {
 			//throw new InterruptedExceptionFault(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 		UriBuilder locationBuilder = uriInfo.getBaseUriBuilder();
-		locationBuilder =locationBuilder.uri(uriInfo.getRequestUri());
+		locationBuilder = locationBuilder.uri(uriInfo.getRequestUri());
 		System.out.println(serviceName);
-		URI endpointlocation =
-		locationBuilder.path("{seviceName}/{endpointURL}").build(arg0.getServiceName(),endpointURL);
-		return Response.status(Response.Status.OK).location(endpointlocation).build();
+		URI endpointLocation = null;
+		URI serviceLocation = null;
+		try{
+		    endpointLocation = locationBuilder.path("{seviceName}/{endpointURL}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8") ,URLEncoder.encode(endpointURL,"UTF-8"));
+		    locationBuilder = uriInfo.getBaseUriBuilder();
+			serviceLocation = locationBuilder.path("{seviceName}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8"));
+		}
+		catch (UnsupportedEncodingException e) {
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+		}
+		//return Response.status(Response.Status.OK).entity(serviceLocation.toString()).location(endpointLocation).build();
 	}
 
-	public Response unregisterEndpoint(String arg0, String arg1) {
+	public void unregisterEndpoint(String arg0, String arg1) {
 		String endpointURL = null;
 		QName serviceName = null;
 		try {
 			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
 			endpointURL = URLDecoder.decode(arg1, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e1.getMessage()).build());
 		}
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine("Unregistering endpoint " + endpointURL + " for service "
@@ -180,12 +189,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
 //			throw new ServiceLocatorFault(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		} catch (InterruptedException e) {
 //			throw new InterruptedExceptionFault(e.getMessage(), e);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
-		return Response.status(Response.Status.OK).build();
+		//return Response.status(Response.Status.OK).build();
 	}
 
 	@Override
@@ -232,12 +241,12 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	}
 
 	@Override
-	public Response lookupEndpoints(String arg0, List<String> arg1) {
+	public EndpointReferenceListType lookupEndpoints(String arg0, List<String> arg1) {
 		QName serviceName = null;
 		try {
 			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e1.getMessage()).build());
 		}
 		List<String> names = null;
 		String adress = null;
@@ -245,7 +254,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		try {
 			matcher = createMatcher(arg1);
 		} catch (UnsupportedEncodingException e1) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error during decoding serviceName").type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e1.getMessage()).build());
 		}
 		EndpointReferenceListType refs = new EndpointReferenceListType();
 		try {
@@ -256,10 +265,10 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 				names = locatorClient.lookup(serviceName, matcher);
 			}
 		} catch (ServiceLocatorException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 			//throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 			//throw new InterruptedExceptionFault(e.getMessage(), e);
 		}
 		if (names != null && !names.isEmpty()) {
@@ -271,9 +280,9 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			if (LOG.isLoggable(Level.WARNING)) {
 				LOG.log(Level.WARNING, "lookup Endpoints for " + serviceName + " failed, service is not known.");
 			}
-			return Response.status(Status.NOT_FOUND).entity("lookup Endpoint for " + serviceName	+ " failed, service is not known.").type(MediaType.TEXT_PLAIN).build();
+			throw new WebApplicationException(Response.status(Status.NOT_FOUND).entity("Service not found").build());
 		}
-		return Response.ok(refs).build();
+		return refs;
 	}
 	
 	private SLPropertiesMatcher createMatcher(List<String> input) throws UnsupportedEncodingException {
