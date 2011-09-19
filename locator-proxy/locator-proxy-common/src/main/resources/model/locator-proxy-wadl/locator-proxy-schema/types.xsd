@@ -18,7 +18,7 @@
 	<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
 	</xsd:element>
 
-	<xsd:element name="RegisterEndpointRequestType" type="lpx:registerEndpointRequestType">
+	<xsd:element name="RegisterEndpointRequestType">
 	<xsd:complexType>
 		<xsd:sequence>
 			<xsd:element name="serviceName" type="xsd:string" />
