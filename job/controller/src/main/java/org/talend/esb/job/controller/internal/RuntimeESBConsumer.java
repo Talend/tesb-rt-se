@@ -21,7 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -45,7 +44,6 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
@@ -61,7 +59,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String publishedEndpointUrl;
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
-    private EventFeature eventFeature;
+    private final EventFeature eventFeature;
     private final Bus bus;
     private Client client;
 
@@ -72,7 +70,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             String publishedEndpointUrl,
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
-            final Queue<Event> samQueue,
+            final EventFeature eventFeature,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -80,10 +78,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.publishedEndpointUrl = publishedEndpointUrl;
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
-        if (samQueue != null) {
-            eventFeature = new EventFeature();
-            eventFeature.setQueue(samQueue);
-        }
+        this.eventFeature = eventFeature;
         this.bus = bus;
     }
 

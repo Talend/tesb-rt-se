@@ -35,6 +35,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.ESBProviderCallbackController;
 import org.talend.esb.job.controller.JobLauncher;
+import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
@@ -153,7 +154,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
                 serviceName,
                 portName,
                 useServiceLocator ? new LocatorFeature() : null,
-                useServiceActivityMonitor ? samQueue : null);
+                useServiceActivityMonitor ? createEventFeature() : null);
             esbProvider.run(bus);
             esbProviders.add(esbProvider);
         }
@@ -225,13 +226,19 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
                 publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? new LocatorFeature() : null,
-                useServiceActivityMonitor ? samQueue : null,
+                useServiceActivityMonitor ? createEventFeature() : null,
                 bus);
 
             tlsConsumer.set(runtimeESBConsumer);
             esbConsumer = runtimeESBConsumer;
 		//}
         return esbConsumer;
+    }
+
+    private EventFeature createEventFeature() {
+        EventFeature eventFeature = new EventFeature();
+        eventFeature.setQueue(samQueue);
+        return eventFeature;
     }
 
     class LazyESBProviderCallbackController

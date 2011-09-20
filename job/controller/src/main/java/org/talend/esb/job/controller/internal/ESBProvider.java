@@ -21,7 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -37,7 +36,6 @@ import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.event.Event;
 
 class ESBProvider extends ESBProviderBase {
 
@@ -54,15 +52,12 @@ class ESBProvider extends ESBProviderBase {
             final QName serviceName,
             final QName portName,
             final AbstractFeature serviceLocator,
-            final Queue<Event> samQueue) {
+            final EventFeature eventFeature) {
         this.publishedEndpointUrl = publishedEndpointUrl;
         this.serviceName = serviceName;
         this.portName = portName;
         this.serviceLocator = serviceLocator;
-        if (samQueue != null) {
-            eventFeature = new EventFeature();
-            eventFeature.setQueue(samQueue);
-        }
+        this.eventFeature = eventFeature;
     }
 
     public String getPublishedEndpointUrl() {
