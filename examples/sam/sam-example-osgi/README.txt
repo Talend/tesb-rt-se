@@ -14,12 +14,10 @@ Example how to use Service Activity Monitoring in OSGi
 
 Prerequisite
 ------------
-
 You need an installation of the TESB OSGI container and an Apche Tomcat installation.
 
 Install
 -------
-
 Set the http port for TIF to 9090 in the file org.ops4j.pax.web.cfg.
 
 Start TESB Container

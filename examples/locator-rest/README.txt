@@ -11,7 +11,6 @@
 ###############################################################################
 
 Example for REST Service Locator enabled
-
 ============================================
 This example illustrates the usage of Locator Feature for REST Service
 
@@ -29,7 +28,6 @@ client/
 
 Prerequisite
 ---------------------------------------
-
 To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
 
 The Service Locator Server (zookeeper) should be running.
@@ -37,7 +35,6 @@ The Service Locator Server (zookeeper) should be running.
 
 Building the Demo
 ---------------------------------------
-  
 Using either Linux or Windows:
 
     mvn install

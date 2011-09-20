@@ -1,6 +1,6 @@
 Build.
  1. mvn package
- 2. Add artifcts into \target\multijob-feature-1.0.kar (a zip file) using maven-style layout.
+ 2. Add artifacts into \target\multijob-feature-1.0.kar (a zip file) using maven-style layout.
     For example:
     multijob-feature-1.0.kar\repository\talend\job-control-bundle\1.0\job-control-bundle-1.0.jar 
     multijob-feature-1.0.kar\repository\talend\ProviderJob\0.1\ProviderJob-0.1.jar 

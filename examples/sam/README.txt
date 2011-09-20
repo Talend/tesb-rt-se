@@ -11,7 +11,7 @@
 ###############################################################################
 Example for Service Activity Monitoring(SAM)
 ============================================
-This example illustrates how to deploy and configure Service Activity Monitoring on CXF based project. 
+This example illustrates how to deploy and configure Service Activity Monitoring on CXF based projects. 
 
 
 Prerequisite

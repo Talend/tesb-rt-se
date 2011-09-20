@@ -12,18 +12,18 @@
 Service Locator Proxy Service
 ---------------------------
 
-Provides REST interface and implementation for the Service Locator Server
+Provides a REST interface and implementation for the Service Locator Server
 
 Subprojects
 -----------
 
 locator-rest-proxy-service: 
-  Provides the service endpoint to Service Locator Server. Uses WADL, types and interface from locator-proxy-common subproject.
+  Provides the service endpoint to Service Locator Server. Uses WADL, types and interface from the locator-proxy-common subproject.
   
-  To build this project: locator-proxy and locator projects should be build
+  To build this project: locator-proxy and locator projects should be built
 -----------
 
 locator-proxy-common:
-  locator-proxy-common is bundle which ONLY can be used to installed on OSGI container as dependency bundle for locator-rest-proxy-service.
+  locator-proxy-common is bundle which ONLY can be used to install on an OSGI container as dependency bundle for locator-rest-proxy-service.
 locator-proxy-service: 
-  The locator-rest-proxy-service bundle which ONLY can be used to installed on OSGI container and it requires Service Locator Server available in container.
+  The locator-rest-proxy-service bundle which ONLY can be used to install on an OSGI container and it requires Service Locator Server available in container.

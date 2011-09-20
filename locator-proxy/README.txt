@@ -12,20 +12,23 @@
 Service Locator Proxy Service
 ---------------------------
 
-Provides SOAP interface for the Service Locator Server
+Provides a SOAP interface for the Service Locator Server
 
 Subprojects
 -----------
 locator-proxy-client: 
-  Contains client for Locator Proxy service. 
+  Contains a client for the Locator Proxy service. 
   
 locator-proxy-common: 
-  Contains WSDL,types and interface for Locator Proxy service.
+  Contains WSDL, XML Schema types and the service interface for the Locator Proxy service.
 
 locator-proxy-service: 
   Provides the service endpoint to Service Locator Server.
 
 locator-proxy-common:
-  The new locator-proxy-common bundle which ONLY can be used to installed on OSGI container as dependency bundle of locator-proxy-service.
+  The new locator-proxy-common bundle which ONLY can be used to install on an OSGi container 
+as a dependency bundle of the locator-proxy-service.
+
 locator-proxy-service: 
-  The locator-proxy-service bundle which ONLY can be used to installed on OSGI container and it requires Service Locator Server available in container.
+  The locator-proxy-service bundle which ONLY can be used to install on an OSGI container.  It 
+requires the Service Locator Server to be available in the container.

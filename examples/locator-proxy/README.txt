@@ -11,20 +11,19 @@
 ###############################################################################
 
 Example for Service Locator Proxy
-
 ============================================
-This example illustrates the usage of Locator Proxy Service
+This example illustrates the usage of the Locator Proxy Service
 
 This example consists of the following components:
 
 service/
-	- Greeter service which is registered with the locator proxy after the starting.
+   - Greeter service which is registered with the locator proxy after the starting.
 	
 common/   
-	- This directory contains the code that is common to both the client and the Greeter server. 
+   - This directory contains the code that is common to both the client and the Greeter server. 
 	
 client/
-	- This is a sample client application that uses the Locator Proxy Service to dynamically discover service endpoint and invokes the service.
+   - This is a sample client application that uses the Locator Proxy Service to dynamically discover the service endpoint and invoke the service.
 
 
 Starting the Demo

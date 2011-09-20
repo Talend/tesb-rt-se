@@ -35,12 +35,12 @@ This example illustrates the usage of REST Locator Proxy methods.
 This example consists of the following components:
 
 client/
-	- This is a sample client application that uses REST Locator proxy to dynamically lookup/register/unregister service endpoints.
+	- This is a sample client application that uses the REST Locator proxy to dynamically lookup/register/unregister service endpoints.
 
 webclient/
-	- This is a sample client application that uses REST Locator proxy to dynamically lookup/register/unregister service endpoints.
+	- This is a sample client application that uses the REST Locator proxy to dynamically lookup/register/unregister service endpoints.
 soapui/   
-	- This directory contains soapUI project that allows to invoke methods of REST Locator Proxy. 
+	- This directory contains soapUI project that allows for easily invoking methods of the REST Locator Proxy. 
 	
 Prerequisite
 ---------------------------------------
@@ -58,4 +58,4 @@ cd client or webclient
 3) Run maven execute plugin
 mvn exec:java
 
-In console you will see the output of the example.
+In the console you will see the output of the example.

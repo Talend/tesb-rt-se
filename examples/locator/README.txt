@@ -95,7 +95,7 @@ Running the Demo
 
 Starting the Demo service
 
- * starting Demo service in the embeded servlet container (Jetty):
+ * starting Demo service in the embedded servlet container (Jetty):
 
     cd war; mvn jetty:run
 

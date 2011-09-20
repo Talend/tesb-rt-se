@@ -2,7 +2,7 @@ Welcome to Talend ESB!
 =====================================
 
 Talend ESB bundles Service Factory and Integration Factory, 
-Service Locator, Service Activity Monitoring and a demo application 
+Service Locator, Service Activity Monitoring and demo applications 
 to a stable, production ready distribution based on the industry leading 
 open source frameworks Apache CXF and Apache Camel. 
 It includes Web Service support based on JAX-WS and enables simple and scalable
@@ -49,11 +49,11 @@ Examples
 ========
 
 Talend ESB provides several examples in a separate documentation package in 
-the examples folder. The example applications and tutorials demonstrate functionality 
-and advanced features of Talend ESB.
+the examples folder. The example applications and tutorials demonstrate 
+functionality and advanced features of Talend ESB.
 The examples demonstrate how to use different functionality including:
 
-*    Advanced WebServices with Camel 
+*    Advanced web services with Camel 
 *    Security configuration within OSGi 
 *    Use of blueprint to define routes 
 *    Rent a Car demo 
@@ -95,11 +95,11 @@ The Service Activity Monitoring (SAM) in the add-ons directory allows to
 log / monitor service calls done with the Apache CXF Framework. Typical use
 cases are usage statistics and fault monitoring. The solution consists of two
 parts: Agent (sam-agent) and Monitoring Server (sam-server). The Agent creates
-events out of the requests and replies on service consumer and provider side.The
+events out of the requests and replies on service consumer and provider side.  The
 events are first collected locally and then sent to the monitoring server
 periodically to not disturb the normal message flow. The Monitoring Server
 receives events from the Agent, optionally filters/handlers events and stores them
-into a Database.
+into a database.
 
 Talend Service Factory
 ======================
@@ -128,14 +128,13 @@ stable, production ready distribution based on the industry leading open
 source integration framework Apache Camel. Apache Camel uses well known 
 Enterprise Integration Patterns to make message based system 
 integration simpler yet powerful and scalable. 
-Talend Integration Factory includes
-an impressive set of available components for all commonly used protocols 
-like http, https, ftp, xmpp, rss and many more. A large number of data
-formats like EDI, JSON, CSV, HL7 and languages like JS, Python, 
-Scala, are supported out of the box. Its extensible architecture
-allows developers to easily add support for proprietary protocols
-and data formats.
+Talend Integration Factory includes an impressive set of available components
+for all commonly used protocols like http, https, ftp, xmpp, rss and 
+many more. A large number of data formats like EDI, JSON, CSV, HL7 
+and languages like JS, Python, Scala, are supported out of the box. 
+Its extensible architecture allows developers to easily add support
+for proprietary protocols and data formats.
 It uses a lightweight, component based architecture
-which allows a great flexibility in deployment scenarios: as stand-alone
+which allows a great of flexibility in deployment scenarios: as stand-alone
 JVM applications or embedded in a servlet container such as Tomcat,
 or within a JEE server, or in an OSGi container such as Equinox.
