@@ -20,6 +20,9 @@
   -->
 
 <features>
+
+  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+
   <feature name='tesb-sam-agent' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
@@ -100,6 +103,7 @@
         <feature version='${project.version}'>tesb-sam-agent</feature>
         <feature version='${project.version}'>talend-job-dependencies</feature>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.management/${project.version}</bundle>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
     </feature>
 
