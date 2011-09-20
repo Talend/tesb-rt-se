@@ -15,8 +15,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml" element="ns1:EndpointReferenceType" />
-						<representation mediaType="application/json" element="ns1:EndpointReferenceType" />
+						<representation mediaType="application/xml" element="ns1:EndpointReference" />
+						<representation mediaType="application/json" element="ns1:EndpointReference" />
 					</response>
 				</method>
 			</resource>

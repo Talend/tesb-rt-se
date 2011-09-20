@@ -11,3 +11,37 @@
 ###############################################################################
 
 Example for REST Service Locator Proxy
+
+============================================
+This example illustrates the usage of REST Locator Proxy methods.
+ 
+ -one service endpoint is registered to Service Locator.
+ -lookup the registered endpoint
+ -unregister endpoint from Service locator
+ -lookup if the endpoint still registered.
+ 
+This example consists of the following components:
+
+client/
+	- This is a sample client application that uses REST Locator proxy to dynamically lookup/register/unregister service endpoints.
+
+soapui/   
+	- This directory contains soapUI project that allows to invoke methods of REST Locator Proxy. 
+	
+Prerequisite
+---------------------------------------
+To run this example successfully, Karaf  should be running. 
+you must install the J2SE Development Kit (JDK) 5.0 or above.
+
+The Service Locator Server (zookeeper) should be running in any mode.
+
+Executing a sample
+---------------------------------------
+1) Run a command in TESB container:  
+features:install  tesb-locator-rest-proxy
+2) Change directory to client
+cd client
+3) Run maven execute plugin
+mvn exec:java
+
+In console you will see the output of the example.
