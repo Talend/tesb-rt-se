@@ -35,7 +35,6 @@
 
 	<modules>
 		<module>locator-rest-proxy-service</module>
-		<module>locator-rest-proxy-client</module>
     </modules>
 	
 	<build>

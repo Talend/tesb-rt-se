@@ -26,6 +26,7 @@
 
     <modules>
         <module>client</module>
+        <module>webclient</module>
     </modules>
 
 </project>

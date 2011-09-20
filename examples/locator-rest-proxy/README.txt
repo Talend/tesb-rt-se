@@ -15,16 +15,30 @@ Example for REST Service Locator Proxy
 ============================================
 This example illustrates the usage of REST Locator Proxy methods.
  
+ example of client that uses proxy
+ client/
  -one service endpoint is registered to Service Locator.
  -lookup the registered endpoint
  -unregister endpoint from Service locator
  -lookup if the endpoint still registered.
+ 
+ example of client that uses WebClient
+ webclient/
+ -register first endpoint for the service with systemTimeout=200
+ -register second endpoint for the service with systemTimeout=400
+ -lookup endpoints
+ -lookup endpoint with systemTimeout=200
+ -unregister first endpoint
+ -unregister second endpoint
+ -lookup endpoint 
  
 This example consists of the following components:
 
 client/
 	- This is a sample client application that uses REST Locator proxy to dynamically lookup/register/unregister service endpoints.
 
+webclient/
+	- This is a sample client application that uses REST Locator proxy to dynamically lookup/register/unregister service endpoints.
 soapui/   
 	- This directory contains soapUI project that allows to invoke methods of REST Locator Proxy. 
 	
@@ -40,7 +54,7 @@ Executing a sample
 1) Run a command in TESB container:  
 features:install  tesb-locator-rest-proxy
 2) Change directory to client
-cd client
+cd client or webclient
 3) Run maven execute plugin
 mvn exec:java
 

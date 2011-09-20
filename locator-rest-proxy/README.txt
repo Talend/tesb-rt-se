@@ -16,11 +16,11 @@ Provides REST interface and implementation for the Service Locator Server
 
 Subprojects
 -----------
-locator-rest-proxy-client: 
-  Contains client for REST Locator Proxy service. 
 
 locator-rest-proxy-service: 
   Provides the service endpoint to Service Locator Server. Uses WADL, types and interface from locator-proxy-common subproject.
+  
+  To build this project: locator-proxy and locator projects should be build
 -----------
 
 locator-proxy-common:
