@@ -35,8 +35,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import demo.common.*;
-
-import org.apache.cxf.jaxrs.client.WebClient;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
@@ -44,45 +42,25 @@ public class Client {
 	private static final Logger LOG = Logger.getLogger(Client.class
 			.getPackage().getName());
 
-	private static void usingClientReset(ClassPathXmlApplicationContext context) {
-		OrderService proxy = (OrderService) context.getBean("restClient");
-		org.apache.cxf.jaxrs.client.Client client = WebClient.client(proxy);
-		for (int i = 0; i < 5; i++) {
-			Order ord = proxy.getOrder("1");
-			client.reset();
-			System.out.println(ord.getDescription());
-		}
-	}
-
-	private static void standardClient(ClassPathXmlApplicationContext context) {
-		OrderService proxy = (OrderService) context.getBean("restClient");
-		for (int i = 0; i < 5; i++) {
-			Order ord = proxy.getOrder("1");
-			System.out.println(ord.getDescription());
-		}
-
-	}
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "META-INF/client.xml" });
-		// Use client reset after each invoke
-		try {
-			usingClientReset(context);
-			System.out.println("\nNo exceptions during reset usecase - OK\n");
-		} catch (Exception e) {
-			System.out.println("Exception during reset usecase\n");
-			e.printStackTrace();
-		}
-		// Use client proxy as usual
-		try {
-			standardClient(context);
-			System.out.println("\nNo exceptions during usual usecase - OK\n");
-		} catch (Exception e) {
-			System.out.println("Exception during usual usecase\n");
-			e.printStackTrace();
+		OrderService client = (OrderService) context.getBean("restClient");
+		String orderId = "1";
+		
+		for (int i = 0; i < 10; i++) {
+			Order ord = client.getOrder(orderId);
+
+			System.out.println("invoaction number:"+i);
+			System.out.println("Order description is::"+ord.getDescription());
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.log(Level.INFO, ord.getDescription());
+			}
+			
+			Thread.sleep(2000);
 		}
 		System.exit(0);
+
 	}
 
 }

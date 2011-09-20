@@ -25,7 +25,6 @@ import java.util.Set;
 
 import demo.common.*;
 
-
 public class OrderServiceImpl implements OrderService {
 
 	static Set<Order> orderList = new HashSet<Order>();
@@ -39,13 +38,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public Order getOrder(String id) {
-		for (Order order: orderList){
-			if (order.getOrderId().equals(id))
+		for (Order order : orderList) {
+			if (order.getOrderId().equals(id)) {
+				System.out.println("Sending order id="+id+" to the client...");
+				System.out.println("Order Descriprion is:"+order.getDescription());
 				return order;
+			}
 		}
 		return null;
 	}
-	
+
 	public void addOrder(Order order) {
 		orderList.add(order);
 	}

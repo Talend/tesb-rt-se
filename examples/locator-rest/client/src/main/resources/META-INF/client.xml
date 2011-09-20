@@ -36,7 +36,7 @@
          </jaxrs:headers>
 		<jaxrs:features>
 			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="randomSelectionStrategy"/>
+				<property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
 			</bean>
 		</jaxrs:features>
 		</jaxrs:client>
