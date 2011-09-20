@@ -25,7 +25,7 @@ public interface ControllerMBean {
 
     List<String> list() throws Exception;
 
-    void start(String name) throws Exception;
+    void start(String name, String args) throws Exception;
 
     void stop(String name) throws Exception;
 

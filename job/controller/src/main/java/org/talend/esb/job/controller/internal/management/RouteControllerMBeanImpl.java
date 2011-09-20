@@ -43,8 +43,15 @@ public class RouteControllerMBeanImpl extends StandardMBean implements Controlle
         return controller.listRoutes();
     }
 
-    public void start(String name) throws Exception {
-        controller.run(name);
+    public void start(String name, String args) throws Exception {
+        String[] arguments = null;
+        if (args != null) {
+            arguments = args.split(" ");
+        }
+        if (arguments == null) {
+            arguments = new String[0];
+        }
+        controller.run(name, arguments);
     }
 
     public void stop(String name) throws Exception {
