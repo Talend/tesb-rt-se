@@ -17,10 +17,17 @@ This example illustrates the usage of REST Locator Proxy methods.
  
  example of client that uses proxy
  client/
- -one service endpoint is registered to Service Locator.
- -lookup the registered endpoint
- -unregister endpoint from Service locator
- -lookup if the endpoint still registered.
+ -first service endpoint is registered to Service Locator.
+ -second service endpoint is registered to Service Locator.
+ -third service endpoint is registered to Service Locator.
+ -lookup for registered endpoints
+ -lookup for random registered endpoint.
+ -lookup for random registered endpoint.
+ -lookup for random registered endpoint.
+ -unregister first endpoint from Service locator.
+ -unregister second endpoint from Service locator.
+ -unregister third endpoint from Service locator.
+ -lookup if the endpoints still registered.
  
  example of client that uses WebClient
  webclient/
