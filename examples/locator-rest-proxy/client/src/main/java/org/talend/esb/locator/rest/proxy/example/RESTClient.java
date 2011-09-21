@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * REST Service Locator Proxy :: Example
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.locator.rest.proxy.example;
 
 import java.io.IOException;
@@ -77,11 +96,11 @@ public final class RESTClient {
 		System.out.println("------------------------------");
 		System.out.println("LookupEndpoints");
 		try {
-			EndpointReferenceListType r = client.lookupEndpoints(URLEncoder.encode(service, "UTF-8"), null);
-			if(r.getReturn().size() > 0)
+			EndpointReferenceListType erlt = client.lookupEndpoints(URLEncoder.encode(service, "UTF-8"), null);
+			if(erlt.getReturn().size() > 0)
 			{
-				for (W3CEndpointReference ref : r.getReturn()) {
-					System.out.println(ref.toString());
+				for (W3CEndpointReference w3cEndpointReference : erlt.getReturn()) {
+					System.out.println(w3cEndpointReference.toString());
 				}	
 			}
 		} catch(ServerWebApplicationException ex) {
@@ -93,8 +112,8 @@ public final class RESTClient {
 		System.out.println("------------------------------");
 		System.out.println("LookupEndpoint");
 		try {
-			W3CEndpointReference er = client.lookupEndpoint(URLEncoder.encode(service, "UTF-8"), null);
-			System.out.println(er.toString());
+			W3CEndpointReference w3cEndpointReference = client.lookupEndpoint(URLEncoder.encode(service, "UTF-8"), null);
+			System.out.println(w3cEndpointReference.toString());
 		} catch(ServerWebApplicationException ex) {
 			System.out.println(ex.getMessage());
 		}

@@ -35,6 +35,7 @@ This example illustrates the usage of REST Locator Proxy methods.
  -register second endpoint for the service with systemTimeout=400
  -lookup endpoints
  -lookup endpoint with systemTimeout=200
+ -lookup endpoint with systemTimeout=400
  -unregister first endpoint
  -unregister second endpoint
  -lookup endpoint 
