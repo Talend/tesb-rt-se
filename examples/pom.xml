@@ -23,6 +23,7 @@
 		<module>camel-jmx</module>
 		<module>karaf-jmx</module>
 		<module>locator-rest</module>
+		<module>locator-rest-proxy</module>
 	</modules>
 
 	<organization>

@@ -24,26 +24,11 @@
 			<artifactId>cxf-api</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.cxf</groupId> -->
-		<!-- <artifactId>cxf-rt-frontend-jaxws</artifactId> -->
-		<!-- <version>${cxf.version}</version> -->
-		<!-- <scope>compile</scope> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.cxf</groupId> -->
-		<!-- <artifactId>cxf-rt-transports-http</artifactId> -->
-		<!-- <version>${cxf.version}</version> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>javax.ws.rs</groupId> -->
-		<!-- <artifactId>jsr311-api</artifactId> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.talend.esb.locatorproxy</groupId>
 			<artifactId>locator-proxy-service-common</artifactId>
