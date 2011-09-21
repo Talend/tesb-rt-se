@@ -7,22 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
 import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import junit.framework.Assert;
 
-import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
-import org.talend.esb.locator.rest.proxy.service.types.EntryType;
-import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
-//import org.talend.esb.locator.proxy.service.types.LookupRequestType;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -30,26 +24,19 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 
 	private ServiceLocator sl;
 	private QName SERVICE_NAME;
-	private QName NOT_EXIST_SERVICE_NAME;
-	private final String PROPERTY_KEY = "Key1";
-	private final String PROPERTY_VALUE1 = "Value1";
-	private final String PROPERTY_VALUE2 = "Value2";
 	private final String ENDPOINTURL = "http://Service";
 	private final String QNAME_PREFIX1 = "http://services.talend.org/TestService";
 	private final String QNAME_LOCALPART1 = "TestServiceProvider";
-	private final String QNAME_PREFIX2 = "http://services.talend.org/NoNameService";
-	private final String QNAME_LOCALPART2 = "NoNameServiceProvider";
 	private List<String> names;
-	private LocatorProxyServiceImpl lps;
+	private LocatorRestProxyServiceImpl lps;
 	
 	@Before
 	public void setup() {
 		sl = createMock(ServiceLocator.class);
 		names = new ArrayList<String>();
 		SERVICE_NAME = new QName(QNAME_PREFIX1, QNAME_LOCALPART1);
-		NOT_EXIST_SERVICE_NAME = new QName(QNAME_PREFIX2, QNAME_LOCALPART2);
 		names = new ArrayList<String>();
-		lps = new LocatorProxyServiceImpl();
+		lps = new LocatorRestProxyServiceImpl();
 		lps.setLocatorClient(sl);
 	}
 

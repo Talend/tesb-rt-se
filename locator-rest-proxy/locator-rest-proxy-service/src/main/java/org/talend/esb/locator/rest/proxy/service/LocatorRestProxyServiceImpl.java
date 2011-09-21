@@ -20,9 +20,7 @@
 package org.talend.esb.locator.rest.proxy.service;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,12 +28,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
@@ -49,10 +43,10 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
-public class LocatorProxyServiceImpl implements LocatorProxyService {
+public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 
 	private static final Logger LOG = Logger
-			.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
+			.getLogger(LocatorRestProxyServiceImpl.class.getPackage().getName());
 
 	private ServiceLocator locatorClient = null;
 
@@ -63,8 +57,6 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 	private int sessionTimeout = 5000;
 
 	private int connectionTimeout = 5000;
-	@Context
-    private UriInfo uriInfo;
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;
@@ -129,6 +121,13 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		}
 	}
 
+	/**
+	 * Register the endpoint for given service.
+	 * 
+	 * @param input
+	 *            RegisterEndpointRequestType encapsulate name of service and
+	 *            endpointURL. Must not be <code>null</code>
+	 */
 	public void registerEndpoint(RegisterEndpointRequestType arg0) {
 		String endpointURL = arg0.getEndpointURL();
 		QName serviceName = QName.valueOf(arg0.getServiceName());
@@ -155,22 +154,17 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			//throw new InterruptedExceptionFault(e.getMessage(), e);
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
-		UriBuilder locationBuilder = uriInfo.getBaseUriBuilder();
-		locationBuilder = locationBuilder.uri(uriInfo.getRequestUri());
-		System.out.println(serviceName);
-		URI endpointLocation = null;
-		URI serviceLocation = null;
-		try{
-		    endpointLocation = locationBuilder.path("{seviceName}/{endpointURL}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8") ,URLEncoder.encode(endpointURL,"UTF-8"));
-		    locationBuilder = uriInfo.getBaseUriBuilder();
-			serviceLocation = locationBuilder.path("{seviceName}").buildFromEncoded( URLEncoder.encode(arg0.getServiceName(), "UTF-8"));
-		}
-		catch (UnsupportedEncodingException e) {
-			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-		}
-		//return Response.status(Response.Status.OK).entity(serviceLocation.toString()).location(endpointLocation).build();
 	}
 
+	/**
+	 * Unregister the endpoint for given service.
+	 * 
+	 * @param input 
+	 * 				String encoded name of service
+	 * @param input 
+	 * 				String encoded name of endpoint
+	 *            
+	 */
 	public void unregisterEndpoint(String arg0, String arg1) {
 		String endpointURL = null;
 		QName serviceName = null;
@@ -188,15 +182,23 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			initLocator();
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
-//			throw new ServiceLocatorFault(e.getMessage(), e);
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		} catch (InterruptedException e) {
-//			throw new InterruptedExceptionFault(e.getMessage(), e);
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
-		//return Response.status(Response.Status.OK).build();
 	}
 
+	/**
+	 * For the given service return endpoint reference randomly selected from
+	 * list of endpoints currently registered at the service locator server.
+	 * 
+	 * @param input
+	 * 			  String encoded name of service
+	 * @param input
+	 * 			  List of encoded additional parameters separated by comma
+	 *            
+	 * @return endpoint references or <code>null</code>
+	 */
 	@Override
 	public W3CEndpointReference lookupEndpoint(String arg0, List<String> arg1) {
 		QName serviceName = null;
@@ -222,9 +224,7 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 		} catch (ServiceLocatorException e) {
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-			//throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			//throw new InterruptedExceptionFault(e.getMessage(), e);
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
 		}
 		if (names != null && !names.isEmpty()) {
@@ -240,7 +240,18 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 		return ref;
 	}
 
-	@Override
+	/**
+	 * For the given service return endpoint reference randomly selected from
+	 * list of endpoints currently registered at the service locator server.
+	 * 
+	 * @param input
+	 * 			  String encoded name of service
+	 * @param input
+	 * 			  List of encoded additional parameters separated by comma
+	 *            
+	 * @return EndpointReferenceListType encapsulate list of endpoint references
+	 *         or <code>null</code>
+	 */
 	public EndpointReferenceListType lookupEndpoints(String arg0, List<String> arg1) {
 		QName serviceName = null;
 		try {
@@ -266,10 +277,8 @@ public class LocatorProxyServiceImpl implements LocatorProxyService {
 			}
 		} catch (ServiceLocatorException e) {
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-			//throw new ServiceLocatorFault(e.getMessage(), e);
 		} catch (InterruptedException e) {
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-			//throw new InterruptedExceptionFault(e.getMessage(), e);
 		}
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {
