@@ -30,9 +30,6 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 	
-	<!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" /> -->
-	<!-- <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" /> -->
-	
 	<bean id="orderService" class="demo.service.OrderServiceImpl">
 	</bean>
 
