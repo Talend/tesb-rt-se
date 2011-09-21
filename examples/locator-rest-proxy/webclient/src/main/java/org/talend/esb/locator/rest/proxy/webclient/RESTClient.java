@@ -7,15 +7,11 @@ package org.talend.esb.locator.rest.proxy.webclient;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
-import org.apache.cxf.jaxrs.client.ResponseReader;
-import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
 import org.talend.esb.locator.rest.proxy.service.types.EntryType;
@@ -94,31 +90,26 @@ public final class RESTClient {
 		// end lookup endpoints
 
 		// lookup specific endpoint
-		/*et = new EntryType();
+		et = new EntryType();
 		et.setKey("systemTimeout");
 		et.getValue().add("200");
-		String address = baseAddress
-		+ "/"
-		+ URLEncoder.encode(
-				rert.getServiceName(),"UTF-8")+";param=" +URLEncoder.encode(et.getKey() + ","
-						+ et.getValue(), "UTF-8");
 		wc = WebClient.create(baseAddress
 				+ "/"
 				+ URLEncoder.encode(
 						rert.getServiceName(),"UTF-8")+";param=" +URLEncoder.encode(et.getKey() + ","
 								+ et.getValue().get(0), "UTF-8"));
 		wc.accept(MediaType.APPLICATION_XML);
-		System.out.println("Envoking lookupEndpoint for service"
+		System.out.println("Envoking lookupEndpoint for service "
 				+ rert.getServiceName());
 		System.out.println("property: " + et.getKey() + "=" + et.getValue());
-		resp = wc.get();
-		int status4 = resp.getStatus();
-		System.out.println("Responce code =" + resp.getStatus());
-		if (status4 == 200) {
-			System.out.println( wc.get(W3CEndpointReference.class));
-		} else
-			System.out.println(resp.getEntity());
-		// end lookup specific endpoint */
+		try{
+		W3CEndpointReference endpointReference = wc.get(W3CEndpointReference.class);
+		System.out.println("Endpoint is found");
+		System.out.println(endpointReference.toString());
+		} catch (WebApplicationException e) {
+			System.out.println(e.getMessage());
+		}
+		// end lookup specific endpoint 
 
 		// delete first endpoint
 		System.out.println("------------------------------------");

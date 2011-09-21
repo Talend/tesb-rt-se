@@ -34,12 +34,6 @@
 		<property name="properties" ref="locator-server-props" />
 		<property name="placeholderPrefix" value="$sl{" />
 	</bean>
-	
-<!-- 	<jaxws:endpoint id="ServiceLocatorProxyService" -->
-<!-- 		xmlns:serviceNamespace="http://services.talend.org/ServiceLocatorProxyService" -->
-<!-- 		serviceName="serviceNamespace:ServiceLocatorProxyProvider" -->
-<!-- 		endpointName="serviceNamespace:ServiceLocatorProxyProvider" -->
-<!-- 		implementor="#serviceLocatorProxyBean" address="/ServiceLocatorProxyService" /> -->
 
 	<jaxrs:server id="locatorProxyService" address="/ServiceLocatorRestProxyService">
 		<jaxrs:serviceBeans>
@@ -48,7 +42,7 @@
 	</jaxrs:server>
 
 	<bean id="serviceLocatorProxyBean"
-		class="org.talend.esb.locator.rest.proxy.service.LocatorProxyServiceImpl"
+		class="org.talend.esb.locator.rest.proxy.service.LocatorRestProxyServiceImpl"
 		destroy-method="disconnectLocator">
 		<property name="locatorEndpoints" value="$sl{locator.endpoints}" />
 		<property name="connectionTimeout" value="$sl{connection.timeout}" />
