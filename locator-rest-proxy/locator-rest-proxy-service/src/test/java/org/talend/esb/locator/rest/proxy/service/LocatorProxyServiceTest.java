@@ -54,7 +54,6 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 	}
 
 	@Test
-	@Ignore
 	public void lookUpEndpointTest() throws ServiceLocatorException, InterruptedException{
 		names.clear();
 		names.add(ENDPOINTURL);
@@ -73,30 +72,17 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 	}
 	
 	@Test
-	@Ignore
 	public void lookUpEndpointTestNotFound() throws ServiceLocatorException, InterruptedException{
 		names.clear();
 		names.add(ENDPOINTURL);
 		expect(sl.lookup(SERVICE_NAME)).andStubReturn(null);
 		replayAll();
 		
-		lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
-		
-		//Assert.assertTrue(status == 404);
-	}
-	
-	
-	@Test
-	@Ignore
-	public void lookUpEndpointTextStatus() throws ServiceLocatorException, InterruptedException{
-		names.clear();
-		names.add(ENDPOINTURL);
-		expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
-		replayAll();
-
-		lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
-		
-		//Assert.assertTrue(status == 200);
+		try	{
+			lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
+		} catch(WebApplicationException ex) {
+			Assert.assertTrue(ex.getResponse().getStatus() == 404);
+		}
 	}
 
 	@Test
