@@ -59,7 +59,7 @@
 				</executions>
 				<configuration>
 					<executable>java</executable>
-					<mainClass>org.talend.esb.locator.rest.proxy.example.RESTClient</mainClass>
+					<mainClass>org.talend.esb.locator.rest.proxy.webclient.RESTClient</mainClass>
 					<commandlineArgs>${commandline.args}</commandlineArgs>
 				</configuration>
 			</plugin>
