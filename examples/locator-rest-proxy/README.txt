@@ -57,19 +57,25 @@ you must install the J2SE Development Kit (JDK) 5.0 or above.
 
 The Service Locator Server (zookeeper) should be running in any mode.
 
-Executing a sample
+Building the Demo
 ---------------------------------------
-1) Run a command in TESB container:  
-features:install  tesb-locator-rest-proxy
-2) Build the samples
-mvn install
-3) Change directory to client
-cd client
-4) Run maven execute plugin
-mvn exec:java
-5) Change directory to webclient
-cd webclient
-6) Run maven execute plugin
-mvn exec:java
+Using either Linux or Windows:
 
+    mvn install
+	
+Starting the REST Proxy Service
+---------------------------------------
+   * Run a command in TESB container:  
+features:install  tesb-locator-rest-proxy
+
+Executing client application
+---------------------------------------
+   * From the command line:
+cd client; mvn exec:java
+In the console you will see the output of the example.
+
+Executing webclient application
+---------------------------------------
+   * From the command line:
+cd webclient; mvn exec:java
 In the console you will see the output of the example.
