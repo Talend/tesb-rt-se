@@ -61,9 +61,15 @@ Executing a sample
 ---------------------------------------
 1) Run a command in TESB container:  
 features:install  tesb-locator-rest-proxy
-2) Change directory to client
-cd client or webclient
-3) Run maven execute plugin
+2) Build the samples
+mvn install
+3) Change directory to client
+cd client
+4) Run maven execute plugin
+mvn exec:java
+5) Change directory to webclient
+cd webclient
+6) Run maven execute plugin
 mvn exec:java
 
 In the console you will see the output of the example.
