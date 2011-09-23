@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator-rest</groupId>
     <artifactId>locator-rest-demo</artifactId>
-    <name>Demo for using the locator with REST services</name>
+    <name>Talend ESB Runtime Examples :: Locator REST Example</name>
     <packaging>pom</packaging>
 
     <parent>

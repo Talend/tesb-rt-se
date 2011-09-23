@@ -16,7 +16,7 @@
 
     <groupId>org.talend.esb.examples.locator</groupId>
     <artifactId>locator-demo</artifactId>
-    <name>Demo for using the locator</name>
+    <name>Talend ESB Runtime Examples :: Locator Example</name>
     <packaging>pom</packaging>
 
     <parent>

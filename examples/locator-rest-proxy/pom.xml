@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator-rest-proxy</groupId>
     <artifactId>locator-rest-proxy-demo</artifactId>
-    <name>Demo for using the locator rest proxy</name>
+    <name>Talend ESB Runtime Examples :: Locator Rest Proxy Example</name>
     <packaging>pom</packaging>
 
     <parent>

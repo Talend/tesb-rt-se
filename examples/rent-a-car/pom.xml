@@ -18,7 +18,7 @@
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>rent-a-car</artifactId>
     <version>5.0-SNAPSHOT</version>
-    <name>Talend ESB Runtime :: Rent-a-Car</name>
+    <name>Talend ESB Runtime Examples :: Rent-a-Car</name>
     <packaging>pom</packaging>
 
     <parent>

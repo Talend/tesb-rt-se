@@ -16,7 +16,7 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>camel-jmx</artifactId>
-    <name>Talend ESB Runtime::Camel JMX Example</name>
+    <name>Talend ESB Runtime Examples :: Camel JMX Example</name>
     <packaging>pom</packaging>
 
     <parent>

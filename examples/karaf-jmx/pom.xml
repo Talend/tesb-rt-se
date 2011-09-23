@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>karaf-jmx</artifactId>
-    <name>Talend ESB Runtime Examples :: JMX Karaf Example</name>
+    <name>Talend ESB Runtime Examples :: Karaf JMX Example</name>
 	<packaging>pom</packaging>
     <parent>
         <groupId>org.talend.esb.examples</groupId>

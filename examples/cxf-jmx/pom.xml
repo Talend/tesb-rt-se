@@ -10,7 +10,7 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>cxf-jmx</artifactId>
-    <name>Talend ESB Runtime::CXF JMX Example</name>
+    <name>Talend ESB Runtime Examples :: CXF JMX Example</name>
     <packaging>pom</packaging>
 
     <parent>
