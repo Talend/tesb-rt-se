@@ -44,6 +44,7 @@ import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
+import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
@@ -101,9 +102,17 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry,
     }
 
     public void stopJob(final TalendJob talendJob) {
-        Thread thread = jobs.get(talendJob);
-        if (thread != null) {
-            thread.interrupt();
+        if(talendJob instanceof TalendESBRoute) {
+            try {
+                ((TalendESBRoute)talendJob).shutdown();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            Thread thread = jobs.get(talendJob);
+            if (thread != null) {
+                thread.interrupt();
+            }
         }
     }
 
