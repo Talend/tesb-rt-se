@@ -30,7 +30,6 @@ import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
@@ -47,7 +46,7 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * EventCollector reads the events from Queue. 
  * After processing with filter/handler, the events will be sent to SAM Server periodically.
  */
-public class EventCollector implements BusLifeCycleListener, InitializingBean {
+public class EventCollector implements BusLifeCycleListener {
 
     private static Logger logger = Logger.getLogger(EventCollector.class.getName());
 
@@ -66,6 +65,33 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
     private boolean stopSending = false;
 
     public EventCollector() {
+        //init Bus and LifeCycle listeners
+        if (bus != null) {
+            BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
+            if (null != lm) {
+                lm.registerLifeCycleListener(this);
+            }
+            
+            if (sendLifecycleEvent){
+                ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
+                if (null != slcm){
+                    ServiceListenerImpl svrListener = new ServiceListenerImpl();
+                    svrListener.setSendLifecycleEvent(sendLifecycleEvent);
+                    svrListener.setQueue(queue);
+                    svrListener.setMonitoringServiceClient(monitoringServiceClient);
+                    slcm.registerListener(svrListener);
+                }
+                
+                ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
+                if (null != clcm){
+                    ClientListenerImpl cltListener = new ClientListenerImpl();
+                    cltListener.setSendLifecycleEvent(sendLifecycleEvent);
+                    cltListener.setQueue(queue);
+                    cltListener.setMonitoringServiceClient(monitoringServiceClient);
+                    clcm.registerListener(cltListener);
+                }
+           }
+        }        
     }
 
     /**
@@ -278,32 +304,4 @@ public class EventCollector implements BusLifeCycleListener, InitializingBean {
         // Ignore
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (bus != null) {
-            BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
-            if (null != lm) {
-                lm.registerLifeCycleListener(this);
-            }
-            
-            ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
-            if (null != slcm){
-            	ServiceListenerImpl svrListener = new ServiceListenerImpl();
-            	svrListener.setSendLifecycleEvent(sendLifecycleEvent);
-            	svrListener.setQueue(queue);
-            	svrListener.setMonitoringServiceClient(monitoringServiceClient);
-            	slcm.registerListener(svrListener);
-            }
-            
-            ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
-            if (null != clcm){
-            	ClientListenerImpl cltListener = new ClientListenerImpl();
-            	cltListener.setSendLifecycleEvent(sendLifecycleEvent);
-            	cltListener.setQueue(queue);
-            	cltListener.setMonitoringServiceClient(monitoringServiceClient);
-            	clcm.registerListener(cltListener);
-            }
-
-        }
-    }
 }

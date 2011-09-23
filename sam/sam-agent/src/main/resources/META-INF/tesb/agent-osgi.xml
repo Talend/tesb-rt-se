@@ -63,7 +63,7 @@
         <property name="queue" ref="samQueue"/>
     </bean>
 
-    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" lazy-init="true">
+    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector">
         <property name="bus" ref="cxf" />
         <property name="queue" ref="samQueue" />
         <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
