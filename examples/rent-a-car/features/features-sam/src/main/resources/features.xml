@@ -19,7 +19,7 @@
   #L%
   -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
-    <!--repository>mvn:org.talend.esb/features/${project.version}/xml</repository-->
+    <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
     <feature name='tesb-rac-common-sam' version='${project.version}'>
         <feature version='${cxf.version}'>cxf</feature>
         <feature version='${project.version}'>tesb-sam-agent</feature>
