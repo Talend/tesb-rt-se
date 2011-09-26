@@ -19,19 +19,25 @@
  */
 package org.talend.esb.job.controller;
 
+import java.util.Dictionary;
 import java.util.Map;
 
+import org.osgi.service.cm.ConfigurationException;
+import org.osgi.service.cm.ManagedService;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
+import org.talend.esb.job.controller.internal.Configuration;
 import org.talend.esb.job.controller.internal.ESBProviderBase;
 import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
 
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBProviderCallback;
 
-public class GenericServiceProvider extends ESBProviderBase {
+public class GenericServiceProvider extends ESBProviderBase implements ManagedService {
 
     private Map<String, String> operations;
     private JobLauncher jobLauncher;
+    
+    Configuration configuration;
 
     public void setOperations(Map<String, String> operations) {
         this.operations = operations;
@@ -42,24 +48,24 @@ public class GenericServiceProvider extends ESBProviderBase {
     }
 
     @Override
-    public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
-        RuntimeESBProviderCallback esbProviderCallback =
-            super.getESBProviderCallback(operationName);
-        if (null == esbProviderCallback) {
-            final String jobName = operations.get(operationName);
-            if (jobName == null) {
-                throw new RuntimeException("Job for operation '" + operationName + "' not found");
-            }
-            esbProviderCallback =
-                createESBProviderCallback(operationName, isOperationRequestResponse(operationName));
-            jobLauncher.startJob(jobName,
-                new GenericESBProviderCallbackController(
-                    operationName, isOperationRequestResponse(operationName),
-                    esbProviderCallback));
+    public GenericOperation getESBProviderCallback(String operationName) {
+        final String jobName = operations.get(operationName);
+        if (jobName == null) {
+           throw new RuntimeException("Job for operation '" + operationName + "' not found");
         }
-        return esbProviderCallback;
+            
+        GenericOperation operation = jobLauncher.retrieveOperation(
+            jobName, isOperationRequestResponse(operationName), configuration.getArguments());
+            
+        return operation;
     }
 
+    @Override
+    public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
+        configuration = new Configuration(properties);
+    }
+
+/*
     class GenericESBProviderCallbackController implements ESBProviderCallbackController {
 
         private final String operationName;
@@ -99,5 +105,5 @@ public class GenericServiceProvider extends ESBProviderBase {
         }
 
     }
-
+*/
 }

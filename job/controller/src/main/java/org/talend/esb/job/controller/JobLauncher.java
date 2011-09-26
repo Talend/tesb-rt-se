@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller;
 
+
 import routines.system.api.TalendJob;
 
 /**
@@ -32,7 +33,7 @@ public interface JobLauncher {
      * @param talendJob the Talend job.
      * @param args the Talend job run arguments.
      */
-    public void startJob(final TalendJob talendJob, final String[] args);
+    void startJob(TalendJob talendJob, String[] args);
 
     /**
      * Start a Talend job with the given name and the given callback.
@@ -40,14 +41,15 @@ public interface JobLauncher {
      * @param name the Talend job name.
      * @param controller the RuntimeESBProviderCallbackController.
      */
-    public void startJob(String name,
-        final ESBProviderCallbackController controller);
+//    public void startJob(String name,
+//        final ESBProviderCallbackController controller);
 
     /**
      * Stop a given Talend job.
      *
      * @param talendJob the Talend job.
      */
-    public void stopJob(final TalendJob talendJob);
+    void stopJob(TalendJob talendJob);
 
+    GenericOperation retrieveOperation(String jobName, boolean isRequestResponse,String[] args);
 }

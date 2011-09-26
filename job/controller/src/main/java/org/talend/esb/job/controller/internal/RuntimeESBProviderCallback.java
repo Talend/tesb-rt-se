@@ -22,29 +22,43 @@ package org.talend.esb.job.controller.internal;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import routines.system.api.ESBConsumer;
+import org.talend.esb.job.controller.GenericOperation;
+
+//import routines.system.api.ESBConsumer;
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
 
-public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsumer {
+public class RuntimeESBProviderCallback implements ESBProviderCallback, GenericOperation {
 
+    private static final Object POISON = new Object();
+    
     private final boolean isRequestResponse;
     private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
 
-    private Object request = null;
-    private Object response = null;
+    private volatile Object request;
+    private volatile Object response ;
+    
+    private volatile boolean stopped;
 
     public RuntimeESBProviderCallback(boolean isRequestResponse) {
         this.isRequestResponse = isRequestResponse;
     }
 
     public Object getRequest() throws ESBJobInterruptedException {
-        try {
-            request = requests.take();
-            return request;
-        } catch (InterruptedException e) {
-            throw new ESBJobInterruptedException(e.getMessage(), e);
+        request = null;
+        while (request == null) {
+            try {
+                request = requests.take();
+                if (request == POISON) {
+                    stopped = true;
+                    throw new ESBJobInterruptedException("Job was cancelled.");
+                }
+
+            } catch (InterruptedException e) {
+                prepareStop();
+            }
         }
+        return request;
     }
 
     public void sendResponse(Object response) {
@@ -64,5 +78,23 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, ESBConsu
         }
         return response;
     }
+    
+    public void cancel() {
+        prepareStop();
+    }
 
+    public boolean isStopped() {
+        return stopped;    
+    }
+    
+    protected void prepareStop() {
+        boolean success = false;
+        while(! success) {
+            try {
+                requests.put(POISON);
+                success = true;
+            } catch(InterruptedException e) {
+            }
+        }
+    }
 }

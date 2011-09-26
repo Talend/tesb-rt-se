@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.handler.MessageContext;
 
+import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
@@ -39,7 +40,7 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
     public final Source invoke(Source request) {
         QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
         LOG.info("Invoke operation '" + operationQName + "'");
-        RuntimeESBProviderCallback esbProviderCallback =
+        /* RuntimeESBProviderCallback */ GenericOperation esbProviderCallback =
             getESBProviderCallback(operationQName.getLocalPart());
         if (esbProviderCallback == null) {
             throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
@@ -91,7 +92,7 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
         }
     }
 
-    public RuntimeESBProviderCallback createESBProviderCallback(String operationName, boolean isRequestResponse) {
+    public RuntimeESBProviderCallback   createESBProviderCallback(String operationName, boolean isRequestResponse) {
         if(callbacks.get(operationName) != null) {
             throw new RuntimeException(
                 "Operation '" + operationName + "' already registered");
@@ -103,7 +104,7 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
         return esbProviderCallback;
     }
 
-    public RuntimeESBProviderCallback getESBProviderCallback(String operationName) {
+    public /*RuntimeESBProviderCallback*/ GenericOperation getESBProviderCallback(String operationName) {
         return callbacks.get(operationName);
     }
 
