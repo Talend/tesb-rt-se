@@ -301,8 +301,30 @@
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
             <includes>
-            	<include>ReleaseNotes.*</include>
+                <include>ReleaseNotes.*</include>
             </includes>
+        </fileSet>
+
+        <!-- Copy Examples -->
+        <fileSet>
+            <directory>${basedir}/../examples</directory>
+            <outputDirectory>/examples/talend/tesb</outputDirectory>
+            <excludes>
+                <!-- Exclude maven build target directory -->
+                <exclude>**/target/**</exclude>
+                <!-- Exclude Eclipse files and directories -->
+                <exclude>**/.settings/**</exclude>
+                <exclude>**/.project</exclude>
+                <exclude>**/.classpath</exclude>
+                <!-- Exclude Intellij IDEA files and directories -->
+                <exclude>**/*.i??</exclude>
+                <!-- Exclude parent pom -->
+                <exclude>parent/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../examples/parent</directory>
+            <outputDirectory>/examples/talend</outputDirectory>
         </fileSet>
 
     </fileSets>
