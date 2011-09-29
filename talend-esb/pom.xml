@@ -118,7 +118,7 @@
 		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
 		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
 		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
-		<opensaml.bundle.version>2.4.1_1</opensaml.bundle.version>
+		<!-- opensaml.bundle.version>2.4.1_1</opensaml.bundle.version-->
 		<oscache.bundle.version>2.4_4</oscache.bundle.version>
 		<oscore.bundle.version>2.2.4_4</oscore.bundle.version>
 		<osworkflow.bundle.version>2.7.0_4</osworkflow.bundle.version>
@@ -199,9 +199,9 @@
         <wss4j.version>1.6.3-SNAPSHOT</wss4j.version>
         <joda.time.version>1.6.2</joda.time.version>
 
-        <opensaml.version>2.4.1</opensaml.version>
+        <!-- opensaml.version>2.4.1</opensaml.version>
         <opensamlws.version>1.4.1</opensamlws.version>
-        <opensaml.xmltooling.version>1.3.1</opensaml.xmltooling.version>
+        <opensaml.xmltooling.version>1.3.1</opensaml.xmltooling.version-->
 
 		<xbean.version>3.7</xbean.version>
 		<xmlschema.version>2.0</xmlschema.version>
@@ -557,11 +557,11 @@
             <artifactId>neethi</artifactId>
             <version>${neethi.bundle.version}</version>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
             <version>${opensaml.bundle.version}</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.oro</artifactId>
