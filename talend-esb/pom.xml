@@ -749,6 +749,7 @@
 								<feature>spring</feature>
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
+								<feature>webconsole</feature>
 								<!-- ActiveMQ Features -->
 								<feature>activemq</feature>
 								<feature>activemq-blueprint</feature>

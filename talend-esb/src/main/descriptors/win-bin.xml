@@ -487,7 +487,7 @@
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </dependencySet>
-        <dependencySet>
+        <!-- dependencySet>
             <outputDirectory>/container/system</outputDirectory>
             <unpack>false</unpack>
             <useProjectArtifact>false</useProjectArtifact>
@@ -505,7 +505,7 @@
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
-        </dependencySet>
+        </dependencySet-->
         <dependencySet>
             <outputDirectory>/container/system</outputDirectory>
             <unpack>false</unpack>
