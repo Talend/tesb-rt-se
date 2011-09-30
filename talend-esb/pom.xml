@@ -29,6 +29,8 @@
 		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
         <camel.version>2.8.2-SNAPSHOT</camel.version>
         <cxf-sts.version>1.1-SNAPSHOT</cxf-sts.version>
+        <cellar.version>2.2.2</cellar.version>
+        <jclouds.version>1.0.0</jclouds.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
@@ -740,6 +742,8 @@
                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
 <!--                                <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
+                                <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.jclouds.karaf/feature/${jclouds.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
@@ -864,6 +868,9 @@
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
 								<feature>tesb-zookeeper-server</feature>
+								<!-- Karaf Cellar Features -->
+								<feature>cellar</feature>
+								<feature>cellar-webconsole</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
