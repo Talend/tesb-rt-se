@@ -36,14 +36,15 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
-import org.talend.esb.locator.proxy.service.types.AssertionType;
-import org.talend.esb.locator.proxy.service.types.EndpointReferenceListType;
-import org.talend.esb.locator.proxy.service.types.EntryType;
-import org.talend.esb.locator.proxy.service.types.LookupRequestType;
-import org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType;
-import org.talend.esb.locator.proxy.service.types.UnregisterEndpointRequestType;
+import org.talend.schemas.esb._2011._09.locator.AssertionType;
+import org.talend.schemas.esb._2011._09.locator.EndpointReferenceListType;
+import org.talend.schemas.esb._2011._09.locator.EntryType;
+import org.talend.schemas.esb._2011._09.locator.LookupRequestType;
+import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
+import org.talend.schemas.esb._2011._09.locator.UnregisterEndpointRequestType;
+import org.talend.webservices.esb.locator_v1.*;
 
-public class LocatorProxyServiceImpl implements LocatorProxyService {
+public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 
 	private static final Logger LOG = Logger
 			.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
