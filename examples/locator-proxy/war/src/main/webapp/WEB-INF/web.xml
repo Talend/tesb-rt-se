@@ -52,7 +52,7 @@
   </context-param>
   <context-param>
     <param-name>serviceHost</param-name>
-    <param-value>http://localhost:8080/services/services/GreeterService</param-value>
+    <param-value>http://localhost:8080/services/GreeterService</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

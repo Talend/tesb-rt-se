@@ -1,16 +1,12 @@
 package demo.service;
 
-import java.util.Enumeration;
-
 import javax.servlet.*;
 import javax.xml.namespace.QName;
-import javax.xml.ws.wsaddressing.W3CEndpointReference;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.talend.esb.locator.proxy.service.InterruptedExceptionFault;
-import org.talend.esb.locator.proxy.service.LocatorProxyService;
-import org.talend.esb.locator.proxy.service.ServiceLocatorFault;
-import org.talend.esb.locator.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
+import org.talend.webservices.esb.locator_v1.InterruptedExceptionFault;
+import org.talend.webservices.esb.locator_v1.LocatorServiceV10;
+import org.talend.webservices.esb.locator_v1.ServiceLocatorFault;
 
 public class ContextListener implements ServletContextListener {
 
@@ -38,7 +34,7 @@ public class ContextListener implements ServletContextListener {
 		System.out.println("The Simple Web App. Is Ready");
 
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
-		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
+		LocatorServiceV10 client = (LocatorServiceV10) context.getBean("locatorProxyService");
 
 		String serviceHost = this.context.getInitParameter("serviceHost");
 
