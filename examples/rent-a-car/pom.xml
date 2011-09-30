@@ -60,5 +60,26 @@
             <id>jmx</id>
         </profile>
     </profiles>
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+		</extensions>
+	</build>
+	<distributionManagement>
+		<repository>
+			<id>archiva.internal</id>
+			<name>Internal Release Repository</name>
+			<url>dav:http://localhost:8080/archiva/repository/internal</url>
+		</repository>
+		<snapshotRepository>
+			<id>archiva.snapshots</id>
+			<name>Internal Snapshot Repository</name>
+			<url>dav:http://localhost:8080/archiva/repository/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
