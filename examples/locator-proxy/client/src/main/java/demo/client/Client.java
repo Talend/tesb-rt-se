@@ -39,10 +39,8 @@ import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import org.talend.esb.locator.proxy.service.LocatorProxyService;
-import org.talend.esb.locator.proxy.service.types.LookupRequestType;
-
+import org.talend.schemas.esb._2011._09.locator.LookupRequestType;
+import org.talend.webservices.esb.locator_v1.LocatorServiceV10;
 
 import demo.common.Greeter;
 
@@ -50,7 +48,7 @@ public class Client {
 
 	public static void main(String[] args) throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/client.xml");
-		LocatorProxyService client = (LocatorProxyService) context.getBean("locatorProxyService");
+		LocatorServiceV10 client = (LocatorServiceV10) context.getBean("locatorService");
 
 		LookupRequestType lookupRequestType = new LookupRequestType();
 		lookupRequestType.setServiceName(new QName("http://talend.org/esb/examples/", "GreeterService"));

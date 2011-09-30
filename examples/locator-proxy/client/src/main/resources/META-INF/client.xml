@@ -27,8 +27,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd ">
 
-	<jaxws:client id="locatorProxyService" 
+	<jaxws:client id="locatorService" 
         address="http://localhost:8040/services/ServiceLocatorProxyService"
-		serviceClass="org.talend.esb.locator.proxy.service.LocatorProxyService">
+		serviceClass="org.talend.webservices.esb.locator_v1.LocatorServiceV10">
 	</jaxws:client>
 </beans>
