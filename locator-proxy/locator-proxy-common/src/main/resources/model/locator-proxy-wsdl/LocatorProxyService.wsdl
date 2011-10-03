@@ -16,14 +16,20 @@
 			</xsd:element>
 			<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
 			</xsd:element>
-			<xsd:element name="InterruptedExceptionFault" type="lpx:InterruptedExceptionFault"/>
-			<xsd:complexType name="InterruptedExceptionFault">
-				<xsd:sequence/>
-			</xsd:complexType>
-			<xsd:element name="ServiceLocatorFault" type="lpx:ServiceLocatorFault"/>
-			<xsd:complexType name="ServiceLocatorFault">
-				<xsd:sequence/>
-			</xsd:complexType>
+			<xsd:element name="InterruptionFaultDetail">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="InterruptionDetail" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ServiceLocatorFaultDetail">
+				<xsd:complexType>
+					<xsd:sequence>
+							<xsd:element name="LocatorFaultDetail" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType"/>
 			<xsd:complexType name="registerEndpointRequestType">
 				<xsd:sequence>
@@ -90,10 +96,10 @@
 		<part name="body" element="lpx:EndpointReferenceListType"/>
 	</message>
 	<wsdl:message name="InterruptedExceptionFault">
-		<wsdl:part name="InterruptedExceptionFault" element="lpx:InterruptedExceptionFault"/>
+		<wsdl:part name="InterruptionFaultDetail" element="lpx:InterruptionFaultDetail"/>
 	</wsdl:message>
 	<wsdl:message name="ServiceLocatorFault">
-		<wsdl:part name="ServiceLocatorFault" element="lpx:ServiceLocatorFault"/>
+		<wsdl:part name="ServiceLocatorFaultDetail" element="lpx:ServiceLocatorFaultDetail"/>
 	</wsdl:message>
 	<wsdl:message name="empty"/>
 	<portType name="LocatorService_v1_0">
