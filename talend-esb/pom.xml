@@ -306,7 +306,21 @@
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
-        
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>apache-activemq</artifactId>
+            <version>${activemq.version}</version>
+            <type>tar.gz</type>
+            <classifier>bin</classifier>
+        </dependency>        
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>apache-activemq</artifactId>
+            <version>${activemq.version}</version>
+            <type>zip</type>
+            <classifier>bin</classifier>
+        </dependency>        
+		
 		<!-- Apache ZooKeeper -->
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
@@ -983,6 +997,33 @@
 									<version>${zookeeper.package.version}</version>
 									<type>tar.gz</type>
 									<outputDirectory>target/dependencies/zookeeper</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-activemq</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.activemq</groupId>
+									<artifactId>apache-activemq</artifactId>
+									<version>${activemq.version}</version>
+									<type>tar.gz</type>
+									<classifier>bin</classifier>
+									<outputDirectory>target/dependencies/activemq-unix</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.activemq</groupId>
+									<artifactId>apache-activemq</artifactId>
+									<version>${activemq.version}</version>
+									<type>zip</type>
+									<classifier>bin</classifier>
+									<outputDirectory>target/dependencies/activemq-win</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

@@ -230,6 +230,34 @@
             <fileMode>0755</fileMode>
         </fileSet>
 
+        <!-- Expanded ActiveMQ Runtime -->
+        <fileSet>
+            <directory>target/dependencies/activemq-unix/apache-activemq-${activemq.version}</directory>
+            <outputDirectory>/activemq</outputDirectory>
+            <excludes>
+                <exclude>bin/**</exclude>
+                <exclude>LICENSE</exclude>
+                <exclude>NOTICE</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Copy over unix activemq bin/ subdirectories -->
+        <fileSet>
+            <directory>target/dependencies/activemq-unix/apache-activemq-${activemq.version}/bin</directory>
+            <outputDirectory>/activemq/bin</outputDirectory>
+        </fileSet>
+
+        <!-- Copy over win activemq bin/ subdirectories -->
+        <fileSet>
+            <directory>target/dependencies/activemq-win/apache-activemq-${activemq.version}/bin</directory>
+            <outputDirectory>/activemq/bin</outputDirectory>
+            <includes>
+                <include>win*/**</include>
+                <include>*.bat</include>
+                <include>*.cmd</include>
+            </includes>
+        </fileSet>
+
         <!-- Copy over jar files -->
         <fileSet>
             <directory>target/dependencies</directory>
