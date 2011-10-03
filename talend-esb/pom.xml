@@ -373,7 +373,7 @@
 		</dependency>
 
         <!-- ServiceMix Specs -->
-        <dependency>
+        <!-- dependency>
             <groupId>org.apache.servicemix.specs</groupId>
             <artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
             <version>${servicemix.specs.version}</version>
@@ -417,24 +417,24 @@
             <groupId>org.apache.servicemix.specs</groupId>
             <artifactId>org.apache.servicemix.specs.stax-api-1.0</artifactId>
             <version>${servicemix.specs.version}</version>
-        </dependency>
+        </dependency-->
 
         <!-- Geronimo -->
-        <dependency>
+        <!-- dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-annotation_1.0_spec</artifactId>
             <version>${geronimo-annotation.version}</version>
-        </dependency>
+        </dependency-->
 
         <!-- Spring -->
-        <dependency>
+        <!-- dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
-        </dependency>
+        </dependency-->
 
         <!-- Bundles -->
-        <dependency>
+        <!-- dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.ant</artifactId>
             <version>${ant.bundle.version}</version>
@@ -559,11 +559,11 @@
             <artifactId>neethi</artifactId>
             <version>${neethi.bundle.version}</version>
         </dependency>
-        <!-- dependency>
+        <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
             <version>${opensaml.bundle.version}</version>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.oro</artifactId>
@@ -643,10 +643,10 @@
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.xmlsec</artifactId>
             <version>${xmlsec.bundle.version}</version>
-        </dependency>
+        </dependency-->
         
         <!-- Other Dependencies -->
-        <dependency>
+        <!-- dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-xjc</artifactId>
             <version>${jaxb-xjc.version}</version>
@@ -687,7 +687,7 @@
                     <artifactId>jaxb-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.osgi.compendium</artifactId>
