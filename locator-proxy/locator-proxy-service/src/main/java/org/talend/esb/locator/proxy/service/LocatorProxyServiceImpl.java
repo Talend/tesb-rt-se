@@ -42,6 +42,8 @@ import org.talend.schemas.esb._2011._09.locator.EntryType;
 import org.talend.schemas.esb._2011._09.locator.LookupRequestType;
 import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
 import org.talend.schemas.esb._2011._09.locator.UnregisterEndpointRequestType;
+import org.talend.schemas.esb._2011._09.locator.InterruptionFaultDetail;
+import org.talend.schemas.esb._2011._09.locator.ServiceLocatorFaultDetail;
 import org.talend.webservices.esb.locator_v1.*;
 
 public class LocatorProxyServiceImpl implements LocatorServiceV10 {
@@ -158,9 +160,15 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 				locatorClient.register(serviceName, endpointURL, slProps);
 			}
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault(e.getMessage(), e);
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail(serviceName.toString()
+					+ "throws ServiceLocatorFault");
+			throw new ServiceLocatorFault(e.getMessage(), serviceFaultDetail);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault(e.getMessage(), e);
+			InterruptionFaultDetail interruptionFaultDetail = new InterruptionFaultDetail();
+			interruptionFaultDetail.setInterruptionDetail(serviceName
+					.toString() + "throws InterruptionFault");
+			throw new InterruptedExceptionFault(e.getMessage(), interruptionFaultDetail);
 		}
 	}
 
@@ -184,9 +192,15 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 			initLocator();
 			locatorClient.unregister(serviceName, endpointURL);
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault(e.getMessage(), e);
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail(serviceName.toString()
+					+ "throws ServiceLocatorFault");
+			throw new ServiceLocatorFault(e.getMessage(), serviceFaultDetail);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault(e.getMessage(), e);
+			InterruptionFaultDetail interruptionFaultDetail = new InterruptionFaultDetail();
+			interruptionFaultDetail.setInterruptionDetail(serviceName
+					.toString() + "throws InterruptionFault");
+			throw new InterruptedExceptionFault(e.getMessage(), interruptionFaultDetail);
 		}
 	}
 
@@ -214,9 +228,15 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 				names = locatorClient.lookup(serviceName, matcher);
 			}
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault(e.getMessage(), e);
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail(serviceName.toString()
+					+ "throws ServiceLocatorFault");
+			throw new ServiceLocatorFault(e.getMessage(), serviceFaultDetail);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault(e.getMessage(), e);
+			InterruptionFaultDetail interruptionFaultDetail = new InterruptionFaultDetail();
+			interruptionFaultDetail.setInterruptionDetail(serviceName
+					.toString() + "throws InterruptionFault");
+			throw new InterruptedExceptionFault(e.getMessage(), interruptionFaultDetail);
 		}
 		if (names != null && !names.isEmpty()) {
 			names = getRotatedList(names);
@@ -226,8 +246,10 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 				LOG.log(Level.WARNING, "lookup Endpoint for " + serviceName
 						+ " failed, service is not known.");
 			}
-			throw new ServiceLocatorFault("lookup Endpoint for " + serviceName
-					+ " failed, service is not known.");
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail("lookup Endpoint for "
+					+ serviceName + " failed, service is not known.");
+			throw new ServiceLocatorFault("Can not find Endpoint", serviceFaultDetail);
 		}
 		return buildEndpoint(serviceName, adress);
 	}
@@ -259,9 +281,15 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 				names = locatorClient.lookup(serviceName, matcher);
 			}
 		} catch (ServiceLocatorException e) {
-			throw new ServiceLocatorFault(e.getMessage(), e);
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail(serviceName.toString()
+					+ "throws ServiceLocatorFault");
+			throw new ServiceLocatorFault(e.getMessage(), serviceFaultDetail);
 		} catch (InterruptedException e) {
-			throw new InterruptedExceptionFault(e.getMessage(), e);
+			InterruptionFaultDetail interruptionFaultDetail = new InterruptionFaultDetail();
+			interruptionFaultDetail.setInterruptionDetail(serviceName
+					.toString() + "throws InterruptionFault");
+			throw new InterruptedExceptionFault(e.getMessage(), interruptionFaultDetail);
 		}
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {
@@ -273,8 +301,10 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 				LOG.log(Level.WARNING, "lookup Endpoints for " + serviceName
 						+ " failed, service is not known.");
 			}
-			throw new ServiceLocatorFault("lookup Endpoints for " + serviceName
-					+ " failed, service is not known.");
+			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+			serviceFaultDetail.setLocatorFaultDetail("lookup Endpoint for "
+					+ serviceName + " failed, service is not known.");
+			throw new ServiceLocatorFault("Can not find Endpoint", serviceFaultDetail);
 		}
 		return result;
 	}
