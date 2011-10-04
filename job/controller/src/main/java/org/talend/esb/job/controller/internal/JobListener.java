@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
+import routines.system.api.TalendJob;
 
 /**
  * The listener interface for receiving job lifecycle events.   
@@ -59,4 +60,20 @@ public interface JobListener {
      * @param name the name of the route, must not be <code>null</code>
      */
     void routeRemoved(TalendESBRoute route, String name);
+
+    /**
+     * Invoked when a simple job is registered, which is not an ESB job nor a route.
+     * 
+     * @param job the job registered, must not be <code>null</code>
+     * @param name the name of the job, must not be <code>null</code>
+     */
+    void jobAdded(TalendJob job, String name);
+
+    /**
+     * Invoked when a simple job is unregistered, which is not an ESB job nor a route.
+     * 
+     * @param job the job unregistered, must not be <code>null</code>
+     * @param name the name of the job, must not be <code>null</code>
+     */
+    void jobRemoved(TalendJob job, String name);
 }

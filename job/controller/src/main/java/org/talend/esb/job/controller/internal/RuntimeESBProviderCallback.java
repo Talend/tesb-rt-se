@@ -22,22 +22,18 @@ package org.talend.esb.job.controller.internal;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.talend.esb.job.controller.GenericOperation;
-
-//import routines.system.api.ESBConsumer;
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
 
-public class RuntimeESBProviderCallback implements ESBProviderCallback, GenericOperation {
+public class RuntimeESBProviderCallback implements ESBProviderCallback {
 
-    private static final Object POISON = new Object();
+    private static final MessageExchange POISON = new MessageExchange(null);
     
     private final boolean isRequestResponse;
-    private final BlockingQueue<Object> requests = new LinkedBlockingQueue<Object>();
+    private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
 
-    private volatile Object request;
-    private volatile Object response ;
-    
+    private volatile MessageExchange currentExchange;
+
     private volatile boolean stopped;
 
     public RuntimeESBProviderCallback(boolean isRequestResponse) {
@@ -45,38 +41,38 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, GenericO
     }
 
     public Object getRequest() throws ESBJobInterruptedException {
-        request = null;
-        while (request == null) {
+        currentExchange = null;
+        while (currentExchange == null) {
             try {
-                request = requests.take();
-                if (request == POISON) {
+                currentExchange = requests.take();
+                if (currentExchange == POISON) {
                     stopped = true;
                     throw new ESBJobInterruptedException("Job was cancelled.");
                 }
-
             } catch (InterruptedException e) {
                 prepareStop();
             }
         }
-        return request;
+        return currentExchange.request;
     }
 
     public void sendResponse(Object response) {
-        this.response = response;
-        synchronized (request) {
-            request.notify();
+        currentExchange.response = response;
+        synchronized (currentExchange) {
+            currentExchange.notify();
         }
     }
 
     public Object invoke(Object payload) throws Exception {
-        requests.put(payload);
+        MessageExchange myExchange = new MessageExchange(payload);
+        requests.put(myExchange);
         if(!isRequestResponse) {
             return null;
         }
-        synchronized (payload) {
-            payload.wait();
+        synchronized (myExchange) {
+            myExchange.wait();
         }
-        return response;
+        return myExchange.response;
     }
     
     public void cancel() {
@@ -95,6 +91,16 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, GenericO
                 success = true;
             } catch(InterruptedException e) {
             }
+        }
+    }
+    
+    private static class MessageExchange {
+        public Object request;
+        
+        public Object response;
+        
+        public MessageExchange(Object request) {
+            this.request = request;
         }
     }
 }

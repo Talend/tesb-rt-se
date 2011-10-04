@@ -42,14 +42,4 @@ public class ServiceControllerMBeanImpl extends StandardMBean implements Control
     public List<String> list() throws Exception {
         return controller.listServices();
     }
-
-    public void start(String name, String args) throws Exception {
-        // TODO: investigate how pass args to data services
-        controller.runService(name);
-    }
-
-    public void stop(String name) throws Exception {
-        controller.stopService(name);
-    }
-
 }

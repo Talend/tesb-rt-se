@@ -89,8 +89,9 @@ public interface Controller {
      * @param name the Talend service name.
      * @throws Exception in case of run exception.
      */
+/*
     public void runService(String name) throws Exception;
-
+*/
     /**
      * Stop a Talend job with the given name.
      *
@@ -105,6 +106,7 @@ public interface Controller {
      * @param name the Talend service name.
      * @throws Exception in case of run exception.
      */
+/*
     public void stopService(String name) throws Exception;
-
+*/
 }

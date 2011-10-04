@@ -66,8 +66,6 @@ class ESBJobThread extends Thread {
 
         } finally {
             jobThreadListener.jobFinished(talendJob, this);
-
-//            controller.destroyESBProviderCallback();
         }
     }
 }

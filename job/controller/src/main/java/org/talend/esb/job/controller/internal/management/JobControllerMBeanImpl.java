@@ -42,20 +42,4 @@ public class JobControllerMBeanImpl extends StandardMBean implements ControllerM
     public List<String> list() throws Exception {
         return controller.listJobs();
     }
-
-    public void start(String name, String args) throws Exception {
-        String[] arguments = null;
-        if (args != null) {
-            arguments = args.split(" ");
-        }
-        if (arguments == null) {
-            arguments = new String[0];
-        }
-        controller.run(name, arguments);
-    }
-
-    public void stop(String name) throws Exception {
-        controller.stop(name);
-    }
-
 }

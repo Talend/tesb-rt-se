@@ -127,7 +127,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         if (task != null) {
             task.cancel();
         }
-
     }
 
     @Override
@@ -145,7 +144,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         routeAdapterRegistrations.put(name, sr);
         executorService.execute(adapter);
     }
-  
+
     @Override
     public void routeRemoved(TalendESBRoute route, String name) {
         LOG.info("Removing route " +  name + ".");
@@ -160,6 +159,17 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
             sr.unregister();
         }
     }
+
+    @Override
+    public void jobAdded(TalendJob job, String name) {
+        
+    }
+
+    @Override
+    public void jobRemoved(TalendJob job, String name) {
+        
+    }
+
     
     public void unbind() {
         
