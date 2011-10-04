@@ -31,12 +31,6 @@
 
         <!-- Copy Examples -->
         <fileSet>
-            <directory>target/dependencies/tif-examples/talend-if-${tif.version}/examples</directory>
-            <outputDirectory>/examples/talend/tif</outputDirectory>
-            <fileMode>0644</fileMode>
-            <directoryMode>755</directoryMode>
-        </fileSet>
-        <fileSet>
             <directory>target/dependencies/tsf-examples/talend-sf-${tsf.version}/examples</directory>
             <outputDirectory>/examples/talend/tsf</outputDirectory>
             <fileMode>0644</fileMode>

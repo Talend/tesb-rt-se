@@ -359,6 +359,13 @@
             <outputDirectory>/examples/talend</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>target/dependencies/talend-if-${tif.version}/examples</directory>
+            <outputDirectory>/examples/talend/tif</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
     </fileSets>
 
     <files>

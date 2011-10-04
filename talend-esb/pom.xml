@@ -353,7 +353,6 @@
 			<groupId>com.talend.if.assembly</groupId>
 			<artifactId>talend-if</artifactId>
 			<version>${tif.version}</version>
-			<classifier>examples</classifier>
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
@@ -1041,8 +1040,7 @@
 									<artifactId>talend-if</artifactId>
 									<version>${tif.version}</version>
 									<type>tar.gz</type>
-									<classifier>examples</classifier>
-									<outputDirectory>target/dependencies/tif-examples</outputDirectory>
+									<outputDirectory>target/dependencies</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
