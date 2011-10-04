@@ -370,7 +370,7 @@
 			<artifactId>talend-sf</artifactId>
 			<version>${tsf.version}</version>
 			<classifier>examples</classifier>
-			<type>tar.gz</type>
+			<type>zip</type>
 		</dependency>
 		<dependency>
 			<groupId>org.talend.tsf.docs</groupId>
@@ -1060,7 +1060,7 @@
 									<artifactId>talend-sf</artifactId>
 									<version>${tsf.version}</version>
 									<classifier>examples</classifier>
-									<type>tar.gz</type>
+									<type>zip</type>
 									<outputDirectory>target/dependencies</outputDirectory>
 								</artifactItem>
 							</artifactItems>
