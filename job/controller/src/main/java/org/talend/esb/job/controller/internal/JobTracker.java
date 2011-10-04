@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.logging.Logger;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
@@ -28,7 +30,13 @@ import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
+/**
+ * Tracks registration and unregistration of all type of jobs and notifies a corresponding listener.
+ */
 public class JobTracker {
+
+    private static final Logger LOG =
+        Logger.getLogger(JobTracker.class.getName());
 
     private BundleContext context;
     
@@ -43,19 +51,20 @@ public class JobTracker {
     public void setBundleContext(BundleContext context) {
         this.context = context;
     }
-    
 
     public void bind() {
+        LOG.fine("bind calling, creating and opening ServiceTracker...");
         tracker = new ServiceTracker(context, TalendJob.class.getName(), new Customizer());
         tracker.open();        
     }
 
     public void unbind() {
+        LOG.fine("unbind calling, closing ServiceTracker...");
         if (tracker != null) {
             tracker.close();
         }
     }
-    
+
     private String getValue(String name, ServiceReference sRef) {
         Object val = sRef.getProperty(name);
         if (name == null || ! (name instanceof String)) {
@@ -68,6 +77,7 @@ public class JobTracker {
 
         @Override
         public Object addingService(ServiceReference reference) {
+            LOG.info("Service with reference " + reference + " added    ");
             Object job = context.getService(reference);
             if (job != null) {
                 String name = getValue("name", reference);
@@ -78,16 +88,17 @@ public class JobTracker {
                 }
 
             }
-            return null;
+            return job;
         }
 
         @Override
         public void modifiedService(ServiceReference reference, Object job) {
-         
+            LOG.info("Service " + job + " modified");
         }
 
         @Override
         public void removedService(ServiceReference reference, Object job) {
+            LOG.info("Service " + job + " removed");
             String name = getValue("name", reference);
             if (job instanceof TalendESBJob) {
                 listener.esbJobAdded((TalendESBJob) job, name);

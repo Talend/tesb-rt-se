@@ -24,13 +24,8 @@ import java.util.Map;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
-import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.internal.Configuration;
 import org.talend.esb.job.controller.internal.ESBProviderBase;
-import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback;
-
-import routines.system.api.ESBEndpointInfo;
-import routines.system.api.ESBProviderCallback;
 
 public class GenericServiceProvider extends ESBProviderBase implements ManagedService {
 

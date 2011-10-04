@@ -37,6 +37,7 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
 
+@Deprecated
 class ESBProvider extends ESBProviderBase {
 
     private static final Logger LOG =

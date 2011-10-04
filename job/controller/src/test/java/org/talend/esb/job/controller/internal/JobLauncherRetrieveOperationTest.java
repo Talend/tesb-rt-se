@@ -19,53 +19,57 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import org.easymock.EasyMockSupport;
+import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.job.controller.GenericOperation;
 
 import routines.system.api.TalendESBJob;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
-public class JobLauncherImplTest extends EasyMockSupport{
+public class JobLauncherRetrieveOperationTest {
 
-    public static final String JOB_NAME = "jobName";
+    public static final String JOB_NAME_1 = "jobName1";
 
+    public static final String JOB_NAME_2 = "jobName2";
+
+    public static final String[] EMPTY_STRING_ARR = new String[0];
+
+    private TalendESBJob job;
+
+    private JobLauncherImpl jobLauncher;
+
+    @Before
+    public void setup() {
+        job = createNiceMock(TalendESBJob.class);
+        replay(job);
+        
+        jobLauncher = new JobLauncherImpl();
+        jobLauncher.esbJobAdded(job, JOB_NAME_1);
+    }
+    
     @Test
     public void retrieveNewOperation() throws Exception {
-        TalendESBJob job = createNiceMock(TalendESBJob.class);
-        replayAll();
-        
-        JobLauncherImpl jobLauncher = new JobLauncherImpl();
-        jobLauncher.esbJobAdded(job, JOB_NAME);
-
-        GenericOperation operation = jobLauncher.retrieveOperation(JOB_NAME, true, new String[0]);
+        GenericOperation operation = jobLauncher.retrieveOperation(JOB_NAME_1, true, new String[0]);
         
         assertNotNull(operation);
     }
 
     @Test
-    public void retrieveSecondTimeOperationReturnsSame() throws Exception {
-        TalendESBJob job = createNiceMock(TalendESBJob.class);
-        replayAll();
-        
-        JobLauncherImpl jobLauncher = new JobLauncherImpl();
-        jobLauncher.esbJobAdded(job, JOB_NAME);
-
-        GenericOperation operation1 = jobLauncher.retrieveOperation(JOB_NAME, true, new String[0]);
-        GenericOperation operation2 = jobLauncher.retrieveOperation(JOB_NAME, true, new String[0]);
+    public void retrieveSecondTimeOperationReturnsSame() throws Exception {        
+        GenericOperation operation1 = jobLauncher.retrieveOperation(JOB_NAME_1, true, EMPTY_STRING_ARR);
+        GenericOperation operation2 = jobLauncher.retrieveOperation(JOB_NAME_1, true, EMPTY_STRING_ARR);
         
         assertSame(operation1, operation2);
     }
 
     @Test
-    public void jobNotAvailable() throws Exception {        
-        JobLauncherImpl jobLauncher = new JobLauncherImpl();
-
+    public void jobNotAvailable() throws Exception {
         try {
-            jobLauncher.retrieveOperation(JOB_NAME, true, new String[0]);
+            jobLauncher.retrieveOperation(JOB_NAME_2, true, EMPTY_STRING_ARR);
             fail("An IllegalArgumentException should have been thrown");
         } catch(IllegalArgumentException e) {}
     }

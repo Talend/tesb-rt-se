@@ -50,5 +50,4 @@
         <property name="jobListener" ref="jobLauncher" />
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
-
 </beans>

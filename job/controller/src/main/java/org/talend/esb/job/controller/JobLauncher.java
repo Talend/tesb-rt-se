@@ -35,14 +35,6 @@ public interface JobLauncher {
      */
     void startJob(TalendJob talendJob, String[] args);
 
-    /**
-     * Start a Talend job with the given name and the given callback.
-     *
-     * @param name the Talend job name.
-     * @param controller the RuntimeESBProviderCallbackController.
-     */
-//    public void startJob(String name,
-//        final ESBProviderCallbackController controller);
 
     /**
      * Stop a given Talend job.
@@ -51,5 +43,12 @@ public interface JobLauncher {
      */
     void stopJob(TalendJob talendJob);
 
-    GenericOperation retrieveOperation(String jobName, boolean isRequestResponse,String[] args);
+    /**
+     * Retrieve the operation that is backed by the job with the given name..
+     *
+     * @param jobName the Talend job name.
+     * @param isRequestResponse 
+     * @param args additional parameters to be passed to the job
+     */
+    GenericOperation retrieveOperation(String jobName, boolean isRequestResponse, String[] args);
 }
