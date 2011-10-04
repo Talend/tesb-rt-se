@@ -353,6 +353,7 @@
 			<groupId>com.talend.if.assembly</groupId>
 			<artifactId>talend-if</artifactId>
 			<version>${tif.version}</version>
+			<classifier>examples</classifier>
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
@@ -368,6 +369,7 @@
 			<groupId>com.talend.sf.assembly</groupId>
 			<artifactId>talend-sf</artifactId>
 			<version>${tsf.version}</version>
+			<classifier>examples</classifier>
 			<type>tar.gz</type>
 		</dependency>
 		<dependency>
@@ -1038,6 +1040,7 @@
 									<groupId>com.talend.if.assembly</groupId>
 									<artifactId>talend-if</artifactId>
 									<version>${tif.version}</version>
+									<classifier>examples</classifier>
 									<type>tar.gz</type>
 									<outputDirectory>target/dependencies</outputDirectory>
 								</artifactItem>
@@ -1056,6 +1059,7 @@
 									<groupId>com.talend.sf.assembly</groupId>
 									<artifactId>talend-sf</artifactId>
 									<version>${tsf.version}</version>
+									<classifier>examples</classifier>
 									<type>tar.gz</type>
 									<outputDirectory>target/dependencies</outputDirectory>
 								</artifactItem>
