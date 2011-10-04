@@ -31,6 +31,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 public class ConfigurationTest {
+    
+    public static final String KEY_1 = "key1";
+
+    public static final String KEY_2 = "key2";
 
     @Test
     public void nullPropertiesProvidesEmptyArgumentList() throws Exception {
@@ -44,7 +48,7 @@ public class ConfigurationTest {
     @Test
     public void nonStringPropertyValueResultsInConfigurationException() {
         Dictionary<String, Object> properties = new Hashtable<String, Object>();
-        properties.put("key1", 1);
+        properties.put(KEY_1, 1);
 
         try {
             new Configuration(properties);
@@ -64,15 +68,29 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void NonSpecialPropertyResultsInContextParamArgument() throws Exception{
+    public void nonSpecialPropertyResultsInContextParamArgument() throws Exception{
         Dictionary<String, String> properties = new Hashtable<String,String>();
-        properties.put("key1", "value1");
-        properties.put("key2", "value2");
+        properties.put(KEY_1, "value1");
+        properties.put(KEY_2, "value2");
 
         Configuration configuration =  new Configuration(properties);
         
         String[] args = configuration.getArguments();
-        String[] expectedArgs = new String[]{"--context_param" + "key1" + "=" + "value1", "--context_param" + "key2" + "=" + "value2"};
+        String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + "value1", "--context_param=" + KEY_2 + "=" + "value2"};
+        assertThat(args, arrayContainingInAnyOrder(expectedArgs));
+    }
+
+    @Test
+    public void propertyInFilterNotInArgumentList() throws Exception{
+        String[] filter = new String[] {KEY_1};
+        Dictionary<String, String> properties = new Hashtable<String,String>();
+        properties.put(KEY_1, "value1");
+        properties.put(KEY_2, "value2");
+
+        Configuration configuration =  new Configuration(properties, filter);
+        
+        String[] args = configuration.getArguments();
+        String[] expectedArgs = new String[]{"--context_param=" + KEY_2 + "=" + "value2"};
         assertThat(args, arrayContainingInAnyOrder(expectedArgs));
     }
 }

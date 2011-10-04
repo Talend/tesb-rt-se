@@ -20,9 +20,10 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
@@ -30,6 +31,9 @@ import org.osgi.service.cm.ManagedService;
 import routines.system.api.TalendESBRoute;
 
 public class RouteAdapter implements ManagedService, Runnable {
+
+    private static final Logger LOG =
+        Logger.getLogger(RouteAdapter.class.getName());
 
     private TalendESBRoute route;
     
@@ -47,30 +51,21 @@ public class RouteAdapter implements ManagedService, Runnable {
     @Override
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
         configuration = new Configuration(properties);
-        if(properties != null) {
-            Enumeration<?> keys = properties.keys();
-
-            while(keys.hasMoreElements()) {
-                Object key = keys.nextElement();
-                System.out.println("Key: " + key + ", value: " + properties.get(key));
-            }
-        }
-
         configAvailable.countDown();
     }
    
     public void cancel() {
-        System.out.println("Route Adapter stop called");
+        LOG.info("Cancelling route " + name);
         try {
             route.shutdown();
         } catch (Exception e) {
-            e.printStackTrace();            
+            LOG.log(Level.WARNING, "Shutting down route " + name + " caused an exception.", e);        
         }
     }
 
     @Override
     public void run() {
-        System.out.println("Starting route " + name);
+        LOG.info("Starting route " + name);
         String[] args = null;
         try {
             if (configAvailable.await(2000, TimeUnit.MILLISECONDS)) {
@@ -82,7 +77,7 @@ public class RouteAdapter implements ManagedService, Runnable {
             return;
         }
         int ret = route.runJobInTOS(args);
-        System.out.println("Route " + name + " finished, return code is " + ret);
+        LOG.info("Route " + name + " finished, return code is " + ret);
     }
 
 }

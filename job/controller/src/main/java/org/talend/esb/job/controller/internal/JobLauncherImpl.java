@@ -22,7 +22,6 @@ package org.talend.esb.job.controller.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Queue;
@@ -35,6 +34,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.Bus;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
@@ -57,10 +57,9 @@ import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobListener,
         JobThreadListener {
-    
+
     private static final Logger LOG =
         Logger.getLogger(JobLauncherImpl.class.getName());
-
 
     private Queue<Event> samQueue;
     private Bus bus;
@@ -82,10 +81,11 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     private Map<String, TalendJob> namedJobs = new ConcurrentHashMap<String, TalendJob>(); 
 
     private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
-    
-    private Map<String, RouteAdapter> routeAdapters = new HashMap<String, RouteAdapter>(); 
 
+    private Map<String, RouteAdapter> routeAdapters = new ConcurrentHashMap<String, RouteAdapter>();
     
+    private Map<String, ServiceRegistration> routeAdapterRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
+
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -104,24 +104,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         startJob(new ESBJobThread(talendJob, args, controller, this, this));
     }
 
-/*
-    public void startJob(String name,
-        final ESBProviderCallbackController controller) {
-        // ControllerImpl
-        ServiceReference[] references;
-        try {
-            references = bundleContext.getServiceReferences(
-                TalendJob.class.getName(), "(name=" + name + ")");
-        } catch (InvalidSyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
-        if (references == null) {
-            throw new IllegalArgumentException("Talend job '" + name + "' not found");
-        }
-        final TalendJob talendJob = (TalendJob) bundleContext.getService(references[0]);
-        startJob(new ESBJobThread(talendJob, new String[0], controller, this, this));
-    }
-*/
     private void startJob(final Thread thread) {
         thread.setContextClassLoader(this.getClass().getClassLoader());
         thread.start();
@@ -167,10 +149,11 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         
         routeAdapters.put(name, adapter);
         
-        bundleContext.registerService(ManagedService.class.getName(),
+        ServiceRegistration sr = 
+            bundleContext.registerService(ManagedService.class.getName(),
                 adapter,
                 getManagedServiceProperties(name));
-        
+        routeAdapterRegistrations.put(name, sr);
         executorService.execute(adapter);
     }
   
@@ -179,9 +162,13 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         LOG.info("Removing route " +  name + ".");
         
         RouteAdapter adapter = routeAdapters.remove(name);
-        
         if (adapter != null) {
             adapter.cancel();
+        }
+        
+        ServiceRegistration sr = routeAdapterRegistrations.remove(name);
+        if (sr != null) {
+            sr.unregister();
         }
     }
 
@@ -190,6 +177,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         
         for(RouteAdapter route : routeAdapters.values()) {
             route.cancel();
+        }
+        for(OperationTask operation : operationTasks.values()) {
+            operation.cancel();
         }
         executorService.shutdownNow();    
     }
@@ -375,6 +365,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         }
     }
 
+    @Override
     public GenericOperation retrieveOperation(String jobName, boolean isRequestResponse,String[] args) {
         OperationTask task = operationTasks.get(jobName);
         if (task == null) {
