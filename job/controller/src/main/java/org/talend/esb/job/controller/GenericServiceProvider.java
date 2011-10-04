@@ -59,46 +59,4 @@ public class GenericServiceProvider extends ESBProviderBase implements ManagedSe
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
         configuration = new Configuration(properties);
     }
-
-/*
-    class GenericESBProviderCallbackController implements ESBProviderCallbackController {
-
-        private final String operationName;
-        private final boolean isRequestResponse;
-        private final RuntimeESBProviderCallback esbProviderCallback;
-
-        public GenericESBProviderCallbackController(
-            String operationName,
-            boolean isRequestResponse,
-            RuntimeESBProviderCallback esbProviderCallback) {
-            this.operationName = operationName;
-            this.isRequestResponse = isRequestResponse;
-            this.esbProviderCallback = esbProviderCallback;
-        }
-
-        public ESBProviderCallback createESBProviderCallback(
-            final ESBEndpointInfo esbEndpointInfo) {
-            if (!operationName.equals(
-                    (String)esbEndpointInfo.getEndpointProperties().get(
-                        ESBEndpointConstants.DEFAULT_OPERATION_NAME))) {
-                throw new IllegalArgumentException("Different operations found");
-            }
-            if (isRequestResponse != OperationStyle.isRequestResponse(
-                    (String)esbEndpointInfo.getEndpointProperties().get(
-                        ESBEndpointConstants.COMMUNICATION_STYLE))) {
-                throw new IllegalArgumentException("Found incompatible communication styles");
-            }
-            return esbProviderCallback;
-        }
-
-        public void destroyESBProviderCallback() {
-            GenericServiceProvider.this.destroyESBProviderCallback(operationName);
-        }
-
-        public boolean isRequired() {
-            return true;
-        }
-
-    }
-*/
 }

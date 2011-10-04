@@ -19,8 +19,6 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map;
@@ -38,7 +36,6 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
-import org.talend.esb.job.controller.ESBProviderCallbackController;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.sam.agent.feature.EventFeature;
@@ -48,8 +45,6 @@ import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
-import routines.system.api.ESBJobInterruptedException;
-import routines.system.api.ESBProviderCallback;
 
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendESBJob;
@@ -67,14 +62,10 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     
     private ExecutorService executorService = JobExecutorFactory.newExecutor();
 
-
-    @Deprecated
-    private final Map<ESBProviderKey, Collection<ESBProvider> > endpoints =
-            new ConcurrentHashMap<ESBProviderKey, Collection<ESBProvider>>();
-
     @Deprecated
     private final Map<TalendJob, Thread > jobs =
-            new ConcurrentHashMap<TalendJob, Thread>();
+        new ConcurrentHashMap<TalendJob, Thread>();
+ 
     private ThreadLocal<RuntimeESBConsumer> tlsConsumer =
             new ThreadLocal<RuntimeESBConsumer>();
 
@@ -99,9 +90,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     }
 
     public void startJob(final TalendJob talendJob, final String[] args) {
-        final ESBProviderCallbackController controller =
-            new LazyESBProviderCallbackController();
-        startJob(new ESBJobThread(talendJob, args, controller, this, this));
+        startJob(new ESBJobThread(talendJob, args, this, this));
     }
 
     private void startJob(final Thread thread) {
@@ -171,7 +160,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
             sr.unregister();
         }
     }
-
     
     public void unbind() {
         
@@ -200,71 +188,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         final RuntimeESBConsumer runtimeESBConsumer = tlsConsumer.get();
         if (runtimeESBConsumer != null) {
             runtimeESBConsumer.destroy();
-        }
-    }
-
-    @Deprecated
-    private ESBProviderCallback createESBProvider(final Map<String, Object> props) {
-        final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
-        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
-
-        ESBProviderKey key = new ESBProviderKey(serviceName, portName);
-        Collection<ESBProvider> esbProviders = endpoints.get(key);
-        if(null == esbProviders) {
-            esbProviders = new ArrayList<ESBProvider>(1);
-            endpoints.put(key, esbProviders);
-        }
-
-        // TODO: add publishedEndpointUrl to ESBProviderKey
-        ESBProvider esbProvider = null;
-        for(ESBProvider provider : esbProviders) {
-            if(publishedEndpointUrl.equals(provider.getPublishedEndpointUrl())) {
-                esbProvider = provider;
-                break;
-            }
-        }
-        if(esbProvider == null) {
-            boolean useServiceLocator =
-                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
-            boolean useServiceActivityMonitor =
-                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
-
-            esbProvider = new ESBProvider(publishedEndpointUrl,
-                serviceName,
-                portName,
-                useServiceLocator ? new LocatorFeature() : null,
-                useServiceActivityMonitor ? createEventFeature() : null);
-            esbProvider.run(bus);
-            esbProviders.add(esbProvider);
-        }
-
-        final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
-        ESBProviderCallback esbProviderCallback =
-            esbProvider.createESBProviderCallback(operationName,
-                OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)));
-
-        return esbProviderCallback;
-    }
-
-    @Deprecated
-    private void destroyESBProvider(final Map<String, Object> props) {
-        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
-        final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
-
-        final Collection<ESBProvider> esbProviders = endpoints.get(
-            new ESBProviderKey(serviceName, portName));
-        if (esbProviders != null) {
-            for (ESBProvider esbProvider : esbProviders) {
-                if(publishedEndpointUrl.equals(esbProvider.getPublishedEndpointUrl())) {
-                    final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
-                    if(esbProvider.destroyESBProviderCallback(operationName)) {
-                        esbProviders.remove(esbProvider);
-                    }
-                    break;
-                }
-            }
         }
     }
 
@@ -320,49 +243,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         EventFeature eventFeature = new EventFeature();
         eventFeature.setQueue(samQueue);
         return eventFeature;
-    }
-
-    @Deprecated
-    class LazyESBProviderCallbackController
-            implements ESBProviderCallbackController, ESBProviderCallback {
-
-        private ESBEndpointInfo endpointInfo;
-        private ESBProviderCallback delegate;
-
-        public ESBProviderCallback createESBProviderCallback(
-            final ESBEndpointInfo esbEndpointInfo) {
-            this.endpointInfo = esbEndpointInfo;
-            // Inject lazy initialization callback to the job
-            return this;
-        }
-
-        public void destroyESBProviderCallback() {
-            if (null != endpointInfo) {
-                destroyESBProvider(endpointInfo.getEndpointProperties());
-            }
-        }
-
-        public boolean isRequired() {
-            return false;
-        }
-
-        public synchronized Object getRequest() throws ESBJobInterruptedException {
-            if (delegate == null) {
-                // This will be run after #getRequest will be called from the job
-                try {
-                    delegate = createESBProvider(endpointInfo.getEndpointProperties());
-                } catch (Exception e) {
-                    throw new ESBJobInterruptedException(e.getMessage(), e);
-                }
-            }
-            return delegate.getRequest();
-        }
-
-        public void sendResponse(Object response) {
-            if (delegate != null) {
-                delegate.sendResponse(response);
-            }
-        }
     }
 
     @Override

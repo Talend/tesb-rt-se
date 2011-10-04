@@ -1,7 +1,6 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -22,10 +21,6 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
 
     public static final String REQUEST_PAYLOAD = "PAYLOAD";
     public static final String REQUEST_SAM_PROPS = "SAM-PROPS";
-    public static final String REQUEST_SL_PROPS = "SL-PROPS";
-
-    private final Map<String, RuntimeESBProviderCallback> callbacks =
-            new ConcurrentHashMap<String, RuntimeESBProviderCallback>();
 
     protected EventFeature eventFeature;
 
@@ -40,7 +35,7 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
     public final Source invoke(Source request) {
         QName operationQName = (QName)context.getMessageContext().get(MessageContext.WSDL_OPERATION);
         LOG.info("Invoke operation '" + operationQName + "'");
-        /* RuntimeESBProviderCallback */ GenericOperation esbProviderCallback =
+        GenericOperation esbProviderCallback =
             getESBProviderCallback(operationQName.getLocalPart());
         if (esbProviderCallback == null) {
             throw new RuntimeException("Handler for operation " + operationQName + " cannot be found");
@@ -92,26 +87,7 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
         }
     }
 
-    public RuntimeESBProviderCallback   createESBProviderCallback(String operationName, boolean isRequestResponse) {
-        if(callbacks.get(operationName) != null) {
-            throw new RuntimeException(
-                "Operation '" + operationName + "' already registered");
-        }
-        RuntimeESBProviderCallback esbProviderCallback =
-            new RuntimeESBProviderCallback(isRequestResponse);
-        callbacks.put(operationName, esbProviderCallback);
-
-        return esbProviderCallback;
-    }
-
-    public /*RuntimeESBProviderCallback*/ GenericOperation getESBProviderCallback(String operationName) {
-        return callbacks.get(operationName);
-    }
-
-    public boolean destroyESBProviderCallback(String operationName) {
-        callbacks.remove(operationName);
-        return callbacks.isEmpty();
-    }
+    public abstract GenericOperation getESBProviderCallback(String operationName);
 
     protected boolean isOperationRequestResponse(String operationName) {
         // is better way to get communication style?

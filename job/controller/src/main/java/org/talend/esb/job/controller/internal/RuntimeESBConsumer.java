@@ -93,7 +93,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             @SuppressWarnings("unchecked")
             java.util.Map<String, String> samProps =
-                (java.util.Map<String, String>)map.get(ESBProvider.REQUEST_SAM_PROPS);
+                (java.util.Map<String, String>)map.get(ESBProviderBase.REQUEST_SAM_PROPS);
             if (samProps != null && eventFeature != null) {
                 LOG.info("SAM custom properties received: " + samProps);
                 //System.out.println("Consumer/" + "SAM custom properties received: " + samProps);
@@ -103,7 +103,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             return sendDocument(
-                (org.dom4j.Document)map.get(ESBProvider.REQUEST_PAYLOAD));
+                (org.dom4j.Document)map.get(ESBProviderBase.REQUEST_PAYLOAD));
         } else {
             throw new RuntimeException(
                 "Consumer try to send incompatible object: " + payload.getClass().getName());

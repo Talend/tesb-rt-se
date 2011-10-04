@@ -101,7 +101,7 @@ public class JobTracker {
             LOG.info("Service " + job + " removed");
             String name = getValue("name", reference);
             if (job instanceof TalendESBJob) {
-                listener.esbJobAdded((TalendESBJob) job, name);
+                listener.esbJobRemoved((TalendESBJob) job, name);
             } if (job instanceof TalendESBRoute) {
                 listener.routeRemoved((TalendESBRoute) job, name);
             }
