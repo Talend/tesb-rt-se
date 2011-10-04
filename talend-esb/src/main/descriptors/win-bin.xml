@@ -365,6 +365,12 @@
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>
+        <fileSet>
+            <directory>target/dependencies/talend-sf-${tsf.version}/examples</directory>
+            <outputDirectory>/examples/talend/tsf</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
 
     </fileSets>
 

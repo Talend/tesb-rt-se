@@ -368,8 +368,7 @@
 			<groupId>com.talend.sf.assembly</groupId>
 			<artifactId>talend-sf</artifactId>
 			<version>${tsf.version}</version>
-			<classifier>examples</classifier>
-			<type>zip</type>
+			<type>tar.gz</type>
 		</dependency>
 		<dependency>
 			<groupId>org.talend.tsf.docs</groupId>
@@ -1057,9 +1056,8 @@
 									<groupId>com.talend.sf.assembly</groupId>
 									<artifactId>talend-sf</artifactId>
 									<version>${tsf.version}</version>
-									<type>zip</type>
-									<classifier>examples</classifier>
-									<outputDirectory>target/dependencies/tsf-examples</outputDirectory>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

@@ -29,14 +29,6 @@
 
     <fileSets>
 
-        <!-- Copy Examples -->
-        <fileSet>
-            <directory>target/dependencies/tsf-examples/talend-sf-${tsf.version}/examples</directory>
-            <outputDirectory>/examples/talend/tsf</outputDirectory>
-            <fileMode>0644</fileMode>
-            <directoryMode>755</directoryMode>
-        </fileSet>
-
         <!-- Copy Docs -->
         <fileSet>
             <directory>target/docs/esb-docs-${project.version}</directory>
