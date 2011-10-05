@@ -48,8 +48,8 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>
-							org.talend.webservices.esb.locator_v1,
-							org.talend.schemas.esb._2011._09.locator,
+							org.talend.services.esb.locator.v1,
+							org.talend.schemas.esb.locator._2011._11,
 							model.locator-proxy-wsdl,
 							org.talend.esb.locator.rest.proxy.service,
 							org.talend.esb.locator.rest.proxy.service.types,
