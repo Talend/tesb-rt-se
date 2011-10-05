@@ -36,17 +36,16 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
-import org.talend.schemas.esb._2011._09.locator.AssertionType;
-import org.talend.schemas.esb._2011._09.locator.EndpointReferenceListType;
-import org.talend.schemas.esb._2011._09.locator.EntryType;
-import org.talend.schemas.esb._2011._09.locator.LookupRequestType;
-import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
-import org.talend.schemas.esb._2011._09.locator.UnregisterEndpointRequestType;
-import org.talend.schemas.esb._2011._09.locator.InterruptionFaultDetail;
-import org.talend.schemas.esb._2011._09.locator.ServiceLocatorFaultDetail;
-import org.talend.webservices.esb.locator_v1.*;
+import org.talend.schemas.esb.locator._2011._11.AssertionType;
+import org.talend.schemas.esb.locator._2011._11.EntryType;
+import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
+import org.talend.schemas.esb.locator._2011._11.InterruptionFaultDetail;
+import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
+import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
+import org.talend.schemas.esb.locator._2011._11.ServiceLocatorFaultDetail;
+import org.talend.services.esb.locator.v1.*;
 
-public class LocatorProxyServiceImpl implements LocatorServiceV10 {
+public class LocatorProxyServiceImpl implements LocatorService {
 
 	private static final Logger LOG = Logger
 			.getLogger(LocatorProxyServiceImpl.class.getPackage().getName());
@@ -138,22 +137,21 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 	 *            RegisterEndpointRequestType encapsulate name of service and
 	 *            endpointURL. Must not be <code>null</code>
 	 */
-
-	public void registerEndpoint(RegisterEndpointRequestType input)
-			throws InterruptedExceptionFault, ServiceLocatorFault {
-		String endpointURL = input.getEndpointURL();
-		QName serviceName = input.getServiceName();
+	@Override
+	public void registerEndpoint(QName serviceName, String endpointURL,
+			SLPropertiesType properties) throws ServiceLocatorFault,
+			InterruptedExceptionFault {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine("Registering endpoint " + endpointURL + " for service "
 					+ serviceName + "...");
 		}
 		try {
 			initLocator();
-			if (input.getProperties() == null) {
+			if (properties == null) {
 				locatorClient.register(serviceName, endpointURL);
 			} else {
 				SLPropertiesImpl slProps = new SLPropertiesImpl();
-				List<EntryType> entries = input.getProperties().getEntry();
+				List<EntryType> entries = properties.getEntry();
 				for (EntryType entry : entries) {
 					slProps.addProperty(entry.getKey(), entry.getValue());
 				}
@@ -180,10 +178,8 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 	 *            endpointURL. Must not be <code>null</code>
 	 */
 	@Override
-	public void unregisterEnpoint(UnregisterEndpointRequestType input)
-			throws InterruptedExceptionFault, ServiceLocatorFault {
-		String endpointURL = input.getEndpointURL();
-		QName serviceName = input.getServiceName();
+	public void unregisterEndpoint(QName serviceName, String endpointURL)
+			throws ServiceLocatorFault, InterruptedExceptionFault {
 		if (LOG.isLoggable(Level.FINE)) {
 			LOG.fine("Unregistering endpoint " + endpointURL + " for service "
 					+ serviceName + "...");
@@ -214,12 +210,12 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 	 * @return endpoint references or <code>null</code>
 	 */
 	@Override
-	public W3CEndpointReference lookupEndpoint(LookupRequestType input)
-			throws InterruptedExceptionFault, ServiceLocatorFault {
-		QName serviceName = input.getServiceName();
+	public W3CEndpointReference lookupEndpoint(QName serviceName,
+			MatcherDataType matcherData) throws ServiceLocatorFault,
+			InterruptedExceptionFault {
 		List<String> names = null;
 		String adress;
-		SLPropertiesMatcher matcher = createMatcher(input);
+		SLPropertiesMatcher matcher = createMatcher(matcherData);
 		try {
 			initLocator();
 			if (matcher == null) {
@@ -266,12 +262,12 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 	 * 
 	 */
 	@Override
-	public EndpointReferenceListType lookupEndpoints(LookupRequestType input)
-			throws InterruptedExceptionFault, ServiceLocatorFault {
-		QName serviceName = input.getServiceName();
-		SLPropertiesMatcher matcher = createMatcher(input);
+	public List<W3CEndpointReference> lookupEndpoints(QName serviceName,
+			MatcherDataType matcherData) throws ServiceLocatorFault,
+			InterruptedExceptionFault {
+		SLPropertiesMatcher matcher = createMatcher(matcherData);
 		List<String> names = null;
-		EndpointReferenceListType result = new EndpointReferenceListType();
+		ArrayList<W3CEndpointReference> result = new ArrayList<W3CEndpointReference>();
 		String adress;
 		try {
 			initLocator();
@@ -294,7 +290,7 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 		if (names != null && !names.isEmpty()) {
 			for (int i = 0; i < names.size(); i++) {
 				adress = names.get(i);
-				result.getReturn().add(buildEndpoint(serviceName, adress));
+				result.add(buildEndpoint(serviceName, adress));
 			}
 		} else {
 			if (LOG.isLoggable(Level.WARNING)) {
@@ -309,11 +305,11 @@ public class LocatorProxyServiceImpl implements LocatorServiceV10 {
 		return result;
 	}
 
-	private SLPropertiesMatcher createMatcher(LookupRequestType input) {
+	private SLPropertiesMatcher createMatcher(MatcherDataType matcherData) {
 		SLPropertiesMatcher matcher = null;
-		if (input.getMatcherData() != null) {
+		if (matcherData != null) {
 			matcher = new SLPropertiesMatcher();
-			List<AssertionType> assertions = input.getMatcherData().getEntry();
+			List<AssertionType> assertions = matcherData.getEntry();
 			for (AssertionType assertion : assertions)
 				matcher.addAssertion(assertion.getKey(), assertion.getValue());
 		}

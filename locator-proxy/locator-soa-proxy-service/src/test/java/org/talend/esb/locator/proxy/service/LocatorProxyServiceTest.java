@@ -15,16 +15,13 @@ import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.schemas.esb._2011._09.locator.AssertionType;
-import org.talend.schemas.esb._2011._09.locator.EndpointReferenceListType;
-import org.talend.schemas.esb._2011._09.locator.EntryType;
-import org.talend.schemas.esb._2011._09.locator.LookupRequestType;
-import org.talend.schemas.esb._2011._09.locator.MatcherDataType;
-import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
-import org.talend.schemas.esb._2011._09.locator.SLPropertiesType;
-import org.talend.schemas.esb._2011._09.locator.UnregisterEndpointRequestType;
-import org.talend.webservices.esb.locator_v1.InterruptedExceptionFault;
-import org.talend.webservices.esb.locator_v1.ServiceLocatorFault;
+import org.talend.schemas.esb.locator._2011._11.AssertionType;
+import org.talend.schemas.esb.locator._2011._11.EntryType;
+import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
+import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
+import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
+import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
+import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -56,28 +53,12 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 
 	}
 
-	// @Test
-	// public void initializeLocatorClient() throws InterruptedException,
-	// ServiceLocatorException {
-	// LocatorProxyServiceImpl lps = new LocatorProxyServiceImpl();
-	// lps.setConnectionTimeout(5001);
-	// lps.setSessionTimeout(5001);
-	// lps.setLocatorEndpoints("test:8021");
-	// lps.setLocatorClient(sl);
-	// lps.initLocator();
-	//
-	// }
-
 	@Test
 	public void registeEndpoint() throws InterruptedExceptionFault,
 			ServiceLocatorFault {
 		LocatorProxyServiceImpl lps = new LocatorProxyServiceImpl();
 		lps.setLocatorClient(sl);
-		RegisterEndpointRequestType register_input = new RegisterEndpointRequestType();
-		register_input.setEndpointURL(ENDPOINTURL);
-		register_input.setServiceName(SERVICE_NAME);
-		lps.registerEndpoint(register_input);
-
+		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null);
 	}
 
 	@Test
@@ -85,9 +66,6 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 			throws InterruptedExceptionFault, ServiceLocatorFault {
 		LocatorProxyServiceImpl lps = new LocatorProxyServiceImpl();
 		lps.setLocatorClient(sl);
-		RegisterEndpointRequestType register_input = new RegisterEndpointRequestType();
-		register_input.setEndpointURL(ENDPOINTURL);
-		register_input.setServiceName(SERVICE_NAME);
 
 		SLPropertiesType value = new SLPropertiesType();
 		EntryType e = new EntryType();
@@ -97,9 +75,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		e.getValue().add(PROPERTY_VALUE2);
 		value.getEntry().add(e);
 
-		register_input.setProperties(value);
-		lps.registerEndpoint(register_input);
-
+		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, value);
 	}
 
 	@Test
@@ -107,11 +83,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 			ServiceLocatorFault {
 		LocatorProxyServiceImpl lps = new LocatorProxyServiceImpl();
 		lps.setLocatorClient(sl);
-		UnregisterEndpointRequestType unregister_input = new UnregisterEndpointRequestType();
-		unregister_input.setEndpointURL(ENDPOINTURL);
-		unregister_input.setServiceName(SERVICE_NAME);
-		lps.unregisterEnpoint(unregister_input);
-
+		lps.unregisterEndpoint(SERVICE_NAME, ENDPOINTURL);
 	}
 
 	@Test
@@ -122,15 +94,13 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
 		replayAll();
 
-		LookupRequestType lookup_input = new LookupRequestType();
 		W3CEndpointReference endpointRef, expectedRef;
 		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
 		builder.serviceName(SERVICE_NAME);
 		builder.address(ENDPOINTURL);
 		expectedRef = builder.build();
 
-		lookup_input.setServiceName(SERVICE_NAME);
-		endpointRef = lps.lookupEndpoint(lookup_input);
+		endpointRef = lps.lookupEndpoint(SERVICE_NAME, null);
 
 		Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
@@ -143,11 +113,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		expect(sl.lookup(NOT_EXIST_SERVICE_NAME)).andStubReturn(null);
 		replayAll();
 
-		LookupRequestType lookup_input = new LookupRequestType();
-
-		lookup_input.setServiceName(NOT_EXIST_SERVICE_NAME);
-		lps.lookupEndpoint(lookup_input);
-
+		lps.lookupEndpoint(NOT_EXIST_SERVICE_NAME, null);
 	}
 
 	@Test
@@ -159,17 +125,15 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
 		replayAll();
 
-		LookupRequestType lookup_input = new LookupRequestType();
 		W3CEndpointReference endpointRef, expectedRef;
 		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
 		builder.serviceName(SERVICE_NAME);
 		builder.address(ENDPOINTURL);
 		expectedRef = builder.build();
-		EndpointReferenceListType refs;
+		List<W3CEndpointReference> refs;
 
-		lookup_input.setServiceName(SERVICE_NAME);
-		refs = lps.lookupEndpoints(lookup_input);
-		endpointRef = refs.getReturn().get(0);
+		refs = lps.lookupEndpoints(SERVICE_NAME, null);
+		endpointRef = refs.get(0);
 
 		Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
@@ -184,10 +148,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		expect(sl.lookup(NOT_EXIST_SERVICE_NAME)).andStubReturn(null);
 		replayAll();
 
-		LookupRequestType lookup_input = new LookupRequestType();
-
-		lookup_input.setServiceName(NOT_EXIST_SERVICE_NAME);
-		lps.lookupEndpoints(lookup_input);
+		lps.lookupEndpoints(NOT_EXIST_SERVICE_NAME, null);
 
 	}
 

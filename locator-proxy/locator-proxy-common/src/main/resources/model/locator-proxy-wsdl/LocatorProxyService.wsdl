@@ -3,18 +3,44 @@
 	This program and the accompanying materials are made available under the 
 	terms of the Apache License v2.0 which accompanies this distribution, and 
 	is available at http://www.apache.org/licenses/LICENSE-2.0 -->
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:lpx="http://schemas.talend.org/esb/2011/09/locator" xmlns:lps="http://webservices.talend.org/esb/locator_v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://webservices.talend.org/esb/locator_v1">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:lpx="http://talend.org/schemas/esb/locator/2011/11"
+	xmlns:lps="http://www.talend.org/services/esb/locator/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://www.talend.org/services/esb/locator/v1">
 	<types>
-		<xsd:schema elementFormDefault="unqualified" targetNamespace="http://schemas.talend.org/esb/2011/09/locator" xmlns="http://schemas.talend.org/esb/2011/09/locator" xmlns:wsa="http://www.w3.org/2005/08/addressing">
-			<xsd:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd"/>
-			<xsd:element name="EndpointReferenceListType">
+		<xsd:schema elementFormDefault="unqualified"
+			targetNamespace="http://talend.org/schemas/esb/locator/2011/11"
+			xmlns="http://talend.org/schemas/esb/locator/2011/11" xmlns:wsa="http://www.w3.org/2005/08/addressing">
+			<xsd:import namespace="http://www.w3.org/2005/08/addressing"
+				schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" />
+			
+			<xsd:element name="lookupEndpoint" type="lpx:lookupRequestType" />
+			<xsd:element name="lookupEndpointResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="false" type="wsa:EndpointReferenceType"/>
+						<xsd:element name="value" type="wsa:EndpointReferenceType" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType">
+			<xsd:element name="lookupEndpoints" type="lpx:lookupRequestType" />
+			<xsd:element name="LookupEndpointsResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
+							nillable="false" type="wsa:EndpointReferenceType" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="registerEndpointResponse">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="unregisterEndpointResponse">
+				<xsd:complexType>
+					<xsd:sequence />
+				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="InterruptionFaultDetail">
 				<xsd:complexType>
@@ -26,170 +52,182 @@
 			<xsd:element name="ServiceLocatorFaultDetail">
 				<xsd:complexType>
 					<xsd:sequence>
-							<xsd:element name="LocatorFaultDetail" type="xsd:string" />
+						<xsd:element name="LocatorFaultDetail" type="xsd:string" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="registerEndpointRequest" type="lpx:registerEndpointRequestType"/>
-			<xsd:complexType name="registerEndpointRequestType">
-				<xsd:sequence>
-					<xsd:element name="serviceName" type="xsd:QName"/>
-					<xsd:element name="endpointURL" type="xsd:anyURI"/>
-					<xsd:element name="properties" type="lpx:SLPropertiesType" minOccurs="0" maxOccurs="1"/>
-				</xsd:sequence>
-			</xsd:complexType>
+			<xsd:element name="registerEndpoint">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="serviceName" type="xsd:QName" />
+						<xsd:element name="endpointURL" type="xsd:anyURI" />
+						<xsd:element name="properties" type="lpx:SLPropertiesType" minOccurs="0" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="unregisterEndpoint">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="serviceName" type="xsd:QName" />
+						<xsd:element name="endpointURL" type="xsd:anyURI" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:complexType name="SLPropertiesType">
 				<xsd:sequence>
-					<xsd:element name="Entry" type="lpx:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="Entry" type="lpx:EntryType"
+						minOccurs="0" maxOccurs="unbounded" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="EntryType">
 				<xsd:sequence>
-					<xsd:element name="Value" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+					<xsd:element name="Value" type="xsd:string" minOccurs="1"
+						maxOccurs="unbounded" />
 				</xsd:sequence>
-				<xsd:attribute name="key" type="xsd:string"/>
+				<xsd:attribute name="key" type="xsd:string" />
 			</xsd:complexType>
-			<xsd:element name="lookupEndpointRequest" type="lpx:lookupRequestType"/>
-			<xsd:element name="lookupEndpointsRequest" type="lpx:lookupRequestType"/>
 			<xsd:complexType name="lookupRequestType">
 				<xsd:sequence>
-					<xsd:element name="serviceName" type="xsd:QName"/>
-					<xsd:element name="matcherData" type="lpx:MatcherDataType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="serviceName" type="xsd:QName" />
+					<xsd:element name="matcherData" type="lpx:MatcherDataType"
+						minOccurs="0" maxOccurs="1" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="MatcherDataType">
 				<xsd:sequence>
-					<xsd:element name="Entry" type="lpx:AssertionType" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="Entry" type="lpx:AssertionType"
+						minOccurs="0" maxOccurs="unbounded" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="AssertionType">
 				<xsd:sequence>
-					<xsd:element name="Value" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="Value" type="xsd:string" minOccurs="1"
+						maxOccurs="1" />
 				</xsd:sequence>
-				<xsd:attribute name="key" type="xsd:string"/>
-			</xsd:complexType>
-			<xsd:element name="unregisterEndpointRequest" type="lpx:unregisterEndpointRequestType"/>
-			<xsd:complexType name="unregisterEndpointRequestType">
-				<xsd:sequence>
-					<xsd:element name="serviceName" type="xsd:QName"/>
-					<xsd:element name="endpointURL" type="xsd:anyURI"/>
-				</xsd:sequence>
+				<xsd:attribute name="key" type="xsd:string" />
 			</xsd:complexType>
 		</xsd:schema>
 	</types>
-	<message name="registerEndpointRequest">
-		<part name="input" element="lpx:registerEndpointRequest"/>
+	<message name="registerEndpointInput">
+		<part name="parameters" element="lpx:registerEndpoint" />
 	</message>
-	<message name="unregisterEnpointRequest">
-		<part name="input" element="lpx:unregisterEndpointRequest"/>
+	<message name="registerEndpointOutput">
+		<part name="parameters" element="lpx:registerEndpointResponse"/>
 	</message>
-	<message name="lookupEndpointRequest">
-		<part name="input" element="lpx:lookupEndpointRequest"/>
+	<message name="unregisterEndpointInput">
+		<part name="parameters" element="lpx:unregisterEndpoint" />
 	</message>
-	<message name="lookupEndpointsRequest">
-		<part name="input" element="lpx:lookupEndpointsRequest"/>
+	<message name="unregisterEndpointOutput">
+		<part name="parameters" element="lpx:unregisterEndpointResponse"/>
 	</message>
-	<message name="lookupEndpointResponse">
-		<part name="return" element="lpx:EndpointReferenceType"/>
+	<message name="lookupEndpointInput">
+		<part name="parameters" element="lpx:lookupEndpoint" />
 	</message>
-	<message name="lookupEndpointsResponse">
-		<part name="body" element="lpx:EndpointReferenceListType"/>
+	<message name="lookupEndpointOutput">
+		<part name="parameters" element="lpx:lookupEndpointResponse" />
 	</message>
-	<wsdl:message name="InterruptedExceptionFault">
-		<wsdl:part name="InterruptionFaultDetail" element="lpx:InterruptionFaultDetail"/>
-	</wsdl:message>
-	<wsdl:message name="ServiceLocatorFault">
-		<wsdl:part name="ServiceLocatorFaultDetail" element="lpx:ServiceLocatorFaultDetail"/>
-	</wsdl:message>
-	<wsdl:message name="empty"/>
-	<portType name="LocatorService_v1_0">
+	<message name="lookupEndpointsInput">
+		<part name="parameters" element="lpx:lookupEndpoints" />
+	</message>
+	<message name="lookupEndpointsOutput">
+		<part name="parameters" element="lpx:LookupEndpointsResponse" />
+	</message>
+	<message name="InterruptedExceptionFault">
+		<part name="InterruptionFaultDetail" element="lpx:InterruptionFaultDetail" />
+	</message>
+	<message name="ServiceLocatorFault">
+		<part name="ServiceLocatorFaultDetail" element="lpx:ServiceLocatorFaultDetail" />
+	</message>
+	<portType name="LocatorService">
 		<operation name="registerEndpoint">
-			<input message="lps:registerEndpointRequest"/>
-			<output message="lps:empty"/>
-			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:registerEndpointInput" />
+			<output message="lps:registerEndpointOutput" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
-		<operation name="unregisterEnpoint">
-			<input message="lps:unregisterEnpointRequest"/>
-			<output message="lps:empty"/>
-			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+		<operation name="unregisterEndpoint">
+			<input message="lps:unregisterEndpointInput" />
+			<output message="lps:unregisterEndpointOutput" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="lookupEndpoint">
-			<input message="lps:lookupEndpointRequest"/>
-			<output message="lps:lookupEndpointResponse"/>
-			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:lookupEndpointInput" />
+			<output message="lps:lookupEndpointOutput" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 		<operation name="lookupEndpoints">
-			<input message="lps:lookupEndpointsRequest"/>
-			<output message="lps:lookupEndpointsResponse"/>
-			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault"/>
-			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault"/>
+			<input message="lps:lookupEndpointsInput" />
+			<output message="lps:lookupEndpointsOutput" />
+			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
+			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
 	</portType>
-	<wsdl:binding name="LocatorServiceSoapBinding_v1_0" type="lps:LocatorService_v1_0">
-		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="registerEndpoint">
-			<soap:operation soapAction="registerEndpoint"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output/>
-			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="unregisterEnpoint">
-			<soap:operation soapAction="unregisterEnpoint"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output/>
-			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="lookupEndpoint">
-			<soap:operation soapAction="lookupEndpoint"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="lookupEndpoints">
-			<soap:operation soapAction="lookupEndpoints"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InterruptedExceptionFault">
-				<soap:fault name="InterruptedExceptionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="ServiceLocatorFault">
-				<soap:fault name="ServiceLocatorFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:service name="LocatorService_v1_0">
-		<wsdl:port name="LocatorServiceSoap" binding="lps:LocatorServiceSoapBinding_v1_0">
-			<soap:address location="http://localhost:8040/services/ServiceLocatorProxyService"/>
-		</wsdl:port>
-	</wsdl:service>
+	<binding name="LocatorServiceSoapBinding" type="lps:LocatorService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="registerEndpoint">
+			<soap:operation soapAction="registerEndpoint" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output />
+			<fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
+			</fault>
+			<fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal" />
+			</fault>
+		</operation>
+		<operation name="unregisterEndpoint">
+			<soap:operation soapAction="unregisterEndpoint" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output />
+			<fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
+			</fault>
+			<fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal" />
+			</fault>
+		</operation>
+		<operation name="lookupEndpoint">
+			<soap:operation soapAction="lookupEndpoint" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+			<fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
+			</fault>
+			<fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal" />
+			</fault>
+		</operation>
+		<operation name="lookupEndpoints">
+			<soap:operation soapAction="lookupEndpoints" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+			<fault name="InterruptedExceptionFault">
+				<soap:fault name="InterruptedExceptionFault" use="literal" />
+			</fault>
+			<fault name="ServiceLocatorFault">
+				<soap:fault name="ServiceLocatorFault" use="literal" />
+			</fault>
+		</operation>
+	</binding>
+	<service name="LocatorService">
+		<port name="LocatorServiceSoap" binding="lps:LocatorServiceSoapBinding">
+			<soap:address
+				location="http://localhost:8040/services/ServiceLocatorProxyService" />
+		</port>
+	</service>
 </definitions>
