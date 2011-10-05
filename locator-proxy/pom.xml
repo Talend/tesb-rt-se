@@ -35,7 +35,7 @@
 
 	<modules>
         <module>locator-proxy-common</module>
-		<module>locator-soa-proxy-service</module>
+		<module>locator-soap-proxy-service</module>
 		<module>locator-rest-proxy-service</module>
     </modules>
 	
