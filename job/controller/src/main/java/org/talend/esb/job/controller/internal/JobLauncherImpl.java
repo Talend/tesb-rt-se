@@ -265,8 +265,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
             }
             task = new OperationTask(job, isRequestResponse, this);
             operationTasks.put(jobName, task);
+            executorService.execute(task);
         }
-        executorService.execute(task);
         return task;
     }
     
