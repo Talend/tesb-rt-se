@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="LocatorRestProxyService" resourceRoot="" soapui-version="3.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="LocatorRestProxyService" type="rest" basePath="/services/ServiceLocatorRestProxyService" definitionUrl="file:/D:/tesb-rt-se/locator-proxy/locator-proxy-common/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/tesb-rt-se/locator-proxy/locator-proxy-common/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl"><con:part><con:url>file:/D:/tesb-rt-se/locator-proxy/locator-proxy-common/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl</con:url><con:content><![CDATA[<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:ns="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:ns1="http://www.w3.org/2005/08/addressing" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <grammars>
+    <include href="locator-proxy-schema/types.xsd"/>
+  </grammars>
+  <resources base="http://localhost:8040/services/ServiceLocatorRestProxyService">
+    <resource id="LocatorProxyService" path="/locator/">
+      <resource path="endpoint/{serviceName}">
+        <method name="GET" id="lookupEndpoint">
+          <request>
+            <param name="serviceName" type="xsd:string" style="template" required="true"/>
+            <param name="param" type="xsd:string" style="matrix" repeating="true"/>
+          </request>
+          <response status="200">
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </response>
+        </method>
+      </resource>
+      <resource path="endpoints">
+        <method name="GET" id="lookupEndpoints">
+          <request>
+            <param name="serviceName" type="xsd:string" style="template" required="true"/>
+            <param name="param" type="xsd:string" style="matrix" repeating="true"/>
+          </request>
+          <response status="200">
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </response>
+        </method>
+      </resource>
+      <resource path="endpoint">
+        <method name="POST" id="registerEndpoint">
+          <request>
+            <representation mediaType="application/xml" element="ns:RegisterEndpointRequestType"/>
+            <representation mediaType="application/json" element="ns:RegisterEndpointRequestType"/>
+          </request>
+          <response status="200">
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </response>
+        </method>
+      </resource>
+      <resource path="endpoint/{serviceName}/{endpointURL}/">
+        <method name="DELETE" id="unregisterEndpoint">
+          <request>
+            <param name="serviceName" type="xsd:string" style="template" required="true"/>
+            <param name="endpointURL" type="xsd:string" style="template" required="true"/>
+          </request>
+          <response status="200">
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </response>
+        </method>
+      </resource>
+    </resource>
+  </resources>
+</application>]]></con:content><con:type>http://wadl.dev.java.net/2009/02</con:type></con:part><con:part><con:url>file:\D:\tesb-rt-se\locator-proxy\locator-proxy-common\src\main\resources\model\locator-proxy-wadl\locator-proxy-schema\types.xsd</con:url><con:content><![CDATA[<xsd:schema elementFormDefault="unqualified" targetNamespace="http://service.proxy.rest.locator.esb.talend.org/types" xmlns="http://services.talend.org/locatorrestproxy/types" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sl="http://talend.org/esb/serviceLocator/4.2" xmlns:lpx="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:lps="http://service.proxy.rest.locator.esb.talend.org/">
+  <xsd:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd"/>
+  <xsd:element name="EndpointReferenceListType">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="false" type="wsa:EndpointReferenceType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="EndpointReferenceType" type="wsa:EndpointReferenceType"></xsd:element>
+  <xsd:element name="RegisterEndpointRequestType" type="lpx:registerEndpointRequestType">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="serviceName" type="xsd:string"/>
+        <xsd:element name="endpointURL" type="xsd:anyURI"/>
+        <xsd:element name="EntryType" type="lpx:EntryType" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="EntryType">
+    <xsd:sequence>
+      <xsd:element name="key" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AssertionType">
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="key" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://www.w3.org/2005/08/addressing/ws-addr.xsd</con:url><con:content><![CDATA[<!--W3C XML Schema defined in the Web Services Addressing 1.0 specification
+    http://www.w3.org/TR/ws-addr-core
+
+   Copyright © 2005 World Wide Web Consortium,
+
+   (Massachusetts Institute of Technology, European Research Consortium for
+   Informatics and Mathematics, Keio University). All Rights Reserved. This
+   work is distributed under the W3C® Software License [1] in the hope that
+   it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+   [1] http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
+
+   $Id: ws-addr.xsd,v 1.4 2008/07/14 18:48:47 plehegar Exp $-->
+<xs:schema targetNamespace="http://www.w3.org/2005/08/addressing" blockDefault="#all" elementFormDefault="qualified" finalDefault="" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.w3.org/2005/08/addressing">
+  <!--Constructs from the WS-Addressing Core-->
+  <xs:element name="EndpointReference" type="tns:EndpointReferenceType"/>
+  <xs:complexType name="EndpointReferenceType" mixed="false">
+    <xs:sequence>
+      <xs:element name="Address" type="tns:AttributedURIType"/>
+      <xs:element name="ReferenceParameters" type="tns:ReferenceParametersType" minOccurs="0"/>
+      <xs:element ref="tns:Metadata" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="ReferenceParametersType" mixed="false">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="Metadata" type="tns:MetadataType"/>
+  <xs:complexType name="MetadataType" mixed="false">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="MessageID" type="tns:AttributedURIType"/>
+  <xs:element name="RelatesTo" type="tns:RelatesToType"/>
+  <xs:complexType name="RelatesToType" mixed="false">
+    <xs:simpleContent>
+      <xs:extension base="xs:anyURI">
+        <xs:attribute name="RelationshipType" type="tns:RelationshipTypeOpenEnum" use="optional" default="http://www.w3.org/2005/08/addressing/reply"/>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="RelationshipTypeOpenEnum">
+    <xs:union memberTypes="tns:RelationshipType xs:anyURI"/>
+  </xs:simpleType>
+  <xs:simpleType name="RelationshipType">
+    <xs:restriction base="xs:anyURI">
+      <xs:enumeration value="http://www.w3.org/2005/08/addressing/reply"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ReplyTo" type="tns:EndpointReferenceType"/>
+  <xs:element name="From" type="tns:EndpointReferenceType"/>
+  <xs:element name="FaultTo" type="tns:EndpointReferenceType"/>
+  <xs:element name="To" type="tns:AttributedURIType"/>
+  <xs:element name="Action" type="tns:AttributedURIType"/>
+  <xs:complexType name="AttributedURIType" mixed="false">
+    <xs:simpleContent>
+      <xs:extension base="xs:anyURI">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <!--Constructs from the WS-Addressing SOAP binding-->
+  <xs:attribute name="IsReferenceParameter" type="xs:boolean"/>
+  <xs:simpleType name="FaultCodesOpenEnumType">
+    <xs:union memberTypes="tns:FaultCodesType xs:QName"/>
+  </xs:simpleType>
+  <xs:simpleType name="FaultCodesType">
+    <xs:restriction base="xs:QName">
+      <xs:enumeration value="tns:InvalidAddressingHeader"/>
+      <xs:enumeration value="tns:InvalidAddress"/>
+      <xs:enumeration value="tns:InvalidEPR"/>
+      <xs:enumeration value="tns:InvalidCardinality"/>
+      <xs:enumeration value="tns:MissingAddressInEPR"/>
+      <xs:enumeration value="tns:DuplicateMessageID"/>
+      <xs:enumeration value="tns:ActionMismatch"/>
+      <xs:enumeration value="tns:MessageAddressingHeaderRequired"/>
+      <xs:enumeration value="tns:DestinationUnreachable"/>
+      <xs:enumeration value="tns:ActionNotSupported"/>
+      <xs:enumeration value="tns:EndpointUnavailable"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RetryAfter" type="tns:AttributedUnsignedLongType"/>
+  <xs:complexType name="AttributedUnsignedLongType" mixed="false">
+    <xs:simpleContent>
+      <xs:extension base="xs:unsignedLong">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:element name="ProblemHeaderQName" type="tns:AttributedQNameType"/>
+  <xs:complexType name="AttributedQNameType" mixed="false">
+    <xs:simpleContent>
+      <xs:extension base="xs:QName">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:element name="ProblemHeader" type="tns:AttributedAnyType"/>
+  <xs:complexType name="AttributedAnyType" mixed="false">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="ProblemIRI" type="tns:AttributedURIType"/>
+  <xs:element name="ProblemAction" type="tns:ProblemActionType"/>
+  <xs:complexType name="ProblemActionType" mixed="false">
+    <xs:sequence>
+      <xs:element ref="tns:Action" minOccurs="0"/>
+      <xs:element name="SoapAction" minOccurs="0" type="xs:anyURI"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8040</con:endpoint></con:endpoints><con:resource name="/locator/" path="/locator/"><con:settings/><con:parameters/><con:resource name="endpoint/{serviceName}" path="endpoint/{serviceName}"><con:settings/><con:parameters/><con:method name="GET - lookupEndpoint" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>serviceName</con:name><con:value xsi:nil="true"/><con:style>TEMPLATE</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter><con:parameter><con:name>param</con:name><con:value xsi:nil="true"/><con:style>MATRIX</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter></con:parameters><con:representation type="RESPONSE" id=""><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" mediaType="application/xml"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8040</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="param" value="systemTimeout,200"/>
+  <con:entry key="serviceName" value="{http://service.proxy.locator.esb.talend.org}LocatorProxyServiceImpl"/>
+</con:parameters></con:request></con:method></con:resource><con:resource name="endpoints" path="endpoints/{serviceName}"><con:settings/><con:parameters><con:parameter><con:name>serviceName</con:name><con:style>TEMPLATE</con:style><con:default/></con:parameter></con:parameters><con:method name="GET - lookupEndpoints" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>serviceName</con:name><con:value xsi:nil="true"/><con:style>TEMPLATE</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter><con:parameter><con:name>param</con:name><con:value xsi:nil="true"/><con:style>MATRIX</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter></con:parameters><con:representation type="RESPONSE" id=""><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" mediaType="application/xml" accept="application/xml"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8040</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="param" value="systemTimeout,200"/>
+  <con:entry key="serviceName" value="{http://service.proxy.locator.esb.talend.org}LocatorProxyServiceImpl"/>
+</con:parameters></con:request></con:method></con:resource><con:resource name="endpoint" path="endpoint"><con:settings/><con:parameters/><con:method name="POST - registerEndpoint" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST" id=""><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:typ="http://service.proxy.rest.locator.esb.talend.org/types">typ:RegisterEndpointRequestType</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="REQUEST" id=""><con:mediaType>application/json</con:mediaType><con:params/><con:element xmlns:typ="http://service.proxy.rest.locator.esb.talend.org/types">typ:RegisterEndpointRequestType</con:element><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8040</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<lpx:RegisterEndpointRequestType xmlns:lpx="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:tns="http://www.w3.org/2005/08/addressing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://service.proxy.rest.locator.esb.talend.org/types types.xsd ">
+  <serviceName>{http://service.proxy.locator.esb.talend.org}LocatorProxyServiceImpl</serviceName>
+  <endpointURL>http://services.talend.org/TestEndpoint</endpointURL>
+  <EntryType>
+    <key>systemTimeout</key>
+    <value>200</value>
+  </EntryType>
+</lpx:RegisterEndpointRequestType>
+]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="endpoint/{serviceName}/{endpointURL}/" path="endpoint/{serviceName}/{endpointURL}/"><con:settings/><con:parameters/><con:method name="DELETE - unregisterEndpoint" method="DELETE"><con:settings/><con:parameters><con:parameter required="true"><con:name>serviceName</con:name><con:value xsi:nil="true"/><con:style>TEMPLATE</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter><con:parameter required="true"><con:name>endpointURL</con:name><con:value xsi:nil="true"/><con:style>TEMPLATE</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default xsi:nil="true"/></con:parameter></con:parameters><con:representation type="RESPONSE" id=""><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:representation type="RESPONSE" id=""><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element xsi:nil="true"/><con:description xsi:nil="true"/></con:representation><con:request name="Request 1" mediaType="application/xml"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8040</con:endpoint><con:request/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="endpointURL" value="http://services.talend.org/TestEndpoint"/>
+  <con:entry key="serviceName" value="{http://service.proxy.locator.esb.talend.org}LocatorProxyServiceImpl"/>
+</con:parameters></con:request></con:method></con:resource></con:resource></con:interface><con:properties/><con:wssContainer/></con:soapui-project>
