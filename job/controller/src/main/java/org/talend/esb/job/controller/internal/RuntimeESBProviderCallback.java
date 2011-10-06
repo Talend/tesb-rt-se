@@ -75,7 +75,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
         return myExchange.response;
     }
     
-    public void cancel() {
+    public void stop() {
         prepareStop();
     }
 

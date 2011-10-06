@@ -21,10 +21,13 @@ package org.talend.esb.job.controller.internal;
 
 import routines.system.api.TalendJob;
 
+@Deprecated
 public interface JobThreadListener {
 
+    @Deprecated
     void jobStarted(TalendJob talendJob, Thread thread);
 
+    @Deprecated
     void jobFinished(TalendJob talendJob, Thread thread);
 
 }

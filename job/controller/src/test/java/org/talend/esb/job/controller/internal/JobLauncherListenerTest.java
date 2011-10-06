@@ -21,27 +21,25 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.concurrent.ExecutorService;
 
+import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
-import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.cm.ManagedService;
 
 import routines.system.api.TalendESBRoute;
+import routines.system.api.TalendJob;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 
-public class JobLauncherListenerTest {
+public class JobLauncherListenerTest extends EasyMockSupport {
 
-    public static final String ROUTE_NAME_1 = "routeName1";
-
-    public static final String ROUTE_NAME_2 = "routeName2";
+    public static final String NAME = "name";
 
     public static final String MANAGED_SERVICE_NAME = "org.osgi.service.cm.ManagedService";
     
@@ -49,48 +47,84 @@ public class JobLauncherListenerTest {
 
     @SuppressWarnings("serial")
     public static final Dictionary<?, ?> properties = new Hashtable<String, String>() {{
-        put(Constants.SERVICE_PID, ROUTE_NAME_1);
+        put(Constants.SERVICE_PID, NAME);
     }};
     
     private BundleContext context;
 
-    private TalendESBRoute route;
+    private ServiceRegistration sr;
+    
+    private ExecutorService execService;
 
     private JobLauncherImpl jobLauncher;
 
     @Before
     public void setup() {
         context = createMock(BundleContext.class);
-        route = createNiceMock(TalendESBRoute.class);
-        replay(route);
-        
+        execService = createMock(ExecutorService.class);
+
+        sr = createNiceMock(ServiceRegistration.class);
+       
         jobLauncher = new JobLauncherImpl();
         jobLauncher.setBundleContext(context);
+        jobLauncher.setExecutorService(execService);
     }
 
     @Test
     public void routeAddedManagedServiceRegistered() throws Exception {
-        ServiceRegistration sr = createNiceMock(ServiceRegistration.class);
-        
+        TalendESBRoute route = createNiceMock(TalendESBRoute.class);
+  
         expect(context.registerService(
             eq(MANAGED_SERVICE_NAME), isA(RouteAdapter.class), eq(properties))).andReturn(sr);
-        replay(context, sr);
+        execService.execute(isA(RouteAdapter.class));
+        replayAll();
 
-        jobLauncher.routeAdded(route, ROUTE_NAME_1);
-        verify(context);
+        jobLauncher.routeAdded(route, NAME);
+        verifyAll();
     }
 
     @Test
-    public void managedServiceUnregisteredIfRegisteredBefore() throws Exception {
-        ServiceRegistration sr = createNiceMock(ServiceRegistration.class);
+    public void managedServiceForRouteUnregisteredIfRegisteredBefore() throws Exception {
+        TalendESBRoute route = createNiceMock(TalendESBRoute.class);
         sr.unregister();
         
         expect(context.registerService(
             eq(MANAGED_SERVICE_NAME), isA(RouteAdapter.class), eq(properties))).andReturn(sr);
-        replay(context, sr);
+        execService.execute(isA(RouteAdapter.class));
+        replayAll();
 
-        jobLauncher.routeAdded(route, ROUTE_NAME_1);
-        jobLauncher.routeRemoved(route, ROUTE_NAME_1);
-        verify(context, sr);
+        jobLauncher.routeAdded(route, NAME);
+        jobLauncher.routeRemoved(route, NAME);
+        verifyAll();
+    }
+
+    @Test
+    public void jobAddedManagedServiceRegistered() throws Exception {
+        TalendJob job = createNiceMock(TalendJob.class);
+
+        ServiceRegistration sr = createNiceMock(ServiceRegistration.class);
+
+        expect(context.registerService(
+            eq(MANAGED_SERVICE_NAME), isA(SimpleJobTask.class), eq(properties))).andReturn(sr);
+        execService.execute(isA(SimpleJobTask.class));
+        replayAll();
+
+        jobLauncher.jobAdded(job, NAME);
+        verifyAll();
+    }
+
+    @Test
+    public void managedServiceForJobUnregisteredIfRegisteredBefore() throws Exception {
+        TalendJob job = createNiceMock(TalendJob.class);
+        sr.unregister();
+
+        expect(context.registerService(
+                eq(MANAGED_SERVICE_NAME), isA(SimpleJobTask.class), eq(properties))).andReturn(sr);
+        execService.execute(isA(SimpleJobTask.class));
+        replayAll();
+
+        jobLauncher.jobAdded(job, NAME);
+        jobLauncher.jobRemoved(job, NAME);
+        verifyAll();
     }
 }

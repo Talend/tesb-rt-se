@@ -87,7 +87,7 @@ public class OperationTaskTest {
         clientThread1.join(1000);
         clientThread2.join(1000);
 
-        operationTask.cancel();
+        operationTask.stop();
         taskThread.join(1000);
 
         oneTimeJob.validateRuns();

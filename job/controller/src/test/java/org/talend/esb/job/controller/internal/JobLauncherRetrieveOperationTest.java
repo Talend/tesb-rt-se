@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.concurrent.ExecutorService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.job.controller.GenericOperation;
@@ -44,10 +46,12 @@ public class JobLauncherRetrieveOperationTest {
 
     @Before
     public void setup() {
+        ExecutorService execService = createNiceMock(ExecutorService.class);
         job = createNiceMock(TalendESBJob.class);
-        replay(job);
+        replay(job, execService);
         
         jobLauncher = new JobLauncherImpl();
+        jobLauncher.setExecutorService(execService);
         jobLauncher.esbJobAdded(job, JOB_NAME_1);
     }
     

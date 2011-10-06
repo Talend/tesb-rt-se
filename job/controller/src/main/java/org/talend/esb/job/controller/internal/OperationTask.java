@@ -4,7 +4,7 @@ import org.talend.esb.job.controller.GenericOperation;
 
 import routines.system.api.TalendESBJob;
 
-public class OperationTask extends RuntimeESBProviderCallback implements Runnable, GenericOperation {
+public class OperationTask extends RuntimeESBProviderCallback implements JobTask, GenericOperation {
 
     private TalendESBJob job;
 
