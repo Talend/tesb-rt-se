@@ -39,10 +39,8 @@
 			<resource path="endpoint">
 				<method name="POST" id="registerEndpoint">
 					<request>
-					<representation mediaType="application/xml"
-							element="ns:RegisterEndpointRequestType" />
-						<representation mediaType="application/json"
-							element="ns:RegisterEndpointRequestType" />
+						<representation mediaType="application/xml" element="ns:RegisterEndpointRequestType"/>
+						<representation mediaType="application/json" />
 					</request>
 				</method>
 			</resource>
