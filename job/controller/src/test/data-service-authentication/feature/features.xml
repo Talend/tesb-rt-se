@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+	<feature name="my" version="1.0">
+		<feature version='[5,6)'>talend-job-controller</feature>
+		<bundle>mvn:org.talend.esb.examples/service-bundle/1.0</bundle>
+		<bundle>mvn:org.talend.esb.examples/job/0.1</bundle>
+	</feature>
+</features>

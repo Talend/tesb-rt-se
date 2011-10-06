@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	"
+>
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<jaxws:endpoint
+		xmlns:serviceNamespace="http://examples.esb.talend.org/"
+		serviceName="serviceNamespace:DoubleItService"
+		endpointName="serviceNamespace:DoubleItService"
+		address="http://localhost:8040/services/DoubleItService"
+		wsdlLocation="DoubleItService.wsdl"
+		implementor="#genericServiceProvider"
+		id="service"
+	>
+	    <jaxws:features>
+		    
+	    </jaxws:features>
+    </jaxws:endpoint>
+
+	<bean id="genericServiceProvider" class="org.talend.esb.job.controller.GenericServiceProvider">
+		<property name="operations">
+			<map>
+				<entry>
+					<key><value>executeRequest</value></key>
+					<value>job</value>
+				</entry>
+			</map>
+		</property>
+        <property name="jobLauncher">
+		    <osgi:reference interface="org.talend.esb.job.controller.JobLauncher"/>
+        </property>
+	</bean>
+
+	<osgi:service ref="genericServiceProvider" interface="org.osgi.service.cm.ManagedService">
+		<osgi:service-properties>
+			<entry key="service.pid" value="DoubliItService" />
+		</osgi:service-properties>
+	</osgi:service>
+
+	<osgi:service ref="service" interface="javax.xml.ws.Endpoint">
+		<osgi:service-properties>
+			<entry key="name" value="DoubliItService" />
+			<entry key="type" value="service" />
+		</osgi:service-properties>
+	</osgi:service>
+
+</beans>

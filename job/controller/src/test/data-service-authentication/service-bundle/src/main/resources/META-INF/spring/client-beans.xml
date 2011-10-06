@@ -11,11 +11,13 @@
 >
 	
 	<jaxws:client id="DoubleItClient"
-		xmlns:serviceNamespace="http://examples.esb.talend.org/DoubleIt"
+		xmlns:serviceNamespace="http://examples.esb.talend.org/"
 		serviceClass="org.talend.esb.examples.DoubleIt"
-		serviceName="serviceNamespace:DoubleItProvider"
-		endpointName="serviceNamespace:DoubleItProvider"
-		address="http://localhost:8040/services/DoubleItProvider"
+		serviceName="serviceNamespace:DoubleItService"
+		endpointName="serviceNamespace:DoubleItService"
+		address="http://localhost:8040/services/DoubleItService"
+		username="karaf"
+		password="karaf"
 	/>
 
 </beans>

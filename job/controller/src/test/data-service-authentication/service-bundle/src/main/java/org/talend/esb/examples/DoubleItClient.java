@@ -9,7 +9,7 @@ public class DoubleItClient {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"META-INF/spring/client-beans.xml");
 		DoubleIt client = (DoubleIt) context.getBean("DoubleItClient");
-		int result = client.execute(5);
+		int result = client.execute(10);
 		
 		System.out.println("Result is " + result);
 	}

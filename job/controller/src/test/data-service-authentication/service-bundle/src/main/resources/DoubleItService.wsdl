@@ -33,7 +33,7 @@
 		<wsdl:part name="parameters" element="tns:executeRequest">
 		</wsdl:part>
 	</wsdl:message>
-	<wsdl:portType name="DoubleIt">
+	<wsdl:portType name="DoubleItService">
 		<wsdl:operation name="executeRequest">
 			<wsdl:input name="executeRequest" message="tns:executeRequest">
 			</wsdl:input>
@@ -41,7 +41,7 @@
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:portType>
-	<wsdl:binding name="DoubleItServiceSoapBinding" type="tns:DoubleIt">
+	<wsdl:binding name="DoubleItServiceSoapBinding" type="tns:DoubleItService">
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="executeRequest">
@@ -55,8 +55,8 @@
 		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="DoubleItService">
-		<wsdl:port name="DoubleItPort" binding="tns:DoubleItServiceSoapBinding">
-			<soap:address location="http://localhost:8040/services/DoubleItProvider" />
+		<wsdl:port name="DoubleItService" binding="tns:DoubleItServiceSoapBinding">
+			<soap:address location="http://localhost:8040/services/DoubleItService" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
