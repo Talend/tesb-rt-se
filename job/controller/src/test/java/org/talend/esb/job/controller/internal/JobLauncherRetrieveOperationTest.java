@@ -57,15 +57,15 @@ public class JobLauncherRetrieveOperationTest {
     
     @Test
     public void retrieveNewOperation() throws Exception {
-        GenericOperation operation = jobLauncher.retrieveOperation(JOB_NAME_1, true, new String[0]);
+        GenericOperation operation = jobLauncher.retrieveOperation(JOB_NAME_1, new String[0]);
         
         assertNotNull(operation);
     }
 
     @Test
     public void retrieveSecondTimeOperationReturnsSame() throws Exception {        
-        GenericOperation operation1 = jobLauncher.retrieveOperation(JOB_NAME_1, true, EMPTY_STRING_ARR);
-        GenericOperation operation2 = jobLauncher.retrieveOperation(JOB_NAME_1, true, EMPTY_STRING_ARR);
+        GenericOperation operation1 = jobLauncher.retrieveOperation(JOB_NAME_1, EMPTY_STRING_ARR);
+        GenericOperation operation2 = jobLauncher.retrieveOperation(JOB_NAME_1, EMPTY_STRING_ARR);
         
         assertSame(operation1, operation2);
     }
@@ -73,7 +73,7 @@ public class JobLauncherRetrieveOperationTest {
     @Test
     public void jobNotAvailable() throws Exception {
         try {
-            jobLauncher.retrieveOperation(JOB_NAME_2, true, EMPTY_STRING_ARR);
+            jobLauncher.retrieveOperation(JOB_NAME_2, EMPTY_STRING_ARR);
             fail("An IllegalArgumentException should have been thrown");
         } catch(IllegalArgumentException e) {}
     }

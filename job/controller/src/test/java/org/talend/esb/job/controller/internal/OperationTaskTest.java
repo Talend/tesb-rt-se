@@ -34,6 +34,8 @@ import static org.junit.Assert.assertFalse;
 
 public class OperationTaskTest {
 
+    private static final String[] ARGS = new String[] {"arg1", "arg2"};
+
     private TalendESBJob job;
     
     private JobLauncherImpl jl;
@@ -48,7 +50,7 @@ public class OperationTaskTest {
     @Test
     public void talendESBJobInitializedCorrectly() {
         replay(job);
-        new OperationTask(job, true, jl);
+        new OperationTask(job, ARGS, jl);
         verify(job);
     }
 
@@ -58,12 +60,12 @@ public class OperationTaskTest {
 
         job.setEndpointRegistry(jl);
         job.setProviderCallback(capture(taskCapture));
-        expect(job.runJobInTOS(aryEq(new String[0]))).andStubReturn(0);
+        expect(job.runJobInTOS(aryEq(ARGS))).andStubReturn(0);
         replay(job);
         
-        OperationTask operationTask = new OperationTask(job, true, jl);
+        OperationTask operationTask = new OperationTask(job, ARGS, jl);
+
         Thread taskThread = new Thread(operationTask);
-         
         taskThread.start();
         taskThread.join(1000);
 
@@ -75,7 +77,7 @@ public class OperationTaskTest {
     public void runHandlesSeveralRequests() throws Exception {
         OneTimeTalendESBJob oneTimeJob = new OneTimeTalendESBJob(2);
         
-        OperationTask operationTask = new OperationTask(oneTimeJob, true, jl);
+        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS, jl);
         Thread taskThread = new Thread(operationTask);
         Thread clientThread1 = createClientThread(operationTask);
         Thread clientThread2 = createClientThread(operationTask);
@@ -98,7 +100,7 @@ public class OperationTaskTest {
     public void interruptStopsOperationTask() throws Exception {
         OneTimeTalendESBJob oneTimeJob = new OneTimeTalendESBJob(0);
         
-        OperationTask operationTask = new OperationTask(oneTimeJob, true, jl);
+        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS, jl);
         Thread taskThread = new Thread(operationTask);
 
         taskThread.start();
@@ -115,7 +117,7 @@ public class OperationTaskTest {
             new Runnable() {
                 public void run() {
                     try {
-                        task.invoke(new Object());
+                        task.invoke(new Object(), true);
                     } catch (Exception e){}
                 }
             }

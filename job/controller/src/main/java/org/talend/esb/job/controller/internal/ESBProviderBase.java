@@ -42,7 +42,8 @@ public abstract class ESBProviderBase implements javax.xml.ws.Provider<javax.xml
         }
         try {
             Object result = esbProviderCallback.invoke(
-                DOM4JMarshaller.sourceToDocument(request));
+                DOM4JMarshaller.sourceToDocument(request),
+                isOperationRequestResponse(operationQName.getLocalPart()));
 
             // oneway
             if (result == null) {

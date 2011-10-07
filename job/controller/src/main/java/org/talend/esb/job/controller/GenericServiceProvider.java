@@ -50,7 +50,7 @@ public class GenericServiceProvider extends ESBProviderBase implements ManagedSe
         }
             
         GenericOperation operation = jobLauncher.retrieveOperation(
-            jobName, isOperationRequestResponse(operationName), configuration.getArguments());
+            jobName, configuration.getArguments());
             
         return operation;
     }

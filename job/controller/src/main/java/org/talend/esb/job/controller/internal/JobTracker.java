@@ -85,6 +85,8 @@ public class JobTracker {
                     listener.esbJobAdded((TalendESBJob) job, name);
                 } else if (job instanceof TalendESBRoute) {
                     listener.routeAdded((TalendESBRoute) job, name);
+                } else if (job instanceof TalendJob) {
+                    listener.jobAdded((TalendJob)job, name);
                 }
 
             }
@@ -104,6 +106,8 @@ public class JobTracker {
                 listener.esbJobRemoved((TalendESBJob) job, name);
             } if (job instanceof TalendESBRoute) {
                 listener.routeRemoved((TalendESBRoute) job, name);
+            } else if (job instanceof TalendJob) {
+                listener.jobRemoved((TalendJob)job, name);
             }
             context.ungetService(reference);
             

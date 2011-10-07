@@ -63,17 +63,12 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     
     private ExecutorService executorService;
 
-    @Deprecated
-    private final Map<TalendJob, Thread > jobs =
-        new ConcurrentHashMap<TalendJob, Thread>();
- 
     private ThreadLocal<RuntimeESBConsumer> tlsConsumer =
             new ThreadLocal<RuntimeESBConsumer>();
 
     private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>(); 
 
-    @Deprecated
-    private Map<String, TalendJob> namedJobs = new ConcurrentHashMap<String, TalendJob>(); 
+    private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>(); 
 
     private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
 
@@ -108,30 +103,18 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
 
     @Deprecated
     public void stopJob(final TalendJob talendJob) {
-        if(talendJob instanceof TalendESBRoute) {
-            try {
-                ((TalendESBRoute)talendJob).shutdown();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            Thread thread = jobs.get(talendJob);
-            if (thread != null) {
-                thread.interrupt();
-            }
-        }
     }
     
     @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {
         LOG.info("Adding ESB job " +  name + ".");
-        namedJobs.put(name, esbJob);   
+        esbJobs.put(name, esbJob);   
     }
 
     @Override
     public void esbJobRemoved(TalendESBJob esbJob, String name) {
         LOG.info("Removing ESB job " +  name + ".");
-        namedJobs.remove(name);
+        esbJobs.remove(name);
         OperationTask task = operationTasks.remove(name);
         if (task != null) {
             task.stop();
@@ -198,31 +181,21 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         }
     }
 
-    
     public void unbind() {
-    
+        esbJobs.clear();
+        
         for(JobTask jobTask : jobTasks.values()) {
             jobTask.stop();
         }
+        
+        for(ServiceRegistration sr : serviceRegistrations.values()) {
+            sr.unregister();
+        }
+        
         for(OperationTask operation : operationTasks.values()) {
             operation.stop();
         }
         executorService.shutdownNow();    
-    }
-
-
-    @Deprecated
-    public void jobFinished(TalendJob talendJob, Thread thread) {
-        Thread registeredThread = jobs.remove(talendJob);
-        if (registeredThread != thread) {
-            throw new IllegalArgumentException(
-                "Different threads found for the talend job");
-        }
-
-        final RuntimeESBConsumer runtimeESBConsumer = tlsConsumer.get();
-        if (runtimeESBConsumer != null) {
-            runtimeESBConsumer.destroy();
-        }
     }
 
     @Override
@@ -280,14 +253,14 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     }
 
     @Override
-    public GenericOperation retrieveOperation(String jobName, boolean isRequestResponse,String[] args) {
+    public GenericOperation retrieveOperation(String jobName, String[] args) {
         OperationTask task = operationTasks.get(jobName);
         if (task == null) {
             TalendESBJob job = getJob(jobName);
             if (job == null) {
                 throw new IllegalArgumentException("Talend job '" + jobName + "' not found");
             }
-            task = new OperationTask(job, isRequestResponse, this);
+            task = new OperationTask(job, args, this);
             operationTasks.put(jobName, task);
             executorService.execute(task);
         }
@@ -295,12 +268,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     }
     
     private TalendESBJob getJob(String name) {
-        TalendJob job = namedJobs.get(name);
+        TalendESBJob job = esbJobs.get(name);
         if (job == null ) {
-            throw new IllegalArgumentException("Talend job '" + name + "' not found");
-        }        
-        if (! (job instanceof TalendESBJob)) {
-            throw new IllegalArgumentException("Talend job '" + name + "' is not a Talend ESB Job");
+            throw new IllegalArgumentException("Talend ESB job with name " + name + "' not found");
         }
         return (TalendESBJob) job;
     }

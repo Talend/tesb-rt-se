@@ -44,11 +44,12 @@ public interface JobLauncher {
     void stopJob(TalendJob talendJob);
 
     /**
-     * Retrieve the operation that is backed by the job with the given name..
+     * Retrieve the operation that is backed by the job with the given name. The operation object
+     * must not be cached but retrieved every time the operation is invoked. Otherwise a clean
+     * shutdown of the bundle where the job isincluded is not possible.
      *
      * @param jobName the Talend job name.
-     * @param isRequestResponse 
      * @param args additional parameters to be passed to the job
      */
-    GenericOperation retrieveOperation(String jobName, boolean isRequestResponse, String[] args);
+    GenericOperation retrieveOperation(String jobName, String[] args);
 }

@@ -29,8 +29,9 @@ public interface GenericOperation {
      * Invoke the operation.
      * 
      * @param payload the request payload, must not be <code>null</code>
+     * @param isRequestResponse flag whether a response is expected
      * @return the response or <code>null</code> if the operation is a one-way
      * @throws Exception a possible fault
      */
-    Object invoke(Object payload) throws Exception;
+    Object invoke(Object payload, boolean isRequestResponse) throws Exception;
 }

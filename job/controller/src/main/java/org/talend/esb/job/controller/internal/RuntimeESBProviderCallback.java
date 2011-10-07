@@ -28,16 +28,14 @@ import routines.system.api.ESBProviderCallback;
 public class RuntimeESBProviderCallback implements ESBProviderCallback {
 
     private static final MessageExchange POISON = new MessageExchange(null);
-    
-    private final boolean isRequestResponse;
+
     private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
 
     private volatile MessageExchange currentExchange;
 
     private volatile boolean stopped;
 
-    public RuntimeESBProviderCallback(boolean isRequestResponse) {
-        this.isRequestResponse = isRequestResponse;
+    public RuntimeESBProviderCallback() {
     }
 
     public Object getRequest() throws ESBJobInterruptedException {
@@ -63,7 +61,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
         }
     }
 
-    public Object invoke(Object payload) throws Exception {
+    public Object invoke(Object payload, boolean isRequestResponse) throws Exception {
         MessageExchange myExchange = new MessageExchange(payload);
         requests.put(myExchange);
         if(!isRequestResponse) {
