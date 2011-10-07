@@ -29,6 +29,6 @@
 
 	<jaxws:client id="locatorProxyService" 
         address="http://localhost:8040/services/ServiceLocatorProxyService"
-		serviceClass="org.talend.webservices.esb.locator_v1.LocatorServiceV10">
+		serviceClass="org.talend.services.esb.locator.v1.LocatorService">
 	</jaxws:client>
 </beans>
