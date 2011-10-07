@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema elementFormDefault="unqualified"
-	targetNamespace="http://service.proxy.rest.locator.esb.talend.org/types"
-	xmlns="http://services.talend.org/locatorrestproxy/types" xmlns:wsa="http://www.w3.org/2005/08/addressing"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sl="http://talend.org/esb/serviceLocator/4.2"
-	xmlns:lpx="http://service.proxy.rest.locator.esb.talend.org/types"
-	xmlns:lps="http://service.proxy.rest.locator.esb.talend.org/">
+	targetNamespace="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:lpx="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns:lps="http://www.talend.org/services/esb/locator/rest/v1">
 	<xsd:import namespace="http://www.w3.org/2005/08/addressing"
 		schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" />
-	<xsd:element name="EndpointReferenceListType">
+	<xsd:element name="EndpointReferenceList">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
@@ -16,15 +17,15 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="RegisterEndpointRequestType">
-	<xsd:complexType>
-		<xsd:sequence>
-			<xsd:element name="serviceName" type="xsd:string" />
-			<xsd:element name="endpointURL" type="xsd:anyURI" />
-			<xsd:element name="EntryType" type="lpx:EntryType"
-				minOccurs="0" maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
+	<xsd:element name="RegisterEndpointRequest">
+		<xsd:complexType>
+				<xsd:sequence>
+					<xsd:element name="serviceName" type="xsd:string" />
+					<xsd:element name="endpointURL" type="xsd:anyURI" />
+					<xsd:element name="EntryType" type="lpx:EntryType"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xsd:sequence>
+		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:complexType name="EntryType">

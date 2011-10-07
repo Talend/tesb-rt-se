@@ -27,9 +27,9 @@ import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.talend.esb.locator.rest.proxy.service.LocatorProxyService;
-import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
-import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.services.esb.locator.rest.v1.LocatorProxyService;
+import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 
 public final class RESTClient {
 	
@@ -67,11 +67,11 @@ public final class RESTClient {
 		System.out.println("Register service with endpoint");
 		System.out.println("ServiceName: ".concat(service));
 		System.out.println("EndpointURL: ".concat(endpoint));
-		RegisterEndpointRequestType registerEndpointRequestType = new RegisterEndpointRequestType();
-		registerEndpointRequestType.setEndpointURL(endpoint);
-		registerEndpointRequestType.setServiceName(service);
+		RegisterEndpointRequest registerEndpointRequest = new RegisterEndpointRequest();
+		registerEndpointRequest.setEndpointURL(endpoint);
+		registerEndpointRequest.setServiceName(service);
 		try {
-			client.registerEndpoint(registerEndpointRequestType);
+			client.registerEndpoint(registerEndpointRequest);
 			System.out.println("Endpoint registered successfully");
 		} catch (ServerWebApplicationException ex) {
 			System.err.println(ex.getMessage());
@@ -96,10 +96,10 @@ public final class RESTClient {
 		System.out.println("------------------------------");
 		System.out.println("LookupEndpoints");
 		try {
-			EndpointReferenceListType erlt = client.lookupEndpoints(URLEncoder.encode(service, "UTF-8"), null);
-			if(erlt.getReturn().size() > 0)
+			EndpointReferenceList endpointReferenceList = client.lookupEndpoints(URLEncoder.encode(service, "UTF-8"), null);
+			if(endpointReferenceList.getReturn().size() > 0)
 			{
-				for (W3CEndpointReference w3cEndpointReference : erlt.getReturn()) {
+				for (W3CEndpointReference w3cEndpointReference : endpointReferenceList.getReturn()) {
 					System.out.println(w3cEndpointReference.toString());
 				}	
 			}

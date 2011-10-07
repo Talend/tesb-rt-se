@@ -38,8 +38,12 @@
     </osgi:list>
 -->
 
+    <bean id="executorService" class="org.talend.esb.job.controller.internal.JobExecutorFactory"
+      factory-method="newExecutor"/>
+
     <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl" destroy-method="unbind">
         <property name="bus" ref="cxf" />
+        <property name="executorService" ref="executorService" />
         <property name="samQueue" ref="samQueue"/>
         <property name="bundleContext" ref="bundleContext"/>
     </bean>

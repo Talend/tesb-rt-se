@@ -27,9 +27,9 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
-import org.talend.esb.locator.rest.proxy.service.types.EntryType;
-import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
+import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 
 public final class RESTClient {
 	private static final String BASE_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestProxyService/locator/endpoint";
@@ -80,12 +80,12 @@ public final class RESTClient {
 		EntryType et = new EntryType();
 		et.setKey(key);
 		et.getValue().add(value);
-		RegisterEndpointRequestType registerEndpointRequestType = new RegisterEndpointRequestType();
-		registerEndpointRequestType.setEndpointURL(endpoint);
-		registerEndpointRequestType.setServiceName(service);
-		registerEndpointRequestType.getEntryType().add(et);
+		RegisterEndpointRequest registerEndpointRequest = new RegisterEndpointRequest();
+		registerEndpointRequest.setEndpointURL(endpoint);
+		registerEndpointRequest.setServiceName(service);
+		registerEndpointRequest.getEntryType().add(et);
 		try {
-			wc.post(registerEndpointRequestType);
+			wc.post(registerEndpointRequest);
 			System.out.println("Endpoint registered successfully");
 		} catch (WebApplicationException ex) {
 			System.err.println(ex.getMessage());
@@ -119,8 +119,8 @@ public final class RESTClient {
 				URLEncoder.encode(service, "UTF-8")));
 		wc.accept(MediaType.APPLICATION_XML);
 		try {
-			EndpointReferenceListType erlt = wc
-					.get(EndpointReferenceListType.class);
+			EndpointReferenceList erlt = wc
+					.get(EndpointReferenceList.class);
 			System.out.println("Found ".concat(
 					String.valueOf(erlt.getReturn().size())).concat(
 					" endpoints"));

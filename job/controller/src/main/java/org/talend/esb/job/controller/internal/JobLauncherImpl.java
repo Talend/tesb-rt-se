@@ -50,17 +50,18 @@ import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendJob;
 
-public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobListener,
-        JobThreadListener {
+public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobListener {
 
     private static final Logger LOG =
         Logger.getLogger(JobLauncherImpl.class.getName());
 
     private Queue<Event> samQueue;
+
     private Bus bus;
+    
     private BundleContext bundleContext;
     
-    private ExecutorService executorService = JobExecutorFactory.newExecutor();
+    private ExecutorService executorService;
 
     @Deprecated
     private final Map<TalendJob, Thread > jobs =
@@ -69,16 +70,21 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     private ThreadLocal<RuntimeESBConsumer> tlsConsumer =
             new ThreadLocal<RuntimeESBConsumer>();
 
+    private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>(); 
+
+    @Deprecated
     private Map<String, TalendJob> namedJobs = new ConcurrentHashMap<String, TalendJob>(); 
 
     private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
 
-    private Map<String, RouteAdapter> routeAdapters = new ConcurrentHashMap<String, RouteAdapter>();
-    
-    private Map<String, ServiceRegistration> routeAdapterRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
+    private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
 
     public void setBus(Bus bus) {
         this.bus = bus;
+    }
+    
+    public void setExecutorService(ExecutorService executorService) {
+        this.executorService = executorService;
     }
 
     public void setSamQueue(Queue<Event> samQueue) {
@@ -89,15 +95,18 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         this.bundleContext = bundleContext;
     }
 
+    @Deprecated
     public void startJob(final TalendJob talendJob, final String[] args) {
-        startJob(new ESBJobThread(talendJob, args, this, this));
+        startJob(new ESBJobThread(talendJob, args, this));
     }
 
+    @Deprecated
     private void startJob(final Thread thread) {
         thread.setContextClassLoader(this.getClass().getClassLoader());
         thread.start();
     }
 
+    @Deprecated
     public void stopJob(final TalendJob talendJob) {
         if(talendJob instanceof TalendESBRoute) {
             try {
@@ -125,7 +134,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         namedJobs.remove(name);
         OperationTask task = operationTasks.remove(name);
         if (task != null) {
-            task.cancel();
+            task.stop();
         }
     }
 
@@ -135,26 +144,26 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
 
         RouteAdapter adapter = new RouteAdapter(route, name);
         
-        routeAdapters.put(name, adapter);
+        jobTasks.put(name, adapter);
         
         ServiceRegistration sr = 
             bundleContext.registerService(ManagedService.class.getName(),
                 adapter,
                 getManagedServiceProperties(name));
-        routeAdapterRegistrations.put(name, sr);
+        serviceRegistrations.put(name, sr);
         executorService.execute(adapter);
     }
 
     @Override
     public void routeRemoved(TalendESBRoute route, String name) {
         LOG.info("Removing route " +  name + ".");
-        
-        RouteAdapter adapter = routeAdapters.remove(name);
-        if (adapter != null) {
-            adapter.cancel();
+
+        JobTask jobTask = jobTasks.remove(name);
+        if (jobTask != null) {
+            jobTask.stop();
         }
         
-        ServiceRegistration sr = routeAdapterRegistrations.remove(name);
+        ServiceRegistration sr = serviceRegistrations.remove(name);
         if (sr != null) {
             sr.unregister();
         }
@@ -162,30 +171,45 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
 
     @Override
     public void jobAdded(TalendJob job, String name) {
+        LOG.info("Adding job " +  name + ".");
         
+        SimpleJobTask jobTask = new SimpleJobTask(job, name);
+
+        jobTasks.put(name, jobTask);
+
+        ServiceRegistration sr = 
+            bundleContext.registerService(ManagedService.class.getName(),
+                jobTask,
+                getManagedServiceProperties(name));
+        serviceRegistrations.put(name, sr);
+        executorService.execute(jobTask);
     }
 
     @Override
     public void jobRemoved(TalendJob job, String name) {
-        
+        JobTask jobTask = jobTasks.remove(name);
+        if (jobTask != null) {
+            jobTask.stop();
+        }
+
+        ServiceRegistration sr = serviceRegistrations.remove(name);
+        if (sr != null) {
+            sr.unregister();
+        }
     }
 
     
     public void unbind() {
-        
-        for(RouteAdapter route : routeAdapters.values()) {
-            route.cancel();
+    
+        for(JobTask jobTask : jobTasks.values()) {
+            jobTask.stop();
         }
         for(OperationTask operation : operationTasks.values()) {
-            operation.cancel();
+            operation.stop();
         }
         executorService.shutdownNow();    
     }
-    
-    @Deprecated
-    public void jobStarted(TalendJob talendJob, Thread thread) {
-        jobs.put(talendJob, thread);
-    }
+
 
     @Deprecated
     public void jobFinished(TalendJob talendJob, Thread thread) {
@@ -265,8 +289,8 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
             }
             task = new OperationTask(job, isRequestResponse, this);
             operationTasks.put(jobName, task);
+            executorService.execute(task);
         }
-        executorService.execute(task);
         return task;
     }
     

@@ -34,12 +34,10 @@ class ESBJobThread extends Thread {
     private final TalendJob talendJob;
     private final String[] args;
     private final ESBEndpointRegistry esbEndpointRegistry;
-    private final JobThreadListener jobThreadListener;
 
     public ESBJobThread(
             final TalendJob talendJob,
             final String[] args,
-            final JobThreadListener jobThreadListener,
             final ESBEndpointRegistry esbEndpointRegistry) {
         if ((talendJob instanceof TalendESBRoute)) {
             throw new IllegalArgumentException("No jobs of type TalendESBRoute may be passed.");    
@@ -47,25 +45,19 @@ class ESBJobThread extends Thread {
         
         this.talendJob = talendJob;
         this.args = args;
-        this.jobThreadListener = jobThreadListener;
         this.esbEndpointRegistry = esbEndpointRegistry;
     }
 
     @Override
     public void run() {
-        try {
-            if (talendJob instanceof TalendESBJob) {
-                // We have an ESB Job;
-                final TalendESBJob talendESBJob = (TalendESBJob) talendJob;
-                talendESBJob.setEndpointRegistry(esbEndpointRegistry);
-            }
-            LOG.info("Talend Job starting...");
-            jobThreadListener.jobStarted(talendJob, this);
-            int ret = talendJob.runJobInTOS(args);
-            LOG.info("Talend Job finished with code " + ret);
-
-        } finally {
-            jobThreadListener.jobFinished(talendJob, this);
+        if (talendJob instanceof TalendESBJob) {
+            // We have an ESB Job;
+            final TalendESBJob talendESBJob = (TalendESBJob) talendJob;
+            talendESBJob.setEndpointRegistry(esbEndpointRegistry);
         }
+        LOG.info("Talend Job starting...");
+        int ret = talendJob.runJobInTOS(args);
+        LOG.info("Talend Job finished with code " + ret);
+
     }
 }

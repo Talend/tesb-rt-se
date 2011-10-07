@@ -1,5 +1,8 @@
 <application xmlns="http://wadl.dev.java.net/2009/02"
-	xmlns:ns="http://service.proxy.rest.locator.esb.talend.org/types" xmlns:ns1="http://www.w3.org/2005/08/addressing" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	targetNamespace="http://www.talend.org/services/esb/locator/rest/v1"
+	xmlns:ns="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<grammars>
 		<include href="locator-proxy-schema/types.xsd" />
 	</grammars>
@@ -15,8 +18,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml" element="ns1:EndpointReference" />
-						<representation mediaType="application/json" element="ns1:EndpointReference" />
+						<representation mediaType="application/xml" element="wsa:EndpointReference" />
+						<representation mediaType="application/json" element="wsa:EndpointReference" />
 					</response>
 				</method>
 			</resource>
@@ -30,8 +33,8 @@
 							repeating="true" />
 					</request>
 					<response status="200">
-						<representation mediaType="application/xml" element="ns:EndpointReferenceListType" />
-						<representation mediaType="application/json" element="ns:EndpointReferenceListType" />
+						<representation mediaType="application/xml" element="ns:EndpointReferenceList" />
+						<representation mediaType="application/json" element="ns:EndpointReferenceList" />
 					</response>
 				</method>
 			</resource>
@@ -39,10 +42,8 @@
 			<resource path="endpoint">
 				<method name="POST" id="registerEndpoint">
 					<request>
-					<representation mediaType="application/xml"
-							element="ns:RegisterEndpointRequestType" />
-						<representation mediaType="application/json"
-							element="ns:RegisterEndpointRequestType" />
+						<representation mediaType="application/xml" element="ns:RegisterEndpointRequest"/>
+						<representation mediaType="application/json" element="ns:RegisterEndpointRequest" />
 					</request>
 				</method>
 			</resource>

@@ -21,31 +21,35 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
-import routines.system.api.TalendESBRoute;
+import routines.system.api.TalendJob;
 
-public class RouteAdapter implements ManagedService, JobTask {
+public class SimpleJobTask implements ManagedService, JobTask  {
 
     private static final Logger LOG =
-        Logger.getLogger(RouteAdapter.class.getName());
+        Logger.getLogger(SimpleJobTask
+                .class.getName());
 
-    private TalendESBRoute route;
+    private TalendJob job;
     
     private String name;
     
     private Configuration configuration;
 
+    private  FutureTask<?> future;
+    
     private CountDownLatch configAvailable = new CountDownLatch(1);
-
-    public RouteAdapter(TalendESBRoute route, String name) {
-        this.route = route;
+    
+    public SimpleJobTask(TalendJob job, String name) {
+        this.job = job;
         this.name = name;
+        future = new FutureTask<Object>(new JobRunner(), null);
     }
 
     @Override
@@ -53,31 +57,33 @@ public class RouteAdapter implements ManagedService, JobTask {
         configuration = new Configuration(properties);
         configAvailable.countDown();
     }
-   
+
+    @Override
     public void stop() {
-        LOG.info("Cancelling route " + name);
-        try {
-            route.shutdown();
-        } catch (Exception e) {
-            LOG.log(Level.WARNING, "Shutting down route " + name + " caused an exception.", e);        
-        }
+        future.cancel(true);
     }
 
     @Override
     public void run() {
-        LOG.info("Starting route " + name);
-        String[] args = null;
-        try {
-            if (configAvailable.await(2000, TimeUnit.MILLISECONDS)) {
-                args = configuration.getArguments();
-            } else {
-                args = new String[0];
-            }
-        } catch (InterruptedException e) {
-            return;
-        }
-        int ret = route.runJobInTOS(args);
-        LOG.info("Route " + name + " finished, return code is " + ret);
+        future.run();
     }
 
+    public class JobRunner implements Runnable {
+        @Override
+        public void run()  {
+            LOG.info("Starting job " + name);
+            String[] args = null;
+            try {
+                if (configAvailable.await(2000, TimeUnit.MILLISECONDS)) {
+                    args = configuration.getArguments();
+                } else {
+                    args = new String[0];
+                }
+            } catch (InterruptedException e) {
+                return;
+            }
+            int ret = job.runJobInTOS(args);
+            LOG.info("Route " + name + " finished, return code is " + ret);
+        }
+    }
 }

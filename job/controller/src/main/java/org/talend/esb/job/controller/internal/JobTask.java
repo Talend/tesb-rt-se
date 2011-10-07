@@ -1,6 +1,6 @@
 /*
  * #%L
- * Locator Demo Server
+ * Talend :: ESB :: Job :: Controller
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -17,18 +17,9 @@
  * limitations under the License.
  * #L%
  */
+package org.talend.esb.job.controller.internal;
 
-package demo.service;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+public interface JobTask extends Runnable{
 
-public class Server {
-
-	public static void main(String args[]) throws Exception {
-		new ClassPathXmlApplicationContext(new String[] {"/META-INF/spring/beans.xml"});
-		
-		Thread.sleep(30 * 60 * 1000);
-
-		System.out.println("Server exiting");
-		System.exit(0);
-	}
+    void stop();
 }

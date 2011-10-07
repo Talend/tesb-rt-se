@@ -3,10 +3,9 @@ package demo.service;
 import javax.servlet.*;
 import javax.xml.namespace.QName;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.talend.schemas.esb._2011._09.locator.RegisterEndpointRequestType;
-import org.talend.webservices.esb.locator_v1.InterruptedExceptionFault;
-import org.talend.webservices.esb.locator_v1.LocatorServiceV10;
-import org.talend.webservices.esb.locator_v1.ServiceLocatorFault;
+import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
+import org.talend.services.esb.locator.v1.LocatorService;
+import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 
 public class ContextListener implements ServletContextListener {
 
@@ -34,20 +33,15 @@ public class ContextListener implements ServletContextListener {
 		System.out.println("The Simple Web App. Is Ready");
 
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
-		LocatorServiceV10 client = (LocatorServiceV10) context.getBean("locatorProxyService");
+		LocatorService client = (LocatorService) context.getBean("locatorProxyService");
 
 		String serviceHost = this.context.getInitParameter("serviceHost");
 
 		try {
-			RegisterEndpointRequestType registerEndpointRequestType = new RegisterEndpointRequestType();
-			registerEndpointRequestType.setEndpointURL(serviceHost);
-			registerEndpointRequestType.setServiceName(new QName("http://talend.org/esb/examples/", "GreeterService"));
-			client.registerEndpoint(registerEndpointRequestType);
+			client.registerEndpoint(new QName("http://talend.org/esb/examples/", "GreeterService"), serviceHost, null);
 		 } catch (InterruptedExceptionFault e) {
-			 // TODO Auto-generated catch block
 			 e.printStackTrace();
 		 } catch (ServiceLocatorFault e) {
-			 // TODO Auto-generated catch block
 			 e.printStackTrace();
 		 }
 	}
