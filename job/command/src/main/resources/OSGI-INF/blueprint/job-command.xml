@@ -27,24 +27,6 @@
                 <property name="controller" ref="controller"/>
             </action>
         </command>
-        <command name="job/start">
-            <action class="org.talend.esb.job.command.StartJobCommand">
-                <property name="controller" ref="controller"/>
-            </action>
-            <completers>
-                <ref component-id="jobCompleter"/>
-                <null/>
-            </completers>
-        </command>
-        <command name="job/stop">
-            <action class="org.talend.esb.job.command.StopJobCommand">
-                <property name="controller" ref="controller"/>
-            </action>
-            <completers>
-                <ref component-id="jobCompleter"/>
-                <null/>
-            </completers>
-        </command>
 
         <command name="route/list">
             <action class="org.talend.esb.job.command.ListRoutesCommand">
@@ -59,9 +41,5 @@
     </command-bundle>
 
     <reference id="controller" interface="org.talend.esb.job.controller.Controller"/>
-
-    <bean id="jobCompleter" class="org.talend.esb.job.command.completers.JobCompleter">
-        <property name="controller" ref="controller"/>
-    </bean>
 
 </blueprint>

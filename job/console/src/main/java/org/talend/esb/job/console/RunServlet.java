@@ -55,6 +55,7 @@ public class RunServlet extends HttpServlet {
         String name = request.getParameter("name");
         String args = request.getParameter("args");
         String error = null;
+/*
         if (name != null && name.trim().length() > 0) {
             // looking for the controler
             ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
@@ -75,6 +76,7 @@ public class RunServlet extends HttpServlet {
                 bundleContext.ungetService(ref);
             }
         }
+*/
         if (error != null) {
             response.sendRedirect("home.do?error=" + error);
         } else {

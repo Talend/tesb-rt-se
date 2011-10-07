@@ -89,21 +89,6 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
     }
-
-    @Deprecated
-    public void startJob(final TalendJob talendJob, final String[] args) {
-        startJob(new ESBJobThread(talendJob, args, this));
-    }
-
-    @Deprecated
-    private void startJob(final Thread thread) {
-        thread.setContextClassLoader(this.getClass().getClassLoader());
-        thread.start();
-    }
-
-    @Deprecated
-    public void stopJob(final TalendJob talendJob) {
-    }
     
     @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {

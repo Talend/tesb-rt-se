@@ -58,6 +58,7 @@ public class HomeServlet extends HttpServlet {
         String action = request.getParameter("action");
         String args = request.getParameter("args");
 
+/*
         if (job != null && action != null && action.equals("run")) {
             String result = "fail";
             String message = "";
@@ -81,7 +82,7 @@ public class HomeServlet extends HttpServlet {
             response.sendRedirect("home.do?job=" + job + "&result=" + result + "&message=" + message);
             return;
         }
-
+*/
         try {
             PrintWriter writer = response.getWriter();
             writer.println(Template.header());

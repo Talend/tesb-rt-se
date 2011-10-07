@@ -33,14 +33,14 @@ import java.util.Map;
 /**
  * Implementation of Talend job controller.
  */
-public class ControllerImpl implements Controller, ServiceListener {
+public class ControllerImpl implements Controller {
 
     private BundleContext bundleContext;
     private JobLauncher jobLauncher;
 
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
-        this.bundleContext.addServiceListener(this);
+//        this.bundleContext.addServiceListener(this);
     }
 
     public void setJobLauncher(JobLauncher jobLauncher) {
@@ -102,6 +102,7 @@ public class ControllerImpl implements Controller, ServiceListener {
         return references[0].getBundle();
     }
 
+/*
     public void run(String name) throws Exception {
         this.run(name, new String[0]);
     }
@@ -158,5 +159,5 @@ public class ControllerImpl implements Controller, ServiceListener {
             }
         }
     }
-
+*/
 }

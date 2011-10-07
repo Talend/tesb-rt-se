@@ -19,29 +19,10 @@
  */
 package org.talend.esb.job.controller;
 
-
-import routines.system.api.TalendJob;
-
 /**
  * Interface describing Talend job launcher behaviors.
  */
 public interface JobLauncher {
-
-    /**
-     * Start a given Talend job with the given arguments.
-     *
-     * @param talendJob the Talend job.
-     * @param args the Talend job run arguments.
-     */
-    void startJob(TalendJob talendJob, String[] args);
-
-
-    /**
-     * Stop a given Talend job.
-     *
-     * @param talendJob the Talend job.
-     */
-    void stopJob(TalendJob talendJob);
 
     /**
      * Retrieve the operation that is backed by the job with the given name. The operation object

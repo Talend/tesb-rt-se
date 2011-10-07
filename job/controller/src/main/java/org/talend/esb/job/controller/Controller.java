@@ -72,7 +72,7 @@ public interface Controller {
      * @param name the Talend job name.
      * @throws Exception in case of run exception.
      */
-    public void run(String name) throws Exception;
+//    public void run(String name) throws Exception;
 
     /**
      * Run a Talend job with the given name and the given arguments.
@@ -81,7 +81,7 @@ public interface Controller {
      * @param args the Talend job run arguments.
      * @throws Exception in case of run exception.
      */
-    public void run(String name, String[] args) throws Exception;
+//    public void run(String name, String[] args) throws Exception;
 
     /**
      * Run a Talend Data Service with the given name.
@@ -98,7 +98,7 @@ public interface Controller {
      * @param name the Talend job name.
      * @throws Exception in case of run exception.
      */
-    public void stop(String name) throws Exception;
+//    public void stop(String name) throws Exception;
 
     /**
      * Stop a Talend Data Service with the given name.
