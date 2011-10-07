@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.job.controller.GenericOperation;
 
+import routines.system.api.ESBEndpointInfo;
 import routines.system.api.TalendESBJob;
 
 import static org.easymock.EasyMock.*;
@@ -47,7 +48,9 @@ public class JobLauncherRetrieveOperationTest {
     @Before
     public void setup() {
         ExecutorService execService = createNiceMock(ExecutorService.class);
+        ESBEndpointInfo endpointInfo = createNiceMock(ESBEndpointInfo.class);
         job = createNiceMock(TalendESBJob.class);
+        expect(job.getEndpoint()).andStubReturn(endpointInfo);
         replay(job, execService);
         
         jobLauncher = new JobLauncherImpl();

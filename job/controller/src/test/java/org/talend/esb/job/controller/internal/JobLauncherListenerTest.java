@@ -30,9 +30,13 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 
+import routines.system.api.ESBEndpointInfo;
+import routines.system.api.ESBEndpointRegistry;
+import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -72,15 +76,19 @@ public class JobLauncherListenerTest extends EasyMockSupport {
 
     @Test
     public void routeAddedManagedServiceRegistered() throws Exception {
-        TalendESBRoute route = createNiceMock(TalendESBRoute.class);
+        TalendESBRoute route = createMock(TalendESBRoute.class);
   
-        expect(context.registerService(
-            eq(MANAGED_SERVICE_NAME), isA(RouteAdapter.class), eq(properties))).andReturn(sr);
-        execService.execute(isA(RouteAdapter.class));
+        expectManagedJobStarting(RouteAdapter.class);
         replayAll();
 
         jobLauncher.routeAdded(route, NAME);
         verifyAll();
+    }
+    
+    private void expectManagedJobStarting(Class<? extends JobTask> taskClass) {
+        expect(context.registerService(
+                eq(MANAGED_SERVICE_NAME), isA(taskClass), eq(properties))).andReturn(sr);
+        execService.execute(isA(taskClass)); 
     }
 
     @Test
@@ -88,9 +96,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
         TalendESBRoute route = createNiceMock(TalendESBRoute.class);
         sr.unregister();
         
-        expect(context.registerService(
-            eq(MANAGED_SERVICE_NAME), isA(RouteAdapter.class), eq(properties))).andReturn(sr);
-        execService.execute(isA(RouteAdapter.class));
+        expectManagedJobStarting(RouteAdapter.class);
         replayAll();
 
         jobLauncher.routeAdded(route, NAME);
@@ -102,11 +108,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     public void jobAddedManagedServiceRegistered() throws Exception {
         TalendJob job = createNiceMock(TalendJob.class);
 
-        ServiceRegistration sr = createNiceMock(ServiceRegistration.class);
-
-        expect(context.registerService(
-            eq(MANAGED_SERVICE_NAME), isA(SimpleJobTask.class), eq(properties))).andReturn(sr);
-        execService.execute(isA(SimpleJobTask.class));
+        expectManagedJobStarting(SimpleJobTask.class);
         replayAll();
 
         jobLauncher.jobAdded(job, NAME);
@@ -118,13 +120,54 @@ public class JobLauncherListenerTest extends EasyMockSupport {
         TalendJob job = createNiceMock(TalendJob.class);
         sr.unregister();
 
-        expect(context.registerService(
-                eq(MANAGED_SERVICE_NAME), isA(SimpleJobTask.class), eq(properties))).andReturn(sr);
-        execService.execute(isA(SimpleJobTask.class));
+        expectManagedJobStarting(SimpleJobTask.class);
         replayAll();
 
         jobLauncher.jobAdded(job, NAME);
         jobLauncher.jobRemoved(job, NAME);
+        verifyAll();
+    }
+
+    @Test
+    public void esbJobAddedEndpointRegistrySpecifiedForJob() {
+        ESBEndpointInfo endpointInfo = createNiceMock(ESBEndpointInfo.class);
+        TalendESBJob esbJob = createMock(TalendESBJob.class);
+        esbJob.setEndpointRegistry((ESBEndpointRegistry) anyObject());
+        expect(esbJob.getEndpoint()).andReturn(endpointInfo);
+
+        replayAll();
+        
+        jobLauncher.esbJobAdded(esbJob, NAME);
+        verifyAll();
+    }
+
+    @Test
+    public void esbConsumerOnlyJobAddedJobStartedImmediatlyAsSimpleJob() {
+        TalendESBJob esbJob = createMock(TalendESBJob.class);
+        esbJob.setEndpointRegistry((ESBEndpointRegistry) anyObject());
+        expect(esbJob.getEndpoint()).andReturn(null);
+
+        expectManagedJobStarting(SimpleJobTask.class);
+        replayAll();
+        
+        jobLauncher.esbJobAdded(esbJob, NAME);
+        verifyAll();  
+    }
+
+    @Test
+    public void esbConsumerOnlyJobUnregisters() {
+        TalendESBJob esbJob = createMock(TalendESBJob.class);
+        
+        sr.unregister();
+        
+        esbJob.setEndpointRegistry((ESBEndpointRegistry) anyObject());
+        expect(esbJob.getEndpoint()).andReturn(null).times(2);
+
+        expectManagedJobStarting(SimpleJobTask.class);
+        replayAll();
+        
+        jobLauncher.esbJobAdded(esbJob, NAME);
+        jobLauncher.esbJobRemoved(esbJob, NAME);
         verifyAll();
     }
 }

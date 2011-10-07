@@ -38,19 +38,15 @@ public class OperationTaskTest {
 
     private TalendESBJob job;
     
-    private JobLauncherImpl jl;
-
-    
     @org.junit.Before
     public void startup() {
         job = createMock(TalendESBJob.class);
-        jl = new JobLauncherImpl();
     }
 
     @Test
     public void talendESBJobInitializedCorrectly() {
         replay(job);
-        new OperationTask(job, ARGS, jl);
+        new OperationTask(job, ARGS);
         verify(job);
     }
 
@@ -58,12 +54,11 @@ public class OperationTaskTest {
     public void runRunsTalendJob() throws Exception {
         Capture<OperationTask> taskCapture = new Capture<OperationTask>();
 
-        job.setEndpointRegistry(jl);
         job.setProviderCallback(capture(taskCapture));
         expect(job.runJobInTOS(aryEq(ARGS))).andStubReturn(0);
         replay(job);
         
-        OperationTask operationTask = new OperationTask(job, ARGS, jl);
+        OperationTask operationTask = new OperationTask(job, ARGS);
 
         Thread taskThread = new Thread(operationTask);
         taskThread.start();
@@ -77,7 +72,7 @@ public class OperationTaskTest {
     public void runHandlesSeveralRequests() throws Exception {
         OneTimeTalendESBJob oneTimeJob = new OneTimeTalendESBJob(2);
         
-        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS, jl);
+        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS);
         Thread taskThread = new Thread(operationTask);
         Thread clientThread1 = createClientThread(operationTask);
         Thread clientThread2 = createClientThread(operationTask);
@@ -100,7 +95,7 @@ public class OperationTaskTest {
     public void interruptStopsOperationTask() throws Exception {
         OneTimeTalendESBJob oneTimeJob = new OneTimeTalendESBJob(0);
         
-        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS, jl);
+        OperationTask operationTask = new OperationTask(oneTimeJob, ARGS);
         Thread taskThread = new Thread(operationTask);
 
         taskThread.start();

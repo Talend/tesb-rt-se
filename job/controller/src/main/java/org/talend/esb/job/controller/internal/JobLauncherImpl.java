@@ -93,16 +93,25 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {
         LOG.info("Adding ESB job " +  name + ".");
-        esbJobs.put(name, esbJob);   
+        esbJob.setEndpointRegistry(this);
+        if (isConsumerOnly(esbJob)) {
+            startJob(esbJob, name);
+        } else {
+            esbJobs.put(name, esbJob);
+        }
     }
 
     @Override
     public void esbJobRemoved(TalendESBJob esbJob, String name) {
         LOG.info("Removing ESB job " +  name + ".");
-        esbJobs.remove(name);
-        OperationTask task = operationTasks.remove(name);
-        if (task != null) {
-            task.stop();
+        if (isConsumerOnly(esbJob)) {
+            stopJob(esbJob, name);
+        } else {
+            esbJobs.remove(name);
+            OperationTask task = operationTasks.remove(name);
+            if (task != null) {
+                task.stop();
+            }
         }
     }
 
@@ -140,35 +149,20 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     @Override
     public void jobAdded(TalendJob job, String name) {
         LOG.info("Adding job " +  name + ".");
-        
-        SimpleJobTask jobTask = new SimpleJobTask(job, name);
 
-        jobTasks.put(name, jobTask);
-
-        ServiceRegistration sr = 
-            bundleContext.registerService(ManagedService.class.getName(),
-                jobTask,
-                getManagedServiceProperties(name));
-        serviceRegistrations.put(name, sr);
-        executorService.execute(jobTask);
+        startJob(job, name);
     }
 
     @Override
     public void jobRemoved(TalendJob job, String name) {
-        JobTask jobTask = jobTasks.remove(name);
-        if (jobTask != null) {
-            jobTask.stop();
-        }
+        LOG.info("Removing job " +  name + ".");
 
-        ServiceRegistration sr = serviceRegistrations.remove(name);
-        if (sr != null) {
-            sr.unregister();
-        }
+        stopJob(job, name);
     }
 
     public void unbind() {
         esbJobs.clear();
-        
+/*
         for(JobTask jobTask : jobTasks.values()) {
             jobTask.stop();
         }
@@ -180,6 +174,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         for(OperationTask operation : operationTasks.values()) {
             operation.stop();
         }
+*/
         executorService.shutdownNow();    
     }
 
@@ -231,6 +226,30 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         return esbConsumer;
     }
 
+    private void startJob(TalendJob job, String name) {
+        SimpleJobTask jobTask = new SimpleJobTask(job, name);
+
+        jobTasks.put(name, jobTask);
+
+        ServiceRegistration sr = 
+            bundleContext.registerService(ManagedService.class.getName(),
+                jobTask,
+                getManagedServiceProperties(name));
+        serviceRegistrations.put(name, sr);
+        executorService.execute(jobTask);        
+    }
+
+    private void stopJob(TalendJob job, String name) {
+        JobTask jobTask = jobTasks.remove(name);
+        if (jobTask != null) {
+            jobTask.stop();
+        }
+
+        ServiceRegistration sr = serviceRegistrations.remove(name);
+        if (sr != null) {
+            sr.unregister();
+        }
+    }
     private EventFeature createEventFeature() {
         EventFeature eventFeature = new EventFeature();
         eventFeature.setQueue(samQueue);
@@ -245,7 +264,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
             if (job == null) {
                 throw new IllegalArgumentException("Talend job '" + jobName + "' not found");
             }
-            task = new OperationTask(job, args, this);
+            task = new OperationTask(job, args);
             operationTasks.put(jobName, task);
             executorService.execute(task);
         }
@@ -266,4 +285,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         return result;
     }
 
+    private boolean isConsumerOnly(TalendESBJob esbJob) {
+        return esbJob.getEndpoint() == null;
+    }
 }
