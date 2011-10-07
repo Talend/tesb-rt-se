@@ -20,7 +20,6 @@
 package org.talend.esb.locator.proxy.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,7 +29,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
@@ -38,7 +36,6 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.schemas.esb.locator._2011._11.AssertionType;
 import org.talend.schemas.esb.locator._2011._11.EntryType;
-import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
 import org.talend.schemas.esb.locator._2011._11.InterruptionFaultDetail;
 import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
 import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
@@ -59,13 +56,6 @@ public class LocatorProxyServiceImpl implements LocatorService {
 	private int sessionTimeout = 5000;
 
 	private int connectionTimeout = 5000;
-
-	// public void setServiceLocator(ServiceLocator locatorClient) {
-	// this.locatorClient = locatorClient;
-	// if (LOG.isLoggable(Level.FINE)) {
-	// LOG.log(Level.FINE, "Locator client was set for proxy service.");
-	// }
-	// }
 
 	public void setLocatorClient(ServiceLocator locatorClient) {
 		this.locatorClient = locatorClient;

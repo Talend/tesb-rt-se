@@ -34,9 +34,10 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
-import org.talend.esb.locator.rest.proxy.service.types.EntryType;
-import org.talend.esb.locator.rest.proxy.service.types.RegisterEndpointRequestType;
+import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
+import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.services.esb.locator.rest.v1.LocatorProxyService;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
@@ -128,7 +129,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 	 *            RegisterEndpointRequestType encapsulate name of service and
 	 *            endpointURL. Must not be <code>null</code>
 	 */
-	public void registerEndpoint(RegisterEndpointRequestType arg0) {
+	public void registerEndpoint(RegisterEndpointRequest arg0) {
 		String endpointURL = arg0.getEndpointURL();
 		QName serviceName = QName.valueOf(arg0.getServiceName());
 		if (LOG.isLoggable(Level.FINE)) {
@@ -252,7 +253,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 	 * @return EndpointReferenceListType encapsulate list of endpoint references
 	 *         or <code>null</code>
 	 */
-	public EndpointReferenceListType lookupEndpoints(String arg0, List<String> arg1) {
+	public EndpointReferenceList lookupEndpoints(String arg0, List<String> arg1) {
 		QName serviceName = null;
 		try {
 			serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
@@ -267,7 +268,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 		} catch (UnsupportedEncodingException e1) {
 			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity(e1.getMessage()).build());
 		}
-		EndpointReferenceListType refs = new EndpointReferenceListType();
+		EndpointReferenceList refs = new EndpointReferenceList();
 		try {
 			initLocator();
 			if (matcher == null) {

@@ -35,7 +35,7 @@ import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.esb.locator.rest.proxy.service.types.EndpointReferenceListType;
+import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -104,7 +104,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		builder.address(ENDPOINTURL);
 		expectedRef = builder.build();
 		
-		EndpointReferenceListType erlt = lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
+		EndpointReferenceList erlt = lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
 		if(erlt.getReturn().get(0).equals(expectedRef)) fail();
 		
 	}

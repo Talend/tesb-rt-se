@@ -51,8 +51,8 @@
 							org.talend.services.esb.locator.v1,
 							org.talend.schemas.esb.locator._2011._11,
 							model.locator-proxy-wsdl,
-							org.talend.esb.locator.rest.proxy.service,
-							org.talend.esb.locator.rest.proxy.service.types,
+							org.talend.services.esb.locator.rest.v1,
+							org.talend.schemas.esb.locator.rest._2011._11,
 							model.locator-proxy-wadl,
 							org.w3._2005._08.addressing
                         </Export-Package>
@@ -105,7 +105,7 @@
 								<wadlOption>
 									<wadl>${basedir}/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl</wadl>
 									<impl>false</impl>
-									<packagename>org.talend.esb.locator.rest.proxy.service</packagename>
+									<packagename>org.talend.services.esb.locator.rest.v1</packagename>
 								</wadlOption>
 							</wadlOptions>
 						</configuration>

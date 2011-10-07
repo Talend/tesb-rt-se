@@ -11,14 +11,10 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import junit.framework.Assert;
 
-import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.schemas.esb.locator._2011._11.AssertionType;
 import org.talend.schemas.esb.locator._2011._11.EntryType;
-import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
-import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
 import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
 import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
