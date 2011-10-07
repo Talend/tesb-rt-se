@@ -19,8 +19,8 @@
     <packaging>pom</packaging>
 
     <parent>
-        <groupId>org.talend.esb.examples</groupId>
-        <artifactId>talend-esb-examples</artifactId>
+        <groupId>org.talend.esb.examples.locator.proxy</groupId>
+        <artifactId>locator-proxies</artifactId>
         <version>5.0-SNAPSHOT</version>
     </parent>
 

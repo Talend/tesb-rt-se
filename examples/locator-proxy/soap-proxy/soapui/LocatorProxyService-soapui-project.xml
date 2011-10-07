@@ -21,7 +21,7 @@
   <con:entry key="Project Password" value=""/>
   <con:entry key="Export All" value="false"/>
   <con:entry key="Report Format(s)" value=""/>
-  <con:entry key="TestCase" value="registerEndpoint TestCase"/>
+  <con:entry key="TestCase" value="unregisterEndpoint TestCase"/>
   <con:entry key="Print Report" value="false"/>
   <con:entry key="Username" value=""/>
   <con:entry key="Root Folder" value=""/>
