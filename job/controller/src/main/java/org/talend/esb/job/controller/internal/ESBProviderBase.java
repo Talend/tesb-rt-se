@@ -48,21 +48,9 @@ public abstract class ESBProviderBase implements
 		} catch (LoginException le) {
 			System.err
 					.println("Cannot create LoginContext. " + le.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(le);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} catch (SecurityException se) {
 			System.err
 					.println("Cannot create LoginContext. " + se.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(se);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
 		try {
@@ -70,12 +58,6 @@ public abstract class ESBProviderBase implements
 		} catch (LoginException le) {
 			System.err.println("Authentication failed: ");
 			System.err.println("  " + le.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(le);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
 		System.out.println("Authentication succeeded!");
