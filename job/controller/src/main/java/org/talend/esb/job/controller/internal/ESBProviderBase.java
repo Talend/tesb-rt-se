@@ -6,13 +6,11 @@ import java.util.logging.Logger;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
 import javax.xml.transform.Source;
 import javax.xml.ws.handler.MessageContext;
 
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
-import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
@@ -33,6 +31,8 @@ public abstract class ESBProviderBase implements
 	@javax.annotation.Resource
 	private javax.xml.ws.WebServiceContext context;
 
+	private boolean isAuthenticationRequired = false;
+
 	public void setEventFeature(EventFeature eventFeature) {
 		this.eventFeature = eventFeature;
 	}
@@ -40,27 +40,9 @@ public abstract class ESBProviderBase implements
 	// @javax.jws.WebMethod(exclude=true)
 	public final Source invoke(Source request) {
 
-		LoginContext loginContext = null;
-
-		try {
-			loginContext = new LoginContext("KarafJaas",
-					new ESBCallbackHandler());
-		} catch (LoginException le) {
-			System.err
-					.println("Cannot create LoginContext. " + le.getMessage());
-		} catch (SecurityException se) {
-			System.err
-					.println("Cannot create LoginContext. " + se.getMessage());
+		if (isAuthenticationRequired) {
+			login();
 		}
-
-		try {
-			loginContext.login();
-		} catch (LoginException le) {
-			System.err.println("Authentication failed: ");
-			System.err.println("  " + le.getMessage());
-		}
-
-		System.out.println("Authentication succeeded!");
 
 		QName operationQName = (QName) context.getMessageContext().get(
 				MessageContext.WSDL_OPERATION);
@@ -104,6 +86,32 @@ public abstract class ESBProviderBase implements
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void login() {
+		
+		LoginContext loginContext = null;
+
+		try {
+			loginContext = new LoginContext("KarafJaas",
+					new ESBCallbackHandler());
+		} catch (LoginException le) {
+			System.err
+					.println("Cannot create LoginContext. " + le.getMessage());
+		} catch (SecurityException se) {
+			System.err
+					.println("Cannot create LoginContext. " + se.getMessage());
+		}
+
+		try {
+			loginContext.login();
+		} catch (LoginException le) {
+			System.err.println("Authentication failed: ");
+			System.err.println("  " + le.getMessage());
+		}
+
+		System.out.println("Authentication succeeded!");
+		
 	}
 
 	private Source processResult(Object result) {
