@@ -20,7 +20,7 @@
             </map>
         </property>
         <property name="serviceURL"
-            value="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb" />
+            value="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun" />
         <property name="repositoryURL"
             value="mvn:org.talend.esb.examples.rent-a-car/features/${project.version}/xml" />
         <property name="featureName" value="tesb-rac-services" />

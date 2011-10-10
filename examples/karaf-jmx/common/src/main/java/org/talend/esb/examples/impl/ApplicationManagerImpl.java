@@ -51,7 +51,7 @@ public class ApplicationManagerImpl implements ApplicationManager {
 
         echo("\n>>> Create FeatureService MBean <<<");
         ObjectName mbeanName = new ObjectName(
-                "org.apache.karaf:type=features,name=tesb");
+                "org.apache.karaf:type=features,name=trun");
         FeaturesServiceMBean featuresServiceMBeanProxy = JMX.newMBeanProxy(
                 mbsc, mbeanName, FeaturesServiceMBean.class, true);
 
