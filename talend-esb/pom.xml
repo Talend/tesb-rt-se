@@ -768,6 +768,8 @@
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
+								<!-- CXF Features -->
+								<feature>cxf</feature>
 								<!-- ActiveMQ Features -->
 								<feature>activemq</feature>
 								<feature>activemq-blueprint</feature>
@@ -859,8 +861,6 @@
 								<feature>camel-xmlsecurity</feature>
 								<feature>camel-xmpp</feature>
 								<feature>camel-xstream</feature>
-								<!-- CXF Features -->
-								<feature>cxf</feature>
 								<!-- TIF Features -->
 								<feature>tif-core</feature>
 								<feature>tif-test</feature>
