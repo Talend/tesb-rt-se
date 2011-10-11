@@ -35,7 +35,7 @@ public interface Controller {
      * @return the list of Talend jobs and routes.
      * @throws Exception in case of lookup failure.
      */
-    public Map<String, List<String>> list() throws Exception;
+//    public Map<String, List<String>> list() throws Exception;
 
     /**
      * List of Talend jobs available in the running container.
@@ -64,7 +64,7 @@ public interface Controller {
     /**
      * Get the bundle corresponding to the job/route name.
      */
-    public Bundle getBundle(String name) throws Exception;
+//    public Bundle getBundle(String name) throws Exception;
 
     /**
      * Run a Talend job with the given name.

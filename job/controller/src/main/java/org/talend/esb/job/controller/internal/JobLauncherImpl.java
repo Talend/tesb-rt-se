@@ -19,8 +19,10 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,12 +30,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
+import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.GenericOperation;
@@ -50,7 +54,7 @@ import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendJob;
 
-public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobListener {
+public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegistry, JobListener {
 
     private static final Logger LOG =
         Logger.getLogger(JobLauncherImpl.class.getName());
@@ -68,9 +72,13 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
 
     private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>(); 
 
+    private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>(); 
+
     private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>(); 
 
     private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
+
+    private Map<String, Endpoint> services = new ConcurrentHashMap<String, Endpoint>();
 
     private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
 
@@ -121,7 +129,7 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
 
         RouteAdapter adapter = new RouteAdapter(route, name);
         
-        jobTasks.put(name, adapter);
+        routeTasks.put(name, adapter);
         
         ServiceRegistration sr = 
             bundleContext.registerService(ManagedService.class.getName(),
@@ -135,9 +143,9 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
     public void routeRemoved(TalendESBRoute route, String name) {
         LOG.info("Removing route " +  name + ".");
 
-        JobTask jobTask = jobTasks.remove(name);
-        if (jobTask != null) {
-            jobTask.stop();
+        JobTask routeTask = routeTasks.remove(name);
+        if (routeTask != null) {
+            routeTask.stop();
         }
         
         ServiceRegistration sr = serviceRegistrations.remove(name);
@@ -160,21 +168,37 @@ public class JobLauncherImpl implements JobLauncher, ESBEndpointRegistry, JobLis
         stopJob(job, name);
     }
 
+    @Override
+    public void serviceAdded(Endpoint service, String name) {
+        LOG.info("Adding service " +  name + ".");
+
+        services.put(name, service);
+    }
+
+    @Override
+    public void serviceRemoved(Endpoint service, String name) {
+        LOG.info("Removing service " +  name + ".");
+
+        services.remove(name);
+    }
+
+    @Override
+    public List<String> listJobs() {
+        return new ArrayList<String>(jobTasks.keySet());
+    }
+
+    @Override
+    public List<String> listRoutes() {
+        return new ArrayList<String>(routeTasks.keySet());
+    }
+
+    @Override
+    public List<String> listServices() {
+        return new ArrayList<String>(services.keySet());
+    }
+
     public void unbind() {
         esbJobs.clear();
-/*
-        for(JobTask jobTask : jobTasks.values()) {
-            jobTask.stop();
-        }
-        
-        for(ServiceRegistration sr : serviceRegistrations.values()) {
-            sr.unregister();
-        }
-        
-        for(OperationTask operation : operationTasks.values()) {
-            operation.stop();
-        }
-*/
         executorService.shutdownNow();    
     }
 

@@ -53,29 +53,29 @@ public class StartServlet extends HttpServlet {
     }
 
     public void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String error = null;
-        if (name != null && name.trim().length() > 0) {
-            // looking for the controller
-            ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
-            if (ref != null) {
-                Controller controller = (Controller) bundleContext.getService(ref);
-                if (controller != null) {
-                    try {
-                        Bundle bundle = controller.getBundle(name);
-                        bundle.start();
-                    } catch (Exception e) {
-                        error = e.getMessage();
-                    }
-                }
-                bundleContext.ungetService(ref);
-            }
-        }
-        if (error != null) {
-            response.sendRedirect("home.do?error=" + error);
-        } else {
-            response.sendRedirect("home.do");
-        }
+//        String name = request.getParameter("name");
+//        String error = null;
+//        if (name != null && name.trim().length() > 0) {
+//            // looking for the controller
+//            ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
+//            if (ref != null) {
+//                Controller controller = (Controller) bundleContext.getService(ref);
+//                if (controller != null) {
+//                    try {
+//                        Bundle bundle = controller.getBundle(name);
+//                        bundle.start();
+//                    } catch (Exception e) {
+//                        error = e.getMessage();
+//                    }
+//                }
+//                bundleContext.ungetService(ref);
+//            }
+//        }
+//        if (error != null) {
+//            response.sendRedirect("home.do?error=" + error);
+//        } else {
+//            response.sendRedirect("home.do");
+//        }
     }
 
 }
