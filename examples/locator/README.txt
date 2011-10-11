@@ -102,8 +102,8 @@ Starting the Demo service
  * starting Demo service in the TESB OSGi container:
  
     cd talend-esb-<version>/container/bin
-	Linux: ./tesb
-	Windows: tesb.bat
+	Linux: ./trun
+	Windows: trun.bat
 	
 	then enter the following command in the console:
     karaf@tesb> features:install tesb-locator-client

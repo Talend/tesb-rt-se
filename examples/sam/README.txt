@@ -42,8 +42,8 @@ Start Derby database and sam-server in OSGI Container
 	* starting the TESB OSGi container:
 
 	cd talend-esb-<version>/container/bin
-	Linux: ./tesb
-	Windows: tesb.bat
+	Linux: ./trun
+	Windows: trun.bat
 
 	* starting Derby database and sam-server in TESB OSGi container:
 
