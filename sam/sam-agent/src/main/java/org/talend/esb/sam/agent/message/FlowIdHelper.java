@@ -27,11 +27,8 @@ import org.apache.cxf.message.Message;
 public class FlowIdHelper {
 	public static final String FLOW_ID_KEY = "FlowId";
 	public static final QName FLOW_ID_QNAME = new QName(
-			"http://www.sopera.com/monitoring/flowId/v1", "flowId");
+			"http://www.talend.com/esb/sam/flowId/v1", "flowId");
 	
-	private FlowIdHelper() {
-	}
-
 	/**
 	 * Get FlowId from message
 	 * 

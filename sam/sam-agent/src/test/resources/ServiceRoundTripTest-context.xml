@@ -20,7 +20,8 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     
@@ -49,6 +50,7 @@
         serviceClass="com.example.customerservice.CustomerService">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <wsa:addressing xmlns:wsa="http://cxf.apache.org/ws/addressing"/>
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:client>
@@ -57,6 +59,7 @@
         implementor="org.talend.esb.sam.agent.interceptor.CustomerServiceImpl">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <wsa:addressing xmlns:wsa="http://cxf.apache.org/ws/addressing"/>
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:endpoint>
