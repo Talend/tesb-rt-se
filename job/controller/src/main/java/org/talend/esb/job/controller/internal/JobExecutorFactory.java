@@ -23,19 +23,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-public class JobExecutorFactory {
-   public static ExecutorService newExecutor() {
-       ThreadFactory jobThreadFactory = new ThreadFactory() {
-           ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
+public final class JobExecutorFactory {
+    
+    private JobExecutorFactory() {
+        
+    }
 
-           @Override
-           public Thread newThread(Runnable r) {
-               Thread newThread = defaultThreadFactory.newThread(r);
-               newThread.setContextClassLoader(this.getClass().getClassLoader());
-               return newThread;
-           }
-       };
-       
-       return Executors.newCachedThreadPool(jobThreadFactory);
-   }
+    public static ExecutorService newExecutor() {
+        ThreadFactory jobThreadFactory = new ThreadFactory() {
+            ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
+
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread newThread = defaultThreadFactory.newThread(r);
+                newThread.setContextClassLoader(this.getClass().getClassLoader());
+                return newThread;
+            }
+        };
+
+        return Executors.newCachedThreadPool(jobThreadFactory);
+    }
 }

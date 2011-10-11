@@ -50,13 +50,13 @@ import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 
-import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendESBJob;
+import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegistry, JobListener {
 
-    private static final Logger LOG =
+    public static final Logger LOG =
         Logger.getLogger(JobLauncherImpl.class.getName());
 
     private Queue<Event> samQueue;
@@ -80,7 +80,8 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
 
     private Map<String, Endpoint> services = new ConcurrentHashMap<String, Endpoint>();
 
-    private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
+    private Map<String, ServiceRegistration> serviceRegistrations =
+        new ConcurrentHashMap<String, ServiceRegistration>();
 
     public void setBus(Bus bus) {
         this.bus = bus;
@@ -206,47 +207,30 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
     public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
         final Map<String, Object> props = endpoint.getEndpointProperties();
 
-        final QName serviceName = QName.valueOf((String)props.get(ESBEndpointConstants.SERVICE_NAME));
-        final QName portName = QName.valueOf((String)props.get(ESBEndpointConstants.PORT_NAME));
-        final String operationName = (String)props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
+        final QName serviceName = QName.valueOf((String) props
+                .get(ESBEndpointConstants.SERVICE_NAME));
+        final QName portName = QName.valueOf((String) props
+                .get(ESBEndpointConstants.PORT_NAME));
+        final String operationName = (String) props
+                .get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
 
         ESBConsumer esbConsumer = null;
-		/*
-		 * commenting out this code coz of issue https://jira.sopera.de/browse/TESB-2074
-		 * If we get the consumer in the following way, SAM featuer is not set for the consumer
-		 * hence the consumer doesnt send out SAM events.
-		Collection<ESBProvider> esbProviders = endpoints.get(
-				new ESBProviderKey(serviceName, portName));
-		if(esbProviders != null) {
-			for(ESBProvider provider : esbProviders) {
-				esbConsumer = provider.getESBProviderCallback(operationName);
-				if(esbConsumer != null) {
-					break;
-				}
-			}
-		}
-
-		// create generic consumer
-		if(esbConsumer == null) {
-		*/
-            final String publishedEndpointUrl = (String)props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
-            boolean useServiceLocator =
-                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
-            boolean useServiceActivityMonitor =
-                ((Boolean)props.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR)).booleanValue();
-            final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
-                serviceName,
-                portName,
-                operationName,
-                publishedEndpointUrl,
-                OperationStyle.isRequestResponse((String)props.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
+        final String publishedEndpointUrl = (String) props
+                .get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
+        boolean useServiceLocator = ((Boolean) props
+                .get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
+        boolean useServiceActivityMonitor = ((Boolean) props
+                .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
+                .booleanValue();
+        final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
+                serviceName, portName, operationName, publishedEndpointUrl,
+                OperationStyle.isRequestResponse((String) props
+                        .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? new LocatorFeature() : null,
-                useServiceActivityMonitor ? createEventFeature() : null,
-                bus);
+                useServiceActivityMonitor ? createEventFeature() : null, bus);
 
-            tlsConsumer.set(runtimeESBConsumer);
-            esbConsumer = runtimeESBConsumer;
-		//}
+        tlsConsumer.set(runtimeESBConsumer);
+        esbConsumer = runtimeESBConsumer;
         return esbConsumer;
     }
 
@@ -297,7 +281,7 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
     
     private TalendESBJob getJob(String name) {
         TalendESBJob job = esbJobs.get(name);
-        if (job == null ) {
+        if (job == null) {
             throw new IllegalArgumentException("Talend ESB job with name " + name + "' not found");
         }
         return (TalendESBJob) job;

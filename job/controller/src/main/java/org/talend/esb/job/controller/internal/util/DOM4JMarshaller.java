@@ -22,13 +22,18 @@ package org.talend.esb.job.controller.internal.util;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 
-public class DOM4JMarshaller {
+public final class DOM4JMarshaller {
 
     private static final javax.xml.transform.TransformerFactory FACTORY =
-            javax.xml.transform.TransformerFactory.newInstance();
+        javax.xml.transform.TransformerFactory.newInstance();
+
+    private DOM4JMarshaller() {
+        
+    }
 
     public static org.dom4j.Document sourceToDocument(Source source)
-            throws TransformerException {
+        throws TransformerException {
+
         org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
         FACTORY.newTransformer().transform(source, docResult);
         return docResult.getDocument();

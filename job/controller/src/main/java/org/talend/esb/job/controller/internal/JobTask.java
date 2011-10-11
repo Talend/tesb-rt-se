@@ -19,7 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
-public interface JobTask extends Runnable{
+public interface JobTask extends Runnable {
 
     void stop();
 }

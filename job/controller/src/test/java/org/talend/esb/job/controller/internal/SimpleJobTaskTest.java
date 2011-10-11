@@ -19,14 +19,20 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import static org.easymock.EasyMock.*;
-
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 import org.junit.Test;
 
 import routines.system.api.TalendJob;
+
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
+
 
 public class SimpleJobTaskTest {
     
@@ -44,7 +50,7 @@ public class SimpleJobTaskTest {
 
     @Test
     public void adminConfigurationPassedAsArguments() throws Exception {
-        Dictionary<String, String> properties = new Hashtable<String,String>();
+        Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put("context", "contextValue");
         
         String[] args = new String[]{"--context=contextValue"};

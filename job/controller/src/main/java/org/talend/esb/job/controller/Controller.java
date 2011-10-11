@@ -32,7 +32,7 @@ public interface Controller {
      * @return the list of Talend jobs.
      * @throws Exception in case of lookup failure.
      */
-    public List<String> listJobs() throws Exception;
+    List<String> listJobs() throws Exception;
 
     /**
      * List of Talend routes available in the running container.
@@ -40,7 +40,7 @@ public interface Controller {
      * @return the list of Talend routes
      * @throws Exception in case of lookup failure
      */
-    public List<String> listRoutes() throws Exception;
+    List<String> listRoutes() throws Exception;
 
     /**
      * List of Talend Data Services available in the running container.
@@ -48,7 +48,7 @@ public interface Controller {
      * @return the list of Talend services
      * @throws Exception in case of lookup failure
      */
-    public List<String> listServices() throws Exception;
+    List<String> listServices() throws Exception;
     
     /**
      * Retrieve the operation that is backed by the job with the given name. The operation object

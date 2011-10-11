@@ -39,10 +39,11 @@ import routines.system.api.TalendJob;
  */
 public class JobTracker {
 
-    private static final Logger LOG =
+    public static final Logger LOG =
         Logger.getLogger(JobTracker.class.getName());
 
-    public static final String FILTER = "(| (objectClass=" + TalendJob.class.getName() + ") (objectClass=" + Endpoint.class.getName() +"))";
+    public static final String FILTER =
+        "(| (objectClass=" + TalendJob.class.getName() + ") (objectClass=" + Endpoint.class.getName() + "))";
 
     private BundleContext context;
     
@@ -64,11 +65,10 @@ public class JobTracker {
         Filter filter = null;
         try {
             filter = context.createFilter(FILTER);
-        } catch(InvalidSyntaxException e) {
+        } catch (InvalidSyntaxException e) {
             LOG.throwing(this.getClass().getName(), "bind", e);
             
         }
-//        tracker = new ServiceTracker(context, TalendJob.class.getName(), new Customizer());
         tracker = new ServiceTracker(context, filter, new Customizer());
         tracker.open();        
     }
@@ -82,8 +82,9 @@ public class JobTracker {
 
     private String getValue(String name, ServiceReference sRef) {
         Object val = sRef.getProperty(name);
-        if (name == null || ! (name instanceof String)) {
-            throw new IllegalArgumentException(name + " property of TalendJob either not defined or not of type String");
+        if (name == null || !(name instanceof String)) {
+            throw new IllegalArgumentException(
+                    name + " property of TalendJob either not defined or not of type String");
         }
         return (String) val;
     }
@@ -123,7 +124,7 @@ public class JobTracker {
                 listener.serviceRemoved((Endpoint) service, name);
             } else if (service instanceof TalendESBJob) {
                 listener.esbJobRemoved((TalendESBJob) service, name);
-            } if (service instanceof TalendESBRoute) {
+            } else if (service instanceof TalendESBRoute) {
                 listener.routeRemoved((TalendESBRoute) service, name);
             } else if (service instanceof TalendJob) {
                 listener.jobRemoved((TalendJob)service, name);

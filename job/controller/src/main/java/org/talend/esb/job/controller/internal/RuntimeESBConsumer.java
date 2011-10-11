@@ -160,10 +160,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
         cf.setServiceClass(this.getClass());
         cf.setBus(bus);
         List<AbstractFeature> features = new ArrayList<AbstractFeature>();
-        if(serviceLocator != null) {
+        if (serviceLocator != null) {
             features.add(serviceLocator);
         }
-        if(eventFeature != null) {
+        if (eventFeature != null) {
             features.add(eventFeature);
         }
         

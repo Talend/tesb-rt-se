@@ -31,12 +31,12 @@ public class JobControllerMBeanImpl extends StandardMBean implements ControllerM
 
     private Controller controller;
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
     public JobControllerMBeanImpl() throws NotCompliantMBeanException {
         super(ControllerMBean.class);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public List<String> list() throws Exception {

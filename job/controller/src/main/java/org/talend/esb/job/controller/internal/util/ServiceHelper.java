@@ -42,10 +42,13 @@ import org.apache.cxf.tools.common.extensions.soap.SoapOperation;
 import org.apache.cxf.tools.util.SOAPBindingUtil;
 import org.apache.cxf.wsdl.WSDLManager;
 
-public class ServiceHelper {
+public final class ServiceHelper {
 
     private static final QName XSD_ANY_TYPE =
             new QName("http://www.w3.org/2001/XMLSchema", "anyType");
+
+    private ServiceHelper() {
+    }
 
     public static void addOperation(final ServiceInfo si,
             String operationName, boolean isRequestResponse) {

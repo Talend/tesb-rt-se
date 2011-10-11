@@ -30,9 +30,10 @@ import org.talend.esb.job.controller.internal.ESBProviderBase;
 public class GenericServiceProvider extends ESBProviderBase implements ManagedService {
 
     private Map<String, String> operations;
+
     private Controller controller;
     
-    Configuration configuration;
+    private Configuration configuration;
 
     public void setOperations(Map<String, String> operations) {
         this.operations = operations;
@@ -50,7 +51,7 @@ public class GenericServiceProvider extends ESBProviderBase implements ManagedSe
     public GenericOperation getESBProviderCallback(String operationName) {
         final String jobName = operations.get(operationName);
         if (jobName == null) {
-           throw new IllegalArgumentException("Job for operation '" + operationName + "' not found");
+            throw new IllegalArgumentException("Job for operation '" + operationName + "' not found");
         }
             
         GenericOperation operation = controller.retrieveOperation(

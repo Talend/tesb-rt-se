@@ -61,12 +61,12 @@ public class ConfigurationTest {
         try {
             new Configuration(properties);
             fail("A ConfigurationException should have been thrown.");
-        } catch(ConfigurationException e) {}
+        } catch (ConfigurationException e) { }
     }
 
     @Test
-    public void configurationPropertysResultsInContextArgument() throws Exception{
-        Dictionary<String, String> properties = new Hashtable<String,String>();
+    public void configurationPropertysResultsInContextArgument() throws Exception {
+        Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(CONTEXT_KEY, CONTEXT_VALLUE);
 
         Configuration configuration =  new Configuration(properties);
@@ -76,22 +76,23 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void nonSpecialPropertyResultsInContextParamArgument() throws Exception{
-        Dictionary<String, String> properties = new Hashtable<String,String>();
+    public void nonSpecialPropertyResultsInContextParamArgument() throws Exception {
+        Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(KEY_1, VALUE_1);
         properties.put(KEY_2, VALUE_2);
 
         Configuration configuration =  new Configuration(properties);
         
         String[] args = configuration.getArguments();
-        String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1, "--context_param=" + KEY_2 + "=" + VALUE_2};
+        String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1,
+            "--context_param=" + KEY_2 + "=" + VALUE_2};
         assertThat(args, arrayContainingInAnyOrder(expectedArgs));
     }
 
     @Test
-    public void propertyInFilterNotInArgumentList() throws Exception{
+    public void propertyInFilterNotInArgumentList() throws Exception {
         String[] filter = new String[] {KEY_1};
-        Dictionary<String, String> properties = new Hashtable<String,String>();
+        Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(KEY_1, "value1");
         properties.put(KEY_2, "value2");
 

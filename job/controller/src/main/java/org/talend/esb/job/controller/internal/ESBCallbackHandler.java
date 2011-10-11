@@ -9,25 +9,25 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 class ESBCallbackHandler implements CallbackHandler {
 
-	@Override
-	public void handle(Callback[] callbacks) throws IOException,
-			UnsupportedCallbackException {
-		for (int i = 0; i < callbacks.length; i++) {
-			if (callbacks[i] instanceof NameCallback) {
+    @Override
+    public void handle(Callback[] callbacks) throws IOException,
+            UnsupportedCallbackException {
+        for (int i = 0; i < callbacks.length; i++) {
+            if (callbacks[i] instanceof NameCallback) {
 
-				NameCallback nc = (NameCallback) callbacks[i];
-				nc.setName("karaf");
+                NameCallback nc = (NameCallback) callbacks[i];
+                nc.setName("karaf");
 
-			} else if (callbacks[i] instanceof PasswordCallback) {
+            } else if (callbacks[i] instanceof PasswordCallback) {
 
-				PasswordCallback pc = (PasswordCallback) callbacks[i];
-				pc.setPassword(new char[]{'k','a','r','a','f'});
+                PasswordCallback pc = (PasswordCallback) callbacks[i];
+                pc.setPassword(new char[] {'k', 'a', 'r', 'a', 'f' });
 
-			} else {
-				throw new UnsupportedCallbackException(callbacks[i],
-						"Unrecognized Callback");
-			}
-		}
+            } else {
+                throw new UnsupportedCallbackException(callbacks[i],
+                        "Unrecognized Callback");
+            }
+        }
 
-	}
+    }
 }

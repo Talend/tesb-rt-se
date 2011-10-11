@@ -36,11 +36,10 @@ import org.osgi.framework.ServiceRegistration;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
-import static org.junit.Assert.assertThat;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
-
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
 
 
 public class JobLauncherListsTest extends EasyMockSupport {
@@ -60,9 +59,9 @@ public class JobLauncherListsTest extends EasyMockSupport {
     public static final String MANAGED_SERVICE_NAME = "org.osgi.service.cm.ManagedService";
   
     @SuppressWarnings("serial")
-    public static final Dictionary<?, ?> properties = new Hashtable<String, String>() {{
+    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() { {
         put(Constants.SERVICE_PID, ROUTE_NAME_1);
-    }};
+    } };
     
     private TalendESBRoute route1 = createMock(TalendESBRoute.class);
     
@@ -85,7 +84,7 @@ public class JobLauncherListsTest extends EasyMockSupport {
     private JobLauncherImpl jobLauncher;
 
     @Before
-    public void setup() {
+    public void setUp() {
         context = createNiceMock(BundleContext.class);
         execService = createNiceMock(ExecutorService.class);
         sr = createNiceMock(ServiceRegistration.class);
@@ -130,7 +129,7 @@ public class JobLauncherListsTest extends EasyMockSupport {
     private void expectManagedJobStarting() {
         expect(context.registerService((String) anyObject(),
                anyObject(),
-               (Dictionary<?,?>) anyObject())).andStubReturn(sr);
+               (Dictionary<?, ?>) anyObject())).andStubReturn(sr);
         execService.execute((Runnable)anyObject()); 
     }
 }
