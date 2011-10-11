@@ -756,8 +756,8 @@
 <!--                                <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.jclouds.karaf/feature/${jclouds.version}/xml/features</descriptor>
-								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
+								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
 							</descriptors>
 							<features>
