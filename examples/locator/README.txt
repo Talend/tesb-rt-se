@@ -106,9 +106,9 @@ Starting the Demo service
 	Windows: trun.bat
 	
 	then enter the following command in the console:
-    karaf@tesb> features:install tesb-locator-client
-    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-5.0-SNAPSHOT.jar
-    karaf@tesb> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-5.0-SNAPSHOT.jar
+    karaf@trun> features:install tesb-locator-client
+    karaf@trun> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-5.0-SNAPSHOT.jar
+    karaf@trun> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-5.0-SNAPSHOT.jar
     
     
 Running the Demo client
