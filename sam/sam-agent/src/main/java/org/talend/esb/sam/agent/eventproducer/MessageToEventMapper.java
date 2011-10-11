@@ -34,6 +34,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
@@ -59,8 +60,9 @@ public class MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
+        messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
-        messageInfo.setMessageId(ContextUtils.generateUUID());
+        
         String opName = message.getExchange().getBindingOperationInfo().getName().toString();
         messageInfo.setOperationName(opName);
         String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
@@ -113,6 +115,27 @@ public class MessageToEventMapper {
         event.getCustomInfo().putAll(customInfo);
         
         return event;
+    }
+    
+    /**
+     * Get MessageId from WS-Addressing enabled (i.e with <wsa:addressing/> feature), if 
+     * addressing feature doesn't enable, have to create/transfer our own MessageId.
+     * @param message
+     * @return
+     */
+    private String getMessageId(Message message){
+    	String messageId = null;
+    	
+        AddressingPropertiesImpl addrProp = ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
+        if (addrProp != null){
+        	messageId = addrProp.getMessageID().getValue();
+        	//System.out.println("MessageID = " + msgId);
+        }else{
+        	//to do: generate and transfer MessageId ...
+        	messageId = ContextUtils.generateUUID();
+        }
+        
+        return messageId;
     }
 
     private EventTypeEnum getEventType(Message message) {

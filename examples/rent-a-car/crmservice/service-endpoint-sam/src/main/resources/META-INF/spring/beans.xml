@@ -43,6 +43,7 @@
 		address="/CRMServiceProvider"
 	>
 		<jaxws:features>
+			<wsa:addressing xmlns:wsa="http://cxf.apache.org/ws/addressing"/>
 			<ref bean="eventFeature"/>
 		</jaxws:features>
 	</jaxws:endpoint>
