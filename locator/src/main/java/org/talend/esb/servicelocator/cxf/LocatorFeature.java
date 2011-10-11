@@ -37,12 +37,11 @@ import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
  * CXF feature to enable the locator client with an CXF service.
- *
+ * 
  */
 public class LocatorFeature extends AbstractFeature {
 
-	private static final Logger LOG = Logger.getLogger(LocatorFeature.class
-			.getName());
+    private static final Logger LOG = Logger.getLogger(LocatorFeature.class.getName());
 
     private SLPropertiesImpl slProps;
 
@@ -51,101 +50,103 @@ public class LocatorFeature extends AbstractFeature {
     private String selectionStrategy;
 
     @Override
-	public void initialize(Bus bus) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus);
-		}
+    public void initialize(Bus bus) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Initializing Locator feature for bus " + bus);
+        }
 
-		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.listenForAllServers();
-		slm.listenForAllClients();
-		
-	}
-	
-	@Override
-	public void initialize(Client client, Bus bus) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client " + client);
-		}
+        ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
+        slm.listenForAllServers();
+        slm.listenForAllClients();
 
-		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.enableClient(client, slPropsMatcher, selectionStrategy);
-	}
+    }
 
-	@Override
-	public void initialize(Server server, Bus bus) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and server " + server);
-		}
+    @Override
+    public void initialize(Client client, Bus bus) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client " + client);
+        }
 
-		ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-		slm.registerServer(server, slProps);
-	}
+        ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
+        slm.enableClient(client, slPropsMatcher, selectionStrategy);
+    }
+
+    @Override
+    public void initialize(Server server, Bus bus) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and server " + server);
+        }
+
+        ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
+        slm.registerServer(server, slProps);
+    }
 
     @Override
     public void initialize(InterceptorProvider interceptorProvider, Bus bus) {
         if (interceptorProvider instanceof ClientConfiguration) {
-            initialize((ClientConfiguration)interceptorProvider, bus);
+            initialize((ClientConfiguration) interceptorProvider, bus);
         } else {
             if (LOG.isLoggable(Level.WARNING)) {
-                LOG.log(Level.WARNING, "Tried to initialize locator feature with unknown interceptor provider " + interceptorProvider);
-            }            
+                LOG.log(Level.WARNING,
+                        "Tried to initialize locator feature with unknown interceptor provider "
+                                + interceptorProvider);
+            }
         }
     }
-    
+
     public void initialize(ClientConfiguration clientConf, Bus bus) {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client configuration" + clientConf);
+            LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client configuration"
+                    + clientConf);
         }
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
         slm.enableClient(clientConf, slPropsMatcher, selectionStrategy);
     }
 
-
-	protected ServiceLocatorManager getLocatorManager(Bus bus) {
-		return bus.getExtension(ServiceLocatorManager.class);
-	}
+    protected ServiceLocatorManager getLocatorManager(Bus bus) {
+        return bus.getExtension(ServiceLocatorManager.class);
+    }
 
     /**
-    *
-    *
-    * @param properties
-    */
-   public void setAvailableEndpointProperties(Map<String, String> properties) {
-       slProps = new SLPropertiesImpl();
-       
-       for(String key : properties.keySet()) {
-           String valueList = properties.get(key);
-           List<String> values = tokenize(valueList);
-           slProps.addProperty(key, values);
-       }
-   }
-   
-   public void setRequiredEndpointProperties(Map<String, String> properties) {
-       slPropsMatcher = new SLPropertiesMatcher();
-       
-       for(String key : properties.keySet()) {
-           String valueList = properties.get(key);
-           List<String> values = tokenize(valueList);
-           for(String value : values) {
-               slPropsMatcher.addAssertion(key, value);
-           }
-       }
-   }
+     * 
+     * 
+     * @param properties
+     */
+    public void setAvailableEndpointProperties(Map<String, String> properties) {
+        slProps = new SLPropertiesImpl();
 
-   public void setSelectionStrategy(String selectionStrategy) {
-	this.selectionStrategy = selectionStrategy;
-}
+        for (String key : properties.keySet()) {
+            String valueList = properties.get(key);
+            List<String> values = tokenize(valueList);
+            slProps.addProperty(key, values);
+        }
+    }
 
-   List<String> tokenize(String valueList) {
-       List<String> normalizedValues = new ArrayList<String>();
-       String[] values = valueList.split(",");
-       
-       for(String value : values) {
-           normalizedValues.add(value.trim());
-       }
-       return normalizedValues;
-   }
+    public void setRequiredEndpointProperties(Map<String, String> properties) {
+        slPropsMatcher = new SLPropertiesMatcher();
+
+        for (String key : properties.keySet()) {
+            String valueList = properties.get(key);
+            List<String> values = tokenize(valueList);
+            for (String value : values) {
+                slPropsMatcher.addAssertion(key, value);
+            }
+        }
+    }
+
+    public void setSelectionStrategy(String selectionStrategy) {
+        this.selectionStrategy = selectionStrategy;
+    }
+
+    List<String> tokenize(String valueList) {
+        List<String> normalizedValues = new ArrayList<String>();
+        String[] values = valueList.split(",");
+
+        for (String value : values) {
+            normalizedValues.add(value.trim());
+        }
+        return normalizedValues;
+    }
 
 }

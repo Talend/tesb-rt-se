@@ -37,7 +37,7 @@ import static org.talend.esb.servicelocator.TestValues.*;
 
 public class ContentHolderTest {
 
-    public static byte[] EMPTY_CONTENT = new byte[0];
+    public static final byte[] EMPTY_CONTENT = new byte[0];
     
     private  byte[] content;
 
@@ -87,9 +87,9 @@ public class ContentHolderTest {
     public void getProperties() {
         holder = new ContentHolder(content);
 
-        SLProperties props = holder.getProperties();
-        assertTrue(props.hasProperty(NAME_1));
-        assertThat(props.getValues(NAME_1), containsInAnyOrder(VALUE_1, VALUE_2));
+        SLProperties properties = holder.getProperties();
+        assertTrue(properties.hasProperty(NAME_1));
+        assertThat(properties.getValues(NAME_1), containsInAnyOrder(VALUE_1, VALUE_2));
     }
 
     @Test
@@ -111,8 +111,8 @@ public class ContentHolderTest {
         content = createContent(ENDPOINT_1, LAST_TIME_STARTED, LAST_TIME_STOPPED, null);
         holder = new ContentHolder(content);
         
-        SLProperties props = holder.getProperties();
-        assertThat(props.getPropertyNames(), hasSize(0));
+        SLProperties properties = holder.getProperties();
+        assertThat(properties.getPropertyNames(), hasSize(0));
     }
 
     @Test

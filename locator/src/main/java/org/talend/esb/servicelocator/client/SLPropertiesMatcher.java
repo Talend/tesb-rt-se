@@ -33,8 +33,8 @@ public class SLPropertiesMatcher {
     }
 
     public boolean isMatching(SLProperties properties) {
-        for(Entry matcher : matchers) {
-            if (! properties.includesValues(matcher.name, matcher.value)) {
+        for (Entry matcher : matchers) {
+            if (!properties.includesValues(matcher.name, matcher.value)) {
                 return false;
             }
         }

@@ -30,84 +30,91 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 
 public class LocatorClientEnabler {
 
-	private static final Logger LOG = Logger.getLogger(LocatorClientEnabler.class
-			.getPackage().getName());
-	
-	private static final String DEFAULT_STRATEGY = "defaultSelectionStrategy";
-	
-	private ServiceLocator locatorClient;
+    private static final Logger LOG = Logger.getLogger(LocatorClientEnabler.class.getPackage().getName());
 
-	private Bus bus;
+    private static final String DEFAULT_STRATEGY = "defaultSelectionStrategy";
 
-	private Map<String,LocatorSelectionStrategy> locatorSelectionStrategies;
-	
-	private LocatorSelectionStrategy locatorSelectionStrategy;
+    private ServiceLocator locatorClient;
 
-	private String defaultLocatorSelectionStrategy;
+    private Bus bus;
 
-	public void setServiceLocator(ServiceLocator locatorClient) {
-		this.locatorClient = locatorClient;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Locator client " + locatorClient + " was set for LocatorClientRegistrar.");
-		}
-	}
-	
-	public void setBus(Bus bus) {
-		this.bus = bus;
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Bus " + bus + " was set for LocatorClientRegistrar.");
-		}
-	}
+    private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
 
-	public void setLocatorSelectionStrategies(
-			Map<String, LocatorSelectionStrategy> locatorSelectionStrategies) {
-		this.locatorSelectionStrategies = locatorSelectionStrategies;
-		this.locatorSelectionStrategy = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
-	}
+    private LocatorSelectionStrategy locatorSelectionStrategy;
 
-	public void setLocatorSelectionStrategy(String locatorSelectionStrategy) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy + " was set for LocatorClientRegistrar.");
-		}
-		if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
-			this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
-		} else {
-			if (LOG.isLoggable(Level.WARNING))
-				LOG.log(Level.WARNING, "LocatorSelectionStrategy " + locatorSelectionStrategy + " not registered at LocatorClientEnabler.");
-		}
-	}
+    private String defaultLocatorSelectionStrategy;
 
-    public void setDefaultLocatorSelectionStrategy(
-			String defaultLocatorSelectionStrategy) {
-		if (LOG.isLoggable(Level.FINE)) {
-			LOG.log(Level.FINE, "Default strategy " + defaultLocatorSelectionStrategy + " was set for LocatorClientRegistrar.");
-		}
-		if (locatorSelectionStrategies.containsKey(defaultLocatorSelectionStrategy)) {
-			this.locatorSelectionStrategy = locatorSelectionStrategies.get(defaultLocatorSelectionStrategy);
-			this.defaultLocatorSelectionStrategy = defaultLocatorSelectionStrategy;
-			//setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
-		} else {
-			if (LOG.isLoggable(Level.WARNING))
-				LOG.log(Level.WARNING, "Default LocatorSelectionStrategy " + defaultLocatorSelectionStrategy + " not registered at LocatorClientEnabler.");
-		}
-	}
-
-	public void enable(ConduitSelectorHolder conduitSelectorHolder) {
-        enable(conduitSelectorHolder, null);
-	}
-
-    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher) {
-    	enable(conduitSelectorHolder, matcher, null);
+    public void setServiceLocator(ServiceLocator locatorClient) {
+        this.locatorClient = locatorClient;
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Locator client " + locatorClient + " was set for LocatorClientRegistrar.");
+        }
     }
 
-    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher, String selectionStrategy) {
+    public void setBus(Bus bus) {
+        this.bus = bus;
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Bus " + bus + " was set for LocatorClientRegistrar.");
+        }
+    }
+
+    public void setLocatorSelectionStrategies(
+            Map<String, LocatorSelectionStrategy> locatorSelectionStrategies) {
+        this.locatorSelectionStrategies = locatorSelectionStrategies;
+        this.locatorSelectionStrategy = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
+    }
+
+    public void setLocatorSelectionStrategy(String locatorSelectionStrategy) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy
+                    + " was set for LocatorClientRegistrar.");
+        }
+        if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
+            this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
+        } else {
+            if (LOG.isLoggable(Level.WARNING)) {
+                LOG.log(Level.WARNING, "LocatorSelectionStrategy " + locatorSelectionStrategy
+                        + " not registered at LocatorClientEnabler.");
+            }
+        }
+    }
+
+    public void setDefaultLocatorSelectionStrategy(String defaultLocatorSelectionStrategy) {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.log(Level.FINE, "Default strategy " + defaultLocatorSelectionStrategy
+                    + " was set for LocatorClientRegistrar.");
+        }
+        if (locatorSelectionStrategies.containsKey(defaultLocatorSelectionStrategy)) {
+            this.locatorSelectionStrategy = locatorSelectionStrategies.get(defaultLocatorSelectionStrategy);
+            this.defaultLocatorSelectionStrategy = defaultLocatorSelectionStrategy;
+            // setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
+        } else {
+            if (LOG.isLoggable(Level.WARNING)) {
+                LOG.log(Level.WARNING, "Default LocatorSelectionStrategy " + defaultLocatorSelectionStrategy
+                        + " not registered at LocatorClientEnabler.");
+            }
+        }
+    }
+
+    public void enable(ConduitSelectorHolder conduitSelectorHolder) {
+        enable(conduitSelectorHolder, null);
+    }
+
+    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher) {
+        enable(conduitSelectorHolder, matcher, null);
+    }
+
+    public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher,
+            String selectionStrategy) {
         LocatorTargetSelector selector = new LocatorTargetSelector();
         selector.setEndpoint(conduitSelectorHolder.getConduitSelector().getEndpoint());
 
         if (selectionStrategy != null) {
-        	setLocatorSelectionStrategy(selectionStrategy);
-        } else setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
-        
+            setLocatorSelectionStrategy(selectionStrategy);
+        } else {
+            setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
+        }
+
         locatorSelectionStrategy.setServiceLocator(locatorClient);
         if (matcher != null) {
             locatorSelectionStrategy.setMatcher(matcher);
@@ -115,18 +122,20 @@ public class LocatorClientEnabler {
         selector.setLocatorSelectionStrategy(locatorSelectionStrategy);
 
         if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Client enabled with strategy " + locatorSelectionStrategy.getClass().getName() + ".");
+            LOG.log(Level.INFO, "Client enabled with strategy "
+                    + locatorSelectionStrategy.getClass().getName() + ".");
         }
         conduitSelectorHolder.setConduitSelector(selector);
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Successfully enabled client " + conduitSelectorHolder + " for the service locator");
+            LOG.log(Level.FINE, "Successfully enabled client " + conduitSelectorHolder
+                    + " for the service locator");
         }
     }
-    
+
     public interface ConduitSelectorHolder {
         ConduitSelector getConduitSelector();
-        
+
         void setConduitSelector(ConduitSelector selector);
     }
 }

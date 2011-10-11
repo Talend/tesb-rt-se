@@ -30,13 +30,13 @@ import javax.xml.namespace.NamespaceContext;
 
 public class NamespaceContextImpl implements NamespaceContext {
 
-    public static String SL_NS = "http://talend.org/esb/serviceLocator/4.2";
+    public static final String SL_NS = "http://talend.org/esb/serviceLocator/4.2";
 
-    public static String SL_PREFIX = "sl";
+    public static final String SL_PREFIX = "sl";
 
-    public static String WSA_NS = "http://www.w3.org/2005/08/addressing";
+    public static final String WSA_NS = "http://www.w3.org/2005/08/addressing";
 
-    public static String WSA_PREFIX = "wsa";
+    public static final String WSA_PREFIX = "wsa";
 
     public static final NamespaceContext SL_NS_CONTEXT =
         new NamespaceContextImpl(SL_PREFIX , SL_NS);

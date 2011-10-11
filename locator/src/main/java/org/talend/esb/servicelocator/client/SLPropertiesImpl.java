@@ -27,55 +27,55 @@ import java.util.List;
 import java.util.Map;
 
 public class SLPropertiesImpl implements SLProperties {
-	
-	private static final long serialVersionUID = -3527977700696163706L;
-	
-	private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();
 
-	public void addProperty(String name, String... values) {
-		List<String> valueList = new ArrayList<String>();
-		for (String value : values) {
-			valueList.add(value);
-		}
-		properties.put(name, valueList);		
-	}
+    private static final long serialVersionUID = -3527977700696163706L;
+
+    private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();
+
+    public void addProperty(String name, String... values) {
+        List<String> valueList = new ArrayList<String>();
+        for (String value : values) {
+            valueList.add(value);
+        }
+        properties.put(name, valueList);
+    }
 
     public void addProperty(String name, Collection<String> values) {
         List<String> valueList = new ArrayList<String>(values);
-        properties.put(name, valueList);        
+        properties.put(name, valueList);
     }
-
-    /**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Collection<String> getPropertyNames() {
-		return properties.keySet();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean hasProperty(String name) {
-		return properties.containsKey(name);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Collection<String> getValues(String name) {
-		return  properties.get(name);
-	}
 
     /**
      * {@inheritDoc}
      */
-	@Override
-	public boolean includesValues(String name, String... values) {
-		return includesValues(name, Arrays.asList(values));
-	}
+    @Override
+    public Collection<String> getPropertyNames() {
+        return properties.keySet();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasProperty(String name) {
+        return properties.containsKey(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<String> getValues(String name) {
+        return properties.get(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean includesValues(String name, String... values) {
+        return includesValues(name, Arrays.asList(values));
+    }
 
     @Override
     public boolean includesValues(String name, Collection<String> values) {
@@ -87,5 +87,5 @@ public class SLPropertiesImpl implements SLProperties {
 
         return propValues.containsAll(values);
     }
-	
+
 }

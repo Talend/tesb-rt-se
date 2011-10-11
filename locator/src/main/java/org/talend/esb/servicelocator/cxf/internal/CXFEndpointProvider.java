@@ -28,6 +28,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
+import org.w3c.dom.Node;
+
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.service.model.BindingInfo;
@@ -42,18 +44,17 @@ import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
-import org.w3c.dom.Node;
 
 public class CXFEndpointProvider implements EndpointProvider {
 
-    private static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class
+    public static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class
             .getName());
 
-    private static final org.apache.cxf.ws.addressing.ObjectFactory
-        WSA_OBJECT_FACTORY = new org.apache.cxf.ws.addressing.ObjectFactory();
+    public static final org.apache.cxf.ws.addressing.ObjectFactory WSA_OBJECT_FACTORY =
+        new org.apache.cxf.ws.addressing.ObjectFactory();
 
-    private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-        SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    public static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
+    SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
     public static final String SOAP11_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap/";
 
@@ -94,7 +95,10 @@ public class CXFEndpointProvider implements EndpointProvider {
     }
 
     public CXFEndpointProvider(Server server, String address, SLProperties properties) {
-        this(getServiceName(server), getBindingId(server), getTransportId(server), createEPR(server, address, properties));
+        this(getServiceName(server),
+                getBindingId(server),
+                getTransportId(server),
+                createEPR(server, address, properties));
     }
 
     @Override
@@ -149,10 +153,12 @@ public class CXFEndpointProvider implements EndpointProvider {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
             ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint", cl);
+            JAXBContext jc = JAXBContext.newInstance(
+                    "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
+                    cl);
             Marshaller m = jc.createMarshaller();
             m.marshal(ep, parent);
-        } catch( JAXBException e ){
+        } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
                         "Failed to serialize endpoint data", e);
@@ -203,35 +209,35 @@ public class CXFEndpointProvider implements EndpointProvider {
         return serviceName;
     }
 
-   private static String getBindingId(Server server) {
+    private static String getBindingId(Server server) {
         Endpoint ep = server.getEndpoint();
         BindingInfo bi = ep.getBinding().getBindingInfo();
         return bi.getBindingId();
     }
-   
-   private static String getTransportId(Server server) {
-       EndpointInfo ei = server.getEndpoint().getEndpointInfo();
-       return  ei.getTransportId();
-   }
 
-   private static BindingType map2BindingType(String bindingId) {       
-       BindingType type = BindingType.OTHER;
-       if (SOAP11_BINDING_ID.equals(bindingId)) {
-           type = BindingType.SOAP11;
-       } else if (SOAP12_BINDING_ID.equals(bindingId)) {
-           type = BindingType.SOAP12;
-       } else if (JAXRS_BINDING_ID.equals(bindingId)) {
-           type = BindingType.JAXRS;
-       }
-       
-       return type;
-   }
+    private static String getTransportId(Server server) {
+        EndpointInfo ei = server.getEndpoint().getEndpointInfo();
+        return ei.getTransportId();
+    }
 
-   private static TransportType map2TransportType(String transportId) {
-       TransportType type = TransportType.OTHER;
-       if (CXF_HTTP_TRANSPORT_ID.equals(transportId) || SOAP_HTTP_TRANSPORT_ID.equals(transportId)) {
-           type = TransportType.HTTP;
-       }
-       return type;
-   }
+    private static BindingType map2BindingType(String bindingId) {
+        BindingType type = BindingType.OTHER;
+        if (SOAP11_BINDING_ID.equals(bindingId)) {
+            type = BindingType.SOAP11;
+        } else if (SOAP12_BINDING_ID.equals(bindingId)) {
+            type = BindingType.SOAP12;
+        } else if (JAXRS_BINDING_ID.equals(bindingId)) {
+            type = BindingType.JAXRS;
+        }
+
+        return type;
+    }
+
+    private static TransportType map2TransportType(String transportId) {
+        TransportType type = TransportType.OTHER;
+        if (CXF_HTTP_TRANSPORT_ID.equals(transportId) || SOAP_HTTP_TRANSPORT_ID.equals(transportId)) {
+            type = TransportType.HTTP;
+        }
+        return type;
+    }
 }

@@ -26,61 +26,38 @@ package org.talend.esb.servicelocator.client;
 
 public class PropertyMatchers {
 
-/*
-	public static class HasPropertyValues extends TypeSafeMatcher<SLProperties>{
-
-		private String propertyName;
-		
-		private String[] propertyValues;
-		
-		HasPropertyValues(String propertyName, String... propertyValues) {
-			this.propertyName = propertyName;
-			this.propertyValues = propertyValues;
-		}
-		
-		@Override
-		public boolean matchesSafely(SLProperties props) {
-			return props.includesValues(propertyName, propertyValues);
-		}
-
-		@Override
-		public void describeTo(Description description) {
-		      description.appendText("property with name ")
-	          .appendValue(propertyName)
-	          .appendText(" including values ")
-	          .appendValue(propertyValues)
-	          .appendText(" in any order");
-		}
-	}
-
-	public static class HasProperty extends TypeSafeMatcher<SLProperties>{
-
-		private String propertyName;
-		
-		HasProperty(String propertyName) {
-			this.propertyName = propertyName;
-		}
-		
-		@Override
-		public boolean matchesSafely(SLProperties props) {
-			return props.hasProperty(propertyName);
-		}
-
-		@Override
-		public void describeTo(Description description) {
-		      description.appendText("property with name ")
-	          .appendValue(propertyName);
-		}
-	}
-
-	@Factory
-    public static Matcher<SLProperties> hasPropertyWithValue(final String name, final String... values) {
-        return new HasPropertyValues(name, values);
-    }
-
-	@Factory
-    public static Matcher<SLProperties> hasProperty(final String name) {
-        return new HasProperty(name);
-    }
-*/
+    /*
+     * public static class HasPropertyValues extends TypeSafeMatcher<SLProperties>{
+     * 
+     * private String propertyName;
+     * 
+     * private String[] propertyValues;
+     * 
+     * HasPropertyValues(String propertyName, String... propertyValues) { this.propertyName = propertyName;
+     * this.propertyValues = propertyValues; }
+     * 
+     * @Override public boolean matchesSafely(SLProperties props) { return props.includesValues(propertyName,
+     * propertyValues); }
+     * 
+     * @Override public void describeTo(Description description) {
+     * description.appendText("property with name ") .appendValue(propertyName)
+     * .appendText(" including values ") .appendValue(propertyValues) .appendText(" in any order"); } }
+     * 
+     * public static class HasProperty extends TypeSafeMatcher<SLProperties>{
+     * 
+     * private String propertyName;
+     * 
+     * HasProperty(String propertyName) { this.propertyName = propertyName; }
+     * 
+     * @Override public boolean matchesSafely(SLProperties props) { return props.hasProperty(propertyName); }
+     * 
+     * @Override public void describeTo(Description description) {
+     * description.appendText("property with name ") .appendValue(propertyName); } }
+     * 
+     * @Factory public static Matcher<SLProperties> hasPropertyWithValue(final String name, final String...
+     * values) { return new HasPropertyValues(name, values); }
+     * 
+     * @Factory public static Matcher<SLProperties> hasProperty(final String name) { return new
+     * HasProperty(name); }
+     */
 }

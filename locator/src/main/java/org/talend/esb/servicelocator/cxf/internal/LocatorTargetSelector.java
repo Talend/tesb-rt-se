@@ -28,51 +28,52 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.service.model.EndpointInfo;
 
 public class LocatorTargetSelector extends FailoverTargetSelector {
-	
-	private boolean locator_protocol = false;
-	
-	private static final Logger LOG = Logger.getLogger(LocatorTargetSelector.class
-			.getPackage().getName());
 
-	private static final String LOCATOR_PROTOCOL = "locator://";
-	
-	private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
+    private static final Logger LOG = Logger.getLogger(LocatorTargetSelector.class.getPackage().getName());
 
-	public LocatorTargetSelector(LocatorSelectionStrategy strategy) {
-		setLocatorSelectionStrategy(strategy);
-	}
-	
-	public LocatorTargetSelector() {
-	}
+    private static final String LOCATOR_PROTOCOL = "locator://";
 
-	@Override
-	public synchronized void prepare(Message message) {
-		Exchange exchange = message.getExchange();
+    private boolean locatorProtocol;
+
+    private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
+
+    public LocatorTargetSelector(LocatorSelectionStrategy strategy) {
+        setLocatorSelectionStrategy(strategy);
+    }
+
+    public LocatorTargetSelector() {
+    }
+
+    @Override
+    public synchronized void prepare(Message message) {
+        Exchange exchange = message.getExchange();
         EndpointInfo ei = endpoint.getEndpointInfo();
-        if (locator_protocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
-        	if (LOG.isLoggable(Level.INFO)) {
-    			LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
-    			LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
-    		}
+        if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
+            if (LOG.isLoggable(Level.INFO)) {
+                LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
+                LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
+            }
 
-        	String physAddress = strategy.getPrimaryAddress(exchange);
+            String physAddress = strategy.getPrimaryAddress(exchange);
 
-        	if (physAddress != null) {
-        		ei.setAddress(physAddress); locator_protocol = true;
-        		message.put(Message.ENDPOINT_ADDRESS, physAddress);
-        	} else {
-            	if (LOG.isLoggable(Level.SEVERE)) {
-            		LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");
-        		}
-            	throw new IllegalStateException("No endpoint found in Service Locator for service " + endpoint.getService().getName());
-        	}
+            if (physAddress != null) {
+                ei.setAddress(physAddress);
+                locatorProtocol = true;
+                message.put(Message.ENDPOINT_ADDRESS, physAddress);
+            } else {
+                if (LOG.isLoggable(Level.SEVERE)) {
+                    LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");
+                }
+                throw new IllegalStateException("No endpoint found in Service Locator for service "
+                        + endpoint.getService().getName());
+            }
         }
-		super.prepare(message);
-	}
-	
-	public void setLocatorSelectionStrategy(LocatorSelectionStrategy strategy) {
-		this.strategy = strategy;
-		setStrategy(strategy);
-	}
+        super.prepare(message);
+    }
+
+    public void setLocatorSelectionStrategy(LocatorSelectionStrategy strategy) {
+        this.strategy = strategy;
+        setStrategy(strategy);
+    }
 
 }

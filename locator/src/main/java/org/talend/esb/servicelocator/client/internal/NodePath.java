@@ -23,130 +23,134 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Representation of a ZooKeeper node path. The path is always absolute. As node names in ZooKeeper
- * must not contain the path separator ("/") NodePath takes care to
- * {@link NodePath#encode(String) encode}  the names, so they can be stored in ZooKeeper.
+ * Representation of a ZooKeeper node path. The path is always absolute. As node names in ZooKeeper must not
+ * contain the path separator ("/") NodePath takes care to {@link NodePath#encode(String) encode} the names,
+ * so they can be stored in ZooKeeper.
  */
 public class NodePath {
 
-	private static final Logger LOG = Logger.getLogger(NodePath.class.getPackage().getName());
-	
-	public static final char SEPARATOR = '/';
-	
-	private String path;
+    public static final char SEPARATOR = '/';
 
-	/**
-	 * Create an <code>NodePath</code> that consists of the given path segments.
-	 * 
-	 * @param pathSegments the sequence of path segments the NodePath consists of, must not be null or empty
-	 */
-	public NodePath(String... pathSegments) {
-		if (pathSegments == null || pathSegments.length == 0) {
-			LOG.log(Level.SEVERE, "At least one path segment must be defined."); 
-			throw new IllegalArgumentException("At least one path segment must be defined.");
-		}
-		StringBuffer rawPath = new StringBuffer();
-		for (String pathSegment : pathSegments) {
-			checkValidPathSegment(pathSegment);
-			String encodedPathSegment = encode(pathSegment);
-			rawPath.append(SEPARATOR).append(encodedPathSegment);
-		}
-		path = rawPath.toString();
-	}
+    private static final Logger LOG = Logger.getLogger(NodePath.class.getPackage().getName());
 
-	protected NodePath(NodePath parentPath, String childPathSegment) {
-		checkValidPathSegment(childPathSegment);
-		path = parentPath.path + SEPARATOR + encode(childPathSegment);
-	}
+    private String path;
 
-	protected NodePath(NodePath parentPath, String childPathSegment, boolean encoded) {
-		checkValidPathSegment(childPathSegment);
-		
-		String encodedChildPathSegment = encoded ? childPathSegment : encode(childPathSegment);
-		path = parentPath.path + SEPARATOR + encodedChildPathSegment;
-	}
+    /**
+     * Create an <code>NodePath</code> that consists of the given path segments.
+     * 
+     * @param pathSegments
+     *            the sequence of path segments the NodePath consists of, must not be null or empty
+     */
+    public NodePath(String... pathSegments) {
+        if (pathSegments == null || pathSegments.length == 0) {
+            LOG.log(Level.SEVERE, "At least one path segment must be defined.");
+            throw new IllegalArgumentException("At least one path segment must be defined.");
+        }
+        StringBuffer rawPath = new StringBuffer();
+        for (String pathSegment : pathSegments) {
+            checkValidPathSegment(pathSegment);
+            String encodedPathSegment = encode(pathSegment);
+            rawPath.append(SEPARATOR).append(encodedPathSegment);
+        }
+        path = rawPath.toString();
+    }
 
-	/**
-	 * Create a <code>NodePath</code>, which is a child of this one.
-	 * 
-	 * @param childNodeName name of the child node, must not be <code>null</code>
-	 */
-	public NodePath child(String childNodeName) {
-		return new NodePath(this, childNodeName);
-	}
+    protected NodePath(NodePath parentPath, String childPathSegment) {
+        checkValidPathSegment(childPathSegment);
+        path = parentPath.path + SEPARATOR + encode(childPathSegment);
+    }
 
-	/**
-	 * Create a <code>NodePath</code>, which is a child of this one.
-	 * 
-	 * @param childNodeName name of the child node, must not be <code>null</code>
-	 */
-	protected NodePath child(String childNodeName, boolean encoded) {
-		return new NodePath(this, childNodeName, encoded);
-	}
+    protected NodePath(NodePath parentPath, String childPathSegment, boolean encoded) {
+        checkValidPathSegment(childPathSegment);
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null || ! (obj instanceof NodePath)) {
-			return false;
-		}
-		return path.equals(((NodePath)obj).path);
-	}
+        String encodedChildPathSegment = encoded ? childPathSegment : encode(childPathSegment);
+        path = parentPath.path + SEPARATOR + encodedChildPathSegment;
+    }
 
-	String getNodeName() {
-		int index = path.lastIndexOf(SEPARATOR);
-		return decode(path.substring(index + 1));
-	}
+    /**
+     * Create a <code>NodePath</code>, which is a child of this one.
+     * 
+     * @param childNodeName
+     *            name of the child node, must not be <code>null</code>
+     */
+    public NodePath child(String childNodeName) {
+        return new NodePath(this, childNodeName);
+    }
 
+    /**
+     * Create a <code>NodePath</code>, which is a child of this one.
+     * 
+     * @param childNodeName
+     *            name of the child node, must not be <code>null</code>
+     */
+    protected NodePath child(String childNodeName, boolean encoded) {
+        return new NodePath(this, childNodeName, encoded);
+    }
 
-	@Override
-	public int hashCode() {
-		return path.hashCode();
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof NodePath)) {
+            return false;
+        }
+        return path.equals(((NodePath) obj).path);
+    }
 
-	/**
-	 * Encoded <code>String</code> representation of this <code>NodePath</code>.
-	 *
-	 * @return the <code>String</code> representation
-	 */
-	@Override
-	public String toString() {
-		return path;
-	}
+    String getNodeName() {
+        int index = path.lastIndexOf(SEPARATOR);
+        return decode(path.substring(index + 1));
+    }
 
-	private void checkValidPathSegment(String pathSegment) {
-		if (pathSegment == null || pathSegment.isEmpty()) {
-			throw new IllegalArgumentException("Path segments must not be null and not empty.");
-		}
-	}
+    @Override
+    public int hashCode() {
+        return path.hashCode();
+    }
 
-	/**
-	 * Encode the given <code>String</code>. All occurrences of "/" are mapped to "%2A" and
-	 * all occurrences of "%" to "%2F".
-	 * 
-	 * @param raw the <code>String</code> to encode, must not be <code>null</code>
-	 * @return the encoded version
-	 * 
-	 * @see #decode(String)
-	 */
-	public static String encode(String raw) {
-		String encoded = raw.replace("%", "%2A");
-		encoded = encoded.replace("/", "%2F");
-		return encoded;
-	}
+    /**
+     * Encoded <code>String</code> representation of this <code>NodePath</code>.
+     * 
+     * @return the <code>String</code> representation
+     */
+    @Override
+    public String toString() {
+        return path;
+    }
 
-	/**
-	 * Decode the given <code>String</code>. It is the inverse operation of {@link #encode(String)}.
-	 * For all <code>String</code>s <code>s</code>, <code>decode(encode(s)).equals(s)</code> should
-	 * be <code>true</code>.
-	 * 
-	 * @param encoded the <code>String</code> to decode, must not be <code>null</code>
-	 * @return the raw version
-	 * 
-	 * @see #encode(String)
-	 */
-	public static String decode(String encoded) {
-		String raw = encoded.replace("%2F", "/");
-		raw = raw.replace("%2A", "%");
-		return raw;
-	}
+    private void checkValidPathSegment(String pathSegment) {
+        if (pathSegment == null || pathSegment.isEmpty()) {
+            throw new IllegalArgumentException("Path segments must not be null and not empty.");
+        }
+    }
+
+    /**
+     * Encode the given <code>String</code>. All occurrences of "/" are mapped to "%2A" and all occurrences of
+     * "%" to "%2F".
+     * 
+     * @param raw
+     *            the <code>String</code> to encode, must not be <code>null</code>
+     * @return the encoded version
+     * 
+     * @see #decode(String)
+     */
+    public static String encode(String raw) {
+        String encoded = raw.replace("%", "%2A");
+        encoded = encoded.replace("/", "%2F");
+        return encoded;
+    }
+
+    /**
+     * Decode the given <code>String</code>. It is the inverse operation of {@link #encode(String)}. For all
+     * <code>String</code>s <code>s</code>, <code>decode(encode(s)).equals(s)</code> should be
+     * <code>true</code>.
+     * 
+     * @param encoded
+     *            the <code>String</code> to decode, must not be <code>null</code>
+     * @return the raw version
+     * 
+     * @see #encode(String)
+     */
+    public static String decode(String encoded) {
+        String raw = encoded.replace("%2F", "/");
+        raw = raw.replace("%2A", "%");
+        return raw;
+    }
 }

@@ -173,10 +173,14 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         Document contentAsXML = capturedContentAsXML();
 
         assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()", WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()", WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()",
+                WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()",
+                WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()",
+                WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()",
+                WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
         assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
         verifyAll();
     }
@@ -199,11 +203,16 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         Document contentAsXML = capturedContentAsXML();
 
         assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()", WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()", WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()", WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
-        assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()",
+                WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()",
+                WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()",
+                WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()",
+                WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
+        assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference",
+                WSA_SL_NS_CONTEXT));
 
         verifyAll();
     }
@@ -273,7 +282,10 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     private void createEndpointAndSetData(String path) throws KeeperException, InterruptedException {
-        expect(zkMock.create(eq(path), capture(contentCapture), eq(Ids.OPEN_ACL_UNSAFE), eq(PERSISTENT))).andReturn(path);
+        expect(zkMock.create(eq(path),
+                capture(contentCapture),
+                eq(Ids.OPEN_ACL_UNSAFE),
+                eq(PERSISTENT))).andReturn(path);
     }
 
     private void createEndpointStatus(String endpointPath)
@@ -283,7 +295,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     private void deleteEndpointStatus(String endpointPath)
-            throws KeeperException, InterruptedException {
+        throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
         delete(endpointStatusPath);
     }   
@@ -291,7 +303,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     private void createEndpointStatusFails(String endpointPath)
         throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
-        createNode(endpointStatusPath, EPHEMERAL,new KeeperException.NodeExistsException());
+        createNode(endpointStatusPath, EPHEMERAL, new KeeperException.NodeExistsException());
     }
 
     private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
@@ -299,7 +311,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
     private EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
             BindingType bindingType, TransportType transportType, long lastTimeStarted, long lastTimeStopped)
-            throws Exception {
+        throws Exception {
         EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
         expect(eprProvider.getServiceName()).andStubReturn(serviceName);
         expect(eprProvider.getAddress()).andStubReturn(endpoint);
@@ -307,7 +319,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         expect(eprProvider.getTransport()).andStubReturn(transportType);
         expect(eprProvider.getLastTimeStarted()).andStubReturn(lastTimeStarted);
         expect(eprProvider.getLastTimeStopped()).andStubReturn(lastTimeStopped);
-        eprProvider.addEndpointReference( anyDOM());
+        eprProvider.addEndpointReference(anyDOM());
         expectLastCall().asStub();
 
         return eprProvider;
@@ -324,7 +336,8 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
             if (argument != null && argument instanceof Node) {
                 Node parent = (Node) argument;
                 Document doc = (parent instanceof Document) ? (Document) parent : parent.getOwnerDocument();
-                Element epr = doc.createElementNS("http://www.w3.org/2005/08/addressing", "EndpointReference");
+                Element epr =
+                    doc.createElementNS("http://www.w3.org/2005/08/addressing", "EndpointReference");
                 parent.appendChild(epr);
                 return true;
             }

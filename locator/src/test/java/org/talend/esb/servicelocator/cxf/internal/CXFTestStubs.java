@@ -122,7 +122,7 @@ public class CXFTestStubs {
         return binding;
     }
     
-    public static EndpointReferenceType createEPR (String address) {
+    public static EndpointReferenceType createEPR(String address) {
         EndpointReferenceType epr =
             WSAEndpointReferenceUtils.getEndpointReference(address);
         

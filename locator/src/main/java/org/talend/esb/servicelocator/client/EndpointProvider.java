@@ -31,12 +31,12 @@ import org.w3c.dom.Node;
  */
 public interface EndpointProvider {
 
-	/**
-	 * Return the name of the service the endpoint belongs to
-	 *
-	 * @return name of the service, must not be <code>null</code>.
-	 */
-	QName getServiceName();
+    /**
+     * Return the name of the service the endpoint belongs to
+     *
+     * @return name of the service, must not be <code>null</code>.
+     */
+    QName getServiceName();
 
     /**
      * Return the address of the endpoint.

@@ -140,7 +140,7 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
     public void registerServer(Server server, SLProperties props) {
         check(locatorClient, "serviceLocator", "registerEndpoint");
         String absAddress = getAddress(server);
-        if(!absAddress.startsWith("http://")) { // relative address
+        if (!absAddress.startsWith("http://")) { // relative address
             absAddress = endpointPrefix + absAddress;
         }
 
@@ -172,11 +172,13 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
             locatorClient.register(endpointProvider);        
         } catch (ServiceLocatorException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering for endpoint "+ endpointProvider, e);
+                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering for endpoint "
+                        + endpointProvider, e);
             }
         } catch (InterruptedException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering  for endpoint "+ endpointProvider, e);
+                LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering  for endpoint "
+                        + endpointProvider, e);
             }
         }
     }
@@ -199,8 +201,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
     }
 
     /**
-	 * 
-	 */
+     * 
+     */
     private void registerAvailableServers() {
         ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
         List<Server> servers = serverRegistry.getServers();

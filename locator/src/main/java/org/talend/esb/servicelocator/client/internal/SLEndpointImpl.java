@@ -24,13 +24,13 @@ import javax.xml.namespace.QName;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
-public class SLEndpointImpl extends ContentHolder implements SLEndpoint{
+public class SLEndpointImpl extends ContentHolder implements SLEndpoint {
 
     private QName sName;
     
     private boolean isLive;
     
-    public SLEndpointImpl(QName serviceName, byte[] content, boolean live) throws ServiceLocatorException{
+    public SLEndpointImpl(QName serviceName, byte[] content, boolean live) throws ServiceLocatorException {
         super(content);
         sName = serviceName;
         isLive = live;
