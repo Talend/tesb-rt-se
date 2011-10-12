@@ -57,6 +57,7 @@ public class EventProducerTest {
         }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
+        checkMessageIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerOut(eventsList.get(2));
@@ -78,45 +79,65 @@ public class EventProducerTest {
         }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
+        checkMessageIdPresentAndSame(eventsList);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerFaultOut(eventsList.get(2));
         checkClientFaultIn(eventsList.get(3));
     }
     
-	private void checkFlowIdPresentAndSame(List<Event> eventsList) {
-		String flowId = eventsList.get(0).getMessageInfo().getFlowId();
-        for (Event event : eventsList) {
+	private void checkFlowIdPresentAndSame(List<Event> eventList) {
+		String flowId = eventList.get(0).getMessageInfo().getFlowId();
+        for (Event event : eventList) {
         	String newFlowId = event.getMessageInfo().getFlowId();
         	Assert.assertNotNull(newFlowId);
         	Assert.assertEquals("All flowIds should be the same", flowId, newFlowId);
 		}
 	}
 
-    private void checkClientIn(Event clientIn) {
-        Assert.assertEquals(EventTypeEnum.RESP_IN, clientIn.getEventType());
+	/**
+	 * check if the MessageId is present and same
+	 * @param eventList
+	 */
+	private void checkMessageIdPresentAndSame(List<Event> eventList) {
+        for (Event event : eventList) {
+            String messageId = event.getMessageInfo().getMessageId();
+            Assert.assertNotNull(messageId);
+        }
+
+        String messageId0 = eventList.get(0).getMessageInfo().getMessageId();
+        String messageId1 = eventList.get(1).getMessageInfo().getMessageId();
+        Assert.assertEquals("MessageId from REQ_OUT/REQ_IN should be the same", messageId0, messageId1);
+
+        String messageId2 = eventList.get(2).getMessageInfo().getMessageId();
+        String messageId3 = eventList.get(3).getMessageInfo().getMessageId();
+        Assert.assertEquals("MessageId from RESP_OUT/RESP_IN(FAULT_OUT/FAULT_IN)  should be the same", messageId2, messageId3);
+	}
+
+    private void checkClientIn(Event event) {
+        Assert.assertEquals(EventTypeEnum.RESP_IN, event.getEventType());
     }
 
-    private void checkServerOut(Event serverOut) {
-        Assert.assertEquals(EventTypeEnum.RESP_OUT, serverOut.getEventType());
+    private void checkServerOut(Event event) {
+        Assert.assertEquals(EventTypeEnum.RESP_OUT, event.getEventType());
     }
 
-    private void checkServerIn(Event serverIn) {
-        Assert.assertEquals(EventTypeEnum.REQ_IN, serverIn.getEventType());
+    private void checkServerIn(Event event) {
+        Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
     }
 
-    private void checkClientOut(Event clientOut) {
-        Assert.assertEquals(EventTypeEnum.REQ_OUT, clientOut.getEventType());
-        Assert.assertNotNull(clientOut.getMessageInfo().getFlowId());
+    private void checkClientOut(Event event) {
+        Assert.assertEquals(EventTypeEnum.REQ_OUT, event.getEventType());
+        Assert.assertNotNull(event.getMessageInfo().getFlowId());
     }
     
-    private void checkServerFaultOut(Event serverOut) {
-        Assert.assertEquals(EventTypeEnum.FAULT_OUT, serverOut.getEventType());
-        Assert.assertTrue("Content should not be empty", (serverOut.getContent() != null) && (serverOut.getContent().length() >0));
+    private void checkServerFaultOut(Event event) {
+        Assert.assertEquals(EventTypeEnum.FAULT_OUT, event.getEventType());
+        Assert.assertTrue("Content should not be empty", (event.getContent() != null) && (event.getContent().length() >0));
     }
     
-    private void checkClientFaultIn(Event clientIn) {
-        Assert.assertEquals(EventTypeEnum.FAULT_IN, clientIn.getEventType());
-        Assert.assertTrue("Content should not be empty", (clientIn.getContent() != null) && (clientIn.getContent().length() >0));
+    private void checkClientFaultIn(Event event) {
+        Assert.assertEquals(EventTypeEnum.FAULT_IN, event.getEventType());
+        Assert.assertTrue("Content should not be empty", (event.getContent() != null) && (event.getContent().length() >0));
     }
 }
