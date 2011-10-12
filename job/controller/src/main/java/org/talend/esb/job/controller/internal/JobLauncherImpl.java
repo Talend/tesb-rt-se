@@ -39,6 +39,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
 import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.ESBEndpointConstants;
+import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.JobLauncher;
@@ -227,7 +228,12 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? new LocatorFeature() : null,
-                useServiceActivityMonitor ? createEventFeature() : null, bus);
+                useServiceActivityMonitor ? createEventFeature() : null,
+                EsbSecurity.fromString((String) props
+                        .get(ESBEndpointConstants.ESB_SECURITY)),
+                (String) props.get(ESBEndpointConstants.USERNAME),
+                (String) props.get(ESBEndpointConstants.PASSWORD),
+                bus);
 
         tlsConsumer.set(runtimeESBConsumer);
         esbConsumer = runtimeESBConsumer;
