@@ -20,7 +20,10 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -41,6 +44,8 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.ws.security.SecurityConstants;
+import org.apache.cxf.ws.security.trust.STSClient;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
@@ -61,7 +66,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final AbstractFeature serviceLocator;
     private final EventFeature eventFeature;
     private final Bus bus;
+
     private Client client;
+    private boolean isAuthenticationRequired = false;
 
     public RuntimeESBConsumer(
             final QName serviceName,
@@ -166,8 +173,19 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (eventFeature != null) {
             features.add(eventFeature);
         }
-        
         cf.setFeatures(features);
+
+        if (isAuthenticationRequired) {
+            STSClient stsClient = new STSClient(bus);
+
+            Map<String, Object> stsProperties = new HashMap<String, Object>();
+            stsProperties.put(SecurityConstants.USERNAME, "");
+            stsProperties.put(SecurityConstants.CALLBACK_HANDLER, "");
+            stsClient.setProperties(stsProperties);
+
+            cf.setProperties(
+                Collections.singletonMap(SecurityConstants.STS_CLIENT, (Object)stsClient));
+        }
 
         client = cf.create();
 
