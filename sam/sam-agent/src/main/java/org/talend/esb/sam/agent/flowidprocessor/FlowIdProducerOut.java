@@ -52,6 +52,7 @@ public class FlowIdProducerOut<T extends Message> extends
 			handleResponseOut(message);
 		}
 		
+		//write FlowId to HTTP and Soap layer
 		String flowId = FlowIdHelper.getFlowId(message);
 		FlowIdProtocolHeaderCodec.writeFlowId(message, flowId);
 		FlowIdSoapCodec.writeFlowId(message, flowId);
@@ -59,11 +60,9 @@ public class FlowIdProducerOut<T extends Message> extends
 	}
 
 	protected void handleResponseOut(T message) throws Fault {
-		logger.fine("handleResponseOut");
-
 		Message reqMsg = message.getExchange().getInMessage();
 		if (reqMsg == null) {
-			logger.warning("getInMessage is null");
+			logger.warning("InMessage is null!");
 			return;
 		}
 
@@ -90,7 +89,7 @@ public class FlowIdProducerOut<T extends Message> extends
 		if (flowId == null) {
 			// No flowId found. Generate one.
 			flowId = ContextUtils.generateUUID();
-			logger.fine("Created new FlowId '" + flowId + "'");
+			logger.fine("Generate new flowId '" + flowId + "'");
 		}
 
 		FlowIdHelper.setFlowId(message, flowId);
