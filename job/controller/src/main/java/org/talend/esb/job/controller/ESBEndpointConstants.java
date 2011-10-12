@@ -28,6 +28,9 @@ public interface ESBEndpointConstants {
     String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
     String USE_SERVICE_LOCATOR = "useServiceLocator";
     String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
+    String ESB_SECURITY = "esbSecurity";
+    String USERNAME = "username";
+    String PASSWORD = "password";
 
     enum OperationStyle {
         REQUEST_RESPONSE("request-response"),
@@ -54,4 +57,25 @@ public interface ESBEndpointConstants {
         }
     }
 
+    enum EsbSecurity {
+        NO("NO"),
+        TOKEN("TOKEN"),
+        SAML("SAML");
+
+        String esbSecurity;
+
+        EsbSecurity(String esbSecurity) {
+            this.esbSecurity = esbSecurity;
+        }
+
+        public static EsbSecurity fromString(String value) {
+            for (EsbSecurity esbSecurity : EsbSecurity.values()) {
+                if (esbSecurity.esbSecurity.equals(value)) {
+                    return esbSecurity;
+                }
+            }
+            throw new IllegalArgumentException(
+                    "Unsupported secutity value: " + value);
+        }
+    }
 }
