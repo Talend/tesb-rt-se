@@ -199,10 +199,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         if (EsbSecurity.NO != esbSecurity) {
             STSClient stsClient = new STSClient(bus);
-
+            
             if (EsbSecurity.TOKEN == esbSecurity) {
                 Map<String, Object> stsProperties = new HashMap<String, Object>();
                 stsProperties.put(SecurityConstants.USERNAME, username);
+                stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, username);
+                stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, true);
+                stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT, false);
+                stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES, "clientKeystore.properties");
+                stsProperties.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+                stsProperties.put(SecurityConstants.ENCRYPT_PROPERTIES, "clientKeystore.properties");
+                
                 stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
                     new CallbackHandler() {
                         @Override
@@ -224,9 +231,31 @@ public class RuntimeESBConsumer implements ESBConsumer {
             } else if (EsbSecurity.SAML == esbSecurity) {
                 throw new RuntimeException("SAML security not yest supported");
             }
+            Map<String, Object> cfProperties = new HashMap<String, Object>();
+            cfProperties.put(SecurityConstants.STS_CLIENT, (Object)stsClient);
+            
+            cfProperties.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+            cfProperties.put(SecurityConstants.ENCRYPT_PROPERTIES, "clientKeystore.properties");
+            cfProperties.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+            cfProperties.put(SecurityConstants.SIGNATURE_PROPERTIES, "clientKeystore.properties");
 
-            cf.setProperties(
-                Collections.singletonMap(SecurityConstants.STS_CLIENT, (Object)stsClient));
+            cfProperties.put(SecurityConstants.CALLBACK_HANDLER,
+                    new CallbackHandler() {
+                        @Override
+                        public void handle(Callback[] callbacks) throws IOException,
+                            UnsupportedCallbackException {
+                            for (int i = 0; i < callbacks.length; i++) {
+                                if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+                                    WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                                    if (username.equals(pc.getIdentifier())) {
+                                       pc.setPassword(password);
+                                       break;
+                                   }
+                                }
+                            }
+                        }
+                   });
+            cf.setProperties(cfProperties);
         }
 
         client = cf.create();
