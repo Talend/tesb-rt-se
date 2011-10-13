@@ -32,23 +32,23 @@ To enable and deploy the Proxy Services into Talend runtime, do the following st
 1.  Generate and deploy SOAP and RESTful interface (using the relevant WSDL and WADL file) and deploy into the Talend runtime:
       
        cd locator-proxy-common
-       run "mvn clean install"
+       mvn clean install
 
     Install the generated bundle "locator-proxy-service-common-5.0-SNAPSHOT.jar" into the Talend runtime.
 
-2.  Install SOAP Proxy service interface implementation and deploy into Talend runtime. 
+2.  Install SOAP Proxy service interface implementation and deploy into the Talend runtime: 
 
          cd locator-soap-proxy-service
-         run "mvn clean install"
+         mvn clean install
     
-    Install the generated bundle "locator-proxy-service-5.0-SNAPSHOT.jar" into Talend runtime.
+    Install the generated bundle "locator-proxy-service-5.0-SNAPSHOT.jar" into the Talend runtime.
 
-3.  Install RESTful Proxy service interface implementation and deploy into Talend runtime. 
+3.  Install RESTful Proxy service interface implementation and deploy into Talend runtime: 
 
          cd locator-rest-proxy-service
-         run "mvn clean install"
+         mvn clean install
     
-    Install the generated bundle "locator-rest-proxy-service-5.0-SNAPSHOT.jar" into Talend runtime.
+    Install the generated bundle "locator-rest-proxy-service-5.0-SNAPSHOT.jar" into the Talend runtime.
 
 
 Both the SOAP based and RESTful based Service Locator Proxy service require
