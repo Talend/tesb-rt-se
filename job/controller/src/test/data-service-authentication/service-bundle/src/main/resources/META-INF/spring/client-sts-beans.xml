@@ -40,7 +40,7 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                    <property name="properties">
                        <map>
                            <entry key="ws-security.username" value="alice"/>
-                           <entry key="ws-security.callback-handler" value="common.CommonCallbackHandler"/>
+                           <entry key="ws-security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
                            <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
