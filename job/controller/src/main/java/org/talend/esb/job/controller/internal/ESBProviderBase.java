@@ -32,7 +32,7 @@ public abstract class ESBProviderBase implements
 	@javax.annotation.Resource
 	private javax.xml.ws.WebServiceContext context;
 
-	private boolean isAuthenticationRequired = true;
+	private String isAuthenticationRequired = "TOKEN";
 
 	public void setEventFeature(EventFeature eventFeature) {
 		this.eventFeature = eventFeature;
@@ -41,8 +41,21 @@ public abstract class ESBProviderBase implements
 	// @javax.jws.WebMethod(exclude=true)
 	public final Source invoke(Source request) {
 
-		if (isAuthenticationRequired) {
-			login();
+		if (isAuthenticationRequired.equals("TOKEN")) {
+			LOG.info("UsernameToken authentication required");
+			try {
+				login();
+			} catch (LoginException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (isAuthenticationRequired.equals("SAML")) {
+			LOG.info("SAML authentication required");
+		} else {
+			LOG.info("No authentication required");
 		}
 
 		QName operationQName = (QName) context.getMessageContext().get(
@@ -89,8 +102,9 @@ public abstract class ESBProviderBase implements
 		}
 	}
 
-	private void login() {
+	private void login() throws LoginException, SecurityException {
 
+		LOG.info("Authentication to data service started");
 		MessageContext messageContext = context.getMessageContext();
 		String username = (String) messageContext
 				.get(BindingProvider.USERNAME_PROPERTY);
@@ -100,27 +114,28 @@ public abstract class ESBProviderBase implements
 		LoginContext loginContext = null;
 
 		try {
+			LOG.info("Creating LoginContext");
 			loginContext = new LoginContext("KarafRealm",
 					new ESBCallbackHandler(username, password));
 		} catch (LoginException le) {
-			System.err
-					.println("Cannot create LoginContext. " + le.getMessage());
-			le.printStackTrace();
+			LOG.info("Cannot create LoginContext. " + le.getMessage());
+			LOG.info(le.getStackTrace().toString());
+			throw le;
 		} catch (SecurityException se) {
-			System.err
-					.println("Cannot create LoginContext. " + se.getMessage());
-			se.printStackTrace();
+			LOG.info("Cannot create LoginContext. " + se.getMessage());
+			LOG.info(se.getStackTrace().toString());
+			throw se;
 		}
 
-		try {
+		try {		
 			loginContext.login();
 		} catch (LoginException le) {
-			System.err.println("Authentication failed: ");
-			System.err.println("  " + le.getMessage());
-			le.printStackTrace();
+			LOG.info("Authentication failed for user: " + username);
+			LOG.info(le.getStackTrace().toString());
+			throw le;
 		}
 
-		System.out.println("Authentication succeeded!");
+		LOG.info("Authentication succeeded for user: " + username);
 
 	}
 
