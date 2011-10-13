@@ -28,15 +28,15 @@ import org.talend.esb.servicelocator.client.internal.endpoint.EntryType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 
-public class SLPropertiesConverter {
+public final class SLPropertiesConverter {
     
-    private SLPropertiesConverter() {}
+    private SLPropertiesConverter() { }
 
     public static ServiceLocatorPropertiesType toServiceLocatorPropertiesType(SLProperties props) {
         ObjectFactory of = new ObjectFactory();
         ServiceLocatorPropertiesType slPropertiesType = of.createServiceLocatorPropertiesType();
         List<EntryType> entries = slPropertiesType.getEntry();
-        for(String name : props.getPropertyNames()) {
+        for (String name : props.getPropertyNames()) {
             entries.add(createEntry(props, name));
         }
         return slPropertiesType;
@@ -45,7 +45,7 @@ public class SLPropertiesConverter {
     public static SLProperties toSLProperties(ServiceLocatorPropertiesType props) {
         SLPropertiesImpl slProperties = new SLPropertiesImpl();
         
-        for(EntryType entry : props.getEntry()) {
+        for (EntryType entry : props.getEntry()) {
             String key = entry.getKey();
             List<String> values = entry.getValue();
             slProperties.addProperty(key, values);
@@ -59,7 +59,7 @@ public class SLPropertiesConverter {
         entry.setKey(name);
         List<String> jaxbValues = entry.getValue();
         Collection<String> values = props.getValues(name);
-        for(String value : values) {
+        for (String value : values) {
             jaxbValues.add(value);                
         }
         return entry;

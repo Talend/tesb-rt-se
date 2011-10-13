@@ -22,7 +22,7 @@ package org.talend.esb.job.controller;
 /**
  * Interface describing Talend job launcher behaviors.
  */
-public interface JobLauncher {
+public interface JobLauncher extends Controller {
 
     /**
      * Retrieve the operation that is backed by the job with the given name. The operation object

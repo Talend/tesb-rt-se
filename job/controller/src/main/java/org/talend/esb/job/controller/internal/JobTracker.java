@@ -21,7 +21,11 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.logging.Logger;
 
+import javax.xml.ws.Endpoint;
+
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -35,14 +39,18 @@ import routines.system.api.TalendJob;
  */
 public class JobTracker {
 
-    private static final Logger LOG =
+    public static final Logger LOG =
         Logger.getLogger(JobTracker.class.getName());
+
+    public static final String FILTER =
+        "(| (objectClass=" + TalendJob.class.getName() + ") (objectClass=" + Endpoint.class.getName() + "))";
 
     private BundleContext context;
     
     private JobListener listener;
     
     private ServiceTracker tracker;
+    
 
     public void setJobListener(JobListener listener) {
         this.listener = listener;
@@ -54,7 +62,14 @@ public class JobTracker {
 
     public void bind() {
         LOG.fine("bind calling, creating and opening ServiceTracker...");
-        tracker = new ServiceTracker(context, TalendJob.class.getName(), new Customizer());
+        Filter filter = null;
+        try {
+            filter = context.createFilter(FILTER);
+        } catch (InvalidSyntaxException e) {
+            LOG.throwing(this.getClass().getName(), "bind", e);
+            
+        }
+        tracker = new ServiceTracker(context, filter, new Customizer());
         tracker.open();        
     }
 
@@ -67,8 +82,9 @@ public class JobTracker {
 
     private String getValue(String name, ServiceReference sRef) {
         Object val = sRef.getProperty(name);
-        if (name == null || ! (name instanceof String)) {
-            throw new IllegalArgumentException(name + " property of TalendJob either not defined or not of type String");
+        if (name == null || !(name instanceof String)) {
+            throw new IllegalArgumentException(
+                    name + " property of TalendJob either not defined or not of type String");
         }
         return (String) val;
     }
@@ -78,19 +94,21 @@ public class JobTracker {
         @Override
         public Object addingService(ServiceReference reference) {
             LOG.info("Service with reference " + reference + " added    ");
-            Object job = context.getService(reference);
-            if (job != null) {
+            Object service = context.getService(reference);
+            if (service != null) {
                 String name = getValue("name", reference);
-                if (job instanceof TalendESBJob) {
-                    listener.esbJobAdded((TalendESBJob) job, name);
-                } else if (job instanceof TalendESBRoute) {
-                    listener.routeAdded((TalendESBRoute) job, name);
-                } else if (job instanceof TalendJob) {
-                    listener.jobAdded((TalendJob)job, name);
+                if (service instanceof Endpoint) {
+                    listener.serviceAdded((Endpoint) service, name);
+                } else if (service instanceof TalendESBJob) {
+                    listener.esbJobAdded((TalendESBJob) service, name);
+                } else if (service instanceof TalendESBRoute) {
+                    listener.routeAdded((TalendESBRoute) service, name);
+                } else if (service instanceof TalendJob) {
+                    listener.jobAdded((TalendJob)service, name);
                 }
 
             }
-            return job;
+            return service;
         }
 
         @Override
@@ -99,15 +117,17 @@ public class JobTracker {
         }
 
         @Override
-        public void removedService(ServiceReference reference, Object job) {
-            LOG.info("Service " + job + " removed");
+        public void removedService(ServiceReference reference, Object service) {
+            LOG.info("Service " + service + " removed");
             String name = getValue("name", reference);
-            if (job instanceof TalendESBJob) {
-                listener.esbJobRemoved((TalendESBJob) job, name);
-            } if (job instanceof TalendESBRoute) {
-                listener.routeRemoved((TalendESBRoute) job, name);
-            } else if (job instanceof TalendJob) {
-                listener.jobRemoved((TalendJob)job, name);
+            if (service instanceof Endpoint) {
+                listener.serviceRemoved((Endpoint) service, name);
+            } else if (service instanceof TalendESBJob) {
+                listener.esbJobRemoved((TalendESBJob) service, name);
+            } else if (service instanceof TalendESBRoute) {
+                listener.routeRemoved((TalendESBRoute) service, name);
+            } else if (service instanceof TalendJob) {
+                listener.jobRemoved((TalendJob)service, name);
             }
             context.ungetService(reference);
             

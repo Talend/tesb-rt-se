@@ -76,9 +76,9 @@ public class TestValues {
 
     public static final byte[] EMPTY_CONTENT = new byte[0];
     
-    public static long LAST_TIME_STARTED = 1302458583L;
+    public static final long LAST_TIME_STARTED = 1302458583L;
 
-    public static long LAST_TIME_STOPPED = 1302468588L;
+    public static final long LAST_TIME_STOPPED = 1302468588L;
 
     public static final SLPropertiesImpl PROPERTIES = new SLPropertiesImpl();
 

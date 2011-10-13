@@ -48,8 +48,13 @@
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
 
-    <osgi:service interface="org.talend.esb.job.controller.JobLauncher" ref="jobLauncher"/>
-
+<!--    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/> -->
+    <osgi:service ref="jobLauncher">
+        <osgi:interfaces>
+            <value>org.talend.esb.job.controller.Controller</value>
+            <value>org.talend.esb.job.controller.JobLauncher</value>
+        </osgi:interfaces>
+    </osgi:service>
     <bean id="jobTracker" class="org.talend.esb.job.controller.internal.JobTracker" init-method="bind" destroy-method="unbind">
         <property name="jobListener" ref="jobLauncher" />
         <property name="bundleContext" ref="bundleContext"/>

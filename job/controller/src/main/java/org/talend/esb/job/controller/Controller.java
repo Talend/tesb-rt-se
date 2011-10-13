@@ -19,31 +19,20 @@
  */
 package org.talend.esb.job.controller;
 
-import org.osgi.framework.Bundle;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Interface describing Talend job controller behaviors.
  */
 public interface Controller {
-
-    /**
-     * List of Talend jobs and routes available in the running container.
-     *
-     * @return the list of Talend jobs and routes.
-     * @throws Exception in case of lookup failure.
-     */
-    public Map<String, List<String>> list() throws Exception;
-
     /**
      * List of Talend jobs available in the running container.
      *
      * @return the list of Talend jobs.
      * @throws Exception in case of lookup failure.
      */
-    public List<String> listJobs() throws Exception;
+    List<String> listJobs() throws Exception;
 
     /**
      * List of Talend routes available in the running container.
@@ -51,7 +40,7 @@ public interface Controller {
      * @return the list of Talend routes
      * @throws Exception in case of lookup failure
      */
-    public List<String> listRoutes() throws Exception;
+    List<String> listRoutes() throws Exception;
 
     /**
      * List of Talend Data Services available in the running container.
@@ -59,54 +48,15 @@ public interface Controller {
      * @return the list of Talend services
      * @throws Exception in case of lookup failure
      */
-    public List<String> listServices() throws Exception;
-
+    List<String> listServices() throws Exception;
+    
     /**
-     * Get the bundle corresponding to the job/route name.
-     */
-    public Bundle getBundle(String name) throws Exception;
-
-    /**
-     * Run a Talend job with the given name.
+     * Retrieve the operation that is backed by the job with the given name. The operation object
+     * must not be cached but retrieved every time the operation is invoked. Otherwise a clean
+     * shutdown of the bundle where the job isincluded is not possible.
      *
-     * @param name the Talend job name.
-     * @throws Exception in case of run exception.
+     * @param jobName the Talend job name.
+     * @param args additional parameters to be passed to the job
      */
-//    public void run(String name) throws Exception;
-
-    /**
-     * Run a Talend job with the given name and the given arguments.
-     *
-     * @param name the Talend job name.
-     * @param args the Talend job run arguments.
-     * @throws Exception in case of run exception.
-     */
-//    public void run(String name, String[] args) throws Exception;
-
-    /**
-     * Run a Talend Data Service with the given name.
-     *
-     * @param name the Talend service name.
-     * @throws Exception in case of run exception.
-     */
-/*
-    public void runService(String name) throws Exception;
-*/
-    /**
-     * Stop a Talend job with the given name.
-     *
-     * @param name the Talend job name.
-     * @throws Exception in case of run exception.
-     */
-//    public void stop(String name) throws Exception;
-
-    /**
-     * Stop a Talend Data Service with the given name.
-     *
-     * @param name the Talend service name.
-     * @throws Exception in case of run exception.
-     */
-/*
-    public void stopService(String name) throws Exception;
-*/
+    GenericOperation retrieveOperation(String jobName, String[] args);
 }

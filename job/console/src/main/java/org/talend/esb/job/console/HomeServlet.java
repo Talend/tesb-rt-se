@@ -57,6 +57,7 @@ public class HomeServlet extends HttpServlet {
         String job = request.getParameter("job");
         String action = request.getParameter("action");
         String args = request.getParameter("args");
+        String embedded = request.getParameter("embedded");
 
 /*
         if (job != null && action != null && action.equals("run")) {
@@ -85,7 +86,9 @@ public class HomeServlet extends HttpServlet {
 */
         try {
             PrintWriter writer = response.getWriter();
-            writer.println(Template.header());
+
+            if (embedded == null)
+                writer.println(Template.header());
 
             writer.println("<div id=\"toolsbar_bc\">");
             writer.println("<div id=\"dc_refresh\" class=\"bc_btn\"><div class=\"bb\"><div><a href=\"home.do\"><img src=\"img/icons/database_refresh.gif\" alt=\"Refresh\" /><span>Refresh</span></a></div></div></div>");
@@ -172,7 +175,9 @@ public class HomeServlet extends HttpServlet {
                 writer.println("</script>");
             }
 
-            writer.println(Template.footer());
+            if (embedded == null)
+                writer.println(Template.footer());
+
             writer.flush();
             writer.close();
         } catch (Exception e) {

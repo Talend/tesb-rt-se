@@ -31,43 +31,43 @@ import org.apache.cxf.message.Exchange;
 
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
 
-	private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
+    private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<String> getAlternateAddresses(Exchange exchange) {
-		QName serviceName = getServiceName(exchange);
-		List<String> alternateAddresses= getEndpoints(serviceName);
-		synchronized (this) {
-			primaryAddresses.remove(serviceName);
-		}
-		return alternateAddresses;
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getAlternateAddresses(Exchange exchange) {
+        QName serviceName = getServiceName(exchange);
+        List<String> alternateAddresses = getEndpoints(serviceName);
+        synchronized (this) {
+            primaryAddresses.remove(serviceName);
+        }
+        return alternateAddresses;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	synchronized public String getPrimaryAddress(Exchange exchange) {
-		QName serviceName = getServiceName(exchange);
-		String primaryAddress = primaryAddresses.get(serviceName);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized String getPrimaryAddress(Exchange exchange) {
+        QName serviceName = getServiceName(exchange);
+        String primaryAddress = primaryAddresses.get(serviceName);
 
-		if (primaryAddress == null) {
-			List<String> availableAddresses = getEndpoints(serviceName);
-			if (! availableAddresses.isEmpty()) {
-				int index = random.nextInt(availableAddresses.size());
-				primaryAddress = availableAddresses.get(index);
-				primaryAddresses.put(serviceName, primaryAddress);
-			}
-		}
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, "Get address for service " + serviceName + 
-					" using strategy " + this.getClass().getName() + " selecting from "
-					+ primaryAddresses.entrySet() + " selected = " + primaryAddress);
-		}
-		return primaryAddress;
-	}
+        if (primaryAddress == null) {
+            List<String> availableAddresses = getEndpoints(serviceName);
+            if (!availableAddresses.isEmpty()) {
+                int index = random.nextInt(availableAddresses.size());
+                primaryAddress = availableAddresses.get(index);
+                primaryAddresses.put(serviceName, primaryAddress);
+            }
+        }
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Get address for service " + serviceName + " using strategy "
+                    + this.getClass().getName() + " selecting from " + primaryAddresses.entrySet()
+                    + " selected = " + primaryAddress);
+        }
+        return primaryAddress;
+    }
 
 }

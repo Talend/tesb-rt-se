@@ -19,6 +19,9 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestValues.NAME_1;
@@ -28,14 +31,11 @@ import static org.talend.esb.servicelocator.TestValues.VALUE_1;
 import static org.talend.esb.servicelocator.TestValues.VALUE_2;
 import static org.talend.esb.servicelocator.TestValues.VALUE_3;
 
-import org.junit.Before;
-import org.junit.Test;
-
 public class SLPropertiesMatcherTest {
 
     private SLPropertiesImpl properties;
 
-    SLPropertiesMatcher matcher;
+    private SLPropertiesMatcher matcher;
 
     @Before
     public void setUp() {

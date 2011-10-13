@@ -9,6 +9,14 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 class ESBCallbackHandler implements CallbackHandler {
 
+	private String username;
+	private char[] password;
+	
+	public ESBCallbackHandler(String username, char[] password) {
+		this.username = username;
+		this.password = password;
+	}
+
 	@Override
 	public void handle(Callback[] callbacks) throws IOException,
 			UnsupportedCallbackException {
@@ -16,12 +24,12 @@ class ESBCallbackHandler implements CallbackHandler {
 			if (callbacks[i] instanceof NameCallback) {
 
 				NameCallback nc = (NameCallback) callbacks[i];
-				nc.setName("karaf");
+				nc.setName(username);
 
 			} else if (callbacks[i] instanceof PasswordCallback) {
 
 				PasswordCallback pc = (PasswordCallback) callbacks[i];
-				pc.setPassword(new char[]{'k','a','r','a','f'});
+				pc.setPassword(password);
 
 			} else {
 				throw new UnsupportedCallbackException(callbacks[i],

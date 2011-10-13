@@ -128,7 +128,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
     @Test
     public void removeEndpointFails() throws Exception {
         delete(ENDPOINT_STATUS_PATH_11);
-        delete(ENDPOINT_PATH_11,new KeeperException.RuntimeInconsistencyException());
+        delete(ENDPOINT_PATH_11, new KeeperException.RuntimeInconsistencyException());
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();

@@ -19,14 +19,22 @@
  */
 package org.talend.esb.sam.agent.feature;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
+import org.apache.cxf.ws.addressing.MAPAggregator;
+import org.apache.cxf.ws.addressing.soap.MAPCodec;
+
 import org.springframework.beans.factory.InitializingBean;
+
 import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
@@ -62,6 +70,12 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
+
+        //if WS Addressing feature/interceptors not enabled, then adding
+        //its interceptors to InterceptorProvider
+        if (!detectWSAddressingFeature(provider,bus)){
+            addWSAddressingInterceptors(provider);
+        }
 
         FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
         provider.getInInterceptors().add(flowIdProducerIn);
@@ -110,4 +124,56 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
 
     }
     
+    /**
+     * detect if WS Addressing feature already enabled
+     * @param provider
+     * @param bus
+     * @return
+     */
+    private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus){
+        //detect on the bus level
+        if (bus.getFeatures() != null){
+	        Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
+	        while (busFeatures.hasNext()){
+	            AbstractFeature busFeature = busFeatures.next();
+	            if (busFeature instanceof WSAddressingFeature){
+	                return true;
+	            }
+	        }
+        }
+
+        //detect on the endpoint/client level
+        Iterator<Interceptor<? extends Message>> interceptors = provider.getInInterceptors().iterator();
+        while (interceptors.hasNext()){
+            Interceptor<? extends Message> ic = interceptors.next();
+            if (ic instanceof MAPAggregator){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Add WSAddressing Interceptors to InterceptorProvider, in order to using
+     * AddressingProperties to get MessageID.
+     * @param provider
+     */
+    private void addWSAddressingInterceptors(InterceptorProvider provider){
+        MAPAggregator mapAggregator = new MAPAggregator();
+        MAPCodec mapCodec = new MAPCodec();
+
+        provider.getInInterceptors().add(mapAggregator);
+        provider.getInInterceptors().add(mapCodec);
+
+        provider.getOutInterceptors().add(mapAggregator);
+        provider.getOutInterceptors().add(mapCodec);
+
+        provider.getInFaultInterceptors().add(mapAggregator);
+        provider.getInFaultInterceptors().add(mapCodec);
+
+        provider.getOutFaultInterceptors().add(mapAggregator);
+        provider.getOutFaultInterceptors().add(mapCodec);
+    }
+
 }

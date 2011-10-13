@@ -19,6 +19,9 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertFalse;
@@ -28,9 +31,6 @@ import static org.junit.Assert.assertTrue;
 
 import static org.talend.esb.servicelocator.TestValues.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 
 public class SLPropertiesImplTest {
 
@@ -39,51 +39,50 @@ public class SLPropertiesImplTest {
     @Before
     public void setUp() {
         properties = new SLPropertiesImpl();
-        
+
         properties.addProperty(NAME_1, VALUE_1, VALUE_2);
         properties.addProperty(NAME_2, VALUE_2, VALUE_3);
-//        properties.addMultiProperty(NAME_3, VALUE_1, VALUE_3);
+        // properties.addMultiProperty(NAME_3, VALUE_1, VALUE_3);
     }
-    
-	@Test
-	public void propertiesOfEmpty() {
-		SLPropertiesImpl properties = new SLPropertiesImpl();
-
-		assertFalse(properties.hasProperty(NAME_1));
-		assertNull(properties.getValues(NAME_1));
-	}
-
- 	@Test
-	public void hasProperty() {
-		assertTrue(properties.hasProperty(NAME_1));
-		assertTrue(properties.hasProperty(NAME_2));
-	}
 
     @Test
-	public void getValues() {
-		assertThat(properties.getValues(NAME_2), containsInAnyOrder(VALUE_2, VALUE_3));
+    public void propertiesOfEmpty() {
+        properties = new SLPropertiesImpl();
+
+        assertFalse(properties.hasProperty(NAME_1));
+        assertNull(properties.getValues(NAME_1));
+    }
+
+    @Test
+    public void hasProperty() {
+        assertTrue(properties.hasProperty(NAME_1));
+        assertTrue(properties.hasProperty(NAME_2));
+    }
+
+    @Test
+    public void getValues() {
+        assertThat(properties.getValues(NAME_2), containsInAnyOrder(VALUE_2, VALUE_3));
         assertThat(properties.getValues(NAME_1), containsInAnyOrder(VALUE_1, VALUE_2));
-	}
+    }
 
-	@Test
-	public void getSingleValueAsMultiValue() {
-		assertThat(properties.getValues(NAME_1), hasItem(VALUE_1));
-	}
+    @Test
+    public void getSingleValueAsMultiValue() {
+        assertThat(properties.getValues(NAME_1), hasItem(VALUE_1));
+    }
 
-	@Test
-	public void includesValues() {
-		assertTrue(properties.includesValues(NAME_1, VALUE_1));
-		assertTrue(properties.includesValues(NAME_1, VALUE_2));
-		assertTrue(properties.includesValues(NAME_2, VALUE_3, VALUE_2));
+    @Test
+    public void includesValues() {
+        assertTrue(properties.includesValues(NAME_1, VALUE_1));
+        assertTrue(properties.includesValues(NAME_1, VALUE_2));
+        assertTrue(properties.includesValues(NAME_2, VALUE_3, VALUE_2));
 
-		assertFalse(properties.includesValues(NAME_1, VALUE_3));
-		assertFalse(properties.includesValues(NAME_2, VALUE_1, VALUE_2));
-		assertFalse(properties.includesValues(NAME_3, VALUE_2));
-	}
+        assertFalse(properties.includesValues(NAME_1, VALUE_3));
+        assertFalse(properties.includesValues(NAME_2, VALUE_1, VALUE_2));
+        assertFalse(properties.includesValues(NAME_3, VALUE_2));
+    }
 
-
-	@Test
-	public void getPropertyNames() {
-		assertThat(properties.getPropertyNames(), containsInAnyOrder(NAME_1, NAME_2));
-	}
+    @Test
+    public void getPropertyNames() {
+        assertThat(properties.getPropertyNames(), containsInAnyOrder(NAME_1, NAME_2));
+    }
 }

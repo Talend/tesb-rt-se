@@ -50,9 +50,9 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     public static final String[] EMPTY_STRING_ARR = new String[0];
 
     @SuppressWarnings("serial")
-    public static final Dictionary<?, ?> properties = new Hashtable<String, String>() {{
+    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() { {
         put(Constants.SERVICE_PID, NAME);
-    }};
+    } };
     
     private BundleContext context;
 
@@ -63,7 +63,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     private JobLauncherImpl jobLauncher;
 
     @Before
-    public void setup() {
+    public void setUp() {
         context = createMock(BundleContext.class);
         execService = createMock(ExecutorService.class);
 
@@ -87,7 +87,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     
     private void expectManagedJobStarting(Class<? extends JobTask> taskClass) {
         expect(context.registerService(
-                eq(MANAGED_SERVICE_NAME), isA(taskClass), eq(properties))).andReturn(sr);
+                eq(MANAGED_SERVICE_NAME), isA(taskClass), eq(PROPERTIES))).andReturn(sr);
         execService.execute(isA(taskClass)); 
     }
 

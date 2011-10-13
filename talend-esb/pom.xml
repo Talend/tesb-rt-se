@@ -66,7 +66,7 @@
 		<bcel.bundle.version>5.2_3</bcel.bundle.version>
 		<castor.bundle.version>1.3.1_1</castor.bundle.version>
 		<cglib.bundle.version>2.2_1</cglib.bundle.version>
-		<cometd-java-server.bundle.version>1.0.1_1</cometd-java-server.bundle.version>
+		<cometd-java-server.bundle.version>2.3.1_1-SNAPSHOT</cometd-java-server.bundle.version>
 		<!-- commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version-->
 		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
@@ -75,7 +75,6 @@
 		<commons-httpclient.bundle.version>3.1_5</commons-httpclient.bundle.version>
 		<!--commons-io.bundle.version>1.4_1</commons-io.bundle.version-->
 		<commons-lang.bundle.version>2.4_4</commons-lang.bundle.version>
-		<commons-net.bundle.version>1.4.1_4</commons-net.bundle.version>
 		<commons-pool.bundle.version>1.5.4_2</commons-pool.bundle.version>
 		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
 		<!--dom4j.bundle.version>1.6.1_3</dom4j.bundle.version-->
@@ -83,7 +82,7 @@
 		<ehcache.bundle.version>2.3.0_3</ehcache.bundle.version>
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
 		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
-		<freemarker.bundle.version>2.3.15_4</freemarker.bundle.version>
+		<freemarker.bundle.version>2.3.18_1</freemarker.bundle.version>
 		<guice.bundle.version>2.0_1</guice.bundle.version>
 		<hapi.bundle.version>0.5.1_4</hapi.bundle.version>
 		<hibernate-validator.bundle.version>4.1.0.Final_1</hibernate-validator.bundle.version>
@@ -135,7 +134,7 @@
 		<rome.bundle.version>1.0_1</rome.bundle.version>
 		<!--saaj-impl.bundle.version>1.3.2_2</saaj-impl.bundle.version-->
 		<saxon.bundle.version>9.1.0.8_1</saxon.bundle.version>
-		<scala-library.bundle.version>2.8.1_1</scala-library.bundle.version>
+		<scala-library.bundle.version>2.9.1_1</scala-library.bundle.version>
 		<serp.bundle.version>1.13.1_3</serp.bundle.version>
 		<shiro.bundle.version>1.1.0_1</shiro.bundle.version>
 		<smack.bundle.version>3.2.0_1</smack.bundle.version>
@@ -143,12 +142,12 @@
 		<spymemcached.bundle.version>2.5_1</spymemcached.bundle.version>
 		<stringtemplate.bundle.version>3.2_4</stringtemplate.bundle.version>
 		<tagsoup.bundle.version>1.2_4</tagsoup.bundle.version>
-		<velocity.bundle.version>1.7_1</velocity.bundle.version>
+		<velocity.bundle.version>1.7_2</velocity.bundle.version>
 		<werken-xpath.bundle.version>0.9.4_4</werken-xpath.bundle.version>
 		<wsdl4j.bundle.version>1.6.2_3</wsdl4j.bundle.version>
 		<xalan.bundle.version>2.7.1_3</xalan.bundle.version>
 		<xerces.bundle.version>2.9.1_4</xerces.bundle.version>
-		<xmlbeans.bundle.version>2.5.0_1</xmlbeans.bundle.version>
+		<xmlbeans.bundle.version>2.4.0_4</xmlbeans.bundle.version>
 		<xmlresolver.bundle.version>1.2_3</xmlresolver.bundle.version>
 		<!-- version overridden to fix https://jira.sopera.de/browse/TESB-2388 -->
 		<xmlsec.bundle.version>1.4.5_1</xmlsec.bundle.version>
@@ -160,7 +159,7 @@
 
 		<!-- Other Dependencies -->
 		<abdera.version>1.1.2</abdera.version>
-		<axiom.version>1.2.12</axiom.version>
+		<axiom.version>1.2.10</axiom.version>
 		<bouncycastle.version>140</bouncycastle.version>
 		<commons-codec.version>1.4</commons-codec.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
@@ -171,7 +170,7 @@
 		<!--<commons-lang.version>2.4</commons-lang.version>-->
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<commons-management.version>1.0</commons-management.version>
-		<commons-net.version>2.0</commons-net.version>
+		<commons-net.version>2.2</commons-net.version>
 		<derby.version>10.5.3.0_1</derby.version>
 		<dozer-osgi.version>5.3.1</dozer-osgi.version>
 		<easymock.version>2.4</easymock.version>
@@ -181,10 +180,9 @@
 		<hazelcast.version>1.9.3</hazelcast.version>
 		<httpclient-osgi.version>4.1</httpclient-osgi.version>
 		<httpcomponents.version>4.0.1</httpcomponents.version>
-		<httpcore-osgi.version>4.1.1</httpcore-osgi.version>
+		<httpcore-osgi.version>4.1.2</httpcore-osgi.version>
 		<jackrabbit.version>1.5.3</jackrabbit.version>
-		<jackson-core-asl.version>1.7.5</jackson-core-asl.version>
-		<jackson-mapper-asl.version>1.7.5</jackson-mapper-asl.version>
+		<jackson.version>1.8.6</jackson.version>
 		<jaxp-ri.version>1.4.2</jaxp-ri.version>
 		<jaxws-api.version>2.1</jaxws-api.version>
 		<javax.mail.version>1.4.4</javax.mail.version>
@@ -193,7 +191,7 @@
 		<log4j.version>1.2.15</log4j.version>
 		<mybatis.version>3.0.4</mybatis.version>
 		<openjpa.version>2.0.0</openjpa.version>
-		<restlet.version>2.0.5</restlet.version>
+		<restlet.version>2.0.9</restlet.version>
 		<pax-web-jsp.version>1.0.7</pax-web-jsp.version>
 		<tranql.version>1.6</tranql.version>
 		<woodstox.version>4.1.1</woodstox.version>
@@ -510,11 +508,6 @@
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.commons-net</artifactId>
-            <version>${commons-net.bundle.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.commons-pool</artifactId>
             <version>${commons-pool.bundle.version}</version>
         </dependency>
@@ -772,6 +765,8 @@
 								<feature>activemq</feature>
 								<feature>activemq-blueprint</feature>
 								<feature>activemq-spring</feature>
+								<!-- CXF Features -->
+								<feature>cxf</feature>
 								<!-- Camel Features -->
 								<feature>camel</feature>
 								<feature>camel-core</feature>
@@ -859,8 +854,6 @@
 								<feature>camel-xmlsecurity</feature>
 								<feature>camel-xmpp</feature>
 								<feature>camel-xstream</feature>
-								<!-- CXF Features -->
-								<feature>cxf</feature>
 								<!-- TIF Features -->
 								<feature>tif-core</feature>
 								<feature>tif-test</feature>

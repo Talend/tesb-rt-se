@@ -46,7 +46,7 @@ public class JobLauncherRetrieveOperationTest {
     private JobLauncherImpl jobLauncher;
 
     @Before
-    public void setup() {
+    public void setUp() {
         ExecutorService execService = createNiceMock(ExecutorService.class);
         ESBEndpointInfo endpointInfo = createNiceMock(ESBEndpointInfo.class);
         job = createNiceMock(TalendESBJob.class);
@@ -78,6 +78,6 @@ public class JobLauncherRetrieveOperationTest {
         try {
             jobLauncher.retrieveOperation(JOB_NAME_2, EMPTY_STRING_ARR);
             fail("An IllegalArgumentException should have been thrown");
-        } catch(IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) { }
     }
 }

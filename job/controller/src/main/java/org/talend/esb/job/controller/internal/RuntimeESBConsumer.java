@@ -19,10 +19,17 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
@@ -41,6 +48,10 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.ws.security.SecurityConstants;
+import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.ws.security.WSPasswordCallback;
+import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
@@ -60,7 +71,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
     private final EventFeature eventFeature;
+    private final EsbSecurity esbSecurity;
+    private final String username;
+    private final String password;
     private final Bus bus;
+
     private Client client;
 
     public RuntimeESBConsumer(
@@ -71,6 +86,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
             final EventFeature eventFeature,
+            final EsbSecurity esbSecurity,
+            String username,
+            String password,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -79,6 +97,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
         this.eventFeature = eventFeature;
+        this.esbSecurity = esbSecurity;
+        this.username = username;
+        this.password = password;
         this.bus = bus;
     }
 
@@ -160,14 +181,44 @@ public class RuntimeESBConsumer implements ESBConsumer {
         cf.setServiceClass(this.getClass());
         cf.setBus(bus);
         List<AbstractFeature> features = new ArrayList<AbstractFeature>();
-        if(serviceLocator != null) {
+        if (serviceLocator != null) {
             features.add(serviceLocator);
         }
-        if(eventFeature != null) {
+        if (eventFeature != null) {
             features.add(eventFeature);
         }
-        
         cf.setFeatures(features);
+
+        if (EsbSecurity.NO != esbSecurity) {
+            STSClient stsClient = new STSClient(bus);
+
+            if (EsbSecurity.TOKEN == esbSecurity) {
+                Map<String, Object> stsProperties = new HashMap<String, Object>();
+                stsProperties.put(SecurityConstants.USERNAME, username);
+                stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
+                    new CallbackHandler() {
+                        @Override
+                        public void handle(Callback[] callbacks) throws IOException,
+                            UnsupportedCallbackException {
+                            for (int i = 0; i < callbacks.length; i++) {
+                                if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+                                    WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                                    if (username.equals(pc.getIdentifier())) {
+                                       pc.setPassword(password);
+                                       break;
+                                   }
+                                }
+                            }
+                        }
+                   });
+                stsClient.setProperties(stsProperties);
+            } else if (EsbSecurity.SAML == esbSecurity) {
+                throw new RuntimeException("SAML security not yest supported");
+            }
+
+            cf.setProperties(
+                Collections.singletonMap(SecurityConstants.STS_CLIENT, (Object)stsClient));
+        }
 
         client = cf.create();
 

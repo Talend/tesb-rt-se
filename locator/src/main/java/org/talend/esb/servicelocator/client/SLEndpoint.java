@@ -22,26 +22,25 @@ package org.talend.esb.servicelocator.client;
 import javax.xml.namespace.QName;
 
 /**
- * An <code>SLEndpoint</code> describes a service endpoint stored in the ServiceLocator. In
- * addition the properties and some additional meta data together with the status of the endpoint 
- * are provided.
+ * An <code>SLEndpoint</code> describes a service endpoint stored in the ServiceLocator. In addition the
+ * properties and some additional meta data together with the status of the endpoint are provided.
  */
 public interface SLEndpoint {
-	
-	/**
-	 * Return the address of the endpoint.
-	 * 
-	 * @return address where to reach the endpoint
-	 */
-	String getAddress();
 
-	/**
-	 * Return the binding of the endpoint.
-	 * 
-	 * @return the type of binding
-	 */
-	BindingType getBinding();
-	
+    /**
+     * Return the address of the endpoint.
+     * 
+     * @return address where to reach the endpoint
+     */
+    String getAddress();
+
+    /**
+     * Return the binding of the endpoint.
+     * 
+     * @return the type of binding
+     */
+    BindingType getBinding();
+
     /**
      * Return the binding of the endpoint.
      * 
@@ -50,37 +49,37 @@ public interface SLEndpoint {
     TransportType getTransport();
 
     /**
-	 * Indicates whether the server is up and running.
-	 * 
-	 * @return <code>true</code> iff the service locator deems the endpoint running.
-	 */
-	boolean isLive();
-	
-	/**
-	 * Return the properties associated to this endpoint.
-	 * 
-	 * @return the properties, is always not <code>null</code>
-	 */
-	SLProperties getProperties();
+     * Indicates whether the server is up and running.
+     * 
+     * @return <code>true</code> iff the service locator deems the endpoint running.
+     */
+    boolean isLive();
 
-	/**
-	 * Return the time the endpoint started the last time.
-	 * 
-	 * @return the time in number of milliseconds since "the epoch" 
-	 */
-	long getLastTimeStarted();
-	
-	/**
-	 * Return the time the endpoint stopped the last time.
-	 * 
-	 * @return the time in number of milliseconds since "the epoch" 
-	 */
-	long getLastTimeStopped();
-	
-	/**
-	 * Return the name of the service the endpoint belongs to.
-	 * 
-	 * @return the service name 
-	 */
-	QName forService();
+    /**
+     * Return the properties associated to this endpoint.
+     * 
+     * @return the properties, is always not <code>null</code>
+     */
+    SLProperties getProperties();
+
+    /**
+     * Return the time the endpoint started the last time.
+     * 
+     * @return the time in number of milliseconds since "the epoch"
+     */
+    long getLastTimeStarted();
+
+    /**
+     * Return the time the endpoint stopped the last time.
+     * 
+     * @return the time in number of milliseconds since "the epoch"
+     */
+    long getLastTimeStopped();
+
+    /**
+     * Return the name of the service the endpoint belongs to.
+     * 
+     * @return the service name
+     */
+    QName forService();
 }

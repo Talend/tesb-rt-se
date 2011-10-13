@@ -47,17 +47,15 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 		if (flowId == null) {
 			flowId = FlowIdSoapCodec.readFlowId(message);
 		}
-		
-		FlowIdHelper.setFlowId(message, flowId);
-		
+
 		if (flowId != null) {
-			logger.info("FlowId '" + flowId + "' found in FlowId");
-		}
-		if (flowId == null) {
+			logger.fine("FlowId '" + flowId + "' found in incoming message.");
+		} else {
 			flowId = ContextUtils.generateUUID();
-			logger.fine("No flowId found in incoming message. Generating flowId " + flowId);
-			FlowIdHelper.setFlowId(message, flowId);
-		}		
+			logger.fine("No flowId found in incoming message! Generate new flowId " + flowId);
+		}
+
+		FlowIdHelper.setFlowId(message, flowId);
 	}
 
 }

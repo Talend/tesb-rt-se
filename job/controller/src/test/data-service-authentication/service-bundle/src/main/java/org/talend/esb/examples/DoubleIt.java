@@ -5,8 +5,7 @@ import javax.jws.WebService;
 
 @WebService
 public interface DoubleIt {
-	
-	@WebMethod
-	int execute(int number);
-	
+
+    @WebMethod
+    int execute(int number);
 }

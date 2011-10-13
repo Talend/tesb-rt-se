@@ -100,7 +100,7 @@ Using JConsole to find MBean Attributes
 put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
 
 If you're using the TESB OSGi container:
-put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-tesb into Remote Process field,
+put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun into Remote Process field,
 with (default) username of "karaf" and password of "karaf"
 
 3) connect

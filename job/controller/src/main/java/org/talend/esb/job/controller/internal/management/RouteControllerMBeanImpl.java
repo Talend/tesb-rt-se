@@ -31,12 +31,12 @@ public class RouteControllerMBeanImpl extends StandardMBean implements Controlle
 
     private Controller controller;
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
     public RouteControllerMBeanImpl() throws NotCompliantMBeanException {
         super(ControllerMBean.class);
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public List<String> list() throws Exception {

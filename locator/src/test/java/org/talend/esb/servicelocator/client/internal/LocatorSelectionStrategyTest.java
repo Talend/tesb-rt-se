@@ -19,17 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isOneOf;
-import static org.junit.Assert.assertThat;
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,175 +37,192 @@ import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isOneOf;
+import static org.junit.Assert.assertThat;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+
 public class LocatorSelectionStrategyTest extends EasyMockSupport {
-	
-	EvenDistributionSelectionStrategy evenDistributionStrategy;
 
-	RandomSelectionStrategy randomStrategy;
+    EvenDistributionSelectionStrategy evenDistributionStrategy;
 
-	DefaultSelectionStrategy defaultStrategy;
+    RandomSelectionStrategy randomStrategy;
 
-	ServiceLocator locatorMock;
-	
-	Exchange exchangeMock;
-	
-	Endpoint endpointMock;
-	
-	Service serviceMock;
+    DefaultSelectionStrategy defaultStrategy;
 
-	@Before
-	public void setup() {
-		randomStrategy = new RandomSelectionStrategy();
-		evenDistributionStrategy = new EvenDistributionSelectionStrategy();
-		defaultStrategy = new DefaultSelectionStrategy();
-		locatorMock = createNiceMock(ServiceLocator.class);
-		randomStrategy.setServiceLocator(locatorMock);
-		evenDistributionStrategy.setServiceLocator(locatorMock);
-		defaultStrategy.setServiceLocator(locatorMock);
-		serviceMock = createNiceMock(Service.class);
-		expect(serviceMock.getName()).andStubReturn(SERVICE_QNAME_1);		
-		endpointMock = createNiceMock(Endpoint.class);
-		expect(endpointMock.getService()).andStubReturn(serviceMock);				
-		exchangeMock = createNiceMock(Exchange.class);
-		expect(exchangeMock.getEndpoint()).andStubReturn(endpointMock);		
-	}
-	
-	@Test
-	public void defaultGetAlternateAddresses() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		List<String> result = defaultStrategy.getAlternateAddresses(exchangeMock);
-		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
-		verifyAll();
-	}
+    ServiceLocator locatorMock;
 
-	@Test
-	public void defaultGetPrimaryAddress() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = defaultStrategy.getPrimaryAddress(exchangeMock);
-        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-		verifyAll();
-	}
+    Exchange exchangeMock;
 
-	@Test
-	public void defaultDistribution() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = null;
-		String lastPrimary = null;
-		boolean distributed = false;
-		for (int i = 0; i < 100; i++) {	
-			lastPrimary = primary;
-			primary = defaultStrategy.getPrimaryAddress(exchangeMock);
-	        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-			if (lastPrimary != null && !primary.equals(lastPrimary))
-				distributed = true;
-		}
-		assertThat(distributed, is(false));
-		verifyAll();
-	}
+    Endpoint endpointMock;
 
-	@Test
-	public void evenGetAlternateAddresses() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		List<String> result = evenDistributionStrategy.getAlternateAddresses(exchangeMock);
-		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
-		verifyAll();
-	}
+    Service serviceMock;
 
-	@Test
-	public void evenGetPrimaryAddress() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
-        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-		verifyAll();
-	}
-	
-	@Test
-	public void evenDistribution() throws Exception {
-		evenDistributionStrategy.setReloadAdressesCount(10);
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = null;
-		String lastPrimary = null;
-		boolean distributed = false;
-		for (int i = 0; i < 2; i++) {	
-			lastPrimary = primary;
-			primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
-            assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-			if (lastPrimary != null && !primary.equals(lastPrimary))
-				distributed = true;
-		}
-		assertThat(distributed, is(true));
-		verifyAll();
-	}
+    @Before
+    public void setUp() {
+        randomStrategy = new RandomSelectionStrategy();
+        evenDistributionStrategy = new EvenDistributionSelectionStrategy();
+        defaultStrategy = new DefaultSelectionStrategy();
+        locatorMock = createNiceMock(ServiceLocator.class);
+        randomStrategy.setServiceLocator(locatorMock);
+        evenDistributionStrategy.setServiceLocator(locatorMock);
+        defaultStrategy.setServiceLocator(locatorMock);
+        serviceMock = createNiceMock(Service.class);
+        expect(serviceMock.getName()).andStubReturn(SERVICE_QNAME_1);
+        endpointMock = createNiceMock(Endpoint.class);
+        expect(endpointMock.getService()).andStubReturn(serviceMock);
+        exchangeMock = createNiceMock(Exchange.class);
+        expect(exchangeMock.getEndpoint()).andStubReturn(endpointMock);
+    }
 
-	@Test
-	public void evenDistributionSingle() throws Exception {
-		evenDistributionStrategy.setReloadAdressesCount(10);
-		lookup(SERVICE_QNAME_1, ENDPOINT_1);
-		replayAll();
-		for (int i = 0; i < 2; i++) {	
-			String primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
+    @Test
+    public void defaultGetAlternateAddresses() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        List<String> result = defaultStrategy.getAlternateAddresses(exchangeMock);
+        assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
+
+    @Test
+    public void defaultGetPrimaryAddress() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        String primary = defaultStrategy.getPrimaryAddress(exchangeMock);
+        assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
+
+    @Test
+    public void defaultDistribution() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        String primary = null;
+        String lastPrimary = null;
+        boolean distributed = false;
+        for (int i = 0; i < 100; i++) {
+            lastPrimary = primary;
+            primary = defaultStrategy.getPrimaryAddress(exchangeMock);
+            assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+            if (lastPrimary != null && !primary.equals(lastPrimary)) {
+                distributed = true;
+            }
+        }
+        assertThat(distributed, is(false));
+        verifyAll();
+    }
+
+    @Test
+    public void evenGetAlternateAddresses() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        List<String> result = evenDistributionStrategy.getAlternateAddresses(exchangeMock);
+        assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
+
+    @Test
+    public void evenGetPrimaryAddress() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        String primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
+        assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
+
+    @Test
+    public void evenDistribution() throws Exception {
+        evenDistributionStrategy.setReloadAdressesCount(10);
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        String primary = null;
+        String lastPrimary = null;
+        boolean distributed = false;
+        for (int i = 0; i < 2; i++) {
+            lastPrimary = primary;
+            primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
+            assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+            if (lastPrimary != null && !primary.equals(lastPrimary)) {
+                distributed = true;
+            }
+        }
+        assertThat(distributed, is(true));
+        verifyAll();
+    }
+
+    @Test
+    public void evenDistributionSingle() throws Exception {
+        evenDistributionStrategy.setReloadAdressesCount(10);
+        lookup(SERVICE_QNAME_1, ENDPOINT_1);
+        replayAll();
+        for (int i = 0; i < 2; i++) {
+            String primary = evenDistributionStrategy.getPrimaryAddress(exchangeMock);
             assertThat(primary, isOneOf(ENDPOINT_1));
-		}
-		verifyAll();
-	}
+        }
+        verifyAll();
+    }
 
-	@Test
-	public void randomGetAlternateAddresses() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		List<String> result = randomStrategy.getAlternateAddresses(exchangeMock);
-		assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
-		verifyAll();
-	}
+    @Test
+    public void randomGetAlternateAddresses() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        List<String> result = randomStrategy.getAlternateAddresses(exchangeMock);
+        assertThat(result, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
 
-	@Test
-	public void randomGetPrimaryAddress() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = randomStrategy.getPrimaryAddress(exchangeMock);
-        assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-		verifyAll();
-	}
-	
-	@Test
-	public void randomDistribution() throws Exception {
-		randomStrategy.setReloadAdressesCount(10);
-		for (int i = 0; i < 10; i++)
-			lookup(SERVICE_QNAME_1, ENDPOINT_1,ENDPOINT_2);
-		replayAll();
-		String primary = null;
-		String lastPrimary = null;
-		boolean distributed = false;
-		for (int i = 0; i < 10*10; i++) {	
-			lastPrimary = primary;
-			primary = randomStrategy.getPrimaryAddress(exchangeMock);
-            assertThat(primary, isOneOf(ENDPOINT_1,ENDPOINT_2));
-			if (lastPrimary != null && !primary.equals(lastPrimary))
-				distributed = true;
-		}
-		assertThat(distributed, is(true));
-		verifyAll();
-	}
-	
-	@Test
-	public void randomDistributionSingle() throws Exception {
-		randomStrategy.setReloadAdressesCount(10);
-		lookup(SERVICE_QNAME_1, ENDPOINT_1);
-		replayAll();
-		for (int i = 0; i < 2; i++) {	
-			String primary = randomStrategy.getPrimaryAddress(exchangeMock);
+    @Test
+    public void randomGetPrimaryAddress() throws Exception {
+        lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        replayAll();
+        String primary = randomStrategy.getPrimaryAddress(exchangeMock);
+        assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+        verifyAll();
+    }
+
+    @Test
+    public void randomDistribution() throws Exception {
+        randomStrategy.setReloadAdressesCount(10);
+        for (int i = 0; i < 10; i++) {
+            lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+        }
+        replayAll();
+        String primary = null;
+        String lastPrimary = null;
+        boolean distributed = false;
+        for (int i = 0; i < 10 * 10; i++) {
+            lastPrimary = primary;
+            primary = randomStrategy.getPrimaryAddress(exchangeMock);
+            assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
+            if (lastPrimary != null && !primary.equals(lastPrimary)) {
+                distributed = true;
+            }
+        }
+        assertThat(distributed, is(true));
+        verifyAll();
+    }
+
+    @Test
+    public void randomDistributionSingle() throws Exception {
+        randomStrategy.setReloadAdressesCount(10);
+        lookup(SERVICE_QNAME_1, ENDPOINT_1);
+        replayAll();
+        for (int i = 0; i < 2; i++) {
+            String primary = randomStrategy.getPrimaryAddress(exchangeMock);
             assertThat(primary, isOneOf(ENDPOINT_1));
-		}
-		verifyAll();
-	}
+        }
+        verifyAll();
+    }
 
-	private void lookup(QName serviceName, String... adresses) throws ServiceLocatorException, InterruptedException {
-		expect(locatorMock.lookup(eq(serviceName), (SLPropertiesMatcher) anyObject())).andReturn(Arrays.asList(adresses));
-	}
+    private void lookup(QName serviceName, String... adresses) throws ServiceLocatorException,
+            InterruptedException {
+        expect(locatorMock.lookup(eq(serviceName), (SLPropertiesMatcher) anyObject())).andReturn(
+                Arrays.asList(adresses));
+    }
 }

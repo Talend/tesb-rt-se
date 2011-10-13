@@ -21,11 +21,15 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
 
 public class RuntimeESBProviderCallback implements ESBProviderCallback {
+
+    public static final Logger LOG =
+        Logger.getLogger(RuntimeESBProviderCallback.class.getName());
 
     private static final MessageExchange POISON = new MessageExchange(null);
 
@@ -64,7 +68,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
     public Object invoke(Object payload, boolean isRequestResponse) throws Exception {
         MessageExchange myExchange = new MessageExchange(payload);
         requests.put(myExchange);
-        if(!isRequestResponse) {
+        if (!isRequestResponse) {
             return null;
         }
         synchronized (myExchange) {
@@ -83,11 +87,12 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
     
     protected void prepareStop() {
         boolean success = false;
-        while(! success) {
+        while (!success) {
             try {
                 requests.put(POISON);
                 success = true;
-            } catch(InterruptedException e) {
+            } catch (InterruptedException e) {
+                LOG.throwing(this.getClass().getName(), "prepareStop", e);
             }
         }
     }

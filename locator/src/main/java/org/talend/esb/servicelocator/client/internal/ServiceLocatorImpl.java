@@ -39,6 +39,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
+
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
@@ -58,7 +60,6 @@ import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
 import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 import org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider;
-import org.w3c.dom.Document;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
@@ -201,7 +202,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void register(QName serviceName, String endpoint, SLProperties properties)
-            throws ServiceLocatorException, InterruptedException {
+        throws ServiceLocatorException, InterruptedException {
         register(new CXFEndpointProvider(serviceName, endpoint, properties));
     }
 
@@ -228,7 +229,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     
     @Override
     public synchronized void unregister(EndpointProvider epProvider)
-    throws ServiceLocatorException, InterruptedException {
+        throws ServiceLocatorException, InterruptedException {
 
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
@@ -261,7 +262,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public synchronized void unregister(QName serviceName, String endpoint)
-            throws ServiceLocatorException, InterruptedException {
+        throws ServiceLocatorException, InterruptedException {
         
         unregister(new CXFEndpointProvider(serviceName, endpoint, null));
     }
@@ -325,7 +326,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     final boolean isLive = isLive(nodePath);
 
                     return new SLEndpointImpl(serviceName, content, isLive);
-                } catch(KeeperException e) {
+                } catch (KeeperException e) {
                     throw locatorException(e);
                 }
             }
@@ -560,7 +561,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
 
     private void createEndpointStatus(NodePath endpointNodePath)
-    throws ServiceLocatorException, InterruptedException {
+        throws ServiceLocatorException, InterruptedException {
 
         NodePath endpointStatusNodePath = endpointNodePath.child("live");
         try {
@@ -649,7 +650,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
 
     private void setNodeData(NodePath path, byte[] content)
-    throws KeeperException, InterruptedException {
+        throws KeeperException, InterruptedException {
         zk.setData(path.toString(), content, -1);
     }
 
@@ -741,10 +742,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
             JAXBElement<EndpointDataType> epd =
                 of.createEndpointData(endpointData);
             ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",cl);
+            JAXBContext jc =
+                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
             Marshaller m = jc.createMarshaller();
             m.marshal(epd, outputStream);
-        } catch( JAXBException e ){
+        } catch (JAXBException e) {
             throw locatorException(e);
         }
         return outputStream.toByteArray();

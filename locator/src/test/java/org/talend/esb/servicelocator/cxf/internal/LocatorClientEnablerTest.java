@@ -19,6 +19,19 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.cxf.clustering.FailoverStrategy;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.ConduitSelector;
+import org.apache.cxf.endpoint.Endpoint;
+import org.easymock.Capture;
+import org.junit.Before;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.ServiceLocator;
+import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
+
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -29,83 +42,68 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.cxf.clustering.FailoverStrategy;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ConduitSelector;
-import org.apache.cxf.endpoint.Endpoint;
-import org.easymock.Capture;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
-
 public class LocatorClientEnablerTest {
-	
+
     private ConduitSelector conduitSelector = createMock(ConduitSelector.class);
 
-    private  Endpoint endpoint = createMock(Endpoint.class);
+    private Endpoint endpoint = createMock(Endpoint.class);
 
     private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
 
-	@Before 
-	public void setUp() {
+    @Before
+    public void setUp() {
         locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategy>();
         locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategy());
-        locatorSelectionStrategies.put("evenDistributionSelectionStrategy", new EvenDistributionSelectionStrategy());
-        
+        locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
+                new EvenDistributionSelectionStrategy());
+
         expect(conduitSelector.getEndpoint()).andStubReturn(endpoint);
         replay(conduitSelector);
-	}
+    }
 
-	@Test
-	public void enableClient() {
-		ServiceLocator sl = createMock(ServiceLocator.class);
-		
-		Capture<LocatorTargetSelector> capturedSelector = new Capture<LocatorTargetSelector>();
-		
-		Client client = createMock(Client.class);
+    @Test
+    public void enableClient() {
+        ServiceLocator sl = createMock(ServiceLocator.class);
+
+        Capture<LocatorTargetSelector> capturedSelector = new Capture<LocatorTargetSelector>();
+
+        Client client = createMock(Client.class);
         expect(client.getConduitSelector()).andStubReturn(conduitSelector);
-		client.setConduitSelector(capture(capturedSelector));
-		replay(client);
+        client.setConduitSelector(capture(capturedSelector));
+        replay(client);
 
-		LocatorClientEnabler clientRegistrar = new LocatorClientEnabler();
-		clientRegistrar.setServiceLocator(sl);
-		clientRegistrar.setLocatorSelectionStrategies(locatorSelectionStrategies);
-		// clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
-		clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
-		clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
-		clientRegistrar.enable(wrap(client));
-		
-		LocatorTargetSelector selector = capturedSelector.getValue();
-		assertEquals(endpoint, selector.getEndpoint());
+        LocatorClientEnabler clientRegistrar = new LocatorClientEnabler();
+        clientRegistrar.setServiceLocator(sl);
+        clientRegistrar.setLocatorSelectionStrategies(locatorSelectionStrategies);
+        // clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
+        clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+        clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+        clientRegistrar.enable(wrap(client));
 
-		FailoverStrategy strategy = selector.getStrategy();
-		assertThat(strategy, instanceOf(LocatorSelectionStrategy.class));
-		
-		
+        LocatorTargetSelector selector = capturedSelector.getValue();
+        assertEquals(endpoint, selector.getEndpoint());
 
-		LocatorSelectionStrategy locatorstrategy = (LocatorSelectionStrategy) strategy; 
-		assertSame(sl, locatorstrategy.getServiceLocator());
-		
-		verify(client);
-	}
+        FailoverStrategy strategy = selector.getStrategy();
+        assertThat(strategy, instanceOf(LocatorSelectionStrategy.class));
 
-	private static ConduitSelectorHolder wrap(final Client client) {
-        return  new ConduitSelectorHolder() {
-            
+        LocatorSelectionStrategy locatorstrategy = (LocatorSelectionStrategy) strategy;
+        assertSame(sl, locatorstrategy.getServiceLocator());
+
+        verify(client);
+    }
+
+    private static ConduitSelectorHolder wrap(final Client client) {
+        return new ConduitSelectorHolder() {
+
             @Override
             public void setConduitSelector(ConduitSelector selector) {
                 client.setConduitSelector(selector);
             }
-            
+
             @Override
             public ConduitSelector getConduitSelector() {
                 return client.getConduitSelector();
             }
         };
-	}
+    }
 }

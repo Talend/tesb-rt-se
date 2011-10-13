@@ -21,7 +21,7 @@
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="eager">
 
-    <!--reference interface="org.talend.esb.job.controller.Controller" id="controller"/-->
+    <reference interface="org.talend.esb.job.controller.Controller" id="controller"/>
 
     <reference id="mbeanServer" interface="javax.management.MBeanServer">
         <reference-listener ref="mbeanRegister" bind-method="registerMBeanServer" unbind-method="unregisterMBeanServer" />

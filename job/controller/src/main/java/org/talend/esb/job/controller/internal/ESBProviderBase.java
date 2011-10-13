@@ -6,19 +6,18 @@ import java.util.logging.Logger;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
 import javax.xml.transform.Source;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
-import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 //@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE, style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = javax.jws.soap.SOAPBinding.Use.LITERAL)
-@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.PAYLOAD)
+@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
 @javax.xml.ws.WebServiceProvider()
 public abstract class ESBProviderBase implements
 		javax.xml.ws.Provider<javax.xml.transform.Source> {
@@ -33,6 +32,8 @@ public abstract class ESBProviderBase implements
 	@javax.annotation.Resource
 	private javax.xml.ws.WebServiceContext context;
 
+	private boolean isAuthenticationRequired = true;
+
 	public void setEventFeature(EventFeature eventFeature) {
 		this.eventFeature = eventFeature;
 	}
@@ -40,45 +41,9 @@ public abstract class ESBProviderBase implements
 	// @javax.jws.WebMethod(exclude=true)
 	public final Source invoke(Source request) {
 
-		LoginContext loginContext = null;
-
-		try {
-			loginContext = new LoginContext("KarafJaas",
-					new ESBCallbackHandler());
-		} catch (LoginException le) {
-			System.err
-					.println("Cannot create LoginContext. " + le.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(le);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (SecurityException se) {
-			System.err
-					.println("Cannot create LoginContext. " + se.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(se);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (isAuthenticationRequired) {
+			login();
 		}
-
-		try {
-			loginContext.login();
-		} catch (LoginException le) {
-			System.err.println("Authentication failed: ");
-			System.err.println("  " + le.getMessage());
-			try {
-				return (Source) ServiceHelper.createSoapFault(le);
-			} catch (SOAPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		System.out.println("Authentication succeeded!");
 
 		QName operationQName = (QName) context.getMessageContext().get(
 				MessageContext.WSDL_OPERATION);
@@ -122,6 +87,41 @@ public abstract class ESBProviderBase implements
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void login() {
+
+		MessageContext messageContext = context.getMessageContext();
+		String username = (String) messageContext
+				.get(BindingProvider.USERNAME_PROPERTY);
+		char[] password = messageContext.get(BindingProvider.PASSWORD_PROPERTY)
+				.toString().toCharArray();
+
+		LoginContext loginContext = null;
+
+		try {
+			loginContext = new LoginContext("KarafRealm",
+					new ESBCallbackHandler(username, password));
+		} catch (LoginException le) {
+			System.err
+					.println("Cannot create LoginContext. " + le.getMessage());
+			le.printStackTrace();
+		} catch (SecurityException se) {
+			System.err
+					.println("Cannot create LoginContext. " + se.getMessage());
+			se.printStackTrace();
+		}
+
+		try {
+			loginContext.login();
+		} catch (LoginException le) {
+			System.err.println("Authentication failed: ");
+			System.err.println("  " + le.getMessage());
+			le.printStackTrace();
+		}
+
+		System.out.println("Authentication succeeded!");
+
 	}
 
 	private Source processResult(Object result) {

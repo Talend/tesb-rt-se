@@ -36,82 +36,79 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
-	protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class
-			.getName());
-	
-	private ServiceLocator serviceLocator;
-	
-	private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
-	
-	protected Random random = new Random();
+    protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class.getName());
 
-	@Override
-	public String selectAlternateAddress(List<String> alternates) {
-		String alternateAddress = null;
-		if (alternates != null && ! alternates.isEmpty()) {
-			int index = random.nextInt(alternates.size());
-			alternateAddress = alternates.remove(index);
-		}
-		return alternateAddress;
-	}
+    protected Random random = new Random();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
-		return null;
-	}
+    private ServiceLocator serviceLocator;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param exchange
-	 * @return
-	 */
-	abstract public String getPrimaryAddress(Exchange exchange);
-	
-	public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
-	    if(propertiesMatcher != null) {
-	        matcher = propertiesMatcher;
-	    }
-	}
-	
-	public void setServiceLocator(ServiceLocator serviceLocator) {
-		this.serviceLocator = serviceLocator;
-	}
+    private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
 
-	public ServiceLocator getServiceLocator() {
-		return serviceLocator;
-	}
+    @Override
+    public String selectAlternateAddress(List<String> alternates) {
+        String alternateAddress = null;
+        if (alternates != null && !alternates.isEmpty()) {
+            int index = random.nextInt(alternates.size());
+            alternateAddress = alternates.remove(index);
+        }
+        return alternateAddress;
+    }
 
-	protected QName getServiceName(Exchange exchange) {
-		return exchange.getEndpoint().getService().getName();
-	}
-	
-	protected List<String> getEndpoints(QName serviceName) {
-		List<String> endpoints = Collections.emptyList();
-		try {
-			endpoints = serviceLocator.lookup(serviceName, matcher);
-		} catch (ServiceLocatorException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Can not refresh list of endpoints due to ServiceLocatorException", e);
-			}
-		} catch (InterruptedException e) {
-			if (LOG.isLoggable(Level.SEVERE)) {
-				LOG.log(Level.SEVERE,
-						"Can not refresh list of endpoints due to InterruptedException", e);
-			}
-		}
-		return endpoints;
-	}
-	
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {
+        return null;
+    }
+
+    /**
+     * 
+     * @param exchange
+     * @return
+     */
+    public abstract String getPrimaryAddress(Exchange exchange);
+
+    public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
+        if (propertiesMatcher != null) {
+            matcher = propertiesMatcher;
+        }
+    }
+
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        this.serviceLocator = serviceLocator;
+    }
+
+    public ServiceLocator getServiceLocator() {
+        return serviceLocator;
+    }
+
+    protected QName getServiceName(Exchange exchange) {
+        return exchange.getEndpoint().getService().getName();
+    }
+
+    protected List<String> getEndpoints(QName serviceName) {
+        List<String> endpoints = Collections.emptyList();
+        try {
+            endpoints = serviceLocator.lookup(serviceName, matcher);
+        } catch (ServiceLocatorException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "Can not refresh list of endpoints due to ServiceLocatorException", e);
+            }
+        } catch (InterruptedException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "Can not refresh list of endpoints due to InterruptedException", e);
+            }
+        }
+        return endpoints;
+    }
+
 }

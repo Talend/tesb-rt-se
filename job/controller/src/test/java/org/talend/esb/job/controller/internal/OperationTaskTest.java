@@ -113,13 +113,13 @@ public class OperationTaskTest {
                 public void run() {
                     try {
                         task.invoke(new Object(), true);
-                    } catch (Exception e){}
+                    } catch (Exception e) { }
                 }
             }
         );
     }
     
-    public static abstract class AbstractTalendESBJob implements TalendESBJob {
+    private abstract static  class AbstractTalendESBJob implements TalendESBJob {
 
         private ESBProviderCallback callback;
         
@@ -139,7 +139,7 @@ public class OperationTaskTest {
         public int runOnce() {
             try {
                 callback.getRequest();
-            } catch(ESBJobInterruptedException e) {
+            } catch (ESBJobInterruptedException e) {
                 return -1;                
             }
             callback.sendResponse(new Object());
@@ -163,7 +163,8 @@ public class OperationTaskTest {
         
         public void validateRuns() {
             if (actualRuns != expectedRuns) {
-                throw new IllegalStateException("Expected " + expectedRuns + " runs, actual " + actualRuns + " runs.");
+                throw new IllegalStateException(
+                        "Expected " + expectedRuns + " runs, actual " + actualRuns + " runs.");
             }
         }
     }

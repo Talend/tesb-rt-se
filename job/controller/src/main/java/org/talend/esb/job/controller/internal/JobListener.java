@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import javax.xml.ws.Endpoint;
+
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
@@ -76,4 +78,20 @@ public interface JobListener {
      * @param name the name of the job, must not be <code>null</code>
      */
     void jobRemoved(TalendJob job, String name);
+
+    /**
+     * Invoked when a Data Service is registered.
+     * 
+     * @param service the service registered, must not be <code>null</code>
+     * @param name the name of the service, must not be <code>null</code>
+     */
+    void serviceAdded(Endpoint service, String name);
+
+    /**
+     * Invoked when a Data Service is unregistered.
+     * 
+     * @param service the service unregistered, must not be <code>null</code>
+     * @param name the name of the service, must not be <code>null</code>
+     */
+    void serviceRemoved(Endpoint service, String name);
 }

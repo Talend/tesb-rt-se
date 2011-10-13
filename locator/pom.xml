@@ -113,7 +113,7 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Export-Package>
-							org.talend.esb.locator, org.talend.esb.servicelocator.*, 
+							org.talend.esb.servicelocator.*, 
 							'=META-INF.tesb.locator'
                         </Export-Package>
 						<_failok>true</_failok>

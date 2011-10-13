@@ -34,7 +34,7 @@ import org.osgi.service.cm.ConfigurationException;
  */
 public class Configuration {
     
-    private static final Logger LOG =
+    public static final Logger LOG =
         Logger.getLogger(Configuration.class.getName());
 
     public static final String CONTEXT_PROP = "context";
@@ -72,7 +72,7 @@ public class Configuration {
             while (keysEnum.hasMoreElements()) {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
-                if (! (val instanceof String)) {
+                if (!(val instanceof String)) {
                     throw new ConfigurationException(key, "Value is not of type String.");
                 }
                 addToArguments(key, (String) val);
@@ -85,7 +85,7 @@ public class Configuration {
             argumentList.add(CONTEXT_OPT + value);
             LOG.fine("Context " + value + " added to the argument list.");
         } else {
-            if (! isInFilter(key)) {
+            if (!isInFilter(key)) {
                 argumentList.add(CONTEXT_PARAM_OPT + key + "=" + value);
                 LOG.fine("Parameter " + key + " with value " + value + " added to the argument list.");
             } else {
@@ -104,7 +104,7 @@ public class Configuration {
     }
     
     private boolean isInFilter(String key) {
-        for(String entry : filter) {
+        for (String entry : filter) {
             if (entry.equals(key)) {
                 return true;
             }

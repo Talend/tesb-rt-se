@@ -19,6 +19,8 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import org.w3c.dom.Element;
+
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 
@@ -26,9 +28,6 @@ import org.junit.Test;
 
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.TransportType;
-import org.talend.esb.servicelocator.cxf.internal.CXFTestStubs;
-
-import org.w3c.dom.Element;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -44,17 +43,17 @@ import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
 import static org.talend.esb.servicelocator.TestValues.PROPERTIES;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+import static org.talend.esb.servicelocator.client.BindingType.JAXRS;
 import static org.talend.esb.servicelocator.client.BindingType.SOAP11;
 import static org.talend.esb.servicelocator.client.BindingType.SOAP12;
-import static org.talend.esb.servicelocator.client.BindingType.JAXRS;
 import static org.talend.esb.servicelocator.client.TransportType.HTTP;
-import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createServerStub;
-import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createJAXRSServerStub;
-import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
+import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.JAXRS_BINDING_ID;
 import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.SOAP11_BINDING_ID;
 import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.SOAP12_BINDING_ID;
-import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.JAXRS_BINDING_ID;
 import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.SOAP_HTTP_TRANSPORT_ID;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createJAXRSServerStub;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createServerStub;
 
 public class CXFEndpointProviderTest {
 
@@ -75,21 +74,24 @@ public class CXFEndpointProviderTest {
     @Test
     public void getBinding() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
         assertEquals(BindingType.SOAP11, epp.getBinding());
     }
 
     @Test
     public void getTransport() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID, epr);
         assertEquals(TransportType.HTTP, epp.getTransport());
     }
 
     @Test
     public void setLastTimeStarted() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
 
         long beforeCurrent = System.currentTimeMillis();
         epp.setLastTimeStartedToCurrent();
@@ -103,7 +105,8 @@ public class CXFEndpointProviderTest {
     @Test
     public void getLastTimeStarted() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
 
         long lastTimeStarted = epp.getLastTimeStarted();
         assertEquals(-1, lastTimeStarted);
@@ -112,7 +115,8 @@ public class CXFEndpointProviderTest {
     @Test
     public void setLastTimeStopped() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
 
         long beforeCurrent = System.currentTimeMillis();
         epp.setLastTimeStoppedToCurrent();
@@ -126,7 +130,8 @@ public class CXFEndpointProviderTest {
     @Test
     public void getLastTimeStopped() {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
+        CXFEndpointProvider epp =
+            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
 
         long lastTimeStopped = epp.getLastTimeStopped();
         assertEquals(-1, lastTimeStopped);
@@ -180,7 +185,8 @@ public class CXFEndpointProviderTest {
     
     @Test
     public void addServerWithSOAP11BindingGiven()  throws Exception {
-        Server server = createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
+        Server server =
+            createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
 
         assertEquals(SOAP11, epp.getBinding());
@@ -188,7 +194,8 @@ public class CXFEndpointProviderTest {
 
     @Test
     public void addServerWithSOAP12BindingGiven()  throws Exception {
-        Server server = createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP12_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
+        Server server =
+            createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP12_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
         
         assertEquals(SOAP12, epp.getBinding());
@@ -196,7 +203,8 @@ public class CXFEndpointProviderTest {
 
     @Test
     public void addServerWithJAXRSBindingGiven()  throws Exception {
-        Server server = createServerStub(SERVICE_QNAME_2, ENDPOINT_1, JAXRS_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
+        Server server =
+            createServerStub(SERVICE_QNAME_2, ENDPOINT_1, JAXRS_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
         
         assertEquals(JAXRS, epp.getBinding());
@@ -204,7 +212,8 @@ public class CXFEndpointProviderTest {
 
     @Test
     public void addServerWithHTTPTransportGiven()  throws Exception {
-        Server server = createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
+        Server server =
+            createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
 
         assertEquals(HTTP, epp.getTransport());
