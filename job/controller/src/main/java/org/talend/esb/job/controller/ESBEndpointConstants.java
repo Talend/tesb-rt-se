@@ -69,6 +69,9 @@ public interface ESBEndpointConstants {
         }
 
         public static EsbSecurity fromString(String value) {
+            if (null == value) {
+                return NO;
+            }
             for (EsbSecurity esbSecurity : EsbSecurity.values()) {
                 if (esbSecurity.esbSecurity.equals(value)) {
                     return esbSecurity;
