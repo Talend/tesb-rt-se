@@ -19,7 +19,9 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,9 +50,14 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.ws.policy.PolicyEngine;
+import org.apache.cxf.ws.policy.PolicyEngineImpl;
+import org.apache.cxf.ws.policy.WSPolicyFeature;
+import org.apache.cxf.ws.policy.attachment.external.ExternalAttachmentProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.ws.security.WSPasswordCallback;
+import org.springframework.core.io.FileSystemResource;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
@@ -76,6 +83,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String password;
     private final Bus bus;
 
+    private String policyLocation = "";
     private Client client;
 
     public RuntimeESBConsumer(
@@ -212,6 +220,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                         }
                    });
                 stsClient.setProperties(stsProperties);
+
             } else if (EsbSecurity.SAML == esbSecurity) {
                 throw new RuntimeException("SAML security not yest supported");
             }
@@ -228,6 +237,26 @@ public class RuntimeESBConsumer implements ESBConsumer {
         final ServiceInfo si = service.getServiceInfos().get(0);
         ServiceHelper.addOperation(si,
                 operationName, isRequestResponse);
+
+        if (EsbSecurity.NO != esbSecurity) {
+            PolicyEngineImpl pei = new PolicyEngineImpl(bus);
+
+            try {
+                Constructor<ExternalAttachmentProvider> ctor =
+                    ExternalAttachmentProvider.class.getDeclaredConstructor(Bus.class);
+                ctor.setAccessible(true);
+                ExternalAttachmentProvider ppr = ctor.newInstance(bus);
+                ppr.setLocation(new FileSystemResource(new File(policyLocation)));
+                pei.addPolicyProvider(ppr);
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot attach external policy", e);
+            }
+
+            bus.setExtension(pei, PolicyEngine.class);
+
+            WSPolicyFeature feature = new WSPolicyFeature();
+            feature.initialize(client, bus);
+        }
 
         return client;
     }
