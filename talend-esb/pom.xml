@@ -764,7 +764,7 @@
 								<!-- CXF Features -->
 								<feature>cxf</feature>
 								<!-- ActiveMQ Features -->
-								<feature>activemq</feature>
+								<!-- feature>activemq</feature-->
 								<feature>activemq-blueprint</feature>
 								<feature>activemq-spring</feature>
 								<!-- Camel Features -->
