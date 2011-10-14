@@ -83,7 +83,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String password;
     private final Bus bus;
 
-    private String policyLocation = "";
+    private String policyLocation = "f:\\policySAML.xml";
     private Client client;
 
     public RuntimeESBConsumer(
