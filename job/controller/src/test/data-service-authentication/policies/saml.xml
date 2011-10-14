@@ -1,0 +1,107 @@
+<attachments>
+<wsp:PolicyAttachment 
+xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+<wsp:AppliesTo>
+<wsa:EndpointReference 
+xmlns:wsa="http://www.w3.org/2005/08/addressing">
+<wsa:Address>http://localhost:8040/services/DoubleItService</wsa:Address>
+</wsa:EndpointReference>
+</wsp:AppliesTo>
+	<wsp:Policy>
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<wsam:Addressing wsp:Optional="false" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
+					<wsp:Policy />
+				</wsam:Addressing>
+				<sp:AsymmetricBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+					<wsp:Policy>
+						<sp:InitiatorToken>
+							<wsp:Policy>
+								<sp:IssuedToken
+									sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+									<sp:RequestSecurityTokenTemplate>
+										<t:TokenType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</t:TokenType>
+										<t:KeyType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey</t:KeyType>
+									</sp:RequestSecurityTokenTemplate>
+									<wsp:Policy>
+										<sp:RequireInternalReference />
+									</wsp:Policy>
+									<sp:Issuer>
+										<wsaw:Address xmlns:wsaw="http://www.w3.org/2005/08/addressing">http://localhost:8080/SecurityTokenService/
+										</wsaw:Address>
+										<wsaw:Metadata xmlns:wsaw="http://www.w3.org/2005/08/addressing">
+											<wsx:Metadata xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex">
+												<wsx:MetadataSection>
+													<wsx:MetadataReference>
+														<wsaw:Address>http://localhost:8080/SecurityTokenService/UT/mex
+														</wsaw:Address>
+													</wsx:MetadataReference>
+												</wsx:MetadataSection>
+											</wsx:Metadata>
+										</wsaw:Metadata>
+									</sp:Issuer>
+								</sp:IssuedToken>
+							</wsp:Policy>
+						</sp:InitiatorToken>
+						<sp:RecipientToken>
+							<wsp:Policy>
+								<sp:X509Token
+									sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+									<wsp:Policy>
+										<sp:WssX509V3Token10 />
+										<sp:RequireIssuerSerialReference />
+									</wsp:Policy>
+								</sp:X509Token>
+							</wsp:Policy>
+						</sp:RecipientToken>
+						<sp:Layout>
+							<wsp:Policy>
+								<sp:Lax />
+							</wsp:Policy>
+						</sp:Layout>
+						<sp:IncludeTimestamp />
+						<sp:OnlySignEntireHeadersAndBody />
+						<sp:AlgorithmSuite>
+							<wsp:Policy>
+								<sp:Basic256 />
+							</wsp:Policy>
+						</sp:AlgorithmSuite>
+					</wsp:Policy>
+				</sp:AsymmetricBinding>
+				<sp:Wss11 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+					<wsp:Policy>
+						<sp:MustSupportRefIssuerSerial />
+						<sp:MustSupportRefThumbprint />
+						<sp:MustSupportRefEncryptedKey />
+					</wsp:Policy>
+				</sp:Wss11>
+				<sp:Trust13 xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+					<wsp:Policy>
+						<sp:MustSupportIssuedTokens />
+						<sp:RequireClientEntropy />
+						<sp:RequireServerEntropy />
+					</wsp:Policy>
+				</sp:Trust13>
+					<sp:SignedParts xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+					<sp:Body />
+					<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+					<sp:Header Name="AckRequested"
+						Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702" />
+					<sp:Header Name="SequenceAcknowledgement"
+						Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702" />
+					<sp:Header Name="Sequence"
+						Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702" />
+					<sp:Header Name="CreateSequence"
+						Namespace="http://docs.oasis-open.org/ws-rx/wsrm/200702" />
+				</sp:SignedParts>
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+</wsp:PolicyAttachment>
+</attachments>

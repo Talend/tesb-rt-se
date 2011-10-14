@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:Services="http://www.talend.org/Services">
+  <Services:ServicePort xmi:id="_UvRYkfRJEeCL97AYJI0Dnw" name="DoubleItService" serviceOperation="_UvRYkvRJEeCL97AYJI0Dnw">
+    <additionalInfo xmi:id="_XIpxkPZIEeCC9qmqipnlMA" key="UseSAM" value="false"/>
+    <additionalInfo xmi:id="_XIpxkfZIEeCC9qmqipnlMA" key="UseSL" value="false"/>
+    <additionalInfo xmi:id="_XIpxkvZIEeCC9qmqipnlMA" key="Security" value="Basic"/>
+  </Services:ServicePort>
+  <Services:ServiceOperation xmi:id="_UvRYkvRJEeCL97AYJI0Dnw" referenceJobId="_a5Q1oPRJEeCL97AYJI0Dnw" operationName="executeRequest" label="executeRequest-DoubleItService_executeRequest"/>
+  <Services:ServiceConnection xmi:id="_jW9hUfZTEeCC9qmqipnlMA" WSDLPath="D:/TESBRC1/data-service-authentication/service-bundle/src/main/resources/DoubleItService.wsdl" servicePort="_UvRYkfRJEeCL97AYJI0Dnw"/>
+</xmi:XMI>
