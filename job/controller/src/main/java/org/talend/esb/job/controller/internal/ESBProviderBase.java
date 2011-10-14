@@ -10,6 +10,7 @@ import javax.xml.transform.Source;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
+import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.sam.agent.feature.EventFeature;
@@ -32,7 +33,7 @@ public abstract class ESBProviderBase implements
 	@javax.annotation.Resource
 	private javax.xml.ws.WebServiceContext context;
 
-	private String isAuthenticationRequired = "TOKEN";
+	private String authenticationType = "NO";
 
 	public void setEventFeature(EventFeature eventFeature) {
 		this.eventFeature = eventFeature;
@@ -41,18 +42,20 @@ public abstract class ESBProviderBase implements
 	// @javax.jws.WebMethod(exclude=true)
 	public final Source invoke(Source request) {
 
-		if (isAuthenticationRequired.equals("TOKEN")) {
+		if (authenticationType.equals(ESBEndpointConstants.EsbSecurity.TOKEN)) {
 			LOG.info("UsernameToken authentication required");
 			try {
 				login();
 			} catch (LoginException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return processResult(e);
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return processResult(e);
 			}
-		} else if (isAuthenticationRequired.equals("SAML")) {
+		} else if (authenticationType.equals(ESBEndpointConstants.EsbSecurity.SAML)) {
 			LOG.info("SAML authentication required");
 		} else {
 			LOG.info("No authentication required");
