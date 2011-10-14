@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +70,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG =
         Logger.getLogger(RuntimeESBConsumer.class.getName());
 
+    private static final String STS_WSDL_LOCATION =
+            "http://localhost:8080/SecurityTokenService/UT?wsdl";
+    private static final String STS_NAMESPACE =
+            "http://docs.oasis-open.org/ws-sx/ws-trust/200512/";
+    private static final QName STS_SERVICE_QNAME =
+            new QName(STS_NAMESPACE, "SecurityTokenService");
+    private static final QName STS_ENDPOINT_QNAME =
+            new QName(STS_NAMESPACE, "UT_Port");
+
     private final QName serviceName;
     private final QName portName;
     private final String operationName;
@@ -83,7 +91,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String password;
     private final Bus bus;
 
-    private String policyLocation = "f:\\policySAML.xml";
+    private String policyLocation = "";
     private Client client;
 
     public RuntimeESBConsumer(
@@ -205,12 +213,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 cf.setProperties(properties);
             } else if (EsbSecurity.SAML == esbSecurity) {
                 STSClient stsClient = new STSClient(bus);
+                stsClient.setWsdlLocation(STS_WSDL_LOCATION);
+                stsClient.setServiceQName(STS_SERVICE_QNAME);
+                stsClient.setEndpointQName(STS_ENDPOINT_QNAME);
 
                 Map<String, Object> stsProperties = new HashMap<String, Object>();
                 stsProperties.put(SecurityConstants.USERNAME, username);
-                stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, username);
-                stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, true);
-                stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT, false);
+                stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
+                stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
+                stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT, "false");
                 stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES, "clientKeystore.properties");
                 stsProperties.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
                 stsProperties.put(SecurityConstants.ENCRYPT_PROPERTIES, "clientKeystore.properties");
@@ -232,8 +243,29 @@ public class RuntimeESBConsumer implements ESBConsumer {
                });
                 stsClient.setProperties(stsProperties);
 
-                cf.setProperties(
-                    Collections.singletonMap(SecurityConstants.STS_CLIENT, (Object)stsClient));
+                Map<String, Object> cfProperties = new HashMap<String, Object>();
+                cfProperties.put(SecurityConstants.STS_CLIENT, stsClient);
+                cfProperties.put(SecurityConstants.SIGNATURE_PROPERTIES, "clientKeystore.properties");
+                cfProperties.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
+                cfProperties.put(SecurityConstants.ENCRYPT_PROPERTIES, "clientKeystore.properties");
+                cfProperties.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+                cfProperties.put(SecurityConstants.CALLBACK_HANDLER,
+                        new CallbackHandler() {
+                    @Override
+                    public void handle(Callback[] callbacks) throws IOException,
+                        UnsupportedCallbackException {
+                        for (int i = 0; i < callbacks.length; i++) {
+                            if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+                                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                                if (username.equals(pc.getIdentifier())) {
+                                   pc.setPassword(password);
+                                   break;
+                               }
+                            }
+                        }
+                    }
+               });
+                cf.setProperties(cfProperties);
             }
         }
 
