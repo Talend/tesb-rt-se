@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +50,14 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.ws.policy.PolicyBuilderImpl;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.cxf.ws.policy.PolicyEngineImpl;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.policy.attachment.external.ExternalAttachmentProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.neethi.Policy;
 import org.apache.ws.security.WSPasswordCallback;
 import org.springframework.core.io.FileSystemResource;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
@@ -79,6 +82,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final QName STS_ENDPOINT_QNAME =
             new QName(STS_NAMESPACE, "UT_Port");
 
+    private static final String TOKEN_POLICY_LOCATION = "/policies/token.xml";
+    private static final String SAML_POLICY_LOCATION = "/policies/saml.xml";
+
     private final QName serviceName;
     private final QName portName;
     private final String operationName;
@@ -91,7 +97,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String password;
     private final Bus bus;
 
-    private String policyLocation = "";
     private Client client;
 
     public RuntimeESBConsumer(
@@ -205,13 +210,18 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         cf.setFeatures(features);
 
+        String policyLocation = null;
         if (EsbSecurity.NO != esbSecurity) {
             if (EsbSecurity.TOKEN == esbSecurity) {
+                policyLocation = TOKEN_POLICY_LOCATION;
+
                 Map<String, Object> properties = new HashMap<String, Object>(2);
                 properties.put(SecurityConstants.USERNAME, username);
                 properties.put(SecurityConstants.PASSWORD, password);
                 cf.setProperties(properties);
             } else if (EsbSecurity.SAML == esbSecurity) {
+                policyLocation = SAML_POLICY_LOCATION;
+
                 STSClient stsClient = new STSClient(bus);
                 stsClient.setWsdlLocation(STS_WSDL_LOCATION);
                 stsClient.setServiceQName(STS_SERVICE_QNAME);
@@ -278,23 +288,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
         ServiceHelper.addOperation(si,
                 operationName, isRequestResponse);
 
-        if (EsbSecurity.NO != esbSecurity) {
-            PolicyEngineImpl pei = new PolicyEngineImpl(bus);
-
-            try {
-                Constructor<ExternalAttachmentProvider> ctor =
-                    ExternalAttachmentProvider.class.getDeclaredConstructor(Bus.class);
-                ctor.setAccessible(true);
-                ExternalAttachmentProvider ppr = ctor.newInstance(bus);
-                ppr.setLocation(new FileSystemResource(new File(policyLocation)));
-                pei.addPolicyProvider(ppr);
-            } catch (Exception e) {
-                throw new RuntimeException("Cannot attach external policy", e);
-            }
-
-            bus.setExtension(pei, PolicyEngine.class);
-
-            WSPolicyFeature feature = new WSPolicyFeature();
+        if (null != policyLocation) {
+            PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
+            Policy policy = policyBuilder.getPolicy(getClass().getResourceAsStream(policyLocation));
+            WSPolicyFeature feature = new WSPolicyFeature(policy);
             feature.initialize(client, bus);
         }
 
