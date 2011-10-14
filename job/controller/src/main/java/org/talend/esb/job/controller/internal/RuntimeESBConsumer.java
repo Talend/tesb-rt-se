@@ -77,9 +77,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final QName STS_ENDPOINT_QNAME =
             new QName(STS_NAMESPACE, "UT_Port");
 
-    private static final String TOKEN_POLICY_LOCATION = "/policies/token.xml";
-    private static final String SAML_POLICY_LOCATION = "/policies/saml.xml";
-
     private final QName serviceName;
     private final QName portName;
     private final String operationName;
@@ -272,14 +269,23 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 operationName, isRequestResponse);
 
         if (null != securityArguments.getPolicyLocation()) {
+            InputStream is = null;
             try {
-                InputStream is = new FileInputStream(securityArguments.getPolicyLocation());
+                is = new FileInputStream(securityArguments.getPolicyLocation());
                 PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
                 Policy policy = policyBuilder.getPolicy(is);
                 WSPolicyFeature feature = new WSPolicyFeature(policy);
                 feature.initialize(client, bus);
             } catch (Exception e) {
                 throw new RuntimeException("Cannot load policy");
+            } finally {
+                if (null != is) {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        // just ignore
+                    }
+                }
             }
         }
 
