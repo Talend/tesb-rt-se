@@ -761,12 +761,12 @@
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
-								<!-- CXF Features -->
-								<feature>cxf</feature>
 								<!-- ActiveMQ Features -->
 								<!-- feature>activemq</feature-->
 								<feature>activemq-blueprint</feature>
 								<feature>activemq-spring</feature>
+								<!-- CXF Features -->
+								<feature>cxf</feature>
 								<!-- Camel Features -->
 								<feature>camel</feature>
 								<feature>camel-core</feature>
