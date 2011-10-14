@@ -21,20 +21,17 @@
 	<properties>
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
-		<activemq.version>5.5.0</activemq.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.8.2.0-SNAPSHOT</tif.version>
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.4.1.0</tsf.version>
 		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
-        <camel.version>2.8.2-SNAPSHOT</camel.version>
         <cxf-sts.version>1.1</cxf-sts.version>
         <cellar.version>2.2.2</cellar.version>
         <jclouds.version>1.0.0</jclouds.version>
 
 		<!-- OSGi (Karaf, Felix, Aries) -->
 		<aries.version>0.3</aries.version>
-		<!--karaf.version>2.2.1</karaf.version-->
 		<!--osgi.compendium.version>4.2.0</osgi.compendium.version-->
 		<!--osgi.core.version>4.2.0</osgi.core.version-->
 
@@ -746,13 +743,13 @@
 							<descriptors>
                                 <descriptor>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
-<!--                                <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
+<!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
+<!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
+<!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.jclouds.karaf/feature/${jclouds.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
-								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor>
+<!-- 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor> -->
 								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
 							</descriptors>
 							<features>
@@ -761,13 +758,14 @@
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
-								<!-- CXF Features -->
-								<feature>cxf</feature>
-								<!-- ActiveMQ Features -->
-								<!-- feature>activemq</feature-->
+								<feature>tesb-core</feature>
+								<!-- ActiveMQ Features
+								<feature>activemq</feature>
 								<feature>activemq-blueprint</feature>
-								<feature>activemq-spring</feature>
-								<!-- Camel Features -->
+								<feature>activemq-spring</feature> -->
+								<!-- CXF Features
+								<feature>cxf</feature> -->
+								<!-- Camel Features
 								<feature>camel</feature>
 								<feature>camel-core</feature>
 								<feature>camel-spring</feature>
@@ -793,8 +791,6 @@
 								<feature>camel-cometd</feature>
 								<feature>camel-csv</feature>
 								<feature>camel-dozer</feature>
-								<!-- Disable this feature as there is a mistake in, see CAMEL-3637 -->
-								<!-- <feature>camel-eventAdmin</feature> -->
 								<feature>camel-exec</feature>
 								<feature>camel-flatpack</feature>
 								<feature>camel-freemarker</feature>
@@ -853,7 +849,7 @@
 								<feature>camel-xmlbeans</feature>
 								<feature>camel-xmlsecurity</feature>
 								<feature>camel-xmpp</feature>
-								<feature>camel-xstream</feature>
+								<feature>camel-xstream</feature> -->
 								<!-- TIF Features -->
 								<feature>tif-core</feature>
 								<feature>tif-test</feature>

@@ -69,6 +69,7 @@
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.junit/${junit.bundle.version}</bundle>
     <bundle>mvn:org.apache.camel/camel-test/${camel.version}</bundle>
   </feature> 
+  
   <feature name="camel-cxf" version="${camel.version}" resolver="(obr)" start-level="50">
     <feature version="${camel.version}">camel-spring</feature>
     <feature>jetty</feature>

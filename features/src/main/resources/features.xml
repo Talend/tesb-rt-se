@@ -21,7 +21,9 @@
 
 <features>
 
+  <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+  <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
 
   <feature name='tesb-sam-agent' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
@@ -113,5 +115,100 @@
         <bundle>mvn:commons-fileupload/commons-fileupload/${commons-fileupload.version}</bundle>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.console/${project.version}</bundle>
     </feature>
+    
+    <feature name="tesb-core" version="${project.version}" resolver="(obr)">
+		<!-- ActiveMQ Features -->
+		<feature version="${activemq.version}">activemq</feature>
+		<feature version="${activemq.version}">activemq-blueprint</feature>
+		<feature version="${activemq.version}">activemq-spring</feature>
+		<!-- CXF Features -->
+		<feature version="${cxf.version}">cxf</feature>
+		<!-- Camel Features -->
+		<feature version="${camel.version}">camel</feature>
+		<feature version="${camel.version}">camel-core</feature>
+		<feature version="${camel.version}">camel-spring</feature>
+		<feature version="${camel.version}">camel-blueprint</feature>
+		<feature version="${camel.version}">camel-test</feature>
+		<feature version="${camel.version}">camel-cxf</feature>
+		<feature version="${camel.version}">camel-cache</feature>
+		<feature version="${camel.version}">camel-castor</feature>
+		<feature version="${camel.version}">camel-crypto</feature>
+		<feature version="${camel.version}">camel-http</feature>
+		<feature version="${camel.version}">camel-http4</feature>
+		<feature version="${camel.version}">camel-mina</feature>
+		<feature version="${camel.version}">camel-jetty</feature>
+		<feature version="${camel.version}">camel-servlet</feature>
+		<feature version="${camel.version}">camel-jms</feature>
+		<feature version="${camel.version}">camel-jmx</feature>
+		<feature version="${camel.version}">camel-amqp</feature>
+		<feature version="${camel.version}">camel-atom</feature>
+		<feature version="${camel.version}">camel-aws</feature>
+		<feature version="${camel.version}">camel-bam</feature>
+		<feature version="${camel.version}">camel-bean-validator</feature>
+		<feature version="${camel.version}">camel-bindy</feature>
+		<feature version="${camel.version}">camel-cometd</feature>
+		<feature version="${camel.version}">camel-csv</feature>
+		<feature version="${camel.version}">camel-dozer</feature>
+		<feature version="${camel.version}">camel-exec</feature>
+		<feature version="${camel.version}">camel-flatpack</feature>
+		<feature version="${camel.version}">camel-freemarker</feature>
+		<feature version="${camel.version}">camel-ftp</feature>
+		<feature version="${camel.version}">camel-guice</feature>
+		<feature version="${camel.version}">camel-groovy</feature>
+		<feature version="${camel.version}">camel-hl7</feature>
+		<feature version="${camel.version}">camel-hawtdb</feature>
+		<feature version="${camel.version}">camel-ibatis</feature>
+		<feature version="${camel.version}">camel-irc</feature>
+		<feature version="${camel.version}">camel-jackson</feature>
+		<feature version="${camel.version}">camel-jasypt</feature>
+		<feature version="${camel.version}">camel-jaxb</feature>
+		<feature version="${camel.version}">camel-jcr</feature>
+		<feature version="${camel.version}">camel-jing</feature>
+		<feature version="${camel.version}">camel-jibx</feature>
+		<feature version="${camel.version}">camel-jdbc</feature>
+		<feature version="${camel.version}">camel-josql</feature>
+		<feature version="${camel.version}">camel-jpa</feature>
+		<feature version="${camel.version}">camel-jxpath</feature>
+		<feature version="${camel.version}">camel-juel</feature>
+		<feature version="${camel.version}">camel-kestrel</feature>
+		<feature version="${camel.version}">camel-ldap</feature>
+		<feature version="${camel.version}">camel-lucene</feature>
+		<feature version="${camel.version}">camel-mail</feature>
+		<feature version="${camel.version}">camel-msv</feature>
+		<feature version="${camel.version}">camel-mvel</feature>
+		<feature version="${camel.version}">camel-nagios</feature>
+		<feature version="${camel.version}">camel-netty</feature>
+		<feature version="${camel.version}">camel-ognl</feature>
+		<feature version="${camel.version}">camel-paxlogging</feature>
+		<feature version="${camel.version}">camel-printer</feature>
+		<feature version="${camel.version}">camel-protobuf</feature>
+		<feature version="${camel.version}">camel-quartz</feature>
+		<feature version="${camel.version}">camel-quickfix</feature>
+		<feature version="${camel.version}">camel-rmi</feature>
+		<feature version="${camel.version}">camel-routebox</feature>
+		<feature version="${camel.version}">camel-rss</feature>
+		<feature version="${camel.version}">camel-saxon</feature>
+		<feature version="${camel.version}">camel-scala</feature>
+		<feature version="${camel.version}">camel-script</feature>
+		<feature version="${camel.version}">camel-sip</feature>
+		<feature version="${camel.version}">camel-shiro</feature>
+		<feature version="${camel.version}">camel-smpp</feature>
+		<feature version="${camel.version}">camel-snmp</feature>
+		<feature version="${camel.version}">camel-soap</feature>
+		<feature version="${camel.version}">camel-spring-javaconfig</feature>
+		<feature version="${camel.version}">camel-spring-security</feature>
+		<feature version="${camel.version}">camel-spring-ws</feature>
+		<feature version="${camel.version}">camel-sql</feature>
+		<feature version="${camel.version}">camel-stream</feature>
+		<feature version="${camel.version}">camel-string-template</feature>
+		<feature version="${camel.version}">camel-syslog</feature>
+		<feature version="${camel.version}">camel-tagsoup</feature>
+		<feature version="${camel.version}">camel-velocity</feature>
+		<feature version="${camel.version}">camel-xmlbeans</feature>
+		<feature version="${camel.version}">camel-xmlsecurity</feature>
+		<feature version="${camel.version}">camel-xmpp</feature>
+		<feature version="${camel.version}">camel-xstream</feature>
+    </feature>
+    
 
 </features>
