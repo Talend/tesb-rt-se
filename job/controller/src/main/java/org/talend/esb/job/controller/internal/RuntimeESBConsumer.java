@@ -19,11 +19,10 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,15 +50,11 @@ import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.PolicyBuilderImpl;
-import org.apache.cxf.ws.policy.PolicyEngine;
-import org.apache.cxf.ws.policy.PolicyEngineImpl;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
-import org.apache.cxf.ws.policy.attachment.external.ExternalAttachmentProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.neethi.Policy;
 import org.apache.ws.security.WSPasswordCallback;
-import org.springframework.core.io.FileSystemResource;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
@@ -68,7 +63,7 @@ import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
 
-@javax.jws.WebService()
+//@javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG =
         Logger.getLogger(RuntimeESBConsumer.class.getName());
@@ -92,9 +87,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final AbstractFeature serviceLocator;
     private final EventFeature eventFeature;
-    private final EsbSecurity esbSecurity;
-    private final String username;
-    private final String password;
+    private final SecurityArguments securityArguments;
     private final Bus bus;
 
     private Client client;
@@ -107,9 +100,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse,
             final AbstractFeature serviceLocator,
             final EventFeature eventFeature,
-            final EsbSecurity esbSecurity,
-            String username,
-            String password,
+            final SecurityArguments securityArguments,
             final Bus bus) {
         this.serviceName = serviceName;
         this.portName = portName;
@@ -118,9 +109,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.isRequestResponse = isRequestResponse;
         this.serviceLocator = serviceLocator;
         this.eventFeature = eventFeature;
-        this.esbSecurity = esbSecurity;
-        this.username = username;
-        this.password = password;
+        this.securityArguments = securityArguments;
         this.bus = bus;
     }
 
@@ -138,7 +127,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 (java.util.Map<String, String>)map.get(ESBProviderBase.REQUEST_SAM_PROPS);
             if (samProps != null && eventFeature != null) {
                 LOG.info("SAM custom properties received: " + samProps);
-                //System.out.println("Consumer/" + "SAM custom properties received: " + samProps);
                 CustomInfoHandler ciHandler = new CustomInfoHandler();
                 ciHandler.setCustomInfo(samProps);
                 eventFeature.setHandler(ciHandler);
@@ -210,25 +198,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         cf.setFeatures(features);
 
-        String policyLocation = null;
-        if (EsbSecurity.NO != esbSecurity) {
-            if (EsbSecurity.TOKEN == esbSecurity) {
-                policyLocation = TOKEN_POLICY_LOCATION;
-
+        if (EsbSecurity.NO != securityArguments.getEsbSecurity()) {
+            if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity()) {
                 Map<String, Object> properties = new HashMap<String, Object>(2);
-                properties.put(SecurityConstants.USERNAME, username);
-                properties.put(SecurityConstants.PASSWORD, password);
+                properties.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+                properties.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
                 cf.setProperties(properties);
-            } else if (EsbSecurity.SAML == esbSecurity) {
-                policyLocation = SAML_POLICY_LOCATION;
-
+            } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
                 STSClient stsClient = new STSClient(bus);
                 stsClient.setWsdlLocation(STS_WSDL_LOCATION);
                 stsClient.setServiceQName(STS_SERVICE_QNAME);
                 stsClient.setEndpointQName(STS_ENDPOINT_QNAME);
 
                 Map<String, Object> stsProperties = new HashMap<String, Object>();
-                stsProperties.put(SecurityConstants.USERNAME, username);
+                stsProperties.put(SecurityConstants.USERNAME, securityArguments.getUsername());
                 stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
                 stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
                 stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT, "false");
@@ -243,8 +226,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
                         for (int i = 0; i < callbacks.length; i++) {
                             if (callbacks[i] instanceof WSPasswordCallback) { // CXF
                                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                                if (username.equals(pc.getIdentifier())) {
-                                   pc.setPassword(password);
+                                if (securityArguments.getUsername().equals(pc.getIdentifier())) {
+                                   pc.setPassword(securityArguments.getPassword());
                                    break;
                                }
                             }
@@ -267,8 +250,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
                         for (int i = 0; i < callbacks.length; i++) {
                             if (callbacks[i] instanceof WSPasswordCallback) { // CXF
                                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                                if (username.equals(pc.getIdentifier())) {
-                                   pc.setPassword(password);
+                                if (securityArguments.getUsername().equals(pc.getIdentifier())) {
+                                   pc.setPassword(securityArguments.getPassword());
                                    break;
                                }
                             }
@@ -288,11 +271,16 @@ public class RuntimeESBConsumer implements ESBConsumer {
         ServiceHelper.addOperation(si,
                 operationName, isRequestResponse);
 
-        if (null != policyLocation) {
-            PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
-            Policy policy = policyBuilder.getPolicy(getClass().getResourceAsStream(policyLocation));
-            WSPolicyFeature feature = new WSPolicyFeature(policy);
-            feature.initialize(client, bus);
+        if (null != securityArguments.getPolicyLocation()) {
+            try {
+                InputStream is = new FileInputStream(securityArguments.getPolicyLocation());
+                PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
+                Policy policy = policyBuilder.getPolicy(is);
+                WSPolicyFeature feature = new WSPolicyFeature(policy);
+                feature.initialize(client, bus);
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot load policy");
+            }
         }
 
         return client;

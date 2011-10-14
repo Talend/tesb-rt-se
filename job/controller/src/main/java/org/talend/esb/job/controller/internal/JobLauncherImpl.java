@@ -50,7 +50,6 @@ import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
-
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
@@ -63,9 +62,13 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
     private Queue<Event> samQueue;
 
     private Bus bus;
-    
+
     private BundleContext bundleContext;
-    
+
+    private String policyToken;
+
+    private String policySaml;
+
     private ExecutorService executorService;
 
     private ThreadLocal<RuntimeESBConsumer> tlsConsumer =
@@ -99,7 +102,15 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
     public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
     }
-    
+
+    public void setPolicyToken(String policyToken) {
+        this.policyToken = policyToken;
+    }
+
+    public void setPolicySaml(String policySaml) {
+        this.policySaml = policySaml;
+    }
+
     @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {
         LOG.info("Adding ESB job " +  name + ".");
@@ -223,16 +234,26 @@ public class JobLauncherImpl implements JobLauncher, Controller, ESBEndpointRegi
         boolean useServiceActivityMonitor = ((Boolean) props
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
+        final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
+                .get(ESBEndpointConstants.ESB_SECURITY));
+        String policyLocation = null;
+        if (EsbSecurity.TOKEN == esbSecurity) {
+            policyLocation = policyToken;
+        } else if (EsbSecurity.SAML == esbSecurity) {
+            policyLocation = policySaml;
+        }
+        final SecurityArguments securityArguments = new SecurityArguments(
+            esbSecurity,
+            policyLocation,
+            (String) props.get(ESBEndpointConstants.USERNAME),
+            (String) props.get(ESBEndpointConstants.PASSWORD));
         final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 useServiceLocator ? new LocatorFeature() : null,
                 useServiceActivityMonitor ? createEventFeature() : null,
-                EsbSecurity.fromString((String) props
-                        .get(ESBEndpointConstants.ESB_SECURITY)),
-                (String) props.get(ESBEndpointConstants.USERNAME),
-                (String) props.get(ESBEndpointConstants.PASSWORD),
+                securityArguments,
                 bus);
 
         tlsConsumer.set(runtimeESBConsumer);
