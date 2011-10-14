@@ -20,13 +20,18 @@
 package org.talend.esb.job.controller.internal;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
@@ -50,6 +55,8 @@ import org.apache.cxf.ws.policy.PolicyEngineImpl;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.policy.attachment.external.ExternalAttachmentProvider;
 import org.apache.cxf.ws.security.SecurityConstants;
+import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.ws.security.WSPasswordCallback;
 import org.springframework.core.io.FileSystemResource;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
@@ -58,7 +65,6 @@ import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBConsumer;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
@@ -77,7 +83,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String password;
     private final Bus bus;
 
-    private String policyLocation = "";
+    private String policyLocation = "f:\\policySAML.xml";
     private Client client;
 
     public RuntimeESBConsumer(
@@ -198,7 +204,36 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 properties.put(SecurityConstants.PASSWORD, password);
                 cf.setProperties(properties);
             } else if (EsbSecurity.SAML == esbSecurity) {
-                throw new NotImplementedException();
+                STSClient stsClient = new STSClient(bus);
+
+                Map<String, Object> stsProperties = new HashMap<String, Object>();
+                stsProperties.put(SecurityConstants.USERNAME, username);
+                stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, username);
+                stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, true);
+                stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT, false);
+                stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES, "clientKeystore.properties");
+                stsProperties.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
+                stsProperties.put(SecurityConstants.ENCRYPT_PROPERTIES, "clientKeystore.properties");
+                stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
+                        new CallbackHandler() {
+                    @Override
+                    public void handle(Callback[] callbacks) throws IOException,
+                        UnsupportedCallbackException {
+                        for (int i = 0; i < callbacks.length; i++) {
+                            if (callbacks[i] instanceof WSPasswordCallback) { // CXF
+                                WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
+                                if (username.equals(pc.getIdentifier())) {
+                                   pc.setPassword(password);
+                                   break;
+                               }
+                            }
+                        }
+                    }
+               });
+                stsClient.setProperties(stsProperties);
+
+                cf.setProperties(
+                    Collections.singletonMap(SecurityConstants.STS_CLIENT, (Object)stsClient));
             }
         }
 
