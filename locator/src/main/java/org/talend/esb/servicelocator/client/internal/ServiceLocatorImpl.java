@@ -210,6 +210,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
     public synchronized  void register(EndpointProvider epProvider)
         throws ServiceLocatorException, InterruptedException {
         
+        register(epProvider, false);
+    }
+
+//    @Override
+    public synchronized  void register(EndpointProvider epProvider, boolean persistent)
+        throws ServiceLocatorException, InterruptedException {
+        
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
 
@@ -224,9 +231,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
         NodePath endpointNodePath = 
             ensureEndpointExists(serviceNodePath, endpoint, content);
 
-        createEndpointStatus(endpointNodePath);
+        createEndpointStatus(endpointNodePath, persistent);
     }
-    
+
     @Override
     public synchronized void unregister(EndpointProvider epProvider)
         throws ServiceLocatorException, InterruptedException {
@@ -560,12 +567,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return serviceNodePath;
     }
 
-    private void createEndpointStatus(NodePath endpointNodePath)
+    private void createEndpointStatus(NodePath endpointNodePath, boolean persistent)
         throws ServiceLocatorException, InterruptedException {
 
         NodePath endpointStatusNodePath = endpointNodePath.child("live");
         try {
-            createNode(endpointStatusNodePath, CreateMode.EPHEMERAL, EMPTY_CONTENT);
+            CreateMode mode = persistent ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL;
+            createNode(endpointStatusNodePath, mode, EMPTY_CONTENT);
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Node " + endpointStatusNodePath + " created.");
             }

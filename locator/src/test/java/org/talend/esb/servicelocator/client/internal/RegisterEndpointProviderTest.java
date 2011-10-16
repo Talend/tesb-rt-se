@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
@@ -58,8 +59,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         setData(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -77,8 +77,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatusFails(ENDPOINT_PATH_11);
 
-        EndpointProvider epProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        EndpointProvider epProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -108,6 +107,26 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
         slc.register(epProvider);
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerEndpointPersistently() throws Exception {
+        serviceExists(SERVICE_PATH_1);
+
+        endpointExistsNot(ENDPOINT_PATH_11);
+        createEndpointAndSetData(ENDPOINT_PATH_11);
+
+        createEndpointStatus(ENDPOINT_PATH_11, true);
+
+        EndpointProvider epProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.register(epProvider, true);
 
         verifyAll();
     }
@@ -221,9 +240,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     public void unregisterEndpointExistsNot() throws Exception {
         endpointExistsNot(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
-                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -238,9 +255,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         endpointExists(ENDPOINT_PATH_11);
         delete(ENDPOINT_STATUS_PATH_11, new KeeperException.RuntimeInconsistencyException());
 
-        EndpointProvider eprProvider = 
-            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
-                    TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
@@ -254,7 +269,6 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         verifyAll();
     }
-
 
     private void serviceExists(String path) throws KeeperException, InterruptedException {
         pathExists(path);
@@ -290,8 +304,15 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
     private void createEndpointStatus(String endpointPath)
         throws KeeperException, InterruptedException {
+        createEndpointStatus(endpointPath, false);
+    }
+
+    private void createEndpointStatus(String endpointPath, boolean persistent)
+        throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
-        createNode(endpointStatusPath, EPHEMERAL);
+        CreateMode mode = persistent ? PERSISTENT : EPHEMERAL; 
+
+        createNode(endpointStatusPath, mode);
     }
 
     private void deleteEndpointStatus(String endpointPath)
@@ -306,10 +327,10 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createNode(endpointStatusPath, EPHEMERAL, new KeeperException.NodeExistsException());
     }
 
-    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
+    protected EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
         return createEPProviderStub(serviceName, endpoint, BindingType.JAXRS, TransportType.HTTP, -1, -1);
     }
-    private EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
+    protected  EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
             BindingType bindingType, TransportType transportType, long lastTimeStarted, long lastTimeStopped)
         throws Exception {
         EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
@@ -329,6 +350,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         EasyMock.reportMatcher(new AddChildElementMatcher());
         return null;
     }
+
     public static class AddChildElementMatcher implements IArgumentMatcher {
 
         @Override
@@ -346,9 +368,6 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         @Override
         public void appendTo(StringBuffer buffer) {
-            // TODO Auto-generated method stub
-            
         }
-        
     }
 }
