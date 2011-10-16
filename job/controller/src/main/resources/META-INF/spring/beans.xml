@@ -58,6 +58,7 @@
         <property name="bundleContext" ref="bundleContext"/>
         <property name="policyToken" value="$job{policy.token}"/>
         <property name="policySaml" value="$job{policy.saml}"/>
+        <property name="usersFile" value="$job{users.file}"/>
     </bean>
 
 <!--    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/> -->

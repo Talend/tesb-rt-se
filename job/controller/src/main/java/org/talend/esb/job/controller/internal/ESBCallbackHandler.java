@@ -12,6 +12,10 @@ class ESBCallbackHandler implements CallbackHandler {
 	private String username;
 	private char[] password;
 	
+	public ESBCallbackHandler() {
+		
+	}
+	
 	public ESBCallbackHandler(String username, char[] password) {
 		this.username = username;
 		this.password = password;

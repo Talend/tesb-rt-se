@@ -3,14 +3,10 @@ package org.talend.esb.job.controller.internal;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
-import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.sam.agent.feature.EventFeature;
@@ -33,33 +29,12 @@ public abstract class ESBProviderBase implements
 	@javax.annotation.Resource
 	private javax.xml.ws.WebServiceContext context;
 
-	private String authenticationType = "NO";
-
 	public void setEventFeature(EventFeature eventFeature) {
 		this.eventFeature = eventFeature;
 	}
 
 	// @javax.jws.WebMethod(exclude=true)
 	public final Source invoke(Source request) {
-
-		if (authenticationType.equals(ESBEndpointConstants.EsbSecurity.TOKEN)) {
-			LOG.info("UsernameToken authentication required");
-			try {
-				login();
-			} catch (LoginException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return processResult(e);
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return processResult(e);
-			}
-		} else if (authenticationType.equals(ESBEndpointConstants.EsbSecurity.SAML)) {
-			LOG.info("SAML authentication required");
-		} else {
-			LOG.info("No authentication required");
-		}
 
 		QName operationQName = (QName) context.getMessageContext().get(
 				MessageContext.WSDL_OPERATION);
@@ -103,43 +78,6 @@ public abstract class ESBProviderBase implements
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	private void login() throws LoginException, SecurityException {
-
-		LOG.info("Authentication to data service started");
-		MessageContext messageContext = context.getMessageContext();
-		String username = (String) messageContext
-				.get(BindingProvider.USERNAME_PROPERTY);
-		char[] password = messageContext.get(BindingProvider.PASSWORD_PROPERTY)
-				.toString().toCharArray();
-
-		LoginContext loginContext = null;
-
-		try {
-			LOG.info("Creating LoginContext");
-			loginContext = new LoginContext("KarafRealm",
-					new ESBCallbackHandler(username, password));
-		} catch (LoginException le) {
-			LOG.info("Cannot create LoginContext. " + le.getMessage());
-			LOG.info(le.getStackTrace().toString());
-			throw le;
-		} catch (SecurityException se) {
-			LOG.info("Cannot create LoginContext. " + se.getMessage());
-			LOG.info(se.getStackTrace().toString());
-			throw se;
-		}
-
-		try {		
-			loginContext.login();
-		} catch (LoginException le) {
-			LOG.info("Authentication failed for user: " + username);
-			LOG.info(le.getStackTrace().toString());
-			throw le;
-		}
-
-		LOG.info("Authentication succeeded for user: " + username);
-
 	}
 
 	private Source processResult(Object result) {
