@@ -757,7 +757,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
        
         eprProvider.addEndpointReference(doc);
-        endpointData.setAny(doc.getDocumentElement());
+        endpointData.setEndpointReference(doc.getDocumentElement());
         
         return endpointData;
     }

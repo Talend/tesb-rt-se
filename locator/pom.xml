@@ -89,16 +89,14 @@
                             <goal>xsdtojava</goal>
                         </goals>
                         <configuration>
-<!--
-                            <extensions>
-                                <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:${cxf.xjc-utils.version}</extension>
-                            </extensions>
--->
-                            <!-- sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot-->
                             <xsdOptions>
                                 <xsdOption>
-                                    <xsd>${basedir}/src/main/resources/schemas/service-locator-properties.xsd</xsd>
-                                    <packagename>org.talend.esb.servicelocator.client.internal.endpoint</packagename>
+                                    <xsd>${basedir}/src/main/resources/schemas/locator-endpoint.xsd</xsd>
+                                    <bindingFile>${basedir}/src/main/resources/schemas/locator-endpoint.xjb</bindingFile>
+                                </xsdOption>
+                                <xsdOption>
+                                    <xsd>${basedir}/src/main/resources/schemas/ws-addr.xsd</xsd>
+                                    <bindingFile>${basedir}/src/main/resources/schemas/ws-addr.xjb</bindingFile>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>

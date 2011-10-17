@@ -19,27 +19,35 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import java.util.Collection;
+
 import org.w3c.dom.Element;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import org.talend.esb.servicelocator.client.BindingType;
+import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.TransportType;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.talend.esb.DomMother.newDocument;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.SL_NS;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.NAME_1;
+import static org.talend.esb.servicelocator.TestValues.NAME_2;
 import static org.talend.esb.servicelocator.TestValues.PROPERTIES;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
@@ -85,6 +93,26 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp =
             new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID, epr);
         assertEquals(TransportType.HTTP, epp.getTransport());
+    }
+    
+    @Test
+    public void getProperties() {
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+
+        SLProperties properties = epp.getProperties();
+        
+        assertTrue(properties.hasProperty(NAME_1));
+        assertTrue(properties.hasProperty(NAME_2));
+    }
+
+    @Test
+    public void getPropertiesNotDefined() {
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+
+        SLProperties properties = epp.getProperties();
+        Collection<String> keys = properties.getPropertyNames();
+        Matcher<Collection<String>> empty = empty(); 
+        assertThat(keys, empty);
     }
 
     @Test

@@ -53,7 +53,7 @@ public class ContentHolder {
     public static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
     ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
-    private static final  String SERVICE_LOCATOR_PROPERTIES_NS = "http://talend.org/esb/serviceLocator/4.2";
+    private static final  String SERVICE_LOCATOR_PROPERTIES_NS = "http://talend.org/schemas/esb/locator/content/20011/11";
 
     private static final String SERVICE_LOCATOR_PROPERTIES_LN = "ServiceLocatorProperties";
     
@@ -74,7 +74,7 @@ public class ContentHolder {
         if (content != null) {
             epd = toEndPointData(content);
             
-            Element eprRoot = (Element) epd.getAny();
+            Element eprRoot = (Element) epd.getEndpointReference();
             epr =  toEndPointReference(eprRoot);
 
             props = extractProperties(epr);

@@ -30,7 +30,7 @@ import javax.xml.namespace.NamespaceContext;
 
 public class NamespaceContextImpl implements NamespaceContext {
 
-    public static final String SL_NS = "http://talend.org/esb/serviceLocator/4.2";
+    public static final String SL_NS = "http://talend.org/schemas/esb/locator/content/20011/11";
 
     public static final String SL_PREFIX = "sl";
 

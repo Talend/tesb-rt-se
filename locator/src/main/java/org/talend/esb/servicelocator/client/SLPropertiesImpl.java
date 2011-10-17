@@ -28,6 +28,8 @@ import java.util.Map;
 
 public class SLPropertiesImpl implements SLProperties {
 
+    public static final SLProperties EMPTY_PROPERTIES = new SLPropertiesImpl();
+    
     private static final long serialVersionUID = -3527977700696163706L;
 
     private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();

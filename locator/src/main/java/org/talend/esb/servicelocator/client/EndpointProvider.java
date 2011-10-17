@@ -53,6 +53,8 @@ public interface EndpointProvider {
 
     long getLastTimeStopped();
 
+    SLProperties getProperties();
+    
     /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 

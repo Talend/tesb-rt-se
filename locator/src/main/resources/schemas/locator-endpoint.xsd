@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema
-    targetNamespace="http://talend.org/esb/serviceLocator/4.2"
+    targetNamespace="http://talend.org/schemas/esb/locator/content/20011/11"
     elementFormDefault="qualified"
     xmlns="http://www.w3.org/2001/XMLSchema"
-    xmlns:tns="http://talend.org/esb/serviceLocator/4.2"
+    xmlns:tns="http://talend.org/schemas/esb/locator/content/20011/11"
     xmlns:wsa="http://www.w3.org/2005/08/addressing">
+
+    <import namespace = "http://www.w3.org/2005/08/addressing" 
+            schemaLocation="./ws-addr.xsd"/>
 
     <element name="EndpointData" type="tns:EndpointDataType"/>
 
     <complexType name="EndpointDataType">
     	<sequence>
+            <element id="endpointReference" ref="wsa:EndpointReference" minOccurs="0" maxOccurs="1"/>
+            <element id="properties" ref="tns:ServiceLocatorProperties" minOccurs="0" maxOccurs="1"/>
     		<element name="LastTimeStarted" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
     		<element name="LastTimeStopped" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
     		<element name="Binding" type="tns:BindingType" minOccurs="1" maxOccurs="1"/>
     		<element name="Transport" type="tns:TransportType" minOccurs="1" maxOccurs="1"/>
-    		<any namespace="http://www.w3.org/2005/08/addressing" minOccurs="1" maxOccurs="1"/>
+    		<any id="extensions" namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/> 
     	</sequence>
+   		<anyAttribute namespace="##any" processContents="lax" />
     </complexType>
 
     <element name="ServiceLocatorProperties" type="tns:ServiceLocatorPropertiesType"/>
