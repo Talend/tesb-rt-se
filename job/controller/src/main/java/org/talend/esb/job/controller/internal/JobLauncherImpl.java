@@ -223,8 +223,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	public void serviceAdded(Endpoint service, String name) {
 		LOG.info("Adding service " + name + ".");
 
-		enableTokenSecurity(service);
-
 		services.put(name, service);
 	}
 
