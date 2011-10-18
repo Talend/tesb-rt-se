@@ -69,7 +69,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private static final String STS_NAMESPACE = "sts.namespace";
 	private static final String STS_SERVICE_NAME = "sts.service.name";
 	private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
-
+	private static final String CONSUMER_SIGNATURE_PASSWORD = "ws-security.signature.password";
+	private static final String CONSUMER_SIGNATURE_USER = "ws-security.signature.username";
+	
 	private final QName serviceName;
 	private final QName portName;
 	private final String operationName;
@@ -265,6 +267,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				// "clientKeystore.properties");
 				// cfProperties.put(SecurityConstants.ENCRYPT_USERNAME,
 				// "myservicekey");
+				final String csp = sprop.get(CONSUMER_SIGNATURE_PASSWORD);
+				final String csu = sprop.get(CONSUMER_SIGNATURE_USER);
+				
 				cfProperties.put(SecurityConstants.CALLBACK_HANDLER,
 						new CallbackHandler() {
 							@Override
@@ -274,10 +279,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 								for (int i = 0; i < callbacks.length; i++) {
 									if (callbacks[i] instanceof WSPasswordCallback) { // CXF
 										WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-										if (securityArguments.getUsername()
+										if (csu
 												.equals(pc.getIdentifier())) {
-											pc.setPassword(securityArguments
-													.getPassword());
+											pc.setPassword(csp);
 											break;
 										}
 									}
