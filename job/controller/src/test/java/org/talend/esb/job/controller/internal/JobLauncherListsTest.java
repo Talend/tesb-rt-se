@@ -28,7 +28,6 @@ import javax.xml.ws.Endpoint;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -108,20 +107,20 @@ public class JobLauncherListsTest extends EasyMockSupport {
         jobLauncher.serviceAdded(service2, SERVICE_NAME_2);
     }
 
-    @Ignore
+    @Test
     public void listRoutes() {
 
         List<String> names = jobLauncher.listRoutes();
         assertThat(names, containsInAnyOrder(ROUTE_NAME_1, ROUTE_NAME_2));
     }
 
-    @Ignore
+    @Test
     public void listJobs() {
         List<String> names = jobLauncher.listJobs();
         assertThat(names, containsInAnyOrder(JOB_NAME_1, JOB_NAME_2));
     }
 
-    @Ignore
+    @Test
     public void listServices() {
         List<String> names = jobLauncher.listServices();
         assertThat(names, containsInAnyOrder(SERVICE_NAME_1, SERVICE_NAME_2));
