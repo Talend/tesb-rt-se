@@ -116,6 +116,9 @@
 							org.talend.esb.servicelocator.*, 
 							'=META-INF.tesb.locator'
                         </Export-Package>
+                        <Require-Bundle>
+                            org.springframework.beans
+                        </Require-Bundle>
 						<_failok>true</_failok>
 					</instructions>
 				</configuration>

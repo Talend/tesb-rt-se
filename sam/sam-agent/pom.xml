@@ -82,6 +82,11 @@
                             {local-packages},
                             META-INF.tesb
                         </Export-Package>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.context
+                        </Require-Bundle>
 						<Bundle-Activator>org.talend.esb.sam.agent.activator.AgentActivator</Bundle-Activator>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
