@@ -231,44 +231,12 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		EndpointImpl jaxwsEndpointImpl = (EndpointImpl) jaxwsEndpoint;
 		org.apache.cxf.endpoint.Server server = jaxwsEndpointImpl.getServer();
 
-		final Properties properties = new Properties();
-		InputStream isp = null;
-		try {
-			isp = new FileInputStream(usersFile);
-			properties.load(isp);
-		} catch (Exception e) {
-			throw new RuntimeException("Cannot load users properties file");
-		} finally {
-			if (null != isp) {
-				try {
-					isp.close();
-				} catch (IOException e) {
-					// just ignore
-				}
-			}
-		}
-
 		Map<String, Object> prop = new HashMap<String, Object>();
-		prop.put(SecurityConstants.CALLBACK_HANDLER, new CallbackHandler() {
-			@Override
-			public void handle(Callback[] callbacks) throws IOException,
-					UnsupportedCallbackException {
-				for (int i = 0; i < callbacks.length; i++) {
-					if (callbacks[i] instanceof WSPasswordCallback) {
-						WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-						String password = properties.getProperty(pc
-								.getIdentifier());
-
-						if (password != null) {
-							pc.setPassword(password.split(",")[0]);
-							break;
-						}
-					}
-				}
-			}
-		});
-
+		JAASUsernameTokenValidator validator = new JAASUsernameTokenValidator();
+		validator.setContextName("KarafRealm");
+		prop.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR, validator);
 		jaxwsEndpoint.setProperties(prop);
+		
 		if (null != policyToken) {
 			InputStream is = null;
 			try {
