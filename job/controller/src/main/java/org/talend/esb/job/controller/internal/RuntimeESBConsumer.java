@@ -215,8 +215,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 					}
 				}
 
-				// stsProperties.put(SecurityConstants.USERNAME,
-				// securityArguments.getUsername());
+				stsProperties.put(SecurityConstants.USERNAME,
+				securityArguments.getUsername());
+				 
 				// stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME,
 				// "myclientkey");
 				// stsProperties.put(
