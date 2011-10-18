@@ -19,51 +19,12 @@
  */
 package org.talend.esb.job.controller;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.cxf.ws.policy.PolicyBuilderImpl;
 import org.apache.neethi.Policy;
 
-public class PolicyProvider {
+public interface PolicyProvider {
 
-    private static String policyToken;
+    Policy getTokenPolicy();
 
-    private static String policySaml;
+    Policy getSamlPolicy();
 
-    public void setPolicyToken(String policyToken) {
-        PolicyProvider.policyToken = policyToken;
-    }
-
-    public void setPolicySaml(String policySaml) {
-        PolicyProvider.policySaml = policySaml;
-    }
-
-    public static Policy getTokenPolicy() {
-        return loadPolicy(policyToken);
-    }
-
-    public static Policy getSamlPolicy() {
-        return loadPolicy(policySaml);
-    }
-
-    private static Policy loadPolicy(String location) {
-        InputStream is = null;
-        try {
-            is = new FileInputStream(location);
-            PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl();
-            return policyBuilder.getPolicy(is);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot load policy");
-        } finally {
-            if (null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // just ignore
-                }
-            }
-        }
-    }
 }

@@ -76,4 +76,11 @@
         <property name="jobListener" ref="jobLauncher" />
         <property name="bundleContext" ref="bundleContext"/>
     </bean>
+
+    <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
+        <property name="policyToken" value="$job{policy.token}"/>
+        <property name="policySaml" value="$job{policy.saml}"/>
+    </bean>
+    <osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/>
+
 </beans>
