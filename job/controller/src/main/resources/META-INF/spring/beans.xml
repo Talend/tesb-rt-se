@@ -64,7 +64,6 @@
         <property name="policySaml">
             <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
         </property>
-        <property name="usersFile" value="$job{users.file}"/>
         <property name="STSProperties" ref="sts-props"/>
         <property name="securityProperties" ref="job-props"/>
     </bean>

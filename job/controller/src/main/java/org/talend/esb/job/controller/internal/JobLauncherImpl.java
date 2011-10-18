@@ -67,8 +67,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
 	private BundleContext bundleContext;
 
-	private String usersFile;
-	
 	private Policy policyToken;
 
 	private Policy policySaml;
@@ -109,10 +107,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		this.bundleContext = bundleContext;
 	}
 
-	public void setUsersFile(String usersFile) {
-		this.usersFile = usersFile;
-	}
-	
 	public void setPolicyToken(Policy policyToken) {
 		this.policyToken = policyToken;
 	}
