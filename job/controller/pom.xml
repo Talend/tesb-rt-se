@@ -134,11 +134,6 @@
                             javax.security.auth.login,
                             *
                         </Import-Package>
-                        <Export-Package>
-                            {local-packages},
-                            '=META-INF.tesb.job'
-                        </Export-Package>
-                        <_failok>true</_failok>
                     </instructions>
                 </configuration>
             </plugin>
