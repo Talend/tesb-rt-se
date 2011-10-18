@@ -101,6 +101,10 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	private Map<String, Endpoint> services = new ConcurrentHashMap<String, Endpoint>();
 
 	private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
+	
+	private Map<String, String> securityProperties = new ConcurrentHashMap<String, String>();
+	
+	private Map<String, String> STSProperties = new ConcurrentHashMap<String, String>();
 
 	public void setBus(Bus bus) {
 		this.bus = bus;
@@ -128,6 +132,22 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
 	public void setPolicySaml(String policySaml) {
 		this.policySaml = policySaml;
+	}
+	
+	public void setSecurityProperties(Map<String, String> securityProperties) {
+		this.securityProperties = securityProperties;
+	}
+
+	public Map<String, String> getSecurityProperties() {
+		return securityProperties;
+	}
+
+	public void setSTSProperties(Map<String, String> sTSProperties) {
+		STSProperties = sTSProperties;
+	}
+
+	public Map<String, String> getSTSProperties() {
+		return STSProperties;
 	}
 
 	@Override
@@ -330,7 +350,10 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		final SecurityArguments securityArguments = new SecurityArguments(
 				esbSecurity, policyLocation,
 				(String) props.get(ESBEndpointConstants.USERNAME),
-				(String) props.get(ESBEndpointConstants.PASSWORD));
+				(String) props.get(ESBEndpointConstants.PASSWORD),
+				securityProperties,
+				STSProperties
+				);
 		final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
 				serviceName, portName, operationName, publishedEndpointUrl,
 				OperationStyle.isRequestResponse((String) props
@@ -409,4 +432,5 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	private boolean isConsumerOnly(TalendESBJob esbJob) {
 		return esbJob.getEndpoint() == null;
 	}
+
 }
