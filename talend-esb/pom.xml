@@ -1238,7 +1238,7 @@
 				<version>2.2.1</version>
 				<executions>
 					<execution>
-						<id>unix-bin</id>
+						<id>bin</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -1246,24 +1246,10 @@
 						<configuration>
 							<descriptors>
 								<descriptor>src/main/descriptors/unix-bin.xml</descriptor>
-							</descriptors>
-							<appendAssemblyId>false</appendAssemblyId>
-							<tarLongFileMode>gnu</tarLongFileMode>
-							<workDirectory>${project.build.directory}/assembly/unix-bin</workDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>win-bin</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
 								<descriptor>src/main/descriptors/win-bin.xml</descriptor>
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
-							<workDirectory>${project.build.directory}/assembly/win-bin</workDirectory>
+							<tarLongFileMode>gnu</tarLongFileMode>
 						</configuration>
 					</execution>
 					<execution>
@@ -1278,7 +1264,6 @@
 							</descriptors>
 							<appendAssemblyId>true</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
-							<workDirectory>${project.build.directory}/assembly/examples</workDirectory>
 						</configuration>
 					</execution>
 				</executions>
