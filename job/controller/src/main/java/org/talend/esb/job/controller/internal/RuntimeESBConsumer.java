@@ -19,9 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,15 +48,10 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.ws.policy.PolicyBuilderImpl;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
-import org.apache.neethi.Policy;
 import org.apache.ws.security.WSPasswordCallback;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.FileSystemResource;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
@@ -303,25 +296,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		final ServiceInfo si = service.getServiceInfos().get(0);
 		ServiceHelper.addOperation(si, operationName, isRequestResponse);
 
-		if (null != securityArguments.getPolicyLocation()) {
-			InputStream is = null;
-			try {
-				is = new FileInputStream(securityArguments.getPolicyLocation());
-				PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
-				Policy policy = policyBuilder.getPolicy(is);
-				WSPolicyFeature feature = new WSPolicyFeature(policy);
-				feature.initialize(client, bus);
-			} catch (Exception e) {
-				throw new RuntimeException("Cannot load policy");
-			} finally {
-				if (null != is) {
-					try {
-						is.close();
-					} catch (IOException e) {
-						// just ignore
-					}
-				}
-			}
+		if (null != securityArguments.getPolicy()) {
+			WSPolicyFeature feature = new WSPolicyFeature(securityArguments.getPolicy());
+			feature.initialize(client, bus);
 		}
 
 		return client;

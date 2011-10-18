@@ -23,15 +23,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.ws.policy.PolicyBuilderImpl;
 import org.apache.neethi.Policy;
-import org.apache.neethi.PolicyBuilder;
 import org.talend.esb.job.controller.PolicyProvider;
 
 public class PolicyProviderImpl implements PolicyProvider {
 
     private String policyToken;
-
     private String policySaml;
+    private PolicyBuilderImpl policyBuilder;
 
     public void setPolicyToken(String policyToken) {
         this.policyToken = policyToken;
@@ -39,6 +40,10 @@ public class PolicyProviderImpl implements PolicyProvider {
 
     public void setPolicySaml(String policySaml) {
         this.policySaml = policySaml;
+    }
+
+    public void setBus(Bus bus) {
+        policyBuilder = new PolicyBuilderImpl(bus);
     }
 
     public Policy getTokenPolicy() {
@@ -49,11 +54,10 @@ public class PolicyProviderImpl implements PolicyProvider {
         return loadPolicy(policySaml);
     }
 
-    private static Policy loadPolicy(String location) {
+    private Policy loadPolicy(String location) {
         InputStream is = null;
         try {
             is = new FileInputStream(location);
-            PolicyBuilder policyBuilder = new PolicyBuilder();
             return policyBuilder.getPolicy(is);
         } catch (Exception e) {
             throw new RuntimeException("Cannot load policy");

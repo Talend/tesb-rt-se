@@ -21,25 +21,26 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Map;
 
+import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 
 public class SecurityArguments {
 
     private final EsbSecurity esbSecurity;
-    private final String policyLocation;
+    private final Policy policy;
     private final String username;
     private final String password;
     private final Map<String, String> securityProperties;
     private final Map<String, String> STSProperties;
 
     public SecurityArguments(final EsbSecurity esbSecurity,
-            String policyLocation,
+            final Policy policy,
             String username,
             String password,
             Map<String, String> securityProperties,
             Map<String, String> STSProperties) {
         this.esbSecurity = esbSecurity;
-        this.policyLocation = policyLocation;
+        this.policy = policy;
         this.username = username;
         this.password = password;
         this.securityProperties = securityProperties;
@@ -50,8 +51,8 @@ public class SecurityArguments {
         return esbSecurity;
     }
 
-    public String getPolicyLocation() {
-        return policyLocation;
+    public Policy getPolicy() {
+        return policy;
     }
 
     public String getUsername() {

@@ -19,35 +19,21 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.jaxws.EndpointImpl;
-import org.apache.cxf.ws.policy.PolicyBuilderImpl;
-import org.apache.cxf.ws.policy.WSPolicyFeature;
-import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.neethi.Policy;
-import org.apache.ws.security.WSPasswordCallback;
-import org.apache.ws.security.validate.JAASUsernameTokenValidator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -83,9 +69,9 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
 	private String usersFile;
 	
-	private String policyToken;
+	private Policy policyToken;
 
-	private String policySaml;
+	private Policy policySaml;
 
 	private ExecutorService executorService;
 
@@ -127,11 +113,11 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		this.usersFile = usersFile;
 	}
 	
-	public void setPolicyToken(String policyToken) {
+	public void setPolicyToken(Policy policyToken) {
 		this.policyToken = policyToken;
 	}
 
-	public void setPolicySaml(String policySaml) {
+	public void setPolicySaml(Policy policySaml) {
 		this.policySaml = policySaml;
 	}
 	
@@ -227,7 +213,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		services.put(name, service);
 	}
 
-	private void enableTokenSecurity(Endpoint service) {
+/*	private void enableTokenSecurity(Endpoint service) {
 		javax.xml.ws.Endpoint jaxwsEndpoint = (Endpoint) service;
 		EndpointImpl jaxwsEndpointImpl = (EndpointImpl) jaxwsEndpoint;
 		org.apache.cxf.endpoint.Server server = jaxwsEndpointImpl.getServer();
@@ -259,7 +245,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 			}
 		}
 	}
-
+*/
 	@Override
 	public void serviceRemoved(Endpoint service, String name) {
 		LOG.info("Removing service " + name + ".");
@@ -308,14 +294,14 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 				.booleanValue();
 		final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
 				.get(ESBEndpointConstants.ESB_SECURITY));
-		String policyLocation = null;
+		Policy policy = null;
 		if (EsbSecurity.TOKEN == esbSecurity) {
-			policyLocation = policyToken;
+			policy = policyToken;
 		} else if (EsbSecurity.SAML == esbSecurity) {
-			policyLocation = policySaml;
+			policy = policySaml;
 		}
 		final SecurityArguments securityArguments = new SecurityArguments(
-				esbSecurity, policyLocation,
+				esbSecurity, policy,
 				(String) props.get(ESBEndpointConstants.USERNAME),
 				(String) props.get(ESBEndpointConstants.PASSWORD),
 				securityProperties,
