@@ -47,6 +47,7 @@ import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.neethi.Policy;
 import org.apache.ws.security.WSPasswordCallback;
+import org.apache.ws.security.validate.JAASUsernameTokenValidator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
