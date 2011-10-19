@@ -72,12 +72,6 @@
             <version>${dom4j.bundle.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.karaf.jaas</groupId>
-            <artifactId>org.apache.karaf.jaas.config</artifactId>
-            <version>${karaf.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -117,9 +111,7 @@
                             org.springframework.osgi.core,
                             locator,
                             sam-agent,
-                            sam-common,
-                            org.apache.servicemix.specs.saaj-api-1.3,
-                            org.apache.servicemix.bundles.saaj-impl
+                            sam-common
                         </Require-Bundle>
                         <Private-Package>
                             org.talend.esb.job.controller.internal*
@@ -127,11 +119,6 @@
                         <Import-Package>
                             javax.management,
                             javax.management.loading,
-                            org.osgi.service.blueprint,
-                            org.apache.karaf.jaas.config,
-                            org.apache.karaf.jaas.modules.properties,
-                            org.apache.karaf.jaas.boot,
-                            javax.security.auth.login,
                             *
                         </Import-Package>
                     </instructions>
