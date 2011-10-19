@@ -27,6 +27,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+import javax.xml.transform.Result;
 
 import org.w3c.dom.Node;
 
@@ -152,7 +153,27 @@ public class CXFEndpointProvider implements EndpointProvider {
     public SLProperties getProperties() {
         return props != null ? props : SLPropertiesImpl.EMPTY_PROPERTIES;    
     }
-    
+
+    @Override
+    public void writeEndpointReferenceTo(Result result) throws ServiceLocatorException {
+        try {
+            JAXBElement<EndpointReferenceType> ep =
+                WSA_OBJECT_FACTORY.createEndpointReference(epr);
+            ClassLoader cl = this.getClass().getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance(
+                    "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
+                    cl);
+            Marshaller m = jc.createMarshaller();
+            m.marshal(ep, result);
+        } catch (JAXBException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE,
+                        "Failed to serialize endpoint data", e);
+            }
+            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
+        }        
+    }
+
     @Override
     public void addEndpointReference(Node parent) throws ServiceLocatorException {
         serializeEPR(epr, parent);

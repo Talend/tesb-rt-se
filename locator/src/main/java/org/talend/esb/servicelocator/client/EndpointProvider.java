@@ -20,6 +20,7 @@
 package org.talend.esb.servicelocator.client;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.Result;
 
 import org.w3c.dom.Node;
 
@@ -55,12 +56,14 @@ public interface EndpointProvider {
 
     SLProperties getProperties();
     
-    /**
+    void writeEndpointReferenceTo(Result result) throws ServiceLocatorException;
+
+        /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 
      * @param parent the node where to add the endpoint reference, is not null and either an 
      * {@link org.w3c.dom.Element} or a {@link org.w3c.dom.Document}. 
      */
+    @Deprecated
     void addEndpointReference(Node parent) throws ServiceLocatorException;
-
 }

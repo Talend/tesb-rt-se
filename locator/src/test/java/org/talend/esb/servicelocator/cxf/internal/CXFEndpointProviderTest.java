@@ -21,6 +21,9 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collection;
 
+import javax.xml.transform.dom.DOMResult;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import org.apache.cxf.endpoint.Server;
@@ -164,6 +167,51 @@ public class CXFEndpointProviderTest {
         long lastTimeStopped = epp.getLastTimeStopped();
         assertEquals(-1, lastTimeStopped);
     }
+
+    @Test
+    public void writeEndpointReferenceToWithEprGiven() throws Exception {
+        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_1);
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, epr);
+
+        DOMResult domResult = new DOMResult();
+        epp.writeEndpointReferenceTo(domResult);
+        Document doc = (Document) domResult.getNode();
+        Element root = doc.getDocumentElement();
+        assertThat(root,
+            hasXPath("/wsa:EndpointReference/wsa:Address", WSA_SL_NS_CONTEXT));
+    }
+
+    @Test
+    public void writeEndpointReferenceToWithEndpointAndPropertiesGiven() throws Exception {
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+
+        DOMResult domResult = new DOMResult();
+        epp.writeEndpointReferenceTo(domResult);
+        Document doc = (Document) domResult.getNode();
+        Element root = doc.getDocumentElement();
+
+        assertThat(root, 
+            hasXPath("/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
+                equalTo(ENDPOINT_1)));
+        assertThat(root, 
+                hasXPath("/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
+                    WSA_SL_NS_CONTEXT));
+    }
+
+    @Test
+    public void writeEndpointReferenceToWithServerEndpointAndPropertiesGiven()  throws Exception {
+        CXFEndpointProvider epp = new CXFEndpointProvider(SERVER_2, ENDPOINT_1, PROPERTIES);
+
+        DOMResult domResult = new DOMResult();
+        epp.writeEndpointReferenceTo(domResult);
+        Document doc = (Document) domResult.getNode();
+        Element root = doc.getDocumentElement();
+
+        assertThat(root, 
+            hasXPath("/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
+                equalTo(ENDPOINT_1)));
+    }
+
     @Test
     public void addEndpointReferenceWithEprGiven() throws Exception {
         Element root = newDocument(SL_NS, "EndpointData");
