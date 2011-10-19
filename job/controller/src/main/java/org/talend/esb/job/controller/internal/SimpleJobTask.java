@@ -83,7 +83,7 @@ public class SimpleJobTask implements ManagedService, JobTask  {
                 return;
             }
             int ret = job.runJobInTOS(args);
-            LOG.info("Route " + name + " finished, return code is " + ret);
+            LOG.info("Job " + name + " finished, return code is " + ret);
         }
     }
 }
