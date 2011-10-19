@@ -12,9 +12,8 @@ import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
-//@javax.jws.WebService(name = "TalendJobAsWebService", targetNamespace = "http://talend.org/esb/service/job")
 //@javax.jws.soap.SOAPBinding(parameterStyle = javax.jws.soap.SOAPBinding.ParameterStyle.BARE, style = javax.jws.soap.SOAPBinding.Style.DOCUMENT, use = javax.jws.soap.SOAPBinding.Use.LITERAL)
-@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.MESSAGE)
+@javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.PAYLOAD)
 @javax.xml.ws.WebServiceProvider()
 public abstract class ESBProviderBase implements
 		javax.xml.ws.Provider<javax.xml.transform.Source> {
