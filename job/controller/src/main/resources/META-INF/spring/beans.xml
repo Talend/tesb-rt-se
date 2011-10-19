@@ -42,8 +42,9 @@
         <property name="placeholderPrefix" value="$job{" />
     </bean>
 
-<!-- Configuration Admin entry -->
+    <osgix:cm-properties id="client-props" persistent-id="org.talend.esb.job.client"/>
     <osgix:cm-properties id="sts-props" persistent-id="org.talend.esb.job.sts"/>
+
 <!--
     <osgi:list id="jobs" interface="routines.system.api.TalendJob" greedy-proxying="true" cardinality="0..N">
         <osgi:listener bind-method="jobAdded" unbind-method="jobRemoved" ref="jobLauncher"/>
@@ -64,8 +65,8 @@
         <property name="policySaml">
             <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
         </property>
-        <property name="STSProperties" ref="sts-props"/>
-        <property name="securityProperties" ref="job-props"/>
+        <property name="clientProperties" ref="client-props"/>
+        <property name="stsProperties" ref="sts-props"/>
     </bean>
 
 <!--    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/> -->

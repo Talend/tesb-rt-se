@@ -30,21 +30,21 @@ public class SecurityArguments {
     private final Policy policy;
     private final String username;
     private final String password;
-    private final Map<String, String> securityProperties;
-    private final Map<String, String> STSProperties;
+    private final Map<String, String> clientProperties;
+    private final Map<String, String> stsProperties;
 
     public SecurityArguments(final EsbSecurity esbSecurity,
             final Policy policy,
             String username,
             String password,
-            Map<String, String> securityProperties,
-            Map<String, String> STSProperties) {
+            Map<String, String> clientProperties,
+            Map<String, String> stsProperties) {
         this.esbSecurity = esbSecurity;
         this.policy = policy;
         this.username = username;
         this.password = password;
-        this.securityProperties = securityProperties;
-        this.STSProperties = STSProperties;
+        this.clientProperties = clientProperties;
+        this.stsProperties = stsProperties;
     }
 
     public EsbSecurity getEsbSecurity() {
@@ -63,12 +63,12 @@ public class SecurityArguments {
         return password;
     }
 
-	public Map<String, String> getSecurityProperties() {
-		return securityProperties;
-	}
+    public Map<String, String> getClientProperties() {
+        return clientProperties;
+    }
 
-	public Map<String, String> getSTSProperties() {
-		return STSProperties;
-	}
+    public Map<String, String> getStsProperties() {
+        return stsProperties;
+    }
 
 }

@@ -192,7 +192,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 						securityArguments.getPassword());
 				cf.setProperties(properties);
 			} else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
-				Map<String, String> sp = securityArguments.getSTSProperties();
+				Map<String, String> sp = securityArguments.getStsProperties();
 
 				STSClient stsClient = new STSClient(bus);
 				stsClient.setWsdlLocation(sp.get(STS_WSDL_LOCATION));
@@ -251,7 +251,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				cfProperties.put(SecurityConstants.STS_CLIENT, stsClient);
 
 				Map<String, String> sprop = securityArguments
-						.getSecurityProperties();
+						.getClientProperties();
 
 				for (Map.Entry<String, String> entry : sprop.entrySet()) {
 					if (all_props.contains(entry.getKey())) {
