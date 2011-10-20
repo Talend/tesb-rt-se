@@ -16,8 +16,6 @@
 
     <modules>
         <module>job-api</module>
-        <module>converter</module>
-        <module>deployer</module>
         <module>controller</module>
         <module>command</module>
         <module>console</module>
