@@ -139,7 +139,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 		try {
 			initLocator();
 			if (arg0.getEntryType().isEmpty()) {
-				locatorClient.register(serviceName, endpointURL);
+				locatorClient.register(serviceName, endpointURL, true);
 			} else {
 				SLPropertiesImpl slProps = new SLPropertiesImpl();
 				List<EntryType> entries = arg0.getEntryType();
