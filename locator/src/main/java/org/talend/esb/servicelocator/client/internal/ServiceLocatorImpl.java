@@ -218,6 +218,42 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
+    public void register(QName serviceName, String endpoint, TransportType transport, BindingType binding)
+        throws ServiceLocatorException, InterruptedException {
+    	register(new CXFEndpointProvider(serviceName, endpoint, binding.value(), transport.value(), null), false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register(QName serviceName, String endpoint, TransportType transport, BindingType binding, SLProperties properties)
+        throws ServiceLocatorException, InterruptedException {
+    	register(new CXFEndpointProvider(serviceName, endpoint, binding.value(), transport.value(), properties), false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register(QName serviceName, String endpoint, TransportType transport, BindingType binding, boolean persistent)
+        throws ServiceLocatorException, InterruptedException {
+    	register(new CXFEndpointProvider(serviceName, endpoint, binding.value(), transport.value(), null), persistent);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register(QName serviceName, String endpoint, TransportType transport, BindingType binding, SLProperties properties, boolean persistent)
+        throws ServiceLocatorException, InterruptedException {
+    	register(new CXFEndpointProvider(serviceName, endpoint, binding.value(), transport.value(), properties), persistent);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void register(QName serviceName, String endpoint, SLProperties properties, boolean persistent)
         throws ServiceLocatorException, InterruptedException {
         register(new CXFEndpointProvider(serviceName, endpoint, properties), persistent);
