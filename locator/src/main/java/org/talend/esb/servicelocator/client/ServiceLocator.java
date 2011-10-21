@@ -23,6 +23,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
+import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
+
 /**
  * This is the entry point for clients of the Service Locator. To access the
  * Service Locator clients have to first {@link #connect() connect} to the
@@ -158,8 +161,64 @@ public interface ServiceLocator {
 	 * @throws ServiceLocatorException
 	 * @throws InterruptedException
 	 */
-	void register(QName serviceName, String endpoint,
-			SLProperties properties, boolean persistent)
+	void register(QName serviceName, String endpoint, SLProperties properties,
+			boolean persistent) throws ServiceLocatorException,
+			InterruptedException;
+
+	/**
+	 * 
+	 * @param serviceName
+	 * @param endpoint
+	 * @param transport
+	 * @param binding
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 */
+	void register(QName serviceName, String endpoint, TransportType transport,
+			BindingType binding) throws ServiceLocatorException,
+			InterruptedException;
+
+	/**
+	 * 
+	 * @param serviceName
+	 * @param endpoint
+	 * @param transport
+	 * @param binding
+	 * @param persistent
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 */
+	void register(QName serviceName, String endpoint, TransportType transport,
+			BindingType binding, boolean persistent)
+			throws ServiceLocatorException, InterruptedException;
+
+	/**
+	 * 
+	 * @param serviceName
+	 * @param endpoint
+	 * @param transport
+	 * @param binding
+	 * @param properties
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 */
+	void register(QName serviceName, String endpoint, TransportType transport,
+			BindingType binding, SLProperties properties)
+			throws ServiceLocatorException, InterruptedException;
+
+	/**
+	 * 
+	 * @param serviceName
+	 * @param endpoint
+	 * @param transport
+	 * @param binding
+	 * @param properties
+	 * @param persistent
+	 * @throws ServiceLocatorException
+	 * @throws InterruptedException
+	 */
+	void register(QName serviceName, String endpoint, TransportType transport,
+			BindingType binding, SLProperties properties, boolean persistent)
 			throws ServiceLocatorException, InterruptedException;
 
 	/**
