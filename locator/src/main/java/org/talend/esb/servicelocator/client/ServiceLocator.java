@@ -427,12 +427,13 @@ public interface ServiceLocator {
 			throws ServiceLocatorException, InterruptedException;
 	
 
-	List<String> lookup(QName serviceName, SLPropertiesMatcher matcher,
-			BindingType binding, TransportType transport)
+	List<String> lookup(QName serviceName, SLPropertiesMatcher matcher, 
+			TransportType transport, BindingType binding)
 			throws ServiceLocatorException, InterruptedException;
 
-	List<String> lookup(QName serviceName, BindingType binding,
-			TransportType transport) throws ServiceLocatorException,
+	List<String> lookup(QName serviceName, 
+			TransportType transport, BindingType binding)
+			throws ServiceLocatorException,
 			InterruptedException;
 
 	/**
