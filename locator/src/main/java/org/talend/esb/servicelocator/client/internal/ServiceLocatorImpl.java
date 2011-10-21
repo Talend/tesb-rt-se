@@ -477,27 +477,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER);
     }
     
-    @Override
-    public List<String> lookup(QName serviceName, BindingType binding, TransportType transport)
-        throws ServiceLocatorException, InterruptedException {
-        
-        return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER, binding, transport);
-    }
-    
     /**
      * {@inheritDoc}
      */
     @Override
     public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
-        throws ServiceLocatorException, InterruptedException {
-    	return lookup(serviceName, matcher, null, null);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher, BindingType binding, TransportType transport)
         throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.FINE)) {
@@ -517,10 +501,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
                     if (isLive(childNodePath)) {
                         SLProperties props = getProperties(childNodePath);
-                        boolean isMatchingBinding = binding == null || binding.value().equals(getBinding(childNodePath));  
-                        boolean isMatchingTransport = transport == null || transport.value().equals(getTransport(childNodePath));
-                        
-                        if (matcher.isMatching(props) && isMatchingBinding && isMatchingTransport) {
+                        if (matcher.isMatching(props)) {
                             liveEndpoints.add(childNodePath.getNodeName());
                         }
                     }
@@ -775,26 +756,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
             byte[] content = getContent(path);
             ContentHolder holder = new ContentHolder(content);
             return holder.getProperties();
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        }
-    }
-    
-    private org.talend.esb.servicelocator.client.BindingType getBinding(NodePath path) throws ServiceLocatorException, InterruptedException {
-        try {
-            byte[] content = getContent(path);
-            ContentHolder holder = new ContentHolder(content);
-            return holder.getBinding();
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        }
-    }
-    
-    private org.talend.esb.servicelocator.client.TransportType getTransport(NodePath path) throws ServiceLocatorException, InterruptedException {
-        try {
-            byte[] content = getContent(path);
-            ContentHolder holder = new ContentHolder(content);
-            return holder.getTransport();
         } catch (KeeperException e) {
             throw locatorException(e);
         }

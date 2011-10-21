@@ -23,9 +23,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
-import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
-
 /**
  * This is the entry point for clients of the Service Locator. To access the
  * Service Locator clients have to first {@link #connect() connect} to the
@@ -425,15 +422,6 @@ public interface ServiceLocator {
 	 */
 	List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
 			throws ServiceLocatorException, InterruptedException;
-	
-
-	List<String> lookup(QName serviceName, SLPropertiesMatcher matcher,
-			BindingType binding, TransportType transport)
-			throws ServiceLocatorException, InterruptedException;
-
-	List<String> lookup(QName serviceName, BindingType binding,
-			TransportType transport) throws ServiceLocatorException,
-			InterruptedException;
 
 	/**
 	 * Specify the action to be be executed after the Service Locator has
@@ -459,4 +447,5 @@ public interface ServiceLocator {
 		 */
 		void process(ServiceLocator lc);
 	}
+
 }
