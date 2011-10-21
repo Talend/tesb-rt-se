@@ -138,14 +138,14 @@ public class LocatorProxyServiceImpl implements LocatorService {
 		try {
 			initLocator();
 			if (properties == null) {
-				locatorClient.register(serviceName, endpointURL);
+				locatorClient.register(serviceName, endpointURL, true);
 			} else {
 				SLPropertiesImpl slProps = new SLPropertiesImpl();
 				List<EntryType> entries = properties.getEntry();
 				for (EntryType entry : entries) {
 					slProps.addProperty(entry.getKey(), entry.getValue());
 				}
-				locatorClient.register(serviceName, endpointURL, slProps);
+				locatorClient.register(serviceName, endpointURL, slProps, true);
 			}
 		} catch (ServiceLocatorException e) {
 			ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();

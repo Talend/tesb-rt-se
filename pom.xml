@@ -88,13 +88,12 @@
     <properties>
         <cxf.version>2.5.0-SNAPSHOT</cxf.version>
         <camel.version>2.8.2-SNAPSHOT</camel.version>
-		<activemq.version>5.5.0</activemq.version>
+        <activemq.version>5.5.0</activemq.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <karaf.version>2.2.4</karaf.version>
         <zookeeper.version>3.3.3</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
-        <bnd.version>1.43.0</bnd.version>
-        <slf4j.version>1.6.1</slf4j.version>
+        <slf4j.version>1.6.2</slf4j.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-jxpath.version>1.3</commons-jxpath.version>
         <dom4j.bundle.version>1.6.1_4</dom4j.bundle.version>
@@ -102,7 +101,6 @@
         <servicemix.specs.version>1.8.0</servicemix.specs.version>
         <saaj-impl.bundle.version>1.3.9_1</saaj-impl.bundle.version>
         <javax.servlet.version>2.5</javax.servlet.version>
-        <felix.fileinstall.version>3.1.10</felix.fileinstall.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
         <geronimo-servlet.version>1.1.2</geronimo-servlet.version>

@@ -194,7 +194,15 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public synchronized void register(QName serviceName, String endpoint)
         throws ServiceLocatorException, InterruptedException {
-        register(serviceName, endpoint, null);
+        register(serviceName, endpoint, null, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized void register(QName serviceName, String endpoint, boolean persistent) throws ServiceLocatorException, InterruptedException {
+    	register(serviceName, endpoint, null, persistent);
     }
 
     /**
@@ -203,9 +211,21 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public void register(QName serviceName, String endpoint, SLProperties properties)
         throws ServiceLocatorException, InterruptedException {
-        register(new CXFEndpointProvider(serviceName, endpoint, properties));
+        register(new CXFEndpointProvider(serviceName, endpoint, properties), false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void register(QName serviceName, String endpoint, SLProperties properties, boolean persistent)
+        throws ServiceLocatorException, InterruptedException {
+        register(new CXFEndpointProvider(serviceName, endpoint, properties), persistent);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public synchronized  void register(EndpointProvider epProvider)
         throws ServiceLocatorException, InterruptedException {
