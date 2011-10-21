@@ -146,7 +146,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
 				for (EntryType entry : entries) {
 					slProps.addProperty(entry.getKey(), entry.getValue());
 				}
-				locatorClient.register(serviceName, endpointURL, slProps);
+				locatorClient.register(serviceName, endpointURL, slProps, true);
 			}
 		} catch (ServiceLocatorException e) {
 			//throw new ServiceLocatorFault(e.getMessage(), e);
