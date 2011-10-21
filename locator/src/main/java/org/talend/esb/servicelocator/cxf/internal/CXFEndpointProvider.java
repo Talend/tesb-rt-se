@@ -90,14 +90,6 @@ public class CXFEndpointProvider implements EndpointProvider {
         transportType = map2TransportType(transportId);
     }
 
-    public CXFEndpointProvider(QName serviceName, String address, String bindingId, String transportId,
-    		SLProperties properties) {
-        sName = serviceName;
-        epr = createEPR(address, properties);
-        bindingType = map2BindingType(bindingId);
-        transportType = map2TransportType(transportId);
-    }
-
     public CXFEndpointProvider(QName serviceName, String address, SLProperties properties) {
         this(serviceName, createEPR(address, properties));
     }
