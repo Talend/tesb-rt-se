@@ -478,10 +478,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
     
     @Override
-    public List<String> lookup(QName serviceName, TransportType transport, BindingType binding)
+    public List<String> lookup(QName serviceName, BindingType binding, TransportType transport)
         throws ServiceLocatorException, InterruptedException {
         
-        return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER, transport, binding);
+        return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER, binding, transport);
     }
     
     /**
@@ -497,7 +497,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher, TransportType transport, BindingType binding)
+    public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher, BindingType binding, TransportType transport)
         throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.FINE)) {
