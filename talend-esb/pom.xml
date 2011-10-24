@@ -76,7 +76,7 @@
 		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
 		<!--dom4j.bundle.version>1.6.1_3</dom4j.bundle.version-->
 		<dozer.bundle.version>5.2.0_2</dozer.bundle.version>
-		<ehcache.bundle.version>2.3.0_3</ehcache.bundle.version>
+		<ehcache.bundle.version>2.4.3_1</ehcache.bundle.version>
 		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
 		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
 		<freemarker.bundle.version>2.3.18_1</freemarker.bundle.version>
@@ -174,7 +174,7 @@
 		<groovy.version>1.8.1</groovy.version>
 		<hawtbuf.version>1.2</hawtbuf.version>
 		<hawtdb.version>1.5</hawtdb.version>
-		<hazelcast.version>1.9.3</hazelcast.version>
+		<hazelcast.version>1.9.4</hazelcast.version>
 		<httpclient-osgi.version>4.1</httpclient-osgi.version>
 		<httpcomponents.version>4.0.1</httpcomponents.version>
 		<httpcore-osgi.version>4.1.2</httpcore-osgi.version>
