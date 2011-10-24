@@ -32,10 +32,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                         <Import-Package>
-                            *
-                        </Import-Package>
-                        <Fragment-Host>org.apache.cxf.services.sts.core;bundle-version="${cxf.version}"</Fragment-Host>
+                        <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
                         <Require-Bundle>org.apache.cxf.bundle</Require-Bundle>
                     </instructions>
                 </configuration>
