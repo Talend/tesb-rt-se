@@ -79,11 +79,11 @@ public class SimpleJobTask implements ManagedService, JobTask  {
                 } else {
                     args = new String[0];
                 }
+	            int ret = job.runJobInTOS(args);
+	            LOG.info("Job " + name + " finished, return code is " + ret);
             } catch (InterruptedException e) {
                 return;
             }
-            int ret = job.runJobInTOS(args);
-            LOG.info("Job " + name + " finished, return code is " + ret);
         }
     }
 }

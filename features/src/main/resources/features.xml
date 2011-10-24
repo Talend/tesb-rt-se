@@ -116,8 +116,9 @@
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.console/${project.version}</bundle>
     </feature>
 
-    <feature name="talend-sts" version="${project.version}" resolver="(obr)">
+    <feature name="tesb-sts" version="${project.version}" resolver="(obr)">
         <feature version="${cxf.version}">cxf-sts</feature>
+        <bundle>mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}</bundle>
     </feature>
 
     <feature name="tesb-core" version="${project.version}" resolver="(obr)">
@@ -127,6 +128,7 @@
 		<feature version="${activemq.version}">activemq-spring</feature>
 		<!-- CXF Features -->
 		<feature version="${cxf.version}">cxf</feature>
+		<feature version="${cxf.version}">cxf-sts</feature>
 		<!-- Camel Features -->
 		<feature version="${camel.version}">camel</feature>
 		<feature version="${camel.version}">camel-core</feature>

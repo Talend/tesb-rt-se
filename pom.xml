@@ -129,7 +129,7 @@
         <module>sam</module>
         <module>job</module>
         <module>features</module>
-        <module>sts-war</module>
+        <module>sts</module>
     </modules>
 
 	<dependencyManagement>
