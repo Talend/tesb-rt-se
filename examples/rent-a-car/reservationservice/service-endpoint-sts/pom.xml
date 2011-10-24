@@ -64,16 +64,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-				<filtering>true</filtering>
-                <includes>
-                  <include>**/beans.xml</include>
-                  <include>**/serviceKeystore.properties</include>
-               </includes>
-            </resource>
-        </resources>
+
     </build>
 
 </project>

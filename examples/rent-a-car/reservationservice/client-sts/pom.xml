@@ -59,17 +59,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-				<filtering>true</filtering>
-                <includes>
-                  <include>**/beans.xml</include>
-                  <include>**/clientKeystore.properties</include>
-				  <include>**/model/*</include>
-               </includes>
-            </resource>
-        </resources>
+
     </build>
 </project>
 
