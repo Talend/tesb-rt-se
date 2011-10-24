@@ -27,7 +27,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>org.apache.cxf.services.sts</groupId>
             <artifactId>cxf-services-sts-core</artifactId>
             <version>${cxf.version}</version>
         </dependency>
