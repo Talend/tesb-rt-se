@@ -315,9 +315,12 @@
             <directory>target/features-repo</directory>
             <outputDirectory>/container/system</outputDirectory>
             <excludes>
-                <!-- IF-23: exclude the aries blueprint copied by camel-blueprint feature to take the Karaf' one -->
-                <exclude>org/apache/aries/blueprint/**</exclude>
+                <exclude>org/apache/cxf/karaf/apache-cxf/2.4.3/**</exclude>
             </excludes>
+                <!-- IF-23: exclude the aries blueprint copied by camel-blueprint feature to take the Karaf' one -->
+            <!-- excludes>
+                <exclude>org/apache/aries/blueprint/**</exclude>
+            </excludes -->
         </fileSet>
 
         <!-- Copy Add-ons -->
@@ -370,6 +373,23 @@
             <outputDirectory>/examples/talend/tsf</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
+        </fileSet>
+
+        <!-- Copy STS configs -->
+        <fileSet>
+            <directory>${basedir}/../sts/sts-config/target/classes</directory>
+            <outputDirectory>/container/etc</outputDirectory>
+            <includes>
+                <include>*.cfg</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../sts/sts-config/target/classes</directory>
+            <outputDirectory>/container/etc/keystores</outputDirectory>
+            <includes>
+                <include>stsKeystore.properties</include>
+                <include>stsstore.jks</include>
+            </includes>
         </fileSet>
 
     </fileSets>

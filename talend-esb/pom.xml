@@ -872,6 +872,7 @@
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
 								<feature>tesb-zookeeper-server</feature>
+								<feature>tesb-sts</feature>
 								<!-- Karaf Cellar Features -->
 								<feature>cellar</feature>
 								<feature>cellar-webconsole</feature>
