@@ -27,7 +27,7 @@ import javax.xml.transform.dom.DOMSource;
  * properties and some additional meta data together with the status of the endpoint are provided.
  */
 public interface SLEndpoint extends Endpoint {
-
+ 
     /**
      * Return the address of the endpoint.
      * 
