@@ -27,6 +27,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+import javax.xml.transform.Result;
 
 import org.w3c.dom.Node;
 
@@ -39,13 +40,14 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.MetadataType;
 import org.apache.cxf.wsdl.WSAEndpointReferenceUtils;
 import org.talend.esb.servicelocator.client.BindingType;
-import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.esb.servicelocator.client.internal.SLPropertiesConverter;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 
-public class CXFEndpointProvider implements EndpointProvider {
+public class CXFEndpointProvider implements org.talend.esb.servicelocator.client.Endpoint {
 
     public static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class
             .getName());
@@ -73,10 +75,12 @@ public class CXFEndpointProvider implements EndpointProvider {
     private BindingType bindingType;
 
     private TransportType transportType;
-    
+
     private long lastTimeStarted = -1;
 
     private long lastTimeStopped = -1;
+    
+    private SLProperties props;
 
     public CXFEndpointProvider(QName serviceName, EndpointReferenceType endpointReference) {
         this(serviceName, null, null, endpointReference);
@@ -90,16 +94,9 @@ public class CXFEndpointProvider implements EndpointProvider {
         transportType = map2TransportType(transportId);
     }
 
-    public CXFEndpointProvider(QName serviceName, String address, String bindingId, String transportId,
-    		SLProperties properties) {
-        sName = serviceName;
-        epr = createEPR(address, properties);
-        bindingType = map2BindingType(bindingId);
-        transportType = map2TransportType(transportId);
-    }
-
     public CXFEndpointProvider(QName serviceName, String address, SLProperties properties) {
         this(serviceName, createEPR(address, properties));
+        props = properties;
     }
 
     public CXFEndpointProvider(Server server, String address, SLProperties properties) {
@@ -107,6 +104,7 @@ public class CXFEndpointProvider implements EndpointProvider {
                 getBindingId(server),
                 getTransportId(server),
                 createEPR(server, address, properties));
+        props = properties;
     }
 
     @Override
@@ -151,6 +149,33 @@ public class CXFEndpointProvider implements EndpointProvider {
         return lastTimeStopped;    
     }
 
+    @Override
+    public SLProperties getProperties() {
+        return props != null ? props : SLPropertiesImpl.EMPTY_PROPERTIES;    
+    }
+
+    @Override
+    public void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
+            throws ServiceLocatorException {
+        try {
+            JAXBElement<EndpointReferenceType> ep =
+                WSA_OBJECT_FACTORY.createEndpointReference(epr);
+            ClassLoader cl = this.getClass().getClassLoader();
+            JAXBContext jc = JAXBContext.newInstance(
+                    "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
+                    cl);
+            Marshaller m = jc.createMarshaller();
+            m.marshal(ep, result);
+        } catch (JAXBException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE,
+                        "Failed to serialize endpoint data", e);
+            }
+            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
+        }        
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     public void addEndpointReference(Node parent) throws ServiceLocatorException {
         serializeEPR(epr, parent);

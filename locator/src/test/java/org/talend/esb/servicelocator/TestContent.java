@@ -38,7 +38,7 @@ public class TestContent {
 
     public static final String WSA = "http://www.w3.org/2005/08/addressing";
     
-    public static final String SL = "http://talend.org/esb/serviceLocator/4.2";
+    public static final String SL = "http://talend.org/schemas/esb/locator/content/20011/11";
 
 //    public static final long LAST_TIME_STARTED = 129874534433L;
 
