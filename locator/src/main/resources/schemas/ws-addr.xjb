@@ -24,7 +24,7 @@
   jaxb:extensionBindingPrefixes="xjc">
     <jaxb:bindings schemaLocation="ws-addr.xsd" node="/xs:schema">
         <jaxb:schemaBindings>
-            <jaxb:package name="org.talend.esb.servicelocator.client.internal.ws.addressing"/>
+            <jaxb:package name="org.talend.esb.servicelocator.client.ws.addressing"/>
         </jaxb:schemaBindings>
     </jaxb:bindings>
 </jaxb:bindings>

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.cxf.internal;
+package org.talend.esb.servicelocator.client.internal;
 
 import java.util.Collection;
 import java.util.List;

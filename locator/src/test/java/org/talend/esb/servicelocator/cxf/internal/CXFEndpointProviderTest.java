@@ -174,7 +174,7 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, epr);
 
         DOMResult domResult = new DOMResult();
-        epp.writeEndpointReferenceTo(domResult);
+        epp.writeEndpointReferenceTo(domResult, null);
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
         assertThat(root,
@@ -186,7 +186,7 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
 
         DOMResult domResult = new DOMResult();
-        epp.writeEndpointReferenceTo(domResult);
+        epp.writeEndpointReferenceTo(domResult, null);
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
 
@@ -203,7 +203,7 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVER_2, ENDPOINT_1, PROPERTIES);
 
         DOMResult domResult = new DOMResult();
-        epp.writeEndpointReferenceTo(domResult);
+        epp.writeEndpointReferenceTo(domResult, null);
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
 

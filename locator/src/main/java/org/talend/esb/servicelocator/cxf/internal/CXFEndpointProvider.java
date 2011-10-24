@@ -40,14 +40,14 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.MetadataType;
 import org.apache.cxf.wsdl.WSAEndpointReferenceUtils;
 import org.talend.esb.servicelocator.client.BindingType;
-import org.talend.esb.servicelocator.client.EndpointProvider;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.esb.servicelocator.client.internal.SLPropertiesConverter;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 
-public class CXFEndpointProvider implements EndpointProvider {
+public class CXFEndpointProvider implements org.talend.esb.servicelocator.client.Endpoint {
 
     public static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class
             .getName());
@@ -75,7 +75,7 @@ public class CXFEndpointProvider implements EndpointProvider {
     private BindingType bindingType;
 
     private TransportType transportType;
-    
+
     private long lastTimeStarted = -1;
 
     private long lastTimeStopped = -1;
@@ -155,7 +155,8 @@ public class CXFEndpointProvider implements EndpointProvider {
     }
 
     @Override
-    public void writeEndpointReferenceTo(Result result) throws ServiceLocatorException {
+    public void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
+            throws ServiceLocatorException {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(epr);
@@ -174,6 +175,7 @@ public class CXFEndpointProvider implements EndpointProvider {
         }        
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void addEndpointReference(Node parent) throws ServiceLocatorException {
         serializeEPR(epr, parent);

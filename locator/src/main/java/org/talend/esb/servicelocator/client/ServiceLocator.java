@@ -114,16 +114,16 @@ public interface ServiceLocator {
 	void register(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * 
-	 * @param serviceName
-	 * @param endpoint
-	 * @param presistent
-	 * @throws ServiceLocatorException
-	 * @throws InterruptedException
-	 */
-	void register(QName serviceName, String endpoint, boolean persistent)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * 
+     * @param serviceName
+     * @param endpoint
+     * @param presistent
+     * @throws ServiceLocatorException
+     * @throws InterruptedException
+     */
+    void register(QName serviceName, String endpoint, boolean persistent) throws ServiceLocatorException,
+            InterruptedException;
 
 	/**
 	 * For a given service register the endpoint of a concrete provider of this
@@ -159,50 +159,44 @@ public interface ServiceLocator {
 	 * @throws InterruptedException
 	 */
 	void register(QName serviceName, String endpoint,
-			SLProperties properties, boolean persistent)
-			throws ServiceLocatorException, InterruptedException;
+	        SLProperties properties, boolean persistent)
+	throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For a given service register the endpoint as defined in the given
-	 * {@link EndpointProvider EndpointProvider}. The endpoint is marked as live
-	 * as long as this client is connected and the session on the server is
-	 * valid.
-	 * 
-	 * @param eprProvider
-	 *            provides all the necessary information to register an endpoint
-	 *            like name of the service for which to register the endpoint,
-	 *            the endpoint URL, must not be <code>null</code>.
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void register(EndpointProvider eprProvider) throws ServiceLocatorException,
-			InterruptedException;
+    /**
+     * For a given service register the endpoint as defined in the given {@link Endpoint
+     * EndpointProvider}. The endpoint is marked as live as long as this client is connected and the
+     * session on the server is valid.
+     * 
+     * @param eprProvider
+     *             provides all the necessary information to register an endpoint like name of the service
+     *             for which to register the endpoint, the endpoint URL, must not be <code>null</code>.
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting for a response of the
+     *             ServiceLocator
+     */
+    void register(Endpoint eprProvider) throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For a given service register the endpoint as defined in the given
-	 * {@link EndpointProvider EndpointProvider}. If the given persistent flag
-	 * is not set the endpoint is marked as live as long as this client is
-	 * connected and the session on the server is valid. Otherwise it is marked
-	 * live independent of the sesion state.
-	 * 
-	 * @param eprProvider
-	 *            provides all the necessary information to register an endpoint
-	 *            like name of the service for which to register the endpoint,
-	 *            the endpoint URL, must not be <code>null</code>.
-	 * @param persistent
-	 *            iff true the endpoint is marked live until it is explicitly
-	 *            unregistered.
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void register(EndpointProvider eprProvider, boolean persistent)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For a given service register the endpoint as defined in the given {@link Endpoint
+     * EndpointProvider}. If the given persistent flag is not set the endpoint is marked as live as long
+     * as this client is connected and the session on the server is valid. Otherwise it is marked live
+     * independent of the sesion state.
+     * 
+     * @param eprProvider
+     *             provides all the necessary information to register an endpoint like name of the service
+     *             for which to register the endpoint, the endpoint URL, must not be <code>null</code>.
+     * @param persistent
+     *             iff true the endpoint is marked live until it is explicitly unregistered.
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting for a response of the
+     *             ServiceLocator
+     */
+    void register(Endpoint eprProvider, boolean persistent)
+    throws ServiceLocatorException, InterruptedException;
 
 	/**
 	 * For a given service unregister a previously registered endpoint.
@@ -221,21 +215,19 @@ public interface ServiceLocator {
 	void unregister(QName serviceName, String endpoint)
 			throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For a given service unregister a previously registered endpoint.
-	 * 
-	 * @param eprProvider
-	 *            provides all the necessary information to unregister an
-	 *            endpoint like name of the service for which to register the
-	 *            endpoint and the endpoint URL, must not be <code>null</code>.
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void unregister(EndpointProvider epProvider)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For a given service unregister a previously registered endpoint.
+     * 
+     * @param eprProvider
+     *             provides all the necessary information to unregister an endpoint like name of the service
+     *             for which to register the endpoint and the endpoint URL, must not be <code>null</code>.
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting for a response of the
+     *             ServiceLocator
+     */
+    void unregister(Endpoint epProvider) throws ServiceLocatorException, InterruptedException;
 
 	/**
 	 * Remove the given endpoint from the list of endpoints of the given

@@ -20,10 +20,10 @@
 package org.talend.esb.servicelocator.client.internal;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
@@ -33,7 +33,7 @@ import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.BindingType;
-import org.talend.esb.servicelocator.client.EndpointProvider;
+import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.TransportType;
 
@@ -47,6 +47,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.talend.esb.DomMother.newDocument;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
 import static org.talend.esb.servicelocator.TestValues.*;
 
@@ -59,7 +60,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         setData(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        Endpoint eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -77,7 +78,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatusFails(ENDPOINT_PATH_11);
 
-        EndpointProvider epProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        Endpoint epProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -100,7 +101,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider epProvider = 
+        Endpoint epProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
@@ -120,7 +121,27 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatus(ENDPOINT_PATH_11, true);
 
-        EndpointProvider epProvider = 
+        Endpoint epProvider = 
+            createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        slc.register(epProvider, true);
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerEndpointWithProperties() throws Exception {
+        serviceExists(SERVICE_PATH_1);
+
+        endpointExistsNot(ENDPOINT_PATH_11);
+        createEndpointAndSetData(ENDPOINT_PATH_11);
+
+        createEndpointStatus(ENDPOINT_PATH_11, true);
+
+        Endpoint epProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
@@ -141,7 +162,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider epProvider = 
+        Endpoint epProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
@@ -162,7 +183,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider epProvider = 
+        Endpoint epProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
@@ -180,7 +201,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         setData(ENDPOINT_PATH_11);
         createEndpointStatus(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = 
+        Endpoint eprProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
                     TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
 
@@ -210,7 +231,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         deleteEndpointStatus(ENDPOINT_PATH_11);
         setData(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = 
+        Endpoint eprProvider = 
             createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
                     TransportType.HTTP, LAST_TIME_STARTED, LAST_TIME_STOPPED);
 
@@ -240,7 +261,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     public void unregisterEndpointExistsNot() throws Exception {
         endpointExistsNot(ENDPOINT_PATH_11);
 
-        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        Endpoint eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
 
         replayAll();
 
@@ -255,7 +276,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         endpointExists(ENDPOINT_PATH_11);
         delete(ENDPOINT_STATUS_PATH_11, new KeeperException.RuntimeInconsistencyException());
 
-        EndpointProvider eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
+        Endpoint eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorAndConnect();
@@ -327,40 +348,41 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         createNode(endpointStatusPath, EPHEMERAL, new KeeperException.NodeExistsException());
     }
 
-    protected EndpointProvider createEPProviderStub(QName serviceName, String endpoint) throws Exception {
+    protected Endpoint createEPProviderStub(QName serviceName, String endpoint) throws Exception {
         return createEPProviderStub(serviceName, endpoint, BindingType.JAXRS, TransportType.HTTP, -1, -1);
     }
-    protected  EndpointProvider createEPProviderStub(QName serviceName, String endpoint,
+
+    protected  Endpoint createEPProviderStub(QName serviceName, String endpoint,
             BindingType bindingType, TransportType transportType, long lastTimeStarted, long lastTimeStopped)
         throws Exception {
-        EndpointProvider eprProvider = createNiceMock(EndpointProvider.class);
+        
+        Endpoint eprProvider = createNiceMock(Endpoint.class);
         expect(eprProvider.getServiceName()).andStubReturn(serviceName);
         expect(eprProvider.getAddress()).andStubReturn(endpoint);
         expect(eprProvider.getBinding()).andStubReturn(bindingType);
         expect(eprProvider.getTransport()).andStubReturn(transportType);
         expect(eprProvider.getLastTimeStarted()).andStubReturn(lastTimeStarted);
         expect(eprProvider.getLastTimeStopped()).andStubReturn(lastTimeStopped);
-        eprProvider.addEndpointReference(anyDOM());
+        eprProvider.writeEndpointReferenceTo(anyDOMResult(), (Endpoint.PropertiesTransformer) EasyMock.anyObject());
         expectLastCall().asStub();
 
         return eprProvider;
     }
 
-    public static Node anyDOM() {
-        EasyMock.reportMatcher(new AddChildElementMatcher());
+    public static DOMResult anyDOMResult() {
+        EasyMock.reportMatcher(new SetNodeMatcher());
         return null;
     }
 
-    public static class AddChildElementMatcher implements IArgumentMatcher {
+    public static class SetNodeMatcher implements IArgumentMatcher {
 
         @Override
         public boolean matches(Object argument) {
-            if (argument != null && argument instanceof Node) {
-                Node parent = (Node) argument;
-                Document doc = (parent instanceof Document) ? (Document) parent : parent.getOwnerDocument();
-                Element epr =
-                    doc.createElementNS("http://www.w3.org/2005/08/addressing", "EndpointReference");
-                parent.appendChild(epr);
+            if (argument != null && argument instanceof DOMResult) {
+                DOMResult result = (DOMResult) argument;
+                Element epr = newDocument("http://www.w3.org/2005/08/addressing", "EndpointReference");
+
+                result.setNode(epr.getOwnerDocument());
                 return true;
             }
             return false;

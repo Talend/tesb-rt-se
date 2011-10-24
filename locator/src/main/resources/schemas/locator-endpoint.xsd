@@ -13,7 +13,7 @@
 
     <complexType name="EndpointDataType">
     	<sequence>
-            <element id="endpointReference" ref="wsa:EndpointReference" minOccurs="0" maxOccurs="1"/>
+            <element id="endpointReference" ref="wsa:EndpointReference" minOccurs="1" maxOccurs="1"/>
             <element id="properties" ref="tns:ServiceLocatorProperties" minOccurs="0" maxOccurs="1"/>
     		<element name="LastTimeStarted" type="long" minOccurs="1" maxOccurs="1" default="-1"/>
     		<element name="LastTimeStopped" type="long" minOccurs="1" maxOccurs="1" default="-1"/>

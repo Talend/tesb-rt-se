@@ -30,7 +30,7 @@ import org.w3c.dom.Node;
  * service locator for an endpoint.
  *
  */
-public interface EndpointProvider {
+public interface Endpoint {
 
     /**
      * Return the name of the service the endpoint belongs to
@@ -56,9 +56,9 @@ public interface EndpointProvider {
 
     SLProperties getProperties();
     
-    void writeEndpointReferenceTo(Result result) throws ServiceLocatorException;
+    void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer) throws ServiceLocatorException;
 
-        /**
+    /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
      * 
      * @param parent the node where to add the endpoint reference, is not null and either an 
@@ -66,4 +66,9 @@ public interface EndpointProvider {
      */
     @Deprecated
     void addEndpointReference(Node parent) throws ServiceLocatorException;
+    
+    static interface PropertiesTransformer {
+        
+        void writePropertiesTo(SLProperties props, Result result);
+    }
 }

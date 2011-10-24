@@ -342,6 +342,7 @@ import java.util.Vector;
  * fix (2 digits in e form corrupt) rounding in f format implemented round up when digit not printed is 5 formatting of
  * -0.0f round up/down when last digits are 50000...
  */
+@SuppressWarnings("rawtypes")
 public class PrintfFormat {
 
     /**
