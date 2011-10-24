@@ -46,13 +46,14 @@
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-     <property name="wsdlLocation" value="META-INF/spring/model/ws-trust-1.4-service.wsdl" />
+     <property name="wsdlLocation" value="http://localhost:8080/SecurityTokenService/UT?wsdl" />
      <property name="serviceName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceProvider" />
+      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
      <property name="endpointName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenServiceSOAP" />
+      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
+                           <entry key="ws-security.username" value="alice"/>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>
@@ -60,6 +61,8 @@
                            <entry key="ws-security.encryption.properties" value="META-INF/spring/clientKeystore.properties"/> 
                            <entry key="ws-security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
+                           <entry key="ws-security.sts.token.username" value="myclientkey"/>
+                           <entry key="ws-security.sts.token.properties" value="META-INF/spring/clientKeystore.properties"/> 
                            <entry key="isBSPCompliant" value="false"/>
                        </map>
                    </property>
