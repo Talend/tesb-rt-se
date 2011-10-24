@@ -48,9 +48,9 @@
                    <constructor-arg ref="cxf"/>
      <property name="wsdlLocation" value="http://localhost:8080/SecurityTokenService/UT?wsdl" />
      <property name="serviceName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}SecurityTokenService" />
+      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
      <property name="endpointName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl}UT_Port" />
+      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
                            <entry key="ws-security.username" value="alice"/>
