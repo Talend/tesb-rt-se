@@ -19,17 +19,12 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
@@ -51,7 +46,6 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
-import org.apache.ws.security.WSPasswordCallback;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
@@ -173,13 +167,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		cf.setAddress(endpointUrl);
 		cf.setServiceClass(this.getClass());
 		cf.setBus(bus);
-		List<AbstractFeature> features = new ArrayList<AbstractFeature>();
+		final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
 		if (serviceLocator != null) {
 			features.add(serviceLocator);
 		}
 		if (eventFeature != null) {
 			features.add(eventFeature);
 		}
+		if (null != securityArguments.getPolicy()) {
+			features.add(new WSPolicyFeature(securityArguments.getPolicy()));
+		}
+
 		cf.setFeatures(features);
 
 		if (EsbSecurity.NO != securityArguments.getEsbSecurity()) {
@@ -200,50 +198,18 @@ public class RuntimeESBConsumer implements ESBConsumer {
 				stsClient.setEndpointQName(new QName(sp.get(STS_NAMESPACE), sp
 						.get(STS_ENDPOINT_NAME)));
 
-				Set<String> all_props = SecurityConstants.ALL_PROPERTIES;
 				Map<String, Object> stsProperties = new HashMap<String, Object>();
 
 				for (Map.Entry<String, String> entry : sp.entrySet()) {
-					if (all_props.contains(entry.getKey())) {
+					if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
 						stsProperties.put(entry.getKey(), entry.getValue());
 					}
 				}
 
 				stsProperties.put(SecurityConstants.USERNAME,
-				securityArguments.getUsername());
-				 
-				// stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME,
-				// "myclientkey");
-				// stsProperties.put(
-				// SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO,
-				// "true");
-				// stsProperties.put(SecurityConstants.IS_BSP_COMPLIANT,
-				// "false");
-				// stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES,
-				// "clientKeystore.properties");
-				// stsProperties.put(SecurityConstants.ENCRYPT_USERNAME,
-				// "mystskey");
-				// stsProperties.put(SecurityConstants.ENCRYPT_PROPERTIES,
-				// "clientKeystore.properties");
-				stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
-						new CallbackHandler() {
-							@Override
-							public void handle(Callback[] callbacks)
-									throws IOException,
-									UnsupportedCallbackException {
-								for (int i = 0; i < callbacks.length; i++) {
-									if (callbacks[i] instanceof WSPasswordCallback) { // CXF
-										WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-										if (securityArguments.getUsername()
-												.equals(pc.getIdentifier())) {
-											pc.setPassword(securityArguments
-													.getPassword());
-											break;
-										}
-									}
-								}
-							}
-						});
+						securityArguments.getUsername());
+				stsProperties.put(SecurityConstants.PASSWORD,
+						securityArguments.getPassword());
 				stsClient.setProperties(stsProperties);
 
 				Map<String, Object> cfProperties = new HashMap<String, Object>();
@@ -253,40 +219,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
 						.getClientProperties();
 
 				for (Map.Entry<String, String> entry : sprop.entrySet()) {
-					if (all_props.contains(entry.getKey())) {
+					if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
 						cfProperties.put(entry.getKey(), entry.getValue());
 					}
 				}
-
-				// cfProperties.put(SecurityConstants.SIGNATURE_PROPERTIES,
-				// "clientKeystore.properties");
-				// cfProperties.put(SecurityConstants.SIGNATURE_USERNAME,
-				// "myclientkey");
-				// cfProperties.put(SecurityConstants.ENCRYPT_PROPERTIES,
-				// "clientKeystore.properties");
-				// cfProperties.put(SecurityConstants.ENCRYPT_USERNAME,
-				// "myservicekey");
-				final String csu = sprop.get(SecurityConstants.SIGNATURE_USERNAME);
-				final String csp = sprop.get(CONSUMER_SIGNATURE_PASSWORD);
-				
 				cfProperties.put(SecurityConstants.CALLBACK_HANDLER,
-						new CallbackHandler() {
-							@Override
-							public void handle(Callback[] callbacks)
-									throws IOException,
-									UnsupportedCallbackException {
-								for (int i = 0; i < callbacks.length; i++) {
-									if (callbacks[i] instanceof WSPasswordCallback) { // CXF
-										WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-										if (csu
-												.equals(pc.getIdentifier())) {
-											pc.setPassword(csp);
-											break;
-										}
-									}
-								}
-							}
-						});
+						new WSPasswordCallbackHandler(
+								sprop.get(SecurityConstants.SIGNATURE_USERNAME),
+								sprop.get(CONSUMER_SIGNATURE_PASSWORD)));
+
 				cf.setProperties(cfProperties);
 			}
 		}
@@ -298,11 +239,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
 		final ServiceInfo si = service.getServiceInfos().get(0);
 		ServiceHelper.addOperation(si, operationName, isRequestResponse);
-
-		if (null != securityArguments.getPolicy()) {
-			WSPolicyFeature feature = new WSPolicyFeature(securityArguments.getPolicy());
-			feature.initialize(client, bus);
-		}
 
 		return client;
 	}
