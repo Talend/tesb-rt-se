@@ -123,6 +123,7 @@
 		<feature version="${activemq.version}">activemq-spring</feature>
 		<!-- CXF Features -->
 		<feature version="${cxf.version}">cxf</feature>
+		<feature version="${cxf.version}">cxf-sts</feature>
 		<!-- Camel Features -->
 		<feature version="${camel.version}">camel</feature>
 		<feature version="${camel.version}">camel-core</feature>
