@@ -21,18 +21,21 @@ package org.talend.esb.locator.rest.proxy.service;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.*;
+import static org.talend.esb.DomMother.newDocument;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import junit.framework.Assert;
 
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
+import org.easymock.IArgumentMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.schemas.esb.locator._2011._11.RegisterEndpoint;
@@ -44,14 +47,16 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.esb.servicelocator.client.SimpleEndpointTest.SetNodeMatcher;
+import org.w3c.dom.Element;
 
 public class LocatorProxyServiceTest extends EasyMockSupport {
 
     private ServiceLocator sl;
-    private QName SERVICE_NAME;
-    private final String ENDPOINTURL = "http://Service";
-    private final String QNAME_PREFIX1 = "http://services.talend.org/TestService";
-    private final String QNAME_LOCALPART1 = "TestServiceProvider";
+    private static QName SERVICE_NAME;
+    private final static String ENDPOINTURL = "http://Service";
+    private final static String QNAME_PREFIX1 = "http://services.talend.org/TestService";
+    private final static String QNAME_LOCALPART1 = "TestServiceProvider";
     private List<String> names;
     private LocatorRestProxyServiceImpl lps;
 
@@ -148,6 +153,46 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
             lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
         } catch (WebApplicationException ex) {
             fail();
+        }
+    }
+    
+    
+    @Test
+    public void registerEndpoint() throws ServiceLocatorException,
+            InterruptedException {
+    	sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall();
+        
+        replayAll();
+        try {
+        	RegisterEndpointRequest req = new RegisterEndpointRequest();
+        	req.setEndpointURL(ENDPOINTURL);
+        	req.setServiceName(SERVICE_NAME.toString());
+        	lps.registerEndpoint(req);
+        } catch (WebApplicationException ex) {
+            fail();
+        }
+    }
+    
+    public static Endpoint endpoint() {
+        EasyMock.reportMatcher(new simpleEndpointMatcher());
+        return null;
+    }
+    
+    public static class simpleEndpointMatcher implements IArgumentMatcher {
+
+        @Override
+        public boolean matches(Object argument) {
+            if (argument != null && argument instanceof Endpoint) {
+                Endpoint result = (Endpoint) argument;
+                if(!ENDPOINTURL.equals(result.getAddress())) return false;
+                if(!SERVICE_NAME.equals(result.getServiceName())) return false;
+            }
+            return true;
+        }
+
+        @Override
+        public void appendTo(StringBuffer buffer) {
         }
     }
 }
