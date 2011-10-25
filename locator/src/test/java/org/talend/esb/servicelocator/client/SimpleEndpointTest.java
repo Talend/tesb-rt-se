@@ -193,7 +193,7 @@ public class SimpleEndpointTest {
                 Element epr = newDocument("http://talend.org/schemas/esb/locator/content/20011/11",
                         "ServiceLocatorProperties");
 
-                result.setNode(epr);
+                result.setNode(epr.getParentNode());
                 return true;
             }
             return false;
