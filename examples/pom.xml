@@ -42,11 +42,11 @@
 	</licenses>
 
 	<properties>
-		<tesb.port>8040</tesb.port>	
+		<endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<cxf.version>2.5.0-SNAPSHOT</cxf.version>
-		<camel.version>2.8.2-SNAPSHOT</camel.version>
+		<camel.version>2.8.2</camel.version>
 		<spring.version>3.0.6.RELEASE</spring.version>
 		<karaf.version>2.2.4</karaf.version>
 		<activemq.version>5.5.0</activemq.version>
@@ -63,6 +63,15 @@
 	</properties>
 
 	<build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+            </resource>
+            <resource>
+                <directory>src/main/filtered-resources/</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>

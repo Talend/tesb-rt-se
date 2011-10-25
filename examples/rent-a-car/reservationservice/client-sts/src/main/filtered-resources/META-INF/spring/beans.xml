@@ -1,6 +1,6 @@
 <!--
   #%L
-  CRMService Client STS
+  ReservationService Client STS
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -29,14 +29,14 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	
-	<jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
-		xmlns:serviceNamespace="http://services.talend.org/CRMService"
-		serviceClass="org.talend.services.crmservice.CRMService"
-		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="classpath:/model/crmservice-wsdls/CRMService-sts.wsdl">
-	<jaxws:properties>
+
+	<jaxws:client id="ReservationServiceClient" name="{http://services.talend.org/ReservationService}ReservationServiceProvider"
+		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+		serviceClass="org.talend.services.reservationservice.ReservationService"
+		serviceName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServiceProvider"
+		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
+			<jaxws:properties>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>
@@ -46,14 +46,14 @@
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-     <property name="wsdlLocation" value="http://localhost:8080/SecurityTokenService/UT?wsdl" />
+     <property name="wsdlLocation" value="${endpoint.prefix}/SecurityTokenService/UT?wsdl" />
      <property name="serviceName"
       value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
      <property name="endpointName"
       value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
-                       	   <entry key="ws-security.username" value="alice"/>
+                           <entry key="ws-security.username" value="alice"/>
                            <entry key="ws-security.callback-handler">
 								<bean class="common.talend.CommonCallbackHandler"/>
 						   </entry>
@@ -69,8 +69,8 @@
                </bean>            
            </entry> 
        </jaxws:properties>
- </jaxws:client>
+</jaxws:client>
 
-	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
-	
+	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
+
 </beans>
