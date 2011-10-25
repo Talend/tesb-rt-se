@@ -35,7 +35,7 @@
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
+		endpointName="serviceNamespace:CRMServicePort"
 		address="${endpoint.prefix}/CRMServiceProvider"
 	/>
 

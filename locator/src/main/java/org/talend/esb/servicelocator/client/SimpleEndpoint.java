@@ -34,6 +34,7 @@ import javax.xml.transform.dom.DOMResult;
 import org.talend.esb.servicelocator.client.ws.addressing.AttributedURIType;
 import org.talend.esb.servicelocator.client.ws.addressing.EndpointReferenceType;
 import org.talend.esb.servicelocator.client.ws.addressing.MetadataType;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 public class SimpleEndpoint implements Endpoint {
@@ -196,11 +197,11 @@ public class SimpleEndpoint implements Endpoint {
         if (props != null) {
             DOMResult result = new DOMResult();
             transformer.writePropertiesTo(props, result);
-            result.getNode();
+            Document docResult = (Document)result.getNode();
             MetadataType metadata = new MetadataType();
             epr.setMetadata(metadata);
             
-            metadata.getAny().add(result.getNode());
+            metadata.getAny().add(docResult.getDocumentElement());
         }
                 
         return epr;

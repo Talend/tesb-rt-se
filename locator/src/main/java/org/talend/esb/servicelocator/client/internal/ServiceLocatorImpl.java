@@ -748,7 +748,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         endpointData.setLastTimeStopped(eprProvider.getLastTimeStopped());
 
         DOMResult result = new DOMResult();
-        eprProvider.writeEndpointReferenceTo(result, null);
+        eprProvider.writeEndpointReferenceTo(result, transformer);
         Document  doc = (Document) result.getNode();
         endpointData.setEndpointReference(doc.getDocumentElement());
         

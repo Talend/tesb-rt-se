@@ -27,14 +27,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
