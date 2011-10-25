@@ -21,14 +21,12 @@ package org.talend.esb.locator.rest.proxy.service;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.*;
-import static org.talend.esb.DomMother.newDocument;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import junit.framework.Assert;
@@ -38,17 +36,11 @@ import org.easymock.EasyMockSupport;
 import org.easymock.IArgumentMatcher;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.schemas.esb.locator._2011._11.RegisterEndpoint;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
-import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
-import org.talend.esb.servicelocator.client.SimpleEndpoint;
-import org.talend.esb.servicelocator.client.TransportType;
-import org.talend.esb.servicelocator.client.SimpleEndpointTest.SetNodeMatcher;
-import org.w3c.dom.Element;
 
 public class LocatorProxyServiceTest extends EasyMockSupport {
 
