@@ -54,7 +54,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 			ServiceLocatorFault {
 		LocatorProxyServiceImpl lps = new LocatorProxyServiceImpl();
 		lps.setLocatorClient(sl);
-		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null);
+		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null, null, null);
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		e.getValue().add(PROPERTY_VALUE2);
 		value.getEntry().add(e);
 
-		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, value);
+		lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null, null, value);
 	}
 
 	@Test
@@ -134,7 +134,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 		Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
 	}
-	
+
 	@Test(expected = ServiceLocatorFault.class)
 	public void lookUpEndpointsFault() throws InterruptedExceptionFault,
 			ServiceLocatorFault, ServiceLocatorException, InterruptedException {
