@@ -8,18 +8,40 @@ The limited permissions granted above are perpetual and will not be revoked by O
 This document and the information contained herein is provided on an AS IS basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
 -->
 <wsdl:definitions
-        targetNamespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
-        xmlns:tns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/wsdl"
+        targetNamespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+        xmlns:tns="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
         xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata">
-  <!-- this is the WS-I BP-compliant way to import a schema -->
   <wsdl:types>
-    <xs:schema>
-      <xs:import
-namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
-schemaLocation="ws-trust-1.3.xsd"/>
+    <xs:schema elementFormDefault="qualified" targetNamespace='http://docs.oasis-open.org/ws-sx/ws-trust/200512'>
+      
+      <xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' />
+      <xs:element name='RequestSecurityTokenResponse' type='wst:AbstractRequestSecurityTokenType' />
+     
+      <xs:complexType name='AbstractRequestSecurityTokenType' >
+        <xs:sequence>
+          <xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+        </xs:sequence>
+        <xs:attribute name='Context' type='xs:anyURI' use='optional' />
+        <xs:anyAttribute namespace='##other' processContents='lax' />
+      </xs:complexType>
+      <xs:element name='RequestSecurityTokenCollection' type='wst:RequestSecurityTokenCollectionType' />
+      <xs:complexType name='RequestSecurityTokenCollectionType' >
+        <xs:sequence>
+          <xs:element name='RequestSecurityToken' type='wst:AbstractRequestSecurityTokenType' minOccurs='2' maxOccurs='unbounded'/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:element name='RequestSecurityTokenResponseCollection' type='wst:RequestSecurityTokenResponseCollectionType' />
+      <xs:complexType name='RequestSecurityTokenResponseCollectionType' >
+        <xs:sequence>
+          <xs:element ref='wst:RequestSecurityTokenResponse' minOccurs='1' maxOccurs='unbounded' />
+        </xs:sequence>
+        <xs:anyAttribute namespace='##other' processContents='lax' />
+      </xs:complexType>
+      
     </xs:schema>
   </wsdl:types>
 
@@ -50,7 +72,7 @@ schemaLocation="ws-trust-1.3.xsd"/>
   </wsdl:portType>
 
   <!-- This portType is an example of an STS supporting full protocol -->
-  <wsdl:portType name="SecurityTokenService">
+  <wsdl:portType name="STS">
     <wsdl:operation name="Cancel">
       <wsdl:input wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel" message="tns:RequestSecurityTokenMsg"/>
       <wsdl:output wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/CancelFinal" message="tns:RequestSecurityTokenResponseMsg"/>

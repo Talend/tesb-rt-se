@@ -10,35 +10,30 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
- <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>reservationservice-client-sts</artifactId>
-    <name>ReservationService Client STS</name>
+    <groupId>org.talend.esb.sts</groupId>
+    <artifactId>org.talend.esb.sts.config</artifactId>
     <packaging>bundle</packaging>
+    <name>Talend :: ESB :: STS :: CONFIG</name>
 
     <parent>
-        <groupId>org.talend.esb.examples.rent-a-car</groupId>
-        <artifactId>reservationservice</artifactId>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sts</artifactId>
         <version>5.0-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>reservationservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -47,19 +42,12 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans
-                        </Require-Bundle>
-						<Import-Package>
-							model.reservation-wsdls,
-							*
-						</Import-Package>				
+                        <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
+                        <Require-Bundle>org.apache.cxf.bundle</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-
     </build>
-</project>
 
+</project>
