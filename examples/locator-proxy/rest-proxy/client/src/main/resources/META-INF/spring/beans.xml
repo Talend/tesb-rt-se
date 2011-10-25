@@ -35,7 +35,7 @@
 	
 	<jaxrs:client id="restClient"
          address="${endpoint.prefix}/ServiceLocatorRestProxyService"
-         serviceClass="org.talend.esb.locator.rest.proxy.service.LocatorProxyService"
+         serviceClass="org.talend.services.esb.locator.rest.v1.LocatorProxyService"
          inheritHeaders="true">
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>

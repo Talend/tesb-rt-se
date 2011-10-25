@@ -27,9 +27,11 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.talend.schemas.esb.locator.rest._2011._11.BindingType;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.schemas.esb.locator.rest._2011._11.TransportType;
 
 public final class RESTClient {
 	private static final String BASE_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestProxyService/locator/endpoint";
@@ -82,6 +84,8 @@ public final class RESTClient {
 		et.getValue().add(value);
 		RegisterEndpointRequest registerEndpointRequest = new RegisterEndpointRequest();
 		registerEndpointRequest.setEndpointURL(endpoint);
+		registerEndpointRequest.setBinding(BindingType.JAXRS);
+		registerEndpointRequest.setTransport(TransportType.HTTPS);
 		registerEndpointRequest.setServiceName(service);
 		registerEndpointRequest.getEntryType().add(et);
 		try {
