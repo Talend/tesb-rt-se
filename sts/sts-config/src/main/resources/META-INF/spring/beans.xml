@@ -22,13 +22,13 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
+    <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
-    <cxf:bus>
+    <!--cxf:bus>
         <cxf:features>
             <cxf:logging/>
         </cxf:features>
-    </cxf:bus>
+    </cxf:bus-->
 
     <bean id="utSTSProviderBean"
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
