@@ -27,15 +27,6 @@
     </parent>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources/</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>model/crmservice-wsdls/CRMService-sts.wsdl</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -43,11 +34,11 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Export-Package>
-							model.crmservice-wsdls,
-							org.talend.services.crmservice,
-							org.talend.services.crm.types
-						</Export-Package>
+                        <Export-Package>
+                            model.crmservice-wsdls,
+                            org.talend.services.crmservice,
+                            org.talend.services.crm.types
+                        </Export-Package>
                         <Import-Package>
                             javax.xml.bind,
                             javax.xml.bind.annotation,
@@ -60,7 +51,6 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -69,7 +59,7 @@
                             <fork>once</fork>
                             <wsdlOptions>
                                 <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/model/crmservice-wsdls/CRMService-sts.wsdl</wsdl>
+                                    <wsdl>${basedir}/src/main/resources/model/crmservice-wsdls/CRMService.wsdl</wsdl>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>

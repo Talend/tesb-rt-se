@@ -18,45 +18,47 @@
   #L%
   -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:cxf="http://cxf.apache.org/core"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:p="http://cxf.apache.org/policy"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+        http://www.w3.org/ns/ws-policy http://www.w3.org/2007/02/ws-policy.xsd">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	
-	<jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
-		xmlns:serviceNamespace="http://services.talend.org/CRMService"
-		serviceClass="org.talend.services.crmservice.CRMService"
-		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
-		wsdlLocation="classpath:/model/crmservice-wsdls/CRMService-sts.wsdl">
-	<jaxws:properties>
-                           <entry key="ws-security.callback-handler">
-								<bean class="common.talend.CommonCallbackHandler"/>
-						   </entry>
-           <!-- <entry key="ws-security.encryption.properties" value="META-INF/spring/clientKeystore.properties"/> -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    
+    <jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
+        xmlns:serviceNamespace="http://services.talend.org/CRMService"
+        serviceClass="org.talend.services.crmservice.CRMService"
+        serviceName="serviceNamespace:CRMServiceProvider"
+        endpointName="serviceNamespace:CRMServicePort"
+        address="${endpoint.prefix}/CRMServiceProvider">
+        <jaxws:properties>
            <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-           <!-- <entry key="ws-security.encryption.username" value="myservicekey"/> -->
+           <entry key="ws-security.callback-handler">
+                <bean class="common.talend.CommonCallbackHandler"/>
+           </entry>
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
-     <property name="wsdlLocation" value="${endpoint.prefix}/SecurityTokenService/UT?wsdl" />
-     <property name="serviceName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
-     <property name="endpointName"
-      value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
+                       <property name="wsdlLocation" value="${endpoint.prefix}/SecurityTokenService/UT?wsdl" />
+                       <property name="serviceName"
+                           value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+                       <property name="endpointName"
+                           value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
-                       	   <entry key="ws-security.username" value="alice"/>
+                           <entry key="ws-security.username" value="alice"/>
                            <entry key="ws-security.callback-handler">
-								<bean class="common.talend.CommonCallbackHandler"/>
-						   </entry>
+                                <bean class="common.talend.CommonCallbackHandler"/>
+                           </entry>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/>
                            <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.encryption.username" value="mystskey"/>
@@ -66,11 +68,16 @@
                            <entry key="isBSPCompliant" value="false"/>
                        </map>
                    </property>
-               </bean>            
+               </bean>
            </entry> 
-       </jaxws:properties>
- </jaxws:client>
+        </jaxws:properties>
+        <jaxws:features>
+            <p:policies>
+                <wsp:PolicyReference URI="classpath:/saml.policy"/>
+            </p:policies>
+        </jaxws:features>
+    </jaxws:client>
 
-	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
-	
+    <osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
+
 </beans>
