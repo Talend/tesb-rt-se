@@ -1,6 +1,6 @@
 <!--
   #%L
-  CRMService Client
+  ReservationService Client
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -17,7 +17,6 @@
   limitations under the License.
   #L%
   -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -31,14 +30,14 @@
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 
-	<jaxws:client id="CRMServiceClient"
-		xmlns:serviceNamespace="http://services.talend.org/CRMService"
-		serviceClass="org.talend.services.crmservice.CRMService"
-		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
-		address="http://localhost:${tesb.port}/services/CRMServiceProvider"
+	<jaxws:client id="ReservationServiceClient"
+		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+		serviceClass="org.talend.services.reservationservice.ReservationService"
+		serviceName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServiceProvider"
+		address="${endpoint.prefix}/ReservationServiceProvider"
 	/>
 
-	<osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
+	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
 </beans>

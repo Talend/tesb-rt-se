@@ -54,7 +54,7 @@
 						<Import-Package>
 							model.reservation-wsdls,
 							*
-						</Import-Package>				
+						</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

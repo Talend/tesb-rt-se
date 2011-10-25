@@ -134,7 +134,7 @@
 
   <wsdl:service name="CRMServiceProvider">
     <wsdl:port binding="tns:localhostBinding" name="CRMServiceProvider">
-		<soap:address location="http://localhost:${tesb.port}/services/CRMServiceProvider/"/>
+		<soap:address location="${endpoint.prefix}/CRMServiceProvider/"/>
 	</wsdl:port>
   </wsdl:service>
   

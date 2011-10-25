@@ -1,6 +1,6 @@
 <!--
   #%L
-  LocatorProxyService Client
+  ReservationService Client SAM
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -21,25 +21,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	
-	<jaxrs:client id="restClient"
-         address="${endpoint.prefix}/ServiceLocatorRestProxyService"
-         serviceClass="org.talend.esb.locator.rest.proxy.service.LocatorProxyService"
-         inheritHeaders="true">
-         <jaxrs:headers>
-             <entry key="Accept" value="application/xml"/>
-         </jaxrs:headers>
-	</jaxrs:client>
-	
+	<import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+
+	<jaxws:client id="ReservationServiceClient"
+		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+		serviceClass="org.talend.services.reservationservice.ReservationService"
+		serviceName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServiceProvider"
+		address="${endpoint.prefix}/ReservationServiceProvider"
+	>
+		<jaxws:features>
+			<ref bean="eventFeature"/>
+		</jaxws:features>
+	</jaxws:client>
+
+	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
+
 </beans>
