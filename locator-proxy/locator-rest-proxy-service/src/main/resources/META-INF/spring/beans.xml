@@ -22,25 +22,16 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	">
 
-	<context:annotation-config />
-	<tx:annotation-driven />
-
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
 	<osgix:cm-properties id="locator-server-props"
 		persistent-id="org.talend.esb.locator">
@@ -55,13 +46,13 @@
 		<property name="placeholderPrefix" value="$sl{" />
 	</bean>
 
-	<jaxrs:server id="locatorProxyService" address="/ServiceLocatorRestProxyService">
+	<jaxrs:server id="locatorService" address="/ServiceLocatorRestService">
 		<jaxrs:serviceBeans>
-			<ref bean="serviceLocatorProxyBean" />
+			<ref bean="serviceLocatorBean" />
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 
-	<bean id="serviceLocatorProxyBean"
+	<bean id="serviceLocatorBean"
 		class="org.talend.esb.locator.rest.proxy.service.LocatorRestProxyServiceImpl"
 		destroy-method="disconnectLocator">
 		<property name="locatorEndpoints" value="$sl{locator.endpoints}" />
