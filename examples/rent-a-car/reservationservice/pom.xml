@@ -25,9 +25,9 @@
         <version>5.0-SNAPSHOT</version>
     </parent>
     
-	<modules>
+    <modules>
         <module>common</module>
-		<module>service</module>
+        <module>service</module>
     </modules>
 
     <profiles>
@@ -37,35 +37,35 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-				<module>client</module>
+                <module>client</module>
                 <module>service-endpoint</module>
             </modules>
         </profile>
         <profile>
             <id>locator</id>
             <modules>
-				<module>client-locator</module>
-				<module>service-endpoint-locator</module>
+                <module>client-locator</module>
+                <module>service-endpoint-locator</module>
             </modules>
         </profile>
         <profile>
             <id>sam</id>
             <modules>
-				<module>client-sam</module>
+                <module>client-sam</module>
                 <module>service-endpoint-sam</module>
             </modules>
         </profile>
         <profile>
             <id>sts</id>
             <modules>
-				<module>client-sts</module>
+                <module>client-sts</module>
                 <module>service-endpoint-sts</module>
             </modules>
         </profile>
-		<profile>
+        <profile>
             <id>jmx</id>
             <modules>
-				<module>client-jmx</module>
+                <module>client</module>
                 <module>service-endpoint-jmx</module>
             </modules>
         </profile>
