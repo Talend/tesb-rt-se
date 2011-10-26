@@ -43,6 +43,7 @@
 
     <properties>
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
+        <sts.prefix>http://localhost:8080</sts.prefix>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <cxf.version>2.5.0-SNAPSHOT</cxf.version>

@@ -233,13 +233,13 @@
 									<sp:RequireInternalReference />
 								</wsp:Policy>
 								<!--sp:Issuer>
-									<wsaw:Address xmlns:wsaw="http://www.w3.org/2005/08/addressing">http://localhost:8080/SecurityTokenService/UT
+									<wsaw:Address xmlns:wsaw="http://www.w3.org/2005/08/addressing">${sts.prefix}/SecurityTokenService/UT
 									</wsaw:Address>
 									<wsaw:Metadata xmlns:wsaw="http://www.w3.org/2005/08/addressing">
 										<wsx:Metadata xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex">
 											<wsx:MetadataSection>
 												<wsx:MetadataReference>
-													<wsaw:Address>http://localhost:8080/SecurityTokenService/UT/mex
+													<wsaw:Address>${sts.prefix}/SecurityTokenService/UT/mex
 													</wsaw:Address>
 												</wsx:MetadataReference>
 											</wsx:MetadataSection>
