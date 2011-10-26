@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>app</artifactId>
+    <artifactId>app-reservation</artifactId>
     <name>App Reservation</name>
-    <packaging>pom</packaging>
+    <packaging>bundle</packaging>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
@@ -25,8 +25,8 @@
         <version>5.0-SNAPSHOT</version>
     </parent>
 
-	<dependencies>
-		 <dependency>
+    <dependencies>
+        <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
             <version>${karaf.version}</version>
@@ -36,42 +36,33 @@
             <artifactId>org.eclipse.osgi</artifactId>
             <version>${eclipse.osgi.version}</version>
         </dependency>
-	</dependencies>
-	
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-				<module>app-basic</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>locator</id>
-            <modules>
-				<module>app-locator</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>sam</id>
-            <modules>
-				<module>app-sam</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>sts</id>
-            <modules>
-				<module>app-sts</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>jmx</id>
-            <modules>
-				<module>app-jmx</module>
-            </modules>
-        </profile>
-    </profiles>
+
+        <dependency>
+            <groupId>org.talend.esb.examples.rent-a-car</groupId>
+            <artifactId>crmservice-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.examples.rent-a-car</groupId>
+            <artifactId>reservationservice-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>org.apache.felix.service.command,*</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
+

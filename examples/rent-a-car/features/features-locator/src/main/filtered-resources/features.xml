@@ -38,6 +38,6 @@
         <feature version='${project.version}'>tesb-rac-common-locator</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-locator/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-client-locator/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/app-reservation-locator/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/app-reservation/${project.version}</bundle>
     </feature>
 </features>

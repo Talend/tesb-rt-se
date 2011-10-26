@@ -39,6 +39,6 @@
         <feature version='${project.version}'>tesb-rac-common-sam</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-sam/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-client-sam/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/app-reservation-sam/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/app-reservation/${project.version}</bundle>
     </feature>
 </features>

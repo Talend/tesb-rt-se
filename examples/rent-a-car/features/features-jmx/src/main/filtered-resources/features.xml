@@ -38,6 +38,6 @@
         <feature version='${project.version}'>tesb-rac-common-jmx</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-jmx/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-client-jmx/${project.version}</bundle>
-        <bundle>mvn:${project.groupId}/app-reservation-jmx/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/app-reservation/${project.version}</bundle>
     </feature>
 </features>
