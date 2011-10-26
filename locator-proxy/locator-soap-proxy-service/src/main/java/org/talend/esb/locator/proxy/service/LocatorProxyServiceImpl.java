@@ -142,9 +142,9 @@ public class LocatorProxyServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            BindingType bindingType = binding == null ? null : BindingType
+            BindingType bindingType = binding == null ? BindingType.SOAP11 : BindingType
                     .valueOf(binding.value());
-            TransportType transportType = transport == null ? null
+            TransportType transportType = transport == null ? TransportType.HTTP
                     : TransportType.valueOf(transport.value());
             SLPropertiesImpl slProps = null;
             if (properties != null) {
