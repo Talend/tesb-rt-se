@@ -29,11 +29,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
@@ -52,16 +47,14 @@
                             org.apache.cxf.bundle,
                             org.springframework.beans
                         </Require-Bundle>
-						<Import-Package>
-							model.crmservice-wsdls,
-							*
-						</Import-Package>
+                        <Import-Package>
+                            model.crmservice-wsdls,
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-
-
     </build>
 
 </project>

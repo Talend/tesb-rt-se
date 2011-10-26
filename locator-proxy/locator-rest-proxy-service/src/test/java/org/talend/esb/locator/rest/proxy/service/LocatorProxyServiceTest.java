@@ -33,105 +33,158 @@ import junit.framework.Assert;
 
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
+import org.easymock.IArgumentMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public class LocatorProxyServiceTest extends EasyMockSupport {
 
-	private ServiceLocator sl;
-	private QName SERVICE_NAME;
-	private final String ENDPOINTURL = "http://Service";
-	private final String QNAME_PREFIX1 = "http://services.talend.org/TestService";
-	private final String QNAME_LOCALPART1 = "TestServiceProvider";
-	private List<String> names;
-	private LocatorRestProxyServiceImpl lps;
-	
-	@Before
-	public void setup() {
-		sl = createMock(ServiceLocator.class);
-		names = new ArrayList<String>();
-		SERVICE_NAME = new QName(QNAME_PREFIX1, QNAME_LOCALPART1);
-		names = new ArrayList<String>();
-		lps = new LocatorRestProxyServiceImpl();
-		lps.setLocatorClient(sl);
-	}
+    private ServiceLocator sl;
+    private static QName SERVICE_NAME;
+    private final static String ENDPOINTURL = "http://Service";
+    private final static String QNAME_PREFIX1 = "http://services.talend.org/TestService";
+    private final static String QNAME_LOCALPART1 = "TestServiceProvider";
+    private List<String> names;
+    private LocatorRestProxyServiceImpl lps;
 
-	@Test
-	public void lookUpEndpointTest() throws ServiceLocatorException, InterruptedException{
-		names.clear();
-		names.add(ENDPOINTURL);
-		expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
-		replayAll();
+    @Before
+    public void setup() {
+        sl = createMock(ServiceLocator.class);
+        names = new ArrayList<String>();
+        SERVICE_NAME = new QName(QNAME_PREFIX1, QNAME_LOCALPART1);
+        names = new ArrayList<String>();
+        lps = new LocatorRestProxyServiceImpl();
+        lps.setLocatorClient(sl);
+    }
 
-		W3CEndpointReference endpointRef, expectedRef;
-		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-		builder.serviceName(SERVICE_NAME);
-		builder.address(ENDPOINTURL);
-		expectedRef = builder.build();
-		
-		endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
-		
-		Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
-	}
-	
-	@Test
-	public void lookUpEndpointTestNotFound() throws ServiceLocatorException, InterruptedException{
-		names.clear();
-		names.add(ENDPOINTURL);
-		expect(sl.lookup(SERVICE_NAME)).andStubReturn(null);
-		replayAll();
-		
-		try	{
-			lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
-		} catch(WebApplicationException ex) {
-			Assert.assertTrue(ex.getResponse().getStatus() == 404);
-		}
-	}
+    @Test
+    public void lookUpEndpointTest() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        replayAll();
 
-	@Test
-	public void lookUpEndpoints() throws ServiceLocatorException, InterruptedException{
-		names.clear();
-		names.add(ENDPOINTURL);
-		expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
-		replayAll();
+        W3CEndpointReference endpointRef, expectedRef;
+        W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
+        builder.serviceName(SERVICE_NAME);
+        builder.address(ENDPOINTURL);
+        expectedRef = builder.build();
 
-		W3CEndpointReference expectedRef;
-		W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-		builder.serviceName(SERVICE_NAME);
-		builder.address(ENDPOINTURL);
-		expectedRef = builder.build();
-		
-		EndpointReferenceList erlt = lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
-		if(erlt.getReturn().get(0).equals(expectedRef)) fail();
-		
-	}
-	
-	@Test
-	public void lookUpEndpointsNotFound() throws ServiceLocatorException, InterruptedException{
-		names.clear();
-		names.add(ENDPOINTURL);
-		expect(sl.lookup(SERVICE_NAME)).andStubReturn(null);
-		replayAll();
+        endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(),
+                new ArrayList<String>());
 
-		try {
-			lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
-		} catch(WebApplicationException ex) {
-			if(ex.getResponse().getStatus() != 404) fail();
-		}
-	}
-	
-	@Test
-	public void unregisterEndpoint() throws ServiceLocatorException, InterruptedException{
-		sl.unregister(SERVICE_NAME, ENDPOINTURL);
-		EasyMock.expectLastCall();
-		replayAll();
-		try {
-			lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
-		} catch(WebApplicationException ex) {
-			fail();
-		}
-	}
+        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+    }
+
+    @Test
+    public void lookUpEndpointTestNotFound() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(null);
+        replayAll();
+
+        try {
+            lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
+        } catch (WebApplicationException ex) {
+            Assert.assertTrue(ex.getResponse().getStatus() == 404);
+        }
+    }
+
+    @Test
+    public void lookUpEndpoints() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        replayAll();
+
+        W3CEndpointReference expectedRef;
+        W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
+        builder.serviceName(SERVICE_NAME);
+        builder.address(ENDPOINTURL);
+        expectedRef = builder.build();
+
+        EndpointReferenceList erlt = lps.lookupEndpoints(
+                SERVICE_NAME.toString(), new ArrayList<String>());
+        if (erlt.getReturn().get(0).equals(expectedRef))
+            fail();
+
+    }
+
+    @Test
+    public void lookUpEndpointsNotFound() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(null);
+        replayAll();
+
+        try {
+            lps.lookupEndpoints(SERVICE_NAME.toString(),
+                    new ArrayList<String>());
+        } catch (WebApplicationException ex) {
+            if (ex.getResponse().getStatus() != 404)
+                fail();
+        }
+    }
+
+    @Test
+    public void unregisterEndpoint() throws ServiceLocatorException,
+            InterruptedException {
+        sl.unregister(SERVICE_NAME, ENDPOINTURL);
+        EasyMock.expectLastCall();
+        replayAll();
+        try {
+            lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
+        } catch (WebApplicationException ex) {
+            fail();
+        }
+    }
+    
+    
+    @Test
+    public void registerEndpoint() throws ServiceLocatorException,
+            InterruptedException {
+    	sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall();
+        
+        replayAll();
+        try {
+        	RegisterEndpointRequest req = new RegisterEndpointRequest();
+        	req.setEndpointURL(ENDPOINTURL);
+        	req.setServiceName(SERVICE_NAME.toString());
+        	lps.registerEndpoint(req);
+        } catch (WebApplicationException ex) {
+            fail();
+        }
+    }
+    
+    public static Endpoint endpoint() {
+        EasyMock.reportMatcher(new simpleEndpointMatcher());
+        return null;
+    }
+    
+    public static class simpleEndpointMatcher implements IArgumentMatcher {
+
+        @Override
+        public boolean matches(Object argument) {
+            if (argument != null && argument instanceof Endpoint) {
+                Endpoint result = (Endpoint) argument;
+                if(!ENDPOINTURL.equals(result.getAddress())) return false;
+                if(!SERVICE_NAME.equals(result.getServiceName())) return false;
+            }
+            return true;
+        }
+
+        @Override
+        public void appendTo(StringBuffer buffer) {
+        }
+    }
 }

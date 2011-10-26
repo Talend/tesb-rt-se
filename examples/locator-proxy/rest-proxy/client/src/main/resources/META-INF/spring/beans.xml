@@ -34,8 +34,8 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	
 	<jaxrs:client id="restClient"
-         address="http://localhost:8040/services/ServiceLocatorRestProxyService"
-         serviceClass="org.talend.esb.locator.rest.proxy.service.LocatorProxyService"
+         address="${endpoint.prefix}/ServiceLocatorRestProxyService"
+         serviceClass="org.talend.services.esb.locator.rest.v1.LocatorProxyService"
          inheritHeaders="true">
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>

@@ -27,25 +27,7 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
     <build>
-		<resources>
-			<resource>
-				<directory>src/main/resources/</directory>
-                <filtering>true</filtering>
-                <includes>
-					<include>**/beans.xml</include>
-                </includes>
-            </resource>
-        </resources>
-    
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>

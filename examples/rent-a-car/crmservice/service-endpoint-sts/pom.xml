@@ -29,7 +29,7 @@
     <dependencies>
         <dependency>
             <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-common</artifactId>
+            <artifactId>crmservice-service</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -37,35 +37,28 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
-            <version>2.4.1_1</version>
-        </dependency>
-	</dependencies>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
+                <extensions>true</extensions>
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
-							org.apache.servicemix.bundles.opensaml,
                             org.apache.cxf.bundle,
                             org.springframework.beans
                         </Require-Bundle>
-						<Import-Package>
-							model.crmservice-wsdls,
-							*
-						</Import-Package>
+                        <Import-Package>
+                            model.crmservice-wsdls,
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-
     </build>
 </project>
 

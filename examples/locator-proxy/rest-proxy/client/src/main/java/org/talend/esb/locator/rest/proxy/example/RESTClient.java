@@ -28,8 +28,10 @@ import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.services.esb.locator.rest.v1.LocatorProxyService;
+import org.talend.schemas.esb.locator.rest._2011._11.BindingType;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.schemas.esb.locator.rest._2011._11.TransportType;
 
 public final class RESTClient {
 	
@@ -68,6 +70,8 @@ public final class RESTClient {
 		System.out.println("ServiceName: ".concat(service));
 		System.out.println("EndpointURL: ".concat(endpoint));
 		RegisterEndpointRequest registerEndpointRequest = new RegisterEndpointRequest();
+		registerEndpointRequest.setBinding(BindingType.JAXRS);
+		registerEndpointRequest.setTransport(TransportType.HTTPS);
 		registerEndpointRequest.setEndpointURL(endpoint);
 		registerEndpointRequest.setServiceName(service);
 		try {

@@ -43,15 +43,9 @@
         </profile>
         <profile>
             <id>locator</id>
-            <modules>
-                <!-- module>locator</module-->
-            </modules>
         </profile>
         <profile>
             <id>sam</id>
-            <modules>
-<!--                <module>sam</module> -->
-            </modules>
         </profile>
         <profile>
             <id>sts</id>
