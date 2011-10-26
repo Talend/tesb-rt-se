@@ -3,6 +3,8 @@ package demo.service;
 import javax.servlet.*;
 import javax.xml.namespace.QName;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.schemas.esb.locator._2011._11.BindingType;
+import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
 import org.talend.services.esb.locator.v1.LocatorService;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
@@ -19,8 +21,21 @@ public class ContextListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent event) {
         // Output a simple message to the server's console
         System.out.println("The Simple Web App. Has Been Removed");
-        this.context = null;
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "/client.xml");
+        LocatorService client = (LocatorService) context
+                .getBean("locatorProxyService");
 
+        String serviceHost = this.context.getInitParameter("serviceHost");
+
+        try {
+            client.unregisterEndpoint(new QName("http://talend.org/esb/examples/", "GreeterService"), serviceHost);
+        } catch (InterruptedExceptionFault e) {
+            e.printStackTrace();
+        } catch (ServiceLocatorFault e) {
+            e.printStackTrace();
+        }
+        this.context = null;
     }
 
     // This method is invoked when the Web Application
@@ -42,7 +57,7 @@ public class ContextListener implements ServletContextListener {
         try {
             client.registerEndpoint(new QName(
                     "http://talend.org/esb/examples/", "GreeterService"),
-                    serviceHost, null, null, null);
+                    serviceHost, BindingType.SOAP_11, TransportType.HTTP, null);
         } catch (InterruptedExceptionFault e) {
             e.printStackTrace();
         } catch (ServiceLocatorFault e) {
