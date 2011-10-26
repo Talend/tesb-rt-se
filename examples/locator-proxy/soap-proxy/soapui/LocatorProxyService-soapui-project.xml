@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project name="LocatorProxyService" resourceRoot="" soapui-version="3.6.1" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project name="LocatorProxyService" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
   <con:entry key="Global Properties" value=""/>
   <con:entry key="TestSuite" value="SoapBinding TestSuite"/>
   <con:entry key="Report to Generate" value=""/>
@@ -541,6 +541,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
          <endpointURL>http://service1Endpoint1.com</endpointURL>
+ 	<binding>SOAP12</binding>
+	 <transport>JMS</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
@@ -561,6 +563,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
           <endpointURL>http://service1Endpoint2.com</endpointURL>
+	<binding>SOAP11</binding>
+	 <transport>HTTP</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
@@ -580,6 +584,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
           <endpointURL>http://service1Endpoint3.com</endpointURL>
+	<binding>SOAP12</binding>
+	 <transport>HTTPS</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
@@ -599,6 +605,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
           <endpointURL>http://service2Endpoint1.com</endpointURL>
+	<binding>SOAP11</binding>
+	 <transport>JMS</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
@@ -615,6 +623,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
           <endpointURL>http://service2Endpoint2.com</endpointURL>
+	<binding>SOAP11</binding>
+	 <transport>HTTPS</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
@@ -631,6 +641,8 @@
       <ns:registerEndpoint>
          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
          <endpointURL>http://service2Endpoint3.com</endpointURL>
+	<binding>SOAP12</binding>
+	 <transport>HTTPS</transport>
          <!--Optional:-->
          <properties>
             <!--Zero or more repetitions:-->
