@@ -50,6 +50,7 @@
             <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
         </jaxws:properties> 
         <jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature"/>
             <p:policies>
                 <wsp:PolicyReference URI="classpath:/saml.policy"/>
             </p:policies>

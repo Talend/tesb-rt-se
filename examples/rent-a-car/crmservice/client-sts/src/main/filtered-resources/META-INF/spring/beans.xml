@@ -65,13 +65,14 @@
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
-                           <entry key="isBSPCompliant" value="false"/>
+                           <entry key="ws-security.is-bsp-compliant" value="false"/>
                        </map>
                    </property>
                </bean>
            </entry> 
         </jaxws:properties>
         <jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature"/>
             <p:policies>
                 <wsp:PolicyReference URI="classpath:/saml.policy"/>
             </p:policies>
