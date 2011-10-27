@@ -74,7 +74,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 
         W3CEndpointReference endpointRef, expectedRef;
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-        builder.serviceName(SERVICE_NAME);
+        //builder.serviceName(SERVICE_NAME);
         builder.address(ENDPOINTURL);
         expectedRef = builder.build();
 
@@ -109,7 +109,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 
         W3CEndpointReference expectedRef;
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-        builder.serviceName(SERVICE_NAME);
+        //builder.serviceName(SERVICE_NAME);
         builder.address(ENDPOINTURL);
         expectedRef = builder.build();
 

@@ -377,7 +377,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
      */
     private W3CEndpointReference buildEndpoint(QName serviceName, String adress) {
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-        builder.serviceName(serviceName);
+        //builder.serviceName(serviceName);
         builder.address(adress);
         return builder.build();
     }
