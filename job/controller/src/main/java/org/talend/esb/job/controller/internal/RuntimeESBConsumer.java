@@ -176,7 +176,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         cf.setBus(bus);
         final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
         if (slFeature != null) {
-            if (slProps != null){
+            if (slProps != null) {
                 slFeature.setRequiredEndpointProperties(slProps);
             }
             features.add(slFeature);

@@ -97,7 +97,7 @@
 		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
 		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
 		<!-- jdom.bundle.version>1.1_3</jdom.bundle.version-->
-		<jetty.version>7.4.5.v20110725</jetty.version>
+		<!--jetty.version>7.4.5.v20110725</jetty.version-->
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
 		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
 		<jing.bundle.version>20030619_3</jing.bundle.version>
@@ -691,12 +691,12 @@
                     <artifactId>jaxb-api</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.osgi.compendium</artifactId>
             <version>1.2.0</version>
-        </dependency>
+        </dependency-->
 	</dependencies>
 
 	<build>
