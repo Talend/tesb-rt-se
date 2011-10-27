@@ -20,8 +20,8 @@
 			<xsd:sequence>
 				<xsd:element name="serviceName" type="xsd:string" />
 				<xsd:element name="endpointURL" type="xsd:anyURI" />
-				<xsd:element name="Binding" type="lpx:BindingType" />
-				<xsd:element name="Transport" type="lpx:TransportType" />
+				<xsd:element name="binding" type="lpx:BindingType" />
+				<xsd:element name="transport" type="lpx:TransportType" />
 				<xsd:element name="EntryType" type="lpx:EntryType"
 					minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>

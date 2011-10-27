@@ -138,7 +138,7 @@
 	<service name="LocatorService">
 		<port name="LocatorServiceSoap" binding="lps:LocatorServiceSoapBinding">
 			<soap:address
-				location="http://localhost:8040/services/ServiceLocatorProxyService" />
+				location="http://localhost:8040/services/ServiceLocatorService" />
 		</port>
 	</service>
 </definitions>

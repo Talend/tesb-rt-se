@@ -9,7 +9,7 @@
 	<xsd:element name="lookupEndpointResponse">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="value" type="wsa:EndpointReferenceType" />
+				<xsd:element name="EndpointReference" type="wsa:EndpointReferenceType" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -17,8 +17,8 @@
 	<xsd:element name="LookupEndpointsResponse">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element maxOccurs="unbounded" minOccurs="0" name="return"
-					nillable="false" type="wsa:EndpointReferenceType" />
+				<xsd:element maxOccurs="unbounded" minOccurs="0"
+					name="EndpointReference" nillable="false" type="wsa:EndpointReferenceType" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
