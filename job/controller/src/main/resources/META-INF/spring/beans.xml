@@ -29,8 +29,6 @@
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <!-- SL -->
-    <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
     <!-- SAM -->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 

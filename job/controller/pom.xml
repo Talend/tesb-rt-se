@@ -25,12 +25,6 @@
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
-            <artifactId>sam-common</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -109,7 +103,6 @@
                             org.springframework.beans,
                             org.springframework.context,
                             org.springframework.osgi.core,
-                            locator,
                             sam-agent,
                             sam-common
                         </Require-Bundle>

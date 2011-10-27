@@ -104,12 +104,12 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         }
 
         final SecurityArguments securityArguments = new SecurityArguments(
-                esbSecurity, policy,
+                esbSecurity,
+                policy,
                 (String) props.get(ESBEndpointConstants.USERNAME),
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
-                stsProperties
-                );
+                stsProperties);
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String) props
