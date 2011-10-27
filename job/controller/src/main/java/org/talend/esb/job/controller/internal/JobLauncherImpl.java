@@ -74,8 +74,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
 	private ExecutorService executorService;
 
-	private ThreadLocal<RuntimeESBConsumer> tlsConsumer = new ThreadLocal<RuntimeESBConsumer>();
-
 	private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
 
 	private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>();
@@ -271,7 +269,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		final String operationName = (String) props
 				.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
 
-		ESBConsumer esbConsumer = null;
 		final String publishedEndpointUrl = (String) props
 				.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
 		boolean useServiceLocator = ((Boolean) props
@@ -300,7 +297,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 				clientProperties,
 				stsProperties
 				);
-		final RuntimeESBConsumer runtimeESBConsumer = new RuntimeESBConsumer(
+		return new RuntimeESBConsumer(
 				serviceName, portName, operationName, publishedEndpointUrl,
 				OperationStyle.isRequestResponse((String) props
 						.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
@@ -308,10 +305,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 				useServiceActivityMonitor ? createEventFeature() : null,
 				slProps,
 				securityArguments, bus);
-
-		tlsConsumer.set(runtimeESBConsumer);
-		esbConsumer = runtimeESBConsumer;
-		return esbConsumer;
 	}
 
 	private void startJob(TalendJob job, String name) {
