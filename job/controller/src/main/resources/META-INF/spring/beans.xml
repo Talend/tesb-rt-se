@@ -55,18 +55,9 @@
       factory-method="newExecutor"/>
 
     <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl" destroy-method="unbind">
-        <property name="bus" ref="cxf" />
-        <property name="executorService" ref="executorService" />
-        <property name="samQueue" ref="samQueue"/>
         <property name="bundleContext" ref="bundleContext"/>
-        <property name="policyToken">
-            <bean factory-bean="policyProvider" factory-method="getTokenPolicy"/>
-        </property>
-        <property name="policySaml">
-            <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
-        </property>
-        <property name="clientProperties" ref="client-props"/>
-        <property name="stsProperties" ref="sts-props"/>
+        <property name="executorService" ref="executorService" />
+        <property name="endpointRegistry" ref="endpointRegistry"/>
     </bean>
 
 <!--    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/> -->
@@ -79,6 +70,19 @@
     <bean id="jobTracker" class="org.talend.esb.job.controller.internal.JobTracker" init-method="bind" destroy-method="unbind">
         <property name="jobListener" ref="jobLauncher" />
         <property name="bundleContext" ref="bundleContext"/>
+    </bean>
+
+    <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
+        <property name="bus" ref="cxf" />
+        <property name="samQueue" ref="samQueue"/>
+        <property name="policyToken">
+            <bean factory-bean="policyProvider" factory-method="getTokenPolicy"/>
+        </property>
+        <property name="policySaml">
+            <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
+        </property>
+        <property name="clientProperties" ref="client-props"/>
+        <property name="stsProperties" ref="sts-props"/>
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">

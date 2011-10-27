@@ -24,55 +24,34 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
-import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
 
-import org.apache.cxf.Bus;
-import org.apache.neethi.Policy;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
+import org.talend.esb.job.controller.Controller;
+import org.talend.esb.job.controller.GenericOperation;
+import org.talend.esb.job.controller.JobLauncher;
 
-import routines.system.api.ESBConsumer;
-import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
-import org.talend.esb.job.controller.Controller;
-import org.talend.esb.job.controller.ESBEndpointConstants;
-import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
-import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
-import org.talend.esb.job.controller.GenericOperation;
-import org.talend.esb.job.controller.JobLauncher;
-import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.servicelocator.cxf.LocatorFeature;
-
 public class JobLauncherImpl implements JobLauncher, Controller,
-		ESBEndpointRegistry, JobListener {
+		JobListener {
 
 	public static final Logger LOG = Logger.getLogger(JobLauncherImpl.class
 			.getName());
 
-	private Queue<Event> samQueue;
-
-	private Bus bus;
-
 	private BundleContext bundleContext;
-
-	private Policy policyToken;
-
-	private Policy policySaml;
-
 	private ExecutorService executorService;
+	private ESBEndpointRegistry esbEndpointRegistry;
 
 	private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
 
@@ -86,46 +65,22 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
 	private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
 	
-	private Map<String, String> clientProperties = new ConcurrentHashMap<String, String>();
-	
-	private Map<String, String> stsProperties = new ConcurrentHashMap<String, String>();
-
-	public void setBus(Bus bus) {
-		this.bus = bus;
+	public void setBundleContext(BundleContext bundleContext) {
+		this.bundleContext = bundleContext;
 	}
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;
 	}
 
-	public void setSamQueue(Queue<Event> samQueue) {
-		this.samQueue = samQueue;
-	}
-
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
-
-	public void setPolicyToken(Policy policyToken) {
-		this.policyToken = policyToken;
-	}
-
-	public void setPolicySaml(Policy policySaml) {
-		this.policySaml = policySaml;
-	}
-	
-	public void setClientProperties(Map<String, String> clientProperties) {
-		this.clientProperties = clientProperties;
-	}
-
-	public void setStsProperties(Map<String, String> stsProperties) {
-		this.stsProperties = stsProperties;
+	public void setEndpointRegistry(ESBEndpointRegistry esbEndpointRegistry) {
+		this.esbEndpointRegistry = esbEndpointRegistry;
 	}
 
 	@Override
 	public void esbJobAdded(TalendESBJob esbJob, String name) {
 		LOG.info("Adding ESB job " + name + ".");
-		esbJob.setEndpointRegistry(this);
+		esbJob.setEndpointRegistry(esbEndpointRegistry);
 		if (isConsumerOnly(esbJob)) {
 			startJob(esbJob, name);
 		} else {
@@ -198,39 +153,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		services.put(name, service);
 	}
 
-/*	private void enableTokenSecurity(Endpoint service) {
-		javax.xml.ws.Endpoint jaxwsEndpoint = (Endpoint) service;
-		EndpointImpl jaxwsEndpointImpl = (EndpointImpl) jaxwsEndpoint;
-		org.apache.cxf.endpoint.Server server = jaxwsEndpointImpl.getServer();
-
-		Map<String, Object> prop = new HashMap<String, Object>();
-		JAASUsernameTokenValidator validator = new JAASUsernameTokenValidator();
-		validator.setContextName("KarafRealm");
-		prop.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR, validator);
-		jaxwsEndpoint.setProperties(prop);
-		
-		if (null != policyToken) {
-			InputStream is = null;
-			try {
-				is = new FileInputStream(policyToken);
-				PolicyBuilderImpl policyBuilder = new PolicyBuilderImpl(bus);
-				Policy policy = policyBuilder.getPolicy(is);
-				WSPolicyFeature feature = new WSPolicyFeature(policy);
-				feature.initialize(server, bus);
-			} catch (Exception e) {
-				throw new RuntimeException("Cannot load policy");
-			} finally {
-				if (null != is) {
-					try {
-						is.close();
-					} catch (IOException e) {
-						// just ignore
-					}
-				}
-			}
-		}
-	}
-*/
 	@Override
 	public void serviceRemoved(Endpoint service, String name) {
 		LOG.info("Removing service " + name + ".");
@@ -258,55 +180,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		executorService.shutdownNow();
 	}
 
-	@Override
-	public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
-		final Map<String, Object> props = endpoint.getEndpointProperties();
-
-		final QName serviceName = QName.valueOf((String) props
-				.get(ESBEndpointConstants.SERVICE_NAME));
-		final QName portName = QName.valueOf((String) props
-				.get(ESBEndpointConstants.PORT_NAME));
-		final String operationName = (String) props
-				.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
-
-		final String publishedEndpointUrl = (String) props
-				.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
-		boolean useServiceLocator = ((Boolean) props
-				.get(ESBEndpointConstants.USE_SERVICE_LOCATOR)).booleanValue();
-		boolean useServiceActivityMonitor = ((Boolean) props
-				.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
-				.booleanValue();
-
-		//pass SL custom properties to Consumer
-		@SuppressWarnings("unchecked")
-		Map<String, String> slProps = (Map<String, String>)props.get(ESBEndpointConstants.REQUEST_SL_PROPS);
-
-		final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
-				.get(ESBEndpointConstants.ESB_SECURITY));
-		Policy policy = null;
-		if (EsbSecurity.TOKEN == esbSecurity) {
-			policy = policyToken;
-		} else if (EsbSecurity.SAML == esbSecurity) {
-			policy = policySaml;
-		}
-
-		final SecurityArguments securityArguments = new SecurityArguments(
-				esbSecurity, policy,
-				(String) props.get(ESBEndpointConstants.USERNAME),
-				(String) props.get(ESBEndpointConstants.PASSWORD),
-				clientProperties,
-				stsProperties
-				);
-		return new RuntimeESBConsumer(
-				serviceName, portName, operationName, publishedEndpointUrl,
-				OperationStyle.isRequestResponse((String) props
-						.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
-				useServiceLocator ? new LocatorFeature() : null,
-				useServiceActivityMonitor ? createEventFeature() : null,
-				slProps,
-				securityArguments, bus);
-	}
-
 	private void startJob(TalendJob job, String name) {
 		SimpleJobTask jobTask = new SimpleJobTask(job, name);
 
@@ -329,12 +202,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		if (sr != null) {
 			sr.unregister();
 		}
-	}
-
-	private EventFeature createEventFeature() {
-		EventFeature eventFeature = new EventFeature();
-		eventFeature.setQueue(samQueue);
-		return eventFeature;
 	}
 
 	@Override
