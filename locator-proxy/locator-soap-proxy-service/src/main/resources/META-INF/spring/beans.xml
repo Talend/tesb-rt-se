@@ -53,7 +53,7 @@
 		serviceName="serviceNamespace:ServiceLocatorProvider"
 		endpointName="serviceNamespace:ServiceLocatorProvider"
 		implementor="#serviceLocatorBean"
-		address="/ServiceLocatorProxyService"
+		address="/ServiceLocatorService"
 	/>
 
 	<bean id="serviceLocatorBean"

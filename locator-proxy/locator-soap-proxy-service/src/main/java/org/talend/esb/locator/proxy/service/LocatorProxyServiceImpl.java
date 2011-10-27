@@ -348,7 +348,7 @@ public class LocatorProxyServiceImpl implements LocatorService {
      */
     private W3CEndpointReference buildEndpoint(QName serviceName, String adress) {
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-        builder.serviceName(serviceName);
+        //builder.serviceName(serviceName);
         builder.address(adress);
         return builder.build();
     }
