@@ -46,13 +46,16 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+
+import routines.system.api.ESBConsumer;
+
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
-import routines.system.api.ESBConsumer;
 
 //@javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
@@ -70,25 +73,32 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	private final String operationName;
 	private final String publishedEndpointUrl;
 	private final boolean isRequestResponse;
-	private final AbstractFeature serviceLocator;
-	private final EventFeature eventFeature;
+	private final LocatorFeature slFeature;
+	private final EventFeature samFeature;
+	private final Map<String, String> slProps;
 	private final SecurityArguments securityArguments;
 	private final Bus bus;
 
 	private Client client;
 
-	public RuntimeESBConsumer(final QName serviceName, final QName portName,
-			String operationName, String publishedEndpointUrl,
-			boolean isRequestResponse, final AbstractFeature serviceLocator,
-			final EventFeature eventFeature,
-			final SecurityArguments securityArguments, final Bus bus) {
+	public RuntimeESBConsumer(final QName serviceName, 
+			final QName portName,
+			String operationName, 
+			String publishedEndpointUrl,
+			boolean isRequestResponse, 
+			final LocatorFeature slFeature,
+			final EventFeature samFeature,
+			final Map<String, String> slProps,
+			final SecurityArguments securityArguments, 
+			final Bus bus) {
 		this.serviceName = serviceName;
 		this.portName = portName;
 		this.operationName = operationName;
 		this.publishedEndpointUrl = publishedEndpointUrl;
 		this.isRequestResponse = isRequestResponse;
-		this.serviceLocator = serviceLocator;
-		this.eventFeature = eventFeature;
+		this.slFeature = slFeature;
+		this.samFeature = samFeature;
+		this.slProps = slProps;
 		this.securityArguments = securityArguments;
 		this.bus = bus;
 	}
@@ -97,18 +107,18 @@ public class RuntimeESBConsumer implements ESBConsumer {
 	public Object invoke(Object payload) throws Exception {
 		if (payload instanceof org.dom4j.Document) {
 			return sendDocument((org.dom4j.Document) payload);
-		} else if (payload instanceof java.util.Map) {
+		} else if (payload instanceof java.util.Map<?,?>) {
 			@SuppressWarnings("unchecked")
-			java.util.Map<String, Object> map = (java.util.Map<String, Object>) payload;
+			Map<String, Object> map = (Map<String, Object>) payload;
 
 			@SuppressWarnings("unchecked")
-			java.util.Map<String, String> samProps = (java.util.Map<String, String>) map
+			Map<String, String> samProps = (Map<String, String>) map
 					.get(ESBProviderBase.REQUEST_SAM_PROPS);
-			if (samProps != null && eventFeature != null) {
+			if (samProps != null && samFeature != null) {
 				LOG.info("SAM custom properties received: " + samProps);
 				CustomInfoHandler ciHandler = new CustomInfoHandler();
 				ciHandler.setCustomInfo(samProps);
-				eventFeature.setHandler(ciHandler);
+				samFeature.setHandler(ciHandler);
 			}
 
 			return sendDocument((org.dom4j.Document) map
@@ -162,17 +172,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
 		};
 		cf.setServiceName(serviceName);
 		cf.setEndpointName(portName);
-		final String endpointUrl = (serviceLocator == null) ? publishedEndpointUrl
+		final String endpointUrl = (slFeature == null) ? publishedEndpointUrl
 				: "locator://" + serviceName.getLocalPart();
 		cf.setAddress(endpointUrl);
 		cf.setServiceClass(this.getClass());
 		cf.setBus(bus);
 		final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
-		if (serviceLocator != null) {
-			features.add(serviceLocator);
+		if (slFeature != null) {
+			if (slProps != null){
+				slFeature.setRequiredEndpointProperties(slProps);
+			}
+			features.add(slFeature);
 		}
-		if (eventFeature != null) {
-			features.add(eventFeature);
+		if (samFeature != null) {
+			features.add(samFeature);
 		}
 		if (null != securityArguments.getPolicy()) {
 			features.add(new WSPolicyFeature(securityArguments.getPolicy()));

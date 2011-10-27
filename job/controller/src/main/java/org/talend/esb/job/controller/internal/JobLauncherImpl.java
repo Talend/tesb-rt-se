@@ -38,6 +38,14 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
+
+import routines.system.api.ESBConsumer;
+import routines.system.api.ESBEndpointInfo;
+import routines.system.api.ESBEndpointRegistry;
+import routines.system.api.TalendESBJob;
+import routines.system.api.TalendESBRoute;
+import routines.system.api.TalendJob;
+
 import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
@@ -47,13 +55,6 @@ import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
-
-import routines.system.api.ESBConsumer;
-import routines.system.api.ESBEndpointInfo;
-import routines.system.api.ESBEndpointRegistry;
-import routines.system.api.TalendESBJob;
-import routines.system.api.TalendESBRoute;
-import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, Controller,
 		ESBEndpointRegistry, JobListener {
@@ -278,6 +279,11 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		boolean useServiceActivityMonitor = ((Boolean) props
 				.get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
 				.booleanValue();
+
+		//pass SL custom properties to Consumer
+		@SuppressWarnings("unchecked")
+		Map<String, String> slProps = (Map<String, String>)props.get(ESBEndpointConstants.REQUEST_SL_PROPS);
+
 		final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
 				.get(ESBEndpointConstants.ESB_SECURITY));
 		Policy policy = null;
@@ -286,6 +292,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 		} else if (EsbSecurity.SAML == esbSecurity) {
 			policy = policySaml;
 		}
+
 		final SecurityArguments securityArguments = new SecurityArguments(
 				esbSecurity, policy,
 				(String) props.get(ESBEndpointConstants.USERNAME),
@@ -299,6 +306,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 						.get(ESBEndpointConstants.COMMUNICATION_STYLE)),
 				useServiceLocator ? new LocatorFeature() : null,
 				useServiceActivityMonitor ? createEventFeature() : null,
+				slProps,
 				securityArguments, bus);
 
 		tlsConsumer.set(runtimeESBConsumer);

@@ -31,6 +31,7 @@ public interface ESBEndpointConstants {
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
     String PASSWORD = "password";
+    String REQUEST_SL_PROPS = "SL-PROPS";
 
     enum OperationStyle {
         REQUEST_RESPONSE("request-response"),
