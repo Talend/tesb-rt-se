@@ -36,8 +36,10 @@ import org.easymock.EasyMockSupport;
 import org.easymock.IArgumentMatcher;
 import org.junit.Before;
 import org.junit.Test;
+import org.talend.schemas.esb.locator.rest._2011._11.BindingType;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.schemas.esb.locator.rest._2011._11.TransportType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -147,38 +149,50 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
             fail();
         }
     }
-    
-    
+
     @Test
     public void registerEndpoint() throws ServiceLocatorException,
             InterruptedException {
-    	sl.register(endpoint(), EasyMock.eq(true));
+        sl.register(endpoint(), EasyMock.eq(true));
         EasyMock.expectLastCall();
-        
+
         replayAll();
-        try {
-        	RegisterEndpointRequest req = new RegisterEndpointRequest();
-        	req.setEndpointURL(ENDPOINTURL);
-        	req.setServiceName(SERVICE_NAME.toString());
-        	lps.registerEndpoint(req);
-        } catch (WebApplicationException ex) {
-            fail();
-        }
+        RegisterEndpointRequest req = new RegisterEndpointRequest();
+        req.setEndpointURL(ENDPOINTURL);
+        req.setServiceName(SERVICE_NAME.toString());
+        lps.registerEndpoint(req);
     }
-    
+
+    @Test
+    public void registerEndpointWithOptParam() throws ServiceLocatorException,
+            InterruptedException {
+        sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall();
+
+        replayAll();
+        RegisterEndpointRequest req = new RegisterEndpointRequest();
+        req.setEndpointURL(ENDPOINTURL);
+        req.setServiceName(SERVICE_NAME.toString());
+        req.setBinding(BindingType.JAXRS);
+        req.setTransport(TransportType.HTTPS);
+        lps.registerEndpoint(req);
+    }
+
     public static Endpoint endpoint() {
         EasyMock.reportMatcher(new simpleEndpointMatcher());
         return null;
     }
-    
+
     public static class simpleEndpointMatcher implements IArgumentMatcher {
 
         @Override
         public boolean matches(Object argument) {
             if (argument != null && argument instanceof Endpoint) {
                 Endpoint result = (Endpoint) argument;
-                if(!ENDPOINTURL.equals(result.getAddress())) return false;
-                if(!SERVICE_NAME.equals(result.getServiceName())) return false;
+                if (!ENDPOINTURL.equals(result.getAddress()))
+                    return false;
+                if (!SERVICE_NAME.equals(result.getServiceName()))
+                    return false;
             }
             return true;
         }
