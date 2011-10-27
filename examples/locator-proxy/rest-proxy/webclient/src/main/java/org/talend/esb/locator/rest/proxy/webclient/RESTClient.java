@@ -34,8 +34,8 @@ import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator.rest._2011._11.TransportType;
 
 public final class RESTClient {
-	private static final String BASE_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestProxyService/locator/endpoint";
-	private static final String LOOKUP_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestProxyService/locator/endpoints/";
+	private static final String BASE_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestService/locator/endpoint";
+	private static final String LOOKUP_ADDRESS = "http://localhost:8040/services/ServiceLocatorRestService/locator/endpoints/";
 
 	private RESTClient() {
 		try {
