@@ -75,7 +75,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final LocatorFeature slFeature;
     private final EventFeature samFeature;
-    private final Map<String, String> slProps;
     private final SecurityArguments securityArguments;
     private final Bus bus;
 
@@ -86,7 +85,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse, 
             final LocatorFeature slFeature,
             final EventFeature samFeature,
-            final Map<String, String> slProps,
             final SecurityArguments securityArguments, 
             final Bus bus) {
         this.serviceName = serviceName;
@@ -96,7 +94,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.isRequestResponse = isRequestResponse;
         this.slFeature = slFeature;
         this.samFeature = samFeature;
-        this.slProps = slProps;
         this.securityArguments = securityArguments;
         this.bus = bus;
     }
@@ -176,9 +173,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
         cf.setBus(bus);
         final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
         if (slFeature != null) {
-            if (slProps != null) {
-                slFeature.setRequiredEndpointProperties(slProps);
-            }
             features.add(slFeature);
         }
         if (samFeature != null) {

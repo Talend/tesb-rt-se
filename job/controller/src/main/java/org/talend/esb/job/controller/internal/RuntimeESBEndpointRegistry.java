@@ -90,9 +90,15 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
 
-        //pass SL custom properties to Consumer
-        @SuppressWarnings("unchecked")
-        Map<String, String> slProps = (Map<String, String>)props.get(ESBEndpointConstants.REQUEST_SL_PROPS);
+        LocatorFeature slFeature = null;
+        if (useServiceLocator) {
+            slFeature = new LocatorFeature();
+            //pass SL custom properties to Consumer
+            Object slProps = props.get(ESBEndpointConstants.REQUEST_SL_PROPS);
+            if (slProps != null) {
+                slFeature.setRequiredEndpointProperties((Map<String, String>)slProps);
+            }
+        }
 
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
                 .get(ESBEndpointConstants.ESB_SECURITY));
@@ -114,9 +120,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 serviceName, portName, operationName, publishedEndpointUrl,
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
-                useServiceLocator ? new LocatorFeature() : null,
+                slFeature,
                 useServiceActivityMonitor ? createEventFeature() : null,
-                slProps,
                 securityArguments, bus);
     }
 
