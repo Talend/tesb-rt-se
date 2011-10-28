@@ -3,32 +3,16 @@
 -->
 <beans 
     xmlns="http://www.springframework.org/schema/beans"
-    xmlns:cxf="http://cxf.apache.org/core"
-    xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xmlns:test="http://apache.org/hello_world_soap_http"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
     xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"   
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="
-        http://cxf.apache.org/core
-        http://cxf.apache.org/schemas/core.xsd
-        http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://cxf.apache.org/jaxws                                     
-        http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/util
-        http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-
-    <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
-
-    <!--cxf:bus>
-        <cxf:features>
-            <cxf:logging/>
-        </cxf:features>
-    </cxf:bus-->
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="utSTSProviderBean"
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
@@ -42,30 +26,30 @@
         <property name="services" ref="utService"/>
         <property name="stsProperties" ref="utSTSProperties"/>
     </bean>
-    
+
     <bean id="utValidateDelegate"
         class="org.apache.cxf.sts.operation.TokenValidateOperation">
         <property name="tokenValidators" ref="utSamlTokenValidator"/>
         <property name="stsProperties" ref="utSTSProperties"/>
     </bean>
-    
+
     <bean id="utSamlTokenProvider"
         class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
     </bean>
-    
+
     <bean id="utSamlTokenValidator"
         class="org.apache.cxf.sts.token.validator.SAMLTokenValidator">
     </bean>
-    
+
     <bean id="utService"
         class="org.apache.cxf.sts.service.StaticService">
-        <property name="endpoints" ref="utEndpoints"/>
+        <property name="endpoints">
+            <list>
+                <value>.*</value>
+            </list>
+        </property>
     </bean>
-    
-    <util:list id="utEndpoints">
-        <value>.*</value>
-    </util:list>
-    
+
     <bean id="utSTSProperties"
          class="org.apache.cxf.sts.StaticSTSProperties">
         <property name="signaturePropertiesFile" value="stsKeystore.properties"/>
@@ -75,19 +59,19 @@
         <property name="issuer" value="DoubleItSTSIssuer"/>
         <property name="encryptionUsername" value="myservicekey"/>
     </bean>
-    
-      <!-- Configuration Admin entry -->
-	   <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server">
-	      <prop key="stsServiceUrl">http://localhost:8040/SecurityTokenService/UT</prop>
-	      <prop key="jaasContext">karaf</prop>
-	      <prop key="signatureProperties">stsKeystore.properties</prop>
-          <prop key="signatureUsername">mystskey</prop>
-          <prop key="bspCompliant">false</prop>
-	   </osgix:cm-properties>
 
-   <!-- placeholder configurer -->
-   <context:property-placeholder properties-ref="sts-server-config" />
-    
+    <!-- Configuration Admin entry -->
+    <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server">
+        <prop key="stsServiceUrl">http://localhost:8040/SecurityTokenService/UT</prop>
+        <prop key="jaasContext">karaf</prop>
+        <prop key="signatureProperties">stsKeystore.properties</prop>
+        <prop key="signatureUsername">mystskey</prop>
+        <prop key="bspCompliant">false</prop>
+    </osgix:cm-properties>
+
+    <!-- placeholder configurer -->
+    <context:property-placeholder properties-ref="sts-server-config" />
+
     <bean class="org.apache.ws.security.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
         <property name="contextName" value="${jaasContext}" /> 
     </bean>
@@ -108,6 +92,5 @@
             <entry key="ws-security.is-bsp-compliant" value="${bspCompliant}"/>
         </jaxws:properties> 
     </jaxws:endpoint>
-    
 
 </beans>
