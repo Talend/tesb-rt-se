@@ -33,7 +33,13 @@
         http://www.w3.org/ns/ws-policy http://www.w3.org/2007/02/ws-policy.xsd">
 
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+
     <jaxws:client id="CRMServiceClient"  name="{http://services.talend.org/CRMService}CRMServiceProvider"
         xmlns:serviceNamespace="http://services.talend.org/CRMService"
         serviceClass="org.talend.services.crmservice.CRMService"
@@ -72,7 +78,6 @@
            </entry> 
         </jaxws:properties>
         <jaxws:features>
-            <bean class="org.apache.cxf.feature.LoggingFeature"/>
             <p:policies>
                 <wsp:PolicyReference URI="classpath:/saml.policy"/>
             </p:policies>
