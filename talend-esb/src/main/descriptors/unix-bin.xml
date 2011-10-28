@@ -375,23 +375,6 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
-        <!-- Copy STS configs -->
-        <fileSet>
-            <directory>${basedir}/../sts/sts-config/target/classes</directory>
-            <outputDirectory>/container/etc</outputDirectory>
-            <includes>
-                <include>*.cfg</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>${basedir}/../sts/sts-config/target/classes</directory>
-            <outputDirectory>/container/etc/keystores</outputDirectory>
-            <includes>
-                <include>stsKeystore.properties</include>
-                <include>stsstore.jks</include>
-            </includes>
-        </fileSet>
-
     </fileSets>
 
     <files>
