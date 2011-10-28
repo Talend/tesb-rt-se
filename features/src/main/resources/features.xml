@@ -117,9 +117,9 @@
     </feature>
 
     <feature name="tesb-sts" version="${project.version}" resolver="(obr)">
-        <configfile finalname="/etc/org.talend.esb.sts.server.cfg">mvn:org.talend.esb.sts/org.talend.esb.sts.config/5.0-SNAPSHOT/cfg/org.talend.esb.sts.server</configfile>
-        <configfile finalname="/etc/keystores/stsKeystore.properties">mvn:org.talend.esb.sts/org.talend.esb.sts.config/5.0-SNAPSHOT/properties/stsKeystore</configfile>
-        <configfile finalname="/etc/keystores/stsstore.jks">mvn:org.talend.esb.sts/org.talend.esb.sts.config/5.0-SNAPSHOT/jks/stsstore</configfile>
+        <configfile finalname="/etc/org.talend.esb.sts.server.cfg">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}/cfg/org.talend.esb.sts.server</configfile>
+        <configfile finalname="/etc/keystores/stsKeystore.properties">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}/properties/stsKeystore</configfile>
+        <configfile finalname="/etc/keystores/stsstore.jks">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}/jks/stsstore</configfile>
         <feature version="${cxf.version}">cxf-sts</feature>
         <bundle>mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}</bundle>
     </feature>
