@@ -70,6 +70,9 @@
 		<property name="encryptionUsername" value="myservicekey"/>
     </bean>
     
+    <bean class="org.talend.esb.sts.war.handler.PropertyFileCallbackHandler" id="propertyFileUTValidator">
+    </bean>
+    
 	<jaxws:endpoint id="UTSTS"
 		implementor="#utSTSProviderBean"
 		address="/UT" 
@@ -79,6 +82,7 @@
         endpointName="ns1:UT_Port">
         <jaxws:properties>
             <entry key="ws-security.callback-handler" value="org.apache.cxf.sts.war.PasswordCallbackHandler"/>
+            <entry key="ws-security.ut.validator" value-ref="propertyFileUTValidator" />
             <entry key="ws-security.signature.properties" value="stsKeystore.properties"/>
             <entry key="ws-security.signature.username" value="mystskey"/>
             <!-- Below needs to be set to non-default value of false for Metro clients -->
