@@ -63,12 +63,9 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
         pcaMock = createMock(PostConnectAction.class);
     }
 
-    protected ServiceLocatorImpl createServiceLocatorAndConnect() throws InterruptedException,
+    protected ServiceLocatorImpl createServiceLocatorSuccess() throws InterruptedException,
             ServiceLocatorException {
-        ServiceLocatorImpl slc = createServiceLocator(true);
-        slc.connect();
-
-        return slc;
+        return createServiceLocator(true);
     }
 
     protected ServiceLocatorImpl createServiceLocator(final boolean connectSuccessful)

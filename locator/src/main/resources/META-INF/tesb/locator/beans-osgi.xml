@@ -53,7 +53,7 @@ limitations under the License.
 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
-          init-method="connect" destroy-method="disconnect" lazy-init="true">
+          destroy-method="disconnect" lazy-init="true">
         <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
         <property name="connectionTimeout" value="$sl{connection.timeout}"/>
         <property name="sessionTimeout" value="$sl{session.timeout}"/>

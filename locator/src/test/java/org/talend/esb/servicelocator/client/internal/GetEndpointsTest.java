@@ -47,7 +47,7 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
         
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         List<SLEndpoint> endpoints = slc.getEndpoints(SERVICE_QNAME_1);
 
@@ -65,7 +65,7 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
         
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         List<SLEndpoint> endpoints = slc.getEndpoints(SERVICE_QNAME_1);
 
@@ -82,7 +82,7 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
         
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
@@ -97,7 +97,7 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
         pathExistsNot(ENDPOINT_PATH_11);
         replayAll();
         
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 

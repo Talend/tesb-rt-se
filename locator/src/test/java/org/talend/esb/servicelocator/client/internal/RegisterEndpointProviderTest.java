@@ -64,7 +64,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(eprProvider);
 
         verifyAll();
@@ -82,7 +82,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         try {
             slc.register(epProvider);
@@ -106,7 +106,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(epProvider);
 
         verifyAll();
@@ -126,7 +126,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(epProvider, true);
 
         verifyAll();
@@ -146,7 +146,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(epProvider, true);
 
         verifyAll();
@@ -167,7 +167,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(epProvider);
 
         verifyAll();
@@ -188,7 +188,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(epProvider);
 
         verifyAll();
@@ -207,7 +207,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.register(eprProvider);
 
         Document contentAsXML = capturedContentAsXML();
@@ -237,7 +237,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.unregister(eprProvider);
 
         Document contentAsXML = capturedContentAsXML();
@@ -265,7 +265,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.unregister(eprProvider);
 
         verifyAll();
@@ -279,7 +279,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         Endpoint eprProvider = createEPProviderStub(SERVICE_QNAME_1, ENDPOINT_1);
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         try {
             slc.unregister(eprProvider);

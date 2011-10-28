@@ -33,7 +33,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
     <bean id="serviceLocator"
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
-          init-method="connect" destroy-method="disconnect">
+          destroy-method="disconnect">
         <property name="locatorEndpoints" value="${locator.endpoints}"/>
     </bean>
 

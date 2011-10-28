@@ -77,7 +77,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         try {
             slc.register(SERVICE_QNAME_1, ENDPOINT_1);
@@ -95,7 +95,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         delete(ENDPOINT_PATH_11);
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
         verifyAll();
@@ -107,7 +107,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         delete(ENDPOINT_PATH_11);
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
         verifyAll();
@@ -119,7 +119,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         delete(ENDPOINT_PATH_11, new KeeperException.NoNodeException());
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
         verifyAll();
@@ -131,7 +131,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         delete(ENDPOINT_PATH_11, new KeeperException.RuntimeInconsistencyException());
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         try {
             slc.removeEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
             fail("A ServiceLocatorException should have been thrown.");
@@ -153,7 +153,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         List<String> endpoints = slc.lookup(SERVICE_QNAME_1);
 
         assertThat(endpoints, hasItem(ENDPOINT_1));
@@ -176,7 +176,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
         List<String> endpoints = slc.lookup(SERVICE_QNAME_1, matcher);
         
         assertThat(endpoints, containsInAnyOrder(ENDPOINT_1));
@@ -188,7 +188,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         pathExistsNot(SERVICE_PATH_1);
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         List<String> endpoints = slc.lookup(SERVICE_QNAME_1);
 
@@ -202,7 +202,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         getChildren(ServiceLocatorImpl.LOCATOR_ROOT_PATH.toString(), SERVICE_NAME_1, SERVICE_NAME_2);
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         List<QName> services = slc.getServices();
 
@@ -216,7 +216,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
                 new KeeperException.RuntimeInconsistencyException());
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         try {
             slc.getServices();
@@ -234,7 +234,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
         replayAll();
 
-        ServiceLocatorImpl slc = createServiceLocatorAndConnect();
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
 
         List<String> endpoints = slc.getEndpointNames(SERVICE_QNAME_1);
 

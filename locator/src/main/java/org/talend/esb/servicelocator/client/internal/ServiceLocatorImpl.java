@@ -542,10 +542,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return (zk != null) && zk.getState().equals(ZooKeeper.States.CONNECTED);
     }
 
-    private void checkConnection() throws ServiceLocatorException {
+    private void checkConnection() throws ServiceLocatorException, InterruptedException {
         if (!isConnected()) {
-            throw new ServiceLocatorException(
-                    "The connection to Service Locator was not established.");
+            connect();
+//            throw new ServiceLocatorException(
+//                    "The connection to Service Locator was not established.");
         }
     }
 
