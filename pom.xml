@@ -131,6 +131,7 @@
         <module>job</module>
         <module>features</module>
         <module>sts</module>
+        <module>zookeeper-server</module>
     </modules>
 
 	<dependencyManagement>
