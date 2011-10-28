@@ -100,6 +100,16 @@
     </feature>
 
     <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
+        <configfile finalname="/etc/org.talend.esb.job.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.token.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.token</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.saml.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.saml</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.server</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client.sts</configfile>
+        <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/clientKeystore</configfile>
+        <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/jks/clientstore</configfile>
+        <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/serviceKeystore</configfile>
+        <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/jks/servicestore</configfile>
         <feature version='${project.version}'>talend-job-api</feature>
         <feature version='${project.version}'>tesb-locator-client</feature>
         <feature version='${project.version}'>tesb-sam-agent</feature>

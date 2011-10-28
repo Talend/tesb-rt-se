@@ -41,7 +41,7 @@
     </bean>
 
     <osgix:cm-properties id="client-props" persistent-id="org.talend.esb.job.client"/>
-    <osgix:cm-properties id="sts-props" persistent-id="org.talend.esb.job.sts"/>
+    <osgix:cm-properties id="sts-props" persistent-id="org.talend.esb.job.client.sts"/>
 
 <!--
     <osgi:list id="jobs" interface="routines.system.api.TalendJob" greedy-proxying="true" cardinality="0..N">

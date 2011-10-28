@@ -117,6 +117,73 @@
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.token.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.job.token</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.saml.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.job.saml</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.service.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.service</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.client.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.client</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.client.sts</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.client.sts</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>clientKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientstore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>clientstore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/serviceKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>serviceKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/servicestore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>servicestore</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
