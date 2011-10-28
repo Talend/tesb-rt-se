@@ -155,7 +155,7 @@
                                     <classifier>org.talend.esb.job.client</classifier>
                                 </artifact>
                                 <artifact>
-                                    <file>etc/org.talend.esb.job.client.sts</file>
+                                    <file>etc/org.talend.esb.job.client.sts.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.job.client.sts</classifier>
                                 </artifact>
