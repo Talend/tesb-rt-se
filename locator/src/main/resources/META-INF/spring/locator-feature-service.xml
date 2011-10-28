@@ -29,9 +29,9 @@
 >
     <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 
-    <osgi:reference id="cxf" interface="org.apache.cxf.Bus"/>
+    <!--osgi:reference id="cxf" interface="org.apache.cxf.Bus"/>
 
-	<osgi:service ref="locatorManager" interface="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager"/>
+	<osgi:service ref="locatorManager" interface="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager"/-->
 
     <bean id="locatorFeature" scope="bundle" class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 

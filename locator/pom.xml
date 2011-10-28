@@ -115,7 +115,9 @@
 							'=META-INF.tesb.locator'
                         </Export-Package>
                         <Require-Bundle>
-                            org.springframework.beans
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.context
                         </Require-Bundle>
 						<_failok>true</_failok>
 					</instructions>
