@@ -7,12 +7,10 @@
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xmlns:util="http://www.springframework.org/schema/util"
     xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-    xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
 
     <bean id="utSTSProviderBean"
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
@@ -62,17 +60,19 @@
 
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server"/>
-
     <!-- placeholder configurer -->
-    <context:property-placeholder properties-ref="sts-server-config" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="sts-server-config" />
+        <property name="placeholderPrefix" value="$sts{" />
+    </bean>
 
     <bean class="org.apache.ws.security.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
-        <property name="contextName" value="${jaasContext}" /> 
+        <property name="contextName" value="$sts{jaasContext}" /> 
     </bean>
 
     <jaxws:endpoint id="UTSTS"
         implementor="#utSTSProviderBean"
-        address="${stsServiceUrl}" 
+        address="$sts{stsServiceUrl}" 
         wsdlLocation="ws-trust-1.4-service.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService"
@@ -80,10 +80,10 @@
         <jaxws:properties>
             <entry key="ws-security.callback-handler" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
             <entry key="ws-security.ut.validator" value-ref="jaasUTValidator" />
-            <entry key="ws-security.signature.properties" value="${signatureProperties}"/>
-            <entry key="ws-security.signature.username" value="${signatureUsername}"/>
+            <entry key="ws-security.signature.properties" value="$sts{signatureProperties}"/>
+            <entry key="ws-security.signature.username" value="$sts{signatureUsername}"/>
             <!-- Below needs to be set to non-default value of false for Metro clients -->
-            <entry key="ws-security.is-bsp-compliant" value="${bspCompliant}"/>
+            <entry key="ws-security.is-bsp-compliant" value="$sts{bspCompliant}"/>
         </jaxws:properties> 
     </jaxws:endpoint>
 
