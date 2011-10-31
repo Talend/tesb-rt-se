@@ -48,22 +48,21 @@
         </property>
     </bean>
 
-    <bean id="utSTSProperties"
-         class="org.apache.cxf.sts.StaticSTSProperties">
-        <property name="signaturePropertiesFile" value="file:./etc/keystores/stsKeystore.properties"/>
-        <property name="signatureUsername" value="mystskey"/>
-        <property name="callbackHandlerClass" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
-        <property name="encryptionPropertiesFile" value="file:./etc/keystores/stsKeystore.properties"/>
-        <!--property name="issuer" value="DoubleItSTSIssuer"/-->
-        <property name="encryptionUsername" value="myservicekey"/>
-    </bean>
-
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server"/>
     <!-- placeholder configurer -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" ref="sts-server-config" />
         <property name="placeholderPrefix" value="$sts{" />
+    </bean>
+
+    <bean id="utSTSProperties"
+         class="org.apache.cxf.sts.StaticSTSProperties">
+        <property name="signaturePropertiesFile" value="$sts{signatureProperties}"/>
+        <property name="signatureUsername" value="$sts{signatureUsername}"/>
+        <property name="callbackHandlerClass" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
+        <!--property name="encryptionPropertiesFile" value="$sts{encryptionProperties}"/>
+        <property name="encryptionUsername" value="$sts{encryptionUsername}"/-->
     </bean>
 
     <bean class="org.apache.ws.security.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
