@@ -49,7 +49,14 @@
     </bean>
 
     <!-- Configuration Admin entry -->
-    <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server"/>
+    <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server">
+        <prop key="stsServiceUrl">http://localhost:8040/SecurityTokenService/UT</prop>
+        <prop key="jaasContext">karaf</prop>
+        <prop key="signatureProperties">stsKeystore.properties</prop>
+        <prop key="signatureUsername">mystskey</prop>
+        <prop key="bspCompliant">false</prop>
+    </osgix:cm-properties>
+
     <!-- placeholder configurer -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" ref="sts-server-config" />
