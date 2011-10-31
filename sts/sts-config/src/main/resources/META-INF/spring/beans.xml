@@ -50,7 +50,7 @@
 
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server">
-        <prop key="stsServiceUrl">http://localhost:8040/SecurityTokenService/UT</prop>
+        <prop key="stsServiceUrl">/SecurityTokenService/UT</prop>
         <prop key="jaasContext">karaf</prop>
         <prop key="signatureProperties">stsKeystore.properties</prop>
         <prop key="signatureUsername">mystskey</prop>
