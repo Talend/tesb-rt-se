@@ -52,7 +52,7 @@
     <osgix:cm-properties id="sts-server-config" persistent-id="org.talend.esb.sts.server">
         <prop key="stsServiceUrl">/SecurityTokenService/UT</prop>
         <prop key="jaasContext">karaf</prop>
-        <prop key="signatureProperties">file:${tesb.home}/etc/keystores/stsKeystore.properties</prop>
+        <prop key="signatureProperties">file:./etc/keystores/stsKeystore.properties</prop>
         <prop key="signatureUsername">mystskey</prop>
         <prop key="bspCompliant">false</prop>
     </osgix:cm-properties>
