@@ -150,7 +150,7 @@ public class EventCollector implements BusLifeCycleListener {
      * @param scheduler
      */
     public void setScheduler(TaskScheduler scheduler) {
-        logger.info("Scheduler startet for sending events to SAM Server");
+        logger.info("Scheduler started for sending events to SAM Server");
         this.scheduler = scheduler;
 
         this.scheduler.scheduleAtFixedRate(new Runnable() {
