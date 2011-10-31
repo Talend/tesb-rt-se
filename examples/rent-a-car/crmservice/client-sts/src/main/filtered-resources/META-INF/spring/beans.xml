@@ -65,7 +65,6 @@
                            <entry key="ws-security.callback-handler">
                                 <bean class="common.talend.CommonCallbackHandler"/>
                            </entry>
-                           <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/>
                            <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
