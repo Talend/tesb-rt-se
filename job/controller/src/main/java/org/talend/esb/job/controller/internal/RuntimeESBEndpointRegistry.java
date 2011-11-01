@@ -19,12 +19,14 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Queue;
 
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
@@ -37,16 +39,18 @@ import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 
+@NoJSR250Annotations(unlessNull = "bus") 
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     private Bus bus;
     private Queue<Event> samQueue;
     private Policy policyToken;
     private Policy policySaml;
-    private Map<String, String> clientProperties;
-    private Map<String, String> stsProperties;
+    private Hashtable<String, String> clientProperties;
+    private Hashtable<String, String> stsProperties;
+    private boolean logging;
 
-
+    @javax.annotation.Resource
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -63,12 +67,16 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.policySaml = policySaml;
     }
 
-    public void setClientProperties(Map<String, String> clientProperties) {
+    public void setClientProperties(Hashtable<String, String> clientProperties) {
         this.clientProperties = clientProperties;
     }
 
-    public void setStsProperties(Map<String, String> stsProperties) {
+    public void setStsProperties(Hashtable<String, String> stsProperties) {
         this.stsProperties = stsProperties;
+    }
+
+    public void setLogging(boolean logging) {
+        this.logging = logging;
     }
 
     @Override
@@ -122,7 +130,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,
                 useServiceActivityMonitor ? createEventFeature() : null,
-                securityArguments, bus);
+                securityArguments,
+                bus,
+                logging);
     }
 
     private EventFeature createEventFeature() {

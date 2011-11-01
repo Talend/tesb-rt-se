@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -47,15 +48,14 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
-
-import routines.system.api.ESBConsumer;
-
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
+
+import routines.system.api.ESBConsumer;
 
 
 //@javax.jws.WebService()
@@ -67,7 +67,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final String STS_NAMESPACE = "sts.namespace";
     private static final String STS_SERVICE_NAME = "sts.service.name";
     private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
-    private static final String CONSUMER_SIGNATURE_PASSWORD = "ws-security.signature.password";
+    private static final String CONSUMER_SIGNATURE_PASSWORD =
+             "ws-security.signature.password";
 
     private final String operationName;
     private final boolean isRequestResponse;
@@ -83,7 +84,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final LocatorFeature slFeature,
             final EventFeature samFeature,
             final SecurityArguments securityArguments, 
-            final Bus bus) {
+            final Bus bus,
+            boolean logging) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
@@ -117,6 +119,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (null != securityArguments.getPolicy()) {
             features.add(new WSPolicyFeature(securityArguments.getPolicy()));
         }
+        if (logging) {
+            features.add(new org.apache.cxf.feature.LoggingFeature());
+        }
 
         clientFactory.setFeatures(features);
 
@@ -128,46 +133,49 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
         } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
-            Map<String, String> sp = securityArguments.getStsProperties();
+            final Hashtable<String, String> stsPropsDef =
+                securityArguments.getStsProperties();
 
-            STSClient stsClient = new STSClient(bus);
-            stsClient.setWsdlLocation(sp.get(STS_WSDL_LOCATION));
-            stsClient.setServiceQName(new QName(sp.get(STS_NAMESPACE), sp
-                    .get(STS_SERVICE_NAME)));
-            stsClient.setEndpointQName(new QName(sp.get(STS_NAMESPACE), sp
-                    .get(STS_ENDPOINT_NAME)));
+            final STSClient stsClient = new STSClient(bus);
+            stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
+            stsClient.setServiceQName(
+                new QName(stsPropsDef.get(STS_NAMESPACE),
+                    stsPropsDef.get(STS_SERVICE_NAME)));
+            stsClient.setEndpointQName(
+                new QName(stsPropsDef.get(STS_NAMESPACE),
+                    stsPropsDef.get(STS_ENDPOINT_NAME)));
 
-            Map<String, Object> stsProperties = new HashMap<String, Object>();
+            Map<String, Object> stsProps = new HashMap<String, Object>();
 
-            for (Map.Entry<String, String> entry : sp.entrySet()) {
+            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProperties.put(entry.getKey(), entry.getValue());
+                    stsProps.put(entry.getKey(), entry.getValue());
                 }
             }
 
-            stsProperties.put(SecurityConstants.USERNAME,
+            stsProps.put(SecurityConstants.USERNAME,
                     securityArguments.getUsername());
-            stsProperties.put(SecurityConstants.PASSWORD,
+            stsProps.put(SecurityConstants.PASSWORD,
                     securityArguments.getPassword());
-            stsClient.setProperties(stsProperties);
+            stsClient.setProperties(stsProps);
 
-            Map<String, Object> cfProperties = new HashMap<String, Object>();
-            cfProperties.put(SecurityConstants.STS_CLIENT, stsClient);
+            Map<String, Object> clientProps = new HashMap<String, Object>();
+            clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
-            Map<String, String> sprop = securityArguments
-                    .getClientProperties();
+            Hashtable<String, String> clientPropsDef =
+                securityArguments.getClientProperties();
 
-            for (Map.Entry<String, String> entry : sprop.entrySet()) {
+            for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    cfProperties.put(entry.getKey(), entry.getValue());
+                    clientProps.put(entry.getKey(), entry.getValue());
                 }
             }
-            cfProperties.put(SecurityConstants.CALLBACK_HANDLER,
+            clientProps.put(SecurityConstants.CALLBACK_HANDLER,
                     new WSPasswordCallbackHandler(
-                            sprop.get(SecurityConstants.SIGNATURE_USERNAME),
-                            sprop.get(CONSUMER_SIGNATURE_PASSWORD)));
+                        clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
+                        clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
 
-            clientFactory.setProperties(cfProperties);
+            clientFactory.setProperties(clientProps);
         }
 
     }

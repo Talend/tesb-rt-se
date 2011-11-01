@@ -19,7 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.Map;
+import java.util.Hashtable;
+import java.util.Properties;
 
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
@@ -30,15 +31,15 @@ public class SecurityArguments {
     private final Policy policy;
     private final String username;
     private final String password;
-    private final Map<String, String> clientProperties;
-    private final Map<String, String> stsProperties;
+    private final Hashtable<String, String> clientProperties;
+    private final Hashtable<String, String> stsProperties;
 
     public SecurityArguments(final EsbSecurity esbSecurity,
             final Policy policy,
             String username,
             String password,
-            Map<String, String> clientProperties,
-            Map<String, String> stsProperties) {
+            Hashtable<String, String> clientProperties,
+            Hashtable<String, String> stsProperties) {
         this.esbSecurity = esbSecurity;
         this.policy = policy;
         this.username = username;
@@ -63,11 +64,11 @@ public class SecurityArguments {
         return password;
     }
 
-    public Map<String, String> getClientProperties() {
+    public Hashtable<String, String> getClientProperties() {
         return clientProperties;
     }
 
-    public Map<String, String> getStsProperties() {
+    public Hashtable<String, String> getStsProperties() {
         return stsProperties;
     }
 
