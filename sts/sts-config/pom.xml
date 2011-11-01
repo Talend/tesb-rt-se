@@ -43,7 +43,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
-                        <Require-Bundle>org.apache.cxf.bundle</Require-Bundle>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.context
+                        </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
