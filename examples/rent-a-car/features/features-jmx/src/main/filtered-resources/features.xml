@@ -32,7 +32,6 @@
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-jmx/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-jmx/${project.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/2.4.1_1</bundle>
     </feature>
     <feature name='tesb-rac-app-jmx' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-jmx</feature>

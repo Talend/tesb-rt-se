@@ -28,11 +28,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.esb.examples.rent-a-car</groupId>
-            <artifactId>crmservice-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
