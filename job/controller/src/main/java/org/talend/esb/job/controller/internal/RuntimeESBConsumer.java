@@ -21,7 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -133,7 +132,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
         } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
-            final Hashtable<String, String> stsPropsDef =
+            final Map<String, String> stsPropsDef =
                 securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -162,7 +161,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Map<String, Object> clientProps = new HashMap<String, Object>();
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
-            Hashtable<String, String> clientPropsDef =
+            Map<String, String> clientPropsDef =
                 securityArguments.getClientProperties();
 
             for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {

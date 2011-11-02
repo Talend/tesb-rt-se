@@ -19,7 +19,6 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Queue;
 
@@ -48,8 +47,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private Bus bus;
     private Queue<Event> samQueue;
     private PolicyProvider policyProvider;
-    private Hashtable<String, String> clientProperties;
-    private Hashtable<String, String> stsProperties;
+    private Map<String, String> clientProperties;
+    private Map<String, String> stsProperties;
 
     @javax.annotation.Resource
     public void setBus(Bus bus) {
@@ -64,11 +63,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.policyProvider = policyProvider;
     }
 
-    public void setClientProperties(Hashtable<String, String> clientProperties) {
+    public void setClientProperties(Map<String, String> clientProperties) {
         this.clientProperties = clientProperties;
     }
 
-    public void setStsProperties(Hashtable<String, String> stsProperties) {
+    public void setStsProperties(Map<String, String> stsProperties) {
         this.stsProperties = stsProperties;
     }
 
