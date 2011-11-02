@@ -82,7 +82,7 @@
         <property name="stsProperties">
             <osgix:cm-properties persistent-id="org.talend.esb.job.client.sts"/>
         </property>
-        <property name="logging" value="true"/>
+        <property name="logging" value="$job{consumer.logging}"/>
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
