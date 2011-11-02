@@ -70,19 +70,13 @@
 
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
         <property name="samQueue" ref="samQueue"/>
-        <property name="policyToken">
-            <bean factory-bean="policyProvider" factory-method="getTokenPolicy"/>
-        </property>
-        <property name="policySaml">
-            <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
-        </property>
+        <property name="policyProvider" ref="policyProvider"/>
         <property name="clientProperties">
             <osgix:cm-properties persistent-id="org.talend.esb.job.client"/>
         </property>
         <property name="stsProperties">
             <osgix:cm-properties persistent-id="org.talend.esb.job.client.sts"/>
         </property>
-        <property name="logging" value="$job{consumer.logging}"/>
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
