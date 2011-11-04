@@ -33,7 +33,6 @@
     ">
     
    <import resource="classpath:/server.xml" />
-   <import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
 
    <!-- Configuration Admin entry -->
    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">

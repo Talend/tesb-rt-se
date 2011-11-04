@@ -32,16 +32,14 @@
     <!-- SAM -->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-	<!-- Configuration Admin entry -->
-    <osgix:cm-properties id="job-props" persistent-id="org.talend.esb.job"/>
     <!-- placeholder configurer -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="job-props" />
+        <property name="properties">
+            <!-- Configuration Admin entry -->
+            <osgix:cm-properties persistent-id="org.talend.esb.job"/>
+        </property>
         <property name="placeholderPrefix" value="$job{" />
     </bean>
-
-    <osgix:cm-properties id="client-props" persistent-id="org.talend.esb.job.client"/>
-    <osgix:cm-properties id="sts-props" persistent-id="org.talend.esb.job.client.sts"/>
 
 <!--
     <osgi:list id="jobs" interface="routines.system.api.TalendJob" greedy-proxying="true" cardinality="0..N">
@@ -71,22 +69,19 @@
     </bean>
 
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
-        <property name="bus" ref="cxf" />
         <property name="samQueue" ref="samQueue"/>
-        <property name="policyToken">
-            <bean factory-bean="policyProvider" factory-method="getTokenPolicy"/>
+        <property name="policyProvider" ref="policyProvider"/>
+        <property name="clientProperties">
+            <osgix:cm-properties persistent-id="org.talend.esb.job.client"/>
         </property>
-        <property name="policySaml">
-            <bean factory-bean="policyProvider" factory-method="getSamlPolicy"/>
+        <property name="stsProperties">
+            <osgix:cm-properties persistent-id="org.talend.esb.job.client.sts"/>
         </property>
-        <property name="clientProperties" ref="client-props"/>
-        <property name="stsProperties" ref="sts-props"/>
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
         <property name="policyToken" value="$job{policy.token}"/>
         <property name="policySaml" value="$job{policy.saml}"/>
-        <property name="bus" ref="cxf" />
     </bean>
     <osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/>
 

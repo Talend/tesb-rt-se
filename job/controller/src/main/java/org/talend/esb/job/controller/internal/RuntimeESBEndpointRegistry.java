@@ -25,10 +25,12 @@ import java.util.Queue;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
+import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
@@ -37,16 +39,18 @@ import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 
+@NoJSR250Annotations(unlessNull = "bus") 
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
+
+    private static final String LOGGING = "logging";
 
     private Bus bus;
     private Queue<Event> samQueue;
-    private Policy policyToken;
-    private Policy policySaml;
+    private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
 
-
+    @javax.annotation.Resource
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -55,12 +59,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.samQueue = samQueue;
     }
 
-    public void setPolicyToken(Policy policyToken) {
-        this.policyToken = policyToken;
-    }
-
-    public void setPolicySaml(Policy policySaml) {
-        this.policySaml = policySaml;
+    public void setPolicyProvider(PolicyProvider policyProvider) {
+        this.policyProvider = policyProvider;
     }
 
     public void setClientProperties(Map<String, String> clientProperties) {
@@ -104,9 +104,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
-            policy = policyToken;
+            policy = policyProvider.getTokenPolicy();
         } else if (EsbSecurity.SAML == esbSecurity) {
-            policy = policySaml;
+            policy = policyProvider.getSamlPolicy();
         }
 
         final SecurityArguments securityArguments = new SecurityArguments(
@@ -122,7 +122,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,
                 useServiceActivityMonitor ? createEventFeature() : null,
-                securityArguments, bus);
+                securityArguments,
+                bus,
+                Boolean.parseBoolean(clientProperties.get(LOGGING)));
     }
 
     private EventFeature createEventFeature() {

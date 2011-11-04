@@ -49,14 +49,5 @@ public interface Controller {
      * @throws Exception in case of lookup failure
      */
     List<String> listServices() throws Exception;
-    
-    /**
-     * Retrieve the operation that is backed by the job with the given name. The operation object
-     * must not be cached but retrieved every time the operation is invoked. Otherwise a clean
-     * shutdown of the bundle where the job isincluded is not possible.
-     *
-     * @param jobName the Talend job name.
-     * @param args additional parameters to be passed to the job
-     */
-    GenericOperation retrieveOperation(String jobName, String[] args);
+
 }
