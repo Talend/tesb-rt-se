@@ -38,8 +38,8 @@ We expect that the remote MBean server is already running for TESB
 and we are able connect to it. To do this we must define the settings
 on client side Spring configuration (client-beans.xml):
  - JMX service URL (by default = "service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun")
- - user (by default = "karaf")
- - password (by default = "karaf")
+ - user (by default = "tadmin")
+ - password (by default = "tadmin")
 
 The above settings are already configured in the client-beans.xml and so will
 work as-is if you started the default TESB container on localhost.

@@ -161,8 +161,8 @@
     <elementParameter xmi:id="_m4a2d_ZTEeCC9qmqipnlMA" field="CLOSED_LIST" name="SERVICE_LOCATOR_STRATEGY" value="Default"/>
     <elementParameter xmi:id="_m4a2ePZTEeCC9qmqipnlMA" field="CHECK" name="SERVICE_ACTIVITY_MONITOR" value="false"/>
     <elementParameter xmi:id="_m4a2efZTEeCC9qmqipnlMA" field="CLOSED_LIST" name="ESB_SECURITY" value="TOKEN"/>
-    <elementParameter xmi:id="_m4a2evZTEeCC9qmqipnlMA" field="TEXT" name="AUTH_USERNAME" value="&quot;karaf&quot;"/>
-    <elementParameter xmi:id="_m4a2e_ZTEeCC9qmqipnlMA" field="TEXT" name="AUTH_PASSWORD" value="&quot;karaf&quot;"/>
+    <elementParameter xmi:id="_m4a2evZTEeCC9qmqipnlMA" field="TEXT" name="AUTH_USERNAME" value="&quot;tadmin&quot;"/>
+    <elementParameter xmi:id="_m4a2e_ZTEeCC9qmqipnlMA" field="TEXT" name="AUTH_PASSWORD" value="&quot;tadmin&quot;"/>
     <elementParameter xmi:id="_m4a2fPZTEeCC9qmqipnlMA" field="CHECK" name="USE_NTLM" value="false"/>
     <elementParameter xmi:id="_m4a2ffZTEeCC9qmqipnlMA" field="TEXT" name="NTLM_DOMAIN" value="&quot;192.168.0.100&quot;"/>
     <elementParameter xmi:id="_m4a2fvZTEeCC9qmqipnlMA" field="TEXT" name="NTLM_HOST" value="&quot;192.168.0.100&quot;"/>
