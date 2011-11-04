@@ -15,20 +15,6 @@
 								<wsp:Policy>
 									<sp:RequireInternalReference />
 								</wsp:Policy>
-								<!--sp:Issuer>
-									<wsaw:Address xmlns:wsaw="http://www.w3.org/2005/08/addressing">http://localhost:8080/SecurityTokenService/UT
-									</wsaw:Address>
-									<wsaw:Metadata xmlns:wsaw="http://www.w3.org/2005/08/addressing">
-										<wsx:Metadata xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex">
-											<wsx:MetadataSection>
-												<wsx:MetadataReference>
-													<wsaw:Address>http://localhost:8080/SecurityTokenService/UT/mex
-													</wsaw:Address>
-												</wsx:MetadataReference>
-											</wsx:MetadataSection>
-										</wsx:Metadata>
-									</wsaw:Metadata>
-								</sp:Issuer-->
 							</sp:IssuedToken>
 						</wsp:Policy>
 					</sp:InitiatorToken>
