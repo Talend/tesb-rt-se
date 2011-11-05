@@ -93,19 +93,32 @@ public class SimpleEndpoint implements Endpoint {
     public long getLastTimeStarted() {
         return lastTimeStarted;
     }
+    
+    @Override
+    public void setLastTimeStartedToCurrent() {
+        lastTimeStarted = System.currentTimeMillis();
+    }
 
+/*
     public void  setLastTimeStarted(long lastTimeStarted) {
         this.lastTimeStarted = lastTimeStarted;       
     }
-
+*/
     @Override
     public long getLastTimeStopped() {
         return  lastTimeStopped;       
     }
 
+    @Override
+    public void setLastTimeStoppedToCurrent() {
+        lastTimeStopped = System.currentTimeMillis();
+    }
+
+/*
     public void  setLastTimeStopped(long lastTimeStopped) {
         this.lastTimeStopped = lastTimeStopped;       
     }
+*/
 
     @Override
     public BindingType getBinding() {

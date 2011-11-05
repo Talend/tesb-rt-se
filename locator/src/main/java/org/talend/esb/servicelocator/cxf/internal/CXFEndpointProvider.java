@@ -127,6 +127,7 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return transportType;
     }
 
+    @Override
     public void setLastTimeStartedToCurrent() {
         lastTimeStarted = System.currentTimeMillis();
     }
@@ -136,6 +137,7 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return lastTimeStarted;    
     }
 
+    @Override
     public void setLastTimeStoppedToCurrent() {
         lastTimeStopped = System.currentTimeMillis();
     }

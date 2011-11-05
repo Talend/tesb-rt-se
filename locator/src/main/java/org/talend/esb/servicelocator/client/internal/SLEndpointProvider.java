@@ -82,10 +82,10 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
         return isLive;
     }
 
-    @Override
-    public DOMSource getEndpointReference() {
-        return new DOMSource(eprRoot);
-    }
+//    @Override
+//    public DOMSource getEndpointReference() {
+//        return new DOMSource(eprRoot);
+//    }
 
     @SuppressWarnings("unchecked")
     private EndpointReferenceType toEndPointReference(Element root) {

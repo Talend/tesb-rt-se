@@ -84,5 +84,5 @@ public interface SLEndpoint extends Endpoint {
      */
     QName forService();
 
-    DOMSource getEndpointReference();
+//    DOMSource getEndpointReference();
 }

@@ -51,8 +51,12 @@ public interface Endpoint {
     TransportType getTransport();
 
     long getLastTimeStarted();
+    
+    void setLastTimeStartedToCurrent();
 
     long getLastTimeStopped();
+    
+    void setLastTimeStoppedToCurrent();
 
     SLProperties getProperties();
     
@@ -64,7 +68,7 @@ public interface Endpoint {
      * @param parent the node where to add the endpoint reference, is not null and either an 
      * {@link org.w3c.dom.Element} or a {@link org.w3c.dom.Document}. 
      */
-    @Deprecated
+     @Deprecated
     void addEndpointReference(Node parent) throws ServiceLocatorException;
     
     static interface PropertiesTransformer {
