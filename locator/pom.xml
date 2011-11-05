@@ -93,6 +93,7 @@
                                 <xsdOption>
                                     <xsd>${basedir}/src/main/resources/schemas/locator-endpoint.xsd</xsd>
                                     <bindingFile>${basedir}/src/main/resources/schemas/locator-endpoint.xjb</bindingFile>
+									<catalog>${basedir}/src/main/build-resources/catalog.cat</catalog>
                                 </xsdOption>
                                 <xsdOption>
                                     <xsd>${basedir}/src/main/resources/schemas/ws-addr.xsd</xsd>
