@@ -9,7 +9,7 @@
 	xmlns:lps="http://www.talend.org/services/esb/locator/v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	targetNamespace="http://www.talend.org/services/esb/locator/v1">
 	<types>
-		<xsd:schema elementFormDefault="unqualified"
+		<xsd:schema elementFormDefault="qualified"
 			targetNamespace="http://talend.org/schemas/esb/locator/2011/11"
 			xmlns="http://talend.org/schemas/esb/locator/2011/11" xmlns:wsa="http://www.w3.org/2005/08/addressing">
 			<xsd:import namespace="http://www.w3.org/2005/08/addressing"

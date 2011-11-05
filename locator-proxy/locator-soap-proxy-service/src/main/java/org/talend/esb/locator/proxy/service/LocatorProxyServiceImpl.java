@@ -38,6 +38,9 @@ import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.schemas.esb.locator._2011._11.AssertionType;
 import org.talend.schemas.esb.locator._2011._11.EntryType;
 import org.talend.schemas.esb.locator._2011._11.InterruptionFaultDetail;
+import org.talend.schemas.esb.locator._2011._11.LookupEndpointResponse;
+import org.talend.schemas.esb.locator._2011._11.LookupEndpointsResponse;
+import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
 import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
 import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
 import org.talend.schemas.esb.locator._2011._11.ServiceLocatorFaultDetail;
@@ -202,6 +205,17 @@ public class LocatorProxyServiceImpl implements LocatorService {
         }
     }
 
+    @Override
+    public LookupEndpointResponse lookupEndpoint(LookupRequestType parameters)
+            throws ServiceLocatorFault, InterruptedExceptionFault {
+
+        W3CEndpointReference epr =
+            lookupEndpoint(parameters.getServiceName(), parameters.getMatcherData());
+        LookupEndpointResponse response = new LookupEndpointResponse();
+        response.setEndpointReference(epr);
+        return response;
+    }
+
     /**
      * For the given service return endpoint reference randomly selected from
      * list of endpoints currently registered at the service locator server.
@@ -211,7 +225,6 @@ public class LocatorProxyServiceImpl implements LocatorService {
      *            not be <code>null</code>
      * @return endpoint references or <code>null</code>
      */
-    @Override
     public W3CEndpointReference lookupEndpoint(QName serviceName,
             MatcherDataType matcherData) throws ServiceLocatorFault,
             InterruptedExceptionFault {
@@ -254,6 +267,17 @@ public class LocatorProxyServiceImpl implements LocatorService {
         return buildEndpoint(serviceName, adress);
     }
 
+    @Override
+    public LookupEndpointsResponse lookupEndpoints(LookupRequestType parameters)
+            throws ServiceLocatorFault, InterruptedExceptionFault {
+        List<W3CEndpointReference> eprs =
+            lookupEndpoints(parameters.getServiceName(), parameters.getMatcherData());
+        
+        LookupEndpointsResponse response = new LookupEndpointsResponse();
+        response.getEndpointReference().addAll(eprs);
+        return response;
+    }
+
     /**
      * For the given service name return list of endpoint references currently
      * registered at the service locator server endpoints.
@@ -265,7 +289,6 @@ public class LocatorProxyServiceImpl implements LocatorService {
      *         or <code>null</code>
      * 
      */
-    @Override
     public List<W3CEndpointReference> lookupEndpoints(QName serviceName,
             MatcherDataType matcherData) throws ServiceLocatorFault,
             InterruptedExceptionFault {

@@ -1,4 +1,5 @@
-<xsd:schema targetNamespace="http://talend.org/schemas/esb/locator/2011/11"
+<xsd:schema elementFormDefault="qualified"
+	targetNamespace="http://talend.org/schemas/esb/locator/2011/11"
 	xmlns="http://talend.org/schemas/esb/locator/2011/11" xmlns:wsa="http://www.w3.org/2005/08/addressing"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:lpx="http://talend.org/schemas/esb/locator/2011/11"
 	xmlns:lps="http://www.talend.org/services/esb/locator/v1">
@@ -9,7 +10,7 @@
 	<xsd:element name="lookupEndpointResponse">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="EndpointReference" type="wsa:EndpointReferenceType" />
+				<xsd:element ref="wsa:EndpointReference" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -17,8 +18,7 @@
 	<xsd:element name="LookupEndpointsResponse">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element maxOccurs="unbounded" minOccurs="0"
-					name="EndpointReference" nillable="false" type="wsa:EndpointReferenceType" />
+				<xsd:element ref="wsa:EndpointReference" minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
