@@ -50,13 +50,10 @@ public interface Endpoint {
 
     TransportType getTransport();
 
-    long getLastTimeStarted();
-    
-    void setLastTimeStartedToCurrent();
 
-    long getLastTimeStopped();
-    
-    void setLastTimeStoppedToCurrent();
+//    @Deprecated
+//    long getLastTimeStopped();
+
 
     SLProperties getProperties();
     

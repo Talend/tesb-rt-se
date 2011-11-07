@@ -82,7 +82,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void registerEndpoint() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(capture(eppCapture));
-        expect(sl.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1)).andReturn(oldEndointContent);
         replayAll();
 
         LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
@@ -93,7 +92,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
         Endpoint epp = eppCapture.getValue();
         assertEquals(SERVICE_QNAME_1, epp.getServiceName());
         assertEquals(ENDPOINT_1, epp.getAddress());
-        assertEquals(LAST_TIME_STOPPED, epp.getLastTimeStopped());
         verifyAll();
     }
 
@@ -101,7 +99,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void registerEndpointNotYetInSL() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(capture(eppCapture));
-        expect(sl.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1)).andReturn(null);
         replayAll();
 
         LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
@@ -112,7 +109,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
         Endpoint epp = eppCapture.getValue();
         assertEquals(SERVICE_QNAME_1, epp.getServiceName());
         assertEquals(ENDPOINT_1, epp.getAddress());
-        assertEquals(-1, epp.getLastTimeStopped());
         verifyAll();
     }
 
@@ -120,7 +116,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void registerEndpointWithPrefixSet() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(capture(eppCapture));
-        expect(sl.getEndpoint(SERVICE_QNAME_1, /*PREFIX +*/ ENDPOINT_1)).andReturn(oldEndointContent);
         replayAll();
 
         LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
@@ -176,7 +171,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
         addRegisteredServers(bus, servers);
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        expect(sl.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1)).andReturn(oldEndointContent);
         sl.register(capture(eppCapture));
 
         replayAll();
@@ -218,7 +212,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     @Test
     public void serverStopsThenEndpointUnregistered() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        expect(sl.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1)).andReturn(oldEndointContent);
         sl.register(capture(eppCapture));
         sl.unregister((Endpoint)anyObject());
 
@@ -251,8 +244,6 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void processReregisterAllEndpoints() throws Exception {
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        expect(sl.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1)).andReturn(oldEndointContent);
-        expect(sl.getEndpoint(SERVICE_QNAME_2, ENDPOINT_2)).andReturn(oldEndointContent);
 
         sl.register(capture(eppCapture));
         expectLastCall().times(4);

@@ -25,7 +25,6 @@ import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import static org.talend.esb.servicelocator.TestValues.EMPTY_CONTENT;
@@ -57,13 +56,13 @@ public class SimpleEndpointlEmptyContentTest {
         assertNull(endpoint.getTransport());
     }
 
-    @Test
-    public void getLastTimeStarted() {
-        assertEquals(-1, endpoint.getLastTimeStarted());
-    }
+//    @Test
+//    public void getLastTimeStarted() {
+//        assertEquals(-1, endpoint.getLastTimeStarted());
+//    }
 
-    @Test
-    public void getLastTimeStopped() {
-        assertEquals(-1, endpoint.getLastTimeStopped());
-    }
+//    @Test
+//    public void getLastTimeStopped() {
+//        assertEquals(-1, endpoint.getLastTimeStopped());
+//    }
 }

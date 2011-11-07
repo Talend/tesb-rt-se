@@ -159,6 +159,7 @@ public class LocatorProxyServiceImpl implements LocatorService {
             }
             SimpleEndpoint eprProvider = new SimpleEndpoint(serviceName,
                     endpointURL, bindingType, transportType, slProps);
+
             locatorClient.register(eprProvider, true);
         } catch (ServiceLocatorException e) {
             ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();

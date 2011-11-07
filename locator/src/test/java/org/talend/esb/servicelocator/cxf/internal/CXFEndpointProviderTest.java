@@ -118,55 +118,6 @@ public class CXFEndpointProviderTest {
         assertThat(keys, empty);
     }
 
-    @Test
-    public void setLastTimeStarted() {
-        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp =
-            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
-
-        long beforeCurrent = System.currentTimeMillis();
-        epp.setLastTimeStartedToCurrent();
-        long afterCurrent = System.currentTimeMillis();
-
-        long lastTimeStarted = epp.getLastTimeStarted();
-        assertThat(lastTimeStarted, greaterThanOrEqualTo(beforeCurrent));
-        assertThat(lastTimeStarted, lessThanOrEqualTo(afterCurrent));
-    }
-
-    @Test
-    public void getLastTimeStarted() {
-        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp =
-            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
-
-        long lastTimeStarted = epp.getLastTimeStarted();
-        assertEquals(-1, lastTimeStarted);
-    }
-
-    @Test
-    public void setLastTimeStopped() {
-        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp =
-            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
-
-        long beforeCurrent = System.currentTimeMillis();
-        epp.setLastTimeStoppedToCurrent();
-        long afterCurrent = System.currentTimeMillis();
-
-        long lastTimeStarted = epp.getLastTimeStopped();
-        assertThat(lastTimeStarted, greaterThanOrEqualTo(beforeCurrent));
-        assertThat(lastTimeStarted, lessThanOrEqualTo(afterCurrent));
-    }
-
-    @Test
-    public void getLastTimeStopped() {
-        EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_2);
-        CXFEndpointProvider epp =
-            new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID,  epr);
-
-        long lastTimeStopped = epp.getLastTimeStopped();
-        assertEquals(-1, lastTimeStopped);
-    }
 
     @Test
     public void writeEndpointReferenceToWithEprGiven() throws Exception {

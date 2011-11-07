@@ -75,10 +75,6 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
     private BindingType bindingType;
 
     private TransportType transportType;
-
-    private long lastTimeStarted = -1;
-
-    private long lastTimeStopped = -1;
     
     private SLProperties props;
 
@@ -125,30 +121,6 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
     @Override
     public TransportType getTransport() {
         return transportType;
-    }
-
-    @Override
-    public void setLastTimeStartedToCurrent() {
-        lastTimeStarted = System.currentTimeMillis();
-    }
-
-    @Override
-    public long getLastTimeStarted() {
-        return lastTimeStarted;    
-    }
-
-    @Override
-    public void setLastTimeStoppedToCurrent() {
-        lastTimeStopped = System.currentTimeMillis();
-    }
-
-    public void setLastTimeStopped(long lastTimeStopped) {
-        this.lastTimeStopped = lastTimeStopped;
-    }
-
-    @Override
-    public long getLastTimeStopped() {
-        return lastTimeStopped;    
     }
 
     @Override

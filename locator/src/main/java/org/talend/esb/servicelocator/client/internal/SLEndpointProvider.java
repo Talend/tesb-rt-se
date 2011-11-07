@@ -29,7 +29,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMSource;
 
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLEndpoint;
@@ -59,7 +58,11 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
     private static final String SERVICE_LOCATOR_PROPERTIES_LN = "ServiceLocatorProperties";
 
     private Element eprRoot;
-    
+
+    private long lastTimeStarted = -1;
+
+    private long lastTimeStopped = -1;
+
     private boolean isLive;
 
     public SLEndpointProvider(QName serviceName, EndpointDataType endpointData, boolean live) {
@@ -70,22 +73,27 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
                 extractAddress(epr),
                 extractBinding(endpointData),
                 extractTransport(endpointData),
-                endpointData.getLastTimeStarted(),
-                endpointData.getLastTimeStopped(),
                 extractProperties(epr)); 
 
+        lastTimeStarted = endpointData.getLastTimeStarted();
+        lastTimeStopped = endpointData.getLastTimeStopped();
         isLive = live;
+    }
+
+    @Override
+    public long getLastTimeStarted() {
+        return lastTimeStarted;
+    }
+
+    @Override
+    public long getLastTimeStopped() {
+        return  lastTimeStopped;       
     }
 
     @Override
     public boolean isLive() {
         return isLive;
     }
-
-//    @Override
-//    public DOMSource getEndpointReference() {
-//        return new DOMSource(eprRoot);
-//    }
 
     @SuppressWarnings("unchecked")
     private EndpointReferenceType toEndPointReference(Element root) {
