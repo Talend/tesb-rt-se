@@ -56,10 +56,14 @@ public class RouteAdapter implements ManagedService, JobTask {
    
     public void stop() {
         LOG.info("Cancelling route " + name);
+        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
         try {
+            Thread.currentThread().setContextClassLoader(route.getClass().getClassLoader());
             route.shutdown();
         } catch (Exception e) {
             LOG.log(Level.WARNING, "Shutting down route " + name + " caused an exception.", e);        
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextCL);            
         }
     }
 
@@ -76,8 +80,14 @@ public class RouteAdapter implements ManagedService, JobTask {
         } catch (InterruptedException e) {
             return;
         }
-        int ret = route.runJobInTOS(args);
-        LOG.info("Route " + name + " finished, return code is " + ret);
+        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(route.getClass().getClassLoader());
+            int ret = route.runJobInTOS(args);
+            LOG.info("Route " + name + " finished, return code is " + ret);
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextCL);            
+        }
     }
 
 }
