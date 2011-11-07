@@ -49,10 +49,14 @@ public class FlowIdProducerOut<T extends Message> extends
 		if (MessageUtils.isRequestor(message)) {
 			handleRequestOut(message);
 		} else {
-			handleResponseOut(message);
+			if (MessageUtils.isFault(message)) {
+				handleResponseFaultOut(message);
+			} else {
+				handleResponseOut(message);
+			}
 		}
-		
-		//write FlowId to HTTP and Soap layer
+
+		// write FlowId to HTTP and Soap layer
 		String flowId = FlowIdHelper.getFlowId(message);
 		FlowIdProtocolHeaderCodec.writeFlowId(message, flowId);
 		FlowIdSoapCodec.writeFlowId(message, flowId);
@@ -70,10 +74,24 @@ public class FlowIdProducerOut<T extends Message> extends
 		FlowIdHelper.setFlowId(message, reqFid);
 
 	}
+	
+	protected void handleResponseFaultOut(T message) throws Fault {
+		Message faultMsg = message.getExchange().getOutFaultMessage();
+		if (faultMsg == null) {
+			logger.warning("InMessage is null!");
+			return;
+		}
+		Message reqMsg = faultMsg.getExchange().getInMessage();
+
+		String reqFid = FlowIdHelper.getFlowId(reqMsg);
+		FlowIdHelper.setFlowId(message, reqFid);
+
+	}
 
 	protected void handleRequestOut(T message) throws Fault {
 		String flowId = FlowIdHelper.getFlowId(message);
-		if (flowId == null && message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
+		if (flowId == null
+				&& message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			// Web Service consumer is acting as an intermediary
 			@SuppressWarnings("unchecked")
 			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>) message
@@ -85,7 +103,7 @@ public class FlowIdProducerOut<T extends Message> extends
 			}
 
 		}
-		
+
 		if (flowId == null) {
 			// No flowId found. Generate one.
 			flowId = ContextUtils.generateUUID();
