@@ -16,8 +16,8 @@
 		serviceName="serviceNamespace:DoubleItService"
 		endpointName="serviceNamespace:DoubleItService"
 		address="http://localhost:8040/services/DoubleItService"
-		username="karaf"
-		password="karaf"
+		username="tadmin"
+		password="tadmin"
 	/>
 
 </beans>
