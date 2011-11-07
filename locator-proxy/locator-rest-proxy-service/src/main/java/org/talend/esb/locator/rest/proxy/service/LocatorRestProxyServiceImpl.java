@@ -322,7 +322,7 @@ public class LocatorRestProxyServiceImpl implements LocatorProxyService {
         if (names != null && !names.isEmpty()) {
             for (int i = 0; i < names.size(); i++) {
                 adress = names.get(i);
-                refs.getReturn().add(buildEndpoint(serviceName, adress));
+                refs.getEndpointReference().add(buildEndpoint(serviceName, adress));
             }
         } else {
             if (LOG.isLoggable(Level.WARNING)) {
