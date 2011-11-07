@@ -13,8 +13,8 @@
             <map>
                 <entry key="jmx.remote.credentials">
                     <array>
-                        <value>karaf</value>
-                        <value>karaf</value>
+                        <value>tadmin</value>
+                        <value>tadmin</value>
                     </array>
                 </entry>
             </map>

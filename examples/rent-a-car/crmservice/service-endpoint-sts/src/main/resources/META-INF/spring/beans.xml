@@ -52,7 +52,7 @@
         <!--wsdlLocation="classpath:/model/crmservice-wsdls/CRMService.wsdl"-->
         <jaxws:properties>
             <entry key="ws-security.callback-handler">
-                <bean class="common.talend.CommonCallbackHandler"/>
+                <bean class="common.talend.ServiceCallbackHandler"/>
             </entry>
             <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
         </jaxws:properties> 

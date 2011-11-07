@@ -27,12 +27,13 @@ import org.osgi.service.cm.ManagedService;
 import org.talend.esb.job.controller.internal.Configuration;
 import org.talend.esb.job.controller.internal.ESBProviderBase;
 
-public class GenericServiceProvider extends ESBProviderBase implements ManagedService {
+public class GenericServiceProvider extends ESBProviderBase
+        implements ManagedService {
 
     private Map<String, String> operations;
 
-    private Controller controller;
-    
+    private JobLauncher jobLauncher;
+
     private Configuration configuration;
 
     public void setOperations(Map<String, String> operations) {
@@ -40,28 +41,27 @@ public class GenericServiceProvider extends ESBProviderBase implements ManagedSe
     }
 
     public void setJobLauncher(JobLauncher jobLauncher) {
-        this.controller = jobLauncher;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
+        this.jobLauncher = jobLauncher;
     }
 
     @Override
     public GenericOperation getESBProviderCallback(String operationName) {
         final String jobName = operations.get(operationName);
         if (jobName == null) {
-            throw new IllegalArgumentException("Job for operation '" + operationName + "' not found");
+            throw new IllegalArgumentException(
+                    "Job for operation '" + operationName + "' not found");
         }
-            
-        GenericOperation operation = controller.retrieveOperation(
+
+        final GenericOperation operation = jobLauncher.retrieveOperation(
             jobName, configuration.getArguments());
-            
+
         return operation;
     }
 
     @Override
-    public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
+    public void updated(@SuppressWarnings("rawtypes") Dictionary properties)
+            throws ConfigurationException {
         configuration = new Configuration(properties);
     }
+
 }

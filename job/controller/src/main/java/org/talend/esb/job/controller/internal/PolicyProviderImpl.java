@@ -24,15 +24,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.ws.policy.PolicyBuilderImpl;
+import org.apache.cxf.common.injection.NoJSR250Annotations;
+import org.apache.cxf.ws.policy.PolicyBuilder;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.PolicyProvider;
 
+@NoJSR250Annotations(unlessNull = "bus") 
 public class PolicyProviderImpl implements PolicyProvider {
 
     private String policyToken;
     private String policySaml;
-    private PolicyBuilderImpl policyBuilder;
+    private PolicyBuilder policyBuilder;
 
     public void setPolicyToken(String policyToken) {
         this.policyToken = policyToken;
@@ -42,8 +44,9 @@ public class PolicyProviderImpl implements PolicyProvider {
         this.policySaml = policySaml;
     }
 
+    @javax.annotation.Resource
     public void setBus(Bus bus) {
-        policyBuilder = new PolicyBuilderImpl(bus);
+        policyBuilder = bus.getExtension(PolicyBuilder.class);
     }
 
     public Policy getTokenPolicy() {

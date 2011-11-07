@@ -1,6 +1,6 @@
 /*
  * #%L
- * CRMService Service Endpoint STS
+ * CRMService Client STS
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -25,7 +25,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.ws.security.WSPasswordCallback;
 
-public class CommonCallbackHandler implements CallbackHandler {
+public class ClientCallbackHandler implements CallbackHandler {
 
     public void handle(Callback[] callbacks) throws IOException,
             UnsupportedCallbackException {
@@ -34,9 +34,6 @@ public class CommonCallbackHandler implements CallbackHandler {
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
                 if ("myclientkey".equals(pc.getIdentifier())) {
                     pc.setPassword("ckpass");
-                    break;
-                } else if ("myservicekey".equals(pc.getIdentifier())) {
-                    pc.setPassword("skpass");
                     break;
                 } else if ("alice".equals(pc.getIdentifier())) {
                     pc.setPassword("clarinet");

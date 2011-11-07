@@ -114,13 +114,9 @@
   		<soap:operation
   			soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" />
   		<wsdl:input>
-  		    <wsp:PolicyReference
-               URI="#Input_policy" />
   			<soap:body use="literal" />
   		</wsdl:input>
   		<wsdl:output>
-  		    <wsp:PolicyReference
-               URI="#Output_policy" />
   			<soap:body use="literal" />
   		</wsdl:output>
   	</wsdl:operation>
@@ -128,13 +124,9 @@
   		<soap:operation
   			soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Validate" />
   		<wsdl:input>
-  		    <wsp:PolicyReference
-               URI="#Input_policy" />
   			<soap:body use="literal" />
   		</wsdl:input>
   		<wsdl:output>
-  		    <wsp:PolicyReference
-               URI="#Output_policy" />
   			<soap:body use="literal" />
   		</wsdl:output>
   	</wsdl:operation>
@@ -420,7 +412,7 @@
   <wsp:Policy wsu:Id="UT_policy">
       <wsp:ExactlyOne>
          <wsp:All>
-            <wsap10:UsingAddressing/>
+            <!-- wsap10:UsingAddressing/>
             <sp:SymmetricBinding
                xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                <wsp:Policy>
@@ -478,7 +470,12 @@
                   <sp:RequireClientEntropy />
                   <sp:RequireServerEntropy />
                </wsp:Policy>
-            </sp:Trust13>
+            </sp:Trust13-->
+            <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                <wsp:Policy>
+                    <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient" />
+                </wsp:Policy>
+            </sp:SupportingTokens>
          </wsp:All>
       </wsp:ExactlyOne>
    </wsp:Policy>
