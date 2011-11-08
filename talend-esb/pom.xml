@@ -1141,7 +1141,7 @@
 									<flattenmapper />
 								</copy>
 								<copy todir="target/add-ons/locator">
-									<fileset dir="${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model"/>
+									<fileset dir="${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model">
 										<include name="**/*.*" />
 									</fileset>
 								</copy>
