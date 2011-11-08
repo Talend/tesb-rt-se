@@ -41,15 +41,7 @@ public class FlowIdHelper {
 	 */
 	public static String getFlowId(Message message) {
 		String flowId = (String) message.get(FLOW_ID_KEY);
-		if (null == flowId) {
-			Object headers = message.get(Message.PROTOCOL_HEADERS);
-			if (headers instanceof TreeMap<?, ?>) {
-				Map<String, ArrayList<String>> mesHeaders = (TreeMap<String, ArrayList<String>>) message
-						.get(Message.PROTOCOL_HEADERS);
-				flowId = (null == mesHeaders) ? null : mesHeaders.get(
-						FLOW_ID_KEY).toString();
-			}
-		}
+
 		return flowId;
 	}
 

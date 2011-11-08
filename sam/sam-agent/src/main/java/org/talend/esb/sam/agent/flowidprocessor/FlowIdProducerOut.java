@@ -49,11 +49,7 @@ public class FlowIdProducerOut<T extends Message> extends
 		if (MessageUtils.isRequestor(message)) {
 			handleRequestOut(message);
 		} else {
-			if (MessageUtils.isFault(message)) {
-				handleResponseFaultOut(message);
-			} else {
 				handleResponseOut(message);
-			}
 		}
 
 		// write FlowId to HTTP and Soap layer
@@ -75,19 +71,6 @@ public class FlowIdProducerOut<T extends Message> extends
 
 	}
 	
-	protected void handleResponseFaultOut(T message) throws Fault {
-		Message faultMsg = message.getExchange().getOutFaultMessage();
-		if (faultMsg == null) {
-			logger.warning("InMessage is null!");
-			return;
-		}
-		Message reqMsg = faultMsg.getExchange().getInMessage();
-
-		String reqFid = FlowIdHelper.getFlowId(reqMsg);
-		FlowIdHelper.setFlowId(message, reqFid);
-
-	}
-
 	protected void handleRequestOut(T message) throws Fault {
 		String flowId = FlowIdHelper.getFlowId(message);
 		if (flowId == null
