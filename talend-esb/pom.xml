@@ -1140,6 +1140,11 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<copy todir="target/add-ons/locator">
+									<fileset dir="${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model"/>
+										<include name="**/*.*" />
+									</fileset>
+								</copy>
 								<copy todir="target/add-ons/job">
 									<fileset dir="${basedir}/../job">
 										<include name="**/target/*.jar" />
