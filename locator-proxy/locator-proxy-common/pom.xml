@@ -50,10 +50,9 @@
 						<Export-Package>
 							org.talend.services.esb.locator.v1,
 							org.talend.schemas.esb.locator._2011._11,
-							model.locator-proxy-wsdl,
+							model,
 							org.talend.services.esb.locator.rest.v1,
 							org.talend.schemas.esb.locator.rest._2011._11,
-							model.locator-proxy-wadl,
 							org.w3._2005._08.addressing
                         </Export-Package>
 						<Import-Package>
