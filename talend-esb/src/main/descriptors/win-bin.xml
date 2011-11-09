@@ -23,6 +23,8 @@
 
     <id>win-bin</id>
 
+	<baseDirectory>TESB_SE-V${project.version}</baseDirectory>
+
     <formats>
         <format>zip</format>
 <!--         <format>dir</format> -->

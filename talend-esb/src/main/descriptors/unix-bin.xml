@@ -22,6 +22,8 @@
 
     <id>unix-bin</id>
 
+	<baseDirectory>TESB_SE-V${project.version}</baseDirectory>
+
     <formats>
         <format>tar.gz</format>
     </formats>
