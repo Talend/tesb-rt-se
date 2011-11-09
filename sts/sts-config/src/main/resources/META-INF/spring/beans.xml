@@ -52,7 +52,13 @@
         id="placeholder-configurer">
         <property name="properties">
             <!-- Configuration Admin entry -->
-            <osgix:cm-properties persistent-id="org.talend.esb.sts.server"/>
+            <osgix:cm-properties persistent-id="org.talend.esb.sts.server">
+                <prop key="stsServiceUrl">/SecurityTokenService/UT</prop>
+                <prop key="jaasContext">karaf</prop>
+                <prop key="signatureProperties">file:./etc/keystores/stsKeystore.properties</prop>
+                <prop key="signatureUsername">mystskey</prop>
+                <prop key="bspCompliant">false</prop>
+            </osgix:cm-properties>
         </property>
         <property name="placeholderPrefix" value="$sts{" />
     </bean>
