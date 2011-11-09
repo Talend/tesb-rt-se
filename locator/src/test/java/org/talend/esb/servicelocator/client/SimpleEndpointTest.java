@@ -107,15 +107,15 @@ public class SimpleEndpointTest {
         assertEquals(org.talend.esb.servicelocator.client.TransportType.HTTP, slEndpoint.getTransport());
     }
 
-    @Test
-    public void getLastTimeStarted() {
-        assertEquals(LAST_TIME_STARTED, slEndpoint.getLastTimeStarted());
-    }
-    
-    @Test
-    public void getLastTimeStopped() {
-        assertEquals(LAST_TIME_STOPPED, slEndpoint.getLastTimeStopped());
-    }
+//    @Test
+//    public void getLastTimeStarted() {
+//        assertEquals(LAST_TIME_STARTED, slEndpoint.getLastTimeStarted());
+//    }
+
+//    @Test
+//    public void getLastTimeStopped() {
+//        assertEquals(LAST_TIME_STOPPED, slEndpoint.getLastTimeStopped());
+//    }
 
     @Test
     public void getProperties() {

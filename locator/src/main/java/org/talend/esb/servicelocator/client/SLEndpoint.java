@@ -20,7 +20,6 @@
 package org.talend.esb.servicelocator.client;
 
 import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMSource;
 
 /**
  * An <code>SLEndpoint</code> describes a service endpoint stored in the ServiceLocator. In addition the
@@ -28,26 +27,10 @@ import javax.xml.transform.dom.DOMSource;
  */
 public interface SLEndpoint extends Endpoint {
  
-    /**
-     * Return the address of the endpoint.
-     * 
-     * @return address where to reach the endpoint
-     */
-//    String getAddress();
+    long getLastTimeStarted();
+    
 
-    /**
-     * Return the binding of the endpoint.
-     * 
-     * @return the type of binding
-     */
-//    BindingType getBinding();
-
-    /**
-     * Return the binding of the endpoint.
-     * 
-     * @return the type of binding
-     */
-//    TransportType getTransport();
+    long getLastTimeStopped();
 
     /**
      * Indicates whether the server is up and running.
@@ -55,28 +38,7 @@ public interface SLEndpoint extends Endpoint {
      * @return <code>true</code> iff the service locator deems the endpoint running.
      */
     boolean isLive();
-
-    /**
-     * Return the properties associated to this endpoint.
-     * 
-     * @return the properties, is always not <code>null</code>
-     */
-//    SLProperties getProperties();
-
-    /**
-     * Return the time the endpoint started the last time.
-     * 
-     * @return the time in number of milliseconds since "the epoch"
-     */
-//    long getLastTimeStarted();
-
-    /**
-     * Return the time the endpoint stopped the last time.
-     * 
-     * @return the time in number of milliseconds since "the epoch"
-     */
-//    long getLastTimeStopped();
-
+    
     /**
      * Return the name of the service the endpoint belongs to.
      * 
@@ -84,5 +46,4 @@ public interface SLEndpoint extends Endpoint {
      */
     QName forService();
 
-    DOMSource getEndpointReference();
 }

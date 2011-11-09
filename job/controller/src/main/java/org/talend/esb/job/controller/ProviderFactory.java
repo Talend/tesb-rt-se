@@ -19,15 +19,11 @@
  */
 package org.talend.esb.job.controller;
 
-import org.apache.cxf.Bus;
-import org.apache.neethi.Policy;
+import java.util.Map;
 
-public interface PolicyProvider {
 
-    Policy getTokenPolicy();
+public interface ProviderFactory {
 
-    Policy getSamlPolicy();
-
-    void register(Bus cxf);
+    GenericServiceProvider create(Map<String, String> operations);
 
 }

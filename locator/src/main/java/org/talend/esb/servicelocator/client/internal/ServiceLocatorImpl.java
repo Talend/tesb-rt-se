@@ -19,7 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -30,14 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMResult;
-
-import org.w3c.dom.Document;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
@@ -54,10 +46,6 @@ import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
-import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
-import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
-import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
-import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
@@ -113,9 +101,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
     };
 
-    private static final EndpointTransformerImpl transformer = new EndpointTransformerImpl();
-    
-    
     private interface NodePathBinder<T> {
         T bind(NodePath nodepath) throws ServiceLocatorException, InterruptedException;
 
@@ -130,6 +115,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
 
     private volatile ZooKeeper zk;
+    
+    private EndpointTransformer transformer = new EndpointTransformerImpl();
 
     /**
      * {@inheritDoc}
@@ -237,10 +224,25 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     + serviceName + "...");
         }
         checkConnection();
-        NodePath serviceNodePath = ensureServiceExists(serviceName);
 
-        byte[] content = createContent(epProvider);
-        NodePath endpointNodePath = 
+        long lastTimeStarted = System.currentTimeMillis();
+        long lastTimeStopped = -1;
+        
+        NodePath serviceNodePath = ensureServiceExists(serviceName);
+        NodePath endpointNodePath = serviceNodePath.child(endpoint);
+
+        try {
+            if (nodeExists(endpointNodePath)) {
+                byte[] content = getContent(endpointNodePath);
+                SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, content, false);
+                lastTimeStopped = oldEndpoint.getLastTimeStopped();
+            }
+        } catch (KeeperException e) {
+            throw locatorException(e);
+        } 
+        
+        byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
+        endpointNodePath = 
             ensureEndpointExists(serviceNodePath, endpoint, content);
 
         createEndpointStatus(endpointNodePath, persistent);
@@ -258,17 +260,25 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     + serviceName + "...");
         }
         checkConnection();
+        long lastTimeStarted = -1;
+        long lastTimeStopped = System.currentTimeMillis();
+
         NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
                 .toString());
         NodePath endpointNodePath = serviceNodePath.child(endpoint);
 
         try {            
             if (nodeExists(endpointNodePath)) {
+                
+                byte[] oldContent = getContent(endpointNodePath);
+                SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, oldContent, false);
+                lastTimeStarted = oldEndpoint.getLastTimeStarted();
+
                 NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
         
                 ensurePathDeleted(endpointStatusNodePath, false);
 
-                byte[] content = createContent(epProvider);
+                byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
                 setNodeData(endpointNodePath, content);
             }
         } catch (KeeperException e) {
@@ -529,6 +539,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Locator connection timeout set to: " + connectionTimeout);
         }
     }
+    
+    public void setEndpointTransformer(EndpointTransformer endpointTransformer) {
+        transformer = endpointTransformer;
+    }
 
     /**
      * {@inheritDoc}
@@ -545,8 +559,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private void checkConnection() throws ServiceLocatorException, InterruptedException {
         if (!isConnected()) {
             connect();
-//            throw new ServiceLocatorException(
-//                    "The connection to Service Locator was not established.");
         }
     }
 
@@ -711,17 +723,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return boundChildren;
     }
 
-/*
-    private SLProperties getProperties(NodePath path) throws ServiceLocatorException, InterruptedException {
-        try {
-            byte[] content = getContent(path);
-            ContentHolder holder = transformer.toEndpoint(content);
-            return holder.getProperties();
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        }
-    }
-*/  
     private byte[] getContent(NodePath path) throws KeeperException, InterruptedException {
         return zk.getData(path.toString(), false, null);
     }
@@ -732,46 +733,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return nodeExists(liveNodePath);
     }
 
-    private byte[] createContent(Endpoint eprProvider) throws ServiceLocatorException  {
-        EndpointDataType endpointData = createEndpointData(eprProvider);
-        return serialize(endpointData);
-    }
-    
-    private EndpointDataType createEndpointData(Endpoint eprProvider) throws ServiceLocatorException {
-        ObjectFactory of = new ObjectFactory();
-        EndpointDataType endpointData = of.createEndpointDataType();
-
-        endpointData.setBinding(
-            BindingType.fromValue(eprProvider.getBinding().getValue()));
-        endpointData.setTransport(
-                TransportType.fromValue(eprProvider.getTransport().getValue()));
-        endpointData.setLastTimeStarted(eprProvider.getLastTimeStarted());
-        endpointData.setLastTimeStopped(eprProvider.getLastTimeStopped());
-
-        DOMResult result = new DOMResult();
-        eprProvider.writeEndpointReferenceTo(result, transformer);
-        Document  doc = (Document) result.getNode();
-        endpointData.setEndpointReference(doc.getDocumentElement());
-        
-        return endpointData;
-    }
-
-    private byte[] serialize(EndpointDataType endpointData) throws ServiceLocatorException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(50000);
-        try {
-            ObjectFactory of = new ObjectFactory();
-
-            JAXBElement<EndpointDataType> epd =
-                of.createEndpointData(endpointData);
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc =
-                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(epd, outputStream);
-        } catch (JAXBException e) {
-            throw locatorException(e);
-        }
-        return outputStream.toByteArray();
+    private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
+    throws ServiceLocatorException  {
+        return transformer.fromEndpoint(eprProvider, lastTimeStarted, lastTimeStopped);
     }
 
     private ServiceLocatorException locatorException(Exception e) {

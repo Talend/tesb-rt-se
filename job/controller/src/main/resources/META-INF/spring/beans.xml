@@ -55,14 +55,8 @@
         <property name="executorService" ref="executorService" />
         <property name="endpointRegistry" ref="endpointRegistry"/>
     </bean>
+    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/>
 
-<!--    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/> -->
-    <osgi:service ref="jobLauncher">
-        <osgi:interfaces>
-            <value>org.talend.esb.job.controller.Controller</value>
-            <value>org.talend.esb.job.controller.JobLauncher</value>
-        </osgi:interfaces>
-    </osgi:service>
     <bean id="jobTracker" class="org.talend.esb.job.controller.internal.JobTracker" init-method="bind" destroy-method="unbind">
         <property name="jobListener" ref="jobLauncher" />
         <property name="bundleContext" ref="bundleContext"/>
@@ -83,6 +77,12 @@
         <property name="policyToken" value="$job{policy.token}"/>
         <property name="policySaml" value="$job{policy.saml}"/>
     </bean>
-    <osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/>
+    <!--osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/-->
+
+    <bean id="providerFactory" class="org.talend.esb.job.controller.internal.ProviderFactoryImpl">
+        <property name="jobLauncher" ref="jobLauncher"/>
+        <property name="policyProvider" ref="policyProvider"/>
+    </bean>
+    <osgi:service interface="org.talend.esb.job.controller.ProviderFactory" ref="providerFactory"/>
 
 </beans>

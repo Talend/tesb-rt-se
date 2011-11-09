@@ -50,10 +50,9 @@
 						<Export-Package>
 							org.talend.services.esb.locator.v1,
 							org.talend.schemas.esb.locator._2011._11,
-							model.locator-proxy-wsdl,
+							model,
 							org.talend.services.esb.locator.rest.v1,
 							org.talend.schemas.esb.locator.rest._2011._11,
-							model.locator-proxy-wadl,
 							org.w3._2005._08.addressing
                         </Export-Package>
 						<Import-Package>
@@ -77,7 +76,7 @@
 							<fork>once</fork>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${basedir}/src/main/resources/model/locator-proxy-wsdl/LocatorProxyService.wsdl</wsdl>
+									<wsdl>${basedir}/src/main/resources/model/LocatorProxyService.wsdl</wsdl>
 									<extraargs>
 										<extraarg>-client</extraarg>
 									</extraargs>
@@ -103,7 +102,7 @@
 							<sourceRoot>${basedir}/target/generated-sources/cxf</sourceRoot>
 							<wadlOptions>
 								<wadlOption>
-									<wadl>${basedir}/src/main/resources/model/locator-proxy-wadl/LocatorProxyService.wadl</wadl>
+									<wadl>${basedir}/src/main/resources/model/LocatorProxyService.wadl</wadl>
 									<impl>false</impl>
 									<packagename>org.talend.services.esb.locator.rest.v1</packagename>
 								</wadlOption>

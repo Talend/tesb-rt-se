@@ -126,11 +126,11 @@ public final class RESTClient {
 			EndpointReferenceList erlt = wc
 					.get(EndpointReferenceList.class);
 			System.out.println("Found ".concat(
-					String.valueOf(erlt.getReturn().size())).concat(
+					String.valueOf(erlt.getEndpointReference().size())).concat(
 					" endpoints"));
-			if (erlt.getReturn().size() > 0) {
+			if (erlt.getEndpointReference().size() > 0) {
 				for (W3CEndpointReference w3cEndpointReference : erlt
-						.getReturn()) {
+						.getEndpointReference()) {
 					System.out.println(w3cEndpointReference.toString());
 				}
 			}

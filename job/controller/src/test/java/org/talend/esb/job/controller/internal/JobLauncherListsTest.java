@@ -19,12 +19,15 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-
-import javax.xml.ws.Endpoint;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
@@ -35,11 +38,6 @@ import org.osgi.framework.ServiceRegistration;
 
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
-
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.expect;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
 
 
 public class JobLauncherListsTest extends EasyMockSupport {
@@ -71,10 +69,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
     
     private TalendJob job2 = createMock(TalendJob.class);
 
-    private Endpoint service1 = createMock(Endpoint.class);
-
-    private Endpoint service2 = createMock(Endpoint.class);
-
     private BundleContext context;
 
     private ServiceRegistration sr;
@@ -102,9 +96,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
 
         jobLauncher.jobAdded(job1, JOB_NAME_1);
         jobLauncher.jobAdded(job2, JOB_NAME_2);
-
-        jobLauncher.serviceAdded(service1, SERVICE_NAME_1);
-        jobLauncher.serviceAdded(service2, SERVICE_NAME_2);
     }
 
     @Test
@@ -118,12 +109,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
     public void listJobs() {
         List<String> names = jobLauncher.listJobs();
         assertThat(names, containsInAnyOrder(JOB_NAME_1, JOB_NAME_2));
-    }
-
-    @Test
-    public void listServices() {
-        List<String> names = jobLauncher.listServices();
-        assertThat(names, containsInAnyOrder(SERVICE_NAME_1, SERVICE_NAME_2));
     }
 
     private void expectManagedJobStarting() {

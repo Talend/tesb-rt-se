@@ -79,8 +79,15 @@ public class SimpleJobTask implements ManagedService, JobTask  {
                 } else {
                     args = new String[0];
                 }
-	            int ret = job.runJobInTOS(args);
-	            LOG.info("Job " + name + " finished, return code is " + ret);
+                ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+                try {
+                    Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
+                    int ret = job.runJobInTOS(args);
+                    LOG.info("Job " + name + " finished, return code is " + ret);
+                } finally {
+                    Thread.currentThread().setContextClassLoader(oldContextCL);            
+                }
+
             } catch (InterruptedException e) {
                 return;
             }

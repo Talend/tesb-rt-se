@@ -50,10 +50,6 @@ public class SimpleEndpoint implements Endpoint {
     private BindingType binding;
     
     private TransportType transport;
-
-    private long lastTimeStarted = -1;
-
-    private long lastTimeStopped = -1;
     
     private SLProperties props;
 
@@ -79,32 +75,12 @@ public class SimpleEndpoint implements Endpoint {
     protected SimpleEndpoint() {}
 
     protected void init(QName serviceName, String endpoint, BindingType bindingType,
-            TransportType transportType,  long lastTimeStarted, long lastTimeStopped, SLProperties properties)  {
+            TransportType transportType, SLProperties properties)  {
         sName = serviceName;
         addr = endpoint;
         props = properties;
         binding = bindingType;
         transport = transportType;
-        this.lastTimeStarted = lastTimeStarted;
-        this.lastTimeStopped = lastTimeStopped;
-    }
-
-    @Override
-    public long getLastTimeStarted() {
-        return lastTimeStarted;
-    }
-
-    public void  setLastTimeStarted(long lastTimeStarted) {
-        this.lastTimeStarted = lastTimeStarted;       
-    }
-
-    @Override
-    public long getLastTimeStopped() {
-        return  lastTimeStopped;       
-    }
-
-    public void  setLastTimeStopped(long lastTimeStopped) {
-        this.lastTimeStopped = lastTimeStopped;       
     }
 
     @Override

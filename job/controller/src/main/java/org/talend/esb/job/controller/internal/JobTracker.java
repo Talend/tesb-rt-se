@@ -21,8 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.logging.Logger;
 
-import javax.xml.ws.Endpoint;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
 import org.osgi.framework.InvalidSyntaxException;
@@ -43,14 +41,16 @@ public class JobTracker {
         Logger.getLogger(JobTracker.class.getName());
 
     public static final String FILTER =
-        "(| (objectClass=" + TalendJob.class.getName() + ") (objectClass=" + Endpoint.class.getName() + "))";
+        "(objectClass=" + TalendJob.class.getName() + ")";
+
+    public static final String PROPERTY_KEY_NAME = "name";
 
     private BundleContext context;
-    
+
     private JobListener listener;
-    
+
     private ServiceTracker tracker;
-    
+
 
     public void setJobListener(JobListener listener) {
         this.listener = listener;
@@ -70,7 +70,7 @@ public class JobTracker {
             
         }
         tracker = new ServiceTracker(context, filter, new Customizer());
-        tracker.open();        
+        tracker.open();
     }
 
     public void unbind() {
@@ -93,13 +93,11 @@ public class JobTracker {
 
         @Override
         public Object addingService(ServiceReference reference) {
-            LOG.info("Service with reference " + reference + " added    ");
+            LOG.info("Service with reference " + reference + " added");
             Object service = context.getService(reference);
             if (service != null) {
-                String name = getValue("name", reference);
-                if (service instanceof Endpoint) {
-                    listener.serviceAdded((Endpoint) service, name);
-                } else if (service instanceof TalendESBJob) {
+                String name = getValue(PROPERTY_KEY_NAME, reference);
+                if (service instanceof TalendESBJob) {
                     listener.esbJobAdded((TalendESBJob) service, name);
                 } else if (service instanceof TalendESBRoute) {
                     listener.routeAdded((TalendESBRoute) service, name);
@@ -119,10 +117,8 @@ public class JobTracker {
         @Override
         public void removedService(ServiceReference reference, Object service) {
             LOG.info("Service " + service + " removed");
-            String name = getValue("name", reference);
-            if (service instanceof Endpoint) {
-                listener.serviceRemoved((Endpoint) service, name);
-            } else if (service instanceof TalendESBJob) {
+            String name = getValue(PROPERTY_KEY_NAME, reference);
+            if (service instanceof TalendESBJob) {
                 listener.esbJobRemoved((TalendESBJob) service, name);
             } else if (service instanceof TalendESBRoute) {
                 listener.routeRemoved((TalendESBRoute) service, name);

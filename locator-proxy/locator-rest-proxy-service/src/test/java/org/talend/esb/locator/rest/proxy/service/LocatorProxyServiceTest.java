@@ -115,7 +115,7 @@ public class LocatorProxyServiceTest extends EasyMockSupport {
 
         EndpointReferenceList erlt = lps.lookupEndpoints(
                 SERVICE_NAME.toString(), new ArrayList<String>());
-        if (erlt.getReturn().get(0).equals(expectedRef))
+        if (erlt.getEndpointReference().get(0).equals(expectedRef))
             fail();
 
     }

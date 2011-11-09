@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
@@ -34,7 +33,6 @@ import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.service.model.EndpointInfo;
-import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -145,25 +143,8 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         }
 
         CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
-        endpoint.setLastTimeStartedToCurrent();
-        QName serviceName = endpoint.getServiceName();
 
-        try {
-            SLEndpoint slEndpoint = locatorClient.getEndpoint(serviceName, absAddress);
-            if (slEndpoint != null) {
-                long lastTimeStopped = slEndpoint.getLastTimeStopped();
-                endpoint.setLastTimeStopped(lastTimeStopped);
-            }
-            registerServer(endpoint);
-        } catch (ServiceLocatorException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering endpoint.", e);
-            }
-        } catch (InterruptedException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering endpoint.", e);
-            }
-        }
+        registerServer(endpoint);
         registeredServers.put(server, endpoint);
     }
     
@@ -187,7 +168,6 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
     private void unregisterServer(Server server) {
         try {
             CXFEndpointProvider epp = registeredServers.get(server);
-            epp.setLastTimeStoppedToCurrent();
             locatorClient.unregister(epp);
         } catch (ServiceLocatorException e) {
             if (LOG.isLoggable(Level.SEVERE)) {

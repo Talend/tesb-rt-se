@@ -33,10 +33,6 @@
     <bean id="mbeanRoute" class="org.talend.esb.job.controller.internal.management.RouteControllerMBeanImpl">
         <property name="controller" ref="controller" />
     </bean>
-    <bean id="mbeanService" class="org.talend.esb.job.controller.internal.management.ServiceControllerMBeanImpl">
-        <property name="controller" ref="controller" />
-    </bean>
-
     <bean id="mbeanRegister" class="org.apache.karaf.management.MBeanRegistrer">
         <property name="mbeans">
             <map>
@@ -44,8 +40,6 @@
                     key-ref="mbeanJob" />
                 <entry value="org.talend.esb:type=controller,name=route"
                     key-ref="mbeanRoute" />
-                <entry value="org.talend.esb:type=controller,name=service"
-                    key-ref="mbeanService" />
             </map>
         </property>
     </bean>

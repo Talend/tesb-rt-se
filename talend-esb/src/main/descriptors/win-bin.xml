@@ -331,6 +331,14 @@
             <outputDirectory>/add-ons</outputDirectory>
         </fileSet>
 
+        <!-- Copy Locator proxy resources -->
+        <fileSet>
+            <directory>${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model</directory>
+            <outputDirectory>/add-ons/locator</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+
         <!-- Copy Docs -->
         <fileSet>
             <directory>target/docs/esb-docs-${project.version}</directory>

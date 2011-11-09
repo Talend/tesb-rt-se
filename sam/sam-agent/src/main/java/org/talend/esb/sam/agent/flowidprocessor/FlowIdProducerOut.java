@@ -49,10 +49,10 @@ public class FlowIdProducerOut<T extends Message> extends
 		if (MessageUtils.isRequestor(message)) {
 			handleRequestOut(message);
 		} else {
-			handleResponseOut(message);
+				handleResponseOut(message);
 		}
-		
-		//write FlowId to HTTP and Soap layer
+
+		// write FlowId to HTTP and Soap layer
 		String flowId = FlowIdHelper.getFlowId(message);
 		FlowIdProtocolHeaderCodec.writeFlowId(message, flowId);
 		FlowIdSoapCodec.writeFlowId(message, flowId);
@@ -70,10 +70,11 @@ public class FlowIdProducerOut<T extends Message> extends
 		FlowIdHelper.setFlowId(message, reqFid);
 
 	}
-
+	
 	protected void handleRequestOut(T message) throws Fault {
 		String flowId = FlowIdHelper.getFlowId(message);
-		if (flowId == null && message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
+		if (flowId == null
+				&& message.containsKey(PhaseInterceptorChain.PREVIOUS_MESSAGE)) {
 			// Web Service consumer is acting as an intermediary
 			@SuppressWarnings("unchecked")
 			WeakReference<Message> wrPreviousMessage = (WeakReference<Message>) message
@@ -85,7 +86,7 @@ public class FlowIdProducerOut<T extends Message> extends
 			}
 
 		}
-		
+
 		if (flowId == null) {
 			// No flowId found. Generate one.
 			flowId = ContextUtils.generateUUID();

@@ -19,49 +19,11 @@
  */
 package org.talend.esb.job.controller;
 
-import java.util.Dictionary;
-import java.util.Map;
-
-import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
-import org.talend.esb.job.controller.internal.Configuration;
-import org.talend.esb.job.controller.internal.ESBProviderBase;
+import org.talend.esb.sam.agent.feature.EventFeature;
 
-public class GenericServiceProvider extends ESBProviderBase
-        implements ManagedService {
+public interface GenericServiceProvider extends ManagedService {
 
-    private Map<String, String> operations;
-
-    private JobLauncher jobLauncher;
-
-    private Configuration configuration;
-
-    public void setOperations(Map<String, String> operations) {
-        this.operations = operations;
-    }
-
-    public void setJobLauncher(JobLauncher jobLauncher) {
-        this.jobLauncher = jobLauncher;
-    }
-
-    @Override
-    public GenericOperation getESBProviderCallback(String operationName) {
-        final String jobName = operations.get(operationName);
-        if (jobName == null) {
-            throw new IllegalArgumentException(
-                    "Job for operation '" + operationName + "' not found");
-        }
-
-        final GenericOperation operation = jobLauncher.retrieveOperation(
-            jobName, configuration.getArguments());
-
-        return operation;
-    }
-
-    @Override
-    public void updated(@SuppressWarnings("rawtypes") Dictionary properties)
-            throws ConfigurationException {
-        configuration = new Configuration(properties);
-    }
+    void setEventFeature(EventFeature eventFeature);
 
 }

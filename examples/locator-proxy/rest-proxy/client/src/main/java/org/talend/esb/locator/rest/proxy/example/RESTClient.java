@@ -101,9 +101,9 @@ public final class RESTClient {
 		System.out.println("LookupEndpoints");
 		try {
 			EndpointReferenceList endpointReferenceList = client.lookupEndpoints(URLEncoder.encode(service, "UTF-8"), null);
-			if(endpointReferenceList.getReturn().size() > 0)
+			if(endpointReferenceList.getEndpointReference().size() > 0)
 			{
-				for (W3CEndpointReference w3cEndpointReference : endpointReferenceList.getReturn()) {
+				for (W3CEndpointReference w3cEndpointReference : endpointReferenceList.getEndpointReference()) {
 					System.out.println(w3cEndpointReference.toString());
 				}	
 			}

@@ -35,17 +35,22 @@ public class OperationTask extends RuntimeESBProviderCallback implements JobTask
     }
 
     public void run() {
-        job.setProviderCallback(this);
+        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
+            job.setProviderCallback(this);
 
-        while (true) {
-            if (Thread.interrupted()) {
-                prepareStop();
+            while (true) {
+                if (Thread.interrupted()) {
+                    prepareStop();
+                }
+                job.runJobInTOS(arguments);
+                if (isStopped()) {
+                    return;
+                }
             }
-            job.runJobInTOS(arguments);
-            if (isStopped()) {
-                return;
-            }
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextCL);            
         }
     }
-
 }

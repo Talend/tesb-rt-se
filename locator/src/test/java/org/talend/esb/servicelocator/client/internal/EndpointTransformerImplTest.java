@@ -19,29 +19,20 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.xml.HasXPath.hasXPath;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
-import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
 
-import java.util.List;
 
 import javax.xml.transform.dom.DOMResult;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.data.Stat;
 import org.junit.Test;
-import org.talend.esb.servicelocator.client.SLEndpoint;
+import org.talend.esb.DomMother;
+import org.talend.esb.servicelocator.client.BindingType;
+import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.TransportType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -65,7 +56,27 @@ public class EndpointTransformerImplTest {
                     WSA_SL_NS_CONTEXT, equalTo("")));
     }
 
-//    @Test
-    public void getEndpointsEndpointIsNotLive() throws Exception {
+    @Test
+    public void fromEndpoint()  throws Exception {
+
+            Endpoint endpoint = EndpointStubFactory.
+                create(SERVICE_QNAME_1, ENDPOINT_1, BindingType.JAXRS,
+                        TransportType.HTTP);
+
+            EndpointTransformerImpl trans = new EndpointTransformerImpl();
+            
+            byte[] content = trans.fromEndpoint(endpoint, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+            Document contentAsXML = DomMother.parse(content);
+
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData", WSA_SL_NS_CONTEXT));
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStarted/text()",
+                    WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STARTED))));
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()",
+                    WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()",
+                    WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()",
+                    WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
+            assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
     }
 }

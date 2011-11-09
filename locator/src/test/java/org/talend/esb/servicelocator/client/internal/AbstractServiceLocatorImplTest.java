@@ -35,6 +35,7 @@ import org.talend.esb.DomMother;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.w3c.dom.Document;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
@@ -135,7 +136,15 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     protected void getData(String path, byte[] content) throws KeeperException, InterruptedException {
         expect(zkMock.getData(path, false, null)).andReturn(content);
     }
-    
+
+    protected void getContent(String path, byte[] content) throws KeeperException, InterruptedException {
+        expect(zkMock.getData(eq(path), eq(false), (Stat) anyObject())).andReturn(content);
+    }
+
+    protected void setData(String path, byte[] content) throws KeeperException, InterruptedException {
+        expect(zkMock.setData(path, content, -1)).andReturn(new Stat());
+    }
+
     protected void setData(String path) throws KeeperException, InterruptedException {
         expect(zkMock.setData(eq(path), capture(contentCapture), eq(-1))).andReturn(new Stat());
     }

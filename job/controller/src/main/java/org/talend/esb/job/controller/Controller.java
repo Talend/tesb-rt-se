@@ -42,12 +42,4 @@ public interface Controller {
      */
     List<String> listRoutes() throws Exception;
 
-    /**
-     * List of Talend Data Services available in the running container.
-     *
-     * @return the list of Talend services
-     * @throws Exception in case of lookup failure
-     */
-    List<String> listServices() throws Exception;
-
 }

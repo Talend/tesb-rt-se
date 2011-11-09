@@ -31,32 +31,40 @@
 
 package demo.client;
 
-
 import javax.xml.namespace.QName;
 
 import javax.xml.ws.Service;
-import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.schemas.esb.locator._2011._11.LookupEndpointResponse;
+import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
 import org.talend.services.esb.locator.v1.LocatorService;
 
 import demo.common.Greeter;
 
 public class Client {
 
-	public static void main(String[] args) throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/client.xml");
-		LocatorService client = (LocatorService) context.getBean("locatorService");
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/client.xml");
+        LocatorService client = (LocatorService) context.getBean("locatorService");
 
-		W3CEndpointReference endpointReference = client.lookupEndpoint(new QName("http://talend.org/esb/examples/", "GreeterService"), null);
-		System.out.println(endpointReference.toString());
-		
-		javax.xml.ws.Service jaxwsServiceObject = Service.create(new QName("http://talend.org/esb/examples/", "GreeterService"));
-		
-		Greeter greeterProxy = jaxwsServiceObject.getPort(endpointReference, Greeter.class);
-		String reply = greeterProxy.greetMe("HI");
-		System.out.println("Server said: " + reply);
-		
-	}
+        LookupRequestType request = new LookupRequestType();
+        request.setServiceName(new QName("http://talend.org/esb/examples/",
+                "GreeterService"));
+
+        LookupEndpointResponse response = client.lookupEndpoint(request);
+        W3CEndpointReference endpointReference = response
+                .getEndpointReference();
+        System.out.println(endpointReference.toString());
+
+        javax.xml.ws.Service jaxwsServiceObject = Service.create(new QName(
+                "http://talend.org/esb/examples/", "GreeterService"));
+
+        Greeter greeterProxy = jaxwsServiceObject.getPort(endpointReference,
+                Greeter.class);
+        String reply = greeterProxy.greetMe("HI");
+        System.out.println("Server said: " + reply);
+
+    }
 }

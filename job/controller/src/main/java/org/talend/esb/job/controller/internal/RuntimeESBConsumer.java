@@ -47,6 +47,7 @@ import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
@@ -188,7 +189,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Map<?, ?> map = (Map<?, ?>) payload;
 
             if (samFeature != null) {
-                Object samProps = map.get(ESBProviderBase.REQUEST_SAM_PROPS);
+                Object samProps = map.get(ESBEndpointConstants.REQUEST_SAM_PROPS);
                 if (samProps != null) {
                     LOG.info("SAM custom properties received: " + samProps);
                     CustomInfoHandler ciHandler = new CustomInfoHandler();
@@ -198,7 +199,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             return sendDocument((org.dom4j.Document) map
-                    .get(ESBProviderBase.REQUEST_PAYLOAD));
+                    .get(ESBEndpointConstants.REQUEST_PAYLOAD));
         } else {
             throw new RuntimeException(
                     "Consumer try to send incompatible object: "

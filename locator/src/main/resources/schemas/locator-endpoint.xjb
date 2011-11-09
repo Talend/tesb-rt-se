@@ -33,7 +33,7 @@
     <jaxb:bindings schemaLocation="locator-endpoint.xsd" node="/xs:schema/xs:complexType/xs:sequence/xs:any[@id='extensions']">
         <jaxb:property name="extensions"/>
     </jaxb:bindings>
-    <jaxb:bindings schemaLocation="ws-addr.xsd" node="/xs:schema">
+    <jaxb:bindings schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" node="/xs:schema">
 	    <jaxb:schemaBindings map="false"/>
     </jaxb:bindings>
 </jaxb:bindings>

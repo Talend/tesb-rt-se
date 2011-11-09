@@ -40,9 +40,9 @@ public class TestContent {
     
     public static final String SL = "http://talend.org/schemas/esb/locator/content/20011/11";
 
-//    public static final long LAST_TIME_STARTED = 129874534433L;
+    public static final byte[] CONTENT_ANY_1 = new byte[] {51, 6, 23, 45, 127, 34};
 
-//    public static final long LAST_TIME_STOPPED = 129885675343L;
+    public static final byte[] CONTENT_ANY_2 = new byte[] {15, 26, 32, 76, 111};
 
     public static final byte[] CONTENT_ENDPOINT_1 =
         createContent(ENDPOINT_1, LAST_TIME_STARTED, -1, BindingType.SOAP_11, TransportType.HTTP, null);
