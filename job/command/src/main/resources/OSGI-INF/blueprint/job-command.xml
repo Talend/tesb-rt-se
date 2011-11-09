@@ -33,11 +33,6 @@
                 <property name="controller" ref="controller"/>
             </action>
         </command>
-        <command name="service/list">
-            <action class="org.talend.esb.job.command.ListServicesCommand">
-                <property name="controller" ref="controller"/>
-            </action>
-        </command>
     </command-bundle>
 
     <reference id="controller" interface="org.talend.esb.job.controller.Controller"/>
