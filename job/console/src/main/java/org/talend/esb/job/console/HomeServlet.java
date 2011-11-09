@@ -19,9 +19,9 @@
  */
 package org.talend.esb.job.console;
 
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.talend.esb.job.controller.Controller;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -29,9 +29,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.talend.esb.job.controller.Controller;
 
 /**
  * Main home servlet
@@ -54,12 +55,12 @@ public class HomeServlet extends HttpServlet {
     }
 
     public void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String embedded = request.getParameter("embedded");
+        /*
         String job = request.getParameter("job");
         String action = request.getParameter("action");
         String args = request.getParameter("args");
-        String embedded = request.getParameter("embedded");
 
-/*
         if (job != null && action != null && action.equals("run")) {
             String result = "fail";
             String message = "";
@@ -118,7 +119,7 @@ public class HomeServlet extends HttpServlet {
             }
 
             if (controller != null) {
-                List<String> jobs = controller.listJobs();
+                Collection<String> jobs = controller.listJobs();
                 for (String jobName : jobs) {
                     writer.println("<tr>");
                     writer.println("<td class=\"td0\"><span>" + jobName + "</span></td>");
@@ -128,7 +129,7 @@ public class HomeServlet extends HttpServlet {
                     writer.println("<td><div><img src=\"img/icons/package_go.gif\" altr=\"Deployed\" /><span>Deployed</span></div></td>");
                     writer.println("</tr>");
                 }
-                List<String> routes = controller.listRoutes();
+                Collection<String> routes = controller.listRoutes();
                 for (String routeName : routes) {
                     writer.println("<tr>");
                     writer.println("<td class=\"td0\"><span>" + routeName + "</span></td>");
