@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+	targetNamespace="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns="http://talend.org/schemas/esb/locator/rest/2011/11" xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:lpx="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns:lps="http://www.talend.org/services/esb/locator/rest/v1">
+	<xsd:import namespace="http://www.w3.org/2005/08/addressing"
+		schemaLocation="http://www.w3.org/2005/08/addressing/ws-addr.xsd" />
+	<xsd:element name="EndpointReferenceList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="wsa:EndpointReference" maxOccurs="unbounded" minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="RegisterEndpointRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="serviceName" type="xsd:string" />
+				<xsd:element name="endpointURL" type="xsd:anyURI" />
+				<xsd:element name="binding" type="lpx:BindingType" />
+				<xsd:element name="transport" type="lpx:TransportType" />
+				<xsd:element name="EntryType" type="lpx:EntryType"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="BindingType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SOAP11" />
+			<xsd:enumeration value="SOAP12" />
+			<xsd:enumeration value="JAXRS" />
+			<xsd:enumeration value="OTHER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="TransportType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HTTP" />
+			<xsd:enumeration value="HTTPS" />
+			<xsd:enumeration value="JMS" />
+			<xsd:enumeration value="OTHER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="EntryType">
+		<xsd:sequence>
+			<xsd:element name="key" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
+				maxOccurs="unbounded" />
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AssertionType">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="key" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
