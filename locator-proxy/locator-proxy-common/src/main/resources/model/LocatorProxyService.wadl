@@ -1,0 +1,64 @@
+<application xmlns="http://wadl.dev.java.net/2009/02"
+	targetNamespace="http://www.talend.org/services/esb/locator/rest/v1"
+	xmlns:ns="http://talend.org/schemas/esb/locator/rest/2011/11"
+	xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<grammars>
+		<include href="locator-rest-types.xsd" />
+	</grammars>
+	<resources base="http://localhost:8040/services/ServiceLocatorRestProxyService">
+		<resource id="LocatorProxyService" path="/locator/">
+		
+			<resource path="endpoint/{serviceName}">
+				<method name="GET" id="lookupEndpoint">
+					<request>
+						<param name="serviceName" type="xsd:string" style="template"
+							required="true" />
+						<param name="param" type="xsd:string" style="matrix"
+							repeating="true" />
+					</request>
+					<response status="200">
+						<representation mediaType="application/xml" element="wsa:EndpointReference" />
+						<representation mediaType="application/json" element="wsa:EndpointReference" />
+					</response>
+				</method>
+			</resource>
+			
+			<resource path="endpoints/{serviceName}">
+				<method name="GET" id="lookupEndpoints">
+					<request>
+						<param name="serviceName" type="xsd:string" style="template"
+							required="true" />
+						<param name="param" type="xsd:string" style="matrix"
+							repeating="true" />
+					</request>
+					<response status="200">
+						<representation mediaType="application/xml" element="ns:EndpointReferenceList" />
+						<representation mediaType="application/json" element="ns:EndpointReferenceList" />
+					</response>
+				</method>
+			</resource>
+			
+			<resource path="endpoint">
+				<method name="POST" id="registerEndpoint">
+					<request>
+						<representation mediaType="application/xml" element="ns:RegisterEndpointRequest"/>
+						<representation mediaType="application/json" element="ns:RegisterEndpointRequest" />
+					</request>
+				</method>
+			</resource>
+			
+			<resource path="endpoint/{serviceName}/{endpointURL}">
+				<method name="DELETE" id="unregisterEndpoint">
+					<request>
+						<param name="serviceName" type="xsd:string" style="template"
+							required="true" />
+						<param name="endpointURL" type="xsd:string" style="template"
+							required="true" />
+					</request>
+				</method>
+			</resource>
+			
+		</resource>
+	</resources>
+</application>
