@@ -19,11 +19,11 @@
  */
 package org.talend.esb.job.command;
 
+import java.util.Collection;
+
 import org.apache.felix.gogo.commands.Command;
 import org.apache.karaf.shell.console.OsgiCommandSupport;
 import org.talend.esb.job.controller.Controller;
-
-import java.util.List;
 
 /**
  * List available Talend routes.
@@ -38,7 +38,7 @@ public class ListRoutesCommand extends OsgiCommandSupport {
     }
 
     protected Object doExecute() throws Exception {
-        List<String> list = controller.listRoutes();
+        Collection<String> list = controller.listRoutes();
         for (String name:list) {
             System.out.println(name);
         }
