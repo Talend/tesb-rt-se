@@ -16,13 +16,7 @@ public class PasswordCallbackHandler implements CallbackHandler {
         for (int i = 0; i < callbacks.length; i++) {
             if (callbacks[i] instanceof WSPasswordCallback) { // CXF
                 WSPasswordCallback pc = (WSPasswordCallback) callbacks[i];
-                if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
-                    break;
-                } else if ("bob".equals(pc.getIdentifier())) {
-                    pc.setPassword("trombone");
-                    break;
-                } else if ("mystskey".equals(pc.getIdentifier())) {
+                if ("mystskey".equals(pc.getIdentifier())) {
                     pc.setPassword("stskpass");
                     break;
                 }
