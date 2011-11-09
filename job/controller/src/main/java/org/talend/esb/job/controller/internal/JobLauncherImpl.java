@@ -28,8 +28,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
 
-import javax.xml.ws.Endpoint;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -60,8 +58,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>();
 
 	private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
-
-	private Map<String, Endpoint> services = new ConcurrentHashMap<String, Endpoint>();
 
 	private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
 	
@@ -147,20 +143,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	}
 
 	@Override
-	public void serviceAdded(Endpoint service, String name) {
-		LOG.info("Adding service " + name + ".");
-
-		services.put(name, service);
-	}
-
-	@Override
-	public void serviceRemoved(Endpoint service, String name) {
-		LOG.info("Removing service " + name + ".");
-
-		services.remove(name);
-	}
-
-	@Override
 	public List<String> listJobs() {
 		return new ArrayList<String>(jobTasks.keySet());
 	}
@@ -168,11 +150,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 	@Override
 	public List<String> listRoutes() {
 		return new ArrayList<String>(routeTasks.keySet());
-	}
-
-	@Override
-	public List<String> listServices() {
-		return new ArrayList<String>(services.keySet());
 	}
 
 	public void unbind() {
