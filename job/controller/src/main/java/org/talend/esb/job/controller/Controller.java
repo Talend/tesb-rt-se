@@ -20,7 +20,7 @@
 package org.talend.esb.job.controller;
 
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Interface describing Talend job controller behaviors.
@@ -32,7 +32,7 @@ public interface Controller {
      * @return the list of Talend jobs.
      * @throws Exception in case of lookup failure.
      */
-    List<String> listJobs() throws Exception;
+    Collection<String> listJobs() throws Exception;
 
     /**
      * List of Talend routes available in the running container.
@@ -40,6 +40,6 @@ public interface Controller {
      * @return the list of Talend routes
      * @throws Exception in case of lookup failure
      */
-    List<String> listRoutes() throws Exception;
+    Collection<String> listRoutes() throws Exception;
 
 }

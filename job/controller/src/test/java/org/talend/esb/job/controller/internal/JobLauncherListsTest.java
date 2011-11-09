@@ -24,9 +24,9 @@ import static org.easymock.EasyMock.expect;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import org.easymock.EasyMockSupport;
@@ -101,13 +101,13 @@ public class JobLauncherListsTest extends EasyMockSupport {
     @Test
     public void listRoutes() {
 
-        List<String> names = jobLauncher.listRoutes();
+        Collection<String> names = jobLauncher.listRoutes();
         assertThat(names, containsInAnyOrder(ROUTE_NAME_1, ROUTE_NAME_2));
     }
 
     @Test
     public void listJobs() {
-        List<String> names = jobLauncher.listJobs();
+        Collection<String> names = jobLauncher.listJobs();
         assertThat(names, containsInAnyOrder(JOB_NAME_1, JOB_NAME_2));
     }
 

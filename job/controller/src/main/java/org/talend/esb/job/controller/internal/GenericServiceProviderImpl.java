@@ -1,3 +1,22 @@
+/*
+ * #%L
+ * Talend :: ESB :: Job :: Controller
+ * %%
+ * Copyright (C) 2011 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
@@ -21,8 +40,7 @@ import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 @javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.PAYLOAD)
 public class GenericServiceProviderImpl implements GenericServiceProvider,
         javax.xml.ws.Provider<javax.xml.transform.Source> {
-    private static final Logger LOG = Logger.getLogger(GenericServiceProviderImpl.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(GenericServiceProviderImpl.class.getName());
 
     private final JobLauncher jobLauncher;
     private final Map<String, String> operations;
@@ -34,14 +52,13 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     @javax.annotation.Resource
     private javax.xml.ws.WebServiceContext context;
 
-    public void setEventFeature(EventFeature eventFeature) {
-        this.eventFeature = eventFeature;
-    }
-
-    public GenericServiceProviderImpl(
-            final JobLauncher jobLauncher, final Map<String, String> operations) {
+    public GenericServiceProviderImpl(final JobLauncher jobLauncher, final Map<String, String> operations) {
         this.jobLauncher = jobLauncher;
         this.operations = operations;
+    }
+
+    public void setEventFeature(EventFeature eventFeature) {
+        this.eventFeature = eventFeature;
     }
 
     // @javax.jws.WebMethod(exclude=true)
@@ -90,8 +107,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
         }
     }
 
-    public void updated(@SuppressWarnings("rawtypes") Dictionary properties)
-            throws ConfigurationException {
+    public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
         configuration = new Configuration(properties);
     }
 

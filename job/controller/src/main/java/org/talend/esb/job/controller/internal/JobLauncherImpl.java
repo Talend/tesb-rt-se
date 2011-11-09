@@ -20,9 +20,9 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -42,179 +42,175 @@ import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
 public class JobLauncherImpl implements JobLauncher, Controller,
-		JobListener {
+        JobListener {
 
-	public static final Logger LOG = Logger.getLogger(JobLauncherImpl.class
-			.getName());
+    public static final Logger LOG = Logger.getLogger(JobLauncherImpl.class.getName());
 
-	private BundleContext bundleContext;
-	private ExecutorService executorService;
-	private ESBEndpointRegistry esbEndpointRegistry;
+    private BundleContext bundleContext;
+    private ExecutorService executorService;
+    private ESBEndpointRegistry esbEndpointRegistry;
 
-	private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
+    private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
+    private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>();
+    private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>();
+    private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
+    private Map<String, ServiceRegistration> serviceRegistrations =
+            new ConcurrentHashMap<String, ServiceRegistration>();
 
-	private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>();
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
-	private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>();
+    public void setExecutorService(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
 
-	private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
+    public void setEndpointRegistry(ESBEndpointRegistry esbEndpointRegistry) {
+        this.esbEndpointRegistry = esbEndpointRegistry;
+    }
 
-	private Map<String, ServiceRegistration> serviceRegistrations = new ConcurrentHashMap<String, ServiceRegistration>();
-	
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
+    @Override
+    public void esbJobAdded(TalendESBJob esbJob, String name) {
+        LOG.info("Adding ESB job " + name + ".");
+        esbJob.setEndpointRegistry(esbEndpointRegistry);
+        if (isConsumerOnly(esbJob)) {
+            startJob(esbJob, name);
+        } else {
+            esbJobs.put(name, esbJob);
+        }
+    }
 
-	public void setExecutorService(ExecutorService executorService) {
-		this.executorService = executorService;
-	}
+    @Override
+    public void esbJobRemoved(TalendESBJob esbJob, String name) {
+        LOG.info("Removing ESB job " + name + ".");
+        if (isConsumerOnly(esbJob)) {
+            stopJob(esbJob, name);
+        } else {
+            esbJobs.remove(name);
+            OperationTask task = operationTasks.remove(name);
+            if (task != null) {
+                task.stop();
+            }
+        }
+    }
 
-	public void setEndpointRegistry(ESBEndpointRegistry esbEndpointRegistry) {
-		this.esbEndpointRegistry = esbEndpointRegistry;
-	}
+    @Override
+    public void routeAdded(TalendESBRoute route, String name) {
+        LOG.info("Adding route " + name + ".");
 
-	@Override
-	public void esbJobAdded(TalendESBJob esbJob, String name) {
-		LOG.info("Adding ESB job " + name + ".");
-		esbJob.setEndpointRegistry(esbEndpointRegistry);
-		if (isConsumerOnly(esbJob)) {
-			startJob(esbJob, name);
-		} else {
-			esbJobs.put(name, esbJob);
-		}
-	}
+        RouteAdapter adapter = new RouteAdapter(route, name);
 
-	@Override
-	public void esbJobRemoved(TalendESBJob esbJob, String name) {
-		LOG.info("Removing ESB job " + name + ".");
-		if (isConsumerOnly(esbJob)) {
-			stopJob(esbJob, name);
-		} else {
-			esbJobs.remove(name);
-			OperationTask task = operationTasks.remove(name);
-			if (task != null) {
-				task.stop();
-			}
-		}
-	}
+        routeTasks.put(name, adapter);
 
-	@Override
-	public void routeAdded(TalendESBRoute route, String name) {
-		LOG.info("Adding route " + name + ".");
+        ServiceRegistration sr = bundleContext.registerService(
+                ManagedService.class.getName(), adapter,
+                getManagedServiceProperties(name));
+        serviceRegistrations.put(name, sr);
+        executorService.execute(adapter);
+    }
 
-		RouteAdapter adapter = new RouteAdapter(route, name);
+    @Override
+    public void routeRemoved(TalendESBRoute route, String name) {
+        LOG.info("Removing route " + name + ".");
 
-		routeTasks.put(name, adapter);
+        JobTask routeTask = routeTasks.remove(name);
+        if (routeTask != null) {
+            routeTask.stop();
+        }
 
-		ServiceRegistration sr = bundleContext.registerService(
-				ManagedService.class.getName(), adapter,
-				getManagedServiceProperties(name));
-		serviceRegistrations.put(name, sr);
-		executorService.execute(adapter);
-	}
+        ServiceRegistration sr = serviceRegistrations.remove(name);
+        if (sr != null) {
+            sr.unregister();
+        }
+    }
 
-	@Override
-	public void routeRemoved(TalendESBRoute route, String name) {
-		LOG.info("Removing route " + name + ".");
+    @Override
+    public void jobAdded(TalendJob job, String name) {
+        LOG.info("Adding job " + name + ".");
 
-		JobTask routeTask = routeTasks.remove(name);
-		if (routeTask != null) {
-			routeTask.stop();
-		}
+        startJob(job, name);
+    }
 
-		ServiceRegistration sr = serviceRegistrations.remove(name);
-		if (sr != null) {
-			sr.unregister();
-		}
-	}
+    @Override
+    public void jobRemoved(TalendJob job, String name) {
+        LOG.info("Removing job " + name + ".");
 
-	@Override
-	public void jobAdded(TalendJob job, String name) {
-		LOG.info("Adding job " + name + ".");
+        stopJob(job, name);
+    }
 
-		startJob(job, name);
-	}
+    @Override
+    public Collection<String> listJobs() {
+        return new ArrayList<String>(jobTasks.keySet());
+    }
 
-	@Override
-	public void jobRemoved(TalendJob job, String name) {
-		LOG.info("Removing job " + name + ".");
+    @Override
+    public Collection<String> listRoutes() {
+        return new ArrayList<String>(routeTasks.keySet());
+    }
 
-		stopJob(job, name);
-	}
+    public void unbind() {
+        esbJobs.clear();
+        executorService.shutdownNow();
+    }
 
-	@Override
-	public List<String> listJobs() {
-		return new ArrayList<String>(jobTasks.keySet());
-	}
+    private void startJob(TalendJob job, String name) {
+        SimpleJobTask jobTask = new SimpleJobTask(job, name);
 
-	@Override
-	public List<String> listRoutes() {
-		return new ArrayList<String>(routeTasks.keySet());
-	}
+        jobTasks.put(name, jobTask);
 
-	public void unbind() {
-		esbJobs.clear();
-		executorService.shutdownNow();
-	}
+        ServiceRegistration sr = bundleContext.registerService(
+                ManagedService.class.getName(), jobTask,
+                getManagedServiceProperties(name));
+        serviceRegistrations.put(name, sr);
+        executorService.execute(jobTask);
+    }
 
-	private void startJob(TalendJob job, String name) {
-		SimpleJobTask jobTask = new SimpleJobTask(job, name);
+    private void stopJob(TalendJob job, String name) {
+        JobTask jobTask = jobTasks.remove(name);
+        if (jobTask != null) {
+            jobTask.stop();
+        }
 
-		jobTasks.put(name, jobTask);
+        ServiceRegistration sr = serviceRegistrations.remove(name);
+        if (sr != null) {
+            sr.unregister();
+        }
+    }
 
-		ServiceRegistration sr = bundleContext.registerService(
-				ManagedService.class.getName(), jobTask,
-				getManagedServiceProperties(name));
-		serviceRegistrations.put(name, sr);
-		executorService.execute(jobTask);
-	}
+    @Override
+    public GenericOperation retrieveOperation(String jobName, String[] args) {
+        OperationTask task = operationTasks.get(jobName);
+        if (task == null) {
+            TalendESBJob job = getJob(jobName);
+            if (job == null) {
+                throw new IllegalArgumentException("Talend job '" + jobName
+                        + "' not found");
+            }
+            task = new OperationTask(job, args);
+            operationTasks.put(jobName, task);
+            executorService.execute(task);
+        }
+        return task;
+    }
 
-	private void stopJob(TalendJob job, String name) {
-		JobTask jobTask = jobTasks.remove(name);
-		if (jobTask != null) {
-			jobTask.stop();
-		}
+    private TalendESBJob getJob(String name) {
+        TalendESBJob job = esbJobs.get(name);
+        if (job == null) {
+            throw new IllegalArgumentException("Talend ESB job with name "
+                    + name + "' not found");
+        }
+        return (TalendESBJob) job;
+    }
 
-		ServiceRegistration sr = serviceRegistrations.remove(name);
-		if (sr != null) {
-			sr.unregister();
-		}
-	}
+    private Dictionary<String, Object> getManagedServiceProperties(
+            String routeName) {
+        Dictionary<String, Object> result = new Hashtable<String, Object>();
+        result.put(Constants.SERVICE_PID, routeName);
+        return result;
+    }
 
-	@Override
-	public GenericOperation retrieveOperation(String jobName, String[] args) {
-		OperationTask task = operationTasks.get(jobName);
-		if (task == null) {
-			TalendESBJob job = getJob(jobName);
-			if (job == null) {
-				throw new IllegalArgumentException("Talend job '" + jobName
-						+ "' not found");
-			}
-			task = new OperationTask(job, args);
-			operationTasks.put(jobName, task);
-			executorService.execute(task);
-		}
-		return task;
-	}
-
-	private TalendESBJob getJob(String name) {
-		TalendESBJob job = esbJobs.get(name);
-		if (job == null) {
-			throw new IllegalArgumentException("Talend ESB job with name "
-					+ name + "' not found");
-		}
-		return (TalendESBJob) job;
-	}
-
-	private Dictionary<String, Object> getManagedServiceProperties(
-			String routeName) {
-		Dictionary<String, Object> result = new Hashtable<String, Object>();
-		result.put(Constants.SERVICE_PID, routeName);
-		return result;
-	}
-
-	private boolean isConsumerOnly(TalendESBJob esbJob) {
-		return esbJob.getEndpoint() == null;
-	}
+    private boolean isConsumerOnly(TalendESBJob esbJob) {
+        return esbJob.getEndpoint() == null;
+    }
 
 }

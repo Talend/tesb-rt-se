@@ -19,9 +19,10 @@
  */
 package org.talend.esb.job.controller.management;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface ControllerMBean {
 
-    List<String> list() throws Exception;
+    Collection<String> list() throws Exception;
+
 }

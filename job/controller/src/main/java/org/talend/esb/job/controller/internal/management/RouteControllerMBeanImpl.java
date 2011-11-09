@@ -19,7 +19,7 @@
  */
 package org.talend.esb.job.controller.internal.management;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.management.NotCompliantMBeanException;
 import javax.management.StandardMBean;
@@ -39,7 +39,7 @@ public class RouteControllerMBeanImpl extends StandardMBean implements Controlle
         this.controller = controller;
     }
 
-    public List<String> list() throws Exception {
+    public Collection<String> list() throws Exception {
         return controller.listRoutes();
     }
 }
