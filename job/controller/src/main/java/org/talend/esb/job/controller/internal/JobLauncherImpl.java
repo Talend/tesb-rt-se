@@ -48,7 +48,7 @@ public class JobLauncherImpl implements JobLauncher, Controller,
 
     private BundleContext bundleContext;
     private ExecutorService executorService;
-    private ESBEndpointRegistry esbEndpointRegistry;
+    private ESBEndpointRegistry endpointRegistry;
 
     private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
     private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>();
@@ -66,13 +66,13 @@ public class JobLauncherImpl implements JobLauncher, Controller,
     }
 
     public void setEndpointRegistry(ESBEndpointRegistry esbEndpointRegistry) {
-        this.esbEndpointRegistry = esbEndpointRegistry;
+        endpointRegistry = esbEndpointRegistry;
     }
 
     @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {
         LOG.info("Adding ESB job " + name + ".");
-        esbJob.setEndpointRegistry(esbEndpointRegistry);
+        esbJob.setEndpointRegistry(endpointRegistry);
         if (isConsumerOnly(esbJob)) {
             startJob(esbJob, name);
         } else {

@@ -39,7 +39,7 @@ public class ListJobsCommand extends OsgiCommandSupport {
 
     protected Object doExecute() throws Exception {
         Collection<String> list = controller.listJobs();
-        for (String name:list) {
+        for (String name : list) {
             System.out.println(name);
         }
         return null;
