@@ -61,7 +61,7 @@
                            value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="alice"/>
+                           <entry key="ws-security.username" value="tadmin"/>
                            <entry key="ws-security.callback-handler">
                                 <bean class="common.talend.ClientCallbackHandler"/>
                            </entry>

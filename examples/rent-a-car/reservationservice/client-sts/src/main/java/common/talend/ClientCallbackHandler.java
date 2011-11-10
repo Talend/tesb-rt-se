@@ -1,6 +1,6 @@
 /*
  * #%L
- * ReservationService Service Endpoint STS
+ * ReservationService Client STS
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -25,7 +25,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.ws.security.WSPasswordCallback;
 
-public class CommonCallbackHandler implements CallbackHandler {
+public class ClientCallbackHandler implements CallbackHandler {
 
     public void handle(Callback[] callbacks) throws IOException,
             UnsupportedCallbackException {
@@ -35,11 +35,8 @@ public class CommonCallbackHandler implements CallbackHandler {
                 if ("myclientkey".equals(pc.getIdentifier())) {
                     pc.setPassword("ckpass");
                     break;
-                } else if ("myservicekey".equals(pc.getIdentifier())) {
-                    pc.setPassword("skpass");
-                    break;
-                } else if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
+                } else if ("tadmin".equals(pc.getIdentifier())) {
+                    pc.setPassword("tadmin");
                     break;
                 }
             }
