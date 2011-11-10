@@ -19,21 +19,21 @@
   -->
   
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:cxf="http://cxf.apache.org/core"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:jaxws="http://cxf.apache.org/jaxws"
-  xsi:schemaLocation="
-            http://cxf.apache.org/core
-            http://cxf.apache.org/schemas/core.xsd
-            http://cxf.apache.org/configuration/security
-            http://cxf.apache.org/schemas/configuration/security.xsd
-            http://cxf.apache.org/jaxws
-            http://cxf.apache.org/schemas/jaxws.xsd
-            http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans.xsd">
-			
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
 
 	<bean id="ReservationServiceBean"
 		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
@@ -48,11 +48,9 @@
 		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
 	  <jaxws:properties>
 		 <entry key="ws-security.callback-handler">
-					<bean class="common.talend.CommonCallbackHandler"/>
+			<bean class="common.talend.ServiceCallbackHandler"/>
 		 </entry>
          <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
-         <!-- <entry key="ws-security.encryption.properties" value="META-INF/spring/serviceKeystore.properties"/>
-         <entry key="ws-security.encryption.username" value="myclientkey"/> -->
       </jaxws:properties> 
    </jaxws:endpoint>
 </beans>

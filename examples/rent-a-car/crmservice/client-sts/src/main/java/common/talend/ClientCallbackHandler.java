@@ -35,8 +35,8 @@ public class ClientCallbackHandler implements CallbackHandler {
                 if ("myclientkey".equals(pc.getIdentifier())) {
                     pc.setPassword("ckpass");
                     break;
-                } else if ("alice".equals(pc.getIdentifier())) {
-                    pc.setPassword("clarinet");
+                } else if ("tadmin".equals(pc.getIdentifier())) {
+                    pc.setPassword("tadmin");
                     break;
                 }
             }
