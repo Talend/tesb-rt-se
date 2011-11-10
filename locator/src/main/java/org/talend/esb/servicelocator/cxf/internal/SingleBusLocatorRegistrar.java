@@ -46,9 +46,9 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
  * If a server which was registered before stops the LocatorRegistrar automatically unregisters from the
  * Service Locator.
  */
-public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
+public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
 
-    private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class.getPackage().getName());
+    private static final Logger LOG = Logger.getLogger(SingleBusLocatorRegistrar.class.getPackage().getName());
 
     private Bus bus;
 
@@ -60,6 +60,14 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
         Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
 
     private boolean listenForServersEnabled;
+
+    public SingleBusLocatorRegistrar() {
+        
+    }
+
+    public SingleBusLocatorRegistrar(Bus bus) {
+        setBus(bus);
+    }
 
     @Override
     public void startServer(Server server) {

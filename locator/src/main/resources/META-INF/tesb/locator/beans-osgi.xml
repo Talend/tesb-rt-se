@@ -60,7 +60,7 @@ limitations under the License.
         <property name="sessionTimeout" value="$sl{session.timeout}"/>
     </bean>
 
-    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">
+    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.SingleBusLocatorRegistrar" lazy-init="true">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>

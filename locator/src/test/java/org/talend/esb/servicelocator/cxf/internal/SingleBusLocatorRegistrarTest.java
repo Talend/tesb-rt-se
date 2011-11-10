@@ -22,7 +22,6 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
@@ -30,49 +29,30 @@ import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.easymock.Capture;
-import org.easymock.CaptureType;
-import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
-import org.junit.Before;
 import org.junit.Test;
-import org.talend.esb.servicelocator.client.Endpoint;
-import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.REL_SERVER_1;
 import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_1;
 import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
 
-public class LocatorRegistrarTest extends EasyMockSupport {
-
-    public static final String PREFIX = "prefix";
+public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
     private ServiceLocator sl = createMock(ServiceLocator.class);
     
-    private Capture<Endpoint> eppCapture = new Capture<Endpoint>(CaptureType.ALL);
-
-    private SLEndpoint oldEndointContent;
-
-    @Before
-    public void startUp() {
-        oldEndointContent = createMock(SLEndpoint.class);
-        expect(oldEndointContent.getLastTimeStopped()).andStubReturn(LAST_TIME_STOPPED);
-
-    }
-
     @Test
     public void postConnectActionRegistered() {
         sl.setPostConnectAction((PostConnectAction) anyObject());
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setServiceLocator(sl);
 
         verifyAll();
@@ -80,53 +60,49 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
     @Test
     public void registerEndpoint() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(capture(eppCapture));
+        sl.register(endpoint);
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
 
-        Endpoint epp = eppCapture.getValue();
-        assertEquals(SERVICE_QNAME_1, epp.getServiceName());
-        assertEquals(ENDPOINT_1, epp.getAddress());
         verifyAll();
     }
 
     @Test
-    public void registerEndpointNotYetInSL() throws Exception {
+    public void registerEndpointWithRelativeAddressWhenPrefixSet() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(capture(eppCapture));
+        sl.register(endpoint);
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
-        locatorRegistrar.registerServer(SERVER_1);
+        locatorRegistrar.registerServer(REL_SERVER_1);
 
-        Endpoint epp = eppCapture.getValue();
-        assertEquals(SERVICE_QNAME_1, epp.getServiceName());
-        assertEquals(ENDPOINT_1, epp.getAddress());
         verifyAll();
     }
 
     @Test
-    public void registerEndpointWithPrefixSet() throws Exception {
+    public void registerEndpointWithAbsAddressWhenPrefixSet() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(capture(eppCapture));
+        sl.register(endpoint);
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
-        locatorRegistrar.setEndpointPrefix(PREFIX);
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
-
-        Endpoint epp = eppCapture.getValue();
-        assertEquals(SERVICE_QNAME_1, epp.getServiceName());
-        assertEquals(/*PREFIX +*/ ENDPOINT_1, epp.getAddress());
 
         verifyAll();
     }
@@ -135,7 +111,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     public void registerEndpointLocatorNull() throws Exception {
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
 
         try {
             locatorRegistrar.registerServer(SERVER_1);
@@ -153,16 +129,17 @@ public class LocatorRegistrarTest extends EasyMockSupport {
         slcm.registerListener((ServerLifeCycleListener) anyObject());
         Bus bus = createMock(Bus.class);
         expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
-        EasyMock.replay(slcm, bus);
+        replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setBus(bus);
 
-        EasyMock.verify(slcm, bus);
+        verifyAll();
     }
 
     @Test
     public void startListenForServer() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
         Bus bus = createMock(Bus.class);
 
         Capture<ServerLifeCycleListener> slclCapture = addServerLifeCycleManager(bus);
@@ -171,11 +148,11 @@ public class LocatorRegistrarTest extends EasyMockSupport {
         addRegisteredServers(bus, servers);
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(capture(eppCapture));
+        sl.register(endpoint);
 
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setBus(bus);
         locatorRegistrar.setServiceLocator(sl);
         locatorRegistrar.startListenForServers();
@@ -199,7 +176,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setBus(bus);
         locatorRegistrar.setServiceLocator(sl);
 
@@ -211,13 +188,15 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
     @Test
     public void serverStopsThenEndpointUnregistered() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+
         sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(capture(eppCapture));
-        sl.unregister((Endpoint)anyObject());
+        sl.register(endpoint);
+        sl.unregister(endpoint);
 
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
@@ -232,7 +211,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.stopServer(SERVER_1);
@@ -242,14 +221,19 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
     @Test
     public void processReregisterAllEndpoints() throws Exception {
+        CXFEndpointProvider endpoint1 = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+        CXFEndpointProvider endpoint2 = new CXFEndpointProvider(SERVICE_QNAME_2, ENDPOINT_2, null);
+
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
 
-        sl.register(capture(eppCapture));
-        expectLastCall().times(4);
+        sl.register(endpoint1);
+        sl.register(endpoint2);
+        sl.register(endpoint1);
+        sl.register(endpoint2);
         replayAll();
 
-        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
@@ -257,20 +241,9 @@ public class LocatorRegistrarTest extends EasyMockSupport {
 
         locatorRegistrar.process(sl);
 
-        List<Endpoint> epps = eppCapture.getValues();
-        assertHasValues(SERVICE_QNAME_1, ENDPOINT_1, epps.get(0));
-        assertHasValues(SERVICE_QNAME_2, ENDPOINT_2, epps.get(1));
-        assertHasValues(SERVICE_QNAME_1, ENDPOINT_1, epps.get(2));
-        assertHasValues(SERVICE_QNAME_2, ENDPOINT_2, epps.get(3));
-
         verifyAll();
     }
 
-    private static void assertHasValues(QName serviceName, String address, Endpoint epp) {
-        assertEquals(serviceName, epp.getServiceName());
-        assertEquals(address, epp.getAddress());
-    }
-    
     private Capture<ServerLifeCycleListener> addServerLifeCycleManager(Bus bus) {
         Capture<ServerLifeCycleListener> slclCapture = new Capture<ServerLifeCycleListener>();
 

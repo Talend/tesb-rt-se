@@ -52,6 +52,10 @@ public class TestValues {
 
     public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
 
+    public static final String REL_ENDPOINT_1 = "endpoint1";
+
+    public static final String PREFIX_1 = "http://ep.com/";
+
     public static final String ENDPOINT_2 = "http://ep.com/endpoint2";
 
     public static final String ENDPOINT_NODE_1 = "http:%2F%2Fep.com%2Fendpoint1";

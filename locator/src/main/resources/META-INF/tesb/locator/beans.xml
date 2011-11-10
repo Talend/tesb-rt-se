@@ -37,7 +37,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         <property name="locatorEndpoints" value="${locator.endpoints}"/>
     </bean>
 
-    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
+    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.SingleBusLocatorRegistrar">
         <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="${endpoint.prefix}"/>

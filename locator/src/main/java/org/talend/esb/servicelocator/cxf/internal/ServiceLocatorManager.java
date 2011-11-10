@@ -33,7 +33,7 @@ import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSe
 
 public class ServiceLocatorManager implements BusExtension {
 
-    private LocatorRegistrar locatorRegistrar;
+    private SingleBusLocatorRegistrar locatorRegistrar;
 
     private LocatorClientEnabler clientEnabler;
 
@@ -117,7 +117,7 @@ public class ServiceLocatorManager implements BusExtension {
         }
     }
 
-    public void setLocatorRegistrar(LocatorRegistrar locatorRegistrar) {
+    public void setLocatorRegistrar(SingleBusLocatorRegistrar locatorRegistrar) {
         this.locatorRegistrar = locatorRegistrar;
     }
 
