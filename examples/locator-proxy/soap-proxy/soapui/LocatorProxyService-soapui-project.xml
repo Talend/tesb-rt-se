@@ -539,22 +539,22 @@
    <soapenv:Header/>
    <soapenv:Body>
       <ns:registerEndpoint>
-         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
-         <endpointURL>http://service1Endpoint1.com</endpointURL>
- 	<binding>SOAP12</binding>
-	 <transport>JMS</transport>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <ns:endpointURL>http://service1Endpoint1.com</ns:endpointURL>
+ 	<ns:binding>SOAP12</ns:binding>
+	 <ns:transport>JMS</ns:transport>
          <!--Optional:-->
-         <properties>
+         <ns:properties>
             <!--Zero or more repetitions:-->
-            <Entry key="location">
+            <ns:Entry key="location">
                <!--1 or more repetitions:-->
-               <Value>Bonn</Value>
-            </Entry>
-            <Entry key="count">
-               <Value>1</Value>
-            </Entry>
+               <ns:Value>Bonn</ns:Value>
+            </ns:Entry>
+            <ns:Entry key="count">
+               <ns:Value>1</ns:Value>
+            </ns:Entry>
 
-         </properties>
+         </ns:properties>
       </ns:registerEndpoint>
    </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
