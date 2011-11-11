@@ -31,7 +31,7 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	"
 >
-	
+
 	<jaxrs:client id="restClient"
          address="${endpoint.prefix}/ServiceLocatorRestService"
          serviceClass="org.talend.services.esb.locator.rest.v1.LocatorService"
