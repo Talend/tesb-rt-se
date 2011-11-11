@@ -53,7 +53,7 @@
 	</jaxrs:server>
 
 	<bean id="serviceLocatorBean"
-		class="org.talend.esb.locator.rest.service.LocatorRestServiceImpl"
+		class="org.talend.esb.locator.service.LocatorRestServiceImpl"
 		destroy-method="disconnectLocator">
 		<property name="locatorEndpoints" value="$sl{locator.endpoints}" />
 		<property name="connectionTimeout" value="$sl{connection.timeout}" />
