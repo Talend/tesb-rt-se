@@ -31,7 +31,10 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
+	<!-- mapping for Tomcat scenarios -->
     <url-pattern>/*</url-pattern>
+	<!-- mapping for jetty scenarios -->
+	<!-- <url-pattern>/services/*</url-pattern> -->
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>
