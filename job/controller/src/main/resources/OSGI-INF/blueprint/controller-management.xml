@@ -27,17 +27,12 @@
         <reference-listener ref="mbeanRegister" bind-method="registerMBeanServer" unbind-method="unregisterMBeanServer" />
     </reference>
 
-    <bean id="mbeanJob" class="org.talend.esb.job.controller.internal.management.JobControllerMBeanImpl">
-        <property name="controller" ref="controller" />
-    </bean>
     <bean id="mbeanRoute" class="org.talend.esb.job.controller.internal.management.RouteControllerMBeanImpl">
         <property name="controller" ref="controller" />
     </bean>
     <bean id="mbeanRegister" class="org.apache.karaf.management.MBeanRegistrer">
         <property name="mbeans">
             <map>
-                <entry value="org.talend.esb:type=controller,name=job"
-                    key-ref="mbeanJob" />
                 <entry value="org.talend.esb:type=controller,name=route"
                     key-ref="mbeanRoute" />
             </map>
