@@ -1271,7 +1271,8 @@
 							</descriptors>
 							<appendAssemblyId>true</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
-                            <finalName>TESB_SE-V${project.version}</finalName>
+<!--                             <finalName>TESB_SE-V${project.version}</finalName> -->
+                            <finalName>TESB_SE-V5.0.0RC3</finalName>
 						</configuration>
 					</execution>
 				</executions>
