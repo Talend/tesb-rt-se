@@ -139,11 +139,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
     }
 
     @Override
-    public Collection<String> listJobs() {
-        return new ArrayList<String>(jobTasks.keySet());
-    }
-
-    @Override
     public Collection<String> listRoutes() {
         return new ArrayList<String>(routeTasks.keySet());
     }

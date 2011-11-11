@@ -37,8 +37,6 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 
 import routines.system.api.TalendESBRoute;
-import routines.system.api.TalendJob;
-
 
 public class JobLauncherListsTest extends EasyMockSupport {
 
@@ -65,10 +63,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
     
     private TalendESBRoute route2 = createMock(TalendESBRoute.class);
 
-    private TalendJob job1 = createMock(TalendJob.class);
-    
-    private TalendJob job2 = createMock(TalendJob.class);
-
     private BundleContext context;
 
     private ServiceRegistration sr;
@@ -93,9 +87,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
 
         jobLauncher.routeAdded(route1, ROUTE_NAME_1);
         jobLauncher.routeAdded(route2, ROUTE_NAME_2);
-
-        jobLauncher.jobAdded(job1, JOB_NAME_1);
-        jobLauncher.jobAdded(job2, JOB_NAME_2);
     }
 
     @Test
@@ -103,12 +94,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
 
         Collection<String> names = jobLauncher.listRoutes();
         assertThat(names, containsInAnyOrder(ROUTE_NAME_1, ROUTE_NAME_2));
-    }
-
-    @Test
-    public void listJobs() {
-        Collection<String> names = jobLauncher.listJobs();
-        assertThat(names, containsInAnyOrder(JOB_NAME_1, JOB_NAME_2));
     }
 
     private void expectManagedJobStarting() {
