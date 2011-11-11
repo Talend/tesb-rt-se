@@ -28,9 +28,11 @@ client/
 
 Starting the Demo
 
-- Start zookeeper
-
+- Start zookeeper in container
+    features:install tesb-zookeeper-server
+    
 - Start locator soap service in container
+	features:install tesb-locator-soap-service
 
 - Start service on tomcat
 
