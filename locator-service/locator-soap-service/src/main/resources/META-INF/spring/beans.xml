@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Locator Service :: SOAP
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+	"
+	>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+ <!-- Configuration Admin entry -->
+    <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
+        <prop key="locator.endpoints">localhost:2181</prop>
+        <prop key="connection.timeout">5000</prop>
+        <prop key="session.timeout">5000</prop>
+   </osgix:cm-properties>
+
+    <!-- placeholder configurer -->
+    <!-- context:property-placeholder properties-ref="locator-server-props" /-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="locator-server-props" />
+        <property name="placeholderPrefix" value="$sl{" />
+    </bean>
+ 
+ 	<jaxws:endpoint id="ServiceLocatorService"
+		xmlns:serviceNamespace="http://services.talend.org/ServiceLocatorService"
+		serviceName="serviceNamespace:ServiceLocatorProvider"
+		endpointName="serviceNamespace:ServiceLocatorProvider"
+		implementor="#serviceLocatorBean"
+		address="/ServiceLocatorService"
+	/>
+
+	<bean id="serviceLocatorBean"
+		class="org.talend.esb.locator.service.LocatorSoapServiceImpl" destroy-method="disconnectLocator" >
+        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
+        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
+        <property name="sessionTimeout" value="$sl{session.timeout}"/>
+	</bean>
+
+</beans>
