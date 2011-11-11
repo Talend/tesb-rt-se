@@ -33,22 +33,22 @@ import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSe
 
 public class ServiceLocatorManager implements BusExtension {
 
-    private SingleBusLocatorRegistrar locatorRegistrar;
+    private LocatorRegistrar locatorRegistrar;
 
     private LocatorClientEnabler clientEnabler;
 
     private Bus bus;
 
-    public void listenForAllServers() {
-        locatorRegistrar.startListenForServers();
+    public void listenForAllServers(Bus bus) {
+        locatorRegistrar.startListenForServers(bus);
     }
 
-    public void registerServer(Server server) {
-        locatorRegistrar.registerServer(server);
+    public void registerServer(Server server, Bus bus) {
+        locatorRegistrar.registerServer(server, bus);
     }
 
-    public void registerServer(Server server, SLProperties props) {
-        locatorRegistrar.registerServer(server, props);
+    public void registerServer(Server server, SLProperties props, Bus bus) {
+        locatorRegistrar.registerServer(server, props, bus);
     }
 
     public void listenForAllClients() {
@@ -117,7 +117,7 @@ public class ServiceLocatorManager implements BusExtension {
         }
     }
 
-    public void setLocatorRegistrar(SingleBusLocatorRegistrar locatorRegistrar) {
+    public void setLocatorRegistrar(LocatorRegistrar locatorRegistrar) {
         this.locatorRegistrar = locatorRegistrar;
     }
 

@@ -22,9 +22,13 @@ package org.talend.esb.servicelocator.cxf.internal;
 import static org.easymock.EasyMock.expect;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_3;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_4;
 import static org.talend.esb.servicelocator.TestValues.REL_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_3;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_4;
 
 import javax.xml.namespace.QName;
 
@@ -42,6 +46,10 @@ public class CXFTestStubs {
     public static final Server SERVER_1 = createServerStub(SERVICE_QNAME_1, ENDPOINT_1);
 
     public static final Server SERVER_2 = createServerStub(SERVICE_QNAME_2, ENDPOINT_2);
+
+    public static final Server SERVER_3 = createServerStub(SERVICE_QNAME_3, ENDPOINT_3);
+
+    public static final Server SERVER_4 = createServerStub(SERVICE_QNAME_4, ENDPOINT_4);
 
     public static final Server REL_SERVER_1 = createServerStub(SERVICE_QNAME_1, REL_ENDPOINT_1);
 
