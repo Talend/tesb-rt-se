@@ -606,7 +606,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 LOG.fine("Node " + endpointStatusNodePath + " created.");
             }
         } catch (KeeperException e) {
-            throw locatorException(e);
+            if (!e.code().equals(Code.NODEEXISTS)) {
+                throw locatorException(e);
+            } 
         }
     }
 

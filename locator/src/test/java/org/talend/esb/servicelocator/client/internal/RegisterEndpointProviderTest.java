@@ -111,12 +111,9 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         ServiceLocatorImpl slc = createServiceLocatorSuccess();
         slc.setEndpointTransformer(trans);
 
-        try {
-            slc.register(endpoint);
-            fail("A ServiceLocatorException should have been thrown.");
-        } catch (ServiceLocatorException e) {
-            ignore("Expected exception");
-        }
+        slc.register(endpoint);
+
+        verifyAll();
     }
 
     @Test
