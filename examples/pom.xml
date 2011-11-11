@@ -43,6 +43,9 @@
 
     <properties>
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
+        <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
+        <!-- for STS war-->
+        <!--sts.endpoint.prefix>http://localhost:8080</sts.endpoint.prefix-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <cxf.version>2.5.0</cxf.version>
