@@ -17,7 +17,7 @@
     <modules>
         <module>rent-a-car</module>
         <module>locator</module>
-        <module>locator-proxy</module>
+        <module>locator-service</module>
         <module>sam</module>
         <module>cxf-jmx</module>
         <module>camel-jmx</module>

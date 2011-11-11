@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="LocatorProxyService" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="TestSuite" value="SoapBinding TestSuite"/>
+  <con:entry key="Report to Generate" value=""/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="soapui-setings.xml Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="TestCase" value="unregisterEndpoint TestCase"/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Endpoint" value=""/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ServiceLocatorProxyProviderSoapBinding" type="wsdl" bindingName="{http://services.talend.org/ServiceLocatorProxyService}ServiceLocatorProxyProviderSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8040/services/ServiceLocatorProxyService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8040/services/ServiceLocatorProxyService?wsdl"><con:part><con:url>http://localhost:8040/services/ServiceLocatorProxyService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="ServiceLocatorProxyProvider" targetNamespace="http://services.talend.org/ServiceLocatorProxyService" xmlns:ns1="http://www.talend.org/services/esb/locator/v1" xmlns:ns3="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.talend.org/ServiceLocatorProxyService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://localhost:8040/services/ServiceLocatorProxyService?wsdl=LocatorService.wsdl" namespace="http://www.talend.org/services/esb/locator/v1"></wsdl:import>
+  <wsdl:binding name="ServiceLocatorProxyProviderSoapBinding" type="ns1:LocatorService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="unregisterEndpoint">
+      <soap:operation soapAction="unregisterEndpoint" style="document"/>
+      <wsdl:input name="unregisterEndpoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="unregisterEndpointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InterruptedExceptionFault">
+        <soap:fault name="InterruptedExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServiceLocatorFault">
+        <soap:fault name="ServiceLocatorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="lookupEndpoint">
+      <soap:operation soapAction="lookupEndpoint" style="document"/>
+      <wsdl:input name="lookupEndpoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="lookupEndpointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InterruptedExceptionFault">
+        <soap:fault name="InterruptedExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServiceLocatorFault">
+        <soap:fault name="ServiceLocatorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="lookupEndpoints">
+      <soap:operation soapAction="lookupEndpoints" style="document"/>
+      <wsdl:input name="lookupEndpoints">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="lookupEndpointsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InterruptedExceptionFault">
+        <soap:fault name="InterruptedExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServiceLocatorFault">
+        <soap:fault name="ServiceLocatorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerEndpoint">
+      <soap:operation soapAction="registerEndpoint" style="document"/>
+      <wsdl:input name="registerEndpoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="registerEndpointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InterruptedExceptionFault">
+        <soap:fault name="InterruptedExceptionFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServiceLocatorFault">
+        <soap:fault name="ServiceLocatorFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceLocatorProxyProvider">
+    <wsdl:port binding="tns:ServiceLocatorProxyProviderSoapBinding" name="ServiceLocatorProxyProvider">
+      <soap:address location="http://localhost:8040/services/ServiceLocatorProxyService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8040/services/ServiceLocatorProxyService?wsdl=LocatorService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="LocatorService" targetNamespace="http://www.talend.org/services/esb/locator/v1" xmlns:ns1="http://www.talend.org/services/esb/locator/v1" xmlns:ns2="http://talend.org/schemas/esb/locator/2011/11" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.talend.org/services/esb/locator/v1" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:simpleType name="AttributedURIType">
+        <xs:restriction base="xs:string"/>
+      </xs:simpleType>
+      <xs:complexType name="ReferenceParametersType">
+        <xs:sequence>
+          <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="skip"/>
+      </xs:complexType>
+      <xs:complexType name="MetadataType">
+        <xs:sequence>
+          <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="skip"/>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema targetNamespace="http://talend.org/schemas/esb/locator/2011/11" version="1.0" xmlns:ns1="http://www.w3.org/2005/08/addressing" xmlns:tns="http://talend.org/schemas/esb/locator/2011/11" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://www.w3.org/2005/08/addressing" schemaLocation="http://localhost:8040/services/ServiceLocatorProxyService?xsd=http://www.w3.org/2006/03/addressing/ws-addr.xsd"/>
+      <xs:element name="InterruptionFaultDetail">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="InterruptionDetail" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="LookupEndpointsResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:EndpointReferenceType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ServiceLocatorFaultDetail">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="LocatorFaultDetail" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="lookupEndpoint" type="tns:lookupRequestType"/>
+      <xs:element name="lookupEndpointResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="value" type="ns1:EndpointReferenceType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="lookupEndpoints" type="tns:lookupRequestType"/>
+      <xs:element name="registerEndpoint">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="serviceName" type="xs:QName"/>
+            <xs:element name="endpointURL" type="xs:anyURI"/>
+            <xs:element minOccurs="0" name="properties" type="tns:SLPropertiesType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="registerEndpointResponse">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="unregisterEndpoint">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="serviceName" type="xs:QName"/>
+            <xs:element name="endpointURL" type="xs:anyURI"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="unregisterEndpointResponse">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="lookupRequestType">
+        <xs:sequence>
+          <xs:element name="serviceName" type="xs:QName"/>
+          <xs:element minOccurs="0" name="matcherData" type="tns:MatcherDataType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MatcherDataType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="Entry" type="tns:AssertionType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AssertionType">
+        <xs:sequence>
+          <xs:element name="Value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+      <xs:complexType name="SLPropertiesType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="Entry" type="tns:EntryType"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="EntryType">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="Value" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="key" type="xs:string"/>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema blockDefault="#all" elementFormDefault="qualified" targetNamespace="http://www.w3.org/2005/08/addressing" xmlns:tns="http://www.w3.org/2005/08/addressing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <!--Constructs from the WS-Addressing Core-->
+      <xs:element name="EndpointReference" type="tns:EndpointReferenceType"/>
+      <xs:complexType name="EndpointReferenceType">
+        <xs:sequence>
+          <xs:element name="Address" type="tns:AttributedURIType"/>
+          <xs:element minOccurs="0" name="ReferenceParameters" type="tns:ReferenceParametersType"/>
+          <xs:element minOccurs="0" ref="tns:Metadata"/>
+          <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:complexType>
+      <xs:complexType name="ReferenceParametersType">
+        <xs:sequence>
+          <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:complexType>
+      <xs:element name="Metadata" type="tns:MetadataType"/>
+      <xs:complexType name="MetadataType">
+        <xs:sequence>
+          <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:complexType>
+      <xs:element name="MessageID" type="tns:AttributedURIType"/>
+      <xs:element name="RelatesTo" type="tns:RelatesToType"/>
+      <xs:complexType name="RelatesToType">
+        <xs:simpleContent>
+          <xs:extension base="xs:anyURI">
+            <xs:attribute default="http://www.w3.org/2005/08/addressing/reply" name="RelationshipType" type="tns:RelationshipTypeOpenEnum" use="optional"/>
+            <xs:anyAttribute namespace="##other" processContents="lax"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:simpleType name="RelationshipTypeOpenEnum">
+        <xs:union memberTypes="tns:RelationshipType xs:anyURI"/>
+      </xs:simpleType>
+      <xs:simpleType name="RelationshipType">
+        <xs:restriction base="xs:anyURI">
+          <xs:enumeration value="http://www.w3.org/2005/08/addressing/reply"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="ReplyTo" type="tns:EndpointReferenceType"/>
+      <xs:element name="From" type="tns:EndpointReferenceType"/>
+      <xs:element name="FaultTo" type="tns:EndpointReferenceType"/>
+      <xs:element name="To" type="tns:AttributedURIType"/>
+      <xs:element name="Action" type="tns:AttributedURIType"/>
+      <xs:complexType name="AttributedURIType">
+        <xs:simpleContent>
+          <xs:extension base="xs:anyURI">
+            <xs:anyAttribute namespace="##other" processContents="lax"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <!--Constructs from the WS-Addressing SOAP binding-->
+      <xs:attribute name="IsReferenceParameter" type="xs:boolean"/>
+      <xs:simpleType name="FaultCodesOpenEnumType">
+        <xs:union memberTypes="tns:FaultCodesType xs:QName"/>
+      </xs:simpleType>
+      <xs:simpleType name="FaultCodesType">
+        <xs:restriction base="xs:QName">
+          <xs:enumeration value="tns:InvalidAddressingHeader"/>
+          <xs:enumeration value="tns:InvalidAddress"/>
+          <xs:enumeration value="tns:InvalidEPR"/>
+          <xs:enumeration value="tns:InvalidCardinality"/>
+          <xs:enumeration value="tns:MissingAddressInEPR"/>
+          <xs:enumeration value="tns:DuplicateMessageID"/>
+          <xs:enumeration value="tns:ActionMismatch"/>
+          <xs:enumeration value="tns:MessageAddressingHeaderRequired"/>
+          <xs:enumeration value="tns:DestinationUnreachable"/>
+          <xs:enumeration value="tns:ActionNotSupported"/>
+          <xs:enumeration value="tns:EndpointUnavailable"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="RetryAfter" type="tns:AttributedUnsignedLongType"/>
+      <xs:complexType name="AttributedUnsignedLongType">
+        <xs:simpleContent>
+          <xs:extension base="xs:unsignedLong">
+            <xs:anyAttribute namespace="##other" processContents="lax"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:element name="ProblemHeaderQName" type="tns:AttributedQNameType"/>
+      <xs:complexType name="AttributedQNameType">
+        <xs:simpleContent>
+          <xs:extension base="xs:QName">
+            <xs:anyAttribute namespace="##other" processContents="lax"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:element name="ProblemHeader" type="tns:AttributedAnyType"/>
+      <xs:complexType name="AttributedAnyType">
+        <xs:sequence>
+          <xs:any namespace="##any" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:complexType>
+      <xs:element name="ProblemIRI" type="tns:AttributedURIType"/>
+      <xs:element name="ProblemAction" type="tns:ProblemActionType"/>
+      <xs:complexType name="ProblemActionType">
+        <xs:sequence>
+          <xs:element minOccurs="0" ref="tns:Action"/>
+          <xs:element minOccurs="0" name="SoapAction" type="xs:anyURI"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="lookupEndpoints">
+    <wsdl:part element="ns2:lookupEndpoints" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lookupEndpointResponse">
+    <wsdl:part element="ns2:lookupEndpointResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unregisterEndpoint">
+    <wsdl:part element="ns2:unregisterEndpoint" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lookupEndpoint">
+    <wsdl:part element="ns2:lookupEndpoint" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unregisterEndpointResponse">
+    <wsdl:part element="ns2:unregisterEndpointResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerEndpointResponse">
+    <wsdl:part element="ns2:registerEndpointResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ServiceLocatorFault">
+    <wsdl:part element="ns2:ServiceLocatorFaultDetail" name="ServiceLocatorFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lookupEndpointsResponse">
+    <wsdl:part element="ns2:LookupEndpointsResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerEndpoint">
+    <wsdl:part element="ns2:registerEndpoint" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InterruptedExceptionFault">
+    <wsdl:part element="ns2:InterruptionFaultDetail" name="InterruptedExceptionFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LocatorService">
+    <wsdl:operation name="unregisterEndpoint">
+      <wsdl:input message="ns1:unregisterEndpoint" name="unregisterEndpoint"></wsdl:input>
+      <wsdl:output message="ns1:unregisterEndpointResponse" name="unregisterEndpointResponse"></wsdl:output>
+      <wsdl:fault message="ns1:InterruptedExceptionFault" name="InterruptedExceptionFault"></wsdl:fault>
+      <wsdl:fault message="ns1:ServiceLocatorFault" name="ServiceLocatorFault"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="lookupEndpoint">
+      <wsdl:input message="ns1:lookupEndpoint" name="lookupEndpoint"></wsdl:input>
+      <wsdl:output message="ns1:lookupEndpointResponse" name="lookupEndpointResponse"></wsdl:output>
+      <wsdl:fault message="ns1:InterruptedExceptionFault" name="InterruptedExceptionFault"></wsdl:fault>
+      <wsdl:fault message="ns1:ServiceLocatorFault" name="ServiceLocatorFault"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="lookupEndpoints">
+      <wsdl:input message="ns1:lookupEndpoints" name="lookupEndpoints"></wsdl:input>
+      <wsdl:output message="ns1:lookupEndpointsResponse" name="lookupEndpointsResponse"></wsdl:output>
+      <wsdl:fault message="ns1:InterruptedExceptionFault" name="InterruptedExceptionFault"></wsdl:fault>
+      <wsdl:fault message="ns1:ServiceLocatorFault" name="ServiceLocatorFault"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerEndpoint">
+      <wsdl:input message="ns1:registerEndpoint" name="registerEndpoint"></wsdl:input>
+      <wsdl:output message="ns1:registerEndpointResponse" name="registerEndpointResponse"></wsdl:output>
+      <wsdl:fault message="ns1:InterruptedExceptionFault" name="InterruptedExceptionFault"></wsdl:fault>
+      <wsdl:fault message="ns1:ServiceLocatorFault" name="ServiceLocatorFault"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8040/services/ServiceLocatorProxyService?xsd=http://www.w3.org/2006/03/addressing/ws-addr.xsd</con:url><con:content><![CDATA[<!--W3C XML Schema defined in the Web Services Addressing 1.0 specification
+    http://www.w3.org/TR/ws-addr-core
+
+   Copyright ?? 2005 World Wide Web Consortium,
+
+   (Massachusetts Institute of Technology, European Research Consortium for
+   Informatics and Mathematics, Keio University). All Rights Reserved. This
+   work is distributed under the W3C?? Software License [1] in the hope that
+   it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+   [1] http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231-->
+<xs:schema blockDefault="#all" elementFormDefault="qualified" targetNamespace="http://www.w3.org/2005/08/addressing" xmlns:tns="http://www.w3.org/2005/08/addressing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!--Constructs from the WS-Addressing Core-->
+  <xs:element name="EndpointReference" type="tns:EndpointReferenceType"/>
+  <xs:complexType name="EndpointReferenceType">
+    <xs:sequence>
+      <xs:element name="Address" type="tns:AttributedURIType"/>
+      <xs:element minOccurs="0" name="ReferenceParameters" type="tns:ReferenceParametersType"/>
+      <xs:element minOccurs="0" ref="tns:Metadata"/>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:complexType name="ReferenceParametersType">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="Metadata" type="tns:MetadataType"/>
+  <xs:complexType name="MetadataType">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="MessageID" type="tns:AttributedURIType"/>
+  <xs:element name="RelatesTo" type="tns:RelatesToType"/>
+  <xs:complexType name="RelatesToType">
+    <xs:simpleContent>
+      <xs:extension base="xs:anyURI">
+        <xs:attribute default="http://www.w3.org/2005/08/addressing/reply" name="RelationshipType" type="tns:RelationshipTypeOpenEnum" use="optional"/>
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="RelationshipTypeOpenEnum">
+    <xs:union memberTypes="tns:RelationshipType xs:anyURI"/>
+  </xs:simpleType>
+  <xs:simpleType name="RelationshipType">
+    <xs:restriction base="xs:anyURI">
+      <xs:enumeration value="http://www.w3.org/2005/08/addressing/reply"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ReplyTo" type="tns:EndpointReferenceType"/>
+  <xs:element name="From" type="tns:EndpointReferenceType"/>
+  <xs:element name="FaultTo" type="tns:EndpointReferenceType"/>
+  <xs:element name="To" type="tns:AttributedURIType"/>
+  <xs:element name="Action" type="tns:AttributedURIType"/>
+  <xs:complexType name="AttributedURIType">
+    <xs:simpleContent>
+      <xs:extension base="xs:anyURI">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <!--Constructs from the WS-Addressing SOAP binding-->
+  <xs:attribute name="IsReferenceParameter" type="xs:boolean"/>
+  <xs:simpleType name="FaultCodesOpenEnumType">
+    <xs:union memberTypes="tns:FaultCodesType xs:QName"/>
+  </xs:simpleType>
+  <xs:simpleType name="FaultCodesType">
+    <xs:restriction base="xs:QName">
+      <xs:enumeration value="tns:InvalidAddressingHeader"/>
+      <xs:enumeration value="tns:InvalidAddress"/>
+      <xs:enumeration value="tns:InvalidEPR"/>
+      <xs:enumeration value="tns:InvalidCardinality"/>
+      <xs:enumeration value="tns:MissingAddressInEPR"/>
+      <xs:enumeration value="tns:DuplicateMessageID"/>
+      <xs:enumeration value="tns:ActionMismatch"/>
+      <xs:enumeration value="tns:MessageAddressingHeaderRequired"/>
+      <xs:enumeration value="tns:DestinationUnreachable"/>
+      <xs:enumeration value="tns:ActionNotSupported"/>
+      <xs:enumeration value="tns:EndpointUnavailable"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RetryAfter" type="tns:AttributedUnsignedLongType"/>
+  <xs:complexType name="AttributedUnsignedLongType">
+    <xs:simpleContent>
+      <xs:extension base="xs:unsignedLong">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:element name="ProblemHeaderQName" type="tns:AttributedQNameType"/>
+  <xs:complexType name="AttributedQNameType">
+    <xs:simpleContent>
+      <xs:extension base="xs:QName">
+        <xs:anyAttribute namespace="##other" processContents="lax"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:element name="ProblemHeader" type="tns:AttributedAnyType"/>
+  <xs:complexType name="AttributedAnyType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="lax"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+  <xs:element name="ProblemIRI" type="tns:AttributedURIType"/>
+  <xs:element name="ProblemAction" type="tns:ProblemActionType"/>
+  <xs:complexType name="ProblemActionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="tns:Action"/>
+      <xs:element minOccurs="0" name="SoapAction" type="xs:anyURI"/>
+    </xs:sequence>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="lookupEndpoint" name="lookupEndpoint" bindingOperationName="lookupEndpoint" type="Request-Response" outputName="lookupEndpointResponse" inputName="lookupEndpoint" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:lookupEndpoint>
+        <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+
+	
+        <ns:matcherData>
+            <ns:Entry key="count">
+               <ns:Value>1</ns:Value>
+            </ns:Entry>
+            <ns:Entry key="location">
+               <ns:Value>Bonn</ns:Value>
+            </ns:Entry>
+	</ns:matcherData>
+
+      </ns:lookupEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:lookupEndpoint>
+          <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</ns:serviceName>
+
+       <!--  <matcherData>
+            <Entry key="?">
+               <Value>?</Value>
+            </Entry>
+         </matcherData>
+ -->
+
+      </ns:lookupEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="lookupEndpoints" name="lookupEndpoints" bindingOperationName="lookupEndpoints" type="Request-Response" outputName="lookupEndpointsResponse" inputName="lookupEndpoints" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:lookupEndpoints>
+          <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <!--Optional:-->
+        <ns:matcherData>
+            <ns:Entry key="count">
+               <ns:Value>1</ns:Value>
+            </ns:Entry>
+	</ns:matcherData>
+      </ns:lookupEndpoints>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="lookupEndpoints"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="registerEndpoint" name="registerEndpoint" bindingOperationName="registerEndpoint" type="Request-Response" outputName="registerEndpointResponse" inputName="registerEndpoint" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Service1 Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <ns:endpointURL>http://service1Endpoint1.com</ns:endpointURL>
+ 	<ns:binding>SOAP12</ns:binding>
+	 <ns:transport>JMS</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="location">
+               <!--1 or more repetitions:-->
+               <ns:Value>Bonn</ns:Value>
+            </ns:Entry>
+            <ns:Entry key="count">
+               <ns:Value>1</ns:Value>
+            </ns:Entry>
+
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+          <ns:endpointURL>http://service1Endpoint2.com</ns:endpointURL>
+	<ns:binding>SOAP11</ns:binding>
+	 <ns:transport>HTTP</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="location">
+               <!--1 or more repetitions:-->
+               <ns:Value>Kiev</ns:Value>
+            </ns:Entry>
+            <ns:Entry key="count">
+               <ns:Value>1</ns:Value>
+            </ns:Entry>
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service1 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+          <ns:endpointURL>http://service1Endpoint3.com</ns:endpointURL>
+	<ns:binding>SOAP12</ns:binding>
+	 <ns:transport>HTTPS</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="location">
+               <!--1 or more repetitions:-->
+               <ns:Value>Lugansk</ns:Value>
+            </ns:Entry>
+            <ns:Entry key="count">
+               <ns:Value>2</ns:Value>
+            </ns:Entry>
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service2 Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</ns:serviceName>
+          <ns:endpointURL>http://service2Endpoint1.com</ns:endpointURL>
+	<ns:binding>SOAP11</ns:binding>
+	 <ns:transport>JMS</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="test">
+               <!--1 or more repetitions:-->
+               <ns:Value>25</ns:Value>
+            </ns:Entry>
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service2 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</ns:serviceName>
+          <ns:endpointURL>http://service2Endpoint2.com</ns:endpointURL>
+	<ns:binding>SOAP11</ns:binding>
+	 <ns:transport>HTTPS</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="test">
+               <!--1 or more repetitions:-->
+               <ns:Value>25</ns:Value>
+            </ns:Entry>
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Service2 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</ns:serviceName>
+         <ns:endpointURL>http://service2Endpoint3.com</ns:endpointURL>
+	<ns:binding>SOAP12</ns:binding>
+	 <ns:transport>HTTPS</ns:transport>
+         <!--Optional:-->
+         <ns:properties>
+            <!--Zero or more repetitions:-->
+            <ns:Entry key="test">
+               <!--1 or more repetitions:-->
+               <ns:Value>25</ns:Value>
+            </ns:Entry>
+         </ns:properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="registerEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="unregisterEndpoint" name="unregisterEndpoint" bindingOperationName="unregisterEndpoint" type="Request-Response" outputName="unregisterEndpointResponse" inputName="unregisterEndpoint" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Serivce1 Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:unregisterEndpoint>
+	 <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <ns:endpointURL>http://service1Endpoint1.com</ns:endpointURL>
+      </ns:unregisterEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Serivce1 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:unregisterEndpoint>
+	 <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <ns:endpointURL>http://service1Endpoint2.com</ns:endpointURL>
+      </ns:unregisterEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEndpoint"/><con:wsrmConfig version="1.2"/></con:call><con:call name="Serivce1 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:unregisterEndpoint>
+	 <ns:serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</ns:serviceName>
+         <ns:endpointURL>http://service1Endpoint3.com</ns:endpointURL>
+      </ns:unregisterEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="unregisterEndpoint"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="SoapBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lookupEndpoint TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lookupEndpoint -Service1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>lookupEndpoint</con:operation><con:request name="lookupEndpoint -Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:lookupEndpoint>
+        <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+
+        <matcherData>
+            <Entry key="count">
+               <Value>1</Value>
+            </Entry>
+            <Entry key="location">
+               <Value>Bonn</Value>
+            </Entry>
+	</matcherData>
+
+      </ns:lookupEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="lookupEndpoint" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="lookupEndpoint - Service2"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>lookupEndpoint</con:operation><con:request name="lookupEndpoint - Service2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:lookupEndpoint>
+          <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
+       <!--  <matcherData>
+            <Entry key="?">
+               <Value>?</Value>
+            </Entry>
+         </matcherData>
+ -->
+      </ns:lookupEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="lookupEndpoints TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="lookupEndpoints -Service1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>lookupEndpoints</con:operation><con:request name="lookupEndpoints -Service1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:LookupEndpointsResponse xmlns:ns2="http://talend.org/schemas/esb/locator/2011/11" xmlns:ns3="http://www.w3.org/2005/08/addressing">
+         <return>
+            <ns3:Address>http://service1Endpoint1.com</ns3:Address>
+            <ns3:Metadata>
+               <wsam:ServiceName xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:ns4="http://services.talend.org/TestService" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">ns4:Service1</wsam:ServiceName>
+            </ns3:Metadata>
+         </return>
+         <return>
+            <ns3:Address>http://service1Endpoint2.com</ns3:Address>
+            <ns3:Metadata>
+               <wsam:ServiceName xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:ns4="http://services.talend.org/TestService" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">ns4:Service1</wsam:ServiceName>
+            </ns3:Metadata>
+         </return>
+      </ns2:LookupEndpointsResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="lookupEndpoints" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="registerEndpoint TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="registerEndpoint - Service1 Endpoint1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service1 Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+         <endpointURL>http://service1Endpoint1.com</endpointURL>
+         <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="location">
+               <!--1 or more repetitions:-->
+               <Value>Bonn</Value>
+            </Entry>
+            <Entry key="count">
+              <Value>1</Value>
+           </Entry>
+         </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="registerEndpoint" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="registerEndpoint - Service1 Endpoint2"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service1 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+         <endpointURL>http://service1Endpoint2.com</endpointURL>
+        <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="location">
+               <!--1 or more repetitions:-->
+               <Value>Kiev</Value>
+            </Entry>
+            <Entry key="count">
+              <Value>1</Value>
+           </Entry>
+        </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="registerEndpoint - Service1 Endpoint3"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service1 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+          <endpointURL>http://service1Endpoint3.com</endpointURL>
+        <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="location">
+               <!--1 or more repetitions:-->
+               <Value>Lugansk</Value>
+            </Entry>
+            <Entry key="count">
+              <Value>2</Value>
+           </Entry>
+        </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="registerEndpoint - Service2 Endpoint1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service2 Endpoint1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
+         <endpointURL>http://service2Endpoint1.com</endpointURL>
+        <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="test">
+               <!--1 or more repetitions:-->
+               <Value>25</Value>
+            </Entry>
+         </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="registerEndpoint - Service2 Endpoint2"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service2 Endpoint2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
+         <endpointURL>http://service2Endpoint2.com</endpointURL>
+        <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="test">
+               <!--1 or more repetitions:-->
+               <Value>25</Value>
+            </Entry>
+         </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="registerEndpoint - Service2 Endpoint3"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>registerEndpoint</con:operation><con:request name="registerEndpoint - Service2 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:registerEndpoint>
+         <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service2</serviceName>
+        <endpointURL>http://service2Endpoint3.com</endpointURL>
+        <!--Optional:-->
+         <properties>
+            <!--Zero or more repetitions:-->
+            <Entry key="test">
+               <!--1 or more repetitions:-->
+               <Value>25</Value>
+            </Entry>
+         </properties>
+      </ns:registerEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="unregisterEndpoint TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="unregisterEndpoint - Service1 Endpoint3"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ServiceLocatorProxyProviderSoapBinding</con:interface><con:operation>unregisterEndpoint</con:operation><con:request name="unregisterEndpoint - Service1 Endpoint3"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8040/services/ServiceLocatorService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://talend.org/schemas/esb/locator/2011/11">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:unregisterEndpoint>
+	 <serviceName xmlns:ns4="http://services.talend.org/TestService">ns4:Service1</serviceName>
+        <endpointURL>http://service1Endpoint3.com</endpointURL>
+      </ns:unregisterEndpoint>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="unregisterEndpoint" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>
