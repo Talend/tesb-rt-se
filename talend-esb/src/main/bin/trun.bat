@@ -33,38 +33,6 @@ if not "%KARAF_TITLE%" == "" (
     title Karaf
 )
 
-rem Check JVM  
-
-JAVA -version 2> jvm_file.txt
-findstr "64-Bit" jvm_file.txt >nul 2>&1 && set Bit_64=true
-del jvm_file.txt
-
-rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
-
-if "%JAVA_MIN_MEM%" == "" (
-    set JAVA_MIN_MEM=128M
-)
-
-if "%JAVA_MAX_MEM%" == "" (
-    set JAVA_MAX_MEM=256M
-)
-
-if "%JAVA_PERM_MEM%" == "" (
-    if "%Bit_64%" == "true" (
-        set JAVA_PERM_MEM=32M
-    ) else (
-        set JAVA_PERM_MEM=16M
-    )
-)
-
-if "%JAVA_MAX_PERM_MEM%" == "" (
-    if "%Bit_64%" == "true" (
-        set JAVA_MAX_PERM_MEM=128M
-    ) else (
-        set JAVA_MAX_PERM_MEM=64M
-    )
-)
-
 goto BEGIN
 
 :warn
@@ -105,9 +73,7 @@ if "%KARAF_DATA%" == "" (
 )        
 
 set LOCAL_CLASSPATH=%CLASSPATH%
-set DEFAULT_JAVA_OPTS=-server -Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -XX:PermSize=%JAVA_PERM_MEM% -XX:MaxPermSize=%JAVA_MAX_PERM_MEM% -Dderby.system.home="%KARAF_DATA%\derby" -Dderby.storage.fileSyncTransactionLog=true -Dcom.sun.management.jmxremote
 set CLASSPATH=%LOCAL_CLASSPATH%;%KARAF_BASE%\conf
-set DEFAULT_JAVA_DEBUG_OPTS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
 
 if "%LOCAL_CLASSPATH%" == "" goto :KARAF_CLASSPATH_EMPTY
     set CLASSPATH=%LOCAL_CLASSPATH%;%KARAF_BASE%\conf
@@ -201,6 +167,58 @@ if not "%JAVA%" == "" goto :Check_JAVA_END
     )
     set JAVA=%JAVA_HOME%\bin\java
 :Check_JAVA_END
+
+rem determine whether we use a 64-bit java version
+
+set java_version_file=%time::=%
+set /a java_version_file=java_version_file
+set java_version_file=__JVER%java_version_file%%random%.tmp
+"%JAVA%" -version 2> %java_version_file%
+for /f %%G IN ('findstr "64-Bit" %java_version_file%') DO set sixtyfour=true
+del %java_version_file%
+
+rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
+
+if "%sixtyfour%" == "" (
+	echo Using 32-bit Java
+) else (
+	echo Using 64-bit Java
+)
+
+if "%JAVA_MIN_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MIN_MEM=128M 
+	) else (
+		set JAVA_MIN_MEM=256M
+	)
+)
+
+if "%JAVA_MAX_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MAX_MEM=512M 
+	) else ( 
+		set JAVA_MAX_MEM=1024M
+	)
+)
+
+if "%JAVA_PERM_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_PERM_MEM=64M 
+	) else (
+		set JAVA_PERM_MEM=128M
+	)
+)
+
+if "%JAVA_MAX_PERM_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MAX_PERM_MEM=128M 
+	) else (
+		set JAVA_MAX_PERM_MEM=256M
+	)
+)
+
+set DEFAULT_JAVA_OPTS=-server -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -XX:PermSize=%JAVA_PERM_MEM% -XX:MaxPermSize=%JAVA_MAX_PERM_MEM% -Dderby.system.home="%KARAF_DATA%\derby" -Dderby.storage.fileSyncTransactionLog=true -Dcom.sun.management.jmxremote
+set DEFAULT_JAVA_DEBUG_OPTS=-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
 
 if "%JAVA_OPTS%" == "" set JAVA_OPTS=%DEFAULT_JAVA_OPTS%
 
