@@ -174,6 +174,32 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         }
     }
 
+    
+    @Override
+    public boolean equals(Object other) {
+        if (other != null && other instanceof CXFEndpointProvider) {
+            CXFEndpointProvider otherEndpoint = (CXFEndpointProvider) other;
+            return getAddress().equals(otherEndpoint.getAddress())
+                && getServiceName().equals(otherEndpoint.getServiceName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 13;
+        int c = getAddress().hashCode();
+        result = 23 * result + c;
+        c = getServiceName().hashCode();
+        result = 23 * result + c;
+        return c;
+    }
+
+    @Override
+    public String toString() {
+        return "CXFEndpointProvider with address " + getAddress() + " for service " + getServiceName();
+    }
+
     private static EndpointReferenceType createEPR(String address, SLProperties props) {
         EndpointReferenceType epr = WSAEndpointReferenceUtils.getEndpointReference(address);
         if (props != null) {

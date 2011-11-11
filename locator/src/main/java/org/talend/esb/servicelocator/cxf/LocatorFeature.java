@@ -56,7 +56,7 @@ public class LocatorFeature extends AbstractFeature {
         }
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-        slm.listenForAllServers();
+        slm.listenForAllServers(bus);
         slm.listenForAllClients();
 
     }
@@ -78,7 +78,7 @@ public class LocatorFeature extends AbstractFeature {
         }
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
-        slm.registerServer(server, slProps);
+        slm.registerServer(server, slProps, bus);
     }
 
     @Override

@@ -50,7 +50,7 @@
                <entry key="ws-security.sts.client">
                    <bean class="org.apache.cxf.ws.security.trust.STSClient">
                        <constructor-arg ref="cxf"/>
-                         <property name="wsdlLocation" value="${endpoint.prefix}/SecurityTokenService/UT?wsdl" />
+                         <property name="wsdlLocation" value="${sts.endpoint.prefix}/SecurityTokenService/UT?wsdl" />
                          <property name="serviceName"
                              value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
                          <property name="endpointName"

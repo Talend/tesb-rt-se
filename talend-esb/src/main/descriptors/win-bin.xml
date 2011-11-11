@@ -389,9 +389,8 @@
 
     <files>
         <file>
-            <source>${basedir}/target/dependencies/win/apache-karaf-${karaf.version}/bin/karaf.bat</source>
+            <source>${basedir}/src/main/bin/trun.bat</source>
             <outputDirectory>/container/bin/</outputDirectory>
-            <destName>trun.bat</destName>
             <fileMode>0755</fileMode>
             <lineEnding>dos</lineEnding>
         </file>

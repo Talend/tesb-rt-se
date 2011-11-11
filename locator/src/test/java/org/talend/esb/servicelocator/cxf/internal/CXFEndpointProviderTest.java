@@ -38,10 +38,9 @@ import org.talend.esb.servicelocator.client.TransportType;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.DomMother.newDocument;
@@ -252,5 +251,43 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
 
         assertEquals(TransportType.OTHER, epp.getTransport());
+    }
+
+    @Test
+    public void equalsWhenAddressAndServiceEquivalent() {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+        
+        assertTrue(endpoint.equals(other));
+    }
+
+    @Test
+    public void nonEqualsWhenAddressNonEquivalent() {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_2, PROPERTIES);
+        
+        assertFalse(endpoint.equals(other));
+    }
+
+    @Test
+    public void nonEqualsWhenServiceNonEquivalent() {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_2, ENDPOINT_1, PROPERTIES);
+        
+        assertFalse(endpoint.equals(other));
+    }
+
+    @Test
+    public void nonEqualsWhenOtherNull() {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        
+        assertFalse(endpoint.equals(null));        
+    }
+
+    @Test
+    public void nonEqualsWhenOtherDifferentType() {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        
+        assertFalse(endpoint.equals(new Object()));        
     }
 }

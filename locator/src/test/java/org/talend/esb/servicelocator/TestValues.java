@@ -46,13 +46,25 @@ public class TestValues {
 
     public static final QName SERVICE_QNAME_2 = new QName("http://example.com/services", "service2");
 
+    public static final QName SERVICE_QNAME_3 = new QName("http://example.com/services", "service3");
+
+    public static final QName SERVICE_QNAME_4 = new QName("http://example.com/services", "service4");
+
     public static final String SERVICE_NAME_1 = "{http:%2F%2Fexample.com%2Fservices}service1";
 
     public static final String SERVICE_NAME_2 = "{http:%2F%2Fexample.com%2Fservices}service2";
 
     public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
 
+    public static final String REL_ENDPOINT_1 = "endpoint1";
+
+    public static final String PREFIX_1 = "http://ep.com/";
+
     public static final String ENDPOINT_2 = "http://ep.com/endpoint2";
+
+    public static final String ENDPOINT_3 = "http://ep.com/endpoint3";
+
+    public static final String ENDPOINT_4 = "http://ep.com/endpoint4";
 
     public static final String ENDPOINT_NODE_1 = "http:%2F%2Fep.com%2Fendpoint1";
 
