@@ -867,7 +867,7 @@
 								<feature>tesb-derby-starter</feature>
 								<feature>tesb-sam-server</feature>
 								<feature>tesb-locator-client</feature>
-								<feature>tesb-locator-service</feature>
+								<feature>tesb-locator-soap-service</feature>
 								<feature>tesb-locator-rest-service</feature>
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
