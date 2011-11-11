@@ -38,7 +38,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
-        <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="${endpoint.prefix}"/>
     </bean>
@@ -62,7 +61,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
 			</map>
         </property>
-        <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="defaultLocatorSelectionStrategy" value="${locator.strategy}" />
      </bean>

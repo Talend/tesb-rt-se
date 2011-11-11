@@ -61,7 +61,6 @@ limitations under the License.
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">
-        <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
     </bean>
@@ -85,7 +84,6 @@ limitations under the License.
                 <entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
             </map>
         </property>
-        <property name="bus" ref="cxf" />
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="defaultLocatorSelectionStrategy" value="$sl{locator.strategy}" />
     </bean>

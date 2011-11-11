@@ -39,16 +39,16 @@ public class ServiceLocatorManager implements BusExtension {
 
     private Bus bus;
 
-    public void listenForAllServers() {
-        locatorRegistrar.startListenForServers();
+    public void listenForAllServers(Bus bus) {
+        locatorRegistrar.startListenForServers(bus);
     }
 
-    public void registerServer(Server server) {
-        locatorRegistrar.registerServer(server);
+    public void registerServer(Server server, Bus bus) {
+        locatorRegistrar.registerServer(server, bus);
     }
 
-    public void registerServer(Server server, SLProperties props) {
-        locatorRegistrar.registerServer(server, props);
+    public void registerServer(Server server, SLProperties props, Bus bus) {
+        locatorRegistrar.registerServer(server, props, bus);
     }
 
     public void listenForAllClients() {

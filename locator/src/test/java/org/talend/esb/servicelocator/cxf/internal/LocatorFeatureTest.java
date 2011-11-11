@@ -58,7 +58,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         expect(busMock.getExtension(ClassLoader.class)).andStubReturn(cll);
 
         locatorRegistrarMock = createMock(LocatorRegistrar.class);
-        locatorRegistrarMock.startListenForServers();
+        locatorRegistrarMock.startListenForServers(busMock);
         EasyMock.expectLastCall().anyTimes();
         cll = this.getClass().getClassLoader();
 

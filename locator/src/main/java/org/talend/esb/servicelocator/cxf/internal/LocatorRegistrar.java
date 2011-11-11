@@ -21,88 +21,41 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.buslifecycle.BusLifeCycleListener;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerLifeCycleListener;
-import org.apache.cxf.endpoint.ServerLifeCycleManager;
-import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.service.model.EndpointInfo;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 /**
  * The LocatorRegistrar is responsible for registering the endpoints of CXF Servers at the Service Locator.
- * The Servers endpoint can either be {@link #registerServer(Server) registered explicitly} or the
- * LocatorRegistrar can be {@link #startListenForServers() enabled to listen for all Servers} that are in the
- * process to start and to register them all.
+ * The Servers endpoint can either be {@link #registerServer(Server, Bus) registered explicitly} or the
+ * LocatorRegistrar can be enabled  {@link #startListenForServers(Bus) to listen for all Servers of a 
+ * specific bus} that are in the process to start and to register them all.
  * <p>
  * If a server which was registered before stops the LocatorRegistrar automatically unregisters from the
  * Service Locator.
  */
-public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
+public class LocatorRegistrar {
 
     private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class.getPackage().getName());
-
-    private Bus bus;
 
     private ServiceLocator locatorClient;
 
     private String endpointPrefix = "";
 
-    private Map<Server, CXFEndpointProvider> registeredServers = 
-        Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
+    private Map<Bus, SingleBusLocatorRegistrar> busRegistrars = 
+        Collections.synchronizedMap(new LinkedHashMap<Bus, SingleBusLocatorRegistrar>());
 
-    private boolean listenForServersEnabled;
-
-    @Override
-    public void startServer(Server server) {
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Server " + server + " starting...");
-        }
-        if (listenForServersEnabled) {
-            registerServer(server);
-        }
-    }
-
-    @Override
-    public void stopServer(Server server) {
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Server " + server + " stopping...");
-        }
-        if (registeredServers.containsKey(server)) {
-            unregisterServer(server);
-        }
-    }
-
-    public void startListenForServers() {
-        check(bus, "bus", "startListenForServers");
-        listenForServersEnabled = true;
-        registerAvailableServers();
-    }
-
-    public void stopListenForServers() {
-        listenForServersEnabled = false;
-    }
-
-    @Override
-    public void process(ServiceLocator lc) {
-        for (Server server : registeredServers.keySet()) {
-            registerServer(registeredServers.get(server));
-        }
-    }
-
-    public void setBus(Bus bus) {
-        if (bus != this.bus) {
-            this.bus = bus;
-            registerListener();
-        }
+    public void startListenForServers(Bus bus) {
+        SingleBusLocatorRegistrar registrar = getRegistrar(bus);
+        registrar.startListenForServers();
     }
 
     public void setEndpointPrefix(String endpointPrefix) {
@@ -111,91 +64,50 @@ public class LocatorRegistrar implements ServerLifeCycleListener, ServiceLocator
 
     public void setServiceLocator(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
-        locatorClient.setPostConnectAction(this);
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set.");
         }
     }
 
-    private void registerListener() {
-        ServerLifeCycleManager manager = bus.getExtension(ServerLifeCycleManager.class);
-        if (manager != null) {
-            manager.registerListener(this);
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Server life cycle listener registered.");
-            }
-        } else {
-            if (LOG.isLoggable(Level.WARNING)) {
-                LOG.log(Level.WARNING, "ServerLifeCycleManager is not available.");
-            }
-        }
+    public void registerServer(Server server, Bus bus) {
+        registerServer(server, null, bus);
     }
 
-    public void registerServer(Server server) {
-        registerServer(server, null);
+    public void registerServer(Server server, SLProperties props, Bus bus) {
+        SingleBusLocatorRegistrar registrar = getRegistrar(bus);
+        registrar.registerServer(server, props);
     }
 
-    public void registerServer(Server server, SLProperties props) {
-        check(locatorClient, "serviceLocator", "registerEndpoint");
-        String absAddress = getAddress(server);
-        if (!absAddress.startsWith("http://")) { // relative address
-            absAddress = endpointPrefix + absAddress;
+    private SingleBusLocatorRegistrar getRegistrar(Bus bus) {
+        SingleBusLocatorRegistrar registrar = busRegistrars.get(bus);
+        if (registrar == null) {
+            check(locatorClient, "serviceLocator", "registerService");
+            registrar = new SingleBusLocatorRegistrar(bus);
+            registrar.setServiceLocator(locatorClient);
+            registrar.setEndpointPrefix(endpointPrefix);
+            busRegistrars.put(bus, registrar);
+            addLifeCycleListener(bus);
         }
-
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
-
-        registerServer(endpoint);
-        registeredServers.put(server, endpoint);
+        return registrar;
     }
     
-    private void registerServer(CXFEndpointProvider endpointProvider) {
-        try {
-            locatorClient.register(endpointProvider);        
-        } catch (ServiceLocatorException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering for endpoint "
-                        + endpointProvider, e);
+    private void addLifeCycleListener(final Bus bus) {
+        final BusLifeCycleManager manager = bus.getExtension(BusLifeCycleManager.class);
+        manager.registerLifeCycleListener(new BusLifeCycleListener() {
+            @Override
+            public void initComplete() { }
+
+            @Override
+            public void preShutdown() { }
+
+            @Override
+            public void postShutdown() {
+                busRegistrars.remove(bus);
+//                manager.unregisterLifeCycleListener(this);
             }
-        } catch (InterruptedException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Interrupted Exception thrown when registering  for endpoint "
-                        + endpointProvider, e);
-            }
-        }
+        });
     }
 
-
-    private void unregisterServer(Server server) {
-        try {
-            CXFEndpointProvider epp = registeredServers.get(server);
-            locatorClient.unregister(epp);
-        } catch (ServiceLocatorException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "ServiceLocator Exception thrown during unregister endpoint. ", e);
-            }
-        } catch (InterruptedException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Interrupted Exception thrown during unregister endpoint.", e);
-            }
-        }
-    }
-
-    /**
-     * 
-     */
-    private void registerAvailableServers() {
-        ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
-        List<Server> servers = serverRegistry.getServers();
-        for (Server server : servers) {
-            registerServer(server);
-        }
-    }
-
-    private String getAddress(Server server) {
-        EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
-        return eInfo.getAddress();
-    }
- 
     private  void check(Object obj, String propertyName, String methodName) {
         if (obj == null) {
             throw new IllegalStateException("The property " + propertyName + " must be set before "
