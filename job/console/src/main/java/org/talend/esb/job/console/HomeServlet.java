@@ -119,16 +119,6 @@ public class HomeServlet extends HttpServlet {
             }
 
             if (controller != null) {
-                Collection<String> jobs = controller.listJobs();
-                for (String jobName : jobs) {
-                    writer.println("<tr>");
-                    writer.println("<td class=\"td0\"><span>" + jobName + "</span></td>");
-                    writer.println("<td><img src=\"img/icons/job.gif\" alt=\"Job\" /><span>Job</span></td>");
-                    writer.println("<td><span>" + jobName + "</span></td>");
-                    writer.println("<td><span></span></td>");
-                    writer.println("<td><div><img src=\"img/icons/package_go.gif\" altr=\"Deployed\" /><span>Deployed</span></div></td>");
-                    writer.println("</tr>");
-                }
                 Collection<String> routes = controller.listRoutes();
                 for (String routeName : routes) {
                     writer.println("<tr>");

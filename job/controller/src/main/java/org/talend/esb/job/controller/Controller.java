@@ -32,7 +32,7 @@ public interface Controller {
      * @return the list of Talend jobs.
      * @throws Exception in case of lookup failure.
      */
-    Collection<String> listJobs() throws Exception;
+//    Collection<String> listJobs() throws Exception;
 
     /**
      * List of Talend routes available in the running container.
