@@ -74,16 +74,16 @@
         <bundle>mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-discovery-distributed-zookeeper-server/${org.apache.cxf.dosgi.version}</bundle>
   </feature>
 
-  <feature name='tesb-locator-proxy' version='${project.version}'>
+  <feature name='tesb-locator-soap-service' version='${project.version}'>
         <feature>tesb-locator-client</feature>
-        <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>
   </feature>
   
-  <feature name='tesb-locator-rest-proxy' version='${project.version}'>
+  <feature name='tesb-locator-rest-service' version='${project.version}'>
         <feature>tesb-locator-client</feature>
-        <bundle>mvn:org.talend.esb.locatorproxy/locator-proxy-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locatorrestproxy/locator-rest-proxy-service/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locator.service/locator-rest-service/${project.version}</bundle>
   </feature>
 
     <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
