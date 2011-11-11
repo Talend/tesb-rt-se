@@ -867,8 +867,8 @@
 								<feature>tesb-derby-starter</feature>
 								<feature>tesb-sam-server</feature>
 								<feature>tesb-locator-client</feature>
-								<feature>tesb-locator-proxy</feature>
-								<feature>tesb-locator-rest-proxy</feature>
+								<feature>tesb-locator-service</feature>
+								<feature>tesb-locator-rest-service</feature>
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
 								<feature>tesb-zookeeper-server</feature>
@@ -1141,7 +1141,7 @@
 									<flattenmapper />
 								</copy>
 								<copy todir="target/add-ons/locator">
-									<fileset dir="${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model">
+									<fileset dir="${basedir}/../locator-service/locator-service-common/src/main/resources/model">
 										<include name="**/*.*" />
 									</fileset>
 								</copy>

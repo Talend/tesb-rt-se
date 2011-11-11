@@ -333,7 +333,7 @@
 
         <!-- Copy Locator proxy resources -->
         <fileSet>
-            <directory>${basedir}/../locator-proxy/locator-proxy-common/src/main/resources/model</directory>
+            <directory>${basedir}/../locator-service/locator-service-common/src/main/resources/model</directory>
             <outputDirectory>/add-ons/locator</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
