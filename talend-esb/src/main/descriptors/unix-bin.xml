@@ -22,7 +22,8 @@
 
     <id>unix-bin</id>
 
-	<baseDirectory>TESB_SE-V${project.version}</baseDirectory>
+<!-- 	<baseDirectory>TESB_SE-V${project.version}</baseDirectory> -->
+	<baseDirectory>TESB_SE-V5.0.0RC3</baseDirectory>
 
     <formats>
         <format>tar.gz</format>
