@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
 		<artifactId>sam-examples</artifactId>
-		<version>5.0-SNAPSHOT</version>
+		<version>5.0.0-SNAPSHOT</version>
 	</parent>
 
 	<name>Service Activity Monitoring :: Server Jetty</name>

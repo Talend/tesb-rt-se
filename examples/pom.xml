@@ -10,7 +10,7 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>talend-esb-examples</artifactId>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <name>Talend ESB Runtime :: Examples</name>
     <packaging>pom</packaging>
 
