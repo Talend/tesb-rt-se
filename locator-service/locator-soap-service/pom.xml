@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.locator.service</groupId>
     <artifactId>locator-soap-service</artifactId>
-    <name>Locator Service :: SOAP</name>
+    <name>Locator Service :: SOAP Service</name>
     <packaging>bundle</packaging>
 
     <parent>

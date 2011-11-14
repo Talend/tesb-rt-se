@@ -16,7 +16,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.talend.esb.examples.locator.service</groupId>
 	<artifactId>locator-rest-example-webclient</artifactId>
-	<name>Locator REST Service Example :: WebClient</name>
+	<name>Locator Service Examples :: Rest Service :: WebClient</name>
 	<packaging>jar</packaging>
 
 	<parent>
