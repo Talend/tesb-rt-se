@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator.service</groupId>
     <artifactId>locator-soap-example-war</artifactId>
-    <name>Talend ESB Runtime Examples :: Locator Soap Service Example :: Webapp</name>
+    <name>Locator Service Examples :: Soap Service :: Webapp</name>
     <packaging>war</packaging>
 
     <parent>

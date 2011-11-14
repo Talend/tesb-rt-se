@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.locator.service</groupId>
     <artifactId>locator-soap-example-client</artifactId>
-    <name>Talend ESB Runtime Examples :: Locator Soap Service Example :: Client</name>
+    <name>Locator Service Examples :: Soap Service :: Client</name>
     <packaging>bundle</packaging>
 
     <parent>
