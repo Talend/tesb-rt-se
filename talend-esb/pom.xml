@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>5.0-SNAPSHOT</version>
+		<version>5.0.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.talend.esb.assembly</groupId>
@@ -1256,7 +1256,7 @@
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
-                            <finalName>TESB_SE-V${packages.version}</finalName>
+                            <finalName>TESB_SE-V${package.version}</finalName>
 						</configuration>
 					</execution>
 					<execution>
@@ -1271,7 +1271,7 @@
 							</descriptors>
 							<appendAssemblyId>true</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
-                            <finalName>TESB_SE-V${packages.version}</finalName>
+                            <finalName>TESB_SE-V${package.version}</finalName>
 						</configuration>
 					</execution>
 				</executions>
