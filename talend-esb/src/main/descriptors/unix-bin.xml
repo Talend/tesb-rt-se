@@ -576,7 +576,7 @@
             <unpack>false</unpack>
             <scope>runtime</scope>
             <includes>
-                <include>org.talend.esb:cxf-sts-war:war</include>
+                <include>org.talend.esb.sts:cxf-sts-war:war</include>
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>

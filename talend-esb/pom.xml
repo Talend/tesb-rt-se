@@ -375,7 +375,7 @@
 			<type>zip</type>
 		</dependency>
 		<dependency>
-			<groupId>org.talend.esb</groupId>
+			<groupId>org.talend.esb.sts</groupId>
 			<artifactId>cxf-sts-war</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
