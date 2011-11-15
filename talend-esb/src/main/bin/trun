@@ -33,14 +33,14 @@ setupMemorySettings() {
 	else
 	  JAVA_SIXTY_FOUR=false
 	fi
-    echo JAVA_SIXTY_FOUR = $JAVA_SIXTY_FOUR
+    # echo JAVA_SIXTY_FOUR = $JAVA_SIXTY_FOUR
 
 if [ "x$JAVA_MIN_MEM" = "x" ]; then
     if $JAVA_SIXTY_FOUR
 	then
-    	JAVA_MIN_MEM=128M
+    	JAVA_MIN_MEM=256M
 	else
-	  	JAVA_MIN_MEM=256M
+	  	JAVA_MIN_MEM=128M
 	fi
     export JAVA_MIN_MEM
 fi
@@ -48,9 +48,9 @@ fi
 if [ "x$JAVA_MAX_MEM" = "x" ]; then
     if $JAVA_SIXTY_FOUR
 	then
-    	JAVA_MAX_MEM=512M
+    	JAVA_MAX_MEM=1024M
 	else
-	  	JAVA_MAX_MEM=1024M
+	  	JAVA_MAX_MEM=512M
 	fi
     export JAVA_MAX_MEM
 fi
@@ -58,9 +58,9 @@ fi
 if [ "x$JAVA_PERM_MEM" = "x" ]; then
     if $JAVA_SIXTY_FOUR
 	then
-    	JAVA_PERM_MEM=64M
+    	JAVA_PERM_MEM=128M
 	else
-	  	JAVA_PERM_MEM=128M
+	  	JAVA_PERM_MEM=64M
 	fi
     export JAVA_PERM_MEM
 fi
@@ -68,9 +68,9 @@ fi
 if [ "x$JAVA_MAX_PERM_MEM" = "x" ]; then
     if $JAVA_SIXTY_FOUR
 	then
-    	JAVA_MAX_PERM_MEM=128M
+    	JAVA_MAX_PERM_MEM=256M
 	else
-	  	JAVA_MAX_PERM_MEM=256M
+	  	JAVA_MAX_PERM_MEM=128M
 	fi
     export JAVA_MAX_PERM_MEM
 fi
@@ -280,8 +280,6 @@ setupDebugOptions() {
     fi
 }
 
-#-XX:+CMSPermGenSweepingEnabled 
-
 setupDefaults() {
     DEFAULT_JAVA_OPTS="-Xms$JAVA_MIN_MEM -Xmx$JAVA_MAX_MEM "
 
@@ -340,6 +338,12 @@ init() {
 
     # Determine the JVM vendor
     detectJVM
+    
+    # Setup memory settings
+    setupMemorySettings
+
+    # Setup default options
+    setupDefaults
 
     # Install debug options
     setupDebugOptions
@@ -390,15 +394,12 @@ run() {
         JAVA_EXT_DIRS=`cygpath --path --windows "$JAVA_EXT_DIRS"`
     fi
     cd "$KARAF_BASE"
+    # echo JAVA_OPTS = $JAVA_OPTS
     exec "$JAVA" $JAVA_OPTS -Djava.endorsed.dirs="${JAVA_ENDORSED_DIRS}" -Djava.ext.dirs="${JAVA_EXT_DIRS}" -Dkaraf.instances="${KARAF_HOME}/instances" -Dkaraf.home="$KARAF_HOME" -Dkaraf.base="$KARAF_BASE" -Dkaraf.data="$KARAF_DATA" -Djava.util.logging.config.file="$KARAF_BASE/etc/java.util.logging.properties" $KARAF_OPTS $OPTS -classpath "$CLASSPATH" $MAIN "$@"
 }
 
 main() {
     init
-    # Setup memory settings
-    setupMemorySettings
-    # Setup default options
-    setupDefaults
     run "$@"
 }
 
