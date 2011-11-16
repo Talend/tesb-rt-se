@@ -47,11 +47,6 @@
             <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
             <outputDirectory>/examples/apache/camel</outputDirectory>
         </fileSet>
-        <!-- 
-        <fileSet>
-            <directory>target/dependencies/camel/apache-camel-${camel.version}/doc/manual</directory>
-            <outputDirectory>/docs/camel-manual</outputDirectory>
-        </fileSet>  -->
 
         <!-- Expanded CXF Runtime -->
         <fileSet>
@@ -316,9 +311,6 @@
         <fileSet>
             <directory>target/features-repo</directory>
             <outputDirectory>/container/system</outputDirectory>
-            <!-- excludes>
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.4.3/**</exclude>
-            </excludes -->
             <excludes>
                 <!-- IF-23: exclude the aries blueprint copied by camel-blueprint feature to take the Karaf' one -->
                 <exclude>org/apache/aries/blueprint/**</exclude>
@@ -400,13 +392,6 @@
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-<!--         <file> -->
-<!--             <source>${basedir}/target/classes/camel-features.xml</source> -->
-<!--             <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}</outputDirectory> -->
-<!--             <destName>apache-camel-${camel.version}-features.xml</destName> -->
-<!--             <fileMode>0644</fileMode> -->
-<!--             <lineEnding>unix</lineEnding> -->
-<!--         </file> -->
         <file>
             <source>${basedir}/target/classes/tif-features.xml</source>
             <outputDirectory>/container/system/com/talend/if/talend-if/${tif.version}</outputDirectory>
@@ -488,88 +473,6 @@
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </dependencySet>
-        <!-- dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/apache/felix/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.felix:org.osgi.compendium</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/springframework/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.springframework:spring-aop</include>
-                <include>org.springframework:spring-beans</include>
-                <include>org.springframework:spring-context</include>
-                <include>org.springframework:spring-core</include>
-                <include>org.springframework:spring-tx</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/springframework/osgi/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.springframework.osgi:spring-osgi-core</include>
-                <include>org.springframework.osgi:spring-osgi-extender</include>
-                <include>org.springframework.osgi:spring-osgi-io</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/apache/geronimo/specs/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.geronimo.specs:geronimo-servlet_2.5_spec</include>
-                <include>org.apache.geronimo.specs:geronimo-annotation_1.0_spec</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/apache/servicemix/bundles/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.aopalliance</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.cglib</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxp-ri</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.opensaml</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.oro</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-jexl</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-vfs</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-codec</include>
-                <include>org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-httpclient</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputFileNameMapping>org/apache/servicemix/specs/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <includes>
-                <include>org.apache.servicemix.specs:org.apache.servicemix.specs.jaxp-api-1.4</include>
-                <include>org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet-->
         <dependencySet>
             <outputDirectory>/add-ons/sts</outputDirectory>
             <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
