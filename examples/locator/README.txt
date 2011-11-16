@@ -9,6 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
+
 Example for Service Locator
 ============================================
 This example illustrates the usage of Service Locator for CXF based participants.

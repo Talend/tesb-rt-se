@@ -9,13 +9,19 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
-Welcome to Talend ESB SE!
-=========================================================
 
-This package contains several new examples that show advanced features
-of CXF.  All of the examples are setup to be built and run independently,
-but they are also all setup to be run in the Talend ESB SE
-OSGi container that can be obtained from:
-http://www.talend.com/download.php#ESB
+Talend ESB Runtime Examples
+===========================
+The examples can be obtained from: http://www.talend.com/download.php#ESB
+
+Examples list:
+[Locator example]
+[Locator Service example]
+[Locator Rest example]
+[SAM example]
+[CXF JMX example]
+[Camel JMX example]
+[Karaf JMX example]
+[Rent-a-Car example]
 
 To build and run the examples, refer to the README.txt files in the individual example folders.

@@ -179,12 +179,6 @@ del %java_version_file%
 
 rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
 
-if "%sixtyfour%" == "" (
-	echo Using 32-bit Java
-) else (
-	echo Using 64-bit Java
-)
-
 if "%JAVA_MIN_MEM%" == "" (
 	if "%sixtyfour%" == "" (
 		set JAVA_MIN_MEM=128M 

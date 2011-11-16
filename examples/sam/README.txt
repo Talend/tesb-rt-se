@@ -9,6 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
+
 Example for Service Activity Monitoring(SAM)
 ============================================
 This example illustrates how to deploy and configure Service Activity Monitoring on CXF based projects. 
@@ -18,9 +19,9 @@ Prerequisite
 ------------
 
 To build and run this example, you must install:
-    J2SE Development Kit (JDK) 5.0 or above
+    J2SE Development Kit (JDK) 1.6 or above
     Apache Maven 3.x or above
-    Servlet container (Tomcat 5.5 or above)
+    Servlet container (Tomcat 6.0 or above)
     OSGI Container (TESB Container or Karaf 2.2.x or above)
 
 	
