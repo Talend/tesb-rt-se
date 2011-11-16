@@ -9,10 +9,9 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
-Rent-a-Car Description Example 
-=======================================
 
-rent-a-car/app-reservation: Rental Client provides the basic functionality to search for the available cars within a given time period.
+Application of Rent-a-Car Example 
+=======================================
 
 Use Case Scenario to Rent a Car
 -------------------------------
@@ -21,42 +20,16 @@ Use Case Scenario to Rent a Car
 3.The customer is presented with a list of the available cars and selects one from the presented list of results. 
 4.Finally, the application calls the ReservationService to submit the reservation request and then displays a reservation confirmation notice to the customer. 
 
-Running app-reservation 
------------------------
-Start CRMService and ReservationService as it described in 
-../crmservice/README.txt and ../reservationservice/README.txt
+Building the Example
+---------------------------------------
+From the base directory of this example (i.e., where this README file is
+located), the maven pom.xml file can be used to build the example. 
 
-From the base directory of this sample (i.e., where this README file is located), the maven pom.xml file can be used to build and run the demo. 
-Using either UNIX or Windows:
+Using maven commands on either UNIX/Linux or Windows:
+(JDK 1.6.0 and Maven 3.0.3 or later required)
 
-mvn clean install                 (for basic app-reservation)
-mvn clean install -Plocator       (for Service Locator enabled app-reservation)
-mvn clean install -Psam           (for Service Activity Monitoring enabled app-reservation)
-mvn clean install -Psts           (for Security Token Service enabled app-reservation)
+mvn clean install
 
-Running this command will build the demo and create an OSGi bundle for deploying the service to OSGi containers.
-
-The OSGi bundle will be created:
-app-basic/target/app-reservation-4.0.jar            (for basic app-reservation)
-app-locator/target/app-reservation-locator-4.0.jar  (for Service Locator enabled app-reservation)
-app-sam/target/app-reservation-sam-4.0.jar          (for Service Activity Monitoring enabled app-reservation)
-app-sts/target/app-reservation-sts-4.0.jar          (for Security Token Service enabled app-reservation)
-
-Starting the application
-------------------------
-
-1.Start OSGi console
-2.Copy app-reservation-4.0.jar (or app-reservation-locator-4.0.jar, app-reservation-sam-4.0.jar, app-reservation-sts-4.0.jar)
-  into folder <Talend ESB Runtime>/container/deploy.
-
-In console you will see:
-
----TALEND ESB: Rent a Car (OSGi) Commands---
-        car:GUI                                  (Show GUI)
-        car:search <user> <pickupDate> <returnDate>
- (Search for cars to rent, date format yyyy/mm/dd)
-        car:rent   <pos>
- (Rent a car listed in search result of carSearch)
 
 Using TALEND ESB Rental Client GUI
 ----------------------------------
