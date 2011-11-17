@@ -24,7 +24,6 @@ import static org.easymock.EasyMock.expect;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 
-import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.concurrent.ExecutorService;
@@ -87,13 +86,6 @@ public class JobLauncherListsTest extends EasyMockSupport {
 
         jobLauncher.routeAdded(route1, ROUTE_NAME_1);
         jobLauncher.routeAdded(route2, ROUTE_NAME_2);
-    }
-
-    @Test
-    public void listRoutes() {
-
-        Collection<String> names = jobLauncher.listRoutes();
-        assertThat(names, containsInAnyOrder(ROUTE_NAME_1, ROUTE_NAME_2));
     }
 
     private void expectManagedJobStarting() {

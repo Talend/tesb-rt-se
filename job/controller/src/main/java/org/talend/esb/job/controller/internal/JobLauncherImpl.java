@@ -19,8 +19,6 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map;
@@ -32,7 +30,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
-import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.JobLauncher;
 
@@ -41,8 +38,7 @@ import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
-public class JobLauncherImpl implements JobLauncher, Controller,
-        JobListener {
+public class JobLauncherImpl implements JobLauncher, JobListener {
 
     public static final Logger LOG = Logger.getLogger(JobLauncherImpl.class.getName());
 
@@ -136,11 +132,6 @@ public class JobLauncherImpl implements JobLauncher, Controller,
         LOG.info("Removing job " + name + ".");
 
         stopJob(job, name);
-    }
-
-    @Override
-    public Collection<String> listRoutes() {
-        return new ArrayList<String>(routeTasks.keySet());
     }
 
     public void unbind() {

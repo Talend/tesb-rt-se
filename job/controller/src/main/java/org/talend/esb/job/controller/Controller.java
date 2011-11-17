@@ -40,6 +40,6 @@ public interface Controller {
      * @return the list of Talend routes
      * @throws Exception in case of lookup failure
      */
-    Collection<String> listRoutes() throws Exception;
+//    Collection<String> listRoutes() throws Exception;
 
 }

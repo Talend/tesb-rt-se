@@ -32,19 +32,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
-import org.talend.esb.job.controller.Controller;
 
 /**
  * Main home servlet
  */
 public class HomeServlet extends HttpServlet {
 
-    private BundleContext bundleContext;
+//    private BundleContext bundleContext;
 
-    public void init(ServletConfig servletConfig) throws ServletException {
-        ServletContext context = servletConfig.getServletContext();
-        bundleContext = (BundleContext) context.getAttribute("osgi-bundlecontext");
-    }
+//    public void init(ServletConfig servletConfig) throws ServletException {
+//        ServletContext context = servletConfig.getServletContext();
+//        bundleContext = (BundleContext) context.getAttribute("osgi-bundlecontext");
+//    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doIt(request, response);
@@ -112,6 +111,7 @@ public class HomeServlet extends HttpServlet {
             writer.println("<tbody>");
 
             // list job
+/*
             Controller controller = null;
             ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());
             if (ref != null) {
@@ -134,7 +134,7 @@ public class HomeServlet extends HttpServlet {
             if (ref != null) {
                 bundleContext.ungetService(ref);
             }
-
+*/
             writer.println("</tbody>");
             writer.println("</table>");
             writer.println("</div>");
