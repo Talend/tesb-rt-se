@@ -22,7 +22,7 @@
         <spring.osgi.version>1.2.1</spring.osgi.version>
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.8.2.0-SNAPSHOT</tif.version>
+		<tif.version>2.8.2.0</tif.version>
 		<tif-doc.version>2.7-SNAPSHOT</tif-doc.version>
 		<tsf.version>2.5.0.0-SNAPSHOT</tsf.version>
 		<tsf-doc.version>2.5.0-SNAPSHOT</tsf-doc.version>
