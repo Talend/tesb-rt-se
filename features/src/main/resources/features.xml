@@ -116,7 +116,6 @@
         <feature version='${project.version}'>tesb-sam-agent</feature>
         <feature version='${project.version}'>talend-job-dependencies</feature>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.job/org.talend.esb.job.command/${project.version}</bundle>
     </feature>
 
     <feature name="talend-job-console" version="${project.version}" resolver="(obr)">
