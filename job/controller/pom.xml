@@ -109,11 +109,6 @@
                         <Private-Package>
                             org.talend.esb.job.controller.internal*
                         </Private-Package>
-                        <Import-Package>
-                            javax.management,
-                            javax.management.loading,
-                            *
-                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
