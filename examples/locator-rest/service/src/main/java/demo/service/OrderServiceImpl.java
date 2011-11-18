@@ -1,6 +1,6 @@
 /*
  * #%L
- * Locator Demo Server
+ * TESB :: Examples :: Locator Rest Client
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
