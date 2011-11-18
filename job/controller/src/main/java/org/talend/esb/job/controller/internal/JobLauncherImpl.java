@@ -30,7 +30,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ManagedService;
-import org.talend.esb.job.controller.Controller;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.JobLauncher;
 
@@ -39,7 +38,7 @@ import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
-public class JobLauncherImpl implements JobLauncher, JobListener, Controller {
+public class JobLauncherImpl implements JobLauncher, JobListener {
 
     public static final Logger LOG = Logger.getLogger(JobLauncherImpl.class.getName());
 

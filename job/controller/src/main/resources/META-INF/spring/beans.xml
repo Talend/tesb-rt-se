@@ -55,7 +55,6 @@
         <property name="executorService" ref="executorService" />
         <property name="endpointRegistry" ref="endpointRegistry"/>
     </bean>
-    <osgi:service interface="org.talend.esb.job.controller.Controller" ref="jobLauncher"/>
 
     <bean id="jobTracker" class="org.talend.esb.job.controller.internal.JobTracker" init-method="bind" destroy-method="unbind">
         <property name="jobListener" ref="jobLauncher" />
