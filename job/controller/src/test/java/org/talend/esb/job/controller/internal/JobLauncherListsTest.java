@@ -21,8 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -30,7 +28,6 @@ import java.util.concurrent.ExecutorService;
 
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
@@ -52,14 +49,14 @@ public class JobLauncherListsTest extends EasyMockSupport {
     public static final String SERVICE_NAME_2 = "serviceName2";
 
     public static final String MANAGED_SERVICE_NAME = "org.osgi.service.cm.ManagedService";
-  
+
     @SuppressWarnings("serial")
     public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() { {
         put(Constants.SERVICE_PID, ROUTE_NAME_1);
     } };
-    
+
     private TalendESBRoute route1 = createMock(TalendESBRoute.class);
-    
+
     private TalendESBRoute route2 = createMock(TalendESBRoute.class);
 
     private BundleContext context;
@@ -76,7 +73,7 @@ public class JobLauncherListsTest extends EasyMockSupport {
         execService = createNiceMock(ExecutorService.class);
         sr = createNiceMock(ServiceRegistration.class);
 
-        expectManagedJobStarting();         
+        expectManagedJobStarting();
 
         replayAll();
         
