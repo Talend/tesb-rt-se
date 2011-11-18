@@ -1,0 +1,66 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Talend :: ESB :: STS :: CONFIG 5.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] >>> maven-source-plugin:2.1.2:jar (default-cli) @ org.talend.esb.sts.config >>>
+[INFO] 
+[INFO] <<< maven-source-plugin:2.1.2:jar (default-cli) @ org.talend.esb.sts.config <<<
+[INFO] 
+[INFO] --- maven-source-plugin:2.1.2:jar (default-cli) @ org.talend.esb.sts.config ---
+[WARNING] NOT adding sources to artifacts with classifier as Maven only supports one classifier per artifact. Current artifact [org.talend.esb.sts:org.talend.esb.sts.config:bundle:5.0.0-SNAPSHOT] has a [] classifier.
+[INFO] 
+[INFO] --- license-maven-plugin:1.0:update-project-license (default) @ org.talend.esb.sts.config ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ org.talend.esb.sts.config ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 5 resources
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ org.talend.esb.sts.config ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:testResources (default-testResources) @ org.talend.esb.sts.config ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory D:\talend\git\tesb-rt-se\sts\sts-config\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ org.talend.esb.sts.config ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.10:test (default-test) @ org.talend.esb.sts.config ---
+[INFO] No tests to run.
+[INFO] Surefire report directory: D:\talend\git\tesb-rt-se\sts\sts-config\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.5:bundle (default-bundle) @ org.talend.esb.sts.config ---
+[INFO] 
+[INFO] --- build-helper-maven-plugin:1.7:attach-artifact (attach-artifacts) @ org.talend.esb.sts.config ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.3.1:install (default-install) @ org.talend.esb.sts.config ---
+[INFO] Installing D:\talend\git\tesb-rt-se\sts\sts-config\target\org.talend.esb.sts.config-5.0.0-SNAPSHOT.jar to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\sts\org.talend.esb.sts.config\5.0.0-SNAPSHOT\org.talend.esb.sts.config-5.0.0-SNAPSHOT.jar
+[INFO] Installing D:\talend\git\tesb-rt-se\sts\sts-config\pom.xml to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\sts\org.talend.esb.sts.config\5.0.0-SNAPSHOT\org.talend.esb.sts.config-5.0.0-SNAPSHOT.pom
+[INFO] Installing D:\talend\git\tesb-rt-se\sts\sts-config\etc\org.talend.esb.sts.server.cfg to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\sts\org.talend.esb.sts.config\5.0.0-SNAPSHOT\org.talend.esb.sts.config-5.0.0-SNAPSHOT-org.talend.esb.sts.server.cfg
+[INFO] Installing D:\talend\git\tesb-rt-se\sts\sts-config\etc\keystores\stsKeystore.properties to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\sts\org.talend.esb.sts.config\5.0.0-SNAPSHOT\org.talend.esb.sts.config-5.0.0-SNAPSHOT-stsKeystore.properties
+[INFO] Installing D:\talend\git\tesb-rt-se\sts\sts-config\etc\keystores\stsstore.jks to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\sts\org.talend.esb.sts.config\5.0.0-SNAPSHOT\org.talend.esb.sts.config-5.0.0-SNAPSHOT-stsstore.jks
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.5:install (default-install) @ org.talend.esb.sts.config ---
+[INFO] Installing org/talend/esb/sts/org.talend.esb.sts.config/5.0.0-SNAPSHOT/org.talend.esb.sts.config-5.0.0-SNAPSHOT.jar
+[INFO] Writing OBR metadata
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 5.453s
+[INFO] Finished at: Tue Nov 15 17:48:36 EET 2011
+[INFO] Final Memory: 9M/20M
+[INFO] ------------------------------------------------------------------------

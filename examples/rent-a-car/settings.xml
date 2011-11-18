@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+
+  <servers>
+		<server>
+			<id>archiva.internal</id>
+			<username>admin</username>
+			<password>password</password>
+		</server>
+		<server>
+			<id>archiva.snapshots</id>
+			<username>admin</username>
+			<password>pwd1</password>
+		</server>
+  </servers>
+
+
+</settings>
+

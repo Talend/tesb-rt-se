@@ -1,0 +1,404 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building TESB :: Assembly 5.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/assemblies/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.main/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.exception/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.client/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/shell/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/jaas/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.util/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.spring/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/deployer/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.blueprint/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.kar/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.wrap/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/org.apache.karaf.management.server/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/diagnostic/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.osgi/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.log/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.packages/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.commands/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.ssh/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/mbeans/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/webconsole/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.branding/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/standard/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/enterprise/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/apache-camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/platforms/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel-parent/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf-bundle/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf-bundle-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/apache-cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/karaf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+[WARNING] The POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/assembly/talend-if/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/assembly/talend-if/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/tif-parent/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:tree (default-cli) @ talend-esb ---
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.main/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.exception/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.client/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.util/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.spring/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.blueprint/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.kar/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.wrap/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/org.apache.karaf.management.server/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.osgi/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.log/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.packages/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.commands/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.ssh/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.branding/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.2.4-SNAPSHOT/maven-metadata.xml
+[WARNING] Invalid POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/assemblies/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/standard/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/enterprise/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/apache-camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/platforms/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel-parent/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/apache-cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/karaf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Invalid POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] org.talend.esb.assembly:talend-esb:pom:5.0-SNAPSHOT
+[INFO] +- org.apache.karaf:apache-karaf:zip:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf:org.apache.karaf.main:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf:org.apache.karaf.exception:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf:org.apache.karaf.client:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  |  +- org.sonatype.jline:jline:jar:2.5:compile
+[INFO] |  |  +- org.fusesource.jansi:jansi:jar:1.4:compile
+[INFO] |  |  +- org.apache.karaf:org.apache.karaf.util:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  |  +- org.apache.aries.testsupport:org.apache.aries.testsupport.unit:jar:0.3:compile
+[INFO] |  |  +- org.apache.aries.proxy:org.apache.aries.proxy.api:jar:0.3:compile
+[INFO] |  |  +- org.apache.felix:org.apache.felix.gogo.runtime:jar:0.10.0:compile
+[INFO] |  |  \- org.slf4j:slf4j-simple:jar:1.6.1:compile
+[INFO] |  +- org.apache.karaf.deployer:org.apache.karaf.deployer.spring:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.deployer:org.apache.karaf.deployer.blueprint:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.deployer:org.apache.karaf.deployer.features:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.deployer:org.apache.karaf.deployer.kar:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.deployer:org.apache.karaf.deployer.wrap:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.features:org.apache.karaf.features.core:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.features:org.apache.karaf.features.command:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.features:org.apache.karaf.features.management:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.features:org.apache.karaf.features.obr:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.diagnostic:org.apache.karaf.diagnostic.core:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.diagnostic:org.apache.karaf.diagnostic.common:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.diagnostic:org.apache.karaf.diagnostic.command:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.diagnostic:org.apache.karaf.diagnostic.management:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.admin:org.apache.karaf.admin.core:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.admin:org.apache.karaf.admin.command:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.admin:org.apache.karaf.admin.management:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.console:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.obr:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.osgi:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.log:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.config:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.packages:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.commands:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.ssh:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.shell:org.apache.karaf.shell.dev:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.jaas:org.apache.karaf.jaas.boot:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.jaas:org.apache.karaf.jaas.config:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.jaas:org.apache.karaf.jaas.modules:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.jaas:org.apache.karaf.jaas.command:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.management:org.apache.karaf.management.server:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.management.mbeans:org.apache.karaf.management.mbeans.config:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  |  \- org.apache.felix:org.apache.felix.utils:jar:1.1.0:compile
+[INFO] |  +- org.apache.karaf.webconsole:org.apache.karaf.webconsole.admin:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.webconsole:org.apache.karaf.webconsole.branding:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.webconsole:org.apache.karaf.webconsole.console:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.webconsole:org.apache.karaf.webconsole.features:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.karaf.webconsole:org.apache.karaf.webconsole.gogo:jar:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.springframework.osgi:spring-osgi-extender:jar:1.2.1:compile
+[INFO] |  +- org.springframework.osgi:spring-osgi-core:jar:1.2.1:compile
+[INFO] |  +- org.springframework.osgi:spring-osgi-io:jar:1.2.1:compile
+[INFO] |  +- org.springframework.osgi:spring-osgi-annotation:jar:1.2.1:compile
+[INFO] |  +- org.springframework:spring-context:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.springframework:spring-beans:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.springframework:spring-core:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.springframework:spring-aop:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.bundlerepository:jar:1.6.4:compile
+[INFO] |  |  \- org.easymock:easymock:jar:3.0:test (version managed from 2.4; scope managed from compile)
+[INFO] |  |     +- cglib:cglib-nodep:jar:2.2:test
+[INFO] |  |     \- org.objenesis:objenesis:jar:1.2:test
+[INFO] |  +- org.apache.felix:org.apache.felix.fileinstall:jar:3.1.10:compile
+[INFO] |  +- org.apache.mina:mina-core:jar:2.0.1:compile
+[INFO] |  +- org.osgi:org.osgi.compendium:jar:4.2.0:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.configadmin:jar:1.2.8:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.eventadmin:jar:1.2.12:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.metatype:jar:1.0.4:compile
+[INFO] |  |  \- net.sf.kxml:kxml2:jar:2.2.2:compile
+[INFO] |  |     \- xmlpull:xmlpull:jar:1.1.3.1:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.webconsole:jar:3.1.8:compile
+[INFO] |  +- org.ops4j.pax.logging:pax-logging-api:jar:1.6.3:compile
+[INFO] |  +- org.ops4j.pax.logging:pax-logging-service:jar:1.6.3:compile
+[INFO] |  +- org.ops4j.pax.url:pax-url-mvn:jar:1.2.8:compile
+[INFO] |  +- org.ops4j.pax.url:pax-url-wrap:jar:1.2.8:compile
+[INFO] |  +- org.apache.sshd:sshd-core:jar:0.5.0:compile
+[INFO] |  +- org.eclipse:osgi:jar:3.6.2.R36x_v20110210:compile
+[INFO] |  +- org.apache.felix:org.apache.felix.framework:jar:3.0.9:compile
+[INFO] |  +- org.apache.aries.blueprint:org.apache.aries.blueprint:jar:0.3.1:compile
+[INFO] |  +- org.apache.aries.proxy:org.apache.aries.proxy:jar:0.3:compile
+[INFO] |  |  \- org.apache.aries.proxy:org.apache.aries.proxy.impl:jar:0.3:compile
+[INFO] |  +- org.apache.aries:org.apache.aries.util:jar:0.3:compile
+[INFO] |  +- org.apache.aries.jmx:org.apache.aries.jmx:jar:0.3:compile
+[INFO] |  +- org.apache.aries.jmx:org.apache.aries.jmx.blueprint:jar:0.3:compile
+[INFO] |  +- org.eclipse.jetty:jetty-util:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-io:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-http:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-continuation:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-server:jar:7.4.5.v20110725:compile
+[INFO] |  |  \- javax.servlet:servlet-api:jar:2.5:compile
+[INFO] |  +- org.eclipse.jetty:jetty-security:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-servlet:jar:7.4.5.v20110725:compile
+[INFO] |  +- org.eclipse.jetty:jetty-xml:jar:7.4.5.v20110725:compile
+[INFO] |  \- org.apache.servicemix.bundles:org.apache.servicemix.bundles.asm:jar:3.3_2:compile
+[INFO] +- org.apache.karaf:apache-karaf:tar.gz:2.2.4-SNAPSHOT:compile
+[INFO] +- org.apache.karaf.assemblies.features:standard:xml:features:2.2.4-SNAPSHOT:compile
+[INFO] +- org.apache.karaf.assemblies.features:enterprise:xml:features:2.2.4-SNAPSHOT:compile
+[INFO] |  +- org.apache.aries.jndi:org.apache.aries.jndi.api:jar:0.3:compile
+[INFO] |  +- org.apache.aries.jndi:org.apache.aries.jndi.core:jar:0.3:compile
+[INFO] |  \- org.apache.aries.jndi:org.apache.aries.jndi.url:jar:0.3:compile
+[INFO] +- org.apache.camel.karaf:apache-camel:xml:features:2.8.2-SNAPSHOT:compile
+[INFO] +- org.apache.cxf:cxf-bundle:jar:2.5.0-SNAPSHOT:compile
+[INFO] |  +- org.apache.ws.xmlschema:xmlschema-core:jar:2.0.1:compile
+[INFO] |  +- org.codehaus.woodstox:woodstox-core-asl:jar:4.1.1:compile
+[INFO] |  +- org.codehaus.woodstox:stax2-api:jar:3.1.1:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:jar:1.0.1:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-annotation_1.0_spec:jar:1.1.1:compile
+[INFO] |  +- javax.xml.bind:jaxb-api:jar:2.2.3:compile
+[INFO] |  +- org.apache.velocity:velocity:jar:1.7:compile
+[INFO] |  +- commons-collections:commons-collections:jar:3.2.1:compile
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] |  +- wsdl4j:wsdl4j:jar:1.6.2:compile
+[INFO] |  +- com.sun.xml.bind:jaxb-xjc:jar:2.2.4-1:compile
+[INFO] |  +- com.sun.xml.bind:jaxb-impl:jar:2.2.4-1:compile
+[INFO] |  +- org.apache.neethi:neethi:jar:3.0.1:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-activation_1.1_spec:jar:1.1:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:jar:1.7.1:compile
+[INFO] |  +- javax.xml.soap:saaj-api:jar:1.3.4:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec:jar:1.1.3:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-jaxws_2.2_spec:jar:1.1:compile
+[INFO] |  +- xml-resolver:xml-resolver:jar:1.2:compile
+[INFO] |  +- asm:asm:jar:3.3:compile
+[INFO] |  +- org.springframework:spring-web:jar:3.0.6.RELEASE:compile
+[INFO] |  +- aopalliance:aopalliance:jar:1.0:compile
+[INFO] |  +- org.springframework:spring-asm:jar:3.0.6.RELEASE:compile
+[INFO] |  +- commons-logging:commons-logging:jar:1.1.1:compile
+[INFO] |  +- org.springframework:spring-expression:jar:3.0.6.RELEASE:compile
+[INFO] |  +- com.sun.xml.messaging.saaj:saaj-impl:jar:1.3.12:compile
+[INFO] |  +- org.jvnet:mimepull:jar:1.4:compile
+[INFO] |  +- antlr:antlr:jar:2.7.7:compile
+[INFO] |  +- org.apache.xmlbeans:xmlbeans:jar:2.4.0:compile
+[INFO] |  +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+[INFO] |  +- org.codehaus.jettison:jettison:jar:1.3:compile
+[INFO] |  +- org.slf4j:slf4j-api:jar:1.6.2:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-servlet_2.5_spec:jar:1.1.2:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-jms_1.1_spec:jar:1.1.1:compile
+[INFO] |  +- org.springframework:spring-jms:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.springframework:spring-tx:jar:3.0.6.RELEASE:compile
+[INFO] |  +- org.codehaus.jra:jra:jar:1.0-alpha-4:compile
+[INFO] |  +- rhino:js:jar:1.7R2:compile
+[INFO] |  +- org.apache.ws.security:wss4j:jar:1.6.3:compile
+[INFO] |  +- org.apache.santuario:xmlsec:jar:1.4.5:compile
+[INFO] |  +- org.opensaml:opensaml:jar:2.5.1-1:compile
+[INFO] |  +- org.opensaml:openws:jar:1.4.2-1:compile
+[INFO] |  +- org.opensaml:xmltooling:jar:1.3.2-1:compile
+[INFO] |  +- joda-time:joda-time:jar:1.6.2:compile
+[INFO] |  +- xalan:xalan:jar:2.7.1:compile
+[INFO] |  \- xalan:serializer:jar:2.7.1:compile
+[INFO] +- org.apache.cxf.karaf:apache-cxf:xml:features:2.5.0-SNAPSHOT:compile
+[INFO] +- org.apache.activemq:activemq-blueprint:jar:5.5.0:compile
+[INFO] |  \- org.apache.xbean:xbean-blueprint:jar:3.7:compile
+[INFO] |     \- org.apache.commons:commons-jexl:jar:2.0:compile
+[INFO] +- org.apache.activemq:activemq-console:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activeio-core:jar:3.1.2:compile
+[INFO] |  +- commons-pool:commons-pool:jar:1.5.4:compile
+[INFO] |  +- org.apache.xbean:xbean-spring:jar:3.7:compile
+[INFO] |  +- net.sf.josql:josql:jar:1.5:compile
+[INFO] |  +- net.sf.josql:gentlyweb-utils:jar:1.5:compile
+[INFO] |  +- org.jasypt:jasypt:jar:1.7:compile
+[INFO] |  \- commons-daemon:commons-daemon:jar:1.0.3:compile
+[INFO] +- org.apache.activemq:activemq-core:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq.protobuf:activemq-protobuf:jar:1.1:compile
+[INFO] |  +- org.osgi:org.osgi.core:jar:4.1.0:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:jar:1.0.1:compile
+[INFO] |  \- commons-net:commons-net:jar:2.0:compile
+[INFO] +- org.apache.activemq:activemq-karaf:jar:5.5.0:compile
+[INFO] |  \- org.apache.activemq:activemq-optional:jar:5.5.0:compile
+[INFO] |     +- org.eclipse.jetty:jetty-webapp:jar:7.1.6.v20100715:compile
+[INFO] |     +- org.eclipse.jetty:jetty-websocket:jar:7.1.6.v20100715:compile
+[INFO] |     +- axis:axis:jar:1.2-RC1:compile
+[INFO] |     \- junit:junit:jar:4.9:test (version managed from 4.5; scope managed from compile)
+[INFO] |        \- org.hamcrest:hamcrest-core:jar:1.3.RC2:test (version managed from 1.1)
+[INFO] +- org.apache.activemq:activemq-pool:jar:5.5.0:compile
+[INFO] |  \- org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec:jar:1.0.1:compile
+[INFO] +- org.apache.activemq:activemq-ra:jar:5.5.0:compile
+[INFO] |  \- org.apache.geronimo.specs:geronimo-j2ee-connector_1.5_spec:jar:2.0.0:compile
+[INFO] +- org.apache.activemq:kahadb:jar:5.5.0:compile
+[INFO] +- org.apache.activemq:activemq-karaf:xml:features:5.5.0:compile
+[INFO] +- org.apache.activemq:apache-activemq:tar.gz:bin:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-all:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-camel:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-fileserver:war:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-web:jar:5.5.0:compile
+[INFO] |  |  +- rome:rome:jar:0.8:compile
+[INFO] |  |  \- jdom:jdom:jar:1.0:compile
+[INFO] |  +- org.apache.activemq:activemq-jaas:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-xmpp:jar:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-spring:jar:5.5.0:compile
+[INFO] |  |  \- org.springframework:spring-test:jar:3.0.3.RELEASE:compile
+[INFO] |  +- org.apache.activemq:activemq-web-demo:war:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-web-console:war:5.5.0:compile
+[INFO] |  +- org.apache.activemq:activemq-run:jar:5.5.0:compile
+[INFO] |  +- org.apache.camel:camel-core:jar:2.7.0:compile
+[INFO] |  |  +- org.fusesource.commonman:commons-management:jar:1.0:compile
+[INFO] |  |  \- com.sun:tools:jar:1.5.0:system
+[INFO] |  +- org.apache.camel:camel-spring:jar:2.7.0:compile
+[INFO] |  +- org.apache.camel:camel-jetty:jar:2.7.0:compile
+[INFO] |  |  +- org.apache.camel:camel-http:jar:2.7.0:compile
+[INFO] |  |  |  \- org.apache.geronimo.specs:geronimo-servlet_2.4_spec:jar:1.1.1:compile
+[INFO] |  |  +- org.eclipse.jetty:jetty-servlets:jar:7.2.2.v20101205:compile
+[INFO] |  |  +- org.eclipse.jetty:jetty-client:jar:7.2.2.v20101205:compile
+[INFO] |  |  \- org.eclipse.jetty:jetty-jmx:jar:7.2.2.v20101205:compile
+[INFO] |  +- org.apache.camel:camel-web:war:2.4.0:compile
+[INFO] |  +- org.apache.camel:camel-jms:jar:2.7.0:compile
+[INFO] |  +- javax.activation:activation:jar:1.1:compile
+[INFO] |  +- commons-httpclient:commons-httpclient:jar:3.1:compile
+[INFO] |  |  \- commons-codec:commons-codec:jar:1.2:compile
+[INFO] |  +- commons-beanutils:commons-beanutils:jar:1.6.1:compile
+[INFO] |  +- activesoap:jaxp-api:jar:1.3:compile
+[INFO] |  +- org.apache.activemq:activemq-jmdns_1.0:jar:5.5.0:compile
+[INFO] |  +- com.thoughtworks.xstream:xstream:jar:1.3.1:compile
+[INFO] |  |  \- xpp3:xpp3_min:jar:1.1.4c:compile
+[INFO] |  +- xpp3:xpp3:jar:1.1.4c:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-jsp_2.1_spec:jar:1.0.1:compile
+[INFO] |  +- org.apache.geronimo.specs:geronimo-jacc_1.1_spec:jar:1.0.1:compile
+[INFO] |  +- org.springframework:spring-webmvc:jar:3.0.3.RELEASE:compile
+[INFO] |  |  \- org.springframework:spring-context-support:jar:3.0.3.RELEASE:compile
+[INFO] |  +- org.springframework.ws:spring-oxm-tiger:jar:1.5.8:compile
+[INFO] |  |  +- org.springframework.ws:spring-xml:jar:1.5.8:compile
+[INFO] |  |  \- org.springframework.ws:spring-oxm:jar:1.5.8:compile
+[INFO] |  +- org.eclipse.jetty.aggregate:jetty-all-server:jar:7.1.6.v20100715:compile
+[INFO] |  |  +- org.apache.geronimo.specs:geronimo-jta_1.1_spec:jar:1.1.1:compile
+[INFO] |  |  +- javax.mail:mail:jar:1.4.1:compile
+[INFO] |  |  +- org.apache.geronimo.specs:geronimo-jaspic_1.0_spec:jar:1.0:compile
+[INFO] |  |  \- asm:asm-commons:jar:3.1:compile
+[INFO] |  |     \- asm:asm-tree:jar:3.1:compile
+[INFO] |  +- org.eclipse.jdt:core:jar:3.1.1:compile
+[INFO] |  +- org.slf4j:slf4j-log4j12:jar:1.5.11:compile
+[INFO] |  +- org.slf4j:jcl-over-slf4j:jar:1.5.11:compile
+[INFO] |  +- opensymphony:sitemesh:jar:2.2.1:compile
+[INFO] |  +- javax.servlet:jstl:jar:1.0:compile
+[INFO] |  +- taglibs:standard:jar:1.1.2:compile
+[INFO] |  +- org.mortbay.jetty:jsp-2.1-glassfish:jar:2.1.v20100127:compile
+[INFO] |  |  +- org.eclipse.jdt.core.compiler:ecj:jar:3.5.1:compile
+[INFO] |  |  +- org.mortbay.jetty:jsp-api-2.1-glassfish:jar:2.1.v20100127:compile
+[INFO] |  |  \- ant:ant:jar:1.6.5:compile
+[INFO] |  +- stax:stax-api:jar:1.0.1:compile
+[INFO] |  +- stax:stax:jar:1.2.0:compile
+[INFO] |  +- jrms:jrms:jar:1.1:compile
+[INFO] |  +- xerces:xercesImpl:jar:2.6.2:compile
+[INFO] |  \- xerces:xmlParserAPIs:jar:2.6.2:compile
+[INFO] +- org.apache.activemq:apache-activemq:zip:bin:5.5.0:compile
+[INFO] +- org.apache.zookeeper:zookeeper:tar.gz:3.3.3:compile
+[INFO] |  +- log4j:log4j:jar:1.2.15:compile
+[INFO] |  \- jline:jline:jar:0.9.94:compile
+[INFO] +- org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT:compile
+[INFO] +- com.talend.if.assembly:talend-if:tar.gz:examples:2.8.2.0-SNAPSHOT:compile
+[INFO] +- org.talend.tif.docs:tif-manual:zip:pdf:2.7-SNAPSHOT:compile
+[INFO] +- com.talend.sf.assembly:talend-sf:zip:examples:2.4.1.0:compile
+[INFO] +- org.talend.tsf.docs:tsf-manual:zip:pdf:2.5.0-SNAPSHOT:compile
+[INFO] +- com.talend.sf:cxf-sts-war:war:1.1:compile
+[INFO] \- org.apache.felix:org.osgi.compendium:jar:1.2.0:compile
+[INFO]    +- org.apache.felix:org.osgi.core:jar:1.2.0:compile
+[INFO]    +- org.apache.felix:javax.servlet:jar:1.0.0:compile
+[INFO]    \- org.apache.felix:org.osgi.foundation:jar:1.2.0:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2:23.050s
+[INFO] Finished at: Fri Oct 14 14:17:41 EEST 2011
+[INFO] Final Memory: 19M/34M
+[INFO] ------------------------------------------------------------------------

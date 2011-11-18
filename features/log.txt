@@ -1,0 +1,29 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building TESB :. Features 5.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ features ---
+[INFO] Deleting D:\talend\git\tesb-rt-se\features\target
+[INFO] 
+[INFO] --- license-maven-plugin:1.0-beta-3:update-project-license (default) @ features ---
+[INFO] Will create or update license file [apache_v2] to D:\talend\git\tesb-rt-se\features\target\LICENSE.txt
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (filter) @ features ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- build-helper-maven-plugin:1.7:attach-artifact (attach-artifacts) @ features ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.3.1:install (default-install) @ features ---
+[INFO] Installing D:\talend\git\tesb-rt-se\features\pom.xml to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\features\5.0-SNAPSHOT\features-5.0-SNAPSHOT.pom
+[INFO] Installing D:\talend\git\tesb-rt-se\features\target\classes\features.xml to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\features\5.0-SNAPSHOT\features-5.0-SNAPSHOT.xml
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.610s
+[INFO] Finished at: Fri Oct 14 18:58:18 EEST 2011
+[INFO] Final Memory: 3M/7M
+[INFO] ------------------------------------------------------------------------

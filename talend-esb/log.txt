@@ -1,0 +1,1608 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building TESB :: Assembly 5.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+[WARNING] The POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/assembly/talend-if/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/assembly/talend-if/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/com/talend/if/tif-parent/2.8.2.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/assemblies/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.main/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.main/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.exception/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.exception/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.client/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.client/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/shell/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/jaas/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/org.apache.karaf.util/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.spring/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.spring/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/deployer/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.blueprint/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.blueprint/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.kar/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.kar/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.wrap/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/deployer/org.apache.karaf.deployer.wrap/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/org.apache.karaf.management.server/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/features/org.apache.karaf.features.obr/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/diagnostic/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.core/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/admin/org.apache.karaf.admin.management/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.osgi/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.osgi/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.log/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.log/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.packages/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.packages/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.commands/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.commands/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.ssh/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.ssh/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/jaas/org.apache.karaf.jaas.command/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/management/mbeans/mbeans/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/webconsole/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.branding/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.branding/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.console/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/apache-karaf/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/standard/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/features/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/enterprise/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/enterprise/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/apache-camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/apache-camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/karaf/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/platforms/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel-parent/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/camel/camel/2.8.2-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/apache-cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/apache-cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/karaf/karaf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf-parent/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/cxf/cxf/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected c20e612050bc3a73a51ef1a5fb7afaa69072abcf but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected c20e612050bc3a73a51ef1a5fb7afaa69072abcf but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+Downloaded: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml (0 B at 0.0 KB/sec)
+[WARNING] The metadata C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tif\docs\tif-manual\2.7-SNAPSHOT\maven-metadata-development.xml is invalid: input contained no data
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected c20e612050bc3a73a51ef1a5fb7afaa69072abcf but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected c20e612050bc3a73a51ef1a5fb7afaa69072abcf but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml
+Downloaded: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tif/docs/tif-manual/2.7-SNAPSHOT/maven-metadata.xml (0 B at 0.0 KB/sec)
+[WARNING] The metadata C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tif\docs\tif-manual\2.7-SNAPSHOT\maven-metadata-development.xml is invalid: input contained no data
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected bccd797475087ba43e373cfab7cbcef65455820b but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected bccd797475087ba43e373cfab7cbcef65455820b but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloaded: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml (0 B at 0.0 KB/sec)
+[WARNING] The metadata C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tsf\docs\tsf-manual\2.5.0-SNAPSHOT\maven-metadata-development.xml is invalid: input contained no data
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected bccd797475087ba43e373cfab7cbcef65455820b but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Checksum validation failed, expected bccd797475087ba43e373cfab7cbcef65455820b but is da39a3ee5e6b4b0d3255bfef95601890afd80709 for http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml
+Downloaded: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/tsf/docs/tsf-manual/2.5.0-SNAPSHOT/maven-metadata.xml (0 B at 0.0 KB/sec)
+[WARNING] The metadata C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tsf\docs\tsf-manual\2.5.0-SNAPSHOT\maven-metadata-development.xml is invalid: input contained no data
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/cxf-sts-war/5.0.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/cxf-sts-war/5.0.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/5.0.0-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/esb-parent/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ talend-esb ---
+[INFO] 
+[INFO] --- license-maven-plugin:1.0:update-project-license (default) @ talend-esb ---
+[INFO] Will create or update license file [apache_v2] to D:\talend\git\tesb-rt-se\talend-esb\target\LICENSE.txt
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (filter) @ talend-esb ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 7 resources
+[INFO] Copying 2 resources to bin
+[INFO] 
+[INFO] >>> features-maven-plugin:2.2.4:add-features-to-repo (add-features-to-repo) @ talend-esb >>>
+[INFO] 
+[INFO] --- license-maven-plugin:1.0:update-project-license (default) @ talend-esb ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (filter) @ talend-esb ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 7 resources
+[INFO] Copying 2 resources to bin
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:copy (copy) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.esb:org.talend.esb.branding:5.0.0-SNAPSHOT:jar
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/org.talend.esb.branding/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying org.talend.esb.branding-5.0.0-SNAPSHOT.jar to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\tesb.jar
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-unix) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.karaf:apache-karaf:?:tar.gz
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\karaf\apache-karaf\2.2.4\apache-karaf-2.2.4.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\unix with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\karaf\apache-karaf\2.2.4\apache-karaf-2.2.4.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\unix
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-win) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.karaf:apache-karaf:?:zip
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\karaf\apache-karaf\2.2.4\apache-karaf-2.2.4.zip to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\win with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-camel) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.camel:apache-camel:2.8.2:tar.gz
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\camel\apache-camel\2.8.2\apache-camel-2.8.2.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\camel with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\camel\apache-camel\2.8.2\apache-camel-2.8.2.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\camel
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-cxf) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.cxf:apache-cxf:2.5.0:tar.gz
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\cxf\apache-cxf\2.5.0\apache-cxf-2.5.0.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\cxf with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\cxf\apache-cxf\2.5.0\apache-cxf-2.5.0.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\cxf
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-zookeeper) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.zookeeper:zookeeper:3.3.3:tar.gz
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\zookeeper\zookeeper\3.3.3\zookeeper-3.3.3.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\zookeeper with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\zookeeper\zookeeper\3.3.3\zookeeper-3.3.3.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\zookeeper
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-activemq) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.activemq:apache-activemq:bin:5.5.0:tar.gz
+[INFO] Configured Artifact: org.apache.activemq:apache-activemq:bin:5.5.0:zip
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\activemq\apache-activemq\5.5.0\apache-activemq-5.5.0-bin.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\activemq-unix with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\activemq\apache-activemq\5.5.0\apache-activemq-5.5.0-bin.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\activemq-unix
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\activemq\apache-activemq\5.5.0\apache-activemq-5.5.0-bin.zip to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\activemq-win with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tif-examples) @ talend-esb ---
+[INFO] Configured Artifact: com.talend.if.assembly:talend-if:examples:2.8.2.0-SNAPSHOT:tar.gz
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\com\talend\if\assembly\talend-if\2.8.2.0-SNAPSHOT\talend-if-2.8.2.0-SNAPSHOT-examples.tar.gz to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies with includes "" and excludes ""
+[INFO] Expanding: C:\Documents and Settings\igor.lazebny\.m2\repository\com\talend\if\assembly\talend-if\2.8.2.0-SNAPSHOT\talend-if-2.8.2.0-SNAPSHOT-examples.tar.gz into D:\talend\git\tesb-rt-se\talend-esb\target\dependencies
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tsf-examples) @ talend-esb ---
+[INFO] Configured Artifact: com.talend.sf.assembly:talend-sf:examples:2.4.1.0:zip
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\com\talend\sf\assembly\talend-sf\2.4.1.0\talend-sf-2.4.1.0-examples.zip to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tesb-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.esb.docs:esb-docs:pdf:5.0.0-SNAPSHOT:zip
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/docs/esb-docs/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\docs\esb-docs\5.0.0-SNAPSHOT\esb-docs-5.0.0-SNAPSHOT-pdf.zip to D:\talend\git\tesb-rt-se\talend-esb\target\docs with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tsf-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.tsf.docs:tsf-manual:pdf:2.5.0-SNAPSHOT:zip
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tsf\docs\tsf-manual\2.5.0-SNAPSHOT\tsf-manual-2.5.0-SNAPSHOT-pdf.zip to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\tsf-doc with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tif-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.tif.docs:tif-manual:pdf:2.7-SNAPSHOT:zip
+[INFO] Unpacking C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tif\docs\tif-manual\2.7-SNAPSHOT\tif-manual-2.7-SNAPSHOT-pdf.zip to D:\talend\git\tesb-rt-se\talend-esb\target\dependencies\tif-doc with includes "" and excludes ""
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.6:run (collect-add-ons) @ talend-esb ---
+[WARNING] Parameter tasks is deprecated, use target instead
+[INFO] Executing tasks
+
+main:
+     [copy] Copying 6 files to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\sam
+     [copy] Copying 1 file to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\locator
+     [copy] Copying 6 files to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\locator
+     [copy] Copying 6 files to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\job
+     [copy] Copying 40 files to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\lib
+     [copy] Copying 6 files to D:\talend\git\tesb-rt-se\talend-esb\target\add-ons\sam\db
+[INFO] Executed tasks
+[INFO] 
+[INFO] <<< features-maven-plugin:2.2.4:add-features-to-repo (add-features-to-repo) @ talend-esb <<<
+[INFO] 
+[INFO] --- features-maven-plugin:2.2.4:add-features-to-repo (add-features-to-repo) @ talend-esb ---
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:standard:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:enterprise:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:enterprise:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:standard:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:standard:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:enterprise:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.karaf.cellar:apache-karaf-cellar:xml:features:2.2.2
+[INFO] Copying bundle: org.jclouds.karaf:feature:xml:features:1.0.0
+[INFO] Copying bundle: org.jclouds.karaf:feature:xml:features:1.0.0
+[INFO] Copying bundle: org.apache.karaf.assemblies.features:standard:xml:features:2.2.4
+[INFO] Copying bundle: org.apache.camel.karaf:apache-camel:xml:features:2.8.2
+[INFO] Copying bundle: org.apache.cxf.karaf:apache-cxf:xml:features:2.4.3
+[INFO] Copying bundle: org.apache.cxf.karaf:apache-cxf:xml:features:2.5.0
+[INFO] Copying bundle: org.apache.activemq:activemq-karaf:xml:features:5.5.0
+[INFO] Copying bundle: org.apache.camel.karaf:apache-camel:xml:features:2.8.2
+[INFO] Copying bundle: org.apache.cxf.karaf:apache-cxf:xml:features:2.4.3
+[INFO] Copying bundle: org.apache.cxf.karaf:apache-cxf:xml:features:2.5.0
+[INFO] Copying bundle: org.apache.activemq:activemq-karaf:xml:features:5.5.0
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: webconsole
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-core
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-test
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-messaging
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-ws
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tif-logging
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-monitoring
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-encryption
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-ldap
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-scheduler
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tif-system
+[INFO] Adding contents for feature: tif-core
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: tesb-sam-agent
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-derby-starter
+[INFO] Adding contents for feature: tesb-sam-server
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-locator-client
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-locator-soap-service
+[INFO] Adding contents for feature: tesb-locator-client
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-locator-rest-service
+[INFO] Adding contents for feature: tesb-locator-client
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: talend-job-api
+[INFO] Adding contents for feature: talend-job-controller
+[INFO] Adding contents for feature: talend-job-api
+[INFO] Adding contents for feature: tesb-locator-client
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-sam-agent
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: tesb-zookeeper-server
+[INFO] Adding contents for feature: tesb-sts
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents for feature: cellar
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: cellar-webconsole
+[INFO] Adding contents for feature: cellar
+[INFO] Adding contents for feature: spring-dm
+[INFO] Adding contents for feature: spring
+[INFO] Adding contents for feature: webconsole
+[INFO] Adding contents for feature: jetty
+[INFO] Adding contents of transitive feature: camel-blueprint
+[INFO] Adding contents of transitive feature: camel-saxon
+[INFO] Adding contents of transitive feature: camel-aws
+[INFO] Adding contents of transitive feature: activemq-blueprint
+[INFO] Adding contents of transitive feature: camel-mail
+[INFO] Adding contents of transitive feature: camel
+[INFO] Adding contents of transitive feature: camel-hl7
+[INFO] Adding contents of transitive feature: spring-orm
+[INFO] Adding contents of transitive feature: camel-josql
+[INFO] Adding contents of transitive feature: camel-jdbc
+[INFO] Adding contents of transitive feature: camel-soap
+[INFO] Adding contents of transitive feature: camel-velocity
+[INFO] Adding contents of transitive feature: camel-bam
+[INFO] Adding contents of transitive feature: camel-spring-ws
+[INFO] Adding contents of transitive feature: guice
+[INFO] Adding contents of transitive feature: camel-jing
+[INFO] Adding contents of transitive feature: wss4j
+[INFO] Adding contents of transitive feature: camel-crypto
+[INFO] Adding contents of transitive feature: camel-servlet
+[INFO] Adding contents of transitive feature: talend-job-dependencies
+[INFO] Adding contents of transitive feature: camel-quickfix
+[INFO] Adding contents of transitive feature: camel-scala
+[INFO] Adding contents of transitive feature: camel-routebox
+[INFO] Adding contents of transitive feature: http
+[INFO] Adding contents of transitive feature: camel-syslog
+[INFO] Adding contents of transitive feature: camel-hawtdb
+[INFO] Adding contents of transitive feature: camel-mvel
+[INFO] Adding contents of transitive feature: camel-ognl
+[INFO] Adding contents of transitive feature: cxf-abdera
+[INFO] Adding contents of transitive feature: camel-printer
+[INFO] Adding contents of transitive feature: camel-rss
+[INFO] Adding contents of transitive feature: camel-http4
+[INFO] Adding contents of transitive feature: camel-http
+[INFO] Adding contents of transitive feature: camel-dozer
+[INFO] Adding contents of transitive feature: camel-spring
+[INFO] Adding contents of transitive feature: camel-jibx
+[INFO] Adding contents of transitive feature: activemq-spring
+[INFO] Adding contents of transitive feature: camel-jmx
+[INFO] Adding contents of transitive feature: camel-mina
+[INFO] Adding contents of transitive feature: camel-netty
+[INFO] Adding contents of transitive feature: camel-protobuf
+[INFO] Adding contents of transitive feature: camel-amqp
+[INFO] Adding contents of transitive feature: camel-jms
+[INFO] Adding contents of transitive feature: camel-xmpp
+[INFO] Adding contents of transitive feature: camel-csv
+[INFO] Adding contents of transitive feature: camel-script
+[INFO] Adding contents of transitive feature: camel-ftp
+[INFO] Adding contents of transitive feature: camel-groovy
+[INFO] Adding contents of transitive feature: camel-paxlogging
+[INFO] Adding contents of transitive feature: camel-guice
+[INFO] Adding contents of transitive feature: opensaml
+[INFO] Adding contents of transitive feature: camel-jcr
+[INFO] Adding contents of transitive feature: camel-atom
+[INFO] Adding contents of transitive feature: cxf-specs
+[INFO] Adding contents of transitive feature: camel-cometd
+[INFO] Adding contents of transitive feature: camel-sql
+[INFO] Adding contents of transitive feature: camel-jxpath
+[INFO] Adding contents of transitive feature: camel-sip
+[INFO] Adding contents of transitive feature: camel-irc
+[INFO] Adding contents of transitive feature: spring-jms
+[INFO] Adding contents of transitive feature: camel-snmp
+[INFO] Adding contents of transitive feature: camel-test
+[INFO] Adding contents of transitive feature: camel-lucene
+[INFO] Adding contents of transitive feature: cxf-jaxb
+[INFO] Adding contents of transitive feature: webconsole-base
+[INFO] Adding contents of transitive feature: spring-tx
+[INFO] Adding contents of transitive feature: cxf
+[INFO] Adding contents of transitive feature: camel-nagios
+[INFO] Adding contents of transitive feature: spring-web
+[INFO] Adding contents of transitive feature: camel-xmlsecurity
+[INFO] Adding contents of transitive feature: camel-ldap
+[INFO] Adding contents of transitive feature: camel-exec
+[INFO] Adding contents of transitive feature: camel-ibatis
+[INFO] Adding contents of transitive feature: cxf-war-java5
+[INFO] Adding contents of transitive feature: camel-freemarker
+[INFO] Adding contents of transitive feature: camel-spring-javaconfig
+[INFO] Adding contents of transitive feature: camel-jackson
+[INFO] Adding contents of transitive feature: camel-castor
+[INFO] Adding contents of transitive feature: camel-jaxb
+[INFO] Adding contents of transitive feature: camel-juel
+[INFO] Adding contents of transitive feature: cxf-saaj-impl
+[INFO] Adding contents of transitive feature: spring-oxm
+[INFO] Adding contents of transitive feature: camel-core
+[INFO] Adding contents of transitive feature: jclouds
+[INFO] Adding contents of transitive feature: cxf-sts
+[INFO] Adding contents of transitive feature: activemq
+[INFO] Adding contents of transitive feature: camel-shiro
+[INFO] Adding contents of transitive feature: camel-stream
+[INFO] Adding contents of transitive feature: hazelcast
+[INFO] Adding contents of transitive feature: camel-quartz
+[INFO] Adding contents of transitive feature: camel-smpp
+[INFO] Adding contents of transitive feature: spring-test
+[INFO] Adding contents of transitive feature: camel-bean-validator
+[INFO] Adding contents of transitive feature: camel-jpa
+[INFO] Adding contents of transitive feature: spring-jdbc
+[INFO] Adding contents of transitive feature: camel-spring-security
+[INFO] Adding contents of transitive feature: camel-flatpack
+[INFO] Adding contents of transitive feature: camel-msv
+[INFO] Adding contents of transitive feature: camel-xmlbeans
+[INFO] Adding contents of transitive feature: camel-kestrel
+[INFO] Adding contents of transitive feature: camel-rmi
+[INFO] Adding contents of transitive feature: camel-tagsoup
+[INFO] Adding contents of transitive feature: camel-xstream
+[INFO] Adding contents of transitive feature: camel-cache
+[INFO] Adding contents of transitive feature: camel-string-template
+[INFO] Adding contents of transitive feature: camel-bindy
+[INFO] Adding contents of transitive feature: camel-jasypt
+[INFO] Adding contents of transitive feature: camel-jetty
+[INFO] Adding contents of transitive feature: camel-cxf
+[INFO] Base repo: file:///C:/Documents%20and%20Settings/igor.lazebny/.m2/repository/
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jibx:jar:1.2.2_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.smack:jar:3.1.0_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.josql:jar:1.5_3
+[INFO] Copying bundle: org.apache.camel:camel-josql:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-spring-ws:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-syslog:jar:2.8.2
+[INFO] Copying bundle: org.apache.xbean:xbean-blueprint:jar:3.7
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jdom:jar:1.1_3
+[INFO] Copying bundle: org.jclouds:jclouds-core:jar:1.0.0
+[INFO] Copying bundle: org.springframework.ws:spring-ws-core:jar:2.0.2.RELEASE
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-activation_1.1_spec:jar:1.1
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.utils:jar:2.2.2
+[INFO] Copying bundle: org.apache.camel:camel-bindy:jar:2.8.2
+[INFO] Copying bundle: org.apache.abdera:abdera-parser:jar:1.1.2
+[INFO] Copying bundle: org.apache.camel:camel-spring:jar:2.8.2
+[INFO] Copying bundle: org.apache.karaf.webconsole:org.apache.karaf.webconsole.branding:jar:2.2.4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.ibatis-sqlmap:jar:2.3.4.726_2
+[INFO] Copying bundle: org.apache.camel:camel-snmp:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-saxon:jar:2.8.2
+[INFO] Copying bundle: org.springframework.security:spring-security-config:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.springframework:spring-jdbc:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-aws:jar:2.8.2
+[INFO] Copying bundle: org.springframework:spring-context-support:jar:3.0.5.RELEASE
+[INFO] Copying bundle: org.talend.esb.sts:org.talend.esb.sts.config:properties:stsKeystore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/org.talend.esb.sts.config/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-mvel:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.flatpack:jar:3.2.0_1
+[INFO] Copying bundle: org.apache.camel:camel-kestrel:jar:2.8.2
+[INFO] Copying bundle: commons-codec:commons-codec:jar:1.4
+[INFO] Copying bundle: org.apache.camel:camel-atom:jar:2.8.2
+[INFO] Copying bundle: org.apache.ws.commons.axiom:axiom-api:jar:1.2.12
+[INFO] Copying bundle: com.google.inject.extensions:guice-assistedinject:jar:3.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jexcelapi:jar:2.4.2_2
+[INFO] Copying bundle: org.eclipse.jetty:jetty-server:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.ws.commons.axiom:axiom-api:jar:1.2.10
+[INFO] Copying bundle: org.apache.camel:camel-flatpack:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-hl7:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-netty:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.dom4j:jar:1.6.1_2
+[INFO] Copying bundle: org.springframework.ws:spring-ws-support:jar:2.0.2.RELEASE
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.fastinfoset:jar:1.2.7_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.rome:jar:1.0_1
+[INFO] Copying bundle: org.apache.camel:camel-juel:jar:2.8.2
+[INFO] Copying bundle: org.apache.karaf.cellar:apache-karaf-cellar:cfg:groups:2.2.2
+[INFO] Copying bundle: org.apache.derby:derby:jar:10.8.1.2
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.shell:jar:2.2.2
+[INFO] Copying bundle: org.springframework:spring-jms:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.springframework:spring-beans:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.dom4j:jar:1.6.1_4
+[INFO] Copying bundle: org.apache.camel:camel-irc:jar:2.8.2
+[INFO] Copying bundle: org.apache.cxf.dosgi:cxf-dosgi-ri-discovery-distributed-zookeeper-server:jar:1.2
+[INFO] Copying bundle: org.apache.camel:camel-paxlogging:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-jpa:jar:2.8.2
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.management:jar:2.2.2
+[INFO] Copying bundle: org.apache.activemq:activemq-core:jar:5.5.0
+[INFO] Copying bundle: org.apache.camel:camel-scala:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-pool:jar:1.5.4_1
+[INFO] Copying bundle: org.apache.camel:camel-jackson:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.antlr:jar:2.7.7_2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-jta_1.1_spec:jar:1.1.1
+[INFO] Copying bundle: org.apache.camel:camel-rss:jar:2.8.2
+[INFO] Copying bundle: org.eclipse.jetty:jetty-io:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.karaf.cellar:apache-karaf-cellar:cfg:node:2.2.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.hapi:jar:0.5.1_3
+[INFO] Copying bundle: org.apache.karaf.cellar:apache-karaf-cellar:cfg:instance:2.2.2
+[INFO] Copying bundle: org.apache.httpcomponents:httpclient-osgi:jar:4.1.2
+[INFO] Copying bundle: com.googlecode.guava-osgi:guava-osgi:jar:9.0.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jsch:jar:0.1.44_1
+[INFO] Copying bundle: org.apache.ws.security:wss4j:jar:1.6.3
+[INFO] Copying bundle: org.springframework.security:spring-security-core:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.eclipse.jetty:jetty-continuation:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-jsp:jar:0.7.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xstream:jar:1.3_3
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.bundle:jar:2.2.2
+[INFO] Copying bundle: org.apache.camel:camel-spring-security:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-freemarker:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.cglib:jar:2.1_3_6
+[INFO] Copying bundle: org.eclipse.jetty:jetty-jndi:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.cglib:jar:2.1_3_7
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xalan:jar:2.7.1_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.oauth-commons:jar:20100527_1
+[INFO] Copying bundle: org.apache.camel:camel-ftp:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.mvel:jar:2.0.8_4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.isorelax:jar:20050913_1
+[INFO] Copying bundle: org.apache.camel:camel-tagsoup:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:cfg:org.talend.esb.job.client.sts:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.codehaus.woodstox:stax2-api:jar:3.1.1
+[INFO] Copying bundle: org.springframework:spring-aop:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-blueprint:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xmlsec:jar:1.4.5_1
+[INFO] Copying bundle: org.apache.karaf.webconsole:org.apache.karaf.webconsole.console:jar:2.2.4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.rhino:jar:1.7R1_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.velocity:jar:1.7_2
+[INFO] Copying bundle: org.apache.camel:camel-hawtdb:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.ognl:jar:2.7.3_3
+[INFO] Copying bundle: org.springframework:spring-context:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.openjpa:jar:1.2.1_2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-jibx:jar:2.8.2
+[INFO] Copying bundle: joda-time:joda-time:jar:1.6.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:jks:clientstore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:cfg:org.talend.esb.job.service:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.springframework.osgi:spring-osgi-annotation:jar:1.2.1
+[INFO] Copying bundle: commons-pool:commons-pool:jar:1.5.4
+[INFO] Copying bundle: org.apache.neethi:neethi:jar:3.0.1
+[INFO] Copying bundle: org.apache.camel:camel-sip:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.saaj-impl:jar:1.3.9_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.scala-library:jar:2.9.1_1
+[INFO] Copying bundle: org.apache.camel:camel-ibatis:jar:2.8.2
+[INFO] Copying bundle: org.apache.karaf:apache-karaf:xml:jettyconfig:2.2.4
+[INFO] Copying bundle: org.apache.camel:camel-xmlsecurity:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.werken-xpath:jar:0.9.4_3
+[INFO] Copying bundle: org.apache.camel:camel-jxpath:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb:derby-starter:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/derby-starter/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.talend.esb:zookeeper-server:cfg:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/zookeeper-server/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-smpp:jar:2.8.2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-el_1.0_spec:jar:1.0.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.javassist:jar:3.9.0.GA_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.javax-inject:jar:1_1
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-jetty:jar:1.0.7
+[INFO] Copying bundle: org.eclipse.jetty:jetty-webapp:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.velocity:velocity:jar:1.7
+[INFO] Copying bundle: org.apache.ws.commons.axiom:axiom-impl:jar:1.2.12
+[INFO] Copying bundle: org.apache.xbean:xbean-spring:jar:3.7
+[INFO] Copying bundle: org.apache.camel:camel-servlet:jar:2.8.2
+[INFO] Copying bundle: org.apache.ws.commons.axiom:axiom-impl:jar:1.2.10
+[INFO] Copying bundle: org.springframework.osgi:spring-osgi-io:jar:1.2.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-impl:jar:2.2.1.1_1
+[INFO] Copying bundle: org.apache.camel:camel-jasypt:jar:2.8.2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-servlet_2.5_spec:jar:1.1.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.command:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.command/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.activemq:kahadb:jar:5.5.0
+[INFO] Copying bundle: org.fusesource.hawtbuf:hawtbuf:jar:1.2
+[INFO] Copying bundle: org.talend.esb.locator.service:locator-soap-service:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/locator/service/locator-soap-service/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.saxon:jar:9.1.0.8_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xmlbeans:jar:2.5.0_1
+[INFO] Copying bundle: org.apache.camel:camel-xstream:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:properties:serviceKeystore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-nagios:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.api:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.api/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-ognl:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-jetty:jar:2.8.2
+[INFO] Copying bundle: org.eclipse.jetty:jetty-client:jar:7.4.5.v20110725
+[INFO] Copying bundle: commons-dbcp:commons-dbcp:jar:1.4
+[INFO] Copying bundle: org.apache.camel:camel-quartz:jar:2.8.2
+[INFO] Copying bundle: org.apache.karaf.webconsole:org.apache.karaf.webconsole.admin:jar:2.2.4
+[INFO] Copying bundle: org.apache.camel:camel-rmi:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.opensaml:jar:2.5.1_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.aopalliance:jar:1.0_5
+[INFO] Copying bundle: org.apache.zookeeper:zookeeper:jar:3.3.3
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec:jar:1.1.3
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.jaxws-api-2.2:jar:1.8.0
+[INFO] Copying bundle: org.talend.esb.sts:org.talend.esb.sts.config:cfg:org.talend.esb.sts.server:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/org.talend.esb.sts.config/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-routebox:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-printer:jar:2.8.2
+[INFO] Copying bundle: org.springframework:spring-web:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-cxf-transport:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.guice:jar:2.0_1
+[INFO] Copying bundle: org.codehaus.jackson:jackson-mapper-asl:jar:1.8.6
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.config:jar:2.2.2
+[INFO] Copying bundle: net.sf.dozer:dozer-osgi:jar:5.3.1
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.java-persistence-api-1.1.1:jar:1.8.0
+[INFO] Copying bundle: org.apache.felix:org.apache.felix.webconsole.plugins.event:jar:1.0.2
+[INFO] Copying bundle: org.apache.activemq:activemq-blueprint:jar:5.5.0
+[INFO] Copying bundle: org.apache.camel:camel-test:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.saaj-api-1.3:jar:1.8.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jasypt:jar:1.7_3
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-jms_1.1_spec:jar:1.1.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.velocity:jar:1.6.2_3
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-deployer:jar:1.0.7
+[INFO] Copying bundle: org.springframework:spring-context:jar:3.0.5.RELEASE
+[INFO] Copying bundle: org.talend.esb.sts:org.talend.esb.sts.config:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/org.talend.esb.sts.config/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.springframework.osgi:spring-osgi-core:jar:1.2.1
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.hazelcast:jar:2.2.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.quartz:jar:1.8.3_2
+[INFO] Copying bundle: org.apache.cxf:cxf-bundle:jar:2.5.0
+[INFO] Copying bundle: org.talend.esb:sam-server:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sam-server/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:policy:org.talend.esb.job.saml:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.felix:org.apache.felix.metatype:jar:1.0.4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-csv:jar:1.0-r706899_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.oscache:jar:2.4_3
+[INFO] Copying bundle: org.springframework.ws:spring-xml:jar:2.0.2.RELEASE
+[INFO] Copying bundle: org.apache.ws.xmlschema:xmlschema-core:jar:2.0.1
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.jaxb-api-2.2:jar:1.8.0
+[INFO] Copying bundle: org.apache.camel:camel-mail:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-codec:jar:1.3_3
+[INFO] Copying bundle: commons-net:commons-net:jar:2.2
+[INFO] Copying bundle: org.apache.camel:camel-script:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.locator.service:locator-service-common:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/locator/service/locator-service-common/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-extender-war:jar:1.0.7
+[INFO] Copying bundle: org.talend.esb.sts:org.talend.esb.sts.config:jks:stsstore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sts/org.talend.esb.sts.config/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.bcel:jar:5.2_3
+[INFO] Copying bundle: org.apache.camel:camel-quickfix:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xmlbeans:jar:2.4.0_4
+[INFO] Copying bundle: org.apache.camel:camel-ldap:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.asm:jar:2.2.3_4
+[INFO] Copying bundle: org.apache.camel:camel-jaxb:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jain-sip-ri:jar:1.2.154_1
+[INFO] Copying bundle: org.apache.commons:commons-jexl:jar:2.0.1
+[INFO] Copying bundle: org.apache.commons:commons-exec:jar:1.0.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-xjc:jar:2.2.1.1_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jruby:jar:1.5.6_1
+[INFO] Copying bundle: org.apache.aries.transaction:org.apache.aries.transaction.manager:jar:0.2-incubating
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.aopalliance:jar:1.0_3
+[INFO] Copying bundle: org.eclipse.jetty:jetty-security:jar:7.4.5.v20110725
+[INFO] Copying bundle: commons-collections:commons-collections:jar:3.2.1
+[INFO] Copying bundle: org.apache.camel:camel-bam:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel.karaf:camel-karaf-commands:jar:2.8.2
+[INFO] Copying bundle: org.springframework:spring-expression:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-stream:jar:2.8.2
+[INFO] Copying bundle: org.springframework:spring-context-support:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-velocity:jar:2.8.2
+[INFO] Copying bundle: org.apache.activemq:activemq-pool:jar:5.5.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.bcprov-jdk15:jar:1.46_1
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.activation-api-1.1:jar:1.8.0
+[INFO] Copying bundle: org.talend.esb:locator:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/locator/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.ehcache:jar:2.3.0_3
+[INFO] Copying bundle: org.apache.camel:camel-exec:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-amqp:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.juel:jar:2.1.2_1
+[INFO] Copying bundle: org.apache.camel:camel-lucene:jar:2.8.2
+[INFO] Copying bundle: com.hazelcast:hazelcast:jar:1.9.4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jing:jar:20030619_1
+[INFO] Copying bundle: org.apache.karaf.webconsole:org.apache.karaf.webconsole.gogo:jar:2.2.4
+[INFO] Copying bundle: org.apache.camel:camel-jing:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.serp:jar:1.13.1_2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.castor:jar:1.3.1_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.mina:jar:1.1.7_3
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-spi:jar:1.0.7
+[INFO] Copying bundle: org.apache.camel:camel-castor:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-xmpp:jar:2.8.2
+[INFO] Copying bundle: commons-lang:commons-lang:jar:2.6
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.scripting-api-1.0:jar:1.5.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.qpid:jar:0.5.0_2
+[INFO] Copying bundle: org.codehaus.jackson:jackson-core-asl:jar:1.8.6
+[INFO] Copying bundle: org.springframework:spring-tx:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.camel:camel-msv:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.asm:jar:3.3_2
+[INFO] Copying bundle: org.springframework:spring-core:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xerces:jar:2.9.1_4
+[INFO] Copying bundle: org.apache.camel:camel-jdbc:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.scripting-api-1.0:jar:1.8.0
+[INFO] Copying bundle: org.eclipse.jetty:jetty-util:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-osgi-registry:jar:1.1
+[INFO] Copying bundle: org.apache.camel:camel-cache:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.jsr311-api-1.1.1:jar:1.8.0
+[INFO] Copying bundle: org.eclipse.jetty:jetty-plus:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.karaf.webconsole:org.apache.karaf.webconsole.features:jar:2.2.4
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-jsp_2.1_spec:jar:1.0.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.ant:jar:1.7.0_4
+[INFO] Copying bundle: com.hazelcast:hazelcast:jar:1.9.3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxen:jar:1.1.1_2
+[INFO] Copying bundle: org.apache.camel:camel-spring-javaconfig:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:policy:org.talend.esb.job.token:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-beanutils:jar:1.7.0_3
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-extender-whiteboard:jar:1.0.7
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-lang:jar:2.4_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.irclib:jar:1.10_2
+[INFO] Copying bundle: org.apache.camel:camel-csv:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.spymemcached:jar:2.5_1
+[INFO] Copying bundle: org.springframework.osgi:spring-osgi-extender:jar:1.2.1
+[INFO] Copying bundle: org.apache.karaf.deployer:org.apache.karaf.deployer.spring:jar:2.2.4
+[INFO] Copying bundle: org.apache.camel:camel-jms:jar:2.8.2
+[INFO] Copying bundle: com.google.code.gson:gson:jar:1.7.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.netty:jar:3.2.5.Final_1
+[INFO] Copying bundle: org.apache.cxf.services.sts:cxf-services-sts-core:jar:2.5.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-httpclient:jar:3.1_4
+[INFO] Copying bundle: commons-jxpath:commons-jxpath:jar:1.3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.aws-java-sdk:jar:1.1.1_1
+[INFO] Copying bundle: org.apache.camel:camel-sql:jar:2.8.2
+[INFO] Copying bundle: javax.mail:mail:jar:1.4.4
+[INFO] Copying bundle: org.apache.camel:camel-jmx:jar:2.8.2
+[INFO] Copying bundle: org.eclipse.jetty:jetty-jmx:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.camel:camel-stringtemplate:jar:2.8.2
+[INFO] Copying bundle: org.apache.abdera:abdera-core:jar:1.1.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:cfg:org.talend.esb.job.client:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jsendnsca-core:jar:1.3.1_1
+[INFO] Copying bundle: org.apache.camel:camel-shiro:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-protobuf:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:jks:servicestore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.fusesource.hawtdb:hawtdb:jar:1.5
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.oro:jar:2.0.8_4
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xpp3:jar:1.1.4c_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.oro:jar:2.0.8_3
+[INFO] Copying bundle: org.codehaus.woodstox:woodstox-core-asl:jar:4.1.1
+[INFO] Copying bundle: org.apache.activemq:activemq-ra:jar:5.5.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.stringtemplate:jar:3.2_3
+[INFO] Copying bundle: org.apache.camel:camel-mina:jar:2.8.2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:jar:1.0.1
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.webconsole:jar:2.2.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.cometd-java-server:jar:2.3.1_1-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/servicemix/bundles/org.apache.servicemix.bundles.cometd-java-server/2.3.1_1-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.aopalliance:jar:1.0_5
+[INFO] Copying bundle: org.codehaus.jettison:jettison:jar:1.3
+[INFO] Copying bundle: org.springframework:spring-test:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.eclipse.jetty:jetty-servlet:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-beanutils:jar:1.8.2_1
+[INFO] Copying bundle: org.apache.camel:camel-http4:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-core:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-cxf:jar:2.8.2
+[INFO] Copying bundle: org.eclipse.jetty:jetty-http:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.camel:camel-guice:jar:2.8.2
+[INFO] Copying bundle: org.ops4j.pax.url:pax-url-war:jar:1.2.8
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.xmlresolver:jar:1.2_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.protobuf-java:jar:2.3.0_1
+[INFO] Copying bundle: org.springframework:spring-webmvc:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.joda-time:jar:1.5.2_2
+[INFO] Copying bundle: org.talend.esb:sam-agent:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sam-agent/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.freemarker:jar:2.3.18_1
+[INFO] Copying bundle: commons-io:commons-io:jar:1.4
+[INFO] Copying bundle: org.apache.camel:camel-dozer:jar:2.8.2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-annotation_1.0_spec:jar:1.1.1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.quickfix:jar:1.5.0_1
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-api:jar:1.0.7
+[INFO] Copying bundle: org.apache.httpcomponents:httpcore-osgi:jar:4.1.2
+[INFO] Copying bundle: org.apache.derby:derbyclient:jar:10.8.1.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.lucene:jar:3.0.3_1
+[INFO] Copying bundle: org.apache.camel:camel-xmlbeans:jar:2.8.2
+[INFO] Copying bundle: org.fusesource.commonman:commons-management:jar:1.0
+[INFO] Copying bundle: org.apache.abdera:abdera-extensions-main:jar:1.1.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.wsdl4j:jar:1.6.2_3
+[INFO] Copying bundle: org.apache.activemq:activemq-spring:jar:5.5.0
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:properties:clientKeystore:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.hibernate-validator:jar:4.1.0.Final_1
+[INFO] Copying bundle: org.jclouds:jclouds-blobstore:jar:1.0.0
+[INFO] Copying bundle: org.apache.camel:camel-jcr:jar:2.8.2
+[INFO] Copying bundle: org.apache.geronimo.specs:geronimo-jaxws_2.2_spec:jar:1.1
+[INFO] Copying bundle: com.sun.jersey:jersey-core:jar:1.6
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.jain-sip-api-1.2:jar:1.8.0
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.features:jar:2.2.2
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.jsr303-api-1.0.0:jar:1.8.0
+[INFO] Copying bundle: org.codehaus.groovy:groovy-all:jar:1.8.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.regexp:jar:1.3_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.junit:jar:4.7_1
+[INFO] Copying bundle: org.apache.camel:camel-http:jar:2.8.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jasypt:jar:1.6_1
+[INFO] Copying bundle: org.eclipse.jetty:jetty-xml:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.apache.activemq:activemq-console:jar:5.5.0
+[INFO] Copying bundle: org.apache.cxf.karaf:cxf-karaf-commands:jar:2.5.0
+[INFO] Copying bundle: org.springframework:spring-orm:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.apache.karaf.cellar:org.apache.karaf.cellar.core:jar:2.2.2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.commons-dbcp:jar:1.4_1
+[INFO] Copying bundle: org.eclipse.jetty:jetty-servlets:jar:7.4.5.v20110725
+[INFO] Copying bundle: org.talend.esb:sam-common:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/sam-common/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.camel:camel-groovy:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-soap:jar:2.8.2
+[INFO] Copying bundle: org.talend.esb:derby-all:jar:10.8.1.2
+[INFO] Copying bundle: com.google.inject:guice:jar:3.0
+[INFO] Copying bundle: org.apache.camel:camel-crypto:jar:2.8.2
+[INFO] Copying bundle: org.springframework:spring-asm:jar:3.0.6.RELEASE
+[INFO] Copying bundle: org.talend.esb.job:org.talend.esb.job.controller:cfg:org.talend.esb.job:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/job/org.talend.esb.job.controller/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jcr-api:jar:1.0_2
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.snmp4j:jar:1.8.1_3
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.rhino:jar:1.7R2_1
+[INFO] Copying bundle: org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0:jar:1.8.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.jsmpp:jar:2.1.0_3
+[INFO] Copying bundle: org.talend.esb.locator.service:locator-rest-service:jar:5.0.0-SNAPSHOT
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/esb/locator/service/locator-rest-service/5.0.0-SNAPSHOT/maven-metadata.xml
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.shiro:jar:1.1.0_1
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.tagsoup:jar:1.2_3
+[INFO] Copying bundle: org.apache.jackrabbit:jackrabbit-jcr-commons:jar:1.5.3
+[INFO] Copying bundle: org.apache.abdera:abdera-i18n:jar:1.1.2
+[INFO] Copying bundle: org.apache.camel:camel-cometd:jar:2.8.2
+[INFO] Copying bundle: org.apache.camel:camel-bean-validator:jar:2.8.2
+[INFO] Copying bundle: org.apache.activemq:activemq-karaf:jar:5.5.0
+[INFO] Copying bundle: org.apache.servicemix.bundles:org.apache.servicemix.bundles.ehcache:jar:2.4.3_1
+[INFO] Copying bundle: org.ops4j.pax.web:pax-web-runtime:jar:1.0.7
+[INFO] Copying bundle: org.springframework:spring-oxm:jar:3.0.6.RELEASE
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:copy (copy) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.esb:org.talend.esb.branding:5.0.0-SNAPSHOT:jar
+[INFO] org.talend.esb:org.talend.esb.branding:5.0.0-SNAPSHOT:jar already exists in D:\talend\git\tesb-rt-se\talend-esb\target\dependencies
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-unix) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.karaf:apache-karaf:?:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\karaf\apache-karaf\2.2.4\apache-karaf-2.2.4.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.karaf-apache-karaf-tar.gz-2.2.4.marker
+    artifact1 lastModified: 1318849382285
+    marker lastModified: 1318849382285
+< false = marker older than artifact?
+[INFO] apache-karaf-2.2.4.tar.gz already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-win) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.karaf:apache-karaf:?:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\karaf\apache-karaf\2.2.4\apache-karaf-2.2.4.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.karaf-apache-karaf-zip-2.2.4.marker
+    artifact1 lastModified: 1318849378848
+    marker lastModified: 1318849378848
+< false = marker older than artifact?
+[INFO] apache-karaf-2.2.4.zip already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-camel) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.camel:apache-camel:2.8.2:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\camel\apache-camel\2.8.2\apache-camel-2.8.2.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.camel-apache-camel-tar.gz-2.8.2.marker
+    artifact1 lastModified: 1320403816744
+    marker lastModified: 1320403816744
+< false = marker older than artifact?
+[INFO] apache-camel-2.8.2.tar.gz already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-cxf) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.cxf:apache-cxf:2.5.0:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\cxf\apache-cxf\2.5.0\apache-cxf-2.5.0.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.cxf-apache-cxf-tar.gz-2.5.0.marker
+    artifact1 lastModified: 1320403911762
+    marker lastModified: 1320403911762
+< false = marker older than artifact?
+[INFO] apache-cxf-2.5.0.tar.gz already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-zookeeper) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.zookeeper:zookeeper:3.3.3:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\zookeeper\zookeeper\3.3.3\zookeeper-3.3.3.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.zookeeper-zookeeper-tar.gz-3.3.3.marker
+    artifact1 lastModified: 1301305691565
+    marker lastModified: 1301305691565
+< false = marker older than artifact?
+[INFO] zookeeper-3.3.3.tar.gz already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-activemq) @ talend-esb ---
+[INFO] Configured Artifact: org.apache.activemq:apache-activemq:bin:5.5.0:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\activemq\apache-activemq\5.5.0\apache-activemq-5.5.0-bin.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.activemq-apache-activemq-tar.gz-bin-5.5.0.marker
+    artifact1 lastModified: 1317637308378
+    marker lastModified: 1317637308378
+< false = marker older than artifact?
+[INFO] Configured Artifact: org.apache.activemq:apache-activemq:bin:5.5.0:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\apache\activemq\apache-activemq\5.5.0\apache-activemq-5.5.0-bin.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.apache.activemq-apache-activemq-zip-bin-5.5.0.marker
+    artifact1 lastModified: 1317637295878
+    marker lastModified: 1317637295878
+< false = marker older than artifact?
+[INFO] apache-activemq-5.5.0-bin.tar.gz already unpacked.
+[INFO] apache-activemq-5.5.0-bin.zip already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tif-examples) @ talend-esb ---
+[INFO] Configured Artifact: com.talend.if.assembly:talend-if:examples:2.8.2.0-SNAPSHOT:tar.gz
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\com\talend\if\assembly\talend-if\2.8.2.0-SNAPSHOT\talend-if-2.8.2.0-SNAPSHOT-examples.tar.gz
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\com.talend.if.assembly-talend-if-tar.gz-examples-2.8.2.0-SNAPSHOT.marker
+    artifact1 lastModified: 1316607132049
+    marker lastModified: 1316607132049
+< false = marker older than artifact?
+[INFO] talend-if-2.8.2.0-SNAPSHOT-examples.tar.gz already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tsf-examples) @ talend-esb ---
+[INFO] Configured Artifact: com.talend.sf.assembly:talend-sf:examples:2.4.1.0:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\com\talend\sf\assembly\talend-sf\2.4.1.0\talend-sf-2.4.1.0-examples.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\com.talend.sf.assembly-talend-sf-zip-examples-2.4.1.0.marker
+    artifact1 lastModified: 1308650602257
+    marker lastModified: 1308650602257
+< false = marker older than artifact?
+[INFO] talend-sf-2.4.1.0-examples.zip already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tesb-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.esb.docs:esb-docs:pdf:5.0.0-SNAPSHOT:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\docs\esb-docs\5.0.0-SNAPSHOT\esb-docs-5.0.0-SNAPSHOT-pdf.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.talend.esb.docs-esb-docs-zip-pdf-5.0.0-SNAPSHOT.marker
+    artifact1 lastModified: 1321270343387
+    marker lastModified: 1321270343387
+< false = marker older than artifact?
+[INFO] esb-docs-5.0.0-SNAPSHOT-pdf.zip already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tsf-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.tsf.docs:tsf-manual:pdf:2.5.0-SNAPSHOT:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tsf\docs\tsf-manual\2.5.0-SNAPSHOT\tsf-manual-2.5.0-SNAPSHOT-pdf.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.talend.tsf.docs-tsf-manual-zip-pdf-2.5.0-SNAPSHOT.marker
+    artifact1 lastModified: 1318344395710
+    marker lastModified: 1318344395710
+< false = marker older than artifact?
+[INFO] tsf-manual-2.5.0-SNAPSHOT-pdf.zip already unpacked.
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.3:unpack (unpack-tif-doc) @ talend-esb ---
+[INFO] Configured Artifact: org.talend.tif.docs:tif-manual:pdf:2.7-SNAPSHOT:zip
+> isMarkerOlder:
+  artifact1 = C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\tif\docs\tif-manual\2.7-SNAPSHOT\tif-manual-2.7-SNAPSHOT-pdf.zip
+  marker    = D:\talend\git\tesb-rt-se\talend-esb\target\dependency-maven-plugin-markers\org.talend.tif.docs-tif-manual-zip-pdf-2.7-SNAPSHOT.marker
+    artifact1 lastModified: 1318344398507
+    marker lastModified: 1318344398507
+< false = marker older than artifact?
+[INFO] tif-manual-2.7-SNAPSHOT-pdf.zip already unpacked.
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.6:run (collect-add-ons) @ talend-esb ---
+[WARNING] Parameter tasks is deprecated, use target instead
+[INFO] Executing tasks
+
+main:
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- maven-assembly-plugin:2.2.1:single (bin) @ talend-esb ---
+[INFO] Reading assembly descriptor: src/main/descriptors/unix-bin.xml
+[INFO] Reading assembly descriptor: src/main/descriptors/win-bin.xml
+[WARNING] Invalid POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/apache/karaf/assemblies/features/standard/2.2.4-SNAPSHOT/maven-metadata.xml
+Downloading: http://sop-ip14.servicebackbone.org:8081/nexus/content/groups/development/org/talend/camel/camel-tis/2.8.2.0-SNAPSHOT/maven-metadata.xml
+[WARNING] Invalid POM for org.talend.camel:camel-tis:jar:2.8.2.0-SNAPSHOT, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[INFO] No files selected for line-ending conversion or filtering. Skipping: D:\talend\git\tesb-rt-se\talend-esb\.
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/lib already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/bin already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/conf already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] Building tar : D:\talend\git\tesb-rt-se\talend-esb\target\TESB_SE-V${package.version}.tar.gz
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/lib already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/bin already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/conf already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[WARNING] Cannot include project artifact: org.talend.esb.assembly:talend-esb:pom:5.0.0-SNAPSHOT; it doesn't have an associated file or directory.
+[INFO] No files selected for line-ending conversion or filtering. Skipping: D:\talend\git\tesb-rt-se\talend-esb\.
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/lib already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/bin already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/conf already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] Building zip: D:\talend\git\tesb-rt-se\talend-esb\target\TESB_SE-V${package.version}.zip
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/lib already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/ already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/bin already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/zookeeper/conf already added, skipping
+[INFO] TESB_SE-V5.0.0-SNAPSHOT/ already added, skipping
+[INFO] 
+[INFO] --- maven-assembly-plugin:2.2.1:single (examples) @ talend-esb ---
+[INFO] Reading assembly descriptor: src/main/descriptors/examples.xml
+[INFO] Building tar : D:\talend\git\tesb-rt-se\talend-esb\target\TESB_SE-V${package.version}-doc.tar.gz
+[INFO] Building zip: D:\talend\git\tesb-rt-se\talend-esb\target\TESB_SE-V${package.version}-doc.zip
+[INFO] 
+[INFO] --- maven-install-plugin:2.3.1:install (default-install) @ talend-esb ---
+[INFO] Installing D:\talend\git\tesb-rt-se\talend-esb\pom.xml to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\assembly\talend-esb\5.0.0-SNAPSHOT\talend-esb-5.0.0-SNAPSHOT.pom
+[INFO] Installing D:\talend\git\tesb-rt-se\talend-esb\target\TESB_SE-V${package.version}.tar.gz to C:\Documents and Settings\igor.lazebny\.m2\repository\org\talend\esb\assembly\talend-esb\5.0.0-SNAPSHOT\talend-esb-5.0.0-SNAPSHOT.tar.gz
+Terminate batch job (Y/N)? 
