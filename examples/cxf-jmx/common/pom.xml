@@ -16,7 +16,7 @@
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
 		<artifactId>cxf-jmx</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.0.0</version>
 	</parent>
 
 	<build>
