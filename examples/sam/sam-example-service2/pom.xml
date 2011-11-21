@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>sam-examples</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.1-SNAPSHOT</version>
     </parent>
 
     <name>Service Activity Monitoring :: Example Service2</name>

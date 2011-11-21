@@ -9,7 +9,7 @@
 	<groupId>org.talend.esb</groupId>
 	<artifactId>esb-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>5.0.0</version>
+	<version>5.0.1-SNAPSHOT</version>
 	<name>Parent pom for the Talend ESB runtime project</name>
 	<description>
         Talend ESB SE bundles Service Factory and Integration Factory, 

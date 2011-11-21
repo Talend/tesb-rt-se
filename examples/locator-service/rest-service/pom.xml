@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb.examples.locator.service</groupId>
         <artifactId>locator-service-parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.1-SNAPSHOT</version>
     </parent>
 
     <modules>
