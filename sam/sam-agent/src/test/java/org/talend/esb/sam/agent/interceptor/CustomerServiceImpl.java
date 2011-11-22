@@ -80,6 +80,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
+        String name = customer.getName();
+        try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return;
     }
 
 }
