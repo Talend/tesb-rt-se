@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.common.util;
+package org.talend.esb.sam.server.util;
 
 import java.util.Calendar;
 import java.util.Date;
