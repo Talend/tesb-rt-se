@@ -38,9 +38,6 @@ public class FlowIdProducerOut<T extends Message> extends
 	protected static Logger logger = Logger.getLogger(FlowIdProducerOut.class
 			.getName());
 	
-    @javax.annotation.Resource
-    private javax.xml.ws.WebServiceContext context;
-
 	public FlowIdProducerOut() {
 		super(Phase.USER_LOGICAL);
 	}
