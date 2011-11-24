@@ -102,15 +102,15 @@
         <servicemix.specs.version>1.8.0</servicemix.specs.version>
         <saaj-impl.bundle.version>1.3.9_1</saaj-impl.bundle.version>
         <javax.servlet.version>2.5</javax.servlet.version>
-        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <commons-dbcp.version>1.4_1</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
         <geronimo-servlet.version>1.1.2</geronimo-servlet.version>
         <geronimo-el.version>1.0.1</geronimo-el.version>
         <geronimo-jsp.version>1.0.1</geronimo-jsp.version>
-        <commons-beanutils.bundle.version>1.8.2_1</commons-beanutils.bundle.version>
+        <commons-beanutils.bundle.version>1.8.2_2</commons-beanutils.bundle.version>
         <jdom.bundle.version>1.1_3</jdom.bundle.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
-        <commons-io.bundle.version>1.4_1</commons-io.bundle.version>
+        <commons-io.bundle.version>1.4_2</commons-io.bundle.version>
         <org.apache.cxf.dosgi.version>1.2</org.apache.cxf.dosgi.version>
         <osgi.core.version>4.2.0</osgi.core.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
