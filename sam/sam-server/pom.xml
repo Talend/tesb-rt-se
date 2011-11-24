@@ -21,17 +21,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.compendium.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
@@ -145,7 +134,6 @@
                             derbyclient,
                             com.google.gson
                         </Require-Bundle>
-						<!--Bundle-Activator>org.talend.esb.sam.server.activator.SamServerActivator</Bundle-Activator-->
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
                     </instructions>

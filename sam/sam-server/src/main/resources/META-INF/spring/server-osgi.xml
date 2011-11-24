@@ -20,24 +20,19 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"   
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+    xmlns:context="http://www.springframework.org/schema/context"
     xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
-    http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-    http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
     ">
-	
+
     <import resource="classpath:/server.xml" />
-	
-    <osgi:service ref="uiProvider" interface="org.talend.esb.sam.server.ui.UIProvider"/>
-	
+
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
@@ -55,5 +50,7 @@
 
     <!-- placeholder configurer -->
     <context:property-placeholder properties-ref="sam-server-props" />
-	
+
+    <osgi:service ref="uiProvider" interface="org.talend.esb.sam.server.ui.UIProvider"/>
+
 </beans>
