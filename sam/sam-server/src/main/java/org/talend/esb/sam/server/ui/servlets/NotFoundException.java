@@ -27,12 +27,12 @@ package org.talend.esb.sam.server.ui.servlets;
  */
 public class NotFoundException extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -8327757550558772684L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8327757550558772684L;
 
-	public NotFoundException(String message) {
-		super(message);
-	}
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

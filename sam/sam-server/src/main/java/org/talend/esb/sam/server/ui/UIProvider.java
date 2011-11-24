@@ -28,34 +28,33 @@ import com.google.gson.JsonObject;
  */
 public interface UIProvider {
 
-	/**
-	 * Retrieve an aggregated list of events
-	 * starting with offset
-	 * maximum number of items is limit
-	 *
-	 * @param offset
-	 * @param limit
-	 * @param attributes
-	 * @return
-	 */
-	JsonObject getEvents(long offset, String baseURL, CriteriaAdapter criteria);
+    /**
+     * Retrieve an aggregated list of events
+     * starting with offset
+     * maximum number of items is limit
+     *
+     * @param offset
+     * @param limit
+     * @param attributes
+     * @return
+     */
+    JsonObject getEvents(long offset, String baseURL, CriteriaAdapter criteria);
 
-	/**
-	 * Returns a detailed information about flow with given ID or null if no such flow was found
-	 *
-	 * @param flowID
-	 * @param baseURL
-	 * @return
-	 */
-	JsonObject getFlowDetails(String flowID, String baseURL);
+    /**
+     * Returns a detailed information about flow with given ID or null if no such flow was found
+     *
+     * @param flowID
+     * @param baseURL
+     * @return
+     */
+    JsonObject getFlowDetails(String flowID, String baseURL);
 
-	/**
-	 * Returns a detailed information about event with given ID or null if no such event was found
-	 *
-	 * @param eventID
-	 * @return
-	 */
-	JsonObject getEventDetails(String eventID);
-
+    /**
+     * Returns a detailed information about event with given ID or null if no such event was found
+     *
+     * @param eventID
+     * @return
+     */
+    JsonObject getEventDetails(String eventID);
 
 }

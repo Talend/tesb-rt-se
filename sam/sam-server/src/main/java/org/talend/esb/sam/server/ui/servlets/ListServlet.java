@@ -34,26 +34,26 @@ import com.google.gson.JsonObject;
  */
 public class ListServlet extends AbstractAPIServlet {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6145158514605088533L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6145158514605088533L;
 
-	@Override
-	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
-		long offset = getRequestLongParam(req, "offset", 1);
-		long limit = getRequestLongParam(req, "limit", 10);
-		@SuppressWarnings("unchecked")
-		CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, req.getParameterMap());
-		return provider.getEvents(offset, getBaseUrl(req), adapter);
-	}
+    @Override
+    JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
+        long offset = getRequestLongParam(req, "offset", 1);
+        long limit = getRequestLongParam(req, "limit", 10);
+        @SuppressWarnings("unchecked")
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, req.getParameterMap());
+        return provider.getEvents(offset, getBaseUrl(req), adapter);
+    }
 
-	private long getRequestLongParam(HttpServletRequest req, String paramName, long defaultValue)
-			throws Exception {
-		String paramValue = req.getParameter(paramName);
-		if (null == paramValue) {
-			return defaultValue;
-		}
-		return Long.parseLong(paramValue);
-	}
+    private long getRequestLongParam(HttpServletRequest req, String paramName, long defaultValue)
+            throws Exception {
+        String paramValue = req.getParameter(paramName);
+        if (null == paramValue) {
+            return defaultValue;
+        }
+        return Long.parseLong(paramValue);
+    }
 }

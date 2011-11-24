@@ -43,98 +43,98 @@ import com.google.gson.JsonPrimitive;
  */
 public abstract class AbstractAPIServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
 
-	private final boolean noCache;
+    private final boolean noCache;
 
-	private UIProvider uiProvider;
+    private UIProvider uiProvider;
 
-	protected AbstractAPIServlet() {
-		this.noCache = true;
-	}
+    protected AbstractAPIServlet() {
+        this.noCache = true;
+    }
 
-	protected AbstractAPIServlet(boolean cachingAllowed) {
-		this.noCache = !cachingAllowed;
-	}
+    protected AbstractAPIServlet(boolean cachingAllowed) {
+        this.noCache = !cachingAllowed;
+    }
 
-	public void setUiProvider(UIProvider uiProvider) {
-		this.uiProvider = uiProvider;
-	}
+    public void setUiProvider(UIProvider uiProvider) {
+        this.uiProvider = uiProvider;
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		WebApplicationContext ctx = WebApplicationContextUtils
-				.getWebApplicationContext(this.getServletContext());
-		UIProvider provider = null;
-		if (null != ctx){
-			provider = (UIProvider) ctx.getBean("uiProvider");
-		}else{
-			provider = uiProvider;
-		}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        WebApplicationContext ctx = WebApplicationContextUtils
+                .getWebApplicationContext(this.getServletContext());
+        UIProvider provider = null;
+        if (null != ctx){
+            provider = (UIProvider) ctx.getBean("uiProvider");
+        }else{
+            provider = uiProvider;
+        }
 
-		String callback = req.getParameter("callback");
-		try {
-			JsonObject result = process(req, provider);
+        String callback = req.getParameter("callback");
+        try {
+            JsonObject result = process(req, provider);
 
-			if (noCache) {
-				resp.setHeader("Cache-Control", "no-cache, must-revalidate");
-				resp.setHeader("Expires", "Thu, 09 May 1974 03:35:00 GMT");
-				resp.setHeader("Pragma", "no-cache");
-			}
+            if (noCache) {
+                resp.setHeader("Cache-Control", "no-cache, must-revalidate");
+                resp.setHeader("Expires", "Thu, 09 May 1974 03:35:00 GMT");
+                resp.setHeader("Pragma", "no-cache");
+            }
 
-			writeResponse(resp, result, callback);
-		} catch (NotFoundException e) {
-			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			writeResponse(resp, toJSON(e), callback);
-		} catch (Exception e) {
-			log.error("Exception processing request " + req.getRequestURI()
-					+ " with parameters " + req.getQueryString(), e);
-			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			writeResponse(resp, toJSON(e), callback);
-		}
-	}
+            writeResponse(resp, result, callback);
+        } catch (NotFoundException e) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            writeResponse(resp, toJSON(e), callback);
+        } catch (Exception e) {
+            log.error("Exception processing request " + req.getRequestURI()
+                    + " with parameters " + req.getQueryString(), e);
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            writeResponse(resp, toJSON(e), callback);
+        }
+    }
 
-	/**
-	 * This method should be implemented by the extensions of
-	 * {@link AbstractAPIServlet}
-	 *
-	 * @param req
-	 * @param provider
-	 */
-	abstract JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception;
+    /**
+     * This method should be implemented by the extensions of
+     * {@link AbstractAPIServlet}
+     *
+     * @param req
+     * @param provider
+     */
+    abstract JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception;
 
-	private void writeResponse(HttpServletResponse resp, JsonObject output, String callback)
-			throws IOException {
-		if (null == callback || callback.trim().isEmpty()) {
-			resp.setContentType("application/json");
-			resp.getWriter().println(output);
-		} else {
-			resp.setContentType("text/javascript");
-			resp.getWriter().println(callback + "(" + output + ");");
-		}
-	}
+    private void writeResponse(HttpServletResponse resp, JsonObject output, String callback)
+            throws IOException {
+        if (null == callback || callback.trim().isEmpty()) {
+            resp.setContentType("application/json");
+            resp.getWriter().println(output);
+        } else {
+            resp.setContentType("text/javascript");
+            resp.getWriter().println(callback + "(" + output + ");");
+        }
+    }
 
-	/**
-	 * Converts {@link Exception} to {@link JsonObject}
-	 */
-	private JsonObject toJSON(Exception e) {
-		JsonObject result = new JsonObject();
-		result.add(/*"message"*/"error", new JsonPrimitive(String.valueOf(e.getMessage())));
-		return result;
-	}
+    /**
+     * Converts {@link Exception} to {@link JsonObject}
+     */
+    private JsonObject toJSON(Exception e) {
+        JsonObject result = new JsonObject();
+        result.add(/*"message"*/"error", new JsonPrimitive(String.valueOf(e.getMessage())));
+        return result;
+    }
 
 
-	protected String getBaseUrl(HttpServletRequest req) {
-		StringBuffer url = req.getRequestURL();
-		// protocol://host:port
-		String base = url.substring(0, url.length() - req.getRequestURI().length());
-		// + application context
-		base += req.getContextPath();
-		// + rest base context
-		base += "/api/v1.0/";
-		return base;
-	}
+    protected String getBaseUrl(HttpServletRequest req) {
+        StringBuffer url = req.getRequestURL();
+        // protocol://host:port
+        String base = url.substring(0, url.length() - req.getRequestURI().length());
+        // + application context
+        base += req.getContextPath();
+        // + rest base context
+        base += "/api/v1.0/";
+        return base;
+    }
 }

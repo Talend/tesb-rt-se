@@ -33,23 +33,23 @@ import com.google.gson.JsonObject;
  */
 public class EventDetailsServlet extends AbstractAPIServlet {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -799338434124236891L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -799338434124236891L;
 
-	public EventDetailsServlet() {
-		super(true);
-	}
+    public EventDetailsServlet() {
+        super(true);
+    }
 
-	@Override
-	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
-		String requestURI = req.getRequestURI();
-		String eventID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
-		JsonObject result = provider.getEventDetails(eventID);
-		if (null == result) {
-			throw new NotFoundException("Can't find event with ID: " + eventID);
-		}
-		return result;
-	}
+    @Override
+    JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
+        String requestURI = req.getRequestURI();
+        String eventID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
+        JsonObject result = provider.getEventDetails(eventID);
+        if (null == result) {
+            throw new NotFoundException("Can't find event with ID: " + eventID);
+        }
+        return result;
+    }
 }

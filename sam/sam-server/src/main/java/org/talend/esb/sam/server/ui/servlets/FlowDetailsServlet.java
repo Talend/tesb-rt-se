@@ -33,19 +33,19 @@ import com.google.gson.JsonObject;
  */
 public class FlowDetailsServlet extends AbstractAPIServlet {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4001052811324863157L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4001052811324863157L;
 
-	@Override
-	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
-		String requestURI = req.getRequestURI();
-		String flowID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
-		JsonObject result = provider.getFlowDetails(flowID, getBaseUrl(req));
-		if (null == result) {
-			throw new NotFoundException("Can't find flow with ID: " + flowID);
-		}
-		return result;
-	}
+    @Override
+    JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
+        String requestURI = req.getRequestURI();
+        String flowID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
+        JsonObject result = provider.getFlowDetails(flowID, getBaseUrl(req));
+        if (null == result) {
+            throw new NotFoundException("Can't find flow with ID: " + flowID);
+        }
+        return result;
+    }
 }
