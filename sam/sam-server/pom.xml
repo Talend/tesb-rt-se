@@ -25,28 +25,16 @@
             <artifactId>org.osgi.core</artifactId>
             <version>${osgi.core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
             <version>${osgi.compendium.version}</version>
         </dependency>
-		
+
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>${cxf.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -85,7 +73,6 @@
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
@@ -108,7 +95,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -122,15 +108,21 @@
             <version>${slf4j.version}</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -144,14 +136,14 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<!--Import-Package>
-						!org.osgi.service.blueprint
-                        </Import-Package-->
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-							org.springframework.beans,org.springframework.jdbc,
-							org.apache.commons.dbcp,derby,derbyclient,
-							com.google.gson,slf4j.api
+                            org.springframework.beans,
+                            org.springframework.jdbc,
+                            org.apache.commons.dbcp,
+                            derby,
+                            derbyclient,
+                            com.google.gson
                         </Require-Bundle>
 						<!--Bundle-Activator>org.talend.esb.sam.server.activator.SamServerActivator</Bundle-Activator-->
                         <_failok>true</_failok>

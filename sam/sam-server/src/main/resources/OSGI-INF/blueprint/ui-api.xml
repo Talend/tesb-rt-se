@@ -20,10 +20,10 @@
   -->
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
-	<reference id="uiProvider" availability="mandatory" interface="org.talend.esb.sam.server.ui.UIProvider" />
-	<bean id="listServlet" class="org.talend.esb.sam.server.ui.servlets.ListServlet">
-		<property name="uiProvider" ref="uiProvider"></property>
-	</bean>
+    <reference id="uiProvider" availability="mandatory" interface="org.talend.esb.sam.server.ui.UIProvider" />
+    <bean id="listServlet" class="org.talend.esb.sam.server.ui.servlets.ListServlet">
+        <property name="uiProvider" ref="uiProvider"/>
+    </bean>
 
     <service ref="listServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
@@ -31,18 +31,18 @@
         </service-properties>
     </service>
 
-	<bean id="flowDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.FlowDetailsServlet">
-		<property name="uiProvider" ref="uiProvider"></property>
-	</bean>	
+    <bean id="flowDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.FlowDetailsServlet">
+        <property name="uiProvider" ref="uiProvider"/>
+    </bean>	
     <service ref="flowDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
             <entry key="alias" value="/api/v1.0/flow"/>
         </service-properties>
     </service>
 
-	<bean id="eventDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.EventDetailsServlet">
-		<property name="uiProvider" ref="uiProvider"></property>
-	</bean>	
+    <bean id="eventDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.EventDetailsServlet">
+        <property name="uiProvider" ref="uiProvider"/>
+    </bean>	
     <service ref="eventDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
             <entry key="alias" value="/api/v1.0/event"/>
