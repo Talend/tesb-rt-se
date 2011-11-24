@@ -89,13 +89,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -130,9 +124,7 @@
                             org.springframework.beans,
                             org.springframework.jdbc,
                             org.apache.commons.dbcp,
-                            derby,
-                            derbyclient,
-                            com.google.gson
+                            derbyclient
                         </Require-Bundle>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
