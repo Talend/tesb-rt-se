@@ -25,8 +25,8 @@
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
 
-  <feature name='tesb-sam-agent' version='${project.version}'>
-    <feature version='${cxf.version}'>cxf</feature>
+  <feature name='tesb-sam-common' version='${project.version}'>
+    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
     <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
@@ -34,20 +34,18 @@
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
-    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
+  </feature>
+
+  <feature name='tesb-sam-agent' version='${project.version}'>
+    <feature version='${cxf.version}'>cxf</feature>
+    <feature>tesb-sam-common</feature>
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-sam-server' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/${geronimo-jsp.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
-    <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
-    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <feature>tesb-sam-common</feature>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.derby/derby/${derby.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
@@ -56,7 +54,6 @@
     <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle>mvn:org.slf4j/slf4j-simple/${slf4j.version}</bundle>
     <bundle>mvn:org.slf4j/slf4j-api/${slf4j.version}</bundle>
-    <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>
   </feature>
 
