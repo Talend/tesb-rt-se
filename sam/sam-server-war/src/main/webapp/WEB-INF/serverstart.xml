@@ -37,7 +37,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
     
     <import resource="classpath:/server.xml" />
-    <import resource="uiapi.xml" />
 
     <!--  Sample filters -->
     <!-- 

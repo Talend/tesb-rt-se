@@ -49,6 +49,8 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 
 	private final boolean noCache;
 
+	private UIProvider uiProvider;
+
 	protected AbstractAPIServlet() {
 		this.noCache = true;
 	}
@@ -57,14 +59,24 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 		this.noCache = !cachingAllowed;
 	}
 
+	public void setUiProvider(UIProvider uiProvider) {
+		this.uiProvider = uiProvider;
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		WebApplicationContext ctx = WebApplicationContextUtils
-				.getRequiredWebApplicationContext(this.getServletContext());
+				.getWebApplicationContext(this.getServletContext());
+		UIProvider provider = null;
+		if (null != ctx){
+			provider = (UIProvider) ctx.getBean("uiProvider");
+		}else{
+			provider = uiProvider;
+		}
+
 		String callback = req.getParameter("callback");
 		try {
-			UIProvider provider = (UIProvider) ctx.getBean("uiProvider");
 			JsonObject result = process(req, provider);
 
 			if (noCache) {

@@ -36,6 +36,11 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="dialect" ref="${db.dialect}" />
     </bean>
+	
+    <bean id="uiProvider" class="org.talend.esb.sam.server.ui.UIProviderImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="dialect" ref="${db.dialect}" />
+    </bean>
     
     <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
         <property name="incrementer" ref="derbyIncrementer" />

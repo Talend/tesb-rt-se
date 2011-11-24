@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Service Activity Monitoring :: Server
+  %%
+  Copyright (C) 2011 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+	<reference id="uiProvider" availability="mandatory" interface="org.talend.esb.sam.server.ui.UIProvider" />
+	<bean id="listServlet" class="org.talend.esb.sam.server.ui.servlets.ListServlet">
+		<property name="uiProvider" ref="uiProvider"></property>
+	</bean>
+
+    <service ref="listServlet" interface="javax.servlet.http.HttpServlet">
+        <service-properties>
+            <entry key="alias" value="/api/v1.0/list"/>
+        </service-properties>
+    </service>
+
+	<bean id="flowDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.FlowDetailsServlet">
+		<property name="uiProvider" ref="uiProvider"></property>
+	</bean>	
+    <service ref="flowDetailsServlet" interface="javax.servlet.http.HttpServlet">
+        <service-properties>
+            <entry key="alias" value="/api/v1.0/flow"/>
+        </service-properties>
+    </service>
+
+	<bean id="eventDetailsServlet" class="org.talend.esb.sam.server.ui.servlets.EventDetailsServlet">
+		<property name="uiProvider" ref="uiProvider"></property>
+	</bean>	
+    <service ref="eventDetailsServlet" interface="javax.servlet.http.HttpServlet">
+        <service-properties>
+            <entry key="alias" value="/api/v1.0/event"/>
+        </service-properties>
+    </service>
+</blueprint>
