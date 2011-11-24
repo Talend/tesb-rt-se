@@ -43,7 +43,6 @@
 		<geronimo-jms.version>1.1.1</geronimo-jms.version>
 		<geronimo-jpa.version>1.1</geronimo-jpa.version>
 		<geronimo-jta.version>1.1.1</geronimo-jta.version>
-		<geronimo-saaj.version>1.1</geronimo-saaj.version>
 		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
 
 		<!-- ServiceMix Bundles --> 

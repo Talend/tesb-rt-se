@@ -94,8 +94,6 @@
         <feature version='${cxf.version}'>cxf</feature>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxen/${jaxen.bundle.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix.specs.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.bundle.version}</bundle>
         <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/${servicemix.specs.version}</bundle>
         <bundle>mvn:org.apache.geronimo.specs/geronimo-ws-metadata_2.0_spec/${geronimo-ws-metadata.version}</bundle>
     </feature>
