@@ -26,8 +26,8 @@ PROGNAME=`basename "$0"`
 #
 
 setupMemorySettings() {
-    JAVA_VERSION=`$JAVA -version 2>&1`
-    if [[ "$JAVA_VERSION" =~ .*64\-Bit.* ]]
+    JAVA_VERSION=`$JAVA -version 2>&1  | grep 64-Bit`
+    if [ "$JAVA_VERSION" != "" ]
 	then
 	  JAVA_SIXTY_FOUR=true
 	else
