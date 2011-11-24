@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -42,15 +45,32 @@ public class Configuration {
     public static final String CONTEXT_OPT = "--context=";
 
     public static final String CONTEXT_PARAM_OPT = "--context_param=";
-    
+
+    public static final String[] EMPTY_ARGUMENTS = new String[0];
+
+    public static final long DEFAULT_TIMEOUT = 3000;
+
+    public static final String TIME_OUT_PROPERTY = "org.talend.esb.job.controller.configuration.timeout";
+
+    private long timeout;
+
     List<String> argumentList = new ArrayList<String>();
+    
+    private CountDownLatch configAvailable = new CountDownLatch(1);
     
     private String[] filter;
 
     /**
+     * A <code>Configuration</code> object with no properties set.
+     */
+    public Configuration() {
+        this(new String[0]);
+    }
+
+    /**
      * A <code>Configuration</code> object backed by the given properties from ConfigurationAdmin.
      *
-     * @param properties the properties from ConfigurationAdmin, nay be <code>null</code>.
+     * @param properties the properties from ConfigurationAdmin, may be <code>null</code>.
      * @throws ConfigurationException thrown if the property values are not of type String
      */
     public Configuration(Dictionary<?, ?> properties) throws ConfigurationException {
@@ -60,33 +80,67 @@ public class Configuration {
     /**
      * A <code>Configuration</code> object backed by the given properties from ConfigurationAdmin.
      *
-     * @param properties the properties from ConfigurationAdmin, nay be <code>null</code>.
+     * @param filter  list of property keys that are filtered out
+     */
+    public Configuration(String[] filter) {
+        this.filter =  filter;
+        initTimeout();
+    }
+
+    /**
+     * A <code>Configuration</code> object backed by the given properties from ConfigurationAdmin.
+     *
+     * @param properties the properties from ConfigurationAdmin, may be <code>null</code>.
      * @param filter  list of property keys that are filtered out
      * @throws ConfigurationException thrown if the property values are not of type String
      */
     public Configuration(Dictionary<?, ?> properties, String[] filter) throws ConfigurationException {
         this.filter = filter;
+        setProperties(properties);
+        initTimeout();
+    }
+    
+    /**
+     * Back this <code>Configuration</code>  by the given properties from ConfigurationAdmin.
+     *
+     * @param properties the properties from ConfigurationAdmin, may be <code>null</code>.
+     * @throws ConfigurationException thrown if the property values are not of type String
+     */
+    public void setProperties(Dictionary<?, ?> properties) throws ConfigurationException {        
+        List<String> newArgumentList = new ArrayList<String>();
 
         if (properties != null) {
             Enumeration<?> keysEnum = properties.keys();
+
             while (keysEnum.hasMoreElements()) {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
                 if (!(val instanceof String)) {
                     throw new ConfigurationException(key, "Value is not of type String.");
                 }
-                addToArguments(key, (String) val);
+                addToArguments(key, (String) val, newArgumentList);
             }
         }
+        argumentList = newArgumentList;
+        configAvailable.countDown();
     }
-    
-    private void addToArguments(String key, String value) {
+
+    /**
+     * Set the time to wait in the {@link #awaitArguments()} method for the properties to be set.
+     *
+     * @param timeout time to wait in milliseconds.  
+     */
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
+
+    private void addToArguments(String key, String value,  List<String> argList) {
         if (key.equals(CONTEXT_PROP)) {
-            argumentList.add(CONTEXT_OPT + value);
+            argList.add(CONTEXT_OPT + value);
             LOG.fine("Context " + value + " added to the argument list.");
         } else {
             if (!isInFilter(key)) {
-                argumentList.add(CONTEXT_PARAM_OPT + key + "=" + value);
+                argList.add(CONTEXT_PARAM_OPT + key + "=" + value);
                 LOG.fine("Parameter " + key + " with value " + value + " added to the argument list.");
             } else {
                 LOG.fine("Propertey " + key + " filltered out.");                
@@ -94,15 +148,32 @@ public class Configuration {
         }
 
     }
+    
     /**
-     * Get the configuration properties as argument list as expected by the Talend job.
+     * Get the configuration properties as argument list as expected by the Talend job. If the properties
+     * were not yet set, wait the time specified by the {@link #setTimeout(long) timeout property} and return
+     * empty argument list if properties still not specified. If <code>timeout <= 0</code> the method
+     * immediately returns.
      *
      * @return the argument list, never <code>null</code>
      */
-    public String[] getArguments() {
-        return argumentList.toArray(new String[argumentList.size()]);
+    public String[] awaitArguments() throws InterruptedException {
+        String[] args = null;
+        if (configAvailable.await(timeout, TimeUnit.MILLISECONDS)) {
+            List<String> currentArgumentList = argumentList;
+            args = currentArgumentList.toArray(new String[currentArgumentList.size()]);
+        } else {
+            args = EMPTY_ARGUMENTS;
+            LOG.log(Level.WARNING, "awaitArguments: ConfigAdmin did not pass any properties yet, returning an empty argumentlist.");
+
+        }
+        return args;
     }
     
+    private void initTimeout() {
+        timeout = Long.getLong(TIME_OUT_PROPERTY, DEFAULT_TIMEOUT);
+    }
+
     private boolean isInFilter(String key) {
         for (String entry : filter) {
             if (entry.equals(key)) {

@@ -55,6 +55,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     public GenericServiceProviderImpl(final JobLauncher jobLauncher, final Map<String, String> operations) {
         this.jobLauncher = jobLauncher;
         this.operations = operations;
+        configuration = new Configuration();
     }
 
     public void setEventFeature(EventFeature eventFeature) {
@@ -66,8 +67,10 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
         QName operationQName = (QName) context.getMessageContext().get(
                 MessageContext.WSDL_OPERATION);
         LOG.info("Invoke operation '" + operationQName + "'");
-        GenericOperation esbProviderCallback = getESBProviderCallback(operationQName
-                .getLocalPart());
+
+        GenericOperation esbProviderCallback = 
+             getESBProviderCallback(operationQName.getLocalPart());
+        
         if (esbProviderCallback == null) {
             throw new RuntimeException("Handler for operation "
                     + operationQName + " cannot be found");
@@ -108,7 +111,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     }
 
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
-        configuration = new Configuration(properties);
+        configuration.setProperties(properties);
     }
 
     private Source processResult(Object result) {
@@ -132,8 +135,16 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                     "Job for operation '" + operationName + "' not found");
         }
 
+        String[] args = null;
+        try {
+            args = configuration.awaitArguments();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(
+                    "Request was interrupted when waiting for the configuration parameters.",
+                    e);            
+        }
         final GenericOperation operation = jobLauncher.retrieveOperation(
-            jobName, configuration.getArguments());
+            jobName, args);
 
         return operation;
     }
