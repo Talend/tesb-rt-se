@@ -163,7 +163,7 @@
         <feature version="${camel.version}">camel-bindy</feature>
         <feature version="${camel.version}">camel-cometd</feature>
         <feature version="${camel.version}">camel-csv</feature>
-        <feature version="${camel.version}">camel-dozer</feature>
+        <!-- feature version="${camel.version}">camel-dozer</feature -->
         <feature version="${camel.version}">camel-exec</feature>
         <feature version="${camel.version}">camel-flatpack</feature>
         <feature version="${camel.version}">camel-freemarker</feature>
@@ -184,11 +184,11 @@
         <feature version="${camel.version}">camel-josql</feature>
         <feature version="${camel.version}">camel-jpa</feature>
         <feature version="${camel.version}">camel-jxpath</feature>
-        <feature version="${camel.version}">camel-juel</feature>
+        <!-- feature version="${camel.version}">camel-juel</feature -->
         <feature version="${camel.version}">camel-kestrel</feature>
         <feature version="${camel.version}">camel-ldap</feature>
         <feature version="${camel.version}">camel-lucene</feature>
-        <feature version="${camel.version}">camel-mail</feature>
+        <!-- feature version="${camel.version}">camel-mail</feature -->
         <feature version="${camel.version}">camel-msv</feature>
         <feature version="${camel.version}">camel-mvel</feature>
         <feature version="${camel.version}">camel-nagios</feature>
