@@ -97,7 +97,7 @@ public class EventFeature extends AbstractFeature {
     }
  
     public void setQueue(Queue<Event> queue) {
-        if (epi == null){
+        if (epi == null) {
             MessageToEventMapper mapper = new MessageToEventMapper();
             mapper.setMaxContentLength(maxContentLength);
             
@@ -106,7 +106,7 @@ public class EventFeature extends AbstractFeature {
     }
 
     public void setHandler(EventHandler handler) {
-        if (this.epi != null){
+        if (this.epi != null) {
             this.epi.setHandler(handler);
         }
     }
@@ -119,9 +119,9 @@ public class EventFeature extends AbstractFeature {
      */
     private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus){
         //detect on the bus level
-        if (bus.getFeatures() != null){
+        if (bus.getFeatures() != null) {
             Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
-            while (busFeatures.hasNext()){
+            while (busFeatures.hasNext()) {
                 AbstractFeature busFeature = busFeatures.next();
                 if (busFeature instanceof WSAddressingFeature){
                     return true;
@@ -131,7 +131,7 @@ public class EventFeature extends AbstractFeature {
 
         //detect on the endpoint/client level
         Iterator<Interceptor<? extends Message>> interceptors = provider.getInInterceptors().iterator();
-        while (interceptors.hasNext()){
+        while (interceptors.hasNext()) {
             Interceptor<? extends Message> ic = interceptors.next();
             if (ic instanceof MAPAggregator){
                 return true;

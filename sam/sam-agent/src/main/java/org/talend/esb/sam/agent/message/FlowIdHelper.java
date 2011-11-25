@@ -29,6 +29,9 @@ public class FlowIdHelper {
     public static final QName FLOW_ID_QNAME = new QName(
             "http://www.talend.com/esb/sam/flowId/v1", "flowId");
 
+    private FlowIdHelper() {
+    }
+
     /**
      * Get FlowId from message
      * 
