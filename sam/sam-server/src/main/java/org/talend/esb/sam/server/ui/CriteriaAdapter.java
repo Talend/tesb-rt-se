@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.talend.esb.sam.server.persistence.criterias.Criteria;
@@ -47,7 +47,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
     private static final String PROVIDER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_IN' or EI_EVENT_TYPE = 'RESP_OUT')";
 
-    private static final Logger log = LoggerFactory.getLogger(UIProviderImpl.class);
+    private static final Logger logger = Logger.getLogger(CriteriaAdapter.class.getName());
 
     private final Map<String, Criteria> criterias;
 
@@ -100,7 +100,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
                         }
                     } catch (Exception e) {
                         // Exception happened during paring
-                        log.error("Error parsing parameter " + key, e);
+                        logger.log(Level.SEVERE, "Error parsing parameter " + key, e);
                     }
                     break;
                 }
