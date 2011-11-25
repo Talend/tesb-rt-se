@@ -19,8 +19,7 @@
         <module>sam-agent</module>
         <module>sam-server</module>
         <module>sam-server-war</module>
-		<module>derby-all</module>
-		<module>derby-starter</module>
+        <module>derby-starter</module>
     </modules>
 
 	<build>

@@ -43,10 +43,11 @@
 		<geronimo-jms.version>1.1.1</geronimo-jms.version>
 		<geronimo-jpa.version>1.1</geronimo-jpa.version>
 		<geronimo-jta.version>1.1.1</geronimo-jta.version>
-		<geronimo-saaj.version>1.1</geronimo-saaj.version>
 		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
+        <geronimo-ws-metadata.version>1.1.3</geronimo-ws-metadata.version>
 
 		<!-- ServiceMix Bundles --> 
+        <servicemix.specs.version>1.8.0</servicemix.specs.version>
 		<abdera.bundle.version>0.4.0-incubating_3</abdera.bundle.version>
 		<ant.bundle.version>1.7.0_5</ant.bundle.version>
 		<antlr2.bundle.version>2.7.7_3</antlr2.bundle.version>
@@ -62,7 +63,7 @@
 		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
 		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
 		<commons-csv.bundle.version>1.0-r706899_4</commons-csv.bundle.version>
-		<commons-dbcp.bundle.version>1.4_1</commons-dbcp.bundle.version>
+		<!--commons-dbcp.bundle.version>1.4_1</commons-dbcp.bundle.version-->
 		<commons-httpclient.bundle.version>3.1_5</commons-httpclient.bundle.version>
 		<commons-lang.bundle.version>2.4_4</commons-lang.bundle.version>
 		<commons-pool.bundle.version>1.5.4_2</commons-pool.bundle.version>
@@ -85,7 +86,6 @@
 		<jaxb-xjc.bundle.version>2.2.1.1_1</jaxb-xjc.bundle.version>
 		<jaxb-impl.version>2.2.1.1</jaxb-impl.version>
 		<jaxb-xjc.version>2.2.1.1</jaxb-xjc.version>
-		<jaxen.bundle.version>1.1.1_1</jaxen.bundle.version>
 		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
 		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
 		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>

@@ -34,7 +34,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
-import org.talend.esb.sam.common.util.EventCreator;
+import org.talend.esb.sam.server.util.EventCreator;
 
 //@ContextConfiguration("/META-INF/spring/persistence.xml")
 @ContextConfiguration(locations = {"/server.xml", "/server-config.xml", "/persistence.xml"})

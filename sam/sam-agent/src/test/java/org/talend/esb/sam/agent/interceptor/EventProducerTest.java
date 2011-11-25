@@ -57,7 +57,7 @@ public class EventProducerTest {
         }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
-        checkMessageIdPresentAndSame(eventsList);
+        checkMessageIdPresentAndSame(eventsList, false);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerOut(eventsList.get(2));
@@ -79,13 +79,39 @@ public class EventProducerTest {
         }
         Assert.assertEquals(4, eventsList.size());
         checkFlowIdPresentAndSame(eventsList);
-        checkMessageIdPresentAndSame(eventsList);
+        checkMessageIdPresentAndSame(eventsList, false);
         checkClientOut(eventsList.get(0));
         checkServerIn(eventsList.get(1));
         checkServerFaultOut(eventsList.get(2));
         checkClientFaultIn(eventsList.get(3));
     }
     
+    @Test
+    public void testServiceCallOneway() {
+        queue.clear();
+
+        Customer cust = new Customer();
+        cust.setName("test");
+        customerService.updateCustomer(cust);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<Event> eventsList = new ArrayList<Event>();
+        while(!queue.isEmpty()){
+            eventsList.add(queue.remove());
+        }
+
+        Assert.assertEquals(2, eventsList.size());
+        checkFlowIdPresentAndSame(eventsList);
+        checkMessageIdPresentAndSame(eventsList, true);
+        checkClientOut(eventsList.get(0));
+        checkServerIn(eventsList.get(1));
+    }
+
 	private void checkFlowIdPresentAndSame(List<Event> eventList) {
 		String flowId = eventList.get(0).getMessageInfo().getFlowId();
         for (Event event : eventList) {
@@ -99,7 +125,7 @@ public class EventProducerTest {
 	 * check if the MessageId is present and same
 	 * @param eventList
 	 */
-	private void checkMessageIdPresentAndSame(List<Event> eventList) {
+	private void checkMessageIdPresentAndSame(List<Event> eventList, boolean isOneway) {
         for (Event event : eventList) {
             String messageId = event.getMessageInfo().getMessageId();
             Assert.assertNotNull(messageId);
@@ -109,10 +135,12 @@ public class EventProducerTest {
         String messageId1 = eventList.get(1).getMessageInfo().getMessageId();
         Assert.assertEquals("MessageId from REQ_OUT/REQ_IN should be the same", messageId0, messageId1);
 
-        String messageId2 = eventList.get(2).getMessageInfo().getMessageId();
-        String messageId3 = eventList.get(3).getMessageInfo().getMessageId();
-        Assert.assertEquals("MessageId from RESP_OUT/RESP_IN(FAULT_OUT/FAULT_IN)  should be the same", messageId2, messageId3);
-	}
+        if (!isOneway){
+            String messageId2 = eventList.get(2).getMessageInfo().getMessageId();
+            String messageId3 = eventList.get(3).getMessageInfo().getMessageId();
+            Assert.assertEquals("MessageId from RESP_OUT/RESP_IN(FAULT_OUT/FAULT_IN)  should be the same", messageId2, messageId3);
+        }
+    }
 
     private void checkClientIn(Event event) {
         Assert.assertEquals(EventTypeEnum.RESP_IN, event.getEventType());

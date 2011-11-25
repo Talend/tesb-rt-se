@@ -20,9 +20,7 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -32,9 +30,7 @@ import routines.system.api.TalendJob;
 
 public class SimpleJobTask implements ManagedService, JobTask  {
 
-    private static final Logger LOG =
-        Logger.getLogger(SimpleJobTask
-                .class.getName());
+    private static final Logger LOG = Logger.getLogger(SimpleJobTask.class.getName());
 
     private TalendJob job;
     
@@ -44,18 +40,16 @@ public class SimpleJobTask implements ManagedService, JobTask  {
 
     private  FutureTask<?> future;
     
-    private CountDownLatch configAvailable = new CountDownLatch(1);
-    
     public SimpleJobTask(TalendJob job, String name) {
         this.job = job;
         this.name = name;
+        configuration = new Configuration();
         future = new FutureTask<Object>(new JobRunner(), null);
     }
 
     @Override
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
-        configuration = new Configuration(properties);
-        configAvailable.countDown();
+        configuration.setProperties(properties);
     }
 
     @Override
@@ -72,24 +66,21 @@ public class SimpleJobTask implements ManagedService, JobTask  {
         @Override
         public void run()  {
             LOG.info("Starting job " + name);
+            
             String[] args = null;
             try {
-                if (configAvailable.await(2000, TimeUnit.MILLISECONDS)) {
-                    args = configuration.getArguments();
-                } else {
-                    args = new String[0];
-                }
-                ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
-                try {
-                    Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
-                    int ret = job.runJobInTOS(args);
-                    LOG.info("Job " + name + " finished, return code is " + ret);
-                } finally {
-                    Thread.currentThread().setContextClassLoader(oldContextCL);            
-                }
-
+                args = configuration.awaitArguments();
             } catch (InterruptedException e) {
                 return;
+            }
+
+            ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+            try {
+                Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
+                int ret = job.runJobInTOS(args);
+                LOG.info("Job " + name + " finished, return code is " + ret);
+            } finally {
+                Thread.currentThread().setContextClassLoader(oldContextCL);            
             }
         }
     }

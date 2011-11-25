@@ -23,7 +23,6 @@
         <groupId>org.talend.esb.examples.locator</groupId>
         <artifactId>locator-demo</artifactId>
         <version>5.0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>

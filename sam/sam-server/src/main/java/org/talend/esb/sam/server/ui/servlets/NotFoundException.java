@@ -19,33 +19,20 @@
  */
 package org.talend.esb.sam.server.ui.servlets;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.talend.esb.sam.server.ui.UIProvider;
-
-import com.google.gson.JsonObject;
-
 /**
- * API Service that returns flow details
+ * Resource not found exception
  *
  * @author telesh
  *
  */
-public class FlowDetailsServlet extends AbstractAPIServlet {
+public class NotFoundException extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4001052811324863157L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8327757550558772684L;
 
-	@Override
-	JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
-		String requestURI = req.getRequestURI();
-		String flowID = requestURI.substring(requestURI.lastIndexOf('/') + 1);
-		JsonObject result = provider.getFlowDetails(flowID, getBaseUrl(req));
-		if (null == result) {
-			throw new NotFoundException("Can't find flow with ID: " + flowID);
-		}
-		return result;
-	}
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

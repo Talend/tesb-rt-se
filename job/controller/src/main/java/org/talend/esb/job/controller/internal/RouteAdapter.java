@@ -19,10 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.Dictionary;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
+import java.util.Dictionary;import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -41,17 +38,15 @@ public class RouteAdapter implements ManagedService, JobTask {
     
     private Configuration configuration;
 
-    private CountDownLatch configAvailable = new CountDownLatch(1);
-
     public RouteAdapter(TalendESBRoute route, String name) {
         this.route = route;
         this.name = name;
+        configuration = new Configuration();
     }
 
     @Override
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
-        configuration = new Configuration(properties);
-        configAvailable.countDown();
+        configuration.setProperties(properties);
     }
    
     public void stop() {
@@ -70,16 +65,14 @@ public class RouteAdapter implements ManagedService, JobTask {
     @Override
     public void run() {
         LOG.info("Starting route " + name);
+
         String[] args = null;
         try {
-            if (configAvailable.await(2000, TimeUnit.MILLISECONDS)) {
-                args = configuration.getArguments();
-            } else {
-                args = new String[0];
-            }
+            args = configuration.awaitArguments();
         } catch (InterruptedException e) {
             return;
         }
+
         ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(route.getClass().getClassLoader());

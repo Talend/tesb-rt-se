@@ -36,20 +36,25 @@ public class ConfigurationTest {
 
     public static final String KEY_2 = "key2";
     
+    public static final String KEY_3 = "key3";
+
     public static final String VALUE_1 = "value";
 
     public static final String VALUE_2 = "value2";
+
+    public static final String VALUE_3 = "value3";
 
     public static final String CONTEXT_KEY = "context";
 
     public static final String CONTEXT_VALLUE = "contextValue";
 
     @Test
-    public void nullPropertiesProvidesEmptyArgumentList() throws Exception {
+    public void noPropertiesSetProvidesEmptyArgumentList() throws Exception {
 
-        Configuration configuration =  new Configuration(null);
+        Configuration configuration =  new Configuration();
+        configuration.setTimeout(0);
         
-        String[] args = configuration.getArguments();
+        String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[0], args);
     }
 
@@ -71,8 +76,45 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration(properties);
         
-        String[] args = configuration.getArguments();
+        String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[]{"--context=" + CONTEXT_VALLUE}, args);
+    }
+
+    @Test
+    public void setPropertiesAfterCreationHasSameEffectAsSettingDuringCreation() throws Exception {
+        Dictionary<String, String> properties = new Hashtable<String, String>();
+        properties.put(CONTEXT_KEY, CONTEXT_VALLUE);
+
+        Configuration configuration =  new Configuration();
+        configuration.setProperties(properties);
+        
+        String[] args = configuration.awaitArguments();
+        assertArrayEquals(new String[]{"--context=" + CONTEXT_VALLUE}, args);
+    }
+
+    @Test
+    public void setPropertiesOverridesPropertiesSetBefore() throws Exception {
+        Dictionary<String, String> properties1 = new Hashtable<String, String>();
+        properties1.put(CONTEXT_KEY, CONTEXT_VALLUE);
+
+        Dictionary<String, String> properties2 = new Hashtable<String, String>();
+        properties2.put(KEY_1, VALUE_1);
+
+        Configuration configuration =  new Configuration(properties1);
+        configuration.setProperties(properties2);
+        
+        String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1};
+        String[] args = configuration.awaitArguments();
+        assertArrayEquals(expectedArgs, args);
+    }
+
+    @Test
+    public void setNullPropertiesReturnsEmptyArgumentList() throws Exception {
+        Configuration configuration =  new Configuration();
+        configuration.setProperties(null);
+        
+        String[] args = configuration.awaitArguments();
+        assertArrayEquals(new String[0], args);
     }
 
     @Test
@@ -83,7 +125,7 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration(properties);
         
-        String[] args = configuration.getArguments();
+        String[] args = configuration.awaitArguments();
         String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1,
             "--context_param=" + KEY_2 + "=" + VALUE_2};
         assertThat(args, arrayContainingInAnyOrder(expectedArgs));
@@ -98,7 +140,7 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration(properties, filter);
         
-        String[] args = configuration.getArguments();
+        String[] args = configuration.awaitArguments();
         String[] expectedArgs = new String[]{"--context_param=" + KEY_2 + "=" + VALUE_2};
         assertThat(args, arrayContainingInAnyOrder(expectedArgs));
     }

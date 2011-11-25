@@ -19,31 +19,14 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
             <version>${osgi.core.version}</version>
-            <!--scope>provided</scope-->
+            <scope>provided</scope>
         </dependency>
 
-        <!--dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
-        </dependency>
-			
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbynet</artifactId>
-            <version>${derby.version}</version>
-        </dependency-->
-		
-        <dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>derby-all</artifactId>
-            <version>10.8.1.2</version>
-        </dependency>
-		
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.derbynet</artifactId>
+            <version>${derbynet.bundle.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -55,13 +38,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Require-Bundle>
-							org.talend.esb.derby-all
-                        </Require-Bundle>
-						<Bundle-Activator>org.talend.esb.derby.starter.NetworkActivator</Bundle-Activator>
-                        <!--Import-Package>
-						    org.osgi.framework,org.apache.derby.drda,org.apache.derby.iapi.tools.i18n
-        				</Import-Package-->
+                        <Bundle-Activator>org.talend.esb.derby.starter.NetworkActivator</Bundle-Activator>
                     </instructions>
                 </configuration>
             </plugin>

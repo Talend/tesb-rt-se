@@ -23,6 +23,7 @@ import java.lang.ref.WeakReference;
 import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -36,7 +37,7 @@ public class FlowIdProducerOut<T extends Message> extends
 
 	protected static Logger logger = Logger.getLogger(FlowIdProducerOut.class
 			.getName());
-
+	
 	public FlowIdProducerOut() {
 		super(Phase.USER_LOGICAL);
 	}
@@ -65,8 +66,30 @@ public class FlowIdProducerOut<T extends Message> extends
 			logger.warning("InMessage is null!");
 			return;
 		}
-
+		
+		//No flowId for oneway message
+		Exchange ex = reqMsg.getExchange();
+		if (ex.isOneWay()) return;
+		
 		String reqFid = FlowIdHelper.getFlowId(reqMsg);
+
+		//if some interceptor throws fault before FlowIdProducerIn fired 
+		if (reqFid == null) {
+			logger.fine("Some interceptor throws fault.Setting FlowId in response.");
+			reqFid = FlowIdProtocolHeaderCodec.readFlowId(message);
+		}
+		
+		if (reqFid == null) {
+			reqFid = FlowIdSoapCodec.readFlowId(message);
+		}
+
+		if (reqFid != null) {
+			logger.fine("FlowId '" + reqFid + "' found in incoming message.");
+		} else {
+			reqFid = ContextUtils.generateUUID();
+			logger.fine("No flowId found in incoming message! Generate new flowId " + reqFid);
+		}
+		
 		FlowIdHelper.setFlowId(message, reqFid);
 
 	}
@@ -95,5 +118,5 @@ public class FlowIdProducerOut<T extends Message> extends
 
 		FlowIdHelper.setFlowId(message, flowId);
 	}
-
+	
 }

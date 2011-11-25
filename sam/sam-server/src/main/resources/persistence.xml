@@ -24,27 +24,32 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
     ">
 
     <context:annotation-config />
     <tx:annotation-driven />
-    
+
     <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="dataSource"/>
         <property name="dialect" ref="${db.dialect}" />
     </bean>
-    
+
+    <bean id="uiProvider" class="org.talend.esb.sam.server.ui.UIProviderImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="dialect" ref="${db.dialect}" />
+    </bean>
+
     <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
         <property name="incrementer" ref="derbyIncrementer" />
     </bean>
-    
-	<bean id="DB2Dialect" class="org.talend.esb.sam.server.persistence.dialects.DB2Dialect">
+
+    <bean id="DB2Dialect" class="org.talend.esb.sam.server.persistence.dialects.DB2Dialect">
         <property name="incrementer" ref="db2Incrementer" />
     </bean>
-	
+
     <bean id="mysqlDialect" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
         <property name="incrementer" ref="mysqlIncrementer" />
     </bean>
@@ -52,11 +57,11 @@
     <bean id="h2Dialect" class="org.talend.esb.sam.server.persistence.dialects.H2Dialect">
         <property name="incrementer" ref="h2Incrementer" />
     </bean>
-    
+
     <bean id="oracleDialect" class="org.talend.esb.sam.server.persistence.dialects.OracleDialect">
         <property name="incrementer" ref="oracleIncrementer" />
     </bean>
-    
+
     <bean id="sqlServerDialect" class="org.talend.esb.sam.server.persistence.dialects.SqlServerDialect">
         <property name="incrementer" ref="sqlServerIncrementer" />
     </bean>
@@ -66,37 +71,37 @@
         <property name="incrementerName" value="TAB_SEQUENCE" />
         <property name="columnName" value="ID_VALUE"/>
     </bean>
-    
+
     <bean id="mysqlIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="SEQUENCE" />
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
-    
+
     <bean id="h2Incrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="ID_SEQUENCE" />
     </bean>
-	
-	<bean id="db2Incrementer" class="org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer">
+
+    <bean id="db2Incrementer" class="org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="EVENT_ID" />
     </bean>
-    
+
     <bean id="oracleIncrementer" class="org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="EVENT_ID" />
     </bean>
-    
+
     <bean id="sqlServerIncrementer" class="org.springframework.jdbc.support.incrementer.SqlServerMaxValueIncrementer">
         <property name="dataSource" ref="dataSource" />
         <property name="incrementerName" value="SEQUENCE" />
         <property name="columnName" value="SEQ_COUNT"/>
     </bean>
-<!--     
-	<bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
-	 	 <constructor-arg value="${db.driver}" />
-	 </bean>
+<!--
+    <bean id="jdbcDriverClass" class="org.talend.esb.sam.server.persistence.JdbcDriverBootstrap"  factory-method="forName">
+         <constructor-arg value="${db.driver}" />
+    </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" ref="jdbcDriverClass" />
@@ -104,17 +109,17 @@
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}" />
     </bean>
--->    
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${db.driver}"/>
-	    <property name="url" value="${db.url}"/>
-	    <property name="username" value="${db.username}"/>
-	    <property name="password" value="${db.password}"/>
-		<property name="initialSize" value="${db.pool.initsize}"/>
-		<property name="maxActive" value="${db.pool.maxactive}"/>
-		<property name="maxWait" value="${db.pool.maxwait}"/>
-	</bean>    
-        
+-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="initialSize" value="${db.pool.initsize}"/>
+        <property name="maxActive" value="${db.pool.maxactive}"/>
+        <property name="maxWait" value="${db.pool.maxwait}"/>
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>

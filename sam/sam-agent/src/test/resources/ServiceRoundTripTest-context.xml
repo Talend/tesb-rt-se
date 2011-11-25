@@ -46,7 +46,7 @@
         <property name="queue" ref="queue" />
     </bean>
 
-    <jaxws:client id="customerService" address="local:/CustomerServicePort"
+    <jaxws:client id="customerService" address="local://CustomerServicePort"
         serviceClass="com.example.customerservice.CustomerService">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
@@ -55,7 +55,7 @@
         </jaxws:features>
     </jaxws:client>
 
-    <jaxws:endpoint address="local:/CustomerServicePort"
+    <jaxws:endpoint address="local://CustomerServicePort"
         implementor="org.talend.esb.sam.agent.interceptor.CustomerServiceImpl">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />

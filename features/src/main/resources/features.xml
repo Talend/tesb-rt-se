@@ -25,8 +25,8 @@
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
 
-  <feature name='tesb-sam-agent' version='${project.version}'>
-    <feature version='${cxf.version}'>cxf</feature>
+  <feature name='tesb-sam-common' version='${project.version}'>
+    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
     <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
     <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
@@ -34,31 +34,28 @@
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
-    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
+  </feature>
+
+  <feature name='tesb-sam-agent' version='${project.version}'>
+    <feature version='${cxf.version}'>cxf</feature>
+    <feature>tesb-sam-common</feature>
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-sam-server' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/${geronimo-jsp.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
-    <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
-    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <feature>tesb-sam-common</feature>
+    <feature version='${spring.version}'>spring-jdbc</feature>
+    <feature version='${spring.version}'>spring-test</feature>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
-    <bundle>mvn:org.apache.derby/derby/${derby.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
-    <bundle>mvn:org.springframework/spring-jdbc/${spring.version}</bundle>
-    <bundle>mvn:org.springframework/spring-test/${spring.version}</bundle>
-    <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
+    <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-derby-starter' version='${project.version}'>
-    <bundle>mvn:org.talend.esb/derby-all/${derby.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derbynet/${derbynet.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/derby-starter/${project.version}</bundle>
   </feature>
 
@@ -94,10 +91,6 @@
         <feature version='${cxf.version}'>cxf</feature>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxen/${jaxen.bundle.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${servicemix.specs.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.bundle.version}</bundle>
-        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/${servicemix.specs.version}</bundle>
-        <bundle>mvn:org.apache.geronimo.specs/geronimo-ws-metadata_2.0_spec/${geronimo-ws-metadata.version}</bundle>
     </feature>
 
     <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
@@ -167,7 +160,7 @@
         <feature version="${camel.version}">camel-bindy</feature>
         <feature version="${camel.version}">camel-cometd</feature>
         <feature version="${camel.version}">camel-csv</feature>
-        <feature version="${camel.version}">camel-dozer</feature>
+        <!-- feature version="${camel.version}">camel-dozer</feature -->
         <feature version="${camel.version}">camel-exec</feature>
         <feature version="${camel.version}">camel-flatpack</feature>
         <feature version="${camel.version}">camel-freemarker</feature>
@@ -188,11 +181,11 @@
         <feature version="${camel.version}">camel-josql</feature>
         <feature version="${camel.version}">camel-jpa</feature>
         <feature version="${camel.version}">camel-jxpath</feature>
-        <feature version="${camel.version}">camel-juel</feature>
+        <!-- feature version="${camel.version}">camel-juel</feature -->
         <feature version="${camel.version}">camel-kestrel</feature>
         <feature version="${camel.version}">camel-ldap</feature>
         <feature version="${camel.version}">camel-lucene</feature>
-        <feature version="${camel.version}">camel-mail</feature>
+        <!-- feature version="${camel.version}">camel-mail</feature -->
         <feature version="${camel.version}">camel-msv</feature>
         <feature version="${camel.version}">camel-mvel</feature>
         <feature version="${camel.version}">camel-nagios</feature>

@@ -36,8 +36,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.service.MonitoringService;
-import org.talend.esb.sam.common.util.EventCreator;
 import org.talend.esb.sam.server.persistence.EventRowMapper;
+import org.talend.esb.sam.server.util.EventCreator;
 
 /**
  * Tests the sevice implementation together with the database

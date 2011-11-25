@@ -20,37 +20,34 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
     ">
-	
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="persistence.xml"/>
 
     <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
-        <property name="persistenceHandler" ref="eventRepository" />    
+        <property name="persistenceHandler" ref="eventRepository" />
     </bean>
 
-	<jaxws:endpoint id="monitoringservice" 
+    <jaxws:endpoint id="monitoringservice" 
         implementor="#MonitoringServiceWrapper"
-		address="${monitoringServiceUrl}">
+        address="${monitoringServiceUrl}">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>
-		<jaxws:features>
-			<bean class="org.apache.cxf.feature.LoggingFeature" />
-		</jaxws:features>
-	</jaxws:endpoint>
+        <jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
 
-	<bean id="MonitoringServiceWrapper"
-		class="org.talend.esb.sam.server.service.MonitoringWebService">
-		<property name="monitoringService" ref="monitoringService" />
-	</bean>
+    <bean id="MonitoringServiceWrapper"
+        class="org.talend.esb.sam.server.service.MonitoringWebService">
+        <property name="monitoringService" ref="monitoringService" />
+    </bean>
 
 </beans>
