@@ -20,21 +20,16 @@
 package org.talend.esb.sam.agent.feature;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Queue;
-import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.addressing.MAPAggregator;
+import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.addressing.soap.MAPCodec;
-
-import org.springframework.beans.factory.InitializingBean;
-
 import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
@@ -48,20 +43,18 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * Feature for adding FlowId Interceptor and EventProducer Interceptor.
  * 
  */
-public class EventFeature extends AbstractFeature implements InitializingBean {
+public class EventFeature extends AbstractFeature {
 
-	/*
-	 * Log the message content to Event as Default
-	 */
+    /*
+     * Log the message content to Event as Default
+     */
     private boolean logMessageContent = true;
     /*
      * No max message content limitation as Default
      */
-	private int maxContentLength = -1;
-    private Queue<Event> queue;
-    private EventProducerInterceptor epi;
+    private int maxContentLength = -1;
 
-    protected static Logger logger = Logger.getLogger(EventFeature.class.getName());
+    private EventProducerInterceptor epi;
 
     public EventFeature() {
         super();
@@ -98,32 +91,26 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
     public void setLogMessageContent(boolean logMessageContent) {
         this.logMessageContent = logMessageContent;
     }
-    
+
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
-    
+ 
     public void setQueue(Queue<Event> queue) {
-        this.queue = queue;
         if (epi == null){
-	        MessageToEventMapper mapper = new MessageToEventMapper();
-	        mapper.setMaxContentLength(maxContentLength);
-	        
-	        epi = new EventProducerInterceptor(mapper, queue);
+            MessageToEventMapper mapper = new MessageToEventMapper();
+            mapper.setMaxContentLength(maxContentLength);
+            
+            epi = new EventProducerInterceptor(mapper, queue);
         }
     }
 
     public void setHandler(EventHandler handler) {
-    	if (this.epi != null){
-    		this.epi.setHandler(handler);
-    	}
-	}
-    
-    @Override
-    public void afterPropertiesSet() throws Exception {
-
+        if (this.epi != null){
+            this.epi.setHandler(handler);
+        }
     }
-    
+
     /**
      * detect if WS Addressing feature already enabled
      * @param provider
@@ -133,13 +120,13 @@ public class EventFeature extends AbstractFeature implements InitializingBean {
     private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus){
         //detect on the bus level
         if (bus.getFeatures() != null){
-	        Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
-	        while (busFeatures.hasNext()){
-	            AbstractFeature busFeature = busFeatures.next();
-	            if (busFeature instanceof WSAddressingFeature){
-	                return true;
-	            }
-	        }
+            Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
+            while (busFeatures.hasNext()){
+                AbstractFeature busFeature = busFeatures.next();
+                if (busFeature instanceof WSAddressingFeature){
+                    return true;
+                }
+            }
         }
 
         //detect on the endpoint/client level

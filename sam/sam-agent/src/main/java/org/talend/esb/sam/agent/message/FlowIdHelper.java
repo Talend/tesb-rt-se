@@ -19,34 +19,30 @@
  */
 package org.talend.esb.sam.agent.message;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.message.Message;
 
 public class FlowIdHelper {
-	public static final String FLOW_ID_KEY = "FlowId";
-	public static final QName FLOW_ID_QNAME = new QName(
-			"http://www.talend.com/esb/sam/flowId/v1", "flowId");
 
-	/**
-	 * Get FlowId from message
-	 * 
-	 * @param message
-	 * @return flowId or null if not set
-	 */
-	public static String getFlowId(Message message) {
-		String flowId = (String) message.get(FLOW_ID_KEY);
+    public static final String FLOW_ID_KEY = "FlowId";
+    public static final QName FLOW_ID_QNAME = new QName(
+            "http://www.talend.com/esb/sam/flowId/v1", "flowId");
 
-		return flowId;
-	}
+    /**
+     * Get FlowId from message
+     * 
+     * @param message
+     * @return flowId or null if not set
+     */
+    public static String getFlowId(Message message) {
+        String flowId = (String) message.get(FLOW_ID_KEY);
 
-	public static void setFlowId(Message message, String flowId) {
-		message.put(FLOW_ID_KEY, flowId);
-	}
+        return flowId;
+    }
+
+    public static void setFlowId(Message message, String flowId) {
+        message.put(FLOW_ID_KEY, flowId);
+    }
 
 }
