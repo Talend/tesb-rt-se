@@ -55,7 +55,7 @@
   </feature>
 
   <feature name='tesb-derby-starter' version='${project.version}'>
-    <bundle>mvn:org.talend.esb/derby-all/${derby.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derbynet/${derbynet.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/derby-starter/${project.version}</bundle>
   </feature>
 

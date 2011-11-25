@@ -113,6 +113,7 @@
         <osgi.core.version>4.2.0</osgi.core.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
+        <derbynet.bundle.version>10.8.1.2_1</derbynet.bundle.version>
 
         <cxf.build-utils.version>2.4.0</cxf.build-utils.version>
         <cxf.resources.base.path />
