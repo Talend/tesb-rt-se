@@ -142,6 +142,16 @@
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>
+        <fileSet>
+            <directory>target/classes/scripts</directory>
+            <outputDirectory>/scripts</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
 
         <!-- Expanded ZooKeeper Runtime -->
         <fileSet>
