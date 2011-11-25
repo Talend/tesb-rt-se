@@ -32,10 +32,6 @@ sam-server:
 sam-server-war: 
   The sam-server war package which can be deployed into Servlet container.
 
-derby-all:
-  The new derby-all bundle which ONLY can be used to install on the OSGI container as a dependency 
-bundle of derby-starter.
-
 derby-starter: 
   The derby-starter bundle which ONLY can be used to install on the OSGI container for starting 
 the Derby Database server.
