@@ -710,6 +710,9 @@
 										<include name="**/target/*.jar" />
 										<include name="**/target/*.war" />
 									</fileset>
+									<fileset dir="${basedir}/../locator-service">
+										<include name="**/target/*.jar" />
+									</fileset>
 									<flattenmapper />
 								</copy>
 								<copy todir="target/add-ons/locator">
