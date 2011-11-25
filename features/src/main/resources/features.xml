@@ -49,7 +49,6 @@
     <feature version='${spring.version}'>spring-jdbc</feature>
     <feature version='${spring.version}'>spring-test</feature>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
-    <bundle>mvn:org.apache.derby/derby/${derby.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
     <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>
