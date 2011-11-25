@@ -26,15 +26,16 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 public class NetworkActivator implements BundleActivator {
-	NetworkServerControl server;
-	
-	public void start(BundleContext context) throws Exception {
-		server = new NetworkServerControl(InetAddress.getByName("localhost"),1527);
-		server.start(null);
-	}
-	
+
+    private NetworkServerControl server;
+
+    public void start(BundleContext context) throws Exception {
+        server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
+        server.start(null);
+    }
+
     public void stop(BundleContext context) throws Exception {
-		server.shutdown();
+        server.shutdown();
     }
 
 }
