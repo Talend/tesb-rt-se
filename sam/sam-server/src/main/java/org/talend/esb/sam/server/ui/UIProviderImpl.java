@@ -27,11 +27,12 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 /**
  * Default implementation of {@link UIProvider} based on

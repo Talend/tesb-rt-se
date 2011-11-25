@@ -20,20 +20,21 @@
 package org.talend.esb.sam.server.ui.servlets;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.talend.esb.sam.server.ui.UIProvider;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+
+import org.talend.esb.sam.server.ui.UIProvider;
 
 /**
  * Common class for API Servlets
@@ -45,7 +46,7 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger log = LoggerFactory.getLogger(AbstractAPIServlet.class);
+    private static final Logger logger = Logger.getLogger(AbstractAPIServlet.class.getName());
 
     private final boolean noCache;
 
@@ -90,7 +91,7 @@ public abstract class AbstractAPIServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             writeResponse(resp, toJSON(e), callback);
         } catch (Exception e) {
-            log.error("Exception processing request " + req.getRequestURI()
+            logger.log(Level.SEVERE, "Exception processing request " + req.getRequestURI()
                     + " with parameters " + req.getQueryString(), e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             writeResponse(resp, toJSON(e), callback);
