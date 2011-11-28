@@ -26,7 +26,24 @@ client/
    - This is a sample client application that uses the Locator Soap Service to dynamically discover the service endpoint and invoke the service.
 
 
+Building the Demo
+-----------------
+
+Using either UNIX or Windows:
+
+    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb), 
+    run the following command to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+
+    mvn install --non-recursive 
+
+    From the base directory of this sample (i.e., where this README file is located), 
+    the maven pom.xml file can be used to build and run the demo. 
+  
+    mvn install
+
+
 Starting the Demo
+-----------------
 
 - Start zookeeper in container
     features:install tesb-zookeeper-server
