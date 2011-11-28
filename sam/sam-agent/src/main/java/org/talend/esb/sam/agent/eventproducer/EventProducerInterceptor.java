@@ -35,7 +35,7 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * 
  */
 public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> {
-    private static final Logger logger = Logger.getLogger(EventProducerInterceptor.class.getName());
+    private static final Logger LOG = Logger.getLogger(EventProducerInterceptor.class.getName());
 
     private final MessageToEventMapper mapper;
     private final Queue<Event> queue;
@@ -64,9 +64,9 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         if (handler != null){
             handler.handleEvent(event);
         }
-        if (logger.isLoggable(Level.FINE)) {
+        if (LOG.isLoggable(Level.FINE)) {
             String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
-            logger.fine("Store event [message_id=" + id + "] in cache.");
+            LOG.fine("Store event [message_id=" + id + "] in cache.");
         }
         queue.add(event);
     }
