@@ -20,91 +20,83 @@
 package org.talend.esb.sam.common.event;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 public class MonitoringException extends RuntimeException {
-	private static Logger logger = Logger.getLogger(MonitoringException.class
-			.getName());
-	private static final long serialVersionUID = 3127641209174705808L;
-	private String code;
-	private String message;
-	private List<Event> events;
 
-	public MonitoringException(String code, String message, Throwable t) {
-		super(t);
-		this.code = code;
-		this.message = message;
-	}
+    private static final Logger LOG = Logger.getLogger(MonitoringException.class.getName());
+    private static final long serialVersionUID = 3127641209174705808L;
 
-	public MonitoringException(String code, String message, Throwable t,
-			Event event) {
-		super(t);
-		this.code = code;
-		this.message = message;
-		this.events = new ArrayList<Event>();
-		this.events.add(event);
-	}
+    private final String code;
+    private final String message;
+    private final List<Event> events = new ArrayList<Event>();
 
-	public MonitoringException(String code, String message, Throwable t,
-			List<Event> events) {
-		super(t);
-		this.code = code;
-		this.message = message;
-		this.events = events;
-	}
+    public MonitoringException(String code, String message, Throwable t) {
+        this(code, message, t, Collections.<Event>emptyList());
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public MonitoringException(String code, String message, Throwable t,
+            Event event) {
+        this(code, message, t, Collections.singletonList(event));
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public MonitoringException(String code, String message, Throwable t,
+            List<Event> events) {
+        super(t);
+        this.code = code;
+        this.message = message;
+        this.events.addAll(events);
+    }
 
-	/**
-	 * Prints the error message as log message
-	 * 
-	 * @param e
-	 */
-	public void logException(Level level) {
-		StringBuilder message = new StringBuilder();
-		message.append("\n----------------------------------------------------\n");
-		message.append("MonitoringException\n");
-		message.append("----------------------------------------------------\n");
-		message.append("Code:    " + this.code + "\n");
-		message.append("Message: " + this.message + "\n");
-		message.append("----------------------------------------------------\n");
-		if (events != null) {
-			for (Event event : events) {
-				message.append("Event:\n");
-				if (event.getMessageInfo() != null) {
-					String flowId = event.getMessageInfo().getFlowId();
-					String messageId = event.getMessageInfo().getMessageId();
-					message.append("Message id: " + messageId + "\n");
-					message.append("Flow id:    " + flowId + "\n");
-					message.append("----------------------------------------------------\n");
-				} else {
-					message.append("No message id and no flow id\n");
-				}
-			}
-		}
-		message.append("----------------------------------------------------\n");
-		message.append("\n");
-		logger.log(level, message.toString(), this);
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void addEvent(Event event) {
-		if (this.events == null)
-			this.events = new ArrayList<Event>();
-		this.events.add(event);
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void addEvents(List<Event> events) {
-		if (this.events == null)
-			this.events = new ArrayList<Event>();
-		this.events.addAll(events);
-	}
+    /**
+     * Prints the error message as log message
+     * 
+     * @param e
+     */
+    public void logException(Level level) {
+        if(!LOG.isLoggable(level)) {
+            return;
+        }
+        final StringBuilder builder = new StringBuilder();
+        builder.append("\n----------------------------------------------------");
+        builder.append("\nMonitoringException");
+        builder.append("\n----------------------------------------------------");
+        builder.append("\nCode:    ").append(code);
+        builder.append("\nMessage: ").append(message);
+        builder.append("\n----------------------------------------------------");
+        if (events != null) {
+            for (Event event : events) {
+                builder.append("\nEvent:");
+                if (event.getMessageInfo() != null) {
+                    builder.append("\nMessage id: ").append(event.getMessageInfo().getMessageId());
+                    builder.append("\nFlow id:    ").append(event.getMessageInfo().getFlowId());
+                    builder.append("\n----------------------------------------------------");
+                } else {
+                    builder.append("\nNo message id and no flow id");
+                }
+            }
+        }
+        builder.append("\n----------------------------------------------------\n");
+        LOG.log(level, builder.toString(), this);
+    }
+
+    public void addEvent(Event event) {
+        this.events.add(event);
+    }
+
+    public void addEvents(List<Event> events) {
+        this.events.addAll(events);
+    }
 }

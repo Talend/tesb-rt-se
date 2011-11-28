@@ -35,18 +35,23 @@ import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
 
 public class MonitoringWebService implements MonitoringService {
 
-    private static Logger logger = Logger.getLogger(MonitoringWebService.class.getName());
+    private static final Logger LOG = Logger.getLogger(MonitoringWebService.class.getName());
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
 
+    public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
+        this.monitoringService = monitoringService;
+    }
+
     public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
-        logger.info("Received event(" + eventTypes.size() + ") from Agent.");
-        List<Event> events = new ArrayList<Event>();
+        if(LOG.isLoggable(Level.INFO)) {
+            LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
+        }
+        List<Event> events = new ArrayList<Event>(eventTypes.size());
 
         try {
             for (EventType eventType : eventTypes) {
-                Event event = EventTypeMapper.map(eventType);
-                events.add(event);
+                events.add(EventTypeMapper.map(eventType));
             }
         } catch (RuntimeException e) {
             throwFault("004", "Could not map web service data to event." + e.getMessage(), e);
@@ -65,7 +70,9 @@ public class MonitoringWebService implements MonitoringService {
     }
 
     private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
-        logger.severe("Throw Fault " + code + " " + message);
+        if(LOG.isLoggable(Level.SEVERE)) {
+            LOG.log(Level.SEVERE, "Throw Fault " + code + " " + message, t);
+        }
 
         FaultType faultType = new FaultType();
         faultType.setFaultCode(code);
@@ -75,17 +82,10 @@ public class MonitoringWebService implements MonitoringService {
         PrintWriter printWriter = new PrintWriter(stringWriter);
 
         t.printStackTrace(printWriter);
-        String exception = stringWriter.toString();
 
-        faultType.setStackTrace(exception);
-
-        logger.log(Level.SEVERE, "Exception", t);
+        faultType.setStackTrace(stringWriter.toString());
 
         throw new PutEventsFault(message, faultType, t);
-    }
-
-    public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
-        this.monitoringService = monitoringService;
     }
 
 }
