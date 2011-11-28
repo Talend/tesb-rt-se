@@ -31,8 +31,14 @@ Building the Demo
 
 Using either UNIX or Windows:
 
-    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb), 
-    run the following command to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb),  run the following command 
+    to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+
+    mvn install --non-recursive 
+
+   From the locator-service sample root directory (i.e., talend-esb-<version>/examples/talend/tesb/examples/locator-service),  
+   run the following command to install the locator-service sample parent pom file: locator-service-parent-<version>.pom 
+   into local maven repo.
 
     mvn install --non-recursive 
 
