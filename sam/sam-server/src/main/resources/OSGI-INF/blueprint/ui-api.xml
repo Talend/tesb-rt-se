@@ -20,14 +20,21 @@
   -->
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <bean id="indexServlet" class="org.talend.esb.sam.server.ui.servlets.IndexServlet"/>
+    <service ref="indexServlet" interface="javax.servlet.http.HttpServlet">
+        <service-properties>
+            <entry key="alias" value="/sam-server-war"/>
+        </service-properties>
+    </service>
+
     <reference id="uiProvider" availability="mandatory" interface="org.talend.esb.sam.server.ui.UIProvider" />
+
     <bean id="listServlet" class="org.talend.esb.sam.server.ui.servlets.ListServlet">
         <property name="uiProvider" ref="uiProvider"/>
     </bean>
-
     <service ref="listServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/api/v1.0/list"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/list"/>
         </service-properties>
     </service>
 
@@ -36,7 +43,7 @@
     </bean>	
     <service ref="flowDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/api/v1.0/flow"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/flow"/>
         </service-properties>
     </service>
 
@@ -45,7 +52,7 @@
     </bean>	
     <service ref="eventDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/api/v1.0/event"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/event"/>
         </service-properties>
     </service>
 </blueprint>

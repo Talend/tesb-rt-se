@@ -20,6 +20,7 @@
 package org.talend.esb.sam.agent.eventproducer;
 
 import java.util.Queue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
@@ -34,10 +35,10 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * 
  */
 public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> {
-	private Logger logger = Logger.getLogger(EventProducerInterceptor.class.getName());
-	
-    private MessageToEventMapper mapper;
-    private Queue<Event> queue;
+    private static final Logger LOG = Logger.getLogger(EventProducerInterceptor.class.getName());
+
+    private final MessageToEventMapper mapper;
+    private final Queue<Event> queue;
     private EventHandler handler;
     
     public EventProducerInterceptor(MessageToEventMapper mapper, Queue<Event> queue) {
@@ -53,19 +54,20 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     }
 
     public void setHandler(EventHandler handler) {
-		this.handler = handler;
-	}
+        this.handler = handler;
+    }
 
-	@Override
+    @Override
     public void handleMessage(Message message) throws Fault {
         Event event = mapper.mapToEvent(message);
-        
+
         if (handler != null){
-        	handler.handleEvent(event);
+            handler.handleEvent(event);
         }
-        
-        String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
-        logger.fine("Store event [message_id=" + id + "] in cache.");
+        if (LOG.isLoggable(Level.FINE)) {
+            String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
+            LOG.fine("Store event [message_id=" + id + "] in cache.");
+        }
         queue.add(event);
     }
 

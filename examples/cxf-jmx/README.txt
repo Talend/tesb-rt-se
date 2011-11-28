@@ -65,12 +65,19 @@ common/   - This directory contains the code that is common
 war/      - This module creates a WAR archive containing code from common and 
             service modules.  Servlet container use only, not used in OSGi deployment.
 
-From the base directory of this sample (i.e., where this README file is
-located), the Maven pom.xml file can be used to build and run the demo. 
 
 Using either UNIX or Windows:
 
-    mvn clean install
+    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb), 
+    run the following command to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+
+    mvn install --non-recursive 
+
+    From the base directory of this sample (i.e., where this README file is located), 
+    the maven pom.xml file can be used to build and run the demo. 
+  
+    mvn install
+
 
 Running this command will build the demo and create a WAR archive and an OSGi bundle 
 for deploying the service either to servlet or OSGi containers.
