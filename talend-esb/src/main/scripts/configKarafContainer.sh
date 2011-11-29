@@ -36,3 +36,13 @@ config:edit --force org.apache.karaf.shell
 echo "Setting (SSH port, $5)"
 config:propset sshPort $5
 config:update
+#
+echo "Jobserver configuration properties"
+config:edit --force org.talend.remote.jobserver.server
+echo "Setting (command server port, $6)"
+config:propset COMMAND_SERVER_PORT $6
+echo "Setting (file server port, $7)"
+config:propset FILE_SERVER_PORT $7
+echo "Setting (monitoring port, $8)"
+config:propset MONITORING_PORT $8
+config:update

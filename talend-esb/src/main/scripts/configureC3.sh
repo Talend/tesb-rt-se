@@ -20,6 +20,9 @@ HTTPS_Port=9004
 RMI_Registry_Port=1102
 RMI_Server_Port=44447
 SSH_Port=8104
+COMMAND_SERVER_PORT=8030
+FILE_SERVER_PORT=8031
+MONITORING_PORT=8918
 
 #addcommand system (loadClass java.lang.System)
 #KARAF_HOME = system:getProperty karaf.home
@@ -31,5 +34,4 @@ KARAF_FILE = (new java.io.File $KARAF_PATH)
 TESB_FILE = $KARAF_FILE getParentFile
 TESB_HOME = $TESB_FILE getCanonicalPath
 
-source $KARAF_PATH/scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port
-#source scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port
+source $KARAF_PATH/scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port $COMMAND_SERVER_PORT $FILE_SERVER_PORT $MONITORING_PORT
