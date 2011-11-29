@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.message.Message;
 
-public class FlowIdHelper {
+public final class FlowIdHelper {
 
     public static final String FLOW_ID_KEY = "FlowId";
     public static final QName FLOW_ID_QNAME = new QName(
@@ -39,9 +39,7 @@ public class FlowIdHelper {
      * @return flowId or null if not set
      */
     public static String getFlowId(Message message) {
-        String flowId = (String) message.get(FLOW_ID_KEY);
-
-        return flowId;
+        return (String) message.get(FLOW_ID_KEY);
     }
 
     public static void setFlowId(Message message, String flowId) {

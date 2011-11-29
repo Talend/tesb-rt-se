@@ -36,46 +36,46 @@ import org.apache.cxf.phase.Phase;
  * soon as the output stream is closed
  */
 public class WireTapOut extends AbstractPhaseInterceptor<Message> {
-	private Interceptor<Message> wireTap;
-	private boolean logMessageContent;
+    private Interceptor<Message> wireTap;
+    private boolean logMessageContent;
 
-	public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent) {
-		super(Phase.PRE_STREAM);
-		this.wireTap = wireTap;
-		this.logMessageContent = logMessageContent;
-	}
+    public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent) {
+        super(Phase.PRE_STREAM);
+        this.wireTap = wireTap;
+        this.logMessageContent = logMessageContent;
+    }
 
-	@Override
-	public void handleMessage(final Message message) throws Fault {
-		final OutputStream os = message.getContent(OutputStream.class);
-		
-		final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(
-				os);
-		message.setContent(OutputStream.class, newOut);
-		
-		if (os != null && logMessageContent) {
-			message.setContent(CachedOutputStream.class, newOut);
-		}
-		
-		if (wireTap != null) {
-			newOut.registerCallback(new CallBack(message));
-		}
-	}
+    @Override
+    public void handleMessage(final Message message) throws Fault {
+        final OutputStream os = message.getContent(OutputStream.class);
 
-	private final class CallBack implements CachedOutputStreamCallback {
-		private final Message message;
+        final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(
+                os);
+        message.setContent(OutputStream.class, newOut);
 
-		private CallBack(Message message) {
-			this.message = message;
-		}
+        if (os != null && logMessageContent) {
+            message.setContent(CachedOutputStream.class, newOut);
+        }
 
-		@Override
-		public void onFlush(CachedOutputStream os) {
-		}
+        if (wireTap != null) {
+            newOut.registerCallback(new CallBack(message));
+        }
+    }
 
-		@Override
-		public void onClose(CachedOutputStream os) {
-			wireTap.handleMessage(message);
-		}
-	}
+    private final class CallBack implements CachedOutputStreamCallback {
+        private final Message message;
+
+        private CallBack(Message message) {
+            this.message = message;
+        }
+
+        @Override
+        public void onFlush(CachedOutputStream os) {
+        }
+
+        @Override
+        public void onClose(CachedOutputStream os) {
+            wireTap.handleMessage(message);
+        }
+    }
 }

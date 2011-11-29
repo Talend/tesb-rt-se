@@ -31,8 +31,8 @@ Start Derby database and sam-server
 There are two ways to start Derby database and sam-server alternatively.
 
 Start Derby database and sam-server using sam-server-jetty
-	set environment variable: org.talend.esb.sam.server.embedded=true
-	cd talend-esb-<version>/examples/talend/tesb/sam/sam-server-jetty
+
+	cd Talend-ESB-<version>/examples/talend/tesb/sam/sam-server-jetty
 	mvn -Dorg.talend.esb.sam.server.embedded=true jetty:run-war
 
 	By default the Jetty server runs on 9080 port and the sam-server can be accessible under this url: 
@@ -42,7 +42,7 @@ Start Derby database and sam-server in OSGI Container
 
 	* starting the TESB OSGi container:
 
-	cd talend-esb-<version>/container/bin
+	cd Talend-ESB-<version>/container/bin
 	Linux: ./trun
 	Windows: trun.bat
 

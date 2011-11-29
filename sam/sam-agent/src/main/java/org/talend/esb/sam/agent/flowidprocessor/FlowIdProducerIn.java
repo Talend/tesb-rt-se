@@ -30,32 +30,32 @@ import org.talend.esb.sam.agent.message.FlowIdHelper;
 
 
 public class FlowIdProducerIn<T extends Message> extends AbstractPhaseInterceptor<T> {
-	
-	protected static Logger logger = Logger.getLogger(FlowIdProducerIn.class.getName());
-	
-	public FlowIdProducerIn(){
-		super(Phase.PRE_INVOKE);
-	}
-	
-	public void handleMessage(T message) throws Fault {
-		String flowId = FlowIdHelper.getFlowId(message);
-		
-		if (flowId == null) {
-			flowId = FlowIdProtocolHeaderCodec.readFlowId(message);
-		}
-		
-		if (flowId == null) {
-			flowId = FlowIdSoapCodec.readFlowId(message);
-		}
 
-		if (flowId != null) {
-			logger.fine("FlowId '" + flowId + "' found in incoming message.");
-		} else {
-			flowId = ContextUtils.generateUUID();
-			logger.fine("No flowId found in incoming message! Generate new flowId " + flowId);
-		}
+    private static final Logger LOG = Logger.getLogger(FlowIdProducerIn.class.getName());
 
-		FlowIdHelper.setFlowId(message, flowId);
-	}
+    public FlowIdProducerIn(){
+        super(Phase.PRE_INVOKE);
+    }
+
+    public void handleMessage(T message) throws Fault {
+        String flowId = FlowIdHelper.getFlowId(message);
+
+        if (flowId == null) {
+            flowId = FlowIdProtocolHeaderCodec.readFlowId(message);
+        }
+
+        if (flowId == null) {
+            flowId = FlowIdSoapCodec.readFlowId(message);
+        }
+
+        if (flowId != null) {
+            LOG.fine("FlowId '" + flowId + "' found in incoming message.");
+        } else {
+            flowId = ContextUtils.generateUUID();
+            LOG.fine("No flowId found in incoming message! Generate new flowId " + flowId);
+        }
+
+        FlowIdHelper.setFlowId(message, flowId);
+    }
 
 }

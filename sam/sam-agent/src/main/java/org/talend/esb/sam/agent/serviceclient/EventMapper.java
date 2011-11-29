@@ -38,7 +38,10 @@ import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.agent.util.Converter;
 
-public class EventMapper {
+public final class EventMapper {
+
+    private EventMapper() {
+    }
 
     /**
      * convert Event bean to EventType manually
@@ -57,8 +60,8 @@ public class EventMapper {
         eventType.setCustomInfo(convertCustomInfo(event.getCustomInfo()));
         eventType.setContentCut(event.isContentCut());
         if (event.getContent() != null){
-	        DataHandler datHandler = getDataHandlerForString(event);
-	        eventType.setContent(datHandler);
+            DataHandler datHandler = getDataHandlerForString(event);
+            eventType.setContent(datHandler);
         }
         return eventType;
     }
@@ -75,9 +78,9 @@ public class EventMapper {
     }
 
     private static MessageInfoType mapMessageInfo(MessageInfo messageInfo) {
-    	if (messageInfo == null) {
-    		return null;
-    	}
+        if (messageInfo == null) {
+            return null;
+        }
         MessageInfoType miType = new MessageInfoType();
         miType.setMessageId(messageInfo.getMessageId());
         miType.setFlowId(messageInfo.getFlowId());
@@ -88,9 +91,9 @@ public class EventMapper {
     }
 
     private static OriginatorType mapOriginator(Originator originator) {
-    	if (originator == null) {
-    		return null;
-    	}
+        if (originator == null) {
+            return null;
+        }
         OriginatorType origType = new OriginatorType();
         origType.setProcessId(originator.getProcessId());
         origType.setIp(originator.getIp());
@@ -117,9 +120,9 @@ public class EventMapper {
     }
 
     private static EventEnumType convertEventType(org.talend.esb.sam.common.event.EventTypeEnum eventType) {
-    	if (eventType == null) {
-    		return null;
-    	}
+        if (eventType == null) {
+            return null;
+        }
         return EventEnumType.valueOf(eventType.name());
     }
 

@@ -37,7 +37,16 @@ Building the Demo
 ---------------------------------------
 Using either Linux or Windows:
 
+    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb), 
+    run the following command to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+
+    mvn install --non-recursive 
+
+    From the base directory of this sample (i.e., where this README file is located), 
+    the maven pom.xml file can be used to build and run the demo. 
+  
     mvn install
+
 
 Starting the Service
 ---------------------------------------
@@ -46,6 +55,7 @@ features:addurl mvn:org.talend.esb.examples.locator-rest/features/5.0.0/xml
 
   * Install example feature in container:
 features:install tesb-locator-rest
+
 
 Running the Client
 ---------------------------------------

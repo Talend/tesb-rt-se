@@ -33,7 +33,7 @@
 
         <!-- Copy Docs -->
         <fileSet>
-            <directory>target/docs/esb-docs-${project.version}</directory>
+            <directory>target/docs/esb-docs-${tesb-doc.version}</directory>
             <outputDirectory>/docs</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>

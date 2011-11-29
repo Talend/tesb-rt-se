@@ -21,7 +21,6 @@ package org.talend.esb.sam.agent.flowidprocessor;
 
 import static org.talend.esb.sam.agent.message.FlowIdHelper.FLOW_ID_QNAME;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,15 +38,17 @@ import org.w3c.dom.Node;
  */
 public class FlowIdSoapCodec {
 
-    protected static Logger logger = Logger.getLogger(FlowIdSoapCodec.class.getName());
+    private static final Logger LOG = Logger.getLogger(FlowIdSoapCodec.class.getName());
+
+    private FlowIdSoapCodec() {
+    }
 
     public static String readFlowId(Message message) {
-    	if (!(message instanceof SoapMessage)) {
-    		return null;
-    	}
+        if (!(message instanceof SoapMessage)) {
+            return null;
+        }
         String flowId = null;
-        SoapMessage soapMessage = (SoapMessage)message;
-        Header hdFlowId = soapMessage.getHeader(FlowIdHelper.FLOW_ID_QNAME);
+        Header hdFlowId = ((SoapMessage)message).getHeader(FlowIdHelper.FLOW_ID_QNAME);
         if (hdFlowId != null) {
             if (hdFlowId.getObject() instanceof String) {
                 flowId = (String)hdFlowId.getObject();
@@ -55,7 +56,7 @@ public class FlowIdSoapCodec {
                 Node headerNode = (Node)hdFlowId.getObject();
                 flowId = headerNode.getTextContent();
             } else {
-                logger.warning("Found FlowId soap header but value is not a String or a Node! Value: "
+                LOG.warning("Found FlowId soap header but value is not a String or a Node! Value: "
                                + hdFlowId.getObject().toString());
             }
         }
@@ -63,24 +64,24 @@ public class FlowIdSoapCodec {
     }
 
     public static void writeFlowId(Message message, String flowId) {
-    	if (!(message instanceof SoapMessage)) {
-    		return;
-    	}
+        if (!(message instanceof SoapMessage)) {
+            return;
+        }
         SoapMessage soapMessage = (SoapMessage)message;
         Header hdFlowId = soapMessage.getHeader(FlowIdHelper.FLOW_ID_QNAME);
         if (hdFlowId != null) {
-        	logger.warning("FlowId already existing in soap header, need not to write FlowId header.");
-        	return;
+            LOG.warning("FlowId already existing in soap header, need not to write FlowId header.");
+            return;
         }
-        
-        List<Header> headers = soapMessage.getHeaders();
-        Header flowIdHeader;
+
         try {
-            flowIdHeader = new Header(FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class));
-            headers.add(flowIdHeader);
-            logger.fine("Stored flowId '" + flowId + "' in soap header: " + FLOW_ID_QNAME.toString());
+            Header flowIdHeader = new Header(FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class));
+            soapMessage.getHeaders().add(flowIdHeader);
+            if(LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Stored flowId '" + flowId + "' in soap header: " + FLOW_ID_QNAME);
+            }
         } catch (JAXBException e) {
-            logger.log(Level.SEVERE, "Couldn't create flowId header.", e);
+            LOG.log(Level.SEVERE, "Couldn't create flowId header.", e);
         }
 
     }

@@ -289,87 +289,6 @@
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.7</version>
 				</plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.cxf.build-utils</groupId>
-                            <artifactId>cxf-buildtools</artifactId>
-                            <version>${cxf.build-utils.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <reportPlugins>
-							<plugin>
-								<groupId>org.apache.maven.plugins</groupId>
-								<artifactId>maven-project-info-reports-plugin</artifactId>
-								<version>2.4</version>
-								<configuration>
-									<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-									<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-								</configuration>
-							</plugin>
-							<plugin>
-								<groupId>org.apache.maven.plugins</groupId>
-								<artifactId>maven-surefire-report-plugin</artifactId>
-								<version>2.10</version>
-							</plugin>
-                            <plugin>
-                                <groupId>org.codehaus.mojo</groupId>
-                                <artifactId>cobertura-maven-plugin</artifactId>
-                                <version>2.5.1</version>
-                                <configuration>
-                                    <aggregate>true</aggregate>
-                                    <outputDirectory>${project.reporting.outputDirectory}/cobertura</outputDirectory>
-									<formats>
-										<format>html</format>
-										<format>xml</format>
-									</formats>
-                                </configuration>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-jxr-plugin</artifactId>
-                                <version>2.3</version>
-                                <configuration>
-                                    <aggregate>true</aggregate>
-                                </configuration>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-pmd-plugin</artifactId>
-                                <version>2.5</version>
-                                <configuration>
-                                    <rulesets>
-                                        <ruleset>${cxf.resources.base.path}cxf-pmd-ruleset.xml</ruleset>
-                                        <ruleset>${cxf.resources.base.path}cxf-pmd-custom.xml</ruleset>
-                                    </rulesets>
-                                    <aggregate>true</aggregate>
-                                    <targetJdk>1.6</targetJdk>
-                                </configuration>
-                            </plugin>
-                            <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-checkstyle-plugin</artifactId>
-                                <version>2.6</version>
-                                <configuration>
-                                    <configLocation>${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml</configLocation>
-                                    <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml</suppressionsLocation>
-                                    <!--failsOnError>true</failsOnError-->
-                                    <!-- http://jira.codehaus.org/browse/MCHECKSTYLE-62 -->
-                                    <!--aggregate>true</aggregate-->
-                                </configuration>
-                            </plugin>
-                        </reportPlugins>
-                    </configuration>
-                </plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.10</version>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
@@ -378,6 +297,83 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf.build-utils</groupId>
+                        <artifactId>cxf-buildtools</artifactId>
+                        <version>${cxf.build-utils.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.4</version>
+                            <configuration>
+                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <version>2.10</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>cobertura-maven-plugin</artifactId>
+                            <version>2.5.1</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                                <outputDirectory>${project.reporting.outputDirectory}/cobertura</outputDirectory>
+                                <formats>
+                                    <format>html</format>
+                                    <format>xml</format>
+                                </formats>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>2.3</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-pmd-plugin</artifactId>
+                            <version>2.6</version>
+                            <configuration>
+                                <rulesets>
+                                    <ruleset>${cxf.resources.base.path}cxf-pmd-ruleset.xml</ruleset>
+                                    <!-- following line broke PMD report -->
+                                    <!--ruleset>${cxf.resources.base.path}cxf-pmd-custom.xml</ruleset-->
+                                </rulesets>
+                                <aggregate>true</aggregate>
+                                <targetJdk>1.6</targetJdk>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>2.8</version>
+                            <configuration>
+                                <configLocation>${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml</configLocation>
+                                <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml</suppressionsLocation>
+                                <!--failsOnError>true</failsOnError-->
+                                <!-- http://jira.codehaus.org/browse/MCHECKSTYLE-62 -->
+                                <!--aggregate>true</aggregate-->
+                            </configuration>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>

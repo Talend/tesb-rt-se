@@ -36,82 +36,81 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class MonitoringServiceImpl implements MonitoringService {
 
-	@Autowired(required=false)
-	private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
-	@Autowired(required=false)
-	private List<EventHandler> eventHandlers = new ArrayList<EventHandler>();
-	private EventRepository persistenceHandler;
+    @Autowired(required=false)
+    private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
+    @Autowired(required=false)
+    private List<EventHandler> eventHandlers = new ArrayList<EventHandler>();
+    private EventRepository persistenceHandler;
 
-	/**
-	 * Sets a list of event filter. A filtered event will not processed.
-	 * 
-	 * @param eventFilter
-	 */
-	public void setEventFilters(List<EventFilter> eventFilters) {
-		this.eventFilters = eventFilters;
-	}
+    /**
+     * Sets a list of event filter. A filtered event will not processed.
+     * 
+     * @param eventFilter
+     */
+    public void setEventFilters(List<EventFilter> eventFilters) {
+        this.eventFilters = eventFilters;
+    }
 
-	/**
-	 * Sets a list of event manipulator. Normally it's used for password
-	 * filtering and cutting the content.
-	 * 
-	 * @param eventManipulator
-	 */
-	public void setEventHandlers(List<EventHandler> eventHandlers) {
-		this.eventHandlers = eventHandlers;
-	}
+    /**
+     * Sets a list of event manipulator. Normally it's used for password
+     * filtering and cutting the content.
+     * 
+     * @param eventManipulator
+     */
+    public void setEventHandlers(List<EventHandler> eventHandlers) {
+        this.eventHandlers = eventHandlers;
+    }
 
+    /**
+     * Set a persistence handler. For example the DefaultDatabaseHandler
+     * 
+     * @param persistenceHandler
+     */
+    public void setPersistenceHandler(EventRepository persistenceHandler) {
+        this.persistenceHandler = persistenceHandler;
+    }
 
-	/**
-	 * Set a persistence handler. For example the DefaultDatabaseHandler
-	 * 
-	 * @param persistenceHandler
-	 */
-	public void setPersistenceHandler(EventRepository persistenceHandler) {
-		this.persistenceHandler = persistenceHandler;
-	}
+    /**
+     * Executes all event manipulating handler and writes the event with persist
+     * handler
+     */
+    public void putEvents(List<Event> events) {
+        List<Event> filteredEvents = filterEvents(events);
+        executeHandlers(filteredEvents);
+        for (Event event : filteredEvents) {
+            persistenceHandler.writeEvent(event);
+        }
+    }
 
-	/**
-	 * Executes all event manipulating handler and writes the event with persist
-	 * handler
-	 */
-	public void putEvents(List<Event> events) {
-	    List<Event> filteredEvents = filterEvents(events);
-	    executeHandlers(filteredEvents);
-	    for (Event event : filteredEvents) {
-	        persistenceHandler.writeEvent(event);
-	    }
-	}
-	
-	/**
-	 * Execute all filters for the event.
-	 * 
-	 * @param event
-	 * @return
-	 */
-	private boolean filter(Event event) {
-		for (EventFilter filter : eventFilters) {
-			if (filter.filter(event) == true)
-				return true;
-		}
-		return false;
-	}
+    /**
+     * Execute all filters for the event.
+     * 
+     * @param event
+     * @return
+     */
+    private boolean filter(Event event) {
+        for (EventFilter filter : eventFilters) {
+            if (filter.filter(event) == true)
+                return true;
+        }
+        return false;
+    }
 
-	private List<Event> filterEvents(List<Event> events) {
-		List<Event> filteredEvents = new ArrayList<Event>();
-		for (Event event : events) {
-			if (!filter(event)) {
-				filteredEvents.add(event);
-			}
-		}
-		return filteredEvents;
-	}
+    private List<Event> filterEvents(List<Event> events) {
+        List<Event> filteredEvents = new ArrayList<Event>();
+        for (Event event : events) {
+            if (!filter(event)) {
+                filteredEvents.add(event);
+            }
+        }
+        return filteredEvents;
+    }
 
-	private void executeHandlers(List<Event> filteredEvents) {
-		for (EventHandler current : eventHandlers) {
-			for (Event event : filteredEvents) {
-				current.handleEvent(event);
-			}
-		}
-	}
+    private void executeHandlers(List<Event> filteredEvents) {
+        for (EventHandler current : eventHandlers) {
+            for (Event event : filteredEvents) {
+                current.handleEvent(event);
+            }
+        }
+    }
 }
