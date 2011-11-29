@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 //@Embeddable
-public class MessageInfo implements Serializable{
+public class MessageInfo implements Serializable {
 
     //@Transient
     private static final long serialVersionUID = -6464068913564098842L;
@@ -107,12 +107,15 @@ public class MessageInfo implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         MessageInfo other = (MessageInfo)obj;
         if (flowId == null) {
             if (other.flowId != null)
@@ -132,13 +135,16 @@ public class MessageInfo implements Serializable{
         if (portType == null) {
             if (other.portType != null)
                 return false;
-        } else if (!portType.equals(other.portType))
+        } else if (!portType.equals(other.portType)) {
             return false;
+        }
         if (transportType == null) {
-            if (other.transportType != null)
+            if (other.transportType != null) {
                 return false;
-        } else if (!transportType.equals(other.transportType))
+            }
+        } else if (!transportType.equals(other.transportType)) {
             return false;
+        }
         return true;
     }
 

@@ -112,38 +112,51 @@ public class Originator implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Originator other = (Originator)obj;
         if (customId == null) {
-            if (other.customId != null)
+            if (other.customId != null) {
                 return false;
-        } else if (!customId.equals(other.customId))
+            }
+        } else if (!customId.equals(other.customId)) {
             return false;
+        }
         if (hostname == null) {
-            if (other.hostname != null)
+            if (other.hostname != null) {
                 return false;
-        } else if (!hostname.equals(other.hostname))
+            }
+        } else if (!hostname.equals(other.hostname)) {
             return false;
+        }
         if (ip == null) {
-            if (other.ip != null)
+            if (other.ip != null) {
                 return false;
-        } else if (!ip.equals(other.ip))
+            }
+        } else if (!ip.equals(other.ip)) {
             return false;
+        }
         if (principal == null) {
-            if (other.principal != null)
+            if (other.principal != null) {
                 return false;
-        } else if (!principal.equals(other.principal))
+            }
+        } else if (!principal.equals(other.principal)) {
             return false;
+        }
         if (processId == null) {
-            if (other.processId != null)
+            if (other.processId != null) {
                 return false;
-        } else if (!processId.equals(other.processId))
+            }
+        } else if (!processId.equals(other.processId)) {
             return false;
+        }
         return true;
     }
     

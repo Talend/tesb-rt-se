@@ -33,7 +33,7 @@ public enum EventTypeEnum {
     CLIENT_CREATE,
     CLIENT_DESTROY,
     JOB_START,
-    JOB_STOP,	
+    JOB_STOP,
     LOG,
     UNKNOWN;
 }
