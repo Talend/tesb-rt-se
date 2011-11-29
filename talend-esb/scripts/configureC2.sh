@@ -31,5 +31,5 @@ KARAF_FILE = (new java.io.File $KARAF_PATH)
 TESB_FILE = $KARAF_FILE getParentFile
 TESB_HOME = $TESB_FILE getCanonicalPath
 
-source $TESB_HOME/scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port
+source $KARAF_PATH/scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port
 #source scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port
