@@ -33,52 +33,51 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class PasswordHandler implements EventHandler {
 
-	private static final String REPLACE = "<replaced xmlns=\"\"/>";
-	
-	private static Logger logger = Logger.getLogger(PasswordHandler.class
-			.getName());
+    private static final String REPLACE = "<replaced xmlns=\"\"/>";
 
-	private List<String> tagnames;
+    private static final Logger LOG = Logger.getLogger(PasswordHandler.class.getName());
 
-	public PasswordHandler() {
-		super();
-	}
+    private List<String> tagnames;
 
-	public List<String> getTagnames() {
-		return tagnames;
-	}
+    public PasswordHandler() {
+        super();
+    }
 
-	/**
-	 * Set a list with names, which should be filtered. For example "password" "passwort" This search is case sensitive.
-	 * @param tagnames
-	 */
-	public void setTagnames(List<String> tagnames) {
-		this.tagnames = tagnames;
-	}
+    public List<String> getTagnames() {
+        return tagnames;
+    }
 
-	/**
-	 * Replaces all configured elements with a ---replaced--- string
-	 */
-	public void handleEvent(Event event) {
-		logger.fine("PasswordHandler called");
-		
-		if(tagnames==null||tagnames.size()==0)
-			logger.warning("Password filter is active but there is no filter tagname configured!");
+    /**
+     * Set a list with names, which should be filtered. For example "password" "passwort" This search is case sensitive.
+     * @param tagnames
+     */
+    public void setTagnames(List<String> tagnames) {
+        this.tagnames = tagnames;
+    }
 
-		if (tagnames != null && event.getContent() != null
-				&& event.getContent().length() > 0) {
-			logger.fine("Content before: " + event.getContent());
-			for (String tagname : tagnames) {
-				event.setContent(event.getContent().replaceAll(
-						"<([^>]*)" + tagname
-								+ "([^>]*)>([^<]*)<([^>]*)/([^>]*)" + tagname
-								+ "([^>]*)>", REPLACE));
-				event.setContent(event.getContent().replaceAll(
-						"<([^>]*)" + tagname + "([^>]*)/([^>]*)>",
-						REPLACE));
+    /**
+     * Replaces all configured elements with a ---replaced--- string
+     */
+    public void handleEvent(Event event) {
+        LOG.fine("PasswordHandler called");
 
-			}
-			logger.fine("Content after: " + event.getContent());
-		}
-	}
+        if (tagnames==null||tagnames.size()==0)
+            LOG.warning("Password filter is active but there is no filter tagname configured!");
+
+        if (tagnames != null && event.getContent() != null
+                && event.getContent().length() > 0) {
+            LOG.fine("Content before: " + event.getContent());
+            for (String tagname : tagnames) {
+                event.setContent(event.getContent().replaceAll(
+                        "<([^>]*)" + tagname
+                                + "([^>]*)>([^<]*)<([^>]*)/([^>]*)" + tagname
+                                + "([^>]*)>", REPLACE));
+                event.setContent(event.getContent().replaceAll(
+                        "<([^>]*)" + tagname + "([^>]*)/([^>]*)>",
+                        REPLACE));
+
+            }
+            LOG.fine("Content after: " + event.getContent());
+        }
+    }
 }

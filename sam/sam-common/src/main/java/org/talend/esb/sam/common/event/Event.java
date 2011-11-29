@@ -38,7 +38,8 @@ public class Event implements Serializable {
 
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@GeneratedValue(strategy = GenerationType.TABLE, generator = "EVENT_SEQ")
-    //@TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
+    //@TableGenerator(name = "EVENT_SEQ", table = "SEQUENCE", pkColumnName = "SEQ_NAME",
+    //    valueColumnName = "SEQ_COUNT", pkColumnValue = "EVENT_SEQ", allocationSize = 1000)
     //@Column(name = "ID")
     private Long persistedId;
 
@@ -109,9 +110,9 @@ public class Event implements Serializable {
     public void setMessageInfo(MessageInfo messageInfo) {
         this.messageInfo = messageInfo;
     }
-    
-    public void setContentCut(boolean isContentCut) {
-        this.isContentCut = isContentCut;
+
+    public void setContentCut(boolean contentCut) {
+        isContentCut = contentCut;
     }
 
     public boolean isContentCut() {

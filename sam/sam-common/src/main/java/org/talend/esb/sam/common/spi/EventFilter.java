@@ -23,5 +23,6 @@ import org.talend.esb.sam.common.event.Event;
 
 public interface EventFilter {
 
-	public boolean filter(Event event);
+    boolean filter(Event event);
+
 }

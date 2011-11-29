@@ -29,19 +29,18 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * Adds a fixed set of custom info fields to the event
  */
 public class CustomInfoHandler implements EventHandler {
-	private static Logger logger = Logger.getLogger(CustomInfoHandler.class
-			.getName());
-	
+
+    private static final Logger LOG = Logger.getLogger(CustomInfoHandler.class.getName());
+
     private Map<String, String> customInfo;
 
     @Override
     public void handleEvent(Event event) {
-    	logger.fine("CustomInfoHandler called");
-    	
-        if (customInfo == null) {
-            return;
+        LOG.fine("CustomInfoHandler called");
+
+        if (customInfo != null) {
+            event.getCustomInfo().putAll(customInfo);
         }
-        event.getCustomInfo().putAll(customInfo);
     }
 
     public void setCustomInfo(Map<String, String> customInfo) {

@@ -20,6 +20,7 @@
 package org.talend.esb.sam.common.event;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,7 +67,7 @@ public class MonitoringException extends RuntimeException {
      * @param e
      */
     public void logException(Level level) {
-        if(!LOG.isLoggable(level)) {
+        if (!LOG.isLoggable(level)) {
             return;
         }
         final StringBuilder builder = new StringBuilder();
@@ -93,10 +94,10 @@ public class MonitoringException extends RuntimeException {
     }
 
     public void addEvent(Event event) {
-        this.events.add(event);
+        events.add(event);
     }
 
-    public void addEvents(List<Event> events) {
-        this.events.addAll(events);
+    public void addEvents(Collection<Event> eventCollection) {
+        events.addAll(eventCollection);
     }
 }
