@@ -48,7 +48,7 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class EventCollector implements BusLifeCycleListener {
 
-    private static Logger logger = Logger.getLogger(EventCollector.class.getName());
+    private static final Logger LOG = Logger.getLogger(EventCollector.class.getName());
 
     private Bus bus;
     private MonitoringService monitoringServiceClient;
@@ -91,7 +91,7 @@ public class EventCollector implements BusLifeCycleListener {
                     clcm.registerListener(cltListener);
                 }
            }
-        }        
+        }
     }
 
     /**
@@ -101,7 +101,7 @@ public class EventCollector implements BusLifeCycleListener {
      */
     public int getEventsPerMessageCall() {
         if (eventsPerMessageCall <= 0) {
-            logger.warning("Message package size is not set or is lower then 1. Set package size to 1.");
+            LOG.warning("Message package size is not set or is lower then 1. Set package size to 1.");
             return 1;
         }
         return eventsPerMessageCall;
@@ -150,7 +150,7 @@ public class EventCollector implements BusLifeCycleListener {
      * @param scheduler
      */
     public void setScheduler(TaskScheduler scheduler) {
-        logger.info("Scheduler started for sending events to SAM Server");
+        LOG.info("Scheduler started for sending events to SAM Server");
         this.scheduler = scheduler;
 
         this.scheduler.scheduleAtFixedRate(new Runnable() {
@@ -217,10 +217,10 @@ public class EventCollector implements BusLifeCycleListener {
      * Method will be executed asynchronously from spring.
      */
     public void sendEventsFromQueue() {
-        if (this.stopSending == true) {
+        if (stopSending) {
             return;
         }
-        logger.fine("Scheduler called for sending events");
+        LOG.fine("Scheduler called for sending events");
 
         int packageSize = getEventsPerMessageCall();
 
@@ -258,8 +258,9 @@ public class EventCollector implements BusLifeCycleListener {
      */
     private boolean filter(Event event) {
         for (EventFilter filter : filters) {
-            if (filter.filter(event) == true)
+            if (filter.filter(event)) {
                 return true;
+            }
         }
         return false;
     }
@@ -276,12 +277,12 @@ public class EventCollector implements BusLifeCycleListener {
             }
         }
 
-        logger.info("Put events(" + events.size() + ") to Monitoring Server.");
+        LOG.info("Put events(" + events.size() + ") to Monitoring Server.");
         try {
             monitoringServiceClient.putEvents(events);
+        } catch (MonitoringException e) {
+            throw e;
         } catch (Exception e) {
-            if (e instanceof MonitoringException)
-                throw (MonitoringException)e;
             throw new MonitoringException("002",
                                           "Unknown error while execute put events to Monitoring Server", e);
         }
@@ -295,7 +296,7 @@ public class EventCollector implements BusLifeCycleListener {
 
     @Override
     public void preShutdown() {
-        logger.info("Bus is stopping. Stopping sending events to monitoring service.");
+        LOG.info("Bus is stopping. Stopping sending events to monitoring service.");
         this.stopSending = true;
     }
 

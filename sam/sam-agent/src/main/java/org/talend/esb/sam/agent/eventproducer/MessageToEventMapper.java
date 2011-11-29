@@ -20,7 +20,6 @@
 package org.talend.esb.sam.agent.eventproducer;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -33,17 +32,20 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.cxf.ws.addressing.ContextUtils;
 import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
+import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
+import org.talend.esb.sam.agent.util.Converter;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
 public class MessageToEventMapper {
-    private Logger log = Logger.getLogger(MessageToEventMapper.class.getName());
+
+    private static final Logger LOG = Logger.getLogger(MessageToEventMapper.class.getName());
+
     private int maxContentLength = -1;
 
     public Event mapToEvent(Message message) {
@@ -62,7 +64,7 @@ public class MessageToEventMapper {
 
         messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
-        
+
         String opName = message.getExchange().getBindingOperationInfo().getName().toString();
         messageInfo.setOperationName(opName);
         String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
@@ -79,10 +81,10 @@ public class MessageToEventMapper {
         if (messageInfo.getTransportType() == null) {
             messageInfo.setTransportType("Unknown transport type");
         }
-        
+
         String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
         event.getCustomInfo().put("address", addr);
-        
+
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             originator.setIp(inetAddress.getHostAddress());
@@ -91,32 +93,30 @@ public class MessageToEventMapper {
             originator.setHostname("Unknown hostname");
             originator.setIp("Unknown ip address");
         }
-        String mxName = ManagementFactory.getRuntimeMXBean().getName();
-        String pId = mxName.split("@")[0];
-        originator.setProcessId(pId);
-        
+        originator.setProcessId(Converter.getPID());
+
         SecurityContext sc = message.get(SecurityContext.class);
         if (sc != null && sc.getUserPrincipal() != null){
-        	originator.setPrincipal(sc.getUserPrincipal().getName());
+            originator.setPrincipal(sc.getUserPrincipal().getName());
         }
 
         if (originator.getPrincipal() == null) {
-        	AuthorizationPolicy authPolicy = message.get(AuthorizationPolicy.class);
-        	if (authPolicy != null) {
-        		originator.setPrincipal(authPolicy.getUserName());
-        	}
+            AuthorizationPolicy authPolicy = message.get(AuthorizationPolicy.class);
+            if (authPolicy != null) {
+                originator.setPrincipal(authPolicy.getUserName());
+            }
         }
-        
+
         EventTypeEnum eventType = getEventType(message);
         event.setEventType(eventType);
-        
+
         CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
         //System.out.println("custom props: " + customInfo);
         event.getCustomInfo().putAll(customInfo);
-        
+
         return event;
     }
-    
+
     /**
      * Get MessageId from WS-Addressing enabled (i.e with <wsa:addressing/> feature), if 
      * addressing feature doesn't enable, have to create/transfer our own MessageId.
@@ -124,17 +124,16 @@ public class MessageToEventMapper {
      * @return
      */
     private String getMessageId(Message message){
-    	String messageId = null;
-    	
-        AddressingPropertiesImpl addrProp = ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
+        String messageId;
+
+        AddressingPropertiesImpl addrProp =
+            ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
         if (addrProp != null){
-        	messageId = addrProp.getMessageID().getValue();
-        	//System.out.println("MessageID = " + msgId);
+            messageId = addrProp.getMessageID().getValue();
         }else{
-        	//to do: generate and transfer MessageId ...
-        	messageId = ContextUtils.generateUUID();
+            //to do: generate and transfer MessageId ...
+            messageId = ContextUtils.generateUUID();
         }
-        
         return messageId;
     }
 
@@ -166,7 +165,8 @@ public class MessageToEventMapper {
             }
             CachedOutputStream cos = message.getContent(CachedOutputStream.class);
             if (cos == null) {
-                log.warning("Could not find CachedOutputStream in message. Continuing without message content");
+                LOG.warning("Could not find CachedOutputStream in message."
+                    + " Continuing without message content");
                 return "";
             }
             return new String(cos.getBytes(), encoding);
@@ -182,28 +182,28 @@ public class MessageToEventMapper {
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
-    
+
     private void handleContentLength(Event event){
-    	String CUT_START_TAG = "<cut><![CDATA[";
-    	String CUT_END_TAG = "]]></cut>";
-    	
-    	if (event.getContent() == null){
-    		return;
-    	}
-    	
-    	if (maxContentLength == -1 || event.getContent().length() <= maxContentLength){
-    		return;
-    	}
-    	
-    	if (maxContentLength < CUT_START_TAG.length() + CUT_END_TAG.length()){
-    		event.setContent("");
-    		event.setContentCut(true);
-    		return;
-    	}
-    	
-    	int contentLength = maxContentLength - CUT_START_TAG.length() - CUT_END_TAG.length();
-		event.setContent(CUT_START_TAG
-				+ event.getContent().substring(0, contentLength) + CUT_END_TAG);
-		event.setContentCut(true);
+        String CUT_START_TAG = "<cut><![CDATA[";
+        String CUT_END_TAG = "]]></cut>";
+
+        if (event.getContent() == null){
+            return;
+        }
+
+        if (maxContentLength == -1 || event.getContent().length() <= maxContentLength){
+            return;
+        }
+
+        if (maxContentLength < CUT_START_TAG.length() + CUT_END_TAG.length()){
+            event.setContent("");
+            event.setContentCut(true);
+            return;
+        }
+
+        int contentLength = maxContentLength - CUT_START_TAG.length() - CUT_END_TAG.length();
+        event.setContent(CUT_START_TAG
+                + event.getContent().substring(0, contentLength) + CUT_END_TAG);
+        event.setContentCut(true);
     }
 }

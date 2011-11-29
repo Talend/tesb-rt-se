@@ -146,7 +146,7 @@ public class EventFeature extends AbstractFeature {
      * AddressingProperties to get MessageID.
      * @param provider
      */
-    private void addWSAddressingInterceptors(InterceptorProvider provider){
+    private void addWSAddressingInterceptors(InterceptorProvider provider) {
         MAPAggregator mapAggregator = new MAPAggregator();
         MAPCodec mapCodec = new MAPCodec();
 
