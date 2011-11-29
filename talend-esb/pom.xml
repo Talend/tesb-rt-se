@@ -374,10 +374,6 @@
 				<filtering>true</filtering>
 				<targetPath>bin</targetPath>
 			</resource>
-			<resource>
-				<directory>${project.basedir}/scripts</directory>
-				<targetPath>scripts</targetPath>
-			</resource>
 		</resources>
 		<plugins>
 			<plugin>

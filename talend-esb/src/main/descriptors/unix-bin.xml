@@ -142,8 +142,8 @@
             <directoryMode>755</directoryMode>
         </fileSet>
         <fileSet>
-            <directory>target/classes/scripts</directory>
-            <outputDirectory>/scripts</outputDirectory>
+            <directory>${basedir}/src/main/scripts</directory>
+            <outputDirectory>/container/scripts</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
