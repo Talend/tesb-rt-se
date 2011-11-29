@@ -26,33 +26,33 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventFilter;
 
 public class StringContentFilter implements EventFilter {
-	private static Logger logger = Logger.getLogger(StringContentFilter.class
-			.getName());
-	
-	private List<String> wordsToFilter;
 
-	public List<String> getWordsToFilter() {
-		return wordsToFilter;
-	}
+    private static final Logger LOG = Logger.getLogger(StringContentFilter.class.getName());
 
-	public void setWordsToFilter(List<String> wordsToFilter) {
-		this.wordsToFilter = wordsToFilter;
-	}
+    private List<String> wordsToFilter;
 
-	/**
-	 * Filter event if word occurs in wordsToFilter
-	 */
-	public boolean filter(Event event) {
-		logger.info("StringContentFilter called");
-		
-		if (wordsToFilter != null) {
-			for (String filterWord : wordsToFilter) {
-				if (event.getContent() != null
-						&& -1 != event.getContent().indexOf(filterWord)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    public List<String> getWordsToFilter() {
+        return wordsToFilter;
+    }
+
+    public void setWordsToFilter(List<String> wordsToFilter) {
+        this.wordsToFilter = wordsToFilter;
+    }
+
+    /**
+     * Filter event if word occurs in wordsToFilter
+     */
+    public boolean filter(Event event) {
+        LOG.info("StringContentFilter called");
+        
+        if (wordsToFilter != null) {
+            for (String filterWord : wordsToFilter) {
+                if (event.getContent() != null
+                        && -1 != event.getContent().indexOf(filterWord)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -28,10 +28,11 @@ import org.talend.esb.sam.common.event.Event;
  * Public interface for the business logic of MonitoringService
  */
 public interface MonitoringService {
-	
-	/**
-	 * Handle the event with all configured handlers.
-	 * @param events
-	 */
-	public void putEvents(List<Event> events);
+
+    /**
+     * Handle the event with all configured handlers.
+     * @param events
+     */
+    void putEvents(List<Event> events);
+
 }

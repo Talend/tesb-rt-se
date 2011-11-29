@@ -33,53 +33,53 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class ContentLengthHandler implements EventHandler {
 
-	private static Logger logger = Logger.getLogger(ContentLengthHandler.class
-			.getName());
-	//TODO Bei String den Cut wieder entfernen.
-	final static String CUT_START_TAG = "<cut><![CDATA[";
-	final static String CUT_END_TAG = "]]></cut>";
-	
-	private int length;
+    private static final Logger LOG = Logger.getLogger(ContentLengthHandler.class
+            .getName());
+    //TODO Bei String den Cut wieder entfernen.
+    static final String CUT_START_TAG = "<cut><![CDATA[";
+    static final String CUT_END_TAG = "]]></cut>";
 
-	public ContentLengthHandler() {
-		super();
-	}
+    private int length;
 
-	public int getLength() {
-		return length;
-	}
+    public ContentLengthHandler() {
+        super();
+    }
 
-	/**
-	 * Set the maximum length for the message. 
-	 * @param length
-	 */
-	public void setLength(int length) {
-		this.length = length;
-	}
+    public int getLength() {
+        return length;
+    }
 
-	/**
-	 * Cut the message content to the configured length
-	 */
-	public void handleEvent(Event event) {
-		logger.fine("ContentLengthHandler called");
+    /**
+     * Set the maximum length for the message. 
+     * @param length
+     */
+    public void setLength(int length) {
+        this.length = length;
+    }
 
-		//if maximum length is shorter then <cut><![CDATA[ ]]></cut> it's not possible to cut the content
-		if(CUT_START_TAG.length()+CUT_END_TAG.length()>length){
-			logger.warning("Trying to cut content. But length is shorter then needed for "+CUT_START_TAG+CUT_END_TAG+". So content is skipped.");
-			event.setContent("");
-			return;
-		}
-		
-		int currentLength = length - CUT_START_TAG.length() - CUT_END_TAG.length();
+    /**
+     * Cut the message content to the configured length
+     */
+    public void handleEvent(Event event) {
+        LOG.fine("ContentLengthHandler called");
 
-		if (event.getContent() != null && event.getContent().length() > length) {
-			logger.fine("cutting content to " + currentLength
-					+ " characters. Original length was "
-					+ event.getContent().length());
-			logger.fine("Content before cutting: " + event.getContent());
-			event.setContent(CUT_START_TAG
-					+ event.getContent().substring(0, currentLength) + CUT_END_TAG);
-			logger.fine("Content after cutting: " + event.getContent());
-		}
-	}
+        //if maximum length is shorter then <cut><![CDATA[ ]]></cut> it's not possible to cut the content
+        if(CUT_START_TAG.length()+CUT_END_TAG.length()>length){
+            LOG.warning("Trying to cut content. But length is shorter then needed for "+CUT_START_TAG+CUT_END_TAG+". So content is skipped.");
+            event.setContent("");
+            return;
+        }
+        
+        int currentLength = length - CUT_START_TAG.length() - CUT_END_TAG.length();
+
+        if (event.getContent() != null && event.getContent().length() > length) {
+            LOG.fine("cutting content to " + currentLength
+                    + " characters. Original length was "
+                    + event.getContent().length());
+            LOG.fine("Content before cutting: " + event.getContent());
+            event.setContent(CUT_START_TAG
+                    + event.getContent().substring(0, currentLength) + CUT_END_TAG);
+            LOG.fine("Content after cutting: " + event.getContent());
+        }
+    }
 }

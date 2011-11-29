@@ -29,6 +29,7 @@
         <module>sam-example-service</module>
         <module>sam-example-service2</module>
         <module>sam-example-osgi</module>
+        <module>sam-server-jetty</module>
     </modules>
 
 </project>

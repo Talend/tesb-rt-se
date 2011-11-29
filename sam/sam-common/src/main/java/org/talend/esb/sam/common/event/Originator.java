@@ -27,68 +27,68 @@ import org.apache.commons.lang.builder.ToStringStyle;
 //@Embeddable
 public class Originator implements Serializable {
 
-	//@Transient
-	private static final long serialVersionUID = 3926684116318585338L;
+    //@Transient
+    private static final long serialVersionUID = 3926684116318585338L;
 
-	//@Basic(optional = false)
-	//@Column(name = "ORIG_PROCESS_ID")
-	private String processId;
-	//@Basic(optional = false)
-	//@Column(name = "ORIG_IP", length=64)
-	private String ip;
-	//@Basic(optional = false)
-	//@Column(name = "ORIG_HOSTENAME", length=128)
-	private String hostname;
-	//@Column(name = "ORIG_CUSTOM_ID")
-	private String customId;
-	//@Column(name = "ORIG_PRINCIPAL")
-	private String principal;
+    //@Basic(optional = false)
+    //@Column(name = "ORIG_PROCESS_ID")
+    private String processId;
+    //@Basic(optional = false)
+    //@Column(name = "ORIG_IP", length=64)
+    private String ip;
+    //@Basic(optional = false)
+    //@Column(name = "ORIG_HOSTENAME", length=128)
+    private String hostname;
+    //@Column(name = "ORIG_CUSTOM_ID")
+    private String customId;
+    //@Column(name = "ORIG_PRINCIPAL")
+    private String principal;
 
-	public Originator(String processId, String ip, String hostname,
-			String customId, String principal) {
-		super();
-		this.processId = processId;
-		this.ip = ip;
-		this.hostname = hostname;
-		this.customId = customId;
-		this.principal = principal;
-	}
+    public Originator(String processId, String ip, String hostname,
+            String customId, String principal) {
+        super();
+        this.processId = processId;
+        this.ip = ip;
+        this.hostname = hostname;
+        this.customId = customId;
+        this.principal = principal;
+    }
 
-	public Originator() {
-		super();
-	}
+    public Originator() {
+        super();
+    }
 
-	public String getProcessId() {
-		return processId;
-	}
+    public String getProcessId() {
+        return processId;
+    }
 
-	public void setProcessId(String processId) {
-		this.processId = processId;
-	}
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
 
-	public String getIp() {
-		return ip;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public String getHostname() {
-		return hostname;
-	}
+    public String getHostname() {
+        return hostname;
+    }
 
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
 
-	public String getCustomId() {
-		return customId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	public void setCustomId(String customId) {
-		this.customId = customId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
     public String getPrincipal() {
         return principal;
@@ -146,7 +146,7 @@ public class Originator implements Serializable {
             return false;
         return true;
     }
-	
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);

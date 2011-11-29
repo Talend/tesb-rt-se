@@ -35,7 +35,7 @@ The Service Locator Server (zookeeper) should be running.
 1)
 To start the Service Locator Server (zookeeper) you need to provide a configuration file.
 Create the new config file for a standalone Service Locator Server (zookeeper): 
-talend-esb-<version>/zookeeper/conf/zoo.cfg with the following content:
+Talend-ESB-<version>/zookeeper/conf/zoo.cfg with the following content:
 
 tickTime=2000 
 dataDir=./var/locator 
@@ -47,7 +47,7 @@ Under Linux, ensure execution rights for the locator startup scripts:
 chmod a+x zookeeper/bin/*.sh
 
 Now, the Service Locator server can be started and stopped with the scripts from the zookeeper/bin directory. 
-From directory talend-esb-<version>, the Locator can be started with the following command: 
+From directory Talend-ESB-<version>, the Locator can be started with the following command: 
 
 Linux:
  ./zookeeper/bin/zkServer.sh start 
@@ -81,8 +81,8 @@ client/   - This is a sample client application that uses
 
 Using either UNIX or Windows:
 
-    From the example parent directory (i.e., talend-esb-<version>/examples/talend/tesb), 
-    run the following command to install the example parent pom file: talend-esb-examples-<version>.pom into local maven repo.
+    From the example parent directory (i.e., Talend-ESB-<version>/examples/talend/tesb),
+    run the following command to install the example parent pom file: Talend-ESB-examples-<version>.pom into local maven repo.
 
     mvn install --non-recursive 
 
@@ -107,14 +107,14 @@ Starting the Demo service
 
  * starting Demo service in the TESB OSGi container:
  
-    cd talend-esb-<version>/container/bin
+    cd Talend-ESB-<version>/container/bin
 	Linux: ./trun
 	Windows: trun.bat
 	
 	then enter the following command in the console:
     karaf@trun> features:install tesb-locator-client
-    karaf@trun> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-5.0-SNAPSHOT.jar
-    karaf@trun> install -s file:///directory talend-esb-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-5.0-SNAPSHOT.jar
+    karaf@trun> install -s file:///Talend-ESB-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-<version>.jar
+    karaf@trun> install -s file:///Talend-ESB-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-<version>.jar
     
     
 Running the Demo client
