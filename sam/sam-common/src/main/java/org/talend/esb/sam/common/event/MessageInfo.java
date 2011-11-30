@@ -118,23 +118,30 @@ public class MessageInfo implements Serializable {
         }
         MessageInfo other = (MessageInfo)obj;
         if (flowId == null) {
-            if (other.flowId != null)
+            if (other.flowId != null) {
                 return false;
-        } else if (!flowId.equals(other.flowId))
+            }
+        } else if (!flowId.equals(other.flowId)) {
             return false;
+        }
         if (messageId == null) {
-            if (other.messageId != null)
+            if (other.messageId != null) {
                 return false;
-        } else if (!messageId.equals(other.messageId))
+            }
+        } else if (!messageId.equals(other.messageId)) {
             return false;
+        }
         if (operationName == null) {
-            if (other.operationName != null)
+            if (other.operationName != null) {
                 return false;
-        } else if (!operationName.equals(other.operationName))
+            }
+        } else if (!operationName.equals(other.operationName)) {
             return false;
+        }
         if (portType == null) {
-            if (other.portType != null)
+            if (other.portType != null) {
                 return false;
+            }
         } else if (!portType.equals(other.portType)) {
             return false;
         }

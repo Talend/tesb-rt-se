@@ -43,8 +43,7 @@ public class JxPathFilter implements EventFilter {
     public boolean filter(Event event) {
         JXPathContext context = JXPathContext.newContext(event);
         Pointer pointer = context.getPointer(expression);
-        boolean shouldFilter = (Boolean)pointer.getValue();
-        return shouldFilter;
+        return (Boolean)pointer.getValue();
     }
 
 }

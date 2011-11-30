@@ -33,11 +33,11 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class ContentLengthHandler implements EventHandler {
 
-    private static final Logger LOG = Logger.getLogger(ContentLengthHandler.class
-            .getName());
     //TODO Bei String den Cut wieder entfernen.
     static final String CUT_START_TAG = "<cut><![CDATA[";
     static final String CUT_END_TAG = "]]></cut>";
+
+    private static final Logger LOG = Logger.getLogger(ContentLengthHandler.class.getName());
 
     private int length;
 
@@ -64,12 +64,13 @@ public class ContentLengthHandler implements EventHandler {
         LOG.fine("ContentLengthHandler called");
 
         //if maximum length is shorter then <cut><![CDATA[ ]]></cut> it's not possible to cut the content
-        if(CUT_START_TAG.length()+CUT_END_TAG.length()>length){
-            LOG.warning("Trying to cut content. But length is shorter then needed for "+CUT_START_TAG+CUT_END_TAG+". So content is skipped.");
+        if(CUT_START_TAG.length() + CUT_END_TAG.length() > length) {
+            LOG.warning("Trying to cut content. But length is shorter then needed for "
+                + CUT_START_TAG + CUT_END_TAG + ". So content is skipped.");
             event.setContent("");
             return;
         }
-        
+
         int currentLength = length - CUT_START_TAG.length() - CUT_END_TAG.length();
 
         if (event.getContent() != null && event.getContent().length() > length) {

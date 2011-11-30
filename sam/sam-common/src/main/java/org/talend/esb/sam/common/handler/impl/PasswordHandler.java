@@ -26,7 +26,8 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Password handler removes xml-tags within the content of the event. The complete tag will be removed with "<!-- ---replaced--- -->"
+ * Password handler removes xml-tags within the content of the event. The complete tag will be removed with
+ * "<!-- ---replaced--- -->"
  *  
  * @author cschmuelling
  *
@@ -48,7 +49,8 @@ public class PasswordHandler implements EventHandler {
     }
 
     /**
-     * Set a list with names, which should be filtered. For example "password" "passwort" This search is case sensitive.
+     * Set a list with names, which should be filtered. For example "password" "passwort" This search is case
+     * sensitive.
      * @param tagnames
      */
     public void setTagnames(List<String> tagnames) {
@@ -61,8 +63,9 @@ public class PasswordHandler implements EventHandler {
     public void handleEvent(Event event) {
         LOG.fine("PasswordHandler called");
 
-        if (tagnames==null||tagnames.size()==0)
+        if (tagnames==null || tagnames.size() == 0) {
             LOG.warning("Password filter is active but there is no filter tagname configured!");
+        }
 
         if (tagnames != null && event.getContent() != null
                 && event.getContent().length() > 0) {
