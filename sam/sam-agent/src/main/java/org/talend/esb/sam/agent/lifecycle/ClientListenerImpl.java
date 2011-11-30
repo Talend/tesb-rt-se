@@ -37,7 +37,7 @@ public class ClientListenerImpl extends AbstractListenerImpl implements ClientLi
     @Override
     public void clientCreated(Client client) {
         if (AGENT_PORT_TYPE.equals(
-                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())){
+                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())) {
             return;
         }
         processStart(client.getEndpoint(), EventTypeEnum.CLIENT_CREATE);
@@ -46,7 +46,7 @@ public class ClientListenerImpl extends AbstractListenerImpl implements ClientLi
     @Override
     public void clientDestroyed(Client client) {
         if (AGENT_PORT_TYPE.equals(
-                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())){
+                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())) {
             return;
         }
         processStop(client.getEndpoint(), EventTypeEnum.CLIENT_DESTROY);

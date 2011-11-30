@@ -1,6 +1,5 @@
 package org.talend.esb.sam.agent.activator;
 
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
@@ -37,11 +36,11 @@ public class AgentActivator implements BundleActivator {
     private long retryDelay;
 
     public void start(BundleContext context) throws Exception {
-        if (!checkConfig(context)){
+        if (!checkConfig(context)) {
             return;
         }
 
-        if (monitoringService == null){
+        if (monitoringService == null) {
             initWsClient(context);
         }
 
@@ -52,11 +51,11 @@ public class AgentActivator implements BundleActivator {
     }
 
     public void stop(BundleContext context) throws Exception {
-        if (!checkConfig(context)){
+        if (!checkConfig(context)) {
             return;
         }
 
-        if (monitoringService == null){
+        if (monitoringService == null) {
             initWsClient(context);
         }
 
@@ -72,9 +71,7 @@ public class AgentActivator implements BundleActivator {
         eventType.setEventType(type);
 
         OriginatorType origType = new OriginatorType();
-        String mxName = ManagementFactory.getRuntimeMXBean().getName();
-        String pId = mxName.split("@")[0];
-        origType.setProcessId(pId);
+        origType.setProcessId(Converter.getPID());
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             origType.setIp(inetAddress.getHostAddress());
@@ -82,7 +79,7 @@ public class AgentActivator implements BundleActivator {
         } catch (UnknownHostException e) {
             origType.setHostname("Unknown hostname");
             origType.setIp("Unknown ip address");
-        }        
+        }
         eventType.setOriginator(origType);
 
         String path = System.getProperty("karaf.home");
@@ -107,10 +104,7 @@ public class AgentActivator implements BundleActivator {
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, e.getMessage(), e);
             }
-            try {
-                Thread.sleep(retryDelay);
-            } catch (InterruptedException e) {
-            }
+            Thread.sleep(retryDelay);
         }
 
         if (i == retryNum) {
@@ -136,18 +130,10 @@ public class AgentActivator implements BundleActivator {
         String serviceURL = (String)config.getProperties().get("service.url");
         retryNum = Integer.parseInt((String)config.getProperties().get("service.retry.number"));
         retryDelay = Long.parseLong((String)config.getProperties().get("service.retry.delay"));
-        
-/*		logger.info("sam-agent serviceURL: " + serviceURL);
-        logger.info("sam-agent retryNum: " + retryNum);
-        logger.info("sam-agent retryDelay: " + retryDelay);*/
-        
+
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setServiceClass(org.talend.esb.sam.monitoringservice.v1.MonitoringService.class);
         factory.setAddress(serviceURL);
-        
-/*		Map<String,Object> props = new HashMap<String,Object>();
-        props.put("mtom-enabled", "true");
-        factory.setProperties(props);*/
         monitoringService = (MonitoringService)factory.create();
     }
 

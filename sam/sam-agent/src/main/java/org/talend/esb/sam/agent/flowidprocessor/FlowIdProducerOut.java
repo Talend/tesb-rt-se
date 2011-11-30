@@ -111,12 +111,9 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
                     .get(PhaseInterceptorChain.PREVIOUS_MESSAGE);
             Message previousMessage = (Message) wrPreviousMessage.get();
             flowId = FlowIdHelper.getFlowId(previousMessage);
-            if (flowId != null) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("flowId '" + flowId + "' found in previous message");
-                }
+            if (flowId != null && LOG.isLoggable(Level.FINE)) {
+                LOG.fine("flowId '" + flowId + "' found in previous message");
             }
-
         }
 
         if (flowId == null) {

@@ -61,8 +61,8 @@ public class EventCollector implements BusLifeCycleListener {
     private TaskScheduler scheduler;
     private long defaultInterval = 1000;
     private int eventsPerMessageCall = 10;
-    private boolean sendLifecycleEvent = false;
-    private boolean stopSending = false;
+    private boolean sendLifecycleEvent;
+    private boolean stopSending;
 
     public EventCollector() {
         //init Bus and LifeCycle listeners
@@ -71,26 +71,26 @@ public class EventCollector implements BusLifeCycleListener {
             if (null != lm) {
                 lm.registerLifeCycleListener(this);
             }
-            
-            if (sendLifecycleEvent){
+
+            if (sendLifecycleEvent) {
                 ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
-                if (null != slcm){
+                if (null != slcm) {
                     ServiceListenerImpl svrListener = new ServiceListenerImpl();
                     svrListener.setSendLifecycleEvent(sendLifecycleEvent);
                     svrListener.setQueue(queue);
                     svrListener.setMonitoringServiceClient(monitoringServiceClient);
                     slcm.registerListener(svrListener);
                 }
-                
+
                 ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
-                if (null != clcm){
+                if (null != clcm) {
                     ClientListenerImpl cltListener = new ClientListenerImpl();
                     cltListener.setSendLifecycleEvent(sendLifecycleEvent);
                     cltListener.setQueue(queue);
                     cltListener.setMonitoringServiceClient(monitoringServiceClient);
                     clcm.registerListener(cltListener);
                 }
-           }
+            }
         }
     }
 

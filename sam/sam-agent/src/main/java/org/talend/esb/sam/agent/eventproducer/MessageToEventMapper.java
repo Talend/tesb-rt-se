@@ -46,6 +46,9 @@ public class MessageToEventMapper {
 
     private static final Logger LOG = Logger.getLogger(MessageToEventMapper.class.getName());
 
+    private static final String CUT_START_TAG = "<cut><![CDATA[";
+    private static final String CUT_END_TAG = "]]></cut>";
+
     private int maxContentLength = -1;
 
     public Event mapToEvent(Message message) {
@@ -96,7 +99,7 @@ public class MessageToEventMapper {
         originator.setProcessId(Converter.getPID());
 
         SecurityContext sc = message.get(SecurityContext.class);
-        if (sc != null && sc.getUserPrincipal() != null){
+        if (sc != null && sc.getUserPrincipal() != null) {
             originator.setPrincipal(sc.getUserPrincipal().getName());
         }
 
@@ -123,14 +126,14 @@ public class MessageToEventMapper {
      * @param message
      * @return
      */
-    private String getMessageId(Message message){
+    private String getMessageId(Message message) {
         String messageId;
 
         AddressingPropertiesImpl addrProp =
             ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
-        if (addrProp != null){
+        if (addrProp != null) {
             messageId = addrProp.getMessageID().getValue();
-        }else{
+        } else {
             //to do: generate and transfer MessageId ...
             messageId = ContextUtils.generateUUID();
         }
@@ -183,19 +186,16 @@ public class MessageToEventMapper {
         this.maxContentLength = maxContentLength;
     }
 
-    private void handleContentLength(Event event){
-        String CUT_START_TAG = "<cut><![CDATA[";
-        String CUT_END_TAG = "]]></cut>";
-
-        if (event.getContent() == null){
+    private void handleContentLength(Event event) {
+        if (event.getContent() == null) {
             return;
         }
 
-        if (maxContentLength == -1 || event.getContent().length() <= maxContentLength){
+        if (maxContentLength == -1 || event.getContent().length() <= maxContentLength) {
             return;
         }
 
-        if (maxContentLength < CUT_START_TAG.length() + CUT_END_TAG.length()){
+        if (maxContentLength < CUT_START_TAG.length() + CUT_END_TAG.length()) {
             event.setContent("");
             event.setContentCut(true);
             return;

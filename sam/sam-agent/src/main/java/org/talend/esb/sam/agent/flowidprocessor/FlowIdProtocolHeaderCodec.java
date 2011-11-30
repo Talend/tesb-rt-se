@@ -32,7 +32,8 @@ import org.apache.cxf.message.Message;
 /**
  * Read and Write the flowId using the PROTOCOL_HEADERS
  */
-public class FlowIdProtocolHeaderCodec {
+public final class FlowIdProtocolHeaderCodec {
+
     private static final Logger LOG = Logger.getLogger(FlowIdProtocolHeaderCodec.class.getName());
 
     private static final String FLOWID_HTTP_HEADER_NAME = "flowid";

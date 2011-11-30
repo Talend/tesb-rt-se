@@ -35,7 +35,7 @@ public class WireTapInputStream extends InputStream {
     @Override
     public int read() throws IOException {
         int c = origStream.read();
-        if (c!=-1) {
+        if (c != -1) {
             os.write(c);
         } else {
             os.close();

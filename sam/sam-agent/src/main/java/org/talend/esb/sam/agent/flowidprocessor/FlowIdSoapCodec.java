@@ -19,8 +19,6 @@
  */
 package org.talend.esb.sam.agent.flowidprocessor;
 
-import static org.talend.esb.sam.agent.message.FlowIdHelper.FLOW_ID_QNAME;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +34,7 @@ import org.w3c.dom.Node;
 /**
  * Read and write the FlowId using the SOAP headers
  */
-public class FlowIdSoapCodec {
+public final class FlowIdSoapCodec {
 
     private static final Logger LOG = Logger.getLogger(FlowIdSoapCodec.class.getName());
 
@@ -75,10 +73,10 @@ public class FlowIdSoapCodec {
         }
 
         try {
-            Header flowIdHeader = new Header(FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class));
-            soapMessage.getHeaders().add(flowIdHeader);
-            if(LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Stored flowId '" + flowId + "' in soap header: " + FLOW_ID_QNAME);
+            soapMessage.getHeaders().add(
+                    new Header(FlowIdHelper.FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class)));
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Stored flowId '" + flowId + "' in soap header: " + FlowIdHelper.FLOW_ID_QNAME);
             }
         } catch (JAXBException e) {
             LOG.log(Level.SEVERE, "Couldn't create flowId header.", e);

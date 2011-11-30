@@ -66,7 +66,7 @@ public class EventFeature extends AbstractFeature {
 
         //if WS Addressing feature/interceptors not enabled, then adding
         //its interceptors to InterceptorProvider
-        if (!detectWSAddressingFeature(provider,bus)){
+        if (!detectWSAddressingFeature(provider, bus)) {
             addWSAddressingInterceptors(provider);
         }
 
@@ -117,13 +117,13 @@ public class EventFeature extends AbstractFeature {
      * @param bus
      * @return
      */
-    private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus){
+    private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus) {
         //detect on the bus level
         if (bus.getFeatures() != null) {
             Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
             while (busFeatures.hasNext()) {
                 AbstractFeature busFeature = busFeatures.next();
-                if (busFeature instanceof WSAddressingFeature){
+                if (busFeature instanceof WSAddressingFeature) {
                     return true;
                 }
             }
@@ -133,7 +133,7 @@ public class EventFeature extends AbstractFeature {
         Iterator<Interceptor<? extends Message>> interceptors = provider.getInInterceptors().iterator();
         while (interceptors.hasNext()) {
             Interceptor<? extends Message> ic = interceptors.next();
-            if (ic instanceof MAPAggregator){
+            if (ic instanceof MAPAggregator) {
                 return true;
             }
         }

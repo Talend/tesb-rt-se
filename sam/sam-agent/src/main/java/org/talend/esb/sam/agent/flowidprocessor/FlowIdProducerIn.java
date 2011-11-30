@@ -33,7 +33,7 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 
     private static final Logger LOG = Logger.getLogger(FlowIdProducerIn.class.getName());
 
-    public FlowIdProducerIn(){
+    public FlowIdProducerIn() {
         super(Phase.PRE_INVOKE);
     }
 

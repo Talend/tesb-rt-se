@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.activation.DataHandler;
-import javax.activation.DataSource;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.attachment.ByteDataSource;
@@ -33,10 +32,10 @@ import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam._2011._03.common.OriginatorType;
+import org.talend.esb.sam.agent.util.Converter;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
-import org.talend.esb.sam.agent.util.Converter;
 
 public final class EventMapper {
 
@@ -59,7 +58,7 @@ public final class EventMapper {
         eventType.setMessageInfo(miType);
         eventType.setCustomInfo(convertCustomInfo(event.getCustomInfo()));
         eventType.setContentCut(event.isContentCut());
-        if (event.getContent() != null){
+        if (event.getContent() != null) {
             DataHandler datHandler = getDataHandlerForString(event);
             eventType.setContent(datHandler);
         }
@@ -67,14 +66,11 @@ public final class EventMapper {
     }
 
     private static DataHandler getDataHandlerForString(Event event) {
-        DataSource ds;
         try {
-            ds = new ByteDataSource(event.getContent().getBytes("UTF-8"));
+            return new DataHandler(new ByteDataSource(event.getContent().getBytes("UTF-8")));
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        DataHandler datHandler = new DataHandler(ds);
-        return datHandler;
     }
 
     private static MessageInfoType mapMessageInfo(MessageInfo messageInfo) {

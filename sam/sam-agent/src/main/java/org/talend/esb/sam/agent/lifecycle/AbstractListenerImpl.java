@@ -78,7 +78,7 @@ public class AbstractListenerImpl {
         }
     }
 
-    private Event createEvent(Endpoint endpoint, EventTypeEnum type){
+    private Event createEvent(Endpoint endpoint, EventTypeEnum type) {
 
         Event event = new Event();
         MessageInfo messageInfo = new MessageInfo();
@@ -94,7 +94,7 @@ public class AbstractListenerImpl {
                 endpoint.getBinding().getBindingInfo().getService().getInterface().getName().toString());
 
         String transportType = null;
-        if (endpoint.getBinding() instanceof SoapBinding){
+        if (endpoint.getBinding() instanceof SoapBinding) {
             SoapBinding soapBinding = (SoapBinding)endpoint.getBinding();
             if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
                 SoapBindingInfo soapBindingInfo = (SoapBindingInfo)soapBinding.getBindingInfo();

@@ -41,23 +41,20 @@ public final class Converter {
         if (date == null) {
             return null;
         }
-        XMLGregorianCalendar gCal = null;
 
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTimeInMillis(date.getTime());
-        
+
         try {
-            gCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+            return DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
         } catch (DatatypeConfigurationException ex) {
-            ex.printStackTrace();
             return null;
         }
-        
-        return gCal;
-    }	
+    }
 
-    public static String getPID(){
-        String mxName = ManagementFactory.getRuntimeMXBean().getName();
+    public static String getPID() {
+        final String mxName = ManagementFactory.getRuntimeMXBean().getName();
         return mxName.split("@")[0];
     }
+
 }

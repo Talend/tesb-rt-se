@@ -61,7 +61,7 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     public void handleMessage(Message message) throws Fault {
         Event event = mapper.mapToEvent(message);
 
-        if (handler != null){
+        if (handler != null) {
             handler.handleEvent(event);
         }
         if (LOG.isLoggable(Level.FINE)) {
