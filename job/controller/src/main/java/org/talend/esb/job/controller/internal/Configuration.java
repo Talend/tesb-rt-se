@@ -110,7 +110,7 @@ public final class Configuration {
         List<String> newArgumentList = new ArrayList<String>();
 
         if (properties != null) {
-            for (Enumeration<?> keysEnum = properties.keys(); keysEnum.hasMoreElements(); ) {
+            for (Enumeration<?> keysEnum = properties.keys(); keysEnum.hasMoreElements();) {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
                 if (!(val instanceof String)) {
