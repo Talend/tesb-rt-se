@@ -22,7 +22,7 @@ package org.talend.esb.sam.server.persistence;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -34,10 +34,10 @@ import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRepository {
-	
-	private static Logger logger = Logger.getLogger(EventRepositoryImpl.class.getName());
-	
-    DatabaseDialect dialect;
+
+    private static final Logger LOG = Logger.getLogger(EventRepositoryImpl.class.getName());
+
+    private DatabaseDialect dialect;
 
     public void setDialect(DatabaseDialect dialect) {
         this.dialect = dialect;
@@ -52,19 +52,26 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         event.setPersistedId(id);
 
         getSimpleJdbcTemplate()
-            .update("insert into EVENTS (ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_PROCESS_ID, ORIG_IP, ORIG_HOSTNAME, "
-                        + " ORIG_CUSTOM_ID, ORIG_PRINCIPAL, MI_MESSAGE_ID, MI_FLOW_ID, MI_PORT_TYPE, MI_OPERATION_NAME, "
-                        + " MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT) "
-                        + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", event.getPersistedId(),
-                    event.getTimestamp(), event.getEventType().toString(), originator.getProcessId(),
-                    originator.getIp(), originator.getHostname(), originator.getCustomId(), originator.getPrincipal(),
+            .update("insert into EVENTS (ID, EI_TIMESTAMP, EI_EVENT_TYPE,"
+                    + " ORIG_PROCESS_ID, ORIG_IP, ORIG_HOSTNAME, "
+                    + " ORIG_CUSTOM_ID, ORIG_PRINCIPAL,"
+                    + " MI_MESSAGE_ID, MI_FLOW_ID, MI_PORT_TYPE,"
+                    + " MI_OPERATION_NAME, MI_TRANSPORT_TYPE,"
+                    + " CONTENT_CUT, MESSAGE_CONTENT) "
+                    + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    event.getPersistedId(), event.getTimestamp(), event.getEventType().toString(),
+                    originator.getProcessId(), originator.getIp(), originator.getHostname(),
+                    originator.getCustomId(), originator.getPrincipal(),
                     messageInfo.getMessageId(), messageInfo.getFlowId(), messageInfo.getPortType(),
-                    messageInfo.getOperationName(), messageInfo.getTransportType(), event.isContentCut(),
-                    event.getContent());
+                    messageInfo.getOperationName(), messageInfo.getTransportType(),
+                    event.isContentCut(), event.getContent());
 
         writeCustomInfo(event);
 
-        logger.info("event [message_id=" + messageInfo.getMessageId() + "] persist to Database successful. ID=" + id);
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.info("event [message_id=" + messageInfo.getMessageId() + "] persist to Database successful."
+                + " ID=" + id);
+        }
     }
 
     @Override
@@ -84,12 +91,12 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
      */
     private void writeCustomInfo(Event event) {
         // insert customInfo (key/value) into DB
-    	for (Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
-    		long cust_id = dialect.getIncrementer().nextLongValue();
+        for (Map.Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
+            long cust_id = dialect.getIncrementer().nextLongValue();
             getSimpleJdbcTemplate()
-            	.update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE) values (?,?,?,?)",
-                            cust_id, event.getPersistedId(), customInfo.getKey(),
-                            customInfo.getValue());
+                .update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE)"
+                        + " values (?,?,?,?)",
+                            cust_id, event.getPersistedId(), customInfo.getKey(), customInfo.getValue());
         }
     }
 
@@ -100,13 +107,12 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
      * @return
      */
     private Map<String, String> readCustomInfo(long eventId) {
-    	HashMap<String, String> customInfo = new HashMap<String, String>();
         List<Map<String, Object>> rows = getSimpleJdbcTemplate()
             .queryForList("select * from EVENTS_CUSTOMINFO where EVENT_ID=" + eventId);
+        Map<String, String> customInfo = new HashMap<String, String>(rows.size());
         for (Map<String, Object> row : rows) {
-        	customInfo.put((String)row.get("CUST_KEY"), (String)row.get("CUST_VALUE"));
+            customInfo.put((String)row.get("CUST_KEY"), (String)row.get("CUST_VALUE"));
         }
-
         return customInfo;
     }
 }

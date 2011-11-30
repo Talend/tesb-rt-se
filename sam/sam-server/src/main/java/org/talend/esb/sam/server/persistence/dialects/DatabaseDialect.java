@@ -29,21 +29,20 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  */
 public interface DatabaseDialect {
 
-	public static final String SUBSTITUTION_STRING = "%%FILTER%%";
-	
+    String SUBSTITUTION_STRING = "%%FILTER%%";
 
-	/**
-	 * Returns {@link DataFieldMaxValueIncrementer} for specific database
-	 * 
-	 * @return
-	 */
-	DataFieldMaxValueIncrementer getIncrementer();
-	
-	/**
-	 * Should return a query that list data
-	 * 
-	 * @return
-	 */
-	public String getDataQuery(QueryFilter filter);
-	
+    /**
+     * Returns {@link DataFieldMaxValueIncrementer} for specific database
+     * 
+     * @return
+     */
+    DataFieldMaxValueIncrementer getIncrementer();
+
+    /**
+     * Should return a query that list data
+     * 
+     * @return
+     */
+    String getDataQuery(QueryFilter filter);
+
 }

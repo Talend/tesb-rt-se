@@ -19,19 +19,15 @@
  */
 package org.talend.esb.sam.server.ui;
 
-import static org.talend.esb.sam.server.persistence.dialects.DatabaseDialect.SUBSTITUTION_STRING;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 /**
@@ -43,7 +39,8 @@ import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
  */
 public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
-    private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS %%FILTER%%";
+    private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS " +
+            DatabaseDialect.SUBSTITUTION_STRING;
 
     private static final String SELECT_FLOW_QUERY = "select "
             + "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
@@ -78,16 +75,10 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
     @Override
     public JsonObject getEvents(long offset, String baseURL,
             CriteriaAdapter criteria) {
-        String countQuery = COUNT_QUERY;
-        String whereClause = criteria.getWhereClause();
-        if (whereClause != null && whereClause.length() > 0) {
-            countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, " WHERE "
-                    + whereClause);
-        } else {
-            countQuery = countQuery.replaceAll(SUBSTITUTION_STRING, "");
-        }
-        int rowCount = getSimpleJdbcTemplate()
-                .queryForInt(countQuery, criteria);
+        final String whereClause = criteria.getWhereClause();
+        final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
+                (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
+        int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         JsonObject result = new JsonObject();
         result.add("count", new JsonPrimitive(rowCount));
         // Aggregated data
@@ -104,43 +95,21 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
     @Override
     public JsonObject getFlowDetails(String flowID, String baseURL) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("flowID", flowID);
-        JsonObject result = new JsonObject();
-        JsonArray events = new JsonArray();
         List<JsonObject> list = getSimpleJdbcTemplate().query(
-                SELECT_FLOW_QUERY, mapper, params);
+                SELECT_FLOW_QUERY, mapper, Collections.singletonMap("flowID", flowID));
         if (list.isEmpty()) {
             return null;
         } else {
-            events = utils.aggregateFlowDetails(list, baseURL);
-            result.add("events", events);
+            JsonObject result = new JsonObject();
+            result.add("events", utils.aggregateFlowDetails(list, baseURL));
             return result;
         }
     }
 
     @Override
     public JsonObject getEventDetails(String eventID) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("eventID", eventID);
-/*
-        JsonObject result = new JsonObject();
-        JsonArray events = new JsonArray();
-        List<JsonObject> list = getSimpleJdbcTemplate().query(
-                SELECT_EVENT_QUERY, mapper, params);
-        if (list.isEmpty()) {
-            return null;
-        } else {
-            for (JsonObject obj : list) {
-                events.add(obj);
-            }
-            result.add("events", events);
-            return result;
-        }
-*/
-        JsonObject result = getSimpleJdbcTemplate().queryForObject(
-                SELECT_EVENT_QUERY, mapper, params);
-        return result;
+        return getSimpleJdbcTemplate().queryForObject(
+                SELECT_EVENT_QUERY, mapper, Collections.singletonMap("eventID", eventID));
     }
 
 }

@@ -90,7 +90,7 @@ public class UIProviderUtils {
         Map<String, String> flowConsumerHost = new HashMap<String, String>();
         Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
         for (JsonObject obj : objects) {
-            if (null == obj.get("flowID") || obj.get("flowID").isJsonNull()){
+            if (null == obj.get("flowID") || obj.get("flowID").isJsonNull()) {
                 continue;
             }
             String flowID = obj.get("flowID").getAsString();
@@ -117,7 +117,7 @@ public class UIProviderUtils {
         }
         JsonArray result = new JsonArray();
         for (JsonObject obj : objects) {
-            if (null == obj.get("flowID") || obj.get("flowID").isJsonNull()){
+            if (null == obj.get("flowID") || obj.get("flowID").isJsonNull()) {
                 continue;
             }
             String flowID = obj.get("flowID").getAsString();

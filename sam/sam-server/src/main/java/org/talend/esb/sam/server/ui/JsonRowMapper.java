@@ -19,6 +19,14 @@
  */
 package org.talend.esb.sam.server.ui;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,14 +37,6 @@ import java.util.Map;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-
 /**
  * Intelligent mapper that tries to read all fields
  * from {@link ResultSet}
@@ -44,28 +44,30 @@ import com.google.gson.JsonSerializer;
  * @author zubairov
  *
  */
-public class JsonRowMapper implements RowMapper<JsonObject>{
+public class JsonRowMapper implements RowMapper<JsonObject> {
 
     @SuppressWarnings("serial")
-    private static final Map<String, String> nameMapping = new HashMap<String, String>() {{
-        put("ID", "id");
-        put("MI_FLOW_ID", "flowID");
-        put("EI_TIMESTAMP", "timestamp");
-        put("EI_EVENT_TYPE", "type");
-        put("MI_PORT_TYPE", "port");
-        put("MI_OPERATION_NAME", "operation");
-        put("MI_TRANSPORT_TYPE", "transport");
-        put("ORIG_HOSTNAME", "host");
-        put("ORIG_IP", "ip");
-        put("ORIG_CUSTOM_ID", "customID");
-        put("ORIG_PROCESS_ID", "process");
-        put("ORIG_PRINCIPAL", "principal");
-        put("MI_MESSAGE_ID", "messageID");
-        put("CONTENT_CUT", "contentCut");
-        put("MESSAGE_CONTENT", "content");
-        put("CUST_KEY", "custKey");
-        put("CUST_VALUE", "custValue");
-    }};
+    private static final Map<String, String> NAME_MAPPING = new HashMap<String, String>() {
+        {
+            put("ID", "id");
+            put("MI_FLOW_ID", "flowID");
+            put("EI_TIMESTAMP", "timestamp");
+            put("EI_EVENT_TYPE", "type");
+            put("MI_PORT_TYPE", "port");
+            put("MI_OPERATION_NAME", "operation");
+            put("MI_TRANSPORT_TYPE", "transport");
+            put("ORIG_HOSTNAME", "host");
+            put("ORIG_IP", "ip");
+            put("ORIG_CUSTOM_ID", "customID");
+            put("ORIG_PROCESS_ID", "process");
+            put("ORIG_PRINCIPAL", "principal");
+            put("MI_MESSAGE_ID", "messageID");
+            put("CONTENT_CUT", "contentCut");
+            put("MESSAGE_CONTENT", "content");
+            put("CUST_KEY", "custKey");
+            put("CUST_VALUE", "custValue");
+        }
+    };
 
     private final RowMapper<Map<String, Object>> nestedMapper = new ColumnMapRowMapper();
 
@@ -90,7 +92,7 @@ public class JsonRowMapper implements RowMapper<JsonObject>{
 
         JsonObject row = new JsonObject();
         for (String key : map.keySet()) {
-            String jsonName = nameMapping.get(key);
+            String jsonName = NAME_MAPPING.get(key);
             if (jsonName == null) {
                 jsonName = key;
             }

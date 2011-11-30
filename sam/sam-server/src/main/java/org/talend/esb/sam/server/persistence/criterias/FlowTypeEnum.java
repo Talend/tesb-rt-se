@@ -26,5 +26,5 @@ package org.talend.esb.sam.server.persistence.criterias;
  *
  */
 public enum FlowTypeEnum {
-	REQ_RESP, ONE_WAY
+    REQ_RESP, ONE_WAY
 }

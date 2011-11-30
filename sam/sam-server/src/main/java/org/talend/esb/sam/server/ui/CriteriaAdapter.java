@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,11 +42,31 @@ import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
  */
 public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
-    private static final String CONSUMER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_OUT' or EI_EVENT_TYPE = 'RESP_IN')";
+    private static final Logger LOG = Logger.getLogger(CriteriaAdapter.class.getName());
 
-    private static final String PROVIDER_EVENT_TYPES = "(EI_EVENT_TYPE = 'REQ_IN' or EI_EVENT_TYPE = 'RESP_OUT')";
+    private static final String CONSUMER_EVENT_TYPES =
+            "(EI_EVENT_TYPE = 'REQ_OUT' or EI_EVENT_TYPE = 'RESP_IN')";
 
-    private static final Logger logger = Logger.getLogger(CriteriaAdapter.class.getName());
+    private static final String PROVIDER_EVENT_TYPES =
+            "(EI_EVENT_TYPE = 'REQ_IN' or EI_EVENT_TYPE = 'RESP_OUT')";
+
+    private static final Criteria[] FILTER_CRITERIAS = {
+        new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
+        new PatternCriteria("port", "MI_PORT_TYPE"),
+        new PatternCriteria("operation", "MI_OPERATION_NAME"),
+        new DateCriteria("timestamp_before", "EI_TIMESTAMP"),
+        new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
+        new DateCriteria("timestamp_on", "EI_TIMESTAMP"),
+        new PatternCriteria("flowID", "MI_FLOW_ID"),
+        new PatternCriteria("consumer_ip", "ORIG_IP", CONSUMER_EVENT_TYPES),
+        new PatternCriteria("consumer_host", "ORIG_HOSTNAME", CONSUMER_EVENT_TYPES),
+        new PatternCriteria("provider_ip", "ORIG_IP", PROVIDER_EVENT_TYPES),
+        new PatternCriteria("provider_host", "ORIG_HOSTNAME", PROVIDER_EVENT_TYPES)
+    };
+
+    private static final String LIMIT_NAME = "limit";
+
+    private static final String OFFSET_NAME = "offset";
 
     private final Map<String, Criteria> criterias;
 
@@ -55,29 +74,10 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
     private final long limit;
 
-    private static final Criteria[] FILTER_CRITERIAS = {
-            new PatternCriteria("transport", "MI_TRANSPORT_TYPE"),
-            new PatternCriteria("port", "MI_PORT_TYPE"),
-            new PatternCriteria("operation", "MI_OPERATION_NAME"),
-            new DateCriteria("timestamp_before", "EI_TIMESTAMP"),
-            new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
-            new DateCriteria("timestamp_on", "EI_TIMESTAMP"),
-            new PatternCriteria("flowID", "MI_FLOW_ID"),
-            new PatternCriteria("consumer_ip", "ORIG_IP", CONSUMER_EVENT_TYPES),
-            new PatternCriteria("consumer_host", "ORIG_HOSTNAME", CONSUMER_EVENT_TYPES),
-            new PatternCriteria("provider_ip", "ORIG_IP", PROVIDER_EVENT_TYPES),
-            new PatternCriteria("provider_host", "ORIG_HOSTNAME", PROVIDER_EVENT_TYPES)
-            };
-
-    private static final String LIMIT_NAME = "limit";
-
-    private static final String OFFSET_NAME = "offset";
-
     public CriteriaAdapter(long offset, long limit, Map<String, String[]> params) {
         this.offset = offset;
         this.limit = limit;
         this.criterias = getCriterias(params);
-
     }
 
     /**
@@ -88,19 +88,17 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
      */
     private Map<String, Criteria> getCriterias(Map<String, String[]> params) {
         Map<String, Criteria> result = new HashMap<String, Criteria>();
-        Set<String> keys = params.keySet();
-        for (String key : keys) {
+        for (Map.Entry<String, String[]> param : params.entrySet()) {
             for (Criteria criteria : FILTER_CRITERIAS) {
-                if (criteria.getName().equals(key)) {
+                if (criteria.getName().equals(param.getKey())) {
                     try {
-                        String value = params.get(key)[0];
-                        Criteria[] parsedCriterias = criteria.parseValue(value);
+                        Criteria[] parsedCriterias = criteria.parseValue(param.getValue()[0]);
                         for (Criteria parsedCriteria : parsedCriterias) {
                             result.put(parsedCriteria.getName(), parsedCriteria);
                         }
                     } catch (Exception e) {
                         // Exception happened during paring
-                        logger.log(Level.SEVERE, "Error parsing parameter " + key, e);
+                        LOG.log(Level.SEVERE, "Error parsing parameter " + param.getKey(), e);
                     }
                     break;
                 }
@@ -118,8 +116,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
     @Override
     public Object getValue(String paramName) throws IllegalArgumentException {
         if (!hasValue(paramName)) {
-            throw new IllegalArgumentException("Can't find criteria with name "
-                    + paramName);
+            throw new IllegalArgumentException("Can't find criteria with name " + paramName);
         }
         if (LIMIT_NAME.equals(paramName)) {
             return limit;
@@ -154,9 +151,7 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
             if (result.length() > 0) {
                 result.append(" AND ");
             }
-            result.append("(");
-            result.append(criteria.getFilterClause());
-            result.append(")");
+            result.append('(').append(criteria.getFilterClause()).append(')');
         }
         return result.toString();
     }

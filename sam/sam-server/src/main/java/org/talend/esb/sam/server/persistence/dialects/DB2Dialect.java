@@ -28,18 +28,22 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class DB2Dialect extends AbstractDatabaseDialect {
 
-	static final String QUERY = "select MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, ORIG_HOSTNAME,  ORIG_IP from " +
-								"( " +
-								"select EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, ORIG_HOSTNAME,  ORIG_IP, ROW_NUMBER() OVER() AS RN " +
-								"from (select MI_FLOW_ID from EVENTS group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC) as SUBQ " +
-								"%%FILTER%% " +
-								"LEFT JOIN EVENTS ON SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID " +
-								"order by EI_TIMESTAMP DESC " +
-								") as T " +
-								"where RN between :offset and :offset + :limit + 1";
-	@Override
-	String getQuery() {
-		return QUERY;
-	}
+    private static final String QUERY =
+        "select MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, " +
+        "MI_TRANSPORT_TYPE, ORIG_HOSTNAME, ORIG_IP from " +
+        "( " +
+        "select EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, " +
+        "MI_TRANSPORT_TYPE, ORIG_HOSTNAME,  ORIG_IP, ROW_NUMBER() OVER() AS RN " +
+        "from (select MI_FLOW_ID from EVENTS group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC) as SUBQ " +
+        "%%FILTER%% " +
+        "LEFT JOIN EVENTS ON SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID " +
+        "order by EI_TIMESTAMP DESC " +
+        ") as T " +
+        "where RN between :offset and :offset + :limit + 1";
+
+    @Override
+    String getQuery() {
+        return QUERY;
+    }
 
 }

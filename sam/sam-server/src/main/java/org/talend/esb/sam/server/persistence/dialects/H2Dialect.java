@@ -25,12 +25,6 @@ package org.talend.esb.sam.server.persistence.dialects;
  * @author zubairov
  *
  */
-public class H2Dialect extends AbstractDatabaseDialect  {
-
-	@Override
-	public String getQuery() {
-		return MySQLDialect.QUERY;
-	}
-
+public class H2Dialect extends MySQLDialect {
 
 }

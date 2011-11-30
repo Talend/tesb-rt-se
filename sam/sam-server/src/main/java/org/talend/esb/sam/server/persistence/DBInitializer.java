@@ -29,9 +29,9 @@ import org.springframework.test.jdbc.SimpleJdbcTestUtils;
 
 public class DBInitializer implements InitializingBean {
 
-    DataSource dataSource;
-    boolean recreateDb;
-    String createSql;
+    private DataSource dataSource;
+    private boolean recreateDb;
+    private String createSql;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -42,17 +42,15 @@ public class DBInitializer implements InitializingBean {
     }
 
     public void setCreateSql(String createSql) {
-		this.createSql = createSql;
-	}
+        this.createSql = createSql;
+    }
 
-	@Override
+    @Override
     public void afterPropertiesSet() throws Exception {
-        SimpleJdbcTemplate sjdbcTemplate = new SimpleJdbcTemplate(dataSource);
         if (recreateDb) {
-        	Resource resource = new ClassPathResource(createSql);
-        	SimpleJdbcTestUtils.executeSqlScript(sjdbcTemplate, resource, true);
+            Resource resource = new ClassPathResource(createSql);
+            SimpleJdbcTestUtils.executeSqlScript(new SimpleJdbcTemplate(dataSource), resource, true);
         }
-
     }
 
 }

@@ -36,9 +36,9 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public class MonitoringServiceImpl implements MonitoringService {
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     private List<EventFilter> eventFilters = new ArrayList<EventFilter>();
-    @Autowired(required=false)
+    @Autowired(required = false)
     private List<EventHandler> eventHandlers = new ArrayList<EventHandler>();
     private EventRepository persistenceHandler;
 
@@ -90,8 +90,9 @@ public class MonitoringServiceImpl implements MonitoringService {
      */
     private boolean filter(Event event) {
         for (EventFilter filter : eventFilters) {
-            if (filter.filter(event) == true)
+            if (filter.filter(event)) {
                 return true;
+            }
         }
         return false;
     }

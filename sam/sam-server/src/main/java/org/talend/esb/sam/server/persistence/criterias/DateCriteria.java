@@ -28,57 +28,57 @@ import java.sql.Timestamp;
  */
 public class DateCriteria extends Criteria {
 
-	protected Timestamp value = null;
+    /**
+     * Number of milliseconds in day without one millisecond
+     */
+    private static final long MILLS_IN_DAY = (24 * 60 * 60 * 1000) - 1;
 
-	/**
-	 * Number of milliseconds in day without one millisecond
-	 */
-	private static long MILLS_IN_DAY = (24 * 60 * 60 * 1000) - 1;
+    private Timestamp value;
 
-	public DateCriteria(String name, String colunmName) {
-		super(name, colunmName);
-	}
+    public DateCriteria(String name, String colunmName) {
+        super(name, colunmName);
+    }
 
-	@Override
-	public Criteria[] parseValue(String attribute) {
-		long attributeValue = Long.parseLong(attribute);
-		if (name.endsWith("_on")) {
-			// We have timestamp_on case
-			DateCriteria after = new DateCriteria(name + "_after", columnName);
-			after.value = new Timestamp(attributeValue - MILLS_IN_DAY/2);
-			DateCriteria before = new DateCriteria(name + "_before", columnName);
-			before.value = new Timestamp(attributeValue + MILLS_IN_DAY/2);
-			return new Criteria[] {after, before};
-		} else {
-			DateCriteria result = new DateCriteria(name, columnName);
-			result.value = new Timestamp(attributeValue);
-			return new Criteria[] {result};
-		}
-	}
+    @Override
+    public Criteria[] parseValue(String attribute) {
+        long attributeValue = Long.parseLong(attribute);
+        if (name.endsWith("_on")) {
+            // We have timestamp_on case
+            DateCriteria after = new DateCriteria(name + "_after", columnName);
+            after.value = new Timestamp(attributeValue - MILLS_IN_DAY/2);
+            DateCriteria before = new DateCriteria(name + "_before", columnName);
+            before.value = new Timestamp(attributeValue + MILLS_IN_DAY/2);
+            return new Criteria[] {after, before};
+        } else {
+            DateCriteria result = new DateCriteria(name, columnName);
+            result.value = new Timestamp(attributeValue);
+            return new Criteria[] {result};
+        }
+    }
 
-	@Override
-	public Object getValue() {
-		return value;
-	}
+    @Override
+    public Object getValue() {
+        return value;
+    }
 
-	@Override
-	public StringBuilder getFilterClause() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(columnName);
-		if (name.lastIndexOf('_') > 0) {
-			String suffix = name.substring(name.lastIndexOf('_') + 1);
-			if ("before".equals(suffix)) {
-				builder.append(" < ");
-			} else if ("after".equals(suffix)) {
-				builder.append(" > ");
-			} else {
-				builder.append(" = ");
-			}
-		} else {
-			builder.append(" = ");
-		}
-		builder.append(":" + name);
-		return builder;
-	}
+    @Override
+    public StringBuilder getFilterClause() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(columnName);
+        if (name.lastIndexOf('_') > 0) {
+            String suffix = name.substring(name.lastIndexOf('_') + 1);
+            if ("before".equals(suffix)) {
+                builder.append(" < ");
+            } else if ("after".equals(suffix)) {
+                builder.append(" > ");
+            } else {
+                builder.append(" = ");
+            }
+        } else {
+            builder.append(" = ");
+        }
+        builder.append(':').append(name);
+        return builder;
+    }
 
 }

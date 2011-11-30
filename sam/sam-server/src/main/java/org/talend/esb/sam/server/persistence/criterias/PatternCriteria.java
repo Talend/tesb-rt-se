@@ -26,61 +26,60 @@ package org.talend.esb.sam.server.persistence.criterias;
  */
 public class PatternCriteria extends Criteria {
 
-	String pattern = null;
-	
-	String condition = null;
-	
-	public PatternCriteria(String name, String colunmName) {
-		super(name, colunmName);
-	}
-	
-	/**
-	 * Conditional pattern criteria
-	 * 
-	 * @param name
-	 * @param columnName
-	 * @param condition condittion that will be concatenated to the pattern condition
-	 */
-	public PatternCriteria(String name, String columnName, String condition) {
-		super(name, columnName);
-		this.condition = condition;
-	}
-	
+    private String pattern;
 
-	@Override
-	public Criteria[] parseValue(String attribute) {
-		PatternCriteria result = new PatternCriteria(this.name, this.columnName, this.condition);
-		result.pattern = toSQLPattern(attribute);
-		return new Criteria[] {result};
-	}
+    private String condition;
 
-	@Override
-	public Object getValue() {
-		return pattern;
-	}
+    public PatternCriteria(String name, String colunmName) {
+        super(name, colunmName);
+    }
 
-	@Override
-	public StringBuilder getFilterClause() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(columnName);
-		builder.append(" LIKE ");
-		builder.append(":" + name);
-		if (condition != null) {
-			builder.append(" AND ");
-			builder.append(condition);
-		}
-		return builder;
-	}
+    /**
+     * Conditional pattern criteria
+     * 
+     * @param name
+     * @param columnName
+     * @param condition condittion that will be concatenated to the pattern condition
+     */
+    public PatternCriteria(String name, String columnName, String condition) {
+        super(name, columnName);
+        this.condition = condition;
+    }
 
-	private String toSQLPattern(String attribute) {
-		String pattern = attribute.replace("*", "%");
-		if (!pattern.startsWith("%")) {
-			pattern = "%" + pattern;
-		}
-		if (!pattern.endsWith("%")) {
-			pattern = pattern.concat("%");
-		}
-		return pattern;
-	}
+    @Override
+    public Criteria[] parseValue(String attribute) {
+        PatternCriteria result = new PatternCriteria(this.name, this.columnName, this.condition);
+        result.pattern = toSQLPattern(attribute);
+        return new Criteria[] {result};
+    }
+
+    @Override
+    public Object getValue() {
+        return pattern;
+    }
+
+    @Override
+    public StringBuilder getFilterClause() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(columnName);
+        builder.append(" LIKE ");
+        builder.append(':').append(name);
+        if (condition != null) {
+            builder.append(" AND ");
+            builder.append(condition);
+        }
+        return builder;
+    }
+
+    private String toSQLPattern(String attribute) {
+        String pattern = attribute.replace("*", "%");
+        if (!pattern.startsWith("%")) {
+            pattern = "%" + pattern;
+        }
+        if (!pattern.endsWith("%")) {
+            pattern = pattern.concat("%");
+        }
+        return pattern;
+    }
 
 }

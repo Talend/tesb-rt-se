@@ -28,19 +28,20 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class MySQLDialect extends AbstractDatabaseDialect {
 
-	static final String QUERY = "select "
-			+ "EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
-			+ "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
-			+ "ORIG_HOSTNAME,  ORIG_IP "
-			+ "from "
-			+ "(select MI_FLOW_ID from EVENTS %%FILTER%% where MI_FLOW_ID is not null group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC LIMIT :limit OFFSET :offset) as SUBQ "
-			+ "LEFT JOIN EVENTS ON "
-			+ "SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID "
-			+ "order by EI_TIMESTAMP DESC";
+    private static final String QUERY = "select "
+            + "EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
+            + "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
+            + "ORIG_HOSTNAME,  ORIG_IP "
+            + "from "
+            + "(select MI_FLOW_ID from EVENTS %%FILTER%% where MI_FLOW_ID is not null group by MI_FLOW_ID "
+            + "order by MAX(EI_TIMESTAMP) DESC LIMIT :limit OFFSET :offset) as SUBQ "
+            + "LEFT JOIN EVENTS ON "
+            + "SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID "
+            + "order by EI_TIMESTAMP DESC";
 
-	@Override
-	String getQuery() {
-		return QUERY;
-	}
+    @Override
+    String getQuery() {
+        return QUERY;
+    }
 
 }

@@ -25,40 +25,38 @@ package org.talend.esb.sam.server.persistence.criterias;
  * @author zubairov
  * 
  */
+@SuppressWarnings("rawtypes")
 public class EnumCriteria extends Criteria {
 
-	@SuppressWarnings("rawtypes")
-	private Class<? extends Enum> enumClass;
+    private Class<? extends Enum> enumClass;
 
-	protected Enum<?> value;
+    protected Enum<?> value;
 
-	public EnumCriteria(String name, String colunmName,
-			@SuppressWarnings("rawtypes") Class<? extends Enum> clazz) {
-		super(name, colunmName);
-		this.enumClass = clazz;
-	}
+    public EnumCriteria(String name, String colunmName, Class<? extends Enum> clazz) {
+        super(name, colunmName);
+        this.enumClass = clazz;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Criteria[] parseValue(String value) {
-		EnumCriteria result = new EnumCriteria(this.name, this.columnName,
-				(Class<? extends Enum<?>>) this.enumClass);
-		result.value = Enum.valueOf(enumClass, value);
-		return new Criteria[] {result};
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public Criteria[] parseValue(String value) {
+        EnumCriteria result = new EnumCriteria(this.name, this.columnName, this.enumClass);
+        result.value = Enum.valueOf(enumClass, value);
+        return new Criteria[] {result};
+    }
 
-	@Override
-	public Object getValue() {
-		return String.valueOf(value);
-	}
+    @Override
+    public Object getValue() {
+        return String.valueOf(value);
+    }
 
-	@Override
-	public StringBuilder getFilterClause() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(columnName);
-		builder.append(" =");
-		builder.append(":" + name);
-		return builder;
-	}
+    @Override
+    public StringBuilder getFilterClause() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(columnName);
+        builder.append(" =");
+        builder.append(':').append(name);
+        return builder;
+    }
 
 }

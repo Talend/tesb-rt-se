@@ -27,12 +27,12 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public interface QueryFilter {
 
-	/**
-	 * This method should return where clause according to 
-	 * filtering conditions
-	 * 
-	 * @return
-	 */
-	String getWhereClause();
+    /**
+     * This method should return where clause according to 
+     * filtering conditions
+     * 
+     * @return
+     */
+    String getWhereClause();
 
 }

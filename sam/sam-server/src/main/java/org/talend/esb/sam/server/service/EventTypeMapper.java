@@ -38,11 +38,16 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
-public class EventTypeMapper {
+public final class EventTypeMapper {
+
+    private EventTypeMapper() {
+    }
+
     public static Event map(EventType eventType) {
         Event event = new Event();
         event.setEventType(mapEventTypeEnum(eventType.getEventType()));
-        Date date = (eventType.getTimestamp()==null) ? new Date() : eventType.getTimestamp().toGregorianCalendar().getTime();        
+        Date date = (eventType.getTimestamp() == null)
+                ? new Date() : eventType.getTimestamp().toGregorianCalendar().getTime();
         event.setTimestamp(date);
         event.setOriginator(mapOriginatorType(eventType.getOriginator()));
         MessageInfo messageInfo = mapMessageInfo(eventType.getMessageInfo());
@@ -55,14 +60,15 @@ public class EventTypeMapper {
     }
 
     private static Map<String, String> mapCustomInfo(CustomInfoType ciType){
-    	HashMap<String, String> customInfo = new HashMap<String, String>();
-    	if (ciType != null){
-	    	for (CustomInfoType.Item item : ciType.getItem()){
-	    		customInfo.put(item.getKey(), item.getValue());
-	    	}
-    	}
-    	return customInfo;
+        Map<String, String> customInfo = new HashMap<String, String>();
+        if (ciType != null){
+            for (CustomInfoType.Item item : ciType.getItem()) {
+                customInfo.put(item.getKey(), item.getValue());
+            }
+        }
+        return customInfo;
     }
+
     private static String mapContent(DataHandler dh) {
         if (dh == null) {
             return "";
@@ -83,7 +89,8 @@ public class EventTypeMapper {
             messageInfo.setFlowId(messageInfoType.getFlowId());
             messageInfo.setMessageId(messageInfoType.getMessageId());
             messageInfo.setOperationName(messageInfoType.getOperationName());
-            messageInfo.setPortType(messageInfoType.getPorttype() == null ? "" : messageInfoType.getPorttype().toString());
+            messageInfo.setPortType(messageInfoType.getPorttype() == null
+                ? "" : messageInfoType.getPorttype().toString());
             messageInfo.setTransportType(messageInfoType.getTransport());
         }
         return messageInfo;
@@ -102,10 +109,10 @@ public class EventTypeMapper {
     }
 
     private static EventTypeEnum mapEventTypeEnum(EventEnumType eventType) {
-        if (eventType == null) {
-            return EventTypeEnum.UNKNOWN;
-        } else {
+        if (eventType != null) {
             return EventTypeEnum.valueOf(eventType.name());
         }
+        return EventTypeEnum.UNKNOWN;
     }
+
 }

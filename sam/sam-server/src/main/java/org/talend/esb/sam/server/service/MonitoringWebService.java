@@ -44,7 +44,7 @@ public class MonitoringWebService implements MonitoringService {
     }
 
     public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
-        if(LOG.isLoggable(Level.INFO)) {
+        if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
         }
         List<Event> events = new ArrayList<Event>(eventTypes.size());
@@ -70,7 +70,7 @@ public class MonitoringWebService implements MonitoringService {
     }
 
     private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
-        if(LOG.isLoggable(Level.SEVERE)) {
+        if (LOG.isLoggable(Level.SEVERE)) {
             LOG.log(Level.SEVERE, "Throw Fault " + code + " " + message, t);
         }
 
