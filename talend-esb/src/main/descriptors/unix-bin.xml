@@ -341,17 +341,6 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
-        <!-- Copy Docs -->
-        <fileSet>
-            <directory>target/docs/esb-docs-${project.version}</directory>
-            <outputDirectory>/docs</outputDirectory>
-            <fileMode>0644</fileMode>
-            <directoryMode>755</directoryMode>
-            <includes>
-                <include>ReleaseNotes.*</include>
-            </includes>
-        </fileSet>
-
         <!-- Copy Examples -->
         <fileSet>
             <directory>${basedir}/../examples</directory>
@@ -390,6 +379,12 @@
     </fileSets>
 
     <files>
+        <file>
+            <source>${basedir}/target/docs/esb-docs-${tesb-doc.version}/ReleaseNotesSE.pdf</source>
+            <outputDirectory>/docs</outputDirectory>
+            <destName>ReleaseNotes.pdf</destName>
+            <fileMode>0644</fileMode>
+        </file>
         <file>
             <source>${basedir}/src/main/bin/trun.bat</source>
             <outputDirectory>/container/bin/</outputDirectory>
