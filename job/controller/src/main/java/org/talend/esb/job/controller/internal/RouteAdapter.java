@@ -19,7 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.Dictionary;import java.util.logging.Level;
+import java.util.Dictionary;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -29,26 +30,24 @@ import routines.system.api.TalendESBRoute;
 
 public class RouteAdapter implements ManagedService, JobTask {
 
-    private static final Logger LOG =
-        Logger.getLogger(RouteAdapter.class.getName());
+    private static final Logger LOG = Logger.getLogger(RouteAdapter.class.getName());
 
-    private TalendESBRoute route;
-    
-    private String name;
-    
-    private Configuration configuration;
+    private final TalendESBRoute route;
+
+    private final String name;
+
+    private final Configuration configuration = new Configuration();
 
     public RouteAdapter(TalendESBRoute route, String name) {
         this.route = route;
         this.name = name;
-        configuration = new Configuration();
     }
 
     @Override
     public void updated(@SuppressWarnings("rawtypes") Dictionary properties) throws ConfigurationException {
         configuration.setProperties(properties);
     }
-   
+
     public void stop() {
         LOG.info("Cancelling route " + name);
         ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
@@ -56,9 +55,9 @@ public class RouteAdapter implements ManagedService, JobTask {
             Thread.currentThread().setContextClassLoader(route.getClass().getClassLoader());
             route.shutdown();
         } catch (Exception e) {
-            LOG.log(Level.WARNING, "Shutting down route " + name + " caused an exception.", e);        
+            LOG.log(Level.WARNING, "Shutting down route " + name + " caused an exception.", e);
         } finally {
-            Thread.currentThread().setContextClassLoader(oldContextCL);            
+            Thread.currentThread().setContextClassLoader(oldContextCL);
         }
     }
 
@@ -79,7 +78,7 @@ public class RouteAdapter implements ManagedService, JobTask {
             int ret = route.runJobInTOS(args);
             LOG.info("Route " + name + " finished, return code is " + ret);
         } finally {
-            Thread.currentThread().setContextClassLoader(oldContextCL);            
+            Thread.currentThread().setContextClassLoader(oldContextCL);
         }
     }
 

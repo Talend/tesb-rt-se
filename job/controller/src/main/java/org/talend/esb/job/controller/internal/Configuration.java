@@ -25,7 +25,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -35,10 +34,7 @@ import org.osgi.service.cm.ConfigurationException;
  * the OSGi Configuration Admin Service. The parameters may be retrieved as an array of option
  * arguments the way they are expected by the Talend job.
  */
-public class Configuration {
-    
-    public static final Logger LOG =
-        Logger.getLogger(Configuration.class.getName());
+public final class Configuration {
 
     public static final String CONTEXT_PROP = "context";
 
@@ -52,19 +48,23 @@ public class Configuration {
 
     public static final String TIME_OUT_PROPERTY = "org.talend.esb.job.controller.configuration.timeout";
 
+    private static final Logger LOG = Logger.getLogger(Configuration.class.getName());
+
+    private static final String[] DEFAULT_FILTER = new String[0];
+
     private long timeout;
 
-    List<String> argumentList = new ArrayList<String>();
-    
-    private CountDownLatch configAvailable = new CountDownLatch(1);
-    
-    private String[] filter;
+    private List<String> argumentList = new ArrayList<String>();
+
+    private final CountDownLatch configAvailable = new CountDownLatch(1);
+
+    private final String[] filter;
 
     /**
      * A <code>Configuration</code> object with no properties set.
      */
     public Configuration() {
-        this(new String[0]);
+        this(DEFAULT_FILTER);
     }
 
     /**
@@ -74,7 +74,7 @@ public class Configuration {
      * @throws ConfigurationException thrown if the property values are not of type String
      */
     public Configuration(Dictionary<?, ?> properties) throws ConfigurationException {
-        this(properties, new String[0]);
+        this(properties, DEFAULT_FILTER);
     }
 
     /**
@@ -99,20 +99,18 @@ public class Configuration {
         setProperties(properties);
         initTimeout();
     }
-    
+
     /**
      * Back this <code>Configuration</code>  by the given properties from ConfigurationAdmin.
      *
      * @param properties the properties from ConfigurationAdmin, may be <code>null</code>.
      * @throws ConfigurationException thrown if the property values are not of type String
      */
-    public void setProperties(Dictionary<?, ?> properties) throws ConfigurationException {        
+    public void setProperties(Dictionary<?, ?> properties) throws ConfigurationException {
         List<String> newArgumentList = new ArrayList<String>();
 
         if (properties != null) {
-            Enumeration<?> keysEnum = properties.keys();
-
-            while (keysEnum.hasMoreElements()) {
+            for (Enumeration<?> keysEnum = properties.keys(); keysEnum.hasMoreElements(); ) {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
                 if (!(val instanceof String)) {
@@ -143,12 +141,11 @@ public class Configuration {
                 argList.add(CONTEXT_PARAM_OPT + key + "=" + value);
                 LOG.fine("Parameter " + key + " with value " + value + " added to the argument list.");
             } else {
-                LOG.fine("Propertey " + key + " filltered out.");                
+                LOG.fine("Propertey " + key + " filltered out.");
             }
         }
-
     }
-    
+
     /**
      * Get the configuration properties as argument list as expected by the Talend job. If the properties
      * were not yet set, wait the time specified by the {@link #setTimeout(long) timeout property} and return
@@ -164,12 +161,11 @@ public class Configuration {
             args = currentArgumentList.toArray(new String[currentArgumentList.size()]);
         } else {
             args = EMPTY_ARGUMENTS;
-            LOG.log(Level.WARNING, "awaitArguments: ConfigAdmin did not pass any properties yet, returning an empty argumentlist.");
-
+            LOG.warning("ConfigAdmin did not pass any properties yet, returning an empty argumentlist.");
         }
         return args;
     }
-    
+
     private void initTimeout() {
         timeout = Long.getLong(TIME_OUT_PROPERTY, DEFAULT_TIMEOUT);
     }
@@ -182,4 +178,5 @@ public class Configuration {
         }
         return false;
     }
+
 }

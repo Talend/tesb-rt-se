@@ -37,13 +37,12 @@ import routines.system.api.TalendJob;
  */
 public class JobTracker {
 
-    public static final Logger LOG =
-        Logger.getLogger(JobTracker.class.getName());
+    private static final Logger LOG = Logger.getLogger(JobTracker.class.getName());
 
-    public static final String FILTER =
-        "(objectClass=" + TalendJob.class.getName() + ")";
+    private static final String FILTER =
+            "(objectClass=" + TalendJob.class.getName() + ")";
 
-    public static final String PROPERTY_KEY_NAME = "name";
+    private static final String PROPERTY_KEY_NAME = "name";
 
     private BundleContext context;
 
@@ -52,12 +51,12 @@ public class JobTracker {
     private ServiceTracker tracker;
 
 
-    public void setJobListener(JobListener listener) {
-        this.listener = listener;
+    public void setJobListener(JobListener jobListener) {
+        listener = jobListener;
     }
 
-    public void setBundleContext(BundleContext context) {
-        this.context = context;
+    public void setBundleContext(BundleContext bundleContext) {
+        context = bundleContext;
     }
 
     public void bind() {
@@ -82,13 +81,13 @@ public class JobTracker {
 
     private String getValue(String name, ServiceReference sRef) {
         Object val = sRef.getProperty(name);
-        if (name == null || !(name instanceof String)) {
+        if (!(name instanceof String)) {
             throw new IllegalArgumentException(
                     name + " property of TalendJob either not defined or not of type String");
         }
         return (String) val;
     }
-    
+
     private class Customizer implements ServiceTrackerCustomizer {
 
         @Override
