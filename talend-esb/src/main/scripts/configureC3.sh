@@ -24,14 +24,4 @@ COMMAND_SERVER_PORT=8030
 FILE_SERVER_PORT=8031
 MONITORING_PORT=8918
 
-#addcommand system (loadClass java.lang.System)
-#KARAF_HOME = system:getProperty karaf.home
-#KARAF_FILE = (new java.io.File $KARAF_HOME)
-
-KARAF_FILE = (new java.io.File ".")
-KARAF_PATH = $KARAF_FILE getCanonicalPath
-KARAF_FILE = (new java.io.File $KARAF_PATH)
-TESB_FILE = $KARAF_FILE getParentFile
-TESB_HOME = $TESB_FILE getCanonicalPath
-
-source $KARAF_PATH/scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port $COMMAND_SERVER_PORT $FILE_SERVER_PORT $MONITORING_PORT
+source scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port $COMMAND_SERVER_PORT $FILE_SERVER_PORT $MONITORING_PORT
