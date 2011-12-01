@@ -21,6 +21,7 @@ package org.talend.esb.servicelocator.client.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,7 +29,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
 import javax.xml.transform.dom.DOMResult;
@@ -39,18 +39,16 @@ import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
-import org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
 import org.w3c.dom.Document;
 
 public class EndpointTransformerImpl implements PropertiesTransformer, EndpointTransformer {
-    
-    public static final Logger LOG = Logger.getLogger(EndpointTransformerImpl.class
-            .getName());
 
-    public static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-    ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    private static final Logger LOG = Logger.getLogger(EndpointTransformerImpl.class .getName());
+
+    private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
+        ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
     /**
      * {@inheritDoc
@@ -66,12 +64,10 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
      */
     @Override
     public byte[] fromEndpoint(Endpoint endpoint, long lastTimeStarted, long lastTimeStopped)
-    throws ServiceLocatorException {
-        EndpointDataType endpointData =
-            createEndpointData(endpoint, lastTimeStarted,  lastTimeStopped);
-        return serialize(endpointData);
+        throws ServiceLocatorException {
+        return serialize(createEndpointData(endpoint, lastTimeStarted,  lastTimeStopped));
     }
-    
+
     /**
      * {@inheritDoc
      */
@@ -80,15 +76,9 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
         ServiceLocatorPropertiesType jaxbProps = SLPropertiesConverter.toServiceLocatorPropertiesType(props);
 
         try {
-            ObjectFactory of = new ObjectFactory();
-
             JAXBElement<ServiceLocatorPropertiesType> elementProps =
-                of.createServiceLocatorProperties(jaxbProps);
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc =
-                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(elementProps, result);
+                ENDPOINT_OBJECT_FACTORY.createServiceLocatorProperties(jaxbProps);
+            createMarshaller().marshal(elementProps, result);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
@@ -96,13 +86,12 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
             }
         }
     }
-    
+
     private EndpointDataType createEndpointData(
             Endpoint eprProvider,
             long lastTimeStarted,
             long lastTimeStopped) throws ServiceLocatorException {
-        ObjectFactory of = new ObjectFactory();
-        EndpointDataType endpointData = of.createEndpointDataType();
+        EndpointDataType endpointData = ENDPOINT_OBJECT_FACTORY.createEndpointDataType();
 
         endpointData.setBinding(
             BindingType.fromValue(eprProvider.getBinding().getValue()));
@@ -115,22 +104,15 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
         eprProvider.writeEndpointReferenceTo(result, this);
         Document  doc = (Document) result.getNode();
         endpointData.setEndpointReference(doc.getDocumentElement());
-        
+
         return endpointData;
     }
 
     private byte[] serialize(EndpointDataType endpointData) throws ServiceLocatorException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(50000);
         try {
-            ObjectFactory of = new ObjectFactory();
-
-            JAXBElement<EndpointDataType> epd =
-                of.createEndpointData(endpointData);
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc =
-                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(epd, outputStream);
+            JAXBElement<EndpointDataType> epd = ENDPOINT_OBJECT_FACTORY.createEndpointData(endpointData);
+            createMarshaller().marshal(epd, outputStream);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
@@ -143,54 +125,35 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
 
     @SuppressWarnings("unchecked")
     public static EndpointDataType toEndPointData(byte[] content) {
-
-        if (content != null) {
-
-            ByteArrayInputStream is = new ByteArrayInputStream(content);
-            try {
-                ClassLoader cl = EndpointTransformerImpl.class.getClassLoader();
-                JAXBContext jc =
-                    JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-                Unmarshaller um = jc.createUnmarshaller();
-
-                JAXBElement<EndpointDataType> slEndpoint = (JAXBElement<EndpointDataType>) um.unmarshal(is);
-
-                return slEndpoint.getValue();
-            } catch (JAXBException e) {
-                if (LOG.isLoggable(Level.SEVERE)) {
-                    LOG.log(Level.SEVERE,
-                            "Failed to deserialize endpoint data", e);
-                }
-                EndpointDataType endpointData = ENDPOINT_OBJECT_FACTORY.createEndpointDataType();
-                endpointData.setLastTimeStarted(-1);
-                endpointData.setLastTimeStopped(-1);
-                return endpointData;
-            }
-        } else {
+        if (content == null) {
             throw new IllegalArgumentException("content must not be null.");
         }
-    }
 
-/*
-    private static byte[] serialize(EndpointDataType endpointData) throws ServiceLocatorException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(50000);
+        final InputStream is = new ByteArrayInputStream(content);
         try {
-            JAXBElement<EndpointDataType> epd =
-                ENDPOINT_OBJECT_FACTORY.createEndpointData(endpointData);
-            ClassLoader cl = EndpointTransformerImpl.class.getClassLoader();
-            JAXBContext jc =
-                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(epd, outputStream);
+            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",
+                EndpointTransformerImpl.class.getClassLoader());
+            JAXBElement<EndpointDataType> slEndpoint =
+                (JAXBElement<EndpointDataType>) jc.createUnmarshaller().unmarshal(is);
+
+            return slEndpoint.getValue();
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
-                        "Failed to serialize endpoint data", e);
+                        "Failed to deserialize endpoint data", e);
             }
-            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
-
+            EndpointDataType endpointData = ENDPOINT_OBJECT_FACTORY.createEndpointDataType();
+            endpointData.setLastTimeStarted(-1);
+            endpointData.setLastTimeStopped(-1);
+            return endpointData;
         }
-        return outputStream.toByteArray();
     }
-*/
+
+    private Marshaller createMarshaller() throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance(
+                "org.talend.esb.servicelocator.client.internal.endpoint",
+                this.getClass().getClassLoader());
+        return jc.createMarshaller();
+    }
+
 }

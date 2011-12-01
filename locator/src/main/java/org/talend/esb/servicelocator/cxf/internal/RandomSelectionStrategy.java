@@ -47,10 +47,8 @@ public class RandomSelectionStrategy extends LocatorSelectionStrategy implements
      */
     @Override
     public List<String> getAlternateAddresses(Exchange exchange) {
-        QName serviceName = getServiceName(exchange);
         // force reload
-        List<String> alternateAddresses = getRotatedAdresses(serviceName, true);
-        return alternateAddresses;
+        return getRotatedAdresses(getServiceName(exchange), true);
     }
 
     /**

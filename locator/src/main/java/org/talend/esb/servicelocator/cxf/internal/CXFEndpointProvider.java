@@ -49,32 +49,31 @@ import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorProp
 
 public class CXFEndpointProvider implements org.talend.esb.servicelocator.client.Endpoint {
 
-    public static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class
-            .getName());
+    static final String SOAP11_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap/";
 
-    public static final org.apache.cxf.ws.addressing.ObjectFactory WSA_OBJECT_FACTORY =
+    static final String SOAP12_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap12/";
+
+    static final String JAXRS_BINDING_ID = "http://apache.org/cxf/binding/jaxrs";
+
+    static final String CXF_HTTP_TRANSPORT_ID = "http://cxf.apache.org/transports/http";
+
+    static final String SOAP_HTTP_TRANSPORT_ID = "http://schemas.xmlsoap.org/soap/http";
+
+    private static final Logger LOG = Logger.getLogger(CXFEndpointProvider.class.getName());
+
+    private static final org.apache.cxf.ws.addressing.ObjectFactory WSA_OBJECT_FACTORY =
         new org.apache.cxf.ws.addressing.ObjectFactory();
 
-    public static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-    SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
+        SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
-    public static final String SOAP11_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap/";
+    private final QName sName;
 
-    public static final String SOAP12_BINDING_ID = "http://schemas.xmlsoap.org/wsdl/soap12/";
-    
-    public static final String JAXRS_BINDING_ID = "http://apache.org/cxf/binding/jaxrs";
-    
-    public static final String CXF_HTTP_TRANSPORT_ID = "http://cxf.apache.org/transports/http";
-    
-    public static final String SOAP_HTTP_TRANSPORT_ID = "http://schemas.xmlsoap.org/soap/http";
+    private final EndpointReferenceType epr;
 
-    private QName sName;
-    
-    private EndpointReferenceType epr;
+    private final BindingType bindingType;
 
-    private BindingType bindingType;
-
-    private TransportType transportType;
+    private final TransportType transportType;
     
     private SLProperties props;
 
@@ -125,46 +124,16 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
 
     @Override
     public SLProperties getProperties() {
-        return props != null ? props : SLPropertiesImpl.EMPTY_PROPERTIES;    
+        return props != null ? props : SLPropertiesImpl.EMPTY_PROPERTIES;
     }
 
     @Override
     public void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
-            throws ServiceLocatorException {
+        throws ServiceLocatorException {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(epr);
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc = JAXBContext.newInstance(
-                    "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
-                    cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(ep, result);
-        } catch (JAXBException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE,
-                        "Failed to serialize endpoint data", e);
-            }
-            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
-        }        
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void addEndpointReference(Node parent) throws ServiceLocatorException {
-        serializeEPR(epr, parent);
-    }
-    
-    private void serializeEPR(EndpointReferenceType wsAddr, Node parent) throws ServiceLocatorException {
-        try {
-            JAXBElement<EndpointReferenceType> ep =
-                WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc = JAXBContext.newInstance(
-                    "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
-                    cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(ep, parent);
+            createMarshaller().marshal(ep, result);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
@@ -174,10 +143,35 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         }
     }
 
-    
+    @Override
+    public void addEndpointReference(Node parent) throws ServiceLocatorException {
+        serializeEPR(epr, parent);
+    }
+
+    private void serializeEPR(EndpointReferenceType wsAddr, Node parent) throws ServiceLocatorException {
+        try {
+            JAXBElement<EndpointReferenceType> ep =
+                WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
+            createMarshaller().marshal(ep, parent);
+        } catch (JAXBException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE,
+                        "Failed to serialize endpoint data", e);
+            }
+            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
+        }
+    }
+
+    private Marshaller createMarshaller() throws JAXBException {
+        JAXBContext jc = JAXBContext.newInstance(
+                "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
+                this.getClass().getClassLoader());
+        return jc.createMarshaller();
+    }
+
     @Override
     public boolean equals(Object other) {
-        if (other != null && other instanceof CXFEndpointProvider) {
+        if (other instanceof CXFEndpointProvider) {
             CXFEndpointProvider otherEndpoint = (CXFEndpointProvider) other;
             return getAddress().equals(otherEndpoint.getAddress())
                 && getServiceName().equals(otherEndpoint.getServiceName());
@@ -227,7 +221,7 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
             slp = SL_OBJECT_FACTORY.createServiceLocatorProperties(jaxbProps);
         metadata.getAny().add(slp);
     }
-    
+
     private static QName getServiceName(Server server) {
         QName serviceName;
         String bindingId = getBindingId(server);
@@ -249,27 +243,29 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
     }
 
     private static String getTransportId(Server server) {
-        EndpointInfo ei = server.getEndpoint().getEndpointInfo();
-        return ei.getTransportId();
+        return server.getEndpoint().getEndpointInfo().getTransportId();
     }
 
     private static BindingType map2BindingType(String bindingId) {
-        BindingType type = BindingType.OTHER;
+        BindingType type;
         if (SOAP11_BINDING_ID.equals(bindingId)) {
             type = BindingType.SOAP11;
         } else if (SOAP12_BINDING_ID.equals(bindingId)) {
             type = BindingType.SOAP12;
         } else if (JAXRS_BINDING_ID.equals(bindingId)) {
             type = BindingType.JAXRS;
+        } else {
+            type = BindingType.OTHER;
         }
-
         return type;
     }
 
     private static TransportType map2TransportType(String transportId) {
-        TransportType type = TransportType.OTHER;
+        TransportType type;
         if (CXF_HTTP_TRANSPORT_ID.equals(transportId) || SOAP_HTTP_TRANSPORT_ID.equals(transportId)) {
             type = TransportType.HTTP;
+        } else {
+            type = TransportType.OTHER;
         }
         return type;
     }

@@ -62,57 +62,57 @@ import javax.xml.namespace.QName;
  */
 public interface ServiceLocator {
 
-	/**
-	 * Establish a connection to the Service Locator. After successful
-	 * connection the specified {@link PostConnectAction} is run. If the session
-	 * to the server expires because the server could not be reached within the
-	 * {@link #setSessionTimeout(int) specified time}, a reconnect is
-	 * automatically executed as soon as the server can be reached again.
-	 * Because after a session time out all registered endpoints are removed it
-	 * is important to specify a {@link PostConnectAction} that re-registers all
-	 * endpoints.
-	 * 
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a successful connection to the ServiceLocator
-	 * @throws ServiceLocatorException
-	 *             the connect operation failed
-	 */
-	void connect() throws InterruptedException, ServiceLocatorException;
+    /**
+     * Establish a connection to the Service Locator. After successful
+     * connection the specified {@link PostConnectAction} is run. If the session
+     * to the server expires because the server could not be reached within the
+     * {@link #setSessionTimeout(int) specified time}, a reconnect is
+     * automatically executed as soon as the server can be reached again.
+     * Because after a session time out all registered endpoints are removed it
+     * is important to specify a {@link PostConnectAction} that re-registers all
+     * endpoints.
+     * 
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a successful connection to the ServiceLocator
+     * @throws ServiceLocatorException
+     *             the connect operation failed
+     */
+    void connect() throws InterruptedException, ServiceLocatorException;
 
-	/**
-	 * Disconnects from a Service Locator server. All endpoints that were
-	 * registered before are removed from the server. To be able to communicate
-	 * with a Service Locator server again the client has to {@link #connect()
-	 * connect} again.
-	 * 
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for the disconnect to happen
-	 * @throws ServiceLocatorException
-	 */
-	void disconnect() throws InterruptedException, ServiceLocatorException;
+    /**
+     * Disconnects from a Service Locator server. All endpoints that were
+     * registered before are removed from the server. To be able to communicate
+     * with a Service Locator server again the client has to {@link #connect()
+     * connect} again.
+     * 
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for the disconnect to happen
+     * @throws ServiceLocatorException
+     */
+    void disconnect() throws InterruptedException, ServiceLocatorException;
 
-	/**
-	 * For a given service register the endpoint of a concrete provider of this
-	 * service. The endpoint is marked as live as long as this client is
-	 * connected and the session on the server is valid.
-	 * <p>
-	 * The endpoint is categorized as being a SOAP / HTTP endpoint.
-	 * 
-	 * @param serviceName
-	 *            the name of the service the endpoint is registered for, must
-	 *            not be <code>null</code>
-	 * @param endpoint
-	 *            the endpoint to register, must not be <code>null</code>
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void register(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For a given service register the endpoint of a concrete provider of this
+     * service. The endpoint is marked as live as long as this client is
+     * connected and the session on the server is valid.
+     * <p>
+     * The endpoint is categorized as being a SOAP / HTTP endpoint.
+     * 
+     * @param serviceName
+     *            the name of the service the endpoint is registered for, must
+     *            not be <code>null</code>
+     * @param endpoint
+     *            the endpoint to register, must not be <code>null</code>
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    void register(QName serviceName, String endpoint)
+            throws ServiceLocatorException, InterruptedException;
 
     /**
      * 
@@ -125,42 +125,42 @@ public interface ServiceLocator {
     void register(QName serviceName, String endpoint, boolean persistent) throws ServiceLocatorException,
             InterruptedException;
 
-	/**
-	 * For a given service register the endpoint of a concrete provider of this
-	 * service. The endpoint is marked as live as long as this client is
-	 * connected and the session on the server is valid. In addition a set of
-	 * custom properties is defined for the endpoint. They may be used as
-	 * additional selection criteria during the lookup.
-	 * 
-	 * @param serviceName
-	 *            the name of the service the endpoint is registered for, must
-	 *            not be <code>null</code>
-	 * @param endpoint
-	 *            the endpoint to register, must not be <code>null</code>
-	 * @param properties
-	 *            custom properties of the endpoint that can be used as
-	 *            additional selection criteria when doing a lookup.
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void register(QName serviceName, String endpoint, SLProperties properties)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For a given service register the endpoint of a concrete provider of this
+     * service. The endpoint is marked as live as long as this client is
+     * connected and the session on the server is valid. In addition a set of
+     * custom properties is defined for the endpoint. They may be used as
+     * additional selection criteria during the lookup.
+     * 
+     * @param serviceName
+     *            the name of the service the endpoint is registered for, must
+     *            not be <code>null</code>
+     * @param endpoint
+     *            the endpoint to register, must not be <code>null</code>
+     * @param properties
+     *            custom properties of the endpoint that can be used as
+     *            additional selection criteria when doing a lookup.
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    void register(QName serviceName, String endpoint, SLProperties properties)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * 
-	 * @param serviceName
-	 * @param endpoint
-	 * @param properties
-	 * @param persistent
-	 * @throws ServiceLocatorException
-	 * @throws InterruptedException
-	 */
-	void register(QName serviceName, String endpoint,
-	        SLProperties properties, boolean persistent)
-	throws ServiceLocatorException, InterruptedException;
+    /**
+     * 
+     * @param serviceName
+     * @param endpoint
+     * @param properties
+     * @param persistent
+     * @throws ServiceLocatorException
+     * @throws InterruptedException
+     */
+    void register(QName serviceName, String endpoint,
+            SLProperties properties, boolean persistent)
+    throws ServiceLocatorException, InterruptedException;
 
     /**
      * For a given service register the endpoint as defined in the given {@link Endpoint
@@ -198,22 +198,22 @@ public interface ServiceLocator {
     void register(Endpoint eprProvider, boolean persistent)
     throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For a given service unregister a previously registered endpoint.
-	 * 
-	 * @param serviceName
-	 *            the name of the service the endpoint is unregistered for, must
-	 *            not be <code>null</code>
-	 * @param endpoint
-	 *            the endpoint to unregister, must not be <code>null</code>
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void unregister(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For a given service unregister a previously registered endpoint.
+     * 
+     * @param serviceName
+     *            the name of the service the endpoint is unregistered for, must
+     *            not be <code>null</code>
+     * @param endpoint
+     *            the endpoint to unregister, must not be <code>null</code>
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    void unregister(QName serviceName, String endpoint)
+            throws ServiceLocatorException, InterruptedException;
 
     /**
      * For a given service unregister a previously registered endpoint.
@@ -229,159 +229,159 @@ public interface ServiceLocator {
      */
     void unregister(Endpoint epProvider) throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * Remove the given endpoint from the list of endpoints of the given
-	 * service. When calling
-	 * <code>getEndpoint(serviceName)<code> the given endpoint will not be contained in the returned
-	 * list. In case no service with the given name exists or the given endpoint is not registered
-	 * with the service the state of the Service Locator remians unchanged.
-	 * 
-	 * @param serviceName
-	 *            the name of the service the endpoint is removed from, must not
-	 *            be <code>null</code>
-	 * @param endpoint
-	 *            the endpoint to remove, must not be <code>null</code>
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	void removeEndpoint(QName serviceName, String endpoint)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * Remove the given endpoint from the list of endpoints of the given
+     * service. When calling
+     * <code>getEndpoint(serviceName)<code> the given endpoint will not be contained in the returned
+     * list. In case no service with the given name exists or the given endpoint is not registered
+     * with the service the state of the Service Locator remians unchanged.
+     * 
+     * @param serviceName
+     *            the name of the service the endpoint is removed from, must not
+     *            be <code>null</code>
+     * @param endpoint
+     *            the endpoint to remove, must not be <code>null</code>
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    void removeEndpoint(QName serviceName, String endpoint)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * Return all services for which endpoints are registered at the Service
-	 * Locator Service.
-	 * 
-	 * @return a possibly empty list of services
-	 * 
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	List<QName> getServices() throws InterruptedException,
-			ServiceLocatorException;
+    /**
+     * Return all services for which endpoints are registered at the Service
+     * Locator Service.
+     * 
+     * @return a possibly empty list of services
+     * 
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    List<QName> getServices() throws InterruptedException,
+            ServiceLocatorException;
 
-	/**
-	 * Return the complete endpoint information for the given endpoint
-	 * registered for the given service.
-	 * 
-	 * @param serviceName
-	 *            the name of the service for which the endpoint is registered,
-	 *            must not be <code>null</code>
-	 * @param endpoint
-	 *            the endpoint for which to return the information, must not be
-	 *            <code>null</code>
-	 * @return the end point information, may be <code>null</code> if the
-	 *         endpoint was not registered before
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * Return the complete endpoint information for the given endpoint
+     * registered for the given service.
+     * 
+     * @param serviceName
+     *            the name of the service for which the endpoint is registered,
+     *            must not be <code>null</code>
+     * @param endpoint
+     *            the endpoint for which to return the information, must not be
+     *            <code>null</code>
+     * @return the end point information, may be <code>null</code> if the
+     *         endpoint was not registered before
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * Return the complete endpoint informations for all endpoints registered
-	 * for the given service.
-	 * 
-	 * @param serviceName
-	 *            the name of the service for which the endpoints ares
-	 *            registered, must not be <code>null</code>
-	 * @return the list of end point informations, may be empty if no the
-	 *         endpoints are registered for the service.
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	List<SLEndpoint> getEndpoints(QName serviceName)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * Return the complete endpoint informations for all endpoints registered
+     * for the given service.
+     * 
+     * @param serviceName
+     *            the name of the service for which the endpoints ares
+     *            registered, must not be <code>null</code>
+     * @return the list of end point informations, may be empty if no the
+     *         endpoints are registered for the service.
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    List<SLEndpoint> getEndpoints(QName serviceName)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For the given service return all endpoints that currently registered at
-	 * the Service Locator Service.
-	 * 
-	 * @param serviceName
-	 *            the name of the service for which to get the endpoints, must
-	 *            not be <code>null</code>
-	 * @return a possibly empty list of endpoints
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	List<String> getEndpointNames(QName serviceName)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For the given service return all endpoints that currently registered at
+     * the Service Locator Service.
+     * 
+     * @param serviceName
+     *            the name of the service for which to get the endpoints, must
+     *            not be <code>null</code>
+     * @return a possibly empty list of endpoints
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    List<String> getEndpointNames(QName serviceName)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * For the given service return all endpoints that are currently registered
-	 * at the Service Locator.
-	 * 
-	 * @param serviceName
-	 *            the name of the service for which to get the endpoints, must
-	 *            not be <code>null</code>
-	 * @return a possibly empty list of endpoints
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	List<String> lookup(QName serviceName) throws ServiceLocatorException,
-			InterruptedException;
+    /**
+     * For the given service return all endpoints that are currently registered
+     * at the Service Locator.
+     * 
+     * @param serviceName
+     *            the name of the service for which to get the endpoints, must
+     *            not be <code>null</code>
+     * @return a possibly empty list of endpoints
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    List<String> lookup(QName serviceName) throws ServiceLocatorException,
+            InterruptedException;
 
-	/**
-	 * For the given service return all endpoints that are currently registered
-	 * at the Service Locator and where the custom properties match the given
-	 * matcher.
-	 * 
-	 * @param serviceName
-	 *            the name of the service for which to get the endpoints, must
-	 *            not be <code>null</code>
-	 * @param matcher
-	 *            custom properties of the endpoints returned match the
-	 *            criterias specified by this matcher
-	 * @return a possibly empty list of endpoints
-	 * @throws ServiceLocatorException
-	 *             the server returned an error
-	 * @throws InterruptedException
-	 *             the current <code>Thread</code> was interrupted when waiting
-	 *             for a response of the ServiceLocator
-	 */
-	List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
-			throws ServiceLocatorException, InterruptedException;
+    /**
+     * For the given service return all endpoints that are currently registered
+     * at the Service Locator and where the custom properties match the given
+     * matcher.
+     * 
+     * @param serviceName
+     *            the name of the service for which to get the endpoints, must
+     *            not be <code>null</code>
+     * @param matcher
+     *            custom properties of the endpoints returned match the
+     *            criterias specified by this matcher
+     * @return a possibly empty list of endpoints
+     * @throws ServiceLocatorException
+     *             the server returned an error
+     * @throws InterruptedException
+     *             the current <code>Thread</code> was interrupted when waiting
+     *             for a response of the ServiceLocator
+     */
+    List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
+            throws ServiceLocatorException, InterruptedException;
 
-	/**
-	 * Specify the action to be be executed after the Service Locator has
-	 * connected to the server.
-	 * 
-	 * @param postConnectAction
-	 *            the action to be executed, must not be <code>null</code>.
-	 */
-	void setPostConnectAction(PostConnectAction postConnectAction);
+    /**
+     * Specify the action to be be executed after the Service Locator has
+     * connected to the server.
+     * 
+     * @param postConnectAction
+     *            the action to be executed, must not be <code>null</code>.
+     */
+    void setPostConnectAction(PostConnectAction postConnectAction);
 
-	/**
-	 * Callback interface to define actions that must be executed after a
-	 * successful connect or reconnect.
-	 */
-	static interface PostConnectAction {
-		/**
-		 * Execute this after the connection to the Service Locator is
-		 * established or re-established.
-		 * 
-		 * @param lc
-		 *            the Service Locator client that just successfully
-		 *            connected to the server, must not be <code>null</code>
-		 */
-		void process(ServiceLocator lc);
-	}
+    /**
+     * Callback interface to define actions that must be executed after a
+     * successful connect or reconnect.
+     */
+    interface PostConnectAction {
+        /**
+         * Execute this after the connection to the Service Locator is
+         * established or re-established.
+         * 
+         * @param lc
+         *            the Service Locator client that just successfully
+         *            connected to the server, must not be <code>null</code>
+         */
+        void process(ServiceLocator lc);
+    }
 
 }

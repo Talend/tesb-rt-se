@@ -44,6 +44,7 @@ import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.client.internal.PathValues.*;
 import static org.talend.esb.servicelocator.client.internal.EndpointStubFactory.create;
 
 public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest {

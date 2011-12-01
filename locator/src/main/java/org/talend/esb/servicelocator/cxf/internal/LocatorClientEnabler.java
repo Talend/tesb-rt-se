@@ -36,26 +36,20 @@ public class LocatorClientEnabler {
 
     private ServiceLocator locatorClient;
 
-    private Bus bus;
-
     private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
 
     private LocatorSelectionStrategy locatorSelectionStrategy;
 
     private String defaultLocatorSelectionStrategy;
 
-    public void setServiceLocator(ServiceLocator locatorClient) {
-        this.locatorClient = locatorClient;
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        locatorClient = serviceLocator;
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Locator client " + locatorClient + " was set for LocatorClientRegistrar.");
+            LOG.log(Level.FINE, "Locator client " + serviceLocator + " was set for LocatorClientRegistrar.");
         }
     }
 
     public void setBus(Bus bus) {
-        this.bus = bus;
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Bus " + bus + " was set for LocatorClientRegistrar.");
-        }
     }
 
     public void setLocatorSelectionStrategies(
@@ -133,9 +127,12 @@ public class LocatorClientEnabler {
         }
     }
 
-    public interface ConduitSelectorHolder {
+    interface ConduitSelectorHolder {
+
         ConduitSelector getConduitSelector();
 
         void setConduitSelector(ConduitSelector selector);
+
     }
+
 }

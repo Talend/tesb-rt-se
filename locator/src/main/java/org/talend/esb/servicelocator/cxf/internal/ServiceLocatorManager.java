@@ -39,16 +39,16 @@ public class ServiceLocatorManager implements BusExtension {
 
     private Bus bus;
 
-    public void listenForAllServers(Bus bus) {
-        locatorRegistrar.startListenForServers(bus);
+    public void listenForAllServers(Bus anotherBus) {
+        locatorRegistrar.startListenForServers(anotherBus);
     }
 
-    public void registerServer(Server server, Bus bus) {
-        locatorRegistrar.registerServer(server, bus);
+    public void registerServer(Server server, Bus anotherBus) {
+        locatorRegistrar.registerServer(server, anotherBus);
     }
 
-    public void registerServer(Server server, SLProperties props, Bus bus) {
-        locatorRegistrar.registerServer(server, props, bus);
+    public void registerServer(Server server, SLProperties props, Bus anotherBus) {
+        locatorRegistrar.registerServer(server, props, anotherBus);
     }
 
     public void listenForAllClients() {
@@ -82,7 +82,7 @@ public class ServiceLocatorManager implements BusExtension {
             }
         }, matcher, selectionStrategy);
     }
-    
+
     public void enableClient(ClientConfiguration clientConf) {
         enableClient(clientConf, null);
     }
@@ -95,24 +95,24 @@ public class ServiceLocatorManager implements BusExtension {
             SLPropertiesMatcher matcher,
             String selectionStrategy) {
         clientEnabler.enable(new ConduitSelectorHolder() {
-            
+
             @Override
             public void setConduitSelector(ConduitSelector selector) {
                 clientConfiguration.setConduitSelector(selector);
             }
-            
+
             @Override
             public ConduitSelector getConduitSelector() {
                 return clientConfiguration.getConduitSelector();
             }
         }, matcher, selectionStrategy);
     }
-    
-    public void setBus(Bus bus) {
-        if (bus != this.bus) {
-            this.bus = bus;
-            if (bus != null) {
-                bus.setExtension(this, ServiceLocatorManager.class);
+
+    public void setBus(Bus anotherBus) {
+        if (anotherBus != this.bus) {
+            this.bus = anotherBus;
+            if (anotherBus != null) {
+                anotherBus.setExtension(this, ServiceLocatorManager.class);
             }
         }
     }

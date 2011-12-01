@@ -19,35 +19,28 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SLPropertiesMatcher {
-    
+
     public static final SLPropertiesMatcher ALL_MATCHER = new SLPropertiesMatcher();
-    
-    private List<Entry> matchers = new ArrayList<Entry>();
+
+    private List<Map.Entry<String, String>> matchers = new ArrayList<Map.Entry<String, String>>();
 
     public void addAssertion(String name, String value) {
-        matchers.add(new Entry(name, value));
+        matchers.add(new AbstractMap.SimpleEntry<String, String>(name, value));
     }
 
     public boolean isMatching(SLProperties properties) {
-        for (Entry matcher : matchers) {
-            if (!properties.includesValues(matcher.name, matcher.value)) {
+        for (Map.Entry<String, String> matcher : matchers) {
+            if (!properties.includesValues(matcher.getKey(), matcher.getValue())) {
                 return false;
             }
         }
         return true;
     }
 
-    private static class Entry {
-        public String name;
-        public String value;
-        
-        public Entry(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
-    }
 }

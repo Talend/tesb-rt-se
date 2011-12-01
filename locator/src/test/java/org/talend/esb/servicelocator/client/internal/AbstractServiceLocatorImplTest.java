@@ -101,7 +101,7 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     }
 
     protected void pathExists(String path, KeeperException exc) throws KeeperException, InterruptedException {
-        expect(zkMock.exists(SERVICE_PATH_1, false)).andThrow(exc);
+        expect(zkMock.exists(PathValues.SERVICE_PATH_1, false)).andThrow(exc);
     }
 
     protected void createNode(String path, CreateMode mode) throws KeeperException, InterruptedException {

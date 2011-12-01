@@ -37,13 +37,6 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
 
-    public LocatorTargetSelector(LocatorSelectionStrategy strategy) {
-        setLocatorSelectionStrategy(strategy);
-    }
-
-    public LocatorTargetSelector() {
-    }
-
     @Override
     public synchronized void prepare(Message message) {
         Exchange exchange = message.getExchange();
@@ -71,9 +64,9 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
         super.prepare(message);
     }
 
-    public void setLocatorSelectionStrategy(LocatorSelectionStrategy strategy) {
-        this.strategy = strategy;
-        setStrategy(strategy);
+    public void setLocatorSelectionStrategy(LocatorSelectionStrategy locatorSelectionStrategy) {
+        strategy = locatorSelectionStrategy;
+        setStrategy(locatorSelectionStrategy);
     }
 
 }

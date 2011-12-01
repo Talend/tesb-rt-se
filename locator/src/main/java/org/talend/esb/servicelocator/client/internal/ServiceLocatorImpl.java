@@ -64,21 +64,19 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
  */
 public class ServiceLocatorImpl implements ServiceLocator {
 
-    public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
-    
-    public static final  String LIVE = "live"; 
+    static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
 
-    public static final byte[] EMPTY_CONTENT = new byte[0];
+    static final String LIVE = "live"; 
 
-    public static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
+    private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
 
+    private static final byte[] EMPTY_CONTENT = new byte[0];
+
+    private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
         @Override
         public void process(ServiceLocator lc) {
         }
     };
-
-    private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class
-            .getName());
 
     private static final NodePathBinder<NodePath> IDENTICAL_BINDER = new NodePathBinder<NodePath>() {
         @Override
@@ -103,9 +101,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     private interface NodePathBinder<T> {
         T bind(NodePath nodepath) throws ServiceLocatorException, InterruptedException;
-
     }
-    
+
     private String locatorEndpoints = "localhost:2181";
 
     private int sessionTimeout = 5000;
@@ -115,7 +112,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
 
     private volatile ZooKeeper zk;
-    
+
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
     /**
@@ -178,8 +175,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public synchronized void register(QName serviceName, String endpoint, boolean persistent)
-    throws ServiceLocatorException, InterruptedException {
-    	register(new SimpleEndpoint(serviceName, endpoint), persistent);
+        throws ServiceLocatorException, InterruptedException {
+        register(new SimpleEndpoint(serviceName, endpoint), persistent);
     }
 
     /**
@@ -188,7 +185,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public void register(QName serviceName, String endpoint, SLProperties properties)
         throws ServiceLocatorException, InterruptedException {
-
         register(new SimpleEndpoint(serviceName, endpoint, properties), false);
     }
 
@@ -196,9 +192,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public void register(QName serviceName, String endpoint,
-            SLProperties properties, boolean persistent)
-    throws ServiceLocatorException, InterruptedException {
+    public void register(QName serviceName, String endpoint, SLProperties properties, boolean persistent)
+        throws ServiceLocatorException, InterruptedException {
         register(new SimpleEndpoint(serviceName, endpoint, properties), persistent);
     }
 
@@ -208,14 +203,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public synchronized  void register(Endpoint epProvider)
         throws ServiceLocatorException, InterruptedException {
-        
         register(epProvider, false);
     }
 
     @Override
     public synchronized  void register(Endpoint epProvider, boolean persistent)
         throws ServiceLocatorException, InterruptedException {
-        
+
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
 
@@ -227,7 +221,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
         long lastTimeStarted = System.currentTimeMillis();
         long lastTimeStopped = -1;
-        
+
         NodePath serviceNodePath = ensureServiceExists(serviceName);
         NodePath endpointNodePath = serviceNodePath.child(endpoint);
 
@@ -240,7 +234,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         } catch (KeeperException e) {
             throw locatorException(e);
         } 
-        
+
         byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
         endpointNodePath = 
             ensureEndpointExists(serviceNodePath, endpoint, content);
@@ -267,7 +261,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 .toString());
         NodePath endpointNodePath = serviceNodePath.child(endpoint);
 
-        try {            
+        try {
             if (nodeExists(endpointNodePath)) {
                 
                 byte[] oldContent = getContent(endpointNodePath);
@@ -275,7 +269,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 lastTimeStarted = oldEndpoint.getLastTimeStarted();
 
                 NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
-        
+
                 ensurePathDeleted(endpointStatusNodePath, false);
 
                 byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
@@ -285,14 +279,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
             throw locatorException(e);
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void unregister(QName serviceName, String endpoint)
         throws ServiceLocatorException, InterruptedException {
-        
         unregister(new SimpleEndpoint(serviceName, endpoint, null));
     }
 
@@ -383,13 +376,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
         throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Get endpoint information for endpoint " + endpoint + " within service " + serviceName + "...");
+            LOG.fine("Get endpoint information for endpoint " + endpoint +
+                " within service " + serviceName + "...");
         }
 
         checkConnection();
         try {
-            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
-                    .toString());
+            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
             NodePath endpointPath = servicePath.child(endpoint);
             if (nodeExists(endpointPath)) {
                 byte[] content = getContent(endpointPath);
@@ -439,10 +432,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public List<String> lookup(QName serviceName)
         throws ServiceLocatorException, InterruptedException {
-        
         return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -588,9 +580,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
 
     private NodePath ensureServiceExists(QName serviceName) throws ServiceLocatorException,
-    InterruptedException {
-        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
-                .toString());
+        InterruptedException {
+        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
         ensurePathExists(serviceNodePath, CreateMode.PERSISTENT);
         return serviceNodePath;
     }
@@ -634,7 +625,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         } catch (KeeperException e) {
             throw locatorException(e);
         } catch (UnsupportedEncodingException e) {
-            throw locatorException(e);            
+            throw locatorException(e);
         }
         return endpointNodePath;
     }
@@ -715,7 +706,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
         throws ServiceLocatorException, KeeperException, InterruptedException {
         List<String> encoded = zk.getChildren(path.toString(), false);
 
-        List<T> boundChildren = new ArrayList<T>();
+        List<T> boundChildren = new ArrayList<T>(encoded.size());
 
         for (String oneEncoded : encoded) {
             T boundChild = binder.bind(path.child(oneEncoded, true));
@@ -736,7 +727,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     }
 
     private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
-    throws ServiceLocatorException  {
+        throws ServiceLocatorException {
         return transformer.fromEndpoint(eprProvider, lastTimeStarted, lastTimeStopped);
     }
 

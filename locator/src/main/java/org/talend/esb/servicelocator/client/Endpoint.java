@@ -50,14 +50,10 @@ public interface Endpoint {
 
     TransportType getTransport();
 
-
-//    @Deprecated
-//    long getLastTimeStopped();
-
-
     SLProperties getProperties();
-    
-    void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer) throws ServiceLocatorException;
+
+    void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
+        throws ServiceLocatorException;
 
     /**
      * Add a WS-Addressing endpoint reference to the given XML tree.
@@ -67,9 +63,11 @@ public interface Endpoint {
      */
      @Deprecated
     void addEndpointReference(Node parent) throws ServiceLocatorException;
-    
-    static interface PropertiesTransformer {
-        
+
+    interface PropertiesTransformer {
+
         void writePropertiesTo(SLProperties props, Result result);
+
     }
+
 }

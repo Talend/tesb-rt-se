@@ -89,7 +89,7 @@ public class NodePath {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof NodePath)) {
+        if (!(obj instanceof NodePath)) {
             return false;
         }
         return path.equals(((NodePath) obj).path);

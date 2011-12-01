@@ -36,6 +36,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.TestContent.createContent;
 import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.client.internal.PathValues.*;
 
 public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 

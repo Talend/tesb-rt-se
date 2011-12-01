@@ -26,13 +26,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.service.model.EndpointInfo;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -48,7 +46,8 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
  */
 public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
 
-    private static final Logger LOG = Logger.getLogger(SingleBusLocatorRegistrar.class.getPackage().getName());
+    private static final Logger LOG =
+        Logger.getLogger(SingleBusLocatorRegistrar.class.getPackage().getName());
 
     private Bus bus;
 
@@ -61,12 +60,9 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     private boolean listenForServersEnabled;
 
-    public SingleBusLocatorRegistrar() {
-        
-    }
-
     public SingleBusLocatorRegistrar(Bus bus) {
-        setBus(bus);
+        this.bus = bus;
+        registerListener();
     }
 
     @Override
@@ -106,20 +102,13 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         }
     }
 
-    public void setBus(Bus bus) {
-        if (bus != this.bus) {
-            this.bus = bus;
-            registerListener();
-        }
-    }
-
     public void setEndpointPrefix(String endpointPrefix) {
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
     }
 
-    public void setServiceLocator(ServiceLocator locatorClient) {
-        this.locatorClient = locatorClient;
-        locatorClient.setPostConnectAction(this);
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        locatorClient = serviceLocator;
+        serviceLocator.setPostConnectAction(this);
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set.");
         }
@@ -155,10 +144,10 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         registerServer(endpoint);
         registeredServers.put(server, endpoint);
     }
-    
+
     private void registerServer(CXFEndpointProvider endpointProvider) {
         try {
-            locatorClient.register(endpointProvider);        
+            locatorClient.register(endpointProvider);
         } catch (ServiceLocatorException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE, "ServiceLocator Exception thrown when registering for endpoint "
@@ -171,7 +160,6 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
             }
         }
     }
-
 
     private void unregisterServer(Server server) {
         try {
@@ -188,9 +176,6 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         }
     }
 
-    /**
-     * 
-     */
     private void registerAvailableServers() {
         ServerRegistry serverRegistry = bus.getExtension(ServerRegistry.class);
         List<Server> servers = serverRegistry.getServers();
@@ -200,8 +185,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
     }
 
     private String getAddress(Server server) {
-        EndpointInfo eInfo = server.getEndpoint().getEndpointInfo();
-        return eInfo.getAddress();
+        return server.getEndpoint().getEndpointInfo().getAddress();
     }
  
     private  void check(Object obj, String propertyName, String methodName) {

@@ -47,8 +47,8 @@ public class ServiceLocatorMain {
         sl.setLocatorEndpoints(locatorEndpoints);
     }
 
-    public void exec(OutputStream out) throws InterruptedException, ServiceLocatorException {
-        this.out = new PrintStream(out);
+    public void exec(OutputStream outputStream) throws InterruptedException, ServiceLocatorException {
+        this.out = new PrintStream(outputStream);
 
         sl.connect();
         printServices();
@@ -133,7 +133,7 @@ public class ServiceLocatorMain {
         while (argIter.hasNext()) {
             String opt = argIter.next();
             try {
-                if (opt.equals("-endpoints")) {
+                if ("-endpoints".equals(opt)) {
                     main.setLocatorEndpoints(argIter.next());
                 } else {
                     System.err.println("Error: unknown option " + opt);

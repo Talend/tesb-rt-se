@@ -1,4 +1,3 @@
-package org.talend.esb.servicelocator.client.internal;
 /*
  * #%L
  * Service Locator Client for CXF
@@ -19,6 +18,7 @@ package org.talend.esb.servicelocator.client.internal;
  * #L%
  */
 
+package org.talend.esb.servicelocator.client.internal;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -27,14 +27,13 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLEndpoint;
-import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
+import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
@@ -44,36 +43,28 @@ import org.w3c.dom.Element;
 
 public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
 
-    public static final Logger LOG = Logger.getLogger(SLEndpointProvider.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(SLEndpointProvider.class .getName());
 
-    public static final org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory
-    WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
+    private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
+        SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
-    public static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-    SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
-
-    private static final  String SERVICE_LOCATOR_PROPERTIES_NS = "http://talend.org/schemas/esb/locator/content/20011/11";
+    private static final String SERVICE_LOCATOR_PROPERTIES_NS =
+        "http://talend.org/schemas/esb/locator/content/20011/11";
 
     private static final String SERVICE_LOCATOR_PROPERTIES_LN = "ServiceLocatorProperties";
 
-    private Element eprRoot;
+    private final long lastTimeStarted;
 
-    private long lastTimeStarted = -1;
+    private final long lastTimeStopped;
 
-    private long lastTimeStopped = -1;
-
-    private boolean isLive;
+    private final boolean isLive;
 
     public SLEndpointProvider(QName serviceName, EndpointDataType endpointData, boolean live) {
-        eprRoot = (Element) endpointData.getEndpointReference();
-        EndpointReferenceType epr =  toEndPointReference(eprRoot);
+        super(serviceName, null, extractBinding(endpointData), extractTransport(endpointData), null);
+        EndpointReferenceType epr = toEndPointReference((Element) endpointData.getEndpointReference());
 
-        init(serviceName,
-                extractAddress(epr),
-                extractBinding(endpointData),
-                extractTransport(endpointData),
-                extractProperties(epr)); 
+        init(extractAddress(epr),
+                extractProperties(epr));
 
         lastTimeStarted = endpointData.getLastTimeStarted();
         lastTimeStopped = endpointData.getLastTimeStopped();
@@ -87,7 +78,7 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
 
     @Override
     public long getLastTimeStopped() {
-        return  lastTimeStopped;       
+        return  lastTimeStopped;
     }
 
     @Override
@@ -100,15 +91,12 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
 
         EndpointReferenceType epr = null;
         if (root != null) {
-
             try {
-                ClassLoader cl = this.getClass().getClassLoader();
-                JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.ws.addressing", cl);
-                Unmarshaller um = jc.createUnmarshaller();
-
+                JAXBContext jc = JAXBContext.newInstance(
+                    "org.talend.esb.servicelocator.client.ws.addressing",
+                    this.getClass().getClassLoader());
                 JAXBElement<EndpointReferenceType> eprElem =
-                    (JAXBElement<EndpointReferenceType>) um.unmarshal(root);
-
+                    (JAXBElement<EndpointReferenceType>) jc.createUnmarshaller().unmarshal(root);
                 epr = eprElem.getValue();
             } catch (JAXBException e) {
                 if (LOG.isLoggable(Level.SEVERE)) {
@@ -122,22 +110,22 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
         return epr != null ? epr : new EndpointReferenceType();
     }
 
-    private String extractAddress(EndpointReferenceType epr) {
+    private static String extractAddress(EndpointReferenceType epr) {
         return epr.getAddress() != null
             ?  epr.getAddress().getValue()
-            : null;        
+            : null;
     }
 
-    private BindingType extractBinding(EndpointDataType epd) {
+    private static BindingType extractBinding(EndpointDataType epd) {
         return epd.getBinding() != null
             ?  BindingType.fromValue(epd.getBinding().value())
-            : null;        
+            : null;
     }
 
-    private TransportType extractTransport(EndpointDataType epd) {
+    private static TransportType extractTransport(EndpointDataType epd) {
         return epd.getTransport() != null
             ?  TransportType.fromValue(epd.getTransport().value())
-            : null;        
+            : null;
     }
 
     private SLProperties extractProperties(EndpointReferenceType epr) {
@@ -159,16 +147,12 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
 
     @SuppressWarnings("unchecked")
     private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) {
-
         try {
-            ClassLoader cl = this.getClass().getClassLoader();
-            JAXBContext jc =
-                JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint", cl);
-            Unmarshaller um = jc.createUnmarshaller();
-            
+            JAXBContext jc = JAXBContext.newInstance(
+                "org.talend.esb.servicelocator.client.internal.endpoint",
+                this.getClass().getClassLoader());
             JAXBElement<ServiceLocatorPropertiesType> slp =
-                (JAXBElement<ServiceLocatorPropertiesType>) um.unmarshal(root);
-
+                (JAXBElement<ServiceLocatorPropertiesType>) jc.createUnmarshaller().unmarshal(root);
             return slp.getValue();
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
@@ -179,7 +163,7 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
         }
     }
 
-    private boolean isServiceLocatorProperties(Element elem) {
+    private static boolean isServiceLocatorProperties(Element elem) {
         return
             SERVICE_LOCATOR_PROPERTIES_LN.equals(elem.getLocalName())
             && SERVICE_LOCATOR_PROPERTIES_NS.equals(elem.getNamespaceURI());

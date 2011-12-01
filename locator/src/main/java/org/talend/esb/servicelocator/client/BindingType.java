@@ -22,11 +22,11 @@ package org.talend.esb.servicelocator.client;
 public enum BindingType {
 
     SOAP11,
-    
+
     SOAP12,
 
     JAXRS,
-    
+
     OTHER;
 
     public String getValue() {
@@ -36,7 +36,5 @@ public enum BindingType {
     public static BindingType fromValue(String v) {
         return valueOf(v);
     }
+
 }
-
-
-

@@ -19,8 +19,8 @@
  */
 package org.talend.esb.servicelocator.cxf;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,21 +116,17 @@ public class LocatorFeature extends AbstractFeature {
     public void setAvailableEndpointProperties(Map<String, String> properties) {
         slProps = new SLPropertiesImpl();
 
-        for (String key : properties.keySet()) {
-            String valueList = properties.get(key);
-            List<String> values = tokenize(valueList);
-            slProps.addProperty(key, values);
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+            slProps.addProperty(entry.getKey(), tokenize(entry.getValue()));
         }
     }
 
     public void setRequiredEndpointProperties(Map<String, String> properties) {
         slPropsMatcher = new SLPropertiesMatcher();
 
-        for (String key : properties.keySet()) {
-            String valueList = properties.get(key);
-            List<String> values = tokenize(valueList);
-            for (String value : values) {
-                slPropsMatcher.addAssertion(key, value);
+        for (Map.Entry<String, String> entry : properties.entrySet()) {
+            for (String value : tokenize(entry.getValue())) {
+                slPropsMatcher.addAssertion(entry.getKey(), value);
             }
         }
     }
@@ -139,14 +135,8 @@ public class LocatorFeature extends AbstractFeature {
         this.selectionStrategy = selectionStrategy;
     }
 
-    List<String> tokenize(String valueList) {
-        List<String> normalizedValues = new ArrayList<String>();
-        String[] values = valueList.split(",");
-
-        for (String value : values) {
-            normalizedValues.add(value.trim());
-        }
-        return normalizedValues;
+    Collection<String> tokenize(String valueList) {
+        return Arrays.asList(valueList.split(","));
     }
 
 }

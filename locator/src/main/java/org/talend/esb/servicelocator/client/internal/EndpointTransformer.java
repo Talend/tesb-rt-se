@@ -30,6 +30,6 @@ public interface EndpointTransformer {
     SLEndpoint toSLEndpoint(QName serviceName, byte[] content, boolean isLive);
 
     byte[] fromEndpoint(Endpoint endpoint, long lastTimeStarted, long lastTimeStopped)
-            throws ServiceLocatorException;
+        throws ServiceLocatorException;
 
 }

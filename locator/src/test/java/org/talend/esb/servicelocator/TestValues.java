@@ -22,7 +22,6 @@ package org.talend.esb.servicelocator;
 import javax.xml.namespace.QName;
 
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
-import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
 public class TestValues {
 
@@ -50,10 +49,6 @@ public class TestValues {
 
     public static final QName SERVICE_QNAME_4 = new QName("http://example.com/services", "service4");
 
-    public static final String SERVICE_NAME_1 = "{http:%2F%2Fexample.com%2Fservices}service1";
-
-    public static final String SERVICE_NAME_2 = "{http:%2F%2Fexample.com%2Fservices}service2";
-
     public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
 
     public static final String REL_ENDPOINT_1 = "endpoint1";
@@ -66,28 +61,8 @@ public class TestValues {
 
     public static final String ENDPOINT_4 = "http://ep.com/endpoint4";
 
-    public static final String ENDPOINT_NODE_1 = "http:%2F%2Fep.com%2Fendpoint1";
-
-    public static final String ENDPOINT_NODE_2 = "http:%2F%2Fep.com%2Fendpoint2";
-
-    public static final String STATUS_NODE = "live";
-
-    public static final String SERVICE_PATH_1 = ServiceLocatorImpl.LOCATOR_ROOT_PATH + "/" + SERVICE_NAME_1;
-
-    public static final String SERVICE_PATH_2 = ServiceLocatorImpl.LOCATOR_ROOT_PATH + "/" + SERVICE_NAME_2;
-
-    public static final String ENDPOINT_PATH_11 = SERVICE_PATH_1 + "/" + ENDPOINT_NODE_1;
-
-    public static final String ENDPOINT_PATH_12 = SERVICE_PATH_1 + "/" + ENDPOINT_NODE_2;
-
-    public static final String ENDPOINT_PATH_22 = SERVICE_PATH_2 + "/" + ENDPOINT_NODE_2;
-
-    public static final String ENDPOINT_STATUS_PATH_11 = ENDPOINT_PATH_11 + "/" + STATUS_NODE;
-
-    public static final String ENDPOINT_STATUS_PATH_12 = ENDPOINT_PATH_12 + "/" + STATUS_NODE;
-
     public static final byte[] EMPTY_CONTENT = new byte[0];
-    
+
     public static final long LAST_TIME_STARTED = 1302458583L;
 
     public static final long LAST_TIME_STOPPED = 1302468588L;

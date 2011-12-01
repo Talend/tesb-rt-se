@@ -62,8 +62,8 @@ public class LocatorRegistrar {
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
     }
 
-    public void setServiceLocator(ServiceLocator locatorClient) {
-        this.locatorClient = locatorClient;
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        this.locatorClient = serviceLocator;
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set.");
         }
@@ -74,8 +74,7 @@ public class LocatorRegistrar {
     }
 
     public void registerServer(Server server, SLProperties props, Bus bus) {
-        SingleBusLocatorRegistrar registrar = getRegistrar(bus);
-        registrar.registerServer(server, props);
+        getRegistrar(bus).registerServer(server, props);
     }
 
     private SingleBusLocatorRegistrar getRegistrar(Bus bus) {
@@ -90,7 +89,7 @@ public class LocatorRegistrar {
         }
         return registrar;
     }
-    
+
     private void addLifeCycleListener(final Bus bus) {
         final BusLifeCycleManager manager = bus.getExtension(BusLifeCycleManager.class);
         manager.registerLifeCycleListener(new BusLifeCycleListener() {

@@ -1,4 +1,3 @@
-package org.talend.esb.servicelocator.client;
 /*
  * #%L
  * Service Locator Client for CXF
@@ -19,6 +18,7 @@ package org.talend.esb.servicelocator.client;
  * #L%
  */
 
+package org.talend.esb.servicelocator.client;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Result;
 import javax.xml.transform.dom.DOMResult;
@@ -39,21 +38,20 @@ import org.w3c.dom.Node;
 
 public class SimpleEndpoint implements Endpoint {
 
-    public static final Logger LOG = Logger.getLogger(SimpleEndpoint.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(SimpleEndpoint.class.getName());
 
-    public static final org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory
-    WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
-    
+    private static final org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory
+        WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
+
+    private final QName sName;
+
     private String addr;
-        
-    private BindingType binding;
-    
-    private TransportType transport;
-    
-    private SLProperties props;
 
-    private QName sName;
+    private final BindingType binding;
+
+    private final TransportType transport;
+
+    private SLProperties props;
 
     public SimpleEndpoint(QName serviceName, String endpoint) {
         this(serviceName, endpoint, null);
@@ -70,17 +68,6 @@ public class SimpleEndpoint implements Endpoint {
         binding = bindingType;
         transport = transportType;
         props = properties;
-    }
-    
-    protected SimpleEndpoint() {}
-
-    protected void init(QName serviceName, String endpoint, BindingType bindingType,
-            TransportType transportType, SLProperties properties)  {
-        sName = serviceName;
-        addr = endpoint;
-        props = properties;
-        binding = bindingType;
-        transport = transportType;
     }
 
     @Override
@@ -103,7 +90,6 @@ public class SimpleEndpoint implements Endpoint {
         return props;
     }
 
-//    @Override
     public QName forService() {
         return sName;
     }
@@ -115,31 +101,26 @@ public class SimpleEndpoint implements Endpoint {
 
     @Override
     public void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
-    throws ServiceLocatorException {
+        throws ServiceLocatorException {
 
         EndpointReferenceType epr = createEndpointReference(transformer);
-        
         try {
-        JAXBElement<EndpointReferenceType> ep =
-            WSA_OBJECT_FACTORY.createEndpointReference(epr);
-        ClassLoader cl = this.getClass().getClassLoader();
-        JAXBContext jc = JAXBContext.newInstance(
+            JAXBElement<EndpointReferenceType> ep =
+                WSA_OBJECT_FACTORY.createEndpointReference(epr);
+            JAXBContext jc = JAXBContext.newInstance(
                 "org.talend.esb.servicelocator.client.ws.addressing:"
                 + "org.talend.esb.servicelocator.client.internal.endpoint",
-                cl);
-        Marshaller m = jc.createMarshaller();
-        m.marshal(ep, result);
-    } catch (JAXBException e) {
-        if (LOG.isLoggable(Level.SEVERE)) {
-            LOG.log(Level.SEVERE,
+                this.getClass().getClassLoader());
+            jc.createMarshaller().marshal(ep, result);
+        } catch (JAXBException e) {
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE,
                     "Failed to serialize endpoint data", e);
+            }
+            throw new ServiceLocatorException("Failed to serialize endpoint data", e);
         }
-        throw new ServiceLocatorException("Failed to serialize endpoint data", e);
-    }        
-
     }
-    
-    @SuppressWarnings("deprecation")
+
     @Override
     public void addEndpointReference(Node parent) throws ServiceLocatorException {
         EndpointReferenceType wsAddr = createEndpointReference(null);
@@ -147,13 +128,11 @@ public class SimpleEndpoint implements Endpoint {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
-            ClassLoader cl = this.getClass().getClassLoader();
             JAXBContext jc = JAXBContext.newInstance(
                     "org.talend.esb.servicelocator.client.ws.addressing:"
                     + "org.talend.esb.servicelocator.client.internal.endpoint",
-                    cl);
-            Marshaller m = jc.createMarshaller();
-            m.marshal(ep, parent);
+                    this.getClass().getClassLoader());
+            jc.createMarshaller().marshal(ep, parent);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE,
@@ -163,13 +142,16 @@ public class SimpleEndpoint implements Endpoint {
         }
     }
 
+    protected void init(String endpoint, SLProperties properties) {
+        addr = endpoint;
+        props = properties;
+    }
 
-    private EndpointReferenceType createEndpointReference(PropertiesTransformer transformer)  {
+    private EndpointReferenceType createEndpointReference(PropertiesTransformer transformer) {
         AttributedURIType endpoint = new AttributedURIType();
         endpoint.setValue(addr);
         EndpointReferenceType epr = new EndpointReferenceType();
         epr.setAddress(endpoint);
-        
         if (props != null) {
             DOMResult result = new DOMResult();
             transformer.writePropertiesTo(props, result);
@@ -179,7 +161,6 @@ public class SimpleEndpoint implements Endpoint {
             
             metadata.getAny().add(docResult.getDocumentElement());
         }
-                
         return epr;
     }
 }

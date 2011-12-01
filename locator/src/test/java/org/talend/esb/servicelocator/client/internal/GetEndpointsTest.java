@@ -28,6 +28,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.client.internal.PathValues.*;
 
 import java.util.List;
 

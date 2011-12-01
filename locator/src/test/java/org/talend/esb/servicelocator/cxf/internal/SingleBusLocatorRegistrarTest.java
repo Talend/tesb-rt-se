@@ -46,13 +46,15 @@ import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
 public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
     private ServiceLocator sl = createMock(ServiceLocator.class);
-    
+
     @Test
     public void postConnectActionRegistered() {
         sl.setPostConnectAction((PostConnectAction) anyObject());
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         verifyAll();
@@ -63,9 +65,11 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
         CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(endpoint);
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
@@ -79,9 +83,11 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(endpoint);
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
@@ -96,9 +102,11 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
         sl.register(endpoint);
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
@@ -109,9 +117,11 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
     @Test
     public void registerEndpointLocatorNull() throws Exception {
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
 
         try {
             locatorRegistrar.registerServer(SERVER_1);
@@ -131,8 +141,7 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
         expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(slcm);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
-        locatorRegistrar.setBus(bus);
+        new SingleBusLocatorRegistrar(bus);
 
         verifyAll();
     }
@@ -152,8 +161,7 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
-        locatorRegistrar.setBus(bus);
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
         locatorRegistrar.startListenForServers();
 
@@ -176,8 +184,7 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
 
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
-        locatorRegistrar.setBus(bus);
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         ServerLifeCycleListener listener = slclCapture.getValue();
@@ -194,9 +201,12 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
         sl.register(endpoint);
         sl.unregister(endpoint);
 
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
+
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
@@ -209,9 +219,12 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
     public void serverStopsIfNotRegisteredBeforeDoNothing() throws Exception {
         sl.setPostConnectAction((PostConnectAction) anyObject());
 
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
+
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.stopServer(SERVER_1);
@@ -231,9 +244,13 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
         sl.register(endpoint2);
         sl.register(endpoint1);
         sl.register(endpoint2);
+
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
+
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar();
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);
