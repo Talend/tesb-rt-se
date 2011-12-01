@@ -31,6 +31,6 @@ public interface ESBEndpointRegistry {
      * @param endpoint
      * @return
      */
-    public ESBConsumer createConsumer(ESBEndpointInfo endpoint);
+    ESBConsumer createConsumer(ESBEndpointInfo endpoint);
 
 }
