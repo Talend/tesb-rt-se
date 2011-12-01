@@ -15,34 +15,60 @@
 # limitations under the License.
 #
 
-echo "JMX configuration properties"
+echo "################################ START #############################################"
+echo "JMX Management configuration (etc/org.apache.karaf.management.cfg)"
 config:edit --force org.apache.karaf.management
-echo "Setting (RMI Registry Port, $1)"
+echo "rmiRegistryPort = $1"
 config:propset rmiRegistryPort $1
-echo "Setting (RMI Server Port, $2)"
+echo "rmiServerPort = $2"
 config:propset rmiServerPort $2
 config:update
-#
-echo "Pax web configuration properties"
+
+echo
+echo "OSGI HTTP/HTTPS Service configuration (etc/org.ops4j.pax.web.cfg)"
 config:edit --force org.ops4j.pax.web
-echo "Setting (HTTP Port, $3)"
+echo "org.osgi.service.http.port = $3"
 config:propset org.osgi.service.http.port $3
-echo "Setting (HTTPS Port, $4)"
+echo "org.osgi.service.http.port.secure = $4"
 config:propset org.osgi.service.http.port.secure $4
 config:update
-#
-echo "Karaf shell SSH configuration properties"
+
+echo
+echo "Karaf SSH shell configuration (etc/org.apache.karaf.shell.cfg)"
 config:edit --force org.apache.karaf.shell
-echo "Setting (SSH port, $5)"
+echo "sshPort = $5"
 config:propset sshPort $5
 config:update
-#
-echo "Jobserver configuration properties"
+
+echo
+echo "Locator client configuration (etc/org.talend.esb.locator.cfg)"
+config:edit --force org.talend.esb.locator
+echo "endpoint.prefix = http://localhost:$3/services"
+config:propset endpoint.prefix http://localhost:$3/services
+config:update
+
+echo
+echo "SAM agent configuration (etc/org.talend.esb.sam.agent.cfg)"
+config:edit --force org.talend.esb.sam.agent
+echo "service.url = http://localhost:$3/services/MonitoringServiceSOAP"
+config:propset service.url http://localhost:$3/services/MonitoringServiceSOAP
+config:update
+
+echo
+echo "DataService client sts configuration (etc/org.talend.esb.job.client.sts.cfg)"
+config:edit --force org.talend.esb.job.client.sts
+echo "sts.wsdl.location = http://localhost:$3/services/SecurityTokenService/UT?wsdl"
+config:propset sts.wsdl.location http://localhost:$3/services/SecurityTokenService/UT?wsdl
+config:update
+
+echo
+echo "Jobserver configuration (etc/org.talend.remote.jobserver.server.cfg)"
 config:edit --force org.talend.remote.jobserver.server
-echo "Setting (command server port, $6)"
+echo "COMMAND_SERVER_PORT = $6"
 config:propset COMMAND_SERVER_PORT $6
-echo "Setting (file server port, $7)"
+echo "FILE_SERVER_PORT = $7"
 config:propset FILE_SERVER_PORT $7
-echo "Setting (monitoring port, $8)"
+echo "MONITORING_PORT = $8"
 config:propset MONITORING_PORT $8
 config:update
+echo "################################ END ###############################################"
