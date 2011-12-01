@@ -32,7 +32,7 @@ public interface ESBEndpointInfo {
      *
      * @return a non-null {@link String} unique for type of endpoint
      */
-    public String getEndpointKey();
+    String getEndpointKey();
 
     /**
      * Returns a URI String for the endpoint.
@@ -41,7 +41,7 @@ public interface ESBEndpointInfo {
      *
      * @return a non-null {@link String}, ideally a URI
      */
-    public String getEndpointUri();
+    String getEndpointUri();
 
     /**
      * Additional endpoint properties that
@@ -49,6 +49,6 @@ public interface ESBEndpointInfo {
      *
      * @return
      */
-    public Map<String, Object> getEndpointProperties();
+    Map<String, Object> getEndpointProperties();
 
 }

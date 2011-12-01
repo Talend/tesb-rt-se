@@ -29,18 +29,18 @@ package routines.system.api;
  */
 public interface TalendESBRoute extends TalendJob {
 
-	/**
-	 * Stop the running route
-	 * 
-	 * @throws Exception
-	 */
-	public void stop() throws Exception;
-	
-	/**
-	 * Shutdown the running route, which means it cannot be started again.
-	 * 
-	 * @throws Exception
-	 */
-	public void shutdown() throws Exception;
-	
+    /**
+     * Stop the running route
+     * 
+     * @throws Exception
+     */
+    void stop() throws Exception;
+
+    /**
+     * Shutdown the running route, which means it cannot be started again.
+     * 
+     * @throws Exception
+     */
+    void shutdown() throws Exception;
+
 }

@@ -32,6 +32,6 @@ public interface ESBConsumer {
      * @return Payload of response
      * @throws Exception In case something goes wrong
      */
-    public Object invoke(Object payload) throws Exception;
+    Object invoke(Object payload) throws Exception;
 
 }
