@@ -115,6 +115,8 @@
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
         <derbynet.bundle.version>10.8.1.2_1</derbynet.bundle.version>
+        <!-- temporary workaround for camel-mail 2.8.2-->
+        <javax.mail.version>1.4.4</javax.mail.version>
 
         <cxf.build-utils.version>2.4.0</cxf.build-utils.version>
         <cxf.resources.base.path />
