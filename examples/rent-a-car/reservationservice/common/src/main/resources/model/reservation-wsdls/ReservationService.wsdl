@@ -18,7 +18,6 @@
   xmlns:res="http://services.talend.org/reservation/types"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
   xmlns:tns="http://services.talend.org/ReservationService"
-  xmlns:wsa="http://www.w3.org/2005/08/addressing"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <types>
@@ -160,16 +159,16 @@
   </message>
   <portType name="ReservationService">
     <operation name="getAvailableCars">
-      <input message="tns:getAvailableCarsRequest" wsa:Action="http://services.talend.org/ReservationService/getAvailableCars"/>
-      <output message="tns:getAvailableCarsResponse" wsa:Action="http://services.talend.org/ReservationService/getAvailableCars"/>
+      <input message="tns:getAvailableCarsRequest"/>
+      <output message="tns:getAvailableCarsResponse"/>
     </operation>
     <operation name="submitCarReservation">
-      <input message="tns:submitCarReservationRequest" wsa:Action="http://services.talend.org/ReservationService/submitCarReservation"/>
-      <output message="tns:submitCarReservationResponse" wsa:Action="http://services.talend.org/ReservationService/submitCarReservation"/>
+      <input message="tns:submitCarReservationRequest"/>
+      <output message="tns:submitCarReservationResponse"/>
     </operation>
     <operation name="getConfirmationOfReservation">
-      <input message="tns:getConfirmationRequest" wsa:Action="http://services.talend.org/ReservationService/getConfirmationOfReservation"/>
-      <output message="tns:getConfirmationResponse" wsa:Action="http://services.talend.org/ReservationService/getConfirmationOfReservation"/>
+      <input message="tns:getConfirmationRequest"/>
+      <output message="tns:getConfirmationResponse"/>
     </operation>
   </portType>
   <wsdl:service name="ReservationServiceProvider">
