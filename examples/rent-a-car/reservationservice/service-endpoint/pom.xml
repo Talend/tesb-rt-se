@@ -23,7 +23,6 @@
         <groupId>org.talend.esb.examples.rent-a-car</groupId>
         <artifactId>reservationservice</artifactId>
         <version>5.0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
 
     <build>
