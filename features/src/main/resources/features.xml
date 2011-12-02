@@ -59,15 +59,19 @@
     <bundle>mvn:org.talend.esb/derby-starter/${project.version}</bundle>
   </feature>
 
+  <feature name='tesb-zookeeper' version='${project.version}'>
+        <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
+  </feature>
+
   <feature name='tesb-locator-client' version='${project.version}'>
         <feature version='${cxf.version}'>cxf</feature>
+        <feature>tesb-zookeeper</feature>
         <bundle start-level='50'>mvn:org.talend.esb/locator/${project.version}</bundle>
-        <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
   </feature>
 
   <feature name='tesb-zookeeper-server' version='${project.version}'>
         <configfile finalname="/etc/org.apache.cxf.dosgi.discovery.zookeeper.server.cfg">mvn:org.talend.esb/zookeeper-server/${project.version}/cfg</configfile>
-        <bundle>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
+        <feature>tesb-zookeeper</feature>
         <bundle>mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-discovery-distributed-zookeeper-server/${org.apache.cxf.dosgi.version}</bundle>
   </feature>
 
