@@ -35,11 +35,11 @@ import org.osgi.framework.BundleContext;
  */
 public class RunServlet extends HttpServlet {
 
-    private BundleContext bundleContext;
+//    private BundleContext bundleContext;
 
     public void init(ServletConfig servletConfig) {
-        ServletContext servletContext = servletConfig.getServletContext();
-        bundleContext = (BundleContext) servletContext.getAttribute("osgi-bundlecontext");
+//        ServletContext servletContext = servletConfig.getServletContext();
+//        bundleContext = (BundleContext) servletContext.getAttribute("osgi-bundlecontext");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,10 +51,10 @@ public class RunServlet extends HttpServlet {
     }
 
     public void doIt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String args = request.getParameter("args");
         String error = null;
 /*
+        String name = request.getParameter("name");
+        String args = request.getParameter("args");
         if (name != null && name.trim().length() > 0) {
             // looking for the controler
             ServiceReference ref = bundleContext.getServiceReference(Controller.class.getName());

@@ -35,11 +35,11 @@ import org.osgi.framework.BundleContext;
  */
 public class StopServlet extends HttpServlet {
 
-    private BundleContext bundleContext;
+//    private BundleContext bundleContext;
 
     public void init(ServletConfig servletConfig) {
-        ServletContext servletContext = servletConfig.getServletContext();
-        bundleContext = (BundleContext) servletContext.getAttribute("osgi-bundlecontext");
+//        ServletContext servletContext = servletConfig.getServletContext();
+//        bundleContext = (BundleContext) servletContext.getAttribute("osgi-bundlecontext");
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
