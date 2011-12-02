@@ -34,10 +34,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
-import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
-import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
-import org.talend.services.esb.locator.rest.v1.LocatorService;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
@@ -47,15 +43,19 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
+import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
+import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
+import org.talend.services.esb.locator.rest.v1.LocatorService;
 
 public class LocatorRestServiceImpl implements LocatorService {
 
     private static final Logger LOG = Logger
             .getLogger(LocatorRestServiceImpl.class.getPackage().getName());
 
-    private ServiceLocator locatorClient = null;
+    private static final Random RANDOM = new Random();
 
-    private Random random = new Random();
+    private ServiceLocator locatorClient;
 
     private String locatorEndpoints = "localhost:2181";
 
@@ -154,7 +154,8 @@ public class LocatorRestServiceImpl implements LocatorService {
                     slProps.addProperty(entry.getKey(), entry.getValue());
                 }
             }
-            Endpoint simpleEndpoint = new SimpleEndpoint(serviceName, endpointURL, bindingType, transportType, slProps);
+            Endpoint simpleEndpoint =
+                new SimpleEndpoint(serviceName, endpointURL, bindingType, transportType, slProps);
             locatorClient.register(simpleEndpoint, true);
         } catch (ServiceLocatorException e) {
             // throw new ServiceLocatorFault(e.getMessage(), e);
@@ -267,8 +268,7 @@ public class LocatorRestServiceImpl implements LocatorService {
                     .entity("lookup Endpoint for " + serviceName
                             + " failed, service is not known.").build());
         }
-        W3CEndpointReference ref = buildEndpoint(serviceName, adress);
-        return ref;
+        return buildEndpoint(serviceName, adress);
     }
 
     /**
@@ -336,7 +336,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     }
 
     private SLPropertiesMatcher createMatcher(List<String> input)
-            throws UnsupportedEncodingException {
+        throws UnsupportedEncodingException {
         SLPropertiesMatcher matcher = null;
         if (input != null && input.size() > 0) {
             matcher = new SLPropertiesMatcher();
@@ -359,8 +359,8 @@ public class LocatorRestServiceImpl implements LocatorService {
      * @return the same list in random order
      */
     private List<String> getRotatedList(List<String> strings) {
-        int index = random.nextInt(strings.size());
-        List<String> rotated = new ArrayList<String>();
+        int index = RANDOM.nextInt(strings.size());
+        List<String> rotated = new ArrayList<String>(strings.size());
         for (int i = 0; i < strings.size(); i++) {
             rotated.add(strings.get(index));
             index = (index + 1) % strings.size();
