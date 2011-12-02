@@ -19,9 +19,9 @@
  */
 package org.talend.esb.locator.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,11 +29,13 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
+import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.schemas.esb.locator._2011._11.AssertionType;
 import org.talend.schemas.esb.locator._2011._11.EntryType;
@@ -44,18 +46,17 @@ import org.talend.schemas.esb.locator._2011._11.LookupRequestType;
 import org.talend.schemas.esb.locator._2011._11.MatcherDataType;
 import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
 import org.talend.schemas.esb.locator._2011._11.ServiceLocatorFaultDetail;
-import org.talend.services.esb.locator.v1.*;
-import org.talend.esb.servicelocator.client.BindingType;
-import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
+import org.talend.services.esb.locator.v1.LocatorService;
+import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 
 public class LocatorSoapServiceImpl implements LocatorService {
 
-    private static final Logger LOG = Logger
-            .getLogger(LocatorSoapServiceImpl.class.getPackage().getName());
+    private static final Logger LOG = Logger.getLogger(LocatorSoapServiceImpl.class.getPackage().getName());
 
-    private ServiceLocator locatorClient = null;
+    private static final Random RANDOM = new Random();
 
-    private Random random = new Random();
+    private ServiceLocator locatorClient;
 
     private String locatorEndpoints = "localhost:2181";
 
@@ -137,8 +138,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
     public void registerEndpoint(QName serviceName, String endpointURL,
             org.talend.schemas.esb.locator._2011._11.BindingType binding,
             org.talend.schemas.esb.locator._2011._11.TransportType transport,
-            SLPropertiesType properties) throws ServiceLocatorFault,
-            InterruptedExceptionFault {
+            SLPropertiesType properties) throws ServiceLocatorFault, InterruptedExceptionFault {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Registering endpoint " + endpointURL + " for service "
                     + serviceName + "...");
@@ -184,7 +184,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
      */
     @Override
     public void unregisterEndpoint(QName serviceName, String endpointURL)
-            throws ServiceLocatorFault, InterruptedExceptionFault {
+        throws ServiceLocatorFault, InterruptedExceptionFault {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Unregistering endpoint " + endpointURL + " for service "
                     + serviceName + "...");
@@ -208,7 +208,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     @Override
     public LookupEndpointResponse lookupEndpoint(LookupRequestType parameters)
-            throws ServiceLocatorFault, InterruptedExceptionFault {
+        throws ServiceLocatorFault, InterruptedExceptionFault {
 
         W3CEndpointReference epr =
             lookupEndpoint(parameters.getServiceName(), parameters.getMatcherData());
@@ -226,9 +226,8 @@ public class LocatorSoapServiceImpl implements LocatorService {
      *            not be <code>null</code>
      * @return endpoint references or <code>null</code>
      */
-    public W3CEndpointReference lookupEndpoint(QName serviceName,
-            MatcherDataType matcherData) throws ServiceLocatorFault,
-            InterruptedExceptionFault {
+    W3CEndpointReference lookupEndpoint(QName serviceName, MatcherDataType matcherData)
+        throws ServiceLocatorFault, InterruptedExceptionFault {
         List<String> names = null;
         String adress;
         try {
@@ -270,10 +269,10 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     @Override
     public LookupEndpointsResponse lookupEndpoints(LookupRequestType parameters)
-            throws ServiceLocatorFault, InterruptedExceptionFault {
+        throws ServiceLocatorFault, InterruptedExceptionFault {
         List<W3CEndpointReference> eprs =
             lookupEndpoints(parameters.getServiceName(), parameters.getMatcherData());
-        
+
         LookupEndpointsResponse response = new LookupEndpointsResponse();
         response.getEndpointReference().addAll(eprs);
         return response;
@@ -290,12 +289,11 @@ public class LocatorSoapServiceImpl implements LocatorService {
      *         or <code>null</code>
      * 
      */
-    public List<W3CEndpointReference> lookupEndpoints(QName serviceName,
-            MatcherDataType matcherData) throws ServiceLocatorFault,
-            InterruptedExceptionFault {
+    List<W3CEndpointReference> lookupEndpoints(QName serviceName, MatcherDataType matcherData)
+        throws ServiceLocatorFault, InterruptedExceptionFault {
         SLPropertiesMatcher matcher = createMatcher(matcherData);
         List<String> names = null;
-        ArrayList<W3CEndpointReference> result = new ArrayList<W3CEndpointReference>();
+        List<W3CEndpointReference> result = new ArrayList<W3CEndpointReference>();
         String adress;
         try {
             initLocator();
@@ -340,8 +338,9 @@ public class LocatorSoapServiceImpl implements LocatorService {
         if (matcherData != null) {
             matcher = new SLPropertiesMatcher();
             List<AssertionType> assertions = matcherData.getEntry();
-            for (AssertionType assertion : assertions)
+            for (AssertionType assertion : assertions) {
                 matcher.addAssertion(assertion.getKey(), assertion.getValue());
+            }
         }
         return matcher;
     }
@@ -354,7 +353,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
      * @return the same list in random order
      */
     private List<String> getRotatedList(List<String> strings) {
-        int index = random.nextInt(strings.size());
+        int index = RANDOM.nextInt(strings.size());
         List<String> rotated = new ArrayList<String>();
         for (int i = 0; i < strings.size(); i++) {
             rotated.add(strings.get(index));
