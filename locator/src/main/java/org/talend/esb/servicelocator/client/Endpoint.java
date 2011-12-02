@@ -61,7 +61,7 @@ public interface Endpoint {
      * @param parent the node where to add the endpoint reference, is not null and either an 
      * {@link org.w3c.dom.Element} or a {@link org.w3c.dom.Document}. 
      */
-     @Deprecated
+    @Deprecated
     void addEndpointReference(Node parent) throws ServiceLocatorException;
 
     interface PropertiesTransformer {

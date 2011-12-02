@@ -65,7 +65,7 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         new org.apache.cxf.ws.addressing.ObjectFactory();
 
     private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-        SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
     private final QName sName;
 
@@ -74,7 +74,7 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
     private final BindingType bindingType;
 
     private final TransportType transportType;
-    
+
     private SLProperties props;
 
     public CXFEndpointProvider(QName serviceName, EndpointReferenceType endpointReference) {

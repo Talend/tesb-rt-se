@@ -121,8 +121,8 @@ public class ServiceLocatorManager implements BusExtension {
         this.locatorRegistrar = locatorRegistrar;
     }
 
-    public void setLocatorClientEnabler(LocatorClientEnabler clientEnabler) {
-        this.clientEnabler = clientEnabler;
+    public void setLocatorClientEnabler(LocatorClientEnabler locatorClientEnabler) {
+        clientEnabler = locatorClientEnabler;
     }
 
     @Override

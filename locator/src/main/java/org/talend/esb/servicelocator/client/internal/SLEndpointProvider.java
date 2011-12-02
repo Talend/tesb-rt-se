@@ -39,6 +39,7 @@ import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.talend.esb.servicelocator.client.ws.addressing.EndpointReferenceType;
 import org.talend.esb.servicelocator.client.ws.addressing.MetadataType;
+
 import org.w3c.dom.Element;
 
 public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
@@ -46,7 +47,7 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
     private static final Logger LOG = Logger.getLogger(SLEndpointProvider.class .getName());
 
     private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-        SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
     private static final String SERVICE_LOCATOR_PROPERTIES_NS =
         "http://talend.org/schemas/esb/locator/content/20011/11";

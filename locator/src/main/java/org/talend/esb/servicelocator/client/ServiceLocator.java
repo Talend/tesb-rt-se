@@ -112,7 +112,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     void register(QName serviceName, String endpoint)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * 
@@ -147,7 +147,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     void register(QName serviceName, String endpoint, SLProperties properties)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * 
@@ -160,7 +160,7 @@ public interface ServiceLocator {
      */
     void register(QName serviceName, String endpoint,
             SLProperties properties, boolean persistent)
-    throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * For a given service register the endpoint as defined in the given {@link Endpoint
@@ -196,7 +196,7 @@ public interface ServiceLocator {
      *             ServiceLocator
      */
     void register(Endpoint eprProvider, boolean persistent)
-    throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * For a given service unregister a previously registered endpoint.
@@ -213,7 +213,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     void unregister(QName serviceName, String endpoint)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * For a given service unregister a previously registered endpoint.
@@ -248,7 +248,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     void removeEndpoint(QName serviceName, String endpoint)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * Return all services for which endpoints are registered at the Service
@@ -284,7 +284,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * Return the complete endpoint informations for all endpoints registered
@@ -302,7 +302,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     List<SLEndpoint> getEndpoints(QName serviceName)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * For the given service return all endpoints that currently registered at
@@ -319,7 +319,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     List<String> getEndpointNames(QName serviceName)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * For the given service return all endpoints that are currently registered
@@ -335,8 +335,7 @@ public interface ServiceLocator {
      *             the current <code>Thread</code> was interrupted when waiting
      *             for a response of the ServiceLocator
      */
-    List<String> lookup(QName serviceName) throws ServiceLocatorException,
-            InterruptedException;
+    List<String> lookup(QName serviceName) throws ServiceLocatorException, InterruptedException;
 
     /**
      * For the given service return all endpoints that are currently registered
@@ -357,7 +356,7 @@ public interface ServiceLocator {
      *             for a response of the ServiceLocator
      */
     List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
-            throws ServiceLocatorException, InterruptedException;
+        throws ServiceLocatorException, InterruptedException;
 
     /**
      * Specify the action to be be executed after the Service Locator has

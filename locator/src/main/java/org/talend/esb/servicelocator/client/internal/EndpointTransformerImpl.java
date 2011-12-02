@@ -41,6 +41,7 @@ import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
 import org.talend.esb.servicelocator.client.internal.endpoint.EndpointDataType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
+
 import org.w3c.dom.Document;
 
 public class EndpointTransformerImpl implements PropertiesTransformer, EndpointTransformer {
@@ -48,7 +49,7 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
     private static final Logger LOG = Logger.getLogger(EndpointTransformerImpl.class .getName());
 
     private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
-        ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+    ENDPOINT_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
 
     /**
      * {@inheritDoc

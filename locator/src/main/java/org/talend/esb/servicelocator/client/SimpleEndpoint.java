@@ -33,6 +33,7 @@ import javax.xml.transform.dom.DOMResult;
 import org.talend.esb.servicelocator.client.ws.addressing.AttributedURIType;
 import org.talend.esb.servicelocator.client.ws.addressing.EndpointReferenceType;
 import org.talend.esb.servicelocator.client.ws.addressing.MetadataType;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -41,7 +42,7 @@ public class SimpleEndpoint implements Endpoint {
     private static final Logger LOG = Logger.getLogger(SimpleEndpoint.class.getName());
 
     private static final org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory
-        WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
+    WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
 
     private final QName sName;
 

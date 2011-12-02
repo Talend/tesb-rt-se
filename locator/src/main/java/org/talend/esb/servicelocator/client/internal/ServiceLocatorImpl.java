@@ -39,13 +39,14 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
+
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.SLEndpoint;
-import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.SimpleEndpoint;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
@@ -376,8 +377,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
         throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Get endpoint information for endpoint " + endpoint +
-                " within service " + serviceName + "...");
+            LOG.fine("Get endpoint information for endpoint " + endpoint
+                + " within service " + serviceName + "...");
         }
 
         checkConnection();
