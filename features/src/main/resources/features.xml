@@ -48,6 +48,7 @@
     <feature>tesb-sam-common</feature>
     <feature version='${spring.version}'>spring-jdbc</feature>
     <feature version='${spring.version}'>spring-test</feature>
+    <bundle>mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
     <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>

@@ -101,6 +101,7 @@
         <dom4j.bundle.version>1.6.1_4</dom4j.bundle.version>
         <jaxen.bundle.version>1.1.1_2</jaxen.bundle.version>
         <javax.servlet.version>2.5</javax.servlet.version>
+        <commons-pool.version>1.5.4</commons-pool.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
         <geronimo-servlet.version>1.1.2</geronimo-servlet.version>
