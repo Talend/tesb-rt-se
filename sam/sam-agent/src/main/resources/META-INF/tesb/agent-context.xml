@@ -42,6 +42,18 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     	<property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="location" value="classpath:agent.properties"/>
+        <property name="properties">
+            <props>
+                <prop key="collector.scheduler.interval">500</prop>
+                <prop key="collector.maxEventsPerCall">10</prop>
+	            <prop key="collector.lifecycleEvent">false</prop>
+                <prop key="log.messageContent">true</prop>
+                <prop key="log.maxContentLength">-1</prop>
+                <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
+                <prop key="service.retry.number">3</prop>
+                <prop key="service.retry.delay">5000</prop>
+            </props>
+        </property>
     </bean>
 
 	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
