@@ -23,7 +23,7 @@
     <bean id="indexServlet" class="org.talend.esb.sam.server.ui.servlets.IndexServlet"/>
     <service ref="indexServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/sam-server"/>
+            <entry key="alias" value="/sam-server-war"/>
         </service-properties>
     </service>
 
@@ -34,7 +34,7 @@
     </bean>
     <service ref="listServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/sam-server/api/v1.0/list"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/list"/>
         </service-properties>
     </service>
 
@@ -43,7 +43,7 @@
     </bean>	
     <service ref="flowDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/sam-server/api/v1.0/flow"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/flow"/>
         </service-properties>
     </service>
 
@@ -52,7 +52,7 @@
     </bean>	
     <service ref="eventDetailsServlet" interface="javax.servlet.http.HttpServlet">
         <service-properties>
-            <entry key="alias" value="/sam-server/api/v1.0/event"/>
+            <entry key="alias" value="/sam-server-war/api/v1.0/event"/>
         </service-properties>
     </service>
 </blueprint>
