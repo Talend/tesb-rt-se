@@ -51,23 +51,23 @@ Install/Deploy the Example
 1. Start the TESB container
 2. Install Rent-a-Car features to the TESB container
    For basic Rent-a-Car example:
-      features:addurl mvn:org.talend.esb.examples.rent-a-car/features/5.0.0/xml
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features/<version>/xml
       features:install tesb-rac-services
       features:install tesb-rac-app
    For Service Locator enabled Rent-a-Car example:
-      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/5.0.0/xml
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/<version>/xml
       features:install tesb-rac-services-locator
       features:install tesb-rac-app-locator
    For Service Activity Monitoring enabled Rent-a-Car example:
-      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sam/5.0.0/xml
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sam/<version>/xml
       features:install tesb-rac-services-sam
       features:install tesb-rac-app-sam
    For Security Token Service enabled Rent-a-Car example:
-      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/5.0.0/xml
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
       features:install tesb-rac-services-sts
       features:install tesb-rac-app-sts
    For JMX enabled Rent-a-Car example:
-      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-jmx/5.0.0/xml
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-jmx/<version>/xml
       features:install tesb-rac-services-jmx
       features:install tesb-rac-app-jmx
 
