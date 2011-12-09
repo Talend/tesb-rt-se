@@ -51,7 +51,7 @@ Using either Linux or Windows:
 Starting the Service
 ---------------------------------------
   * Add maven URL into karaf:
-features:addurl mvn:org.talend.esb.examples.locator-rest/features/5.0.0/xml
+features:addurl mvn:org.talend.esb.examples.locator-rest/features/<version>/xml
 
   * Install example feature in container:
 features:install tesb-locator-rest
