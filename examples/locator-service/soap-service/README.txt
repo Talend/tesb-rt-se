@@ -61,5 +61,7 @@ Starting the Demo
 - Start service
     cd war; mvn jetty:run
     (or deploy the war/target/services.war into Tomcat)
+    (if uses jetty "serviceHost" parameter in soap-service/war/src/main/webapp/WEB-INF/web.xml 
+    should be changed to "http://localhost:8080/GreeterService")
 
 - Start client (from the command line cd client; mvn exec:java)
