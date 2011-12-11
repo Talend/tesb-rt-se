@@ -64,11 +64,11 @@ config:update
 echo
 echo "Jobserver configuration (etc/org.talend.remote.jobserver.server.cfg)"
 config:edit --force org.talend.remote.jobserver.server
-echo "COMMAND_SERVER_PORT = $6"
-config:propset COMMAND_SERVER_PORT $6
-echo "FILE_SERVER_PORT = $7"
-config:propset FILE_SERVER_PORT $7
-echo "MONITORING_PORT = $8"
-config:propset MONITORING_PORT $8
+echo "org.talend.remote.jobserver.server.TalendJobServer.COMMAND_SERVER_PORT = $6"
+config:propset org.talend.remote.jobserver.server.TalendJobServer.COMMAND_SERVER_PORT $6
+echo "org.talend.remote.jobserver.server.TalendJobServer.FILE_SERVER_PORT = $7"
+config:propset org.talend.remote.jobserver.server.TalendJobServer.FILE_SERVER_PORT $7
+echo "org.talend.remote.jobserver.server.TalendJobServer.MONITORING_PORT = $8"
+config:propset org.talend.remote.jobserver.server.TalendJobServer.MONITORING_PORT $8
 config:update
 echo "################################ END ###############################################"
