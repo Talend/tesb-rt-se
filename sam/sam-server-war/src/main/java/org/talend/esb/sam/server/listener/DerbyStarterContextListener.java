@@ -49,7 +49,7 @@ public class DerbyStarterContextListener implements ServletContextListener {
         if (startDerby) {
             try {
                 server = new NetworkServerControl(
-                        InetAddress.getByName("localhost"), 1527);
+                    InetAddress.getByAddress(new byte[]{0, 0, 0, 0}), 1527);
                 server.start(null);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -30,7 +30,7 @@ public class NetworkActivator implements BundleActivator {
     private NetworkServerControl server;
 
     public void start(BundleContext context) throws Exception {
-        server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
+        server = new NetworkServerControl(InetAddress.getByAddress(new byte[]{0, 0, 0, 0}), 1527);
         server.start(null);
     }
 
