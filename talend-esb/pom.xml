@@ -23,9 +23,7 @@
 		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
 		<tif.version>2.8.2.0</tif.version>
-		<tif-doc.version>${tif.version}</tif-doc.version>
 		<tsf.version>2.5.0.0</tsf.version>
-		<tsf-doc.version>${tsf.version}</tsf-doc.version>
         <cellar.version>2.2.2</cellar.version>
         <jclouds.version>1.0.0</jclouds.version>
 
@@ -327,13 +325,6 @@
 			<classifier>examples</classifier>
 			<type>tar.gz</type>
 		</dependency>
-		<dependency>
-			<groupId>org.talend.tif.docs</groupId>
-			<artifactId>tif-manual</artifactId>
- 			<version>${tif-doc.version}</version>
-			<classifier>pdf</classifier>
-			<type>zip</type>
-		</dependency>
 
 		<!-- TSF -->
 		<dependency>
@@ -341,13 +332,6 @@
 			<artifactId>talend-sf</artifactId>
 			<version>${tsf.version}</version>
 			<classifier>examples</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
-			<groupId>org.talend.tsf.docs</groupId>
-			<artifactId>tsf-manual</artifactId>
- 			<version>${tsf-doc.version}</version>
-			<classifier>pdf</classifier>
 			<type>zip</type>
 		</dependency>
 		<dependency>
@@ -627,63 +611,6 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>unpack-tesb-doc</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.talend.esb.docs</groupId>
-									<artifactId>esb-docs</artifactId>
-									<version>${tesb-doc.version}</version>
-									<type>zip</type>
-									<classifier>pdf</classifier>
-									<outputDirectory>target/docs</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unpack-tsf-doc</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.talend.tsf.docs</groupId>
-									<artifactId>tsf-manual</artifactId>
-									<version>${tsf-doc.version}</version>
-									<type>zip</type>
-									<classifier>pdf</classifier>
-									<outputDirectory>target/dependencies/tsf-doc</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unpack-tif-doc</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.talend.tif.docs</groupId>
-									<artifactId>tif-manual</artifactId>
-									<version>${tif-doc.version}</version>
-									<type>zip</type>
-									<classifier>pdf</classifier>
-									<outputDirectory>target/dependencies/tif-doc</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -828,21 +755,6 @@
 								<descriptor>src/main/descriptors/win-bin.xml</descriptor>
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
-							<tarLongFileMode>gnu</tarLongFileMode>
-                            <finalName>TESB_SE-V${packages.version}</finalName>
-						</configuration>
-					</execution>
-					<execution>
-						<id>examples</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptors>
-								<descriptor>src/main/descriptors/examples.xml</descriptor>
-							</descriptors>
-							<appendAssemblyId>true</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>
                             <finalName>TESB_SE-V${packages.version}</finalName>
 						</configuration>
