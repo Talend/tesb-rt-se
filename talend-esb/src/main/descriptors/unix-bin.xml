@@ -379,12 +379,12 @@
     </fileSets>
 
     <files>
-        <file>
+        <!--file>
             <source>${basedir}/target/docs/esb-docs-${tesb-doc.version}/ReleaseNotesSE.pdf</source>
             <outputDirectory>/docs</outputDirectory>
             <destName>ReleaseNotes.pdf</destName>
             <fileMode>0644</fileMode>
-        </file>
+        </file-->
         <file>
             <source>${basedir}/src/main/bin/trun.bat</source>
             <outputDirectory>/container/bin/</outputDirectory>
