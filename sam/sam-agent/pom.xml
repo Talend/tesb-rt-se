@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>sam-parent</artifactId>
-        <version>5.0.1</version>
+        <version>5.1.0-SNAPSHOT</version>
     </parent>
 
     <name>Service Activity Monitoring :: Agent</name>
