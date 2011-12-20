@@ -103,9 +103,6 @@
         <commons-pool.version>1.5.4</commons-pool.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
-        <geronimo-servlet.version>1.1.2</geronimo-servlet.version>
-        <geronimo-el.version>1.0.1</geronimo-el.version>
-        <geronimo-jsp.version>1.0.1</geronimo-jsp.version>
         <commons-beanutils.bundle.version>1.8.2_2</commons-beanutils.bundle.version>
         <jdom.bundle.version>1.1_3</jdom.bundle.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
@@ -115,6 +112,7 @@
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
         <derbynet.bundle.version>10.8.1.2_1</derbynet.bundle.version>
+        <pax-web-jsp.version>1.0.7</pax-web-jsp.version>
         <!-- temporary workaround for camel-mail 2.8.2-->
         <javax.mail.version>1.4.4</javax.mail.version>
 
