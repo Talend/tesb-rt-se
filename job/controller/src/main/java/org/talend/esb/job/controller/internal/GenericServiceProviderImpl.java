@@ -27,6 +27,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.handler.MessageContext;
 
+import org.apache.cxf.helpers.CastUtils;
 import org.osgi.service.cm.ConfigurationException;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.GenericOperation;
@@ -86,12 +87,10 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             }
 
             if (result instanceof Map<?, ?>) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> map = (Map<String, Object>) result;
+                Map<String, Object> map = CastUtils.cast((Map<?, ?>) result);
 
-                @SuppressWarnings("unchecked")
-                Map<String, String> samProps = (Map<String, String>) map
-                        .get(ESBEndpointConstants.REQUEST_SAM_PROPS);
+                Map<String, String> samProps = CastUtils.cast((Map<?, ?>) map
+                        .get(ESBEndpointConstants.REQUEST_SAM_PROPS));
                 if (samProps != null && eventFeature != null) {
                     LOG.info("SAM custom properties received: " + samProps);
                     CustomInfoHandler ciHandler = new CustomInfoHandler();
@@ -135,18 +134,15 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                     "Job for operation '" + operationName + "' not found");
         }
 
-        String[] args = null;
+        String[] args;
         try {
             args = configuration.awaitArguments();
         } catch (InterruptedException e) {
             throw new RuntimeException(
                     "Request was interrupted when waiting for the configuration parameters.",
-                    e);            
+                    e);
         }
-        final GenericOperation operation = jobLauncher.retrieveOperation(
-            jobName, args);
-
-        return operation;
+        return jobLauncher.retrieveOperation(jobName, args);
     }
 
     protected boolean isOperationRequestResponse(String operationName) {
