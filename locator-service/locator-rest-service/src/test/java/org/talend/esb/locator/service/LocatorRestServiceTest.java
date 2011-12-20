@@ -38,6 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.talend.schemas.esb.locator._2011._11.BindingType;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
+import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.esb.servicelocator.client.Endpoint;
@@ -62,8 +63,19 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         names = new ArrayList<String>();
         lps = new LocatorRestServiceImpl();
         lps.setLocatorClient(sl);
+        lps.setLocatorEndpoints("localhost:2181");
+        lps.setConnectionTimeout(5000);
+        lps.setSessionTimeout(5000);
     }
-
+    
+    @Test
+    public void disconnectLocator() throws InterruptedException, ServiceLocatorException {
+        sl.disconnect();
+        EasyMock.expectLastCall();
+        replayAll();
+        lps.disconnectLocator();
+    }
+    
     @Test
     public void lookUpEndpointTest() throws ServiceLocatorException,
             InterruptedException {
@@ -82,6 +94,26 @@ public class LocatorRestServiceTest extends EasyMockSupport {
                 new ArrayList<String>());
 
         Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void lookUpEndpointExpectedLocatorException() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubThrow(new ServiceLocatorException("test"));
+        replayAll();
+        lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void lookUpEndpointExpectedInterruptedException() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubThrow(new InterruptedException("test"));
+        replayAll();
+        lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
     }
 
     @Test
@@ -119,6 +151,26 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             fail();
 
     }
+    
+    @Test(expected = WebApplicationException.class)
+    public void lookUpEndpointsExpectedLocatorException() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubThrow(new ServiceLocatorException("test"));
+        replayAll();
+        lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void lookUpEndpointsExpectedInterruptedException() throws ServiceLocatorException,
+            InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+        expect(sl.lookup(SERVICE_NAME)).andStubThrow(new InterruptedException("test"));
+        replayAll();
+        lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
+    }
 
     @Test
     public void lookUpEndpointsNotFound() throws ServiceLocatorException,
@@ -149,6 +201,24 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             fail();
         }
     }
+    
+    @Test(expected = WebApplicationException.class)
+    public void unregisterEndpointExpectedLocatorException() throws ServiceLocatorException,
+            InterruptedException {
+        sl.unregister(SERVICE_NAME, ENDPOINTURL);
+        EasyMock.expectLastCall().andStubThrow(new ServiceLocatorException("test"));
+        replayAll();
+        lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void unregisterEndpointExpectedInterruptedException() throws ServiceLocatorException,
+            InterruptedException {
+        sl.unregister(SERVICE_NAME, ENDPOINTURL);
+        EasyMock.expectLastCall().andStubThrow(new InterruptedException("test"));
+        replayAll();
+        lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
+    }
 
     @Test
     public void registerEndpoint() throws ServiceLocatorException,
@@ -158,6 +228,57 @@ public class LocatorRestServiceTest extends EasyMockSupport {
 
         replayAll();
         RegisterEndpointRequest req = new RegisterEndpointRequest();
+        req.setEndpointURL(ENDPOINTURL);
+        req.setServiceName(SERVICE_NAME.toString());
+        lps.registerEndpoint(req);
+    }
+    
+    @Test
+    public void registerEndpointWithProps() throws ServiceLocatorException,
+            InterruptedException {
+        sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall();
+
+        replayAll();
+        RegisterEndpointRequest req = new RegisterEndpointRequest();
+        EntryType entryType = new EntryType();
+        entryType.setKey("test");
+        entryType.getValue().add("test");
+        req.getEntryType().add(entryType);
+        req.setEndpointURL(ENDPOINTURL);
+        req.setServiceName(SERVICE_NAME.toString());
+        lps.registerEndpoint(req);
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void registerEndpointExpectedLocatorException() throws ServiceLocatorException,
+            InterruptedException {
+        sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall().andStubThrow(new ServiceLocatorException("test"));
+
+        replayAll();
+        RegisterEndpointRequest req = new RegisterEndpointRequest();
+        EntryType entryType = new EntryType();
+        entryType.setKey("test");
+        entryType.getValue().add("test");
+        req.getEntryType().add(entryType);
+        req.setEndpointURL(ENDPOINTURL);
+        req.setServiceName(SERVICE_NAME.toString());
+        lps.registerEndpoint(req);
+    }
+    
+    @Test(expected = WebApplicationException.class)
+    public void registerEndpointExpectedInterruptedException() throws ServiceLocatorException,
+            InterruptedException {
+        sl.register(endpoint(), EasyMock.eq(true));
+        EasyMock.expectLastCall().andStubThrow(new InterruptedException("test"));
+
+        replayAll();
+        RegisterEndpointRequest req = new RegisterEndpointRequest();
+        EntryType entryType = new EntryType();
+        entryType.setKey("test");
+        entryType.getValue().add("test");
+        req.getEntryType().add(entryType);
         req.setEndpointURL(ENDPOINTURL);
         req.setServiceName(SERVICE_NAME.toString());
         lps.registerEndpoint(req);
