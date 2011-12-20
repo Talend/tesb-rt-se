@@ -61,7 +61,7 @@ public class EventCollector implements BusLifeCycleListener {
     private TaskScheduler scheduler;
     private long defaultInterval = 1000;
     private int eventsPerMessageCall = 10;
-    private boolean sendLifecycleEvent = false;
+    private boolean sendLifecycleEvent;
     private boolean stopSending;
 
     public EventCollector() {

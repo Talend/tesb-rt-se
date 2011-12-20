@@ -32,6 +32,7 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
+import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.agent.message.CustomInfo;
@@ -68,8 +69,11 @@ public class MessageToEventMapper {
         messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
 
-        String opName = message.getExchange().getBindingOperationInfo().getName().toString();
-        messageInfo.setOperationName(opName);
+        BindingOperationInfo boi = message.getExchange().getBindingOperationInfo();
+        if (null != boi){
+            String opName = boi.getName().toString();
+            messageInfo.setOperationName(opName);
+        }
         String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
             .getName().toString();
         messageInfo.setPortType(portTypeName);
