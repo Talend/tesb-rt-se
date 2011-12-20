@@ -1,6 +1,6 @@
 /*
  * #%L
- * Random Service Locator Selection Strategy
+ * Service Locator Client for CXF
  * %%
  * Copyright (C) 2011 Talend Inc.
  * %%
@@ -19,15 +19,25 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
-public class RandomSelectionStrategy extends ReloadSelectionStrategy {
+import junit.framework.Assert;
 
-    @Override
-    protected List<String> getRotatedList(List<String> strings) {
-        Collections.rotate(strings, -random.nextInt(strings.size()));
-        return strings;
+import org.junit.Test;
+
+public class EvenDistributionSelectionStrategyTest {
+
+    private static final String ADDR1 = "addr1";
+    private static final String ADDR2 = "addr2";
+    private static final String ADDR3 = "addr3";
+
+    private EvenDistributionSelectionStrategy strategy = new EvenDistributionSelectionStrategy();
+
+    @Test
+    public void getRotatedList() {
+        List<String> result = strategy.getRotatedList(Arrays.asList(ADDR1, ADDR2, ADDR3));
+        Assert.assertTrue(Arrays.asList(ADDR2, ADDR3, ADDR1).equals(result));
     }
 
 }
