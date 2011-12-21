@@ -376,6 +376,14 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
+        <!-- version.txt -->
+        <fileSet>
+            <directory>${basedir}/..</directory>
+            <outputDirectory>/container</outputDirectory>
+            <includes>
+                <include>version.txt</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
