@@ -24,21 +24,40 @@ import org.apache.commons.jxpath.Pointer;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventFilter;
 
+/**
+ * The Class JxPathFilter.
+ */
 public class JxPathFilter implements EventFilter {
     String expression;
 
+    /**
+     * Instantiates a new jx path filter.
+     */
     public JxPathFilter() {
     }
     
+    /**
+     * Instantiates a new jx path filter.
+     *
+     * @param expression the expression
+     */
     public JxPathFilter(String expression) {
         super();
         this.expression = expression;
     }
 
+    /**
+     * Sets the expression.
+     *
+     * @param expression the new expression
+     */
     public void setExpression(String expression) {
         this.expression = expression;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.common.spi.EventFilter#filter(org.talend.esb.sam.common.event.Event)
+     */
     @Override
     public boolean filter(Event event) {
         JXPathContext context = JXPathContext.newContext(event);

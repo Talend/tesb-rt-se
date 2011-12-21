@@ -26,7 +26,7 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Adds a fixed set of custom info fields to the event
+ * Adds a fixed set of custom info fields to the event.
  */
 public class CustomInfoHandler implements EventHandler {
 
@@ -34,6 +34,9 @@ public class CustomInfoHandler implements EventHandler {
 
     private Map<String, String> customInfo;
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.common.spi.EventHandler#handleEvent(org.talend.esb.sam.common.event.Event)
+     */
     @Override
     public void handleEvent(Event event) {
         LOG.fine("CustomInfoHandler called");
@@ -43,6 +46,11 @@ public class CustomInfoHandler implements EventHandler {
         }
     }
 
+    /**
+     * Sets the custom info.
+     *
+     * @param customInfo the custom info map
+     */
     public void setCustomInfo(Map<String, String> customInfo) {
         this.customInfo = customInfo;
     }

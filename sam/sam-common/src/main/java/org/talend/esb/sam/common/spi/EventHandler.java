@@ -28,6 +28,11 @@ import org.talend.esb.sam.common.event.Event;
  */
 public interface EventHandler {
 
+    /**
+     * Handle event.
+     *
+     * @param event the event
+     */
     void handleEvent(Event event);
 
 }

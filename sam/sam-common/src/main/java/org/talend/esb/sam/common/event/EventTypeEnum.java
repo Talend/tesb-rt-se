@@ -19,6 +19,9 @@
  */
 package org.talend.esb.sam.common.event;
 
+/**
+ * The EventTypeEnum used to define event type.
+ */
 public enum EventTypeEnum {
     REQ_IN,
     REQ_OUT,

@@ -22,19 +22,23 @@ package org.talend.esb.sam.common.event.persistence;
 import org.talend.esb.sam.common.event.Event;
 
 
+/**
+ * The Interface EventRepository for storing and accessing events in database.
+ */
 public interface EventRepository {
 
     /**
-     * Write event to database
-     * 
-     * @param events
+     * Write event to database.
+     *
+     * @param event the event
      */
     void writeEvent(Event event);
 
     /**
-     * Read event from database
-     * @param id
-     * @return
+     * Read event from database.
+     *
+     * @param id the event id
+     * @return the event
      */
     Event readEvent(long id);
 
