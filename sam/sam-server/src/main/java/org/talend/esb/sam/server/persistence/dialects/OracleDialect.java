@@ -19,6 +19,9 @@
  */
 package org.talend.esb.sam.server.persistence.dialects;
 
+/**
+ * The Class OracleDialect.
+ */
 public class OracleDialect extends AbstractDatabaseDialect{
 
     private static final String QUERY = "select "
@@ -35,6 +38,9 @@ public class OracleDialect extends AbstractDatabaseDialect{
         + ") where rn > :offset "
         + ") order by EI_TIMESTAMP DESC";
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
+     */
     @Override
     String getQuery() {
         return QUERY;

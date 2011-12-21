@@ -27,10 +27,9 @@ import org.talend.esb.sam.server.ui.UIProvider;
 import com.google.gson.JsonObject;
 
 /**
- * The JSON API servlet serves simple requests
+ * The JSON API servlet serves simple requests.
  *
  * @author zubairov
- *
  */
 public class ListServlet extends AbstractAPIServlet {
 
@@ -39,6 +38,9 @@ public class ListServlet extends AbstractAPIServlet {
      */
     private static final long serialVersionUID = -6145158514605088533L;
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.servlets.AbstractAPIServlet#process(javax.servlet.http.HttpServletRequest, org.talend.esb.sam.server.ui.UIProvider)
+     */
     @Override
     JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
         long offset = getRequestLongParam(req, "offset", 1);
@@ -48,6 +50,15 @@ public class ListServlet extends AbstractAPIServlet {
         return provider.getEvents(offset, getBaseUrl(req), adapter);
     }
 
+    /**
+     * Gets the request long param.
+     *
+     * @param req the request
+     * @param paramName the param name
+     * @param defaultValue the default value
+     * @return the request long param
+     * @throws Exception the exception
+     */
     private long getRequestLongParam(HttpServletRequest req, String paramName, long defaultValue)
             throws Exception {
         String paramValue = req.getParameter(paramName);

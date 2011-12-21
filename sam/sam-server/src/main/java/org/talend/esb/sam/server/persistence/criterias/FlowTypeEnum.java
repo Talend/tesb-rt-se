@@ -20,10 +20,9 @@
 package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Type of the Flow for filtering
- * 
- * @author zubairov
+ * Type of the Flow for filtering.
  *
+ * @author zubairov
  */
 public enum FlowTypeEnum {
     REQ_RESP, ONE_WAY

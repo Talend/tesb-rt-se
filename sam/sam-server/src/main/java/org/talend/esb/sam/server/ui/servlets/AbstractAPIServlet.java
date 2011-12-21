@@ -37,10 +37,9 @@ import com.google.gson.JsonPrimitive;
 import org.talend.esb.sam.server.ui.UIProvider;
 
 /**
- * Common class for API Servlets
+ * Common class for API Servlets.
  *
  * @author zubairov
- *
  */
 public abstract class AbstractAPIServlet extends HttpServlet {
 
@@ -52,18 +51,34 @@ public abstract class AbstractAPIServlet extends HttpServlet {
 
     private UIProvider uiProvider;
 
+    /**
+     * Instantiates a new abstract api servlet.
+     */
     protected AbstractAPIServlet() {
         this.noCache = true;
     }
 
+    /**
+     * Instantiates a new abstract api servlet.
+     *
+     * @param cachingAllowed the caching allowed
+     */
     protected AbstractAPIServlet(boolean cachingAllowed) {
         this.noCache = !cachingAllowed;
     }
 
+    /**
+     * Sets the ui provider.
+     *
+     * @param uiProvider the new ui provider
+     */
     public void setUiProvider(UIProvider uiProvider) {
         this.uiProvider = uiProvider;
     }
 
+    /* (non-Javadoc)
+     * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -99,14 +114,24 @@ public abstract class AbstractAPIServlet extends HttpServlet {
     }
 
     /**
-     * This method should be implemented by the extensions of
-     * {@link AbstractAPIServlet}
+     * This method should be implemented by the extensions of.
      *
-     * @param req
-     * @param provider
+     * @param req the servlet request
+     * @param provider the provider
+     * @return the json object
+     * @throws Exception the exception
+     * {@link AbstractAPIServlet}
      */
     abstract JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception;
 
+    /**
+     * Write response.
+     *
+     * @param resp the servlet response
+     * @param output the output object
+     * @param callback the callback
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void writeResponse(HttpServletResponse resp, JsonObject output, String callback)
             throws IOException {
         if (null == callback || callback.trim().isEmpty()) {
@@ -119,7 +144,10 @@ public abstract class AbstractAPIServlet extends HttpServlet {
     }
 
     /**
-     * Converts {@link Exception} to {@link JsonObject}
+     * Converts {@link Exception} to {@link JsonObject}.
+     *
+     * @param e the e
+     * @return the json object
      */
     private JsonObject toJSON(Exception e) {
         JsonObject result = new JsonObject();
@@ -128,6 +156,12 @@ public abstract class AbstractAPIServlet extends HttpServlet {
     }
 
 
+    /**
+     * Gets the base url.
+     *
+     * @param req the servlet request
+     * @return the base url
+     */
     protected String getBaseUrl(HttpServletRequest req) {
         StringBuffer url = req.getRequestURL();
         // protocol://host:port

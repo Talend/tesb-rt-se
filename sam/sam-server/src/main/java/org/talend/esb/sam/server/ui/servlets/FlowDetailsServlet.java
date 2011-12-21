@@ -26,10 +26,9 @@ import org.talend.esb.sam.server.ui.UIProvider;
 import com.google.gson.JsonObject;
 
 /**
- * API Service that returns flow details
+ * API Service that returns flow details.
  *
  * @author telesh
- *
  */
 public class FlowDetailsServlet extends AbstractAPIServlet {
 
@@ -38,6 +37,9 @@ public class FlowDetailsServlet extends AbstractAPIServlet {
      */
     private static final long serialVersionUID = 4001052811324863157L;
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.servlets.AbstractAPIServlet#process(javax.servlet.http.HttpServletRequest, org.talend.esb.sam.server.ui.UIProvider)
+     */
     @Override
     JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
         String requestURI = req.getRequestURI();

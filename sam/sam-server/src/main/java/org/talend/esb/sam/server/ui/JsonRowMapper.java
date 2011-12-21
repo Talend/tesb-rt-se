@@ -39,10 +39,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 /**
  * Intelligent mapper that tries to read all fields
- * from {@link ResultSet}
- * 
- * @author zubairov
+ * from {@link ResultSet}.
  *
+ * @author zubairov
  */
 public class JsonRowMapper implements RowMapper<JsonObject> {
 
@@ -73,6 +72,9 @@ public class JsonRowMapper implements RowMapper<JsonObject> {
 
     private final Gson gson;
 
+    /**
+     * Instantiates a new json row mapper.
+     */
     public JsonRowMapper() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Timestamp.class, new JsonSerializer<Timestamp>() {
@@ -86,6 +88,9 @@ public class JsonRowMapper implements RowMapper<JsonObject> {
         gson = builder.create();
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+     */
     @Override
     public JsonObject mapRow(ResultSet rs, int rowNum) throws SQLException {
         final Map<String, Object> map = nestedMapper.mapRow(rs, rowNum);

@@ -33,16 +33,27 @@ import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
+/**
+ * The Class EventRepositoryImpl is implementing the event repository logic.
+ */
 public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRepository {
 
     private static final Logger LOG = Logger.getLogger(EventRepositoryImpl.class.getName());
 
     private DatabaseDialect dialect;
 
+    /**
+     * Sets the database dialect.
+     *
+     * @param dialect the database dialect
+     */
     public void setDialect(DatabaseDialect dialect) {
         this.dialect = dialect;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.common.event.persistence.EventRepository#writeEvent(org.talend.esb.sam.common.event.Event)
+     */
     @Override
     public void writeEvent(Event event) {
         Originator originator = event.getOriginator();
@@ -74,6 +85,9 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.common.event.persistence.EventRepository#readEvent(long)
+     */
     @Override
     public Event readEvent(long id) {
         RowMapper<Event> rowMapper = new EventRowMapper();
@@ -85,9 +99,9 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     }
 
     /**
-     * write CustomInfo list into table
-     * 
-     * @param event
+     * write CustomInfo list into table.
+     *
+     * @param event the event
      */
     private void writeCustomInfo(Event event) {
         // insert customInfo (key/value) into DB
@@ -101,10 +115,10 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     }
 
     /**
-     * read CustomInfo list from table
-     * 
-     * @param eventId
-     * @return
+     * read CustomInfo list from table.
+     *
+     * @param eventId the event id
+     * @return the map
      */
     private Map<String, String> readCustomInfo(long eventId) {
         List<Map<String, Object>> rows = getSimpleJdbcTemplate()

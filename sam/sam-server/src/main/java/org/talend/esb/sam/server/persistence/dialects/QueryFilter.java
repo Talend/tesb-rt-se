@@ -21,17 +21,17 @@ package org.talend.esb.sam.server.persistence.dialects;
 
 /**
  * Interface that is responsible to deliver
- * variable filtering part of the SQL query
- * 
+ * variable filtering part of the SQL query.
+ *
  * @author zubairov
  */
 public interface QueryFilter {
 
     /**
-     * This method should return where clause according to 
-     * filtering conditions
-     * 
-     * @return
+     * This method should return where clause according to
+     * filtering conditions.
+     *
+     * @return the where clause
      */
     String getWhereClause();
 

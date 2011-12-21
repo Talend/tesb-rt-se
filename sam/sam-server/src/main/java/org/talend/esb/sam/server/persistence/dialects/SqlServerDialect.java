@@ -21,10 +21,9 @@ package org.talend.esb.sam.server.persistence.dialects;
 
 
 /**
- * Class to encapsulate difference between databases
+ * Class to encapsulate difference between databases.
  *
  * @author pvasilchenko
- *
  */
 public class SqlServerDialect extends AbstractDatabaseDialect {
     private static final String QUERY = "select "
@@ -47,6 +46,9 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
             + ") "
             + "order by [EI_TIMESTAMP] DESC";
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
+     */
     @Override
     String getQuery() {
         return QUERY;

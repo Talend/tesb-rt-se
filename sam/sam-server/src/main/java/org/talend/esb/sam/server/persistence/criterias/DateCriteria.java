@@ -22,7 +22,7 @@ package org.talend.esb.sam.server.persistence.criterias;
 import java.sql.Timestamp;
 
 /**
- * Criteria for date values
+ * Criteria for date values.
  *
  * @author zubairov
  */
@@ -35,10 +35,19 @@ public class DateCriteria extends Criteria {
 
     private Timestamp value;
 
+    /**
+     * Instantiates a new date criteria.
+     *
+     * @param name the name
+     * @param colunmName the colunm name
+     */
     public DateCriteria(String name, String colunmName) {
         super(name, colunmName);
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#parseValue(java.lang.String)
+     */
     @Override
     public Criteria[] parseValue(String attribute) {
         long attributeValue = Long.parseLong(attribute);
@@ -56,11 +65,17 @@ public class DateCriteria extends Criteria {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getValue()
+     */
     @Override
     public Object getValue() {
         return value;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getFilterClause()
+     */
     @Override
     public StringBuilder getFilterClause() {
         StringBuilder builder = new StringBuilder();

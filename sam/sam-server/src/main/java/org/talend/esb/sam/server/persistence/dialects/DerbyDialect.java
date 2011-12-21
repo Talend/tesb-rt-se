@@ -39,6 +39,9 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY"
             + ") order by EI_TIMESTAMP DESC";
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
+     */
     @Override
     String getQuery() {
         return QUERY;

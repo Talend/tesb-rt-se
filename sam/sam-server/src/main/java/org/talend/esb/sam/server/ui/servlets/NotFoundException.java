@@ -20,10 +20,9 @@
 package org.talend.esb.sam.server.ui.servlets;
 
 /**
- * Resource not found exception
+ * Resource not found exception.
  *
  * @author telesh
- *
  */
 public class NotFoundException extends Exception {
 
@@ -32,6 +31,11 @@ public class NotFoundException extends Exception {
      */
     private static final long serialVersionUID = -8327757550558772684L;
 
+    /**
+     * Instantiates a new not found exception.
+     *
+     * @param message the message
+     */
     public NotFoundException(String message) {
         super(message);
     }
