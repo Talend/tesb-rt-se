@@ -37,6 +37,9 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverTargetSelector#prepare(org.apache.cxf.message.Message)
+     */
     @Override
     public synchronized void prepare(Message message) {
         Exchange exchange = message.getExchange();

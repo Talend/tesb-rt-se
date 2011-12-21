@@ -54,16 +54,16 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
         return alternateAddress;
     }
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateEndpoints(org.apache.cxf.message.Exchange)
      */
     @Override
     public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverStrategy#selectAlternateEndpoint(java.util.List)
      */
     @Override
     public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {

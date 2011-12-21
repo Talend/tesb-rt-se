@@ -52,12 +52,21 @@ public class LocatorClientEnabler {
     public void setBus(Bus bus) {
     }
 
+    /**
+     * Sets a map representing the locatorSelectionStrategies and sets locatorSelectionStrategy to the DEFAULT_STRATEGY.
+     * @param locatorSelectionStrategies
+     */
     public void setLocatorSelectionStrategies(
             Map<String, LocatorSelectionStrategy> locatorSelectionStrategies) {
         this.locatorSelectionStrategies = locatorSelectionStrategies;
         this.locatorSelectionStrategy = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
     }
 
+    /**
+     * If the String argument locatorSelectionStrategy is as key in the map representing the locatorSelectionStrategies, the
+     * corresponding strategy is selected, else it remains unchanged.
+     * @param locatorSelectionStrategy
+     */
     public void setLocatorSelectionStrategy(String locatorSelectionStrategy) {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy
@@ -73,6 +82,12 @@ public class LocatorClientEnabler {
         }
     }
 
+    /**
+     * If the String argument defaultLocatorSelectionStrategy is as key in the map representing the locatorSelectionStrategies, the
+     * corresponding strategy is selected and set as default strategy, else both the selected strategy and the default strategy remain
+     * unchanged.
+     * @param defaultLocatorSelectionStrategy
+     */
     public void setDefaultLocatorSelectionStrategy(String defaultLocatorSelectionStrategy) {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Default strategy " + defaultLocatorSelectionStrategy
@@ -98,6 +113,17 @@ public class LocatorClientEnabler {
         enable(conduitSelectorHolder, matcher, null);
     }
 
+    /**
+     * The selectionStrategy given as String argument is selected as locatorSelectionStrategy.
+     * If selectionStrategy is null, the defaultLocatorSelectionStrategy is used instead.
+     * Then the new locatorSelectionStrategy is connected to the locatorClient and the matcher.
+     * A new LocatorTargetSelector is created, set to the locatorSelectionStrategy and then set
+     * as selector in the conduitSelectorHolder.
+     * 
+     * @param conduitSelectorHolder
+     * @param matcher
+     * @param selectionStrategy
+     */
     public void enable(ConduitSelectorHolder conduitSelectorHolder, SLPropertiesMatcher matcher,
             String selectionStrategy) {
         LocatorTargetSelector selector = new LocatorTargetSelector();

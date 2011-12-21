@@ -29,12 +29,17 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.message.Exchange;
 
+/**
+ * Keeps the endpoint as long as there is no failover. 
+ * In case of a fail over all strategies are equivalent - a random alternative
+ * endpoint is selected.
+ */
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
 
     private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
      */
     @Override
     public List<String> getAlternateAddresses(Exchange exchange) {
@@ -46,8 +51,8 @@ public class DefaultSelectionStrategy extends LocatorSelectionStrategy implement
         return alternateAddresses;
     }
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
      */
     @Override
     public synchronized String getPrimaryAddress(Exchange exchange) {

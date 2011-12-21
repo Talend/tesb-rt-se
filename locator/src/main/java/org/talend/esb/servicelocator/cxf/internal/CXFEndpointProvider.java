@@ -77,10 +77,22 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
 
     private SLProperties props;
 
+    /**
+     * Creates a CXFEndpointProvider instance.
+     * @param serviceName
+     * @param endpointReference
+     */
     public CXFEndpointProvider(QName serviceName, EndpointReferenceType endpointReference) {
         this(serviceName, null, null, endpointReference);
     }
 
+    /**
+     * Creates a CXFEndpointProvider instance.
+     * @param serviceName
+     * @param bindingId
+     * @param transportId
+     * @param endpointReference
+     */
     public CXFEndpointProvider(QName serviceName, String bindingId, String transportId,
             EndpointReferenceType endpointReference) {
         sName = serviceName;
@@ -89,11 +101,23 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         transportType = map2TransportType(transportId);
     }
 
+    /**
+     * Creates a CXFEndpointProvider instance.
+     * @param serviceName
+     * @param address
+     * @param properties
+     */
     public CXFEndpointProvider(QName serviceName, String address, SLProperties properties) {
         this(serviceName, createEPR(address, properties));
         props = properties;
     }
 
+    /**
+     * Creates a CXFEndpointProvider instance.
+     * @param server
+     * @param address
+     * @param properties
+     */
     public CXFEndpointProvider(Server server, String address, SLProperties properties) {
         this(getServiceName(server),
                 getBindingId(server),
@@ -102,31 +126,49 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         props = properties;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#getServiceName()
+     */
     @Override
     public QName getServiceName() {
         return sName;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#getAddress()
+     */
     @Override
     public String getAddress() {
         return epr.getAddress().getValue();
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#getBinding()
+     */
     @Override
     public BindingType getBinding() {
         return bindingType;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#getTransport()
+     */
     @Override
     public TransportType getTransport() {
         return transportType;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#getProperties()
+     */
     @Override
     public SLProperties getProperties() {
         return props != null ? props : SLPropertiesImpl.EMPTY_PROPERTIES;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#writeEndpointReferenceTo(javax.xml.transform.Result, org.talend.esb.servicelocator.client.Endpoint.PropertiesTransformer)
+     */
     @Override
     public void writeEndpointReferenceTo(Result result, PropertiesTransformer transformer)
         throws ServiceLocatorException {
@@ -143,11 +185,20 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.client.Endpoint#addEndpointReference(org.w3c.dom.Node)
+     */
     @Override
     public void addEndpointReference(Node parent) throws ServiceLocatorException {
         serializeEPR(epr, parent);
     }
 
+    /**
+     * Inserts a marshalled endpoint reference to a given DOM tree rooted by parent. 
+     * @param wsAddr
+     * @param parent
+     * @throws ServiceLocatorException
+     */
     private void serializeEPR(EndpointReferenceType wsAddr, Node parent) throws ServiceLocatorException {
         try {
             JAXBElement<EndpointReferenceType> ep =
@@ -162,6 +213,11 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         }
     }
 
+    /**
+     * Creates a JAXB marshaller.
+     * @return
+     * @throws JAXBException
+     */
     private Marshaller createMarshaller() throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(
                 "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
@@ -169,6 +225,9 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return jc.createMarshaller();
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object other) {
         if (other instanceof CXFEndpointProvider) {
@@ -179,6 +238,9 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         int result = 13;
@@ -189,11 +251,20 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return c;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "CXFEndpointProvider with address " + getAddress() + " for service " + getServiceName();
     }
 
+    /**
+     * Creates an endpoint reference from a given adress.
+     * @param address
+     * @param props
+     * @return
+     */
     private static EndpointReferenceType createEPR(String address, SLProperties props) {
         EndpointReferenceType epr = WSAEndpointReferenceUtils.getEndpointReference(address);
         if (props != null) {
@@ -202,6 +273,13 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return epr;
     }
 
+    /**
+     * Creates an endpoint reference by duplicating the endpoint reference of a given server.
+     * @param server
+     * @param address
+     * @param props
+     * @return
+     */
     private static EndpointReferenceType createEPR(Server server, String address, SLProperties props) {
         EndpointReferenceType sourceEPR = server.getEndpoint().getEndpointInfo().getTarget();
         EndpointReferenceType targetEPR = WSAEndpointReferenceUtils.duplicate(sourceEPR);
@@ -213,6 +291,11 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return targetEPR;
     }
 
+    /**
+     * Adds service locator properties to an endpoint reference.
+     * @param epr
+     * @param props
+     */
     private static void addProperties(EndpointReferenceType epr, SLProperties props) {
         MetadataType metadata = WSAEndpointReferenceUtils.getSetMetadata(epr);
         ServiceLocatorPropertiesType jaxbProps = SLPropertiesConverter.toServiceLocatorPropertiesType(props);
@@ -222,6 +305,11 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         metadata.getAny().add(slp);
     }
 
+    /**
+     * Extracts the service name from a Server.
+     * @param server
+     * @return
+     */
     private static QName getServiceName(Server server) {
         QName serviceName;
         String bindingId = getBindingId(server);
@@ -236,16 +324,31 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return serviceName;
     }
 
+    /**
+     * Extracts the bindingId from a Server.
+     * @param server
+     * @return
+     */
     private static String getBindingId(Server server) {
         Endpoint ep = server.getEndpoint();
         BindingInfo bi = ep.getBinding().getBindingInfo();
         return bi.getBindingId();
     }
 
+    /**
+     * Extracts the transportId from a Server.
+     * @param server
+     * @return
+     */
     private static String getTransportId(Server server) {
         return server.getEndpoint().getEndpointInfo().getTransportId();
     }
 
+    /**
+     * Maps a bindingId to its corresponding BindingType.
+     * @param bindingId
+     * @return
+     */
     private static BindingType map2BindingType(String bindingId) {
         BindingType type;
         if (SOAP11_BINDING_ID.equals(bindingId)) {
@@ -260,6 +363,11 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
         return type;
     }
 
+    /**
+     * Maps a transportId to its corresponding TransportType.
+     * @param transportId
+     * @return
+     */
     private static TransportType map2TransportType(String transportId) {
         TransportType type;
         if (CXF_HTTP_TRANSPORT_ID.equals(transportId) || SOAP_HTTP_TRANSPORT_ID.equals(transportId)) {

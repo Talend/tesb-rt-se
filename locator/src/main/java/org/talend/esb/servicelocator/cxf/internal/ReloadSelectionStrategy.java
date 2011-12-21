@@ -40,8 +40,8 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
         this.reloadAdressesCount = reloadAdressesCount;
     }
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
      */
     @Override
     public List<String> getAlternateAddresses(Exchange exchange) {
@@ -49,8 +49,8 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
         return getRotatedAdresses(getServiceName(exchange), true);
     }
 
-    /**
-     * {@inheritDoc}
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
      */
     @Override
     public String getPrimaryAddress(Exchange exchange) {
@@ -70,6 +70,14 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
 
     protected abstract List<String> getRotatedList(List<String> strings);
 
+    /**
+     * Retrieves a list of endpoint adresses. The list is reloaded if either forceReload is true or
+     * the reloadCounter reaches its limit reloadAdressesCount. The cached (or reloaded) list of endpoint adresses   
+     * is rotated.
+     * @param serviceName
+     * @param forceReload
+     * @return
+     */
     private synchronized List<String> getRotatedAdresses(QName serviceName, boolean forceReload) {
         List<String> availableAddresses = availableAddressesMap.get(serviceName);
         if (forceReload || isReloadAdresses() || availableAddresses == null || availableAddresses.isEmpty()) {

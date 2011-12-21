@@ -22,8 +22,20 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Performs a client side round robin strategy. 
+ * In case of a fail over all strategies are equivalent.
+ * A random alternative endpoint is selected. 
+ * If multiple clients use EvenDistributionSelectionStrategy it
+ * could happen that all clients choose subsequently the same endpoints since the locator
+ * instances for each client operate independently. RandomSelectionStrategy avoids this
+ * problem.
+ */
 public class EvenDistributionSelectionStrategy extends ReloadSelectionStrategy {
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.servicelocator.cxf.internal.ReloadSelectionStrategy#getRotatedList(java.util.List)
+     */
     @Override
     protected List<String> getRotatedList(List<String> strings) {
         Collections.rotate(strings, -1);
