@@ -43,6 +43,9 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
+/**
+ * The Class MessageToEventMapper.
+ */
 public class MessageToEventMapper {
 
     private static final Logger LOG = Logger.getLogger(MessageToEventMapper.class.getName());
@@ -52,6 +55,12 @@ public class MessageToEventMapper {
 
     private int maxContentLength = -1;
 
+    /**
+     * Map to event.
+     *
+     * @param message the message
+     * @return the event
+     */
     public Event mapToEvent(Message message) {
         Event event = new Event();
         MessageInfo messageInfo = new MessageInfo();
@@ -125,10 +134,11 @@ public class MessageToEventMapper {
     }
 
     /**
-     * Get MessageId from WS-Addressing enabled (i.e with <wsa:addressing/> feature), if 
+     * Get MessageId from WS-Addressing enabled (i.e with <wsa:addressing/> feature), if
      * addressing feature doesn't enable, have to create/transfer our own MessageId.
-     * @param message
-     * @return
+     *
+     * @param message the message
+     * @return the message id
      */
     private String getMessageId(Message message) {
         String messageId;
@@ -144,6 +154,12 @@ public class MessageToEventMapper {
         return messageId;
     }
 
+    /**
+     * Gets the event type from message.
+     *
+     * @param message the message
+     * @return the event type
+     */
     private EventTypeEnum getEventType(Message message) {
         boolean isRequestor = MessageUtils.isRequestor(message);
         boolean isFault = MessageUtils.isFault(message);
@@ -164,6 +180,12 @@ public class MessageToEventMapper {
         }
     }
 
+    /**
+     * Gets the message payload.
+     *
+     * @param message the message
+     * @return the payload
+     */
     protected String getPayload(Message message) {
         try {
             String encoding = (String)message.get(Message.ENCODING);
@@ -182,14 +204,29 @@ public class MessageToEventMapper {
         }
     }
 
+    /**
+     * Gets the max message content length.
+     *
+     * @return the max content length
+     */
     public int getMaxContentLength() {
         return maxContentLength;
     }
 
+    /**
+     * Sets the max message content length.
+     *
+     * @param maxContentLength the new max content length
+     */
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
 
+    /**
+     * Handle content length.
+     *
+     * @param event the event
+     */
     private void handleContentLength(Event event) {
         if (event.getContent() == null) {
             return;

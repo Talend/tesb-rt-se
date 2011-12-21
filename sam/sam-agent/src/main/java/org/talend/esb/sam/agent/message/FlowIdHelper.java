@@ -23,25 +23,37 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.message.Message;
 
+/**
+ * The Class FlowIdHelper used as helper for flow id setting.
+ */
 public final class FlowIdHelper {
 
     public static final String FLOW_ID_KEY = "FlowId";
     public static final QName FLOW_ID_QNAME = new QName(
             "http://www.talend.com/esb/sam/flowId/v1", "flowId");
 
+    /**
+     * Instantiates a new flow id helper.
+     */
     private FlowIdHelper() {
     }
 
     /**
-     * Get FlowId from message
-     * 
-     * @param message
+     * Get FlowId from message.
+     *
+     * @param message the message
      * @return flowId or null if not set
      */
     public static String getFlowId(Message message) {
         return (String) message.get(FLOW_ID_KEY);
     }
 
+    /**
+     * Sets the flow id.
+     *
+     * @param message the message
+     * @param flowId the flow id
+     */
     public static void setFlowId(Message message, String flowId) {
         message.put(FLOW_ID_KEY, flowId);
     }

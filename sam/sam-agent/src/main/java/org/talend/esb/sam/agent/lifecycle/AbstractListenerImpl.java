@@ -37,6 +37,9 @@ import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.service.MonitoringService;
 
+/**
+ * The Class AbstractListenerImpl implementing abstract life cycle for SAM agent event.
+ */
 public class AbstractListenerImpl {
 
     private static final Logger LOG = Logger.getLogger(AbstractListenerImpl.class.getName());
@@ -45,18 +48,39 @@ public class AbstractListenerImpl {
     private Queue<Event> queue;
     private MonitoringService monitoringServiceClient;
 
+    /**
+     * Sets the lifecycle event for sending.
+     *
+     * @param sendLifecycleEvent the new lifecycle event
+     */
     public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
         this.sendLifecycleEvent = sendLifecycleEvent;
     }
 
+    /**
+     * Sets the queue.
+     *
+     * @param queue the new queue
+     */
     public void setQueue(Queue<Event> queue) {
         this.queue = queue;
     }
 
+    /**
+     * Sets the monitoring service client.
+     *
+     * @param monitoringServiceClient the new monitoring service client
+     */
     public void setMonitoringServiceClient(MonitoringService monitoringServiceClient) {
         this.monitoringServiceClient = monitoringServiceClient;
     }
 
+    /**
+     * Process start.
+     *
+     * @param endpoint the endpoint
+     * @param eventType the event type
+     */
     protected void processStart(Endpoint endpoint, EventTypeEnum eventType) {
         if (!sendLifecycleEvent) {
             return;
@@ -66,6 +90,12 @@ public class AbstractListenerImpl {
         queue.add(event);
     }
 
+    /**
+     * Process stop.
+     *
+     * @param endpoint the endpoint
+     * @param eventType the event type
+     */
     protected void processStop(Endpoint endpoint, EventTypeEnum eventType) {
         if (!sendLifecycleEvent) {
             return;
@@ -78,6 +108,13 @@ public class AbstractListenerImpl {
         }
     }
 
+    /**
+     * Creates the event for endpoint with specific type.
+     *
+     * @param endpoint the endpoint
+     * @param type the type
+     * @return the event
+     */
     private Event createEvent(Endpoint endpoint, EventTypeEnum type) {
 
         Event event = new Event();

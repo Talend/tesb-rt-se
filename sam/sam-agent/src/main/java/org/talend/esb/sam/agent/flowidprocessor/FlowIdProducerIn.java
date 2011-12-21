@@ -29,14 +29,25 @@ import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
 
 
+/**
+ * The Class FlowIdProducerIn used for FlowId generation in incoming messages.
+ *
+ * @param <T> the generic type
+ */
 public class FlowIdProducerIn<T extends Message> extends AbstractPhaseInterceptor<T> {
 
     private static final Logger LOG = Logger.getLogger(FlowIdProducerIn.class.getName());
 
+    /**
+     * Instantiates a new flow id producer in.
+     */
     public FlowIdProducerIn() {
         super(Phase.PRE_INVOKE);
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
     public void handleMessage(T message) throws Fault {
         String flowId = FlowIdHelper.getFlowId(message);
 

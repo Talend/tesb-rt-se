@@ -39,12 +39,21 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
     private Interceptor<Message> wireTap;
     private boolean logMessageContent;
 
+    /**
+     * Instantiates a new wire tap out.
+     *
+     * @param wireTap the Interceptor
+     * @param logMessageContent the log message content
+     */
     public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent) {
         super(Phase.PRE_STREAM);
         this.wireTap = wireTap;
         this.logMessageContent = logMessageContent;
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
     @Override
     public void handleMessage(final Message message) throws Fault {
         final OutputStream os = message.getContent(OutputStream.class);
@@ -62,17 +71,31 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
         }
     }
 
+    /**
+     * The CallBack class.
+     */
     private final class CallBack implements CachedOutputStreamCallback {
         private final Message message;
 
+        /**
+         * Instantiates a new call back.
+         *
+         * @param message the message
+         */
         private CallBack(Message message) {
             this.message = message;
         }
 
+        /* (non-Javadoc)
+         * @see org.apache.cxf.io.CachedOutputStreamCallback#onFlush(org.apache.cxf.io.CachedOutputStream)
+         */
         @Override
         public void onFlush(CachedOutputStream os) {
         }
 
+        /* (non-Javadoc)
+         * @see org.apache.cxf.io.CachedOutputStreamCallback#onClose(org.apache.cxf.io.CachedOutputStream)
+         */
         @Override
         public void onClose(CachedOutputStream os) {
             wireTap.handleMessage(message);

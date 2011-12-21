@@ -27,15 +27,22 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+/**
+ * The Class Converter.
+ */
 public final class Converter {
 
+    /**
+     * Instantiates a new converter.
+     */
     private Converter() {
     }
 
     /**
-     * convert Date to XMLGregorianCalendar
-     * @param date
-     * @return
+     * convert Date to XMLGregorianCalendar.
+     *
+     * @param date the date
+     * @return the xML gregorian calendar
      */
     public static XMLGregorianCalendar convertDate(Date date) {
         if (date == null) {
@@ -52,6 +59,11 @@ public final class Converter {
         }
     }
 
+    /**
+     * Gets the pID.
+     *
+     * @return the pID
+     */
     public static String getPID() {
         final String mxName = ManagementFactory.getRuntimeMXBean().getName();
         return mxName.split("@")[0];
