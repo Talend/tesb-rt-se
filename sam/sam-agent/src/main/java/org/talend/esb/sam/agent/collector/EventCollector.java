@@ -64,6 +64,9 @@ public class EventCollector implements BusLifeCycleListener {
     private boolean sendLifecycleEvent;
     private boolean stopSending;
 
+    /**
+     * Instantiates a new event collector.
+     */
     public EventCollector() {
         //init Bus and LifeCycle listeners
         if (bus != null) {
@@ -96,8 +99,8 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Returns the number of events sent by one service call.
-     * 
-     * @return
+     *
+     * @return the events per message call
      */
     public int getEventsPerMessageCall() {
         if (eventsPerMessageCall <= 0) {
@@ -109,17 +112,17 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Set by Spring. Define how many events will be sent within one service call.
-     * 
-     * @param eventsPerMessageCall
+     *
+     * @param eventsPerMessageCall the new events per message call
      */
     public void setEventsPerMessageCall(int eventsPerMessageCall) {
         this.eventsPerMessageCall = eventsPerMessageCall;
     }
 
     /**
-     * Returns the default interval for sending events
-     * 
-     * @return
+     * Returns the default interval for sending events.
+     *
+     * @return the default interval
      */
     private long getDefaultInterval() {
         return defaultInterval;
@@ -128,16 +131,17 @@ public class EventCollector implements BusLifeCycleListener {
     /**
      * Set default interval for sending events to monitoring service. DefaultInterval will be used by
      * scheduler.
-     * 
-     * @param defaultInterval
+     *
+     * @param defaultInterval the new default interval
      */
     public void setDefaultInterval(long defaultInterval) {
         this.defaultInterval = defaultInterval;
     }
 
     /**
-     * Set if collect/send lifecycle events to sam-server
-     * @param sendLifecycleEvent
+     * Set if collect/send lifecycle events to sam-server.
+     *
+     * @param sendLifecycleEvent the new send lifecycle event
      */
     public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
         this.sendLifecycleEvent = sendLifecycleEvent;
@@ -146,8 +150,8 @@ public class EventCollector implements BusLifeCycleListener {
     /**
      * Scheduler will be set and configured by Spring. Spring executes every x milliseconds the sending
      * process.
-     * 
-     * @param scheduler
+     *
+     * @param scheduler the new scheduler
      */
     public void setScheduler(TaskScheduler scheduler) {
         LOG.info("Scheduler started for sending events to SAM Server");
@@ -163,8 +167,8 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Spring sets the executor. The executer is used for sending events to the web service.
-     * 
-     * @param executor
+     *
+     * @param executor the new executor
      */
     public void setExecutor(TaskExecutor executor) {
         this.executor = executor;
@@ -173,8 +177,8 @@ public class EventCollector implements BusLifeCycleListener {
     /**
      * Spring sets the queue. Within the spring configuration you can decide between memory queue and
      * persistent queue.
-     * 
-     * @param queue
+     *
+     * @param queue the new queue
      */
     public void setQueue(Queue<Event> queue) {
         this.queue = queue;
@@ -182,29 +186,54 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Spring sets the monitoring service client.
-     * 
-     * @param monitoringServiceClient
+     *
+     * @param monitoringServiceClient the new monitoring service client
      */
     public void setMonitoringServiceClient(MonitoringService monitoringServiceClient) {
         this.monitoringServiceClient = monitoringServiceClient;
     }
 
+    /**
+     * Sets the bus.
+     *
+     * @param bus the new bus
+     */
     public void setBus(Bus bus) {
         this.bus = bus;
     }
 
+    /**
+     * Gets the filters.
+     *
+     * @return the filters
+     */
     public List<EventFilter> getFilters() {
         return filters;
     }
 
+    /**
+     * Sets the filters.
+     *
+     * @param filters the new filters
+     */
     public void setFilters(List<EventFilter> filters) {
         this.filters = filters;
     }
 
+    /**
+     * Gets the handlers.
+     *
+     * @return the handlers
+     */
     public List<EventHandler> getHandlers() {
         return handlers;
     }
 
+    /**
+     * Sets the handlers.
+     *
+     * @param newHandlers the new handlers
+     */
     @Autowired(required = false)
     public void setHandlers(List<EventHandler> newHandlers) {
         this.handlers.clear();
@@ -252,9 +281,9 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Execute all filters for the event.
-     * 
-     * @param event
-     * @return
+     *
+     * @param event the event
+     * @return true, if successful
      */
     private boolean filter(Event event) {
         for (EventFilter filter : filters) {
@@ -267,8 +296,8 @@ public class EventCollector implements BusLifeCycleListener {
 
     /**
      * Sends the events to monitoring service client.
-     * 
-     * @param events
+     *
+     * @param events the events
      */
     private void sendEvents(final List<Event> events) {
         for (EventHandler current : handlers) {
@@ -289,17 +318,26 @@ public class EventCollector implements BusLifeCycleListener {
 
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#initComplete()
+     */
     @Override
     public void initComplete() {
         // Ignore
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#preShutdown()
+     */
     @Override
     public void preShutdown() {
         LOG.info("Bus is stopping. Stopping sending events to monitoring service.");
         this.stopSending = true;
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#postShutdown()
+     */
     @Override
     public void postShutdown() {
         // Ignore

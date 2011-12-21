@@ -56,10 +56,16 @@ public class EventFeature extends AbstractFeature {
 
     private EventProducerInterceptor epi;
 
+    /**
+     * Instantiates a new event feature.
+     */
     public EventFeature() {
         super();
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.feature.AbstractFeature#initializeProvider(org.apache.cxf.interceptor.InterceptorProvider, org.apache.cxf.Bus)
+     */
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
@@ -88,14 +94,29 @@ public class EventFeature extends AbstractFeature {
         provider.getOutFaultInterceptors().add(wireTapOut);
     }
 
+    /**
+     * Sets the log message content.
+     *
+     * @param logMessageContent the new log message content
+     */
     public void setLogMessageContent(boolean logMessageContent) {
         this.logMessageContent = logMessageContent;
     }
 
+    /**
+     * Sets the max content length for the message.
+     *
+     * @param maxContentLength the new max content length
+     */
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
  
+    /**
+     * Sets the queue.
+     *
+     * @param queue the new queue
+     */
     public void setQueue(Queue<Event> queue) {
         if (epi == null) {
             MessageToEventMapper mapper = new MessageToEventMapper();
@@ -105,6 +126,11 @@ public class EventFeature extends AbstractFeature {
         }
     }
 
+    /**
+     * Sets the handler.
+     *
+     * @param handler the new event handler
+     */
     public void setHandler(EventHandler handler) {
         if (this.epi != null) {
             this.epi.setHandler(handler);
@@ -112,10 +138,11 @@ public class EventFeature extends AbstractFeature {
     }
 
     /**
-     * detect if WS Addressing feature already enabled
-     * @param provider
-     * @param bus
-     * @return
+     * detect if WS Addressing feature already enabled.
+     *
+     * @param provider the interceptor provider
+     * @param bus the bus
+     * @return true, if successful
      */
     private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus) {
         //detect on the bus level
@@ -144,7 +171,8 @@ public class EventFeature extends AbstractFeature {
     /**
      * Add WSAddressing Interceptors to InterceptorProvider, in order to using
      * AddressingProperties to get MessageID.
-     * @param provider
+     *
+     * @param provider the interceptor provider
      */
     private void addWSAddressingInterceptors(InterceptorProvider provider) {
         MAPAggregator mapAggregator = new MAPAggregator();

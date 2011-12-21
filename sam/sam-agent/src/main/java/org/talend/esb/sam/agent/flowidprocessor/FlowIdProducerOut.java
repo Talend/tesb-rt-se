@@ -33,14 +33,25 @@ import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
 
+/**
+ * The Class FlowIdProducerOut used for writing FlowId in outcoming messages.
+ *
+ * @param <T> the generic type
+ */
 public class FlowIdProducerOut<T extends Message> extends AbstractPhaseInterceptor<T> {
 
     private static final Logger LOG = Logger.getLogger(FlowIdProducerOut.class.getName());
 
+    /**
+     * Instantiates a new flow id producer out.
+     */
     public FlowIdProducerOut() {
         super(Phase.USER_LOGICAL);
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
     public void handleMessage(T message) throws Fault {
         if (LOG.isLoggable(Level.FINEST)) {
             LOG.finest("FlowIdProducerOut Interceptor called. isOutbound: "
@@ -61,6 +72,12 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 
     }
 
+    /**
+     * Handling out responce.
+     *
+     * @param message the message
+     * @throws Fault the fault
+     */
     protected void handleResponseOut(T message) throws Fault {
         Message reqMsg = message.getExchange().getInMessage();
         if (reqMsg == null) {
@@ -101,6 +118,12 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
 
     }
 
+    /**
+     * Handling out request.
+     *
+     * @param message the message
+     * @throws Fault the fault
+     */
     protected void handleRequestOut(T message) throws Fault {
         String flowId = FlowIdHelper.getFlowId(message);
         if (flowId == null

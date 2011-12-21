@@ -26,14 +26,17 @@ import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 /**
- * This ClientLifeCycleListener impl used to implement the feature of 
- * support web service start/stop event
+ * This ClientLifeCycleListener impl used to implement the feature of
+ * support web service start/stop event.
  */
 public class ClientListenerImpl extends AbstractListenerImpl implements ClientLifeCycleListener {
 
     private static final QName AGENT_PORT_TYPE =
             new QName("http://www.talend.org/esb/sam/MonitoringService/v1", "MonitoringService");
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.endpoint.ClientLifeCycleListener#clientCreated(org.apache.cxf.endpoint.Client)
+     */
     @Override
     public void clientCreated(Client client) {
         if (AGENT_PORT_TYPE.equals(
@@ -43,6 +46,9 @@ public class ClientListenerImpl extends AbstractListenerImpl implements ClientLi
         processStart(client.getEndpoint(), EventTypeEnum.CLIENT_CREATE);
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.endpoint.ClientLifeCycleListener#clientDestroyed(org.apache.cxf.endpoint.Client)
+     */
     @Override
     public void clientDestroyed(Client client) {
         if (AGENT_PORT_TYPE.equals(

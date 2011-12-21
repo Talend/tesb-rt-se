@@ -37,6 +37,11 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
     private int numberOfRetries = 3;
     private long delayBetweenRetry = 1000;
 
+    /**
+     * Sets the number of retries.
+     *
+     * @param numberOfRetries the new number of retries
+     */
     public void setNumberOfRetries(int numberOfRetries) {
         if (numberOfRetries <= 0) {
             throw new IllegalStateException("Number of retries must be > 0 but was " + numberOfRetries);
@@ -44,6 +49,11 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
         this.numberOfRetries = numberOfRetries;
     }
 
+    /**
+     * Sets the delay between retry.
+     *
+     * @param delayBetweenRetry the new delay between retry
+     */
     public void setDelayBetweenRetry(long delayBetweenRetry) {
         if (delayBetweenRetry <= 0) {
             throw new IllegalStateException("Delay between retries must be > 0 but was " + delayBetweenRetry);
@@ -53,8 +63,8 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
 
     /**
      * Set by Spring. Sets the web service implementation.
-     * 
-     * @param monitoringService
+     *
+     * @param monitoringService the new monitoring service
      */
     public void setMonitoringService(MonitoringService monitoringService) {
         this.monitoringService = monitoringService;
@@ -62,6 +72,8 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
 
     /**
      * Sends all events to the web service. Events will be transformed with mapper before sending.
+     *
+     * @param events the events
      */
     public void putEvents(List<Event> events) {
         Exception lastException;

@@ -30,7 +30,7 @@ import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.message.Message;
 
 /**
- * Read and Write the flowId using the PROTOCOL_HEADERS
+ * Read and Write the flowId using the PROTOCOL_HEADERS.
  */
 public final class FlowIdProtocolHeaderCodec {
 
@@ -38,9 +38,18 @@ public final class FlowIdProtocolHeaderCodec {
 
     private static final String FLOWID_HTTP_HEADER_NAME = "flowid";
 
+    /**
+     * Instantiates a new flow id protocol header codec.
+     */
     private FlowIdProtocolHeaderCodec() {
     }
 
+    /**
+     * Read flow id from message.
+     *
+     * @param message the message
+     * @return the FlowId as string
+     */
     public static String readFlowId(Message message) {
         String flowId = null;
         Map<String, List<String>> headers = getOrCreateProtocolHeader(message);
@@ -59,6 +68,12 @@ public final class FlowIdProtocolHeaderCodec {
         return flowId;
     }
 
+    /**
+     * Write flow id.
+     *
+     * @param message the message
+     * @param flowId the flow id
+     */
     public static void writeFlowId(Message message, String flowId) {
         Map<String, List<String>> headers = getOrCreateProtocolHeader(message);
         headers.put(FLOWID_HTTP_HEADER_NAME, Collections.singletonList(flowId));
@@ -67,6 +82,12 @@ public final class FlowIdProtocolHeaderCodec {
         }
     }
 
+    /**
+     * Gets the or create protocol header.
+     *
+     * @param message the message
+     * @return the message headers map
+     */
     private static Map<String, List<String>> getOrCreateProtocolHeader(
             Message message) {
         Map<String, List<String>> headers = CastUtils.cast((Map<?, ?>) message

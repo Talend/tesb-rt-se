@@ -23,15 +23,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * The Class WireTapInputStream used to
+ * wiretap the input content.
+ */
 public class WireTapInputStream extends InputStream {
     private InputStream origStream;
     private OutputStream os;
     
+    /**
+     * Instantiates a new wire tap input stream.
+     *
+     * @param origStream the orig stream
+     * @param os the os
+     */
     public WireTapInputStream(InputStream origStream, OutputStream os) {
         this.origStream = origStream;
         this.os = os;
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#read()
+     */
     @Override
     public int read() throws IOException {
         int c = origStream.read();
@@ -43,6 +56,9 @@ public class WireTapInputStream extends InputStream {
         return c;
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#read(byte[])
+     */
     @Override
     public int read(byte[] b) throws IOException {
         int count = origStream.read(b);
@@ -50,6 +66,9 @@ public class WireTapInputStream extends InputStream {
         return count;
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#read(byte[], int, int)
+     */
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int count = origStream.read(b, off, len);
@@ -57,32 +76,50 @@ public class WireTapInputStream extends InputStream {
         return count;
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#skip(long)
+     */
     @Override
     public long skip(long n) throws IOException {
         return origStream.skip(n);
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#available()
+     */
     @Override
     public int available() throws IOException {
         return origStream.available();
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#close()
+     */
     @Override
     public void close() throws IOException {
         os.close();
         origStream.close();
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#mark(int)
+     */
     @Override
     public synchronized void mark(int readlimit) {
         throw new RuntimeException("Reset not implemented");
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#reset()
+     */
     @Override
     public synchronized void reset() throws IOException {
         throw new RuntimeException("Reset not implemented");
     }
 
+    /* (non-Javadoc)
+     * @see java.io.InputStream#markSupported()
+     */
     @Override
     public boolean markSupported() {
         return false;

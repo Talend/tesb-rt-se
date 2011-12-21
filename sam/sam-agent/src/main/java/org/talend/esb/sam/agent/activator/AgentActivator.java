@@ -42,9 +42,8 @@ import org.talend.esb.sam.monitoringservice.v1.MonitoringService;
 
 
 /**
- * This bundle activator used to implement the feature of get 
- * the start/stop lifecycle event of TESB container
- * 
+ * This bundle activator used to implement the feature of get
+ * the start/stop lifecycle event of TESB container.
  */
 public class AgentActivator implements BundleActivator {
 
@@ -54,6 +53,9 @@ public class AgentActivator implements BundleActivator {
     private int retryNum;
     private long retryDelay;
 
+    /* (non-Javadoc)
+     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+     */
     public void start(BundleContext context) throws Exception {
         if (!checkConfig(context)) {
             return;
@@ -69,6 +71,9 @@ public class AgentActivator implements BundleActivator {
         LOG.info("Send SERVER_START event to SAM Server successful!");
     }
 
+    /* (non-Javadoc)
+     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+     */
     public void stop(BundleContext context) throws Exception {
         if (!checkConfig(context)) {
             return;
@@ -84,6 +89,12 @@ public class AgentActivator implements BundleActivator {
         LOG.info("Send SERVER_STOP event to SAM Server successful!");
     }
 
+    /**
+     * Creates the event type.
+     *
+     * @param type the EventEnumType
+     * @return the event type
+     */
     private EventType createEventType(EventEnumType type) {
         EventType eventType = new EventType();
         eventType.setTimestamp(Converter.convertDate(new Date()));
@@ -112,6 +123,12 @@ public class AgentActivator implements BundleActivator {
         return eventType;
     }
 
+    /**
+     * Put event.
+     *
+     * @param eventType the event type
+     * @throws Exception the exception
+     */
     private void putEvent(EventType eventType) throws Exception {
         List<EventType> eventTypes = Collections.singletonList(eventType);
 
@@ -133,6 +150,13 @@ public class AgentActivator implements BundleActivator {
 
     }
 
+    /**
+     * Check config.
+     *
+     * @param context the context
+     * @return true, if successful
+     * @throws Exception the exception
+     */
     private boolean checkConfig(BundleContext context) throws Exception {
         ServiceReference serviceRef = context.getServiceReference(ConfigurationAdmin.class.getName());
         ConfigurationAdmin cfgAdmin = (ConfigurationAdmin)context.getService(serviceRef); 
@@ -141,6 +165,12 @@ public class AgentActivator implements BundleActivator {
         return "true".equalsIgnoreCase((String)config.getProperties().get("collector.lifecycleEvent"));
     }
 
+    /**
+     * Inits the ws client.
+     *
+     * @param context the context
+     * @throws Exception the exception
+     */
     private void initWsClient(BundleContext context) throws Exception {
         ServiceReference serviceRef = context.getServiceReference(ConfigurationAdmin.class.getName());
         ConfigurationAdmin cfgAdmin = (ConfigurationAdmin)context.getService(serviceRef); 

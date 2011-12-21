@@ -37,16 +37,22 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
+/**
+ * The Class EventMapper using for mapping and converting events.
+ */
 public final class EventMapper {
 
+    /**
+     * Instantiates a new event mapper.
+     */
     private EventMapper() {
     }
 
     /**
-     * convert Event bean to EventType manually
-     * 
-     * @param event
-     * @return
+     * convert Event bean to EventType manually.
+     *
+     * @param event the event
+     * @return the event type
      */
     public static EventType map(Event event) {
         EventType eventType = new EventType();
@@ -65,6 +71,12 @@ public final class EventMapper {
         return eventType;
     }
 
+    /**
+     * Gets the data handler from event.
+     *
+     * @param event the event
+     * @return the data handler
+     */
     private static DataHandler getDataHandlerForString(Event event) {
         try {
             return new DataHandler(new ByteDataSource(event.getContent().getBytes("UTF-8")));
@@ -73,6 +85,12 @@ public final class EventMapper {
         }
     }
 
+    /**
+     * Mapping message info.
+     *
+     * @param messageInfo the message info
+     * @return the message info type
+     */
     private static MessageInfoType mapMessageInfo(MessageInfo messageInfo) {
         if (messageInfo == null) {
             return null;
@@ -86,6 +104,12 @@ public final class EventMapper {
         return miType;
     }
 
+    /**
+     * Mapping originator.
+     *
+     * @param originator the originator
+     * @return the originator type
+     */
     private static OriginatorType mapOriginator(Originator originator) {
         if (originator == null) {
             return null;
@@ -99,6 +123,12 @@ public final class EventMapper {
         return origType;
     }
 
+    /**
+     * Convert custom info.
+     *
+     * @param customInfo the custom info map
+     * @return the custom info type
+     */
     private static CustomInfoType convertCustomInfo(Map<String, String> customInfo) {
         if (customInfo == null) {
             return null;
@@ -115,6 +145,12 @@ public final class EventMapper {
         return ciType;
     }
 
+    /**
+     * Convert event type.
+     *
+     * @param eventType the event type
+     * @return the event enum type
+     */
     private static EventEnumType convertEventType(org.talend.esb.sam.common.event.EventTypeEnum eventType) {
         if (eventType == null) {
             return null;
@@ -122,6 +158,12 @@ public final class EventMapper {
         return EventEnumType.valueOf(eventType.name());
     }
 
+    /**
+     * Convert string to qname.
+     *
+     * @param str the string
+     * @return the qname
+     */
     private static QName convertString(String str) {
         if (str != null) {
             return QName.valueOf(str);

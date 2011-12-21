@@ -31,8 +31,7 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * Maps the CXF Message to an Event and sends Event to Queue
- * 
+ * Maps the CXF Message to an Event and sends Event to Queue.
  */
 public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> {
     private static final Logger LOG = Logger.getLogger(EventProducerInterceptor.class.getName());
@@ -41,6 +40,12 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     private final Queue<Event> queue;
     private EventHandler handler;
     
+    /**
+     * Instantiates a new event producer interceptor.
+     *
+     * @param mapper the mapper
+     * @param queue the queue
+     */
     public EventProducerInterceptor(MessageToEventMapper mapper, Queue<Event> queue) {
         super(Phase.PRE_INVOKE);
         if (mapper == null) {
@@ -53,10 +58,18 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         this.queue = queue;
     }
 
+    /**
+     * Sets the handler.
+     *
+     * @param handler the new handler
+     */
     public void setHandler(EventHandler handler) {
         this.handler = handler;
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
     @Override
     public void handleMessage(Message message) throws Fault {
         Event event = mapper.mapToEvent(message);

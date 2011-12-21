@@ -32,15 +32,24 @@ import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.w3c.dom.Node;
 
 /**
- * Read and write the FlowId using the SOAP headers
+ * Read and write the FlowId using the SOAP headers.
  */
 public final class FlowIdSoapCodec {
 
     private static final Logger LOG = Logger.getLogger(FlowIdSoapCodec.class.getName());
 
+    /**
+     * Instantiates a new flow id soap codec.
+     */
     private FlowIdSoapCodec() {
     }
 
+    /**
+     * Read flow id.
+     *
+     * @param message the message
+     * @return flow id from the message
+     */
     public static String readFlowId(Message message) {
         if (!(message instanceof SoapMessage)) {
             return null;
@@ -61,6 +70,12 @@ public final class FlowIdSoapCodec {
         return flowId;
     }
 
+    /**
+     * Write flow id to message.
+     *
+     * @param message the message
+     * @param flowId the flow id
+     */
     public static void writeFlowId(Message message, String flowId) {
         if (!(message instanceof SoapMessage)) {
             return;
