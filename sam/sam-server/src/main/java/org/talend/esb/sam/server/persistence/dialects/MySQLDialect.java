@@ -21,10 +21,9 @@ package org.talend.esb.sam.server.persistence.dialects;
 
 
 /**
- * Class to encapsulate difference between databases
+ * Class to encapsulate difference between databases.
  *
  * @author zubairov
- *
  */
 public class MySQLDialect extends AbstractDatabaseDialect {
 
@@ -39,6 +38,9 @@ public class MySQLDialect extends AbstractDatabaseDialect {
             + "SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID "
             + "order by EI_TIMESTAMP DESC";
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
+     */
     @Override
     String getQuery() {
         return QUERY;

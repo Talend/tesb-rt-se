@@ -19,11 +19,24 @@
  */
 package org.talend.esb.sam.server.persistence;
 
+/**
+ * The Class JdbcDriverBootstrap initialises Jdbc staff.
+ */
 public final class JdbcDriverBootstrap {
 
+    /**
+     * Instantiates a new jdbc driver bootstrap.
+     */
     private JdbcDriverBootstrap() {
     }
 
+    /**
+     * Causes the class to be dynamically loaded 
+     *
+     * @param className the class name
+     * @return class
+     * @throws ClassNotFoundException the class not found exception
+     */
     public static Class<?> forName(String className) throws ClassNotFoundException {
         return Class.forName(className);
     }

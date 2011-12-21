@@ -22,26 +22,26 @@ package org.talend.esb.sam.server.persistence.dialects;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 
 /**
- * Interface to encapsulate difference between databases
- * 
- * @author zubairov
+ * Interface to encapsulate difference between databases.
  *
+ * @author zubairov
  */
 public interface DatabaseDialect {
 
     String SUBSTITUTION_STRING = "%%FILTER%%";
 
     /**
-     * Returns {@link DataFieldMaxValueIncrementer} for specific database
-     * 
-     * @return
+     * Returns {@link DataFieldMaxValueIncrementer} for specific database.
+     *
+     * @return the incrementer
      */
     DataFieldMaxValueIncrementer getIncrementer();
 
     /**
-     * Should return a query that list data
-     * 
-     * @return
+     * Should return a query that list data.
+     *
+     * @param filter the filter
+     * @return the data query
      */
     String getDataQuery(QueryFilter filter);
 

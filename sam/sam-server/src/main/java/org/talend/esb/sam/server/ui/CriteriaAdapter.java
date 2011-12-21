@@ -36,7 +36,7 @@ import org.talend.esb.sam.server.persistence.dialects.QueryFilter;
 
 /**
  * Adapter that implements {@link SqlParameterSource} to be used to map HTTP URL
- * parameters to the SQL parameters
+ * parameters to the SQL parameters.
  *
  * @author zubairov
  */
@@ -74,6 +74,13 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
 
     private final long limit;
 
+    /**
+     * Instantiates a new criteria adapter.
+     *
+     * @param offset the offset
+     * @param limit the limit
+     * @param params the CriteriaAdapter params
+     */
     public CriteriaAdapter(long offset, long limit, Map<String, String[]> params) {
         this.offset = offset;
         this.limit = limit;
@@ -81,10 +88,10 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
     }
 
     /**
-     * Reads filter parameters
+     * Reads filter parameters.
      *
-     * @param req
-     * @return
+     * @param params the params
+     * @return the criterias
      */
     private Map<String, Criteria> getCriterias(Map<String, String[]> params) {
         Map<String, Criteria> result = new HashMap<String, Criteria>();
@@ -107,12 +114,18 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.namedparam.SqlParameterSource#hasValue(java.lang.String)
+     */
     @Override
     public boolean hasValue(String paramName) {
         return criterias.containsKey(paramName) || LIMIT_NAME.equals(paramName)
                 || OFFSET_NAME.equals(paramName);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.namedparam.SqlParameterSource#getValue(java.lang.String)
+     */
     @Override
     public Object getValue(String paramName) throws IllegalArgumentException {
         if (!hasValue(paramName)) {
@@ -127,6 +140,9 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
         return criterias.get(paramName).getValue();
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.namedparam.SqlParameterSource#getSqlType(java.lang.String)
+     */
     @Override
     public int getSqlType(String paramName) {
         if (!hasValue(paramName)) {
@@ -136,11 +152,17 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
         return StatementCreatorUtils.javaTypeToSqlParameterType(value.getClass());
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.namedparam.SqlParameterSource#getTypeName(java.lang.String)
+     */
     @Override
     public String getTypeName(String paramName) {
         return null;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.QueryFilter#getWhereClause()
+     */
     @Override
     public String getWhereClause() {
         StringBuilder result = new StringBuilder();

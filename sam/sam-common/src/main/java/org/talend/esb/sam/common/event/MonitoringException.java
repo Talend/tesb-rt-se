@@ -27,6 +27,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+/**
+ * The Class MonitoringException describes the monitoring exception.
+ */
 public class MonitoringException extends RuntimeException {
 
     private static final Logger LOG = Logger.getLogger(MonitoringException.class.getName());
@@ -36,15 +39,38 @@ public class MonitoringException extends RuntimeException {
     private final String message;
     private final List<Event> events = new ArrayList<Event>();
 
+    /**
+     * Instantiates a new monitoring exception.
+     *
+     * @param code the code
+     * @param message the message
+     * @param t the Trowable type for exeption definition
+     */
     public MonitoringException(String code, String message, Throwable t) {
         this(code, message, t, Collections.<Event>emptyList());
     }
 
+    /**
+     * Instantiates a new monitoring exception.
+     *
+     * @param code the monitoring exception code
+     * @param message the message
+     * @param t Trowable type for exeption definition
+     * @param event the event
+     */
     public MonitoringException(String code, String message, Throwable t,
             Event event) {
         this(code, message, t, Collections.singletonList(event));
     }
 
+    /**
+     * Instantiates a new monitoring exception.
+     *
+     * @param code the monitoring exception code
+     * @param message the message
+     * @param t Trowable type for exeption definition
+     * @param events the events
+     */
     public MonitoringException(String code, String message, Throwable t,
             List<Event> events) {
         super(t);
@@ -53,18 +79,26 @@ public class MonitoringException extends RuntimeException {
         this.events.addAll(events);
     }
 
+    /**
+     * Gets the code.
+     *
+     * @return the code
+     */
     public String getCode() {
         return code;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Throwable#getMessage()
+     */
     public String getMessage() {
         return message;
     }
 
     /**
-     * Prints the error message as log message
-     * 
-     * @param e
+     * Prints the error message as log message.
+     *
+     * @param level the log level
      */
     public void logException(Level level) {
         if (!LOG.isLoggable(level)) {
@@ -93,10 +127,20 @@ public class MonitoringException extends RuntimeException {
         LOG.log(level, builder.toString(), this);
     }
 
+    /**
+     * Adds the event.
+     *
+     * @param event the event
+     */
     public void addEvent(Event event) {
         events.add(event);
     }
 
+    /**
+     * Adds the events.
+     *
+     * @param eventCollection the event collection
+     */
     public void addEvents(Collection<Event> eventCollection) {
         events.addAll(eventCollection);
     }

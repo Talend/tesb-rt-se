@@ -20,8 +20,8 @@
 package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Criterias used for searching and filtering
- * 
+ * Criterias used for searching and filtering.
+ *
  * @author zubairov
  */
 public abstract class Criteria {
@@ -30,15 +30,29 @@ public abstract class Criteria {
 
     protected final String columnName;
 
+    /**
+     * Instantiates a new criteria.
+     *
+     * @param name the name
+     * @param colunmName the colunm name
+     */
     public Criteria(String name, String colunmName) {
         this.name = name;
         this.columnName = colunmName;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Criteria) {
@@ -47,6 +61,9 @@ public abstract class Criteria {
         return super.equals(obj);
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return name.hashCode();
@@ -54,23 +71,24 @@ public abstract class Criteria {
 
     /**
      * Creates a copy of the given {@link Criteria} populated
-     * with the parsed value or throws an exception 
-     * 
-     * @param attribute
-     * @return
+     * with the parsed value or throws an exception.
+     *
+     * @param attribute the attribute
+     * @return the criteria[]
      */
     public abstract Criteria[] parseValue(String attribute);
 
     /**
-     * Returns a value of the Criteria that in suitable SQL type
+     * Returns a value of the Criteria that in suitable SQL type.
      *
-     * @return
+     * @return the value
      */
     public abstract Object getValue();
 
     /**
-     * Returns something like (COLUMN = :name)
-     * @return
+     * Returns something like (COLUMN = :name).
+     *
+     * @return the filter clause
      */
     public abstract StringBuilder getFilterClause();
 

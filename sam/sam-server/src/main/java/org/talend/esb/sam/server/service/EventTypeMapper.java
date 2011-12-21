@@ -38,11 +38,23 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
+/**
+ * The Class EventTypeMapper used for mapping EventTypes.
+ */
 public final class EventTypeMapper {
 
+    /**
+     * Instantiates a new event type mapper.
+     */
     private EventTypeMapper() {
     }
 
+    /**
+     * Map the EventType.
+     *
+     * @param eventType the event type
+     * @return the event
+     */
     public static Event map(EventType eventType) {
         Event event = new Event();
         event.setEventType(mapEventTypeEnum(eventType.getEventType()));
@@ -59,6 +71,12 @@ public final class EventTypeMapper {
         return event;
     }
 
+    /**
+     * Map custom info.
+     *
+     * @param ciType the custom info type
+     * @return the map
+     */
     private static Map<String, String> mapCustomInfo(CustomInfoType ciType){
         Map<String, String> customInfo = new HashMap<String, String>();
         if (ciType != null){
@@ -69,6 +87,12 @@ public final class EventTypeMapper {
         return customInfo;
     }
 
+    /**
+     * Map content.
+     *
+     * @param dh the data handler
+     * @return the string
+     */
     private static String mapContent(DataHandler dh) {
         if (dh == null) {
             return "";
@@ -83,6 +107,12 @@ public final class EventTypeMapper {
         }
     }
 
+    /**
+     * Map message info.
+     *
+     * @param messageInfoType the message info type
+     * @return the message info
+     */
     private static MessageInfo mapMessageInfo(MessageInfoType messageInfoType) {
         MessageInfo messageInfo = new MessageInfo();
         if (messageInfoType != null) {
@@ -96,6 +126,12 @@ public final class EventTypeMapper {
         return messageInfo;
     }
 
+    /**
+     * Map originator type.
+     *
+     * @param originatorType the originator type
+     * @return the originator
+     */
     private static Originator mapOriginatorType(OriginatorType originatorType) {
         Originator originator = new Originator();
         if (originatorType != null) {
@@ -108,6 +144,12 @@ public final class EventTypeMapper {
         return originator;
     }
 
+    /**
+     * Map event type enum.
+     *
+     * @param eventType the event type
+     * @return the event type enum
+     */
     private static EventTypeEnum mapEventTypeEnum(EventEnumType eventType) {
         if (eventType != null) {
             return EventTypeEnum.valueOf(eventType.name());

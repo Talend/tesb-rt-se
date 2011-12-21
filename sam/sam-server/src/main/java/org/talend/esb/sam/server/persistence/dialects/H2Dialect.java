@@ -20,10 +20,9 @@
 package org.talend.esb.sam.server.persistence.dialects;
 
 /**
- * H2 Dialect
- * 
- * @author zubairov
+ * H2 Dialect.
  *
+ * @author zubairov
  */
 public class H2Dialect extends MySQLDialect {
 

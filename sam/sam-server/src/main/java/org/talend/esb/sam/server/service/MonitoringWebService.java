@@ -33,16 +33,27 @@ import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.monitoringservice.v1.MonitoringService;
 import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
 
+/**
+ * The Class MonitoringWebService is implementing the monitoring service.
+ */
 public class MonitoringWebService implements MonitoringService {
 
     private static final Logger LOG = Logger.getLogger(MonitoringWebService.class.getName());
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
 
+    /**
+     * Sets the monitoring service.
+     *
+     * @param monitoringService the new monitoring service
+     */
     public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
         this.monitoringService = monitoringService;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.monitoringservice.v1.MonitoringService#putEvents(java.util.List)
+     */
     public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
@@ -69,6 +80,14 @@ public class MonitoringWebService implements MonitoringService {
         return "success";
     }
 
+    /**
+     * Throw fault.
+     *
+     * @param code the fault code
+     * @param message the message
+     * @param t the throwable type
+     * @throws PutEventsFault 
+     */
     private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
         if (LOG.isLoggable(Level.SEVERE)) {
             LOG.log(Level.SEVERE, "Throw Fault " + code + " " + message, t);

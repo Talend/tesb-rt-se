@@ -20,8 +20,8 @@
 package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Criteria for patterns
- * 
+ * Criteria for patterns.
+ *
  * @author zubairov
  */
 public class PatternCriteria extends Criteria {
@@ -30,22 +30,31 @@ public class PatternCriteria extends Criteria {
 
     private String condition;
 
+    /**
+     * Instantiates a new pattern criteria.
+     *
+     * @param name the name
+     * @param colunmName the column name
+     */
     public PatternCriteria(String name, String colunmName) {
         super(name, colunmName);
     }
 
     /**
-     * Conditional pattern criteria
-     * 
-     * @param name
-     * @param columnName
-     * @param condition condittion that will be concatenated to the pattern condition
+     * Conditional pattern criteria.
+     *
+     * @param name the name
+     * @param columnName the column name
+     * @param condition condition that will be concatenated to the pattern condition
      */
     public PatternCriteria(String name, String columnName, String condition) {
         super(name, columnName);
         this.condition = condition;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#parseValue(java.lang.String)
+     */
     @Override
     public Criteria[] parseValue(String attribute) {
         PatternCriteria result = new PatternCriteria(this.name, this.columnName, this.condition);
@@ -53,11 +62,17 @@ public class PatternCriteria extends Criteria {
         return new Criteria[] {result};
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getValue()
+     */
     @Override
     public Object getValue() {
         return pattern;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getFilterClause()
+     */
     @Override
     public StringBuilder getFilterClause() {
         StringBuilder builder = new StringBuilder();
@@ -71,6 +86,12 @@ public class PatternCriteria extends Criteria {
         return builder;
     }
 
+    /**
+     * To sql pattern.
+     *
+     * @param attribute the attribute
+     * @return the string
+     */
     private String toSQLPattern(String attribute) {
         String pattern = attribute.replace("*", "%");
         if (!pattern.startsWith("%")) {

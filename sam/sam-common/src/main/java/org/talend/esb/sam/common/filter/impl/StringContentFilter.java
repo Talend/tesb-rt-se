@@ -25,22 +25,38 @@ import java.util.logging.Logger;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventFilter;
 
+/**
+ * The Class StringContentFilter used for filtering words in event.
+ */
 public class StringContentFilter implements EventFilter {
 
     private static final Logger LOG = Logger.getLogger(StringContentFilter.class.getName());
 
     private List<String> wordsToFilter;
 
+    /**
+     * Gets the words to filter.
+     *
+     * @return the words to filter list
+     */
     public List<String> getWordsToFilter() {
         return wordsToFilter;
     }
 
+    /**
+     * Sets the words to filter.
+     *
+     * @param wordsToFilter the new words to filter list
+     */
     public void setWordsToFilter(List<String> wordsToFilter) {
         this.wordsToFilter = wordsToFilter;
     }
 
     /**
-     * Filter event if word occurs in wordsToFilter
+     * Filter event if word occurs in wordsToFilter.
+     *
+     * @param event the event
+     * @return true, if successful
      */
     public boolean filter(Event event) {
         LOG.info("StringContentFilter called");

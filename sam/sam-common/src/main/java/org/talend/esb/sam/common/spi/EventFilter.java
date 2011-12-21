@@ -21,8 +21,17 @@ package org.talend.esb.sam.common.spi;
 
 import org.talend.esb.sam.common.event.Event;
 
+/**
+ * The Interface EventFilter using for event filtering.
+ */
 public interface EventFilter {
 
+    /**
+     * Filter the events.
+     *
+     * @param event the event
+     * @return true, if successful
+     */
     boolean filter(Event event);
 
 }

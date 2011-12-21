@@ -40,10 +40,18 @@ public class PasswordHandler implements EventHandler {
 
     private List<String> tagnames;
 
+    /**
+     * Instantiates a new password handler.
+     */
     public PasswordHandler() {
         super();
     }
 
+    /**
+     * Gets the tagnames.
+     *
+     * @return the tagnames
+     */
     public List<String> getTagnames() {
         return tagnames;
     }
@@ -51,14 +59,17 @@ public class PasswordHandler implements EventHandler {
     /**
      * Set a list with names, which should be filtered. For example "password" "passwort" This search is case
      * sensitive.
-     * @param tagnames
+     *
+     * @param tagnames the new tagnames
      */
     public void setTagnames(List<String> tagnames) {
         this.tagnames = tagnames;
     }
 
     /**
-     * Replaces all configured elements with a ---replaced--- string
+     * Replaces all configured elements with a ---replaced--- string.
+     *
+     * @param event the event
      */
     public void handleEvent(Event event) {
         LOG.fine("PasswordHandler called");

@@ -25,6 +25,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 //@Embeddable
+/**
+ * The Class Originator.
+ */
 public class Originator implements Serializable {
 
     //@Transient
@@ -44,6 +47,15 @@ public class Originator implements Serializable {
     //@Column(name = "ORIG_PRINCIPAL")
     private String principal;
 
+    /**
+     * Instantiates a new originator.
+     *
+     * @param processId the process id
+     * @param ip the ip address
+     * @param hostname the hostname
+     * @param customId the custom id
+     * @param principal the principal
+     */
     public Originator(String processId, String ip, String hostname,
             String customId, String principal) {
         super();
@@ -54,50 +66,106 @@ public class Originator implements Serializable {
         this.principal = principal;
     }
 
+    /**
+     * Instantiates a new originator.
+     */
     public Originator() {
         super();
     }
 
+    /**
+     * Gets the process id.
+     *
+     * @return the process id
+     */
     public String getProcessId() {
         return processId;
     }
 
+    /**
+     * Sets the process id.
+     *
+     * @param processId the new process id
+     */
     public void setProcessId(String processId) {
         this.processId = processId;
     }
 
+    /**
+     * Gets the ip address.
+     *
+     * @return the ip address
+     */
     public String getIp() {
         return ip;
     }
 
+    /**
+     * Sets the ip address.
+     *
+     * @param ip the new ip address
+     */
     public void setIp(String ip) {
         this.ip = ip;
     }
 
+    /**
+     * Gets the hostname.
+     *
+     * @return the hostname
+     */
     public String getHostname() {
         return hostname;
     }
 
+    /**
+     * Sets the hostname.
+     *
+     * @param hostname the new hostname
+     */
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
 
+    /**
+     * Gets the custom id.
+     *
+     * @return the custom id
+     */
     public String getCustomId() {
         return customId;
     }
 
+    /**
+     * Sets the custom id.
+     *
+     * @param customId the new custom id
+     */
     public void setCustomId(String customId) {
         this.customId = customId;
     }
 
+    /**
+     * Gets the principal.
+     *
+     * @return the principal
+     */
     public String getPrincipal() {
         return principal;
     }
 
+    /**
+     * Sets the principal.
+     *
+     * @param principal the new principal
+     */
     public void setPrincipal(String principal) {
         this.principal = principal;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -110,6 +178,9 @@ public class Originator implements Serializable {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -160,6 +231,9 @@ public class Originator implements Serializable {
         return true;
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);

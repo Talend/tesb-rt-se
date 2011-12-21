@@ -24,16 +24,22 @@ import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 /**
- * This ServerLifeCycleListener impl used to implement the feature of 
- * support web service start/stop event
+ * This ServerLifeCycleListener impl used to implement the feature of
+ * support web service start/stop event.
  */
 public class ServiceListenerImpl extends AbstractListenerImpl implements ServerLifeCycleListener {
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.endpoint.ServerLifeCycleListener#startServer(org.apache.cxf.endpoint.Server)
+     */
     @Override
     public void startServer(Server server) {
         processStart(server.getEndpoint(), EventTypeEnum.SERVICE_START);
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.endpoint.ServerLifeCycleListener#stopServer(org.apache.cxf.endpoint.Server)
+     */
     @Override
     public void stopServer(Server server) {
         processStop(server.getEndpoint(), EventTypeEnum.SERVICE_STOP);

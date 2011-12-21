@@ -35,10 +35,9 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 
 /**
  * A utility class to extract complex methods
- * to simplify testing
+ * to simplify testing.
  *
  * @author zubairov
- *
  */
 public class UIProviderUtils {
 
@@ -46,6 +45,13 @@ public class UIProviderUtils {
 
     private Gson gson = new Gson();
 
+    /**
+     * Aggregate flow details.
+     *
+     * @param objects the objects
+     * @param baseURL the base url
+     * @return the json array
+     */
     public JsonArray aggregateFlowDetails(List<JsonObject> objects, String baseURL) {
         Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
         Set<Long> allEvents = new HashSet<Long>();
@@ -81,6 +87,13 @@ public class UIProviderUtils {
         return result;
     }
 
+    /**
+     * Aggregate raw data.
+     *
+     * @param objects the objects
+     * @param baseURL the base url
+     * @return the json array
+     */
     public JsonArray aggregateRawData(List<JsonObject> objects, String baseURL) {
         // Render RAW data
         Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
@@ -149,10 +162,10 @@ public class UIProviderUtils {
     }
 
     /**
-     * Creates a copy of {@link JsonObject}
+     * Creates a copy of {@link JsonObject}.
      *
-     * @param obj
-     * @return
+     * @param obj the JsonObject
+     * @return the json object
      */
     private JsonObject copy(JsonObject obj) {
         return (JsonObject) parser.parse(obj.toString());

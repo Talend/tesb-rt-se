@@ -20,10 +20,9 @@
 package org.talend.esb.sam.server.persistence.criterias;
 
 /**
- * Criteria based on enumeration
- * 
+ * Criteria based on enumeration.
+ *
  * @author zubairov
- * 
  */
 @SuppressWarnings("rawtypes")
 public class EnumCriteria extends Criteria {
@@ -32,11 +31,21 @@ public class EnumCriteria extends Criteria {
 
     protected Enum<?> value;
 
+    /**
+     * Instantiates a new enum criteria.
+     *
+     * @param name the name
+     * @param colunmName the column name
+     * @param clazz the clazz
+     */
     public EnumCriteria(String name, String colunmName, Class<? extends Enum> clazz) {
         super(name, colunmName);
         this.enumClass = clazz;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#parseValue(java.lang.String)
+     */
     @Override
     @SuppressWarnings("unchecked")
     public Criteria[] parseValue(String value) {
@@ -45,11 +54,17 @@ public class EnumCriteria extends Criteria {
         return new Criteria[] {result};
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getValue()
+     */
     @Override
     public Object getValue() {
         return String.valueOf(value);
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.criterias.Criteria#getFilterClause()
+     */
     @Override
     public StringBuilder getFilterClause() {
         StringBuilder builder = new StringBuilder();

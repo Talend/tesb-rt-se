@@ -27,24 +27,45 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.test.jdbc.SimpleJdbcTestUtils;
 
+/**
+ * The Class DBInitializer using for initializing persistence.
+ */
 public class DBInitializer implements InitializingBean {
 
     private DataSource dataSource;
     private boolean recreateDb;
     private String createSql;
 
+    /**
+     * Sets the data source.
+     *
+     * @param dataSource the new data source
+     */
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Sets the recreate db flag.
+     *
+     * @param recreateDb the recreateDb flag
+     */
     public void setRecreateDb(boolean recreateDb) {
         this.recreateDb = recreateDb;
     }
 
+    /**
+     * Sets the sql.
+     *
+     * @param createSql the sql
+     */
     public void setCreateSql(String createSql) {
         this.createSql = createSql;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         if (recreateDb) {

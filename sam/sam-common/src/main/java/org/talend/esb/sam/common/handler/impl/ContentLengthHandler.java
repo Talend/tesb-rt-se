@@ -41,24 +41,35 @@ public class ContentLengthHandler implements EventHandler {
 
     private int length;
 
+    /**
+     * Instantiates a new content length handler.
+     */
     public ContentLengthHandler() {
         super();
     }
 
+    /**
+     * Gets the length.
+     *
+     * @return the length
+     */
     public int getLength() {
         return length;
     }
 
     /**
-     * Set the maximum length for the message. 
-     * @param length
+     * Set the maximum length for the message.
+     *
+     * @param length the new length
      */
     public void setLength(int length) {
         this.length = length;
     }
 
     /**
-     * Cut the message content to the configured length
+     * Cut the message content to the configured length.
+     *
+     * @param event the event
      */
     public void handleEvent(Event event) {
         LOG.fine("ContentLengthHandler called");

@@ -21,10 +21,9 @@ package org.talend.esb.sam.server.persistence.dialects;
 
 
 /**
- * Class to encapsulate difference between databases
+ * Class to encapsulate difference between databases.
  *
  * @author zubairov
- *
  */
 public class DB2Dialect extends AbstractDatabaseDialect {
 
@@ -41,6 +40,9 @@ public class DB2Dialect extends AbstractDatabaseDialect {
         ") as T " +
         "where RN between :offset and :offset + :limit + 1";
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
+     */
     @Override
     String getQuery() {
         return QUERY;

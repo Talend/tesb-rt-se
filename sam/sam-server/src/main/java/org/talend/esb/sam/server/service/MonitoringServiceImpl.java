@@ -44,8 +44,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 
     /**
      * Sets a list of event filter. A filtered event will not processed.
-     * 
-     * @param eventFilter
+     *
+     * @param eventFilters the new event filters
      */
     public void setEventFilters(List<EventFilter> eventFilters) {
         this.eventFilters = eventFilters;
@@ -54,8 +54,8 @@ public class MonitoringServiceImpl implements MonitoringService {
     /**
      * Sets a list of event manipulator. Normally it's used for password
      * filtering and cutting the content.
-     * 
-     * @param eventManipulator
+     *
+     * @param eventHandlers the new event handlers
      */
     public void setEventHandlers(List<EventHandler> eventHandlers) {
         this.eventHandlers = eventHandlers;
@@ -63,8 +63,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 
     /**
      * Set a persistence handler. For example the DefaultDatabaseHandler
-     * 
-     * @param persistenceHandler
+     *
+     * @param persistenceHandler the new persistence handler
      */
     public void setPersistenceHandler(EventRepository persistenceHandler) {
         this.persistenceHandler = persistenceHandler;
@@ -72,7 +72,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 
     /**
      * Executes all event manipulating handler and writes the event with persist
-     * handler
+     * handler.
+     *
+     * @param events the events
      */
     public void putEvents(List<Event> events) {
         List<Event> filteredEvents = filterEvents(events);
@@ -84,9 +86,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 
     /**
      * Execute all filters for the event.
-     * 
-     * @param event
-     * @return
+     *
+     * @param event the event
+     * @return true, if successful
      */
     private boolean filter(Event event) {
         for (EventFilter filter : eventFilters) {
@@ -97,6 +99,12 @@ public class MonitoringServiceImpl implements MonitoringService {
         return false;
     }
 
+    /**
+     * Filter events.
+     *
+     * @param events the events
+     * @return the list of filtered events
+     */
     private List<Event> filterEvents(List<Event> events) {
         List<Event> filteredEvents = new ArrayList<Event>();
         for (Event event : events) {
@@ -107,6 +115,11 @@ public class MonitoringServiceImpl implements MonitoringService {
         return filteredEvents;
     }
 
+    /**
+     * Execute handlers.
+     *
+     * @param filteredEvents the filtered events
+     */
     private void executeHandlers(List<Event> filteredEvents) {
         for (EventHandler current : eventHandlers) {
             for (Event event : filteredEvents) {

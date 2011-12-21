@@ -30,7 +30,14 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 
+/**
+ * The Class EventRowMapper is mapping event to row.
+ */
 public class EventRowMapper implements RowMapper<Event> {
+    
+    /* (non-Javadoc)
+     * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+     */
     @Override
     public Event mapRow(ResultSet rs, int rowNum) throws SQLException {
         Event event = new Event();

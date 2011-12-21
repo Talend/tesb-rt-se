@@ -22,7 +22,7 @@ package org.talend.esb.sam.server.ui;
 import com.google.gson.JsonObject;
 
 /**
- * Interface of the data provider for SAM UI
+ * Interface of the data provider for SAM UI.
  *
  * @author zubairov
  */
@@ -31,29 +31,29 @@ public interface UIProvider {
     /**
      * Retrieve an aggregated list of events
      * starting with offset
-     * maximum number of items is limit
+     * maximum number of items is limit.
      *
-     * @param offset
-     * @param limit
-     * @param attributes
-     * @return
+     * @param offset the offset
+     * @param baseURL the base url
+     * @param criteria the criteria
+     * @return the events
      */
     JsonObject getEvents(long offset, String baseURL, CriteriaAdapter criteria);
 
     /**
-     * Returns a detailed information about flow with given ID or null if no such flow was found
+     * Returns a detailed information about flow with given ID or null if no such flow was found.
      *
-     * @param flowID
-     * @param baseURL
-     * @return
+     * @param flowID the flow id
+     * @param baseURL the base url
+     * @return the flow details
      */
     JsonObject getFlowDetails(String flowID, String baseURL);
 
     /**
-     * Returns a detailed information about event with given ID or null if no such event was found
+     * Returns a detailed information about event with given ID or null if no such event was found.
      *
-     * @param eventID
-     * @return
+     * @param eventID the event id
+     * @return the event details
      */
     JsonObject getEventDetails(String eventID);
 

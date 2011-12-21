@@ -26,10 +26,9 @@ import org.talend.esb.sam.server.ui.UIProvider;
 import com.google.gson.JsonObject;
 
 /**
- * API Service that returns event details
+ * API Service that returns event details.
  *
  * @author telesh
- *
  */
 public class EventDetailsServlet extends AbstractAPIServlet {
 
@@ -38,10 +37,16 @@ public class EventDetailsServlet extends AbstractAPIServlet {
      */
     private static final long serialVersionUID = -799338434124236891L;
 
+    /**
+     * Instantiates a new event details servlet.
+     */
     public EventDetailsServlet() {
         super(true);
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.servlets.AbstractAPIServlet#process(javax.servlet.http.HttpServletRequest, org.talend.esb.sam.server.ui.UIProvider)
+     */
     @Override
     JsonObject process(HttpServletRequest req, UIProvider provider) throws Exception {
         String requestURI = req.getRequestURI();

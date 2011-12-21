@@ -31,11 +31,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 /**
- * Default implementation of {@link UIProvider} based on
+ * Default implementation of {@link UIProvider} based on.
+ *
  * {@link SimpleJdbcDaoSupport}
- *
  * @author zubairov
- *
  */
 public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
 
@@ -64,14 +63,17 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
     private final UIProviderUtils utils = new UIProviderUtils();
 
     /**
-     * Injector method for {@link DatabaseDialect}
+     * Injector method for {@link DatabaseDialect}.
      *
-     * @param dialect
+     * @param dialect the new dialect
      */
     public void setDialect(DatabaseDialect dialect) {
         this.dialect = dialect;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.UIProvider#getEvents(long, java.lang.String, org.talend.esb.sam.server.ui.CriteriaAdapter)
+     */
     @Override
     public JsonObject getEvents(long offset, String baseURL,
             CriteriaAdapter criteria) {
@@ -93,6 +95,9 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.UIProvider#getFlowDetails(java.lang.String, java.lang.String)
+     */
     @Override
     public JsonObject getFlowDetails(String flowID, String baseURL) {
         List<JsonObject> list = getSimpleJdbcTemplate().query(
@@ -106,6 +111,9 @@ public class UIProviderImpl extends SimpleJdbcDaoSupport implements UIProvider {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.ui.UIProvider#getEventDetails(java.lang.String)
+     */
     @Override
     public JsonObject getEventDetails(String eventID) {
         return getSimpleJdbcTemplate().queryForObject(

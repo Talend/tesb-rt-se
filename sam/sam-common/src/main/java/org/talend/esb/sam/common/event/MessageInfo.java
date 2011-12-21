@@ -25,6 +25,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 //@Embeddable
+/**
+ * The Class MessageInfo using to define information related to message.
+ */
 public class MessageInfo implements Serializable {
 
     //@Transient
@@ -46,6 +49,15 @@ public class MessageInfo implements Serializable {
     //@Column(name="MI_TRANSPORT_TYPE")
     private String transportType;
     
+    /**
+     * Instantiates a new message info.
+     *
+     * @param messageId the message id
+     * @param flowId the flow id
+     * @param portType the port type
+     * @param operationName the operation name
+     * @param transportType the transport type
+     */
     public MessageInfo(String messageId, String flowId, String portType,
             String operationName, String transportType) {
         super();
@@ -56,43 +68,108 @@ public class MessageInfo implements Serializable {
         this.transportType = transportType;
     }
     
+    /**
+     * Instantiates a new message info.
+     */
     public MessageInfo() {
         super();
     }
 
+    /**
+     * Gets the message id.
+     *
+     * @return the message id
+     */
     public String getMessageId() {
         return messageId;
     }
+    
+    /**
+     * Sets the message id.
+     *
+     * @param messageId the new message id
+     */
     public void setMessageId(String messageId) {
         this.messageId = messageId;
     }
+    
+    /**
+     * Gets the flow id.
+     *
+     * @return the flow id
+     */
     public String getFlowId() {
         return flowId;
     }
+    
+    /**
+     * Sets the flow id.
+     *
+     * @param flowId the new flow id
+     */
     public void setFlowId(String flowId) {
         this.flowId = flowId;
     }
+    
+    /**
+     * Gets the port type.
+     *
+     * @return the port type
+     */
     public String getPortType() {
         return portType;
     }
+    
+    /**
+     * Sets the port type.
+     *
+     * @param portType the new port type
+     */
     public void setPortType(String portType) {
         this.portType = portType;
     }
+    
+    /**
+     * Gets the operation name.
+     *
+     * @return the operation name
+     */
     public String getOperationName() {
         return operationName;
     }
+    
+    /**
+     * Sets the operation name.
+     *
+     * @param operationName the new operation name
+     */
     public void setOperationName(String operationName) {
         this.operationName = operationName;
     }
+    
+    /**
+     * Gets the transport type.
+     *
+     * @return the transport type
+     */
     public String getTransportType() {
         return transportType;
     }
+    
+    /**
+     * Sets the transport type.
+     *
+     * @param transportType the new transport type
+     */
     public void setTransportType(String transportType) {
         this.transportType = transportType;
     }
 
 
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -105,6 +182,9 @@ public class MessageInfo implements Serializable {
         return result;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -155,6 +235,9 @@ public class MessageInfo implements Serializable {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SIMPLE_STYLE);

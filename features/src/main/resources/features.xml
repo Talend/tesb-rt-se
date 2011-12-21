@@ -28,11 +28,9 @@
   <feature name='tesb-sam-common' version='${project.version}'>
     <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_2.5_spec/${geronimo-servlet.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-el_1.0_spec/${geronimo-el.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.specs/geronimo-jsp_2.1_spec/${geronimo-jsp.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.bundle.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
+    <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
   </feature>
@@ -46,8 +44,8 @@
   <feature name='tesb-sam-server' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
-    <feature version='${spring.version}'>spring-jdbc</feature>
-    <feature version='${spring.version}'>spring-test</feature>
+    <feature version='[3,4)'>spring-jdbc</feature>
+    <feature version='[3,4)'>spring-test</feature>
     <bundle>mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
     <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>

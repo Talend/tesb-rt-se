@@ -35,16 +35,24 @@ import org.apache.cxf.phase.Phase;
  * 
  * The interceptor does not yet work streaming so it first copies all
  * the content to the CachedOutputStream and only then lets CXF
- * continue on the message
+ * continue on the message.
  */
 public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     private boolean logMessageContent;
 
+    /**
+     * Instantiates a new WireTapIn
+     *
+     * @param logMessageContent the log message content
+     */
     public WireTapIn(boolean logMessageContent) {
         super(Phase.RECEIVE);
         this.logMessageContent = logMessageContent;
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message.Message)
+     */
     @Override
     public void handleMessage(final Message message) throws Fault {
         InputStream is = message.getContent(InputStream.class);
