@@ -102,6 +102,13 @@ public class FlowIdProducerOut<T extends Message> extends AbstractPhaseIntercept
         if (reqFid == null) {
             reqFid = FlowIdSoapCodec.readFlowId(message);
         }
+        
+        if (reqFid == null) {
+        	Message inMsg = ex.getInMessage();
+        	reqFid = FlowIdProtocolHeaderCodec.readFlowId(inMsg);
+        	LOG.fine("FlowId '" + reqFid + "' found in fault incoming message.");
+        }
+        
 
         if (reqFid != null) {
             if (LOG.isLoggable(Level.FINE)) {
