@@ -57,7 +57,7 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         String whereClause = filter.getWhereClause();
         String result = null;
         if (whereClause != null && whereClause.length() > 0) {
-            result = query.replaceAll(SUBSTITUTION_STRING, " WHERE " + whereClause);	
+            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
         } else {
             result = query.replaceAll(SUBSTITUTION_STRING, "");
         }
