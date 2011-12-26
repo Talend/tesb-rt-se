@@ -35,7 +35,7 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "EVENTS "
             + "where "
             + "MI_FLOW_ID in ("
-            + "select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) "
+            + "select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) "
             + "DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY"
             + ") order by EI_TIMESTAMP DESC";
 

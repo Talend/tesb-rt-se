@@ -33,8 +33,7 @@ public class DB2Dialect extends AbstractDatabaseDialect {
         "( " +
         "select EVENTS.MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, " +
         "MI_TRANSPORT_TYPE, ORIG_HOSTNAME,  ORIG_IP, ROW_NUMBER() OVER() AS RN " +
-        "from (select MI_FLOW_ID from EVENTS group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC) as SUBQ " +
-        "%%FILTER%% " +
+        "from (select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) DESC) as SUBQ " +
         "LEFT JOIN EVENTS ON SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID " +
         "order by EI_TIMESTAMP DESC " +
         ") as T " +

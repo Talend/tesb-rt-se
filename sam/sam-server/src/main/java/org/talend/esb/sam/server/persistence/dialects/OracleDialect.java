@@ -33,7 +33,7 @@ public class OracleDialect extends AbstractDatabaseDialect{
         + "where "
         + "MI_FLOW_ID in ("
         + "select MI_FLOW_ID from ("
-        + "select E.MI_FLOW_ID, rownum rn from (select MI_FLOW_ID from EVENTS %%FILTER%% group by MI_FLOW_ID "
+        + "select E.MI_FLOW_ID, rownum rn from (select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID "
         + "order by MAX(EI_TIMESTAMP) DESC) E WHERE rownum <= (:offset + :limit)"
         + ") where rn > :offset "
         + ") order by EI_TIMESTAMP DESC";
