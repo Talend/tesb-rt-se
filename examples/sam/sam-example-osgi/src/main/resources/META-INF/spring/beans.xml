@@ -27,7 +27,6 @@
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/osgi/cxf-extension-osgi.xml" />
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 	
     <bean id="fixedProperties"

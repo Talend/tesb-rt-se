@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Service Activity Monitoring :: Server
+  Service Activity Monitoring :: Agent
   %%
   Copyright (C) 2011 Talend Inc.
   %%
@@ -43,6 +43,7 @@
 	    <prop key="collector.lifecycleEvent">false</prop>
         <prop key="log.messageContent">true</prop>
         <prop key="log.maxContentLength">-1</prop>
+        <prop key="log.enforceMessageIDTransfer">false</prop>
         <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
         <prop key="service.retry.number">3</prop>
         <prop key="service.retry.delay">5000</prop>
@@ -56,7 +57,7 @@
     </bean>
 
 	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
-		
+
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="$sam{log.messageContent}" />	
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>

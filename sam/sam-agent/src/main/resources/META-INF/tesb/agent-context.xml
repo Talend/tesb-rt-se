@@ -49,6 +49,7 @@
 	            <prop key="collector.lifecycleEvent">false</prop>
                 <prop key="log.messageContent">true</prop>
                 <prop key="log.maxContentLength">-1</prop>
+                <prop key="log.enforceMessageIDTransfer">false</prop>
                 <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
                 <prop key="service.retry.number">3</prop>
                 <prop key="service.retry.delay">5000</prop>
@@ -63,7 +64,7 @@
         <property name="maxContentLength" value="${log.maxContentLength}"/>
         <property name="queue" ref="samQueue"/>
     </bean>
-        
+
 	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" >
         <property name="bus" ref="cxf" />
         <property name="queue" ref="samQueue" />
@@ -102,13 +103,13 @@
 			for this time. Default: 1000 -->
 		<property name="delayBetweenRetry" value="${service.retry.delay}" />
 	</bean>
-	
+
 	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
         <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
 	</bean>
-	
+
 	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
         <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
