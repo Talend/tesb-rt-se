@@ -23,7 +23,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
         while(!queue.isEmpty()){
             eventsList.add(queue.remove());
         }
-        Assert.assertEquals(2, eventsList.size());
+        checkEventsNum(eventsList, 2);
         //checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
         checkResp_In(eventsList.get(1));
@@ -42,7 +42,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
         while(!queue.isEmpty()){
             eventsList.add(queue.remove());
         }
-        Assert.assertEquals(2, eventsList.size());
+        checkEventsNum(eventsList, 2);
         checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
         checkFault_In(eventsList.get(1));
@@ -67,7 +67,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
             eventsList.add(queue.remove());
         }
 
-        Assert.assertEquals(1, eventsList.size());
+        checkEventsNum(eventsList, 1);
         checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
     }

@@ -42,7 +42,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
         while(!queue.isEmpty()){
         	eventsList.add(queue.remove());
         }
-        Assert.assertEquals(4, eventsList.size());
+        checkEventsNum(eventsList, 4);
         checkFlowIdPresentAndSame(eventsList);
         checkMessageIdPresentAndSame(eventsList, false);
         checkReq_Out(eventsList.get(0));
@@ -64,7 +64,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
         while(!queue.isEmpty()){
         	eventsList.add(queue.remove());
         }
-        Assert.assertEquals(4, eventsList.size());
+        checkEventsNum(eventsList, 4);
         checkFlowIdPresentAndSame(eventsList);
         checkMessageIdPresentAndSame(eventsList, false);
         checkReq_Out(eventsList.get(0));
@@ -92,7 +92,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
             eventsList.add(queue.remove());
         }
 
-        Assert.assertEquals(2, eventsList.size());
+        checkEventsNum(eventsList, 2);
         checkFlowIdPresentAndSame(eventsList);
         checkMessageIdPresentAndSame(eventsList, true);
         checkReq_Out(eventsList.get(0));
