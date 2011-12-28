@@ -17,10 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.flowidprocessor;
 
 import junit.framework.Assert;
 
+import org.apache.cxf.message.Exchange;
+import org.apache.cxf.message.ExchangeImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageImpl;
 import org.junit.Test;
@@ -34,24 +36,29 @@ public class FlowIdProducerTest {
 	public void flowIdProducerInTest() {
 		FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
 		Message message = new MessageImpl();
+		Exchange exchange = new ExchangeImpl();
+		message.setExchange(exchange);
 		String flowId = FlowIdHelper.getFlowId(message);
-		Assert.assertNull(flowId);
+		
+		Assert.assertNull("FlowId should be null before FlowIdProducerIn handleMessage()", flowId);
 		flowIdProducerIn.handleMessage(message);
 		flowId = FlowIdHelper.getFlowId(message);
-		Assert.assertNotNull(flowId);
+		Assert.assertNotNull("FlowId should not be null after FlowIdProducerIn handleMessage()", flowId);
 	}
 
 	@Test
 	public void flowIdProducerOutTest() {
-		// ContextUtils.isRequestor returns false -> handleResponseOut is called which doesn't create a flowId
-		/*
 		FlowIdProducerOut<Message> flowIdProducerOut = new FlowIdProducerOut<Message>();
 		Message message = new MessageImpl();
-		String flowId = FlowIdHelper.getFlowIdFromProperty(message);
-		Assert.assertNull(flowId);
+		Exchange exchange = new ExchangeImpl();
+		Message inMessage = new MessageImpl();
+		exchange.setInMessage(inMessage);
+		message.setExchange(exchange);
+		
+		String flowId = FlowIdHelper.getFlowId(message);
+		Assert.assertNull("FlowId should be null before FlowIdProducerOut handleMessage()", flowId);
 		flowIdProducerOut.handleMessage(message);
-		flowId = FlowIdHelper.getFlowIdFromProperty(message);
-		Assert.assertNotNull(flowId);
-		*/
+		flowId = FlowIdHelper.getFlowId(message);
+		Assert.assertNotNull("FlowId should not be null after FlowIdProducerOut handleMessage()", flowId);
 	}
 }

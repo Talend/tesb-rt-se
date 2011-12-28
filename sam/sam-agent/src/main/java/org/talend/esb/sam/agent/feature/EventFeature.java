@@ -54,6 +54,11 @@ public class EventFeature extends AbstractFeature {
      */
     private int maxContentLength = -1;
 
+    /*
+     * No WS-Addressing MessageID transfer as Default
+     */
+    private boolean enforceMessageIDTransfer;
+
     private EventProducerInterceptor epi;
 
     /**
@@ -70,9 +75,9 @@ public class EventFeature extends AbstractFeature {
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
 
-        //if WS Addressing feature/interceptors not enabled, then adding
-        //its interceptors to InterceptorProvider
-        if (!detectWSAddressingFeature(provider, bus)) {
+        //if enforceMessageIDTransfer and WS Addressing feature/interceptors not enabled, 
+        //then add its interceptors to InterceptorProvider
+        if (enforceMessageIDTransfer && !detectWSAddressingFeature(provider, bus)) {
             addWSAddressingInterceptors(provider);
         }
 
@@ -111,8 +116,17 @@ public class EventFeature extends AbstractFeature {
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
- 
+
     /**
+     * Sets if enforce WS-Addressing MessageID transfer
+     *
+     * @param enforceMessageIDTransfer the new value of enforce MessageID Transfer
+     */
+    public void setEnforceMessageIDTransfer(boolean enforceMessageIDTransfer) {
+		this.enforceMessageIDTransfer = enforceMessageIDTransfer;
+	}
+
+	/**
      * Sets the queue.
      *
      * @param queue the new queue

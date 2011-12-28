@@ -35,7 +35,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.talend.esb.sam.agent.interceptor;
+package org.talend.esb.sam.agent.eventproducer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -49,9 +49,6 @@ import com.example.customerservice.CustomerType;
 import com.example.customerservice.NoSuchCustomer;
 import com.example.customerservice.NoSuchCustomerException;
 
-/**
- * Delegates all calls to customerService2 to show how the flowId works with delegating services
- */
 public class CustomerServiceImpl implements CustomerService {
     
     public List<Customer> getCustomersByName(String name) throws NoSuchCustomerException {

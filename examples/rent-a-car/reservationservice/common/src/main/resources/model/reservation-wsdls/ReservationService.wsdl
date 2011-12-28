@@ -172,11 +172,11 @@
     </operation>
   </portType>
   <wsdl:service name="ReservationServiceProvider">
-    <wsdl:port binding="tns:localhostBinding" name="localhost">
+    <wsdl:port binding="tns:ReservationServiceBinding" name="ReservationServicePort">
       <soap:address location="http://localhost:8888/soap/ReservationServiceProvider/"/>
     </wsdl:port>
   </wsdl:service>
-  <wsdl:binding name="localhostBinding" type="tns:ReservationService">
+  <wsdl:binding name="ReservationServiceBinding" type="tns:ReservationService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getAvailableCars">
       <soap:operation soapAction="getAvailableCars"/>

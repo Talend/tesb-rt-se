@@ -61,6 +61,7 @@
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="$sam{log.messageContent}" />	
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>
+        <property name="enforceMessageIDTransfer" value="$sam{log.enforceMessageIDTransfer}"/>
         <property name="queue" ref="samQueue"/>
     </bean>
 
