@@ -19,6 +19,8 @@
  */
 package org.talend.esb.sam.server.persistence;
 
+import java.util.logging.Logger;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -32,6 +34,8 @@ import org.springframework.test.jdbc.SimpleJdbcTestUtils;
  */
 public class DBInitializer implements InitializingBean {
 
+	private static final Logger LOG = Logger.getLogger(DBInitializer.class.getName());
+	
     private DataSource dataSource;
     private boolean recreateDb;
     private String createSql;
@@ -69,6 +73,7 @@ public class DBInitializer implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (recreateDb) {
+        	if("create_oracle.sql".equals(createSql)) LOG.warning("Not recomended to use db.recreate=true parameter for Oracle database");
             Resource resource = new ClassPathResource(createSql);
             SimpleJdbcTestUtils.executeSqlScript(new SimpleJdbcTemplate(dataSource), resource, true);
         }
