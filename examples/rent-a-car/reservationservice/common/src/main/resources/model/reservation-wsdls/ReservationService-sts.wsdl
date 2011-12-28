@@ -178,7 +178,7 @@
       <output message="tns:getConfirmationResponse"/>
     </operation>
   </portType>
-  <wsdl:binding name="localhostBinding" type="tns:ReservationService">
+  <wsdl:binding name="ReservationServiceBinding" type="tns:ReservationService">
     <wsp:PolicyReference URI="#ReservationServiceBindingAsymmetricSAML2Policy"/>
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getAvailableCars">
@@ -211,7 +211,7 @@
   </wsdl:binding>
 
   <wsdl:service name="ReservationServiceProvider">
-    <wsdl:port binding="tns:localhostBinding" name="ReservationServiceProvider">
+    <wsdl:port binding="tns:ReservationServiceBinding" name="ReservationServiceProvider">
       <soap:address location="${endpoint.prefix}/ReservationServiceProvider"/>
     </wsdl:port>
   </wsdl:service>

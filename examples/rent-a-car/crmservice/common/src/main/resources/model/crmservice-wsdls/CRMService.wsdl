@@ -97,11 +97,11 @@
     </operation>
   </portType>
   <wsdl:service name="CRMServiceProvider">
-    <wsdl:port binding="tns:localhostBinding" name="CRMServicePort">
+    <wsdl:port binding="tns:CRMServiceBinding" name="CRMServicePort">
       <soap:address location="http://localhost:8888/soap/CRMServiceProvider/"/>
     </wsdl:port>
   </wsdl:service>
-  <wsdl:binding name="localhostBinding" type="tns:CRMService">
+  <wsdl:binding name="CRMServiceBinding" type="tns:CRMService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getCRMInformation">
       <soap:operation soapAction="getCRMInformation"/>
