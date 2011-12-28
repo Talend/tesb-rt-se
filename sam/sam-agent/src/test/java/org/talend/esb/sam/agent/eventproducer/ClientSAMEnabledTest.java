@@ -24,7 +24,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
             eventsList.add(queue.remove());
         }
         checkEventsNum(eventsList, 2);
-        //checkFlowIdPresentAndSame(eventsList);
+        checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
         checkResp_In(eventsList.get(1));
     }

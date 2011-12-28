@@ -22,6 +22,7 @@ package org.talend.esb.sam.agent.flowidprocessor;
 import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -57,6 +58,19 @@ public class FlowIdProducerIn<T extends Message> extends AbstractPhaseIntercepto
 
         if (flowId == null) {
             flowId = FlowIdSoapCodec.readFlowId(message);
+        }
+
+        if (flowId == null) {
+             Exchange ex = message.getExchange();
+        if (null!=ex){
+        Message reqMsg = ex.getOutMessage();
+             if ( null != reqMsg) {
+                 flowId = FlowIdHelper.getFlowId(reqMsg);
+                 if ( null != flowId) {
+                 LOG.fine("Using FlowId '" + flowId + "' from exchange."); 
+                 }
+             }
+        }
         }
 
         if (flowId != null) {
