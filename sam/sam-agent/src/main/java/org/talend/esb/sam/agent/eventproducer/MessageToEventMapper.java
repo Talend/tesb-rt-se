@@ -134,23 +134,23 @@ public class MessageToEventMapper {
     }
 
     /**
-     * Get MessageId from WS-Addressing enabled (i.e with <wsa:addressing/> feature), if
-     * addressing feature doesn't enable, have to create/transfer our own MessageId.
-     *
+     * Get MessageId string. 
+     * if enforceMessageIDTransfer=true or WS-Addressing enabled explicitly (i.e with <wsa:addressing/> feature), 
+     * then MessageId is not null and conform with the definition in the WS-Addressing Spec;
+     * if enforceMessageIDTransfer=false and WS-Addressing doesn't enable,
+     * then MessageId is null.
      * @param message the message
      * @return the message id
      */
     private String getMessageId(Message message) {
-        String messageId;
+        String messageId = null;
 
         AddressingPropertiesImpl addrProp =
             ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
         if (addrProp != null) {
             messageId = addrProp.getMessageID().getValue();
-        } else {
-            //to do: generate and transfer MessageId ...
-            messageId = ContextUtils.generateUUID();
         }
+
         return messageId;
     }
 

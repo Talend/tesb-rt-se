@@ -23,12 +23,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
-import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.w3c.dom.Node;
 
 /**
@@ -38,6 +38,8 @@ public final class FlowIdSoapCodec {
 
     private static final Logger LOG = Logger.getLogger(FlowIdSoapCodec.class.getName());
 
+    public static final QName FLOW_ID_QNAME = new QName(
+            "http://www.talend.com/esb/sam/flowId/v1", "flowId");
     /**
      * Instantiates a new flow id soap codec.
      */
@@ -55,7 +57,7 @@ public final class FlowIdSoapCodec {
             return null;
         }
         String flowId = null;
-        Header hdFlowId = ((SoapMessage)message).getHeader(FlowIdHelper.FLOW_ID_QNAME);
+        Header hdFlowId = ((SoapMessage)message).getHeader(FLOW_ID_QNAME);
         if (hdFlowId != null) {
             if (hdFlowId.getObject() instanceof String) {
                 flowId = (String)hdFlowId.getObject();
@@ -81,7 +83,7 @@ public final class FlowIdSoapCodec {
             return;
         }
         SoapMessage soapMessage = (SoapMessage)message;
-        Header hdFlowId = soapMessage.getHeader(FlowIdHelper.FLOW_ID_QNAME);
+        Header hdFlowId = soapMessage.getHeader(FLOW_ID_QNAME);
         if (hdFlowId != null) {
             LOG.warning("FlowId already existing in soap header, need not to write FlowId header.");
             return;
@@ -89,9 +91,9 @@ public final class FlowIdSoapCodec {
 
         try {
             soapMessage.getHeaders().add(
-                    new Header(FlowIdHelper.FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class)));
+                    new Header(FLOW_ID_QNAME, flowId, new JAXBDataBinding(String.class)));
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Stored flowId '" + flowId + "' in soap header: " + FlowIdHelper.FLOW_ID_QNAME);
+                LOG.fine("Stored flowId '" + flowId + "' in soap header: " + FLOW_ID_QNAME);
             }
         } catch (JAXBException e) {
             LOG.log(Level.SEVERE, "Couldn't create flowId header.", e);

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.agent.mapper;
+package org.talend.esb.sam.agent.eventproducer;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -56,6 +56,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.message.CustomInfo;
+import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
@@ -63,6 +64,10 @@ public class MessageToEventMapperTest {
     private static final String TESTCONTENT = 
     	"This is a long long long long long long long long long long content";
     private static final int MAXCONTENTLENGTH = 30;
+    private static final String FlowID = "urn:uuid:1baf6286-89e6-42ba-a800-a6b52efa6e26";
+    private static final String TransportType = "http://schemas.xmlsoap.org/soap/http";
+    private static final String PrincipalString = "CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US";
+    private static final String Address = "http://localhost:8080/test";
     
     @Test
     public void testMapEvent() throws IOException, EndpointException {
@@ -71,22 +76,22 @@ public class MessageToEventMapperTest {
         Assert.assertEquals(EventTypeEnum.REQ_IN, event.getEventType());
         Assert.assertEquals("{interfaceNs}interfaceName", event.getMessageInfo().getPortType());
         Assert.assertEquals("{namespace}opName", event.getMessageInfo().getOperationName());
-        Assert.assertEquals("transportUri", event.getMessageInfo().getTransportType());
+        Assert.assertEquals(TransportType, event.getMessageInfo().getTransportType());
+        Assert.assertEquals(FlowID, event.getMessageInfo().getFlowId());
+        Assert.assertNull(event.getMessageInfo().getMessageId());
 
         // By default the content should not be cut
         Assert.assertEquals(TESTCONTENT, event.getContent());
         Assert.assertFalse(event.isContentCut());
 
         // Principal
-        Assert.assertEquals("CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US", event.getOriginator().getPrincipal());
-        
+        Assert.assertEquals(PrincipalString, event.getOriginator().getPrincipal());
+
         Map<String, String> customInfo = event.getCustomInfo();
         Assert.assertEquals(2, customInfo.keySet().size());
-        Assert.assertEquals("http://localhost:8080/test", customInfo.get("address"));
+        Assert.assertEquals(Address, customInfo.get("address"));
         Assert.assertEquals("value1", customInfo.get("key1"));
-        
-        // TODO add assertions
-        System.out.println(event);
+
     }
     
     @Test
@@ -101,14 +106,14 @@ public class MessageToEventMapperTest {
         Assert.assertTrue(event.isContentCut());
     }
     
-    public Message getTestMessage() throws IOException, EndpointException {
+    private Message getTestMessage() throws IOException, EndpointException {
         Message message = new MessageImpl();
         ExchangeImpl exchange = new ExchangeImpl();
         ServiceInfo serviceInfo = new ServiceInfo();
         InterfaceInfo interfaceInfo = new InterfaceInfo(serviceInfo, new QName("interfaceNs", "interfaceName"));
         serviceInfo.setInterface(interfaceInfo );
         SoapBindingInfo bInfo = new SoapBindingInfo(serviceInfo , WSDLConstants.NS_SOAP12);
-        bInfo.setTransportURI("transportUri");
+        bInfo.setTransportURI(TransportType);
         OperationInfo opInfo = new OperationInfo();
         opInfo.setName(new QName("namespace", "opName"));
         BindingOperationInfo bindingOpInfo = new BindingOperationInfo(bInfo, opInfo);
@@ -117,14 +122,16 @@ public class MessageToEventMapperTest {
         exchange.put(Binding.class, binding);
         String ns = "ns";
 		EndpointInfo ei = new EndpointInfo(serviceInfo, ns );
-		ei.setAddress("http://localhost:8080/test");
+		ei.setAddress(Address);
 		Service service = new ServiceImpl();
 		Bus bus = BusFactory.getThreadDefaultBus();
 		Endpoint endpoint = new EndpointImpl(bus, service, ei);
 		exchange.put(Endpoint.class, endpoint );
         message.setExchange(exchange);
-        
-        Principal principal = new X500Principal("CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US");
+
+        FlowIdHelper.setFlowId(message,FlowID);
+
+        Principal principal = new X500Principal(PrincipalString);
         SecurityContext sc = new DefaultSecurityContext(principal, new Subject());
         message.put(SecurityContext.class, sc);
         

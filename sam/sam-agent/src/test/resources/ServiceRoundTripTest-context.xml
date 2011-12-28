@@ -43,6 +43,7 @@
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
         <property name="logMessageContent" value="true" />
         <property name="maxContentLength" value="30"/>
+        <property name="enforceMessageIDTransfer" value="true"/>
         <property name="queue" ref="queue" />
     </bean>
 
@@ -56,7 +57,7 @@
     </jaxws:client>
 
     <jaxws:endpoint address="local://CustomerServicePort"
-        implementor="org.talend.esb.sam.agent.interceptor.CustomerServiceImpl">
+        implementor="org.talend.esb.sam.agent.eventproducer.CustomerServiceImpl">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
             <!-- wsa:addressing xmlns:wsa="http://cxf.apache.org/ws/addressing"/-->

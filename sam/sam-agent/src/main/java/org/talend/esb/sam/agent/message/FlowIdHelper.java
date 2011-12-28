@@ -29,8 +29,6 @@ import org.apache.cxf.message.Message;
 public final class FlowIdHelper {
 
     public static final String FLOW_ID_KEY = "FlowId";
-    public static final QName FLOW_ID_QNAME = new QName(
-            "http://www.talend.com/esb/sam/flowId/v1", "flowId");
 
     /**
      * Instantiates a new flow id helper.
