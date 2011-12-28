@@ -1,5 +1,6 @@
 package org.talend.esb.sam.agent.eventproducer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -21,6 +22,17 @@ public abstract class AbstractEventProducerTest {
 
     @Resource
     protected Queue<Event> queue;
+
+    protected void checkEventsNum(List<Event> eventList, int expectedNum){
+        List<EventTypeEnum> eventTypeList = new ArrayList<EventTypeEnum>();
+        while(!queue.isEmpty()){
+            Event event = queue.remove();
+            eventTypeList.add(event.getEventType());
+        }
+        Assert.assertEquals("The expected events num should be " + expectedNum +
+          ". Actually events num is " + eventList.size() +
+          " which are " + eventTypeList, expectedNum, eventList.size());
+    }
 
 	protected void checkFlowIdPresentAndSame(List<Event> eventList) {
 		String flowId = eventList.get(0).getMessageInfo().getFlowId();
