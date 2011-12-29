@@ -38,7 +38,7 @@ public abstract class AbstractEventProducerTest {
 		String flowId = eventList.get(0).getMessageInfo().getFlowId();
         for (Event event : eventList) {
             String newFlowId = event.getMessageInfo().getFlowId();
-            Assert.assertNotNull(newFlowId);
+            Assert.assertNotNull("FlowId should not be null in " + event.getEventType(), newFlowId);
             Assert.assertEquals("All flowIds should be the same", flowId, newFlowId);
 		}
 	}
@@ -50,7 +50,7 @@ public abstract class AbstractEventProducerTest {
 	protected void checkMessageIdPresentAndSame(List<Event> eventList, boolean isOneway) {
         for (Event event : eventList) {
             String messageId = event.getMessageInfo().getMessageId();
-            Assert.assertNotNull(messageId);
+            Assert.assertNotNull("MessageId should not be null in " + event.getEventType(), messageId);
         }
 
         String messageId0 = eventList.get(0).getMessageInfo().getMessageId();
