@@ -164,7 +164,7 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
     }
 
     @Override
-    public GenericOperation retrieveOperation(String jobName, String[] args) {
+    public synchronized GenericOperation retrieveOperation(String jobName, String[] args) {
         OperationTask task = operationTasks.get(jobName);
         if (task == null) {
             TalendESBJob job = getJob(jobName);
