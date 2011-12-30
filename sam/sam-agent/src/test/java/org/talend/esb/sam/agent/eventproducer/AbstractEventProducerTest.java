@@ -25,8 +25,7 @@ public abstract class AbstractEventProducerTest {
 
     protected void checkEventsNum(List<Event> eventList, int expectedNum){
         List<EventTypeEnum> eventTypeList = new ArrayList<EventTypeEnum>();
-        while(!queue.isEmpty()){
-            Event event = queue.remove();
+        for (Event event : eventList) {
             eventTypeList.add(event.getEventType());
         }
         Assert.assertEquals("The expected events num should be " + expectedNum +
