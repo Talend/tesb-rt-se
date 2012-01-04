@@ -29,8 +29,6 @@
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <!-- SAM -->
-    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
     <!-- placeholder configurer -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -50,6 +48,8 @@
     <bean id="executorService" class="org.talend.esb.job.controller.internal.JobExecutorFactory"
       factory-method="newExecutor"/>
 
+    <osgi:reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature" />
+
     <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl" destroy-method="unbind">
         <property name="bundleContext" ref="bundleContext"/>
         <property name="executorService" ref="executorService" />
@@ -62,7 +62,7 @@
     </bean>
 
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
-        <property name="samQueue" ref="samQueue"/>
+        <property name="samFeature" ref="eventFeature"/>
         <property name="policyProvider" ref="policyProvider"/>
         <property name="clientProperties">
             <osgix:cm-properties persistent-id="org.talend.esb.job.client"/>

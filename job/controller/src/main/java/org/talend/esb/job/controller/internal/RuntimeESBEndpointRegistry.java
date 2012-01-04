@@ -20,7 +20,6 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.Map;
-import java.util.Queue;
 
 import javax.xml.namespace.QName;
 
@@ -32,7 +31,6 @@ import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
@@ -45,7 +43,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private static final String LOGGING = "logging";
 
     private Bus bus;
-    private Queue<Event> samQueue;
+    private EventFeature samFeature;
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
@@ -55,9 +53,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.bus = bus;
     }
 
-    public void setSamQueue(Queue<Event> samQueue) {
-        this.samQueue = samQueue;
-    }
+    public void setSamFeature(EventFeature samFeature) {
+		this.samFeature = samFeature;
+	}
 
     public void setPolicyProvider(PolicyProvider policyProvider) {
         this.policyProvider = policyProvider;
@@ -121,16 +119,10 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,
-                useServiceActivityMonitor ? createEventFeature() : null,
+                useServiceActivityMonitor ? samFeature : null,
                 securityArguments,
                 bus,
                 Boolean.parseBoolean(clientProperties.get(LOGGING)));
-    }
-
-    private EventFeature createEventFeature() {
-        EventFeature eventFeature = new EventFeature();
-        eventFeature.setQueue(samQueue);
-        return eventFeature;
     }
 
 }
