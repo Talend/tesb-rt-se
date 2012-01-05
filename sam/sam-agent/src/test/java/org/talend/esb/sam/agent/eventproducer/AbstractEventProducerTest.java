@@ -88,4 +88,11 @@ public abstract class AbstractEventProducerTest {
         Assert.assertEquals(EventTypeEnum.FAULT_IN, event.getEventType());
         Assert.assertTrue("Content should not be empty", (event.getContent() != null) && (event.getContent().length() >0));
     }
+
+    protected void checkNonNullFields(List<Event> eventList){
+        for (Event event : eventList) {
+            String operationName = event.getMessageInfo().getOperationName();
+            Assert.assertNotNull("operationName should not be null in " + event.getEventType(), operationName);
+        }
+    }
 }

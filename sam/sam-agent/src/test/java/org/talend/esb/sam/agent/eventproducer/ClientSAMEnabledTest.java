@@ -27,6 +27,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
         checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
         checkResp_In(eventsList.get(1));
+        checkNonNullFields(eventsList);
     }
 
     @Test
@@ -46,6 +47,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
         checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
         checkFault_In(eventsList.get(1));
+        checkNonNullFields(eventsList);
     }
 
     @Test
@@ -70,6 +72,7 @@ public class ClientSAMEnabledTest extends AbstractEventProducerTest{
         checkEventsNum(eventsList, 1);
         checkFlowIdPresentAndSame(eventsList);
         checkReq_Out(eventsList.get(0));
+        checkNonNullFields(eventsList);
     }
 
 }

@@ -49,6 +49,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
         checkReq_In(eventsList.get(1));
         checkResp_Out(eventsList.get(2));
         checkResp_In(eventsList.get(3));
+        checkNonNullFields(eventsList);
     }
 
     @Test
@@ -71,6 +72,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
         checkReq_In(eventsList.get(1));
         checkFault_Out(eventsList.get(2));
         checkFault_In(eventsList.get(3));
+        checkNonNullFields(eventsList);
     }
     
     @Test
@@ -97,6 +99,7 @@ public class EventProducerTest extends AbstractEventProducerTest{
         checkMessageIdPresentAndSame(eventsList, true);
         checkReq_Out(eventsList.get(0));
         checkReq_In(eventsList.get(1));
+        checkNonNullFields(eventsList);
     }
 
 }
