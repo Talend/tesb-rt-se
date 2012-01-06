@@ -207,26 +207,20 @@ public class FlowIdProducerOut<T extends Message> extends
      */
     protected void handleINEvent(Exchange exchange, String reqFid) throws Fault {
         Message inMsg = exchange.getInMessage();
+
+        EventProducerInterceptor epi = null;
         FlowIdHelper.setFlowId(inMsg, reqFid);
 
-            EventProducerInterceptor epi = null;
-            DocLiteralInInterceptor dli = null;
-            
-	        ListIterator<Interceptor<? extends Message>> interceptors = inMsg
-	                .getInterceptorChain().getIterator();
-	
-	        while (interceptors.hasNext() && (epi == null || dli == null)) {
-	            Interceptor<? extends Message> interceptor = interceptors.next();
-	
-	            if (interceptor instanceof EventProducerInterceptor) {
-	                epi = (EventProducerInterceptor) interceptor;
-	                epi.handleMessage(inMsg);
-	            }
-	            if (interceptor instanceof DocLiteralInInterceptor){
-	            	dli = (DocLiteralInInterceptor)interceptor;
-	            	dli.handleMessage(inMsg);
-	            }
-	        }
-    }
+        ListIterator<Interceptor<? extends Message>> interceptors = inMsg
+                .getInterceptorChain().getIterator();
 
+        while (interceptors.hasNext() && epi == null) {
+            Interceptor<? extends Message> interceptor = interceptors.next();
+
+            if (interceptor instanceof EventProducerInterceptor) {
+                epi = (EventProducerInterceptor) interceptor;
+                epi.handleMessage(inMsg);
+            }
+        }
+    }
 }
