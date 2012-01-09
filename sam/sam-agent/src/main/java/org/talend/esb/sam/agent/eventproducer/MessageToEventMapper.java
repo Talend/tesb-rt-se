@@ -25,6 +25,9 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
@@ -35,6 +38,8 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.cxf.service.model.ServiceModelUtil;
+
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.talend.esb.sam.agent.util.Converter;
@@ -78,14 +83,11 @@ public class MessageToEventMapper {
         messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
 
-        BindingOperationInfo boi = message.getExchange().getBindingOperationInfo();
-        if (null != boi){
-            String opName = boi.getName().toString();
-            messageInfo.setOperationName(opName);
-        }
         String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
             .getName().toString();
         messageInfo.setPortType(portTypeName);
+
+        messageInfo.setOperationName(getOperationName(message));
 
         if (message.getExchange().getBinding() instanceof SoapBinding) {
             SoapBinding soapBinding = (SoapBinding)message.getExchange().getBinding();
@@ -178,6 +180,44 @@ public class MessageToEventMapper {
                 return isRequestor ? EventTypeEnum.RESP_IN : EventTypeEnum.REQ_IN;
             }
         }
+    }
+
+    private String getOperationName(Message message) {
+        String operationName = null;
+        BindingOperationInfo boi = null;
+
+        boi = message.getExchange().getBindingOperationInfo();
+        if (null == boi){
+            //get BindingOperationInfo from message content
+            boi = getOperationFromContent(message);
+        }
+
+        //if BindingOperationInfo is still null, try to get it from Request message content
+        if (null == boi){
+            Message inMsg = message.getExchange().getInMessage();
+            if (null != inMsg){
+                Message reqMsg = inMsg.getExchange().getInMessage();
+                if (null != reqMsg){
+                    boi = getOperationFromContent(reqMsg);
+                }
+            }
+        }
+
+        if (null != boi){
+            operationName = boi.getName().toString();
+        }
+
+        return operationName;
+    }
+
+    private BindingOperationInfo getOperationFromContent(Message message){
+        BindingOperationInfo boi = null;
+        XMLStreamReader xmlReader = message.getContent(XMLStreamReader.class);
+        if (null != xmlReader){
+            QName qName = xmlReader.getName();
+            boi = ServiceModelUtil.getOperation(message.getExchange(), qName);
+        }
+        return boi;
     }
 
     /**
