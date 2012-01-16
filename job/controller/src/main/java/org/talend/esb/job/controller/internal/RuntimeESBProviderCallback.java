@@ -33,22 +33,23 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
 
     private static final MessageExchange POISON = new MessageExchange(null);
 
-    private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
+    private MessageExchangeBuffer messageExchanges;
+    
+    private volatile MessageExchange currentExchange;
 
-    private MessageExchange currentExchange;
+    public RuntimeESBProviderCallback() {
+        this(new MessageExchangeBuffer());
+    }
 
-    private volatile boolean stopped;
+    public RuntimeESBProviderCallback(MessageExchangeBuffer messageExchanges) {
+        this.messageExchanges = messageExchanges;
+    }
 
     public Object getRequest() throws ESBJobInterruptedException {
         try {
-            currentExchange = requests.take();
-            if (POISON == currentExchange) {
-                stopped = true;
-                throw new ESBJobInterruptedException("Job was cancelled.");
-            }
-        } catch (InterruptedException e) {
-            stopped = true;
-            throw new ESBJobInterruptedException("Job was stopped.");
+            currentExchange = messageExchanges.takeMessageExchange();
+        } catch (BufferStoppedException e) {
+            throw new ESBJobInterruptedException("Job canceled.");
         }
         return currentExchange.request;
     }
@@ -63,7 +64,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
 
     public Object invoke(Object payload, boolean isRequestResponse) throws Exception {
         MessageExchange myExchange = new MessageExchange(payload);
-        requests.put(myExchange);
+        messageExchanges.putMessageExchange(myExchange);
         if (!isRequestResponse) {
             return null;
         }
@@ -74,24 +75,51 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
         }
         return myExchange.response;
     }
+    
+    public static class MessageExchangeBuffer {
+        private volatile boolean stopped;
 
-    public void stop() {
-        boolean success = false;
-        while (!success) {
-            try {
-                requests.put(POISON);
-                success = true;
-            } catch (InterruptedException e) {
-                LOG.throwing(this.getClass().getName(), "prepareStop", e);
+        private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
+
+        public MessageExchange takeMessageExchange() throws BufferStoppedException{
+            MessageExchange currentExchange = null;
+            while (currentExchange == null) {
+                try {
+                    currentExchange = requests.take();
+                    if (currentExchange == POISON) {
+                        stopped = true;
+                        throw new BufferStoppedException(); //ESBJobInterruptedException("Job was cancelled.");
+                    }
+                } catch (InterruptedException e) {
+                    stop();
+                }
             }
+            return currentExchange;
+        }
+
+        public void  putMessageExchange(MessageExchange messageExchange) throws InterruptedException {
+            requests.put(messageExchange);
+        }
+
+        void stop() {
+            boolean success = false;
+            while (!success) {
+                try {
+                    requests.put(POISON);
+                    success = true;
+                } catch (InterruptedException e) {
+                    LOG.throwing(this.getClass().getName(), "prepareStop", e);
+                }
+            }
+        }
+        
+        boolean isStopped() {
+            return stopped;
         }
     }
 
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    private static final class MessageExchange {
+    
+    public static final class MessageExchange {
         public Object request;
 
         public Object response;
@@ -104,4 +132,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
         }
     }
 
+    public static class BufferStoppedException extends Exception {
+        
+    }
 }

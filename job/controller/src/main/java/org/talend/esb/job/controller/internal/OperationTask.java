@@ -19,26 +19,52 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.concurrent.ExecutorService;
+
 import org.talend.esb.job.controller.GenericOperation;
+import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback.MessageExchange;
+import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback.MessageExchangeBuffer;
 
 import routines.system.api.TalendESBJob;
 
-public class OperationTask extends RuntimeESBProviderCallback implements JobTask, GenericOperation {
+public class OperationTask implements Runnable, /*JobTask,*/ GenericOperation {
 
     private TalendESBJob job;
-    
+
+
+    private ExecutorService executorService;
+
     private String[] arguments;
     
-    public OperationTask(TalendESBJob job, String[] arguments) {
+    private MessageExchangeBuffer messageExchanges;
+    
+    private RuntimeESBProviderCallback callback;
+
+    public OperationTask(TalendESBJob job, String[] arguments, ExecutorService executorService) {
         this.job = job;
+        this.executorService = executorService;
         this.arguments = arguments;
+        this.messageExchanges = new MessageExchangeBuffer();
+        this.callback = new RuntimeESBProviderCallback(messageExchanges);
+    }
+
+    public void start() {
+        executorService.execute(this);    
+    }
+    
+    public void stop() {
+        messageExchanges.stop();
+    }
+
+    public boolean isStopped() {
+        return messageExchanges.isStopped();    
     }
 
     public void run() {
         ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
-            job.setProviderCallback(this);
+            job.setProviderCallback(callback);
 
             while (true) {
                 if (Thread.interrupted()) {
@@ -53,4 +79,17 @@ public class OperationTask extends RuntimeESBProviderCallback implements JobTask
             Thread.currentThread().setContextClassLoader(oldContextCL);            
         }
     }
+
+    public Object invoke(Object payload, boolean isRequestResponse) throws Exception {
+        MessageExchange myExchange = new MessageExchange(payload);
+        messageExchanges.putMessageExchange(myExchange);
+        if (!isRequestResponse) {
+            return null;
+        }
+        synchronized (myExchange) {
+            myExchange.wait();
+        }
+        return myExchange.response;
+    }
+   
 }

@@ -172,7 +172,7 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
                 throw new IllegalArgumentException("Talend job '" + jobName
                         + "' not found");
             }
-            task = new OperationTask(job, args);
+            task = new OperationTask(job, args, executorService);
             operationTasks.put(jobName, task);
             executorService.execute(task);
         }
