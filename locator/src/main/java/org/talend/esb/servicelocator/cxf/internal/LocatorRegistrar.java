@@ -50,6 +50,8 @@ public class LocatorRegistrar {
 
     private String endpointPrefix = "";
 
+    private Map<String, String> endpointPrefixes = null;
+
     private Map<Bus, SingleBusLocatorRegistrar> busRegistrars = 
         Collections.synchronizedMap(new LinkedHashMap<Bus, SingleBusLocatorRegistrar>());
 
@@ -60,6 +62,10 @@ public class LocatorRegistrar {
 
     public void setEndpointPrefix(String endpointPrefix) {
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
+    }
+
+    public void setEndpointPrefixes(Map<String, String> endpointPrefixes) {
+        this.endpointPrefixes = endpointPrefixes;
     }
 
     public void setServiceLocator(ServiceLocator serviceLocator) {
@@ -84,6 +90,7 @@ public class LocatorRegistrar {
             registrar = new SingleBusLocatorRegistrar(bus);
             registrar.setServiceLocator(locatorClient);
             registrar.setEndpointPrefix(endpointPrefix);
+            registrar.setEndpointPrefixes(endpointPrefixes);
             busRegistrars.put(bus, registrar);
             addLifeCycleListener(bus);
         }
