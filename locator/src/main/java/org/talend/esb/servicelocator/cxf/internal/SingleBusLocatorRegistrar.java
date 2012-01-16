@@ -19,6 +19,7 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,9 +32,19 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
+import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.Destination;
+import org.apache.cxf.ws.policy.EndpointPolicy;
+import org.apache.cxf.ws.policy.PolicyEngine;
+import org.apache.cxf.ws.security.policy.model.HttpsToken;
+import org.apache.cxf.ws.security.policy.model.Token;
+import org.apache.cxf.ws.security.policy.model.TransportBinding;
+import org.apache.cxf.ws.security.policy.model.TransportToken;
+import org.apache.neethi.Assertion;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.TransportType;
 
 /**
  * The LocatorRegistrar is responsible for registering the endpoints of CXF Servers at the Service Locator.
@@ -54,6 +65,8 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
     private ServiceLocator locatorClient;
 
     private String endpointPrefix = "";
+
+    private Map<String, String> endpointPrefixes = null;
 
     private Map<Server, CXFEndpointProvider> registeredServers = 
         Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
@@ -106,6 +119,10 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
     }
 
+    public void setEndpointPrefixes(Map<String, String> endpointPrefixes) {
+        this.endpointPrefixes = endpointPrefixes;
+    }
+
     public void setServiceLocator(ServiceLocator serviceLocator) {
         locatorClient = serviceLocator;
         serviceLocator.setPostConnectAction(this);
@@ -134,12 +151,29 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     public void registerServer(Server server, SLProperties props) {
         check(locatorClient, "serviceLocator", "registerEndpoint");
-        String absAddress = getAddress(server);
-        if (!absAddress.startsWith("http://")) { // relative address
-            absAddress = endpointPrefix + absAddress;
+        String address = getAddress(server);
+        if (isRelativeAddress(address)) { // relative address
+            String prefix = null;
+            if (endpointPrefixes == null || endpointPrefixes.size() == 0) {
+                prefix = endpointPrefix;
+            } else {
+                if (isSecuredByProperty(server) || isSecuredByPolicy(server)) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine("Endpoint " + server.getEndpoint().getEndpointInfo().getService().toString() + " is secured");
+                    }
+                    prefix = endpointPrefixes.get(TransportType.HTTPS.toString());
+                } else {
+                    prefix = endpointPrefixes.get(TransportType.HTTP.toString());
+                }
+                if (prefix == null) {
+                    LOG.warning("endpointPrefixes defined but empty. Using default");
+                    prefix = endpointPrefix;
+                }
+            }
+            address = prefix + address;
         }
 
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(server, absAddress, props);
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(server, address, props);
 
         registerServer(endpoint);
         registeredServers.put(server, endpoint);
@@ -187,7 +221,62 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
     private String getAddress(Server server) {
         return server.getEndpoint().getEndpointInfo().getAddress();
     }
- 
+
+    private boolean isRelativeAddress(String address){
+        if (address.startsWith("http://") || address.startsWith("https://")){
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+    * Is the transport secured by a policy
+    */
+    private boolean isSecuredByPolicy(Server server) {
+        boolean isSecured = false;
+
+        EndpointInfo ei = server.getEndpoint().getEndpointInfo();
+
+        PolicyEngine pe = bus.getExtension(PolicyEngine.class);
+        if (null == pe) {
+            LOG.finest("No Policy engine found");
+            return isSecured;
+        }
+
+        Destination destination = server.getDestination();
+        EndpointPolicy ep = pe.getServerEndpointPolicy(ei, destination);
+        Collection<Assertion> assertions = ep.getChosenAlternative();
+        for (Assertion a : assertions) {
+            if (a instanceof TransportBinding) {
+                TransportBinding tb = (TransportBinding)a;
+                TransportToken tt = tb.getTransportToken();
+                Token t = tt.getTransportToken();
+                if (t instanceof HttpsToken) {
+                    isSecured = true;
+                    break;
+                }
+            }
+        }
+        return isSecured;
+    }
+
+    /**
+     * Is the transport secured by a JAX-WS property
+     */
+    private boolean isSecuredByProperty(Server server) {
+        boolean isSecured = false;
+        Object value = server.getEndpoint().get("tesb.endpoint.secured"); //Property name TBD
+
+        if (value instanceof String) {
+            try {
+                isSecured = Boolean.valueOf((String)value);
+            } catch (Exception ex) {}
+        }
+
+        return isSecured;
+    }
+
     private  void check(Object obj, String propertyName, String methodName) {
         if (obj == null) {
             throw new IllegalStateException("The property " + propertyName + " must be set before "
