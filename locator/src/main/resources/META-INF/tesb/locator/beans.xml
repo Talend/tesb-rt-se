@@ -40,6 +40,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="${endpoint.prefix}"/>
+        <property name="endpointPrefixes">
+            <map>
+                <entry key="HTTP" value="${endpoint.http.prefix}" />
+                <entry key="HTTPS" value="${endpoint.https.prefix}" />
+            </map>
+        </property>
     </bean>
 
     <bean id="defaultSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy">

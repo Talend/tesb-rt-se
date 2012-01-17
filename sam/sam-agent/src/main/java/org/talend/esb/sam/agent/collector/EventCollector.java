@@ -135,6 +135,10 @@ public class EventCollector implements BusLifeCycleListener {
      * @param defaultInterval the new default interval
      */
     public void setDefaultInterval(long defaultInterval) {
+    	if(defaultInterval <= 0) {
+    		LOG.severe("collector.scheduler.interval must be greater than 0. Recommended value is 500-1000. Current value is " + defaultInterval);
+    		throw new IllegalArgumentException("collector.scheduler.interval must be greater than 0. Recommended value is 500-1000. Current value is " + defaultInterval);
+    	}
         this.defaultInterval = defaultInterval;
     }
 

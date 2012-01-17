@@ -63,6 +63,12 @@ limitations under the License.
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
+        <property name="endpointPrefixes">
+            <map>
+                <entry key="HTTP" value="$sl{endpoint.http.prefix}" />
+                <entry key="HTTPS" value="$sl{endpoint.https.prefix}" />
+            </map>
+        </property>
     </bean>
 
     <bean id="defaultSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy">

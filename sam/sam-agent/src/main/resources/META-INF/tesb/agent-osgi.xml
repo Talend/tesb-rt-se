@@ -43,7 +43,7 @@
 	    <prop key="collector.lifecycleEvent">false</prop>
         <prop key="log.messageContent">true</prop>
         <prop key="log.maxContentLength">-1</prop>
-        <prop key="log.enforceMessageIDTransfer">false</prop>
+        <prop key="log.enforceMessageIDTransfer">true</prop>
         <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
         <prop key="service.retry.number">3</prop>
         <prop key="service.retry.delay">5000</prop>
