@@ -19,9 +19,13 @@
  */
 package org.talend.esb.servicelocator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
+import org.talend.esb.servicelocator.client.TransportType;
 
 public class TestValues {
 
@@ -49,11 +53,17 @@ public class TestValues {
 
     public static final QName SERVICE_QNAME_4 = new QName("http://example.com/services", "service4");
 
-    public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
-
     public static final String REL_ENDPOINT_1 = "endpoint1";
 
     public static final String PREFIX_1 = "http://ep.com/";
+
+    public static final Map<String, String> PREFIXES_1 = new HashMap<String, String>();
+
+    public static final String PREFIX_HTTP = "http://ep.com/";
+
+    public static final String PREFIX_HTTPS = "https://ep.com:8443/";
+
+    public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
 
     public static final String ENDPOINT_2 = "http://ep.com/endpoint2";
 
@@ -87,5 +97,8 @@ public class TestValues {
 
         PROPERTIES_3.addProperty(NAME_4, VALUE_3, VALUE_2, VALUE_1);
         PROPERTIES_3.addProperty(NAME_2, VALUE_4);
+
+        PREFIXES_1.put(TransportType.HTTP.toString(), PREFIX_HTTP);
+        PREFIXES_1.put(TransportType.HTTPS.toString(), PREFIX_HTTPS);
     }
 }
