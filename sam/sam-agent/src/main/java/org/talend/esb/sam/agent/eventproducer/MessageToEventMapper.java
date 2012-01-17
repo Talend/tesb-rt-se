@@ -227,11 +227,7 @@ public class MessageToEventMapper {
 
         for (Iterator<OperationInfo> itr = operations.iterator(); itr.hasNext();) {
             OperationInfo op = itr.next();
-
             bop = ep.getEndpointInfo().getBinding().getOperation(op);
-            if (bop == null) {
-                continue;
-            }
         }
        
         return bop; 
