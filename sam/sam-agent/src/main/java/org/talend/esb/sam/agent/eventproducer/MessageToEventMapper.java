@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
@@ -40,6 +43,7 @@ import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.service.model.ServiceModelUtil;
 import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
 import org.apache.cxf.ws.addressing.ContextUtils;
 
@@ -192,7 +196,7 @@ public class MessageToEventMapper {
         boi = message.getExchange().getBindingOperationInfo();
         if (null == boi){
             //get BindingOperationInfo from message content
-            boi = getOperationFromServiceInfo(message);
+            boi = getOperationFromContent(message);
         }
 
         //if BindingOperationInfo is still null, try to get it from Request message content
@@ -201,7 +205,7 @@ public class MessageToEventMapper {
             if (null != inMsg){
                 Message reqMsg = inMsg.getExchange().getInMessage();
                 if (null != reqMsg){
-                    boi = getOperationFromServiceInfo(reqMsg);
+                    boi = getOperationFromContent(reqMsg);
                 }
             }
         }
@@ -213,24 +217,19 @@ public class MessageToEventMapper {
         return operationName;
     }
 
-    protected BindingOperationInfo getOperationFromServiceInfo(Message message){
-    	
-        BindingOperationInfo bop = null;
-        Exchange exchange = message.getExchange();
+    private BindingOperationInfo getOperationFromContent(Message message){
+
+        BindingOperationInfo boi = null;
         
-        Endpoint ep = exchange.get(Endpoint.class);
-        ServiceInfo si = ep.getEndpointInfo().getService();
-
-        Collection<OperationInfo> operations = null;
-        operations = new ArrayList<OperationInfo>();
-        operations.addAll(si.getInterface().getOperations());
-
-        for (Iterator<OperationInfo> itr = operations.iterator(); itr.hasNext();) {
-            OperationInfo op = itr.next();
-            bop = ep.getEndpointInfo().getBinding().getOperation(op);
+        XMLStreamReader xmlReader = message.getContent(XMLStreamReader.class);
+        
+        if (null != xmlReader){
+       	 QName qName = xmlReader.getName();
+       	 boi = ServiceModelUtil.getOperation(message.getExchange(), qName);
         }
-       
-        return bop; 
+
+        return boi;
+        
     }
 
     /**
