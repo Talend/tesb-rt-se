@@ -112,7 +112,6 @@ Starting the Demo service
 	Windows: trun.bat
 	
 	then enter the following command in the console:
-    karaf@trun> features:install tesb-locator-client
     karaf@trun> install -s file:///Talend-ESB-<version>/examples/talend/tesb/locator/common/target/locator-demo-common-<version>.jar
     karaf@trun> install -s file:///Talend-ESB-<version>/examples/talend/tesb/locator/service/target/locator-demo-service-<version>.jar
     

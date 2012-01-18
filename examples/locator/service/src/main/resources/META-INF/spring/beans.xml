@@ -34,6 +34,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			implementor="demo.service.Greeter_HttpsImpl"
 			serviceName="tns:Greeter_HttpsService"
 			address="/Greeter_HttpsService">
+		<jaxws:properties>
+		    <entry key="org.talend.tesb.endpoint.secured" value="true"/>
+		</jaxws:properties>
 		<jaxws:features>
 			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
 			</bean>
