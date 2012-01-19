@@ -41,6 +41,8 @@ import org.apache.cxf.ws.security.policy.model.Token;
 import org.apache.cxf.ws.security.policy.model.TransportBinding;
 import org.apache.cxf.ws.security.policy.model.TransportToken;
 import org.apache.neethi.Assertion;
+import org.apache.neethi.Policy;
+import org.apache.neethi.PolicyComponent;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -165,7 +167,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
                 } else {
                     prefix = endpointPrefixes.get(TransportType.HTTP.toString());
                 }
-                if (prefix == null) {
+                if (prefix == null || prefix.equals("")) {
                     LOG.warning("endpointPrefixes defined but empty. Using default");
                     prefix = endpointPrefix;
                 }
@@ -229,7 +231,6 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         return true;
     }
 
-
     /**
     * Is the transport secured by a policy
     */
@@ -258,6 +259,21 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
                 }
             }
         }
+
+        Policy policy = ep.getPolicy();
+        List<PolicyComponent> pcList = policy.getPolicyComponents();
+        for (PolicyComponent a : pcList) {
+            if (a instanceof TransportBinding) {
+                TransportBinding tb = (TransportBinding)a;
+                TransportToken tt = tb.getTransportToken();
+                Token t = tt.getTransportToken();
+                if (t instanceof HttpsToken) {
+                    isSecured = true;
+                    break;
+                }
+            }
+        }
+
         return isSecured;
     }
 
@@ -266,7 +282,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
      */
     private boolean isSecuredByProperty(Server server) {
         boolean isSecured = false;
-        Object value = server.getEndpoint().get("tesb.endpoint.secured"); //Property name TBD
+        Object value = server.getEndpoint().get("org.talend.tesb.endpoint.secured"); //Property name TBD
 
         if (value instanceof String) {
             try {
