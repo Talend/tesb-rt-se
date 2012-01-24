@@ -88,12 +88,12 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
                 availableAddresses = getRotatedList(availableAddresses);
             }
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "List of endpoints for service " + serviceName + ": "
+                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + " List of endpoints for service " + serviceName + ": "
                         + availableAddresses);
             }
         } else {
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Received empty list of endpoints from locator for service "
+                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + "Received empty list of endpoints from locator for service "
                         + serviceName);
             }
         }

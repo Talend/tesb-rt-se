@@ -48,14 +48,14 @@ public class LocatorClientEnablerTest {
 
     private Endpoint endpoint = createMock(Endpoint.class);
 
-    private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
+    private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
 
     @Before
     public void setUp() {
-        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategy>();
-        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategy());
+        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
+        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
         locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
-                new EvenDistributionSelectionStrategy());
+                new DefaultSelectionStrategyFactory());
 
         expect(conduitSelector.getEndpoint()).andStubReturn(endpoint);
         replay(conduitSelector);

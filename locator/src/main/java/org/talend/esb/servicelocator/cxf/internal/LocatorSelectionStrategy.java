@@ -77,7 +77,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
      */
     public abstract String getPrimaryAddress(Exchange exchange);
 
-    public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
+    synchronized public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
         if (propertiesMatcher != null) {
             matcher = propertiesMatcher;
         }

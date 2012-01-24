@@ -122,6 +122,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public synchronized void connect() throws InterruptedException,
             ServiceLocatorException {
+
         disconnect();
 
         if (LOG.isLoggable(Level.FINE)) {
@@ -335,7 +336,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * {@inheritDoc}
      */
     @Override
-    public List<SLEndpoint> getEndpoints(final QName serviceName)
+    synchronized public List<SLEndpoint> getEndpoints(final QName serviceName)
         throws ServiceLocatorException, InterruptedException {
 
         NodePathBinder<SLEndpoint> slEndpointBinder = new NodePathBinder<SLEndpoint>() {
@@ -442,6 +443,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
         throws ServiceLocatorException, InterruptedException {
+    	
 
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Looking up endpoints of service " + serviceName + "...");
@@ -462,10 +464,26 @@ public class ServiceLocatorImpl implements ServiceLocator {
                         byte[] content = getContent(childNodePath);
                         SLEndpoint endpoint = transformer.toSLEndpoint(serviceName, content, true);
                         SLProperties props = endpoint.getProperties();
-
+                        
+                        if (LOG.isLoggable(Level.FINE)) {
+	                        StringBuilder sb = new StringBuilder();
+	                        for (String prop: props.getPropertyNames()) {
+	                        	sb.append(prop + " : ");
+	                        	for (String value: props.getValues(prop))
+	                        		sb.append(value + " ");
+	                        	sb.append("\n");
+	                        }        
+	                        LOG.fine("Lookup of service " + serviceName + " props = " + sb.toString());
+	                        LOG.fine("matcher = " + matcher.toString());
+                        }
                         if (matcher.isMatching(props)) {
                             liveEndpoints.add(childNodePath.getNodeName());
-                        }
+                            if (LOG.isLoggable(Level.FINE))
+                            	LOG.fine("matched =  " + childNodePath.getNodeName());
+                        } else 
+                        	if (LOG.isLoggable(Level.FINE))
+                        		LOG.fine("not matched =  " + childNodePath.getNodeName());
+
                     }
                 }
             } else {

@@ -36,9 +36,9 @@ public class LocatorClientEnabler {
 
     private ServiceLocator locatorClient;
 
-    private Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
+    private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
 
-    private LocatorSelectionStrategy locatorSelectionStrategy;
+    private LocatorSelectionStrategyFactory locatorSelectionStrategyFactory;
 
     private String defaultLocatorSelectionStrategy;
 
@@ -57,9 +57,9 @@ public class LocatorClientEnabler {
      * @param locatorSelectionStrategies
      */
     public void setLocatorSelectionStrategies(
-            Map<String, LocatorSelectionStrategy> locatorSelectionStrategies) {
+            Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies) {
         this.locatorSelectionStrategies = locatorSelectionStrategies;
-        this.locatorSelectionStrategy = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
+        this.locatorSelectionStrategyFactory = locatorSelectionStrategies.get(DEFAULT_STRATEGY);
     }
 
     /**
@@ -73,7 +73,7 @@ public class LocatorClientEnabler {
                     + " was set for LocatorClientRegistrar.");
         }
         if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
-            this.locatorSelectionStrategy = locatorSelectionStrategies.get(locatorSelectionStrategy);
+            this.locatorSelectionStrategyFactory = locatorSelectionStrategies.get(locatorSelectionStrategy);
         } else {
             if (LOG.isLoggable(Level.WARNING)) {
                 LOG.log(Level.WARNING, "LocatorSelectionStrategy " + locatorSelectionStrategy
@@ -94,7 +94,7 @@ public class LocatorClientEnabler {
                     + " was set for LocatorClientRegistrar.");
         }
         if (locatorSelectionStrategies.containsKey(defaultLocatorSelectionStrategy)) {
-            this.locatorSelectionStrategy = locatorSelectionStrategies.get(defaultLocatorSelectionStrategy);
+            this.locatorSelectionStrategyFactory = locatorSelectionStrategies.get(defaultLocatorSelectionStrategy);
             this.defaultLocatorSelectionStrategy = defaultLocatorSelectionStrategy;
             // setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
         } else {
@@ -135,6 +135,7 @@ public class LocatorClientEnabler {
             setLocatorSelectionStrategy(defaultLocatorSelectionStrategy);
         }
 
+        LocatorSelectionStrategy locatorSelectionStrategy = locatorSelectionStrategyFactory.getInstance();
         locatorSelectionStrategy.setServiceLocator(locatorClient);
         if (matcher != null) {
             locatorSelectionStrategy.setMatcher(matcher);

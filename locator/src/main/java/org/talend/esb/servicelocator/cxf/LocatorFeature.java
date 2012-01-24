@@ -123,12 +123,24 @@ public class LocatorFeature extends AbstractFeature {
 
     public void setRequiredEndpointProperties(Map<String, String> properties) {
         slPropsMatcher = new SLPropertiesMatcher();
+        
+        if (LOG.isLoggable(Level.FINE)) {
+            StringBuilder sb = new StringBuilder();
+            for (String prop: properties.keySet()) {
+            	sb.append(prop + " -> ");
+             	sb.append(properties.get(prop) + "\n");
+            }    
+        }
 
         for (Map.Entry<String, String> entry : properties.entrySet()) {
             for (String value : tokenize(entry.getValue())) {
                 slPropsMatcher.addAssertion(entry.getKey(), value);
             }
         }
+        
+        LOG.fine("set matcher = " + slPropsMatcher.toString());
+        for ( StackTraceElement trace : new Throwable().getStackTrace() )
+        	LOG.fine(trace.toString());
     }
 
     public void setSelectionStrategy(String selectionStrategy) {

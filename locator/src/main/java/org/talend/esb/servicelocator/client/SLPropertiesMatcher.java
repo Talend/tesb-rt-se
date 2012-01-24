@@ -43,4 +43,16 @@ public class SLPropertiesMatcher {
         return true;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+    	sb.append("matcher = " + this.hashCode());
+        for (Map.Entry<String, String> matcher : matchers) {
+        	sb.append(matcher.getKey());
+        	sb.append(" -> ");
+        	sb.append(matcher.getValue());
+        	sb.append("\n");
+        }
+        return sb.toString();
+    }
+
 }

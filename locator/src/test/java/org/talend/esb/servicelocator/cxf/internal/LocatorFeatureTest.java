@@ -48,7 +48,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
     Bus busMock;
     LocatorRegistrar locatorRegistrarMock;
-    Map<String, LocatorSelectionStrategy> locatorSelectionStrategies;
+    Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
     ClassLoader cll;
 
     @Before
@@ -62,11 +62,11 @@ public class LocatorFeatureTest extends EasyMockSupport {
         EasyMock.expectLastCall().anyTimes();
         cll = this.getClass().getClassLoader();
 
-        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategy>();
-        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategy());
-        locatorSelectionStrategies.put("randomSelectionStrategy", new RandomSelectionStrategy());
+        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
+        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
+        locatorSelectionStrategies.put("randomSelectionStrategy", new RandomSelectionStrategyFactory());
         locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
-                new EvenDistributionSelectionStrategy());
+                new EvenDistributionSelectionStrategyFactory());
     }
 
     @Test
