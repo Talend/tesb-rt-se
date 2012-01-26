@@ -20,18 +20,31 @@
 package org.talend.esb.job.controller;
 
 /**
- * A very generic interface describing an operation.
- *
+ * A very generic interface describing an operation which is backed by a {@link TalendESBJob job}.
  */
 public interface GenericOperation {
 
     /**
-     * Invoke the operation.
+     * Invoke the operation. If the operation was not yet {@link #start(String[]) started} or was already
+     * {@link #stop() stopped} invocation may fail.
      * 
      * @param payload the request payload, must not be <code>null</code>
      * @param isRequestResponse flag whether a response is expected
      * @return the response or <code>null</code> if the operation is a one-way
      * @throws Exception a possible fault
+     * @throws IllegalStateException if the operation was not yet started or already closed.
      */
-    Object invoke(Object payload, boolean isRequestResponse) throws Exception;
+    Object invoke(Object payload, boolean isRequestResponse) throws IllegalStateException, Exception;
+
+    /**
+     * Start this operation. After being started the operation is ready to get invoked.
+     * 
+     * @param arguments pass these arguments to the backing {@link TalendESBJob job}
+     */
+    void start(String[] arguments);
+
+    /**
+     * Stop this operation. After being stopped the operation will fail to execute invocations.
+     */
+    void stop();
 }

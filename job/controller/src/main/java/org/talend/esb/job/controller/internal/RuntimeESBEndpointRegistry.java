@@ -54,8 +54,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     }
 
     public void setSamFeature(EventFeature samFeature) {
-		this.samFeature = samFeature;
-	}
+        this.samFeature = samFeature;
+    }
 
     public void setPolicyProvider(PolicyProvider policyProvider) {
         this.policyProvider = policyProvider;

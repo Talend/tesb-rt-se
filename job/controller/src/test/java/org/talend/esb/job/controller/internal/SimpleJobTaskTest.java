@@ -24,15 +24,13 @@ import java.util.Hashtable;
 
 import org.junit.Test;
 
-import routines.system.api.TalendJob;
-
 import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-
+import routines.system.api.TalendJob;
 
 public class SimpleJobTaskTest {
     

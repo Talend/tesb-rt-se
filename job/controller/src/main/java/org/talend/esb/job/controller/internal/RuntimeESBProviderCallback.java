@@ -19,120 +19,151 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.talend.esb.job.controller.internal.MessageExchangeBuffer.BufferStoppedException;
 
 import routines.system.api.ESBJobInterruptedException;
 import routines.system.api.ESBProviderCallback;
+import routines.system.api.TalendESBJob;
 
-public class RuntimeESBProviderCallback implements ESBProviderCallback {
+/**
+ * Callback implementation responsible for one Job. It provides a bridge between the
+ * {@link MessageExchangeBuffer buffer} holding the requests and the job retrieving a request. I also
+ * responsible to assign the response to the request as soon as available.
+ * <code>RuntimeESBProviderCallback</code> is an active object and meant to be run in its own {@link Thread}.
+ *
+ */
+public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable {
 
     private static final Logger LOG =
         Logger.getLogger(RuntimeESBProviderCallback.class.getName());
 
-    private static final MessageExchange POISON = new MessageExchange(null);
 
     private MessageExchangeBuffer messageExchanges;
     
-    private volatile MessageExchange currentExchange;
+    private TalendESBJob job;
+    
+    private final String name;
+    
+    private MessageExchange currentExchange;
+    
+    private String[] arguments;
 
-    public RuntimeESBProviderCallback() {
-        this(new MessageExchangeBuffer());
-    }
-
-    public RuntimeESBProviderCallback(MessageExchangeBuffer messageExchanges) {
+    /**
+     * Creates a new callback.
+     * 
+     * @param messageExchanges
+     *            the buffer from which to retrieve the requests for the job.
+     * @param esbJob
+     *            the job for which this callback is responsible , must not be <code>null</code>
+     * @param arguments
+     *            arguments to be passed to the job when starting it, must not be <code>null</code>
+     */
+    public RuntimeESBProviderCallback(
+            MessageExchangeBuffer messageExchanges,
+            TalendESBJob esbJob,
+            String jobName,
+            String[] arguments) {
         this.messageExchanges = messageExchanges;
+        job = esbJob;
+        name = jobName;
+        this.arguments = arguments;
     }
 
+    /**
+     * Retrieves a request from the buffer and forwards it to the {@link TalendESBJob job} requesting it.
+     * 
+     * @return the request retrieved from the buffer
+     */
+    @Override
     public Object getRequest() throws ESBJobInterruptedException {
         try {
-            currentExchange = messageExchanges.takeMessageExchange();
+            currentExchange = messageExchanges.take();
         } catch (BufferStoppedException e) {
+            Thread.currentThread().interrupt();
+            throw new ESBJobInterruptedException("Job canceled.");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new ESBJobInterruptedException("Job canceled.");
         }
-        return currentExchange.request;
+        return currentExchange.getRequest();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void sendResponse(Object response) {
-        currentExchange.response = response;
-        synchronized (currentExchange) {
-            currentExchange.ready = true;
-            currentExchange.notify();
-        }
-    }
-
-    public Object invoke(Object payload, boolean isRequestResponse) throws Exception {
-        MessageExchange myExchange = new MessageExchange(payload);
-        messageExchanges.putMessageExchange(myExchange);
-        if (!isRequestResponse) {
-            return null;
-        }
-        synchronized (myExchange) {
-            while (!myExchange.ready) {
-                myExchange.wait();
-            }
-        }
-        return myExchange.response;
+        currentExchange.setResponse(response);
     }
     
-    public static class MessageExchangeBuffer {
-        private volatile boolean stopped;
+    /**
+     * Starts the @link TalendESBJob job} for which this callback is responsible. The job is restarted if it
+     * returns back, except the {@link Thread} was interrupted or the buffer was closed.
+     */
+    @Override
+    public void run() {
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.info("Calling run to start ESB job instance " + job + " for job with name " + name);
+        }
+        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
 
-        private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
-
-        public MessageExchange takeMessageExchange() throws BufferStoppedException{
-            MessageExchange currentExchange = null;
-            while (currentExchange == null) {
-                try {
-                    currentExchange = requests.take();
-                    if (currentExchange == POISON) {
-                        stopped = true;
-                        throw new BufferStoppedException(); //ESBJobInterruptedException("Job was cancelled.");
-                    }
-                } catch (InterruptedException e) {
-                    stop();
+            while (true) {
+                if (Thread.interrupted()) {
+                    return;
                 }
-            }
-            return currentExchange;
-        }
+                LOG.info("Starting ESB job instance " + job + " for job with name " + name);
+                int ret = job.runJobInTOS(arguments);
+                LOG.info("ESB job instance " + job + " with name " + name + " finished, return code is "
+                        + ret);
 
-        public void  putMessageExchange(MessageExchange messageExchange) throws InterruptedException {
-            requests.put(messageExchange);
-        }
-
-        void stop() {
-            boolean success = false;
-            while (!success) {
-                try {
-                    requests.put(POISON);
-                    success = true;
-                } catch (InterruptedException e) {
-                    LOG.throwing(this.getClass().getName(), "prepareStop", e);
-                }
             }
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextCL);
         }
+    }
+    
+    
+
+    @Override
+    public String toString() {
+        return "RuntimeESBProviderCallback[" + System.identityHashCode(this) + "] for job " + job;
+    }
+
+    public static class MessageExchange {
+        private Object request;
         
-        boolean isStopped() {
-            return stopped;
-        }
-    }
-
-    
-    public static final class MessageExchange {
-        public Object request;
-
-        public Object response;
-
-        // http://docs.oracle.com/javase/tutorial/essential/concurrency/guardmeth.html
-        public boolean ready = false;
-
+        private Object response;
+        
+        private boolean ready;
+        
         public MessageExchange(Object request) {
             this.request = request;
         }
-    }
-
-    public static class BufferStoppedException extends Exception {
         
+        public Object getRequest() {
+            return request;
+        }
+        
+        public void setResponse(Object response) {
+            synchronized (this) {
+                this.response = response;
+                ready = true;
+                notifyAll();
+            }
+        }
+        
+        public Object waitForResponse() throws InterruptedException {
+            synchronized (this) {
+                while (!ready) {
+                    wait();
+                }
+            }
+            return response;
+        }
     }
 }

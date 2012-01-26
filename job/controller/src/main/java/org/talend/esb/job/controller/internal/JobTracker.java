@@ -29,6 +29,7 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import routines.system.api.TalendESBJob;
+import routines.system.api.TalendESBJobFactory;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
@@ -43,6 +44,8 @@ public class JobTracker {
             "(objectClass=" + TalendJob.class.getName() + ")";
 
     private static final String PROPERTY_KEY_NAME = "name";
+
+    private static final String PROPERTY_KEY_MT = "multithreading";
 
     private BundleContext context;
 
@@ -81,7 +84,7 @@ public class JobTracker {
 
     private String getValue(String name, ServiceReference sRef) {
         Object val = sRef.getProperty(name);
-        if (!(name instanceof String)) {
+        if (!(val instanceof String)) {
             throw new IllegalArgumentException(
                     name + " property of TalendJob either not defined or not of type String");
         }
@@ -96,7 +99,11 @@ public class JobTracker {
             Object service = context.getService(reference);
             if (service != null) {
                 String name = getValue(PROPERTY_KEY_NAME, reference);
-                if (service instanceof TalendESBJob) {
+                boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference));
+
+                if (service instanceof TalendESBJobFactory) {
+                    listener.esbJobFactoryAdded((TalendESBJobFactory) service, name);
+                } else if (service instanceof TalendESBJob  && !isMultiThreading) {
                     listener.esbJobAdded((TalendESBJob) service, name);
                 } else if (service instanceof TalendESBRoute) {
                     listener.routeAdded((TalendESBRoute) service, name);
@@ -117,7 +124,10 @@ public class JobTracker {
         public void removedService(ServiceReference reference, Object service) {
             LOG.info("Service " + service + " removed");
             String name = getValue(PROPERTY_KEY_NAME, reference);
-            if (service instanceof TalendESBJob) {
+            boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference));
+            if (service instanceof TalendESBJobFactory) {
+                listener.esbJobFactoryRemoved((TalendESBJobFactory) service, name);
+            } else if (service instanceof TalendESBJob && !isMultiThreading) {
                 listener.esbJobRemoved((TalendESBJob) service, name);
             } else if (service instanceof TalendESBRoute) {
                 listener.routeRemoved((TalendESBRoute) service, name);

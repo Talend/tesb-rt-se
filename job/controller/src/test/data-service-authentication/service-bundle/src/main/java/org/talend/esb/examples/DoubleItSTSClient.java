@@ -10,15 +10,15 @@ import org.apache.cxf.bus.spring.SpringBusFactory;
 
 public class DoubleItSTSClient {
 
-    final static String NAMESPACE = "http://examples.esb.talend.org/";
+    static final String NAMESPACE = "http://examples.esb.talend.org/";
 
-    final static QName SERVICE_QNAME = new QName(NAMESPACE, "DoubleItService");
-	
-	public static void main(String[] args) throws Exception {
-		
-		SpringBusFactory bf = new SpringBusFactory();
+    static final QName SERVICE_QNAME = new QName(NAMESPACE, "DoubleItService");
 
-		Bus bus = bf.createBus("META-INF/spring/client-sts-beans.xml");
+    public static void main(String[] args) throws Exception {
+
+        SpringBusFactory bf = new SpringBusFactory();
+
+        Bus bus = bf.createBus("META-INF/spring/client-sts-beans.xml");
         SpringBusFactory.setDefaultBus(bus);
         SpringBusFactory.setThreadDefaultBus(bus);
         
@@ -32,5 +32,5 @@ public class DoubleItSTSClient {
         int x =  symmetricSaml2Port.execute(10);
 
         System.out.println(x);
-	}
+    }
 }

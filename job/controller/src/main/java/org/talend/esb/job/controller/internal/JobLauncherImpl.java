@@ -35,6 +35,7 @@ import org.talend.esb.job.controller.JobLauncher;
 
 import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.TalendESBJob;
+import routines.system.api.TalendESBJobFactory;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
@@ -48,8 +49,7 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
 
     private Map<String, JobTask> jobTasks = new ConcurrentHashMap<String, JobTask>();
     private Map<String, JobTask> routeTasks = new ConcurrentHashMap<String, JobTask>();
-    private Map<String, TalendESBJob> esbJobs = new ConcurrentHashMap<String, TalendESBJob>();
-    private Map<String, OperationTask> operationTasks = new ConcurrentHashMap<String, OperationTask>();
+    private Map<String, GenericOperation> operations = new ConcurrentHashMap<String, GenericOperation>();
     private Map<String, ServiceRegistration> serviceRegistrations =
             new ConcurrentHashMap<String, ServiceRegistration>();
 
@@ -66,13 +66,24 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
     }
 
     @Override
+    public void esbJobFactoryAdded(TalendESBJobFactory esbJobFactory, String name) {
+        LOG.info("Adding ESB job factory for job " + name + ".");
+        MultiThreadedOperation op =
+            new MultiThreadedOperation(esbJobFactory, name, endpointRegistry, executorService);
+        operations.put(name, op);
+    }
+
+    @Override
     public void esbJobAdded(TalendESBJob esbJob, String name) {
         LOG.info("Adding ESB job " + name + ".");
         esbJob.setEndpointRegistry(endpointRegistry);
         if (isConsumerOnly(esbJob)) {
             startJob(esbJob, name);
         } else {
-            esbJobs.put(name, esbJob);
+            SingleThreadedOperation op =
+                    new SingleThreadedOperation(esbJob, name, endpointRegistry, executorService);
+            operations.put(name, op);
+
         }
     }
 
@@ -82,11 +93,19 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
         if (isConsumerOnly(esbJob)) {
             stopJob(esbJob, name);
         } else {
-            esbJobs.remove(name);
-            OperationTask task = operationTasks.remove(name);
+            GenericOperation task = operations.remove(name);
             if (task != null) {
                 task.stop();
             }
+        }
+    }
+
+    @Override
+    public void esbJobFactoryRemoved(TalendESBJobFactory esbJobFactory, String name) {
+        LOG.info("Removing ESB job factory for job " + name + ".");
+        GenericOperation task = operations.remove(name);
+        if (task != null) {
+            task.stop();
         }
     }
 
@@ -135,7 +154,6 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
     }
 
     public void unbind() {
-        esbJobs.clear();
         executorService.shutdownNow();
     }
 
@@ -165,27 +183,14 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
 
     @Override
     public synchronized GenericOperation retrieveOperation(String jobName, String[] args) {
-        OperationTask task = operationTasks.get(jobName);
+        GenericOperation task = operations.get(jobName);
         if (task == null) {
-            TalendESBJob job = getJob(jobName);
-            if (job == null) {
-                throw new IllegalArgumentException("Talend job '" + jobName
-                        + "' not found");
-            }
-            task = new OperationTask(job, args, executorService);
-            operationTasks.put(jobName, task);
-            executorService.execute(task);
-        }
-        return task;
-    }
-
-    private TalendESBJob getJob(String name) {
-        TalendESBJob job = esbJobs.get(name);
-        if (job == null) {
             throw new IllegalArgumentException("Talend ESB job with name "
-                    + name + "' not found");
+                    + jobName + "' not found");
+
         }
-        return (TalendESBJob) job;
+        task.start(args);
+        return task;
     }
 
     private Dictionary<String, Object> getManagedServiceProperties(

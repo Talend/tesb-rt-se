@@ -19,9 +19,6 @@
  */
 package org.talend.esb.job.controller.internal;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.expect;
-
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.concurrent.ExecutorService;
@@ -31,6 +28,9 @@ import org.junit.Before;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
+
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
 
 import routines.system.api.TalendESBRoute;
 
@@ -51,9 +51,11 @@ public class JobLauncherListsTest extends EasyMockSupport {
     public static final String MANAGED_SERVICE_NAME = "org.osgi.service.cm.ManagedService";
 
     @SuppressWarnings("serial")
-    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() { {
-        put(Constants.SERVICE_PID, ROUTE_NAME_1);
-    } };
+    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() {
+        {
+            put(Constants.SERVICE_PID, ROUTE_NAME_1);
+        }
+    };
 
     private TalendESBRoute route1 = createMock(TalendESBRoute.class);
 

@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.concurrent.ExecutorService;
@@ -30,16 +31,16 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.TalendESBJob;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
-
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 
 public class JobLauncherListenerTest extends EasyMockSupport {
 
@@ -50,9 +51,11 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     public static final String[] EMPTY_STRING_ARR = new String[0];
 
     @SuppressWarnings("serial")
-    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() { {
-        put(Constants.SERVICE_PID, NAME);
-    } };
+    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() {
+        {
+            put(Constants.SERVICE_PID, NAME);
+        }
+    };
     
     private BundleContext context;
 

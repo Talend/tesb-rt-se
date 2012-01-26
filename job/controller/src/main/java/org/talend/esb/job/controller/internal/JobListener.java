@@ -20,6 +20,7 @@
 package org.talend.esb.job.controller.internal;
 
 import routines.system.api.TalendESBJob;
+import routines.system.api.TalendESBJobFactory;
 import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
@@ -28,6 +29,22 @@ import routines.system.api.TalendJob;
  *
  */
 public interface JobListener {
+
+    /**
+     * Invoked when an ESB Job factory is registered.
+     * 
+     * @param esbJobFactory the job factory registered, must not be <code>null</code>
+     * @param name the name of the job instances the factory is creating, must not be <code>null</code>
+     */
+    void esbJobFactoryAdded(TalendESBJobFactory esbJobFactory, String name);
+
+    /**
+     * Invoked when an ESB Job factory is unregistered.
+     * 
+     * @param esbJobFactory the job factory unregistered, must not be <code>null</code>
+     * @param name the name of the job instances the factory is creating, must not be <code>null</code>
+     */
+    void esbJobFactoryRemoved(TalendESBJobFactory esbJobFactory, String name);
 
     /**
      * Invoked when an ESB Job is registered.
