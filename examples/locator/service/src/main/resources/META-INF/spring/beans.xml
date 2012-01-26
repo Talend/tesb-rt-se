@@ -42,7 +42,6 @@
 		    <entry key="org.talend.tesb.endpoint.secured" value="true"/>
 		</jaxws:properties-->
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 			<p:policies>
 				<wsp:Policy>
 					<wsp:ExactlyOne>
@@ -59,7 +58,10 @@
 						</wsp:All>
 					</wsp:ExactlyOne>
 				</wsp:Policy>
-			</p:policies>			
+			</p:policies>	
+			
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+			
 		</jaxws:features>
 	</jaxws:endpoint>
 	
