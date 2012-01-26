@@ -28,32 +28,26 @@ import routines.system.api.ESBProviderCallback;
 
 public class RuntimeESBProviderCallback implements ESBProviderCallback {
 
-    public static final Logger LOG =
+    private static final Logger LOG =
         Logger.getLogger(RuntimeESBProviderCallback.class.getName());
 
     private static final MessageExchange POISON = new MessageExchange(null);
 
     private final BlockingQueue<MessageExchange> requests = new LinkedBlockingQueue<MessageExchange>();
 
-    private volatile MessageExchange currentExchange;
+    private MessageExchange currentExchange;
 
     private volatile boolean stopped;
 
-    public RuntimeESBProviderCallback() {
-    }
-
     public Object getRequest() throws ESBJobInterruptedException {
-        currentExchange = null;
-        while (currentExchange == null) {
-            try {
-                currentExchange = requests.take();
-                if (currentExchange == POISON) {
-                    stopped = true;
-                    throw new ESBJobInterruptedException("Job was cancelled.");
-                }
-            } catch (InterruptedException e) {
-                prepareStop();
+        try {
+            currentExchange = requests.take();
+            if (POISON == currentExchange) {
+                stopped = true;
+                throw new ESBJobInterruptedException("Job was cancelled.");
             }
+        } catch (InterruptedException e) {
+            prepareStop();
         }
         return currentExchange.request;
     }
@@ -61,6 +55,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
     public void sendResponse(Object response) {
         currentExchange.response = response;
         synchronized (currentExchange) {
+            currentExchange.ready = true;
             currentExchange.notify();
         }
     }
@@ -72,19 +67,21 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
             return null;
         }
         synchronized (myExchange) {
-            myExchange.wait();
+            while (!myExchange.ready) {
+                myExchange.wait();
+            }
         }
         return myExchange.response;
     }
-    
+
     public void stop() {
         prepareStop();
     }
 
     public boolean isStopped() {
-        return stopped;    
+        return stopped;
     }
-    
+
     protected void prepareStop() {
         boolean success = false;
         while (!success) {
@@ -96,14 +93,18 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
             }
         }
     }
-    
-    private static class MessageExchange {
+
+    private static final class MessageExchange {
         public Object request;
-        
+
         public Object response;
-        
+
+        // http://docs.oracle.com/javase/tutorial/essential/concurrency/guardmeth.html
+        public boolean ready = false;
+
         public MessageExchange(Object request) {
             this.request = request;
         }
     }
+
 }
