@@ -58,24 +58,24 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         </property>
     </bean>
 
-    <bean id="defaultSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy">
+    <bean id="defaultSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategyFactory">
     </bean>
 
-   <bean id="evenDistributionSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy">
+    <bean id="evenDistributionSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategyFactory">
         <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
-   </bean>
+    </bean>
 
-   <bean id="randomSelectionStrategy" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy">
+    <bean id="randomSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategyFactory">
         <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
-   </bean>
+    </bean>
 
    <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
        <property name="locatorSelectionStrategies">
             <map>
-				<entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategy" />
-				<entry key="randomSelectionStrategy" value-ref="randomSelectionStrategy" />
-				<entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategy" />
-			</map>
+                <entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategyFactory" />
+                <entry key="randomSelectionStrategy" value-ref="randomSelectionStrategyFactory" />
+                <entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategyFactory" />
+            </map>
         </property>
         <property name="serviceLocator" ref="serviceLocator" />
         <property name="defaultLocatorSelectionStrategy" value="${locator.strategy}" />
