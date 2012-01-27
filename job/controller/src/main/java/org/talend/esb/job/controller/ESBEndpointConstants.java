@@ -32,6 +32,7 @@ public interface ESBEndpointConstants {
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
     String PASSWORD = "password";
+    String SOAPACTION = "soapAction";
 
     // request constants
     String REQUEST_PAYLOAD = "PAYLOAD";

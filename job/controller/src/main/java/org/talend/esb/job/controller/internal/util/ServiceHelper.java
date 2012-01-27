@@ -19,17 +19,14 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
-import javax.wsdl.WSDLException;
-import javax.wsdl.extensions.ExtensionRegistry;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
 
-import org.apache.cxf.Bus;
-import org.apache.cxf.binding.soap.Soap12;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
+import org.apache.cxf.binding.soap.model.SoapOperationInfo;
 import org.apache.cxf.binding.soap.saaj.SAAJFactoryResolver;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.BindingOperationInfo;
@@ -38,9 +35,6 @@ import org.apache.cxf.service.model.MessageInfo;
 import org.apache.cxf.service.model.MessagePartInfo;
 import org.apache.cxf.service.model.OperationInfo;
 import org.apache.cxf.service.model.ServiceInfo;
-import org.apache.cxf.tools.common.extensions.soap.SoapOperation;
-import org.apache.cxf.tools.util.SOAPBindingUtil;
-import org.apache.cxf.wsdl.WSDLManager;
 
 public final class ServiceHelper {
 
@@ -51,7 +45,7 @@ public final class ServiceHelper {
     }
 
     public static void addOperation(final ServiceInfo si,
-            String operationName, boolean isRequestResponse) {
+            String operationName, boolean isRequestResponse, String soapAction) {
         final InterfaceInfo ii = si.getInterface();
         final String namespace = ii.getName().getNamespaceURI();
 
@@ -74,28 +68,12 @@ public final class ServiceHelper {
 
         final BindingInfo bi = si.getBindings().iterator().next();
         final BindingOperationInfo boi = new BindingOperationInfo(bi, oi);
-        bi.addOperation(boi);
-        if (bi instanceof SoapBindingInfo) {
-//            SoapOperationInfo soi = new SoapOperationInfo();
-//            soi.setAction(operationName);
-//            boi.addExtensor(soi);
-
-            // org.apache.cxf.binding.soap.SoapBindingFactory
-            final SoapBindingInfo sbi = (SoapBindingInfo)bi;
-            Bus bs = org.apache.cxf.bus.spring.SpringBusFactory.getDefaultBus();
-            WSDLManager m = bs.getExtension(WSDLManager.class);
-            ExtensionRegistry extensionRegistry = m.getExtensionRegistry();
-            boolean isSoap12 = sbi.getSoapVersion() instanceof Soap12;
-            try {
-                SoapOperation soapOperation =
-                    SOAPBindingUtil.createSoapOperation(extensionRegistry, isSoap12);
-                soapOperation.setSoapActionURI(operationName/*soi.getAction()*/);
-//                soapOperation.setStyle(soi.getStyle());
-                boi.addExtensor(soapOperation);
-            } catch (WSDLException e) {
-                throw new RuntimeException(e);
-            }
+        if (soapAction != null && bi instanceof SoapBindingInfo) {
+            SoapOperationInfo soi = new SoapOperationInfo();
+            soi.setAction(soapAction);
+            boi.addExtensor(soi);
         }
+        bi.addOperation(boi);
     }
 
     public static void removeOperation(final ServiceInfo si, String operationName) {

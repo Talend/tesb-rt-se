@@ -73,6 +73,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final String operationName;
     private final boolean isRequestResponse;
     private final EventFeature samFeature;
+    private final String soapAction;
 
     private final ClientFactoryBean clientFactory;
 
@@ -85,10 +86,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final EventFeature samFeature,
             final SecurityArguments securityArguments, 
             final Bus bus,
-            boolean logging) {
+            boolean logging,
+            String soapAction) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
+        this.soapAction = soapAction;
 
         clientFactory = new JaxWsClientFactoryBean() {
             @Override
@@ -240,7 +243,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         service.setDataBinding(new SourceDataBinding());
 
         final ServiceInfo si = service.getServiceInfos().get(0);
-        ServiceHelper.addOperation(si, operationName, isRequestResponse);
+        ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
 
         return client;
     }

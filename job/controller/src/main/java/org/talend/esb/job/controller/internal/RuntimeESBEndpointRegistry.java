@@ -122,7 +122,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 useServiceActivityMonitor ? samFeature : null,
                 securityArguments,
                 bus,
-                Boolean.parseBoolean(clientProperties.get(LOGGING)));
+                Boolean.parseBoolean(clientProperties.get(LOGGING)),
+                (String) props.get(ESBEndpointConstants.SOAPACTION));
     }
 
 }
