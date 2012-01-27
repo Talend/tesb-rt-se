@@ -42,7 +42,7 @@ public class OperationTask extends RuntimeESBProviderCallback implements JobTask
 
             while (true) {
                 if (Thread.interrupted()) {
-                    prepareStop();
+                    stop();
                 }
                 job.runJobInTOS(arguments);
                 if (isStopped()) {

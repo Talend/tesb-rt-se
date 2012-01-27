@@ -47,7 +47,8 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
                 throw new ESBJobInterruptedException("Job was cancelled.");
             }
         } catch (InterruptedException e) {
-            prepareStop();
+            stopped = true;
+            throw new ESBJobInterruptedException("Job was stopped.");
         }
         return currentExchange.request;
     }
@@ -75,14 +76,6 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
     }
 
     public void stop() {
-        prepareStop();
-    }
-
-    public boolean isStopped() {
-        return stopped;
-    }
-
-    protected void prepareStop() {
         boolean success = false;
         while (!success) {
             try {
@@ -92,6 +85,10 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback {
                 LOG.throwing(this.getClass().getName(), "prepareStop", e);
             }
         }
+    }
+
+    public boolean isStopped() {
+        return stopped;
     }
 
     private static final class MessageExchange {
