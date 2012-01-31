@@ -83,10 +83,18 @@ public class JobTracker {
     }
 
     private String getValue(String name, ServiceReference sRef) {
+        return getValue(name, sRef, true);
+    }
+
+    private String getValue(String name, ServiceReference sRef, boolean mandatory) {
         Object val = sRef.getProperty(name);
-        if (!(val instanceof String)) {
+        if (val != null && !(val instanceof String)) {
             throw new IllegalArgumentException(
-                    name + " property of TalendJob either not defined or not of type String");
+                    name + " property of TalendJob not of type String");
+        }
+        if (val == null && mandatory) {
+            throw new IllegalArgumentException(
+                    name + " property of TalendJob is mandatory but not defined");
         }
         return (String) val;
     }
@@ -99,7 +107,7 @@ public class JobTracker {
             Object service = context.getService(reference);
             if (service != null) {
                 String name = getValue(PROPERTY_KEY_NAME, reference);
-                boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference));
+                boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference, false));
 
                 if (service instanceof TalendESBJobFactory) {
                     listener.esbJobFactoryAdded((TalendESBJobFactory) service, name);
