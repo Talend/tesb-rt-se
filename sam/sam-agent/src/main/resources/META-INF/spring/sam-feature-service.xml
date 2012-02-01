@@ -24,11 +24,9 @@
 	xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-	"
->
-    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+    <import resource="classpath:META-INF/tesb/agent-osgi.xml"/>
 
 	<osgi:service ref="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"/>
 

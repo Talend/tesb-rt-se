@@ -20,17 +20,17 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:task="http://www.springframework.org/schema/task"
     xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd" >
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <import resource="classpath:META-INF/cxf/cxf.xml" />
 
@@ -69,10 +69,7 @@
         <property name="bus" ref="cxf" />
         <property name="queue" ref="samQueue" />
         <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
-        <!-- Default interval for scheduler. Start every X milliseconds a new scheduler -->
         <property name="defaultInterval" value="$sam{collector.scheduler.interval}" />
-        <!-- Number of events within one service call. This is a maximum number. 
-            If there are events in the queue, the events will be processed. -->
         <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}" />
 		<property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
         <property name="executor" ref="defaultExecutor" />
@@ -97,10 +94,7 @@
 
     <bean id="monitoringServceV1Wrapper" class="org.talend.esb.sam.agent.serviceclient.MonitoringServiceWrapper">
         <property name="monitoringService" ref="monitoringServiceV1Client" />
-        <!-- Number of retries Default: 5 -->
         <property name="numberOfRetries" value="$sam{service.retry.number}" />
-        <!-- Delay in milliseconds between the next attemp to send. Thread is blocked 
-            for this time. Default: 1000 -->
         <property name="delayBetweenRetry" value="$sam{service.retry.delay}" />
     </bean>
 
