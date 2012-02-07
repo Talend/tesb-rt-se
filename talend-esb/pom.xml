@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
 
-	<!-- 
-		Copyright (C) 2010-2011 Talend Inc. - www.talend.com 
-	-->
+    Copyright (C) 2011 - 2012 Talend Inc.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -19,331 +32,23 @@
 	<packaging>pom</packaging>
 
 	<properties>
-        <spring.osgi.version>1.2.1</spring.osgi.version>
-		<spring.ws.version>2.0.2.RELEASE</spring.ws.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-		<tif.version>2.8.2.0</tif.version>
-		<tsf.version>2.5.0.0</tsf.version>
+        <tif.version>2.8.2.0</tif.version>
+        <tsf.version>2.5.0.0</tsf.version>
         <cellar.version>2.2.2</cellar.version>
         <jclouds.version>1.0.0</jclouds.version>
 
-		<!-- OSGi (Karaf, Felix, Aries) -->
-		<aries.version>0.3</aries.version>
-
-		<!-- Geronimo --> 
-		<geronimo-annotation.version>1.1.1</geronimo-annotation.version>
-		<geronimo-connector.version>2.1.3</geronimo-connector.version>
-		<geronimo-j2ee-connector.version>2.0.0</geronimo-j2ee-connector.version>
-		<geronimo-j2ee-management.version>1.0.1</geronimo-j2ee-management.version>
-		<geronimo-jaxws.version>1.1</geronimo-jaxws.version>
-		<geronimo-jms.version>1.1.1</geronimo-jms.version>
-		<geronimo-jpa.version>1.1</geronimo-jpa.version>
-		<geronimo-jta.version>1.1.1</geronimo-jta.version>
-		<geronimo-transaction.version>1.1.1</geronimo-transaction.version>
-        <geronimo-ws-metadata.version>1.1.3</geronimo-ws-metadata.version>
-        <geronimo-servlet.version>1.1.2</geronimo-servlet.version>
-        <geronimo-el.version>1.0.1</geronimo-el.version>
-        <geronimo-jsp.version>1.0.1</geronimo-jsp.version>
-
-		<!-- ServiceMix Bundles --> 
-        <servicemix.specs.version>1.8.0</servicemix.specs.version>
-		<abdera.bundle.version>0.4.0-incubating_3</abdera.bundle.version>
-		<ant.bundle.version>1.7.0_5</ant.bundle.version>
-		<antlr2.bundle.version>2.7.7_3</antlr2.bundle.version>
-		<antlr.bundle.version>3.0.1_4</antlr.bundle.version>
-		<antlr-runtime.bundle.version>3.0.1_2</antlr-runtime.bundle.version>
-		<aopalliance.bundle.version>1.0_5</aopalliance.bundle.version>
-		<asm.bundle.version>3.3_2</asm.bundle.version>
-		<aws-java-sdk.bundle.version>1.1.1_1</aws-java-sdk.bundle.version>
-		<bcel.bundle.version>5.2_3</bcel.bundle.version>
-		<castor.bundle.version>1.3.1_1</castor.bundle.version>
-		<cglib.bundle.version>2.2_1</cglib.bundle.version>
-<!-- 		<cometd-java-server.bundle.version>2.3.1_1-SNAPSHOT</cometd-java-server.bundle.version> -->
-		<commons-codec.bundle.version>1.3_3</commons-codec.bundle.version>
-		<commons-collections.bundle.version>3.2.1_1</commons-collections.bundle.version>
-		<commons-csv.bundle.version>1.0-r706899_4</commons-csv.bundle.version>
-		<!--commons-dbcp.bundle.version>1.4_1</commons-dbcp.bundle.version-->
-		<commons-httpclient.bundle.version>3.1_5</commons-httpclient.bundle.version>
-		<commons-lang.bundle.version>2.4_4</commons-lang.bundle.version>
-		<commons-pool.bundle.version>1.5.4_2</commons-pool.bundle.version>
-		<commons-vfs.bundle.version>1.0_5</commons-vfs.bundle.version>
-		<dozer.bundle.version>5.2.0_2</dozer.bundle.version>
-		<ehcache.bundle.version>2.4.3_1</ehcache.bundle.version>
-		<fastinfoset.bundle.version>1.2.7_3</fastinfoset.bundle.version>
-		<flatpack.bundle.version>3.2.0_1</flatpack.bundle.version>
-		<freemarker.bundle.version>2.3.18_1</freemarker.bundle.version>
-		<guice.bundle.version>2.0_1</guice.bundle.version>
-		<hapi.bundle.version>0.5.1_4</hapi.bundle.version>
-		<hibernate-validator.bundle.version>4.1.0.Final_1</hibernate-validator.bundle.version>
-		<ibatis-sqlmap.bundle.version>2.3.4.726_3</ibatis-sqlmap.bundle.version>
-		<irclib.bundle.version>1.10_3</irclib.bundle.version>
-		<isorelax.bundle.version>20050913_3</isorelax.bundle.version>
-		<jain-sip-ri.bundle.version>1.2.154_1</jain-sip-ri.bundle.version>
-		<jasypt.bundle.version>1.7_3</jasypt.bundle.version>
-		<javassist.bundle.version>3.9.0.GA_1</javassist.bundle.version>
-		<jaxb-impl.bundle.version>2.2.1.1_1</jaxb-impl.bundle.version>
-		<jaxb-xjc.bundle.version>2.2.1.1_1</jaxb-xjc.bundle.version>
-		<jaxb-impl.version>2.2.1.1</jaxb-impl.version>
-		<jaxb-xjc.version>2.2.1.1</jaxb-xjc.version>
-		<jcr-api.bundle.version>1.0_3</jcr-api.bundle.version>
-		<jdt-core.bundle.version>3.2.3_4</jdt-core.bundle.version>
-		<jexcelapi.bundle.version>2.4.2_3</jexcelapi.bundle.version>
-		<jibx.bundle.version>1.2.2_1</jibx.bundle.version>
-		<jing.bundle.version>20030619_3</jing.bundle.version>
-		<jruby.bundle.version>1.5.6_1</jruby.bundle.version>
-		<joda-time.bundle.version>1.5.2_3</joda-time.bundle.version>
-		<josql.bundle.version>1.5_4</josql.bundle.version>
-		<jsch.bundle.version>0.1.44_1</jsch.bundle.version>
-		<jsendnsca-core.bundle.version>1.3.1_1</jsendnsca-core.bundle.version>
-		<jsmpp.bundle.version>2.1.0_1</jsmpp.bundle.version>
-		<juel.bundle.version>2.1.2_1</juel.bundle.version>
-		<junit.bundle.version>4.7_2</junit.bundle.version>
-		<lucene.bundle.version>3.0.3_1</lucene.bundle.version>
-		<mina.bundle.version>1.1.7_4</mina.bundle.version>
-		<mvel.bundle.version>2.0.8_4</mvel.bundle.version>
-		<neethi.bundle.version>3.0.1</neethi.bundle.version>
-		<netty.bundle.version>3.2.3.Final_1</netty.bundle.version>
-		<ognl.bundle.version>2.7.3_4</ognl.bundle.version>
-		<openjpa.bundle.version>2.0.0_1</openjpa.bundle.version>
-		<oscache.bundle.version>2.4_4</oscache.bundle.version>
-		<oscore.bundle.version>2.2.4_4</oscore.bundle.version>
-		<osworkflow.bundle.version>2.7.0_4</osworkflow.bundle.version>
-		<oro.bundle.version>2.0.8_4</oro.bundle.version>
-		<propertyset.bundle.version>1.3_4</propertyset.bundle.version>
-		<protobuf-java.bundle.version>2.3.0_1</protobuf-java.bundle.version>
-		<qpid.bundle.version>0.5.0_3</qpid.bundle.version>
-		<quartz.bundle.version>1.8.3_2</quartz.bundle.version>
-		<quickfix.bundle.version>1.5.0_1</quickfix.bundle.version>
-		<regexp.bundle.version>1.3_1</regexp.bundle.version>
-		<rhino.bundle.version>1.7R2_1</rhino.bundle.version>
-		<rome.bundle.version>1.0_1</rome.bundle.version>
-		<saxon.bundle.version>9.1.0.8_1</saxon.bundle.version>
-		<scala-library.bundle.version>2.9.1_1</scala-library.bundle.version>
-		<serp.bundle.version>1.13.1_3</serp.bundle.version>
-		<shiro.bundle.version>1.1.0_1</shiro.bundle.version>
-		<smack.bundle.version>3.2.0_1</smack.bundle.version>
-		<snmp4j.bundle.version>1.8.1_4</snmp4j.bundle.version>
-		<spymemcached.bundle.version>2.5_1</spymemcached.bundle.version>
-		<stringtemplate.bundle.version>3.2_4</stringtemplate.bundle.version>
-		<tagsoup.bundle.version>1.2_4</tagsoup.bundle.version>
-		<velocity.bundle.version>1.7_2</velocity.bundle.version>
-		<werken-xpath.bundle.version>0.9.4_4</werken-xpath.bundle.version>
-		<wsdl4j.bundle.version>1.6.2_3</wsdl4j.bundle.version>
-		<xalan.bundle.version>2.7.1_3</xalan.bundle.version>
-		<xerces.bundle.version>2.9.1_4</xerces.bundle.version>
-		<xmlbeans.bundle.version>2.4.0_4</xmlbeans.bundle.version>
-		<xmlresolver.bundle.version>1.2_3</xmlresolver.bundle.version>
-		<xmlsec.bundle.version>1.4.5_1</xmlsec.bundle.version>
-		<xpp3.bundle.version>1.1.4c_4</xpp3.bundle.version>
-		<xstream.bundle.version>1.3_4</xstream.bundle.version>
-
-		<!-- Other Dependencies -->
-		<abdera.version>1.1.2</abdera.version>
-		<axiom.version>1.2.10</axiom.version>
-		<bouncycastle.version>140</bouncycastle.version>
-		<commons-codec.version>1.4</commons-codec.version>
-		<commons-collections.version>3.2.1</commons-collections.version>
-		<commons-dbcp.version>1.4</commons-dbcp.version>
-		<commons-exec.version>1.0.1</commons-exec.version>
-		<commons-jexl.version>2.0.1</commons-jexl.version>
-		<commons-logging.version>1.1.1</commons-logging.version>
-		<commons-management.version>1.0</commons-management.version>
-		<commons-net.version>2.2</commons-net.version>
-		<derby.version>10.5.3.0_1</derby.version>
-		<dozer-osgi.version>5.3.1</dozer-osgi.version>
-		<easymock.version>2.4</easymock.version>
-		<groovy.version>1.8.1</groovy.version>
-		<hawtbuf.version>1.2</hawtbuf.version>
-		<hawtdb.version>1.5</hawtdb.version>
-		<hazelcast.version>1.9.4</hazelcast.version>
-		<httpclient-osgi.version>4.1</httpclient-osgi.version>
-		<httpcomponents.version>4.0.1</httpcomponents.version>
-		<httpcore-osgi.version>4.1.2</httpcore-osgi.version>
-		<jackrabbit.version>1.5.3</jackrabbit.version>
-		<jackson.version>1.8.6</jackson.version>
-		<jaxp-ri.version>1.4.2</jaxp-ri.version>
-		<jaxws-api.version>2.1</jaxws-api.version>
-		<!--javax.mail.version>1.4.4</javax.mail.version-->
-		<jettison.version>1.3</jettison.version>
-		<junit.version>4.7</junit.version>
-		<log4j.version>1.2.15</log4j.version>
-		<mybatis.version>3.0.4</mybatis.version>
-		<openjpa.version>2.0.0</openjpa.version>
-		<restlet.version>2.0.9</restlet.version>
-		<!--pax-web-jsp.version>1.0.7</pax-web-jsp.version-->
-		<tranql.version>1.6</tranql.version>
-		<woodstox.version>4.1.1</woodstox.version>
-		<woodstox.stax2-api.version>3.1.1</woodstox.stax2-api.version>
-<!--         <wss4j.version>1.6.3-SNAPSHOT</wss4j.version> -->
-        <joda.time.version>1.6.2</joda.time.version>
-
-		<xbean.version>3.7</xbean.version>
-		<xmlschema.version>2.0</xmlschema.version>
-	
+        <!-- locatorCli -->
+        <log4j.version>1.2.15</log4j.version>
 	</properties>
 
 	<dependencies>
-
-		<!-- Apache Karaf -->
-		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>apache-karaf</artifactId>
-			<version>${karaf.version}</version>
-			<type>zip</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.karaf</groupId>
-			<artifactId>apache-karaf</artifactId>
-			<version>${karaf.version}</version>
-			<type>tar.gz</type>
-		</dependency>
-		<dependency>
-            <groupId>org.apache.karaf.assemblies.features</groupId>
-            <artifactId>standard</artifactId>
-            <version>${karaf.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.karaf.assemblies.features</groupId>
-            <artifactId>enterprise</artifactId>
-            <version>${karaf.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-		</dependency>
-
-		<!-- Apache Camel -->
-		<dependency>
-			<groupId>org.apache.camel.karaf</groupId>
-			<artifactId>apache-camel</artifactId>
-			<version>${camel.version}</version>
-			<type>xml</type>
-			<classifier>features</classifier>
-		</dependency>
-
-        <!-- CXF -->
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-bundle</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf.karaf</groupId>
-            <artifactId>apache-cxf</artifactId>
-            <version>${cxf.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-
-        <!-- ActiveMQ -->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-blueprint</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-console</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-karaf</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-pool</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-ra</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>kahadb</artifactId>
-            <version>${activemq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-karaf</artifactId>
-            <version>${activemq.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>apache-activemq</artifactId>
-            <version>${activemq.version}</version>
-            <type>tar.gz</type>
-            <classifier>bin</classifier>
-        </dependency>        
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>apache-activemq</artifactId>
-            <version>${activemq.version}</version>
-            <type>zip</type>
-            <classifier>bin</classifier>
-        </dependency>        
-		
-		<!-- Apache ZooKeeper -->
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>${zookeeper.package.version}</version>
-			<type>tar.gz</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.jms</groupId>
-                    <artifactId>jms</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jdmk</groupId>
-                    <artifactId>jmxtools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jmx</groupId>
-                    <artifactId>jmxri</artifactId>
-                </exclusion>
-            </exclusions>
-		</dependency>
-
-		<!-- TIF -->
-		<dependency>
-			<groupId>org.talend.camel</groupId>
-			<artifactId>camel-tis</artifactId>
-			<version>${tif.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.talend.if.assembly</groupId>
-			<artifactId>talend-if</artifactId>
-			<version>${tif.version}</version>
-			<classifier>examples</classifier>
-			<type>tar.gz</type>
-		</dependency>
-
-		<!-- TSF -->
-		<dependency>
-			<groupId>com.talend.sf.assembly</groupId>
-			<artifactId>talend-sf</artifactId>
-			<version>${tsf.version}</version>
-			<classifier>examples</classifier>
-			<type>zip</type>
-		</dependency>
 		<dependency>
 			<groupId>org.talend.esb.sts</groupId>
 			<artifactId>cxf-sts-war</artifactId>
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -388,16 +93,13 @@
 						</goals>
 						<configuration>
 							<descriptors>
-                                <descriptor>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.jclouds.karaf/feature/${jclouds.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
-<!-- 								<descriptor>file:${basedir}/target/classes/camel-features.xml</descriptor> -->
-								<descriptor>file:${basedir}/../features/target/classes/features.xml</descriptor>
+                                <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -430,6 +132,7 @@
 								<feature>talend-job-controller</feature>
 								<feature>tesb-zookeeper-server</feature>
 								<feature>tesb-sts</feature>
+                                <feature>camel-tis</feature>
 								<!-- Karaf Cellar Features -->
 								<feature>cellar</feature>
 								<feature>cellar-webconsole</feature>
@@ -462,7 +165,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>unpack-unix</id>
+						<id>unpack-karaf</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>unpack</goal>
@@ -472,26 +175,17 @@
 								<artifactItem>
 									<groupId>org.apache.karaf</groupId>
 									<artifactId>apache-karaf</artifactId>
+                                    <version>${karaf.version}</version>
 									<type>tar.gz</type>
 									<outputDirectory>target/dependencies/unix</outputDirectory>
 								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unpack-win</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.karaf</groupId>
-									<artifactId>apache-karaf</artifactId>
-									<type>zip</type>
-									<outputDirectory>target/dependencies/win</outputDirectory>
-								</artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf</groupId>
+                                    <artifactId>apache-karaf</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>zip</type>
+                                    <outputDirectory>target/dependencies/win</outputDirectory>
+                                </artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -744,7 +438,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.2</version>
+				<version>2.3</version>
 				<executions>
 					<execution>
 						<id>bin</id>

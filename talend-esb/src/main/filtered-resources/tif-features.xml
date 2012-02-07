@@ -3,7 +3,7 @@
   #%L
   TESB :: Assembly
   %%
-  Copyright (C) 2011 Talend Inc.
+  Copyright (C) 2011 - 2012 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,11 +20,6 @@
   -->
 
 <features>
-
-    <!--
-        Copyright (C) 2010 Talend Inc. - www.talend.com
-    -->
-
     <repository>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</repository>
     <descriptor>mvn:org.apache.karaf.assemblies.features/enterprise/${karaf.version}/xml/features</descriptor>
     <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>

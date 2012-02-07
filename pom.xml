@@ -40,7 +40,7 @@
 			<comments>A business-friendly OSS license</comments>
 		</license>
 	</licenses>
-	
+
     <issueManagement>
         <system>Jira</system>
         <url>https://jira.sopera.de/browse/TESB</url>
@@ -113,6 +113,8 @@
         <jetty.version>7.4.5.v20110725</jetty.version>
         <derbynet.bundle.version>10.8.1.2_1</derbynet.bundle.version>
         <pax-web-jsp.version>1.0.7</pax-web-jsp.version>
+        <camel-tis.version>2.8.2.0</camel-tis.version>
+        <oscache.bundle.version>2.4_3</oscache.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_2</ibatis-sqlmap.bundle.version>
         <!-- temporary workaround for camel-mail 2.8.2-->
         <javax.mail.version>1.4.4</javax.mail.version>
@@ -133,6 +135,7 @@
         <module>features</module>
         <module>sts</module>
         <module>zookeeper-server</module>
+        <module>camel-tis</module>
     </modules>
 
 	<dependencyManagement>
@@ -266,6 +269,12 @@
 						<excludedGroups>org.talend.esb|org.codehaus.jettison</excludedGroups>
 						<missingFile>./THIRD-PARTY.properties</missingFile>
 						<useMissingFile>true</useMissingFile>
+						<canUpdateCopyright>true</canUpdateCopyright>
+						<excludes>
+							<exclude>job/controller/src/test/data-service-authentication/**/*.properties</exclude>
+							<exclude>job/controller/src/test/job/**/*.properties</exclude>
+							<exclude>job/controller/src/test/tos-data-service/**/*.properties</exclude>
+						</excludes>
 					</configuration>
 					<executions>
 						<execution>

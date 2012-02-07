@@ -3,7 +3,7 @@
   #%L
   TESB :: Assembly
   %%
-  Copyright (C) 2011 Talend Inc.
+  Copyright (C) 2011 - 2012 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@
     <id>win-bin</id>
 
 	<baseDirectory>TESB_SE-V${packages.version}</baseDirectory>
-
 
     <formats>
         <format>zip</format>
@@ -421,69 +420,9 @@
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
-        <file>
-            <source>${basedir}/../features/target/classes/features.xml</source>
-            <outputDirectory>/container/system/org/talend/esb/features/${project.version}</outputDirectory>
-            <destName>features-${project.version}.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
-        </file>
     </files>
 
     <dependencySets>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <outputFileNameMapping>org/apache/karaf/assemblies/features/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>org.apache.karaf.assemblies.features:standard:xml:features</include>
-                <include>org.apache.karaf.assemblies.features:enterprise:xml:features</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <outputFileNameMapping>org/apache/cxf/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>org.apache.cxf.karaf:apache-cxf:xml:features</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <outputFileNameMapping>org/apache/activemq/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>org.apache.activemq:activemq-karaf:xml:features</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/container/system</outputDirectory>
-            <outputFileNameMapping>org/apache/camel/karaf/${artifact.artifactId}/${artifact.baseVersion}/${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>org.apache.camel.karaf:apache-camel:xml:features</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>org.talend.camel:camel-tis</include>
-            </includes>
-        </dependencySet>
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <unpack>false</unpack>
