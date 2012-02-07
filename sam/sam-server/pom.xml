@@ -57,9 +57,9 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.apache.servicemix.bundles</groupId> 
+            <artifactId>org.apache.servicemix.bundles.ibatis-sqlmap</artifactId>
+            <version>${ibatis-sqlmap.bundle.version}</version>
         </dependency>
 
         <dependency>
@@ -106,6 +106,12 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
             <version>${cxf.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 

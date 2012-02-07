@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Server
  * %%
- * Copyright (C) 2011 Talend Inc.
+ * Copyright (C) 2011 - 2012 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,22 @@
  */
 package org.talend.esb.sam.server.persistence;
 
+import com.ibatis.common.jdbc.ScriptRunner;
+
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.test.jdbc.SimpleJdbcTestUtils;
 
 /**
  * The Class DBInitializer using for initializing persistence.
  */
 public class DBInitializer implements InitializingBean {
 
-	private static final Logger LOG = Logger.getLogger(DBInitializer.class.getName());
-	
+    private static final Logger LOG = Logger.getLogger(DBInitializer.class.getName());
+
     private DataSource dataSource;
     private boolean recreateDb;
     private String createSql;
@@ -73,9 +72,11 @@ public class DBInitializer implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (recreateDb) {
-        	if("create_oracle.sql".equals(createSql)) LOG.warning("Not recomended to use db.recreate=true parameter for Oracle database");
-            Resource resource = new ClassPathResource(createSql);
-            SimpleJdbcTestUtils.executeSqlScript(new SimpleJdbcTemplate(dataSource), resource, true);
+            if("create_oracle.sql".equals(createSql)) {
+                LOG.warning("Not recomended to use db.recreate=true parameter for Oracle database");
+            }
+            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), true, false);
+            sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
         }
     }
 

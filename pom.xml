@@ -113,6 +113,7 @@
         <jetty.version>7.4.5.v20110725</jetty.version>
         <derbynet.bundle.version>10.8.1.2_1</derbynet.bundle.version>
         <pax-web-jsp.version>1.0.7</pax-web-jsp.version>
+        <ibatis-sqlmap.bundle.version>2.3.4.726_2</ibatis-sqlmap.bundle.version>
         <!-- temporary workaround for camel-mail 2.8.2-->
         <javax.mail.version>1.4.4</javax.mail.version>
 
