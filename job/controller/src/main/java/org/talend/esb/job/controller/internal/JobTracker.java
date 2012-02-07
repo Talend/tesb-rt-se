@@ -132,7 +132,7 @@ public class JobTracker {
         public void removedService(ServiceReference reference, Object service) {
             LOG.info("Service " + service + " removed");
             String name = getValue(PROPERTY_KEY_NAME, reference);
-            boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference));
+            boolean isMultiThreading =  Boolean.parseBoolean(getValue(PROPERTY_KEY_MT, reference, false));
             if (service instanceof TalendESBJobFactory) {
                 listener.esbJobFactoryRemoved((TalendESBJobFactory) service, name);
             } else if (service instanceof TalendESBJob && !isMultiThreading) {
