@@ -36,6 +36,7 @@
   </feature>
 
   <feature name='tesb-sam-agent' version='${project.version}'>
+    <configfile finalname="/etc/org.talend.esb.sam.agent.cfg">mvn:org.talend.esb/sam-agent/${project.version}/cfg/org.talend.esb.sam.agent</configfile>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
