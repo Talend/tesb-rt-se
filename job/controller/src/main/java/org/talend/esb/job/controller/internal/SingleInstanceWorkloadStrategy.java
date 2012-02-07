@@ -52,6 +52,7 @@ public class SingleInstanceWorkloadStrategy implements WorkloadListener {
 
         job = esbJob;
         name = jobName;
+        args = arguments;
         registry = endpointRegistry;
         execService = executorService;
     }
