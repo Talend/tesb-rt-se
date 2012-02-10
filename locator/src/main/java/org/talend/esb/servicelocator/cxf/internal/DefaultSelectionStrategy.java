@@ -2,7 +2,7 @@
  * #%L
  * Default Service Locator Selection Strategy
  * %%
- * Copyright (C) 2011 Talend Inc.
+ * Copyright (C) 2011 - 2012 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

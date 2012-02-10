@@ -132,6 +132,7 @@
                         <excludedGroups>org.talend.esb|org.codehaus.jettison</excludedGroups>
                         <missingFile>./THIRD-PARTY.properties</missingFile>
                         <useMissingFile>true</useMissingFile>
+						<canUpdateCopyright>true</canUpdateCopyright>
                     </configuration>
                     <executions>
                         <execution>
