@@ -1,0 +1,43 @@
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:jaxws="http://cxf.apache.org/jaxws"
+   xmlns:cxf="http://cxf.apache.org/core"
+   xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <!--cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus-->
+
+   <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
+       <jaxws:properties>
+           <entry key="ws-security.sts.client">
+               <bean class="org.apache.cxf.ws.security.trust.STSClient">
+                   <constructor-arg ref="cxf"/>
+                   <property name="wsdlLocation" value="DoubleItSTSService.wsdl"/>
+                   <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSService"/>
+                   <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSPort"/>
+                   <property name="properties">
+                       <map>
+                           <entry key="ws-security.signature.username" value="myclientkey"/>
+                           <entry key="ws-security.callback-handler" value="client.ClientCallbackHandler"/>
+                           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
+                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/>
+                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                       </map>
+                   </property>
+               </bean>
+           </entry>
+       </jaxws:properties>
+   </jaxws:client>
+
+</beans>
+

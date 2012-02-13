@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxws="http://cxf.apache.org/jaxws"
+      xmlns:soap="http://cxf.apache.org/bindings/soap"
+      xmlns:util="http://www.springframework.org/schema/util"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxws
+         http://cxf.apache.org/schemas/jaxws.xsd
+         http://www.springframework.org/schema/util 
+         http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <jaxws:endpoint 
+        id="doubleit"
+        implementor="service.DoubleItPortTypeImpl"
+        wsdlLocation="WEB-INF/wsdl/DoubleIt.wsdl"
+        address="/doubleit">
+
+       <jaxws:properties>
+          <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+          <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+          <entry key="ws-security.ut.validator">
+              <bean class="service.UTValidator"/>
+          </entry>
+         
+          <entry key="ws-security.sts.client">
+               <bean class="org.apache.cxf.ws.security.trust.STSClient">
+                   <constructor-arg ref="cxf"/>
+                   <property name="wsdlLocation" value="WEB-INF/wsdl/DoubleItSTSService.wsdl"/>
+                   <property name="serviceName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSService"/>
+                   <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSPort"/>
+                   <property name="tokenType" 
+                       value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"/>
+                   <property name="properties">
+                       <map>
+                           <entry key="ws-security.signature.username" value="myservicekey"/>
+                           <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+                           <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+                           <entry key="ws-security.encryption.properties" value="serviceKeystore.properties"/>
+                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                       </map>
+                   </property>
+               </bean>            
+          </entry> 
+       </jaxws:properties>
+       <jaxws:inInterceptors>
+           <ref bean="authorizationInterceptor"/>
+       </jaxws:inInterceptors> 
+    </jaxws:endpoint>
+    
+    <bean id="authorizationInterceptor" class="service.SAML2AuthorizingInterceptor">
+         <property name="methodRolesMap" ref="rolesMap"/>
+    </bean>
+     
+    <util:map id="rolesMap">
+        <entry key="doubleIt" value="doubleit-user"/>
+    </util:map>
+     
+</beans>
+

@@ -1,0 +1,88 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+    <artifactId>jaxrs-jaxws-transformations-war</artifactId>
+    <name>JAX-RS JAX-WS Transformations Example War</name>
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+        <artifactId>jaxrs-jaxws-transformations-example</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+            <artifactId>jaxrs-jaxws-transformations-service</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.6.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Name of the generated WAR file -->
+        <finalName>services</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webResources>
+                        <resource>
+                            <directory>../common/src/main/resources/model</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>*.wsdl</include>
+                                <include>*jaxrs.xml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>**.*</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.15</version>
+                <configuration>
+                    <contextPath>/${project.build.finalName}</contextPath>
+                </configuration>
+            </plugin>
+      
+            <!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <server>myTomcat</server>
+                    <path>/${project.build.finalName}</path>
+                    <!--url>Place URL if different from http://localhost:8080/manager</url-->
+                </configuration>
+            </plugin>
+        </plugins>
+      
+
+    </build>
+
+</project>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxws="http://cxf.apache.org/jaxws"
+      xmlns:soap="http://cxf.apache.org/bindings/soap"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxws
+         http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <jaxws:endpoint 
+        id="doubleit"
+        implementor="service.DoubleItPortTypeImpl"
+        wsdlLocation="WEB-INF/wsdl/DoubleIt.wsdl"
+        address="/doubleit">
+
+       <jaxws:properties>
+          <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+          <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+          <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
+       </jaxws:properties>
+    </jaxws:endpoint>
+</beans>
+

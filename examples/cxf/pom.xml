@@ -1,0 +1,56 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.talend.sf.examples</groupId>
+    <artifactId>talend-sf-examples</artifactId>
+    <version>1.0</version>
+    <name>Talend SF Examples</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>jaxws-jms-spec</module>
+        <module>jaxrs-intro</module>
+        <module>jaxrs-advanced</module>
+        <module>jaxrs-jaxws-java-first</module>
+        <module>jaxrs-jaxws-description-first</module>
+        <module>jaxrs-jaxws-authorization</module>
+        <module>jaxrs-jms-http</module>
+        <module>jaxrs-attachments</module>
+        <module>jaxrs-jaxws-transformations</module>
+        <module>interceptors</module>
+        <module>jaxws-cxf-sts</module>
+        <module>jaxws-cxf-sts-advanced</module>
+        <module>jaxws-metro-sts</module>
+        <module>jaxws-ws-secpol</module>
+        <!--<module>jaxrs-oauth</module>-->
+        <module>features</module>
+    </modules>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <configuration>
+                       <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.5</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
+

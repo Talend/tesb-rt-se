@@ -1,0 +1,71 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+    <artifactId>jaxrs-jms-http-service</artifactId>
+    <name>JAX-RS JMS HTTP Demo - Service</name>
+    <version>1.0</version>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+        <artifactId>jaxrs-jms-http</artifactId>
+        <version>1.0</version>
+    </parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-core,jaxrs-jms-http-common</Require-Bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <configuration>
+                        <mainClass>service.Server</mainClass>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-jms</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-core</artifactId>
+            <version>${activemq.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+            <artifactId>jaxrs-jms-http-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</project>

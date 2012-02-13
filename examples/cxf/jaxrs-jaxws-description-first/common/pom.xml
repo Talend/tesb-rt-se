@@ -1,0 +1,74 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.talend.sf.examples.jaxrs-jaxws-description-first</groupId>
+    <artifactId>jaxrs-jaxws-description-first-common</artifactId>
+    <name>JAX-RS JAX-WS Description First Example Common</name>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>com.talend.sf.examples.jaxrs-jaxws-description-first</groupId>
+        <artifactId>jaxrs-jaxws-description-first-example</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>2.4.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>data.model,org.example.customers</Export-Package> 
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${basedir}/src/main/resources/data/model/CustomerService.wsdl</wsdl>
+                                    <extraargs>
+                                      <extraarg>-p</extraarg>
+                                      <extraarg>http://customerservice.example.com/=org.example.customers</extraarg>
+                                    </extraargs>
+                                    <bindingFiles>
+                                        <bindingFile>${basedir}/src/main/resources/data/model/jaxwsBinding.xml</bindingFile>
+                                    </bindingFiles>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<!--
+    OSGI integration for the example
+    
+    Defines a camel servlet for OSGI that attaches to the OSGI HTTP service of the container.
+    This servlet can then be used in your normal servlet routes. 
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/osgi  http://www.springframework.org/schema/osgi/spring-osgi.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+       ">
+       
+    <import resource="classpath:/camel-context.xml"/>
+      
+    <osgi:reference id="httpservice" interface="org.osgi.service.http.HttpService"/>
+    
+    <bean id="basicAuthEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+      <property name="realmName" value="Spring Security Example"/>
+    </bean>
+    
+    <bean id="basicAuthFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+      <property name="authenticationManager" ref="authenticationManager"/>
+      <property name="authenticationEntryPoint" ref="basicAuthEntryPoint" />
+    </bean> 
+
+    <bean id="httpContext" class="server.osgi.BasicAuthHttpContext">
+        <property name="filter" ref="basicAuthFilter"/>
+        <property name="authenticationEntryPoint" ref="basicAuthEntryPoint"/>
+    </bean>
+    
+    <bean class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer" init-method="register" destroy-method="unregister">
+        <property name="alias" value="/spring-security"/>
+        <property name="httpService" ref="httpservice"/>
+        <property name="servlet" ref="osgiServlet"/>
+        <property name="httpContext" ref="httpContext"/>
+         <property name="servletName" value="CamelServlet"/>
+    </bean>
+
+    <bean id="osgiServlet" class="org.apache.camel.component.servlet.CamelHttpTransportServlet">
+    </bean>
+
+</beans>

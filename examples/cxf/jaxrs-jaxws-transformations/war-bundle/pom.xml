@@ -1,0 +1,51 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+    <artifactId>jaxrs-jaxws-transformations-war-bundle</artifactId>
+    <name>JAX-RS JAX-WS Transformations Example War Bundle</name>
+    <packaging>bundle</packaging>
+
+    <parent>
+        <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+        <artifactId>jaxrs-jaxws-transformations-example</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+            <artifactId>jaxrs-jaxws-transformations-service</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>services</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Web-ContextPath>/services</Web-ContextPath>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>model</Import-Package>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-jaxws-transformations-common, jaxrs-jaxws-transformations-service</Require-Bundle>
+                        <DynamicImport-Package>*</DynamicImport-Package> 
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+   </build>
+
+
+
+</project>
+

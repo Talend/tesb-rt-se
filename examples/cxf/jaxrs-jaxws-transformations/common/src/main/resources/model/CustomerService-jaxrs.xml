@@ -1,0 +1,29 @@
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<model xmlns="http://cxf.apache.org/jaxrs">
+ <resource name="com.example.customerservice.CustomerService" path="customerservice">
+    
+    <operation name="updateCustomer" verb="PUT" path="/customer"
+               consumes="application/xml">
+        <param name="newCustomer" type="REQUEST_BODY"/>
+    </operation>
+    
+    <operation name="getCustomerByName" verb="GET" path="/customer"
+               produces="application/xml">
+        <param name="name" type="QUERY"/>
+    </operation> 
+ </resource>
+ <resource name="org.customer.service.CustomerService" path="customerservice">
+    
+    <operation name="updateCustomer" verb="PUT" path="/customer"
+               consumes="application/xml">
+        <param name="newCustomer" type="REQUEST_BODY"/>
+    </operation>
+    
+    <operation name="getCustomerByName" verb="GET" path="/customer"
+               produces="application/xml">
+        <param name="name" type="QUERY"/>
+    </operation> 
+ </resource>
+</model>

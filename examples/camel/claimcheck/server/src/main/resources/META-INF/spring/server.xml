@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+">
+
+  <!-- Lets connect the Camel ActiveMQ component to the embedded broker.
+       See http://camel.apache.org/activemq.html for more information.
+  -->
+  <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+    <property name="brokerURL" value="vm://mybroker?broker.persistent=false"/>
+  </bean>
+  
+  <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+    <property name="connectionFactory" ref="connectionFactory"/>
+  </bean>
+  
+  <bean id="randomDelayer" class="org.apache.camel.example.claimcheck.RandomDelayer">
+  </bean>
+  
+  <bean id="dataStore" class="org.apache.camel.example.claimcheck.DataStore" />
+
+  <camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext" trace="false">
+  
+    <!-- 
+        Read the source file and split it up. In this example we split by line endings. For a real video file
+        you could split into chunks of a fixed size
+     -->
+    <route>
+        <from uri="file:in"/>
+        <split>
+            <tokenize token="\n"/>
+            <to pattern="InOnly" uri="direct:checkInAndSend"/>
+        </split>    
+    </route>
+    
+    <!--
+        Check in the mass data and replace it with a claim tag. Then send it to the queue 
+     -->
+    <route>
+      <from uri="direct:checkInAndSend"/>
+      <bean ref="dataStore" method="checkIn"/>
+      <setHeader headerName="MyMessageIndex"><simple>${property.CamelSplitIndex}</simple></setHeader>
+      <to pattern="InOnly" uri="jms:claimchecks.ordered"/>
+    </route>
+    
+    <!--
+        Read from the ordered queue in parallel, delay each message by a random time and send to unordered queue 
+     -->
+    <route>
+      <from uri="jms:claimchecks.ordered?concurrentConsumers=10"/>
+      <setExchangePattern pattern="InOnly"/>
+      <to uri="bean:randomDelayer" />
+      <to pattern="InOnly" uri="jms:claimchecks.unordered"/>
+    </route>
+
+    <!--
+        Claim the mass data again and log the resulting message
+     -->      
+    <route>
+      <from uri="jms:claimchecks.unordered"/>
+      <log message="unordered ${header.MyMessageIndex} ${body}"/>
+      <bean ref="dataStore" method="claim"/>
+      <log message="claimed ${header.MyMessageIndex} ${body}"/>
+      <resequence>
+        <batch-config batchSize="300" batchTimeout="5000" />
+        <simple>${header.MyMessageIndex}</simple>
+        <log message="ordered ${header.MyMessageIndex} ${body}"/>        
+      </resequence>
+    </route>
+    
+  </camelContext>
+
+</beans>

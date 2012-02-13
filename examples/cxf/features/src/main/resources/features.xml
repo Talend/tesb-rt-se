@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"  name="tsf-${project.version}">
+
+    <!--
+        Copyright (C) 2011 Talend Inc. - www.talend.com
+    -->
+
+    <feature name='tsf-example-jaxrs-intro' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-intro-example/jaxrs-intro-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-intro-example/jaxrs-intro-service-bundle/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-advanced-server' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-advanced-example/jaxrs-advanced-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-advanced-example/jaxrs-advanced-service-bundle/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-advanced-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-advanced-example/jaxrs-advanced-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-advanced-example/jaxrs-advanced-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-ws-secpol-server' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-ws-secpol/ws-secpol-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxws-ws-secpol/ws-secpol-server/${project.version}</bundle>
+    </feature>
+        
+    <feature name='tsf-example-jaxws-ws-secpol-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-ws-secpol/ws-secpol-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxws-ws-secpol/ws-secpol-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-interceptors-server' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.interceptors/interceptors-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.interceptors/interceptors-server/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-interceptors-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.interceptors/interceptors-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.interceptors/interceptors-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-jms-spec-server' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-jms-spec/jms-spec-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxws-jms-spec/jms-spec-server/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-jms-spec-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-jms-spec/jms-spec-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxws-jms-spec/jms-spec-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-attachments' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-attachments-example/jaxrs-attachments-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-attachments-example/jaxrs-attachments-service/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-jaxws-authorization' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-authorization/jaxrs-jaxws-authorization-service-jaas/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-authorization/jaxrs-jaxws-authorization-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-authorization/jaxrs-jaxws-authorization-service/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-jaxws-description-first' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/2.4.1-SNAPSHOT</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-description-first/jaxrs-jaxws-description-first-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-description-first/jaxrs-jaxws-description-first-service/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-jaxws-transformations' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/2.4.1-SNAPSHOT</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-service/${project.version}</bundle>
+        <bundle>webbundle:mvn:com.talend.sf.examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-war-bundle/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-jaxws-java-first' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-java-first/jaxrs-jaxws-java-first-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jaxws-java-first/jaxrs-jaxws-java-first-service/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxrs-jms-http' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jms-http/jaxrs-jms-http-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxrs-jms-http/jaxrs-jms-http-service/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-metro-sts-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-metro-sts/jaxws-metro-sts-common/${project.version}</bundle>
+        <bundle>mvn:com.talend.sf.examples.jaxws-metro-sts/jaxws-metro-sts-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-cxf-sts-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-cxf-sts/jaxws-cxf-sts-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-cxf-sts-service' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-cxf-sts/jaxws-cxf-sts-wsp/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-cxf-sts-advanced-client' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-cxf-sts-advanced/jaxws-cxf-sts-advanced-client/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-cxf-sts-advanced-service' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-cxf-sts-advanced/jaxws-cxf-sts-advanced-wsp/${project.version}</bundle>
+    </feature>
+
+    <feature name='tsf-example-jaxws-cxf-sts-advanced-sts' version='${project.version}' resolver='(obr)'>
+        <bundle>mvn:com.talend.sf.examples.jaxws-cxf-sts-advanced/jaxws-cxf-sts-advanced-sts/${project.version}</bundle>
+    </feature>
+
+</features>

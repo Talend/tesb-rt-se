@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2010 Talend Inc. - www.talend.com -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/camel/cxf-extension-camel.xml"/>
+
+	<jaxws:endpoint 
+		address="camel://direct:greeterServerEndpoint"
+		implementor="#greeterImpl"/>
+		
+	<bean id="greeterImpl" class="demo.jms_greeter.server.GreeterJMSImpl">
+	</bean>
+
+	<camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" >
+		<route>
+			<from uri="jms:test.cxf.jmstransport.queue" />
+			<to uri="direct:greeterServerEndpoint" />
+			
+			<!-- The current soap/jms spec implementation in cxf requires the following headers to be set.
+				 We use the dsl to make caml jms compliant to the spec. This shows how you can easily 
+				 work around compatibility problems using camel -->
+			<setHeader headerName="SOAPJMS_contentType">
+				<constant>text/xml</constant>
+			</setHeader>
+			<setHeader headerName="SOAPJMS_requestURI">
+				<constant>jms://queue:test</constant>
+			</setHeader>
+		</route>
+	</camelContext>
+	
+	<bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+		<property name="connectionFactory" ref="connectionFactory"/>
+	</bean>
+	
+	<bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+	</bean>
+</beans>

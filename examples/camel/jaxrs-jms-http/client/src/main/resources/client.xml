@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2010 Talend Inc. - www.talend.com -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+        http://cxf.apache.org/transports/jms
+            http://cxf.apache.org/schemas/configuration/jms.xsd
+        http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxrs
+            http://cxf.apache.org/schemas/jaxrs.xsd
+        http://camel.apache.org/schema/spring
+            http://camel.apache.org/schema/spring/camel-spring.xsd">
+ 
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-camel.xml" />
+
+<!--    <jaxrs:client address="camel://direct:bookStore" id="bookStoreClient" />-->
+    
+    <bean id="bookStoreJmsClient" class="client.BookStoreJmsClient" />
+
+    <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" trace="true">
+        <route>
+            <from uri="direct:bookStoreHttp"/>
+            <to uri="http://localhost:9002/bookstore"/>
+        </route>
+    </camelContext>
+
+    <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
+        <property name="connectionFactory" ref="connectionFactory" />
+    </bean>
+
+    <bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+    
+</beans>

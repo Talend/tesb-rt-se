@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+        Copyright (C) 2010 Talend Inc. - www.talend.com
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.talend.sf.examples</groupId>
+        <artifactId>talend-sf-examples</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>osgi</artifactId>
+    <packaging>pom</packaging>
+    <name>TSF :: Examples :: features</name>
+    
+    <properties>
+        <tsf.version>2.6.0.0-SNAPSHOT</tsf.version>
+        <activemq.version>5.5.0</activemq.version>
+        <cxf.version>2.6.0-SNAPSHOT</cxf.version>
+        <camel.version>2.8.2</camel.version>
+        <karaf.version>2.2.4</karaf.version>
+        <spring.version>3.0.6.RELEASE</spring.version>
+        <spring-security.version>3.0.6.RELEASE</spring-security.version>
+        <jetty.version>7.4.5.v20110725</jetty.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <features.file>features.xml</features.file>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>target/classes/features.xml</file>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

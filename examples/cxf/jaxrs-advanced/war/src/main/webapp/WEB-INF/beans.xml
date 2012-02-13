@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:soap="http://cxf.apache.org/bindings/soap"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd">
+
+     <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+     <!-- JAX-RS endpoint with two root resource classes -->
+     <jaxrs:server id="personService" address="/personservice">
+        <!-- root resource classes -->
+        <jaxrs:serviceBeans>
+           <ref bean="personBean"/>
+           <ref bean="searchBean"/>
+        </jaxrs:serviceBeans>
+        <!-- custom providers -->
+        <jaxrs:providers>
+           <bean class="service.advanced.PersonExceptionMapper" />
+           <ref bean="jsonProvider"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+
+     <bean id="searchBean" class="service.advanced.PersonServiceImpl">
+         <property name="storage" ref="storageBean"/>
+     </bean>
+     
+     <bean id="personBean" class="service.advanced.SearchService">
+         <property name="storage" ref="storageBean"/>
+     </bean>
+     
+     <bean id="storageBean" class="service.advanced.PersonInfoStorage"/>
+     
+     <!-- 
+        default Jettison-based JSON provider is configured to 
+        drop namespace prefixes during the serialization
+     -->   
+     
+     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.JSONProvider">
+         <property name="ignoreNamespaces" value="true"/>
+     </bean>
+</beans>
+

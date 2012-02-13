@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:spring-security="http://www.springframework.org/schema/security"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://camel.apache.org/schema/spring
+          http://camel.apache.org/schema/spring/camel-spring.xsd
+          http://camel.apache.org/schema/spring-security
+          http://camel.apache.org/schema/spring-security/camel-spring-security.xsd
+          http://www.springframework.org/schema/security
+		  http://www.springframework.org/schema/security/spring-security.xsd
+		  http://cxf.apache.org/jaxws
+		  http://cxf.apache.org/schemas/jaxws.xsd
+          http://cxf.apache.org/jaxrs
+          http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath:/META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
+    <import resource="classpath:/META-INF/cxf/cxf-extension-soap.xml"/>
+    <import resource="classpath:/META-INF/cxf/camel/cxf-extension-camel.xml"/>
+
+    <global-method-security jsr250-annotations="enabled" xmlns="http://www.springframework.org/schema/security"/>
+
+    <!--  set up the user configuration here -->
+    <spring-security:authentication-manager alias="authenticationManager">
+        <spring-security:authentication-provider user-service-ref="userDetailsService"/>
+    </spring-security:authentication-manager>
+
+    <spring-security:user-service id="userDetailsService">
+        <spring-security:user name="jim" password="jimspassword" authorities="ROLE_USER, ROLE_ADMIN"/>
+        <spring-security:user name="bob" password="bobspassword" authorities="ROLE_USER"/>
+        <spring-security:user name="alex" password="alexspassword" authorities=""/>
+    </spring-security:user-service>
+
+    <!--
+         JAX-WS configurations
+    -->
+
+    <endpoint
+            address="camel://direct:customerServiceServerEndpoint"
+            implementor="#customerServiceImpl"
+            xmlns="http://cxf.apache.org/jaxws">
+    </endpoint>
+
+    <bean id="customerServiceImpl" class="server.CustomerServiceImpl">
+    </bean>
+
+    <!--
+          JAX-RS configurations
+     -->
+
+    <jaxrs:server id="hello_rest" address="camel://direct:HelloWorldRestServerEndpoint">
+        <jaxrs:serviceBeans>
+            <ref bean="hello-world-bean"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="server.SecurityExceptionMapper"/>
+        </jaxrs:providers>
+        <jaxrs:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature"/>
+        </jaxrs:features>
+    </jaxrs:server>
+
+    <bean id="hello-world-bean" class="server.HelloWorldImpl"/>
+
+    <!--
+         Spring Security configurations
+    -->
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions" value="true"/>
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Camel routes from addresses on the servlet to rest and jaxws servers -->
+    <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" trace="false">
+        <route>
+            <from uri="servlet:///HelloWorld?matchOnUriPrefix=true"/>
+            <to uri="direct:HelloWorldRestServerEndpoint"/>
+        </route>
+        <route>
+            <from uri="servlet:///CustomerServicePort"/>
+            <to uri="direct:customerServiceServerEndpoint"/>
+        </route>
+    </camelContext>
+
+</beans>

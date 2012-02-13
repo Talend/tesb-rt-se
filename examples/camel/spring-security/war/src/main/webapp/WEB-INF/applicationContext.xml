@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2010 Talend Inc. - www.talend.com
+-->
+<!--
+  Application context containing additional configuration that only applies to running in the servlet container.
+  Imports the common spring context canel-context.xml  
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+                             http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <import resource="classpath:/camel-context.xml"/>
+
+    <http realm="TIF Spring Security Example" xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <http-basic/>
+        <remember-me/>
+    </http>
+
+</beans>

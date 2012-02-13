@@ -1,0 +1,109 @@
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+           xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+           xmlns:cxf="http://cxf.apache.org/blueprint/core"
+           xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
+             http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd
+             ">
+
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+    
+    <bean id="x509STSProviderBean"
+        class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
+        <property name="issueOperation" ref="x509IssueDelegate" />
+        <property name="validateOperation" ref="x509ValidateDelegate" />
+    </bean>
+
+    <bean id="x509IssueDelegate" class="org.apache.cxf.sts.operation.TokenIssueOperation">
+        <property name="tokenProviders">
+            <list>
+                <ref component-id="x509UsernameTokenProvider"/>
+            </list>
+        </property>
+        <property name="services">
+            <list>
+                <ref component-id="x509Service"/>
+            </list>
+        </property>
+        <property name="stsProperties" ref="x509STSProperties" />
+        <property name="returnReferences" value="false" />
+    </bean>
+
+    <bean id="x509ValidateDelegate" class="org.apache.cxf.sts.operation.TokenValidateOperation">
+        <property name="tokenValidators">
+            <list>
+                <ref component-id="x509UsernameTokenValidator"/>
+            </list>
+        </property>
+        <property name="tokenProviders">
+            <list>
+                <ref component-id="x509SAMLTokenProvider"/>
+            </list>
+        </property>
+        <property name="services">
+            <list>
+                <ref component-id="x509Service"/>
+            </list>
+        </property>
+        <property name="stsProperties" ref="x509STSProperties" />
+    </bean>
+
+    <bean id="x509UsernameTokenProvider" class="sts.UsernameTokenProvider"/>
+    
+    <bean id="x509SAMLTokenProvider"
+        class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
+        <property name="attributeStatementProviders">
+            <list>
+                <ref component-id="customAttributeProvider"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="customAttributeProvider"
+        class="sts.RoleAttributeProvider">
+    </bean>
+    
+    <bean id="x509UsernameTokenValidator"
+        class="org.apache.cxf.sts.token.validator.UsernameTokenValidator"/>
+
+    <bean id="x509Service" class="org.apache.cxf.sts.service.StaticService">
+        <property name="endpoints">
+            <list>
+                <value>http://localhost:(8080|9000)/doubleit/services/doubleit.*</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="x509STSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
+        <property name="signaturePropertiesFile" value="stsKeystore.properties" />
+        <property name="signatureUsername" value="mystskey" />
+        <property name="callbackHandlerClass" value="sts.PasswordCallbackHandler" />
+        <property name="issuer" value="DoubleItSTSIssuer" />
+    </bean>
+
+    <jaxws:endpoint id="X509STS" implementor="#x509STSProviderBean"
+        address="http://localhost:8080/DoubleItSTS/X509" wsdlLocation="DoubleItSTSService.wsdl"
+        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+        serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port">
+        <jaxws:properties>
+            <entry key="ws-security.callback-handler"
+                value="sts.PasswordCallbackHandler" />
+            <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
+            <entry key="ws-security.signature.username" value="mystskey" />
+            <entry key="ws-security.encryption.username" value="useReqSigCert" />
+        </jaxws:properties>
+    </jaxws:endpoint>
+  
+</blueprint>

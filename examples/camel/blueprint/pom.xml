@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+        Copyright (C) 2010 Talend Inc. - www.talend.com
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.talend.if.examples.blueprint</groupId>
+    <artifactId>blueprint</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>TIF :: Examples :: blueprint</name>
+    <description>Simple example of Camel routes definition in a blueprint descriptor</description>
+
+</project>
