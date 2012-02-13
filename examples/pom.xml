@@ -22,9 +22,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>tif</module>
-		<module>tsf</module>
-		<module>tesb</module>
+        <module>tesb</module>
+		<module>camel</module>
+		<module>cxf</module>
 	</modules>
 
 	<build>
