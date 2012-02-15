@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ 
+      Licensed to the Apache Software Foundation (ASF) under one or more
+      contributor license agreements.  See the NOTICE file distributed with
+      this work for additional information regarding copyright ownership.
+      The ASF licenses this file to You under the Apache License, Version 2.0
+      (the "License"); you may not use this file except in compliance with
+      the License.  You may obtain a copy of the License at
+ 
+         http://www.apache.org/licenses/LICENSE-2.0
+ 
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+-->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0" name="cxf-2.4.6">
+
+    <feature name="cxf-specs" version="2.4.6" resolver='(obr)'>
+        <bundle start-level='9'>mvn:org.apache.geronimo.specs/geronimo-osgi-registry/1.1</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.activation-api-1.1/1.9.0</bundle>
+        <bundle start-level='10'>mvn:org.apache.geronimo.specs/geronimo-annotation_1.0_spec/1.1.1</bundle>
+        <bundle start-level='10'>mvn:org.apache.geronimo.specs/geronimo-ws-metadata_2.0_spec/1.1.3</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.stax-api-1.0/1.9.0</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxb-api-2.2/1.9.0</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/1.9.0</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0</bundle>
+        <bundle start-level='10'>mvn:javax.mail/mail/1.4.4</bundle>
+        <bundle start-level='10'>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jsr311-api-1.1.1/1.9.0</bundle>
+    </feature>
+
+    <feature name='cxf-jaxb' version='2.4.6' resolver='(obr)'>
+        <feature version="2.4.6">cxf-specs</feature>
+        <bundle start-level='20'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-impl/2.2.1.1_1</bundle>
+        <bundle start-level='20'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-xjc/2.2.1.1_1</bundle>
+    </feature>
+    <!-- Current the abdera bundle is not working as we expect -->
+    <feature name='cxf-abdera' version='2.4.6' resolver='(obr)'>
+        <bundle dependency="true">mvn:commons-codec/commons-codec/1.4</bundle>
+        <bundle>mvn:org.apache.ws.commons.axiom/axiom-impl/1.2.10</bundle>
+        <bundle>mvn:org.apache.ws.commons.axiom/axiom-api/1.2.10</bundle>
+
+        <bundle>mvn:org.apache.abdera/abdera-core/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-extensions-main/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-i18n/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-parser/1.1.2</bundle>
+
+        <!--bundle>mvn:org.apache.abdera/abdera-extensions-html/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-extensions-json/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-client/1.1.2</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-server/1.1.2</bundle-->
+        <feature version='2.4.6'>cxf-jaxb</feature>
+    </feature>
+    <feature name="opensaml" version="2.5.1_1" resolver='(obr)'>
+        <bundle>mvn:joda-time/joda-time/1.6.2</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/2.5.1_1</bundle>
+    </feature>
+    <feature name="wss4j" version="1.6.4" resolver='(obr)'>
+        <feature version='[2.4,3)'>opensaml</feature>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlsec/1.4.5_1</bundle>
+        <bundle>mvn:org.apache.ws.security/wss4j/1.6.4</bundle>
+    </feature>
+
+    <feature name="cxf-saaj-impl" version="2.4.6"  resolver='(obr)'>
+        <feature version="2.4.6">cxf-specs</feature>
+        <bundle start-level='25'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/1.3.9_2</bundle>
+    </feature>
+    
+     <!-- removed cxf-war-java5 feature as workaround for http://jira.talendforge.org/browse/TESB-4771 -->
+    <!-- feature name="cxf-war-java5" version="2.4.6" resolver="(obr)" -->
+        <!-- config name="org.ops4j.pax.url.war">
+            org.ops4j.pax.url.war.importPaxLoggingPackages=true
+        </config>
+        <feature>http</feature>
+        <bundle>mvn:org.ops4j.pax.web/pax-web-extender-war/1.0.7</bundle>
+        <bundle>mvn:org.ops4j.pax.web/pax-web-extender-whiteboard/1.0.7</bundle>
+        <bundle>mvn:org.ops4j.pax.web/pax-web-deployer/1.0.7</bundle>
+        <bundle>mvn:org.ops4j.pax.url/pax-url-war/1.2.8</bundle>
+    </feature -->
+
+    <feature name="cxf" version="2.4.6" resolver='(obr)'>
+        <feature version="2.4.6">cxf-specs</feature>
+        <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
+        <bundle>mvn:commons-collections/commons-collections/3.2.1</bundle>
+
+        <bundle start-level='20'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.fastinfoset/1.2.7_3</bundle>
+        <bundle start-level='20'>mvn:org.codehaus.woodstox/stax2-api/3.1.1</bundle>
+        <bundle start-level='20'>mvn:org.codehaus.woodstox/woodstox-core-asl/4.1.1</bundle>
+
+        <feature version='2.4.6'>cxf-jaxb</feature>
+        <feature version="[2,3)">http</feature>
+        <!-- feature version="[2,3)">cxf-war-java5</feature -->
+        <feature version="[3,4)">spring</feature>
+        <feature version="[1.2,2)">spring-dm</feature>
+        <feature version="[3,4)">spring-jms</feature>
+        <feature version="1.6.4">wss4j</feature>
+        <feature version="[7.2,8)">jetty</feature>
+        <feature version='2.4.6'>cxf-abdera</feature>
+        <feature version="2.4.6">cxf-saaj-impl</feature>
+
+        <bundle dependency="true">mvn:org.apache.neethi/neethi/3.0.1</bundle>
+        <bundle dependency="true">mvn:org.apache.ws.xmlschema/xmlschema-core/2.0.1</bundle>
+
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.asm/3.3_2</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.wsdl4j/1.6.2_3</bundle>
+        <bundle>mvn:org.codehaus.jettison/jettison/1.3.1</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlbeans/2.4.0_4</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.rhino/1.7R2_1</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlresolver/1.2_3</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.9.1_4</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcel/5.2_3</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_3</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/2.0.8_4</bundle>
+        <bundle dependency="true">mvn:org.apache.velocity/velocity/1.7</bundle>
+        <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/1.1_3</bundle>
+
+        <bundle start-level='30'>mvn:org.apache.cxf/cxf-bundle/2.4.6</bundle>
+    </feature>
+
+</features>

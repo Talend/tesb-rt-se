@@ -99,6 +99,9 @@
                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
 								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
+                                 <!-- workaround for http://jira.talendforge.org/browse/TESB-4771 -->
+                                <descriptor>file:${basedir}/src/main/filtered-resources/apache-cxf-2.5.2-features.xml</descriptor>
+                                <descriptor>file:${basedir}/src/main/filtered-resources/apache-cxf-2.4.6-features.xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
