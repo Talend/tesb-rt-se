@@ -339,9 +339,6 @@
             <excludes>
                 <!-- IF-23: exclude the aries blueprint copied by camel-blueprint feature to take the Karaf' one -->
                 <exclude>org/apache/aries/blueprint/**</exclude>
-                <!-- workaround for http://jira.talendforge.org/browse/TESB-4771 -->
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.5.2/apache-cxf-2.5.2-features.xml</exclude>
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.4.6/apache-cxf-2.4.6-features.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -397,21 +394,6 @@
             <outputDirectory>/container/bin/</outputDirectory>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- workaround for http://jira.talendforge.org/browse/TESB-4771 -->
-        <file>
-            <source>${basedir}/src/main/filtered-resources/apache-cxf-2.5.2-features.xml</source>
-            <outputDirectory>/container/system/org/apache/cxf/karaf/apache-cxf/2.5.2</outputDirectory>
-            <destName>apache-cxf-2.5.2-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/src/main/filtered-resources/apache-cxf-2.4.6-features.xml</source>
-            <outputDirectory>/container/system/org/apache/cxf/karaf/apache-cxf/2.4.6</outputDirectory>
-            <destName>apache-cxf-2.4.6-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
         </file>
     </files>
 
