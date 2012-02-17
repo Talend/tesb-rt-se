@@ -28,6 +28,7 @@
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
     <jaxws:client id="CRMServiceClient"
         xmlns:serviceNamespace="http://services.talend.org/CRMService"
@@ -37,7 +38,7 @@
         address="${endpoint.prefix}/CRMServiceProvider"
     >
         <jaxws:features>
-            <osgi:reference interface="org.talend.esb.sam.agent.feature.EventFeature"/>
+            <ref bean="eventFeature"/>
         </jaxws:features>
     </jaxws:client>
 
