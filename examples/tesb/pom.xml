@@ -52,10 +52,10 @@
         <!--sts.endpoint.prefix>http://localhost:8080</sts.endpoint.prefix-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <cxf.version>2.5.2</cxf.version>
-        <camel.version>2.8.4</camel.version>
+        <cxf.version>2.5.0</cxf.version>
+        <camel.version>2.8.2</camel.version>
         <spring.version>3.0.6.RELEASE</spring.version>
-        <karaf.version>2.2.5</karaf.version>
+        <karaf.version>2.2.4</karaf.version>
         <activemq.version>5.5.0</activemq.version>
         <eclipse.osgi.version>3.6.2.R36x_v20110210</eclipse.osgi.version>
         <zookeeper.version>3.3.3</zookeeper.version>
