@@ -21,14 +21,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 
 	<bean id="ReservationServiceBean"
 		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
@@ -41,7 +40,7 @@
 		implementor="#ReservationServiceBean"
 		address="/ReservationServiceProvider/">
 		<jaxws:features>
-			<osgi:reference interface="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 		</jaxws:features>
 	</jaxws:endpoint>
 
