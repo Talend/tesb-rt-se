@@ -8,7 +8,7 @@
         Copyright (C) 2010 Talend Inc. - www.talend.com
     -->
 
-    <display-name>TIF Spring Security Example</display-name>
+    <display-name>Talend Camel Spring Security Example</display-name>
 
     <!-- location of spring xml files -->
     <context-param>

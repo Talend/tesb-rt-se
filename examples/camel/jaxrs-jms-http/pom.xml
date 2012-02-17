@@ -7,11 +7,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.if.examples.jaxrs-jms-http</groupId>
+    <groupId>org.talend.camel-examples.jaxrs-jms-http</groupId>
     <artifactId>jaxrs-jms-http</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>TIF :: Examples :: jaxrs-jms-http</name>
+    <name>Talend Camel Examples :: jaxrs-jms-http</name>
     <description>JAXRS service with camel jms and http transports</description>
 
     <modules>

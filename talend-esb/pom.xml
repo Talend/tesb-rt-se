@@ -33,7 +33,6 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <tif.version>2.8.2.0</tif.version>
         <cellar.version>2.2.3</cellar.version>
         <jclouds.version>1.3.1</jclouds.version>
 
@@ -97,7 +96,6 @@
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
-								<descriptor>file:${basedir}/target/classes/tif-features.xml</descriptor>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                  <!-- workaround for http://jira.talendforge.org/browse/TESB-4771 -->
                                 <descriptor>file:${basedir}/src/main/filtered-resources/apache-cxf-2.5.2-features.xml</descriptor>
@@ -112,17 +110,6 @@
 								<!-- tesb-core includes ActiveMQ, Camel and CXF Features  -->
 								<feature>tesb-core</feature>
 								
-								<!-- TIF Features -->
-								<feature>tif-core</feature>
-								<feature>tif-test</feature>
-								<feature>tif-messaging</feature>
-								<feature>tif-ws</feature>
-								<feature>tif-logging</feature>
-								<feature>tif-monitoring</feature>
-								<feature>tif-encryption</feature>
-								<feature>tif-ldap</feature>
-								<feature>tif-scheduler</feature>
-								<feature>tif-system</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-derby-starter</feature>

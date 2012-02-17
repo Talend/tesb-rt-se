@@ -9,9 +9,9 @@ import javax.ws.rs.WebApplicationException;
 
 import junit.framework.Assert;
 
-import com.talend.tif.examples.springsecurity.common.HelloWorld;
-import com.talend.tif.examples.springsecurity.common.User;
-import com.talend.tif.examples.springsecurity.common.UserImpl;
+import com.talend.camel.examples.springsecurity.common.HelloWorld;
+import com.talend.camel.examples.springsecurity.common.User;
+import com.talend.camel.examples.springsecurity.common.UserImpl;
 
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;

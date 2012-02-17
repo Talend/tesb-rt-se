@@ -6,14 +6,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.if.examples.claimcheck</groupId>
+    <groupId>org.talend.camel-examples.claimcheck</groupId>
     <artifactId>claimcheck-server</artifactId>
     <version>1.0</version>
     <packaging>bundle</packaging>
-    <name>TIF :: examples :: claimcheck :: server</name>
+    <name>Talend Camel Examples :: claimcheck :: server</name>
 
     <parent>
-        <groupId>com.talend.if.examples.claimcheck</groupId>
+        <groupId>org.talend.camel-examples.claimcheck</groupId>
         <artifactId>claimcheck</artifactId>
         <version>1.0</version>
     </parent>

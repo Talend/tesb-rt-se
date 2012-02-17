@@ -12,9 +12,9 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 
-import talend.tif.examples.jaxrsjmshttp.common.Book;
-import talend.tif.examples.jaxrsjmshttp.common.BookList;
-import talend.tif.examples.jaxrsjmshttp.common.BookStore;
+import talend.camel.examples.jaxrsjmshttp.common.Book;
+import talend.camel.examples.jaxrsjmshttp.common.BookList;
+import talend.camel.examples.jaxrsjmshttp.common.BookStore;
 
 /**
  * <p>

@@ -7,10 +7,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.if.examples</groupId>
-    <artifactId>talend-if-examples</artifactId>
+    <groupId>org.talend.camel-examples</groupId>
+    <artifactId>talend-camel-examples</artifactId>
     <version>1.0</version>
-    <name>TIF :: Examples</name>
+    <name>Talend Camel Examples</name>
     <packaging>pom</packaging>
 
     <modules>

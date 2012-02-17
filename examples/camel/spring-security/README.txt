@@ -1,4 +1,4 @@
-TIF Spring Security Example
+Camel Spring Security Example
 ===============================================================================
 
 This example shows how to leverage Spring Security to secure camel routes in general and specifically when combining with 
@@ -40,19 +40,19 @@ The example can be built using Maven.
 Deploy the .war file into your container. Depending on your container settings you may have to adjust the 
 URL the clients use.
 
-2.3) In the TIF container (OSGi)
+2.3) In the TESB container (OSGi)
 
 > cd to the container dir
 
-> bin/tif.bat
+> bin/trun.bat
 
-karaf@tif> features:install tif-example-spring-security
+karaf@trun> features:install talend-camel-example-spring-security
 
 (Make sure you've first installed the examples features repository as described in the
 parent README.)
 
 
-When you do "list | grep TIF" you should see the Spring security server reported as started.
+When you do "list | grep spring-security" you should see the Spring security server reported as started.
 
 3) Start the client
 -------------------------------------------------------------------------------

@@ -10,10 +10,10 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.ProtocolHeaders;
 
-import talend.tif.examples.jaxrsjmshttp.common.Book;
-import talend.tif.examples.jaxrsjmshttp.common.BookList;
-import talend.tif.examples.jaxrsjmshttp.common.BookListener;
-import talend.tif.examples.jaxrsjmshttp.common.BookStore;
+import talend.camel.examples.jaxrsjmshttp.common.Book;
+import talend.camel.examples.jaxrsjmshttp.common.BookList;
+import talend.camel.examples.jaxrsjmshttp.common.BookListener;
+import talend.camel.examples.jaxrsjmshttp.common.BookStore;
 
 /**
  * <p>

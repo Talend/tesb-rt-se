@@ -1,4 +1,4 @@
-﻿TIF Examples
+﻿Talend Camel Examples
 ===============================================================================
 
 blueprint
@@ -22,17 +22,17 @@ Build
 > cd examples
 > mvn clean install
 
-Prepare the TIF Container for the examples
+Prepare the TESB Container for the examples
 ===============================================================================
 
-Start TIF. From the TIF root directory:
+Start TESB. From the TESB root directory:
 
 > cd container
-> bin/tif
+> bin/trun
 
-In the TIF shell:
+In the TESB shell:
 
-> features:addurl mvn:com.talend.if.examples/osgi/1.0/xml/features
+> features:addurl mvn:org.talend.camel-examples/osgi/1.0/xml/features
 
 This command adds the features repository for the examples to the container.  (See 
 http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for
@@ -57,7 +57,7 @@ http://cxf.apache.org
 Talend Support Channels:
 http://www.talendforge.org/forum/
 http://www.talend.com/professional-support/support.php
-https://jira.sopera.de/browse/IF
+http://jira.talendforge.org//browse/TESB
 
 Please use the contact channel that is most appropriate for your problem. General problems that apply 
 to the Apache projects are best placed on Apache channels. Talend product specific questions

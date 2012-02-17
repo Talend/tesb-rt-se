@@ -7,11 +7,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.if.examples.spring-security</groupId>
+    <groupId>org.talend.camel-examples.spring-security</groupId>
     <artifactId>spring-security</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>TIF :: Examples :: spring-security</name>
+    <name>Talend Camel Examples :: spring-security</name>
 
     <modules>
         <module>client</module>

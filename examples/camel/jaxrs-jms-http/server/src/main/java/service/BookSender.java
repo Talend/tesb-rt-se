@@ -6,8 +6,8 @@ package service;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 
-import talend.tif.examples.jaxrsjmshttp.common.Book;
-import talend.tif.examples.jaxrsjmshttp.common.BookListener;
+import talend.camel.examples.jaxrsjmshttp.common.Book;
+import talend.camel.examples.jaxrsjmshttp.common.BookListener;
 
 /**
  * <p>

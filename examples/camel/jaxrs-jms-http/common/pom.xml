@@ -8,14 +8,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.if.examples.jaxrs-jms-http</groupId>
+        <groupId>org.talend.camel-examples.jaxrs-jms-http</groupId>
         <artifactId>jaxrs-jms-http</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>jaxrs-jms-http-common</artifactId>
     <packaging>bundle</packaging>
-    <name>TIF :: Examples :: jaxrs-jms-http :: common</name>
+    <name>Talend Camel Examples :: jaxrs-jms-http :: common</name>
 
     <dependencies>
         <dependency>

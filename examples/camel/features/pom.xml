@@ -8,17 +8,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.if.examples</groupId>
-        <artifactId>talend-if-examples</artifactId>
+        <groupId>org.talend.camel-examples</groupId>
+        <artifactId>talend-camel-examples</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>osgi</artifactId>
     <packaging>pom</packaging>
-    <name>TIF :: Examples :: features</name>
+    <name>Talend Camel Examples :: features</name>
     
     <properties>
-        <tif.version>2.8.2.0</tif.version>
         <activemq.version>5.5.0</activemq.version>
         <cxf.version>2.5.0</cxf.version>
         <camel.version>2.8.2</camel.version>

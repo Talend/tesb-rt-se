@@ -5,7 +5,7 @@ package service;
 
 import org.apache.camel.Consume;
 
-import talend.tif.examples.jaxrsjmshttp.common.Book;
+import talend.camel.examples.jaxrsjmshttp.common.Book;
 
 /**
  * <p>

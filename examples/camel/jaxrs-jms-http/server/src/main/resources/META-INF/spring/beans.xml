@@ -61,7 +61,7 @@
         <route>
             <from uri="direct:bookListener" />
             <marshal>
-                <jaxb prettyPrint="true" contextPath="talend.tif.examples.jaxrsjmshttp.common" />
+                <jaxb prettyPrint="true" contextPath="talend.camel.examples.jaxrsjmshttp.common" />
             </marshal>
             <to uri="jms:test.books" />
         </route>

@@ -8,18 +8,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.if.examples.jaxws-jms</groupId>
+        <groupId>org.talend.camel-examples.jaxws-jms</groupId>
         <artifactId>jaxws-jms</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>jaxws-jms-war</artifactId>
     <packaging>war</packaging>
-    <name>TIF :: Examples :: jaxws-jms :: war</name>
+    <name>Talend Camel Examples :: jaxws-jms :: war</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.if.examples.jaxws-jms</groupId>
+            <groupId>org.talend.camel-examples.jaxws-jms</groupId>
             <artifactId>jaxws-jms-server</artifactId>
             <version>${project.version}</version>
         </dependency>

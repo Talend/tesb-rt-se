@@ -8,14 +8,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.if.examples.jaxws-jms</groupId>
+        <groupId>org.talend.camel-examples.jaxws-jms</groupId>
         <artifactId>jaxws-jms</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>jaxws-jms-client</artifactId>
     <packaging>jar</packaging>
-    <name>TIF :: Examples :: jaxws-jms :: client</name>
+    <name>Talend Camel Examples :: jaxws-jms :: client</name>
 
     <dependencies>
         <dependency>

@@ -14,7 +14,7 @@
 
     <import resource="classpath:/camel-context.xml"/>
 
-    <http realm="TIF Spring Security Example" xmlns="http://www.springframework.org/schema/security">
+    <http realm="Talend Camel Spring Security Example" xmlns="http://www.springframework.org/schema/security">
         <intercept-url pattern="/**" access="ROLE_USER"/>
         <http-basic/>
         <remember-me/>

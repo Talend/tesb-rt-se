@@ -1,6 +1,6 @@
 Blueprint
 =========
-The camel-blueprint component allows you to deploy Camel routes as an OSGi bundle in the TIF container.
+The camel-blueprint component allows you to deploy Camel routes as an OSGi bundle in the TESB container.
 
 The Camel DSL is embedded in a blueprint (http://camel.apache.org/using-osgi-blueprint-with-camel.html) context.
 
@@ -8,7 +8,7 @@ Simple
 ------
 The simple.xml is a blueprint definition allowing you to define a route with a timer.
 Every 5 seconds, the timer creates an event and uses a constant "Hello World" body string.
-This string is sent to a stream endpoint which displays the string in the TIF console.
+This string is sent to a stream endpoint which displays the string in the TESB console.
 
 Recipient List
 --------------
@@ -22,9 +22,9 @@ Note: Please follow the parent README.txt first for common build and container s
 
 Hot deployment
 --------------
-Start the TIF container
+Start the TESB container
 
-> cd container/bin/tif
+> cd container/bin/trun
 
 Install the required features
 
@@ -38,7 +38,7 @@ You should be able to see the OSGi bundles for your Camel blueprint using
 Next, simply drop the src/main/resources/simple.xml or src/main/resources/recipientlist.xml 
 in the container/deploy directory.
 
-Every 5 seconds, you will see the "Hello World" message in the TIF console.  If you used
+Every 5 seconds, you will see the "Hello World" message in the TESB console.  If you used
 recipientlist.xml, you'll also see files created in a new result folder located under the 
 container directory.
 

@@ -8,9 +8,9 @@ import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 
-import com.talend.tif.examples.springsecurity.common.HelloWorld;
-import com.talend.tif.examples.springsecurity.common.User;
-import com.talend.tif.examples.springsecurity.common.UserImpl;
+import com.talend.camel.examples.springsecurity.common.HelloWorld;
+import com.talend.camel.examples.springsecurity.common.User;
+import com.talend.camel.examples.springsecurity.common.UserImpl;
 
 public class HelloWorldImpl implements HelloWorld {
 

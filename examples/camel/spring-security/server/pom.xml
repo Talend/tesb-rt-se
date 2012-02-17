@@ -8,18 +8,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.if.examples.spring-security</groupId>
+        <groupId>org.talend.camel-examples.spring-security</groupId>
         <artifactId>spring-security</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>spring-security-server</artifactId>
     <packaging>bundle</packaging>
-    <name>TIF :: Examples :: spring-security :: server</name>
+    <name>Talend Camel Examples :: spring-security :: server</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.if.examples.spring-security</groupId>
+            <groupId>org.talend.camel-examples.spring-security</groupId>
             <artifactId>spring-security-common</artifactId>
             <version>${project.version}</version>
         </dependency>

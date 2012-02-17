@@ -30,7 +30,7 @@ The sample requires a JMS broker to be running:
 > mvn -Pjms.broker
 
   That will create a new broker (using the default configuration) and will start it.
-Alternatively, you can start a broker from within the TIF OSGi container, see below for the instructions.
+Alternatively, you can start a broker from within the TESB OSGi container, see below for the instructions.
 
 3) Starting the Service
 -------------------------------------------------------------------------------
@@ -38,17 +38,17 @@ Alternatively, you can start a broker from within the TIF OSGi container, see be
 3.1) In Jetty
 > cd war ; mvn jetty:run
 
-3.2) From within the TIF OSGi container
+3.2) From within the TESB OSGi container
 
 Make sure you've first installed the examples features repository 
 as described in the parent README.
 
 Start the broker if not already started:
-karaf@tif> features:install activemq-spring
-karaf@tif> activemq:create-broker
+karaf@trun> features:install activemq-spring
+karaf@trun> activemq:create-broker
 
 Install and start demo bundles:
-karaf@tif> features:install tif-example-jaxrs-jms-http
+karaf@trun> features:install talend-camel-example-jaxrs-jms-http
 
 
 

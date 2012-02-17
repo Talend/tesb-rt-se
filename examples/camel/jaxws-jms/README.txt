@@ -11,7 +11,7 @@ CXF was chosen here as it offers the easiest integration for an existing CXF end
 to switch the transport and can leave the rest of the CXF configuration as-is.
 
 This architecture features a standalone JMS broker handling the routing of the SOAP requests and responses.
-The service provider is hosted on the TIF container, while the SOAP over JMS client is a standalone
+The service provider is hosted on the TESB container, while the SOAP over JMS client is a standalone
 Java application.
 
 
@@ -37,7 +37,7 @@ The sample requires a JMS broker to be running:
 
   That will create a new broker (using the default configuration) and will start it.
 
-Alternatively, you can start a broker from within the TIF OSGi container, see below for the instructions.
+Alternatively, you can start a broker from within the TESB OSGi container, see below for the instructions.
 
 3) Starting the Service
 -------------------------------------------------------------------------------
@@ -50,15 +50,15 @@ Alternatively, you can start a broker from within the TIF OSGi container, see be
   * From the command line, run:
 > cd war ; mvn jetty:run
 
-3.3) From within the TIF OSGi container command line, run:
+3.3) From within the TESB OSGi container command line, run:
 
 Start the broker if not already started:
 
-karaf@tif> features:install activemq-spring
-karaf@tif> activemq:create-broker
+karaf@trun> features:install activemq-spring
+karaf@trun> activemq:create-broker
 
 Install and start the demo server bundle:
-karaf@tif> features:install tif-example-jaxws-jms 
+karaf@trun> features:install talend-camel-example-jaxws-jms 
 
 (Make sure you've first installed the examples features repository as described in the
 parent README.)

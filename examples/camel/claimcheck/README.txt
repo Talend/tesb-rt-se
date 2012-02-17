@@ -74,7 +74,7 @@ Start in jetty
 Start in the OSGI container
 ---------------------
 
-karaf@tif> features:install tif-example-claimcheck
+karaf@trun> features:install talend-camel-example-claimcheck
 
 (Make sure you've first installed the examples features repository as described in the
 parent README.)
