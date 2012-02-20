@@ -111,8 +111,8 @@ Java code and exports all packages from the bundle. As some code is only referen
 bundles have to be specified in the configuration of the Maven bundle plugin. 
 
 Generally OSGi containers remember their state, so you may wish to reset the container before subsequent runs of any example for 
-which you wish to see the same behavior as the first run.  In Talend Integration Factory Container (Karaf) this can be easily
-done by deleting the data directory.
+which you wish to see the same behavior as the first run.  In TESB Container (Karaf) this can be easily done by deleting 
+the data directory.
 
 NOTE: While running examples using camel-cxf you may notice exceptions related to Camel loading TypeConverter(s). The exceptions
 do not affect the functionality of the example and can be safely ignored. This issue will also be fixed at Apache in the next release.
