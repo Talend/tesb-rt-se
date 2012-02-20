@@ -6,13 +6,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-advanced-example</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
     <artifactId>jaxrs-advanced-service-bundle</artifactId>
     <name>Advanced JAX-RS Example REST Resource Bundle</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-advanced-example</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
         <artifactId>jaxrs-advanced-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-advanced-example</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
             <artifactId>jaxrs-advanced-common</artifactId>
             <version>1.0</version>
         </dependency>

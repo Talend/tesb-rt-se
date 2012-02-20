@@ -38,8 +38,8 @@ Starting the service
 * In the servlet container
     cd war; mvn jetty:run
 
-* From within the Talend Service Factory OSGi container:
-   karaf@tsf> features:install tsf-example-jaxrs-jaxws-description-first
+* From within the TESB OSGi container:
+   karaf@trun> features:install talend-cxf-example-jaxrs-jaxws-description-first
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)

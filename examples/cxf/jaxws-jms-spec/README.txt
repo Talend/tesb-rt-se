@@ -46,7 +46,7 @@ ways to get a JMS broker running:
      In separate command windows/shells:
      mvn -Pjms.broker
 
- * From within the Talend Service Factory OSGi container:
+ * From within the TESB OSGi container:
      From the OSGi command line, run:
          activemq:create-broker 
      That will create a new broker broker with the defaults and 
@@ -59,7 +59,7 @@ Starting the Service
      cd service ; mvn exec:java
 
 * From within the OSGi container
-   karaf@tsf> features:install tsf-example-jaxws-jms-spec-server
+   karaf@trun> features:install talend-cxf-example-jaxws-jms-spec-server
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -70,7 +70,7 @@ Running the Client
 * From the command line:
    cd client ; mvn exec:java
 * From within the OSGi container:
-   karaf@tsf> features:install tsf-example-jaxws-jms-spec-client
+   karaf@trun> features:install talend-cxf-example-jaxws-jms-spec-client
 
 
 

@@ -6,14 +6,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxws-ws-secpol</groupId>
+    <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
     <artifactId>ws-secpol-server</artifactId>
     <name>WS-Security Policy Example Service</name>
     <version>1.0</version>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxws-ws-secpol</groupId>
+        <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
         <artifactId>jaxws-ws-secpol</artifactId>
         <version>1.0</version>
     </parent>
@@ -45,7 +45,7 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxws-ws-secpol</groupId>
+            <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
             <artifactId>ws-secpol-common</artifactId>
             <version>${project.version}</version>
         </dependency>

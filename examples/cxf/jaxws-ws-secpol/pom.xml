@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxws-ws-secpol</groupId>
+    <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
     <artifactId>jaxws-ws-secpol</artifactId>
     <name>WS-Security Policy Example</name>
     <version>1.0</version>

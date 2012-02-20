@@ -69,7 +69,7 @@ CXF WSP: http://localhost:8080/doubleit/services/doubleitUT?wsdl
    Therefore, start Karaf, and stop the Pax Jetty bundle before starting Tomcat.
 
    From the OSGi command line, run:
-      karaf@tsf> features:install tsf-example-jaxws-metro-sts-client
+      karaf@trun> features:install talend-cxf-example-jaxws-metro-sts-client
 
 Either way, you should see the results of three web service calls, with the
 client using UsernameToken in one call, and X.509 in the other to get the

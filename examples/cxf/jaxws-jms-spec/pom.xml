@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxws-jms-spec</groupId>
+    <groupId>org.talend.cxf-examples.jaxws-jms-spec</groupId>
     <artifactId>jaxws-jms-spec</artifactId>
     <name>SOAP/JMS Transport Specification Example</name>
     <version>1.0</version>

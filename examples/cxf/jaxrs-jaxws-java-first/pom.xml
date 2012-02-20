@@ -7,7 +7,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.sf.examples.jaxrs-jaxws-java-first</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
     <artifactId>jaxrs-jaxws-java-first-example</artifactId>
     <version>1.0</version>
     <name>JAX-RS JAX-WS Java First Example</name>

@@ -6,7 +6,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.talend.sf.examples.jaxws-cxf-sts-advanced</groupId>
+        <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
         <artifactId>jaxws-cxf-sts-advanced</artifactId>
         <version>1.0</version>
     </parent>
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxws-cxf-sts-advanced</groupId>
+            <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
             <artifactId>jaxws-cxf-sts-advanced-wsp</artifactId>
             <version>1.0</version>
         </dependency>

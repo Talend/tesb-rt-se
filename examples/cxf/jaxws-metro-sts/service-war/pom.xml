@@ -6,7 +6,7 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>com.talend.sf.examples.jaxws-metro-sts</groupId>
+      <groupId>org.talend.cxf-examples.jaxws-metro-sts</groupId>
       <artifactId>jaxws-metro-sts</artifactId>
       <version>1.0</version>
    </parent>
@@ -16,7 +16,7 @@
    
    <dependencies>
       <dependency>
-         <groupId>com.talend.sf.examples.jaxws-metro-sts</groupId>
+         <groupId>org.talend.cxf-examples.jaxws-metro-sts</groupId>
          <artifactId>jaxws-metro-sts-common</artifactId>
          <version>1.0</version>
       </dependency>

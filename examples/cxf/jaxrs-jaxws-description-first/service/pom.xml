@@ -6,13 +6,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-jaxws-description-first</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-description-first</groupId>
     <artifactId>jaxrs-jaxws-description-first-service</artifactId>
     <name>JAX-RS JAX-WS Description First Service</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-jaxws-description-first</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-jaxws-description-first</groupId>
         <artifactId>jaxrs-jaxws-description-first-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -35,7 +35,7 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-jaxws-description-first</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-jaxws-description-first</groupId>
             <artifactId>jaxrs-jaxws-description-first-common</artifactId>
             <version>1.0</version>
         </dependency>

@@ -6,7 +6,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.sf.examples.jaxrs-attachments-example</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
     <artifactId>jaxrs-attachments</artifactId>
     <version>1.0</version>
     <name>JAX-RS Attachments Example</name>

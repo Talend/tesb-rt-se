@@ -1,19 +1,18 @@
-Welcome to Talend Service Factory Community Edition (CE)!
+Welcome to Talend eanples for CXF
 =========================================================
 
-Talend Service Factory Community Edition (CE) uses the industry leading 
-open source Apache CXF implementation of JAX-WS to help you service enable
-your existing applications and interfaces.  The CXF lightweight, modular 
-architecture is based on Spring, so it will work with your application 
-regardless of the platform on which it is running.  It will run on 
-stand-alone JVM applications, as part of a servlet container such as 
-Tomcat, within a JEE server, or in an OSGi container such as Equinox.  
+Industry leading open source Apache CXF implementation of JAX-WS to help 
+you service enable your existing applications and interfaces.  The CXF 
+lightweight, modular architecture is based on Spring, so it will work 
+with your application regardless of the platform on which it is running. 
+It will run on stand-alone JVM applications, as part of a servlet container 
+such as Tomcat, within a JEE server, or in an OSGi container such as Equinox.  
 
 This package contains several new examples that show advanced features
 of CXF.  All of the examples are setup to be built and run independently,
-but they are also all setup to be run in the Talend Service Factory CE
-OSGi container that can be obtained from:
-http://www.talend.com/download.php#SF
+but they are also all setup to be run in the Talend ESB OSGi container 
+that can be obtained from:
+http://www.talend.com/download.php#ESB
 
 jaxws-cxf-sts: demonstrates having a SOAP client use CXF's stsclient 
 to make a call to a Tomcat-hosted CXF Security Token Service (STS) and 
@@ -87,17 +86,17 @@ To build all examples:
 > cd examples
 > mvn clean install
 
-To prepare the TSF Container for the examples:
+To prepare the TESB Container for the examples:
 ===============================================================================
 
-Start TSF. From the TSF root directory:
+Start TESB. From the TESB root directory:
 
 > cd container
-> bin/tsf
+> bin/trun
 
-In the TSF shell:
+In the TESB shell:
 
-> features:addurl mvn:com.talend.sf.examples/osgi/1.0/xml/features
+> features:addurl mvn:org.talend.cxf-examples/osgi/1.0/xml/features
 
 This command adds the features repository for the examples to the container.  (See 
 http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for

@@ -53,10 +53,10 @@ Starting the service
 
     cd war; mvn jetty:run
 
- * From within the Talend Service Factory OSGi container:
+ * From within the TESB OSGi container:
 
    Install and start the demo server bundle:
-   karaf@tsf> features:install tsf-example-jaxrs-advanced-server
+   karaf@trun> features:install talend-cxf-example-jaxrs-advanced-server
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -71,7 +71,7 @@ Running the client
    - cd client
    - mvn exec:java
 * From within the OSGi container
-   karaf@tsf> features:install tsf-example-jaxrs-advanced-client
+   karaf@trun> features:install talend-cxf-example-jaxrs-advanced-client
 
 By default, the client will use the http port 8080 for constructing the URIs.
 This port value is set during the build in the client.properties resource file. If the server 

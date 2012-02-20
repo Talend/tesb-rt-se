@@ -6,13 +6,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
     <artifactId>jaxrs-jaxws-transformations-war</artifactId>
     <name>JAX-RS JAX-WS Transformations Example War</name>
     <packaging>war</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
         <artifactId>jaxrs-jaxws-transformations-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-jaxws-transformations</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
             <artifactId>jaxrs-jaxws-transformations-service</artifactId>
             <version>1.0</version>
         </dependency>
