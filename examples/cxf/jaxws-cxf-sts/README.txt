@@ -68,7 +68,7 @@ CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
    Pax Jetty bundle before restarting Tomcat (to activate the STS).
 
    From the OSGi command line, run:
-      karaf@tsf> features:install tsf-example-jaxws-cxf-sts-service
+      karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-service
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -87,7 +87,7 @@ or in Karaf, to avoid clashing with the port that Tomcat is using (8080).
  * To run the client in a standalone manner, run mvn clean install exec:exec.
 
  * From the OSGi command line, run:
-      karaf@tsf> features:install tsf-example-jaxws-cxf-sts-client
+      karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-client
 
 You should see the results of the web service call. 
 

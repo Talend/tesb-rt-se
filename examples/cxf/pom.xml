@@ -6,10 +6,10 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples</groupId>
-    <artifactId>talend-sf-examples</artifactId>
+    <groupId>org.talend.cxf-examples</groupId>
+    <artifactId>talend-cxf-examples</artifactId>
     <version>1.0</version>
-    <name>Talend SF Examples</name>
+    <name>Talend CXF Examples</name>
     <packaging>pom</packaging>
 
     <modules>

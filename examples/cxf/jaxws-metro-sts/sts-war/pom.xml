@@ -3,7 +3,7 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
-   <groupId>com.talend.sf.examples.jaxws-ws-trust</groupId>
+   <groupId>org.talend.cxf-examples.jaxws-ws-trust</groupId>
    <artifactId>jaxws-ws-trust-metro-sts-war</artifactId>
    <version>1.0</version>
    <name>Metro STS</name>

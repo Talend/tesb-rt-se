@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxws-cxf-sts-advanced</groupId>
+    <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
     <artifactId>jaxws-cxf-sts-advanced</artifactId>
     <version>1.0</version>
     <name>WS Trust (CXF STS advanced) Parent POM</name>

@@ -4,8 +4,8 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>com.talend.sf.interop.wstrust-metro</groupId>
-      <artifactId>wstrust-metro</artifactId>
+      <groupId>org.talend.cxf-examples.jaxws-metro-sts</groupId>
+      <artifactId>jaxws-metro-sts</artifactId>
       <version>1.0</version>
    </parent>
    <artifactId>wstrust-metro-sts-war</artifactId>

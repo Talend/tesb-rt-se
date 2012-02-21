@@ -46,9 +46,9 @@ Starting the service
 
  * Check if $KARAF_HOME/etc/users.properties file exists. If no then copy service-jaas/src/main/resources/users.properties to $KARAF_HOME/etc, otherwise add the content of service-jaas/src/main/resources/users.properties to the existing user.properties file.
 
- * From within the Talend Service Factory OSGi container:
+ * From within the TESB OSGi container:
 
-   karaf@tsf> features:install tsf-example-jaxrs-jaxws-authorization
+   karaf@trun> features:install talend-cxf-example-jaxrs-jaxws-authorization
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -80,8 +80,8 @@ by the servlet container (Jetty). Please see WEB-INF/web.xml and main/src/resour
 in the war module. The container will authenticate the current user and the information about the
 current Principal and its roles will be accessible to CXF interceptors via the CXF SecurityContext.
 
-- When a service is started from within the Talend Service Factory OSGi container, the
-authentication is enforced by the BasicAuthJaasLoginInterceptor interceptor shipped with this demo.
+- When a service is started from within the Talend ESB OSGi container, the authentication is enforced 
+by the BasicAuthJaasLoginInterceptor interceptor shipped with this demo.
 This interceptor establishes a JAAS LoginContext session which is made accessible after the bundle created by 
 the service-jaas module build has been deployed. Next it creates a CXF SecurityContext from the
 resulting Subject by relying on the convention that Principals having the names starting with the "ROLE_"

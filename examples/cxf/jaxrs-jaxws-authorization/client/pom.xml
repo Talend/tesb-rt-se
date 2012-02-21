@@ -7,13 +7,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-jaxws-authorization</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
     <artifactId>jaxrs-jaxws-authorization-client</artifactId>
     <name>JAX-RS JAX-WS Authorization Example Client</name>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-jaxws-authorization</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
         <artifactId>jaxrs-jaxws-authorization-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -25,7 +25,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-jaxws-authorization</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
             <artifactId>jaxrs-jaxws-authorization-common</artifactId>
             <version>1.0</version>
         </dependency>

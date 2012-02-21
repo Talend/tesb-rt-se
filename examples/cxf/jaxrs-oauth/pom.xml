@@ -6,7 +6,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
     <artifactId>jaxrs-oauth-example</artifactId>
     <version>1.0</version>
     <name>JAX-RS OAuth Example</name>

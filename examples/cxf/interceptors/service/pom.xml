@@ -3,14 +3,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.interceptors</groupId>
+    <groupId>org.talend.cxf-examples.interceptors</groupId>
     <artifactId>interceptors-server</artifactId>
     <name>Interceptors Example - Service Artifacts</name>
     <version>1.0</version>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.interceptors</groupId>
+        <groupId>org.talend.cxf-examples.interceptors</groupId>
         <artifactId>interceptors</artifactId>
         <version>1.0</version>
     </parent>
@@ -42,7 +42,7 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.interceptors</groupId>
+            <groupId>org.talend.cxf-examples.interceptors</groupId>
             <artifactId>interceptors-common</artifactId>
             <version>${project.version}</version>
         </dependency>

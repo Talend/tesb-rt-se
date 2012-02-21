@@ -8,12 +8,12 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-jaxws-java-first</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
         <artifactId>jaxrs-jaxws-java-first-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>com.talend.sf.examples.jaxrs-jaxws-java-first</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
     <artifactId>jaxrs-jaxws-java-first-client</artifactId>
     <name>JAX-RS JAX-WS Java First REST Client</name>
     <packaging>jar</packaging>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-jaxws-java-first</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
             <artifactId>jaxrs-jaxws-java-first-common</artifactId>
             <version>1.0</version>
         </dependency>

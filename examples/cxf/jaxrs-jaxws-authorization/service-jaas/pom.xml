@@ -4,7 +4,7 @@
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
-      <groupId>com.talend.sf.examples.jaxrs-jaxws-authorization</groupId>
+      <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
       <artifactId>jaxrs-jaxws-authorization-example</artifactId>
       <version>1.0</version>
       <relativePath>..</relativePath>

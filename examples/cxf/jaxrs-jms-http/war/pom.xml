@@ -6,13 +6,13 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
     <artifactId>jaxrs-jms-http-war</artifactId>
     <name>JAX-RS JMS HTTP Demo - War</name>
     <packaging>war</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
         <artifactId>jaxrs-jms-http</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -39,7 +39,7 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-jms-http</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
             <artifactId>jaxrs-jms-http-service</artifactId>
             <version>1.0</version>
         </dependency>

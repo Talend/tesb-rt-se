@@ -8,17 +8,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.talend.sf.examples</groupId>
-        <artifactId>talend-sf-examples</artifactId>
+        <groupId>org.talend.cxf-examples</groupId>
+        <artifactId>talend-cxf-examples</artifactId>
         <version>1.0</version>
     </parent>
 
     <artifactId>osgi</artifactId>
     <packaging>pom</packaging>
-    <name>TSF :: Examples :: features</name>
+    <name>Talend CXF Examples :: features</name>
     
     <properties>
-        <tsf.version>2.6.0.0-SNAPSHOT</tsf.version>
         <activemq.version>5.5.0</activemq.version>
         <cxf.version>2.6.0-SNAPSHOT</cxf.version>
         <camel.version>2.8.2</camel.version>

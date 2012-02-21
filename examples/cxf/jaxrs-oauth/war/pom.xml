@@ -5,13 +5,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+    <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
     <artifactId>jaxrs-oauth-service-war</artifactId>
     <name>JAX-RS OAuth Example War</name>
     <packaging>war</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
         <artifactId>jaxrs-oauth-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
             <artifactId>jaxrs-oauth-service</artifactId>
             <version>1.0</version>
         </dependency>

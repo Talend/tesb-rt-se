@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
         <artifactId>jaxrs-oauth-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -24,7 +24,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-oauth-example</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
             <artifactId>jaxrs-oauth-common</artifactId>
             <version>1.0</version>
         </dependency>

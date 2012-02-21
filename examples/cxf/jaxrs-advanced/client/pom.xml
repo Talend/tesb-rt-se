@@ -12,7 +12,7 @@
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>com.talend.sf.examples.jaxrs-advanced-example</groupId>
+        <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
         <artifactId>jaxrs-advanced-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
@@ -25,7 +25,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.talend.sf.examples.jaxrs-advanced-example</groupId>
+            <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
             <artifactId>jaxrs-advanced-common</artifactId>
             <version>1.0</version>
         </dependency>
