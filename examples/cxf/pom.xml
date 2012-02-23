@@ -27,7 +27,7 @@
         <module>jaxws-cxf-sts-advanced</module>
         <module>jaxws-metro-sts</module>
         <module>jaxws-ws-secpol</module>
-        <!--<module>jaxrs-oauth</module>-->
+        <module>jaxrs-oauth</module>
         <module>features</module>
     </modules>
 
