@@ -92,18 +92,20 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
         //for future HTTPS checking
-//        boolean useHTTPS = ((Boolean) props
+//      boolean useHTTPS = ((Boolean) props
 //                .get(ESBEndpointConstants.USE_HTTPS))
 //                .booleanValue();
+        boolean useHTTPS = publishedEndpointUrl.startsWith("https://");
         
-        Bus currentBus = BusFactory.getThreadDefaultBus();
-        SpringBusFactory bf = new SpringBusFactory();
-        this.bus = bf.createBus(clientProperties.get(HTTPS_CONFIG)); 
-        
-            if (useServiceLocator){
-                ServiceLocatorManager slm = currentBus.getExtension(ServiceLocatorManager.class);
-                bus.setExtension(slm, ServiceLocatorManager.class);
-            }
+        if (useHTTPS) {
+            Bus currentBus = BusFactory.getThreadDefaultBus();
+            SpringBusFactory bf = new SpringBusFactory();
+            this.bus = bf.createBus(clientProperties.get(HTTPS_CONFIG));   
+                if (useServiceLocator) {
+                    ServiceLocatorManager slm = currentBus.getExtension(ServiceLocatorManager.class);
+                    bus.setExtension(slm, ServiceLocatorManager.class);
+                }
+        }
         
         LocatorFeature slFeature = null;
         if (useServiceLocator) {
