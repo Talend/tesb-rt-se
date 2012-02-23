@@ -139,7 +139,7 @@
         <module>features</module>
         <module>sts</module>
         <module>zookeeper-server</module>
-        <module>camel-tis</module>
+        <module>camel-talendjob</module>
     </modules>
 
 	<dependencyManagement>

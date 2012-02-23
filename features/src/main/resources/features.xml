@@ -236,9 +236,9 @@
         <feature version="${camel.version}">camel-xstream</feature>
     </feature>
 
-    <feature name="camel-tis" version="${camel-tis.version}" resolver="(obr)">
+    <feature name="camel-talendjob" version="${project.version}" resolver="(obr)">
         <feature version="${camel.version}">camel-core</feature>
-        <bundle>mvn:org.talend.camel/camel-tis/${camel-tis.version}</bundle>
+        <bundle>mvn:org.talend.camel/camel-talendjob/${project.version}</bundle>
     </feature>
 
 </features>
