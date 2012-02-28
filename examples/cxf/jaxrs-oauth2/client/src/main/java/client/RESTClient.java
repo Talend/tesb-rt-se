@@ -15,7 +15,7 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.ext.form.Form;
-import org.apache.cxf.rs.security.oauth.common.OAuthAuthorizationData;
+import org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData;
 
 /**
  * OAuth demo client

@@ -27,7 +27,7 @@ import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.apache.cxf.rs.security.oauth.common.Client;
+import org.apache.cxf.rs.security.oauth2.common.Client;
 
 @Path("/registerProvider")
 public class ThirdPartyRegistrationService {

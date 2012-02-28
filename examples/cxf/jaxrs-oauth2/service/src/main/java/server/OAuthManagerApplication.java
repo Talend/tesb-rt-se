@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
 import oauth2.manager.OAuthManager;
 import oauth2.manager.ThirdPartyRegistrationService;
 
-import org.apache.cxf.rs.security.oauth.services.AccessTokenService;
+import org.apache.cxf.rs.security.oauth2.services.AccessTokenService;
 
 /*
  * Class that can be used (instead of XML-based configuration) to inform the JAX-RS 

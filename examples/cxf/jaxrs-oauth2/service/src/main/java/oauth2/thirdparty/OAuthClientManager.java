@@ -8,11 +8,11 @@ import java.net.URI;
 import oauth2.common.OAuthConstants;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.rs.security.oauth.client.OAuthClientUtils;
-import org.apache.cxf.rs.security.oauth.client.OAuthClientUtils.Consumer;
-import org.apache.cxf.rs.security.oauth.common.ClientAccessToken;
-import org.apache.cxf.rs.security.oauth.grants.code.AuthorizationCodeGrant;
-import org.apache.cxf.rs.security.oauth.provider.OAuthServiceException;
+import org.apache.cxf.rs.security.oauth2.client.OAuthClientUtils;
+import org.apache.cxf.rs.security.oauth2.client.OAuthClientUtils.Consumer;
+import org.apache.cxf.rs.security.oauth2.common.ClientAccessToken;
+import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeGrant;
+import org.apache.cxf.rs.security.oauth2.provider.OAuthServiceException;
 
 public class OAuthClientManager {
 

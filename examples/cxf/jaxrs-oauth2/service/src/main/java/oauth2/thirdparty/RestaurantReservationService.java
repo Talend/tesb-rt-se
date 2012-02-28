@@ -29,8 +29,8 @@ import oauth2.common.ReservationFailure;
 import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.ext.form.Form;
-import org.apache.cxf.rs.security.oauth.common.ClientAccessToken;
-import org.apache.cxf.rs.security.oauth.grants.code.AuthorizationCodeGrant;
+import org.apache.cxf.rs.security.oauth2.common.ClientAccessToken;
+import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeGrant;
 
 @Path("reserve")
 public class RestaurantReservationService {

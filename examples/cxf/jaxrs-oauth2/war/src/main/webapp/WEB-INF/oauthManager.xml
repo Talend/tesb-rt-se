@@ -24,11 +24,11 @@
      
      <!-- Manages the creation of access tokens, 
           delegates to the OAuth provider to keep them  -->
-     <bean id="accessTokenService" class="org.apache.cxf.rs.security.oauth.services.AccessTokenService">
+     <bean id="accessTokenService" class="org.apache.cxf.rs.security.oauth2.services.AccessTokenService">
          <property name="dataProvider" ref="oauthProvider"/>
      </bean>
      
-     <bean id="jsonProvider" class="org.apache.cxf.rs.security.oauth.provider.OAuthJSONProvider"/>
+     <bean id="jsonProvider" class="org.apache.cxf.rs.security.oauth2.provider.OAuthJSONProvider"/>
 
      <!-- OAuthManager View Support.
           In this application only ThirdPartyRegistrationService relies on a view handler
@@ -46,7 +46,7 @@
          
      </bean>
 
-     <!-- OAuthManager service endpoint, consists of 3 JAX-RS root resources --> 
+     <!-- OAuthManager service endpoint, consists of 2 JAX-RS root resources --> 
      <jaxrs:server id="oauthServer" address="/oauth">
         <jaxrs:serviceBeans>
            <ref bean="thirdPartyRegService"/>

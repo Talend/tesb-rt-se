@@ -13,7 +13,7 @@ import oauth2.manager.OAuthManager;
 import oauth2.manager.ThirdPartyAccessService;
 import oauth2.service.UserAccounts;
 
-import org.apache.cxf.rs.security.oauth.filters.OAuthRequestFilter;
+import org.apache.cxf.rs.security.oauth2.filters.OAuthRequestFilter;
 
 /*
  * Class that can be used (instead of XML-based configuration) to inform the JAX-RS 

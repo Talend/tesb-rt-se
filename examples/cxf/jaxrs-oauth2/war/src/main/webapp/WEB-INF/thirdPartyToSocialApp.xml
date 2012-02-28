@@ -23,7 +23,7 @@
          <property name="accounts" ref="userAccounts"/>
      </bean>
      
-     <bean id="oAuthFilter" class="org.apache.cxf.rs.security.oauth.filters.OAuthRequestFilter">
+     <bean id="oAuthFilter" class="org.apache.cxf.rs.security.oauth2.filters.OAuthRequestFilter">
          <property name="dataProvider" ref="oauthProvider"/>
      </bean>
 

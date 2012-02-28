@@ -17,8 +17,8 @@ import oauth2.common.OAuthConstants;
 import oauth2.service.UserAccounts;
 
 import org.apache.cxf.jaxrs.ext.MessageContext;
-import org.apache.cxf.rs.security.oauth.common.OAuthContext;
-import org.apache.cxf.rs.security.oauth.common.OAuthPermission;
+import org.apache.cxf.rs.security.oauth2.common.OAuthContext;
+import org.apache.cxf.rs.security.oauth2.common.OAuthPermission;
 
 @Path("/calendar")
 public class ThirdPartyAccessService {

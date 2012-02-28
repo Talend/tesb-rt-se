@@ -10,13 +10,13 @@ import java.util.UUID;
 
 import oauth2.common.OAuthConstants;
 
-import org.apache.cxf.rs.security.oauth.common.Client;
-import org.apache.cxf.rs.security.oauth.common.OAuthPermission;
-import org.apache.cxf.rs.security.oauth.common.ServerAccessToken;
-import org.apache.cxf.rs.security.oauth.grants.code.AuthorizationCodeDataProvider;
-import org.apache.cxf.rs.security.oauth.grants.code.AuthorizationCodeRegistration;
-import org.apache.cxf.rs.security.oauth.grants.code.ServerAuthorizationCodeGrant;
-import org.apache.cxf.rs.security.oauth.provider.OAuthServiceException;
+import org.apache.cxf.rs.security.oauth2.common.Client;
+import org.apache.cxf.rs.security.oauth2.common.OAuthPermission;
+import org.apache.cxf.rs.security.oauth2.common.ServerAccessToken;
+import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeDataProvider;
+import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeRegistration;
+import org.apache.cxf.rs.security.oauth2.grants.code.ServerAuthorizationCodeGrant;
+import org.apache.cxf.rs.security.oauth2.provider.OAuthServiceException;
 
 public class OAuthManager implements AuthorizationCodeDataProvider {
 

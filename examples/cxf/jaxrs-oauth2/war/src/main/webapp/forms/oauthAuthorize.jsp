@@ -1,4 +1,4 @@
-<%@ page import="javax.servlet.http.HttpServletRequest,org.apache.cxf.rs.security.oauth.common.OAuthAuthorizationData,org.apache.cxf.rs.security.oauth.common.Permission" %>
+<%@ page import="javax.servlet.http.HttpServletRequest,org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData,org.apache.cxf.rs.security.oauth2.common.Permission" %>
 
 <%
     OAuthAuthorizationData data = (OAuthAuthorizationData)request.getAttribute("data");
@@ -24,7 +24,7 @@
                         <input type="hidden" name="redirect_uri"
                                value="<%= data.getRedirectUri() %>"/>              
                         <input type="hidden"
-                               name="<%= org.apache.cxf.rs.security.oauth.utils.OAuthConstants
+                               name="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                                    .SESSION_AUTHENTICITY_TOKEN %>"
                                value="<%= data.getAuthenticityToken() %>"/>
                         <p><b><%= data.getApplicationName() %></b> (<%= data.getApplicationDescription() %>)
@@ -66,17 +66,17 @@
                             %> 
                         </table>    
                         <br/></p><br/>
-                        <button name="<%= org.apache.cxf.rs.security.oauth.utils.OAuthConstants
+                        <button name="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                             .AUTHORIZATION_DECISION_KEY %>"
                                 type="submit"
-                                value="<%= org.apache.cxf.rs.security.oauth.utils.OAuthConstants
+                                value="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                                     .AUTHORIZATION_DECISION_ALLOW %>">
                             OK
                         </button>
-                        <button name="<%= org.apache.cxf.rs.security.oauth.utils.OAuthConstants
+                        <button name="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                             .AUTHORIZATION_DECISION_KEY %>"
                                 type="submit"
-                                value="<%= org.apache.cxf.rs.security.oauth.utils.OAuthConstants
+                                value="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                                     .AUTHORIZATION_DECISION_DENY %>">
                             No,thanks
                         </button>

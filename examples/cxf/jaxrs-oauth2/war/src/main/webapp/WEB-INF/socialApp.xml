@@ -35,7 +35,7 @@
           to OAuth provider during the request token request, including the authorization key if the user approves. 
      -->      
      <bean id="oauthAuthorizeService" 
-           class="org.apache.cxf.rs.security.oauth.services.AuthorizationCodeGrantService">
+           class="org.apache.cxf.rs.security.oauth2.services.AuthorizationCodeGrantService">
          <property name="dataProvider" ref="oauthProvider"/>
      </bean> 
 
@@ -60,14 +60,14 @@
      <bean id="socialViews" class="org.apache.cxf.jaxrs.provider.RequestDispatcherProvider">
          <property name="classResources">
             <map>
-              <entry key="org.apache.cxf.rs.security.oauth.common.OAuthAuthorizationData" value="/forms/oauthAuthorize.jsp"/>
+              <entry key="org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData" value="/forms/oauthAuthorize.jsp"/>
               <entry key="oauth2.common.UserRegistration" value="/forms/registerUserConfirm.jsp"/>
               <entry key="oauth2.service.UserAccount" value="/forms/userAccount.jsp"/>
             </map>
          </property>
          <property name="beanNames">
             <map>
-              <entry key="org.apache.cxf.rs.security.oauth.common.OAuthAuthorizationData" value="data"/>
+              <entry key="org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData" value="data"/>
               <entry key="oauth2.service.UserAccount" value="account"/>
             </map>
          </property>

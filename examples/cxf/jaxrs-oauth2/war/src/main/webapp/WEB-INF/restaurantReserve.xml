@@ -39,11 +39,6 @@
                <entry key="Accept" value="application/json"/>
             </map>
          </property>
-         <property name="provider">
-	         <bean id="provider" class="org.apache.cxf.jaxrs.provider.JSONProvider">
-	             <property name="supportUnwrapped" value="true"/>
-	         </bean>
-         </property>
      </bean>
      
      <bean id="atServiceClient" factory-bean="atServiceClientFactory" factory-method="createWebClient"/>

@@ -16,7 +16,7 @@ import oauth2.service.SocialService;
 import oauth2.service.UserAccounts;
 import oauth2.service.UserRegistrationService;
 
-import org.apache.cxf.rs.security.oauth.services.AuthorizationCodeGrantService;
+import org.apache.cxf.rs.security.oauth2.services.AuthorizationCodeGrantService;
 
 /*
  * Class that can be used (instead of XML-based configuration) to inform the JAX-RS 
