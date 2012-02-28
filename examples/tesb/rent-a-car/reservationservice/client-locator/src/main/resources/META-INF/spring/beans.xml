@@ -19,32 +19,31 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-	"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+    "
 >
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
 
-	<jaxws:client id="ReservationServiceClient"
-		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
-		serviceClass="org.talend.services.reservationservice.ReservationService"
-		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
-		address="locator://ReservationServiceProvider"
-	>
-		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
-			</bean>
-		</jaxws:features>
-	</jaxws:client>
+    <jaxws:client id="ReservationServiceClient"
+        xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+        serviceClass="org.talend.services.reservationservice.ReservationService"
+        serviceName="serviceNamespace:ReservationServiceProvider"
+        endpointName="serviceNamespace:ReservationServiceProvider"
+        address="locator://ReservationServiceProvider"
+    >
+        <jaxws:features>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+                <property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
+            </bean>
+        </jaxws:features>
+    </jaxws:client>
 
-	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
+    <osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
 </beans>

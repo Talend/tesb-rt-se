@@ -48,6 +48,9 @@
             <id>sam</id>
         </profile>
         <profile>
+            <id>locator-sam</id>
+        </profile>
+        <profile>
             <id>sts</id>
         </profile>
 		<profile>
