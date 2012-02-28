@@ -19,29 +19,29 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-	"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+    "
 >
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
 
-	<bean id="ReservationServiceBean"
-		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
+    <bean id="ReservationServiceBean"
+        class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
 
-	<!-- HTTP Endpoint -->
-	<jaxws:endpoint id="ReservationService"
-		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
-		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
-		implementor="#ReservationServiceBean"
-		address="/ReservationServiceProvider/">
-		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
-		</jaxws:features>
-	</jaxws:endpoint>
+    <!-- HTTP Endpoint -->
+    <jaxws:endpoint id="ReservationService"
+        xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+        serviceName="serviceNamespace:ReservationServiceProvider"
+        endpointName="serviceNamespace:ReservationServiceProvider"
+        implementor="#ReservationServiceBean"
+        address="/ReservationServiceProvider"
+    >
+        <jaxws:features>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+        </jaxws:features>
+    </jaxws:endpoint>
 
 </beans>

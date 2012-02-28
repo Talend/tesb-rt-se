@@ -1,6 +1,6 @@
 <!--
   #%L
-  CRMService Client SAM
+  CRMService Client Locator &amp; SAM
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -31,15 +31,26 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
+    <bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+        <property name="customInfo">
+            <map>
+                <entry key="application" value="Client"/>
+            </map>
+        </property>
+    </bean>
+
     <jaxws:client id="CRMServiceClient"
         xmlns:serviceNamespace="http://services.talend.org/CRMService"
         serviceClass="org.talend.services.crmservice.CRMService"
         serviceName="serviceNamespace:CRMServiceProvider"
         endpointName="serviceNamespace:CRMServiceProvider"
-        address="${endpoint.prefix}/CRMServiceProvider"
+        address="locator://CRMServiceProvider"
     >
         <jaxws:features>
             <ref bean="eventFeature"/>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+                <property name="selectionStrategy" value="randomSelectionStrategy"/>
+            </bean>
         </jaxws:features>
     </jaxws:client>
 

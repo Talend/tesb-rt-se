@@ -1,6 +1,6 @@
 <!--
   #%L
-  CRMService Client SAM
+  ReservationService Client Locator &amp; SAM
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -31,18 +31,29 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-    <jaxws:client id="CRMServiceClient"
-        xmlns:serviceNamespace="http://services.talend.org/CRMService"
-        serviceClass="org.talend.services.crmservice.CRMService"
-        serviceName="serviceNamespace:CRMServiceProvider"
-        endpointName="serviceNamespace:CRMServiceProvider"
-        address="${endpoint.prefix}/CRMServiceProvider"
+    <bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+        <property name="customInfo">
+            <map>
+                <entry key="application" value="Client"/>
+            </map>
+        </property>
+    </bean>
+
+    <jaxws:client id="ReservationServiceClient"
+        xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+        serviceClass="org.talend.services.reservationservice.ReservationService"
+        serviceName="serviceNamespace:ReservationServiceProvider"
+        endpointName="serviceNamespace:ReservationServiceProvider"
+        address="locator://ReservationServiceProvider"
     >
         <jaxws:features>
             <ref bean="eventFeature"/>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+                <property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
+            </bean>
         </jaxws:features>
     </jaxws:client>
 
-    <osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
+    <osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
 </beans>

@@ -15,8 +15,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>reservationservice-service-endpoint-sam</artifactId>
-    <name>ReservationService Service Endpoint SAM</name>
+    <artifactId>reservationservice-service-endpoint-locator-sam2</artifactId>
+    <name>ReservationService Service Endpoint Locator &amp; SAM (2. Server)</name>
     <packaging>bundle</packaging>
 
     <parent>
@@ -36,6 +36,7 @@
                         <Require-Bundle>
                             org.apache.cxf.bundle,
                             org.springframework.beans,
+                            locator,
                             org.springframework.context,sam-common,sam-agent
                         </Require-Bundle>
                     </instructions>

@@ -1,6 +1,6 @@
 <!--
   #%L
-  CRMService Client SAM
+  CRMService Service Endpoint Locator &amp; SAM
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -21,28 +21,37 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xmlns:osgi="http://www.springframework.org/schema/osgi"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
-    <jaxws:client id="CRMServiceClient"
+    <bean id="CRMServiceBean"
+        class="org.talend.services.crmservice.service.CRMServiceImpl"/>
+
+    <bean id="fixedProperties" class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
+         <property name="customInfo">
+             <map>
+                 <entry key="application" value="Server2"/>
+             </map>
+         </property>
+    </bean>
+
+    <!-- HTTP Endpoint -->
+    <jaxws:endpoint id="CRMService"
         xmlns:serviceNamespace="http://services.talend.org/CRMService"
-        serviceClass="org.talend.services.crmservice.CRMService"
         serviceName="serviceNamespace:CRMServiceProvider"
         endpointName="serviceNamespace:CRMServiceProvider"
-        address="${endpoint.prefix}/CRMServiceProvider"
+        implementor="#CRMServiceBean"
+        address="/CRMServiceProvider"
     >
         <jaxws:features>
             <ref bean="eventFeature"/>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
         </jaxws:features>
-    </jaxws:client>
-
-    <osgi:service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
+    </jaxws:endpoint>
 
 </beans>

@@ -69,6 +69,14 @@
                 <module>client</module>
             </modules>
         </profile>
+        <profile>
+        	<id>locator-sam</id>
+        	<modules>
+        		<module>client-locator-sam</module>
+        		<module>service-endpoint-locator-sam</module>
+        		<module>service-endpoint-locator-sam2</module>
+        	</modules>
+        </profile>
     </profiles>
 
 </project>

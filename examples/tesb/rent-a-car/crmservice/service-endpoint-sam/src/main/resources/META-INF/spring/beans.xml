@@ -17,6 +17,7 @@
   limitations under the License.
   #L%
   -->
+
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -26,11 +27,12 @@
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+	<import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
     <bean id="CRMServiceBean"
         class="org.talend.services.crmservice.service.CRMServiceImpl"/>
 
+    <!-- HTTP Endpoint -->
     <jaxws:endpoint id="CRMService"
         xmlns:serviceNamespace="http://services.talend.org/CRMService"
         serviceName="serviceNamespace:CRMServiceProvider"

@@ -59,6 +59,12 @@
               <module>features-jmx</module>
             </modules>
           </profile>
+        <profile>
+        	<id>locator-sam</id>
+        	<modules>
+        		<module>features-locator-sam</module>
+        	</modules>
+        </profile>
     </profiles>
 
 </project>
