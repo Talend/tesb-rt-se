@@ -44,6 +44,7 @@
         serviceName="serviceNamespace:ReservationServiceProvider"
         endpointName="serviceNamespace:ReservationServiceProvider"
         wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl"
+    >
         <jaxws:properties>
             <entry key="ws-security.callback-handler">
                 <bean class="common.talend.ClientCallbackHandler"/>

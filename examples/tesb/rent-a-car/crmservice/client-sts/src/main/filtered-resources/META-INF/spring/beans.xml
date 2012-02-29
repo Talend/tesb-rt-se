@@ -48,7 +48,8 @@
         serviceClass="org.talend.services.crmservice.CRMService"
         serviceName="serviceNamespace:CRMServiceProvider"
         endpointName="serviceNamespace:CRMServicePort"
-        address="${endpoint.prefix}/CRMServiceProvider">
+        address="${endpoint.prefix}/CRMServiceProvider"
+    >
         <jaxws:properties>
             <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
             <entry key="ws-security.callback-handler">
