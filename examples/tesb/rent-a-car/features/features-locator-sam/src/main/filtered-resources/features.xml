@@ -3,7 +3,7 @@
   #%L
   Talend ESB Runtime :: Example Locator & SAM Features
   %%
-  Copyright (C) 2011 Talend Inc.
+  Copyright (C) 2011 - 2012 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,20 +22,13 @@
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
     <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
     <feature name='tesb-rac-common-locator-sam' version='${project.version}'>
-<<<<<<< HEAD
         <feature version='${cxf.version}'>cxf</feature>
-=======
-		<feature version='${cxf.version}'>cxf</feature>
->>>>>>> b4a277745983496224e54d6942760208d6cbe89d
         <feature version='${project.version}'>tesb-locator-client</feature>
         <feature version='${project.version}'>tesb-sam-agent</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
-<<<<<<< HEAD
 
-=======
->>>>>>> b4a277745983496224e54d6942760208d6cbe89d
     <feature name='tesb-rac-services-locator-sam' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator-sam</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
@@ -43,10 +36,7 @@
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator-sam/${project.version}</bundle>
     </feature>
-<<<<<<< HEAD
 
-=======
->>>>>>> b4a277745983496224e54d6942760208d6cbe89d
     <feature name='tesb-rac-services-locator-sam2' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator-sam</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
@@ -54,10 +44,7 @@
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator-sam2/${project.version}</bundle>
     </feature>
-<<<<<<< HEAD
 
-=======
->>>>>>> b4a277745983496224e54d6942760208d6cbe89d
     <feature name='tesb-rac-app-locator-sam' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator-sam</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-locator-sam/${project.version}</bundle>

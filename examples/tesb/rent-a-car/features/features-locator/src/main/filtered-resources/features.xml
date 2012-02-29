@@ -27,6 +27,7 @@
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
+
     <feature name='tesb-rac-services-locator' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
@@ -34,6 +35,7 @@
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator/${project.version}</bundle>
     </feature>
+
     <feature name='tesb-rac-app-locator' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-locator/${project.version}</bundle>
