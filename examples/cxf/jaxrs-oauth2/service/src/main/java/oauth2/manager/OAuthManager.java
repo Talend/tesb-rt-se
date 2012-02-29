@@ -51,7 +51,7 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		grant.setSubject(reg.getSubject());
 		
 		List<String> approvedScopes = reg.getApprovedScope();
-		grant.setApprovedScopes(convertScopeToPermissions(approvedScopes));
+		grant.setApprovedScopes(convertScopeToPermissions(reg.getClient(), approvedScopes));
 		
 		return grant;
 	}
@@ -83,7 +83,7 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<OAuthPermission> convertScopeToPermissions(List<String> scopes) {
+	public List<OAuthPermission> convertScopeToPermissions(Client client, List<String> scopes) {
 		List<OAuthPermission> list = new ArrayList<OAuthPermission>();
 		for (String scope : scopes) {
 		    if (scope.equals(OAuthConstants.READ_CALENDAR_SCOPE)) {
