@@ -122,6 +122,7 @@
         <ibatis-sqlmap.bundle.version>2.3.4.726_2</ibatis-sqlmap.bundle.version>
         <!-- temporary workaround for camel-mail 2.8.2-->
         <javax.mail.version>1.4.4</javax.mail.version>
+        <jolokia.version>1.0.2</jolokia.version>
 
         <cxf.build-utils.version>2.4.0</cxf.build-utils.version>
         <cxf.resources.base.path />

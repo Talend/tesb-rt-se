@@ -241,4 +241,7 @@
         <bundle>mvn:org.talend.camel/camel-talendjob/${project.version}</bundle>
     </feature>
 
+    <feature name='tesb-jmx-http-agent' version='${project.version}'>
+        <bundle>mvn:org.jolokia/jolokia-osgi/${jolokia.version}</bundle>
+    </feature>
 </features>
