@@ -259,6 +259,7 @@
                 <exclude>bin/**</exclude>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
+                <exclude>conf/jetty.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -277,6 +278,12 @@
                 <include>*.bat</include>
                 <include>*.cmd</include>
             </includes>
+        </fileSet>
+
+        <!-- Copy jolokia into activemq/webapps/jolokia subdirectories for unix -->
+        <fileSet>
+            <directory>target/dependencies/jolokia</directory>
+            <outputDirectory>/activemq/webapps/jolokia</outputDirectory>
         </fileSet>
 
         <!-- Copy over jar files -->
