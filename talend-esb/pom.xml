@@ -123,6 +123,7 @@
 								<!-- Karaf Cellar Features -->
 								<feature>cellar</feature>
 								<feature>cellar-webconsole</feature>
+								<feature>tesb-jmx-http-agent</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
