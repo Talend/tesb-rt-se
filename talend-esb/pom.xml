@@ -126,6 +126,7 @@
 								<!-- Karaf Cellar Features -->
 								<feature>cellar</feature>
 								<feature>cellar-webconsole</feature>
+								<feature>tesb-jmx-http-agent</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
@@ -256,6 +257,24 @@
 									<type>zip</type>
 									<classifier>bin</classifier>
 									<outputDirectory>target/dependencies/activemq-win</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-jolokia</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.jolokia</groupId>
+									<artifactId>jolokia-war</artifactId>
+									<version>${jolokia.version}</version>
+									<type>war</type>
+									<outputDirectory>target/dependencies/jolokia</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
