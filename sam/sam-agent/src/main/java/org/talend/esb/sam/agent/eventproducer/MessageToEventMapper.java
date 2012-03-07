@@ -36,8 +36,9 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
-import org.apache.cxf.ws.addressing.AddressingPropertiesImpl;
+import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.ContextUtils;
+//import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.apache.cxf.service.model.ServiceModelUtil;
 
 import org.talend.esb.sam.agent.message.CustomInfo;
@@ -147,7 +148,7 @@ public class MessageToEventMapper {
     private String getMessageId(Message message) {
         String messageId = null;
 
-        AddressingPropertiesImpl addrProp =
+        AddressingProperties addrProp =
             ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
         if (addrProp != null) {
             messageId = addrProp.getMessageID().getValue();
