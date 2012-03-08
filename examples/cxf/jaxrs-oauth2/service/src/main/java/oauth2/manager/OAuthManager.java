@@ -4,19 +4,20 @@
 package oauth2.manager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import oauth2.common.OAuthConstants;
 
+import org.apache.cxf.rs.security.oauth2.common.AccessTokenRegistration;
 import org.apache.cxf.rs.security.oauth2.common.Client;
 import org.apache.cxf.rs.security.oauth2.common.OAuthPermission;
 import org.apache.cxf.rs.security.oauth2.common.ServerAccessToken;
+import org.apache.cxf.rs.security.oauth2.common.UserSubject;
 import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeDataProvider;
 import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeRegistration;
 import org.apache.cxf.rs.security.oauth2.grants.code.ServerAuthorizationCodeGrant;
 import org.apache.cxf.rs.security.oauth2.provider.OAuthServiceException;
+import org.apache.cxf.rs.security.oauth2.tokens.bearer.BearerAccessToken;
 
 public class OAuthManager implements AuthorizationCodeDataProvider {
 
@@ -24,8 +25,7 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
     static {
         READ_CALENDAR_PERMISSION = new OAuthPermission(
                 OAuthConstants.READ_CALENDAR_SCOPE, 
-                OAuthConstants.READ_CALENDAR_DESCRIPTION, 
-                Collections.<String>emptyList());
+                OAuthConstants.READ_CALENDAR_DESCRIPTION);
         READ_CALENDAR_PERMISSION.setDefault(true);
     }
     
@@ -40,19 +40,15 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		return client == null || !client.getClientId().equals(clientId) ? null : client;
 	}
 
+	// grant management
 	public ServerAuthorizationCodeGrant createCodeGrant(
 			AuthorizationCodeRegistration reg) throws OAuthServiceException {
-		String code = UUID.randomUUID().toString();
-		grant = new ServerAuthorizationCodeGrant(client, 
-				                                 code, 
-				                                 reg.getLifetime(), 
-				                                 reg.getIssuedAt());
+		grant = new ServerAuthorizationCodeGrant(client, 3600L);
 		grant.setRedirectUri(reg.getRedirectUri());
 		grant.setSubject(reg.getSubject());
-		
-		List<String> approvedScopes = reg.getApprovedScope();
-		grant.setApprovedScopes(convertScopeToPermissions(reg.getClient(), approvedScopes));
-		
+		List<String> scope = reg.getApprovedScope().isEmpty() ? reg.getRequestedScope() 
+                : reg.getApprovedScope();
+		grant.setApprovedScopes(scope);
 		return grant;
 	}
 
@@ -66,10 +62,22 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		return theGrant;
 	}
 	
-	public void persistAccessToken(ServerAccessToken token) throws OAuthServiceException {
-	    at = token;
+	// token management
+	public ServerAccessToken createAccessToken(AccessTokenRegistration reg)
+		throws OAuthServiceException {
+		ServerAccessToken token = new BearerAccessToken(reg.getClient(), 3600L);
+		
+		List<String> scope = reg.getApprovedScope().isEmpty() ? reg.getRequestedScope() 
+				                                              : reg.getApprovedScope();
+		token.setScopes(convertScopeToPermissions(reg.getClient(), scope));
+		token.setSubject(reg.getSubject());
+		token.setGrantType(reg.getGrantType());
+		
+		at = token;
+		
+		return token;
 	}
-
+	
 	public ServerAccessToken getAccessToken(String tokenId) throws OAuthServiceException {
 		return at == null || !at.getTokenKey().equals(tokenId) ? null : at;
 	}
@@ -83,6 +91,12 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		throw new UnsupportedOperationException();
 	}
 
+	public ServerAccessToken getPreauthorizedToken(Client client,
+	    UserSubject subject, String grantType) throws OAuthServiceException {
+		return null;
+	}
+
+	// permissions
 	public List<OAuthPermission> convertScopeToPermissions(Client client, List<String> scopes) {
 		List<OAuthPermission> list = new ArrayList<OAuthPermission>();
 		for (String scope : scopes) {
@@ -91,8 +105,7 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		    } else if (scope.startsWith(OAuthConstants.UPDATE_CALENDAR_SCOPE)) {
 		        String hourValue = scope.substring(OAuthConstants.UPDATE_CALENDAR_SCOPE.length());
 		        list.add(new OAuthPermission(scope, 
-		                OAuthConstants.UPDATE_CALENDAR_DESCRIPTION + hourValue + " o'clock",
-		                Collections.<String>emptyList()));
+		                OAuthConstants.UPDATE_CALENDAR_DESCRIPTION + hourValue + " o'clock"));
 		    }
 		}
 		if (!scopes.contains(OAuthConstants.READ_CALENDAR_SCOPE)) {
@@ -100,5 +113,4 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
         }
 		return list;
 	}
-
 }

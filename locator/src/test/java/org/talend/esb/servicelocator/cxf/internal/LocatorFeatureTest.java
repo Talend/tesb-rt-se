@@ -25,10 +25,10 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.bus.managers.ClientLifeCycleManagerImpl;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientImpl;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
-import org.apache.cxf.endpoint.ClientLifeCycleManagerImpl;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.endpoint.EndpointImpl;
