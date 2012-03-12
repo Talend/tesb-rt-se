@@ -43,6 +43,7 @@ import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
 import org.talend.esb.servicelocator.client.internal.SLPropertiesConverter;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
@@ -66,6 +67,8 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
 
     private static final org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory
     SL_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.internal.endpoint.ObjectFactory();
+
+    private static volatile JAXBContext jContext;
 
     private final QName sName;
 
@@ -219,10 +222,18 @@ public class CXFEndpointProvider implements org.talend.esb.servicelocator.client
      * @throws JAXBException
      */
     private Marshaller createMarshaller() throws JAXBException {
-        JAXBContext jc = JAXBContext.newInstance(
-                "org.apache.cxf.ws.addressing:org.talend.esb.servicelocator.client.internal.endpoint",
-                this.getClass().getClassLoader());
+        JAXBContext jc = getContext();
         return jc.createMarshaller();
+    }
+
+    private static JAXBContext getContext() throws JAXBException{
+        if (jContext == null) {
+            jContext = JAXBContext.newInstance(
+                    "org.apache.cxf.ws.addressing:" +
+                    "org.talend.esb.servicelocator.client.internal.endpoint",
+                    SimpleEndpoint.class.getClassLoader());
+        }
+        return jContext;
     }
 
     /* (non-Javadoc)

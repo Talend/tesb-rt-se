@@ -93,9 +93,7 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
         EndpointReferenceType epr = null;
         if (root != null) {
             try {
-                JAXBContext jc = JAXBContext.newInstance(
-                    "org.talend.esb.servicelocator.client.ws.addressing",
-                    this.getClass().getClassLoader());
+                JAXBContext jc = JaxbContextHandler.getAddressingContext();
                 JAXBElement<EndpointReferenceType> eprElem =
                     (JAXBElement<EndpointReferenceType>) jc.createUnmarshaller().unmarshal(root);
                 epr = eprElem.getValue();
@@ -149,9 +147,7 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
     @SuppressWarnings("unchecked")
     private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) {
         try {
-            JAXBContext jc = JAXBContext.newInstance(
-                "org.talend.esb.servicelocator.client.internal.endpoint",
-                this.getClass().getClassLoader());
+            JAXBContext jc = JaxbContextHandler.getEndpointContext();
             JAXBElement<ServiceLocatorPropertiesType> slp =
                 (JAXBElement<ServiceLocatorPropertiesType>) jc.createUnmarshaller().unmarshal(root);
             return slp.getValue();
