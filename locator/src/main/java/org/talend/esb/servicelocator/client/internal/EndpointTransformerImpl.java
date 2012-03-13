@@ -132,8 +132,7 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
 
         final InputStream is = new ByteArrayInputStream(content);
         try {
-            JAXBContext jc = JAXBContext.newInstance("org.talend.esb.servicelocator.client.internal.endpoint",
-                EndpointTransformerImpl.class.getClassLoader());
+            JAXBContext jc = JaxbContextHandler.getEndpointContext();
             JAXBElement<EndpointDataType> slEndpoint =
                 (JAXBElement<EndpointDataType>) jc.createUnmarshaller().unmarshal(is);
 
@@ -151,9 +150,7 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
     }
 
     private Marshaller createMarshaller() throws JAXBException {
-        JAXBContext jc = JAXBContext.newInstance(
-                "org.talend.esb.servicelocator.client.internal.endpoint",
-                this.getClass().getClassLoader());
+        JAXBContext jc = JaxbContextHandler.getEndpointContext();
         return jc.createMarshaller();
     }
 

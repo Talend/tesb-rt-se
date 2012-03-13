@@ -44,6 +44,8 @@ public class SimpleEndpoint implements Endpoint {
     private static final org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory
     WSA_OBJECT_FACTORY = new org.talend.esb.servicelocator.client.ws.addressing.ObjectFactory();
 
+    private static volatile JAXBContext jContext;
+
     private final QName sName;
 
     private String addr;
@@ -108,10 +110,7 @@ public class SimpleEndpoint implements Endpoint {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(epr);
-            JAXBContext jc = JAXBContext.newInstance(
-                "org.talend.esb.servicelocator.client.ws.addressing:"
-                + "org.talend.esb.servicelocator.client.internal.endpoint",
-                this.getClass().getClassLoader());
+            JAXBContext jc =  getContext();
             jc.createMarshaller().marshal(ep, result);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
@@ -129,10 +128,7 @@ public class SimpleEndpoint implements Endpoint {
         try {
             JAXBElement<EndpointReferenceType> ep =
                 WSA_OBJECT_FACTORY.createEndpointReference(wsAddr);
-            JAXBContext jc = JAXBContext.newInstance(
-                    "org.talend.esb.servicelocator.client.ws.addressing:"
-                    + "org.talend.esb.servicelocator.client.internal.endpoint",
-                    this.getClass().getClassLoader());
+            JAXBContext jc = getContext();
             jc.createMarshaller().marshal(ep, parent);
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
@@ -164,4 +160,15 @@ public class SimpleEndpoint implements Endpoint {
         }
         return epr;
     }
+
+    private static JAXBContext getContext() throws JAXBException{
+        if (jContext == null) {
+            jContext = JAXBContext.newInstance(
+                    "org.talend.esb.servicelocator.client.ws.addressing:"
+                            + "org.talend.esb.servicelocator.client.internal.endpoint",
+                    SimpleEndpoint.class.getClassLoader());
+        }
+        return jContext;
+    }
+
 }
