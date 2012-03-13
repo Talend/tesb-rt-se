@@ -33,7 +33,7 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <cellar.version>2.2.3</cellar.version>
+        <cellar.version>2.2.4-SNAPSHOT</cellar.version>
         <jclouds.version>1.3.1</jclouds.version>
 
         <!-- locatorCli -->
@@ -149,6 +149,15 @@
                                     <version>${project.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>tesb.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel.karaf</groupId>
+                                    <artifactId>apache-camel</artifactId>
+                                    <version>${camel.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>apache-camel-${camel.version}-features.xml</destFileName>
                                 </artifactItem>
 							</artifactItems>
 						</configuration>
@@ -287,7 +296,7 @@
 						<id>collect-add-ons</id>
 						<phase>process-resources</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<copy todir="target/add-ons/sam">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/*.jar" />
@@ -396,12 +405,26 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
 					</execution>
+                    <execution>
+                        <id>patch-camel-features-file</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <replace file="target/dependencies/apache-camel-${camel.version}-features.xml" 
+                                    token="apache-cxf/2.5.2/xml/features" 
+                                    value="apache-cxf/${cxf.version}/xml/features"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
 				</executions>
 			</plugin>
 			<plugin>

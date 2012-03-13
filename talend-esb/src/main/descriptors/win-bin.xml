@@ -347,6 +347,9 @@
                 <exclude>org/apache/aries/blueprint/**</exclude>
                 <!-- workaround for jclouds-karaf-1.3.1-features.xml -->
                 <exclude>org/jclouds/karaf/jclouds-karaf/1.3.1/jclouds-karaf-1.3.1-features.xml</exclude>
+                <!-- workaround for CXF version in Camel 2.9.2 features file -->
+                <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
+                <exclude>org/apache/cxf/karaf/apache-cxf/2.5.2/**</exclude>
             </excludes>
         </fileSet>
 
@@ -408,6 +411,14 @@
             <source>${basedir}/target/classes/jclouds-karaf-1.3.1-features.xml</source>
             <outputDirectory>/container/system/org/jclouds/karaf/jclouds-karaf/1.3.1</outputDirectory>
             <destName>jclouds-karaf-1.3.1-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>dos</lineEnding>
+        </file>
+        <!-- workaround for CXF version in Camel 2.9.2 features file -->
+        <file>
+            <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
+            <destName>apache-camel-${camel.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
