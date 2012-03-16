@@ -182,6 +182,30 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <repository>
+            <id>apache-snapshots</id>
+            <url>http://repository.apache.org/snapshots</url>
+            <name>Apache Snapshots Repo</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache-snapshots</id>
+            <url>http://repository.apache.org/snapshots</url>
+            <name>Apache Snapshots Repo</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
