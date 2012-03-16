@@ -416,9 +416,14 @@
                         <phase>process-resources</phase>
                         <configuration>
                             <target>
-                                <replace file="target/dependencies/apache-camel-${camel.version}-features.xml" 
-                                    token="apache-cxf/2.5.2/xml/features" 
-                                    value="apache-cxf/${cxf.version}/xml/features"/>
+                                <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
+                                    <replacefilter
+                                        token="apache-cxf/2.5.2/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <replacefilter
+                                        token="&lt;feature version='[2.4,2.6)'&gt;cxf"
+                                        value="&lt;feature version='[2.4,3)'&gt;cxf"/>
+                                </replace>  
                             </target>
                         </configuration>
                         <goals>
@@ -465,6 +470,7 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>    </repositories>
+        </repository>    
+    </repositories>
 </project>
 
