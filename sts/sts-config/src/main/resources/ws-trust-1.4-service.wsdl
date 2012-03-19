@@ -473,7 +473,9 @@
             </sp:Trust13-->
             <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                 <wsp:Policy>
-                    <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient" />
+                    <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient" >
+                        <wsp:Policy/>
+                    </sp:UsernameToken>
                 </wsp:Policy>
             </sp:SupportingTokens>
          </wsp:All>
