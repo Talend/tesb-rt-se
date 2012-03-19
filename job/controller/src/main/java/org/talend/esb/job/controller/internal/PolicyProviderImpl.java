@@ -75,7 +75,7 @@ public class PolicyProviderImpl implements PolicyProvider {
             is = new FileInputStream(location);
             return policyBuilder.getPolicy(is);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot load policy");
+            throw new RuntimeException("Cannot load policy", e);
         } finally {
             if (null != is) {
                 try {
