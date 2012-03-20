@@ -61,7 +61,7 @@ public class TestValues {
 
     public static final String PREFIX_HTTP = "http://ep.com/";
 
-    public static final String PREFIX_HTTPS = "https://ep.com:8443/";
+    public static final String PREFIX_HTTPS = "https://ep.com:9001/";
 
     public static final String ENDPOINT_1 = "http://ep.com/endpoint1";
 
