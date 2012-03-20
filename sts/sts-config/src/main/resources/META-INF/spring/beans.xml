@@ -86,6 +86,7 @@
         <property name="callbackHandlerClass" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
         <!--property name="encryptionPropertiesFile" value="$sts{encryptionProperties}"/>
         <property name="encryptionUsername" value="$sts{encryptionUsername}"/-->
+        <property name="issuer" value="TalendESB_STSIssuer"/>
     </bean>
 
     <bean class="org.apache.ws.security.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
