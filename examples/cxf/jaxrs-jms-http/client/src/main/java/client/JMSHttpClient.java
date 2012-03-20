@@ -5,6 +5,8 @@ package client;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Properties;
 
 import javax.jms.Connection;
@@ -217,7 +219,11 @@ public final class JMSHttpClient {
         Message jmsMessage = consumer.receive(5000);
         org.apache.cxf.message.Message cxfMessage = new org.apache.cxf.message.MessageImpl();
         JMSUtils.retrieveAndSetPayload(cxfMessage, jmsMessage, null);
-        Book b = readBook(cxfMessage.getContent(InputStream.class));
+        Reader reader = cxfMessage.getContent(Reader.class);
+        if (reader == null) {
+        	reader = new InputStreamReader(cxfMessage.getContent(InputStream.class), "UTF-8");
+        }
+        Book b = readBook(reader);
         System.out.println(b.getId() + ":" + b.getName());
     }
     
@@ -231,10 +237,10 @@ public final class JMSHttpClient {
     }
     
     
-    private Book readBook(InputStream is) throws Exception {
+    private Book readBook(Reader reader) throws Exception {
         JAXBContext c = JAXBContext.newInstance(new Class[]{Book.class});
         Unmarshaller u = c.createUnmarshaller();
-        return (Book)u.unmarshal(is);
+        return (Book)u.unmarshal(reader);
     }
     
     private String writeBook(Book b) throws Exception {
