@@ -50,7 +50,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
-    private static final String HTTPS_CONFIG = "https.config";
+//    private static final String HTTPS_CONFIG = "https.config";
 
     @javax.annotation.Resource
     public void setBus(Bus bus) {
@@ -95,17 +95,17 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 //      boolean useHTTPS = ((Boolean) props
 //                .get(ESBEndpointConstants.USE_HTTPS))
 //                .booleanValue();
-        boolean useHTTPS = publishedEndpointUrl.startsWith("https://");
+//     boolean useHTTPS = publishedEndpointUrl.startsWith("https://");
         
-        if (useHTTPS) {
-            Bus currentBus = BusFactory.getThreadDefaultBus();
-            SpringBusFactory bf = new SpringBusFactory();
-            this.bus = bf.createBus(clientProperties.get(HTTPS_CONFIG));   
-                if (useServiceLocator) {
-                    ServiceLocatorManager slm = currentBus.getExtension(ServiceLocatorManager.class);
-                    bus.setExtension(slm, ServiceLocatorManager.class);
-                }
-        }
+//        if (useHTTPS) {
+//            Bus currentBus = BusFactory.getThreadDefaultBus();
+//            SpringBusFactory bf = new SpringBusFactory();
+//            this.bus = bf.createBus(clientProperties.get(HTTPS_CONFIG));   
+//                if (useServiceLocator) {
+//                    ServiceLocatorManager slm = currentBus.getExtension(ServiceLocatorManager.class);
+//                    bus.setExtension(slm, ServiceLocatorManager.class);
+//                }
+//        }
         
         LocatorFeature slFeature = null;
         if (useServiceLocator) {
