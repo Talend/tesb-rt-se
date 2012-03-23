@@ -59,6 +59,12 @@
               <module>features-jmx</module>
             </modules>
           </profile>
+        <profile>
+          <id>slsam</id>
+            <modules>
+              <module>features-sl-sam</module>
+            </modules>
+          </profile>
     </profiles>
 
 </project>

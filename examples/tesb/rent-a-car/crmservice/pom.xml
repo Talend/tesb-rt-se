@@ -69,6 +69,13 @@
                 <module>client</module>
             </modules>
         </profile>
+        <profile>
+            <id>slsam</id>
+            <modules>
+                <module>service-endpoint-sl-sam</module>
+                <module>client-sl-sam</module>
+            </modules>
+        </profile>
     </profiles>
 
 </project>

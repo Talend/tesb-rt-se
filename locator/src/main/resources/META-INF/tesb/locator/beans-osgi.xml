@@ -38,7 +38,6 @@
 	<!-- Configuration Admin entry -->
     <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
         <prop key="locator.endpoints">localhost:2181</prop>
-        <prop key="endpoint.prefix"></prop>
         <prop key="endpoint.http.prefix"></prop>
         <prop key="endpoint.https.prefix"></prop>
         <prop key="locator.strategy">defaultSelectionStrategy</prop>
@@ -64,7 +63,6 @@
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">
         <property name="serviceLocator" ref="serviceLocator" />
-        <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
         <property name="endpointPrefixes">
             <map>
                 <entry key="HTTP" value="$sl{endpoint.http.prefix}" />
