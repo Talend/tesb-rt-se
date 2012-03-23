@@ -66,8 +66,6 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     private ServiceLocator locatorClient;
 
-    private String endpointPrefix = "";
-
     private Map<String, String> endpointPrefixes = null;
 
     private Map<Server, CXFEndpointProvider> registeredServers = 
@@ -117,10 +115,6 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         }
     }
 
-    public void setEndpointPrefix(String endpointPrefix) {
-        this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
-    }
-
     public void setEndpointPrefixes(Map<String, String> endpointPrefixes) {
         this.endpointPrefixes = endpointPrefixes;
     }
@@ -156,9 +150,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         String address = getAddress(server);
         if (isRelativeAddress(address)) { // relative address
             String prefix = null;
-            if (endpointPrefixes == null || endpointPrefixes.size() == 0) {
-                prefix = endpointPrefix;
-            } else {
+            if (endpointPrefixes != null && endpointPrefixes.size() != 0) {
                 if (isSecuredByProperty(server) || isSecuredByPolicy(server)) {
                     if (LOG.isLoggable(Level.FINE)) {
                         LOG.fine("Endpoint " + server.getEndpoint().getEndpointInfo().getService().toString() + " is secured");
@@ -167,10 +159,9 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
                 } else {
                     prefix = endpointPrefixes.get(TransportType.HTTP.toString());
                 }
-                if (prefix == null || prefix.equals("")) {
-                    LOG.warning("endpointPrefixes defined but empty. Using default");
-                    prefix = endpointPrefix;
-                }
+            }
+            if (prefix == null || prefix.equals("")) {
+                throw new RuntimeException("Endpoint Prefixes must be defined when address is relative");
             }
             address = prefix + address;
         }

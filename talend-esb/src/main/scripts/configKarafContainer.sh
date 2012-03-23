@@ -43,10 +43,8 @@ config:update
 echo
 echo "Locator client configuration (etc/org.talend.esb.locator.cfg)"
 config:edit --force org.talend.esb.locator
-echo "endpoint.prefix = http://localhost:$3/services"
 echo "endpoint.http.prefix http://localhost:$3/services"
 echo "endpoint.https.prefix https://localhost:$4/services"
-config:propset endpoint.prefix http://localhost:$3/services
 config:propset endpoint.http.prefix http://localhost:$3/services
 config:propset endpoint.https.prefix https://localhost:$4/services
 config:update
