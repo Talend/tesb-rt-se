@@ -53,6 +53,9 @@
 		<profile>
             <id>jmx</id>
         </profile>
+		<profile>
+            <id>slsam</id>
+        </profile>
     </profiles>
 	<build>
 		<extensions>

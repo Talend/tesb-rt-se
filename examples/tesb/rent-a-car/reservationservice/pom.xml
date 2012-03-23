@@ -69,6 +69,13 @@
                 <module>service-endpoint-jmx</module>
             </modules>
         </profile>
+        <profile>
+            <id>slsam</id>
+            <modules>
+                <module>client-sl-sam</module>
+                <module>service-endpoint-sl-sam</module>
+            </modules>
+        </profile>
     </profiles>
 
 </project>
