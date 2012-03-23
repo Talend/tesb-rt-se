@@ -17,17 +17,18 @@
   limitations under the License.
   #L%
   -->
-  
+
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:cxf="http://cxf.apache.org/core"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cxf="http://cxf.apache.org/core"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="
-            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    "
+>
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
 
     <cxf:bus>
         <cxf:features>
@@ -35,22 +36,24 @@
         </cxf:features>
     </cxf:bus>
 
-	<bean id="ReservationServiceBean"
-		class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
+    <bean id="ReservationServiceBean"
+        class="org.talend.services.reservationservice.service.ReservationServiceImpl"/>
 
-	<!-- HTTP Endpoint -->
-	<jaxws:endpoint id="ReservationService" 
-		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
-		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
-		implementor="#ReservationServiceBean"
-		address="/ReservationServiceProvider"
-		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
-	  <jaxws:properties>
-		 <entry key="ws-security.callback-handler">
-			<bean class="common.talend.ServiceCallbackHandler"/>
-		 </entry>
-         <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
-      </jaxws:properties> 
-   </jaxws:endpoint>
+    <!-- HTTP Endpoint -->
+    <jaxws:endpoint id="ReservationService"
+        xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+        serviceName="serviceNamespace:ReservationServiceProvider"
+        endpointName="serviceNamespace:ReservationServiceProvider"
+        implementor="#ReservationServiceBean"
+        address="/ReservationServiceProvider"
+        wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl"
+    >
+        <jaxws:properties>
+            <entry key="ws-security.callback-handler">
+                <bean class="common.talend.ServiceCallbackHandler"/>
+            </entry>
+            <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+        </jaxws:properties> 
+    </jaxws:endpoint>
+
 </beans>

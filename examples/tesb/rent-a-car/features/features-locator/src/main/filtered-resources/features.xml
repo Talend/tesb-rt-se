@@ -22,11 +22,12 @@
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
     <repository>mvn:org.talend.esb/features/${project.version}/xml</repository>
     <feature name='tesb-rac-common-locator' version='${project.version}'>
-		<feature version='${cxf.version}'>cxf</feature>
+        <feature version='${cxf.version}'>cxf</feature>
         <feature version='${project.version}'>tesb-locator-client</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
+
     <feature name='tesb-rac-services-locator' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
@@ -34,6 +35,7 @@
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-locator/${project.version}</bundle>
     </feature>
+
     <feature name='tesb-rac-app-locator' version='${project.version}'>
         <feature version='${project.version}'>tesb-rac-common-locator</feature>
         <bundle>mvn:${project.groupId}/crmservice-client-locator/${project.version}</bundle>

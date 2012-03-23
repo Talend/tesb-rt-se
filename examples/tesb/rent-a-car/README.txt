@@ -42,7 +42,8 @@ Using maven commands on either UNIX/Linux or Windows:
 
 mvn clean install                 (for building basic Rent-a-Car example)
 mvn clean install -Plocator       (for building Service Locator enabled Rent-a-Car example)
-mvn clean install -Psam           (for building Service Activity Monitoring enabled Rent-a-Car example)
+mvn clean install -Psam           (for building Service Activity Monitoring (SAM) enabled Rent-a-Car example)
+mvn clean install -Plocator-sam   (for building Service Locator and SAM enabled Rent-a-Car example)
 mvn clean install -Psts           (for building Security Token Service enabled Rent-a-Car example)
 mvn clean install -Pjmx           (for building JMX enabled Rent-a-Car example)
 
@@ -58,10 +59,15 @@ Install/Deploy the Example
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/<version>/xml
       features:install tesb-rac-services-locator
       features:install tesb-rac-app-locator
-   For Service Activity Monitoring enabled Rent-a-Car example:
+   For Service Activity Monitoring (SAM) enabled Rent-a-Car example:
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sam/<version>/xml
       features:install tesb-rac-services-sam
       features:install tesb-rac-app-sam
+   For Service Locator and SAM enabled Rent-a-Car example:
+      features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator-sam/<version>/xml
+      features:install tesb-rac-services-locator-sam
+      features:install tesb-rac-app-locator-sam
+      features:install tesb-rac-services-locator-sam2 (install services into a secondary container)
    For Security Token Service enabled Rent-a-Car example:
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
       features:install tesb-rac-services-sts

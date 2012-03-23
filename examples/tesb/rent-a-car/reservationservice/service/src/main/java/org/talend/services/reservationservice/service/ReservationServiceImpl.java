@@ -55,9 +55,7 @@ import org.talend.services.reservationservice.ReservationService;
                      
 public class ReservationServiceImpl implements ReservationService {
 
-    private static final Logger LOG = Logger.getLogger(ReservationServiceImpl.class.getName());
 	private org.talend.services.reservation.types.ObjectFactory resFactory;
-	private org.talend.services.crm.types.ObjectFactory crmFactory;
 
 	
 	// ####################################################
@@ -66,7 +64,6 @@ public class ReservationServiceImpl implements ReservationService {
 
 	public ReservationServiceImpl() {
 		resFactory = new org.talend.services.reservation.types.ObjectFactory();
-		crmFactory = new org.talend.services.crm.types.ObjectFactory();
 	}
 	
 	// ####################################################
