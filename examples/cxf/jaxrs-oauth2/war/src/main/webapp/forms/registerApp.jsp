@@ -6,31 +6,32 @@
 <h1>Client Application Registration Form</h1>
 <em></em>
 <p>
+
  <table>
      <form action="/services/oauth/registerProvider"
            enctype="multipart/form-data" 
            method="POST">
         <tr>
-            <td>Application Name:</td>
+            <td><h2>Application Name:</h2></td>
             <td>
               <input type="text" name="appName" value="Restaurant Reservations"/>
             </td>
         </tr>
         <tr>
-            <td>Application Description:</td>
+            <td><h2>Application Description:</h2></td>
             <td>
               <input type="text" name="appDescription" 
                      value="The online service for booking a table at the favourite restaurant"/>
             </td>
         </tr>
         <tr>
-            <td>Application URI:</td>
+            <td><h2>Application URI:</h2></td>
             <td>
               <input type="text" name="appURI" value="http://localhost:${http.port}/services/reservations"/>
             </td>
         </tr>
         <tr>
-            <td>Application Logo:</td>
+            <td><h2>Application Logo:</h2></td>
             <td>
                <input id="appLogo" name="appLogo" type="file" accept="image/gif,image/jpeg,image/png"/>
             </td>
@@ -41,6 +42,7 @@
             </td>
         </tr>
   </form>
- </table> 
+ </table>
+  
 </body>
 </html>
