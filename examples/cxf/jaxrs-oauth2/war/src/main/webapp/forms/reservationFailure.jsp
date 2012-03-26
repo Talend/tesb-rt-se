@@ -12,10 +12,14 @@
 <h1>Restaurant Reservation Failure Report</h1>
 <em></em>
 <p>
+<big><big>
 <%= reserve.getMessage() %>
+</big></big>
 </p>
 <br/>
-Back to <a href="<%= basePath %>forms/reservation.jsp">reservations</a>. 
+<big>
+Back to <a href="<%= basePath %>forms/reservation.jsp">reservations</a>.
+</big> 
 
 
 </body>

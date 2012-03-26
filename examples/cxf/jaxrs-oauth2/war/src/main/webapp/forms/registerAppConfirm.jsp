@@ -11,28 +11,37 @@
 <body>
 <h1>Client Application Registration Confirmation</h1>
 <em></em>
+<br/>
 <p>
-Please use the provided Client Identifier and Shared Secret when requesting
+<big><big>
+Please use the provided Client Identifier and Shared Secret when<br/>requesting
 Calendar resources of Social.com users as part of OAuth flows.
+</big></big>
 </p>
+<br/>
 <table>
         <tr>
-            <td>Client Identifier:</td>
-            <td><%= reg.getId() %></td>
+            <td><big><big><big>Client Identifier:</big></big></big></td>
+            <td>&nbsp;&nbsp;</td>
+            <td><big><big><%= reg.getId() %></big></big></td>
         </tr>
         <tr>
-            <td>Client Shared Secret:</td>
-            <td><%= reg.getSecret() %></td>
+            <td><big><big><big>Client Secret:</big></big></big></td>
+            <td>&nbsp;&nbsp;</td>
+            <td><big><big><%= reg.getSecret() %></big></big></td>
         </tr> 
-</table> 
+</table>
+<br/> 
 <p>
-Calendar resources of individual users can be accessed at <%= basePath %>thirdparty/calendar using an OAuth access token.
-Only HTTP GET verbs can be used.
+<big><big>
+Calendars of Social.com users can be accessed at <b><%= basePath %>thirdparty/calendar</b><br/> using an OAuth access token.
+HTTP GET and POST verbs can be used.
 </p>
-
+<br/>
 <p>
-Please follow this <a href="<%= basePath %>forms/registerUser.jsp">link</a> to get a user registered with Social.com 
+Please follow this <a href="<%= basePath %>forms/registerUser.jsp">link</a> to get a user registered with Social.com
 </p>
+</big></big>
 
 </body>
 </html>

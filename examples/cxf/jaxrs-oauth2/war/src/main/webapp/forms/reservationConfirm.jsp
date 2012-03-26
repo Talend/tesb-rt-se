@@ -12,26 +12,31 @@
 <h1>Restaurant Reservation Confirmation</h1>
 <em></em>
 <p>
+<big>
 Here are the reservation details:
+</big>
 </p>
 <table>
 <tr>
-<td>Address:</td>
-<td><%= reserve.getAddress() %></td>
+<td><big><big><big>Address:</big></big></big></td>
+<td><big><big><%= reserve.getAddress() %></big></big></td>
 <tr>
-<td>Time:</td>
-<td><%= reserve.getHour() %> p.m</td>
+<td><big><big><big>Time:</big></big></big></td>
+<td><big><big><%= reserve.getHour() %> p.m</big></big></td>
 <tr>
 </table>
 <br/>
 <p>
+<big><big>
 <%
   if (reserve.isCalendarUpdated()) {
 %>
 Please verify your personal <a href="<%= basePath %>social/accounts">calendar</a> has been updated.
+
 <%
   } else {
 %> 
+
 We have not been able to update your <a href="<%= basePath %>social/accounts">calendar</a>
 <p/> with the reservation details. Please record them yourself.
  
@@ -41,9 +46,9 @@ We have not been able to update your <a href="<%= basePath %>social/accounts">ca
 </p>
 <br/>
 <p>
-Back to <a href="<%= basePath %>forms/reservation.jsp">reservations</a>. 
+Back to <a href="<%= basePath %>forms/reservation.jsp">reservations</a>.
 </p>
-
+</big></big>
 
 </body>
 </html>

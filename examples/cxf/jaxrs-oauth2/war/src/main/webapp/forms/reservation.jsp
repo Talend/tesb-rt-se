@@ -9,26 +9,31 @@
  <table>
      <form action="/services/reservations/reserve/table" method="POST">
         <tr>
-            <td>Customer Name:</td>
+            <td><big><big><big>Customer Name:</big></big></big></td>
             <td>
               <input type="text" name="name" value="Barry"/>
             </td>
         </tr>
         <tr>
-            <td>Customer phone:</td>
+            <td><big><big><big>Customer phone:</big></big></big></td>
             <td>
               <input type="text" name="phone" value="12345678"/>
             </td>
         </tr>
         <tr>
-            <td>Hour (p.m):</td>
+            <td><big><big><big>Hour (p.m):</big></big></big></td>
             <td>
               <input type="text" name="hour" value="7"/>
             </td>
         </tr>
         <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
             <td colspan="2">
-                <input type="submit" value="Reserve"/>
+                <input type="submit" value="        Reserve       "/>
             </td>
         </tr>
   </form>

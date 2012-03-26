@@ -12,33 +12,47 @@
            enctype="multipart/form-data" 
            method="POST">
         <tr>
-            <td><h2>Application Name:</h2></td>
+            <td><big><big><big>Application Name:</big></big></big></td>
             <td>
-              <input type="text" name="appName" value="Restaurant Reservations"/>
+              <input type="text" name="appName" size="80" value="Restaurant Reservations"/>
             </td>
         </tr>
         <tr>
-            <td><h2>Application Description:</h2></td>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td><big><big><big>Application Description:</big></big></big></td>
             <td>
-              <input type="text" name="appDescription" 
+              <input type="text" size="80" name="appDescription" 
                      value="The online service for booking a table at the favourite restaurant"/>
             </td>
         </tr>
         <tr>
-            <td><h2>Application URI:</h2></td>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td><big><big><big>Application URI:</big></big></big></td>
             <td>
-              <input type="text" name="appURI" value="http://localhost:${http.port}/services/reservations"/>
+              <input type="text" size="80" name="appURI" value="http://localhost:${http.port}/services/reservations"/>
             </td>
         </tr>
         <tr>
-            <td><h2>Application Logo:</h2></td>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td><big><big><big>Application Logo:</big></big></big></td>
             <td>
-               <input id="appLogo" name="appLogo" type="file" accept="image/gif,image/jpeg,image/png"/>
+               <input id="appLogo" size="80" name="appLogo" type="file" accept="image/gif,image/jpeg,image/png"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              &nbsp;
             </td>
         </tr>
         <tr>
             <td colspan="2">
-                <input type="submit" value="Register Your Application"/>
+                <input type="submit" value="    Register Your Application    "/>
             </td>
         </tr>
   </form>
