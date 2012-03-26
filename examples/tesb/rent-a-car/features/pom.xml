@@ -36,6 +36,12 @@
             </modules>
         </profile>
         <profile>
+            <id>all</id>
+            <modules>
+                <module>features-all</module>
+            </modules>
+        </profile>
+        <profile>
             <id>locator</id>
             <modules>
                 <module>features-locator</module>
