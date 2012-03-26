@@ -59,7 +59,7 @@ public class ThirdPartyAccessService {
 	    if (!checkPassed) {
 	        throw new WebApplicationException(403);
 	    }
-	    // emd of the check
+	    // end of the check
 	    
 	    Calendar calendar = getUserCalendar();
 	    calendar.getEntry(hour).setEventDescription(description);

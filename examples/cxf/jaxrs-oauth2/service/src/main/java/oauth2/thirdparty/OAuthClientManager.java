@@ -50,7 +50,8 @@ public class OAuthClientManager {
 	}
 	
 	public void setAccessTokenService(WebClient ats) {
-		// the timeout is set to simply debugging on the server side
+		// The timeout is set to simplify debugging on the server side;
+		// otherwise the connection may time-out too early
 		WebClient.getConfig(ats).getHttpConduit().getClient().setReceiveTimeout(1000000);
 		this.accessTokenService = ats;
 	}
