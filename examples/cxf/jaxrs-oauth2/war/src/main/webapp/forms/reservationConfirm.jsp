@@ -12,9 +12,9 @@
 <h1>Restaurant Reservation Confirmation</h1>
 <em></em>
 <p>
-<big>
+<big><big>
 Here are the reservation details:
-</big>
+</big></big>
 </p>
 <table>
 <tr>

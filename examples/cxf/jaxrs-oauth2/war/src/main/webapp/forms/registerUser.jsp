@@ -1,6 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Social.com User Registration Form</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	-->
+</STYLE>
 </head>
 <body>
 <h1>Social.com User Registration Form</h1>

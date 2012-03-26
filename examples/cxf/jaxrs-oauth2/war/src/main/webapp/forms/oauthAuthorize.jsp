@@ -6,6 +6,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Third Party Authorization Form</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  input,button {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	-->
+</STYLE>
 </head>
 <body>
 <title align="center">Third Party Authorization Form</title>
@@ -51,7 +56,7 @@
                                     checked="checked"
                                     name="<%= perm.getPermission()%>_status" 
                                     value="allow"
-                                  ><%= perm.getDescription() %></input>
+                                  ><big><big><%= perm.getDescription() %></big></big></input>
                                     <%
                                       if (perm.isDefault()) {
                                     %>
