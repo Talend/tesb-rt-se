@@ -42,6 +42,12 @@
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
   </feature>
 
+  <feature name='tesb-datasource-h2' version='${project.version}'>
+    <configfile finalname="/etc/org.talend.esb.datasource.h2.cfg">mvn:org.talend.esb/ds-service-h2/${project.version}/cfg/org.talend.esb.datasource.h2</configfile>
+    <bundle>mvn:com.h2database/h2/${h2database.version}</bundle>
+    <bundle>mvn:org.talend.esb/ds-service-h2/${project.version}</bundle>
+  </feature>
+
   <feature name='tesb-sam-server' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>

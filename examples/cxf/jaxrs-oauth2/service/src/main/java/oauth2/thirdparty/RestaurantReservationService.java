@@ -95,8 +95,9 @@ public class RestaurantReservationService {
     }
     
     public void setSocialService(WebClient socialService) {
-    	// the timeout is set to simply debugging on the server side
-    	WebClient.getConfig(socialService).getHttpConduit().getClient().setReceiveTimeout(1000000);
+    	// The timeout is set to simplify debugging on the server side;
+		// otherwise the connection may time-out too early
+		WebClient.getConfig(socialService).getHttpConduit().getClient().setReceiveTimeout(1000000);
 		this.socialService = socialService;
 	}
     
@@ -172,13 +173,9 @@ public class RestaurantReservationService {
 			String authHeader = manager.createAuthorizationHeader(accessToken);
             socialService.replaceHeader("Authorization", authHeader);
             
-            boolean calendarUpdated = true;
-            try {
-			    socialService.form(new Form().set("hour", request.getHour())
+            Response response = socialService.form(new Form().set("hour", request.getHour())
 			                             .set("description", "Table reserved at " + address));
-            } catch (ServerWebApplicationException ex) {
-                calendarUpdated = false;
-            }
+            boolean calendarUpdated = response.getStatus() == 200 || response.getStatus() == 204;
 			
 			return Response.ok(new ReservationConfirmation(address, request.getHour(), calendarUpdated))
 			               .build();

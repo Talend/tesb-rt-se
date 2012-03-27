@@ -42,16 +42,13 @@
             </activation>
         </profile>
         <profile>
-            <id>locator</id>
-        </profile>
-        <profile>
-            <id>sam</id>
+            <id>all</id>
         </profile>
         <profile>
             <id>sts</id>
         </profile>
 		<profile>
-            <id>jmx</id>
+            <id>slsam</id>
         </profile>
     </profiles>
 	<build>

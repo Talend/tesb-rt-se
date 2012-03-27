@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
-    <artifactId>features-jmx</artifactId>
+    <artifactId>features</artifactId>
     <name>Talend ESB Runtime :: Example JMX Features</name>
     <packaging>pom</packaging>
 

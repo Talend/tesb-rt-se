@@ -62,13 +62,13 @@
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-jaxws-description-first' version='${project.version}' resolver='(obr)'>
-        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/2.4.1-SNAPSHOT</bundle>
+        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/${cxf.xjc.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-description-first/jaxrs-jaxws-description-first-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-description-first/jaxrs-jaxws-description-first-service/${project.version}</bundle>
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-jaxws-transformations' version='${project.version}' resolver='(obr)'>
-        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/2.4.1-SNAPSHOT</bundle>
+        <bundle>mvn:org.apache.cxf.xjc-utils/cxf-xjc-runtime/${cxf.xjc.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-service/${project.version}</bundle>
         <bundle>webbundle:mvn:org.talend.cxf-examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-war-bundle/${project.version}</bundle>

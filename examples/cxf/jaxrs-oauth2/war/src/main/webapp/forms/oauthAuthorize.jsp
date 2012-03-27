@@ -6,6 +6,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Third Party Authorization Form</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  input,button {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	-->
+</STYLE>
 </head>
 <body>
 <title align="center">Third Party Authorization Form</title>
@@ -27,12 +32,12 @@
                                name="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                                    .SESSION_AUTHENTICITY_TOKEN %>"
                                value="<%= data.getAuthenticityToken() %>"/>
-                        <p><b><%= data.getApplicationName() %></b> (<%= data.getApplicationDescription() %>)
+                        <p><big><big><big><%= data.getApplicationName() %><br/>(<%= data.getApplicationDescription() %>)</big></big></big>
                         
-                        <br/> 
-                        <img src="<%= data.getApplicationLogoUri() %>" alt="Application Logo" width="60" height="60">
+                        <br/><br/> 
+                        <img src="<%= data.getApplicationLogoUri() %>" alt="Application Logo" width="100" height="100">
                         <br/></p>
-                        requests the following permissions:
+                        <big><big>requests the following permissions:<big/></big>
                         <p/>
                         <table> 
                             <%
@@ -51,7 +56,7 @@
                                     checked="checked"
                                     name="<%= perm.getPermission()%>_status" 
                                     value="allow"
-                                  ><%= perm.getDescription() %></input>
+                                  ><big><big><%= perm.getDescription() %></big></big></input>
                                     <%
                                       if (perm.isDefault()) {
                                     %>
@@ -65,7 +70,7 @@
                                }
                             %> 
                         </table>    
-                        <br/></p><br/>
+                        <br/></p>
                         <button name="<%= org.apache.cxf.rs.security.oauth2.utils.OAuthConstants
                             .AUTHORIZATION_DECISION_KEY %>"
                                 type="submit"

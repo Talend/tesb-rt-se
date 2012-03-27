@@ -38,21 +38,14 @@
             </activation>
             <modules>
                 <module>client</module>
-                <module>service-endpoint</module>
+                <module>service-endpoint-jmx</module>
             </modules>
         </profile>
         <profile>
-            <id>locator</id>
+            <id>all</id>
             <modules>
-                <module>client-locator</module>
-                <module>service-endpoint-locator</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>sam</id>
-            <modules>
-                <module>client-sam</module>
-                <module>service-endpoint-sam</module>
+                <module>client-all</module>
+                <module>service-endpoint-all</module>
             </modules>
         </profile>
         <profile>
@@ -63,10 +56,10 @@
             </modules>
         </profile>
         <profile>
-            <id>jmx</id>
+            <id>slsam</id>
             <modules>
-                <module>client</module>
-                <module>service-endpoint-jmx</module>
+                <module>client-sl-sam</module>
+                <module>service-endpoint-sl-sam</module>
             </modules>
         </profile>
     </profiles>

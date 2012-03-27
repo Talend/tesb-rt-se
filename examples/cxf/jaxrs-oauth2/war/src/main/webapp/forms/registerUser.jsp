@@ -1,6 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Social.com User Registration Form</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	-->
+</STYLE>
 </head>
 <body>
 <h1>Social.com User Registration Form</h1>
@@ -9,15 +14,23 @@
  <table>
      <form action="/services/social/registerUser" method="POST">
         <tr>
-            <td>User Name:</td>
+            <td><big><big><big>User Name:</big></big></big></td>
             <td>
               <input type="text" name="user" value="barry@social.com"/>
             </td>
         </tr>
         <tr>
-            <td>User Password:</td>
+            <td><big><big><big>User Password:</big></big></big></td>
             <td>
               <input type="password" name="password" value="1234"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              &nbsp;
+            </td>
+            <td>
+              &nbsp;
             </td>
         </tr>
         <tr>

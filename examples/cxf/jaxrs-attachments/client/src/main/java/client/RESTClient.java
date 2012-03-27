@@ -26,7 +26,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.apache.cxf.jaxrs.provider.JSONProvider;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 
 /**
  * Example showing the interaction between HTTP-centric and proxy based RESTful clients and JAX-RS server

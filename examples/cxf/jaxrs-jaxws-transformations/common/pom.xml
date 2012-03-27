@@ -34,6 +34,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>model,*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>

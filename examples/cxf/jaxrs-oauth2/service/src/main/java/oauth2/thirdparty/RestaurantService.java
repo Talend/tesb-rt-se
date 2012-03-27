@@ -35,7 +35,7 @@ public class RestaurantService {
 	}
 	
 	public String getAddress() {
-		return "5 Star Pizza, 1061 BayShore Lane, Vancouver BC";
+		return "5 Star Pizza, Muensterstrasse 1012, Mainz City";
 	}
 	
 }
