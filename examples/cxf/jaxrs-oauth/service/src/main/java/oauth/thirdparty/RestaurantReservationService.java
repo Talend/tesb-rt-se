@@ -160,13 +160,9 @@ public class RestaurantReservationService {
                     socialService.getCurrentURI().toString());
             socialService.replaceHeader("Authorization", authHeader);
             
-            boolean calendarUpdated = true;
-            try {
-			    socialService.form(new Form().set("hour", request.getHour())
-			                             .set("description", "Table reserved at " + address));
-            } catch (ServerWebApplicationException ex) {
-                calendarUpdated = false;
-            }
+            Response response = socialService.form(new Form().set("hour", request.getHour())
+                    .set("description", "Table reserved at " + address));
+            boolean calendarUpdated = response.getStatus() == 200 || response.getStatus() == 204;
 			
 			return Response.ok(new ReservationConfirmation(address, request.getHour(), calendarUpdated))
 			               .build();

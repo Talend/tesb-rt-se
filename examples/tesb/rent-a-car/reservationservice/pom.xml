@@ -42,6 +42,13 @@
             </modules>
         </profile>
         <profile>
+            <id>all</id>
+            <modules>
+                <module>client-all</module>
+                <module>service-endpoint-all</module>
+            </modules>
+        </profile>
+        <profile>
             <id>locator</id>
             <modules>
                 <module>client-locator</module>

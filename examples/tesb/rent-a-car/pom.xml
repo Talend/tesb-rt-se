@@ -42,6 +42,9 @@
             </activation>
         </profile>
         <profile>
+            <id>all</id>
+        </profile>
+        <profile>
             <id>locator</id>
         </profile>
         <profile>

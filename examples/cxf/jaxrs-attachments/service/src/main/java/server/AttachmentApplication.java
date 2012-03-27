@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.apache.cxf.jaxrs.provider.JSONProvider;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 
 import service.attachment.MultipartsServiceImpl;
 import service.attachment.XopAttachmentServiceImpl;
