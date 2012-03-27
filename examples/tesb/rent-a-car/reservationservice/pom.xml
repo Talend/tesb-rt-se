@@ -38,7 +38,7 @@
             </activation>
             <modules>
                 <module>client</module>
-                <module>service-endpoint</module>
+                <module>service-endpoint-jmx</module>
             </modules>
         </profile>
         <profile>
@@ -49,31 +49,10 @@
             </modules>
         </profile>
         <profile>
-            <id>locator</id>
-            <modules>
-                <module>client-locator</module>
-                <module>service-endpoint-locator</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>sam</id>
-            <modules>
-                <module>client-sam</module>
-                <module>service-endpoint-sam</module>
-            </modules>
-        </profile>
-        <profile>
             <id>sts</id>
             <modules>
                 <module>client-sts</module>
                 <module>service-endpoint-sts</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>jmx</id>
-            <modules>
-                <module>client</module>
-                <module>service-endpoint-jmx</module>
             </modules>
         </profile>
         <profile>

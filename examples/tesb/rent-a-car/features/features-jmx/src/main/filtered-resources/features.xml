@@ -21,20 +21,20 @@
 
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
     <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
-    <feature name='tesb-rac-common-jmx' version='${project.version}'>
+    <feature name='tesb-rac-common' version='${project.version}'>
         <feature>cxf</feature>
         <bundle>mvn:${project.groupId}/crmservice-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-common/${project.version}</bundle>
     </feature>
-    <feature name='tesb-rac-services-jmx' version='${project.version}'>
-        <feature version='${project.version}'>tesb-rac-common-jmx</feature>
+    <feature name='tesb-rac-services' version='${project.version}'>
+        <feature version='${project.version}'>tesb-rac-common</feature>
         <bundle>mvn:${project.groupId}/crmservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/crmservice-service-endpoint-jmx/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-service-endpoint-jmx/${project.version}</bundle>
     </feature>
-    <feature name='tesb-rac-app-jmx' version='${project.version}'>
-        <feature version='${project.version}'>tesb-rac-common-jmx</feature>
+    <feature name='tesb-rac-app' version='${project.version}'>
+        <feature version='${project.version}'>tesb-rac-common</feature>
         <bundle>mvn:${project.groupId}/crmservice-client/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/reservationservice-client/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/app-reservation/${project.version}</bundle>

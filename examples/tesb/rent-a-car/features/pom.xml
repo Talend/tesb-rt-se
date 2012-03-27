@@ -32,7 +32,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>features-basic</module>
+                <module>features-jmx</module>
             </modules>
         </profile>
         <profile>
@@ -42,35 +42,17 @@
             </modules>
         </profile>
         <profile>
-            <id>locator</id>
-            <modules>
-                <module>features-locator</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>sam</id>
-            <modules>
-                <module>features-sam</module>
-            </modules>
-        </profile>
-        <profile>
             <id>sts</id>
             <modules>
                 <module>features-sts</module>
             </modules>
         </profile>
         <profile>
-          <id>jmx</id>
-            <modules>
-              <module>features-jmx</module>
-            </modules>
-          </profile>
-        <profile>
           <id>slsam</id>
             <modules>
               <module>features-sl-sam</module>
             </modules>
-          </profile>
+         </profile>
     </profiles>
 
 </project>
