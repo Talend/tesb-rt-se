@@ -19,28 +19,61 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 
+import org.dom4j.DocumentException;
+
 public final class DOM4JMarshaller {
 
-    private static final javax.xml.transform.TransformerFactory FACTORY =
-        javax.xml.transform.TransformerFactory.newInstance();
+	private static final javax.xml.transform.TransformerFactory FACTORY = javax.xml.transform.TransformerFactory
+			.newInstance();
 
-    private DOM4JMarshaller() {
-        
-    }
+	private DOM4JMarshaller() {
 
-    public static org.dom4j.Document sourceToDocument(Source source)
-        throws TransformerException {
+	}
 
-        org.dom4j.io.DocumentResult docResult = new org.dom4j.io.DocumentResult();
-        FACTORY.newTransformer().transform(source, docResult);
-        return docResult.getDocument();
-    }
+	public static org.dom4j.Document sourceToDocument(Source source)
+			throws TransformerException, DocumentException {
 
-    public static Source documentToSource(org.dom4j.Document document) {
-        return new org.dom4j.io.DocumentSource(document);
-    }
+		// org.dom4j.io.DocumentResult docResult = new
+		// org.dom4j.io.DocumentResult();
+		// FACTORY.newTransformer().transform(source, docResult);
+		// return docResult.getDocument();
+		//
+
+		// fix for unsupported xmlns="" declaration processing over dom4j
+		// implementation
+		// // old version:
+		// // org.dom4j.io.DocumentResult docResult = new
+		// org.dom4j.io.DocumentResult();
+		// // factory.newTransformer().transform(request, docResult);
+		// // org.dom4j.Document requestDoc = docResult.getDocument();
+		// new version:
+		java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
+		FACTORY.newTransformer().transform(source,
+				new javax.xml.transform.stream.StreamResult(os));
+		return new org.dom4j.io.SAXReader()
+				.read(new java.io.ByteArrayInputStream(os.toByteArray()));
+		// end of fix
+
+	}
+
+	public static Source documentToSource(org.dom4j.Document document)
+			throws UnsupportedEncodingException, IOException {
+		// fix for unsupported xmlns="" declaration processing over dom4j
+		// implementation
+		// // old version:
+		// // return new org.dom4j.io.DocumentSource(responseDoc);
+		// new version:
+		java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+		new org.dom4j.io.XMLWriter(baos).write(document);
+		return new javax.xml.transform.stream.StreamSource(
+				new java.io.ByteArrayInputStream(baos.toByteArray()));
+
+	}
 
 }

@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Dictionary;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -114,9 +116,16 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     }
 
     private Source processResult(Object result) {
+    	Source source = null;
         if (result instanceof org.dom4j.Document) {
-            return DOM4JMarshaller
-                    .documentToSource((org.dom4j.Document) result);
+        	try {
+				source = DOM4JMarshaller
+				        .documentToSource((org.dom4j.Document) result);
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
         } else if (result instanceof RuntimeException) {
             throw (RuntimeException) result;
         } else if (result instanceof Throwable) {
@@ -125,6 +134,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             throw new RuntimeException("Provider return incompatible object: "
                     + result.getClass().getName());
         }
+        return source;
     }
 
     private GenericOperation getESBProviderCallback(String operationName) {
