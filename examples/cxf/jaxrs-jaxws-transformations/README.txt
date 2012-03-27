@@ -52,6 +52,7 @@ Starting the service
     cd war; mvn jetty:run
 
  * From within the TESB OSGi container:
+   karaf@trun> features:install war
    karaf@trun> features:install talend-cxf-example-jaxrs-jaxws-transformations
 
     (Make sure you've first installed the examples features repository as described in the parent README.)
