@@ -33,7 +33,6 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <cellar.version>2.2.4-SNAPSHOT</cellar.version>
         <jclouds.version>1.3.1</jclouds.version>
 
         <!-- locatorCli -->
@@ -95,7 +94,6 @@
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
-                                <descriptor>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${cellar.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
                                 <descriptor>file:${basedir}/target/classes/jclouds-karaf-1.3.1-features.xml</descriptor>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
@@ -212,9 +210,6 @@
 								<feature>tesb-zookeeper-server</feature>
 								<feature>tesb-sts</feature>
                                 <feature>camel-talendjob</feature>
-								<!-- Karaf Cellar Features -->
-								<feature>cellar</feature>
-								<feature>cellar-webconsole</feature>
 								<feature>tesb-jmx-http-agent</feature>
 							</features>
 							<repository>target/features-repo</repository>
