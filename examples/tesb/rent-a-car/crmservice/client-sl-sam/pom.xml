@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
     <artifactId>crmservice-client-sl-sam</artifactId>
-    <name>CRMService Client</name>
+    <name>CRMService Client Locator and SAM</name>
     <packaging>bundle</packaging>
 
     <parent>

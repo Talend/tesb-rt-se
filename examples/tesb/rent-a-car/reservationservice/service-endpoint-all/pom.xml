@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
     <artifactId>reservationservice-service-endpoint-all</artifactId>
-    <name>ReservationService Service Endpoint JMX</name>
+    <name>ReservationService Service Endpoint ALL</name>
     <packaging>bundle</packaging>
 
     <parent>

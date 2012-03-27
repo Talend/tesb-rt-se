@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
     <artifactId>crmservice-service-endpoint-all</artifactId>
-    <name>CRMService Service Endpoint JMX</name>
+    <name>CRMService Service Endpoint ALL</name>
     <packaging>bundle</packaging>
 
     <parent>

@@ -16,7 +16,7 @@
 
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
     <artifactId>features-all</artifactId>
-    <name>Talend ESB Runtime :: Example JMX Features</name>
+    <name>Talend ESB Runtime :: Example Features ALL</name>
     <packaging>pom</packaging>
 
     <parent>

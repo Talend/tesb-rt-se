@@ -44,8 +44,8 @@
         <profile>
             <id>all</id>
             <modules>
-                <module>service-endpoint-all</module>
                 <module>client-all</module>
+                <module>service-endpoint-all</module>
             </modules>
         </profile>
         <profile>
@@ -65,8 +65,8 @@
         <profile>
             <id>sts</id>
             <modules>
-                <module>service-endpoint-sts</module>
                 <module>client-sts</module>
+                <module>service-endpoint-sts</module>
             </modules>
         </profile>
         <profile>
@@ -79,8 +79,8 @@
         <profile>
             <id>slsam</id>
             <modules>
-                <module>service-endpoint-sl-sam</module>
                 <module>client-sl-sam</module>
+                <module>service-endpoint-sl-sam</module>
             </modules>
         </profile>
     </profiles>

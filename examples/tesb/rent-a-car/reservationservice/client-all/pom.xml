@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.examples.rent-a-car</groupId>
     <artifactId>reservationservice-client-all</artifactId>
-    <name>ReservationService Client</name>
+    <name>ReservationService Client ALL</name>
     <packaging>bundle</packaging>
 
     <parent>
