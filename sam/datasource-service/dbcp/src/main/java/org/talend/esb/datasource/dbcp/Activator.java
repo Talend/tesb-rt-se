@@ -17,10 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.datasource.mysql;
+package org.talend.esb.datasource.dbcp;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+
+import javax.sql.DataSource;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -29,7 +31,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 public class Activator implements BundleActivator {
     
@@ -59,11 +61,14 @@ public class Activator implements BundleActivator {
                 }
                 serviceReg = null;
             }
-            MysqlDataSource ds = new MysqlDataSource();
-            ds.setURL(getString("datasource.url", properties));
-            ds.setUser(getString("datasource.user", properties));
+            BasicDataSource ds = new BasicDataSource();
+            ds.setDriverClassName(getString("datasource.driver", properties));
+            ds.setUrl(getString("datasource.url", properties));
+            ds.setUsername(getString("datasource.user", properties));
             ds.setPassword(getString("datasource.password", properties));
-
+            ds.setInitialSize(Integer.parseInt(getString("datasource.pool.initsize", properties)));
+            ds.setMaxActive(Integer.parseInt(getString("datasource.pool.maxactive", properties)));
+            ds.setMaxWait(Long.parseLong(getString("datasource.pool.maxwait", properties)));
             Dictionary<String, String> regProperties = new Hashtable<String, String>();
             regProperties.put("osgi.jndi.service.name" , getString("datasource.jndi.name", properties));
             serviceReg = context.registerService("javax.sql.DataSource", ds, regProperties);
@@ -74,8 +79,8 @@ public class Activator implements BundleActivator {
     public void start(final BundleContext context) throws Exception {
         ManagedService managedService = new DataSourceConfig(context); 
         Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.mysql");
-        context.registerService("javax.sql.DataSource", managedService, properties);
+        properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.dbcp");
+        context.registerService(DataSource.class.getName(), managedService, properties);
     }
 
     @Override
