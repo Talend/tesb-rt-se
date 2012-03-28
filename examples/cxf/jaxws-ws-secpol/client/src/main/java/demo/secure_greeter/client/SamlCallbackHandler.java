@@ -46,7 +46,7 @@ public class SamlCallbackHandler implements CallbackHandler {
                     attrBean.setSubject(subjectBean);
                 }
                 AttributeBean attributeBean = new AttributeBean();
-                attributeBean.setSimpleName("attribute-role");
+                attributeBean.setQualifiedName("attribute-role");
                 attributeBean.setAttributeValues(Collections.singletonList("authenticated-client"));
                 attrBean.setSamlAttributes(Collections.singletonList(attributeBean));
                 callback.setAttributeStatementData(Collections.singletonList(attrBean));

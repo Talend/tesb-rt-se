@@ -43,7 +43,7 @@ public class ServerSamlValidator extends SamlAssertionValidator {
         boolean authenticatedClient = false;
         for (AttributeStatement attributeStatement : saml2Assertion.getAttributeStatements()) {
             for (Attribute attribute : attributeStatement.getAttributes()) {
-                if (!"attribute-role".equals(attribute.getFriendlyName())) {
+                if (!"attribute-role".equals(attribute.getName())) {
                     continue;
                 }
                 for (XMLObject attributeValue : attribute.getAttributeValues()) {
