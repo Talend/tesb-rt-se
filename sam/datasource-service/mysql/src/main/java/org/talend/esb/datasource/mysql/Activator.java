@@ -74,7 +74,7 @@ public class Activator implements BundleActivator {
     public void start(final BundleContext context) throws Exception {
         ManagedService managedService = new DataSourceConfig(context); 
         Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.h2");
+        properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.mysql");
         context.registerService("javax.sql.DataSource", managedService, properties);
     }
 
