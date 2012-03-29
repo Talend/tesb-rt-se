@@ -22,6 +22,8 @@ package org.talend.esb.datasource.h2;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import javax.sql.DataSource;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -66,7 +68,7 @@ public class Activator implements BundleActivator {
 
             Dictionary<String, String> regProperties = new Hashtable<String, String>();
             regProperties.put("osgi.jndi.service.name" , getString("datasource.jndi.name", properties));
-            serviceReg = context.registerService("javax.sql.DataSource", ds, regProperties);
+            serviceReg = context.registerService(DataSource.class.getName(), ds, regProperties);
         }
     }
 
@@ -75,7 +77,7 @@ public class Activator implements BundleActivator {
         ManagedService managedService = new DataSourceConfig(context); 
         Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.h2");
-        context.registerService("javax.sql.DataSource", managedService, properties);
+        context.registerService(ManagedService.class.getName(), managedService, properties);
     }
 
     @Override

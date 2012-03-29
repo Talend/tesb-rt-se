@@ -71,16 +71,16 @@ public class Activator implements BundleActivator {
             ds.setMaxWait(Long.parseLong(getString("datasource.pool.maxwait", properties)));
             Dictionary<String, String> regProperties = new Hashtable<String, String>();
             regProperties.put("osgi.jndi.service.name" , getString("datasource.jndi.name", properties));
-            serviceReg = context.registerService("javax.sql.DataSource", ds, regProperties);
+            serviceReg = context.registerService(DataSource.class.getName(), ds, regProperties);
         }
     }
 
     @Override
     public void start(final BundleContext context) throws Exception {
-        ManagedService managedService = new DataSourceConfig(context); 
+        ManagedService managedService = new DataSourceConfig(context);
         Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.dbcp");
-        context.registerService(DataSource.class.getName(), managedService, properties);
+        context.registerService(ManagedService.class.getName(), managedService, properties);
     }
 
     @Override
