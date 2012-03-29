@@ -102,3 +102,12 @@ This command adds the features repository for the examples to the container.  (S
 http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for
 more details.)  This only needs to be done once for all examples.
 
+Note on Ports:
+
+The CXF examples provided generally default to http port 8080, fine for standalone Tomcat
+or embedded Jetty usage.  Talend ESB defaults out-of-the-box to port 8040, a value which
+can be changed by editing the container/etc/org.ops4j.pax.web.cfg file.  Alternatively,
+several of the examples provide a compile-time -Dhttp.port=xxxx option that can be used
+to change the default HTTP port used by the sample.  See the individual READMEs for 
+sample-specific information.
+

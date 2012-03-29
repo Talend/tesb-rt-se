@@ -42,7 +42,7 @@ ways to get a JMS broker running:
 
 * From within the TESB OSGi container:
      From the OSGi command line, run:
-         activemq:create-broker 
+         activemq:create-broker
      That will create a new broker broker with the defaults and 
      will then start it.
 
@@ -70,7 +70,7 @@ By default, the HTTP client will use the http port 8080 for constructing the URI
 This port value is set during the build in the client.properties resource file. If the server 
 is listening on the alternative port then you can use an 'http.port' system property during the build:
    
-- mvn install -Dhttp.port=8181
+- mvn install -Dhttp.port=8040
 
 Demo Description
 ---------------------------------------

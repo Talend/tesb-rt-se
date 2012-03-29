@@ -1,5 +1,5 @@
 JAX-RS JAX-WS Authorization Example 
-================================
+===================================
 
 The demo shows how a single service instance can be exposed as either JAX-RS or JAX-WS
 service at the same time and how CXF JAX-RS and JAX-WS proxies can reuse the same code for
