@@ -22,6 +22,8 @@ package org.talend.esb.datasource.mysql;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import javax.sql.DataSource;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
@@ -33,7 +35,9 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class Activator implements BundleActivator {
     
-
+	ServiceRegistration managedServiceReg = null;
+	DataSourceConfig managedService = null;
+	
     public final class DataSourceConfig implements ManagedService {
         private final BundleContext context;
         private ServiceRegistration serviceReg = null;
@@ -52,13 +56,7 @@ public class Activator implements BundleActivator {
         @SuppressWarnings("rawtypes")
         @Override
         public void updated(Dictionary properties) throws ConfigurationException {
-            if (serviceReg != null) {
-                try {
-                    serviceReg.unregister();
-                } catch (Exception e) {
-                }
-                serviceReg = null;
-            }
+        	unregister();
             MysqlDataSource ds = new MysqlDataSource();
             ds.setURL(getString("datasource.url", properties));
             ds.setUser(getString("datasource.user", properties));
@@ -66,21 +64,44 @@ public class Activator implements BundleActivator {
 
             Dictionary<String, String> regProperties = new Hashtable<String, String>();
             regProperties.put("osgi.jndi.service.name" , getString("datasource.jndi.name", properties));
-            serviceReg = context.registerService("javax.sql.DataSource", ds, regProperties);
+            serviceReg = context.registerService(DataSource.class.getName(), ds, regProperties);
         }
+
+		public void unregister() {
+            if (serviceReg != null) {
+                try {
+                    serviceReg.unregister();
+                } catch (Exception e) {
+                }
+                serviceReg = null;
+            }			
+		}
     }
 
     @Override
     public void start(final BundleContext context) throws Exception {
-        ManagedService managedService = new DataSourceConfig(context); 
+    	managedService = new DataSourceConfig(context); 
         Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.mysql");
-        context.registerService("javax.sql.DataSource", managedService, properties);
+        managedServiceReg = context.registerService(ManagedService.class.getName(), managedService, properties);
     }
 
     @Override
     public void stop(BundleContext context) throws Exception {
-
+        if (managedServiceReg != null) {
+            try {
+            	managedServiceReg.unregister();
+            } catch (Exception e) {
+            }
+            managedServiceReg = null;
+        }
+        if (managedService != null) {
+            try {
+            	managedService.unregister();
+            } catch (Exception e) {
+            }
+            managedService = null;
+        }
     }
 
 }

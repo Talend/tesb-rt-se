@@ -41,10 +41,11 @@ ways to get a JMS broker running:
      mvn -Pjms.broker
 
 * From within the TESB OSGi container:
-     From the OSGi command line, run:
-         activemq:create-broker
-     That will create a new broker broker with the defaults and 
-     will then start it.
+     karaf@trun> features:install activemq-spring
+     karaf@trun> activemq:create-broker 
+
+     That will create a new broker broker with the defaults and will then start it.
+
 
 
 Starting the service
