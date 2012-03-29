@@ -35,6 +35,8 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 public class Activator implements BundleActivator {
     
+	ServiceRegistration managedServiceReg = null;
+	DataSourceConfig managedService = null;
 
     public final class DataSourceConfig implements ManagedService {
         private final BundleContext context;
@@ -54,14 +56,8 @@ public class Activator implements BundleActivator {
         @SuppressWarnings("rawtypes")
         @Override
         public void updated(Dictionary properties) throws ConfigurationException {
-            if (serviceReg != null) {
-                try {
-                    serviceReg.unregister();
-                } catch (Exception e) {
-                }
-                serviceReg = null;
-            }
-            BasicDataSource ds = new BasicDataSource();
+        	unregister();
+        	BasicDataSource ds = new BasicDataSource();
             ds.setDriverClassName(getString("datasource.driver", properties));
             ds.setUrl(getString("datasource.url", properties));
             ds.setUsername(getString("datasource.user", properties));
@@ -73,19 +69,42 @@ public class Activator implements BundleActivator {
             regProperties.put("osgi.jndi.service.name" , getString("datasource.jndi.name", properties));
             serviceReg = context.registerService(DataSource.class.getName(), ds, regProperties);
         }
+        
+		public void unregister() {
+            if (serviceReg != null) {
+                try {
+                    serviceReg.unregister();
+                } catch (Exception e) {
+                }
+                serviceReg = null;
+            }			
+		}
     }
 
     @Override
     public void start(final BundleContext context) throws Exception {
-        ManagedService managedService = new DataSourceConfig(context);
+        managedService = new DataSourceConfig(context);
         Dictionary<String, String> properties = new Hashtable<String, String>();
         properties.put(Constants.SERVICE_PID, "org.talend.esb.datasource.dbcp");
-        context.registerService(ManagedService.class.getName(), managedService, properties);
+        managedServiceReg = context.registerService(ManagedService.class.getName(), managedService, properties);
     }
 
     @Override
     public void stop(BundleContext context) throws Exception {
-
+        if (managedServiceReg != null) {
+            try {
+            	managedServiceReg.unregister();
+            } catch (Exception e) {
+            }
+            managedServiceReg = null;
+        }
+        if (managedService != null) {
+            try {
+            	managedService.unregister();
+            } catch (Exception e) {
+            }
+            managedService = null;
+        }
     }
 
 }
