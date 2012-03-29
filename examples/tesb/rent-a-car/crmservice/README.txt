@@ -23,29 +23,26 @@ service/
 client/   
     - This is a client application that shows how CXF client invoking to the CXF endpoint.
 
-client-locator/   
-    - This directory contains the locator enabled crmservice client.
-
-client-sam/   
-    - This directory contains the sam enabled crmservice client.
+client-sl-sam/   
+    - This directory contains the locator and sam enabled crmservice client.
 
 client-sts/   
     - This directory contains the sts enabled crmservice client.
 
-service-endpoint/   
+client-all/   
+    - This directory contains the all features enabled crmservice client.
+
+service-endpoint-jmx/   
     - This directory contains the basic crmservice endpoint.
 
-service-endpoint-locator/   
-    - This directory contains the locator enabled crmservice endpoint.
-
-service-endpoint-sam/   
-    - This directory contains the sam enabled crmservice endpoint.
+service-endpoint-sl-sam/   
+    - This directory contains the locator and sam enabled crmservice endpoint.
 
 service-endpoint-sts/   
     - This directory contains the sts enabled crmservice endpoint.
 
-service-endpoint-jmx/   
-    - This directory contains the jmx enabled crmservice endpoint.
+service-endpoint-all/   
+    - This directory contains the all features enabled crmservice endpoint.
 
 	
 Building the Example
@@ -57,8 +54,7 @@ Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
 
 mvn clean install                 (for basic crmservice)
-mvn clean install -Plocator       (for Service Locator enabled crmservice)
-mvn clean install -Psam           (for Service Activity Monitoring enabled crmservice)
+mvn clean install -Pslsam         (for Service Locator and Service Activity Monitoring enabled crmservice)
 mvn clean install -Psts           (for Security Token Service enabled crmservice)
-mvn clean install -Pjmx           (for JMX enabled crmservice)
+mvn clean install -Pall           (for JMX enabled crmservice)
 
