@@ -18,22 +18,17 @@ features:addurl mvn:org.talend.esb.examples.rent-a-car/features/<version>/xml
 features:install tesb-rac-app
 features:install tesb-rac-services
 
-Rent A Car with Locator:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-locator/<version>/xml
-features:install tesb-rac-app-locator
-features:install tesb-rac-services-locator
-
-Rent A Car with SAM:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sam/<version>/xml
-features:install tesb-rac-app-sam
-features:install tesb-rac-services-sam
+Rent A Car with Locator and SAM:
+features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sl-sam/<version>/xml
+features:install tesb-rac-app-sl-sam
+features:install tesb-rac-services-sl-sam
 
 Rent A Car with STS:
 features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
 features:install tesb-rac-app-sts
 features:install tesb-rac-services-sts
 
-Rent A Car with JMX:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-jmx/<version>/xml
-features:install tesb-rac-app-jmx
-features:install tesb-rac-services-jmx
+Rent A Car with all features:
+features:addurl mvn:org.talend.esb.examples.rent-a-car/features-all/<version>/xml
+features:install tesb-rac-app-all
+features:install tesb-rac-services-all
