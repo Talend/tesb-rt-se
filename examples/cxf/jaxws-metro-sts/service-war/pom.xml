@@ -20,6 +20,11 @@
          <artifactId>jaxws-metro-sts-common</artifactId>
          <version>1.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.6.RELEASE</version>
+        </dependency>
    </dependencies>
 
     <profiles>

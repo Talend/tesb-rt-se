@@ -15,11 +15,22 @@
    <packaging>bundle</packaging>
 
    <dependencies>
-      <dependency>
-         <groupId>org.talend.cxf-examples.jaxws-metro-sts</groupId>
-         <artifactId>jaxws-metro-sts-common</artifactId>
-         <version>1.0</version>
-      </dependency>
+        <dependency>
+           <groupId>org.talend.cxf-examples.jaxws-metro-sts</groupId>
+           <artifactId>jaxws-metro-sts-common</artifactId>
+           <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.6.1</version>
+            <scope>runtime</scope>
+        </dependency>
    </dependencies>
 
    <build>
