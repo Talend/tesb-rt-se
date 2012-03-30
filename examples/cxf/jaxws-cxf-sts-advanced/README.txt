@@ -110,7 +110,7 @@ CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
 
 2.) Navigate to the client folder:
 
- * To run the client in a standalone manner, run mvn clean install exec:exec.
+ * To run the client in a standalone manner, run mvn exec:exec.
 
  * Alternatively, it is possible to run the client from within the OSGi
    container.

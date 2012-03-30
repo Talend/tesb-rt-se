@@ -81,10 +81,10 @@ CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 Note: If you've selected standalone or OSGi deployment of the WSP in the preceding
 step, the WSP address in the client WSDL (client/src/main/resources/DoubleIt.wsdl) 
 must be updated before invoking the WSP to "http://localhost:9000/doubleit/services/doubleit". 
-This is because the WSP runs on port 9000 when run in a standalone manner, 
-or in Karaf, to avoid clashing with the port that Tomcat is using (8080).
+(run mvn clean install after done) This is because the WSP runs on port 9000 when run 
+in a standalone manner, or in Karaf, to avoid clashing with the port that Tomcat is using (8080).
 
- * To run the client in a standalone manner, run mvn clean install exec:exec.
+ * To run the client in a standalone manner, run mvn exec:exec.
 
  * From the OSGi command line, run:
       karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-client
