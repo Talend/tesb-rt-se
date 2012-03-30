@@ -33,15 +33,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
-import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.server.util.EventCreator;
 
-//@ContextConfiguration("/META-INF/spring/persistence.xml")
-@ContextConfiguration(locations = {"/server.xml", "/server-config.xml", "/persistence.xml"})
+@ContextConfiguration(locations = {"/test-persistence.xml"})
 public class EventRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     
-    @Resource
-    private EventRepository eventRepository;
+	@Resource
+    private EventRepositoryImpl eventRepository;
 
     @Before
     public void setUp() throws Exception {

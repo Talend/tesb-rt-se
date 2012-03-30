@@ -43,7 +43,7 @@ import org.talend.esb.sam.server.util.EventCreator;
  * Tests the sevice implementation together with the database
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/server.xml", "/server-config.xml"})
+@ContextConfiguration(locations = {"/test-server.xml", "/server-config.xml"})
 public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource
     MonitoringService monitoringSerivce;

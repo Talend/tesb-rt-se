@@ -1,5 +1,5 @@
 WS-Trust (JAX-WS Metro STS sample)
-=================================
+==================================
 
 Provides an example of a CXF SOAP client (WSC) accessing a Metro STS for a
 SAML assertion and then subsequently making a call to a CXF web service

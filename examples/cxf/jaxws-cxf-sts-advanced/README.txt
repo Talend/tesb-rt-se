@@ -1,5 +1,5 @@
 WS-Trust (JAX-WS CXF STS Advanced sample)
-=================================
+=========================================
 
 This sample illustrates some advanced concepts involving the STS. The basic
 scenario is the same as the jaxws-cxf-sts sample, where a CXF SOAP Client (WSC)
