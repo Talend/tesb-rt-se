@@ -49,7 +49,7 @@ public class Activator implements BundleActivator {
         @SuppressWarnings("rawtypes")
         private String getString(String key, Dictionary properties) {
             Object value = properties.get(key);
-            return (!(value instanceof String)) ? "" : key;
+            return (!(value instanceof String)) ? "" : (String)value;
             
         }
 
