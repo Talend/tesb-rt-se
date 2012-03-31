@@ -53,6 +53,8 @@
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
     <feature version='[3,4)'>spring-jdbc</feature>
+    <bundle>mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
+    <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
     <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oscache/${oscache.bundle.version}</bundle>
