@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Service Activity Monitoring :: Datasource-h2
+  Service Activity Monitoring :: Datasource-mysql
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -21,21 +21,21 @@
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-    <bean id="dataSource" class="org.h2.jdbcx.JdbcDataSource">
-        <property name="URL" value="jdbc:h2:tcp://localhost/~/test"/>
-        <property name="user" value="sa"/>
-        <property name="password" value=""/>
+    <bean id="dataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
+        <property name="URL" value="jdbc:mysql://localhost:3306/test"/>
+        <property name="user" value="test"/>
+        <property name="password" value="test"/>
     </bean>
 
     <service ref="dataSource" interface="javax.sql.DataSource"/>
 
-    <bean id="dsConfig" class="org.talend.esb.datasource.h2.DataSourceConfigurator">
+    <bean id="dsConfig" class="org.talend.esb.datasource.mysql.DataSourceConfigurator">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <service ref="dsConfig" interface="org.osgi.service.cm.ManagedService">
         <service-properties>
-            <entry key="service.pid" value="org.talend.esb.datasource.h2"/>
+            <entry key="service.pid" value="org.talend.esb.datasource.mysql"/>
         </service-properties>
     </service>
 
