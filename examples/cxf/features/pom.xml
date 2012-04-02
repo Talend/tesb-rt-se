@@ -11,6 +11,7 @@
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
         <version>1.0</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <artifactId>osgi</artifactId>
