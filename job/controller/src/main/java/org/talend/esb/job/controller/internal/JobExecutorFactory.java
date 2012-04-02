@@ -22,8 +22,19 @@ package org.talend.esb.job.controller.internal;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class JobExecutorFactory {
+    public static final Logger LOG = Logger.getLogger(JobExecutorFactory.class.getName());
+
+    private static Thread.UncaughtExceptionHandler loggingUEH = new Thread.UncaughtExceptionHandler() {
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            LOG.log(Level.SEVERE, "Uncaught exception in job executor thread: ", e);
+        }
+    };
     
     private JobExecutorFactory() {
         
@@ -36,6 +47,7 @@ public final class JobExecutorFactory {
             @Override
             public Thread newThread(Runnable r) {
                 Thread newThread = defaultThreadFactory.newThread(r);
+                newThread.setUncaughtExceptionHandler(loggingUEH);
                 newThread.setContextClassLoader(this.getClass().getClassLoader());
                 return newThread;
             }
@@ -43,4 +55,5 @@ public final class JobExecutorFactory {
 
         return Executors.newCachedThreadPool(jobThreadFactory);
     }
+ 
 }

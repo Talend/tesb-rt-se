@@ -13,6 +13,13 @@
     <packaging>pom</packaging>
     <name>Talend Camel Examples :: jaxws-jms</name>
 
+    <parent>
+        <groupId>org.talend.camel-examples</groupId>
+        <artifactId>talend-camel-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <modules>
         <module>client</module>
         <module>server</module>

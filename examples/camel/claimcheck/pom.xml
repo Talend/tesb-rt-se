@@ -10,6 +10,13 @@
     <packaging>pom</packaging>
     <name>Talend Camel Examples :: eaipatterns</name>
 
+    <parent>
+        <groupId>org.talend.camel-examples</groupId>
+        <artifactId>talend-camel-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <modules>
         <module>server</module>
         <module>war</module>

@@ -13,5 +13,12 @@
     <packaging>pom</packaging>
     <name>Talend Camel Examples :: blueprint</name>
     <description>Simple example of Camel routes definition in a blueprint descriptor</description>
+    
+    <parent>
+        <groupId>org.talend.camel-examples</groupId>
+        <artifactId>talend-camel-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
 
 </project>

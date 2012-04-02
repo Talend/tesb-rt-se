@@ -14,6 +14,13 @@
     <name>Talend Camel Examples :: jaxrs-jms-http</name>
     <description>JAXRS service with camel jms and http transports</description>
 
+    <parent>
+        <groupId>org.talend.camel-examples</groupId>
+        <artifactId>talend-camel-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <modules>
         <module>client</module>
         <module>common</module>
