@@ -12,6 +12,13 @@
     <version>1.0</version>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>org.talend.cxf-examples</groupId>
+        <artifactId>talend-cxf-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <properties>
         <activemq.version>5.5.0</activemq.version>
         <cxf.version>2.6.0-SNAPSHOT</cxf.version>

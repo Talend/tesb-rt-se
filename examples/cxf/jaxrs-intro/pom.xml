@@ -12,6 +12,13 @@
     <name>JAX-RS Intro Example</name>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>org.talend.cxf-examples</groupId>
+        <artifactId>talend-cxf-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <properties>
         <cxf.version>2.6.0-SNAPSHOT</cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

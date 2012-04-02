@@ -11,6 +11,13 @@
     <name>WS Trust (CXF STS advanced) Parent POM</name>
     <packaging>pom</packaging>
 
+    <parent>
+        <groupId>org.talend.cxf-examples</groupId>
+        <artifactId>talend-cxf-examples</artifactId>
+        <version>1.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
     <modules>
         <module>service</module>
         <module>service-war</module>
