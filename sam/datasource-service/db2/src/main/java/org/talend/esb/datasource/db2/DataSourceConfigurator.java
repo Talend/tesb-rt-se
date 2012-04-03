@@ -24,30 +24,33 @@ import java.util.Dictionary;
 import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.ibm.db2.jcc.DB2SimpleDataSource;
 
-public class DataSourceConfigurator implements ManagedService{
-	private MysqlDataSource dataSource;
+public class DataSourceConfigurator implements ManagedService {
+    private DB2SimpleDataSource dataSource;
 
-	public void setDataSource(MysqlDataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+    public void setDataSource(DB2SimpleDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void updated(Dictionary properties) throws ConfigurationException {
-		if (dataSource != null){
-			dataSource.setURL(getString(properties, "datasource.url"));
-			dataSource.setUser(getString(properties, "datasource.user"));
-			dataSource.setPassword(getString(properties, "datasource.password"));
-		}
-		
-	}
+    @SuppressWarnings("rawtypes")
+    @Override
+    public void updated(Dictionary properties) throws ConfigurationException {
+        if (dataSource != null) {
+            dataSource.setServerName(getString(properties, "datasource.servername"));
+            dataSource.setDatabaseName(getString(properties, "datasource.databasename"));
+            dataSource.setPortNumber(Integer.parseInt(getString(properties, "datasource.portnumber")));
+            dataSource.setDriverType(Integer.parseInt(getString(properties, "datasource.drivertype")));
+            dataSource.setUser(getString(properties, "datasource.user"));
+            dataSource.setPassword(getString(properties, "datasource.password"));
+            dataSource.setSecurityMechanism(com.ibm.db2.jcc.DB2BaseDataSource.CLEAR_TEXT_PASSWORD_SECURITY);
+        }
 
-	@SuppressWarnings("rawtypes")
-	private String getString(Dictionary properties, String key) {
-		Object value = properties.get(key);
-		return (!(value instanceof String)) ? "" : (String)value;
-	}
+    }
+
+    @SuppressWarnings("rawtypes")
+    private String getString(Dictionary properties, String key) {
+        Object value = properties.get(key);
+        return (!(value instanceof String)) ? "" : (String) value;
+    }
 }
-
