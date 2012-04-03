@@ -6,6 +6,8 @@ package sts;
 import java.security.Principal;
 import java.util.Collections;
 
+import org.apache.cxf.sts.request.ReceivedToken;
+import org.apache.cxf.sts.request.ReceivedToken.STATE;
 import org.apache.cxf.sts.token.provider.AttributeStatementProvider;
 import org.apache.cxf.sts.token.provider.TokenProviderParameters;
 import org.apache.ws.security.WSConstants;
@@ -18,7 +20,16 @@ import org.apache.ws.security.saml.ext.bean.AttributeStatementBean;
 public class RoleAttributeProvider implements AttributeStatementProvider {
 
     public AttributeStatementBean getStatement(TokenProviderParameters providerParameters) {
-        Principal principal = providerParameters.getPrincipal();
+        Principal principal = null;
+        if (providerParameters.getTokenRequirements().getValidateTarget() != null) {
+            ReceivedToken receivedToken = providerParameters.getTokenRequirements().getValidateTarget();
+            if (receivedToken.getState().equals(STATE.VALID)) {
+                principal = receivedToken.getPrincipal();
+            }
+        } else {
+            principal = providerParameters.getPrincipal();
+        }
+
         String role = "authenticated-user";
         if (principal.getName().contains("CN=Carl Client")) {
             role = "doubleit-user";
