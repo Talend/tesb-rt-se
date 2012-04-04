@@ -19,6 +19,6 @@
         <module>dbcp</module>
         <module>h2</module>
         <module>mysql</module>
-        <module>sqlserver</module>
+        <!--module>sqlserver</module-->
     </modules>
 </project>
