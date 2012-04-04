@@ -78,7 +78,7 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
     }
 
     @Test
-    public void registerEndpointWithAbsAddressWhenPrefixesSet() throws Exception {
+    public void registerEndpointWithRelativeAddressWhenPrefixSet() throws Exception {
         CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
 
         sl.setPostConnectAction((PostConnectAction) anyObject());
@@ -88,7 +88,26 @@ public class SingleBusLocatorRegistrarTest extends EasyMockSupport {
         replayAll();
 
         SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
-        locatorRegistrar.setEndpointPrefixes(PREFIXES_1);
+        locatorRegistrar.setEndpointPrefix(PREFIX_1);
+        locatorRegistrar.setServiceLocator(sl);
+
+        locatorRegistrar.registerServer(REL_SERVER_1);
+
+        verifyAll();
+    }
+
+    @Test
+    public void registerEndpointWithAbsAddressWhenPrefixSet() throws Exception {
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
+
+        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.register(endpoint);
+        Bus bus = createMock(Bus.class);
+        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
+        replayAll();
+
+        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
+        locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
         locatorRegistrar.registerServer(SERVER_1);

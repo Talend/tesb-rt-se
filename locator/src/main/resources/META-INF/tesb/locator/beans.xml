@@ -30,6 +30,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         <property name="properties">
             <props>
                 <prop key="locator.endpoints">localhost:2181</prop>
+                <prop key="endpoint.prefix"></prop>
 	            <prop key="endpoint.http.prefix"></prop>
                 <prop key="endpoint.https.prefix"></prop>
                 <prop key="locator.strategy">defaultSelectionStrategy</prop>
@@ -48,6 +49,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
         <property name="serviceLocator" ref="serviceLocator" />
+        <property name="endpointPrefix" value="${endpoint.prefix}"/>
         <property name="endpointPrefixes">
             <map>
                 <entry key="HTTP" value="${endpoint.http.prefix}" />

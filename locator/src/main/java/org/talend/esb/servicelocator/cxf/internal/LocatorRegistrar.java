@@ -48,6 +48,8 @@ public class LocatorRegistrar {
 
     private ServiceLocator locatorClient;
 
+    private String endpointPrefix = "";
+
     private Map<String, String> endpointPrefixes = null;
 
     private Map<Bus, SingleBusLocatorRegistrar> busRegistrars = 
@@ -56,6 +58,10 @@ public class LocatorRegistrar {
     public void startListenForServers(Bus bus) {
         SingleBusLocatorRegistrar registrar = getRegistrar(bus);
         registrar.startListenForServers();
+    }
+
+    public void setEndpointPrefix(String endpointPrefix) {
+        this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
     }
 
     public void setEndpointPrefixes(Map<String, String> endpointPrefixes) {
@@ -83,6 +89,7 @@ public class LocatorRegistrar {
             check(locatorClient, "serviceLocator", "registerService");
             registrar = new SingleBusLocatorRegistrar(bus);
             registrar.setServiceLocator(locatorClient);
+            registrar.setEndpointPrefix(endpointPrefix);
             registrar.setEndpointPrefixes(endpointPrefixes);
             busRegistrars.put(bus, registrar);
             addLifeCycleListener(bus);

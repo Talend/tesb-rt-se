@@ -22,6 +22,7 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.Collections;
 import java.util.List;
 
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
@@ -29,7 +30,6 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.ws.policy.PolicyEngine;
 import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
@@ -157,21 +157,18 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     }
 
     @Test
-    public void registerEndpointWithRelativeAddressWhenPrefixesSet() throws Exception {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, null);
-        ServiceLocator sl = createMock(ServiceLocator.class);
-        sl.setPostConnectAction((PostConnectAction) anyObject());
-        sl.register(endpoint);
-        Bus bus = createMock(Bus.class);
-        expect(bus.getExtension(ServerLifeCycleManager.class)).andStubReturn(null);
-        expect(bus.getExtension(PolicyEngine.class)).andStubReturn(null);
+    public void registerEndpointWithRelativeAddressWhenPrefixSet() throws Exception {
+        addServerLifeCycleManager(bus1);
+        addBusLifeCycleManager(bus1);
+
+        sl.register(CXF_ENDPOINT_1);
         replayAll();
 
-        SingleBusLocatorRegistrar locatorRegistrar = new SingleBusLocatorRegistrar(bus);
-        locatorRegistrar.setEndpointPrefixes(PREFIXES_1);
+        LocatorRegistrar locatorRegistrar = new LocatorRegistrar();
+        locatorRegistrar.setEndpointPrefix(PREFIX_1);
         locatorRegistrar.setServiceLocator(sl);
 
-        locatorRegistrar.registerServer(REL_SERVER_1);
+        locatorRegistrar.registerServer(REL_SERVER_1, bus1);
 
         verifyAll();
     }
