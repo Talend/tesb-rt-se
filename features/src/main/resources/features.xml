@@ -154,13 +154,6 @@
         <bundle>mvn:org.talend.esb.sts/org.talend.esb.sts.config/${project.version}</bundle>
     </feature>
 
-  <!-- temporary workaround for camel-mail 2.8.2-->
-  <feature name='camel-mail' version='${project.version}' resolver='(obr)' start-level='50'>
-    <feature version='${camel.version}'>camel-core</feature>
-    <bundle dependency="true">mvn:javax.mail/mail/${javax.mail.version}</bundle>
-    <bundle>mvn:org.apache.camel/camel-mail/${camel.version}</bundle>
-  </feature>
-
     <feature name="camel-talendjob" version="${project.version}" resolver="(obr)">
         <feature version="${camel.version}">camel-core</feature>
         <bundle>mvn:org.talend.camel/camel-talendjob/${project.version}</bundle>
