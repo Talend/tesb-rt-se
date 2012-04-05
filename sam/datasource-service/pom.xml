@@ -16,7 +16,7 @@
     </parent>
 
     <modules>
-        <module>dbcp</module>
+        <module>derby</module>
         <module>h2</module>
         <module>mysql</module>
         <!--module>sqlserver</module-->

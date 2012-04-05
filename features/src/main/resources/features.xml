@@ -42,12 +42,18 @@
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
   </feature>
 
+  <feature name='tesb-datasource-derby' version='${project.version}'>
+    <configfile finalname="/etc/org.talend.esb.datasource.derby.cfg">mvn:org.talend.esb/ds-service-derby/${project.version}/cfg/org.talend.esb.datasource.derby</configfile>
+    <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
+    <bundle>mvn:org.talend.esb/ds-service-derby/${project.version}</bundle>
+  </feature>
+
   <feature name='tesb-datasource-h2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.h2.cfg">mvn:org.talend.esb/ds-service-h2/${project.version}/cfg/org.talend.esb.datasource.h2</configfile>
     <bundle>mvn:com.h2database/h2/${h2database.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-h2/${project.version}</bundle>
   </feature>
-  
+
   <feature name='tesb-datasource-mysql' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.mysql.cfg">mvn:org.talend.esb/ds-service-mysql/${project.version}/cfg/org.talend.esb.datasource.mysql</configfile>
 	<bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.stax-api-1.0/1.9.0</bundle>
