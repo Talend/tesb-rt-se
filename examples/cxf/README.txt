@@ -25,11 +25,6 @@ jaxws-cxf-sts-advanced: More advanced version of the above showing OSGi
 deployment of the STS, token providers, token validation, and WSP 
 authorization based on attributes within the SAML token.
 
-jaxws-metro-sts: demonstrates having a SOAP client use CXF's stsclient 
-to make a call to a Metro Security Token Service (STS) and subsequently 
-using the SAML token received to make a web service call to a CXF
-web service provider.
-
 jaxws-ws-secpol: demonstrates using WS-SecurityPolicy and configuration 
 to secure communication between CXF client and servers using various
 security requirements and including tokens like UsernameToken and
