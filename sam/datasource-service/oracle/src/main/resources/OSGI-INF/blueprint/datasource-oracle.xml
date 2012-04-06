@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Service Activity Monitoring :: Datasource-mysql
+  Service Activity Monitoring :: Datasource-oracle
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -21,17 +21,18 @@
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-   <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
-      <property name="URL" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
-      <property name="user" value="test"/>
-      <property name="password" value="test"/>
-  </bean>
-  
-  <service interface="javax.sql.DataSource" ref="dataSource">
-    <service-properties>
-            <entry key="osgi.jndi.service.name" value="jdbc/oracleds"/>
-    </service-properties>
-  </service>
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="URL" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+        <property name="user" value="test"/>
+        <property name="password" value="test"/>
+    </bean>
+
+    <service ref="dataSource" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="org.talend.esb.datasource.name" value="ds-oracle"/>
+            <entry key="osgi.jndi.service.name" value="jdbc/sam"/>
+        </service-properties>
+    </service>
 
     <bean id="dsConfig" class="org.talend.esb.datasource.oracle.DataSourceConfigurator">
         <property name="dataSource" ref="dataSource"/>

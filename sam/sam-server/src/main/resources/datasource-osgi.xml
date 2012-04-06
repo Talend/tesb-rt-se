@@ -27,6 +27,6 @@
         http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
     ">
 
-    <osgi:reference id="datasource" interface="javax.sql.DataSource"/>
+    <osgi:reference id="datasource" interface="javax.sql.DataSource" filter="(org.talend.esb.datasource.name=${db.datasource})"/>
 
 </beans>
