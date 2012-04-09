@@ -1,4 +1,4 @@
-Welcome to Talend eanples for CXF
+Welcome to Talend examples for CXF
 =========================================================
 
 Industry leading open source Apache CXF implementation of JAX-WS to help 
