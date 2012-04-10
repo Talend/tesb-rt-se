@@ -40,7 +40,7 @@
     <!-- Configuration Admin entry -->
     <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
-        <prop key="db.datasource">datasource</prop>
+        <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
         <prop key="db.recreate">true</prop>
         <prop key="db.createsql">create.sql</prop>

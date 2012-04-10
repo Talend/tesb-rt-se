@@ -27,7 +27,7 @@
         </service-properties>
     </service>
 
-    <reference id="uiProvider" availability="mandatory" interface="org.talend.esb.sam.server.ui.UIProvider" />
+    <reference id="uiProvider" interface="org.talend.esb.sam.server.ui.UIProvider" />
 
     <bean id="listServlet" class="org.talend.esb.sam.server.ui.servlets.ListServlet">
         <property name="uiProvider" ref="uiProvider"/>
