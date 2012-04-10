@@ -19,8 +19,8 @@
         <module>derby</module>
         <module>h2</module>
         <module>mysql</module>
-        <!--module>oracle</module-->
-        <!--module>db2</module-->
-        <!--module>sqlserver</module-->
+        <module>oracle</module>
+        <module>db2</module>
+        <module>sqlserver</module>
     </modules>
 </project>
