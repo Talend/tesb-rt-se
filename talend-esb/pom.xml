@@ -111,6 +111,7 @@
 						        <!-- CXF Features -->
 						        <feature>cxf</feature>
 						        <feature>cxf-sts</feature>
+						        <feature>cxf-wsn</feature>
 						        <!-- Camel Features -->
 						        <feature>camel</feature>
 						        <feature>camel-core</feature>
