@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+  <New id="DataSource_derby" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg>jdbc/datasource</Arg>
+    <Arg>
+      <New class="org.apache.derby.jdbc.ClientDataSource">
+        <Set name="serverName">localhost</Set>
+        <Set name="portNumber">1527</Set>
+        <Set name="databaseName">db</Set>
+        <Set name="createDatabase">create</Set>
+        <Set name="user">test</Set>
+        <Set name="password">test</Set>
+      </New>
+    </Arg>
+  </New>
+
+</Configure>
