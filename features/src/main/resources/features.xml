@@ -92,7 +92,7 @@
   </feature>
 
   <feature name='tesb-sam-server' version='${project.version}'>
-    <configfile finalname="/etc/org.talend.esb.sam.server.cfg">mvn:org.talend.esb/sam-server/${project.version}/cfg/org.talend.esb.sam.server</configfile>
+    <!--configfile finalname="/etc/org.talend.esb.sam.server.cfg">mvn:org.talend.esb/sam-server/${project.version}/cfg/org.talend.esb.sam.server</configfile-->
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
     <feature version='[3,4)'>spring-jdbc</feature>
