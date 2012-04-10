@@ -36,6 +36,7 @@ public class DataSourceConfigurator implements ManagedService{
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void updated(Dictionary properties) throws ConfigurationException {
+		if (properties == null) return;
 		if (dataSource != null){
 			dataSource.setServerName(getString(properties, "datasource.server"));
 			dataSource.setPortNumber(getInt(properties, "datasource.port"));
