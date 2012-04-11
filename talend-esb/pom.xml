@@ -147,6 +147,7 @@
 						        <feature>camel-flatpack</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
+                                <feature>camel-jsch</feature>
 						        <feature>camel-guice</feature>
 						        <feature>camel-groovy</feature>
 						        <feature>camel-hazelcast</feature>
@@ -182,6 +183,7 @@
 						        <feature>camel-protobuf</feature>
 						        <feature>camel-quartz</feature>
 						        <feature>camel-quickfix</feature>
+                                <feature>camel-restlet</feature>
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
                                 <feature>camel-ruby</feature>
