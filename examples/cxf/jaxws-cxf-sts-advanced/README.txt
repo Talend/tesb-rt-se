@@ -92,8 +92,7 @@ folder (to deploy the STS and WSP at the same time) or separately, one at a
 time, from the war and sts folders.
 
 OSGi deployment: First run "mvn clean install" from the root jaxws-cxf-sts-advanced
-folder. Also, stop the OPS4J Pax Web - Jetty bundle loaded by TESB's OSGi container 
-(as the STS and Service use the same port 8080 by default.)
+folder.
 
    From the OSGi command line, run:
       karaf@trun> features:install cxf-sts
