@@ -108,6 +108,7 @@
 						        <feature>activemq</feature>
 						        <feature>activemq-blueprint</feature>
 						        <feature>activemq-spring</feature>
+                                <feature>activemq-web-console</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf</feature>
 						        <feature>cxf-sts</feature>
@@ -146,11 +147,12 @@
 						        <feature>camel-flatpack</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
+                                <feature>camel-jsch</feature>
 						        <feature>camel-guice</feature>
 						        <feature>camel-groovy</feature>
 						        <feature>camel-hazelcast</feature>
 						        <feature>camel-hawtdb</feature>
-<!--                                 <feature>camel-hdfs</feature> -->
+                                <feature>camel-hdfs</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-irc</feature>
@@ -181,6 +183,7 @@
 						        <feature>camel-protobuf</feature>
 						        <feature>camel-quartz</feature>
 						        <feature>camel-quickfix</feature>
+                                <feature>camel-restlet</feature>
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
                                 <feature>camel-ruby</feature>
