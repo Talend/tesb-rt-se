@@ -108,6 +108,7 @@
 						        <feature>activemq</feature>
 						        <feature>activemq-blueprint</feature>
 						        <feature>activemq-spring</feature>
+                                <feature>activemq-web-console</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf</feature>
 						        <feature>cxf-sts</feature>
@@ -150,7 +151,7 @@
 						        <feature>camel-groovy</feature>
 						        <feature>camel-hazelcast</feature>
 						        <feature>camel-hawtdb</feature>
-<!--                                 <feature>camel-hdfs</feature> -->
+                                <feature>camel-hdfs</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-irc</feature>
