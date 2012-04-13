@@ -104,6 +104,7 @@
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
+                                <feature>wrapper</feature>
 						        <!-- ActiveMQ Features -->
 						        <feature>activemq</feature>
 						        <feature>activemq-blueprint</feature>
