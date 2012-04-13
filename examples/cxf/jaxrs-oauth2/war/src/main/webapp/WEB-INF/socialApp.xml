@@ -71,10 +71,7 @@
               <entry key="oauth2.service.UserAccount" value="account"/>
             </map>
          </property>
-         <!--
          <property name="logRedirects" value="true"/>
-         -->
-          
      </bean>
      
      <!-- 
