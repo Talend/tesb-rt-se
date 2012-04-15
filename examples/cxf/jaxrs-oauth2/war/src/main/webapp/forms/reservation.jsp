@@ -3,11 +3,15 @@
     <title>Restaurant Reservations Form</title>
     <STYLE TYPE="text/css">
 	<!--
-	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;}
+	  div.padded {  
+         padding-left: 15em;  
+      } 
 	-->
 </STYLE>
 </head>
 <body>
+<div class="padded">
 <h1>Welcome to Restaurant Reservations Online Service</h1>
 <em></em>
 <p>
@@ -43,5 +47,6 @@
         </tr>
   </form>
  </table> 
+</div> 
 </body>
 </html>

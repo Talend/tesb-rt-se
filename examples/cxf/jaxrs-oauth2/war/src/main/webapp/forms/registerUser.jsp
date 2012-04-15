@@ -3,13 +3,18 @@
     <title>Social.com User Registration Form</title>
     <STYLE TYPE="text/css">
 	<!--
-	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;}
+	  div.padded {  
+         padding-left: 20em;  
+      } 
 	-->
 </STYLE>
 </head>
 <body>
+<div class="padded">
 <h1>Social.com User Registration Form</h1>
 <em></em>
+<br/>
 <p>
  <table>
      <form action="/services/social/registerUser" method="POST">
@@ -40,5 +45,6 @@
         </tr>
   </form>
  </table> 
+ </div>
 </body>
 </html>

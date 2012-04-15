@@ -10,10 +10,14 @@
     <STYLE TYPE="text/css">
 	<!--
 	  table { empty-cells: show; }
+	  div.padded {  
+         padding-left: 5em;  
+      } 
 	-->
 </STYLE>
 </head>
 <body>
+<div class="padded">
 <h1>User Account</h1>
 <h2>Login Information:</h2>
 <br/>
@@ -52,5 +56,6 @@ Our partner, Restaurant Reservations, is offering an online service which you ca
 Please follow this <a href="<%= basePath %>forms/reservation.jsp">link</a> to find out more.
 </p>
 </big></big>
+</div>
 </body>
 </html>

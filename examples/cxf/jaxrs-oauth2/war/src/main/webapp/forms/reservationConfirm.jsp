@@ -7,8 +7,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Restaurant Reservation Confirmation</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  div.padded {  
+         padding-left: 15em;  
+      }   
+	-->
+</STYLE>
 </head>
 <body>
+<div class="padded">
 <h1>Restaurant Reservation Confirmation</h1>
 <em></em>
 <p>
@@ -49,6 +57,6 @@ We have not been able to update your <a href="<%= basePath %>social/accounts">ca
 Back to <a href="<%= basePath %>forms/reservation.jsp">reservations</a>.
 </p>
 </big></big>
-
+</div>
 </body>
 </html>

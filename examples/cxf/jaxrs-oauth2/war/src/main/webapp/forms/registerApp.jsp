@@ -3,19 +3,22 @@
     <title>Client Application Registration Form</title>
     <STYLE TYPE="text/css">
 	<!--
-	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;} 
+	  input {font-family:verdana, arial, helvetica, sans-serif;font-size:20px;line-height:40px;}
+	  H1 { text-align: center}
+	  div.padded {  
+         padding-left: 5em;  
+      }   
 	-->
 </STYLE>
 </head>
 <body>
-<h1>Client Application Registration Form</h1>
-<em></em>
-<p>
-
- <table>
+<H1>Client Application Registration Form</H1>
+<br/>
      <form action="/services/oauth/registerProvider"
            enctype="multipart/form-data" 
            method="POST">
+       <div class="padded">  
+       <table>    
         <tr>
             <td><big><big><big>Application Name:</big></big></big></td>
             <td>
@@ -55,13 +58,17 @@
               &nbsp;
             </td>
         </tr>
+        </table>
+        </div>
+        <table align="center">
         <tr>
             <td colspan="2">
                 <input type="submit" value="    Register Your Application    "/>
             </td>
         </tr>
+        </table>
   </form>
- </table>
+ 
   
 </body>
 </html>

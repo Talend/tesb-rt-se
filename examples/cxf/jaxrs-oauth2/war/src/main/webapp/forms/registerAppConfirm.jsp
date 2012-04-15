@@ -7,8 +7,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Client Application Registration Confirmation</title>
+    <STYLE TYPE="text/css">
+	<!--
+	  div.padded {  
+         padding-left: 15em;  
+      }   
+	-->
+</STYLE>
 </head>
 <body>
+<div class="padded">
+
 <h1>Client Application Registration Confirmation</h1>
 <em></em>
 <br/>
@@ -42,7 +51,7 @@ HTTP GET and POST verbs can be used.
 Please follow this <a href="<%= basePath %>forms/registerUser.jsp">link</a> to get a user registered with Social.com
 </p>
 </big></big>
-
+</div>
 </body>
 </html>
 
