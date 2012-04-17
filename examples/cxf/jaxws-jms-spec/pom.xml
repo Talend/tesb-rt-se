@@ -21,7 +21,7 @@
 
     <properties>
         <activemq.version>5.5.0</activemq.version>
-        <cxf.version>2.6.0-SNAPSHOT</cxf.version>
+        <cxf.version>2.6.0</cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

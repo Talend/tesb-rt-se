@@ -29,7 +29,7 @@
 
     <properties>
         <camel.version>2.9.2-SNAPSHOT</camel.version>
-        <cxf.version>2.6.0-SNAPSHOT</cxf.version>
+        <cxf.version>2.6.0</cxf.version>
         <felix.version>1.2.0</felix.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
