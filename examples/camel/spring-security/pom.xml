@@ -28,7 +28,7 @@
     </modules>
 
     <properties>
-        <camel.version>2.9.2-SNAPSHOT</camel.version>
+        <camel.version>2.9.2</camel.version>
         <cxf.version>2.6.0</cxf.version>
         <felix.version>1.2.0</felix.version>
         <spring.version>3.0.6.RELEASE</spring.version>

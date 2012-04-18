@@ -21,7 +21,7 @@
     <properties>
         <activemq.version>5.5.0</activemq.version>
         <cxf.version>2.6.0</cxf.version>
-        <camel.version>2.9.2-SNAPSHOT</camel.version>
+        <camel.version>2.9.2</camel.version>
         <karaf.version>2.2.6</karaf.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <spring-security.version>3.0.6.RELEASE</spring-security.version>
