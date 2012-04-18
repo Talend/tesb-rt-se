@@ -347,6 +347,9 @@
                 <exclude>org/apache/aries/blueprint/**</exclude>
                 <!-- exclude JDBC friver because of licensing limitation -->
                 <exclude>mysql/**</exclude>
+                <exclude>ojdbc/**</exclude>
+                <exclude>com/ibm/db2/**</exclude>
+                <exclude>com/microsoft/sqlserver/**</exclude>
                 <!-- workaround for jclouds-karaf-1.3.1-features.xml -->
                 <exclude>org/jclouds/karaf/jclouds-karaf/1.3.1/jclouds-karaf-1.3.1-features.xml</exclude>
                 <!-- workaround for CXF version in Camel 2.9.2 features file -->
