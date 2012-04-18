@@ -230,7 +230,7 @@
                 <!-- include>karaf.bat</include-->
                 <!-- we need this one in here for admin:create'd instances to work -->
                 <!--include>start.bat</include-->
-                <include>stop.bat</include>
+                <!--include>stop.bat</include-->
             </includes>
             <lineEnding>dos</lineEnding>
             <fileMode>0755</fileMode>
@@ -246,7 +246,7 @@
                 <!-- include>karaf</include-->
                 <!-- we need this one in here for admin:create'd instances to work -->
                 <!--include>start</include-->
-                <include>stop</include>
+                <!--include>stop</include-->
             </includes>
             <fileMode>0755</fileMode>
         </fileSet>
@@ -428,6 +428,18 @@
         </file>
         <file>
             <source>${basedir}/src/main/bin/start</source>
+            <outputDirectory>/container/bin/</outputDirectory>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/src/main/bin/stop.bat</source>
+            <outputDirectory>/container/bin/</outputDirectory>
+            <fileMode>0755</fileMode>
+            <lineEnding>dos</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/src/main/bin/stop</source>
             <outputDirectory>/container/bin/</outputDirectory>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
