@@ -16,9 +16,6 @@ rem    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 rem    See the License for the specific language governing permissions and
 rem    limitations under the License.
 rem
-rem
-rem $Id: karaf.bat 979 2005-11-30 22:50:55Z bsnyder $
-rem
 
 if not "%ECHO%" == "" echo %ECHO%
 
@@ -27,6 +24,7 @@ set DIRNAME=%~dp0%
 set PROGNAME=%~nx0%
 set ARGS=%*
 
+rem Check console window title. Set to Karaf by default
 if not "%KARAF_TITLE%" == "" (
     title %KARAF_TITLE%
 ) else (
@@ -57,7 +55,8 @@ if not "%KARAF_BASE%" == "" (
        call :warn KARAF_BASE is not valid: "%KARAF_BASE%"
        goto END
     )
-) else (
+)
+if "%KARAF_BASE%" == "" (
   set "KARAF_BASE=%KARAF_HOME%"
 )
 
@@ -66,9 +65,10 @@ if not "%KARAF_DATA%" == "" (
         call :warn KARAF_DATA is not valid: "%KARAF_DATA%"
         goto END
     )
-) else (
-    set "KARAF_DATA=%KARAF_BASE%\data"
 )
+if "%KARAF_DATA%" == "" (
+    set "KARAF_DATA=%KARAF_BASE%\data"
+)      
 
 set LOCAL_CLASSPATH=%CLASSPATH%
 set CLASSPATH=%LOCAL_CLASSPATH%;%KARAF_BASE%\conf
@@ -166,47 +166,10 @@ if not "%JAVA%" == "" goto :Check_JAVA_END
     set JAVA=%JAVA_HOME%\bin\java
 :Check_JAVA_END
 
-rem determine whether we use a 64-bit java version
-
-set java_version_file=%time::=%
-set /a java_version_file=java_version_file
-set java_version_file=__JVER%java_version_file%%random%.tmp
-"%JAVA%" -version 2> %java_version_file%
-for /f %%G IN ('findstr "64-Bit" %java_version_file%') DO set sixtyfour=true
-del %java_version_file%
-
-rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
-
-if "%JAVA_MIN_MEM%" == "" (
-	if "%sixtyfour%" == "" (
-		set JAVA_MIN_MEM=128M 
-	) else (
-		set JAVA_MIN_MEM=256M
-	)
-)
-
-if "%JAVA_MAX_MEM%" == "" (
-	if "%sixtyfour%" == "" (
-		set JAVA_MAX_MEM=512M 
-	) else ( 
-		set JAVA_MAX_MEM=1024M
-	)
-)
-
-if "%JAVA_PERM_MEM%" == "" (
-	if "%sixtyfour%" == "" (
-		set JAVA_PERM_MEM=64M 
-	) else (
-		set JAVA_PERM_MEM=128M
-	)
-)
-
-if "%JAVA_MAX_PERM_MEM%" == "" (
-	if "%sixtyfour%" == "" (
-		set JAVA_MAX_PERM_MEM=128M 
-	) else (
-		set JAVA_MAX_PERM_MEM=256M
-	)
+rem Sourcing environment settings for karaf similar to tomcats setenv
+SET KARAF_SCRIPT="karaf.bat"
+if exist "%DIRNAME%setenv.bat" (
+  call "%DIRNAME%setenv.bat"
 )
 
 set DEFAULT_JAVA_OPTS=-server -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -XX:PermSize=%JAVA_PERM_MEM% -XX:MaxPermSize=%JAVA_MAX_PERM_MEM% -Dderby.system.home="%KARAF_DATA%\derby" -Dderby.storage.fileSyncTransactionLog=true -Dcom.sun.management.jmxremote
@@ -298,7 +261,7 @@ if "%KARAF_PROFILER%" == "" goto :RUN
     SET ARGS=%1 %2 %3 %4 %5 %6 %7 %8
     rem Execute the Java Virtual Machine
     cd %KARAF_BASE%
-    "%JAVA%" %JAVA_OPTS% %OPTS% -classpath "%CLASSPATH%" -Djava.endorsed.dirs="%JAVA_HOME%\jre\lib\endorsed;%JAVA_HOME%\lib\endorsed;%KARAF_HOME%\lib\endorsed" -Djava.ext.dirs="%JAVA_HOME%\jre\lib\ext;%JAVA_HOME%\lib\ext;%KARAF_HOME%\lib\ext" -Dkaraf.instances="%KARAF_HOME%\instances" -Dkaraf.home="%KARAF_HOME%" -Dkaraf.base="%KARAF_BASE%" -Dkaraf.data="%KARAF_DATA%" -Djava.util.logging.config.file="%KARAF_BASE%\etc\java.util.logging.properties" %KARAF_OPTS% %MAIN% %ARGS%
+    "%JAVA%" %JAVA_OPTS% %OPTS% -classpath "%CLASSPATH%" -Djava.endorsed.dirs="%JAVA_HOME%\jre\lib\endorsed;%JAVA_HOME%\lib\endorsed;%KARAF_HOME%\lib\endorsed" -Djava.ext.dirs="%JAVA_HOME%\jre\lib\ext;%JAVA_HOME%\lib\ext;%KARAF_HOME%\lib\ext" -Dkaraf.instances="%KARAF_HOME%\instances" -Dkaraf.home="%KARAF_HOME%" -Dkaraf.base="%KARAF_BASE%" -Djava.io.tmpdir="%KARAF_DATA%\tmp" -Dkaraf.data="%KARAF_DATA%" -Djava.util.logging.config.file="%KARAF_BASE%\etc\java.util.logging.properties" %KARAF_OPTS% %MAIN% %ARGS%
 
 rem # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 

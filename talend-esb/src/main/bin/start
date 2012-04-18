@@ -19,14 +19,9 @@
 DIRNAME=`dirname "$0"`
 PROGNAME=`basename "$0"`
 
-#
-# Sourcing environment settings for karaf similar to tomcats setenv 
-#
+
 KARAF_SCRIPT="start"
 export KARAF_SCRIPT
-if [ -f "$DIRNAME/setenv" ]; then
-  . "$DIRNAME/setenv"
-fi
 
 warn() {
     echo "${PROGNAME}: $*"
@@ -124,7 +119,7 @@ run() {
     if [ ! -d "$KARAF_DATA/log" ]; then
         mkdir -p "$KARAF_DATA/log"
     fi
-    exec "$KARAF_HOME"/bin/karaf server "$@" >> "$KARAF_DATA/karaf.out" 2>&1 &
+    exec "$KARAF_HOME"/bin/tesb server "$@" >> "$KARAF_DATA/karaf.out" 2>&1 &
 }
 
 main() {

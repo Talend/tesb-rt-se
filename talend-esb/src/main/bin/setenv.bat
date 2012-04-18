@@ -55,3 +55,45 @@ rem SET KARAF_BASE
 rem Additional available Karaf options
 rem SET KARAF_OPTS
 
+rem determine whether we use a 64-bit java version
+
+set java_version_file=%time::=%
+set /a java_version_file=java_version_file
+set java_version_file=__JVER%java_version_file%%random%.tmp
+"%JAVA%" -version 2> %java_version_file%
+for /f %%G IN ('findstr "64-Bit" %java_version_file%') DO set sixtyfour=true
+del %java_version_file%
+
+rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
+
+if "%JAVA_MIN_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MIN_MEM=128M 
+	) else (
+		set JAVA_MIN_MEM=256M
+	)
+)
+
+if "%JAVA_MAX_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MAX_MEM=512M 
+	) else ( 
+		set JAVA_MAX_MEM=1024M
+	)
+)
+
+if "%JAVA_PERM_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_PERM_MEM=64M 
+	) else (
+		set JAVA_PERM_MEM=128M
+	)
+)
+
+if "%JAVA_MAX_PERM_MEM%" == "" (
+	if "%sixtyfour%" == "" (
+		set JAVA_MAX_PERM_MEM=128M 
+	) else (
+		set JAVA_MAX_PERM_MEM=256M
+	)
+)
