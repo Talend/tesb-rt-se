@@ -77,6 +77,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
     private final ClientFactoryBean clientFactory;
 
+    private Client client;
+
     public RuntimeESBConsumer(final QName serviceName, 
             final QName portName,
             String operationName, 
@@ -211,7 +213,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     }
 
     private Object sendDocument(org.dom4j.Document doc) throws Exception {
-        Client client = createClient();
+        Client client = getClient();
         try {
             Object[] result = client.invoke(operationName,
                     DOM4JMarshaller.documentToSource(doc));
@@ -230,21 +232,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 exception.initCause(e);
             }
             throw exception;
-        } finally {
-            client.destroy();
         }
         return null;
     }
 
-    private Client createClient() throws BusException, EndpointException {
-        Client client = clientFactory.create();
+    private Client getClient() throws BusException, EndpointException {
+        if (client == null) {
+            client = clientFactory.create();
 
-        final Service service = client.getEndpoint().getService();
-        service.setDataBinding(new SourceDataBinding());
+            final Service service = client.getEndpoint().getService();
+            service.setDataBinding(new SourceDataBinding());
 
-        final ServiceInfo si = service.getServiceInfos().get(0);
-        ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
-
+            final ServiceInfo si = service.getServiceInfos().get(0);
+            ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
+        }
         return client;
     }
 
