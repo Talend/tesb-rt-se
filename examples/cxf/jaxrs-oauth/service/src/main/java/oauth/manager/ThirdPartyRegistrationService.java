@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -82,6 +83,19 @@ public class ThirdPartyRegistrationService {
 		newClient.setApplicationDescription(appDesc);
 		newClient.setLogoUri(logoURI.toString());
 		
+		manager.registerClient(newClient);
+		return new ConsumerRegistration(clientId, clientSecret);
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/")
+	public ConsumerRegistration registerForm(@FormParam("appName") String appName,
+			@FormParam("appURI") String appURI) {
+	    String clientId = generateClientId(appName, appURI);
+		String clientSecret = generateClientSecret();
+	
+		Client newClient = new Client(clientId, clientSecret, appName, appURI);
 		manager.registerClient(newClient);
 		return new ConsumerRegistration(clientId, clientSecret);
 	}
