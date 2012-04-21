@@ -50,20 +50,6 @@ config:propset endpoint.https.prefix https://localhost:$4/services
 config:update
 
 echo
-echo "SAM agent configuration (etc/org.talend.esb.sam.agent.cfg)"
-config:edit --force org.talend.esb.sam.agent
-echo "service.url = http://localhost:$3/services/MonitoringServiceSOAP"
-config:propset service.url http://localhost:$3/services/MonitoringServiceSOAP
-config:update
-
-echo
-echo "DataService client sts configuration (etc/org.talend.esb.job.client.sts.cfg)"
-config:edit --force org.talend.esb.job.client.sts
-echo "sts.wsdl.location = http://localhost:$3/services/SecurityTokenService/UT?wsdl"
-config:propset sts.wsdl.location http://localhost:$3/services/SecurityTokenService/UT?wsdl
-config:update
-
-echo
 echo "Jobserver configuration (etc/org.talend.remote.jobserver.server.cfg)"
 config:edit --force org.talend.remote.jobserver.server
 echo "org.talend.remote.jobserver.server.TalendJobServer.COMMAND_SERVER_PORT = $6"
