@@ -119,7 +119,7 @@ run() {
     if [ ! -d "$KARAF_DATA/log" ]; then
         mkdir -p "$KARAF_DATA/log"
     fi
-    exec "$KARAF_HOME"/bin/tesb server "$@" >> "$KARAF_DATA/karaf.out" 2>&1 &
+    exec "$KARAF_HOME"/bin/trun server "$@" >> "$KARAF_DATA/karaf.out" 2>&1 &
 }
 
 main() {
