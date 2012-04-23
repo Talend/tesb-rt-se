@@ -23,8 +23,8 @@
         <cxf.version>2.6.0</cxf.version>
         <camel.version>2.9.2</camel.version>
         <karaf.version>2.2.6</karaf.version>
-        <spring.version>3.0.6.RELEASE</spring.version>
-        <spring-security.version>3.0.6.RELEASE</spring-security.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
+        <spring-security.version>${spring.version}</spring-security.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
         <slf4j.version>1.6.1</slf4j.version>
         <features.file>features.xml</features.file>

@@ -19,7 +19,7 @@
 
     <properties>
         <http.port>8080</http.port>
-        <spring.version>3.0.6.RELEASE</spring.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
     </properties>
 
     <dependencies>

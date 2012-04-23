@@ -49,12 +49,12 @@
         <feature version="${camel.version}">camel-servlet</feature>
         <feature>http</feature>
         
-        <bundle>mvn:org.springframework/spring-core/3.0.6.RELEASE</bundle>
-        <bundle>mvn:org.springframework/spring-beans/3.0.6.RELEASE</bundle>
-        <bundle>mvn:org.springframework/spring-context/3.0.6.RELEASE</bundle>
-        <bundle>mvn:org.springframework/spring-aop/3.0.6.RELEASE</bundle>
-        <bundle>mvn:org.springframework.security/spring-security-web/3.0.6.RELEASE</bundle>
-        <bundle>mvn:org.springframework/spring-web/3.0.6.RELEASE</bundle>
+        <bundle>mvn:org.springframework/spring-core/${spring.version}</bundle>
+        <bundle>mvn:org.springframework/spring-beans/${spring.version}</bundle>
+        <bundle>mvn:org.springframework/spring-context/${spring.version}</bundle>
+        <bundle>mvn:org.springframework/spring-aop/${spring.version}</bundle>
+        <bundle>mvn:org.springframework.security/spring-security-web/${spring-security.version}</bundle>
+        <bundle>mvn:org.springframework/spring-web/${spring.version}</bundle>
 
         <bundle>mvn:org.talend.camel-examples.spring-security/spring-security-common/${project.version}</bundle>
         <bundle>mvn:org.talend.camel-examples.spring-security/spring-security-server/${project.version}</bundle>
