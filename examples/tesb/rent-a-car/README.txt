@@ -57,15 +57,17 @@ Install/Deploy the Example
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sl-sam/<version>/xml
       features:install tesb-rac-services-sl-sam
       features:install tesb-rac-app-sl-sam
+      (Note: Zookeeper server and SAM server should be started before install features for this scenorio.)
    For Security Token Service enabled Rent-a-Car example:
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
       features:install tesb-rac-services-sts
       features:install tesb-rac-app-sts
+      (Note: STS server should be started before install features for this scenorio.)
    For all fesatures enabled Rent-a-Car example:
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-all/<version>/xml
       features:install tesb-rac-services-all
       features:install tesb-rac-app-all
-
+      (Note: Zookeeper server, SAM server and STS server should be started before install features for this scenorio.)
 Running the Example
 -------------------
 From the TESB container console, these commands are available after Rent-a-Car example installed.

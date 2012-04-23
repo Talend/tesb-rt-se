@@ -9,9 +9,26 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
-Rent-a-Car Description Example 
-=======================================
-How to install rent-a-car demo features to OSGI container:
+Rent-a-Car Example features
+===========================
+
+
+Build Rent-a-Car Example features
+---------------------------------
+From the base directory of this example (i.e., where this README file is
+located), the maven pom.xml file can be used to build this example. 
+
+Using maven commands on either UNIX/Linux or Windows:
+(JDK 1.6.0 and Maven 3.0.3 or later required)
+
+mvn clean install                 (building feature for basic Rent-a-Car example)
+mvn clean install -Pslsam         (building feature for Service Locator and Service Activity Monitoring enabled Rent-a-Car example)
+mvn clean install -Psts           (building feature for Security Token Service enabled Rent-a-Car example)
+mvn clean install -Pall           (building feature for Rent-a-Car example that enabled with all tesb features: SL, SAM, STS)
+
+
+How to install Rent-a-Car Example features to OSGI container
+------------------------------------------------------------
 
 Rent A Car Basic:
 features:addurl mvn:org.talend.esb.examples.rent-a-car/features/<version>/xml
