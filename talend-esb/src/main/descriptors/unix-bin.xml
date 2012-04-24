@@ -217,6 +217,8 @@
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
+                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+                <exclude>system/org/apache/felix/org.apache.felix.fileinstall/**</exclude>
             </excludes>
         </fileSet>
 
@@ -356,6 +358,9 @@
                 <!-- workaround for CXF version in Camel 2.9.2 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/cxf/karaf/apache-cxf/2.5.2/**</exclude>
+                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+                <exclude>org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/felix/org.apache.felix.fileinstall/**</exclude>
             </excludes>
         </fileSet>
 
@@ -463,6 +468,12 @@
             <destName>apache-camel-${camel.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
+        </file>
+        <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.felix.fileinstall-3.2.2.jar</source>
+            <outputDirectory>/container/system/org/apache/felix/org.apache.felix.fileinstall/3.2.2/</outputDirectory>
+            <fileMode>0644</fileMode>
         </file>
     </files>
 

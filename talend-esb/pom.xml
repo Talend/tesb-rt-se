@@ -46,6 +46,13 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
+          <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.fileinstall</artifactId>
+            <version>3.2.0</version>
+            <type>jar</type>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -270,6 +277,14 @@
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>apache-camel-${camel.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.apache.felix.fileinstall</artifactId>
+                                    <version>3.2.2</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
 							</artifactItems>
 						</configuration>
@@ -524,7 +539,7 @@
 						</goals>
 					</execution>
                     <execution>
-                        <id>patch-camel-features-file</id>
+                        <id>patch-features-files</id>
                         <phase>process-resources</phase>
                         <configuration>
                             <target>
@@ -532,10 +547,31 @@
                                     <replacefilter
                                         token="apache-cxf/2.5.2/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
+<!--                                     <replacefilter -->
+<!--                                         token="&lt;feature version='[2.4,2.6)'&gt;cxf" -->
+<!--                                         value="&lt;feature version='[2.4,3)'&gt;cxf"/> -->
+                                </replace>
+                                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
+                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/system/org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
                                     <replacefilter
-                                        token="&lt;feature version='[2.4,2.6)'&gt;cxf"
-                                        value="&lt;feature version='[2.4,3)'&gt;cxf"/>
-                                </replace>  
+                                        token="apache.felix/org.apache.felix.fileinstall/3.2.0"
+                                        value="apache.felix/org.apache.felix.fileinstall/3.2.2"/>
+                                </replace>
+                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/etc/startup.properties ">
+                                    <replacefilter
+                                        token="org/apache/felix/org.apache.felix.fileinstall/3.2.0/org.apache.felix.fileinstall-3.2.0"
+                                        value="org/apache/felix/org.apache.felix.fileinstall/3.2.2/org.apache.felix.fileinstall-3.2.2"/>
+                                </replace>
+                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/system/org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="apache.felix/org.apache.felix.fileinstall/3.2.0"
+                                        value="apache.felix/org.apache.felix.fileinstall/3.2.2"/>
+                                </replace>
+                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/etc/startup.properties ">
+                                    <replacefilter
+                                        token="org/apache/felix/org.apache.felix.fileinstall/3.2.0/org.apache.felix.fileinstall-3.2.0"
+                                        value="org/apache/felix/org.apache.felix.fileinstall/3.2.2/org.apache.felix.fileinstall-3.2.2"/>
+                                </replace>
                             </target>
                         </configuration>
                         <goals>
