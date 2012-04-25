@@ -557,7 +557,7 @@
                                         token="apache.felix/org.apache.felix.fileinstall/3.2.0"
                                         value="apache.felix/org.apache.felix.fileinstall/3.2.2"/>
                                 </replace>
-                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/etc/startup.properties ">
+                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/etc/startup.properties">
                                     <replacefilter
                                         token="org/apache/felix/org.apache.felix.fileinstall/3.2.0/org.apache.felix.fileinstall-3.2.0"
                                         value="org/apache/felix/org.apache.felix.fileinstall/3.2.2/org.apache.felix.fileinstall-3.2.2"/>
@@ -567,7 +567,7 @@
                                         token="apache.felix/org.apache.felix.fileinstall/3.2.0"
                                         value="apache.felix/org.apache.felix.fileinstall/3.2.2"/>
                                 </replace>
-                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/etc/startup.properties ">
+                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/etc/startup.properties">
                                     <replacefilter
                                         token="org/apache/felix/org.apache.felix.fileinstall/3.2.0/org.apache.felix.fileinstall-3.2.0"
                                         value="org/apache/felix/org.apache.felix.fileinstall/3.2.2/org.apache.felix.fileinstall-3.2.2"/>
