@@ -39,7 +39,7 @@
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>features-maven-plugin</artifactId>
-				<version>2.99.99-SNAPSHOT</version>
+				<version>2.2.6</version>
 				<executions>
 					<execution>
 						<id>archive-kar</id>
