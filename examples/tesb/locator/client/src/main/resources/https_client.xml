@@ -39,11 +39,11 @@
     <http:tlsClientParameters disableCNCheck="true">
       <sec:trustManagers>
           <sec:keyStore type="JKS" password="password"
-               resource="certs/truststore_111.jks"/>
+               resource="certs/keystore.jks"/>
       </sec:trustManagers>
       <sec:keyManagers keyPassword="password">
            <sec:keyStore type="JKS" password="password" 
-                resource="certs/client_111.jks"/>
+                resource="certs/keystore.jks"/>
       </sec:keyManagers>
       <sec:cipherSuitesFilter>
         <!-- these filters ensure that a ciphersuite with
