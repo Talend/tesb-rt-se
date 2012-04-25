@@ -1,6 +1,6 @@
 /*
  * #%L
- * TIF :: Talend Component
+ * Camel Talend Job Component
  * %%
  * Copyright (C) 2011 - 2012 Talend Inc.
  * %%

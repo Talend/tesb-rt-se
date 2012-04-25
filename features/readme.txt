@@ -13,11 +13,35 @@ List of TESB features:
 
 tesb-sam-agent
 --------------
-install the Agent to the OSGi Container.
+install the Service Activity Monitoring Agent to the Talend ESB Container.
 
 tesb-derby-starter
 ------------------
-install the Derby database into the OSGI container and start running it.
+install the Derby database into the Talend ESB container and start running it.
+
+tesb-datasource-derby
+---------------------
+install the Datasource for Derby into the Talend ESB container.
+
+tesb-datasource-h2
+------------------
+install the Datasource for H2 into the Talend ESB container.
+
+tesb-datasource-mysql
+---------------------
+install the Datasource for MySQL into the Talend ESB container.
+
+tesb-datasource-oracle
+----------------------
+install the Datasource for Oracle into the Talend ESB container.
+
+tesb-datasource-db2
+-------------------
+install the Datasource for DB2 into the Talend ESB container.
+
+tesb-datasource-sqlserver
+-------------------------
+install the Datasource for SQLServer into the Talend ESB container.
 
 tesb-sam-server
 ---------------
@@ -39,10 +63,18 @@ tesb-zookeeper-server
 ---------------------
 install and run zookeeper server in a Talend ESB container.
 
-talend-job-api
----------------------
-install Talend Job API in a Talend ESB container.
-
 talend-job-controller
 ---------------------
 install and run Job Controller in a Talend ESB container.
+
+tesb-sts
+--------
+install cxf-sts and configuration into the Talend ESB container.
+
+camel-talendjob
+---------------
+install camel-talendjob bundle into the Talend ESB container.
+
+tesb-jmx-http-agent
+-------------------
+install jolokia OSGi agent into the Talend ESB container.
