@@ -81,8 +81,8 @@ client/   - This is a sample client application that uses
 
 Using either UNIX or Windows:
 
-    From the example parent directory (i.e., Talend-ESB-<version>/examples/talend/tesb),
-    run the following command to install the example parent pom file: Talend-ESB-examples-<version>.pom into local maven repo.
+    From the example parent directories (i.e., Talend-ESB-<version>/examples/talend, Talend-ESB-<version>/examples/talend/tesb),
+    run the following command to install the example parent pom files: talend-esb-examples-<version>.pom and talend-esb-examples-parent-<version>.pom into local maven repo.
 
     mvn install --non-recursive 
 
