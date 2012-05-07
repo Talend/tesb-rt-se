@@ -44,6 +44,9 @@
 # export KARAF_BASE # Karaf base folder
 # export KARAF_OPTS # Additional available Karaf options
 
+JAVA_64BIT_SOLARIS=true
+export JAVA_64BIT_SOLARIS # use 64bit jvm mode on solaris
+
 #
 # Check/Set up some easily accessible MIN/MAX params for JVM mem usage
 #

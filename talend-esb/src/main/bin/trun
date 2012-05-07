@@ -52,6 +52,7 @@ detectOS() {
     darwin=false;
     aix=false;
     os400=false;
+	sunos=false;
     case "`uname`" in
         CYGWIN*)
             cygwin=true
@@ -65,6 +66,8 @@ detectOS() {
         OS400*)
             os400=true
             ;;
+    	SunOS*)
+    		sunos=true
     esac
     # For AIX, set an environment variable
     if $aix; then
@@ -240,6 +243,13 @@ setupDefaults() {
     #Set the JVM_VENDOR specific JVM flags
     if [ "$JVM_VENDOR" = "SUN" ]; then
         DEFAULT_JAVA_OPTS="-server $DEFAULT_JAVA_OPTS -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=$JAVA_PERM_MEM -XX:MaxPermSize=$JAVA_MAX_PERM_MEM -Dcom.sun.management.jmxremote"
+    	if $sunos; then
+     		if $JAVA_64BIT_SOLARIS; then
+   				DEFAULT_JAVA_OPTS="-d64 $DEFAULT_JAVA_OPTS"
+   			else
+   				DEFAULT_JAVA_OPTS="-d32 $DEFAULT_JAVA_OPTS"
+   			fi
+		fi
     elif [ "$JVM_VENDOR" = "IBM" ]; then
         if $os400; then
             DEFAULT_JAVA_OPTS="$DEFAULT_JAVA_OPTS"
