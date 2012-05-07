@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>datasource-service</artifactId>
-        <version>5.1.0</version>
+        <version>5.1.1-SNAPSHOT</version>
     </parent>
 
     <name>Service Activity Monitoring :: Datasource-mysql</name>
