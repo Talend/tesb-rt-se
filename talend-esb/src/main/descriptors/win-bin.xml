@@ -215,6 +215,8 @@
                 <exclude>etc/shell.init.script</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
+                <exclude>LICENSE</exclude>
+                <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
                 <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
