@@ -263,8 +263,6 @@
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>conf/jetty.xml</exclude>
-                <!-- https://issues.apache.org/jira/browse/AMQ-3491 -->
-                <exclude>webapps/camel/**</exclude>
             </excludes>
         </fileSet>
 
