@@ -47,6 +47,9 @@
 JAVA_64BIT_SOLARIS=true
 export JAVA_64BIT_SOLARIS # use 64bit jvm mode on solaris
 
+DUMP_JAVA_OPTS=false
+export DUMP_JAVA_OPTS # dump java options
+
 #
 # Check/Set up some easily accessible MIN/MAX params for JVM mem usage
 #

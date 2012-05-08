@@ -222,6 +222,14 @@ detectJVM() {
 setupDebugOptions() {
     if [ "x$JAVA_OPTS" = "x" ]; then
         JAVA_OPTS="$DEFAULT_JAVA_OPTS"
+        if $DUMP_JAVA_OPTS; then
+        	echo JAVA_OPTS = $JAVA_OPTS
+        fi
+    else
+        if $DUMP_JAVA_OPTS; then
+        	echo JAVA_OPTS = $JAVA_OPTS
+        	echo DEFAULT_JAVA_OPTS_NOT_USED = $DEFAULT_JAVA_OPTS
+        fi    	
     fi
     export JAVA_OPTS
 
