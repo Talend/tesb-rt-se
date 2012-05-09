@@ -395,6 +395,15 @@
             </excludes>
         </fileSet>
 
+		<!-- Adapters -->
+        <fileSet>
+            <directory>target/dependencies/adapters</directory>
+            <outputDirectory>/add-ons/adapters</outputDirectory>
+            <excludes>
+            	<exclude>LICENSE.txt</exclude>
+            </excludes>
+        </fileSet>
+
         <!-- version.txt -->
         <fileSet>
             <directory>${basedir}/..</directory>
