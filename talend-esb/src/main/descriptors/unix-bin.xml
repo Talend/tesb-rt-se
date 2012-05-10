@@ -483,6 +483,14 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
+        <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
+        <file>
+            <source>${basedir}/target/dependencies/apache-cxf-${cxf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/cxf/karaf/apache-cxf/${cxf.version}/</outputDirectory>
+            <destName>apache-cxf-${cxf.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
         <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.felix.fileinstall-3.2.2.jar</source>
