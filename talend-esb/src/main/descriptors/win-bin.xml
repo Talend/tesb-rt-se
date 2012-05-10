@@ -362,6 +362,8 @@
                 <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
                 <exclude>org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/felix/org.apache.felix.fileinstall/**</exclude>
+                <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
+                <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
             </excludes>
         </fileSet>
 
