@@ -20,7 +20,7 @@
     </parent>
 
     <properties>
-        <activemq.version>5.5.0</activemq.version>
+        <activemq.version>5.5.1</activemq.version>
         <cxf.version>2.6.0</cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

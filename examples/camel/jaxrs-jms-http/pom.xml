@@ -29,7 +29,7 @@
     </modules>
 
     <properties>
-        <activemq.version>5.5.0</activemq.version>
+        <activemq.version>5.5.1</activemq.version>
         <cxf.version>2.6.0</cxf.version>
         <camel.version>2.9.2</camel.version>
         <spring.version>3.0.7.RELEASE</spring.version>
