@@ -59,10 +59,12 @@
             <version>3.2.2</version>
             <type>jar</type>
         </dependency>
+		<!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
 		<dependency>
             <groupId>org.apache.servicemix.specs</groupId>
 			<artifactId>org.apache.servicemix.specs.saaj-api-1.3</artifactId>
             <version>1.8.0</version>
+			<type>jar</type>
         </dependency>
 	</dependencies>
 
