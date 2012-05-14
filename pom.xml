@@ -139,6 +139,7 @@
         <module>sts</module>
         <module>zookeeper-server</module>
         <module>camel-talendjob</module>
+        <module>esb-cxfcontinuation</module>
     </modules>
 
 	<dependencyManagement>
