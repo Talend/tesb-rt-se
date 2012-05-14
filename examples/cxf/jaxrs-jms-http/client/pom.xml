@@ -16,7 +16,7 @@
     </parent>
     
     <properties>
-        <http.port>8080</http.port>
+        <http.port>8040</http.port>
     </properties>
     
     <build>
