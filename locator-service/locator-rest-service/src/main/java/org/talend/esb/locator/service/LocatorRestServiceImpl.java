@@ -31,22 +31,27 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.SLEndpoint;
+import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.services.esb.locator.rest.v1.LocatorService;
+import org.w3c.dom.Document;
 
 public class LocatorRestServiceImpl implements LocatorService {
 
@@ -377,8 +382,32 @@ public class LocatorRestServiceImpl implements LocatorService {
      */
     private W3CEndpointReference buildEndpoint(QName serviceName, String adress) {
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
-        //builder.serviceName(serviceName);
+        // builder.serviceName(serviceName);
         builder.address(adress);
+        SLEndpoint endpoint = null;
+        try {
+            endpoint = locatorClient.getEndpoint(serviceName, adress);
+        } catch (ServiceLocatorException e) {
+            throw new WebApplicationException(Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build());
+        } catch (InterruptedException e) {
+            throw new WebApplicationException(Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build());
+        }
+        if (endpoint != null) {
+            SLProperties properties = endpoint.getProperties();
+            if (properties != null && !properties.getPropertyNames().isEmpty()) {
+                EndpointTransformerImpl transformer = new EndpointTransformerImpl();
+
+                DOMResult result = new DOMResult();
+                transformer.writePropertiesTo(properties, result);
+                Document docResult = (Document) result.getNode();
+
+                builder.metadata(docResult.getDocumentElement());
+            }
+        }
         return builder.build();
     }
 }
