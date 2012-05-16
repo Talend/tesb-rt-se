@@ -42,6 +42,8 @@ import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.SLEndpoint;
+import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
@@ -54,6 +56,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     private final static String QNAME_LOCALPART1 = "TestServiceProvider";
     private List<String> names;
     private LocatorRestServiceImpl lps;
+    private SLEndpoint endpoint;
 
     @Before
     public void setup() {
@@ -66,6 +69,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         lps.setLocatorEndpoints("localhost:2181");
         lps.setConnectionTimeout(5000);
         lps.setSessionTimeout(5000);
+        endpoint = createMock(SLEndpoint.class);
     }
     
     @Test
@@ -82,6 +86,10 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         names.clear();
         names.add(ENDPOINTURL);
         expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        expect(sl.getEndpoint(SERVICE_NAME, ENDPOINTURL)).andStubReturn(
+                endpoint);
+        expect(endpoint.getProperties()).andStubReturn(
+                SLPropertiesImpl.EMPTY_PROPERTIES);
         replayAll();
 
         W3CEndpointReference endpointRef, expectedRef;
@@ -137,6 +145,10 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         names.clear();
         names.add(ENDPOINTURL);
         expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        expect(sl.getEndpoint(SERVICE_NAME, ENDPOINTURL)).andStubReturn(
+                endpoint);
+        expect(endpoint.getProperties()).andStubReturn(
+                SLPropertiesImpl.EMPTY_PROPERTIES);
         replayAll();
 
         W3CEndpointReference expectedRef;
