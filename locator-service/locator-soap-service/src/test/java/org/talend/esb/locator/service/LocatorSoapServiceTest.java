@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
@@ -50,6 +51,8 @@ import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
+import org.w3c.dom.Document;
 
 public class LocatorSoapServiceTest extends EasyMockSupport {
 
@@ -203,6 +206,43 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
         // builder.serviceName(SERVICE_NAME);
         builder.address(ENDPOINTURL);
+        expectedRef = builder.build();
+
+        endpointRef = lps.lookupEndpoint(SERVICE_NAME, null);
+
+        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+
+    }
+
+    @Test
+    public void lookUpEndpointWithReturnProps() throws InterruptedExceptionFault,
+            ServiceLocatorFault, ServiceLocatorException, InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+
+        SLPropertiesImpl slPropertiesImpl = new SLPropertiesImpl();
+        List<String> list = new ArrayList<String>();
+        slPropertiesImpl.addProperty("test", list);
+
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        expect(sl.getEndpoint(SERVICE_NAME, ENDPOINTURL)).andStubReturn(
+                endpoint);
+        expect(endpoint.getProperties()).andStubReturn(slPropertiesImpl);
+        replayAll();
+
+        W3CEndpointReference endpointRef, expectedRef;
+        W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
+        // builder.serviceName(SERVICE_NAME);
+        builder.address(ENDPOINTURL);
+
+        EndpointTransformerImpl transformer = new EndpointTransformerImpl();
+
+        DOMResult result = new DOMResult();
+        transformer.writePropertiesTo(slPropertiesImpl, result);
+        Document docResult = (Document) result.getNode();
+
+        builder.metadata(docResult.getDocumentElement());
+
         expectedRef = builder.build();
 
         endpointRef = lps.lookupEndpoint(SERVICE_NAME, null);
