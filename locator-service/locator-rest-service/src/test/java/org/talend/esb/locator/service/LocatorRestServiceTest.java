@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import junit.framework.Assert;
@@ -46,6 +47,8 @@ import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
+import org.w3c.dom.Document;
 
 public class LocatorRestServiceTest extends EasyMockSupport {
 
@@ -104,6 +107,42 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
     }
     
+    @Test
+    public void lookUpEndpointWithReturnProps() throws ServiceLocatorException, InterruptedException {
+        names.clear();
+        names.add(ENDPOINTURL);
+
+        SLPropertiesImpl slPropertiesImpl = new SLPropertiesImpl();
+        List<String> list = new ArrayList<String>();
+        slPropertiesImpl.addProperty("test", list);
+
+        expect(sl.lookup(SERVICE_NAME)).andStubReturn(names);
+        expect(sl.getEndpoint(SERVICE_NAME, ENDPOINTURL)).andStubReturn(
+                endpoint);
+        expect(endpoint.getProperties()).andStubReturn(slPropertiesImpl);
+        replayAll();
+
+        W3CEndpointReference endpointRef, expectedRef;
+        W3CEndpointReferenceBuilder builder = new W3CEndpointReferenceBuilder();
+        // builder.serviceName(SERVICE_NAME);
+        builder.address(ENDPOINTURL);
+
+        EndpointTransformerImpl transformer = new EndpointTransformerImpl();
+
+        DOMResult result = new DOMResult();
+        transformer.writePropertiesTo(slPropertiesImpl, result);
+        Document docResult = (Document) result.getNode();
+
+        builder.metadata(docResult.getDocumentElement());
+
+        expectedRef = builder.build();
+
+        endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
+
+        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+
+    }
+
     @Test(expected = WebApplicationException.class)
     public void lookUpEndpointExpectedLocatorException() throws ServiceLocatorException,
             InterruptedException {
