@@ -52,7 +52,7 @@
         <camel.version>2.9.2</camel.version>
         <spring.version>3.0.7.RELEASE</spring.version>
         <karaf.version>2.2.6</karaf.version>
-        <activemq.version>5.5.0</activemq.version>
+        <activemq.version>5.5.1</activemq.version>
         <eclipse.osgi.version>3.6.2.R36x_v20110210</eclipse.osgi.version>
         <zookeeper.version>3.3.4</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
