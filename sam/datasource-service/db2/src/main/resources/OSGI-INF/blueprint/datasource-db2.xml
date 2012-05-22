@@ -38,6 +38,7 @@
         <property name="portNumber" value="${datasource.portNumber}"/>
         <property name="user" value="${datasource.user}"/>
         <property name="password" value="${datasource.password}"/>
+		<property name="driverType" value="4"/>
     </bean>
     
     <service ref="dataSource" interface="javax.sql.DataSource">
