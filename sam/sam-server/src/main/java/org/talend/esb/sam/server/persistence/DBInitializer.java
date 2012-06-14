@@ -77,6 +77,7 @@ public class DBInitializer implements InitializingBean {
             }
             ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), true, false);
             sr.setLogWriter(null);
+            sr.setErrorLogWriter(null);
             sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
         }
     }
