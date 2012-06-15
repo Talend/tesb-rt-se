@@ -8,9 +8,9 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -92,7 +92,7 @@
   </feature>
 
   <feature name='tesb-sam-server' version='${project.version}'>
-    <!--configfile finalname="/etc/org.talend.esb.sam.server.cfg">mvn:org.talend.esb/sam-server/${project.version}/cfg/org.talend.esb.sam.server</configfile-->
+    <configfile finalname="/etc/org.talend.esb.sam.server.cfg">mvn:org.talend.esb/sam-server/${project.version}/cfg/org.talend.esb.sam.server</configfile>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
     <feature version='[3,4)'>spring-jdbc</feature>
@@ -132,7 +132,7 @@
         <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
         <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>
   </feature>
-  
+
   <feature name='tesb-locator-rest-service' version='${project.version}'>
         <feature>tesb-locator-client</feature>
         <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
@@ -156,7 +156,7 @@
         <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.service</configfile>
         <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client</configfile>
         <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client.sts</configfile>
-        <configfile finalname="/etc/org.talend.esb.job.client.https.xml">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/xml/org.talend.esb.job.client.https</configfile>        
+        <configfile finalname="/etc/org.talend.esb.job.client.https.xml">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/xml/org.talend.esb.job.client.https</configfile>
         <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/clientKeystore</configfile>
         <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/jks/clientstore</configfile>
         <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/serviceKeystore</configfile>
