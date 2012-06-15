@@ -30,7 +30,7 @@
         </cm:default-properties>
     </cm:property-placeholder>
     
-    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleConnectionPoolDataSource">
         <property name="URL" value="${datasource.url}"/>
         <property name="user" value="${datasource.user}"/>
         <property name="password" value="${datasource.password}"/>
