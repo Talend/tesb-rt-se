@@ -20,21 +20,35 @@
   -->
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0" 
+    default-activation="lazy">
 
     <cm:property-placeholder persistent-id="org.talend.esb.datasource.oracle" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="datasource.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
             <cm:property name="datasource.user" value="test"/>
             <cm:property name="datasource.password" value="test"/>
+            <cm:property name="datasource.connectionCacheProperties.minLimit" value="1"/>
+            <cm:property name="datasource.connectionCacheProperties.maxLimit" value="5"/>
+            <cm:property name="datasource.connectionCacheProperties.initialLimit" value="1"/>
+            <cm:property name="datasource.connectionCacheProperties.connectionWaitTimeout" value="200"/>
         </cm:default-properties>
     </cm:property-placeholder>
     
-    <bean id="dataSource" class="oracle.jdbc.pool.OracleConnectionPoolDataSource">
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+        <property name="connectionCachingEnabled" value="true" />
         <property name="URL" value="${datasource.url}"/>
         <property name="user" value="${datasource.user}"/>
         <property name="password" value="${datasource.password}"/>
-    </bean>
+        <property name="connectionCacheProperties">
+            <props>
+                <prop key="MinLimit">${datasource.connectionCacheProperties.minLimit}</prop>
+                <prop key="MaxLimit">${datasource.connectionCacheProperties.maxLimit}</prop>
+                <prop key="InitialLimit">${datasource.connectionCacheProperties.initialLimit}</prop>
+                <prop key="ConnectionWaitTimeout">${datasource.connectionCacheProperties.connectionWaitTimeout}</prop>
+           </props>       
+        </property>
+   </bean>
     
     <service ref="dataSource" interface="javax.sql.DataSource">
         <service-properties>
