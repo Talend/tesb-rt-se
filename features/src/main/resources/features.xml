@@ -58,6 +58,7 @@
     <configfile finalname="/etc/org.talend.esb.datasource.mysql.cfg">mvn:org.talend.esb/ds-service-mysql/${project.version}/cfg/org.talend.esb.datasource.mysql</configfile>
     <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.stax-api-1.0/1.9.0</bundle>
     <bundle>mvn:mysql/mysql-connector-java/5.1.18</bundle>
+    <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-mysql/${project.version}</bundle>
   </feature>
 
