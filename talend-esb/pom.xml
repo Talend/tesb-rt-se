@@ -37,7 +37,6 @@
 <!--         <adapters.version>${project.version}</adapters.version> -->
         <adapters.version>5.1.1</adapters.version>
         <!-- locatorCli -->
-        <log4j.version>1.2.15</log4j.version>
 	</properties>
 
 	<dependencies>

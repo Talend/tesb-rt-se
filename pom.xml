@@ -121,6 +121,7 @@
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
         <jolokia.version>1.0.2</jolokia.version>
         <h2database.version>1.3.165</h2database.version>
+        <log4j.version>1.2.17</log4j.version>
 
         <cxf.build-utils.version>2.4.0</cxf.build-utils.version>
         <cxf.resources.base.path />
