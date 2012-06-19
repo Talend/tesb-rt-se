@@ -219,8 +219,6 @@
                 <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
-                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
-                <exclude>system/org/apache/felix/org.apache.felix.fileinstall/**</exclude>
             </excludes>
         </fileSet>
 
@@ -345,13 +343,10 @@
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
                 <!-- workaround for jclouds-karaf-1.3.1-features.xml -->
-                <exclude>org/jclouds/karaf/jclouds-karaf/1.3.1/jclouds-karaf-1.3.1-features.xml</exclude>
-                <!-- workaround for CXF version in Camel 2.9.2 features file -->
+<!--                 <exclude>org/jclouds/karaf/jclouds-karaf/1.3.1/jclouds-karaf-1.3.1-features.xml</exclude> -->
+                <!-- workaround for CXF version in Camel 2.9.3 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.5.2/**</exclude>
-                <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
-                <exclude>org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <exclude>org/apache/felix/org.apache.felix.fileinstall/**</exclude>
+                <exclude>org/apache/cxf/karaf/apache-cxf/2.5.4/**</exclude>
                 <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
                 <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/**</exclude>
@@ -457,14 +452,14 @@
             <lineEnding>unix</lineEnding>
         </file>
         <!-- workaround for jclouds-karaf-1.3.1-features.xml -->
-        <file>
-            <source>${basedir}/target/classes/jclouds-karaf-1.3.1-features.xml</source>
-            <outputDirectory>/container/system/org/jclouds/karaf/jclouds-karaf/1.3.1</outputDirectory>
-            <destName>jclouds-karaf-1.3.1-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
-        </file>
-        <!-- workaround for CXF version in Camel 2.9.2 features file -->
+<!--         <file> -->
+<!--             <source>${basedir}/target/classes/jclouds-karaf-1.3.1-features.xml</source> -->
+<!--             <outputDirectory>/container/system/org/jclouds/karaf/jclouds-karaf/1.3.1</outputDirectory> -->
+<!--             <destName>jclouds-karaf-1.3.1-features.xml</destName> -->
+<!--             <fileMode>0644</fileMode> -->
+<!--             <lineEnding>dos</lineEnding> -->
+<!--         </file> -->
+        <!-- workaround for CXF version in Camel 2.9.3 features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
@@ -484,12 +479,6 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.specs.saaj-api-1.3-1.8.0.jar</source>
             <outputDirectory>/container/system/org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- workaround for Felix FileInstall 3.2.2 (TESB-5681) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.felix.fileinstall-3.2.2.jar</source>
-            <outputDirectory>/container/system/org/apache/felix/org.apache.felix.fileinstall/3.2.2/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
