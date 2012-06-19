@@ -19,31 +19,45 @@
   #L%
   -->
 
-<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    default-activation="lazy">
 
-    <bean id="dataSource" class="org.apache.derby.jdbc.ClientDataSource">
-        <property name="serverName" value="localhost"/>
-        <property name="portNumber" value="1527"/>
-        <property name="databaseName" value="db"/>
-        <property name="createDatabase" value="create" />
-        <property name="user" value="test"/>
-        <property name="password" value="test"/>
+    <cm:property-placeholder persistent-id="org.talend.esb.datasource.derby" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="datasource.server" value="localhost"/>
+            <cm:property name="datasource.port" value="1527"/>
+            <cm:property name="datasource.database" value="db"/>
+            <cm:property name="datasource.create" value="create"/>
+            <cm:property name="datasource.username" value="test"/>
+            <cm:property name="datasource.password" value="test"/>
+            <cm:property name="datasource.pool.maxActive" value="20"/>
+            <cm:property name="datasource.pool.maxIdle" value="5"/>
+            <cm:property name="datasource.pool.maxWait" value="-1"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+
+    <bean id="derbyDataSource" class="org.apache.derby.jdbc.ClientConnectionPoolDataSource">
+        <property name="serverName" value="${datasource.server}"/>
+        <property name="portNumber" value="${datasource.port}"/>
+        <property name="databaseName" value="${datasource.database}"/>
+        <property name="createDatabase" value="${datasource.create}" />
+        <property name="user" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.datasources.SharedPoolDataSource" destroy-method="close">
+        <property name="connectionPoolDataSource" ref="derbyDataSource"/>
+        <property name="maxActive" value="${datasource.pool.maxActive}"/>
+        <property name="maxIdle" value="${datasource.pool.maxIdle}"/>
+        <property name="maxWait" value="${datasource.pool.maxWait}"/>
     </bean>
 
     <service ref="dataSource" interface="javax.sql.DataSource">
         <service-properties>
             <entry key="org.talend.esb.datasource.name" value="ds-derby"/>
             <entry key="osgi.jndi.service.name" value="jdbc/sam"/>
-        </service-properties>
-    </service>
-
-    <bean id="dsConfig" class="org.talend.esb.datasource.derby.DataSourceConfigurator">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <service ref="dsConfig" interface="org.osgi.service.cm.ManagedService">
-        <service-properties>
-            <entry key="service.pid" value="org.talend.esb.datasource.derby"/>
         </service-properties>
     </service>
 

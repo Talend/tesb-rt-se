@@ -45,6 +45,7 @@
   <feature name='tesb-datasource-derby' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.derby.cfg">mvn:org.talend.esb/ds-service-derby/${project.version}/cfg/org.talend.esb.datasource.derby</configfile>
     <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle>
+	<bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-derby/${project.version}</bundle>
   </feature>
 
