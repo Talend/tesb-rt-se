@@ -38,9 +38,11 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.talend.esb.sam._2011._03.common.CustomInfoType;
 import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
@@ -55,6 +57,8 @@ import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/test-server.xml", "/server-config.xml", "/fulltest-client.xml"})
+@Transactional
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource(name = "monitoringServiceV1Client")
     MonitoringService monitoringService;
