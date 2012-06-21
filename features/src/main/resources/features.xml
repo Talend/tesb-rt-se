@@ -51,7 +51,7 @@
 
   <feature name='tesb-datasource-h2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.h2.cfg">mvn:org.talend.esb/ds-service-h2/${project.version}/cfg/org.talend.esb.datasource.h2</configfile>
-    <bundle>mvn:com.h2database/h2/${h2database.version}</bundle>
+    <!--bundle>mvn:com.h2database/h2/${h2database.version}</bundle-->
     <bundle>mvn:org.talend.esb/ds-service-h2/${project.version}</bundle>
   </feature>
 
