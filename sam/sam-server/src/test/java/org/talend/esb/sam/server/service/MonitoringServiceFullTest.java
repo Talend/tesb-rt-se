@@ -75,8 +75,6 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         clientConfig.setReceiveTimeout(100000);
         conduit.setClient(clientConfig);
         
-        simpleJdbcTemplate.update("delete from EVENTS");
-        
         List<EventType> events = new ArrayList<EventType>();
         EventType eventType = new EventType();
         eventType.setEventType(EventEnumType.REQ_OUT);
