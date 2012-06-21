@@ -74,7 +74,7 @@ public class DBInitializer implements InitializingBean {
             if("create_oracle.sql".equals(createSql)) {
                 LOG.warning("Not recomended to use db.recreate=true parameter for Oracle database");
             }
-            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), false, false);
+            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), true, false);
             sr.setLogWriter(null);
             sr.setErrorLogWriter(null);
             sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
