@@ -80,6 +80,7 @@
   <feature name='tesb-datasource-db2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.db2.cfg">mvn:org.talend.esb/ds-service-db2/${project.version}/cfg/org.talend.esb.datasource.db2</configfile>
     <!-- bundle>wrap:mvn:com.ibm.db2.jdbc/db2jcc/9.7</bundle -->
+	<bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-db2/${project.version}</bundle>
   </feature>
 
@@ -90,6 +91,7 @@
   <feature name='tesb-datasource-sqlserver' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.sqlserver.cfg">mvn:org.talend.esb/ds-service-sqlserver/${project.version}/cfg/org.talend.esb.datasource.sqlserver</configfile>
     <!-- bundle>wrap:mvn:com.microsoft.sqlserver/sqljdbc4/3.0</bundle -->
+	<bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-sqlserver/${project.version}</bundle>
   </feature>
 
