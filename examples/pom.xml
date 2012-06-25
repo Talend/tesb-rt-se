@@ -48,13 +48,13 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <cxf.version>2.6.0</cxf.version>
-        <camel.version>2.9.2</camel.version>
+        <cxf.version>2.6.1</cxf.version>
+        <camel.version>2.9.3-SNAPSHOT</camel.version>
         <spring.version>3.0.7.RELEASE</spring.version>
-        <karaf.version>2.2.6</karaf.version>
+        <karaf.version>2.2.8-SNAPSHOT</karaf.version>
         <activemq.version>5.5.1</activemq.version>
         <eclipse.osgi.version>3.6.2.R36x_v20110210</eclipse.osgi.version>
-        <zookeeper.version>3.3.4</zookeeper.version>
+        <zookeeper.version>3.3.5</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <servlet.api.version>2.5</servlet.api.version>
         <aries.version>0.3</aries.version>
