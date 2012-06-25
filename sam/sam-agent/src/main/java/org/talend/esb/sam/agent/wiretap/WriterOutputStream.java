@@ -13,29 +13,17 @@ public class WriterOutputStream extends OutputStream {
     private String encoding;
     private byte[] buffer = new byte[1];
 
-    public WriterOutputStream(Writer writer) {
-        this.writer = writer;
-    }
-
     public WriterOutputStream(Writer writer, String encoding) {
         this.writer = writer;
         this.encoding = encoding;
     }
 
     public void write(byte[] b) throws IOException {
-        if (null == encoding) {
-            writer.write(new String(b));
-        } else {
-            writer.write(new String(b, encoding));
-        }
+        writer.write(new String(b, encoding));
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        if (null == encoding) {
-            writer.write(new String(b, off, len));
-        } else {
-            writer.write(new String(b, off, len, encoding));
-        }
+        writer.write(new String(b, off, len, encoding));
     }
 
     public synchronized void write(int b) throws IOException {
