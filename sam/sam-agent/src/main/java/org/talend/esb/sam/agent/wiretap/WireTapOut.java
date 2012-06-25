@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@
 package org.talend.esb.sam.agent.wiretap;
 
 import java.io.OutputStream;
+import java.io.Writer;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
@@ -36,6 +37,7 @@ import org.apache.cxf.phase.Phase;
  * soon as the output stream is closed
  */
 public class WireTapOut extends AbstractPhaseInterceptor<Message> {
+
     private Interceptor<Message> wireTap;
     private boolean logMessageContent;
 
@@ -56,18 +58,31 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
      */
     @Override
     public void handleMessage(final Message message) throws Fault {
-        final OutputStream os = message.getContent(OutputStream.class);
+        OutputStream os = message.getContent(OutputStream.class);
 
-        final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(
-                os);
-        message.setContent(OutputStream.class, newOut);
+        if (null == os) {
+            String encoding = (String) message.get(Message.ENCODING);
+            if (encoding == null) {
+                encoding = "UTF-8";
+            }
 
-        if (os != null && logMessageContent) {
-            message.setContent(CachedOutputStream.class, newOut);
+            final Writer writer = message.getContent(Writer.class);
+            if (null != writer) {
+                os = new WriterOutputStream(writer, encoding);
+            }
         }
 
-        if (wireTap != null) {
-            newOut.registerCallback(new CallBack(message));
+        if (null != os) {
+            final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(os);
+            message.setContent(OutputStream.class, newOut);
+
+            if (os != null && logMessageContent) {
+                message.setContent(CachedOutputStream.class, newOut);
+            }
+
+            if (wireTap != null) {
+                newOut.registerCallback(new CallBack(message));
+            }
         }
     }
 
