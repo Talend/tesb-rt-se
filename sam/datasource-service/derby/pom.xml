@@ -24,7 +24,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>javax.sql,org.apache.commons.dbcp.datasources,org.apache.derby.jdbc;version="10.7.0",org.osgi.service.blueprint;version="[1.0.0,2.0.0)"</Import-Package>
+                        <!--Import-Package>javax.sql,org.apache.commons.dbcp.datasources,org.apache.derby.jdbc;version="10.7.0",org.osgi.service.blueprint;version="[1.0.0,2.0.0)"</Import-Package-->
                     </instructions>
                 </configuration>
             </plugin>

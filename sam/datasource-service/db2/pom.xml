@@ -24,7 +24,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>com.ibm.db2.jcc;version="9.7.0",javax.sql,org.apache.commons.dbcp.datasources,org.osgi.service.blueprint;version="[1.0.0,2.0.0)"</Import-Package>
+                        <!--Import-Package>com.ibm.db2.jcc;version="9.7.0",javax.sql,org.apache.commons.dbcp.datasources,org.osgi.service.blueprint;version="[1.0.0,2.0.0)"</Import-Package-->
                     </instructions>
                 </configuration>
             </plugin>
