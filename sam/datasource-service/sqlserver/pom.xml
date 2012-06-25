@@ -16,21 +16,6 @@
 
 	<name>Service Activity Monitoring :: Datasource-sqlserver</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<version>${osgi.core.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
-			<version>${osgi.compendium.version}</version>
-		</dependency>
-
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -39,6 +24,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>com.microsoft.sqlserver.jdbc;version="3.0.0",javax.sql,org.apache.commons.dbcp.datasources,org.osgi.service.blueprint;version="[1.0.0,2.0.0)"</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
