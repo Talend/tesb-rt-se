@@ -69,6 +69,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
             final Writer writer = message.getContent(Writer.class);
             if (null != writer) {
                 os = new WriterOutputStream(writer, encoding);
+                message.setContent(Writer.class,null);
             }
         }
 
