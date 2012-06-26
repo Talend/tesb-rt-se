@@ -597,6 +597,9 @@
                                     <replacefilter
                                         token="apache-cxf/2.5.4/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <replacefilter
+                                        token="org.apache.zookeeper/zookeeper/3.3.4"
+                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
                                 <!-- workaround for http://jira.talendforge.org/browse/TESB-4643 (TESB-4754) -->
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
