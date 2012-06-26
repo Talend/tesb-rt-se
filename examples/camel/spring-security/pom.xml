@@ -28,8 +28,8 @@
     </modules>
 
     <properties>
-        <camel.version>2.9.2</camel.version>
-        <cxf.version>2.6.0</cxf.version>
+        <camel.version>2.9.3-SNAPSHOT</camel.version>
+        <cxf.version>2.6.1</cxf.version>
         <felix.version>1.2.0</felix.version>
         <spring.version>3.0.7.RELEASE</spring.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
