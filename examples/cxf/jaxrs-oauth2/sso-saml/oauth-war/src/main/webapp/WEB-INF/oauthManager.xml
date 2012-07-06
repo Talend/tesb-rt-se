@@ -123,7 +123,7 @@
      <bean id="userSecurityContext" class="oauth2.thirdparty.SecurityContextFilter">
          <property name="users">
             <map>
-              <entry key="bob" value="bob"/>
+              <entry key="barry" value="xxxxx"/>
             </map>
          </property>
          <property name="realm" value="Social.com"/>
