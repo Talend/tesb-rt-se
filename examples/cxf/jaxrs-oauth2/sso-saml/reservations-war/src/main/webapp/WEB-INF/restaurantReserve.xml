@@ -106,7 +106,7 @@
      <bean id="thirdPartySecurityContext" class="oauth2.thirdparty.SecurityContextFilter">
          <property name="users">
             <map>
-              <entry key="alice" value="alice"/>
+              <entry key="bob" value="bob"/>
             </map>
          </property>
          <property name="realm" value="Reservations"/>

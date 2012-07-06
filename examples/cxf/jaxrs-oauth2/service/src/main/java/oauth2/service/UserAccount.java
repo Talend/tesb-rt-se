@@ -21,7 +21,11 @@ public class UserAccount {
     public UserAccount(String name, String password, String alias) {
     	this.name = name;
     	this.password = password;
-    	this.accountAlias = alias;
+    	if (alias != null) {
+    	    this.accountAlias = alias;
+    	} else {
+    		this.accountAlias = name;
+    	}
     }
     
     public String getName() {
