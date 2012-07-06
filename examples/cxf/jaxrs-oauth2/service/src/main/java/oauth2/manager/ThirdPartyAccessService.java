@@ -38,7 +38,7 @@ public class ThirdPartyAccessService {
 	    String userName = oauth.getSubject().getLogin();
 	    UserAccount account = accounts.getAccount(userName);
 	    if (account == null) {
-	    	accounts.getAccountWithAlias(userName);
+	    	account = accounts.getAccountWithAlias(userName);
 	    }
 		return account.getCalendar();
 	}
