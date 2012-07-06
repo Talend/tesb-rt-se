@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+
+<!-- 
+    This is a root application context. 5 contexts are imported:
+    - socialApp.xml: Social.com application
+    - thirdPartyToSocialApp.xml: Provides an OAuth-protected access to Social.com for 3rd party clients 
+    - oauthManager.xml: OAuth server
+    - restaurantReserve.xml: Restaraunt Reservations application, a partner of Social.com
+    - restaurant.xml: Restaraunt application, a partner of Restaraunt Reservations
+-->   
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:cxf="http://cxf.apache.org/core"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/core 
+         http://cxf.apache.org/schemas/core.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd">
+
+     <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+     <!-- OAuth Manager Application -->
+     <import resource="oauthManager.xml" />
+     
+     <!-- Logging settings, shared by all applications --> 
+	 <bean id="logInbound"
+	     class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	 <bean id="logOutbound"
+	     class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+	 
+	 <cxf:bus>
+	    <cxf:inInterceptors>
+	 	    <ref bean="logInbound" />
+	 	</cxf:inInterceptors>
+	 	<cxf:outInterceptors>
+	 		<ref bean="logOutbound" />
+	 	</cxf:outInterceptors>
+	 </cxf:bus>
+          
+</beans>
+

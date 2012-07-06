@@ -9,7 +9,6 @@ import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.cxf.common.security.SimplePrincipal;
@@ -25,11 +24,8 @@ public class SecurityContextFilter implements RequestHandler {
 
 	@Context
 	private HttpHeaders headers;
-	@Context
-	private UriInfo ui;
 	
     private UserAccounts accounts;
-	private String userRegistrationPath; 
 	
 	public void setAccounts(UserAccounts accounts) {
 		this.accounts = accounts;
@@ -37,8 +33,24 @@ public class SecurityContextFilter implements RequestHandler {
 	
 	public Response handleRequest(Message message, ClassResourceInfo cri) {
 	
-		if (ui.getAbsolutePath().toString().endsWith(userRegistrationPath)) {
-			return null;
+		
+		SecurityContext sc = message.get(SecurityContext.class);
+		if (sc != null) {
+		    Principal principal  = sc.getUserPrincipal();
+		    if (principal != null) {
+			    String accountName = principal.getName();
+			    
+			    UserAccount account = accounts.getAccount(accountName);
+			    if (account == null) {
+			    	account = accounts.getAccountWithAlias(accountName);
+			    }
+				if (account == null) {
+					return createFaultResponse();
+				} else {
+					setNewSecurityContext(message, account.getName());
+					return null;
+				}
+		    }
 		}
 		
 		List<String> authValues = headers.getRequestHeader("Authorization");
@@ -64,10 +76,16 @@ public class SecurityContextFilter implements RequestHandler {
 		if (account == null || !account.getPassword().equals(namePassword[1])) {
 			return createFaultResponse();
 		}
-		final SecurityContext sc = new SecurityContext() {
+		
+		setNewSecurityContext(message, account.getName());
+		return null;
+	}
+
+	private void setNewSecurityContext(Message message, final String user) {
+		final SecurityContext newSc = new SecurityContext() {
 
 			public Principal getUserPrincipal() {
-				return new SimplePrincipal(account.getName());
+				return new SimplePrincipal(user);
 			}
 
 			public boolean isUserInRole(String arg0) {
@@ -75,16 +93,13 @@ public class SecurityContextFilter implements RequestHandler {
 			}
 			
 		};
-		message.put(SecurityContext.class, sc);
-		return null;
+		message.put(SecurityContext.class, newSc);
 	}
-
+	
 	private Response createFaultResponse() {
 		return Response.status(401).header("WWW-Authenticate", "Basic realm=\"Social.com\"").build();
 	}
 
-	public void setUserRegistrationPath(String userRegistrationPath) {
-		this.userRegistrationPath = userRegistrationPath;
-	}
+	
 	
 }

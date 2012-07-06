@@ -17,7 +17,7 @@
 <br/>
 <p>
  <table>
-     <form action="/services/register/registerUser" method="POST">
+     <form action="/social/register/registerUser" method="POST">
         <tr>
             <td><big><big><big>User Name:</big></big></big></td>
             <td>
@@ -30,6 +30,14 @@
               <input type="password" name="password" value="1234"/>
             </td>
         </tr>
+        
+        <tr>
+            <td><big><big><big>Account Alias:</big></big></big></td>
+            <td>
+              <input type="text" name="alias" value=""/>
+            </td>
+        </tr>
+        
         <tr>
             <td>
               &nbsp;

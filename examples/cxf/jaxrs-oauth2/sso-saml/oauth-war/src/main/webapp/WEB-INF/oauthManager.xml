@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:http="http://cxf.apache.org/transports/http/configuration"
+      xmlns:sec="http://cxf.apache.org/configuration/security"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd
+         http://cxf.apache.org/transports/http/configuration
+         http://cxf.apache.org/schemas/configuration/http-conf.xsd
+         http://cxf.apache.org/configuration/security
+         http://cxf.apache.org/schemas/configuration/security.xsd">
+
+     <http:conduit name="*.http-conduit">
+        <http:client ConnectionTimeout="3000000" ReceiveTimeout="3000000"/>
+        <http:tlsClientParameters disableCNCheck="true">
+            <sec:keyManagers keyPassword="skpass">
+            <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass" 
+	                resource="/WEB-INF/servicestore.jks"/>
+	        -->        
+	           <sec:keyStore type="JKS" password="sspass" 
+	                file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	           </sec:keyManagers>
+	        <sec:trustManagers>
+	        <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass"
+	               resource="/WEB-INF/servicestore.jks"/>
+	        -->       
+	           <sec:keyStore type="JKS" password="sspass"
+	               file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	        </sec:trustManagers>
+        </http:tlsClientParameters>
+     </http:conduit>
+     
+     <!-- 
+         CXF org.apache.cxf.rs.security.oauth2.provider.OAuthDataProvider 
+         implementation, used by the authorization and access token OAuth2 services
+         as well as a third-party registration service 
+     -->
+     <bean id="oauthProvider" class="oauth2.manager.OAuthManager"/>
+     
+     <!-- OAuth Manager Application -->
+     
+     <!-- Manages the registration of third-party applications, returns a consumer key and secret pair
+          and delegates to the OAuth provider to keep the client registration  -->
+     <bean id="thirdPartyRegService" class="oauth2.manager.ThirdPartyRegistrationService">
+         <property name="dataProvider" ref="oauthProvider"/>
+     </bean>
+     
+     <!-- When Social.com user requests the Restaurant Registrations service to book a table,
+          the latter will obtain a request token from OAuth RequestService and redirect the user
+          to this service to get the client authorized in order to read this user's calendar.
+          
+          This service will return an authorization form to a user and then will redirect the user
+          back to the Restaurant Registrations service to a client callback address with the
+          authorization result 
+     -->      
+     <bean id="authorizationService" 
+           class="org.apache.cxf.rs.security.oauth2.services.AuthorizationCodeGrantService">
+         <property name="dataProvider" ref="oauthProvider"/>
+     </bean> 
+
+     <!-- Manages the creation of access tokens, 
+          delegates to the OAuth provider to keep them  -->
+     <bean id="accessTokenService" class="org.apache.cxf.rs.security.oauth2.services.AccessTokenService">
+         <property name="dataProvider" ref="oauthProvider"/>
+     </bean>
+
+     <!-- Validates the access tokens, typically remote application-specific
+          filters will call on this service -->
+     <bean id="accessTokenValidateService" class="org.apache.cxf.rs.security.oauth2.services.AccessTokenValidatorService">
+         <property name="dataProvider" ref="oauthProvider"/>
+     </bean>
+     
+     <bean id="jsonProvider" class="org.apache.cxf.rs.security.oauth2.provider.OAuthJSONProvider"/>
+
+     <!-- OAuthManager View Support.-->
+     <bean id="oauthView" class="org.apache.cxf.jaxrs.provider.RequestDispatcherProvider">
+         <property name="classResources">
+            <map>
+              <entry key="org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData" value="/forms/oauthAuthorize.jsp"/>
+              <entry key="oauth2.common.ConsumerRegistration" value="/forms/registerAppConfirm.jsp"/>
+            </map>
+         </property>
+         <property name="beanNames">
+            <map>
+              <entry key="org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData" value="data"/>
+              <entry key="oauth2.common.ConsumerRegistration" value="newClient"/>   
+            </map>
+         </property>
+
+         <property name="logRedirects" value="true"/>
+     </bean>
+
+     <!-- OAuthManager AccessToken Service endpoint --> 
+     <jaxrs:server id="oauthAccess" address="/access">
+        <jaxrs:serviceBeans>
+           <ref bean="accessTokenService"/>
+           <ref bean="accessTokenValidateService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="jsonProvider"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+
+     <!-- OAuthManager service endpoint, consists of 3 JAX-RS root resources --> 
+     <jaxrs:server id="oauthRegister" address="/register">
+        <jaxrs:serviceBeans>
+           <ref bean="thirdPartyRegService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="oauthView"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+     <bean id="userSecurityContext" class="oauth2.thirdparty.SecurityContextFilter">
+         <property name="users">
+            <map>
+              <entry key="alice" value="alice"/>
+            </map>
+         </property>
+         <property name="realm" value="Social.com"/>
+     </bean>
+
+     <!-- SSO Support -->
+     <jaxrs:client id="stateManager"
+         address="https://localhost:${racs.port}/racs"
+         serviceClass="org.apache.cxf.rs.security.saml.sso.state.HTTPSPStateManager"/>
+
+     <bean id="ssoRedirectURI" class="org.apache.cxf.rs.security.saml.sso.SamlRedirectBindingFilter">
+        <property name="idpServiceAddress" value="${idp.address}"/>
+        <property name="assertionConsumerServiceAddress" 
+               value="https://localhost:${racs.port}/racs/sso"/>
+        <property name="stateProvider" ref="stateManager"/>
+        <property name="addWebAppContext" value="false"/> 
+    </bean>
+     
+     <!-- OAuthManager Authorization Service endpoint --> 
+     <jaxrs:server id="oauthAuthorize" address="/client">
+        <jaxrs:serviceBeans>
+           <ref bean="authorizationService"/> 
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="ssoRedirectURI"/>
+           <ref bean="userSecurityContext"/>
+           <ref bean="oauthView"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+          
+</beans>
+

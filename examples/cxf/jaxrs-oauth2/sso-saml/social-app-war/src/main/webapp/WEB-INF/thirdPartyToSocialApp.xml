@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:http="http://cxf.apache.org/transports/http/configuration"
+      xmlns:sec="http://cxf.apache.org/configuration/security"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd
+         http://cxf.apache.org/transports/http/configuration
+         http://cxf.apache.org/schemas/configuration/http-conf.xsd
+         http://cxf.apache.org/configuration/security
+         http://cxf.apache.org/schemas/configuration/security.xsd">
+     
+     <import resource="common.xml" />
+     
+     <http:conduit name="*.http-conduit">
+        <http:client ConnectionTimeout="3000000" ReceiveTimeout="3000000"/>
+        <http:tlsClientParameters disableCNCheck="true">
+            <sec:keyManagers keyPassword="skpass">
+            <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass" 
+	                resource="/WEB-INF/servicestore.jks"/>
+	        -->        
+	           <sec:keyStore type="JKS" password="sspass" 
+	                file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	           </sec:keyManagers>
+	        <sec:trustManagers>
+	        <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass"
+	               resource="/WEB-INF/servicestore.jks"/>
+	        -->       
+	           <sec:keyStore type="JKS" password="sspass"
+	               file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	        </sec:trustManagers>
+        </http:tlsClientParameters>
+     </http:conduit>
+     
+     <!-- Third Party Access to Social Application -->
+     
+     <!-- 
+         Provides an access Social.com users' calendars from 3rd-party services
+     -->      
+     <bean id="thirdPartyAccessService" class="oauth2.manager.ThirdPartyAccessService">
+         <property name="accounts" ref="userAccounts"/>
+     </bean>
+     
+     <!-- WebClient for delegating the token validation to the remote
+          service
+     -->
+     <bean id="tvServiceClientFactory" class="org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean">
+         <property name="address" value="https://localhost:${oauth.port}/oauth/access/validate"/>
+         <property name="headers">
+            <map>
+               <entry key="Accept" value="application/xml"/>
+            </map>
+         </property>
+     </bean>
+     
+     <bean id="tvServiceClient" factory-bean="tvServiceClientFactory" factory-method="createWebClient"/>
+
+     <bean id="tokenValidator" class="org.apache.cxf.rs.security.oauth2.filters.AccessTokenValidatorClient">
+         <property name="tokenValidatorClient" ref="tvServiceClient"/>
+     </bean>
+
+     <!-- Remote token validation -->
+     
+     <bean id="oAuthFilter" class="org.apache.cxf.rs.security.oauth2.filters.OAuthRequestFilter">
+         <property name="tokenValidator" ref="tokenValidator"/>
+     </bean>
+     
+     <!-- Local token validation, though the data provider may also delegate.
+       
+        <bean id="oAuthFilter" class="org.apache.cxf.rs.security.oauth2.filters.OAuthRequestFilter">
+         <property name="dataProvider" ref="oauthProvider"/>
+     </bean>
+     -->
+
+    <!-- ThirdPartyAccessService service endpoint.
+         Only third-party cconsumers which have valid OAuth Access tokens will be able to use it.
+    -->
+     <jaxrs:server id="thirdPartyAccessServer" address="/thirdPartyAccess">
+        <jaxrs:serviceBeans>
+           <ref bean="thirdPartyAccessService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="oAuthFilter"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+          
+</beans>
+
