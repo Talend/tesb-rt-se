@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file is an EXAMPLE configuration file.
+
+    This file specifies relying party dependent configurations for the IdP, for example, whether SAML assertions to a 
+    particular relying party should be signed.  It also includes metadata provider and credential definitions used 
+    when answering requests to a relying party.
+-->
+<rp:RelyingPartyGroup xmlns:rp="urn:mace:shibboleth:2.0:relying-party" xmlns:saml="urn:mace:shibboleth:2.0:relying-party:saml" 
+                      xmlns:metadata="urn:mace:shibboleth:2.0:metadata" xmlns:resource="urn:mace:shibboleth:2.0:resource" 
+                      xmlns:security="urn:mace:shibboleth:2.0:security" xmlns:samlsec="urn:mace:shibboleth:2.0:security:saml" 
+                      xmlns:samlmd="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                      xsi:schemaLocation="urn:mace:shibboleth:2.0:relying-party classpath:/schema/shibboleth-2.0-relying-party.xsd
+                                          urn:mace:shibboleth:2.0:relying-party:saml classpath:/schema/shibboleth-2.0-relying-party-saml.xsd
+                                          urn:mace:shibboleth:2.0:metadata classpath:/schema/shibboleth-2.0-metadata.xsd
+                                          urn:mace:shibboleth:2.0:resource classpath:/schema/shibboleth-2.0-resource.xsd 
+                                          urn:mace:shibboleth:2.0:security classpath:/schema/shibboleth-2.0-security.xsd
+                                          urn:mace:shibboleth:2.0:security:saml classpath:/schema/shibboleth-2.0-security-policy-saml.xsd
+                                          urn:oasis:names:tc:SAML:2.0:metadata classpath:/schema/saml-schema-metadata-2.0.xsd">
+                                       
+    <!-- ========================================== -->
+    <!--      Relying Party Configurations          -->
+    <!-- ========================================== -->
+    <rp:AnonymousRelyingParty provider="https://idp.example.org/idp/shibboleth" defaultSigningCredentialRef="IdPCredential"/>
+    
+    <rp:DefaultRelyingParty provider="https://idp.example.org/idp/shibboleth" defaultSigningCredentialRef="IdPCredential">
+        <!-- 
+            Each attribute in these profiles configuration is set to its default value,
+            that is, the values that would be in effect if those attributes were not present.
+            We list them here so that people are aware of them (since they seem reluctant to 
+            read the documentation).
+        -->
+        <rp:ProfileConfiguration xsi:type="saml:ShibbolethSSOProfile" includeAttributeStatement="false" 
+                                 assertionLifetime="PT5M" signResponses="conditional" signAssertions="never"/>
+                              
+        <rp:ProfileConfiguration xsi:type="saml:SAML1AttributeQueryProfile" assertionLifetime="PT5M" 
+                                 signResponses="conditional" signAssertions="never"/>
+        
+        <rp:ProfileConfiguration xsi:type="saml:SAML1ArtifactResolutionProfile" signResponses="conditional" 
+                                 signAssertions="never"/>
+        
+        <rp:ProfileConfiguration xsi:type="saml:SAML2SSOProfile" includeAttributeStatement="true" 
+                                 assertionLifetime="PT5M" assertionProxyCount="0" 
+                                 signResponses="never" signAssertions="always" 
+                                 encryptAssertions="never" encryptNameIds="never"/>
+
+        <rp:ProfileConfiguration xsi:type="saml:SAML2ECPProfile" includeAttributeStatement="true" 
+                                 assertionLifetime="PT5M" assertionProxyCount="0" 
+                                 signResponses="never" signAssertions="always" 
+                                 encryptAssertions="conditional" encryptNameIds="never"/>
+
+        <rp:ProfileConfiguration xsi:type="saml:SAML2AttributeQueryProfile" 
+                                 assertionLifetime="PT5M" assertionProxyCount="0" 
+                                 signResponses="conditional" signAssertions="never" 
+                                 encryptAssertions="conditional" encryptNameIds="never"/>
+        
+        <rp:ProfileConfiguration xsi:type="saml:SAML2ArtifactResolutionProfile" 
+                                 signResponses="never" signAssertions="always" 
+                                 encryptAssertions="conditional" encryptNameIds="never"/>
+        
+    </rp:DefaultRelyingParty>
+        
+    
+    <!-- ========================================== -->
+    <!--      Metadata Configuration                -->
+    <!-- ========================================== -->
+    <!-- MetadataProvider the combining other MetadataProviders -->
+    <metadata:MetadataProvider id="ShibbolethMetadata" xsi:type="metadata:ChainingMetadataProvider">
+    
+    	<!-- Load the IdP's own metadata.  This is necessary for artifact support. -->
+        <metadata:MetadataProvider id="IdPMD" xsi:type="metadata:FilesystemMetadataProvider"
+                                   metadataFile="/home/sberyozkin/work/shibboleth-idp/metadata/idp-metadata.xml"
+                                   maxRefreshDelay="P1D" />
+        
+        <!-- Example metadata provider. -->
+        <!-- Reads metadata from a URL and store a backup copy on the file system. -->
+        <!-- Validates the signature of the metadata and filters out all by SP entities in order to save memory -->
+        <!-- To use: fill in 'metadataURL' and 'backingFile' properties on MetadataResource element -->
+        <!--
+        <metadata:MetadataProvider id="URLMD" xsi:type="metadata:FileBackedHTTPMetadataProvider"
+                          metadataURL="http://example.org/metadata.xml"
+                          backingFile="/home/sberyozkin/work/shibboleth-idp/metadata/some-metadata.xml">
+            <metadata:MetadataFilter xsi:type="metadata:ChainingFilter">
+                <metadata:MetadataFilter xsi:type="metadata:RequiredValidUntil" 
+                                maxValidityInterval="P7D" />
+                <metadata:MetadataFilter xsi:type="metadata:SignatureValidation"
+                                trustEngineRef="shibboleth.MetadataTrustEngine"
+                                requireSignedMetadata="true" />
+	            <metadata:MetadataFilter xsi:type="metadata:EntityRoleWhiteList">
+                    <metadata:RetainedRole>samlmd:SPSSODescriptor</metadata:RetainedRole>
+                </metadata:MetadataFilter>
+            </metadata:MetadataFilter>
+        </metadata:MetadataProvider>
+        -->
+        <metadata:MetadataProvider xsi:type="InlineMetadataProvider" xmlns="urn:mace:shibboleth:2.0:metadata" id="social">
+           <EntityDescriptor entityID="https://localhost:9555/social/app" xmlns="urn:oasis:names:tc:SAML:2.0:metadata">
+<SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<KeyDescriptor>
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:X509Data>
+                    <ds:X509Certificate>
+                    MIIENzCCA6CgAwIBAgIJALqCSJh1/orzMA0GCSqGSIb3DQEBBQUAMIHEMQswCQYDVQQGEwJVUzER
+MA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBXZWIg
+U2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERlcGFy
+dG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2VydmljZUBz
+ZXJ2aWNlLmNvbTAeFw0xMTAyMDkxODQ5MDZaFw0yMTAyMDYxODQ5MDZaMIHEMQswCQYDVQQGEwJV
+UzERMA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBX
+ZWIgU2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERl
+cGFydG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2Vydmlj
+ZUBzZXJ2aWNlLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAzDK6Q+idriM0BQR1e1p/
+dk+0npyDPO49BmmJRCOJj5qlpllj00Q9EKoiC7bNpIENAeOI7I2nkfYMZdm/tfOd6NLqhPOFPobB
+/KQALFtgwbnTmLnkh1S4Mr8L9pDHYzIoqm8+19zORuxLAXeu67d6+9RF9CePbI1tAoSi52MvSm0C
+AwEAAaOCAS0wggEpMB0GA1UdDgQWBBRvsgXrEojqSKIo+4a+hpOQ9IR3sDCB+QYDVR0jBIHxMIHu
+gBRvsgXrEojqSKIo+4a+hpOQ9IR3sKGByqSBxzCBxDELMAkGA1UEBhMCVVMxETAPBgNVBAgTCE5l
+dyBZb3JrMRAwDgYDVQQHEwdCdWZmYWxvMTowOAYDVQQKEzFTYW1wbGUgV2ViIFNlcnZpY2UgUHJv
+dmlkZXIgLS0gTk9UIEZPUiBQUk9EVUNUSU9OMRYwFAYDVQQLEw1JVCBEZXBhcnRtZW50MRgwFgYD
+VQQDEw93d3cuc2VydmljZS5jb20xIjAgBgkqhkiG9w0BCQEWE3NlcnZpY2VAc2VydmljZS5jb22C
+CQC6gkiYdf6K8zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAAIh0qGHpkAfMHIXKQTK
+/Voz9486rxVNeNwHt3i6w8Wk3gZDbifGCn/VI18QeNcr9UgC1ogioZWUz/XElpyr+FFV9/OOmfWW
+7yyDiCtqJ5hZhLHPDhVgQwt9Bs/9LJqz784Zyi4jdvGokKbPUNHUe/paDVmdj6/ZcNKh/tM7QCuE
+                      </ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPSloSoap/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp"/>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</NameIDFormat>
+        <AssertionConsumerService index="0" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="http://localhost:8080/opensso/Consumer/metaAlias/sp"/>
+        <AssertionConsumerService index="1" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://localhost:9558/racs/sso"/>
+        <AssertionConsumerService index="2" Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS" Location="http://localhost:8080/opensso/Consumer/ECP/metaAlias/sp"/>
+    </SPSSODescriptor>
+</EntityDescriptor>
+        </metadata:MetadataProvider> 
+        <metadata:MetadataProvider xsi:type="InlineMetadataProvider" xmlns="urn:mace:shibboleth:2.0:metadata" id="oauth">
+           <EntityDescriptor entityID="https://localhost:9556/oauth/client" xmlns="urn:oasis:names:tc:SAML:2.0:metadata">
+<SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<KeyDescriptor>
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:X509Data>
+                    <ds:X509Certificate>
+                    MIIENzCCA6CgAwIBAgIJALqCSJh1/orzMA0GCSqGSIb3DQEBBQUAMIHEMQswCQYDVQQGEwJVUzER
+MA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBXZWIg
+U2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERlcGFy
+dG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2VydmljZUBz
+ZXJ2aWNlLmNvbTAeFw0xMTAyMDkxODQ5MDZaFw0yMTAyMDYxODQ5MDZaMIHEMQswCQYDVQQGEwJV
+UzERMA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBX
+ZWIgU2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERl
+cGFydG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2Vydmlj
+ZUBzZXJ2aWNlLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAzDK6Q+idriM0BQR1e1p/
+dk+0npyDPO49BmmJRCOJj5qlpllj00Q9EKoiC7bNpIENAeOI7I2nkfYMZdm/tfOd6NLqhPOFPobB
+/KQALFtgwbnTmLnkh1S4Mr8L9pDHYzIoqm8+19zORuxLAXeu67d6+9RF9CePbI1tAoSi52MvSm0C
+AwEAAaOCAS0wggEpMB0GA1UdDgQWBBRvsgXrEojqSKIo+4a+hpOQ9IR3sDCB+QYDVR0jBIHxMIHu
+gBRvsgXrEojqSKIo+4a+hpOQ9IR3sKGByqSBxzCBxDELMAkGA1UEBhMCVVMxETAPBgNVBAgTCE5l
+dyBZb3JrMRAwDgYDVQQHEwdCdWZmYWxvMTowOAYDVQQKEzFTYW1wbGUgV2ViIFNlcnZpY2UgUHJv
+dmlkZXIgLS0gTk9UIEZPUiBQUk9EVUNUSU9OMRYwFAYDVQQLEw1JVCBEZXBhcnRtZW50MRgwFgYD
+VQQDEw93d3cuc2VydmljZS5jb20xIjAgBgkqhkiG9w0BCQEWE3NlcnZpY2VAc2VydmljZS5jb22C
+CQC6gkiYdf6K8zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAAIh0qGHpkAfMHIXKQTK
+/Voz9486rxVNeNwHt3i6w8Wk3gZDbifGCn/VI18QeNcr9UgC1ogioZWUz/XElpyr+FFV9/OOmfWW
+7yyDiCtqJ5hZhLHPDhVgQwt9Bs/9LJqz784Zyi4jdvGokKbPUNHUe/paDVmdj6/ZcNKh/tM7QCuE
+                      </ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPSloSoap/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp"/>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</NameIDFormat>
+        <AssertionConsumerService index="0" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="http://localhost:8080/opensso/Consumer/metaAlias/sp"/>
+        <AssertionConsumerService index="1" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://localhost:9558/racs/sso"/>
+        <AssertionConsumerService index="2" Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS" Location="http://localhost:8080/opensso/Consumer/ECP/metaAlias/sp"/>
+    </SPSSODescriptor>
+</EntityDescriptor>
+        </metadata:MetadataProvider> 
+        <metadata:MetadataProvider xsi:type="InlineMetadataProvider" xmlns="urn:mace:shibboleth:2.0:metadata" id="reservations">
+           <EntityDescriptor entityID="https://localhost:9557/reservations/service" xmlns="urn:oasis:names:tc:SAML:2.0:metadata">
+<SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<KeyDescriptor>
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:X509Data>
+                    <ds:X509Certificate>
+                    MIIENzCCA6CgAwIBAgIJALqCSJh1/orzMA0GCSqGSIb3DQEBBQUAMIHEMQswCQYDVQQGEwJVUzER
+MA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBXZWIg
+U2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERlcGFy
+dG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2VydmljZUBz
+ZXJ2aWNlLmNvbTAeFw0xMTAyMDkxODQ5MDZaFw0yMTAyMDYxODQ5MDZaMIHEMQswCQYDVQQGEwJV
+UzERMA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xOjA4BgNVBAoTMVNhbXBsZSBX
+ZWIgU2VydmljZSBQcm92aWRlciAtLSBOT1QgRk9SIFBST0RVQ1RJT04xFjAUBgNVBAsTDUlUIERl
+cGFydG1lbnQxGDAWBgNVBAMTD3d3dy5zZXJ2aWNlLmNvbTEiMCAGCSqGSIb3DQEJARYTc2Vydmlj
+ZUBzZXJ2aWNlLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAzDK6Q+idriM0BQR1e1p/
+dk+0npyDPO49BmmJRCOJj5qlpllj00Q9EKoiC7bNpIENAeOI7I2nkfYMZdm/tfOd6NLqhPOFPobB
+/KQALFtgwbnTmLnkh1S4Mr8L9pDHYzIoqm8+19zORuxLAXeu67d6+9RF9CePbI1tAoSi52MvSm0C
+AwEAAaOCAS0wggEpMB0GA1UdDgQWBBRvsgXrEojqSKIo+4a+hpOQ9IR3sDCB+QYDVR0jBIHxMIHu
+gBRvsgXrEojqSKIo+4a+hpOQ9IR3sKGByqSBxzCBxDELMAkGA1UEBhMCVVMxETAPBgNVBAgTCE5l
+dyBZb3JrMRAwDgYDVQQHEwdCdWZmYWxvMTowOAYDVQQKEzFTYW1wbGUgV2ViIFNlcnZpY2UgUHJv
+dmlkZXIgLS0gTk9UIEZPUiBQUk9EVUNUSU9OMRYwFAYDVQQLEw1JVCBEZXBhcnRtZW50MRgwFgYD
+VQQDEw93d3cuc2VydmljZS5jb20xIjAgBgkqhkiG9w0BCQEWE3NlcnZpY2VAc2VydmljZS5jb22C
+CQC6gkiYdf6K8zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAAIh0qGHpkAfMHIXKQTK
+/Voz9486rxVNeNwHt3i6w8Wk3gZDbifGCn/VI18QeNcr9UgC1ogioZWUz/XElpyr+FFV9/OOmfWW
+7yyDiCtqJ5hZhLHPDhVgQwt9Bs/9LJqz784Zyi4jdvGokKbPUNHUe/paDVmdj6/ZcNKh/tM7QCuE
+                      </ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </KeyDescriptor>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloRedirect/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPSloPOST/metaAlias/sp"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPSloSoap/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniRedirect/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniPOST/metaAlias/sp"/>
+        <ManageNameIDService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp" ResponseLocation="http://localhost:8080/opensso/SPMniSoap/metaAlias/sp"/>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:WindowsDomainQualifiedName</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:kerberos</NameIDFormat>
+        <NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</NameIDFormat>
+        <AssertionConsumerService index="0" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact" Location="http://localhost:8080/opensso/Consumer/metaAlias/sp"/>
+        <AssertionConsumerService index="1" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://localhost:9558/racs/sso"/>
+        <AssertionConsumerService index="2" Binding="urn:oasis:names:tc:SAML:2.0:bindings:PAOS" Location="http://localhost:8080/opensso/Consumer/ECP/metaAlias/sp"/>
+    </SPSSODescriptor>
+</EntityDescriptor>
+        </metadata:MetadataProvider>
+        
+    </metadata:MetadataProvider>
+
+    
+    <!-- ========================================== -->
+    <!--     Security Configurations                -->
+    <!-- ========================================== -->
+    <security:Credential id="IdPCredential" xsi:type="security:X509Filesystem">
+        <security:PrivateKey password="stsspass">/home/sberyozkin/work/shibboleth-idp/credentials/stsstore.pem</security:PrivateKey>
+    <security:Certificate>/home/sberyozkin/work/shibboleth-idp/credentials/stsstore.crt</security:Certificate>
+    </security:Credential>
+    
+    <!-- Trust engine used to evaluate the signature on loaded metadata. -->
+    <!--
+    <security:TrustEngine id="shibboleth.MetadataTrustEngine" xsi:type="security:StaticExplicitKeySignature">
+        <security:Credential id="MyFederation1Credentials" xsi:type="security:X509Filesystem">
+            <security:Certificate>/home/sberyozkin/work/shibboleth-idp/credentials/federation1.crt</security:Certificate>
+        </security:Credential>
+    </security:TrustEngine>
+     -->
+     
+    <!-- DO NOT EDIT BELOW THIS POINT -->
+    <!-- 
+        The following trust engines and rules control every aspect of security related to incoming messages. 
+        Trust engines evaluate various tokens (like digital signatures) for trust worthiness while the 
+        security policies establish a set of checks that an incoming message must pass in order to be considered
+        secure.  Naturally some of these checks require the validation of the tokens evaluated by the trust 
+        engines and so you'll see some rules that reference the declared trust engines.
+    -->
+    <security:TrustEngine id="shibboleth.SignatureTrustEngine" xsi:type="security:SignatureChaining">
+        <security:TrustEngine id="shibboleth.SignatureMetadataExplicitKeyTrustEngine" xsi:type="security:MetadataExplicitKeySignature" metadataProviderRef="ShibbolethMetadata"/>                              
+        <security:TrustEngine id="shibboleth.SignatureMetadataPKIXTrustEngine" xsi:type="security:MetadataPKIXSignature" metadataProviderRef="ShibbolethMetadata"/>
+    </security:TrustEngine>
+    
+    <security:TrustEngine id="shibboleth.CredentialTrustEngine" xsi:type="security:Chaining">
+        <security:TrustEngine id="shibboleth.CredentialMetadataExplictKeyTrustEngine" xsi:type="security:MetadataExplicitKey" metadataProviderRef="ShibbolethMetadata"/>
+        <security:TrustEngine id="shibboleth.CredentialMetadataPKIXTrustEngine" xsi:type="security:MetadataPKIXX509Credential" metadataProviderRef="ShibbolethMetadata"/>
+    </security:TrustEngine>
+     
+    <security:SecurityPolicy id="shibboleth.ShibbolethSSOSecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay" required="false"/>
+        <security:Rule xsi:type="samlsec:IssueInstant" required="false"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+    </security:SecurityPolicy>
+    
+    <security:SecurityPolicy id="shibboleth.SAML1AttributeQuerySecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="security:ClientCertAuth" trustEngineRef="shibboleth.CredentialTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+        <security:Rule xsi:type="security:MandatoryMessageAuthentication"/>
+    </security:SecurityPolicy>
+    
+    <security:SecurityPolicy id="shibboleth.SAML1ArtifactResolutionSecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="security:ClientCertAuth" trustEngineRef="shibboleth.CredentialTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+        <security:Rule xsi:type="security:MandatoryMessageAuthentication"/>
+    </security:SecurityPolicy>
+
+    <security:SecurityPolicy id="shibboleth.SAML2SSOSecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:SAML2AuthnRequestsSigned"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPRedirectSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPPostSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+    </security:SecurityPolicy>
+
+    <security:SecurityPolicy id="shibboleth.SAML2AttributeQuerySecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPRedirectSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPPostSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="security:ClientCertAuth" trustEngineRef="shibboleth.CredentialTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+        <security:Rule xsi:type="security:MandatoryMessageAuthentication"/>
+    </security:SecurityPolicy>
+    
+    <security:SecurityPolicy id="shibboleth.SAML2ArtifactResolutionSecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPRedirectSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPPostSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="security:ClientCertAuth" trustEngineRef="shibboleth.CredentialTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+        <security:Rule xsi:type="security:MandatoryMessageAuthentication"/>
+    </security:SecurityPolicy>
+    
+    <security:SecurityPolicy id="shibboleth.SAML2SLOSecurityPolicy" xsi:type="security:SecurityPolicyType">
+        <security:Rule xsi:type="samlsec:Replay"/>
+        <security:Rule xsi:type="samlsec:IssueInstant"/>
+        <security:Rule xsi:type="samlsec:ProtocolWithXMLSignature" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPRedirectSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="samlsec:SAML2HTTPPostSimpleSign" trustEngineRef="shibboleth.SignatureTrustEngine"/>
+        <security:Rule xsi:type="security:ClientCertAuth" trustEngineRef="shibboleth.CredentialTrustEngine"/>
+        <security:Rule xsi:type="samlsec:MandatoryIssuer"/>
+        <security:Rule xsi:type="security:MandatoryMessageAuthentication"/>
+    </security:SecurityPolicy>
+    
+</rp:RelyingPartyGroup>
