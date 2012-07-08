@@ -36,6 +36,10 @@ Please see the "Demo Description" section below for more information.
 
 [1] http://tools.ietf.org/html/draft-ietf-oauth-v2-25
 
+Additinally, please follow sso-saml/README.txt on how to run this demo with 
+Social.com, Reservations and OAuth2.0 web applications running on different 
+HTTP ports, with SAML Web Browser Single Sign-On enabled.   
+
 
 Building the Demo
 ---------------------------------------
@@ -100,10 +104,12 @@ file. If the server is listening on an alternative port then you can use an
 - The Social.com User Registration Form asks for a user name and password.  
   At the moment only a user name "barry@social.com" with the "1234" password 
   is supported 
-- Press "Register With Social.com" to complete the reservation.  
+- Press "Register With Social.com" to complete the account registration.  
 - Follow the link in the bottom of the returned User Registration 
-  Confirmation page in order to view the personal UserAccount page, 
-  note that the Calendar has no reserved events.
+  Confirmation page in order to view the personal UserAccount page.
+- When asked please authenticate with the service using the 
+  "barry@social.com" and "1234" pair. 
+- View the account page, Note that Calendar has no reserved events.
 - Follow the link in the bottom of the User Account page in order to try
   the online Restaurant Reservations service.  
 - The Restaurant Reservations Form offers an option to book a restaurant 

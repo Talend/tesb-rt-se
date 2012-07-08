@@ -69,29 +69,9 @@
     
     	<!-- Load the IdP's own metadata.  This is necessary for artifact support. -->
         <metadata:MetadataProvider id="IdPMD" xsi:type="metadata:FilesystemMetadataProvider"
-                                   metadataFile="/home/sberyozkin/work/shibboleth-idp/metadata/idp-metadata.xml"
+                                   metadataFile="${shibboleth-home}/metadata/idp-metadata.xml"
                                    maxRefreshDelay="P1D" />
         
-        <!-- Example metadata provider. -->
-        <!-- Reads metadata from a URL and store a backup copy on the file system. -->
-        <!-- Validates the signature of the metadata and filters out all by SP entities in order to save memory -->
-        <!-- To use: fill in 'metadataURL' and 'backingFile' properties on MetadataResource element -->
-        <!--
-        <metadata:MetadataProvider id="URLMD" xsi:type="metadata:FileBackedHTTPMetadataProvider"
-                          metadataURL="http://example.org/metadata.xml"
-                          backingFile="/home/sberyozkin/work/shibboleth-idp/metadata/some-metadata.xml">
-            <metadata:MetadataFilter xsi:type="metadata:ChainingFilter">
-                <metadata:MetadataFilter xsi:type="metadata:RequiredValidUntil" 
-                                maxValidityInterval="P7D" />
-                <metadata:MetadataFilter xsi:type="metadata:SignatureValidation"
-                                trustEngineRef="shibboleth.MetadataTrustEngine"
-                                requireSignedMetadata="true" />
-	            <metadata:MetadataFilter xsi:type="metadata:EntityRoleWhiteList">
-                    <metadata:RetainedRole>samlmd:SPSSODescriptor</metadata:RetainedRole>
-                </metadata:MetadataFilter>
-            </metadata:MetadataFilter>
-        </metadata:MetadataProvider>
-        -->
         <metadata:MetadataProvider xsi:type="InlineMetadataProvider" xmlns="urn:mace:shibboleth:2.0:metadata" id="social">
            <EntityDescriptor entityID="https://localhost:9555/social/app" xmlns="urn:oasis:names:tc:SAML:2.0:metadata">
 <SPSSODescriptor AuthnRequestsSigned="false" WantAssertionsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
@@ -247,18 +227,10 @@ CQC6gkiYdf6K8zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAAIh0qGHpkAfMHIXKQTK
     <!--     Security Configurations                -->
     <!-- ========================================== -->
     <security:Credential id="IdPCredential" xsi:type="security:X509Filesystem">
-        <security:PrivateKey password="stsspass">/home/sberyozkin/work/shibboleth-idp/credentials/stsstore.pem</security:PrivateKey>
-    <security:Certificate>/home/sberyozkin/work/shibboleth-idp/credentials/stsstore.crt</security:Certificate>
+        <security:PrivateKey password="stsspass">${shibboleth-home}/credentials/stsstore.pem</security:PrivateKey>
+    <security:Certificate>${shibboleth-home}/credentials/stsstore.crt</security:Certificate>
     </security:Credential>
     
-    <!-- Trust engine used to evaluate the signature on loaded metadata. -->
-    <!--
-    <security:TrustEngine id="shibboleth.MetadataTrustEngine" xsi:type="security:StaticExplicitKeySignature">
-        <security:Credential id="MyFederation1Credentials" xsi:type="security:X509Filesystem">
-            <security:Certificate>/home/sberyozkin/work/shibboleth-idp/credentials/federation1.crt</security:Certificate>
-        </security:Credential>
-    </security:TrustEngine>
-     -->
      
     <!-- DO NOT EDIT BELOW THIS POINT -->
     <!-- 

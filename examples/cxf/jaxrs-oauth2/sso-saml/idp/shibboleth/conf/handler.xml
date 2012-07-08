@@ -15,7 +15,7 @@
         <ph:RequestPath>/Status</ph:RequestPath>
     </ph:ProfileHandler>
     
-    <ph:ProfileHandler xsi:type="ph:SAMLMetadata" metadataFile="/home/sberyozkin/work/shibboleth-idp/metadata/idp-metadata.xml">
+    <ph:ProfileHandler xsi:type="ph:SAMLMetadata" metadataFile="${shibboleth-home}/metadata/idp-metadata.xml">
         <ph:RequestPath>/Metadata/SAML</ph:RequestPath>
     </ph:ProfileHandler>    
 
@@ -94,7 +94,7 @@
     
     <!--  Username/password login handler -->
     <ph:LoginHandler xsi:type="ph:UsernamePassword" 
-                  jaasConfigurationLocation="file:///home/sberyozkin/work/shibboleth-idp/conf/login.config">
+                  jaasConfigurationLocation="file://${shibboleth-home}/conf/login.config">
         <ph:AuthenticationMethod>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</ph:AuthenticationMethod>
     </ph:LoginHandler>
     
