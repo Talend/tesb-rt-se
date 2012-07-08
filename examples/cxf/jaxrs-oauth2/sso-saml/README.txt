@@ -46,6 +46,11 @@ Starting IDP
 Please see idp/shibboleth/README.txt on how to install and run Shibboleth IDP.
 Alternative IDP providers can be installed if preferred.
 
+If Shibboleth is used and has already been set-up, do
+     start Kerberos server (assuming Kerberos is used, see idp/shibboleth/README.txt) 
+     cd ${tomcat.home}
+     bin/catalina.sh run
+
 Running the client
 ---------------------------------------
  
@@ -88,4 +93,28 @@ Running the client
 Demo Desciption
 ---------------
 
-TODO
+The way the application works when Social.com and Reservations applications, as well as OAuth2 services, are deployed in different HTTP containers is very similar to the way the simpler application demonstrated in the main jaxrs-oauth2 demo works (which is referred to as a 'simpler mode' of operation in the follow-up text).
+
+The main differences, apart from the fact that Social.com, Reservations and OAuth2 services are deployed into their own web applications, are as follows:
+1. All the communication between the user, Social.com, Reservations and OAuth2 services is done via HTTPS.
+2. In a 'simpler mode', OAuth 2.0 Authorization Service is collocated with Social.com application - to simplify the way the user authentication to both Social.com and OAuth2 service is managed; OAuth2 AccessToken service is also collocated with all the other services.  
+Now, OAuth 2.0 Authorization and AccessToken Services are both deployed into a separate 'oauth' web application.
+3. In a 'simpler mode', OAuth 2.0 Security filter protecting Social.com by authorizing third-party Reservations clients simply delegates to CXF OAuth2 OAuthDataProvider implementation to get the required information. Now the filter has to delegate to the remote AccessTokenValidation service due to the fact that OAuth 2.0 AccessTokenService is running in a separate oauth web application. 
+ 
+See jaxrs-oauth2/sso-saml/social-app-war/src/main/webapp/WEB-INF/thirdPartyToSocialApp.xml.
+
+4. In a 'simpler mode', Social.com, Reservations and OAuth2 Authorization services are all protected by a single security filter enforcing that a user (account owner) has actually authenticated (in addition to OAuth2 filters authorizing the Reservations application) 
+Now, all of the these services are protected by two security filters, the first one enforcing that the Single Sign-on Security Context is valid, redirecting the user to IDP to authenticate if not, letting the request the continue if yes, and the second filter checking that the security context has a valid principal. 
+
+See jaxrs-oauth2/sso-saml/social-app-war/src/main/webapp/WEB-INF/socialApp.xml (jaxrs:endpoint with id='socialServer'), jaxrs-oauth2/sso-saml/oauth-war/src/main/webapp/WEB-INF/oauthManager.xml (jaxrs:endpoint with id='oauthAuthorize'), jaxrs-oauth2/sso-saml/reservations-war/src/main/webapp/WEB-INF/restaurantReserve.xml (jaxrs:endpoint with id='reservationsServer').   
+
+5. ServiceProvider RequestAssertionConsumerService (RACS) is deployed into its own samlp-racs-war application. IDP redirects all the users to this service after they authenticate with IDP.
+RACS redirects the users back to the original target URI after validating the IDP response data and setting an active security context.
+6. The configuration is similar to the one used in a 'simpler' mode, with Social.com, Reservations and OAuth2 configuration contexts also including the CXF HTTP Conduit configuration for enabling HTTPS.
+7. Given that RACS service and SSO filters protecting Social.com, Reservations and OAuth2 Authorization endpoints need to share the SP SSO state but run as part of different web applications, the need to have a distributed state management solution in place is needed. The demo uses a simple HTTP-based client-server mechanism for keepingh the state shared. 
+CXF offers an org.apache.cxf.rs.security.saml.sso.state.HTTPSPStateManager. 
+sampl-racs-war application, in addition to having a RACS endpoint itself, is also hosting an HTTPSPStateManager endpoint. 
+All the SSO filters in Social.com, Reservations and OAuth2 configuration contexts are injected with CXF JAX-RS client HTTPSPStateManager proxies.
+Alternative distributed cache-management solutions can be implemented as needed. A simpler option which might do for simple applications is to have RACS endpoints collocated with all the web applications where SSO is required. 
+
+   
