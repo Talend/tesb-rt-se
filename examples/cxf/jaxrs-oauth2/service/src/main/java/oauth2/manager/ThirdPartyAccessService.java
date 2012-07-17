@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 
 import oauth2.common.Calendar;
 import oauth2.common.OAuthConstants;
+import oauth2.service.UserAccount;
 import oauth2.service.UserAccounts;
 
 import org.apache.cxf.jaxrs.ext.MessageContext;
@@ -35,7 +36,11 @@ public class ThirdPartyAccessService {
 	public Calendar getUserCalendar() {
 	    OAuthContext oauth = getOAuthContext();
 	    String userName = oauth.getSubject().getLogin();
-		return accounts.getAccount(userName).getCalendar();
+	    UserAccount account = accounts.getAccount(userName);
+	    if (account == null) {
+	    	account = accounts.getAccountWithAlias(userName);
+	    }
+		return account.getCalendar();
 	}
 	
 	@POST

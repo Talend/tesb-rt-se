@@ -32,7 +32,7 @@
           
           This service will return an authorization form to a user and then will redirect the user
           back to the Restaurant Registrations service to a callback address which was provided 
-          to OAuth provider during the request token request, including the authorization key if the user approves. 
+          during the client authorization code request 
      -->      
      <bean id="oauthAuthorizeService" 
            class="org.apache.cxf.rs.security.oauth2.services.AuthorizationCodeGrantService">
@@ -41,11 +41,9 @@
 
      <!-- Security filter which enforces that only registered Social.com users
           can access their calendars with a public Social.com address.
-          This filter lets the user registration requests to pass through.
      -->
      <bean id="socialSecurityContext" class="oauth2.service.SecurityContextFilter">
          <property name="accounts" ref="userAccounts"/>
-         <property name="userRegistrationPath" value="registerUser"/>
      </bean>
      
      <!-- Social.com HTML View support. RequestDispatcherProvider is configured such that 
@@ -75,16 +73,24 @@
      </bean>
      
      <!-- 
-         Social.com service endpoint which consists of 3 JAX-RS root resources
+         Social.com service endpoint which consists of 2 JAX-RS root resources
      -->
      <jaxrs:server id="socialServer" address="/social">
         <jaxrs:serviceBeans>
            <ref bean="socialService"/>
-           <ref bean="userRegistrationService"/>
            <ref bean="oauthAuthorizeService"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
            <ref bean="socialSecurityContext"/>
+           <ref bean="socialViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+     <jaxrs:server id="registerUsers" address="/register">
+        <jaxrs:serviceBeans>
+           <ref bean="userRegistrationService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
            <ref bean="socialViews"/>
         </jaxrs:providers>
      </jaxrs:server>

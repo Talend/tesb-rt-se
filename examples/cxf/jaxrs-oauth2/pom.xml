@@ -20,7 +20,7 @@
     </parent>
 
     <properties>
-        <cxf.version>2.6.1</cxf.version>
+        <cxf.version>2.6.2-SNAPSHOT</cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -42,6 +42,11 @@
         <module>service</module>
         <module>war</module>
         <module>client</module>
+
+        <module>sso-saml/social-app-war</module>
+        <module>sso-saml/oauth-war</module>
+        <module>sso-saml/reservations-war</module>
+        <module>sso-saml/samlp-racs-war</module> 
     </modules>
 
     <build>
@@ -77,6 +82,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
+    
 </project>
 

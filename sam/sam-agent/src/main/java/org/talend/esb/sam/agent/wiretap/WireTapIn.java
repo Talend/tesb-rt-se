@@ -73,6 +73,8 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                         IOUtils.copy(reader, writer, 1024);
                         reader.reset();
                         writer.flush();
+                        message.setContent(InputStream.class, cos.getInputStream());
+                        message.setContent(Reader.class, null);
                         message.setContent(CachedOutputStream.class, cos);
                     } catch (IOException e) {
                         throw new RuntimeException(e);

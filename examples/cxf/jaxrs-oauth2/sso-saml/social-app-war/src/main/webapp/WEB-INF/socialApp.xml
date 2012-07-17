@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd">
+
+     
+     <import resource="common.xml" />
+     
+     <!-- Social Application -->
+     
+     <!-- SSO Support -->
+     <jaxrs:client id="stateManager"
+         address="https://localhost:${racs.port}/racs"
+         serviceClass="org.apache.cxf.rs.security.saml.sso.state.HTTPSPStateManager"/>
+         
+     <bean id="ssoRedirectURI" class="org.apache.cxf.rs.security.saml.sso.SamlRedirectBindingFilter">
+        <property name="idpServiceAddress" value="${idp.address}"/>
+        <property name="assertionConsumerServiceAddress" 
+               value="https://localhost:${racs.port}/racs/sso"/>
+        <property name="stateProvider" ref="stateManager"/>
+        <property name="addWebAppContext" value="false"/> 
+    </bean>
+     <!-- Manages the registration of new users -->
+     <bean id="userRegistrationService" class="oauth2.service.UserRegistrationService">
+         <property name="accounts" ref="userAccounts"/>
+     </bean>
+
+     <!-- Lets registered users access and update their calendars --> 
+     <bean id="socialService" class="oauth2.service.SocialService">
+         <property name="accounts" ref="userAccounts"/>
+     </bean>
+     
+     <!-- Security filter which enforces that only registered Social.com users
+          can access their calendars with a public Social.com address.
+     -->
+     <bean id="socialSecurityContext" class="oauth2.service.SecurityContextFilter">
+         <property name="accounts" ref="userAccounts"/>
+     </bean>
+     
+     <!-- Social.com HTML View support --> 
+     <bean id="socialViews" class="org.apache.cxf.jaxrs.provider.RequestDispatcherProvider">
+         <property name="classResources">
+            <map>
+              <entry key="oauth2.common.UserRegistration" value="/forms/registerUserConfirm.jsp"/>
+              <entry key="oauth2.service.UserAccount" value="/forms/userAccount.jsp"/>
+            </map>
+         </property>
+         <property name="beanNames">
+            <map>
+              <entry key="oauth2.service.UserAccount" value="account"/>
+            </map>
+         </property>
+         <property name="logRedirects" value="true"/>
+     </bean>
+     
+     <!-- 
+         Social.com service endpoint which consists of 2 JAX-RS root resources
+     -->
+     <jaxrs:server id="socialServer" address="/app">
+        <jaxrs:serviceBeans>
+           <ref bean="socialService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+          <ref bean="ssoRedirectURI"/>
+           <ref bean="socialSecurityContext"/>
+           <ref bean="socialViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+     <jaxrs:server id="registerUsers" address="/register">
+        <jaxrs:serviceBeans>
+           <ref bean="userRegistrationService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="socialViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+          
+</beans>
+

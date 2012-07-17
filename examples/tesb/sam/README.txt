@@ -49,6 +49,7 @@ Start Derby database and sam-server in OSGI Container
 	* starting Derby database and sam-server in TESB OSGi container:
 
 	Enter the following command on the OSGI console:
+	karaf@trun> features:install tesb-datasource-derby
 	karaf@trun> features:install tesb-derby-starter
 	karaf@trun> features:install tesb-sam-server
 

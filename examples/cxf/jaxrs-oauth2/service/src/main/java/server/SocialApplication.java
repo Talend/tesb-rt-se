@@ -44,7 +44,6 @@ public class SocialApplication extends Application {
         userRegService.setAccounts(accounts);
         
         SecurityContextFilter scFilter = new SecurityContextFilter();
-        scFilter.setUserRegistrationPath("registerUser");
         scFilter.setAccounts(accounts);
         
         ThirdPartyAccessService thirdPartyAccessService = new ThirdPartyAccessService();

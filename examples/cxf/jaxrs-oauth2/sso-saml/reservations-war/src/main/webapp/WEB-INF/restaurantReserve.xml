@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xmlns:http="http://cxf.apache.org/transports/http/configuration"
+      xmlns:sec="http://cxf.apache.org/configuration/security"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd
+         http://cxf.apache.org/transports/http/configuration
+         http://cxf.apache.org/schemas/configuration/http-conf.xsd
+         http://cxf.apache.org/configuration/security
+         http://cxf.apache.org/schemas/configuration/security.xsd">
+
+     
+     <!-- Restaurant Reservations Application -->
+     
+     <http:conduit name="*.http-conduit">
+        <http:client ConnectionTimeout="3000000" ReceiveTimeout="3000000"/>
+        <http:tlsClientParameters disableCNCheck="true">
+            <sec:keyManagers keyPassword="skpass">
+            <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass" 
+	                resource="/WEB-INF/servicestore.jks"/>
+	        -->        
+	           <sec:keyStore type="JKS" password="sspass" 
+	                file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	           </sec:keyManagers>
+	        <sec:trustManagers>
+	        <!-- Enable once CXF 2.6.2 gets released
+	           <sec:keyStore type="JKS" password="sspass"
+	               resource="/WEB-INF/servicestore.jks"/>
+	        -->       
+	           <sec:keyStore type="JKS" password="sspass"
+	               file="${project.build.directory}/${project.build.finalName}/WEB-INF/servicestore.jks"/>
+	        </sec:trustManagers>
+        </http:tlsClientParameters>
+     </http:conduit>
+     
+     <!-- 
+         WebClient which Restaurant Reservations uses to access Social.com users' calendars at Social.com.
+         Note that the Social.com address provided to this service is different from
+         the one used by Social.com users themselves, which is "http://localhost:${http.port}/services/social/calendar".
+         Social.com is OAuth-protected at "https://localhost:${social.port}/social/thirdPartyAccess/calendar" while
+         "https://localhost:${social.port}/social/calendar" is protected by a Basic Authentication filter.
+     -->
+     
+     <bean id="socialServiceClient" class="org.apache.cxf.jaxrs.client.WebClient" factory-method="create">
+         <constructor-arg type="java.lang.String" value="https://localhost:${social.port}/social/thirdPartyAccess/calendar"/>
+     </bean>
+     
+     <!-- WebClient for requesting an OAuth2 Access token. 
+          Once the access token is obtained, the service 
+          uses it to access the user's calendar 
+     -->
+     
+     <bean id="atServiceClientFactory" class="org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean">
+         <property name="address" value="https://localhost:${oauth.port}/oauth/access/token"/>
+         <property name="headers">
+            <map>
+               <entry key="Accept" value="application/json"/>
+            </map>
+         </property>
+     </bean>
+     
+     <bean id="atServiceClient" factory-bean="atServiceClientFactory" factory-method="createWebClient"/>
+     
+     <!-- WebClient for talking to a partner Restaurant application,
+          it is used after a user calendar's has been checked 
+     -->
+     
+     <bean id="restaurantServiceClientFactory" class="org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean">
+         <property name="address" value="https://localhost:${http.port}/reservations/restaurant/reception"/>
+         <property name="headers">
+            <map>
+               <entry key="Content-Type" value="application/x-www-form-urlencoded"/>
+               <entry key="Accept" value="text/plain"/>
+            </map>
+         </property>
+     </bean>
+     
+     <bean id="restaurantServiceClient" factory-bean="restaurantServiceClientFactory" factory-method="createWebClient"/>
+     
+     <!-- 
+       Utility OAuthClientManager which encapsulates the interaction with the OAuth Server
+     -->  
+     
+     <bean id="oauthClient" class="oauth2.thirdparty.OAuthClientManager">
+         <property name="authorizationURI" value="https://localhost:${oauth.port}/oauth/client/authorize"/>
+         <property name="accessTokenService" ref="atServiceClient"/>
+     </bean>
+     
+     <!-- Restaurant Reservations Service Bean -->     
+     <bean id="restaurantReserveService" class="oauth2.thirdparty.RestaurantReservationService">
+         <property name="oAuthClientManager" ref="oauthClient"/>
+         <property name="socialService" ref="socialServiceClient"/>
+         <property name="restaurantService" ref="restaurantServiceClient"/>
+     </bean>
+     
+     <!-- The security filter for Restaurant Reservations -->
+     <bean id="thirdPartySecurityContext" class="oauth2.thirdparty.SecurityContextFilter">
+         <property name="users">
+            <map>
+              <entry key="barry" value="xxxxx"/>
+            </map>
+         </property>
+         <property name="realm" value="Reservations"/>
+     </bean>
+     
+     <!-- The Restaurant Reservations View Support
+         Responses to requests with URIs ending with /reservations/reserve/complete and
+         /reservations/reserve/failure will be redirected to "/forms/reservationConfirm.jsp"
+         and "/forms/reservationFailure.jsp" respectively.
+         
+         In both cases the response beans (oauth.common.ReservationConfirmation and oauth.common.ReservationFailure)
+         will be available to view handlers as HttpServletRequest "data" attribute. 
+         
+         Note that restaurantReserveService will use JAX-RS Response.seeOther() call to redirect a user
+         to a failure handler if a /complete reservation requests fails for whatever reasons 
+         (no authorization key is available after the authorization service redirects the user back to it, no
+         access token can be obtained, etc)   
+     --> 
+     <bean id="reserveRegistrationViews" class="org.apache.cxf.jaxrs.provider.RequestDispatcherProvider">
+         <property name="resourcePaths">
+            <map>
+              <entry key="/reservations/service/reserve/complete" value="/forms/reservationConfirm.jsp"/>
+              <entry key="/reservations/service/reserve/failure" value="/forms/reservationFailure.jsp"/>
+            </map>
+         </property>
+         <property name="beanName" value="data"/>
+         <property name="logRedirects" value="true"/>
+     </bean>
+     
+     <!-- SSO Support -->
+     <jaxrs:client id="stateManager"
+         address="https://localhost:${racs.port}/racs"
+         serviceClass="org.apache.cxf.rs.security.saml.sso.state.HTTPSPStateManager"/>
+         
+     <bean id="ssoRedirectURI" class="org.apache.cxf.rs.security.saml.sso.SamlRedirectBindingFilter">
+        <property name="idpServiceAddress" value="${idp.address}"/>
+        <property name="assertionConsumerServiceAddress" 
+               value="https://localhost:${racs.port}/racs/sso"/>
+        <property name="stateProvider" ref="stateManager"/>
+        <property name="addWebAppContext" value="false"/> 
+    </bean>
+    
+     
+     <!-- Restaurant Reservations Service Endpoint --> 
+     <jaxrs:server id="reservationsServer" address="/service">
+        <jaxrs:serviceBeans>
+           <ref bean="restaurantReserveService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="ssoRedirectURI"/>
+           <ref bean="thirdPartySecurityContext"/>
+           <ref bean="reserveRegistrationViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+          
+</beans>
+

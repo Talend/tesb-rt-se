@@ -11,7 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.MatrixParam;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @WebService(targetNamespace = "http://hello.com")
@@ -20,7 +20,7 @@ public interface HelloWorld {
 
     @GET
     @Produces("text/plain")
-    String sayHi(@QueryParam("text") String text);
+    String sayHi(@MatrixParam("text") String text);
 
     @POST
     @Consumes("text/xml")

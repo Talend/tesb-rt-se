@@ -83,6 +83,7 @@
               <entry key="barry@restaurant.com" value="5678"/>
             </map>
          </property>
+         <property name="realm" value="Reservations"/>
      </bean>
      
      <!-- The Restaurant Reservations View Support

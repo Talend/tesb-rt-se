@@ -26,13 +26,22 @@ public class SecurityContextFilter implements RequestHandler {
 	@Context
 	private HttpHeaders headers;
 	private Map<String, String> users;
-	
+	private String realm;
 	public void setUsers(Map<String, String> users) {
 		this.users = users;
 	} 
 	
 	
 	public Response handleRequest(Message message, ClassResourceInfo cri) {
+		
+		SecurityContext sc = message.get(SecurityContext.class);
+		if (sc != null) {
+		    Principal principal  = sc.getUserPrincipal();
+		    if (principal != null && users.containsKey(principal.getName())) {
+			    return null;
+		    }
+		}
+		
 		List<String> authValues = headers.getRequestHeader("Authorization");
 		if (authValues.size() != 1) {
 			return createFaultResponse();
@@ -56,7 +65,7 @@ public class SecurityContextFilter implements RequestHandler {
 		if (password == null || !password.equals(namePassword[1])) {
 			return createFaultResponse();
 		}
-		final SecurityContext sc = new SecurityContext() {
+		final SecurityContext newSc = new SecurityContext() {
 
 			public Principal getUserPrincipal() {
 				return new SimplePrincipal(namePassword[0]);
@@ -67,11 +76,22 @@ public class SecurityContextFilter implements RequestHandler {
 			}
 			
 		};
-		message.put(SecurityContext.class, sc);
+		message.put(SecurityContext.class, newSc);
 		return null;
 	}
 
 	private Response createFaultResponse() {
-		return Response.status(401).header("WWW-Authenticate", "Basic realm=\"Reservations\"").build();
+		return Response.status(401).header("WWW-Authenticate", 
+				"Basic realm=\"" + getRealm() + "\"").build();
+	}
+
+
+	public String getRealm() {
+		return realm;
+	}
+
+
+	public void setRealm(String realm) {
+		this.realm = realm;
 	}
 }

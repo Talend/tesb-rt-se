@@ -14,7 +14,7 @@
      <bean id="userAccounts" class="oauth2.service.UserAccounts"/>
      
      <!-- 
-         CXF org.apache.cxf.rs.security.oauth.provider.OAuthDataProvider implementation,
+         CXF org.apache.cxf.rs.security.oauth2.provider.OAuthDataProvider implementation,
          used by request and access token services (see oauthManager context)
          and the request authorization service (see socialApp context) 
      -->

@@ -27,11 +27,13 @@ public class UserRegistrationService {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/")
-	public UserRegistration register(@FormParam("user") String name, @FormParam("password") String password) {
+	public UserRegistration register(@FormParam("user") String name,
+			                         @FormParam("alias") String alias,
+			                         @FormParam("password") String password) {
 		if (accounts.getAccount(name) != null) {
 			throw new WebApplicationException(400);
 		}
-		accounts.setAccount(name, new UserAccount(name, password));
+		accounts.setAccount(name, new UserAccount(name, password, alias));
 		return new UserRegistration(name);
 	}
 }

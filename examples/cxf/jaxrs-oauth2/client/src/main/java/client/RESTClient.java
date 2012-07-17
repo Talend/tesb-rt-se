@@ -54,7 +54,7 @@ public final class RESTClient {
     }
     
     public void createUserAccount() throws Exception {
-    	WebClient rs = WebClient.create("http://localhost:" + port + "/services/social/registerUser");
+    	WebClient rs = WebClient.create("http://localhost:" + port + "/services/register/registerUser");
     	WebClient.getConfig(rs).getHttpConduit().getClient().setReceiveTimeout(10000000L);
     	rs.form(new Form().set("user", "barry@social.com").set("password", "1234"));
     	

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2011 Talend Inc. - www.talend.com
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+      xsi:schemaLocation="
+         http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://cxf.apache.org/jaxrs
+         http://cxf.apache.org/schemas/jaxrs.xsd">
+
+     
+     <!-- Restaurant Application -->
+     <bean id="restaurantService" class="oauth2.thirdparty.RestaurantService"/>
+     
+     <!-- Basic Restaurant Service endpoint,
+          it makes a booking if it has a free table for a specific hour and
+          returns its address   
+     -->
+     <jaxrs:server id="restaurantServer" address="/restaurant">
+        <jaxrs:serviceBeans>
+           <ref bean="restaurantService"/>
+        </jaxrs:serviceBeans>
+     </jaxrs:server>
+    
+          
+</beans>
+

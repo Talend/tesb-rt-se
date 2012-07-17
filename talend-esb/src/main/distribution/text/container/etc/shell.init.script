@@ -28,6 +28,6 @@ tesb:start-sam = { features:install tesb-datasource-derby; features:install tesb
 tesb:start-locator = { features:install tesb-zookeeper-server } ; // (install zookeeper feature)
 tesb:start-all = { tesb:start-sts; tesb:start-sam; tesb:start-locator } ; // (start all three services)
 tesb:stop-sts = { features:uninstall tesb-sts } ;
-tesb:stop-sam = { features:uninstall tesb-sam-server; features:uninstall tesb-derby-starter; features:uninstall tesb-datasource-derby } ; // (uninstall derby-starter and sam feature)
+tesb:stop-sam = { features:uninstall tesb-sam-server; features:uninstall tesb-datasource-derby; features:uninstall tesb-derby-starter } ; // (uninstall derby-starter and sam feature)
 tesb:stop-locator = { features:uninstall tesb-zookeeper-server } ; // (uninstall zookeeper feature)
 tesb:stop-all = { tesb:stop-sts; tesb:stop-sam; tesb:stop-locator } ; // (uninstall all three services)
