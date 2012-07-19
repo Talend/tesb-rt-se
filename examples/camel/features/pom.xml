@@ -20,7 +20,7 @@
     
     <properties>
         <activemq.version>5.5.1</activemq.version>
-        <cxf.version>2.6.1</cxf.version>
+        <cxf.version>2.6.2-SNAPSHOT</cxf.version>
         <camel.version>2.9.3-SNAPSHOT</camel.version>
         <karaf.version>2.2.8</karaf.version>
         <spring.version>3.0.7.RELEASE</spring.version>
