@@ -36,7 +36,7 @@
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServicePort"
 		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl"
 		address="locator://ReservationServiceProvider">
 			<jaxws:properties>
