@@ -70,7 +70,7 @@
 	<jaxws:endpoint id="CRMService"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
-		endpointName="serviceNamespace:CRMServiceProvider"
+		endpointName="serviceNamespace:CRMServicePort"
 		implementor="#CRMServiceBean"
 		address="/CRMServiceProvider"
 		>

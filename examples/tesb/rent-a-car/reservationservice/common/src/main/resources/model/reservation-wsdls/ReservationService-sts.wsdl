@@ -211,7 +211,7 @@
   </wsdl:binding>
 
   <wsdl:service name="ReservationServiceProvider">
-    <wsdl:port binding="tns:ReservationServiceBinding" name="ReservationServiceProvider">
+    <wsdl:port binding="tns:ReservationServiceBinding" name="ReservationServicePort">
       <soap:address location="${endpoint.prefix}/ReservationServiceProvider"/>
     </wsdl:port>
   </wsdl:service>

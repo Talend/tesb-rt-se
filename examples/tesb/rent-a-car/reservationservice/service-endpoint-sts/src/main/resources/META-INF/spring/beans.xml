@@ -63,7 +63,7 @@
 	<jaxws:endpoint id="ReservationService" 
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
-		endpointName="serviceNamespace:ReservationServiceProvider"
+		endpointName="serviceNamespace:ReservationServicePort"
 		implementor="#ReservationServiceBean"
 		address="/ReservationServiceProvider"
 		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
