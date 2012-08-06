@@ -19,6 +19,8 @@
     <properties>
         <activemq.version>5.5.1</activemq.version>
         <cxf.version>2.6.2-SNAPSHOT</cxf.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <log4j.version>1.2.16</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -28,6 +30,22 @@
         <module>war</module>
         <module>client</module>
     </modules>
+    	<dependencyManagement>
+        <dependencies>
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
          <defaultGoal>install</defaultGoal>
          <pluginManagement>
@@ -72,6 +90,23 @@
                         <groupId>org.apache.activemq.tooling</groupId>
                         <artifactId>maven-activemq-plugin</artifactId>
                         <version>${activemq.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-api</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.slf4j</groupId>
+                                <artifactId>slf4j-log4j12</artifactId>
+                                <version>${slf4j.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>log4j</groupId>
+                                <artifactId>log4j</artifactId>
+                                <version>${log4j.version}</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <phase>test</phase>
