@@ -42,6 +42,7 @@ Every 5 seconds, you will see the "Hello World" message in the TESB console.  If
 recipientlist.xml, you'll also see files created in a new result folder located under the 
 container directory.
 
-To uninstall the example delete recipientlist.xml or simple.xml from the container/deploy directory, type ^D at the TESB container console and restart container with container/bin/trun.
+To uninstall the example delete recipientlist.xml or simple.xml from the container/deploy directory, 
+type ^D at the TESB container console and restart container with container/bin/trun.
 
 
