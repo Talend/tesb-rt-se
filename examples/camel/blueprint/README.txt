@@ -24,7 +24,7 @@ Hot deployment
 --------------
 Start the TESB container
 
-> cd container/bin/trun
+> container/bin/trun
 
 Install the required features
 
@@ -41,5 +41,7 @@ in the container/deploy directory.
 Every 5 seconds, you will see the "Hello World" message in the TESB console.  If you used
 recipientlist.xml, you'll also see files created in a new result folder located under the 
 container directory.
+
+To uninstall the example delete recipientlist.xml or simple.xml from the container/deploy directory, type ^D at the TESB container console and restart container with container/bin/trun.
 
 
