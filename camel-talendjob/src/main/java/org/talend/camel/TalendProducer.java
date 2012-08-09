@@ -50,13 +50,15 @@ public class TalendProducer extends DefaultProducer {
 		Object jobInstance = ((TalendEndpoint) getEndpoint()).getJobInstance();
 		Method jobMethod = ((TalendEndpoint) getEndpoint()).getJobMethod();
 		String context = ((TalendEndpoint) getEndpoint()).getContext();
+		Method setExchangeMethod = ((TalendEndpoint) getEndpoint()).getSetExchangeMethod();
 
 		List<String> args = new ArrayList<String>();
 		if (context != null) {
 			args.add("--context=" + context);
 		}
 		populateTalendContextParamsWithCamelHeaders(exchange, args);
-		invokeTalendJob(jobInstance, jobMethod, args);
+		
+		invokeTalendJob(jobInstance, jobMethod, args, setExchangeMethod, exchange);
 	}
 
 	private void populateTalendContextParamsWithCamelHeaders(Exchange exchange, List<String> args) {
@@ -71,7 +73,12 @@ public class TalendProducer extends DefaultProducer {
 		}
 	}
 
-	private void invokeTalendJob(Object jobInstance, Method jobMethod, List<String> args) {
+	private void invokeTalendJob(Object jobInstance, Method jobMethod, List<String> args, Method setExchangeMethod, Exchange exchange) {
+		if(setExchangeMethod !=null){
+			LOG.debug("Pass the exchange from router to Job");
+			ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
+		}
+		
 		LOG.debug("Invoking Talend job '" + jobInstance.getClass().getCanonicalName() 
 				+ ".runJob(String[] args)' with args: " + args.toString());
 		

@@ -23,10 +23,13 @@ package org.talend.camel;
 import java.lang.reflect.Method;
 
 import org.apache.camel.Consumer;
+import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.impl.DefaultEndpoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -39,10 +42,14 @@ public class TalendEndpoint extends DefaultEndpoint {
     private String context;
     private Object jobInstance;
     private Method jobMethod;
+    private Method setExchangeMethod;
+    
+	private static final transient Logger LOG = LoggerFactory.getLogger(TalendEndpoint.class);
+
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
         super(uri, component);
-        this.setClazz(clazz);
+        this.clazz = clazz;
     }
 
     public TalendEndpoint(String endpointUri) {
@@ -67,10 +74,17 @@ public class TalendEndpoint extends DefaultEndpoint {
             Class<?> jobType = this.getCamelContext().getClassResolver().resolveMandatoryClass(clazz);
             jobInstance = getCamelContext().getInjector().newInstance(jobType);
             jobMethod = jobType.getMethod("runJobInTOS", new Class[]{String[].class});
+            try{
+            	setExchangeMethod = jobType.getMethod("setExchange", new Class[]{Exchange.class});
+            }catch (NoSuchMethodException e) {
+				LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
+				setExchangeMethod = null;
+			}
         }
+        
     }
 
-    public final void setClazz(String clazz) {
+    public void setClazz(String clazz) {
         this.clazz = clazz;
     }
 
@@ -101,4 +115,8 @@ public class TalendEndpoint extends DefaultEndpoint {
     public Method getJobMethod() {
         return jobMethod;
     }
+    
+    public Method getSetExchangeMethod() {
+		return setExchangeMethod;
+	}
 }
