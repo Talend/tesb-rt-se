@@ -186,7 +186,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (clientFactory.getProperties() == null) {
             clientFactory.setProperties(new HashMap<String, Object>());
         }
-        clientFactory.getProperties().put("soap.force.doclit.bare", Boolean.TRUE);
+        clientFactory.getProperties().put("soap.no.validate.parts", Boolean.TRUE);
 
     }
 
