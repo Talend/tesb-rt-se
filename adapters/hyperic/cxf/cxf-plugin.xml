@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!-- 
+
+ Copyright (C) 2011 - 2012 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+-->
+<plugin name="cxf">
+	<metrics name ="endpoint">
+	 <metric name="Availability" template="${OBJECT_NAME}:${alias}" indicator="true" />
+	 <metric name="Number of Invocations" alias="NumInvocations" 
+			indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+			category="THROUGHPUT" />
+		<metric name="Total Handling Time" alias="TotalHandlingTime" 
+			indicator="true" template="${OBJECT_NAME}:${alias}" units="mu" 
+			category="PERFORMANCE"/>
+		<metric name="Number of Checked Application Faults" alias="NumCheckedApplicationFaults" 
+		    indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+		    category="THROUGHPUT"/>
+		<metric name="Number of Logical Runtime Faults" alias="NumLogicalRuntimeFaults" 
+		    indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+		    category="THROUGHPUT"/>
+		<metric name="Number of Runtime Faults" alias="NumRuntimeFaults" 
+		    indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+		   category="THROUGHPUT"/>
+		<metric name="Number of UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" 
+			indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+			category="THROUGHPUT"/>
+		 
+	</metrics>
+	
+	
+	<server name="Apache CXF [Tomcat]" version="2.x">
+
+		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" /> 
+		<metric name="Availability" template="${OBJECT_NAME}:${alias}" indicator="true" /> 
+		<property name="PROC_HOME_PROPERTY" value="catalina.home" /> 
+		<property name="HAS_BUILTIN_SERVICES" value="true" />
+		<config> 
+			<option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi"/> 
+			<option name="jmx.username" description="JMX username" optional="true" default=""/> 
+			<option name="jmx.password" description="JMX password" optional="true" default="" type="secret"/>
+		</config>
+		<!--
+			<property name="TOMCAT_HOME" value="C:\apache-tomcat-7.0.5" /> 
+			<property name="INSTALLPATH_MATCH" value="${TOMCAT_HOME}" /> 
+		-->
+		<property name="INSTALLPATH" value="CXF Tomcat" />
+		
+		<plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
+		<plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin"/>
+	    
+		<service name="Services">
+			
+			<property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
+			<plugin type="autoinventory" />
+			
+			<config>
+				<option name="host" description="Hostname" default="" />
+				<option name="bus.id" description="CXF Bus ID" />
+				<option name="service" description="Service name" />
+				<option name="port" description="Port name" />
+				<option name="operation" description="Operation name" />
+			</config>
+			<filter name="template" value="${OBJECT_NAME}:${alias}" />
+			<property name="OBJECT_NAME" value='org.apache.cxf:bus.id=*,type=Performance.Counter.Server,service=*,port=*,operation=*'/>
+			<metrics include="endpoint"/>
+		</service>
+
+	</server>
+	
+	<server name="Apache CXF [Karaf]" version="2.x">
+	
+		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" /> 
+		<metric name="Availability" template="${OBJECT_NAME}:${alias}" indicator="true" />
+		
+		<property name="PROC_HOME_PROPERTY" value="karaf.home" /> 
+		<property name="HAS_BUILTIN_SERVICES" value="true" />
+		<property name="INSTALLPATH" value="CXF Karaf" />
+		<!--<property name="KARAF_HOME" value="C:\talend-esb-4.0\container\bin"/>
+		<property name="INSTALLPATH_MATCH" value="${KARAF_HOME}"/>-->
+		<config> 
+			<option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun"/> 
+			<option name="jmx.username" description="JMX username" optional="true" default="tadmin"/> 
+			<option name="jmx.password" description="JMX password" optional="true" default="tadmin" type="hidden"/>
+		</config>
+		
+		<plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
+		<plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin"/>
+	
+		<service name="Services">
+			
+			<property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
+			<plugin type="autoinventory" />
+			
+			<config>
+				<option name="host" description="Hostname" default="" />
+				<option name="bus.id" description="CXF Bus ID" />
+				<option name="service" description="Service name" />
+				<option name="port" description="Port name" />
+				<option name="operation" description="Operation name" />
+			</config>
+		
+			<filter name="template" value="${OBJECT_NAME}:${alias}" />
+			<property name="OBJECT_NAME" value='org.apache.cxf:bus.id=*,type=Performance.Counter.Server,service=*,port=*,operation=*'/>
+			<metrics include="endpoint"/>
+		
+		</service>
+		
+	</server>
+
+</plugin>

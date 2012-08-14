@@ -384,13 +384,25 @@
             </excludes>
         </fileSet>
 
-		<!-- Adapters -->
+		<!-- Copy Adapters -->
         <fileSet>
-            <directory>target/dependencies/adapters</directory>
+            <directory>${basedir}/../adapters/hyperic/camel</directory>
+            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../adapters/hyperic/cxf</directory>
+            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../adapters/nagios</directory>
+            <outputDirectory>/add-ons/adapters/nagios</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
-            <excludes>
-            	<exclude>LICENSE.txt</exclude>
-            </excludes>
+            <includes>
+                <include>README</include>
+            </includes>
         </fileSet>
 
         <!-- version.txt -->
