@@ -26,25 +26,51 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implementation of {@link SLProperties} backed by a {@link Map}. In addition to the methods exposed in
+ * <code>SLProperties<code> it also offers the methods {@link #addProperty(String, Iterable)} and 
+ *  {@link #addProperty(String, String...) to actually add properties.  
+ */
 public class SLPropertiesImpl implements SLProperties {
 
     public static final SLProperties EMPTY_PROPERTIES = new SLPropertiesImpl();
 
     private static final long serialVersionUID = -3527977700696163706L;
 
+    //A linked hash map is used because it preserves ordering when iterating over the entries.
+    //So ordering is the same also when serialized to XML and deserialized from.
     private Map<String, Collection<String>> properties = new LinkedHashMap<String, Collection<String>>();
 
+    /**
+     * Add a property with the given name and the given list of values to this Properties object. Name
+     * and values are trimmed before the property is added.
+     * 
+     * @param name the name of the property, must not be <code>null</code>. 
+     * @param values the values of the property, must no be <code>null</code>,
+     *               none of the  values must be <code>null</code> 
+     */
     public void addProperty(String name, String... values) {
         List<String> valueList = new ArrayList<String>();
         for (String value : values) {
-            valueList.add(value);
+            valueList.add(value.trim());
         }
-        properties.put(name, valueList);
+        properties.put(name.trim(), valueList);
     }
 
-    public void addProperty(String name, Collection<String> values) {
-        List<String> valueList = new ArrayList<String>(values);
-        properties.put(name, valueList);
+    /**
+     * Add a property with the given name and the given collection of values to this Properties object. Name
+     * and values are trimmed before the property is added.
+     * 
+     * @param name the name of the property, must not be <code>null</code>. 
+     * @param values the values of the property, must no be <code>null</code>,
+     *               none of the  values must be <code>null</code> 
+     */
+    public void addProperty(String name, Iterable<String> values) {
+        List<String> valueList = new ArrayList<String>();
+        for (String value : values) {
+            valueList.add(value.trim());
+        }
+        properties.put(name.trim(), valueList);
     }
 
     /**
@@ -79,6 +105,9 @@ public class SLPropertiesImpl implements SLProperties {
         return includesValues(name, Arrays.asList(values));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean includesValues(String name, Collection<String> values) {
         Collection<String> propValues = properties.get(name);
@@ -89,5 +118,4 @@ public class SLPropertiesImpl implements SLProperties {
 
         return propValues.containsAll(values);
     }
-
 }

@@ -19,8 +19,14 @@
  */
 package org.talend.esb.servicelocator.client;
 
-import org.junit.Before;
+import java.util.Arrays;
+import java.util.Collection;
+
+//import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -31,18 +37,24 @@ import static org.junit.Assert.assertTrue;
 
 import static org.talend.esb.servicelocator.TestValues.*;
 
-
+@RunWith(value=Parameterized.class)
 public class SLPropertiesImplTest {
 
     private SLPropertiesImpl properties;;
 
-    @Before
-    public void setUp() {
+    @Parameters
+    public static Collection<String[]> getTestProperties() {
+        return Arrays.asList(new String[][]{
+            {NAME_1, NAME_2, VALUE_1, VALUE_2, VALUE_3},
+            {NAME_1_NOT_TRIMMED, NAME_2, VALUE_1_NOT_TRIMMED, VALUE_2_NOT_TRIMMED, VALUE_3}
+        });
+    }
+    
+    public SLPropertiesImplTest(String name1, String name2, String val1, String val2, String val3) {
         properties = new SLPropertiesImpl();
 
-        properties.addProperty(NAME_1, VALUE_1, VALUE_2);
-        properties.addProperty(NAME_2, VALUE_2, VALUE_3);
-        // properties.addMultiProperty(NAME_3, VALUE_1, VALUE_3);
+        properties.addProperty(name1, val1, val2);
+        properties.addProperty(name2, val2, val3);        
     }
 
     @Test
@@ -79,6 +91,16 @@ public class SLPropertiesImplTest {
         assertFalse(properties.includesValues(NAME_1, VALUE_3));
         assertFalse(properties.includesValues(NAME_2, VALUE_1, VALUE_2));
         assertFalse(properties.includesValues(NAME_3, VALUE_2));
+    }
+
+    @Test
+    public void valuesAddedAreTrimmed() {
+        properties = new SLPropertiesImpl();
+
+        properties.addProperty(NAME_1, VALUE_1_NOT_TRIMMED, VALUE_2);
+        properties.addProperty(NAME_2, VALUE_2_NOT_TRIMMED, VALUE_3);
+
+        
     }
 
     @Test

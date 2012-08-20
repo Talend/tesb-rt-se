@@ -44,7 +44,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
     public void connect() throws Exception {
         ServiceLocatorImpl slc = createServiceLocator(true);
 
-        pcaMock.process(slc);
+//        pcaMock.process(slc);
         replayAll();
 
         slc.setPostConnectAction(pcaMock);
