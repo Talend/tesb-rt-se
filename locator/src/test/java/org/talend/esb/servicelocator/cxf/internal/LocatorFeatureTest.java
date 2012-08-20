@@ -77,7 +77,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
         enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
@@ -118,7 +118,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
         enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
@@ -179,7 +179,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
@@ -221,7 +221,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
         enabler.setDefaultLocatorSelectionStrategy("defaultSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
@@ -275,7 +275,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
         enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
@@ -316,7 +316,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
         enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+        ServiceLocatorManagerImpl slm = new ServiceLocatorManagerImpl();
 
         slm.setBus(busMock);
         slm.setLocatorRegistrar(locatorRegistrarMock);
