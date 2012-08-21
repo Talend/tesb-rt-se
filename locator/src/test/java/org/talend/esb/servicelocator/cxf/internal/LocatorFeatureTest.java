@@ -41,6 +41,7 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
+import org.talend.esb.servicelocator.cxf.ServiceLocatorManager;
 
 import static org.easymock.EasyMock.expect;
 
