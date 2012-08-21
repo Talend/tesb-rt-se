@@ -25,50 +25,55 @@ import org.apache.cxf.endpoint.ClientLifeCycleListener;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ConduitSelector;
 import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.extension.BusExtension;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.cxf.ServiceLocatorManager;
 import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
 
-public class ServiceLocatorManagerImpl implements ServiceLocatorManager, BusExtension {
+public class ServiceLocatorManagerImpl implements ServiceLocatorManager /*, BusExtension*/ {
 
     private LocatorRegistrar locatorRegistrar;
 
     private LocatorClientEnabler clientEnabler;
 
-    private Bus bus;
-
+    @Override
     public void listenForAllServers(Bus anotherBus) {
         locatorRegistrar.startListenForServers(anotherBus);
     }
 
+    @Override
     public void registerServer(Server server, Bus anotherBus) {
         locatorRegistrar.registerServer(server, anotherBus);
     }
 
+    @Override
     public void registerServer(Server server, SLProperties props, Bus anotherBus) {
         locatorRegistrar.registerServer(server, props, anotherBus);
     }
 
-    public void listenForAllClients() {
-        listenForAllClients(null);
+    @Override
+    public void listenForAllClients(Bus bus) {
+        listenForAllClients(bus, null);
     }
 
-    public void listenForAllClients(String selectionStrategy) {
+    @Override
+    public void listenForAllClients(Bus bus, String selectionStrategy) {
         ClientLifeCycleManager clcm = bus.getExtension(ClientLifeCycleManager.class);
         clcm.registerListener(new ClientLifeCycleListenerForLocator());
     }
 
+    @Override
     public void enableClient(Client client) {
         enableClient(client, null);
     }
 
+    @Override
     public void enableClient(final Client client, SLPropertiesMatcher matcher) {
         enableClient(client, matcher, null);
     }
 
+    @Override
     public void enableClient(final Client client, SLPropertiesMatcher matcher, String selectionStrategy) {
         clientEnabler.enable(new ConduitSelectorHolder() {
             
@@ -84,14 +89,17 @@ public class ServiceLocatorManagerImpl implements ServiceLocatorManager, BusExte
         }, matcher, selectionStrategy);
     }
 
+    @Override
     public void enableClient(ClientConfiguration clientConf) {
         enableClient(clientConf, null);
     }
 
+    @Override
     public void enableClient(final ClientConfiguration clientConf, SLPropertiesMatcher matcher) {
         enableClient(clientConf, matcher, null);
     }
 
+    @Override
     public void enableClient(final ClientConfiguration clientConfiguration,
             SLPropertiesMatcher matcher,
             String selectionStrategy) {
@@ -109,14 +117,6 @@ public class ServiceLocatorManagerImpl implements ServiceLocatorManager, BusExte
         }, matcher, selectionStrategy);
     }
 
-    public void setBus(Bus anotherBus) {
-        if (anotherBus != this.bus) {
-            this.bus = anotherBus;
-            if (anotherBus != null) {
-                anotherBus.setExtension(this, ServiceLocatorManager.class);
-            }
-        }
-    }
 
     public void setLocatorRegistrar(LocatorRegistrar locatorRegistrar) {
         this.locatorRegistrar = locatorRegistrar;
@@ -124,11 +124,6 @@ public class ServiceLocatorManagerImpl implements ServiceLocatorManager, BusExte
 
     public void setLocatorClientEnabler(LocatorClientEnabler locatorClientEnabler) {
         clientEnabler = locatorClientEnabler;
-    }
-
-    @Override
-    public Class<?> getRegistrationType() {
-        return ServiceLocatorManager.class;
     }
 
     class ClientLifeCycleListenerForLocator implements ClientLifeCycleListener {

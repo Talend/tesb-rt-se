@@ -35,9 +35,9 @@ public interface ServiceLocatorManager {
 
     void registerServer(Server server, SLProperties props, Bus anotherBus);
 
-    void listenForAllClients();
+    void listenForAllClients(Bus bus);
 
-    void listenForAllClients(String selectionStrategy);
+    void listenForAllClients(Bus bus, String selectionStrategy);
 
     void enableClient(Client client);
 
