@@ -49,7 +49,7 @@ public class TalendEndpoint extends DefaultEndpoint {
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
         super(uri, component);
-        this.clazz = clazz;
+        this.setClazz(clazz);
     }
 
     public TalendEndpoint(String endpointUri) {
@@ -84,7 +84,7 @@ public class TalendEndpoint extends DefaultEndpoint {
         
     }
 
-    public void setClazz(String clazz) {
+    public final void setClazz(String clazz) {
         this.clazz = clazz;
     }
 
