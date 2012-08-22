@@ -45,6 +45,14 @@ public class TestValues {
 
     public static final String VALUE_4 = "value4";
 
+    public static final String NAME_1_NOT_TRIMMED = "\tname1";
+
+    public static final String VALUE_1_NOT_TRIMMED = " " + VALUE_1;
+
+    public static final String VALUE_2_NOT_TRIMMED = " " + VALUE_2 + "\t";
+
+    public static final String VALUE_3_NOT_TRIMMED = VALUE_3 + "\t";
+
     public static final QName SERVICE_QNAME_1 = new QName("http://example.com/services", "service1");
 
     public static final QName SERVICE_QNAME_2 = new QName("http://example.com/services", "service2");

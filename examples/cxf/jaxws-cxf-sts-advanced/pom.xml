@@ -28,7 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.6.2-SNAPSHOT</cxf.version>
+        <cxf.version>2.6.2</cxf.version>
     </properties>
 
     <build>

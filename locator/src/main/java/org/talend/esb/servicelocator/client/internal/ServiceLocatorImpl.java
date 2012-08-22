@@ -138,8 +138,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
         if (!connected) {
             throw new ServiceLocatorException(
                     "Connection to Service Locator failed.");
-        } else {
-            postConnectAction.process(this);
+//        } else {
+//            postConnectAction.process(this);
         }
 
         if (LOG.isLoggable(Level.FINER)) {
@@ -788,6 +788,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
             try {
                 if (eventState == KeeperState.SyncConnected) {
                     ensurePathExists(LOCATOR_ROOT_PATH, CreateMode.PERSISTENT);
+                    postConnectAction.process(ServiceLocatorImpl.this);
                     connectionLatch.countDown();
                 } else if (eventState == KeeperState.Expired) {
                     connect();

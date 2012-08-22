@@ -27,9 +27,11 @@ import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestValues.NAME_1;
 import static org.talend.esb.servicelocator.TestValues.NAME_2;
 import static org.talend.esb.servicelocator.TestValues.NAME_3;
+import static org.talend.esb.servicelocator.TestValues.NAME_1_NOT_TRIMMED;
 import static org.talend.esb.servicelocator.TestValues.VALUE_1;
 import static org.talend.esb.servicelocator.TestValues.VALUE_2;
 import static org.talend.esb.servicelocator.TestValues.VALUE_3;
+import static org.talend.esb.servicelocator.TestValues.VALUE_3_NOT_TRIMMED;
 
 public class SLPropertiesMatcherTest {
 
@@ -77,10 +79,12 @@ public class SLPropertiesMatcherTest {
         assertFalse(matcher.isMatching(properties));
     }
 
+
     @Test
-    public void add2AssertionsSameKeyOneNotMatching() {
-        matcher.addAssertion(NAME_1, VALUE_3);
-        matcher.addAssertion(NAME_1, VALUE_1);
-        assertFalse(matcher.isMatching(properties));
+    public void addNotTrimmedAssertions() {
+        matcher.addAssertion(NAME_1_NOT_TRIMMED, VALUE_1);
+        matcher.addAssertion(NAME_2, VALUE_3_NOT_TRIMMED);
+        assertTrue(matcher.isMatching(properties));
     }
+
 }

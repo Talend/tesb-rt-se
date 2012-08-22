@@ -24,16 +24,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Checks whether a  {@link SLProperties} has the specified values with specific values.
+ * 
+ */
 public class SLPropertiesMatcher {
 
     public static final SLPropertiesMatcher ALL_MATCHER = new SLPropertiesMatcher();
 
     private List<Map.Entry<String, String>> matchers = new ArrayList<Map.Entry<String, String>>();
 
+    /**
+     * Add an assertion to this matcher where a {@link SLProperties} must have a property with the given name
+     * which at least contains the given value. Name and value are trimmed before matching is done. 
+     * 
+     * @param name the name of the property which must be present, must not be <code>null</code>
+     * @param value the value the property must at least contain, must not be <code>null</code>
+     */
     public void addAssertion(String name, String value) {
-        matchers.add(new AbstractMap.SimpleEntry<String, String>(name, value));
+        matchers.add(new AbstractMap.SimpleEntry<String, String>(name.trim(), value.trim()));
     }
 
+    /**
+     * Checks if the given {@link SLProperties} fulfills all assertions specified for this matcher.
+     * 
+     * @param properties the properties to be checked
+     * @return <code>true</code> iff if all assertions are fulfilled 
+     */
     public boolean isMatching(SLProperties properties) {
         for (Map.Entry<String, String> matcher : matchers) {
             if (!properties.includesValues(matcher.getKey(), matcher.getValue())) {
@@ -43,6 +60,7 @@ public class SLPropertiesMatcher {
         return true;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
     	sb.append("matcher = " + this.hashCode());
