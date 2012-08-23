@@ -57,7 +57,7 @@ public class RESTClient {
         List<Object> providers = createJAXRSProviders();
 
         com.example.customerservice.CustomerService customerService = JAXRSClientFactory
-            .createFromModel("http://localhost:" + port + "/services/direct/rest", 
+            .createFromModel("http://localhost:" + port + "/examples/direct/rest", 
                              com.example.customerservice.CustomerService.class,
                              "classpath:/model/CustomerService-jaxrs.xml", 
                              providers, 
@@ -101,7 +101,7 @@ public class RESTClient {
         List<Object> providers = createJAXRSProviders();
 
         org.customer.service.CustomerService customerService = JAXRSClientFactory
-            .createFromModel("http://localhost:" + port + "/services/direct/rest", 
+            .createFromModel("http://localhost:" + port + "/examples/direct/rest", 
                              org.customer.service.CustomerService.class,
                              "classpath:/model/CustomerService-jaxrs.xml", 
                              providers, 
@@ -130,7 +130,7 @@ public class RESTClient {
     public void useOldRESTServiceWithNewClientAndXPath() throws Exception {
         List<Object> providers = createJAXRSProviders();
 
-        String address = "http://localhost:" + port + "/services/direct/rest/customerservice";
+        String address = "http://localhost:" + port + "/examples/direct/rest/customerservice";
         WebClient client = WebClient.create(address, providers);
         
         // The outgoing new Customer data needs to be transformed for 
@@ -164,7 +164,7 @@ public class RESTClient {
         List<Object> providers = createJAXRSProviders();
 
         com.example.customerservice.CustomerService customerService = JAXRSClientFactory
-            .createFromModel("http://localhost:" + port + "/services/direct/new-rest", 
+            .createFromModel("http://localhost:" + port + "/examples/direct/new-rest", 
                              com.example.customerservice.CustomerService.class,
                              "classpath:/model/CustomerService-jaxrs.xml", 
                              providers, 
@@ -197,7 +197,7 @@ public class RESTClient {
         List<Object> providers = createJAXRSProviders();
 
         com.example.customerservice.CustomerService customerService = JAXRSClientFactory
-            .createFromModel("http://localhost:" + port + "/services/old/rest-endpoint", 
+            .createFromModel("http://localhost:" + port + "/examples/old/rest-endpoint", 
                              com.example.customerservice.CustomerService.class,
                              "classpath:/model/CustomerService-jaxrs.xml", 
                              providers, 
@@ -377,7 +377,7 @@ public class RESTClient {
         
         // New Client uses New Service
         client.useNewRESTService("http://localhost:" + RESTClient.getPort()
-                                         + "/services/direct/new-rest");
+                                         + "/examples/direct/new-rest");
         System.out.println();
         // Old Client uses New Service
         client.useNewRESTServiceWithOldClient();
@@ -405,7 +405,7 @@ public class RESTClient {
         // New Client uses New Service, the same new endpoint handles
         // new and redirected old client requests
         client.useNewRESTService("http://localhost:" + RESTClient.getPort()
-                                         + "/services/new/rest-endpoint");
+                                         + "/examples/new/rest-endpoint");
         
         System.exit(0);
     }

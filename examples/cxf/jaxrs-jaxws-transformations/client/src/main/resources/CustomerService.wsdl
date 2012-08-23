@@ -180,10 +180,10 @@
   </wsdl:binding>
   <wsdl:service name="CustomerServiceService">
     <wsdl:port name="CustomerServicePort" binding="tns:CustomerServiceServiceSoapBinding">
-      <soap:address location="http://localhost:${http.port}/services/direct/soap"/>
+      <soap:address location="http://localhost:${http.port}/examples/direct/soap"/>
     </wsdl:port>
     <wsdl:port name="CustomerServiceRedirectPort" binding="tns:CustomerServiceServiceSoapBinding">
-      <soap:address location="http://localhost:${http.port}/services/old/soap-endpoint"/>
+      <soap:address location="http://localhost:${http.port}/examples/old/soap-endpoint"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
