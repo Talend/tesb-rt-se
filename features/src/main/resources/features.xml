@@ -220,8 +220,4 @@
     <feature name='tesb-jmx-http-agent' version='${project.version}'>
         <bundle>mvn:org.jolokia/jolokia-osgi/${jolokia.version}</bundle>
     </feature>
-
-    <feature name='tesb-cxf-continuation' version='${project.version}'>
-        <bundle>mvn:org.talend.esb/org.talend.esb.cxf.continuation/${project.version}</bundle>
-    </feature>
 </features>
