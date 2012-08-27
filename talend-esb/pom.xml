@@ -569,7 +569,7 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/2.5.5/xml/features"
+                                        token="apache-cxf/2.5.5.1/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.3.4"
