@@ -33,7 +33,7 @@
 
     <build>
         <!-- Name of the generated WAR file -->
-        <finalName>services</finalName>
+        <finalName>examples</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
