@@ -51,6 +51,10 @@ is active by default so does not need to be explicitly specified.)
 run "mvn tomcat:deploy" (or tomcat:undeploy or tomcat:redeploy on
 subsequent runs as appropriate) in the "sts" folder to deploy the STS.
 
+Note:"Cannot invoke Tomcat manager: Server returned HTTP response code: 401 error" 
+as result of deployment on Tomcat appears due to credential misconfiguration in Tomcat and
+deployment script.Please check conf/tomcat-users.xml and war/pom.xml for credential configuration.
+
 Before proceeding to the next step, make sure you can view the following WSDL:
 CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 
