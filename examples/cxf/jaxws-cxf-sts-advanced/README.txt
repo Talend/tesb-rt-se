@@ -74,7 +74,10 @@ setup instructions.
 
 How to Deploy:
 
-1.) The STS and WSP can be deployed on either Tomcat (7.x or 6.x) or Karaf.
+1.) If you do not have BouncyCastleProvider install in your JDK, do it by following this section:
+http://www.bouncycastle.org/wiki/display/JA1/Provider+Installation
+
+2.) The STS and WSP can be deployed on either Tomcat (7.x or 6.x) or Karaf.
 
 Tomcat deployment: If not already done, configure Maven to be able to install and
 uninstall the WSP and the STS by following this section: 
@@ -107,7 +110,7 @@ make sure you can view the following WSDLs:
 CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
 
-2.) Navigate to the client folder:
+3.) Navigate to the client folder:
 
  * To run the client in a standalone manner, run mvn exec:exec.
 

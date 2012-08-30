@@ -34,7 +34,10 @@ setup instructions.
 
 How to Deploy:
 
-1.) The STS and WSP run on either Tomcat 7.x (default) or Tomcat 6.x. If not
+1.) If you do not have BouncyCastleProvider install in your JDK, do it by following this section:
+http://www.bouncycastle.org/wiki/display/JA1/Provider+Installation
+
+2.) The STS and WSP run on either Tomcat 7.x (default) or Tomcat 6.x. If not
 already done, configure Maven to be able to install and uninstall the WSP and
 the STS by following this section:
 http://www.jroller.com/gmazza/entry/web_service_tutorial#maventomcat. Also
@@ -44,14 +47,14 @@ Note: If you wish to use Tomcat 6, use the -PTomcat6 flag when running the mvn
 tomcat commands (tomcat:deploy, tomcat:redeploy, tomcat:undeploy). (-PTomcat7
 is active by default so does not need to be explicitly specified.)
 
-2.) From the root jaxws-cxf-sts folder, run "mvn clean install". If no errors,
+3.) From the root jaxws-cxf-sts folder, run "mvn clean install". If no errors,
 run "mvn tomcat:deploy" (or tomcat:undeploy or tomcat:redeploy on
 subsequent runs as appropriate) in the "sts" folder to deploy the STS.
 
 Before proceeding to the next step, make sure you can view the following WSDL:
 CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 
-3.) Next we need to deploy the WSP, for which three options are provided:
+4.) Next we need to deploy the WSP, for which three options are provided:
 
  * To run the service in a standalone manner on port 9000, run mvn exec:java
    from the service folder.  Make sure you can view the WSP WSDL at
@@ -76,7 +79,7 @@ CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
    Make sure you can view the WSP WSDL at
    http://localhost:9000/doubleit/services/doubleit?wsdl before proceeding.
 
-4.) Navigate to the client folder:
+5.) Navigate to the client folder:
 
 Note: If you've selected standalone or OSGi deployment of the WSP in the preceding
 step, the WSP address in the client WSDL (client/src/main/resources/DoubleIt.wsdl) 
