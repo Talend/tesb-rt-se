@@ -1,2 +1,0 @@
-org.talend.esb.cxf.continuation.DisableContinuationProvider::false
-
