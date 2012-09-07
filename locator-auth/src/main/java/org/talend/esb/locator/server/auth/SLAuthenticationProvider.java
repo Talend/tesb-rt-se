@@ -19,7 +19,9 @@
  */
 package org.talend.esb.locator.server.auth;
 
+import java.lang.annotation.Retention;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
@@ -27,22 +29,21 @@ import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.server.ServerCnxn;
 import org.apache.zookeeper.server.auth.AuthenticationProvider;
 
-public class SLAuthenticationProvider implements AuthenticationProvider{
+public class SLAuthenticationProvider implements AuthenticationProvider {
 
     public static String SL_READ = "SL_READ";
-    
+
     public static String SL_MAINTAIN = "SL_MAINTAIN";
-    
+
     public static String SL_ALL = "SL_ALL";
-    
-    
+
     private Charset utf8CharSet;
-    
+
     public SLAuthenticationProvider() {
         utf8CharSet = Charset.forName("UTF-8");
-        System.out.println("SLAuthenticationProvider created.");    
+        System.out.println("SLAuthenticationProvider created.");
     }
-    
+
     @Override
     public String getScheme() {
         return "sl";
@@ -50,22 +51,43 @@ public class SLAuthenticationProvider implements AuthenticationProvider{
 
     @Override
     public Code handleAuthentication(ServerCnxn cnxn, byte[] authData) {
+        // Expect Id = "USER=PASSWORD,ROLE1,ROLE2,..."
         String id = new String(authData, utf8CharSet);
-        String parts[] = id.split(":");
+        String usedInfo[] = id.split("=");
         String user = "";
-        if (parts.length >= 1) {
-            user = parts[0];
+        String password = "";
+        StringBuilder roles = new StringBuilder("");
+        if (usedInfo.length >= 1) {
+            user = usedInfo[0];
+            String[] userData = usedInfo[1].split(",");
+            if (userData.length >= 1) {
+                password = userData[0];
+                if (userData.length >= 2) {
+                    for (int i = 1; i < userData.length; i++) {
+                        roles.append(userData[i]);
+                        if (i < userData.length - 1)
+                            roles.append(",");
+                    }
+                }
+            }
         } else {
             user = "anonymous";
         }
-        cnxn.getAuthInfo().add(new Id(getScheme(), user));
+        System.out.println("User: " + user);
+        System.out.println("Password: " + password);
+        System.out.println("Roles: " + roles.toString());
+        cnxn.getAuthInfo().add(new Id(getScheme(), roles.toString()));
 
         return KeeperException.Code.OK;
     }
 
     @Override
     public boolean matches(String id, String aclExpr) {
-        return aclExpr.equals(SL_READ) || aclExpr.equals(SL_MAINTAIN) || aclExpr.equals(SL_ALL);
+        String[] roles = id.split(",");
+        for (int i = 0; i < roles.length; i++) {
+            if(roles[i].equals(aclExpr)) return true;
+        }
+        return false;
     }
 
     @Override
