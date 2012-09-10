@@ -25,7 +25,6 @@ import oauth.common.CalendarEntry;
 import oauth.common.ReservationConfirmation;
 import oauth.common.ReservationFailure;
 
-import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.ext.form.Form;
 import org.apache.cxf.rs.security.oauth.client.OAuthClientUtils.Token;
@@ -141,7 +140,7 @@ public class RestaurantReservationService {
 	        socialService.replaceHeader("Authorization", authHeader);
 	        
 	        c = socialService.get(Calendar.class);
-		} catch (ServerWebApplicationException ex) {
+		} catch (RuntimeException ex) {
 		    return redirectToFailureHandler(CALENDAR_ACCESS_PROBLEM);
 		}
 		
