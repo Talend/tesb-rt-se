@@ -19,10 +19,7 @@
  */
 package org.talend.esb.locator.server.auth;
 
-import java.lang.annotation.Retention;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
 import org.apache.zookeeper.data.Id;
@@ -64,7 +61,7 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
                 password = userData[0];
                 if (userData.length >= 2) {
                     for (int i = 1; i < userData.length; i++) {
-                        roles.append(userData[i]);
+                        roles.append(userData[i].toUpperCase());
                         if (i < userData.length - 1)
                             roles.append(",");
                     }
@@ -85,7 +82,8 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
     public boolean matches(String id, String aclExpr) {
         String[] roles = id.split(",");
         for (int i = 0; i < roles.length; i++) {
-            if(roles[i].equals(aclExpr)) return true;
+            if (roles[i].equals(aclExpr))
+                return true;
         }
         return false;
     }
