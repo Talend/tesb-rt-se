@@ -19,7 +19,20 @@
  */
 package org.talend.esb.locator.server.auth;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.security.Principal;
+import java.util.ArrayList;
+
+import javax.security.auth.Subject;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
 import org.apache.zookeeper.data.Id;
@@ -38,7 +51,6 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
 
     public SLAuthenticationProvider() {
         utf8CharSet = Charset.forName("UTF-8");
-        System.out.println("SLAuthenticationProvider created.");
     }
 
     @Override
@@ -46,14 +58,38 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
         return "sl";
     }
 
-    private String[] getUserRoles(String user, String password) {
-        //TODO: Should be implemented (get user roles from user.properties configuration)
-        return new String[] { SL_READ, SL_MAINTAIN };
+    private ArrayList<String> getUserRoles(final String user,
+            final String password) throws LoginException {
+        ArrayList<String> roles = new ArrayList<String>();
+        LoginContext ctx = new LoginContext("karaf", new CallbackHandler() {
+            @Override
+            public void handle(Callback[] callbacks) throws IOException,
+                    UnsupportedCallbackException {
+                for (int i = 0; i < callbacks.length; i++) {
+                    if (callbacks[i] instanceof NameCallback) {
+                        ((NameCallback) callbacks[i]).setName(user);
+                    } else if (callbacks[i] instanceof PasswordCallback) {
+                        ((PasswordCallback) callbacks[i]).setPassword((password
+                                .toCharArray()));
+                    } else {
+                        throw new UnsupportedCallbackException(callbacks[i]);
+                    }
+                }
+            }
+        });
+        ctx.login();
+        Subject subject = ctx.getSubject();
+        for (Principal p : subject.getPrincipals()) {
+            if (SL_READ.equals(p.getName()) || SL_MAINTAIN.equals(p.getName())
+                    || SL_ALL.equals(p.getName())) {
+                roles.add(p.getName());
+            }
+        }
+        return roles;
     }
 
     @Override
     public Code handleAuthentication(ServerCnxn cnxn, byte[] authData) {
-        // Expect Id = "USER:PASSWORD"
         String id = new String(authData, utf8CharSet);
         String userInfo[] = id.split(":");
         String user = "";
@@ -64,17 +100,20 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
             if (userInfo.length >= 2) {
                 password = userInfo[1];
             }
-            String[] rolesArr = getUserRoles(user, password);
-            for (int i = 0; i < rolesArr.length; i++) {
-                roles.append(rolesArr[i].toUpperCase());
-                if (i < rolesArr.length - 1) roles.append(",");
-            }
-            System.out.println("User: " + user);
-            System.out.println("Password: " + password);
-            System.out.println("Roles: " + roles.toString());
-            if(rolesArr.length >= 1) {
-                cnxn.getAuthInfo().add(new Id(getScheme(), roles.toString()));
-                return KeeperException.Code.OK;
+            try {
+                ArrayList<String> rolesList = getUserRoles(user, password);
+                for (int i = 0; i < rolesList.size(); i++) {
+                    roles.append(rolesList.get(i).toUpperCase());
+                    if (i < rolesList.size() - 1)
+                        roles.append(",");
+                }
+                if (rolesList.size() >= 1) {
+                    cnxn.getAuthInfo().add(
+                            new Id(getScheme(), roles.toString()));
+                    return KeeperException.Code.OK;
+                }
+            } catch (LoginException e) {
+                return KeeperException.Code.AUTHFAILED;
             }
         }
         return KeeperException.Code.AUTHFAILED;
