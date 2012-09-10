@@ -36,13 +36,13 @@ public final class PersonServiceProxyClient {
         // to return (-1 for all)
         Response resp = proxy.getPersons(0, -1);
         if (resp.getStatus() == 200) {
-            PersonCollection personColl = (PersonCollection)resp.getEntity();
-            List<Person> persons = personColl.getList();
-            for (Iterator<Person> it = persons.iterator(); it.hasNext();) {
-                Person person = it.next();
-                System.out.println("ID " + person.getId() + " : " + person.getName() + ", age : "
-                                   + person.getAge());
-            }
+//            PersonCollection personColl = resp.readEntity(PersonCollection.class);
+//            List<Person> persons = personColl.getList();
+//            for (Iterator<Person> it = persons.iterator(); it.hasNext();) {
+//                Person person = it.next();
+//                System.out.println("ID " + person.getId() + " : " + person.getName() + ", age : "
+//                                   + person.getAge());
+//            }
         }
     }
 
