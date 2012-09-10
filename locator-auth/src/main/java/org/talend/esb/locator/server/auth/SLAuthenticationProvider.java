@@ -80,9 +80,9 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
         ctx.login();
         Subject subject = ctx.getSubject();
         for (Principal p : subject.getPrincipals()) {
-            if (SL_READ.equals(p.getName()) || SL_MAINTAIN.equals(p.getName())
-                    || SL_ALL.equals(p.getName())) {
-                roles.add(p.getName());
+            if (SL_READ.equals(p.getName().toUpperCase()) || SL_MAINTAIN.equals(p.getName().toUpperCase())
+                    || SL_ALL.equals(p.getName().toUpperCase())) {
+                roles.add(p.getName().toUpperCase());
             }
         }
         return roles;
@@ -103,7 +103,7 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
             try {
                 ArrayList<String> rolesList = getUserRoles(user, password);
                 for (int i = 0; i < rolesList.size(); i++) {
-                    roles.append(rolesList.get(i).toUpperCase());
+                    roles.append(rolesList.get(i));
                     if (i < rolesList.size() - 1)
                         roles.append(",");
                 }
