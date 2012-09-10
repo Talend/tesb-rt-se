@@ -46,36 +46,38 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
         return "sl";
     }
 
+    private String[] getUserRoles(String user, String password) {
+        //TODO: Should be implemented (get user roles from user.properties configuration)
+        return new String[] { SL_READ, SL_MAINTAIN };
+    }
+
     @Override
     public Code handleAuthentication(ServerCnxn cnxn, byte[] authData) {
-        // Expect Id = "USER=PASSWORD,ROLE1,ROLE2,..."
+        // Expect Id = "USER:PASSWORD"
         String id = new String(authData, utf8CharSet);
-        String usedInfo[] = id.split("=");
+        String userInfo[] = id.split(":");
         String user = "";
         String password = "";
         StringBuilder roles = new StringBuilder("");
-        if (usedInfo.length >= 1) {
-            user = usedInfo[0];
-            String[] userData = usedInfo[1].split(",");
-            if (userData.length >= 1) {
-                password = userData[0];
-                if (userData.length >= 2) {
-                    for (int i = 1; i < userData.length; i++) {
-                        roles.append(userData[i].toUpperCase());
-                        if (i < userData.length - 1)
-                            roles.append(",");
-                    }
-                }
+        if (userInfo.length >= 1) {
+            user = userInfo[0];
+            if (userInfo.length >= 2) {
+                password = userInfo[1];
             }
-        } else {
-            user = "anonymous";
+            String[] rolesArr = getUserRoles(user, password);
+            for (int i = 0; i < rolesArr.length; i++) {
+                roles.append(rolesArr[i].toUpperCase());
+                if (i < rolesArr.length - 1) roles.append(",");
+            }
+            System.out.println("User: " + user);
+            System.out.println("Password: " + password);
+            System.out.println("Roles: " + roles.toString());
+            if(rolesArr.length >= 1) {
+                cnxn.getAuthInfo().add(new Id(getScheme(), roles.toString()));
+                return KeeperException.Code.OK;
+            }
         }
-        System.out.println("User: " + user);
-        System.out.println("Password: " + password);
-        System.out.println("Roles: " + roles.toString());
-        cnxn.getAuthInfo().add(new Id(getScheme(), roles.toString()));
-
-        return KeeperException.Code.OK;
+        return KeeperException.Code.AUTHFAILED;
     }
 
     @Override
