@@ -15,7 +15,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb</groupId>
-    <artifactId>org.talend.esb.locator.auth</artifactId>
+    <artifactId>locator-auth</artifactId>
     <packaging>bundle</packaging>
     <name>Talend :: ESB :: LOCATOR :: AUTH</name>
 
