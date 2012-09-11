@@ -25,10 +25,13 @@ import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.KeeperException;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.eq;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsEmptyIterable.emptyIterable;
@@ -39,6 +42,11 @@ import static org.talend.esb.servicelocator.TestValues.*;
 import static org.talend.esb.servicelocator.client.internal.PathValues.*;
 
 public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
+  
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+    }
 
     @Test
     public void connect() throws Exception {
@@ -46,7 +54,7 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
 
 //        pcaMock.process(slc);
         replayAll();
-
+    
         slc.setPostConnectAction(pcaMock);
         slc.connect();
 
@@ -70,6 +78,41 @@ public class ServiceLocatorImplTest extends AbstractServiceLocatorImplTest {
         }
 
         verifyAll();
+    }
+    
+
+    @Test
+    public void connectWithCredentialsProvided () throws Exception {
+        ServiceLocatorImpl slc = createServiceLocator(true);
+
+        zkMock.addAuthInfo(eq("sl"), aryEq(USER_NAME_PASSWORD_BYTES));
+
+        slc.setName(USER_NAME);
+        slc.setPassword(PASSWORD);
+        
+        replayAll();
+        
+        slc.setPostConnectAction(pcaMock);
+        slc.connect();
+
+        verifyAll();
+        
+    }
+
+    @Test
+    public void connectWithEmptyUserNameProvided () throws Exception {
+        ServiceLocatorImpl slc = createServiceLocator(true);
+
+        slc.setName("");
+        slc.setPassword(PASSWORD);
+        
+        replayAll();
+        
+        slc.setPostConnectAction(pcaMock);
+        slc.connect();
+
+        verifyAll();
+        
     }
 
     @Test

@@ -20,12 +20,15 @@
 package org.talend.esb.servicelocator.client.internal;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.ACL;
+import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;
 import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
@@ -35,6 +38,8 @@ import org.talend.esb.DomMother;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.w3c.dom.Document;
 
+import static java.util.Arrays.asList;
+import static org.apache.zookeeper.ZooDefs.Perms;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.capture;
@@ -51,13 +56,35 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     PostConnectAction pcaMock;
     
     Capture<byte[]> contentCapture = new Capture<byte[]>();
+    
+    boolean withAuthentication;
 
+    public static final List<ACL> DEFAULT_ACLS;
+
+    static {
+        Id readRole = new Id("sl", "SL_READ");
+        Id maintainRole = new Id("sl", "SL_MAINTAIN");
+        Id adminRole = new Id("sl", "SL_ADMIN");
+
+        ACL readAcl = new ACL(Perms.READ, readRole);    
+        ACL maintainAcl = new ACL(Perms.READ | Perms.CREATE | Perms.WRITE | Perms.DELETE, maintainRole);    
+        ACL adminAcl = new ACL(Perms.ALL, adminRole);
+        DEFAULT_ACLS = asList(readAcl, maintainAcl, adminAcl);
+    }
     
     public static void ignore(String txt) {
     }
 
+    List<ACL> getACLs() {
+        return withAuthentication ? DEFAULT_ACLS  : Ids.OPEN_ACL_UNSAFE;
+    }
+
+    public void setAuthentication(boolean auth) {
+        withAuthentication = auth;    
+    }
+    
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         zkMock = createMock(ZooKeeper.class);
         expect(zkMock.getState()).andStubReturn(ZooKeeper.States.CONNECTED);
 
@@ -110,13 +137,15 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
 
     protected void createNode(String path, CreateMode mode, byte[] content) throws KeeperException,
             InterruptedException {
-        expect(zkMock.create(eq(path), aryEq(content), eq(Ids.OPEN_ACL_UNSAFE), eq(mode))).andReturn(path);
+        expect(zkMock.create(eq(path), aryEq(content), eq(getACLs()), eq(mode))).andReturn(path);
     }
+
 
     protected void createNode(String path, CreateMode mode, KeeperException exc) throws KeeperException,
             InterruptedException {
+
         IExpectationSetters<String> expectation = expect(zkMock.create(eq(path), aryEq(new byte[0]),
-                eq(Ids.OPEN_ACL_UNSAFE), eq(mode)));
+                eq(getACLs()), eq(mode)));
 
         if (exc != null) {
             expectation.andThrow(exc);
