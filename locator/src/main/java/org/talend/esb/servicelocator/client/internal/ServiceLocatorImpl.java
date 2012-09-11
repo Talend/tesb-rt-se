@@ -21,6 +21,7 @@ package org.talend.esb.servicelocator.client.internal;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.ACL;
 
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.SLEndpoint;
@@ -47,6 +49,8 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
+
+import static org.talend.esb.servicelocator.client.internal.ServiceLocatorACLs.*;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
@@ -72,6 +76,8 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
 
     private static final byte[] EMPTY_CONTENT = new byte[0];
+
+    private static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
 
     private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
         @Override
@@ -116,6 +122,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
+    private String userName;
+    
+    private String password;
+
     /**
      * {@inheritDoc}
      */
@@ -138,10 +148,13 @@ public class ServiceLocatorImpl implements ServiceLocator {
         if (!connected) {
             throw new ServiceLocatorException(
                     "Connection to Service Locator failed.");
-//        } else {
-//            postConnectAction.process(this);
         }
 
+        if (userName != null) {
+            byte[] authInfo = (userName  + ":" + password).getBytes(UTF8_CHAR_SET);
+            zk.addAuthInfo("sl", authInfo);    
+        }
+        
         if (LOG.isLoggable(Level.FINER)) {
             LOG.log(Level.FINER, "End connect session");
         }
@@ -550,7 +563,19 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Locator connection timeout set to: " + connectionTimeout);
         }
     }
+
+    public void setName(String name) {
+        if (name != null && ! name.isEmpty()) {
+            userName = name;            
+        } else {
+            userName = null;
+        }
+    }
     
+    public void setPassword(String passWord) {
+        this.password = passWord;
+    }
+
     public void setEndpointTransformer(EndpointTransformer endpointTransformer) {
         transformer = endpointTransformer;
     }
@@ -694,7 +719,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     private void createNode(NodePath path, CreateMode mode, byte[] content)
         throws KeeperException, InterruptedException {
-        zk.create(path.toString(), content, Ids.OPEN_ACL_UNSAFE, mode);
+        zk.create(path.toString(), content, getACLs(), mode);
     }
 
     private void setNodeData(NodePath path, byte[] content)
@@ -748,6 +773,10 @@ public class ServiceLocatorImpl implements ServiceLocator {
     private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
         throws ServiceLocatorException {
         return transformer.fromEndpoint(eprProvider, lastTimeStarted, lastTimeStopped);
+    }
+    
+    private List<ACL> getACLs() {
+        return userName != null ? LOCATOR_ACLS : Ids.OPEN_ACL_UNSAFE;
     }
 
     private ServiceLocatorException locatorException(Exception e) {
