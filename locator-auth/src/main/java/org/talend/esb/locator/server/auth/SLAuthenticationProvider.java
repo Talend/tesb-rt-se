@@ -45,7 +45,7 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
 
     public static String SL_MAINTAIN = "SL_MAINTAIN";
 
-    public static String SL_ALL = "SL_ALL";
+    public static String SL_ADMIN = "SL_ADMIN";
 
     private Charset utf8CharSet;
 
@@ -81,7 +81,7 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
         Subject subject = ctx.getSubject();
         for (Principal p : subject.getPrincipals()) {
             if (SL_READ.equals(p.getName().toUpperCase()) || SL_MAINTAIN.equals(p.getName().toUpperCase())
-                    || SL_ALL.equals(p.getName().toUpperCase())) {
+                    || SL_ADMIN.equals(p.getName().toUpperCase())) {
                 roles.add(p.getName().toUpperCase());
             }
         }
