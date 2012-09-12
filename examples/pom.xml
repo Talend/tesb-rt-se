@@ -57,7 +57,7 @@
         <zookeeper.version>3.3.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <servlet.api.version>2.5</servlet.api.version>
-        <aries.version>0.3</aries.version>
+        <aries.version>1.0.0</aries.version>
         <jetty.version>7.5.4.v20111024</jetty.version>
         <!-- Test dependencies -->
         <junit.version>4.10</junit.version>
