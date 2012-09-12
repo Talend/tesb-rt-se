@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.ws.rs.WebApplicationException;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
-import org.apache.cxf.jaxrs.client.ServerWebApplicationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.services.esb.locator.rest.v1.LocatorService;
 import org.talend.schemas.esb.locator._2011._11.BindingType;
@@ -77,7 +77,7 @@ public final class RESTClient {
 		try {
 			client.registerEndpoint(registerEndpointRequest);
 			System.out.println("Endpoint registered successfully");
-		} catch (ServerWebApplicationException ex) {
+		} catch (WebApplicationException ex) {
 			System.err.println(ex.getMessage());
 		}
 		
@@ -90,7 +90,7 @@ public final class RESTClient {
 		System.out.println("EndpointURL: ".concat(endpoint));
 		try {
 			client.unregisterEndpoint(URLEncoder.encode(service, "UTF-8"), URLEncoder.encode(endpoint, "UTF-8"));	
-		} catch (ServerWebApplicationException ex) {
+		} catch (WebApplicationException ex) {
 			System.err.println(ex.getResponse().getStatus() + ": " + ex.getMessage());
 		}
 		
@@ -107,7 +107,7 @@ public final class RESTClient {
 					System.out.println(w3cEndpointReference.toString());
 				}	
 			}
-		} catch(ServerWebApplicationException ex) {
+		} catch(WebApplicationException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
@@ -118,7 +118,7 @@ public final class RESTClient {
 		try {
 			W3CEndpointReference w3cEndpointReference = client.lookupEndpoint(URLEncoder.encode(service, "UTF-8"), null);
 			System.out.println(w3cEndpointReference.toString());
-		} catch(ServerWebApplicationException ex) {
+		} catch(WebApplicationException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
