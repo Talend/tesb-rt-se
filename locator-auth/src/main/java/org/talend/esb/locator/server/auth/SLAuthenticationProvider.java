@@ -80,7 +80,8 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
         ctx.login();
         Subject subject = ctx.getSubject();
         for (Principal p : subject.getPrincipals()) {
-            if (SL_READ.equals(p.getName().toUpperCase()) || SL_MAINTAIN.equals(p.getName().toUpperCase())
+            if (SL_READ.equals(p.getName().toUpperCase())
+                    || SL_MAINTAIN.equals(p.getName().toUpperCase())
                     || SL_ADMIN.equals(p.getName().toUpperCase())) {
                 roles.add(p.getName().toUpperCase());
             }
