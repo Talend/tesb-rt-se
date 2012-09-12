@@ -24,6 +24,7 @@ import java.util.Queue;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.feature.Feature;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.message.Message;
@@ -161,9 +162,9 @@ public class EventFeature extends AbstractFeature {
     private boolean detectWSAddressingFeature(InterceptorProvider provider, Bus bus) {
         //detect on the bus level
         if (bus.getFeatures() != null) {
-            Iterator<AbstractFeature> busFeatures = bus.getFeatures().iterator();
+            Iterator<Feature> busFeatures = bus.getFeatures().iterator();
             while (busFeatures.hasNext()) {
-                AbstractFeature busFeature = busFeatures.next();
+                Feature busFeature = busFeatures.next();
                 if (busFeature instanceof WSAddressingFeature) {
                     return true;
                 }

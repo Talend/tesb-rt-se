@@ -18,7 +18,7 @@
 
     <properties>
         <activemq.version>5.6.0</activemq.version>
-        <cxf.version>2.6.2</cxf.version>
+        <cxf.version>2.7.0-SNAPSHOT</cxf.version>
         <slf4j.version>1.6.1</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
