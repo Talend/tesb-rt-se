@@ -68,7 +68,7 @@
 		            <connectors>
 		                <connector
 		                    implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
-		                    <port>9001</port>
+		                    <port>9080</port>
                             <keystore>src/main/webapp/certs/keystore.jks</keystore>
                             <keyPassword>password</keyPassword>
                             <password>password</password>

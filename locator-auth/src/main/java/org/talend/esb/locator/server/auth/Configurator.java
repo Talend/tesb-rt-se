@@ -23,19 +23,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Configurator {
-    
-    private static final Logger LOG = Logger.getLogger(Configurator.class.getName());
 
-    private static String AUTHENTICATION_PROVIDER_CLASS = "org.talend.esb.locator.server.auth.SLAuthenticationProvider";
-    
-    private static String AUTHENTICATION_PROVIDER_KEY = "zookeeper.authProvider.serviceLocator";
+    private static final Logger LOG = Logger.getLogger(Configurator.class
+            .getName());
 
-    public Configurator () {
-        System.setProperty(AUTHENTICATION_PROVIDER_KEY, AUTHENTICATION_PROVIDER_CLASS);
-        
+    private static final String AUTHENTICATION_PROVIDER_CLASS = "org.talend.esb.locator.server.auth.SLAuthenticationProvider";
+
+    private static final String AUTHENTICATION_PROVIDER_KEY = "zookeeper.authProvider.serviceLocator";
+
+    public Configurator() {
+        System.setProperty(AUTHENTICATION_PROVIDER_KEY,
+                AUTHENTICATION_PROVIDER_CLASS);
+
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Configurator for SLAuthenticationProvider set System property "
-                + AUTHENTICATION_PROVIDER_KEY + " to " + AUTHENTICATION_PROVIDER_CLASS);
+            LOG.log(Level.FINE,
+                    "Configurator for SLAuthenticationProvider set System property "
+                            + AUTHENTICATION_PROVIDER_KEY + " to "
+                            + AUTHENTICATION_PROVIDER_CLASS);
         }
     }
 }

@@ -4,7 +4,6 @@
 package client;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,7 +12,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.apache.cxf.jaxrs.client.ResponseReader;
 import org.apache.cxf.jaxrs.client.WebClient;
 
 import common.advanced.Person;
@@ -206,12 +204,8 @@ public final class RESTClient {
      * also be checked. HTTP response errors can be converted into typed exceptions.
      */
     public void useSimpleProxy() {
-        ResponseReader reader = new ResponseReader();
-        reader.setEntityClass(PersonCollection.class);
-
         String webAppAddress = "http://localhost:" + port + "/services/personservice";
-        PersonService proxy = JAXRSClientFactory.create(webAppAddress, PersonService.class,
-                                                        Collections.singletonList(reader));
+        PersonService proxy = JAXRSClientFactory.create(webAppAddress, PersonService.class);
 
         new PersonServiceProxyClient(proxy).useService();
     }

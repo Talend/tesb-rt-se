@@ -23,7 +23,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.Stat;
 import org.easymock.Capture;
 import org.junit.Before;
@@ -38,6 +37,7 @@ import org.talend.esb.servicelocator.client.TransportType;
 import static org.apache.zookeeper.CreateMode.EPHEMERAL;
 import static org.apache.zookeeper.CreateMode.PERSISTENT;
 import static org.easymock.EasyMock.anyLong;
+import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -58,7 +58,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     private SLEndpoint slEndpointStub;
  
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         
         slEndpointStub = createMock(SLEndpoint.class);
@@ -181,6 +181,32 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         verifyAll();
     }
 
+    @Test
+    public void registerServiceExistsNotWithAuthentication() throws Exception {
+        Endpoint endpoint = create(SERVICE_QNAME_1, ENDPOINT_1);
+
+        setAuthentication(true);
+        zkMock.addAuthInfo(eq("sl"), aryEq(USER_NAME_PASSWORD_BYTES));
+        
+        serviceExistsNot(SERVICE_PATH_1);
+        createService(SERVICE_PATH_1);
+
+        endpointExistsNot(ENDPOINT_PATH_11);
+        ep2Data(endpoint, NEW_DATA);
+        createEndpointAndSetData(ENDPOINT_PATH_11, NEW_DATA);
+
+        createEndpointStatus(ENDPOINT_PATH_11);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = createServiceLocatorSuccess();
+        slc.setEndpointTransformer(trans);
+        slc.setName(USER_NAME);
+        slc.setPassword(PASSWORD);
+        slc.register(endpoint);
+
+        verifyAll();
+    }
     @Test
     public void registerServiceExistsNotButConcurrentlyCreated() throws Exception {
         Endpoint endpoint = create(SERVICE_QNAME_1, ENDPOINT_1);
@@ -320,7 +346,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     private void createEndpointAndSetData(String path, byte[] content) throws KeeperException, InterruptedException {
-        expect(zkMock.create(path, content, Ids.OPEN_ACL_UNSAFE, PERSISTENT)).andReturn(path);
+        expect(zkMock.create(path, content, getACLs(), PERSISTENT)).andReturn(path);
     }
 
     private void createEndpointStatus(String endpointPath)
