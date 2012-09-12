@@ -41,11 +41,11 @@ import org.apache.zookeeper.server.auth.AuthenticationProvider;
 
 public class SLAuthenticationProvider implements AuthenticationProvider {
 
-    public static String SL_READ = "SL_READ";
+    public static final String SL_READ = "SL_READ";
 
-    public static String SL_MAINTAIN = "SL_MAINTAIN";
+    public static final String SL_MAINTAIN = "SL_MAINTAIN";
 
-    public static String SL_ADMIN = "SL_ADMIN";
+    public static final String SL_ADMIN = "SL_ADMIN";
 
     private Charset utf8CharSet;
 
@@ -60,11 +60,14 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
 
     private ArrayList<String> getUserRoles(final String user,
             final String password) throws LoginException {
+
         ArrayList<String> roles = new ArrayList<String>();
-        LoginContext ctx = new LoginContext("karaf", new CallbackHandler() {
+        LoginContext context = new LoginContext("karaf", new CallbackHandler() {
+
             @Override
             public void handle(Callback[] callbacks) throws IOException,
                     UnsupportedCallbackException {
+
                 for (int i = 0; i < callbacks.length; i++) {
                     if (callbacks[i] instanceof NameCallback) {
                         ((NameCallback) callbacks[i]).setName(user);
@@ -77,13 +80,16 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
                 }
             }
         });
-        ctx.login();
-        Subject subject = ctx.getSubject();
+
+        context.login();
+        Subject subject = context.getSubject();
+
         for (Principal p : subject.getPrincipals()) {
-            if (SL_READ.equals(p.getName().toUpperCase())
-                    || SL_MAINTAIN.equals(p.getName().toUpperCase())
-                    || SL_ADMIN.equals(p.getName().toUpperCase())) {
-                roles.add(p.getName().toUpperCase());
+            String principalName = p.getName().toUpperCase();
+            if (SL_READ.equals(principalName)
+                    || SL_MAINTAIN.equals(principalName)
+                    || SL_ADMIN.equals(principalName)) {
+                roles.add(principalName);
             }
         }
         return roles;
@@ -91,28 +97,35 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Code handleAuthentication(ServerCnxn cnxn, byte[] authData) {
+
         String id = new String(authData, utf8CharSet);
         String userInfo[] = id.split(":");
         String user = "";
         String password = "";
         StringBuilder roles = new StringBuilder("");
+
         if (userInfo.length >= 1) {
             user = userInfo[0];
             if (userInfo.length >= 2) {
                 password = userInfo[1];
             }
             try {
+
                 ArrayList<String> rolesList = getUserRoles(user, password);
-                for (int i = 0; i < rolesList.size(); i++) {
+                int size = rolesList.size();
+
+                for (int i = 0; i < size; i++) {
                     roles.append(rolesList.get(i));
-                    if (i < rolesList.size() - 1)
+                    if (i < size - 1)
                         roles.append(",");
                 }
-                if (rolesList.size() >= 1) {
+
+                if (size >= 1) {
                     cnxn.getAuthInfo().add(
                             new Id(getScheme(), roles.toString()));
                     return KeeperException.Code.OK;
                 }
+
             } catch (LoginException e) {
                 return KeeperException.Code.AUTHFAILED;
             }

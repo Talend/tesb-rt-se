@@ -27,9 +27,9 @@ public class Configurator {
     private static final Logger LOG = Logger.getLogger(Configurator.class
             .getName());
 
-    private static String AUTHENTICATION_PROVIDER_CLASS = "org.talend.esb.locator.server.auth.SLAuthenticationProvider";
+    private static final String AUTHENTICATION_PROVIDER_CLASS = "org.talend.esb.locator.server.auth.SLAuthenticationProvider";
 
-    private static String AUTHENTICATION_PROVIDER_KEY = "zookeeper.authProvider.serviceLocator";
+    private static final String AUTHENTICATION_PROVIDER_KEY = "zookeeper.authProvider.serviceLocator";
 
     public Configurator() {
         System.setProperty(AUTHENTICATION_PROVIDER_KEY,
