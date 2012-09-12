@@ -58,13 +58,6 @@
             <version>${saaj-impl.version}</version>
             <type>jar</type>
         </dependency>
-          <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
-        <dependency>
-            <groupId>org.ops4j.pax.url</groupId>
-            <artifactId>pax-url-classpath</artifactId>
-            <version>1.2.8</version>
-            <type>jar</type>
-        </dependency>
 	</dependencies>
 
 	<build>
@@ -314,14 +307,6 @@
                                     <version>${saaj-impl.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                               <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
-                                <artifactItem>
-                                     <groupId>org.ops4j.pax.url</groupId>
-                                     <artifactId>pax-url-classpath</artifactId>
-                                     <version>1.2.8</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
 							</artifactItems>
 						</configuration>

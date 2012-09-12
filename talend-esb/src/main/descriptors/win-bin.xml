@@ -490,12 +490,6 @@
             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
-        <file>
-            <source>${basedir}/target/dependencies/pax-url-classpath-1.2.8.jar</source>
-            <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/1.2.8/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
     </files>
 
     <dependencySets>
