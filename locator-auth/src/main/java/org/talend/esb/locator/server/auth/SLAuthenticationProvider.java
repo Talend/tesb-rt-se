@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -40,6 +42,9 @@ import org.apache.zookeeper.server.ServerCnxn;
 import org.apache.zookeeper.server.auth.AuthenticationProvider;
 
 public class SLAuthenticationProvider implements AuthenticationProvider {
+
+    private static final Logger LOG = Logger
+            .getLogger(SLAuthenticationProvider.class.getName());
 
     public static final String SL_READ = "SL_READ";
 
@@ -75,6 +80,10 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
                         ((PasswordCallback) callbacks[i]).setPassword((password
                                 .toCharArray()));
                     } else {
+                        if (LOG.isLoggable(Level.SEVERE)) {
+                            LOG.log(Level.SEVERE, "Unknown callback type: "
+                                    + callbacks[i].toString());
+                        }
                         throw new UnsupportedCallbackException(callbacks[i]);
                     }
                 }
@@ -127,7 +136,9 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
                 }
 
             } catch (LoginException e) {
-                return KeeperException.Code.AUTHFAILED;
+                if (LOG.isLoggable(Level.WARNING)) {
+                    LOG.log(Level.WARNING, "Login failed");
+                }
             }
         }
         return KeeperException.Code.AUTHFAILED;
