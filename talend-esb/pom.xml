@@ -33,7 +33,7 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>1.3.2_3</jclouds.version>
+        <jclouds.version>1.4.0</jclouds.version>
         <saaj-impl.version>1.3.18_1</saaj-impl.version>
 	</properties>
 
@@ -114,7 +114,6 @@
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>file:${basedir}/target/classes/jclouds-karaf-1.3.1-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
 							</descriptors>
 							<features>
