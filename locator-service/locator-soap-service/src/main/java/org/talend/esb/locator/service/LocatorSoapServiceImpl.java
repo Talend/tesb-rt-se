@@ -20,8 +20,10 @@
 package org.talend.esb.locator.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +32,18 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
+
+import org.apache.cxf.endpoint.ServerRegistry;
+import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.ws.policy.PolicyEngine;
+import org.apache.cxf.ws.policy.WSPolicyFeature;
+import org.apache.cxf.ws.policy.attachment.external.DomainExpressionBuilder;
+import org.apache.cxf.ws.policy.attachment.external.DomainExpressionBuilderRegistry;
+import org.apache.cxf.ws.policy.attachment.external.EndpointReferenceDomainExpressionBuilder;
+import org.apache.neethi.Policy;
+import org.talend.esb.locator.service.LocatorServiceConstants.EsbSecurity;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -52,6 +66,7 @@ import org.talend.schemas.esb.locator._2011._11.SLPropertiesType;
 import org.talend.schemas.esb.locator._2011._11.ServiceLocatorFaultDetail;
 import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
 import org.talend.services.esb.locator.v1.LocatorService;
+import org.talend.services.esb.locator.v1.LocatorService_Service;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 import org.w3c.dom.Document;
 
@@ -69,6 +84,12 @@ public class LocatorSoapServiceImpl implements LocatorService {
     private int sessionTimeout = 5000;
 
     private int connectionTimeout = 5000;
+
+//	private PolicyProvider policyProvider;
+//	
+//	public void setPolicyProvider(PolicyProvider policyProvider) {
+//	    this.policyProvider = policyProvider;
+//	}
 
     public void setLocatorClient(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
@@ -88,7 +109,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
-
+      
     /**
      * Instantiate Service Locator client. After successful instantiation
      * establish a connection to the Service Locator server. This method will be
@@ -127,10 +148,12 @@ public class LocatorSoapServiceImpl implements LocatorService {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Destroy Locator client");
         }
+
         if (locatorClient != null) {
             locatorClient.disconnect();
             locatorClient = null;
         }
+        
     }
 
     /**
