@@ -19,7 +19,7 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointImpl;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.feature.Feature;
 import org.apache.cxf.ws.policy.attachment.external.DomainExpressionBuilder;
 import org.apache.cxf.ws.policy.attachment.external.DomainExpressionBuilderRegistry;
 import org.apache.cxf.ws.policy.attachment.external.EndpointReferenceDomainExpressionBuilder;
@@ -92,7 +92,7 @@ public class PolicyProviderImpl implements PolicyProvider {
         	if (sr.getEndpoint().getService() == locatorEndpoint.getService()) srv = sr;
         }
               
-        List<AbstractFeature> activeFeatures = locatorEndpoint.getFeatures();
+        List<Feature> activeFeatures = locatorEndpoint.getFeatures();
             WSPolicyFeature policyFeature = new WSPolicyFeature();
 
             activeFeatures.add(policyFeature);
