@@ -158,17 +158,16 @@
   </feature>
 
   <feature name='tesb-locator-soap-service' version='${project.version}'>
-         <configfile finalname="/etc/org.talend.esb.locator.token.policy">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/policy/org.talend.esb.locator.token</configfile>
-        <configfile finalname="/etc/org.talend.esb.locator.saml.policy">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/policy/org.talend.esb.locator.saml</configfile>
-        <configfile finalname="/etc/org.talend.esb.locator.service.cfg">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/cfg/org.talend.esb.locator.service</configfile>
-        <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/properties/clientKeystore</configfile>
-        <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/jks/clientstore</configfile>
-        <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/properties/serviceKeystore</configfile>
-        <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.locator/org.talend.esb.locator.service/${project.version}/jks/servicestore</configfile>
+         <configfile finalname="/etc/org.talend.esb.locator.token.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.token</configfile>
+        <configfile finalname="/etc/org.talend.esb.locator.saml.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.saml</configfile>
+        <configfile finalname="/etc/org.talend.esb.locator.service.cfg">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/cfg/org.talend.esb.locator.service</configfile>
+        <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:oorg.talend.esb.locator.service/locator-soap-service/${project.version}/properties/clientKeystore</configfile>
+        <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/clientstore</configfile>
+        <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/properties/serviceKeystore</configfile>
+        <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/servicestore</configfile>
         <feature>tesb-locator-client</feature>
         <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>
-        
+        <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>        
   </feature>
 
   <feature name='tesb-locator-rest-service' version='${project.version}'>
