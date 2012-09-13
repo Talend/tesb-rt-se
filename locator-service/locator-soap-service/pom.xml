@@ -68,6 +68,58 @@
 					</instructions>
 				</configuration>
 			</plugin>
+			 <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                 <artifact>
+                                    <file>etc/org.talend.esb.locator.service.token.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.locator.token</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.locator.service.saml.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.locator.saml</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.locator.service.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.locator.service</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>clientKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientstore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>clientstore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/serviceKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>serviceKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/servicestore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>servicestore</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
