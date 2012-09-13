@@ -53,7 +53,7 @@
         <spring.version>3.0.7.RELEASE</spring.version>
         <karaf.version>2.3.0-SNAPSHOT</karaf.version>
         <activemq.version>5.6.0</activemq.version>
-        <eclipse.osgi.version>3.6.2.R36x_v20110210</eclipse.osgi.version>
+        <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>
         <zookeeper.version>3.3.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <servlet.api.version>2.5</servlet.api.version>
