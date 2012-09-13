@@ -32,7 +32,7 @@
             <version>${karaf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.sonatype.tycho</groupId>
+            <groupId>org.eclipse</groupId>
             <artifactId>org.eclipse.osgi</artifactId>
             <version>${eclipse.osgi.version}</version>
         </dependency>
