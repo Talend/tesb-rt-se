@@ -484,12 +484,6 @@
             <outputDirectory>/container/system/org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround for saaj-impl bundle -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
     </files>
 
     <dependencySets>
