@@ -31,8 +31,8 @@ public class BookStoreJmsClient implements BookStore {
     
     private Map<String, Object> getRestHeaders(String method, String path) {
         Map<String, Object> headers = new HashMap<String, Object>();
-        headers.put(Exchange.HTTP_METHOD, method);
-        headers.put(Exchange.HTTP_PATH, path);
+        headers.put("org.apache.cxf.request.method", method);
+        headers.put("org.apache.cxf.request.uri", path);
         return headers;
     }
 
