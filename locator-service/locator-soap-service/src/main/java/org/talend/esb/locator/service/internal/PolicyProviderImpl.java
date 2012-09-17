@@ -24,18 +24,17 @@ import org.apache.neethi.PolicyRegistry;
 import org.talend.esb.locator.service.LocatorServiceConstants;
 import org.talend.esb.locator.service.PolicyProvider;
 import org.talend.esb.locator.service.LocatorServiceConstants.EsbSecurity;
-import org.apache.cxf.jaxws22.spring.JAXWS22SpringEndpointImpl;
+import org.apache.cxf.jaxws.spring.EndpointDefinitionParser.SpringEndpointImpl;
+import org.apache.ws.security.validate.JAASUsernameTokenValidator;
 
 @NoJSR250Annotations(unlessNull = "bus")
 public class PolicyProviderImpl implements PolicyProvider {
 
 	private String policyToken;
 	private String policySaml;
-	private String username;
-	private String password;
 	private PolicyBuilder policyBuilder;
 	private String serviceAutentication;
-	private JAXWS22SpringEndpointImpl locatorEndpoint;
+	private SpringEndpointImpl locatorEndpoint;
 
 	public void init() {
 
@@ -59,12 +58,11 @@ public class PolicyProviderImpl implements PolicyProvider {
 
 		Map<String, Object> endpointProps = new HashMap<String, Object>();
 
-		endpointProps.put(SecurityConstants.USERNAME,
-				username);
-
-		endpointProps.put(
-				SecurityConstants.CALLBACK_HANDLER,
-				new WSPasswordCallbackHandler(username, password));
+		if (EsbSecurity.TOKEN == esbSecurity) {
+			JAASUsernameTokenValidator jaasUTValidator = new JAASUsernameTokenValidator();
+			jaasUTValidator.setContextName("karaf");
+			endpointProps.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR,jaasUTValidator);
+		}
 
 		locatorEndpoint.setProperties(endpointProps);
 
@@ -116,7 +114,7 @@ public class PolicyProviderImpl implements PolicyProvider {
 		this.policyToken = policyToken;
 	}
 
-	public void setLocatorEndpoint(JAXWS22SpringEndpointImpl locatorEndpoint) {
+	public void setLocatorEndpoint(SpringEndpointImpl locatorEndpoint) {
 		this.locatorEndpoint = locatorEndpoint;
 	}
 
@@ -139,22 +137,6 @@ public class PolicyProviderImpl implements PolicyProvider {
 
 	public Policy getSamlPolicy() {
 		return loadPolicy(policySaml);
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 }

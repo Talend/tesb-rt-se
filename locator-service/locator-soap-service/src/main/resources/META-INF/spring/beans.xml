@@ -27,8 +27,6 @@
 		<prop key="locator.authentication">TOKEN</prop>
 		<prop key="policy.token">TOKEN</prop>
 		<prop key="policy.saml">SAML</prop>
-		<prop key="ws-security.username"></prop>
-		<prop key="ws-security.password"></prop>
 	</osgix:cm-properties>
 
 	<osgix:cm-properties id="locator-server-props"
@@ -61,8 +59,6 @@
 		<property name="policySaml" value="$slp{policy.saml}" />
 		<property name="locatorEndpoint" ref="ServiceLocatorService" />
 		<property name="serviceAutentication" value="$slp{locator.authentication}" />
-		<property name="username" value="$slp{ws-security.username}" />
-		<property name="password" value="$slp{ws-security.password}" />
 	</bean>
 
 	<bean id="serviceLocatorBean" class="org.talend.esb.locator.service.LocatorSoapServiceImpl"

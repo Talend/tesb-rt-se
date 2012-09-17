@@ -26,31 +26,35 @@ locator-soap-service:
 locator-rest-service: 
       Provides the RESTful Service implementation for Locator Service.
 
-
 To enable and deploy the Locator Services into Talend runtime, do the following steps:
 
-1.  Generate and deploy SOAP and RESTful interface (using the relevant WSDL and WADL file) and deploy into the Talend runtime:
+Prerequisites
+1.Generate SOAP and RESTful interface (using the relevant WSDL and WADL file):
       
        cd locator-service-common
        mvn clean install
 
-    Install the generated bundle "locator-service-common-5.0-SNAPSHOT.jar" into the Talend runtime.
+2.Install the Service Locator server (Zookeeper Server) feature:
+       
+ In Talend ESB container execute command: features:install tesb-zookeeper-server
 
-2.  Install Locator SOAP Service interface implementation and deploy into the Talend runtime: 
+Deploying of Service Locator SOAP Service.
 
-         cd locator-soap-service
-         mvn clean install
-    
-    Install the generated bundle "locator-service-5.0-SNAPSHOT.jar" into the Talend runtime.
+ In Talend ESB container execute command: features:install tesb-locator-soap-service
 
-3.  Install Locator RESTful Service interface implementation and deploy into the Talend runtime: 
+Deploying of Service Locator REST Service.
 
-         cd locator-rest-service
-         mvn clean install
-    
-    Install the generated bundle "locator-rest-service-5.0-SNAPSHOT.jar" into the Talend runtime.
+ In Talend ESB container execute command: features:install tesb-locator-rest-service
 
+Configuring authentication for Service Locator SOAP Service.
 
-Both the SOAP based and RESTful based Locator Service require
-the Service Locator server (Zookeeper Server) to be available.
+For enabling security for Locator SOAP Service open org.talend.esb.locator.service.cfg in etc directory of Talend ESB container.
 
+Change locator.authentication property:
+TOKEN - enabling username token scenario
+SAML - enabling SAML token scenario
+NO- no security
+
+Policy configuration is located in etc directory of Talend ESB container in files:
+SAML token policy - org.talend.esb.locator.saml.policy
+Username token policy - org.talend.esb.locator.token.policy
