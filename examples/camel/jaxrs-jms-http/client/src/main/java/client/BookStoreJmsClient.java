@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.ws.rs.core.Response;
 
 import org.apache.camel.EndpointInject;
-import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 
 import talend.camel.examples.jaxrsjmshttp.common.Book;
@@ -54,6 +53,15 @@ public class BookStoreJmsClient implements BookStore {
     @Override
     public BookList listBooks() {
         return producer.requestBodyAndHeaders(JMS_URI, null, getRestHeaders("GET", "/"), BookList.class);
+    }
+
+    public void stop() {
+        try {
+            producer.stop();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
