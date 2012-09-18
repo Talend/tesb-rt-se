@@ -32,6 +32,7 @@
         <cxf.version>2.7.0-SNAPSHOT</cxf.version>
         <felix.version>1.2.0</felix.version>
         <spring.version>3.0.7.RELEASE</spring.version>
+		<spring.security.version>3.1.0.RELEASE</spring.security.version>
         <jetty.version>7.4.5.v20110725</jetty.version>
         <cglib.version>2.2</cglib.version>
         <jsr250.api.version>1.0</jsr250.api.version>
@@ -129,7 +130,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring.security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
