@@ -35,6 +35,7 @@
         <module>jaxrs-oauth</module>
         <module>jaxrs-oauth2</module>
         <module>features</module>
+        <module>dev-guide-wsdl-first</module>
     </modules>
 
     <build>
