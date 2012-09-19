@@ -32,9 +32,14 @@ public class PolicyProviderImpl implements PolicyProvider {
 
 	private String policyToken;
 	private String policySaml;
-	private PolicyBuilder policyBuilder;
+	private String signatureProperties;
+	private String signatureUsername;
+	private String signaturePassword;
 	private String serviceAutentication;
 	private SpringEndpointImpl locatorEndpoint;
+	private PolicyBuilder policyBuilder;
+
+	private static final String ENDPOINT_SIGNATURE_PASSWORD = "ws-security.signature.password";
 
 	public void init() {
 
@@ -61,7 +66,20 @@ public class PolicyProviderImpl implements PolicyProvider {
 		if (EsbSecurity.TOKEN == esbSecurity) {
 			JAASUsernameTokenValidator jaasUTValidator = new JAASUsernameTokenValidator();
 			jaasUTValidator.setContextName("karaf");
-			endpointProps.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR,jaasUTValidator);
+			endpointProps.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR,
+					jaasUTValidator);
+		}
+
+		if (EsbSecurity.SAML == esbSecurity) {
+			endpointProps.put(SecurityConstants.SIGNATURE_PROPERTIES,
+					getSignatureProperties());
+			endpointProps.put(SecurityConstants.SIGNATURE_USERNAME,
+					getSignatureUsername());
+			endpointProps.put(ENDPOINT_SIGNATURE_PASSWORD,
+					getSignaturePassword());
+			endpointProps.put(SecurityConstants.CALLBACK_HANDLER,
+					new WSPasswordCallbackHandler(getSignatureUsername(),
+							getSignaturePassword()));
 		}
 
 		locatorEndpoint.setProperties(endpointProps);
@@ -137,6 +155,30 @@ public class PolicyProviderImpl implements PolicyProvider {
 
 	public Policy getSamlPolicy() {
 		return loadPolicy(policySaml);
+	}
+
+	public void setSignatureProperties(String signatureProperties) {
+		this.signatureProperties = signatureProperties;
+	}
+
+	public String getSignatureProperties() {
+		return signatureProperties;
+	}
+
+	public void setSignatureUsername(String signatureUsername) {
+		this.signatureUsername = signatureUsername;
+	}
+
+	public String getSignatureUsername() {
+		return signatureUsername;
+	}
+
+	public void setSignaturePassword(String signaturePassword) {
+		this.signaturePassword = signaturePassword;
+	}
+
+	public String getSignaturePassword() {
+		return signaturePassword;
 	}
 
 }

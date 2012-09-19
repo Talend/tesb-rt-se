@@ -23,7 +23,7 @@
 
 <!--    <jaxrs:client address="camel://direct:bookStore" id="bookStoreClient" />-->
     
-    <bean id="bookStoreJmsClient" class="client.BookStoreJmsClient" />
+    <bean id="bookStoreJmsClient" class="client.BookStoreJmsClient" destroy-method="stop" />
 
     <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring" trace="true">
         <route>
