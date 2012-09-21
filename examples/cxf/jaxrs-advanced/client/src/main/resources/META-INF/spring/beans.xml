@@ -17,11 +17,6 @@ http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>
          </jaxrs:headers>
-         <jaxrs:providers>
-             <bean class="org.apache.cxf.jaxrs.client.ResponseReader">
-                <property name="entityClass" value="common.advanced.PersonCollection"/>
-             </bean>
-         </jaxrs:providers>
     </jaxrs:client>
     
     <bean class="client.PersonServiceProxyClient">
