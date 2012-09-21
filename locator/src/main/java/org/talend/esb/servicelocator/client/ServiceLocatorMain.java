@@ -32,19 +32,24 @@ import java.util.NoSuchElementException;
 import javax.xml.namespace.QName;
 
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
+import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
 public class ServiceLocatorMain {
 
     private ServiceLocatorImpl sl;
 
+    private ZKBackend backend;
+
     private PrintStream out;
 
     public ServiceLocatorMain() {
+        backend = new ZKBackend(); 
         sl = new ServiceLocatorImpl();
+        sl.setBackend(backend);
     }
 
     public void setLocatorEndpoints(String locatorEndpoints) {
-        sl.setLocatorEndpoints(locatorEndpoints);
+        backend.setLocatorEndpoints(locatorEndpoints);
     }
 
     public void exec(OutputStream outputStream) throws InterruptedException, ServiceLocatorException {

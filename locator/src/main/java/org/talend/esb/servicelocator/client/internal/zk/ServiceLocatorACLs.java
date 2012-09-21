@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.client.internal;
+package org.talend.esb.servicelocator.client.internal.zk;
 
 import static java.util.Arrays.asList;
 

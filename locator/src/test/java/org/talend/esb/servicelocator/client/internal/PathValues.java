@@ -26,9 +26,9 @@ public interface PathValues {
 
     String SERVICE_NAME_2 = "{http:%2F%2Fexample.com%2Fservices}service2";
 
-    String SERVICE_PATH_1 = ServiceLocatorImpl.LOCATOR_ROOT_PATH + "/" + SERVICE_NAME_1;
+    String SERVICE_PATH_1 = "/cxf-locator/" + SERVICE_NAME_1;
 
-    String SERVICE_PATH_2 = ServiceLocatorImpl.LOCATOR_ROOT_PATH + "/" + SERVICE_NAME_2;
+    String SERVICE_PATH_2 = "/cxf-locator/" + SERVICE_NAME_2;
 
     String ENDPOINT_NODE_1 = "http:%2F%2Fep.com%2Fendpoint1";
 
@@ -40,7 +40,7 @@ public interface PathValues {
 
     String ENDPOINT_PATH_22 = SERVICE_PATH_2 + "/" + ENDPOINT_NODE_2;
 
-    String STATUS_NODE = ServiceLocatorImpl.LIVE;
+    String STATUS_NODE = "live";
 
     String ENDPOINT_STATUS_PATH_11 = ENDPOINT_PATH_11 + "/" + STATUS_NODE;
 

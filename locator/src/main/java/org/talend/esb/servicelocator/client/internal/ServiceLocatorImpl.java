@@ -19,28 +19,16 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.KeeperException.Code;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
-import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.data.ACL;
 
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.SLEndpoint;
@@ -49,8 +37,8 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
+import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
-import static org.talend.esb.servicelocator.client.internal.ServiceLocatorACLs.*;
 
 /**
  * This is the entry point for clients of the Service Locator. To access the
@@ -69,62 +57,11 @@ import static org.talend.esb.servicelocator.client.internal.ServiceLocatorACLs.*
  */
 public class ServiceLocatorImpl implements ServiceLocator {
 
-    static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
-
-    static final String LIVE = "live"; 
-
     private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
 
-    private static final byte[] EMPTY_CONTENT = new byte[0];
-
-    private static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
-
-    private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
-        @Override
-        public void process(ServiceLocator lc) {
-        }
-    };
-
-    private static final NodePathBinder<NodePath> IDENTICAL_BINDER = new NodePathBinder<NodePath>() {
-        @Override
-        public NodePath bind(NodePath nodepath) {
-            return nodepath;
-        }
-    };
-
-    private static final NodePathBinder<String> TO_NAME_BINDER = new NodePathBinder<String>() {
-        @Override
-        public String bind(NodePath nodePath) {
-            return nodePath.getNodeName();
-        }
-    };
-
-    private static final NodePathBinder<QName> TO_SERVICENAME_BINDER = new NodePathBinder<QName>() {
-        @Override
-        public QName bind(NodePath nodePath) {
-            return QName.valueOf(nodePath.getNodeName());
-        }
-    };
-
-    private interface NodePathBinder<T> {
-        T bind(NodePath nodepath) throws ServiceLocatorException, InterruptedException;
-    }
-
-    private String locatorEndpoints = "localhost:2181";
-
-    private int sessionTimeout = 5000;
-
-    private int connectionTimeout = 5000;
-
-    private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
-
-    private volatile ZooKeeper zk;
+    private ServiceLocatorBackend backend;
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
-
-    private String userName;
-    
-    private String password;
 
     /**
      * {@inheritDoc}
@@ -133,31 +70,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     public synchronized void connect() throws InterruptedException,
             ServiceLocatorException {
 
-        disconnect();
-
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Start connect session");
-        }
-
-        CountDownLatch connectionLatch = new CountDownLatch(1);
-        zk = createZooKeeper(connectionLatch);
-
-        boolean connected = connectionLatch.await(connectionTimeout,
-                TimeUnit.MILLISECONDS);
-
-        if (!connected) {
-            throw new ServiceLocatorException(
-                    "Connection to Service Locator failed.");
-        }
-
-        if (userName != null) {
-            byte[] authInfo = (userName  + ":" + password).getBytes(UTF8_CHAR_SET);
-            zk.addAuthInfo("sl", authInfo);    
-        }
-        
-        if (LOG.isLoggable(Level.FINER)) {
-            LOG.log(Level.FINER, "End connect session");
-        }
+        getBackend().connect();
     }
 
     /**
@@ -167,13 +80,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
     public synchronized void disconnect() throws InterruptedException,
             ServiceLocatorException {
 
-        if (zk != null) {
-            zk.close();
-            zk = null;
-            if (LOG.isLoggable(Level.FINER)) {
-                LOG.log(Level.FINER, "Disconnected service locator session.");
-            }
-        }
+        getBackend().disconnect();
     }
 
     /**
@@ -232,29 +139,25 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Registering endpoint " + endpoint + " for service "
                     + serviceName + "...");
         }
-        checkConnection();
 
         long lastTimeStarted = System.currentTimeMillis();
         long lastTimeStopped = -1;
 
-        NodePath serviceNodePath = ensureServiceExists(serviceName);
-        NodePath endpointNodePath = serviceNodePath.child(endpoint);
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        serviceNode.ensureExists();
 
-        try {
-            if (nodeExists(endpointNodePath)) {
-                byte[] content = getContent(endpointNodePath);
-                SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, content, false);
-                lastTimeStopped = oldEndpoint.getLastTimeStopped();
-            }
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        } 
+        EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
+        if (endpointNode.exists()) {
+            byte[] content = endpointNode.getContent();
+            SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, content, false);
+            lastTimeStopped = oldEndpoint.getLastTimeStopped();
+        }
 
         byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
-        endpointNodePath = 
-            ensureEndpointExists(serviceNodePath, endpoint, content);
-
-        createEndpointStatus(endpointNodePath, persistent);
+        
+        endpointNode.ensureExists(content);
+        endpointNode.setLive(persistent);
     }
 
     @Override
@@ -268,31 +171,25 @@ public class ServiceLocatorImpl implements ServiceLocator {
             LOG.fine("Unregistering endpoint " + endpoint + " for service "
                     + serviceName + "...");
         }
-        checkConnection();
+
         long lastTimeStarted = -1;
         long lastTimeStopped = System.currentTimeMillis();
 
-        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
-                .toString());
-        NodePath endpointNodePath = serviceNodePath.child(endpoint);
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
-        try {
-            if (nodeExists(endpointNodePath)) {
+            if (endpointNode.exists()) {
                 
-                byte[] oldContent = getContent(endpointNodePath);
+                byte[] oldContent = endpointNode.getContent();
                 SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, oldContent, false);
                 lastTimeStarted = oldEndpoint.getLastTimeStarted();
 
-                NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
-
-                ensurePathDeleted(endpointStatusNodePath, false);
+                endpointNode.setOffline();
 
                 byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
-                setNodeData(endpointNodePath, content);
+                endpointNode.setContent(content);
             }
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        }
     }
 
     /**
@@ -315,16 +212,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
                     + serviceName + "...");
         }
 
-        checkConnection();
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
 
-        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName
-            .toString());
-        NodePath endpointNodePath = serviceNodePath.child(endpoint);
-        NodePath endpointStatusNodePath = endpointNodePath.child(LIVE);
-        
-        ensurePathDeleted(endpointStatusNodePath, false);
-        ensurePathDeleted(endpointNodePath, false);
-
+        EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
+        endpointNode.ensureRemoved();
     }
 
     /**
@@ -336,13 +228,9 @@ public class ServiceLocatorImpl implements ServiceLocator {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Getting all services...");
         }
-        checkConnection();
+        RootNode rootNode = getBackend().connect();
 
-        try {
-            return getChildren(LOCATOR_ROOT_PATH, TO_SERVICENAME_BINDER);
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        }
+        return rootNode.getServiceNames();
     }
 
     /**
@@ -352,34 +240,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
     synchronized public List<SLEndpoint> getEndpoints(final QName serviceName)
         throws ServiceLocatorException, InterruptedException {
 
-        NodePathBinder<SLEndpoint> slEndpointBinder = new NodePathBinder<SLEndpoint>() {
-
-            @Override
-            public SLEndpoint bind(final NodePath nodePath)
-                throws ServiceLocatorException, InterruptedException {
-                
-                try {
-                    byte[] content = getContent(nodePath);
-                    final boolean isLive = isLive(nodePath);
-                    return transformer.toSLEndpoint(serviceName, content, isLive);
-//                    return new SLEndpointImpl(serviceName, content, isLive);
-                } catch (KeeperException e) {
-                    throw locatorException(e);
-                }
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        
+        if (serviceNode.exists()) {
+            List<EndpointNode> endpointNodes = serviceNode.getEndPoints();
+            
+            List<SLEndpoint> slEndpoints = new ArrayList<SLEndpoint>(endpointNodes.size());
+            for (EndpointNode endpointNode : endpointNodes ) {
+                byte[] content = endpointNode.getContent();
+                final boolean isLive = endpointNode.isLive();
+                SLEndpoint slEndpoint = transformer.toSLEndpoint(serviceName, content, isLive);
+                slEndpoints.add(slEndpoint);
             }
-        };
-
-        checkConnection();
-        try {
-            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
-                    .toString());
-            if (nodeExists(servicePath)) {
-                return getChildren(servicePath, slEndpointBinder);
-            } else {
-                return Collections.emptyList();
-            }
-        } catch (KeeperException e) {
-            throw locatorException(e);
+            return slEndpoints;
+        } else {
+            return Collections.emptyList();
         }
     }
 
@@ -395,20 +271,16 @@ public class ServiceLocatorImpl implements ServiceLocator {
                 + " within service " + serviceName + "...");
         }
 
-        checkConnection();
-        try {
-            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
-            NodePath endpointPath = servicePath.child(endpoint);
-            if (nodeExists(endpointPath)) {
-                byte[] content = getContent(endpointPath);
-                final boolean isLive = isLive(endpointPath);
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
+        if (endpointNode.exists()) {
+            byte[] content = endpointNode.getContent();
+            final boolean isLive = endpointNode.isLive();
 
-                return transformer.toSLEndpoint(serviceName, content, isLive);
-            } else {
-                return null;
-            }
-        } catch (KeeperException e) {
-            throw locatorException(e);
+            return transformer.toSLEndpoint(serviceName, content, isLive);
+        } else {
+            return null;
         }
     }
 
@@ -417,26 +289,22 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public synchronized List<String> getEndpointNames(QName serviceName)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Get all endpoint names of service " + serviceName + "...");
         }
-        checkConnection();
         List<String> children;
-        try {
-            NodePath servicePath = LOCATOR_ROOT_PATH.child(serviceName
-                    .toString());
-            if (nodeExists(servicePath)) {
-                children = getChildren(servicePath, TO_NAME_BINDER);
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Lookup of service " + serviceName
-                            + " failed, service is not known.");
-                }
-                children = Collections.emptyList();
+
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        if (serviceNode.exists()) {
+            children = serviceNode.getEndpointNames();
+        } else {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Lookup of service " + serviceName
+                        + " failed, service is not known.");
             }
-        } catch (KeeperException e) {
-            throw locatorException(e);
+            children = Collections.emptyList();
         }
         return children;
     }
@@ -461,53 +329,49 @@ public class ServiceLocatorImpl implements ServiceLocator {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Looking up endpoints of service " + serviceName + "...");
         }
-        checkConnection();
 
         List<String> liveEndpoints;
-        try {
-            NodePath providerPath = LOCATOR_ROOT_PATH.child(serviceName
-                    .toString());
-            if (nodeExists(providerPath)) {
-                liveEndpoints = new ArrayList<String>();
-                List<NodePath> childNodePaths = getChildren(providerPath,
-                        IDENTICAL_BINDER);
-                for (NodePath childNodePath : childNodePaths) {
+        
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        if (serviceNode.exists()) {
+            liveEndpoints = new ArrayList<String>();
+            List<EndpointNode> endpointNodes = serviceNode.getEndPoints();
+     
+            for (EndpointNode endpointNode : endpointNodes) {
 
-                    if (isLive(childNodePath)) {
-                        byte[] content = getContent(childNodePath);
-                        SLEndpoint endpoint = transformer.toSLEndpoint(serviceName, content, true);
-                        SLProperties props = endpoint.getProperties();
-                        
-                        if (LOG.isLoggable(Level.FINE)) {
-	                        StringBuilder sb = new StringBuilder();
-	                        for (String prop: props.getPropertyNames()) {
-	                        	sb.append(prop + " : ");
-	                        	for (String value: props.getValues(prop))
-	                        		sb.append(value + " ");
-	                        	sb.append("\n");
-	                        }        
-	                        LOG.fine("Lookup of service " + serviceName + " props = " + sb.toString());
-	                        LOG.fine("matcher = " + matcher.toString());
-                        }
-                        if (matcher.isMatching(props)) {
-                            liveEndpoints.add(childNodePath.getNodeName());
-                            if (LOG.isLoggable(Level.FINE))
-                            	LOG.fine("matched =  " + childNodePath.getNodeName());
-                        } else 
-                        	if (LOG.isLoggable(Level.FINE))
-                        		LOG.fine("not matched =  " + childNodePath.getNodeName());
+                if (endpointNode.isLive()) {
+                    byte[] content = endpointNode.getContent();
+                    SLEndpoint endpoint = transformer.toSLEndpoint(serviceName, content, true);
+                    SLProperties props = endpoint.getProperties();
 
+                    if (LOG.isLoggable(Level.FINE)) {
+                        StringBuilder sb = new StringBuilder();
+                        for (String prop: props.getPropertyNames()) {
+                            sb.append(prop + " : ");
+                            for (String value: props.getValues(prop))
+                                sb.append(value + " ");
+                            sb.append("\n");
+                        }        
+                        LOG.fine("Lookup of service " + serviceName + " props = " + sb.toString());
+                        LOG.fine("matcher = " + matcher.toString());
                     }
+                    if (matcher.isMatching(props)) {
+                        liveEndpoints.add(endpointNode.getEndpointName());
+                        if (LOG.isLoggable(Level.FINE))
+                            LOG.fine("matched =  " + endpointNode.getEndpointName());
+                    } else 
+                        if (LOG.isLoggable(Level.FINE))
+                            LOG.fine("not matched =  " + endpointNode.getEndpointName());
+
                 }
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Lookup of service " + serviceName
-                            + " failed, service is not known.");
-                }
-                liveEndpoints = Collections.emptyList();
             }
-        } catch (KeeperException e) {
-            throw locatorException(e);
+        } else {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Lookup of service " + serviceName
+                        + " failed, service is not known.");
+            }
+            liveEndpoints = Collections.emptyList();
         }
         return liveEndpoints;
     }
@@ -526,10 +390,11 @@ public class ServiceLocatorImpl implements ServiceLocator {
      *            exmaples are: "127.0.0.1:2181" or
      *            "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
      */
+
     public void setLocatorEndpoints(String endpoints) {
-        locatorEndpoints = endpoints;
+        ((ZKBackend) getBackend()).setLocatorEndpoints(endpoints);
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator endpoints set to " + locatorEndpoints);
+            LOG.fine("Locator endpoints set to " + endpoints);
         }
     }
 
@@ -543,10 +408,12 @@ public class ServiceLocatorImpl implements ServiceLocator {
      *            timeout in milliseconds, must be greater than zero and less
      *            than 60000.
      */
+
     public void setSessionTimeout(int timeout) {
-        sessionTimeout = timeout;
+        ((ZKBackend) getBackend()).setSessionTimeout(timeout);
+
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator session timeout set to: " + sessionTimeout);
+            LOG.fine("Locator session timeout set to: " + timeout);
         }
     }
 
@@ -557,23 +424,28 @@ public class ServiceLocatorImpl implements ServiceLocator {
      * @param connectionTimeout
      *            timeout in milliseconds, must be greater than zero
      */
+
     public void setConnectionTimeout(int timeout) {
-        connectionTimeout = timeout;
+        ((ZKBackend) getBackend()).setConnectionTimeout(timeout);
+
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator connection timeout set to: " + connectionTimeout);
+            LOG.fine("Locator connection timeout set to: " + timeout);
         }
+    }
+    
+    public void setBackend(ServiceLocatorBackend backend) {
+        this.backend = backend;
     }
 
     public void setName(String name) {
-        if (name != null && ! name.isEmpty()) {
-            userName = name;            
-        } else {
-            userName = null;
+        ((ZKBackend) getBackend()).setUserName(name);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("User name set to: " + name);
         }
     }
     
     public void setPassword(String passWord) {
-        this.password = passWord;
+        ((ZKBackend) getBackend()).setPassword(passWord);
     }
 
     public void setEndpointTransformer(EndpointTransformer endpointTransformer) {
@@ -585,189 +457,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
      */
     @Override
     public void setPostConnectAction(PostConnectAction postConnectAction) {
-        this.postConnectAction = postConnectAction;
-    }
-
-    private boolean isConnected() {
-        return (zk != null) && zk.getState().equals(ZooKeeper.States.CONNECTED);
-    }
-
-    private void checkConnection() throws ServiceLocatorException, InterruptedException {
-        if (!isConnected()) {
-            connect();
-        }
-    }
-
-    private void ensurePathExists(NodePath path, CreateMode mode)
-        throws ServiceLocatorException, InterruptedException {
-        try {
-            if (!nodeExists(path)) {
-                createNode(path, mode, EMPTY_CONTENT);
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " created.");
-                }
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " already exists.");
-                }
-            }
-        } catch (KeeperException e) {
-            if (!e.code().equals(Code.NODEEXISTS)) {
-                throw locatorException(e);
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Some other client created node" + path
-                            + " concurrently.");
-                }
-            }
-        }
-    }
-
-    private NodePath ensureServiceExists(QName serviceName) throws ServiceLocatorException,
-        InterruptedException {
-        NodePath serviceNodePath = LOCATOR_ROOT_PATH.child(serviceName.toString());
-        ensurePathExists(serviceNodePath, CreateMode.PERSISTENT);
-        return serviceNodePath;
-    }
-
-    private void createEndpointStatus(NodePath endpointNodePath, boolean persistent)
-        throws ServiceLocatorException, InterruptedException {
-
-        NodePath endpointStatusNodePath = endpointNodePath.child("live");
-        try {
-            CreateMode mode = persistent ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL;
-            createNode(endpointStatusNodePath, mode, EMPTY_CONTENT);
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Node " + endpointStatusNodePath + " created.");
-            }
-        } catch (KeeperException e) {
-            if (!e.code().equals(Code.NODEEXISTS)) {
-                throw locatorException(e);
-            } 
-        }
-    }
-
-    private NodePath ensureEndpointExists(NodePath serviceNodePath, String endpoint, byte[] content)
-        throws ServiceLocatorException, InterruptedException {
-        NodePath endpointNodePath = serviceNodePath.child(endpoint);
-
-        try {
-            if (!nodeExists(endpointNodePath)) {
-                createNode(endpointNodePath, CreateMode.PERSISTENT, content);
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Endpoint " + endpoint + " created with data:");
-                    LOG.fine(new String(content, "utf-8"));
-                }
-            } else {
-                setNodeData(endpointNodePath, content);
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + endpoint
-                            + " already exists, updated content with data:");
-                    LOG.fine(new String(content, "utf-8"));
-                }
-            }
-        } catch (KeeperException e) {
-            throw locatorException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw locatorException(e);
-        }
-        return endpointNodePath;
-    }
-
-    /**
-     * 
-     * @param path
-     *            Path to the node to be removed
-     * @param canHaveChildren
-     *            If <code>false</code> method throws an exception in case we
-     *            have {@link KeeperException} with code
-     *            {@link KeeperException.Code.NOTEMPTY NotEmpty}. If
-     *            <code>true</code>, node just not be deleted in case we have
-     *            Keeper {@link KeeperException.NotEmptyException
-     *            NotEmptyException}.
-     * @throws ServiceLocatorException
-     * @throws InterruptedException
-     */
-    private void ensurePathDeleted(NodePath path, boolean canHaveChildren)
-        throws ServiceLocatorException, InterruptedException {
-        try {
-            if (deleteNode(path, canHaveChildren)) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " deteted.");
-                }
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " cannot be deleted because it has children.");
-                }
-            }
-
-        } catch (KeeperException e) {
-            if (e.code().equals(Code.NONODE)) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node" + path + " already deleted.");
-                }
-            } else {
-                throw locatorException(e);
-            }
-        }
-    }
-
-    private boolean nodeExists(NodePath path) throws KeeperException,
-            InterruptedException {
-        return zk.exists(path.toString(), false) != null;
-    }
-
-    private void createNode(NodePath path, CreateMode mode, byte[] content)
-        throws KeeperException, InterruptedException {
-        zk.create(path.toString(), content, getACLs(), mode);
-    }
-
-    private void setNodeData(NodePath path, byte[] content)
-        throws KeeperException, InterruptedException {
-        zk.setData(path.toString(), content, -1);
-    }
-
-    private boolean deleteNode(NodePath path, boolean canHaveChildren)
-        throws KeeperException, InterruptedException {
-        try {
-            zk.delete(path.toString(), -1);
-            return true;
-        } catch (KeeperException e) {
-            if (e.code().equals(Code.NOTEMPTY) && canHaveChildren) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Some other client created children nodes in the node"
-                            + path
-                            + " concurrently. Therefore, we can not delete it.");
-                }
-                return false;
-            } else {
-                throw e;
-            }
-        }
-    }
-
-    private <T> List<T> getChildren(NodePath path, NodePathBinder<T> binder)
-        throws ServiceLocatorException, KeeperException, InterruptedException {
-        List<String> encoded = zk.getChildren(path.toString(), false);
-
-        List<T> boundChildren = new ArrayList<T>(encoded.size());
-
-        for (String oneEncoded : encoded) {
-            T boundChild = binder.bind(path.child(oneEncoded, true));
-            boundChildren.add(boundChild);
-        }
-
-        return boundChildren;
-    }
-
-    private byte[] getContent(NodePath path) throws KeeperException, InterruptedException {
-        return zk.getData(path.toString(), false, null);
-    }
-
-    private boolean isLive(NodePath endpointPath) throws KeeperException,
-            InterruptedException {
-        NodePath liveNodePath = endpointPath.child("live");
-        return nodeExists(liveNodePath);
+        backend.setPostConnectAction(postConnectAction);
     }
 
     private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
@@ -775,21 +465,17 @@ public class ServiceLocatorImpl implements ServiceLocator {
         return transformer.fromEndpoint(eprProvider, lastTimeStarted, lastTimeStopped);
     }
     
-    private List<ACL> getACLs() {
-        return userName != null ? LOCATOR_ACLS : Ids.OPEN_ACL_UNSAFE;
+    private ServiceLocatorBackend getBackend() {
+        if (backend == null) {
+            backend = new ZKBackend();
+        }
+        return backend;
     }
 
-    private ServiceLocatorException locatorException(Exception e) {
-        if (LOG.isLoggable(Level.SEVERE)) {
-            LOG.log(Level.SEVERE,
-                    "The service locator server signaled an error", e);
-        }
-        return new ServiceLocatorException(
-                "The service locator server signaled an error.", e);
-    }
 
     protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
         throws ServiceLocatorException {
+/*
         try {
             return new ZooKeeper(locatorEndpoints, sessionTimeout,
                     new WatcherImpl(connectionLatch));
@@ -797,43 +483,7 @@ public class ServiceLocatorImpl implements ServiceLocator {
             throw new ServiceLocatorException("At least one of the endpoints "
                     + locatorEndpoints + " does not represent a valid address.");
         }
-    }
-
-    public class WatcherImpl implements Watcher {
-
-        private CountDownLatch connectionLatch;
-
-        public WatcherImpl(CountDownLatch connectionLatch) {
-            this.connectionLatch = connectionLatch;
-        }
-
-        @Override
-        public void process(WatchedEvent event) {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Event with state " + event.getState() + " sent.");
-            }
-
-            KeeperState eventState = event.getState();
-            try {
-                if (eventState == KeeperState.SyncConnected) {
-                    ensurePathExists(LOCATOR_ROOT_PATH, CreateMode.PERSISTENT);
-                    postConnectAction.process(ServiceLocatorImpl.this);
-                    connectionLatch.countDown();
-                } else if (eventState == KeeperState.Expired) {
-                    connect();
-                }
-            } catch (InterruptedException e) {
-                if (LOG.isLoggable(Level.SEVERE)) {
-                    LOG.log(Level.SEVERE,
-                        "An InterruptedException was thrown while waiting for an answer from the"
-                        + "Service Locator", e);
-                }
-            } catch (ServiceLocatorException e) {
-                if (LOG.isLoggable(Level.SEVERE)) {
-                    LOG.log(Level.SEVERE,
-                        "Failed to execute an request to Service Locator.", e);
-                }
-            }
-        }
+*/
+        return null;
     }
 }

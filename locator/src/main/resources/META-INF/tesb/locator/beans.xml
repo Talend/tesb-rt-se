@@ -41,10 +41,17 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
         </property>
 	</bean>
 
-    <bean id="serviceLocator"
-          class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
+    <bean id="serviceLocatorBackend"
+          class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"
           destroy-method="disconnect">
-        <property name="locatorEndpoints" value="${locator.endpoints}"/>
+        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
+        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
+        <property name="sessionTimeout" value="$sl{session.timeout}"/>
+    </bean>
+
+    <bean id="serviceLocator"
+          class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl">
+        <property name="backend" ref="erviceLocatorBackend"/>
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">

@@ -95,7 +95,7 @@ public class NodePath {
         return path.equals(((NodePath) obj).path);
     }
 
-    String getNodeName() {
+    public String getNodeName() {
         int index = path.lastIndexOf(SEPARATOR);
         return decode(path.substring(index + 1));
     }

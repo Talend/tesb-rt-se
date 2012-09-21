@@ -19,8 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,27 +26,50 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.*;
-import static org.talend.esb.servicelocator.client.internal.PathValues.*;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.data.Stat;
+import org.easymock.EasyMockSupport;
+import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 
-public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
+public class GetEndpointsTest extends EasyMockSupport {
+    
+    private ServiceLocatorBackend backend;
+
+    private RootNode rootNode;
+
+    private ServiceNode serviceNode;
+    
+    private EndpointNode endpointNode;
+    
+    public static void ignore(String txt) {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        backend = createMock(ServiceLocatorBackend.class);
+        rootNode = createMock(RootNode.class);
+        serviceNode = createMock(ServiceNode.class);
+        endpointNode = createMock(EndpointNode.class);
+    }
 
     @Test
     public void getEndpointsEndpointIsLive() throws Exception {
-        pathExists(SERVICE_PATH_1);
-        getChildren(SERVICE_PATH_1, ENDPOINT_NODE_1);
-        pathExists(ENDPOINT_PATH_11 + "/" + STATUS_NODE);
-        getContent(ENDPOINT_PATH_11, CONTENT_ENDPOINT_1);
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+        expect(serviceNode.exists()).andReturn(true);
+
+        expect(serviceNode.getEndPoints()).andReturn(Arrays.asList(endpointNode));
+        expect(endpointNode.isLive()).andReturn(true);
+        expect(endpointNode.getContent()).andReturn(CONTENT_ENDPOINT_1);
 
         replayAll();
-        
-        ServiceLocatorImpl slc = createServiceLocatorSuccess();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
 
         List<SLEndpoint> endpoints = slc.getEndpoints(SERVICE_QNAME_1);
 
@@ -59,14 +80,18 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
     @Test
     public void getEndpointsEndpointIsNotLive() throws Exception {
-        pathExists(SERVICE_PATH_1);
-        getChildren(SERVICE_PATH_1, ENDPOINT_NODE_1); //, ENDPOINT_NODE_2);
-        pathExistsNot(ENDPOINT_PATH_11 + "/" + STATUS_NODE);
-        getContent(ENDPOINT_PATH_11, CONTENT_ENDPOINT_1);
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+        expect(serviceNode.exists()).andReturn(true);
+
+        expect(serviceNode.getEndPoints()).andReturn(Arrays.asList(endpointNode));
+        expect(endpointNode.isLive()).andReturn(false);
+        expect(endpointNode.getContent()).andReturn(CONTENT_ENDPOINT_1);
 
         replayAll();
-        
-        ServiceLocatorImpl slc = createServiceLocatorSuccess();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
 
         List<SLEndpoint> endpoints = slc.getEndpoints(SERVICE_QNAME_1);
 
@@ -77,13 +102,18 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
     @Test
     public void getEndpoint() throws Exception {
-        pathExists(ENDPOINT_PATH_11);
-        pathExistsNot(ENDPOINT_PATH_11 + "/" + STATUS_NODE);
-        getContent(ENDPOINT_PATH_11, CONTENT_ENDPOINT_1);
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+
+        expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
+        expect(endpointNode.exists()).andReturn(true);
+        expect(endpointNode.isLive()).andReturn(false);
+        expect(endpointNode.getContent()).andReturn(CONTENT_ENDPOINT_1);
 
         replayAll();
         
-        ServiceLocatorImpl slc = createServiceLocatorSuccess();
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
 
         SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
@@ -95,21 +125,19 @@ public class GetEndpointsTest extends AbstractServiceLocatorImplTest {
 
     @Test
     public void getEndpointExistsNot() throws Exception {
-        pathExistsNot(ENDPOINT_PATH_11);
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+
+        expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
+        expect(endpointNode.exists()).andReturn(false);
         replayAll();
-        
-        ServiceLocatorImpl slc = createServiceLocatorSuccess();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
 
         SLEndpoint endpoint = slc.getEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
 
         assertNull(endpoint);
         verifyAll();
     }
-
-    protected void getContent(String path, byte[] content) throws KeeperException,
-            InterruptedException {
-        expect(zkMock.getData(eq(path), eq(false), (Stat) anyObject())).andReturn(content);
-    }
-
-
 }

@@ -109,7 +109,7 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
             }
         };
     }
-    
+ 
     protected Document capturedContentAsXML() {
         byte[] content = contentCapture.getValue();
         return DomMother.parse(content);

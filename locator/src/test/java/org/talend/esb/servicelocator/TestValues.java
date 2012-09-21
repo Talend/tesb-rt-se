@@ -19,16 +19,12 @@
  */
 package org.talend.esb.servicelocator;
 
-import static org.talend.esb.servicelocator.TestValues.PASSWORD;
-import static org.talend.esb.servicelocator.TestValues.USER_NAME;
-
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.junit.Before;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.TransportType;
 
