@@ -19,10 +19,10 @@
 
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="
-http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -44,9 +44,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
     <bean id="serviceLocatorBackend"
           class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"
           destroy-method="disconnect">
-        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
-        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
-        <property name="sessionTimeout" value="$sl{session.timeout}"/>
+        <property name="locatorEndpoints" value="${locator.endpoints}"/>
+        <property name="connectionTimeout" value="${connection.timeout}"/>
+        <property name="sessionTimeout" value="${session.timeout}"/>
     </bean>
 
     <bean id="serviceLocator"
