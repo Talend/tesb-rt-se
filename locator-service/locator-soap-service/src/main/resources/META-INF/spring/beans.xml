@@ -24,7 +24,7 @@
 	<!-- Configuration Admin entry -->
 	<osgix:cm-properties id="locator-service-props"
 		persistent-id="org.talend.esb.locator.service">
-		<prop key="locator.authentication">TOKEN</prop>
+		<prop key="locator.authentication">NO</prop>
 		<prop key="policy.token"></prop>
 		<prop key="policy.saml"></prop>
 		<prop key="ws-security.signature.properties"></prop>
