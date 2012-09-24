@@ -23,6 +23,7 @@ import static java.util.Arrays.asList;
 
 import java.util.List;
 
+import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooDefs.Perms;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
@@ -47,14 +48,14 @@ public class RootNodeACLs {
     public static final ACL MAINTAIN_LOCATOR_ROOT_ACL =
             new ACL(Perms.READ | Perms.CREATE | Perms.DELETE, MAINTAIN_ROLE);    
 
-    public static final ACL MAINTAIN_ZK_ROOT_ACL =
-            new ACL(Perms.READ, MAINTAIN_ROLE);    
+    public static final ACL WORLD_ZK_ROOT_ACL =
+            new ACL(Perms.READ | Perms.CREATE | Perms.WRITE, Ids.ANYONE_ID_UNSAFE);
 
     public static final ACL ADMIN_ACL = new ACL(Perms.ALL, ADMIN_ROLE);
 
     public static final List<ACL> LOCATOR_ROOT_ACLS = asList(READ_ACL, MAINTAIN_LOCATOR_ROOT_ACL, ADMIN_ACL);
 
-    public static final List<ACL> ZK_ROOT_ACLS = asList(READ_ACL, MAINTAIN_ZK_ROOT_ACL, ADMIN_ACL);
+    public static final List<ACL> ZK_ROOT_ACLS = asList(WORLD_ZK_ROOT_ACL, ADMIN_ACL);
 
     private RootNodeACLs() {
         
