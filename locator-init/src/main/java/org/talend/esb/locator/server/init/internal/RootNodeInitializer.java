@@ -23,6 +23,8 @@ public class RootNodeInitializer implements Watcher {
     
     private static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
 
+    private static final String ZK_ROOT_NODE_PATH = "/";
+
     private static final String ROOT_NODE_PATH = "/cxf-locator";
 
     private static final Logger LOG = Logger.getLogger(RootNodeInitializer.class.getName());
@@ -31,7 +33,7 @@ public class RootNodeInitializer implements Watcher {
 
     private String version = "5.2.0";
     
-    private boolean withAuthentication;
+    private boolean authentication;
 
     private ZooKeeper zk; 
 
@@ -59,8 +61,8 @@ public class RootNodeInitializer implements Watcher {
         }
     }
     
-    public void setAuthentication(boolean authentication) {
-        withAuthentication = authentication;
+    public void setAuthentication(boolean auth) {
+        authentication = auth;
 
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("authentication is " + authentication);
@@ -80,7 +82,6 @@ public class RootNodeInitializer implements Watcher {
     @Override
     public void process(WatchedEvent event) {
         KeeperState eventState = event.getState();
-//        try {
             if (eventState == KeeperState.SyncConnected) {
                 createRootNode();
             } else {
@@ -94,15 +95,31 @@ public class RootNodeInitializer implements Watcher {
 
     private void createRootNode() {
         try {
-
             Stat stat = zk.exists(ROOT_NODE_PATH, false);
             
             if (stat == null) {
                 zk.create(ROOT_NODE_PATH, getContent(), getLocatorRootACLs(), CreateMode.PERSISTENT);
+                zk.setACL(ZK_ROOT_NODE_PATH, getZKRootACLs(), -1);
             } else {
-                zk.setData(ROOT_NODE_PATH, getContent(), -1);
+                try {
+                byte[] oldContent = zk.getData(ROOT_NODE_PATH, false, new Stat());
+                if (contentNeedsUpdate(oldContent)) {
+                    zk.setData(ROOT_NODE_PATH, getContent(), -1);
+                    zk.setACL(ROOT_NODE_PATH, getLocatorRootACLs(), -1);
+                    zk.setACL(ZK_ROOT_NODE_PATH, getZKRootACLs(), -1);
+                }
+                } catch (KeeperException e) {
+                    if (e.code().equals(KeeperException.Code.NOAUTH)) {
+                        if (LOG.isLoggable(Level.INFO)) {
+                            LOG.log(Level.INFO,
+                            "Service Locator already requires authentication. Configuration settings"
+                            + " for the Service Locator root cannot be applied anymore.");
+                        } else {
+                            throw e;
+                        }
+                    }
+                }
             }
-            
         } catch (KeeperException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE, "Failed to create RootNode", e);
@@ -116,18 +133,33 @@ public class RootNodeInitializer implements Watcher {
     }
     
     private byte [] getContent() {
-        String contentAsStr = version + "," + Boolean.toString(withAuthentication);
+        String contentAsStr = version + "," + Boolean.toString(authentication);
         return contentAsStr.getBytes(UTF8_CHAR_SET);
+    }
+    
+    private boolean contentNeedsUpdate(byte[] oldContent) {
+       
+        String oldVersion= null;
+        boolean oldAuthentication = false;
+        
+        String contentStr = new String(oldContent, UTF8_CHAR_SET);
+        String[] parts = contentStr.split(",");
+
+        if (parts.length == 2) {
+            oldVersion = parts[0];
+            oldAuthentication = Boolean.parseBoolean(parts[1]);
+
+            return (! oldAuthentication && authentication) || ! oldVersion.equals(version);
+        } else {
+            return false;
+        }
     }
 
     private List<ACL> getLocatorRootACLs() {
-        return withAuthentication ? LOCATOR_ROOT_ACLS : Ids.OPEN_ACL_UNSAFE;
+        return authentication ? LOCATOR_ROOT_ACLS : Ids.OPEN_ACL_UNSAFE;
     }
 
-
-/*
     private List<ACL> getZKRootACLs() {
-        return withAuthentication ? ZK_ROOT_ACLS : Ids.OPEN_ACL_UNSAFE;
+        return authentication ? ZK_ROOT_ACLS : Ids.OPEN_ACL_UNSAFE;
     }
-*/
 }

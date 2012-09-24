@@ -391,7 +391,7 @@ public class ZKBackend implements ServiceLocatorBackend {
                         initializeRootNode();
                     } catch (ServiceLocatorException e) {
                         KeeperException zke = (KeeperException) e.getCause();
-                        if (zke.code().equals(KeeperException.Code.NOAUTH )) {
+                        if (zke.code().equals(KeeperException.Code.NOAUTH)) {
                             authenticate();
                             initializeRootNode();
                         }
