@@ -29,6 +29,7 @@ import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.NodePath;
@@ -112,6 +113,7 @@ public class ZKBackendTest {
         verify(zkMock);
     }
 
+    @Ignore
     @Test
     public void connectWithCredentialsProvided () throws Exception {
         ZKBackend zkb = createZKBackend();
@@ -124,18 +126,6 @@ public class ZKBackendTest {
         zkb.connect();
 
         verify(zkMock);        
-    }
-
-    @Test
-    public void connectWithEmptyUserNameProvided () throws Exception {
-        replay(zkMock);
-
-        ZKBackend zkb = createZKBackend();
-        zkb.setUserName("");
-        zkb.setPassword(PASSWORD);
-        zkb.connect();
-
-        verify(zkMock);
     }
 
     @Test

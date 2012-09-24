@@ -34,6 +34,8 @@ public class RootNodeImpl extends NodePath implements RootNode {
 
     private static final String ROOT_NODE_PATH = "cxf-locator";
 
+    private static final String V_5_1 = "5.1";
+
     private static final NodeMapper<QName> TO_SERVICE_NAME = new NodeMapper<QName>() {
         @Override
         public QName map(String nodeName) {
@@ -41,7 +43,13 @@ public class RootNodeImpl extends NodePath implements RootNode {
         }
     };
 
+    private boolean contentRetrieved;
+
     private ZKBackend zkBackend;
+
+    private boolean authenticated;
+    
+    private String version = V_5_1;
     
     public RootNodeImpl(ZKBackend backend) {
         super(ROOT_NODE_PATH);
@@ -60,8 +68,31 @@ public class RootNodeImpl extends NodePath implements RootNode {
         return new ServiceNodeImpl(zkBackend, this, serviceName);
     }
     
-    public List<QName> getServiceNames()  throws ServiceLocatorException, InterruptedException {
+    public List<QName> getServiceNames() throws ServiceLocatorException, InterruptedException {
         return zkBackend.getChildren(this, TO_SERVICE_NAME);
     }
 
+    public boolean isAuthenticationEnabled() throws ServiceLocatorException, InterruptedException {
+        retrieveContent();
+        return authenticated;
+    }
+
+    public String getVersion()  throws ServiceLocatorException, InterruptedException {
+         retrieveContent();
+        return version;
+    }
+    
+    private void retrieveContent()  throws ServiceLocatorException, InterruptedException {
+        if (! contentRetrieved && exists()) {
+            byte[] content = zkBackend.getContent(this);
+            String contentStr = new String(content, ZKBackend.UTF8_CHAR_SET);
+            String[] parts = contentStr.split(",");
+
+            if (parts.length == 2) {
+                version = parts[0];
+                authenticated = Boolean.parseBoolean(parts[1]);
+            }
+        }
+        contentRetrieved = true;
+    }
 }

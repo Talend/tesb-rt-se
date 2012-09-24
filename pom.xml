@@ -135,6 +135,7 @@
         <module>branding</module>
         <module>locator</module>
         <module>locator-auth</module>
+        <module>locator-init</module>
         <module>locator-service</module>
         <module>sam</module>
         <module>job</module>

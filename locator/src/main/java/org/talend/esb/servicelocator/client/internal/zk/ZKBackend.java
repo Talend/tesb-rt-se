@@ -32,7 +32,7 @@ public class ZKBackend implements ServiceLocatorBackend {
 
     public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
 
-    private static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
+    public static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
 
     private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
     
@@ -51,6 +51,8 @@ public class ZKBackend implements ServiceLocatorBackend {
     private int sessionTimeout = 5000;
 
     private int connectionTimeout = 5000;
+
+    private boolean authentication;
 
     private String user;
     
@@ -82,9 +84,8 @@ public class ZKBackend implements ServiceLocatorBackend {
             }
 
         
-            if (user != null) {
-                byte[] authInfo = (user  + ":" + pwd).getBytes(UTF8_CHAR_SET);
-                zk.addAuthInfo("sl", authInfo);    
+            if (authentication) {
+                authenticate();    
             }
 
             if (LOG.isLoggable(Level.FINER)) {
@@ -94,6 +95,7 @@ public class ZKBackend implements ServiceLocatorBackend {
         
         return rootNode;
     }
+
 
     @Override
     public void disconnect() throws InterruptedException, ServiceLocatorException {
@@ -331,8 +333,21 @@ public class ZKBackend implements ServiceLocatorBackend {
         this.pwd = passWord;
     }
 
+    private void initializeRootNode() throws ServiceLocatorException, InterruptedException {
+        rootNode.ensureExists();
+        authentication = rootNode.isAuthenticationEnabled();
+    }
+    private void authenticate() throws ServiceLocatorException {
+        if (user == null) {
+            throw new ServiceLocatorException(
+                    "Service Locator server requires authentication, but no user is defined.");
+        }
+        byte[] authInfo = (user  + ":" + pwd).getBytes(UTF8_CHAR_SET);
+        zk.addAuthInfo("sl", authInfo);
+    }
+
     private List<ACL> getACLs() {
-        return user != null ? LOCATOR_ACLS : Ids.OPEN_ACL_UNSAFE;
+        return authentication ? LOCATOR_ACLS : Ids.OPEN_ACL_UNSAFE;
     }
 
     protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
@@ -372,7 +387,15 @@ public class ZKBackend implements ServiceLocatorBackend {
             KeeperState eventState = event.getState();
             try {
                 if (eventState == KeeperState.SyncConnected) {
-                    rootNode.ensureExists();
+                    try {
+                        initializeRootNode();
+                    } catch (ServiceLocatorException e) {
+                        KeeperException zke = (KeeperException) e.getCause();
+                        if (zke.code().equals(KeeperException.Code.NOAUTH )) {
+                            authenticate();
+                            initializeRootNode();
+                        }
+                    }
                     postConnectAction.process(null);
                     connectionLatch.countDown();
                 } else if (eventState == KeeperState.Expired) {

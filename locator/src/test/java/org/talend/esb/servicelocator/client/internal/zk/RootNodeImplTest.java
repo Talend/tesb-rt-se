@@ -19,6 +19,7 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.verify;
 import static org.easymock.EasyMock.replay;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -45,7 +47,11 @@ import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
 
 public class RootNodeImplTest {
+
+    public static final String V_5_1 = "5.1";
     
+    public static final String V_5_2_0 = "5.2.0";
+
     private ZKBackend backend;
     
     private RootNodeImpl rootNode;
@@ -109,5 +115,107 @@ public class RootNodeImplTest {
         rootNode.ensureExists();
 
         verify(backend);
+    }
+
+    @Test
+    public void isAuthenticationEnabledTrue() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(getData(V_5_2_0, true));
+        replay(backend);
+
+        assertTrue(rootNode.isAuthenticationEnabled());
+
+        verify(backend);
+    }
+
+    @Test
+    public void isAuthenticationEnabledFalse() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(getData(V_5_2_0, false));
+        replay(backend);
+
+        assertFalse(rootNode.isAuthenticationEnabled());
+
+        verify(backend);
+    }
+
+    @Test
+    public void isAuthenticationEnabledNoContent() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(new byte[0]);
+        replay(backend);
+
+        assertFalse(rootNode.isAuthenticationEnabled());
+
+        verify(backend);
+    }
+
+    @Test
+    public void getVersion() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(getData(V_5_2_0, true));
+        replay(backend);
+
+        String version = rootNode.getVersion();
+        
+        assertThat(version, equalTo(V_5_2_0));
+
+        verify(backend);
+    }
+
+    @Test
+    public void getVersionOtherValue() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(getData(V_5_1, true));
+        replay(backend);
+
+        String version = rootNode.getVersion();
+        
+        assertThat(version, equalTo(V_5_1));
+
+        verify(backend);
+    }
+
+    @Test
+    public void getVersionNoContent() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(new byte[0]);
+        replay(backend);
+
+        String version = rootNode.getVersion();
+        
+        assertThat(version, equalTo(V_5_1));
+
+        verify(backend);
+    }
+
+    @Test
+    public void contentOnlyRetrievedOnce() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(true);
+        expect(backend.getContent(rootNode)).andReturn(getData(V_5_1, false));
+        replay(backend);
+
+        String version = rootNode.getVersion();        
+        assertFalse(rootNode.isAuthenticationEnabled());
+        assertThat(version, equalTo(V_5_1));
+
+        verify(backend);
+    }
+
+    @Test
+    public void retrieveContentNodeDoesntExist() throws Exception {
+        expect(backend.nodeExists(rootNode)).andReturn(false);
+        replay(backend);
+
+        String version = rootNode.getVersion();        
+        assertFalse(rootNode.isAuthenticationEnabled());
+        assertThat(version, equalTo(V_5_1));
+
+        verify(backend);
+    }
+
+    private byte[] getData(String version, boolean authenticated) throws UnsupportedEncodingException {
+        String combined = version + "," + Boolean.toString(authenticated);
+        return combined.getBytes("utf-8");
     }
 }
