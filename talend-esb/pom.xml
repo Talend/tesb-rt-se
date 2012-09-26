@@ -572,8 +572,8 @@
                                         value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0"/> 
                                     <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
                                     <replacefilter 
-                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2" 
-                                        value="mvn:org.apache.abdera/abdera-parser/1.1.2.patched"/> 
+                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2&lt;" 
+                                        value="mvn:org.apache.abdera/abdera-parser/1.1.2.patched&lt;"/> 
                                 </replace>
                             </target>
                         </configuration>
