@@ -292,6 +292,14 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
+                                <artifactItem>
+                                    <groupId>org.apache.abdera</groupId>
+                                    <artifactId>abdera-parser</artifactId>
+                                    <version>1.1.2.patched</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -557,11 +565,15 @@
                                         token="org.apache.zookeeper/zookeeper/3.3.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
-                                <!-- workaround for http://jira.talendforge.org/browse/TESB-4643 (TESB-4754) -->
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
+                                    <!-- workaround for http://jira.talendforge.org/browse/TESB-4643 (TESB-4754) -->
                                     <replacefilter 
                                         token="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0" 
                                         value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0"/> 
+                                    <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
+                                    <replacefilter 
+                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2</bundle>" 
+                                        value="mvn:org.apache.abdera/abdera-parser/1.1.2.patched</bundle>"/> 
                                 </replace>
                             </target>
                         </configuration>
