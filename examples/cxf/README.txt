@@ -75,6 +75,10 @@ jaxrs-transformations: demonstrates how CXF can help with maintaining
 backward and forward compatibility between JAX-RS and JAX-WS consumers
 and endpoints by using the Transformation Feature of CXF.
 
+dev-guide-java-first and dev-guide-wsdl-first: sample applications
+used as code walk-throughs in the Talend ESB Developers Guide 
+(within the documentation set).
+
 To build all examples:
 ===============================================================================
 
