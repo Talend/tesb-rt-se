@@ -57,6 +57,12 @@ Running the client
  
 * From the command line
    - cd client
+
+   If the service is on the TESB OSGi container (which uses port 8040
+   instead of the default 8080), recompile the client as follows:
+   - mvn clean install -Dhttp.port=8040
+
+   Then, for either OSGi- or Tomcat-hosted services:
    - mvn exec:java
 
 

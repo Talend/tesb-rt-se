@@ -37,7 +37,7 @@ setup instructions.
 Building the Demo
 ---------------------------------------
 Using either Linux or Windows:
-    mvn install
+    mvn clean install
 
 
 Importing into Eclipse
@@ -92,9 +92,9 @@ Running the Client
 
 By default, the client will use the http port 8080 for constructing the URIs.
 This port value is set during the build in the client.properties resource file. If the server 
-is listening on an alternative port then you can use an 'http.port' system property during the build:
+is listening on an alternative port (e.g. 8040 for OSGi), recompile the client first as follows:
    
-- mvn install -Dhttp.port=8040
+- mvn clean install -Dhttp.port=8040
  
 Interesting things to look at
 ---------------------------------------

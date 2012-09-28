@@ -68,8 +68,8 @@ corresponding endpoints.
 jaxrs-jms-http: demonstrates how a JAX-RS HTTP server can be enhanced
 to receive JMS messages.
 
-jaxrs-oath: provides an example of a REST application protected using
-OAuth security.
+jaxrs-oath and jaxrs-oauth2: provides an examples of a REST application 
+protected using OAuth / OAuth2 security.
 
 jaxrs-transformations: demonstrates how CXF can help with maintaining
 backward and forward compatibility between JAX-RS and JAX-WS consumers
