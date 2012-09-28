@@ -212,7 +212,6 @@
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
-                <exclude>lib/endorsed/org.apache.servicemix.specs.saaj-api-1.3-2.0.0.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -347,9 +346,8 @@
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/cxf/karaf/apache-cxf/2.6.2/**</exclude>
                 <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
-                <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
+                <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
-                <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/**</exclude>
                 <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
                 <exclude>org/apache/abdera/abdera-parser/1.1.2/**</exclude>
             </excludes>
@@ -473,19 +471,13 @@
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
-        <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
+        <!-- workaround for CXF features descriptor -->
         <file>
             <source>${basedir}/target/dependencies/apache-cxf-${cxf.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/cxf/karaf/apache-cxf/${cxf.version}/</outputDirectory>
             <destName>apache-cxf-${cxf.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
-        </file>
-        <!-- workaround for saaj-api version (TESB-4643, TESB-4754) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.specs.saaj-api-1.3-1.8.0.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.8.0/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
         <file>
