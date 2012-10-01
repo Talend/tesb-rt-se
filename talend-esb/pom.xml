@@ -34,6 +34,8 @@
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.4.0</jclouds.version>
+        <saaj-impl.version>1.3.19_1</saaj-impl.version>
+        <saaj-api.version>2.0.0</saaj-api.version>
 	</properties>
 
 	<dependencies>
@@ -282,6 +284,14 @@
                                     <groupId>org.apache.abdera</groupId>
                                     <artifactId>abdera-parser</artifactId>
                                     <version>1.1.2.patched</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- workaround for saaj-impl bundle version -->
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.saaj-impl</artifactId>
+                                    <version>${saaj-impl.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -549,7 +559,12 @@
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.3.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
+                                    <!-- workaround for saaj-api bundle version-->
+                                    <replacefilter
+                                        token="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0"
+                                        value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${saaj-api.version}"/>
                                 </replace>
+                                
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
                                     <replacefilter 

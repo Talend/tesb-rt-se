@@ -350,6 +350,10 @@
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
                 <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
                 <exclude>org/apache/abdera/abdera-parser/1.1.2/**</exclude>
+                <!-- workaround for saaj-impl bundle version-->
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/**</exclude>
+                <!-- workaround for saaj-api bundle version-->
+                <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
             </excludes>
         </fileSet>
 
@@ -483,6 +487,12 @@
         <file>
             <source>${basedir}/target/dependencies/abdera-parser-1.1.2.patched.jar</source>
             <outputDirectory>/container/system/org/apache/abdera/abdera-parser/1.1.2.patched/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- workaround for saaj-impl bundle version-->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
