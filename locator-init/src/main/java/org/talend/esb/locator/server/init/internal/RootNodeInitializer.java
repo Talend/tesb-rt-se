@@ -73,8 +73,8 @@ public class RootNodeInitializer implements Watcher {
         try {
             zk = new ZooKeeper(locatorEndpoints, 5000, this);            
         } catch (IOException e) {
-            if (LOG.isLoggable(Level.INFO)) {
-                LOG.log(Level.INFO, "Failed to create ZooKeeper client", e);
+            if (LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "Failed to create ZooKeeper client", e);
             }
         }
     }
@@ -85,8 +85,8 @@ public class RootNodeInitializer implements Watcher {
             if (eventState == KeeperState.SyncConnected) {
                 createRootNode();
             } else {
-                if (LOG.isLoggable(Level.SEVERE)) {
-                    LOG.log(Level.SEVERE, "Connect to ZooKeeper failed. ZooKeeper client returned state "
+                if (LOG.isLoggable(Level.INFO)) {
+                    LOG.log(Level.INFO, "Connect to ZooKeeper failed. ZooKeeper client returned state "
                 + eventState);
                 }
 
