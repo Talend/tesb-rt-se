@@ -82,7 +82,9 @@ parent README.)
 Process a file
 --------------
 
-Then copy a text file (e.g. the ReadMe.txt) into the in directory and watch the log
+Next, copy a text file (e.g. the ReadMe.txt) into the "in" directory
+that will be created under the TESB "container" folder after the route 
+is started.  Then check the log files:
 
 Each line of the file will be output for each stage in the route. It looks like this:
 route4 INFO  claimed 3 Our business case for the example
@@ -91,8 +93,9 @@ route4 INFO  claimed 3 Our business case for the example
 - "Our business case ... " is the content of the body of the message
 
 Unordered:
-   The lines starting with unordered show the state after splitting and check in of the LOB. The line numbers will be scrambled 
-   and the real content replaced by the "claim tag" (a uuid to later retrieve the data)
+   The lines starting with unordered show the state after splitting and check 
+   in of the LOB. The line numbers will be scrambled and the real content 
+   replaced by the "claim tag" (a uuid to later retrieve the data)
 
 Claimed:
    The message content has been retrieved again but the lines are still scrambled
