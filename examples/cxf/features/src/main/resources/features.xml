@@ -24,7 +24,7 @@
         <bundle>mvn:org.talend.cxf-examples.jaxws-ws-secpol/ws-secpol-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxws-ws-secpol/ws-secpol-server/${project.version}</bundle>
     </feature>
-        
+
     <feature name='talend-cxf-example-jaxws-ws-secpol-client' version='${project.version}' resolver='(obr)'>
         <bundle>mvn:org.talend.cxf-examples.jaxws-ws-secpol/ws-secpol-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxws-ws-secpol/ws-secpol-client/${project.version}</bundle>
@@ -80,6 +80,7 @@
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-jms-http' version='${project.version}' resolver='(obr)'>
+        <feature version="[5.4,6)">activemq</feature>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jms-http/jaxrs-jms-http-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jms-http/jaxrs-jms-http-service/${project.version}</bundle>
     </feature>
