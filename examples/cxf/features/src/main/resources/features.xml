@@ -41,6 +41,7 @@
     </feature>
 
     <feature name='talend-cxf-example-jaxws-jms-spec-server' version='${project.version}' resolver='(obr)'>
+        <feature version="[5.4,6)">activemq</feature>
         <bundle>mvn:org.talend.cxf-examples.jaxws-jms-spec/jms-spec-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxws-jms-spec/jms-spec-server/${project.version}</bundle>
     </feature>
