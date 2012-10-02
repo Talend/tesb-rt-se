@@ -17,6 +17,9 @@
     <packaging>bundle</packaging>
     <name>Talend Camel Examples :: jaxrs-jms-http :: server</name>
 
+    <properties>
+      <http.port>9002</http.port>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.talend.camel-examples.jaxrs-jms-http</groupId>
@@ -60,6 +63,15 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -79,6 +91,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -88,17 +101,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <configuration>
-                        <mainClass>demo.jms_greeter.client.Client</mainClass>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        
     </build>
-
+    
 </project>

@@ -26,8 +26,15 @@ public class BookStoreClientMain {
         BookStore bookStoreJmsClient = context.getBean("bookStoreJmsClient", BookStore.class);
         client.useBookStore(bookStoreJmsClient);
         
+        final int defaultHttpPort = 9002; 
+        String systemHttpPort = System.getProperty("http.port"); 
+        int httpPort = systemHttpPort == null ? 9002 : Integer.valueOf(systemHttpPort); 
+
+         
+        String address = "http://localhost:" + httpPort + "/bookstore";
+        System.out.println("Invoking HTTP service at " + address);
         BookStore bookStoreHttp = 
-            JAXRSClientFactory.create("http://localhost:9002/bookstore", BookStore.class);
+            JAXRSClientFactory.create(address, BookStore.class);
         client.useBookStore(bookStoreHttp);
         context.close();
 
