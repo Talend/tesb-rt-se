@@ -49,7 +49,7 @@ Important Note:  By default, this example uses strong encryption which is
 recommended for use in production systems.  To run this example "out of the
 box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited 
 Strength Jurisdiction Policy Files" installed into your JRE.  See your
-JRE provider for more information. (For Oracle JDK6, the download is available
+JRE provider for more information. (For Oracle JDK 7, the download is available
 here:
 http://www.oracle.com/technetwork/java/javase/downloads/index.html, see the
 README file from the download for installation instructions.)
@@ -74,10 +74,7 @@ setup instructions.
 
 How to Deploy:
 
-1.) If you do not have BouncyCastleProvider install in your JDK, do it by following this section:
-http://www.bouncycastle.org/wiki/display/JA1/Provider+Installation
-
-2.) The STS and WSP can be deployed on either Tomcat (7.x or 6.x) or Karaf.
+1.) The STS and WSP can be deployed on either Tomcat (7.x or 6.x) or Karaf.
 
 Tomcat deployment: If not already done, configure Maven to be able to install and
 uninstall the WSP and the STS by following this section: 
@@ -110,7 +107,7 @@ make sure you can view the following WSDLs:
 CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
 
-3.) Navigate to the client folder:
+2.) Navigate to the client folder:
 
  * To run the client in a standalone manner, run mvn exec:exec.
 
