@@ -7,20 +7,17 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
+    <artifactId>jaxrs-jaxws-java-first-client</artifactId>
+    <name>JAX-RS JAX-WS Java First REST Client</name>
+    <packaging>jar</packaging>
+
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
         <artifactId>jaxrs-jaxws-java-first-example</artifactId>
         <version>1.0</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>org.talend.cxf-examples.jaxrs-jaxws-java-first</groupId>
-    <artifactId>jaxrs-jaxws-java-first-client</artifactId>
-    <name>JAX-RS JAX-WS Java First REST Client</name>
-    <packaging>jar</packaging>
-
-    <properties>
-        <http.port>8080</http.port>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -56,4 +53,3 @@
         </resources>
     </build>
 </project>
-

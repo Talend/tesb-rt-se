@@ -25,11 +25,6 @@
         <module>sts</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cxf.version>2.7.0-SNAPSHOT</cxf.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -87,4 +82,3 @@
     </dependencies>
 
 </project>
-

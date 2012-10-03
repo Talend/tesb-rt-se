@@ -19,16 +19,12 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <cxf.version>2.7.0-SNAPSHOT</cxf.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <modules>
         <module>common</module>
         <module>service</module>
         <module>client</module>
     </modules>
+
     <build>
         <defaultGoal>install</defaultGoal>
         <pluginManagement>
@@ -62,4 +58,5 @@
             </plugins>
         </pluginManagement>
     </build>
+
 </project>

@@ -17,10 +17,6 @@
         <version>1.0</version>
     </parent>
 
-    <properties>
-        <http.port>8080</http.port>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-intro-example</groupId>
@@ -43,9 +39,9 @@
                 </executions>
                 <configuration>
                     <executable>java</executable>
-                    <mainClass> 
-                         client.RESTClient 
-                    </mainClass> 
+                    <mainClass>
+                         client.RESTClient
+                    </mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -56,4 +52,5 @@
             </resource>
         </resources>
     </build>
+
 </project>

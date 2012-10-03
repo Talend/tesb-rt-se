@@ -14,11 +14,7 @@
         <artifactId>jaxrs-jms-http</artifactId>
         <version>1.0</version>
     </parent>
-    
-    <properties>
-        <http.port>8080</http.port>
-    </properties>
-    
+
     <build>
         <plugins>
             <plugin>
