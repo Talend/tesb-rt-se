@@ -5,14 +5,15 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>jaxws-cxf-sts-sts</artifactId>
+    <name>CXF STS</name>
+    <packaging>war</packaging>
+
     <parent>
         <groupId>org.talend.cxf-examples.jaxws-cxf-sts</groupId>
         <artifactId>jaxws-cxf-sts</artifactId>
         <version>1.0</version>
     </parent>
-    <artifactId>jaxws-cxf-sts-sts</artifactId>
-    <name>CXF STS</name>
-    <packaging>war</packaging>
 
     <profiles>
         <profile>
@@ -41,13 +42,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 
@@ -67,5 +68,5 @@
         <!-- Name of the generated WAR file -->
         <finalName>DoubleItSTS</finalName>
     </build>
-</project>
 
+</project>

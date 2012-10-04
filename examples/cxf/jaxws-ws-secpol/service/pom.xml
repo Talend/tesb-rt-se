@@ -17,6 +17,7 @@
         <artifactId>jaxws-ws-secpol</artifactId>
         <version>1.0</version>
     </parent>
+
     <build>
         <plugins>
             <plugin>
@@ -43,6 +44,7 @@
             </plugins>
         </pluginManagement>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
@@ -78,9 +80,9 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.version}</version>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
+
 </project>

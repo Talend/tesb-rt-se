@@ -1,5 +1,5 @@
-<!-- 
-     Copyright (C) 2010 Talend Inc. - www.talend.com 
+<!--
+     Copyright (C) 2010 Talend Inc. - www.talend.com
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -16,11 +16,6 @@
         <version>1.0</version>
         <relativePath>..</relativePath>
     </parent>
-
-    <properties>
-        <http.port>8080</http.port>
-        <spring.version>3.0.7.RELEASE</spring.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -42,11 +37,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
-        </dependency> 
+        </dependency>
     </dependencies>
 
     <build>
-		<!-- Name of the generated WAR file -->
+        <!-- Name of the generated WAR file -->
         <finalName>services</finalName>
         <plugins>
             <plugin>
@@ -58,7 +53,7 @@
                 </configuration>
             </plugin>
 
-			<!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
+            <!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
@@ -82,12 +77,12 @@
               <includes>
                   <include>**/restaurantReserve.xml</include>
                   <include>**/registerApp.jsp</include>
-              </includes>  
+              </includes>
             </resource>
           </webResources>
         </configuration>
       </plugin>
     </plugins>
   </build>
-</project>
 
+</project>

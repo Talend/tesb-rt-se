@@ -18,10 +18,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <spring.version>3.0.7.RELEASE</spring.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -58,7 +54,7 @@
                     <contextPath>/${project.build.finalName}</contextPath>
                 </configuration>
             </plugin>
-      
+
             <!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -71,9 +67,6 @@
                 </configuration>
             </plugin>
         </plugins>
-      
-
     </build>
 
 </project>
-

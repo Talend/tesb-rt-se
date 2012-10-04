@@ -51,7 +51,6 @@ Install and start demo bundles:
 karaf@trun> features:install talend-camel-example-jaxrs-jms-http
 
 
-
 4) Running the Client
 -------------------------------------------------------------------------------
  

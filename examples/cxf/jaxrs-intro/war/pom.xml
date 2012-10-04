@@ -17,11 +17,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <http.port>8080</http.port>
-        <spring.version>3.0.7.RELEASE</spring.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -37,7 +32,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-intro-example</groupId>
             <artifactId>jaxrs-intro-service-bundle</artifactId>
@@ -46,7 +41,7 @@
     </dependencies>
 
     <build>
-		<!-- Name of the generated WAR file -->
+        <!-- Name of the generated WAR file -->
         <finalName>services</finalName>
         <plugins>
             <plugin>
@@ -58,7 +53,7 @@
                 </configuration>
             </plugin>
 
-			<!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
+            <!--use mvn tomcat:deploy or mvn tomcat:undeploy -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
@@ -66,11 +61,10 @@
                 <configuration>
                     <server>myTomcat</server>
                     <path>/${project.build.finalName}</path>
-					<!--url>Place URL if different from http://localhost:8080/manager</url -->
+                    <!--url>Place URL if different from http://localhost:8080/manager</url -->
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
 </project>
-

@@ -17,7 +17,11 @@
         <artifactId>talend-esb-examples-parent</artifactId>
         <version>5.2.0-SNAPSHOT</version>
     </parent>
-  
+
+    <properties>
+        <http.port>8080</http.port>
+    </properties>
+
     <modules>
         <module>jaxws-jms-spec</module>
         <module>jaxrs-intro</module>
@@ -41,5 +45,5 @@
     <build>
         <defaultGoal>install</defaultGoal>
     </build>
-</project>
 
+</project>

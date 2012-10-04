@@ -18,11 +18,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <http.port>8080</http.port>
-        <osgi.version>4.2.0</osgi.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>

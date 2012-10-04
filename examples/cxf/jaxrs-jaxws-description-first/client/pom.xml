@@ -19,10 +19,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <http.port>8080</http.port>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -66,7 +62,5 @@
             </resource>
         </resources>
     </build>
-    
 
 </project>
-

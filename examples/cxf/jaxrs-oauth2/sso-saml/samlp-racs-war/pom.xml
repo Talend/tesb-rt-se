@@ -1,5 +1,5 @@
-<!-- 
-     Copyright (C) 2010 Talend Inc. - www.talend.com 
+<!--
+     Copyright (C) 2010 Talend Inc. - www.talend.com
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -19,7 +19,6 @@
 
     <properties>
         <http.port>9558</http.port>
-        <spring.version>3.0.7.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -42,11 +41,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
-        </dependency> 
+        </dependency>
     </dependencies>
 
     <build>
-		<!-- Name of the generated WAR file -->
+        <!-- Name of the generated WAR file -->
         <finalName>racs</finalName>
         <plugins>
             <plugin>
@@ -56,16 +55,16 @@
                 <configuration>
                     <contextPath>/${project.build.finalName}</contextPath>
                     <connectors>
-	                  <connector implementation="org.mortbay.jetty.security.SslSocketConnector">
-	                     <port>${http.port}</port>
-	                     <keystore>${project.build.directory}/classes/servicestore.jks</keystore>
-	                     <password>sspass</password>
-	                     <keyPassword>skpass</keyPassword>  
-	                  </connector>
+                        <connector implementation="org.mortbay.jetty.security.SslSocketConnector">
+                            <port>${http.port}</port>
+                            <keystore>${project.build.directory}/classes/servicestore.jks</keystore>
+                            <password>sspass</password>
+                            <keyPassword>skpass</keyPassword>
+                        </connector>
                     </connectors>
                 </configuration>
             </plugin>
-    </plugins>
-  </build>
-</project>
+        </plugins>
+    </build>
 
+</project>

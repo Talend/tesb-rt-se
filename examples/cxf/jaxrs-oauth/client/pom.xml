@@ -18,10 +18,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <http.port>8080</http.port>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
@@ -56,4 +52,3 @@
         </resources>
     </build>
 </project>
-
