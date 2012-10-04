@@ -37,8 +37,8 @@
 		<prop key="locator.endpoints">localhost:2181</prop>
 		<prop key="connection.timeout">5000</prop>
 		<prop key="session.timeout">5000</prop>
-        <prop key="authentication.name"></prop>        
-        <prop key="authentication.password"></prop>
+		<prop key="authentication.name"></prop>
+		<prop key="authentication.password"></prop>
 	</osgix:cm-properties>
 
 	<!-- placeholder configurer -->
@@ -75,7 +75,7 @@
 		<property name="connectionTimeout" value="$sl{connection.timeout}" />
 		<property name="sessionTimeout" value="$sl{session.timeout}" />
 		<property name="authenticationName" value="$sl{authentication.name}" />
-		<property name="authenticationPassword" value="$sl{authentication.password}" />		
+		<property name="authenticationPassword" value="$sl{authentication.password}" />
 	</bean>
 
 	<jaxws:endpoint id="ServiceLocatorService"

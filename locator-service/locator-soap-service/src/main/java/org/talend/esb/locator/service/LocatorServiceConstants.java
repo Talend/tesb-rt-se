@@ -1,4 +1,3 @@
-
 package org.talend.esb.locator.service;
 
 public interface LocatorServiceConstants {
@@ -8,9 +7,7 @@ public interface LocatorServiceConstants {
     String ID_POLICY_SAML = "org.talend.esb.job.saml.policy";
 
     enum EsbSecurity {
-        NO("NO"),
-        TOKEN("TOKEN"),
-        SAML("SAML");
+        NO("NO"), TOKEN("TOKEN"), SAML("SAML");
 
         String esbSecurity;
 
@@ -27,8 +24,8 @@ public interface LocatorServiceConstants {
                     return esbSecurity;
                 }
             }
-            throw new IllegalArgumentException(
-                    "Unsupported secutity value: " + value);
+            throw new IllegalArgumentException("Unsupported secutity value: "
+                    + value);
         }
     }
 }
