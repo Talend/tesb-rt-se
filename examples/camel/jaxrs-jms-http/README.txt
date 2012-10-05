@@ -1,12 +1,12 @@
 Example for publishing CXF JAXRS services using Camel
 ===============================================================================
 
-The example shows how a simple JAX-RS service called BookStore can be offered and used using 
+The example shows how a simple JAX-RS service called BookStore can be offered and used using
 camel transports. The example also shows some best practices how to decouple your business logic from
-the Camel and CXF frameworks.  
+the Camel and CXF frameworks.
 
-The client project contains a standalone client that calls several service methods using the BookStore 
-interface. 
+The client project contains a standalone client that calls several service methods using the BookStore
+interface.
 
 
 Usage
@@ -34,18 +34,28 @@ Alternatively, you can start a broker from within the TESB OSGi container, see b
 
 3) Starting the Service
 -------------------------------------------------------------------------------
-     
+
 3.1) In Jetty
 > cd war ; mvn jetty:run
 
 3.2) From within the TESB OSGi container
 
-Make sure you've first installed the examples features repository 
+Make sure you've first installed the examples features repository
 as described in the parent README.
 
 Start the broker if not already started:
 karaf@trun> features:install activemq-spring
 karaf@trun> activemq:create-broker
+
+-----
+NOTE! In case starting broker in container this example won't work
+      due to problem with refreshing broker bundle in container
+      (https://issues.apache.org/jira/browse/AMQ-3629).
+      Workaround for this case - after create broker in container and before next step:
+       - either restart container
+       - or manually install 'camel-jetty' feature
+          karaf@trun> features:install camel-jetty
+-----
 
 Install and start demo bundles:
 karaf@trun> features:install talend-camel-example-jaxrs-jms-http
@@ -53,13 +63,13 @@ karaf@trun> features:install talend-camel-example-jaxrs-jms-http
 
 4) Running the Client
 -------------------------------------------------------------------------------
- 
+
 From the command line:
 > cd client ; mvn exec:java
 
 
 5) Cleaning up
----------------------------------------
+-------------------------------------------------------------------------------
   * Press ^C in the server and broker windows to stop the running processes
   * To remove the code generated from the WSDL file and the .class files, run:
 > mvn clean
