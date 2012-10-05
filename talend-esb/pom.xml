@@ -568,8 +568,8 @@
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
                                     <replacefilter 
-                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2&lt;" 
-                                        value="mvn:org.apache.abdera/abdera-parser/1.1.2.patched&lt;"/> 
+                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2" 
+                                        value="mvn:org.apache.abdera/abdera-parser/1.1.2.patched"/> 
                                 </replace>
                             </target>
                         </configuration>
