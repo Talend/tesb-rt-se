@@ -348,8 +348,6 @@
                 <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
-                <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
-                <exclude>org/apache/abdera/abdera-parser/1.1.2/**</exclude>
                 <!-- workaround for saaj-impl bundle version-->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/**</exclude>
                 <!-- workaround for saaj-api bundle version-->
@@ -418,6 +416,7 @@
         </fileSet>
     </fileSets>
 
+
     <files>
         <file>
             <source>${basedir}/src/main/bin/trun.bat</source>
@@ -482,12 +481,6 @@
             <destName>apache-cxf-${cxf.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- workaround for abdera-parser (https://issues.apache.org/jira/browse/ABDERA-281) -->
-        <file>
-            <source>${basedir}/target/dependencies/abdera-parser-1.1.2.patched.jar</source>
-            <outputDirectory>/container/system/org/apache/abdera/abdera-parser/1.1.2.patched/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- workaround for saaj-impl bundle version-->
         <file>
