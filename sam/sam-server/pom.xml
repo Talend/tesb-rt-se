@@ -61,13 +61,13 @@
             <artifactId>org.apache.servicemix.bundles.ibatis-sqlmap</artifactId>
             <version>${ibatis-sqlmap.bundle.version}</version>
         </dependency>
-
+<!--
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
             <version>${derby.version}</version>
         </dependency>
-
+-->
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
@@ -125,12 +125,20 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+<!--
                         <Require-Bundle>
                             org.apache.cxf.bundle,
                             org.springframework.beans,
                             org.springframework.jdbc,
                             org.apache.commons.dbcp,
                             derbyclient
+                        </Require-Bundle>
+-->
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans,
+                            org.springframework.jdbc,
+                            org.apache.commons.dbcp
                         </Require-Bundle>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>

@@ -24,8 +24,8 @@
 
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.derbynet</artifactId>
-            <version>${derbynet.bundle.version}</version>
+            <artifactId>org.apache.servicemix.bundles.derby</artifactId>
+            <version>${derby.servicemix.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
