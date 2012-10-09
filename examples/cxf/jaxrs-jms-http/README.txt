@@ -44,7 +44,7 @@ ways to get a JMS broker running:
      karaf@trun> features:install activemq-spring
      karaf@trun> activemq:create-broker 
 
-     That will create a new broker broker with the defaults and will then start it.
+     That will create a new broker with the defaults and will then start it.
 
 
 
