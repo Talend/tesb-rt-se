@@ -19,16 +19,21 @@
  */
 package org.talend.esb.sam.agent.eventproducer;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.apache.cxf.service.model.BindingOperationInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
+
 
 /**
  * Maps the CXF Message to an Event and sends Event to Queue.
@@ -39,6 +44,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     private final MessageToEventMapper mapper;
     private final Queue<Event> queue;
     private EventHandler handler;
+    
+    private static final String SAM_OPERATION = "{http://www.talend.org/esb/sam/MonitoringService/v1}putEvents";
     
     /**
      * Instantiates a new event producer interceptor.
@@ -72,8 +79,18 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
      */
     @Override
     public void handleMessage(Message message) throws Fault {
+        
+        String operationName = null;
+        BindingOperationInfo boi = null;
+        
+        boi = message.getExchange().getBindingOperationInfo();
+        if (null != boi){
+            operationName = boi.getName().toString();
+        }
+        if (operationName.equals(SAM_OPERATION)) return;
+        
         Event event = mapper.mapToEvent(message);
-
+        
         if (handler != null) {
             handler.handleEvent(event);
         }
@@ -83,5 +100,4 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         }
         queue.add(event);
     }
-
 }
