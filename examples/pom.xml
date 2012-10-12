@@ -50,9 +50,9 @@
 
         <cxf.version>2.7.0</cxf.version>
         <cxf.xjc.version>2.6.0</cxf.xjc.version>
-        <camel.version>2.10.2-SNAPSHOT</camel.version>
+        <camel.version>2.10.2</camel.version>
         <spring.version>3.0.7.RELEASE</spring.version>
-        <karaf.version>2.3.0-SNAPSHOT</karaf.version>
+        <karaf.version>2.3.0</karaf.version>
         <activemq.version>5.7.0</activemq.version>
         <osgi.version>4.2.0</osgi.version>
         <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>
