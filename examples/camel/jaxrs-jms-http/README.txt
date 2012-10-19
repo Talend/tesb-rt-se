@@ -47,16 +47,6 @@ Start the broker if not already started:
 karaf@trun> features:install activemq-spring
 karaf@trun> activemq:create-broker
 
------
-NOTE! In case starting broker in container this example won't work
-      due to problem with refreshing broker bundle in container
-      (https://issues.apache.org/jira/browse/AMQ-3629).
-      Workaround for this case - after create broker in container and before next step:
-       - either restart container
-       - or manually install 'camel-jetty' feature
-          karaf@trun> features:install camel-jetty
------
-
 Install and start demo bundles:
 karaf@trun> features:install talend-camel-example-jaxrs-jms-http
 
