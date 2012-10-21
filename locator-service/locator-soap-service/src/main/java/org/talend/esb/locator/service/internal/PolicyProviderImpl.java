@@ -24,7 +24,9 @@ import org.apache.neethi.PolicyRegistry;
 import org.talend.esb.locator.service.LocatorServiceConstants;
 import org.talend.esb.locator.service.PolicyProvider;
 import org.talend.esb.locator.service.LocatorServiceConstants.EsbSecurity;
-import org.apache.cxf.jaxws22.spring.JAXWS22SpringEndpointImpl;
+//import org.apache.cxf.jaxws22.spring.JAXWS22SpringEndpointImpl;
+import org.apache.cxf.jaxws.EndpointImpl;
+//jaxws.spring.JAXWSSpringEndpointImpl;
 import org.apache.ws.security.validate.JAASUsernameTokenValidator;
 
 @NoJSR250Annotations(unlessNull = "bus")
@@ -36,7 +38,8 @@ public class PolicyProviderImpl implements PolicyProvider {
     private String signatureUsername;
     private String signaturePassword;
     private String serviceAutentication;
-    private JAXWS22SpringEndpointImpl locatorEndpoint;
+//    private JAXWS22SpringEndpointImpl locatorEndpoint;
+    private EndpointImpl locatorEndpoint;
     private PolicyBuilder policyBuilder;
 
     private static final String ENDPOINT_SIGNATURE_PASSWORD = "ws-security.signature.password";
@@ -132,7 +135,7 @@ public class PolicyProviderImpl implements PolicyProvider {
         this.policyToken = policyToken;
     }
 
-    public void setLocatorEndpoint(JAXWS22SpringEndpointImpl locatorEndpoint) {
+    public void setLocatorEndpoint(EndpointImpl locatorEndpoint) {
         this.locatorEndpoint = locatorEndpoint;
     }
 
