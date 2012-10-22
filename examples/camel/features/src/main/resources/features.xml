@@ -53,7 +53,7 @@
         <bundle>mvn:org.springframework/spring-beans/${spring.version}</bundle>
         <bundle>mvn:org.springframework/spring-context/${spring.version}</bundle>
         <bundle>mvn:org.springframework/spring-aop/${spring.version}</bundle>
-        <bundle>mvn:org.springframework.security/spring-security-web/${spring-security.version}</bundle>
+        <bundle>mvn:org.springframework.security/spring-security-web/${spring.security.version}</bundle>
         <bundle>mvn:org.springframework/spring-web/${spring.version}</bundle>
 
         <bundle>mvn:org.talend.camel-examples.spring-security/spring-security-common/${project.version}</bundle>
