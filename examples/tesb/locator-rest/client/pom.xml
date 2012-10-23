@@ -31,11 +31,16 @@
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
             <version>${project.version}</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>locator-rest-demo-common</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
