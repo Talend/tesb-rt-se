@@ -67,3 +67,11 @@ In the end Maven should report "BUILD SUCCESSFUL"
 > mvn exec:java -Dexec.mainClass=client.RESTClient
 
 This client should also report some service calls and Maven should report "BUILD SUCCESSFUL"
+
+Note: By default, the HTTP client will use the http port 8080 for constructing the URIs.
+If the server is listening on the alternative port (e.g. 8040 for TESB container) then you should add 
+an additional 'http.port' system property during start the client:
+for example: 
+> mvn exec:java -Dhttp.port=8040 -Dexec.mainClass=client.JaxWsClient
+and
+> mvn exec:java -Dhttp.port=8040 -Dexec.mainClass=client.RESTClient
