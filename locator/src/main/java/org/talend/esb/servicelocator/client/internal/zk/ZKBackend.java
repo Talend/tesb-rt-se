@@ -356,8 +356,7 @@ public class ZKBackend implements ServiceLocatorBackend {
             return new ZooKeeper(locatorEndpoints, sessionTimeout,
                     new WatcherImpl(connectionLatch));
         } catch (IOException e) {
-            throw new ServiceLocatorException("At least one of the endpoints "
-                    + locatorEndpoints + " does not represent a valid address.");
+            throw new ServiceLocatorException("A network failure occured when connecting to the ZooKeeper server", e);
         }
     }
     
