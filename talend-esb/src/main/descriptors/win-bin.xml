@@ -344,7 +344,7 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF and Zookeeper version in Camel 2.10.2-SNAPSHOT features file -->
+                <!-- workaround for CXF and Zookeeper version in Camel 2.10.2 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/cxf/karaf/apache-cxf/2.6.3/**</exclude>
                 <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
@@ -469,7 +469,7 @@
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <!-- workaround for CXF version in Camel 2.10.2-SNAPSHOT features file -->
+        <!-- workaround for CXF version in Camel 2.10.2 features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
