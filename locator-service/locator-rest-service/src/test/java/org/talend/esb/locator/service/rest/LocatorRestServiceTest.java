@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.locator.service;
+package org.talend.esb.locator.service.rest;
 
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.*;
@@ -42,6 +42,7 @@ import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
+import org.talend.esb.locator.service.rest.LocatorRestServiceImpl;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.locator.service;
+package org.talend.esb.locator.service.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

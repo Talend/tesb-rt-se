@@ -177,7 +177,7 @@
   <feature name='tesb-locator-rest-service' version='${project.version}'>
         <feature>tesb-locator-client</feature>
         <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locator.service/locator-rest-service/${project.version}</bundle>
+        <bundle>mvn:org.talend.esb.locator.service.rest/locator-rest-service/${project.version}</bundle>
   </feature>
 
     <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
