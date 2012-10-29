@@ -61,7 +61,7 @@
                 <exclude>etc/**</exclude>
                 <exclude>release_notes.txt</exclude>
                 <exclude>lib/endorsed/**</exclude>
-                <exclude>lib/jaxb-*.jar</exclude>
+                <!--exclude>lib/jaxb-*.jar</exclude-->
                 <exclude>lib/saaj*.jar</exclude>
                 <exclude>lib/geronimo-activation**</exclude>
                 <exclude>lib/geronimo-annotation**</exclude>
@@ -502,7 +502,7 @@
     </files>
 
     <dependencySets>
-        <dependencySet>
+        <!--dependencySet>
             <outputDirectory>/lib</outputDirectory>
             <unpack>false</unpack>
             <useProjectArtifact>false</useProjectArtifact>
@@ -512,7 +512,7 @@
             </includes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
-        </dependencySet>
+        </dependencySet-->
         <dependencySet>
             <outputDirectory>/add-ons/sts</outputDirectory>
             <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
