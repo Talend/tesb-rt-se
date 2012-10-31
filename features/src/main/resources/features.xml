@@ -18,7 +18,6 @@
   limitations under the License.
   #L%
   -->
-
 <features name="tesb-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
@@ -143,41 +142,40 @@
   </feature>
 
   <feature name='tesb-zookeeper' version='${project.version}'>
-        <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
+    <configfile finalname="/etc/org.talend.esb.locator.server.cfg">mvn:org.talend.esb/org.talend.esb.locator.server/${project.version}/cfg</configfile>
+    <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-client' version='${project.version}'>
-        <feature version='${cxf.version}'>cxf</feature>
-        <feature>tesb-zookeeper</feature>
-        <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
-        <bundle start-level='50'>mvn:org.talend.esb/locator/${project.version}</bundle>
+    <feature version='${cxf.version}'>cxf</feature>
+    <feature>tesb-zookeeper</feature>
+    <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
+    <bundle start-level='50'>mvn:org.talend.esb/locator/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-zookeeper-server' version='${project.version}'>
-        <configfile finalname="/etc/org.apache.cxf.dosgi.discovery.zookeeper.server.cfg">mvn:org.talend.esb/zookeeper-server/${project.version}/cfg</configfile>
-        <feature>tesb-zookeeper</feature>
-        <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.auth/${project.version}</bundle>
-        <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.init/${project.version}</bundle>
-        <bundle>mvn:org.apache.cxf.dosgi/cxf-dosgi-ri-discovery-distributed-zookeeper-server/${org.apache.cxf.dosgi.version}</bundle>
+    <feature>tesb-zookeeper</feature>
+    <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.auth/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb/org.talend.esb.locator.server/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-soap-service' version='${project.version}'>
-         <configfile finalname="/etc/org.talend.esb.locator.token.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.token</configfile>
-        <configfile finalname="/etc/org.talend.esb.locator.saml.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.saml</configfile>
-        <configfile finalname="/etc/org.talend.esb.locator.service.cfg">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/cfg/org.talend.esb.locator.service</configfile>
-        <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/properties/clientKeystore</configfile>
-        <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/clientstore</configfile>
-        <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/properties/serviceKeystore</configfile>
-        <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/servicestore</configfile>
-        <feature>tesb-locator-client</feature>
-        <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>        
+    <configfile finalname="/etc/org.talend.esb.locator.token.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.token</configfile>
+    <configfile finalname="/etc/org.talend.esb.locator.saml.policy">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/policy/org.talend.esb.locator.saml</configfile>
+    <configfile finalname="/etc/org.talend.esb.locator.service.cfg">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/cfg/org.talend.esb.locator.service</configfile>
+    <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/properties/clientKeystore</configfile>
+    <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/clientstore</configfile>
+    <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/properties/serviceKeystore</configfile>
+    <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}/jks/servicestore</configfile>
+    <feature>tesb-locator-client</feature>
+    <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.locator.service/locator-soap-service/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-rest-service' version='${project.version}'>
-        <feature>tesb-locator-client</feature>
-        <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
-        <bundle>mvn:org.talend.esb.locator.service.rest/locator-rest-service/${project.version}</bundle>
+    <feature>tesb-locator-client</feature>
+    <bundle>mvn:org.talend.esb.locator.service/locator-service-common/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.locator.service.rest/locator-rest-service/${project.version}</bundle>
   </feature>
 
     <feature name="talend-job-api" version="${project.version}" resolver="(obr)">
