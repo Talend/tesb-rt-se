@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2011  2012 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<blueprint default-activation="eager"
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+      http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+      http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.0.xsd
+    ">
+
+  <cm:property-placeholder id="zookeeperProperties"
+      persistent-id="org.talend.esb.locator.server"
+      update-strategy="reload">
+    <cm:default-properties>
+      <cm:property name="dataDir" value="./zookeeper/data" />
+      <cm:property name="tickTime" value="2000" />
+      <cm:property name="initLimit" value="10" />
+      <cm:property name="syncLimit" value="5" />
+      <cm:property name="maxClientCnxns" value="0" />
+      <cm:property name="clientPort" value="2181" />
+      <cm:property name="authentication" value="false" />
+    </cm:default-properties>
+  </cm:property-placeholder>
+
+  <bean id="configAdmin" factory-ref="zookeeperProperties" factory-method="getConfigAdmin" />
+  <bean id="configuration" factory-ref="configAdmin" factory-method="getConfiguration">
+    <argument value="org.talend.esb.locator.server" />
+  </bean>
+
+  <bean id="zookeeperServer"
+      class="org.talend.esb.locator.zookeeper.server.ZookeeperServerManager"
+      init-method="startup" destroy-method="shutdown" scope="singleton">
+    <!--property name="cmPropertyPlaceholder" ref="zookeeperProperties" /-->
+    <property name="properties">
+      <bean factory-ref="configuration" factory-method="getProperties" />
+    </property>
+  </bean>
+
+  <bean id="initializer"
+      class="org.talend.esb.locator.server.init.internal.RootNodeInitializer"
+      init-method="initialize" depends-on="zookeeperServer">
+    <property name="locatorPort" value="${clientPort}" />
+    <property name="authentication" value="${authentication}" />
+  </bean>
+
+</blueprint>

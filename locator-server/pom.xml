@@ -10,14 +10,15 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb</groupId>
-    <artifactId>org.talend.esb.locator.init</artifactId>
+    <artifactId>org.talend.esb.locator.server</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: LOCATOR :: INIT</name>
+    <name>Talend :: ESB :: LOCATOR :: SERVER</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -45,14 +46,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
-            <scope>provided</scope>
-        </dependency>
--->
     </dependencies>
 
     <build>
@@ -63,11 +56,31 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Fragment-Host>cxf-dosgi-ri-discovery-distributed-zookeeper-server</Fragment-Host>
-<!--                        <Import-Package>!org.apache.zookeeper.*, *</Import-Package> -->
+                        <Export-Package />
                     </instructions>
                 </configuration>
             </plugin>
+           <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>build-helper-maven-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <id>attach-artifacts</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>attach-artifact</goal>
+                       </goals>
+                       <configuration>
+                           <artifacts>
+                               <artifact>
+                                   <file>etc/org.talend.esb.locator.server.cfg</file>
+                                   <type>cfg</type>
+                               </artifact>
+                           </artifacts>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
         </plugins>
     </build>
 
