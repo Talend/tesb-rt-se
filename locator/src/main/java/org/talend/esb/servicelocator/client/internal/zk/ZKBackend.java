@@ -34,8 +34,9 @@ public class ZKBackend implements ServiceLocatorBackend {
 
     public static final Charset UTF8_CHAR_SET = Charset.forName("UTF-8");
 
-    private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
-    
+    private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class
+            .getName());
+
     private static final byte[] EMPTY_CONTENT = new byte[0];
 
     private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
@@ -55,17 +56,18 @@ public class ZKBackend implements ServiceLocatorBackend {
     private boolean authentication;
 
     private String user;
-    
+
     private String pwd;
 
     private volatile ZooKeeper zk;
-    
+
     private RootNodeImpl rootNode = new RootNodeImpl(this);
 
     @Override
-    public RootNode connect() throws InterruptedException, ServiceLocatorException {
+    public RootNode connect() throws InterruptedException,
+            ServiceLocatorException {
 
-        if ( ! isConnected()) {
+        if (!isConnected()) {
             disconnect();
 
             if (LOG.isLoggable(Level.FINE)) {
@@ -83,22 +85,21 @@ public class ZKBackend implements ServiceLocatorBackend {
                         "Connection to Service Locator failed.");
             }
 
-        
             if (authentication) {
-                authenticate();    
+                authenticate();
             }
 
             if (LOG.isLoggable(Level.FINER)) {
                 LOG.log(Level.FINER, "End connect session");
             }
         }
-        
+
         return rootNode;
     }
 
-
     @Override
-    public void disconnect() throws InterruptedException, ServiceLocatorException {
+    public void disconnect() throws InterruptedException,
+            ServiceLocatorException {
         if (zk != null) {
             zk.close();
             zk = null;
@@ -111,14 +112,14 @@ public class ZKBackend implements ServiceLocatorBackend {
     public boolean isConnected() {
         return (zk != null) && zk.getState().equals(ZooKeeper.States.CONNECTED);
     }
-    
-    public RootNode getRootNode() throws InterruptedException, ServiceLocatorException {
+
+    public RootNode getRootNode() throws InterruptedException,
+            ServiceLocatorException {
         connect();
         return rootNode;
     }
 
-   
-    public boolean nodeExists(NodePath path)  throws ServiceLocatorException,
+    public boolean nodeExists(NodePath path) throws ServiceLocatorException,
             InterruptedException {
         try {
             return zk.exists(path.toString(), false) != null;
@@ -126,18 +127,19 @@ public class ZKBackend implements ServiceLocatorBackend {
             throw locatorException(e);
         }
     }
-    
+
     public void createNode(NodePath path, CreateMode mode, byte[] content)
             throws KeeperException, InterruptedException {
         zk.create(path.toString(), content, getACLs(), mode);
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Node " + path + " created as" +  mode + "in ZooKeeper with content "
-                + new String(content, UTF8_CHAR_SET));
+            LOG.fine("Node " + path + " created as" + mode
+                    + "in ZooKeeper with content "
+                    + new String(content, UTF8_CHAR_SET));
         }
 
     }
-    
+
     public void setNodeData(NodePath path, byte[] content)
             throws ServiceLocatorException, InterruptedException {
         try {
@@ -149,21 +151,21 @@ public class ZKBackend implements ServiceLocatorBackend {
 
     public boolean deleteNode(NodePath path, boolean canHaveChildren)
             throws KeeperException, InterruptedException {
-            try {
-                zk.delete(path.toString(), -1);
-                return true;
-            } catch (KeeperException e) {
-                if (e.code().equals(Code.NOTEMPTY) && canHaveChildren) {
-                    if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Some other client created children nodes in the node"
-                                + path
-                                + " concurrently. Therefore, we can not delete it.");
-                    }
-                    return false;
-                } else {
-                    throw e;
+        try {
+            zk.delete(path.toString(), -1);
+            return true;
+        } catch (KeeperException e) {
+            if (e.code().equals(Code.NOTEMPTY) && canHaveChildren) {
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("Some other client created children nodes in the node"
+                            + path
+                            + " concurrently. Therefore, we can not delete it.");
                 }
+                return false;
+            } else {
+                throw e;
             }
+        }
     }
 
     public <T> List<T> getChildren(NodePath path, NodeMapper<T> mapper)
@@ -178,7 +180,7 @@ public class ZKBackend implements ServiceLocatorBackend {
         List<T> boundChildren = new ArrayList<T>(encoded.size());
 
         for (String oneEncoded : encoded) {
-            String notEncoded  = NodePath.decode(oneEncoded);
+            String notEncoded = NodePath.decode(oneEncoded);
             T boundChild = mapper.map(notEncoded);
             boundChildren.add(boundChild);
         }
@@ -186,14 +188,15 @@ public class ZKBackend implements ServiceLocatorBackend {
         return boundChildren;
     }
 
-    public byte[] getContent(NodePath path) throws ServiceLocatorException, InterruptedException {
+    public byte[] getContent(NodePath path) throws ServiceLocatorException,
+            InterruptedException {
         try {
             byte[] content = zk.getData(path.toString(), false, null);
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Retrieved the following content for node " + path);
                 LOG.fine(new String(content, UTF8_CHAR_SET));
             }
-            return content; 
+            return content;
         } catch (KeeperException e) {
             throw locatorException(e);
         }
@@ -207,10 +210,16 @@ public class ZKBackend implements ServiceLocatorBackend {
     public void ensurePathExists(NodePath path, CreateMode mode, byte[] content)
             throws ServiceLocatorException, InterruptedException {
         try {
-            if (! nodeExists(path)) {
+            if (!nodeExists(path)) {
                 createNode(path, mode, content);
             } else {
-                if (LOG.isLoggable(Level.FINE)) {
+                if (mode.isEphemeral()) {
+                    deleteNode(path, false);
+                    createNode(path, mode, content);
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine("Ephemeral node " + path + " was recreated.");
+                    }
+                } else if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Node " + path + " already exists.");
                 }
             }
@@ -241,7 +250,7 @@ public class ZKBackend implements ServiceLocatorBackend {
      * @throws InterruptedException
      */
     public void ensurePathDeleted(NodePath path, boolean canHaveChildren)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         try {
             if (deleteNode(path, canHaveChildren)) {
                 if (LOG.isLoggable(Level.FINE)) {
@@ -249,7 +258,8 @@ public class ZKBackend implements ServiceLocatorBackend {
                 }
             } else {
                 if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Node " + path + " cannot be deleted because it has children.");
+                    LOG.fine("Node " + path
+                            + " cannot be deleted because it has children.");
                 }
             }
 
@@ -263,7 +273,7 @@ public class ZKBackend implements ServiceLocatorBackend {
             }
         }
     }
-    
+
     @Override
     public void setPostConnectAction(PostConnectAction postConnectAction) {
         this.postConnectAction = postConnectAction;
@@ -320,29 +330,31 @@ public class ZKBackend implements ServiceLocatorBackend {
             LOG.fine("Locator connection timeout set to: " + connectionTimeout);
         }
     }
-    
+
     public void setUserName(String userName) {
-        if (userName != null && ! userName.isEmpty()) {
-            user = userName;   
+        if (userName != null && !userName.isEmpty()) {
+            user = userName;
         } else {
             userName = null;
         }
     }
-    
+
     public void setPassword(String passWord) {
         this.pwd = passWord;
     }
 
-    private void initializeRootNode() throws ServiceLocatorException, InterruptedException {
+    private void initializeRootNode() throws ServiceLocatorException,
+            InterruptedException {
         rootNode.ensureExists();
         authentication = rootNode.isAuthenticationEnabled();
     }
+
     private void authenticate() throws ServiceLocatorException {
         if (user == null) {
             throw new ServiceLocatorException(
                     "Service Locator server requires authentication, but no user is defined.");
         }
-        byte[] authInfo = (user  + ":" + pwd).getBytes(UTF8_CHAR_SET);
+        byte[] authInfo = (user + ":" + pwd).getBytes(UTF8_CHAR_SET);
         zk.addAuthInfo("sl", authInfo);
     }
 
@@ -356,14 +368,16 @@ public class ZKBackend implements ServiceLocatorBackend {
             return new ZooKeeper(locatorEndpoints, sessionTimeout,
                     new WatcherImpl(connectionLatch));
         } catch (IOException e) {
-            throw new ServiceLocatorException("A network failure occured when connecting to the ZooKeeper server", e);
+            throw new ServiceLocatorException(
+                    "A network failure occured when connecting to the ZooKeeper server",
+                    e);
         }
     }
-    
+
     private ServiceLocatorException locatorException(Exception e) {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE ,
-                    "The service locator server signaled an error", e);
+            LOG.log(Level.FINE, "The service locator server signaled an error",
+                    e);
         }
         return new ServiceLocatorException(
                 "The service locator server signaled an error.", e);
@@ -403,20 +417,22 @@ public class ZKBackend implements ServiceLocatorBackend {
             } catch (InterruptedException e) {
                 if (LOG.isLoggable(Level.SEVERE)) {
                     LOG.log(Level.SEVERE,
-                        "An InterruptedException was thrown while waiting for an answer from the"
-                        + "Service Locator", e);
+                            "An InterruptedException was thrown while waiting for an answer from the"
+                                    + "Service Locator", e);
                 }
             } catch (ServiceLocatorException e) {
                 if (LOG.isLoggable(Level.SEVERE)) {
                     LOG.log(Level.SEVERE,
-                        "Failed to execute an request to Service Locator.", e);
+                            "Failed to execute an request to Service Locator.",
+                            e);
                 }
             }
         }
     }
-    
+
     public interface NodeMapper<T> {
-        T map(String nodeName) throws ServiceLocatorException, InterruptedException;
+        T map(String nodeName) throws ServiceLocatorException,
+                InterruptedException;
     }
 
 }
