@@ -133,21 +133,24 @@ public class Numeric {
      * 
      */
     public static Float convertImpliedDecimalFormat(String format, String toConvert) {
-        long decimalPlace = 1;
+        //long decimalPlace = 1;
+        int decimalShift=0;
         int indexOf = format.indexOf('V');
         if (indexOf > -1) {
             boolean isV = false;
             for (int i = 0; i < format.length(); i++) {
                 char charAt = format.charAt(i);
                 if (charAt == '9' && isV) {
-                    decimalPlace = 10 * decimalPlace;
+                    //decimalPlace = 10 * decimalPlace;
+                    decimalShift--;
                 } else if (charAt == 'V') {
                     isV = true;
                 }
             }
         }
         BigDecimal decimal = new BigDecimal(toConvert);
-        decimal = decimal.divide(new BigDecimal(decimalPlace));
+        //decimal = decimal.divide(new BigDecimal(decimalPlace));
+        decimal = decimal.scaleByPowerOfTen(decimalShift);
         return new Float(decimal.doubleValue());
     }
 }
