@@ -124,9 +124,7 @@ Running the client
 For either case, after making many successful SOAP calls, the execution will intentionally
 fail to show how Hyperic reports exceptions.  You should see:
 
-[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:java (default-cli)
-on project simple-service-bundle: An exception occurred while executing the Java class. null:
-InvocationTargetException: Incorrect name
+javax.xml.ws.soap.SOAPFaultException: Incorrect name
 
 You'll also see this exception in the console window.
 
