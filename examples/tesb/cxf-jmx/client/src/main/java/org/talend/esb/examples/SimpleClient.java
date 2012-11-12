@@ -51,10 +51,12 @@ public final class SimpleClient {
         }
 
         // "Incorrect name" exception would be thrown
-        String response = client.sayHi("Joe");
-        System.out.println(response);
+        try {
+            String response = client.sayHi("Joe");
+        }catch(RuntimeException e) {
+            e.printStackTrace();
+        }
 
-        System.exit(0);
     }
 
 }
