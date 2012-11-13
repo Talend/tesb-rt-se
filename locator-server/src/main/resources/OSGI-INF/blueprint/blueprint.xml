@@ -49,7 +49,7 @@
 
   <bean id="initializer"
       class="org.talend.esb.locator.server.init.internal.RootNodeInitializer"
-      init-method="initialize" depends-on="zookeeperServer">
+      init-method="initialize" destroy-method="stop" depends-on="zookeeperServer">
     <property name="locatorPort" value="${clientPort}" />
     <property name="authentication" value="${authentication}" />
   </bean>

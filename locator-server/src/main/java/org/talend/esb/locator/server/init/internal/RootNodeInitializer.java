@@ -3,6 +3,8 @@ package org.talend.esb.locator.server.init.internal;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,14 +30,18 @@ public class RootNodeInitializer implements Watcher {
     private static final String ROOT_NODE_PATH = "/cxf-locator";
 
     private static final Logger LOG = Logger.getLogger(RootNodeInitializer.class.getName());
-    
+
+    private int timeout = 10000;
+
     private String locatorEndpoints = "localhost:2181";
 
     private String version = "5.2.0";
-    
+
     private boolean authentication;
 
-    private ZooKeeper zk; 
+    private ZooKeeper zk;
+
+    private CountDownLatch finishedLatch = new CountDownLatch(1);
 
     public void setLocatorEndpoints(String endpoints) {
         locatorEndpoints = endpoints;
@@ -69,13 +75,27 @@ public class RootNodeInitializer implements Watcher {
         }
     }
 
-    public void initialize() {        
+    public void initialize() throws InterruptedException {        
         try {
-            zk = new ZooKeeper(locatorEndpoints, 5000, this);            
+            zk = new ZooKeeper(locatorEndpoints, 5000, this);
+            boolean finished = finishedLatch.await(timeout,
+                    TimeUnit.MILLISECONDS);
+            if (! finished && LOG.isLoggable(Level.SEVERE)) {
+                LOG.log(Level.SEVERE, "Failed to connect to ZooKeeper and initialize the root node within " + timeout + " ms.");               
+            }
         } catch (IOException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
                 LOG.log(Level.SEVERE, "Failed to create ZooKeeper client", e);
             }
+        } finally {
+            stop();
+        }
+    }
+    
+    public void stop() throws InterruptedException {
+        if (zk != null) {
+            zk.close();
+            zk = null;
         }
     }
 
@@ -102,12 +122,12 @@ public class RootNodeInitializer implements Watcher {
                 zk.setACL(ZK_ROOT_NODE_PATH, getZKRootACLs(), -1);
             } else {
                 try {
-                byte[] oldContent = zk.getData(ROOT_NODE_PATH, false, new Stat());
-                if (contentNeedsUpdate(oldContent)) {
-                    zk.setData(ROOT_NODE_PATH, getContent(), -1);
-                    zk.setACL(ROOT_NODE_PATH, getLocatorRootACLs(), -1);
-                    zk.setACL(ZK_ROOT_NODE_PATH, getZKRootACLs(), -1);
-                }
+                    byte[] oldContent = zk.getData(ROOT_NODE_PATH, false, new Stat());
+                    if (contentNeedsUpdate(oldContent)) {
+                        zk.setData(ROOT_NODE_PATH, getContent(), -1);
+                        zk.setACL(ROOT_NODE_PATH, getLocatorRootACLs(), -1);
+                        zk.setACL(ZK_ROOT_NODE_PATH, getZKRootACLs(), -1);
+                    }
                 } catch (KeeperException e) {
                     if (e.code().equals(KeeperException.Code.NOAUTH)) {
                         if (LOG.isLoggable(Level.INFO)) {
@@ -129,7 +149,7 @@ public class RootNodeInitializer implements Watcher {
                 LOG.log(Level.SEVERE, "Thread got interrupted when wating for root node to be created.", e);
             }
         }
-        
+        finishedLatch.countDown();
     }
     
     private byte [] getContent() {
