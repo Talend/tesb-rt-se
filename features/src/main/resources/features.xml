@@ -143,6 +143,7 @@
 
   <feature name='tesb-zookeeper' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.locator.server.cfg">mvn:org.talend.esb/org.talend.esb.locator.server/${project.version}/cfg</configfile>
+    <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.auth/${project.version}</bundle>
     <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>
   </feature>
 
@@ -155,7 +156,6 @@
 
   <feature name='tesb-zookeeper-server' version='${project.version}'>
     <feature>tesb-zookeeper</feature>
-    <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.auth/${project.version}</bundle>
     <bundle>mvn:org.talend.esb/org.talend.esb.locator.server/${project.version}</bundle>
   </feature>
 
