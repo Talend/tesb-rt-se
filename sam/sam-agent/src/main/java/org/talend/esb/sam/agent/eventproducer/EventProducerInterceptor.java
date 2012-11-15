@@ -20,6 +20,7 @@
 package org.talend.esb.sam.agent.eventproducer;
 
 
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -105,22 +106,40 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         queue.add(event);
     }
     
-    private void checkAdressing(Message message){
+    private void checkAdressing(Message message) {
         Boolean isInbound = message.containsKey("javax.xml.ws.addressing.context.inbound");
         Boolean isOutbound = message.containsKey("javax.xml.ws.addressing.context.outbound");
-        
-        if (!isInbound&&!isOutbound){
+
+        HashMap<Object, Object> jaxwsContext = (HashMap<Object, Object>) message.get("jaxwsContext");
+        HashMap<Object, Object> responseContext = (HashMap<Object, Object>) message.get("ResponseContext");
+
+        if (!isInbound && !isOutbound) {
             AddressingProperties maps = new AddressingPropertiesImpl();
             String messageID = ContextUtils.generateUUID();
-            maps.setMessageID(ContextUtils.getAttributedURI(messageID));
             boolean isRequestor = ContextUtils.isRequestor(message);
-
+            maps.setMessageID(ContextUtils.getAttributedURI(messageID));
             Exchange exchange = message.getExchange();
-            if (null != exchange.getOutMessage()&&(!isRequestor)){
+            if (null != exchange.getOutMessage() && (!isRequestor)) {
                 ContextUtils.storeMAPs(maps, message, true, isRequestor);
             } else {
                 ContextUtils.storeMAPs(maps, message, false, isRequestor);
             }
-    }
+        } else if (responseContext != null
+                && responseContext.containsKey("javax.xml.ws.addressing.context.inbound")) {
+            AddressingProperties maps = new AddressingPropertiesImpl();
+            boolean isRequestor = ContextUtils.isRequestor(message);
+            String messageID = ((AddressingProperties) responseContext
+                    .get("javax.xml.ws.addressing.context.inbound")).getMessageID().getValue();
+            maps.setMessageID(ContextUtils.getAttributedURI(messageID));
+            ContextUtils.storeMAPs(maps, message, true, isRequestor);
+        } else if (jaxwsContext != null
+                && jaxwsContext.containsKey("javax.xml.ws.addressing.context.inbound")) {
+            AddressingProperties maps = new AddressingPropertiesImpl();
+            boolean isRequestor = ContextUtils.isRequestor(message);
+            String messageID = ((AddressingProperties) jaxwsContext
+                    .get("javax.xml.ws.addressing.context.inbound")).getMessageID().getValue();
+            maps.setMessageID(ContextUtils.getAttributedURI(messageID));
+            ContextUtils.storeMAPs(maps, message, true, isRequestor);
+        }
     }
 }
