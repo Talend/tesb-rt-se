@@ -47,21 +47,21 @@ public class ZKBackend implements ServiceLocatorBackend {
 
     private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
 
-    private String locatorEndpoints = "localhost:2181";
+//    private int sessionTimeout = 5000;
 
-    private int sessionTimeout = 5000;
-
-    private int connectionTimeout = 5000;
+//    private int connectionTimeout = 5000;
 
     private boolean authentication;
 
-    private String user;
-
-    private String pwd;
+    private LocatorSettings settings = new LocatorSettings();
 
     private volatile ZooKeeper zk;
 
     private RootNodeImpl rootNode = new RootNodeImpl(this);
+    
+    {
+        settings.setEndpoints("localhost:2181");
+    }
 
     @Override
     public RootNode connect() throws InterruptedException,
@@ -77,7 +77,7 @@ public class ZKBackend implements ServiceLocatorBackend {
             CountDownLatch connectionLatch = new CountDownLatch(1);
             zk = createZooKeeper(connectionLatch);
 
-            boolean connected = connectionLatch.await(connectionTimeout,
+            boolean connected = connectionLatch.await(settings.getConnectionTimeout(),
                     TimeUnit.MILLISECONDS);
 
             if (!connected) {
@@ -294,9 +294,9 @@ public class ZKBackend implements ServiceLocatorBackend {
      *            "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
      */
     public void setLocatorEndpoints(String endpoints) {
-        locatorEndpoints = endpoints;
+        settings.setEndpoints(endpoints);
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator endpoints set to " + locatorEndpoints);
+            LOG.fine("Locator endpoints set to " + settings.getEndpoints());
         }
     }
 
@@ -311,10 +311,7 @@ public class ZKBackend implements ServiceLocatorBackend {
      *            than 60000.
      */
     public void setSessionTimeout(int timeout) {
-        sessionTimeout = timeout;
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator session timeout set to: " + sessionTimeout);
-        }
+        settings.setSessionTimeout(timeout);
     }
 
     /**
@@ -325,22 +322,15 @@ public class ZKBackend implements ServiceLocatorBackend {
      *            timeout in milliseconds, must be greater than zero
      */
     public void setConnectionTimeout(int timeout) {
-        connectionTimeout = timeout;
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Locator connection timeout set to: " + connectionTimeout);
-        }
+        settings.setConnectionTimeout(timeout);
     }
 
     public void setUserName(String userName) {
-        if (userName != null && !userName.isEmpty()) {
-            user = userName;
-        } else {
-            userName = null;
-        }
+        settings.setUser(userName);
     }
 
     public void setPassword(String passWord) {
-        this.pwd = passWord;
+        settings.setPassword(passWord);
     }
 
     private void initializeRootNode() throws ServiceLocatorException,
@@ -350,12 +340,11 @@ public class ZKBackend implements ServiceLocatorBackend {
     }
 
     private void authenticate() throws ServiceLocatorException {
-        if (user == null) {
+        if (settings.getUser() == null) {
             throw new ServiceLocatorException(
                     "Service Locator server requires authentication, but no user is defined.");
         }
-        byte[] authInfo = (user + ":" + pwd).getBytes(UTF8_CHAR_SET);
-        zk.addAuthInfo("sl", authInfo);
+        zk.addAuthInfo("sl", settings.getAuthInfo());
     }
 
     private List<ACL> getACLs() {
@@ -365,7 +354,7 @@ public class ZKBackend implements ServiceLocatorBackend {
     protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
             throws ServiceLocatorException {
         try {
-            return new ZooKeeper(locatorEndpoints, sessionTimeout,
+            return new ZooKeeper(settings.getEndpoints(), settings.getSessionTimeout(),
                     new WatcherImpl(connectionLatch));
         } catch (IOException e) {
             throw new ServiceLocatorException(
