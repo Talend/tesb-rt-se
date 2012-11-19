@@ -19,18 +19,19 @@
  */
 package org.talend.esb.sam.agent.eventproducer;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
+import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.apache.cxf.ws.addressing.AddressingProperties;
+import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
@@ -89,6 +90,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         }
         if (operationName.equals(SAM_OPERATION)) return;
         
+        checkMessageID(message);
+
         Event event = mapper.mapToEvent(message);
         
         if (handler != null) {
@@ -99,5 +102,26 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             LOG.fine("Store event [message_id=" + id + "] in cache.");
         }
         queue.add(event);
+    }
+
+    /**
+     * check if MessageID exists in the message, if not, only generate new MessageID for outbound message.
+     * @param message
+     */
+    private void checkMessageID(Message message) {
+        if (!MessageUtils.isOutbound(message)) return;
+
+        AddressingProperties maps =
+                ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
+        if (maps == null) {
+            maps = new AddressingPropertiesImpl();
+        }
+        if (maps.getMessageID() == null) {
+            String messageID = ContextUtils.generateUUID();
+            boolean isRequestor = ContextUtils.isRequestor(message);
+            maps.setMessageID(ContextUtils.getAttributedURI(messageID));
+            ContextUtils.storeMAPs(maps, message, ContextUtils.isOutbound(message), isRequestor);
+        }
+
     }
 }
