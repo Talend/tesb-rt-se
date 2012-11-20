@@ -1,4 +1,4 @@
----
+--
 -- #%L
 -- Service Activity Monitoring :: Server
 -- %%
@@ -16,7 +16,7 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 -- #L%
----
+--
 DROP TABLE IF EXISTS EVENTS_CUSTOMINFO;
 DROP TABLE IF EXISTS EVENTS;
 DROP SEQUENCE IF EXISTS ID_SEQUENCE;

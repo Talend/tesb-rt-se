@@ -1,4 +1,4 @@
----
+--
 -- #%L
 -- Service Activity Monitoring :: Server
 -- %%
@@ -16,7 +16,7 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 -- #L%
----
+--
 SET ANSI_NULLS ON
 
 SET QUOTED_IDENTIFIER ON
@@ -77,7 +77,7 @@ PRIMARY KEY CLUSTERED
 
 ALTER TABLE [dbo].[SEQUENCE] ADD  CONSTRAINT [DF_SEQUENCE_SEQ_NAME]  DEFAULT (N'EVENT_SEQ') FOR [SEQ_NAME]
 
---INSERT INTO SEQUENCE(SEQ_NAME, SEQ_COUNT) values ('EVENT_SEQ', 0);
---INSERT INTO SEQUENCE(SEQ_NAME) values ('EVENT_SEQ');
+-- INSERT INTO SEQUENCE(SEQ_NAME, SEQ_COUNT) values ('EVENT_SEQ', 0);
+-- INSERT INTO SEQUENCE(SEQ_NAME) values ('EVENT_SEQ');
 
 SET ANSI_PADDING OFF
