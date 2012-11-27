@@ -2,21 +2,21 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wsdl-first-tutorial-war</artifactId>
+    <artifactId>dev-guide-wsdl-first-war</artifactId>
     <name>-- Service WAR file</name>
     <packaging>war</packaging>
     <url>http://maven.apache.org</url>
 
     <parent>
-        <groupId>org.talend.cxf-examples.wsdl-first-tutorial</groupId>
-        <artifactId>wsdl-first-tutorial</artifactId>
+        <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
+        <artifactId>dev-guide-wsdl-first</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.talend.cxf-examples.wsdl-first-tutorial</groupId>
-            <artifactId>wsdl-first-tutorial-service</artifactId>
+            <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
+            <artifactId>dev-guide-wsdl-first-service</artifactId>
             <version>5.2.1-SNAPSHOT</version>
         </dependency>
         <dependency>

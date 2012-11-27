@@ -2,13 +2,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wsdl-first-tutorial-service</artifactId>
+    <artifactId>dev-guide-wsdl-first-service</artifactId>
     <name>-- Web Service Provider</name>
     <packaging>bundle</packaging>
 
     <parent>
-        <groupId>org.talend.cxf-examples.wsdl-first-tutorial</groupId>
-        <artifactId>wsdl-first-tutorial</artifactId>
+        <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
+        <artifactId>dev-guide-wsdl-first</artifactId>
         <version>5.2.1-SNAPSHOT</version>
     </parent>
 
