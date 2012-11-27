@@ -8,6 +8,11 @@
     <name>Dev Guide Tutorial: WSDL-First Web Service</name>
     <packaging>pom</packaging>
 
+    <!-- Dev Guide examples kept standalone (i.e., do not
+         reach back to examples' parent POM) for tutorial
+         purposes.
+    -->
+
     <modules>
         <module>service</module>
         <module>war</module>
@@ -56,3 +61,4 @@
     </dependencies>
 
 </project>
+
