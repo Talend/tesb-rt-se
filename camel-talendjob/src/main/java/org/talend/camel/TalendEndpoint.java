@@ -31,6 +31,9 @@ import org.apache.camel.impl.DefaultEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import routines.system.api.TalendESBJobFactory;
+import routines.system.api.TalendJob;
+
 /**
  * <p>
  * Represents a Talend endpoint.
@@ -38,13 +41,12 @@ import org.slf4j.LoggerFactory;
  */
 public class TalendEndpoint extends DefaultEndpoint {
 
+    private static final transient Logger LOG = LoggerFactory.getLogger(TalendEndpoint.class);
+
     private String clazz;
     private String context;
-    private Object jobInstance;
-    private Method jobMethod;
+    private TalendJob jobInstance;
     private Method setExchangeMethod;
-    
-	private static final transient Logger LOG = LoggerFactory.getLogger(TalendEndpoint.class);
 
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
@@ -70,16 +72,20 @@ public class TalendEndpoint extends DefaultEndpoint {
     }
 
     protected void instantiateJob() throws ClassNotFoundException, SecurityException, NoSuchMethodException {
-        if (jobMethod == null) {
+        if (jobInstance == null) {
             Class<?> jobType = this.getCamelContext().getClassResolver().resolveMandatoryClass(clazz);
-            jobInstance = getCamelContext().getInjector().newInstance(jobType);
-            jobMethod = jobType.getMethod("runJobInTOS", new Class[]{String[].class});
+            TalendESBJobFactory talendESBJobFactory = Activator.getJobService(TalendESBJobFactory.class, jobType.getSimpleName());
+            if (null != talendESBJobFactory) {
+                jobInstance = talendESBJobFactory.newTalendESBJob();
+            } else {
+                jobInstance = TalendJob.class.cast(getCamelContext().getInjector().newInstance(jobType));
+            }
             try{
-            	setExchangeMethod = jobType.getMethod("setExchange", new Class[]{Exchange.class});
+                setExchangeMethod = jobType.getMethod("setExchange", new Class[]{Exchange.class});
             }catch (NoSuchMethodException e) {
-				LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
-				setExchangeMethod = null;
-			}
+                LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
+                setExchangeMethod = null;
+            }
         }
         
     }
@@ -100,23 +106,11 @@ public class TalendEndpoint extends DefaultEndpoint {
         return context;
     }
 
-    public void setJobInstance(Object jobInstance) {
-        this.jobInstance = jobInstance;
-    }
-
-    public Object getJobInstance() {
+    public TalendJob getJobInstance() {
         return jobInstance;
     }
 
-    public void setJobMethod(Method jobMethod) {
-        this.jobMethod = jobMethod;
-    }
-
-    public Method getJobMethod() {
-        return jobMethod;
-    }
-    
     public Method getSetExchangeMethod() {
-		return setExchangeMethod;
-	}
+        return setExchangeMethod;
+    }
 }

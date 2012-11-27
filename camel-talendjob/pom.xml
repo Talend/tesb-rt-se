@@ -10,10 +10,7 @@
     <groupId>org.talend.camel</groupId>
     <artifactId>camel-talendjob</artifactId>
     <packaging>bundle</packaging>
-    <version>5.2.1-SNAPSHOT</version>
-
     <name>Camel Talend Job Component</name>
-    <url>http://www.talend.org</url>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -27,13 +24,17 @@
             <artifactId>camel-core</artifactId>
             <version>${camel.version}</version>
         </dependency>
-
-        <!-- logging -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>runtime</scope>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>${osgi.core.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.job</groupId>
+            <artifactId>org.talend.esb.job.api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- for testing -->
@@ -52,38 +53,10 @@
         <!-- TOS job jars used for testing -->
         <dependency>
             <groupId>talendesb</groupId>
-            <artifactId>jobcamel</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/test/lib/jobcamel_0_1.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>talendesb</groupId>
-            <artifactId>javacsv</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/test/lib/javacsv.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>talendesb</groupId>
-            <artifactId>routineTest</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/test/lib/routineTest.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>talendesb</groupId>
             <artifactId>systemRoutines</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/test/lib/systemRoutines.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>talendesb</groupId>
-            <artifactId>userRoutines</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/test/lib/userRoutines.jar</systemPath>
         </dependency>
 
     </dependencies>
@@ -96,26 +69,8 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Activator>org.talend.camel.Activator</Bundle-Activator>
                     </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.11</version>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${basedir}/target/test-classes/jobcamel_0_1.jar
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>${basedir}/target/test-classes/javacsv.jar
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>${basedir}/target/test-classes/routineTest.jar
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>${basedir}/target/test-classes/systemRoutines.jar
-                        </additionalClasspathElement>
-                        <additionalClasspathElement>${basedir}/target/test-classes/userRoutines.jar
-                        </additionalClasspathElement>
-                    </additionalClasspathElements>
                 </configuration>
             </plugin>
             <plugin>
