@@ -8,7 +8,11 @@
    <version>5.2.1-SNAPSHOT</version>
    <name>Dev Guide Tutorial: Java-First Web Service</name>
    <packaging>pom</packaging>
-   <url>http://www.jroller.com/gmazza/entry/java_first_web_service</url>
+
+    <!-- Dev Guide examples kept standalone (i.e., don't
+         reach back to examples' parent POM) for tutorial
+         purposes.
+    -->
 
    <modules>
       <module>service</module>
