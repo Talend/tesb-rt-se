@@ -71,6 +71,11 @@ public class JobLauncherImpl implements JobLauncher, JobListener {
         MultiThreadedOperation op =
             new MultiThreadedOperation(esbJobFactory, name, endpointRegistry, executorService);
         operations.put(name, op);
+
+        // fix for TESB-7714
+        if (esbJobFactory instanceof TalendESBJob) {
+            ((TalendESBJob) esbJobFactory).setEndpointRegistry(endpointRegistry);
+        }
     }
 
     @Override
