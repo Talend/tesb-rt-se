@@ -62,7 +62,6 @@
 			<plugin type="autoinventory" />
 			
 			<config>
-				<option name="host" description="Hostname" default="" />
 				<option name="bus.id" description="CXF Bus ID" />
 				<option name="service" description="Service name" />
 				<option name="port" description="Port name" />
@@ -101,7 +100,6 @@
 			<plugin type="autoinventory" />
 			
 			<config>
-				<option name="host" description="Hostname" default="" />
 				<option name="bus.id" description="CXF Bus ID" />
 				<option name="service" description="Service name" />
 				<option name="port" description="Port name" />
