@@ -359,7 +359,7 @@
                 <exclude>org/apache/karaf/assemblies/features/standard/2.2.9/standard-2.2.9-features.xml</exclude>
                 <!-- workaround for abdera-parser bundle -->
                 <exclude>org/apache/abdera/abdera-parser/1.1.2/**</exclude>
-                </excludes>
+            </excludes>
         </fileSet>
 
         <!-- Copy Add-ons -->
