@@ -7,11 +7,20 @@
     <parent>
         <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
         <artifactId>dev-guide-java-first</artifactId>
-        <version>5.2.1-SNAPSHOT</version>
+        <version>5.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>dev-guide-java-first-service</artifactId>
     <name>-- Web Service Provider</name>
     <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

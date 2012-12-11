@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>5.2.1-SNAPSHOT</version>
+		<version>5.3.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.talend.esb.assembly</groupId>
@@ -36,6 +36,7 @@
         <jclouds.version>1.4.0</jclouds.version>
         <saaj-impl.version>1.3.19_1</saaj-impl.version>
         <saaj-api.version>2.0.0</saaj-api.version>
+        <abdera-parser.version>1.1.2_1</abdera-parser.version>
 	</properties>
 
 	<dependencies>
@@ -111,6 +112,7 @@
                                 <feature>activemq-web-console</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf</feature>
+						        <feature>cxf-abdera</feature>
 						        <feature>cxf-sts</feature>
 						        <feature>cxf-wsn</feature>
 						        <!-- Camel Features -->
@@ -288,7 +290,15 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-							</artifactItems>
+                                <!-- workaround for abdera-parser bundle -->
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.abdera-parser</artifactId>
+                                    <version>${abdera-parser.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
 						</configuration>
 					</execution>
 					<execution>
@@ -556,6 +566,12 @@
                                     <replacefilter
                                         token="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0"
                                         value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${saaj-api.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
+                                    <!-- workaround for abdera-parser bundle -->
+                                    <replacefilter
+                                        token="mvn:org.apache.abdera/abdera-parser/1.1.2"
+                                        value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/${abdera-parser.version}"/>
                                 </replace>
                             </target>
                         </configuration>
