@@ -152,7 +152,7 @@ public class PersonInfoStorage {
 	        addPerson(p);
 	        em.persist(p);
 	        
-	        //father.addChild(p);
+	        father.addChild(p);
 	        mother.addChild(p);
 	        
 	        
