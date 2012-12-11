@@ -86,12 +86,12 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 	    at = null;
 	}
 	
-	public ServerAccessToken refreshAccessToken(String clientId, String refreshToken)
+	public ServerAccessToken refreshAccessToken(Client clientId, String refreshToken, List<String> scopes)
 			throws OAuthServiceException {
 		throw new UnsupportedOperationException();
 	}
 
-	public ServerAccessToken getPreauthorizedToken(Client client,
+	public ServerAccessToken getPreauthorizedToken(Client client, List<String> scopes,
 	    UserSubject subject, String grantType) throws OAuthServiceException {
 		return null;
 	}

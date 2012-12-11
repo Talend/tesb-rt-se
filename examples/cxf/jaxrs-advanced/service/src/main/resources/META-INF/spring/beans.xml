@@ -5,10 +5,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-      xmlns:soap="http://cxf.apache.org/bindings/soap"
+      xmlns:util="http://www.springframework.org/schema/util"
+      xmlns:p="http://www.springframework.org/schema/p"
       xsi:schemaLocation="
          http://www.springframework.org/schema/beans 
          http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://www.springframework.org/schema/util 
+         http://www.springframework.org/schema/util/spring-util.xsd
          http://cxf.apache.org/jaxrs
          http://cxf.apache.org/schemas/jaxrs.xsd">
 
@@ -24,6 +27,7 @@
         <!-- custom providers -->
         <jaxrs:providers>
            <bean class="service.advanced.PersonExceptionMapper" />
+           <bean class="org.apache.cxf.jaxrs.ext.search.SearchContextProvider" />
            <ref bean="jsonProvider"/>
         </jaxrs:providers>
      </jaxrs:server>
@@ -36,7 +40,22 @@
          <property name="storage" ref="storageBean"/>
      </bean>
      
-     <bean id="storageBean" class="service.advanced.PersonInfoStorage"/>
+     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+         <property name="persistenceUnitName" value="persistenceUnitOpenJPA"/>
+     </bean>
+     
+     <bean id="entityManagerBean" factory-bean="entityManagerFactory" factory-method="createEntityManager"/>
+     
+     <util:map id="personBeanProperties">
+        <entry key="fatherName" value="father.name"/>
+        <entry key="father" value="father.name"/>
+        <entry key="childName" value="children.name"/>
+     </util:map>
+     
+     <bean id="storageBean" init-method="init" class="service.advanced.PersonInfoStorage">
+         <property name="entityManager" ref="entityManagerBean"/>
+         <property name="beanProperties" ref="personBeanProperties"/>
+     </bean>
      
      <!-- 
         default Jettison-based JSON provider is configured to 

@@ -6,11 +6,20 @@ package common.advanced;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,16 +35,26 @@ import javax.xml.bind.annotation.XmlRootElement;
  * ExceptionMappers.
  */
 @XmlRootElement(name = "Person", namespace = "http://org.persons")
+@XmlAccessorType(XmlAccessType.FIELD)
 @Produces({"application/xml", "application/json"})
+@Entity
 public class Person {
+    @Id
     private long id;
+
     private String name;
     private int age;
 
+    @OneToOne
     private Person mother;
+    @OneToOne
     private Person father;
+    @OneToOne
     private Person partner;
-    private Set<Person> children;
+    
+    @OneToMany
+    @XmlIDREF
+    private Set<Person> children = new HashSet<Person>();
 
     public Person() {
         this("unknown", 50);
@@ -44,7 +63,6 @@ public class Person {
     public Person(String name, int age) {
         this.name = name;
         this.age = age;
-        children = new HashSet<Person>();
     }
 
     public Person(String name, int age, Person m, Person f, Person p) {
@@ -53,7 +71,6 @@ public class Person {
         this.mother = m;
         this.father = f;
         this.partner = p;
-        this.children = new HashSet<Person>();
     }
 
     @GET
@@ -85,18 +102,28 @@ public class Person {
         return age;
     }
 
-    public void addChild(Person child) {
-        children.add(child);
-    }
-
     @Path("mother")
     public Person getMother() {
         return mother;
     }
 
+    public void setMother(Person p) {
+        if (mother != null && !mother.equals(p)) {
+        	throw new IllegalStateException();
+        }
+        mother = p;
+    }
+    
     @Path("father")
     public Person getFather() {
         return father;
+    }
+    
+    public void setFather(Person p) {
+        if (father != null && !father.equals(p)) {
+        	throw new IllegalStateException();
+        }
+        father = p;
     }
 
     @Path("partner")
@@ -110,6 +137,14 @@ public class Person {
         return children;
     }
 
+    public void setChildren(Set<Person> all) {
+    	this.children = all;
+    }
+    
+    public void addChild(Person child) {
+        children.add(child);
+    }
+    
     @GET
     @Path("descendants")
     public Set<Person> getDescendants() {
@@ -168,6 +203,26 @@ public class Person {
             return name.equals(other.name) && age == other.age;
         } else {
             return false;
+        }
+    }
+    
+    // The following is the hack recommended to bypass JAXB RI limitation
+    // to do with XmlId value being strictly of type 'String'
+    
+    @SuppressWarnings("unused")
+	@XmlID
+    @XmlAttribute(name = "id")
+    private String getXmlID(){
+        return String.format("%s-%s", this.getClass().getSimpleName(), Long.valueOf(id));
+    }
+
+    @SuppressWarnings("unused")
+	private void setXmlID(String xmlid){
+        String prefix = String.format("%s-", this.getClass().getSimpleName());
+        if(xmlid.startsWith(prefix)){
+            this.id = Long.parseLong(xmlid.substring(prefix.length()));
+        }else{
+            throw new IllegalArgumentException(xmlid+" does not look like "+prefix+"###");
         }
     }
 }

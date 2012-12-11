@@ -11,7 +11,7 @@
     <version>1.0</version>
     <name>JAX-RS OAuth2 Example</name>
     <packaging>pom</packaging>
-
+    
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
@@ -19,6 +19,9 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <properties>
+      <cxf.version>2.7.1</cxf.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>

@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _Person_QNAME = new QName("http://org.persons", "Person");
+    private final static QName _PersonInfo_QNAME = new QName("http://org.persons", "PersonInfo");
     private final static QName _PersonCollection_QNAME = new QName("http://org.persons", "Persons");
 
     /**
@@ -28,6 +29,13 @@ public class ObjectFactory {
     public Person createPerson() {
         return new Person();
     }
+    
+    /**
+     * Create an instance of {@link Person }
+     */
+    public PersonInfo createPersonInfo() {
+        return new PersonInfo();
+    }
 
     /**
      * Create an instance of {@link PersonCollection }
@@ -37,14 +45,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}
-     * {@link Person }{@code >}
+     * Create an instance of {@link Person}
      */
     @XmlElementDecl(namespace = "http://org/persons/", name = "Person")
     public JAXBElement<Person> createPerson(Person value) {
         return new JAXBElement<Person>(_Person_QNAME, Person.class, null, value);
     }
 
+    /**
+     * Create an instance of {@link PersonInfo}
+     */
+    @XmlElementDecl(namespace = "http://org/persons/", name = "PersonInfo")
+    public JAXBElement<PersonInfo> createPersonInfo(PersonInfo value) {
+        return new JAXBElement<PersonInfo>(_PersonInfo_QNAME, PersonInfo.class, null, value);
+    }
+    
     /**
      * Create an instance of {@link JAXBElement }{@code <}
      * {@link PersonCollection }{@code >}

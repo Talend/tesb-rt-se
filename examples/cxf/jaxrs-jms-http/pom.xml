@@ -16,6 +16,10 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <properties>
+      <cxf.version>2.7.1-SNAPSHOT</cxf.version>
+    </properties>
+
     <modules>
         <module>common</module>
         <module>service</module>

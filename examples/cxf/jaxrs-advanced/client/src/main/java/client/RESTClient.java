@@ -4,6 +4,7 @@
 package client;
 
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,9 +14,11 @@ import javax.ws.rs.core.Response;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.ext.search.client.SearchConditionBuilder;
 
 import common.advanced.Person;
 import common.advanced.PersonCollection;
+import common.advanced.PersonInfo;
 import common.advanced.PersonService;
 
 /**
@@ -173,12 +176,19 @@ public final class RESTClient {
         // Back to personServiceURI + "/4"
         getPerson(wc);
 
+        // finally, do a basic search:
+        wc.reset().path("find").accept(MediaType.APPLICATION_XML);
+        
+        wc.query("name", "Fred", "Lorraine");
+        printPersonCollection(wc.get(PersonCollection.class));
+
+        
     }
 
     /**
-     * SearchService is a simple service which shares the information about Persons with the PersonService. It
-     * lets users search for individual people by specifying one or more names as query parameters. The
-     * interaction with this service also verifies that the JAX-RS server is capable of supporting multiple
+     * SearchService is a service which shares the information about Persons with the PersonService. 
+     * It lets users search for individual people using simple or complex search expressions. 
+     * The interaction with this service also verifies that the JAX-RS server is capable of supporting multiple
      * root resource classes
      */
     private void useSearchService() throws Exception {
@@ -186,16 +196,71 @@ public final class RESTClient {
         System.out.println("Searching...");
 
         WebClient wc = WebClient.create("http://localhost:" + port + "/services/personservice/search");
+        WebClient.getConfig(wc).getHttpConduit().getClient().setReceiveTimeout(10000000L);
         wc.accept(MediaType.APPLICATION_XML);
-        wc.query("name", "Fred", "Lorraine");
-        PersonCollection persons = wc.get(PersonCollection.class);
+        
+        // Moves to "/services/personservice/search"
+        wc.path("person");
+        
+        SearchConditionBuilder builder = SearchConditionBuilder.instance(); 
+        
+        System.out.println("Find people with the name Fred or Lorraine:");
+        
+        String query = builder.is("name").equalTo("Fred").or()
+               .is("name").equalTo("Lorraine")
+               .query();
+        findPersons(wc, query);
+        
+        System.out.println("Find all people who are no more than 30 years old");
+        query = builder.is("age").lessOrEqualTo(30)
+        		.query();
+        
+        findPersons(wc, query);
+        
+        System.out.println("Find all people who are older than 28 and whose father name is John");
+        query = builder.is("age").greaterThan(28)
+        		.and("fatherName").equalTo("John")
+        		.query();
+        
+        findPersons(wc, query);
 
-        for (Person person : persons.getList()) {
-            System.out.println("Found : " + person.getName());
+        System.out.println("Find all people who have children with name Fred");
+        query = builder.is("childName").equalTo("Fred")
+        		.query();
+        
+        findPersons(wc, query);
+        
+        //Moves to "/services/personservice/personinfo"
+        wc.reset().accept(MediaType.APPLICATION_XML);
+        wc.path("personinfo");
+        
+        System.out.println("Find all people younger than 40 using JPA2 Tuples");
+        query = builder.is("age").lessThan(40).query();
+        
+        // Use URI path component to capture the query expression
+        wc.path(query);
+        
+        
+        Collection<? extends PersonInfo> personInfos = wc.getCollection(PersonInfo.class);
+        for (PersonInfo pi : personInfos) {
+        	System.out.println("ID : " + pi.getId());
         }
-
     }
 
+    private void findPersons(WebClient wc, String searchExpression) {
+    	wc.resetQuery();
+    	wc.query("_s", searchExpression);
+    	PersonCollection persons = wc.get(PersonCollection.class);
+
+    	printPersonCollection(persons);
+    }
+    
+    private void printPersonCollection(PersonCollection persons) {
+    	for (Person person : persons.getList()) {
+            System.out.println("Found : " + person.getName());
+        }
+    }
+    
     /**
      * This function uses a proxy which is capable of transforming typed invocations into proper HTTP calls
      * which will be understood by RESTful services. This works for subresources as well. Interfaces and
@@ -240,10 +305,13 @@ public final class RESTClient {
 
         // uses CXF JAX-RS WebClient
         client.usePersonService();
-        // uses CXF JAX-RS WebClient
-        client.useSearchService();
+        
         // uses a basic proxy
         client.useSimpleProxy();
+        
+        // uses CXF JAX-RS WebClient to do the advanced search
+        client.useSearchService();
+        
     }
 
     private static int getPort() {

@@ -10,10 +10,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import javax.persistence.EntityManager;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.metamodel.SingularAttribute;
+
+import org.apache.cxf.jaxrs.ext.search.SearchCondition;
+import org.apache.cxf.jaxrs.ext.search.SearchConditionVisitor;
+import org.apache.cxf.jaxrs.ext.search.SearchContext;
+import org.apache.cxf.jaxrs.ext.search.jpa.JPACriteriaQueryVisitor;
+import org.apache.cxf.jaxrs.ext.search.jpa.JPATypedQueryVisitor;
 
 import common.advanced.Person;
+import common.advanced.PersonInfo;
+import common.advanced.Person_;
 
 /**
  * Storage used by both PersonService and SearchService
@@ -21,11 +32,21 @@ import common.advanced.Person;
 public class PersonInfoStorage {
     private static AtomicLong ID = new AtomicLong();
     private Map<Long, Person> persons = Collections.synchronizedMap(new LinkedHashMap<Long, Person>());
-
+    
+    private EntityManager em;
+    private Map<String, String> beanPropertiesMap = Collections.emptyMap();
+    
     public PersonInfoStorage() {
-        init();
     }
 
+    public void setEntityManager(EntityManager em) {
+    	this.em = em;
+    }
+    
+    public void setBeanProperties(Map<String, String> beanProperties) {
+    	this.beanPropertiesMap = beanProperties;
+    }
+    
     public Person getPerson(Long id) {
         return persons.get(id);
     }
@@ -44,37 +65,92 @@ public class PersonInfoStorage {
         return new ArrayList<Person>(persons.values());
     }
 
-    public List<Person> getPersons(int start, int count) {
-        List<Person> pList = new ArrayList<Person>(persons.values());
-
-        if (start < 0 || count < -1) {
-            // illegal parameters, bad client request
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
-        }
-
-        if (count == 0 || start > pList.size()) {
-            // returning null will result in the client getting HTTP 204
-            // if needed, an empty collection can be returned instead
-            return null;
-        } else if (count == -1 || pList.size() < start + count) {
-            count = pList.size() - start;
-        }
-
-        return pList.subList(start, start + count);
+    public List<Person> getTypedQueryPerson(SearchContext context) {
+    	// Get search condition encapsulating the query expression
+    	SearchCondition<Person> filter = getSearchCondition(context);
+    	
+    	// Initialise JPA2 visitor which can convert the captured search expression
+    	// into JPA2 TypedQuery
+        SearchConditionVisitor<Person, TypedQuery<Person>> jpa = 
+                new JPATypedQueryVisitor<Person>(em, Person.class);
+        
+        // Convert
+        filter.accept(jpa);
+        return jpa.getQuery().getResultList();
     }
+    
+    public List<PersonInfo> getTypedQueryTuple(SearchContext context,
+    		                                   String expression) {
+    	// Get search condition encapsulating the query expression
+    	SearchCondition<Person> filter = getSearchCondition(context, expression);
+    	
+    	// Initialise JPA2 visitor which can convert the captured search expression
+    	// into JPA2 TypedQuery
+    	JPACriteriaQueryVisitor<Person, Tuple> jpa = 
+                new JPACriteriaQueryVisitor<Person, Tuple>(em, Person.class, Tuple.class);
+        
+        // Convert
+        filter.accept(jpa);
+        
+        // shape the response data with selections and Tuple 
+        List<SingularAttribute<Person, ?>> selections = 
+                new ArrayList<SingularAttribute<Person, ?>>();
+        selections.add(Person_.id);
+        
+        jpa.selectTuple(selections);
+        
+        CriteriaQuery<Tuple> cquery = jpa.getQuery();
+        
+        List<Tuple> tuples = em.createQuery(cquery).getResultList();
+        
+        List<PersonInfo> infos = new ArrayList<PersonInfo>(tuples.size());
+        for (Tuple tuple : tuples) {
+        	infos.add(new PersonInfo(tuple.get(Person_.id.getName(), Long.class)));
+        }
+        return infos;
+        
+    }
+    
+    private SearchCondition<Person> getSearchCondition(SearchContext context) {
+    	return getSearchCondition(context, null);
+    }
+    
+    private SearchCondition<Person> getSearchCondition(SearchContext context, String expression) {
+    	return context.getCondition(expression, Person.class, beanPropertiesMap);
+    }
+    
+    public void init() {
 
-    private void init() {
-
-        Person mother = new Person("Lorraine", 50);
-        addPerson(mother);
-
-        Person father = new Person("John", 55);
-        addPerson(father);
-
-        Person partner = new Person("Catherine", 28);
-        addPerson(partner);
-
-        Person p = new Person("Fred", 30, mother, father, partner);
-        addPerson(p);
+    	try {
+    		em.getTransaction().begin();
+    		
+    		Person mother = new Person("Lorraine", 50);
+	        addPerson(mother);
+	        
+	        em.persist(mother);
+	        
+	        Person father = new Person("John", 55);
+	        addPerson(father);
+	
+	        em.persist(father);
+	        
+	        Person partner = new Person("Catherine", 28);
+	        addPerson(partner);
+	
+	        em.persist(partner);
+	        
+	        Person p = new Person("Fred", 30, mother, father, partner);
+	        addPerson(p);
+	        em.persist(p);
+	        
+	        //father.addChild(p);
+	        mother.addChild(p);
+	        
+	        
+	        em.getTransaction().commit();
+	        
+    	} catch (Exception ex) {
+    		throw new RuntimeException(ex);
+    	}
     }
 }

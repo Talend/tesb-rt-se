@@ -18,6 +18,11 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <properties>
+        <hibernate.version>4.1.0.Final</hibernate.version>
+        <hsqldb.version>2.2.9</hsqldb.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
@@ -34,6 +39,21 @@
            <artifactId>jettison</artifactId>
            <version>1.3.1</version>
         </dependency>
+        
+        <!--
+        <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+	    -->
+	    
+	    <dependency>
+	       <groupId>org.hsqldb</groupId>
+	       <artifactId>hsqldb</artifactId>
+	       <version>${hsqldb.version}</version>
+    	</dependency>
+        
     </dependencies>
 
     <build>
@@ -44,7 +64,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-advanced-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.hsqldb.hsqldb,org.apache.geronimo.specs.geronimo-jpa_2.0_spec,org.apache.openjpa,org.springframework.beans,jaxrs-advanced-common</Require-Bundle>
                         <Export-Package>
                    service
                         </Export-Package>
@@ -66,7 +86,6 @@
                 </dependency>
             </dependencies>
             <build>
-                <defaultGoal>test</defaultGoal>
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>

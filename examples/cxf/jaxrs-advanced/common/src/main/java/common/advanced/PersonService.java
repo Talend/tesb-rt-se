@@ -3,6 +3,8 @@
  */
 package common.advanced;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -37,6 +39,13 @@ public interface PersonService {
     Response getPersons(@DefaultValue("0") @QueryParam("start") Integer start,
                         @DefaultValue("-1") @QueryParam("size") Integer size);
 
+    @GET
+    @Produces({
+        "application/xml", "application/json"
+    })
+    @Path("find")
+    public PersonCollection findPersons(@QueryParam("name") List<String> names);
+    
     /**
      * Sub-resource locator (note the absence of HTTP Verb annotations such as GET). It locates a Person
      * instance with a provided id and delegates to it to process the request. Note that a Person sub-resource

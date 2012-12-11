@@ -18,6 +18,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PersonCollection {
     private List<Person> list = new ArrayList<Person>();
 
+    public PersonCollection() {
+    	
+    }
+    
+    public PersonCollection(List<Person> list) {
+    	this.list.addAll(list);
+    }
+    
     public void addPerson(Person person) {
         getList().add(person);
     }

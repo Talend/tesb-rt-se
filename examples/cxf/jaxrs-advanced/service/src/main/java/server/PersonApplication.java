@@ -3,12 +3,17 @@
  */
 package server;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import org.apache.cxf.jaxrs.ext.search.SearchContextProvider;
 import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 
 import service.advanced.PersonExceptionMapper;
@@ -33,7 +38,23 @@ public class PersonApplication extends Application {
         Set<Object> classes = new HashSet<Object>();
 
         PersonInfoStorage storage = new PersonInfoStorage();
-
+        try {
+        	Class.forName("org.hsqldb.jdbcDriver");
+        	EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("persistenceUnitOpenJPA");
+            storage.setEntityManager(emFactory.createEntityManager());
+         
+            Map<String, String> beanPropertiesMap = new HashMap<String, String>();
+            beanPropertiesMap.put("fatherName", "father.name");
+            beanPropertiesMap.put("father", "father.name");
+        	beanPropertiesMap.put("childName", "children.name");
+            storage.setBeanProperties(beanPropertiesMap);
+        	
+            storage.init();
+        } catch (Throwable ex) {
+        	throw new RuntimeException(ex);
+        }
+        
+        
         PersonServiceImpl personService = new PersonServiceImpl();
         personService.setStorage(storage);
         classes.add(personService);
@@ -46,10 +67,12 @@ public class PersonApplication extends Application {
 
         classes.add(new PersonExceptionMapper());
 
-        JSONProvider provider = new JSONProvider();
+        JSONProvider<?> provider = new JSONProvider<Object>();
         provider.setIgnoreNamespaces(true);
         classes.add(provider);
 
+        classes.add(new SearchContextProvider());
+        
         return classes;
     }
 }

@@ -18,19 +18,109 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <properties>
+        <slf4j.version>1.6.1</slf4j.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jpa_2.0_spec</artifactId>
+            <version>${geronimo.jpa.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-rs-extension-search</artifactId>
+          <version>${cxf.version}</version>
+        </dependency>  
+        <dependency>
+  	       <groupId>org.apache.openjpa</groupId>
+ 	       <artifactId>openjpa</artifactId>
+   	       <version>${openjpa.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			 
+			    <executions>
+			        <execution>
+			            <id>generate-entity-metamodel</id>
+			            <phase>generate-sources</phase>
+			            <goals>
+			                <goal>compile</goal>
+			            </goals>
+			            <configuration>
+			                <source>1.6</source>
+			                <target>1.6</target>
+			                <optimize>true</optimize>
+			                <showDeprecation>true</showDeprecation>
+			                <showWarnings>true</showWarnings>
+			                <proc>only</proc>
+			                <compilerArgument>-Aopenjpa.metamodel=true</compilerArgument>
+			                <generatedSourcesDirectory>${basedir}/src/main/java</generatedSourcesDirectory>
+			            </configuration>
+			        </execution>
+			        <execution>
+			            <id>compile</id>
+			            <phase>compile</phase>
+			            <goals>
+			                <goal>compile</goal>
+			            </goals>
+			            <configuration>
+			                <source>1.6</source>
+			                <target>1.6</target>
+			                <generatedSourcesDirectory>${basedir}/src/main/java</generatedSourcesDirectory>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+            <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.6</version>
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>*</Import-Package>
                         <Export-Package>common.advanced</Export-Package>
+                        <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>openjpa-maven-plugin</artifactId>
+						<configuration>
+						    <addDefaultConstructor>true</addDefaultConstructor>
+							<enforcePropertyRestriction>true</enforcePropertyRestriction>
+							<includes>common/advanced/Person.class</includes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>enhancer</id>
+								<phase>process-classes</phase>
+								<goals>
+								<goal>enhance</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.openjpa</groupId>
+								<artifactId>openjpa</artifactId>
+								<version>${openjpa.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.slf4j</groupId>
+								<artifactId>slf4j-api</artifactId>
+								<version>${slf4j.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
         </plugins>
     </build>
 
