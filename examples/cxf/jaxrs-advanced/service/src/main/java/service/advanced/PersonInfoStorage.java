@@ -76,7 +76,12 @@ public class PersonInfoStorage {
         
         // Convert
         filter.accept(jpa);
-        return jpa.getQuery().getResultList();
+        
+        // Get TypedQuery
+        TypedQuery<Person> typedQuery = jpa.getQuery(); 
+        
+        // Run the query and return the results
+        return typedQuery.getResultList();
     }
     
     public List<PersonInfo> getTypedQueryTuple(SearchContext context,
@@ -92,17 +97,21 @@ public class PersonInfoStorage {
         // Convert
         filter.accept(jpa);
         
-        // shape the response data with selections and Tuple 
+        // Shape the response data with selections and Tuple 
         List<SingularAttribute<Person, ?>> selections = 
                 new ArrayList<SingularAttribute<Person, ?>>();
         selections.add(Person_.id);
         
         jpa.selectTuple(selections);
         
+        // Get CriteriaQuery and create TypedQuery
         CriteriaQuery<Tuple> cquery = jpa.getQuery();
+        TypedQuery<Tuple> typedQuery = em.createQuery(cquery);
         
-        List<Tuple> tuples = em.createQuery(cquery).getResultList();
+        // Run the query
+        List<Tuple> tuples = typedQuery.getResultList();
         
+        // Return the results
         List<PersonInfo> infos = new ArrayList<PersonInfo>(tuples.size());
         for (Tuple tuple : tuples) {
         	infos.add(new PersonInfo(tuple.get(Person_.id.getName(), Long.class)));
