@@ -357,8 +357,6 @@
                 <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
                 <!-- workaround for Jetty version -->
                 <exclude>org/apache/karaf/assemblies/features/standard/2.2.9/standard-2.2.9-features.xml</exclude>
-                <!-- workaround for abdera-parser bundle -->
-                <exclude>org/apache/abdera/abdera-parser/1.1.2/**</exclude>
             </excludes>
         </fileSet>
 
@@ -501,12 +499,6 @@
             <destName>standard-2.2.9-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- workaround for abdera-parser bundle -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.abdera-parser-${abdera-parser.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.abdera-parser/${abdera-parser.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
     </files>
 
