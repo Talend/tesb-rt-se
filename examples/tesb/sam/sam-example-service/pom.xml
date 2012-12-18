@@ -20,6 +20,11 @@
             <artifactId>sam-agent</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-tools-common</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
