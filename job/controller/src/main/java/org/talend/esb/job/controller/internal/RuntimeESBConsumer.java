@@ -33,6 +33,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
+import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
@@ -44,6 +45,7 @@ import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
+import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
@@ -74,6 +76,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final EventFeature samFeature;
     private final String soapAction;
+    private AuthorizationPolicy authorizationPolicy;
 
     private final ClientFactoryBean clientFactory;
 
@@ -130,7 +133,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         clientFactory.setFeatures(features);
 
-        if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity()) {
+        if (EsbSecurity.BASIC == securityArguments.getEsbSecurity()) {
+            authorizationPolicy = new AuthorizationPolicy();
+            authorizationPolicy.setUserName(securityArguments.getUsername());
+            authorizationPolicy.setPassword(securityArguments.getPassword());
+            authorizationPolicy.setAuthorizationType("Basic");
+        } else if (EsbSecurity.DIGEST == securityArguments.getEsbSecurity()) {
+            authorizationPolicy = new AuthorizationPolicy();
+            authorizationPolicy.setUserName(securityArguments.getUsername());
+            authorizationPolicy.setPassword(securityArguments.getPassword());
+            authorizationPolicy.setAuthorizationType("Digest");
+        } else if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity()) {
             Map<String, Object> properties = new HashMap<String, Object>(2);
             properties.put(SecurityConstants.USERNAME,
                     securityArguments.getUsername());
@@ -183,11 +196,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientFactory.setProperties(clientProps);
         }
 
-        if (clientFactory.getProperties() == null) {
-            clientFactory.setProperties(new HashMap<String, Object>());
-        }
-        clientFactory.getProperties().put("soap.no.validate.parts", Boolean.TRUE);
-
+        clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
     }
 
     @Override
@@ -244,6 +253,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private Client getClient() throws BusException, EndpointException {
         if (client == null) {
             client = clientFactory.create();
+
+            if (null != authorizationPolicy) {
+                HTTPConduit conduit = (HTTPConduit) client.getConduit();
+                conduit.setAuthorization(authorizationPolicy);
+            }
 
             final Service service = client.getEndpoint().getService();
             service.setDataBinding(new SourceDataBinding());

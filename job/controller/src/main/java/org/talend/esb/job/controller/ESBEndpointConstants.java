@@ -71,6 +71,8 @@ public interface ESBEndpointConstants {
 
     enum EsbSecurity {
         NO("NO"),
+        BASIC("BASIC"),
+        DIGEST("DIGEST"),
         TOKEN("TOKEN"),
         SAML("SAML");
 

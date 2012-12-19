@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants;
@@ -33,8 +32,6 @@ import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
-import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
-import org.apache.cxf.bus.spring.SpringBusFactory;
 
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
