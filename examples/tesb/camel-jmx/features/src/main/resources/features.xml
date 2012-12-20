@@ -19,7 +19,7 @@
   #L%
   -->
 
-<features>
+<features name="tesb-example-camel-jmx-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 <!--    <repository>mvn:org.apache.camel.karaf/apache-camel/${pom.version}/xml/features</repository>-->
     
     <feature name='activemq-feature' version='${pom.version}'>
