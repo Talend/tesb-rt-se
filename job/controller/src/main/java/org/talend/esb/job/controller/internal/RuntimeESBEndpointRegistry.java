@@ -88,6 +88,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useServiceActivityMonitor = ((Boolean) props
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
+        boolean useWsa = ((Boolean) props
+                .get(ESBEndpointConstants.USE_WSA))
+                .booleanValue();
         //for future HTTPS checking
 //      boolean useHTTPS = ((Boolean) props
 //                .get(ESBEndpointConstants.USE_HTTPS))
@@ -139,7 +142,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 securityArguments,
                 bus,
                 Boolean.parseBoolean(clientProperties.get(LOGGING)),
-                (String) props.get(ESBEndpointConstants.SOAPACTION));
+                (String) props.get(ESBEndpointConstants.SOAPACTION),
+                useWsa);
     }
 
 }

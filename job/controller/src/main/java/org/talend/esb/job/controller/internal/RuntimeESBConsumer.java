@@ -82,7 +82,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
     private Client client;
 
-    public RuntimeESBConsumer(final QName serviceName, 
+    RuntimeESBConsumer(final QName serviceName, 
             final QName portName,
             String operationName, 
             String publishedEndpointUrl,
@@ -92,7 +92,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final SecurityArguments securityArguments, 
             final Bus bus,
             boolean logging,
-            String soapAction) {
+            String soapAction,
+            boolean useWsa) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
@@ -129,6 +130,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         if (logging) {
             features.add(new org.apache.cxf.feature.LoggingFeature());
+        }
+        if (useWsa) {
+        	features.add(new org.apache.cxf.ws.addressing.WSAddressingFeature());
         }
 
         clientFactory.setFeatures(features);
