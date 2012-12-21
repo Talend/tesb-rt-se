@@ -92,8 +92,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final SecurityArguments securityArguments, 
             final Bus bus,
             boolean logging,
-            String soapAction,
-            boolean useWsa) {
+            String soapAction) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
@@ -131,10 +130,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (logging) {
             features.add(new org.apache.cxf.feature.LoggingFeature());
         }
-        if (useWsa) {
-        	features.add(new org.apache.cxf.ws.addressing.WSAddressingFeature());
-        }
-
         clientFactory.setFeatures(features);
 
         if (EsbSecurity.BASIC == securityArguments.getEsbSecurity()) {

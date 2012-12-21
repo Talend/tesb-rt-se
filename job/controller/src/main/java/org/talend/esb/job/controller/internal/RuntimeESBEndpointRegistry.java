@@ -40,8 +40,6 @@ import routines.system.api.ESBEndpointRegistry;
 @NoJSR250Annotations(unlessNull = "bus") 
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
-    private static final String LOGGING = "logging";
-
     private Bus bus;
     private EventFeature samFeature;
     private PolicyProvider policyProvider;
@@ -88,9 +86,10 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useServiceActivityMonitor = ((Boolean) props
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
-        boolean useWsa = ((Boolean) props
-                .get(ESBEndpointConstants.USE_WSA))
-                .booleanValue();
+        boolean logMessages = false;
+        if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
+            logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
+        }
         //for future HTTPS checking
 //      boolean useHTTPS = ((Boolean) props
 //                .get(ESBEndpointConstants.USE_HTTPS))
@@ -141,9 +140,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 useServiceActivityMonitor ? samFeature : null,
                 securityArguments,
                 bus,
-                Boolean.parseBoolean(clientProperties.get(LOGGING)),
-                (String) props.get(ESBEndpointConstants.SOAPACTION),
-                useWsa);
+                logMessages,
+                (String) props.get(ESBEndpointConstants.SOAPACTION));
     }
 
 }
