@@ -34,6 +34,7 @@ public interface ESBEndpointConstants {
     String USERNAME = "username";
     String PASSWORD = "password";
     String SOAPACTION = "soapAction";
+    String WSDL_URL = "wsdlURL";
     String LOG_MESSAGES = "logMessages";
 
     // request constants

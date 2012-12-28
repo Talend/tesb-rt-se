@@ -134,6 +134,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 stsProperties);
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl,
+                (String) props.get(ESBEndpointConstants.WSDL_URL),
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,

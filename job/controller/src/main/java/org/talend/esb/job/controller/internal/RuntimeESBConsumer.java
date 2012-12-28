@@ -86,6 +86,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final QName portName,
             String operationName, 
             String publishedEndpointUrl,
+            String wsdlURL,
             boolean isRequestResponse, 
             final LocatorFeature slFeature,
             final EventFeature samFeature,
@@ -115,6 +116,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         final String endpointUrl = (slFeature == null) ? publishedEndpointUrl
                 : "locator://" + serviceName.getLocalPart();
         clientFactory.setAddress(endpointUrl);
+        if (null != wsdlURL) {
+            clientFactory.setWsdlURL(wsdlURL);
+        }
         clientFactory.setServiceClass(this.getClass());
         clientFactory.setBus(bus);
         final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
