@@ -40,6 +40,7 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.frontend.ClientFactoryBean;
+import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.service.Service;
@@ -76,6 +77,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final boolean isRequestResponse;
     private final EventFeature samFeature;
     private final String soapAction;
+    private final List<Header> soapHeaders;
     private AuthorizationPolicy authorizationPolicy;
 
     private final ClientFactoryBean clientFactory;
@@ -93,11 +95,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final SecurityArguments securityArguments, 
             final Bus bus,
             boolean logging,
-            String soapAction) {
+            String soapAction,
+            final List<Header> soapHeaders) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
         this.soapAction = soapAction;
+        this.soapHeaders = soapHeaders;
 
         clientFactory = new JaxWsClientFactoryBean() {
             @Override
@@ -231,6 +235,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
     private Object sendDocument(org.dom4j.Document doc) throws Exception {
         Client client = getClient();
+        if (null != soapHeaders) {
+            client.getRequestContext().put(org.apache.cxf.headers.Header.HEADER_LIST, soapHeaders);
+        }
         try {
             Object[] result = client.invoke(operationName,
                     DOM4JMarshaller.documentToSource(doc));

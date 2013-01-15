@@ -36,6 +36,7 @@ public interface ESBEndpointConstants {
     String SOAPACTION = "soapAction";
     String WSDL_URL = "wsdlURL";
     String LOG_MESSAGES = "logMessages";
+    String SOAP_HEADERS = "soapHeaders";
 
     // request constants
     String REQUEST_PAYLOAD = "PAYLOAD";
