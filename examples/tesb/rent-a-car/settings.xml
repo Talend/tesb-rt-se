@@ -3,14 +3,14 @@
 
   <servers>
 		<server>
-			<id>archiva.internal</id>
-			<username>admin</username>
-			<password>password</password>
+			<id>archiva.repo-release</id>
+			<username>tadmin</username>
+			<password>tadmin</password>
 		</server>
 		<server>
-			<id>archiva.snapshots</id>
-			<username>admin</username>
-			<password>pwd1</password>
+			<id>archiva.repo-snapshot</id>
+			<username>tadmin</username>
+			<password>tadmin</password>
 		</server>
   </servers>
 

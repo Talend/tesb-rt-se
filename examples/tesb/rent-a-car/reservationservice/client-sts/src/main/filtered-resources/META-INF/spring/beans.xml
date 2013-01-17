@@ -41,6 +41,7 @@
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServicePort"
+		address="${endpoint.prefix}/ReservationServiceProvider"
 		wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
 			<jaxws:properties>
                <entry key="ws-security.callback-handler">

@@ -15,6 +15,9 @@
 # limitations under the License.
 #
 
+# This is NOT a OS shell script, but a Karaf script
+# To execute it, open a Karaf shell for your container and type: source scripts/<This script's name>
+
 HTTP_Port=8043
 HTTPS_Port=9004
 RMI_Registry_Port=1102

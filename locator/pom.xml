@@ -90,11 +90,6 @@
 			<scope>test</scope>
 		</dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-core</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
@@ -107,7 +102,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-xjc-plugin</artifactId>
-                <version>${cxf.build-utils.version}</version>
+                <version>${cxf.xjc.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>

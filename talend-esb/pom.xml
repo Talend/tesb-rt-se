@@ -110,6 +110,8 @@
 						        <feature>activemq-blueprint</feature>
 						        <feature>activemq-spring</feature>
                                 <feature>activemq-web-console</feature>
+						        <feature>activemq-optional</feature>
+                                <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf</feature>
 						        <feature>cxf-abdera</feature>

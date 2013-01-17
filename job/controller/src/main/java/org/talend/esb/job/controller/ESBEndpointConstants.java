@@ -34,6 +34,9 @@ public interface ESBEndpointConstants {
     String USERNAME = "username";
     String PASSWORD = "password";
     String SOAPACTION = "soapAction";
+    String WSDL_URL = "wsdlURL";
+    String LOG_MESSAGES = "logMessages";
+    String SOAP_HEADERS = "soapHeaders";
 
     // request constants
     String REQUEST_PAYLOAD = "PAYLOAD";
@@ -71,6 +74,8 @@ public interface ESBEndpointConstants {
 
     enum EsbSecurity {
         NO("NO"),
+        BASIC("BASIC"),
+        DIGEST("DIGEST"),
         TOKEN("TOKEN"),
         SAML("SAML");
 

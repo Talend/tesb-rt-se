@@ -19,13 +19,16 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
+import org.apache.cxf.headers.Header;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
@@ -33,8 +36,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
-import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
-import org.apache.cxf.bus.spring.SpringBusFactory;
+import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
@@ -43,7 +45,7 @@ import routines.system.api.ESBEndpointRegistry;
 @NoJSR250Annotations(unlessNull = "bus") 
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
-    private static final String LOGGING = "logging";
+    private static final Logger LOG = Logger.getLogger(RuntimeESBEndpointRegistry.class.getName());
 
     private Bus bus;
     private EventFeature samFeature;
@@ -91,6 +93,10 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useServiceActivityMonitor = ((Boolean) props
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
+        boolean logMessages = false;
+        if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
+            logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
+        }
         //for future HTTPS checking
 //      boolean useHTTPS = ((Boolean) props
 //                .get(ESBEndpointConstants.USE_HTTPS))
@@ -126,6 +132,28 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             policy = policyProvider.getSamlPolicy();
         }
 
+        List<Header> soapHeaders = null;
+        Object soapHeadersDoc = props.get(ESBEndpointConstants.SOAP_HEADERS);
+        if (null != soapHeadersDoc) {
+            soapHeaders = new java.util.ArrayList<Header>();
+            try {
+                javax.xml.transform.dom.DOMResult result = new javax.xml.transform.dom.DOMResult();
+                javax.xml.transform.TransformerFactory.newInstance().newTransformer().transform(
+                    new org.dom4j.io.DocumentSource((org.dom4j.Document) soapHeadersDoc), result);
+                for (Node node = ((org.w3c.dom.Document) result.getNode())
+                            .getDocumentElement().getFirstChild();
+                        node != null;
+                        node = node.getNextSibling()) {
+                    if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+                        soapHeaders.add(new org.apache.cxf.headers.Header(
+                            new javax.xml.namespace.QName(node.getNamespaceURI(), node.getLocalName()),
+                            node));
+                    }
+                }
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "Uncaught exception during SOAP headers transformation: ", e);
+            }
+        }
         final SecurityArguments securityArguments = new SecurityArguments(
                 esbSecurity,
                 policy,
@@ -135,14 +163,16 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 stsProperties);
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl,
+                (String) props.get(ESBEndpointConstants.WSDL_URL),
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,
                 useServiceActivityMonitor ? samFeature : null,
                 securityArguments,
                 bus,
-                Boolean.parseBoolean(clientProperties.get(LOGGING)),
-                (String) props.get(ESBEndpointConstants.SOAPACTION));
+                logMessages,
+                (String) props.get(ESBEndpointConstants.SOAPACTION),
+                soapHeaders);
     }
 
 }

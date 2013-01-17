@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="talend-camel-examples-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
     <!--
-        Copyright (C) 2010-2011 Talend Inc. - www.talend.com
+        Copyright (C) 2010-2012 Talend Inc. - www.talend.com
     -->
 
     <repository>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</repository>
