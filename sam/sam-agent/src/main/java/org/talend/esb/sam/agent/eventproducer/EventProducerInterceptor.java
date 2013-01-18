@@ -87,7 +87,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         if (null != boi){
             operationName = boi.getName().toString();
         }
-        if (operationName.equals(SAM_OPERATION)) return;
+        if (SAM_OPERATION.equals(operationName)) return;
+        //and should not return here, REST msg will execute here.
         
         Event event = mapper.mapToEvent(message);
         
