@@ -87,10 +87,17 @@
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-oauth' version='${project.version}' resolver='(obr)'>
-        <feature version="2.7.2">cxf-rs-security-oauth</feature>
+        <feature version="${cxf.version}">cxf-rs-security-oauth</feature>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-service/${project.version}</bundle>
         <bundle>webbundle:mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-service-war-bundle/${project.version}</bundle>
+    </feature>
+
+    <feature name='talend-cxf-example-jaxrs-oauth2' version='${project.version}' resolver='(obr)'>
+        <feature version="${cxf.version}">cxf-rs-security-oauth2</feature>
+        <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth2-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth2-service/${project.version}</bundle>
+        <bundle>webbundle:mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth2-service-war-bundle/${project.version}</bundle>
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-jaxws-java-first' version='${project.version}' resolver='(obr)'>

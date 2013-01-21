@@ -7,8 +7,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
-    <artifactId>jaxrs-oauth2-common</artifactId>
-    <name>OAuth JAX-RS Example Common</name>
+    <artifactId>jaxrs-oauth2-service-war-bundle</artifactId>
+    <name>JAX-RS OAuth2 Example War Bundle</name>
     <packaging>bundle</packaging>
 
     <parent>
@@ -18,21 +18,40 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+            <artifactId>jaxrs-oauth2-service</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
+        <finalName>examples</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
                 <configuration>
                     <instructions>
+                        <Web-ContextPath>/examples</Web-ContextPath>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>*</Import-Package>
-                        <Export-Package>oauth2.common</Export-Package>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-oauth2-common, jaxrs-oauth2-service</Require-Bundle>
+                        <DynamicImport-Package>*</DynamicImport-Package> 
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+     <resources>
+      <resource>
+        <directory>src/main/resources/</directory>
+        <filtering>true</filtering>
+      </resource>
+     </resources>
+   </build>
+
+
 
 </project>
 
