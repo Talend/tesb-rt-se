@@ -86,6 +86,13 @@
         <bundle>webbundle:mvn:org.talend.cxf-examples.jaxrs-jaxws-transformations/jaxrs-jaxws-transformations-war-bundle/${project.version}</bundle>
     </feature>
 
+    <feature name='talend-cxf-example-jaxrs-oauth' version='${project.version}' resolver='(obr)'>
+        <feature version="2.7.2">cxf-rs-security-oauth</feature>
+        <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-common/${project.version}</bundle>
+        <bundle>mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-service/${project.version}</bundle>
+        <bundle>webbundle:mvn:org.talend.cxf-examples.jaxrs-oauth-example/jaxrs-oauth-service-war-bundle/${project.version}</bundle>
+    </feature>
+
     <feature name='talend-cxf-example-jaxrs-jaxws-java-first' version='${project.version}' resolver='(obr)'>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-java-first/jaxrs-jaxws-java-first-common/${project.version}</bundle>
         <bundle>mvn:org.talend.cxf-examples.jaxrs-jaxws-java-first/jaxrs-jaxws-java-first-service/${project.version}</bundle>
