@@ -57,11 +57,23 @@
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
           <configuration>
-            <instructions>
+             <instructions>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <Require-Bundle>
+                  org.apache.cxf.bundle,
+                  org.springframework.beans,
+                  org.springframework.jdbc,
+                  org.apache.commons.dbcp
+              </Require-Bundle>
               <Export-Package>
+              
               </Export-Package>
               <Import-Package>
+                org.talend.esb.sam.service.*,
+                org.talend.esb.sam.common.*,
+                org.talend.esb.sam.server.*,
+                javax.ws.rs.*,
+                org.apache.cxf.feature
               </Import-Package>
             </instructions>
           </configuration>
