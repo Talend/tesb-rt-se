@@ -48,20 +48,38 @@ public class TalendProducer extends DefaultProducer {
         super(endpoint);
     }
 
-    public void process(Exchange exchange) throws Exception {
-        TalendJob jobInstance = ((TalendEndpoint) getEndpoint()).getJobInstance();
-        String context = ((TalendEndpoint) getEndpoint()).getContext();
-        Method setExchangeMethod = ((TalendEndpoint) getEndpoint()).getSetExchangeMethod();
+	public void process(Exchange exchange) throws Exception {
+		TalendJob jobInstance = ((TalendEndpoint) getEndpoint())
+				.getJobInstance();
+		String context = ((TalendEndpoint) getEndpoint()).getContext();
+		Method setExchangeMethod = ((TalendEndpoint) getEndpoint())
+				.getSetExchangeMethod();
+		Map<String, String> propertiesMap = ((TalendEndpoint) getEndpoint())
+				.getCamelContext().getProperties();
 
-        List<String> args = new ArrayList<String>();
-        if (context != null) {
-            args.add("--context=" + context);
-        }
-        populateTalendContextParamsWithCamelHeaders(exchange, args);
+		List<String> args = new ArrayList<String>();
+		if (context != null) {
+			args.add("--context=" + context);
+		}
+		populateTalendContextParamsWithCamelHeaders(exchange, args);
+		
+		if (propertiesMap != null) {
+			addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
+		}
+		invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
+	}
 
-        invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
-    }
-
+	private void addTalendContextParamsFromCTalendJobContext(
+			Map<String, String> propertiesMap, List<String> args) {
+		for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+			String propertyKey = entry.getKey();
+			String propertyValue = entry.getValue();
+			if (propertyValue != null) {
+				args.add("--context_param " + propertyKey + "=" + propertyValue);
+			}
+		}
+	}
+    
     private void populateTalendContextParamsWithCamelHeaders(Exchange exchange, List<String> args) {
         Map<String, Object> headers = exchange.getIn().getHeaders();
         for (Map.Entry<String, Object> entry : headers.entrySet()) {
