@@ -22,7 +22,7 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <cxf.version>2.7.1</cxf.version>
+      <cxf.version>2.7.3-SNAPSHOT</cxf.version>
       <spring.version>3.0.7.RELEASE</spring.version>
    </properties>
 
