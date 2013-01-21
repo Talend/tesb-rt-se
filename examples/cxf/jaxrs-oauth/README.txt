@@ -70,6 +70,10 @@ Starting the service
 
     cd war; mvn jetty:run-war
     
+  * From within the TESB OSGi container:
+
+   This will be supported shortly
+
 Running the client
 ---------------------------------------
  
