@@ -16,20 +16,20 @@ public interface SAMRestService {
     @GET
     @Path("events")
     @Produces({ "application/json" })
-    EventCollection getEvents(Integer offset, Map<String, String> params);
+    Response getEvents(Integer offset, Map<String, String> params);
 
     @GET
     @Path("event/{id}")
     @Produces({ "application/json" })
-    Event getEvent(@PathParam("id") String id);
+    Response getEvent(@PathParam("id") String id);
 
     @GET
     @Path("flows")
     @Produces({ "application/json" })
-    FlowCollection getFlows(Integer offset, Map<String, String> params);
+    Response getFlows(Integer offset, Map<String, String> params);
     
     @GET
     @Path("flow/{id}")
     @Produces({ "application/json" })
-    Flow getFlow(@PathParam("id") String id);
+    Response getFlow(@PathParam("id") String id);
 }
