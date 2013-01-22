@@ -1,6 +1,7 @@
 package org.talend.esb.sam.service;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,14 +19,14 @@ public class Flow {
         this.id = id;
     }
 
-    public Map<String, URI> getEvents() {
+    public List<FlowEvent> getEvents() {
         return events;
     }
 
-    public void setEvents(Map<String, URI> events) {
+    public void setEvents(List<FlowEvent> events) {
         this.events = events;
     }
 
-    private Map<String, URI> events;
+    private List<FlowEvent> events;
     
 }

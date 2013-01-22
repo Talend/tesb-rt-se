@@ -37,7 +37,7 @@ public class SAMRestServiceImpl implements SAMRestService {
 	@Override
 	public Response getFlow(String flowID) {
 		// TODO Auto-generated method stub
-		return Response.ok(new Flow()).build();
+		return Response.ok(provider.getFlowDetails(flowID)).build();
 	}
 
 	@Override

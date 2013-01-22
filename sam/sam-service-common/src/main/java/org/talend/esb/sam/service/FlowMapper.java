@@ -5,13 +5,14 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class FlowMapper implements RowMapper<Flow> {
+public class FlowMapper implements RowMapper<FlowEvent> {
 
     @Override
-    public Flow mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Flow flow = new Flow();
-        //TODO: implement mapper
-        return flow;
+    public FlowEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
+        FlowEvent event = new FlowEvent();
+        event.setID(String.valueOf(rs.getLong("ID")));
+        event.setType(rs.getString("EI_EVENT_TYPE"));
+        return event;
     }
 
 }
