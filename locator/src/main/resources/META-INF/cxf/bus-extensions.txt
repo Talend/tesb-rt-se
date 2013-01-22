@@ -1,0 +1,1 @@
+org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManagerDelegate::org.talend.esb.servicelocator.cxf.ServiceLocatorManager::true
