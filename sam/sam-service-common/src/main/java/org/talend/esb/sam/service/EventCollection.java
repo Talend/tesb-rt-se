@@ -3,6 +3,9 @@ package org.talend.esb.sam.service;
 import java.net.URI;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class EventCollection {
     
     private Map<String, URI> events;

@@ -75,7 +75,8 @@
               </Export-Package>
               <Import-Package>
                 org.talend.esb.sam.common.*,
-                javax.ws.rs.*
+                javax.ws.rs.*,
+                javax.xml.bind.annotation.*
               </Import-Package>
             </instructions>
           </configuration>

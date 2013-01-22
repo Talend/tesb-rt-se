@@ -70,11 +70,10 @@
               
               </Export-Package>
               <Import-Package>
-                org.talend.esb.sam.service.*,
-                org.talend.esb.sam.common.*,
-                org.talend.esb.sam.server.*,
+                org.talend.esb.sam.*,
                 javax.ws.rs.*,
-                org.apache.cxf.feature
+                org.apache.cxf.feature,
+                javax.xml.bind.annotation
               </Import-Package>
             </instructions>
           </configuration>
