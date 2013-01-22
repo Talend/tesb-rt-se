@@ -10,7 +10,7 @@ public class FlowCollection {
     
     private Map<String, URI> flows;
 
-    public Map<String, URI> getFlowss() {
+    public Map<String, URI> getFlows() {
         return flows;
     }
 

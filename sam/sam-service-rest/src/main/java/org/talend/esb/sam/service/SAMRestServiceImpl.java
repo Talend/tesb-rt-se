@@ -14,6 +14,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.talend.esb.sam.common.event.Event;
+import org.talend.esb.sam.server.ui.UIProviderImpl;
+
+import com.google.gson.JsonObject;
 
 public class SAMRestServiceImpl implements SAMRestService {
 
@@ -21,8 +24,8 @@ public class SAMRestServiceImpl implements SAMRestService {
 
 	@Override
 	public Response getEvent(String arg0) {
-		// TODO Auto-generated method stub
-		return Response.ok(new Event()).build();
+	    SAMProviderImpl provider = new SAMProviderImpl();
+	    return Response.ok(provider.getEventDetails(arg0)).build();
 	}
 
 	@Override

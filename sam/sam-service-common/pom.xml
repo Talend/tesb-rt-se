@@ -56,6 +56,11 @@
         <artifactId>sam-common</artifactId>
         <version>5.3.0-SNAPSHOT</version>
       </dependency>
+      <dependency>
+        <groupId>org.talend.esb</groupId>
+        <artifactId>sam-server</artifactId>
+        <version>5.3.0-SNAPSHOT</version>
+      </dependency>
     </dependencies>
     
     <build>
@@ -76,7 +81,10 @@
               <Import-Package>
                 org.talend.esb.sam.common.*,
                 javax.ws.rs.*,
-                javax.xml.bind.annotation.*
+                javax.xml.bind.annotation.*,
+                org.talend.esb.sam.server.persistence.dialects,
+                org.springframework.jdbc.core.simple,
+                org.springframework.jdbc.core
               </Import-Package>
             </instructions>
           </configuration>
