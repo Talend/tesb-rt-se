@@ -39,15 +39,22 @@ public class SAMRestServiceImpl implements SAMRestService {
 	}
 
 	@Override
-	public Response getFlow(String arg0) {
+	public Response getFlow(String flowID) {
 		// TODO Auto-generated method stub
-		return null;
+		return Response.ok(new Flow()).build();
 	}
 
 	@Override
 	public Response getFlows(Integer offset, List<String> params) {
-		// TODO Auto-generated method stub
-		return null;
+		FlowCollection flowCollection = new FlowCollection();
+		HashMap<String, URI> flows = new HashMap<String, URI>();
+		try {
+            flows.put("key", new URI("http://value"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+		flowCollection.setFlows(flows);		
+		return Response.ok(flowCollection).build();
 	}
 
 }
