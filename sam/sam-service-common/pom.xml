@@ -82,7 +82,7 @@
                 org.talend.esb.sam.common.*,
                 javax.ws.rs.*,
                 javax.xml.bind.annotation.*,
-                org.talend.esb.sam.server.persistence.dialects,
+                org.talend.esb.sam.server.*,
                 org.springframework.jdbc.core.simple,
                 org.springframework.jdbc.core
               </Import-Package>

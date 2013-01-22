@@ -71,6 +71,7 @@
               </Export-Package>
               <Import-Package>
                 org.talend.esb.sam.*,
+                org.talend.esb.sam.server.persistence.dialects.*,
                 javax.ws.rs.*,
                 org.apache.cxf.feature,
                 javax.xml.bind.annotation,

@@ -1,31 +1,24 @@
-
 package org.talend.esb.sam.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.MatrixParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.server.ui.UIProviderImpl;
-
-import com.google.gson.JsonObject;
 
 public class SAMRestServiceImpl implements SAMRestService {
 
- //   private static final Logger LOG = Logger.getLogger(SAMRestServiceImpl.class.getPackage().getName());
+    SAMProvider provider;
 
-	@Override
+	public void setProvider(SAMProvider provider) {
+        this.provider = provider;
+    }
+
+    @Override
 	public Response getEvent(String arg0) {
-	    SAMProviderImpl provider = new SAMProviderImpl();
-	    return Response.ok(provider.getEventDetails(arg0)).build();
+        return Response.ok(provider.getEventDetails(arg0)).build();
 	}
 
 	@Override

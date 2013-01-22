@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.talend.esb.sam.common.event.Event;
-//import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
+import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
@@ -25,7 +25,15 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
             + "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
             + "from EVENTS where ID = :eventID";
 
-//    private DatabaseDialect dialect;
+    private DatabaseDialect dialect;
+
+    public DatabaseDialect getDialect() {
+        return dialect;
+    }
+
+    public void setDialect(DatabaseDialect dialect) {
+        this.dialect = dialect;
+    }
 
     private final RowMapper<Event> eventMapper = new EventMapper();
 
