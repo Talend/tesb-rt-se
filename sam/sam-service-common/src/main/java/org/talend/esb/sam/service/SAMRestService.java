@@ -1,7 +1,6 @@
 package org.talend.esb.sam.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -18,7 +17,7 @@ public interface SAMRestService {
     @GET
     @Path("events")
     @Produces({ "application/json" })
-    Response getEvents(@QueryParam("offset") @DefaultValue("0") Integer offset, @MatrixParam("params") @DefaultValue("") List<String> params);
+    Response getEvents(@QueryParam("offset") @DefaultValue("0") Integer offset, @QueryParam("limit") @DefaultValue("10") Integer limit, @MatrixParam("params") @DefaultValue("") List<String> params);
 
     @GET
     @Path("event/{id}")
@@ -28,7 +27,7 @@ public interface SAMRestService {
     @GET
     @Path("flows")
     @Produces({ "application/json" })
-    Response getFlows(@QueryParam("offset") @DefaultValue("0") Integer offset, @MatrixParam("params") @DefaultValue("") List<String> params);
+    Response getFlows(@QueryParam("offset") @DefaultValue("0") Integer offset, @QueryParam("limit") @DefaultValue("10") Integer limit, @MatrixParam("params") @DefaultValue("") List<String> params);
     
     @GET
     @Path("flow/{id}")

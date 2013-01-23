@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
+
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
@@ -22,7 +24,7 @@ public class SAMRestServiceImpl implements SAMRestService {
     }
 
     @Override
-    public Response getEvents(Integer offset, List<String> params) {
+    public Response getEvents(Integer offset, Integer limit, List<String> params) {
         EventCollection eventCollection = new EventCollection();
         HashMap<String, URI> events = new HashMap<String, URI>();
         try {
@@ -36,21 +38,21 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getFlow(String flowID) {
-        // TODO Auto-generated method stub
         return Response.ok(provider.getFlowDetails(flowID)).build();
     }
 
     @Override
-    public Response getFlows(Integer offset, List<String> params) {
-        return Response.ok(provider.getFlows(offset, convertParams(params))).build();
+    public Response getFlows(Integer offset, Integer limit, List<String> params) {
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
+        return Response.ok(provider.getFlows(adapter)).build();
     }
     
-    private Map<String, String> convertParams(List<String> params) {
-        Map<String, String> paramsMap = new HashMap<String, String>();
+    private Map<String, String[]> convertParams(List<String> params) {
+        Map<String, String[]> paramsMap = new HashMap<String, String[]>();
         for (String param : params) {
             String[] p = param.split(",");
             if(p.length == 2) {
-                paramsMap.put(p[0], p[1]);
+                paramsMap.put(p[0], new String[]{ p[1]} );
             }
         }
         return paramsMap;

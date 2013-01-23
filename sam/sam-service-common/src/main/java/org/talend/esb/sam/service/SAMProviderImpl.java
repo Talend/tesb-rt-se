@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
@@ -52,7 +53,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public EventCollection getEvents(long offset, Map<String, String> params) {
+    public EventCollection getEvents(CriteriaAdapter criteria) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -67,9 +68,9 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public FlowCollection getFlows(long offset, Map<String, String> params) {
+    public FlowCollection getFlows(CriteriaAdapter criteria) {
         FlowCollection flowCollection = new FlowCollection();
-        // TODO Add implementation
+        
         return flowCollection;
     }
 

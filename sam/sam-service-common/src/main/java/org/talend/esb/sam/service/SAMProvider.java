@@ -1,17 +1,16 @@
 package org.talend.esb.sam.service;
 
-import java.util.Map;
-
 import org.talend.esb.sam.common.event.Event;
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 
 public interface SAMProvider {
     
     Event getEventDetails(String eventID);
     
-    EventCollection getEvents(long offset, Map<String, String> params);
+    EventCollection getEvents(CriteriaAdapter criteria);
 
     Flow getFlowDetails(String flowID);
 
-    FlowCollection getFlows(long offset, Map<String, String> params);
+    FlowCollection getFlows(CriteriaAdapter criteria);
 }
