@@ -1,9 +1,6 @@
 package org.talend.esb.sam.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,8 +68,9 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
 
     @Override
     public FlowCollection getFlows(long offset, Map<String, String> params) {
-        // TODO Auto-generated method stub
-        return null;
+        FlowCollection flowCollection = new FlowCollection();
+        // TODO Add implementation
+        return flowCollection;
     }
 
 }
