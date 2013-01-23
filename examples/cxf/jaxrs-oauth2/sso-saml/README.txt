@@ -63,9 +63,7 @@ Running the client
   Social.com.
 - The Social.com User Registration Form asks for a user name and password.  
   Enter "barry@social.com" (name), "barry" (account alias),  "1234" (password).
-  Note that setting an alias is optional, if not set then the account name 
-  ("barry@social.com") will be used as an alias. 
-- Press "Register With Social.com" to complete the acount registration.  
+- Press "Register With Social.com" to complete the account registration.  
 - Follow the link in the bottom of the returned User Registration 
   Confirmation page in order to view the personal UserAccount page 
 - You will be redirected to the IDP Authentication page.
