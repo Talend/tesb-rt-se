@@ -75,8 +75,7 @@
                 javax.ws.rs.*,
                 org.apache.cxf.feature,
                 javax.xml.bind.annotation,
-                org.springframework.jdbc.core.simple,
-                org.springframework.jdbc.core
+                org.springframework.jdbc.core.*
               </Import-Package>
             </instructions>
           </configuration>

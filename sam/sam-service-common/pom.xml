@@ -73,7 +73,9 @@
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
               <Require-Bundle>
                   org.apache.cxf.bundle,
-                  org.springframework.beans
+                  org.springframework.beans,
+                  org.springframework.jdbc,
+                  org.apache.commons.dbcp
               </Require-Bundle>
               <Export-Package>
                 org.talend.esb.sam.service.*
@@ -83,8 +85,7 @@
                 javax.ws.rs.*,
                 javax.xml.bind.annotation.*,
                 org.talend.esb.sam.server.*,
-                org.springframework.jdbc.core.simple,
-                org.springframework.jdbc.core
+                org.springframework.jdbc.core.*
               </Import-Package>
             </instructions>
           </configuration>
