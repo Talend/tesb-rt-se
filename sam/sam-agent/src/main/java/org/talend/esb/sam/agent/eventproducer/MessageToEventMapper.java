@@ -84,22 +84,11 @@ public class MessageToEventMapper {
         messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
 
-        String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
-            .getName().toString();
-        messageInfo.setPortType(portTypeName);
-
-        messageInfo.setOperationName(getOperationName(message));
-
-        if (message.getExchange().getBinding() instanceof SoapBinding) {
-            SoapBinding soapBinding = (SoapBinding)message.getExchange().getBinding();
-            if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
-                SoapBindingInfo soapBindingInfo = (SoapBindingInfo)soapBinding.getBindingInfo();
-                messageInfo.setTransportType(soapBindingInfo.getTransportURI());
-            }
-        }
-        if (messageInfo.getTransportType() == null) {
-            messageInfo.setTransportType("Unknown transport type");
-        }
+    	if (message.getExchange().getBinding().getBindingInfo().getService() == null) {
+		handleJAXRSMsg(message, messageInfo);
+		} else {
+		handleSOAPMsg(message, messageInfo);
+		}
 
         String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
         event.getCustomInfo().put("address", addr);
@@ -135,6 +124,37 @@ public class MessageToEventMapper {
 
         return event;
     }
+    
+	private void handleSOAPMsg(Message message, MessageInfo messageInfo) {
+		String portTypeName = message.getExchange().getBinding()
+				.getBindingInfo().getService().getInterface().getName()
+				.toString();
+		messageInfo.setPortType(portTypeName);
+		messageInfo.setOperationName(getOperationName(message));
+		if (message.getExchange().getBinding() instanceof SoapBinding) {
+			SoapBinding soapBinding = (SoapBinding) message.getExchange()
+					.getBinding();
+			if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
+				SoapBindingInfo soapBindingInfo = (SoapBindingInfo) soapBinding
+						.getBindingInfo();
+				messageInfo.setTransportType(soapBindingInfo.getTransportURI());
+			}
+		}
+		if (messageInfo.getTransportType() == null) {
+			messageInfo.setTransportType("Unknown transport type");
+		}
+	}
+
+	private void handleJAXRSMsg(Message message, MessageInfo messageInfo) {
+		//JAXRS message.
+		String portTypeName = message.getExchange().getService().getName()
+				.toString();
+		messageInfo.setPortType(portTypeName);
+		messageInfo.setOperationName(message.getExchange()
+				.get("org.apache.cxf.resource.operation.name").toString());
+		messageInfo.setTransportType(message.getExchange().getBinding()
+				.getBindingInfo().getBindingId());
+	}
 
     /**
      * Get MessageId string. 
