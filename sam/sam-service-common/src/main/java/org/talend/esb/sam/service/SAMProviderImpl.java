@@ -77,7 +77,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
         FlowCollection flowCollection = new FlowCollection();
         if (offset < rowCount) {
-            String dataQuery = dialect.getDataQuery(criteria);
+            String dataQuery = dialect.getFlowsQuery(criteria);
             List<Flow> flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
             flowCollection.setFlows(flows);
         }

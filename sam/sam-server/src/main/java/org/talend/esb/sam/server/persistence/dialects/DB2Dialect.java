@@ -39,12 +39,23 @@ public class DB2Dialect extends AbstractDatabaseDialect {
         ") as T " +
         "where RN between :offset and :offset + :limit + 1";
 
+    private static final String FLOWS_QUERY = 
+        "";
+    
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
      */
     @Override
     String getQuery() {
         return QUERY;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
+     */
+    @Override
+    String getFlowsQuery() {
+        return FLOWS_QUERY;
     }
 
 }

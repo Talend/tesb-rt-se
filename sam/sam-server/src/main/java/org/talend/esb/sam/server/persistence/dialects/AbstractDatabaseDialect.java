@@ -63,6 +63,23 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         }
         return result;
     }
+    
+    
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.DatabaseDialect#getFlowsQuery(org.talend.esb.sam.server.persistence.dialects.QueryFilter)
+     */
+    @Override
+    public String getFlowsQuery(QueryFilter filter) {
+        String query = getFlowsQuery();
+        String whereClause = filter.getWhereClause();
+        String result = null;
+        if (whereClause != null && whereClause.length() > 0) {
+            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);  
+        } else {
+            result = query.replaceAll(SUBSTITUTION_STRING, "");
+        }
+        return result;
+    }
 
     /**
      * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
@@ -71,5 +88,14 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
      * @return the query
      */
     abstract String getQuery();
+    
+    
+    /**
+     * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
+     * for where clause.
+     *
+     * @return the query
+     */
+    abstract String getFlowsQuery();
 
 }

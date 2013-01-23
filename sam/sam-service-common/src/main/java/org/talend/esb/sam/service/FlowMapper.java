@@ -10,7 +10,7 @@ public class FlowMapper implements RowMapper<Flow> {
     @Override
     public Flow mapRow(ResultSet rs, int rowNum) throws SQLException {
         Flow flow = new Flow();
-        flow.setId(String.valueOf(rs.getLong("ID")));
+        flow.setId(rs.getString("MI_FLOW_ID"));
         return flow;
     }
 
