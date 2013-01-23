@@ -42,9 +42,18 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getFlows(Integer offset, List<String> params) {
+        return Response.ok(provider.getFlows(offset, convertParams(params))).build();
+    }
+    
+    private Map<String, String> convertParams(List<String> params) {
         Map<String, String> paramsMap = new HashMap<String, String>();
-        // TODO Convert params to paramsMap
-        return Response.ok(provider.getFlows(offset, paramsMap)).build();
+        for (String param : params) {
+            String[] p = param.split(",");
+            if(p.length == 2) {
+                paramsMap.put(p[0], p[1]);
+            }
+        }
+        return paramsMap;
     }
 
 }
