@@ -26,6 +26,7 @@ package org.talend.esb.sam.server.persistence.dialects;
  * @author pvasilchenko
  */
 public class SqlServerDialect extends AbstractDatabaseDialect {
+
     private static final String QUERY = "select "
             + "[MI_FLOW_ID], [EI_TIMESTAMP], [EI_EVENT_TYPE], "
             + "[MI_PORT_TYPE], [MI_OPERATION_NAME], [MI_TRANSPORT_TYPE], "
@@ -44,6 +45,8 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
             + ") as subq2 where rn > :offset "
             + ") "
             + "order by [EI_TIMESTAMP] DESC";
+    
+    private static final String FLOWS_QUERY = "";
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
@@ -51,6 +54,14 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
     @Override
     String getQuery() {
         return QUERY;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
+     */
+    @Override
+    String getFlowsQuery() {
+        return FLOWS_QUERY;
     }
 
 }

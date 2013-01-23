@@ -44,5 +44,13 @@ public interface DatabaseDialect {
      * @return the data query
      */
     String getDataQuery(QueryFilter filter);
+    
+    /**
+     * Should return a query that list flows.
+     *
+     * @param filter the filter
+     * @return the data query
+     */
+    String getFlowsQuery(QueryFilter filter);
 
 }

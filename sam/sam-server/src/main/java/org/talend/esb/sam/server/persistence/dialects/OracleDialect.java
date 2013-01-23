@@ -37,6 +37,8 @@ public class OracleDialect extends AbstractDatabaseDialect{
         + "order by MAX(EI_TIMESTAMP) DESC) E WHERE rownum <= (:offset + :limit)"
         + ") where rn > :offset "
         + ") order by EI_TIMESTAMP DESC";
+    
+    private static final String FLOWS_QUERY = "";
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
@@ -44,6 +46,14 @@ public class OracleDialect extends AbstractDatabaseDialect{
     @Override
     String getQuery() {
         return QUERY;
+    }
+    
+    /* (non-Javadoc)
+     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
+     */
+    @Override
+    String getFlowsQuery() {
+        return FLOWS_QUERY;
     }
 
 }

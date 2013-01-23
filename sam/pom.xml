@@ -21,7 +21,8 @@
         <module>sam-server-war</module>
         <module>derby-starter</module>
         <module>datasource-service</module>
-        <module>sam-service</module>
+        <module>sam-service-common</module>
+        <module>sam-service-rest</module>
     </modules>
 
 	<build>

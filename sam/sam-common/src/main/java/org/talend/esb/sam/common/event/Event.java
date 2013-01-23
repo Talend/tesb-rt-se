@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -33,6 +35,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * The Class Event.
  */
+@XmlRootElement
 public class Event implements Serializable {
     // TODO Filename, line number for logging events
 
