@@ -1,5 +1,7 @@
 package org.talend.esb.sam.service;
 
+import java.util.List;
+
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
@@ -12,5 +14,5 @@ public interface SAMProvider {
 
     FlowDetails getFlowDetails(String flowID);
 
-    FlowCollection getFlows(CriteriaAdapter criteria);
+    List<Flow> getFlows(CriteriaAdapter criteria);
 }

@@ -6,14 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
-
+    
+    @Context
+    protected UriInfo uriInfo;
+    
     public void setProvider(SAMProvider provider) {
         this.provider = provider;
     }
@@ -44,7 +49,17 @@ public class SAMRestServiceImpl implements SAMRestService {
     @Override
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        return Response.ok(provider.getFlows(adapter)).build();
+        FlowCollection flowCollection = new FlowCollection();
+        List<Flow> flows = provider.getFlows(adapter);
+        for (Flow flow : flows) {
+            try {
+                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/flow/").concat(flow.getId())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        flowCollection.setFlows(flows);
+        return Response.ok(flowCollection).build();
     }
     
     private Map<String, String[]> convertParams(List<String> params) {
