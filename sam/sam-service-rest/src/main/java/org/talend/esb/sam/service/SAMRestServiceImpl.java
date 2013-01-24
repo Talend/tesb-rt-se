@@ -15,10 +15,10 @@ import org.talend.esb.sam.server.ui.CriteriaAdapter;
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
-    
+
     @Context
     protected UriInfo uriInfo;
-    
+
     public void setProvider(SAMProvider provider) {
         this.provider = provider;
     }
@@ -43,7 +43,18 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getFlow(String flowID) {
-        return Response.ok(provider.getFlowDetails(flowID)).build();
+        FlowDetails flowDetails = new FlowDetails();
+        flowDetails.setId(flowID);
+        List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
+        for (FlowEvent flow : flowEvents) {
+            try {
+                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(flow.getId())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        flowDetails.setEvents(flowEvents);
+        return Response.ok(flowDetails).build();
     }
 
     @Override
@@ -61,13 +72,13 @@ public class SAMRestServiceImpl implements SAMRestService {
         flowCollection.setFlows(flows);
         return Response.ok(flowCollection).build();
     }
-    
+
     private Map<String, String[]> convertParams(List<String> params) {
         Map<String, String[]> paramsMap = new HashMap<String, String[]>();
         for (String param : params) {
             String[] p = param.split(",");
-            if(p.length == 2) {
-                paramsMap.put(p[0], new String[]{ p[1]} );
+            if (p.length == 2) {
+                paramsMap.put(p[0], new String[] { p[1] });
             }
         }
         return paramsMap;

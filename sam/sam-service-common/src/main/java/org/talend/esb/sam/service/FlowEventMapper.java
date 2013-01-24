@@ -10,7 +10,7 @@ public class FlowEventMapper implements RowMapper<FlowEvent> {
     @Override
     public FlowEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
         FlowEvent event = new FlowEvent();
-        event.setID(String.valueOf(rs.getLong("ID")));
+        event.setId(String.valueOf(rs.getLong("ID")));
         event.setType(rs.getString("EI_EVENT_TYPE"));
         return event;
     }

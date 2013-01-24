@@ -1,9 +1,21 @@
 package org.talend.esb.sam.service;
 
+import java.net.URI;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class FlowEvent {
+    
+    private URI uri;
+
+    public URI getUri() {
+        return uri;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
     
     private String Type;
     
@@ -15,13 +27,13 @@ public class FlowEvent {
         Type = type;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return Id;
     }
 
-    public void setID(String iD) {
-        ID = iD;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
-    private String ID;
+    private String Id;
 }

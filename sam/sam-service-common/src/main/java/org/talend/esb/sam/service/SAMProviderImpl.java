@@ -60,12 +60,8 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public FlowDetails getFlowDetails(String flowID) {
-        FlowDetails flow = new FlowDetails();
-        flow.setId(flowID);
-        List<FlowEvent> list = getSimpleJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper, Collections.singletonMap("flowID", flowID));
-        flow.setEvents(list);
-        return flow;
+    public List<FlowEvent> getFlowDetails(String flowID) {
+        return getSimpleJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper, Collections.singletonMap("flowID", flowID));
     }
 
     @Override
