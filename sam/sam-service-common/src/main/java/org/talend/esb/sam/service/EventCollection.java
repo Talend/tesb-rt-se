@@ -1,21 +1,21 @@
 package org.talend.esb.sam.service;
 
 import java.net.URI;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class EventCollection {
     
-    private Map<String, URI> events;
+    private List<URI> events;
 
-    public Map<String, URI> getEvents() {
+    public List<URI> getEvents() {
         return events;
     }
 
-    public void setEvents(Map<String, URI> events) {
-        this.events = events;
+    public void setEvents(List<URI> eventLinks) {
+        this.events = eventLinks;
     }
     
 }

@@ -2,6 +2,7 @@ package org.talend.esb.sam.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +33,16 @@ public class SAMRestServiceImpl implements SAMRestService {
     @Override
     public Response getEvents(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        EventCollection eventCollection = new EventCollection();
         List<Event> events = provider.getEvents(adapter);
-        Map<String, URI> eventLinks = new HashMap<String, URI>();
+        List<URI> eventLinks = new ArrayList<URI>();
         for (Event event : events) {
             try {
-            	eventLinks.put("", new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
+            	eventLinks.add(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         }
-        eventCollection.setEvents(eventLinks);
-        return Response.ok(eventCollection).build();
+        return Response.ok(eventLinks).build();
     }
 
     @Override

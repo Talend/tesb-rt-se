@@ -9,9 +9,6 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
-import com.google.gson.JsonObject;
-
-
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
     private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS "
