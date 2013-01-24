@@ -10,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 public class SAMRestServiceImpl implements SAMRestService {
@@ -30,14 +31,18 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getEvents(Integer offset, Integer limit, List<String> params) {
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
         EventCollection eventCollection = new EventCollection();
-        HashMap<String, URI> events = new HashMap<String, URI>();
-        try {
-            events.put("key", new URI("http://value"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        List<Event> events = provider.getEvents(adapter);
+        Map<String, URI> eventLinks = new HashMap<String, URI>();
+        for (Event event : events) {
+            try {
+            	eventLinks.put("", new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
-        eventCollection.setEvents(events);
+        eventCollection.setEvents(eventLinks);
         return Response.ok(eventCollection).build();
     }
 
