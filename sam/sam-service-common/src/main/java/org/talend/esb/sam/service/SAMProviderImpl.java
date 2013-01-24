@@ -9,6 +9,8 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
+import com.google.gson.JsonObject;
+
 
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
@@ -54,9 +56,19 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public EventCollection getEvents(CriteriaAdapter criteria) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Event> getEvents(CriteriaAdapter criteria) {
+        final String whereClause = criteria.getWhereClause();
+        final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
+                (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
+        int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
+        int offset = Integer.parseInt(criteria.getValue("offset").toString());
+        List<Event> events = null;
+        if (offset < rowCount) {
+            String dataQuery = dialect.getDataQuery(criteria);
+            events = getSimpleJdbcTemplate().query(dataQuery,
+            		eventMapper, criteria);
+        }
+        return events;
     }
 
     @Override

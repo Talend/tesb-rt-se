@@ -10,7 +10,7 @@ public interface SAMProvider {
     
     Event getEventDetails(String eventID);
     
-    EventCollection getEvents(CriteriaAdapter criteria);
+    List<Event> getEvents(CriteriaAdapter criteria);
 
     List<FlowEvent> getFlowDetails(String flowID);
 
