@@ -40,7 +40,7 @@ public class Client {
 		for (int i = 0; i < 10; i++) {
 			Order ord = client.getOrder(orderId);
 
-			System.out.println("invoaction number:"+i);
+			System.out.println("invocation number:"+i);
 			System.out.println("Order description is::"+ord.getDescription());
 			if (LOG.isLoggable(Level.INFO)) {
 				LOG.log(Level.INFO, ord.getDescription());

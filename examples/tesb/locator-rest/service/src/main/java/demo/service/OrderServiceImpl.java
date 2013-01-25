@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 		for (Order order : orderList) {
 			if (order.getOrderId().equals(id)) {
 				System.out.println("Sending order id="+id+" to the client...");
-				System.out.println("Order Descriprion is:"+order.getDescription());
+				System.out.println("Order Description is:"+order.getDescription());
 				return order;
 			}
 		}
