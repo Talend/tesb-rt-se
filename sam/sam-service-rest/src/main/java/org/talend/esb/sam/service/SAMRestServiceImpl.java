@@ -1,7 +1,9 @@
 package org.talend.esb.sam.service;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,12 +50,11 @@ public class SAMRestServiceImpl implements SAMRestService {
     @Override
     public Response getFlow(String flowID) {
         FlowDetails flowDetails = new FlowDetails();
-        flowDetails.setId(flowID);
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
         for (FlowEvent flow : flowEvents) {
             try {
-                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(flow.getId())));
-            } catch (URISyntaxException e) {
+                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/").concat(String.valueOf(flow.getId()))));
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         }

@@ -37,8 +37,6 @@ public class MySQLDialect extends AbstractDatabaseDialect {
             + "LEFT JOIN EVENTS ON "
             + "SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID "
             + "order by EI_TIMESTAMP DESC";
-    
-    private static final String FLOWS_QUERY = "";
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
@@ -46,14 +44,6 @@ public class MySQLDialect extends AbstractDatabaseDialect {
     @Override
     String getQuery() {
         return QUERY;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
-     */
-    @Override
-    String getFlowsQuery() {
-        return FLOWS_QUERY;
     }
 
 }
