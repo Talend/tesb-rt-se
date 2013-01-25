@@ -38,12 +38,6 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) "
             + "DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY"
             + ") order by EI_TIMESTAMP DESC";
-
-    private static final String FLOWS_QUERY = 
-            "SELECT MI_FLOW_ID, MAX(EI_TIMESTAMP) as DT FROM Events " +
-            "WHERE (MI_FLOW_ID is not null) %%FILTER%% " +
-            "GROUP BY MI_FLOW_ID " +
-            "ORDER BY DT DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY";
     
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
@@ -51,13 +45,5 @@ public class DerbyDialect extends AbstractDatabaseDialect {
     @Override
     String getQuery() {
         return QUERY;
-    }
-    
-    /* (non-Javadoc)
-     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
-     */
-    @Override
-    String getFlowsQuery() {
-        return FLOWS_QUERY;
     }
 }

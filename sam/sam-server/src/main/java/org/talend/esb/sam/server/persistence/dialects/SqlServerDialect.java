@@ -45,8 +45,7 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
             + ") as subq2 where rn > :offset "
             + ") "
             + "order by [EI_TIMESTAMP] DESC";
-    
-    private static final String FLOWS_QUERY = "";
+
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
@@ -55,13 +54,6 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
     String getQuery() {
         return QUERY;
     }
-    
-    /* (non-Javadoc)
-     * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getFlowsQuery()
-     */
-    @Override
-    String getFlowsQuery() {
-        return FLOWS_QUERY;
-    }
+
 
 }

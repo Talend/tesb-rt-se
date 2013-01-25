@@ -9,7 +9,6 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
-
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
     private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS "
@@ -18,8 +17,9 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     private static final String SELECT_FLOW_QUERY = "select "
             + "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
             + "ORIG_HOSTNAME, ORIG_IP, ORIG_PRINCIPAL, MI_PORT_TYPE, MI_OPERATION_NAME, "
-            + "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, " + "CUST_KEY, CUST_VALUE " + "from EVENTS "
-            + "left join EVENTS_CUSTOMINFO on EVENTS_CUSTOMINFO.EVENT_ID = EVENTS.ID " + "where MI_FLOW_ID = :flowID";
+            + "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, " + "CUST_KEY, CUST_VALUE "
+            + "from EVENTS " + "left join EVENTS_CUSTOMINFO on EVENTS_CUSTOMINFO.EVENT_ID = EVENTS.ID "
+            + "where MI_FLOW_ID = :flowID";
 
     private static final String SELECT_EVENT_QUERY = "select "
             + "ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
@@ -38,14 +38,15 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     private final RowMapper<Event> eventMapper = new EventMapper();
-    
+
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
-    
-    private final RowMapper<Flow> flowMapper = new FlowMapper();
+
+    // private final RowMapper<Flow> flowMapper = new FlowMapper();
 
     @Override
     public Event getEventDetails(String eventID) {
-        List<Event> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper, Collections.singletonMap("eventID", eventID));
+        List<Event> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
+                Collections.singletonMap("eventID", eventID));
         if (list.isEmpty()) {
             return null;
         } else {
@@ -54,34 +55,42 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public EventCollection getEvents(CriteriaAdapter criteria) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public FlowDetails getFlowDetails(String flowID) {
-        FlowDetails flow = new FlowDetails();
-        flow.setId(flowID);
-        List<FlowEvent> list = getSimpleJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper, Collections.singletonMap("flowID", flowID));
-        flow.setEvents(list);
-        return flow;
-    }
-
-    @Override
-    public FlowCollection getFlows(CriteriaAdapter criteria) {
+    public List<Event> getEvents(CriteriaAdapter criteria) {
         final String whereClause = criteria.getWhereClause();
         final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
                 (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
         int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
-        FlowCollection flowCollection = new FlowCollection();
+        List<Event> events = null;
         if (offset < rowCount) {
-            String dataQuery = dialect.getFlowsQuery(criteria);
-            List<Flow> flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
-            flowCollection.setFlows(flows);
+            String dataQuery = dialect.getDataQuery(criteria);
+            events = getSimpleJdbcTemplate().query(dataQuery, eventMapper, criteria);
         }
-        return flowCollection;
+        return events;
+    }
+
+    @Override
+    public List<FlowEvent> getFlowDetails(String flowID) {
+        return getSimpleJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper,
+                Collections.singletonMap("flowID", flowID));
+    }
+
+    @Override
+    public List<Flow> getFlows(CriteriaAdapter criteria) {
+        final String whereClause = criteria.getWhereClause();
+        final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
+                (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
+        int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
+        int offset = Integer.parseInt(criteria.getValue("offset").toString());
+        List<Flow> flows = null;
+        if (offset < rowCount) {
+            // TODO also return count of elements in DB (rowCount), return type
+            // should be FlowCollection
+            // String dataQuery = dialect.getFlowsQuery(criteria);
+            // flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper,
+            // criteria);
+        }
+        return flows;
     }
 
 }

@@ -1,18 +1,27 @@
 package org.talend.esb.sam.service;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
+
+    @Context
+    protected UriInfo uriInfo;
 
     public void setProvider(SAMProvider provider) {
         this.provider = provider;
@@ -25,34 +34,56 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getEvents(Integer offset, Integer limit, List<String> params) {
-        EventCollection eventCollection = new EventCollection();
-        HashMap<String, URI> events = new HashMap<String, URI>();
-        try {
-            events.put("key", new URI("http://value"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
+        List<Event> events = provider.getEvents(adapter);
+        List<URI> eventLinks = new ArrayList<URI>();
+        for (Event event : events) {
+            try {
+            	eventLinks.add(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
-        eventCollection.setEvents(events);
-        return Response.ok(eventCollection).build();
+        return Response.ok(eventLinks).build();
     }
 
     @Override
     public Response getFlow(String flowID) {
-        return Response.ok(provider.getFlowDetails(flowID)).build();
+        FlowDetails flowDetails = new FlowDetails();
+        List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
+        for (FlowEvent flow : flowEvents) {
+            try {
+                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/").concat(String.valueOf(flow.getId()))));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        flowDetails.setEvents(flowEvents);
+        return Response.ok(flowDetails).build();
     }
 
     @Override
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        return Response.ok(provider.getFlows(adapter)).build();
+        FlowCollection flowCollection = new FlowCollection();
+        List<Flow> flows = provider.getFlows(adapter);
+        for (Flow flow : flows) {
+            try {
+                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/flow/").concat(flow.getId())));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        flowCollection.setFlows(flows);
+        return Response.ok(flowCollection).build();
     }
-    
+
     private Map<String, String[]> convertParams(List<String> params) {
         Map<String, String[]> paramsMap = new HashMap<String, String[]>();
         for (String param : params) {
             String[] p = param.split(",");
-            if(p.length == 2) {
-                paramsMap.put(p[0], new String[]{ p[1]} );
+            if (p.length == 2) {
+                paramsMap.put(p[0], new String[] { p[1] });
             }
         }
         return paramsMap;
