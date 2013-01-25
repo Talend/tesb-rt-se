@@ -80,17 +80,15 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
      */
     @Override
     public void handleMessage(Message message) throws Fault {
-        
-        String operationName = null;
-        BindingOperationInfo boi = null;
-        
-        boi = message.getExchange().getBindingOperationInfo();
+
+        //ignore the messages from SAM Server service itself
+        BindingOperationInfo boi = message.getExchange().getBindingOperationInfo();
         if (null != boi){
-            operationName = boi.getName().toString();
+            String operationName = boi.getName().toString();
+            if (SAM_OPERATION.equals(operationName)) return;
         }
-        if (SAM_OPERATION.equals(operationName)) return;
-        //and should not return here, REST msg will execute here.
-        
+
+        //check MessageID
         checkMessageID(message);
 
         Event event = mapper.mapToEvent(message);

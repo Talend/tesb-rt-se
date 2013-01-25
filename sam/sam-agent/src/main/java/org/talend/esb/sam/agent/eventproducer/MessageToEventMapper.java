@@ -81,14 +81,15 @@ public class MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
-        messageInfo.setMessageId(getMessageId(message));
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
 
-        String portTypeName = message.getExchange().getBinding().getBindingInfo().getService().getInterface()
-            .getName().toString();
-        messageInfo.setPortType(portTypeName);
-
-        messageInfo.setOperationName(getOperationName(message));
+        if (!isRestMessage(message)) {
+            messageInfo.setMessageId(getMessageId(message));
+            String portTypeName = message.getExchange().getBinding().getBindingInfo().getService()
+                .getInterface().getName().toString();
+            messageInfo.setPortType(portTypeName);
+            messageInfo.setOperationName(getOperationName(message));
+        }
 
         if (message.getExchange().getBinding() instanceof SoapBinding) {
             SoapBinding soapBinding = (SoapBinding)message.getExchange().getBinding();
@@ -113,6 +114,19 @@ public class MessageToEventMapper {
             originator.setIp("Unknown ip address");
         }
         originator.setProcessId(Converter.getPID());
+
+        String httpMethod = (String)message.get(Message.HTTP_REQUEST_METHOD);
+        if (null != httpMethod) {
+            event.getCustomInfo().put("HTTP_Method", httpMethod);
+        }
+
+        String contentType = (String)message.get(Message.CONTENT_TYPE);
+        event.getCustomInfo().put("Content_Type", contentType);
+
+        Integer responseCode = (Integer)message.get(Message.RESPONSE_CODE);
+        if (null != responseCode) {
+            event.getCustomInfo().put("Response_Code", responseCode.toString());
+        }
 
         SecurityContext sc = message.get(SecurityContext.class);
         if (sc != null && sc.getUserPrincipal() != null) {
@@ -287,5 +301,20 @@ public class MessageToEventMapper {
         event.setContent(CUT_START_TAG
                 + event.getContent().substring(0, contentLength) + CUT_END_TAG);
         event.setContentCut(true);
+    }
+    
+    /**
+     * check if a Message is a Rest Message
+     * @param message
+     * @return
+     */
+    private boolean isRestMessage(Message message) {
+        if (MessageUtils.isOutbound(message)){
+            Boolean isRest = (Boolean)message.get(Message.REST_MESSAGE);
+            return isRest != null && isRest.booleanValue();
+        }else {
+            String resName = (String)message.getExchange().get("org.apache.cxf.resource.operation.name");
+            return resName != null && !resName.isEmpty();
+        }
     }
 }
