@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:osgi="http://www.springframework.org/schema/osgi"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
     ">
+    
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:/datasource-osgi.xml"/>
+    <import resource="classpath:/persistence.xml"/>
+    
+    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
+        <prop key="db.datasource">ds-derby</prop>
+        <prop key="db.dialect">derbyDialect</prop>
+    </osgix:cm-properties>
 
+    <!-- placeholder configurer -->
+    <context:property-placeholder properties-ref="sam-server-props" />
+
+    <bean id="restService" class="org.talend.esb.sam.service.SAMRestServiceImpl">
+        <property name="provider" ref="providerBean"/>
+    </bean>
+    
     <jaxrs:server id="SAMService" address="/sam">
         <jaxrs:serviceBeans>
-            <bean class="org.talend.esb.sam.service.SAMRestServiceImpl">
-            </bean>
+             <ref bean="restService" />
         </jaxrs:serviceBeans>
     </jaxrs:server>
 </beans>

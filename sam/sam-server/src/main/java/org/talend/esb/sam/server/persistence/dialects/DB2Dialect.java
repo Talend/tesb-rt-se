@@ -38,7 +38,7 @@ public class DB2Dialect extends AbstractDatabaseDialect {
         "order by EI_TIMESTAMP DESC " +
         ") as T " +
         "where RN between :offset and :offset + :limit + 1";
-
+    
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
      */

@@ -38,6 +38,7 @@ public class OracleDialect extends AbstractDatabaseDialect{
         + ") where rn > :offset "
         + ") order by EI_TIMESTAMP DESC";
 
+
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
      */

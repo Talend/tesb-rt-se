@@ -133,7 +133,11 @@
                             org.apache.commons.dbcp,
                             derbyclient
                         </Require-Bundle>
--->
+                        -->
+                        <Export-Package>
+                            org.talend.esb.sam.server.persistence.dialects,
+                            org.talend.esb.sam.server.ui
+                            </Export-Package>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
                             org.springframework.beans,

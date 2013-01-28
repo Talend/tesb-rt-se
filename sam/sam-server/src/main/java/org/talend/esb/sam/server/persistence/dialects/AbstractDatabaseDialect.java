@@ -63,13 +63,14 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         }
         return result;
     }
-
-    /**
+    
+    
+   /**
      * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
      * for where clause.
      *
      * @return the query
      */
     abstract String getQuery();
-
+    
 }

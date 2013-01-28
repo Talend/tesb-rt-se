@@ -1,53 +1,78 @@
-
 package org.talend.esb.sam.service;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.MatrixParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.talend.esb.sam.common.event.Event;
+import org.talend.esb.sam.server.ui.CriteriaAdapter;
+
 
 public class SAMRestServiceImpl implements SAMRestService {
 
- //   private static final Logger LOG = Logger.getLogger(SAMRestServiceImpl.class.getPackage().getName());
+    SAMProvider provider;
 
-	@Override
-	public Response getEvent(String arg0) {
-		// TODO Auto-generated method stub
-		return Response.ok(new Event()).build();
-	}
+    @Context
+    protected UriInfo uriInfo;
 
-	@Override
-	public Response getEvents(Integer offset, List<String> params) {
-		EventCollection eventCollection = new EventCollection();
-		HashMap<String, URI> events = new HashMap<String, URI>();
-		try {
-            events.put("key", new URI("http://value"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+    public void setProvider(SAMProvider provider) {
+        this.provider = provider;
+    }
+
+    @Override
+    public Response getEvent(String arg0) {
+        return Response.ok(provider.getEventDetails(arg0)).build();
+    }
+
+    @Override
+    public Response getFlow(String flowID) {
+        FlowDetails flowDetails = new FlowDetails();
+        List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
+        for (FlowEvent flow : flowEvents) {
+            try {
+                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/").concat(String.valueOf(flow.getId()))));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
-		eventCollection.setEvents(events);
-		return Response.ok(eventCollection).build();
-	}
+        flowDetails.setEvents(flowEvents);
+        return Response.ok(flowDetails).build();
+    }
 
-	@Override
-	public Response getFlow(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Response getFlows(Integer offset, Integer limit, List<String> params) {
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
+        FlowCollection flowCollection = new FlowCollection();
+        
+        flowCollection = provider.getFlows(adapter);
+//        for (Flow flow : flowCollection.getFlows()) {
+//            try {
+//                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/").concat(String.valueOf(flow.getId()))));
+//            } catch (MalformedURLException e) {
+//				e.printStackTrace();
+//			}
+//        }
+        return Response.ok(flowCollection).build();
+    }
 
-	@Override
-	public Response getFlows(Integer offset, List<String> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private Map<String, String[]> convertParams(List<String> params) {
+        Map<String, String[]> paramsMap = new HashMap<String, String[]>();
+        for (String param : params) {
+            String[] p = param.split(",");
+            if (p.length == 2) {
+                paramsMap.put(p[0], new String[] { p[1] });
+            }
+        }
+        return paramsMap;
+    }
 
 }

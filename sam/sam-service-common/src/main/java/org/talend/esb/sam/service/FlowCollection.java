@@ -1,20 +1,29 @@
 package org.talend.esb.sam.service;
 
-import java.net.URI;
-import java.util.Map;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class FlowCollection {
-    
-    private Map<String, URI> flows;
 
-    public Map<String, URI> getFlowss() {
+    private int count;
+    
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    private List<Flow> flows;
+
+    public List<Flow> getFlows() {
         return flows;
     }
 
-    public void setFlows(Map<String, URI> flows) {
+    public void setFlows(List<Flow> flows) {
         this.flows = flows;
     }
 }

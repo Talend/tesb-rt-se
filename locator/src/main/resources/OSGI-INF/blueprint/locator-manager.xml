@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+#%L
+   Service Locator Client for CXF
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.osgi.org/xmlns/blueprint/v1.0.0
+    http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd" >
+
+  <!-- placeholder configurer -->
+  <cm:property-placeholder persistent-id="org.talend.esb.locator" update-strategy="reload">
+    <cm:default-properties>
+      <cm:property name="locator.endpoints" value="localhost:2181"/>
+      <cm:property name="endpoint.prefix" value="" />
+      <cm:property name="endpoint.http.prefix" value="" />
+      <cm:property name="endpoint.https.prefix" value=""/>
+      <cm:property name="locator.strategy" value="defaultSelectionStrategy"/>
+      <cm:property name="locator.reloadAdressesCount" value="10"/>
+      <cm:property name="connection.timeout" value="5000"/>
+      <cm:property name="session.timeout" value="5000"/>
+    </cm:default-properties>
+  </cm:property-placeholder>
+
+  <bean id="serviceLocatorBackend"
+      class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"
+      destroy-method="disconnect">
+    <property name="locatorEndpoints" value="${locator.endpoints}"/>
+    <property name="connectionTimeout" value="${connection.timeout}"/>
+    <property name="sessionTimeout" value="${session.timeout}"/>
+  </bean>
+
+  <bean id="serviceLocator"
+      class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl">
+    <property name="backend" ref="serviceLocatorBackend"/>
+  </bean>
+
+<!--
+  <bean id="serviceLocator"
+      class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
+      destroy-method="disconnect">
+    <property name="locatorEndpoints" value="${locator.endpoints}"/>
+    <property name="connectionTimeout" value="${connection.timeout}"/>
+    <property name="sessionTimeout" value="${session.timeout}"/>
+  </bean>
+-->
+  <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
+    <property name="serviceLocator" ref="serviceLocator" />
+    <property name="endpointPrefix" value="${endpoint.prefix}"/>
+    <property name="endpointPrefixes">
+      <map>
+        <entry key="HTTP" value="${endpoint.http.prefix}" />
+        <entry key="HTTPS" value="${endpoint.https.prefix}" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="defaultSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategyFactory">
+  </bean>
+
+  <bean id="evenDistributionSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategyFactory">
+    <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
+  </bean>
+
+  <bean id="randomSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategyFactory">
+    <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
+  </bean>
+
+  <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
+    <property name="locatorSelectionStrategies">
+      <map>
+        <entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategyFactory" />
+        <entry key="randomSelectionStrategy" value-ref="randomSelectionStrategyFactory" />
+        <entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategyFactory" />
+      </map>
+    </property>
+    <property name="serviceLocator" ref="serviceLocator" />
+    <property name="defaultLocatorSelectionStrategy" value="${locator.strategy}" />
+  </bean>
+
+  <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManagerImpl">
+    <property name="locatorRegistrar" ref="locatorRegistrar" />
+    <property name="locatorClientEnabler" ref="locatorClientEnabler" />
+  </bean>
+  
+  <service id="locatorManagerService" interface="org.talend.esb.servicelocator.cxf.ServiceLocatorManager" ref="locatorManager"/>
+
+  <bean id="locatorFeature" class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+
+  <service id="locatorFeatureService" ref="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+
+</blueprint>

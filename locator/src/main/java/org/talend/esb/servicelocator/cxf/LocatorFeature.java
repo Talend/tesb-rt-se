@@ -33,7 +33,6 @@ import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
-import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 /**
  * CXF feature to enable the locator client with an CXF service.
@@ -57,7 +56,7 @@ public class LocatorFeature extends AbstractFeature {
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
         slm.listenForAllServers(bus);
-        slm.listenForAllClients();
+        slm.listenForAllClients(bus, selectionStrategy);
 
     }
 
