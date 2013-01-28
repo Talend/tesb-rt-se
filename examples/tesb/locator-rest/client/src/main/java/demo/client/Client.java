@@ -20,10 +20,14 @@
 
 package demo.client;
 
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.namespace.QName;
+
 import demo.common.*;
+import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
@@ -31,23 +35,56 @@ public class Client {
 	private static final Logger LOG = Logger.getLogger(Client.class
 			.getPackage().getName());
 
-	public static void main(String[] args) throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "META-INF/client.xml" });
-		OrderService client = (OrderService) context.getBean("restClient");
-		String orderId = "1";
-		
-		for (int i = 0; i < 10; i++) {
-			Order ord = client.getOrder(orderId);
 
-			System.out.println("invocation number:"+i);
-			System.out.println("Order description is::"+ord.getDescription());
-			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO, ord.getDescription());
-			}
-			
-			Thread.sleep(2000);
+        public void runCodeClient() throws Exception {
+            System.out.println("*** Running the client initialized from the code ***");
+
+            JAXRSClientFactoryBean factoryBean = new JAXRSClientFactoryBean();
+            factoryBean.setAddress("locator://some_usefull_information");
+            factoryBean.setServiceClass(OrderService.class);
+            factoryBean.setServiceName(new QName("http://service.demo/", "OrderServiceImpl"));
+            
+            org.talend.esb.servicelocator.cxf.LocatorFeature feature =
+                new org.talend.esb.servicelocator.cxf.LocatorFeature();
+            feature.setSelectionStrategy("evenDistributionSelectionStrategy");  
+            factoryBean.setFeatures(Collections.singletonList(feature)); 
+
+
+            OrderService client = factoryBean.create(OrderService.class);
+            useOrderService(client); 
+        }
+
+        public void runSpringClient() throws Exception {
+            System.out.println("*** Running Spring initialized client ***");
+
+
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "META-INF/client.xml" });
+            OrderService client = (OrderService) context.getBean("restClient");
+            useOrderService(client); 
+        }
+
+        private void useOrderService(OrderService client) throws Exception {
+            String orderId = "1";
+            for (int i = 0; i < 5; i++) {
+		Order ord = client.getOrder(orderId);
+
+		System.out.println("invoaction number:"+i);
+		System.out.println("Order description is::"+ord.getDescription());
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, ord.getDescription());
 		}
+		
+		Thread.sleep(2000);
+	    }
+        } 
+
+	public static void main(String[] args) throws Exception {
+		Client client = new Client();
+                client.runSpringClient();
+                client.runCodeClient();
+		
+		
 		System.exit(0);
 
 	}
