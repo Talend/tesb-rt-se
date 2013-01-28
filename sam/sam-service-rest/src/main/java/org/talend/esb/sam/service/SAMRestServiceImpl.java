@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
+
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
@@ -30,21 +31,6 @@ public class SAMRestServiceImpl implements SAMRestService {
     @Override
     public Response getEvent(String arg0) {
         return Response.ok(provider.getEventDetails(arg0)).build();
-    }
-
-    @Override
-    public Response getEvents(Integer offset, Integer limit, List<String> params) {
-        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        List<Event> events = provider.getEvents(adapter);
-        List<URI> eventLinks = new ArrayList<URI>();
-        for (Event event : events) {
-            try {
-            	eventLinks.add(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        return Response.ok(eventLinks).build();
     }
 
     @Override
@@ -66,15 +52,15 @@ public class SAMRestServiceImpl implements SAMRestService {
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
         FlowCollection flowCollection = new FlowCollection();
-        List<Flow> flows = provider.getFlows(adapter);
-        for (Flow flow : flows) {
-            try {
-                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/flow/").concat(flow.getId())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        flowCollection.setFlows(flows);
+        
+        flowCollection = provider.getFlows(adapter);
+//        for (Flow flow : flowCollection.getFlows()) {
+//            try {
+//                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/").concat(String.valueOf(flow.getId()))));
+//            } catch (MalformedURLException e) {
+//				e.printStackTrace();
+//			}
+//        }
         return Response.ok(flowCollection).build();
     }
 

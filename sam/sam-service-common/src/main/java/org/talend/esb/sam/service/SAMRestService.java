@@ -15,11 +15,6 @@ import javax.ws.rs.core.Response;
 public interface SAMRestService {
 
     @GET
-    @Path("events")
-    @Produces({ "application/json" })
-    Response getEvents(@QueryParam("offset") @DefaultValue("0") Integer offset, @QueryParam("limit") @DefaultValue("10") Integer limit, @MatrixParam("params") @DefaultValue("") List<String> params);
-
-    @GET
     @Path("event/{id}")
     @Produces({ "application/json" })
     Response getEvent(@PathParam("id") String id);
