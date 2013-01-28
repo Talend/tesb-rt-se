@@ -9,10 +9,6 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
     private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS "
@@ -43,6 +39,8 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
 
     private final RowMapper<Event> eventMapper = new EventMapper();
 
+    private final RowMapper<Flow> flowMapper = new FlowMapper();
+    
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
 
      @Override
@@ -54,21 +52,6 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         } else {
             return list.get(0);
         }
-    }
-
-    @Override
-    public List<Event> getEvents(CriteriaAdapter criteria) {
-        final String whereClause = criteria.getWhereClause();
-        final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
-                (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
-        int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
-        int offset = Integer.parseInt(criteria.getValue("offset").toString());
-        List<Event> events = null;
-        if (offset < rowCount) {
-            String dataQuery = dialect.getDataQuery(criteria);
-            events = getSimpleJdbcTemplate().query(dataQuery, eventMapper, criteria);
-        }
-        return events;
     }
 
     @Override
@@ -84,17 +67,15 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
                 (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
         int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
-        List<FlowEvent> flows = null;
-        FlowCollection f = new FlowCollection();
+        List<Flow> flows = null;
+        FlowCollection flowCollection = new FlowCollection();
         if (offset < rowCount) {
             String dataQuery = dialect.getDataQuery(criteria);
             flows = getSimpleJdbcTemplate().query(dataQuery,
-            		flowEventMapper, criteria);
+            		flowMapper, criteria);
         }
-        
-        f.setFlows(flows);
-
-       return f;
+        flowCollection.setFlows(flows);
+       return flowCollection;
     }
 
 }

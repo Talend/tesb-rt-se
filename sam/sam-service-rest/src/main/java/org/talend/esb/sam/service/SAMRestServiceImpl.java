@@ -34,21 +34,6 @@ public class SAMRestServiceImpl implements SAMRestService {
     }
 
     @Override
-    public Response getEvents(Integer offset, Integer limit, List<String> params) {
-        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        List<Event> events = provider.getEvents(adapter);
-        List<URI> eventLinks = new ArrayList<URI>();
-        for (Event event : events) {
-            try {
-            	eventLinks.add(new URI(uriInfo.getBaseUri().toString().concat("/event/").concat(event.getPersistedId().toString())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        return Response.ok(eventLinks).build();
-    }
-
-    @Override
     public Response getFlow(String flowID) {
         FlowDetails flowDetails = new FlowDetails();
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
@@ -69,13 +54,13 @@ public class SAMRestServiceImpl implements SAMRestService {
         FlowCollection flowCollection = new FlowCollection();
         
         flowCollection = provider.getFlows(adapter);
-        for (FlowEvent flow : flowCollection.getFlows()) {
-            try {
-                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/").concat(String.valueOf(flow.getId()))));
-            } catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-        }
+//        for (Flow flow : flowCollection.getFlows()) {
+//            try {
+//                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/").concat(String.valueOf(flow.getId()))));
+//            } catch (MalformedURLException e) {
+//				e.printStackTrace();
+//			}
+//        }
         return Response.ok(flowCollection).build();
     }
 
