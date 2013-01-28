@@ -426,7 +426,7 @@
 				<executions>
 					<execution>
 						<id>collect-add-ons</id>
-						<phase>process-resources</phase>
+						<phase>package</phase>
 						<configuration>
 							<target>
 								<copy todir="target/add-ons/sam">
@@ -545,7 +545,7 @@
 					</execution>
                     <execution>
                         <id>patch-features-files</id>
-                        <phase>process-resources</phase>
+                        <phase>package</phase>
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
