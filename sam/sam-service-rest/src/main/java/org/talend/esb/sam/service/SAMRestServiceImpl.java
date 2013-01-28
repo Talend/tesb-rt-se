@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
+
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
@@ -66,15 +67,15 @@ public class SAMRestServiceImpl implements SAMRestService {
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
         FlowCollection flowCollection = new FlowCollection();
-        List<Flow> flows = provider.getFlows(adapter);
-        for (Flow flow : flows) {
+        
+        flowCollection = provider.getFlows(adapter);
+        for (FlowEvent flow : flowCollection.getFlows()) {
             try {
-                flow.setUri(new URI(uriInfo.getBaseUri().toString().concat("/flow/").concat(flow.getId())));
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/").concat(String.valueOf(flow.getId()))));
+            } catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
         }
-        flowCollection.setFlows(flows);
         return Response.ok(flowCollection).build();
     }
 

@@ -9,13 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class FlowCollection {
 
     @XmlElement
-    private List<Flow> flows;
+    private List<FlowEvent> flows;
 
-    public List<Flow> getFlows() {
+    public List<FlowEvent> getFlows() {
         return flows;
     }
 
-    public void setFlows(List<Flow> flows) {
+    public void setFlows(List<FlowEvent> flows) {
         this.flows = flows;
     }
 }
