@@ -9,6 +9,8 @@ public class FlowCollection {
 
     private int count;
     
+    private List<AggregatedFlow> flows;
+    
     public int getCount() {
         return count;
     }
@@ -17,13 +19,11 @@ public class FlowCollection {
         this.count = count;
     }
 
-    private List<Flow> flows;
-
-    public List<Flow> getFlows() {
+    public List<AggregatedFlow> getFlows() {
         return flows;
     }
 
-    public void setFlows(List<Flow> flows) {
+    public void setFlows(List<AggregatedFlow> flows) {
         this.flows = flows;
     }
 }

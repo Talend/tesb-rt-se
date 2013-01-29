@@ -34,5 +34,8 @@
         <jaxrs:serviceBeans>
              <ref bean="restService" />
         </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+        </jaxrs:providers>
     </jaxrs:server>
 </beans>
