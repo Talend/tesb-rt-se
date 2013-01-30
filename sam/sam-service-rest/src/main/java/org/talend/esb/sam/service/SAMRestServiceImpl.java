@@ -35,7 +35,7 @@ public class SAMRestServiceImpl implements SAMRestService {
     public Response getEvent(String arg0) {
         Event event = provider.getEventDetails(arg0);
         if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
-        return Response.ok().build();
+        return Response.ok(event).build();
     }
 
     @Override
