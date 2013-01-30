@@ -14,9 +14,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.service.exception.IllegalParameterException;
+import org.talend.esb.sam.service.exception.ResourceNotFoundException;
 
 public class SAMRestServiceImpl implements SAMRestService {
 
@@ -31,20 +33,23 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getEvent(String arg0) {
-        return Response.ok(provider.getEventDetails(arg0)).build();
+        Event event = provider.getEventDetails(arg0);
+        if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
+        return Response.ok().build();
     }
 
     @Override
     public Response getFlow(String flowID) {
         FlowDetails flowDetails = new FlowDetails();
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
+        if (flowEvents.size() == 0)
+            throw new ResourceNotFoundException("There no flow with "+ flowID + " ID can be found");
         for (FlowEvent flow : flowEvents) {
             try {
-                flow.setDetails(new URL(uriInfo.getBaseUri().toString()
-                        .concat("/event/").concat(String.valueOf(flow.getId()))));
+                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/")
+                        .concat(String.valueOf(flow.getId()))));
             } catch (MalformedURLException e) {
-                throw new IllegalParameterException("cannot create URI for: "
-                        + flowID);
+                throw new IllegalParameterException("cannot create URI for: " + flowID);
             }
         }
         flowDetails.setEvents(flowEvents);
@@ -53,8 +58,7 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
-        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit,
-                convertParams(params));
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
         List<Flow> flows = provider.getFlows(adapter);
         return Response.ok(aggregateRawData(flows)).build();
     }
@@ -79,7 +83,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         Map<String, String> flowConsumerHost = new HashMap<String, String>();
         Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 
-        AggregatedFlow af = new AggregatedFlow();
+        AggregatedFlow aggregatedFlow = new AggregatedFlow();
 
         for (Flow obj : objects) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
@@ -94,10 +98,8 @@ public class SAMRestServiceImpl implements SAMRestService {
             EventTypeEnum typeEnum = obj.getEventType();
             flowTypes.get(flowID).add(typeEnum.toString());
 
-            boolean isConsumer = typeEnum == EventTypeEnum.REQ_OUT
-                    || typeEnum == EventTypeEnum.RESP_IN;
-            boolean isProvider = typeEnum == EventTypeEnum.REQ_IN
-                    || typeEnum == EventTypeEnum.RESP_OUT;
+            boolean isConsumer = typeEnum == EventTypeEnum.REQ_OUT || typeEnum == EventTypeEnum.RESP_IN;
+            boolean isProvider = typeEnum == EventTypeEnum.REQ_IN || typeEnum == EventTypeEnum.RESP_OUT;
             String host = obj.getHost();
             String ip = obj.getIp();
             if (isConsumer) {
@@ -119,30 +121,29 @@ public class SAMRestServiceImpl implements SAMRestService {
             Long endTime = flowLastTimestamp.get(flowID);
             if (endTime != null) {
                 flowLastTimestamp.remove(flowID);
-                af.setElapsed(timestamp - endTime);
-                af.setTypes(flowTypes.get(flowID));
+                aggregatedFlow.setElapsed(timestamp - endTime);
+                aggregatedFlow.setTypes(flowTypes.get(flowID));
                 try {
-                    af.setDetails(new URL(uriInfo.getBaseUri().toString()
-                            .concat("/flow/")
+                    aggregatedFlow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/flow/")
                             .concat(String.valueOf(obj.getflowID()))));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
                 if (flowConsumerHost.containsKey(flowID)) {
-                    af.setConsumerHost(flowConsumerHost.get(flowID));
-                    af.setConsumerIP(flowConsumerIP.get(flowID));
+                    aggregatedFlow.setConsumerHost(flowConsumerHost.get(flowID));
+                    aggregatedFlow.setConsumerIP(flowConsumerIP.get(flowID));
                 }
                 if (flowProviderHost.containsKey(flowID)) {
-                    af.setProviderHost(flowProviderHost.get(flowID));
-                    af.setProviderIP(flowProviderIP.get(flowID));
+                    aggregatedFlow.setProviderHost(flowProviderHost.get(flowID));
+                    aggregatedFlow.setProviderIP(flowProviderIP.get(flowID));
                 }
-                af.setflowID(flowID);
-                af.setTimeStamp(timestamp);
-                af.setPort(obj.getPort());
-                af.setOperation(obj.getOperation());
-                af.setTransport(obj.getTransport());
+                aggregatedFlow.setflowID(flowID);
+                aggregatedFlow.setTimeStamp(timestamp);
+                aggregatedFlow.setPort(obj.getPort());
+                aggregatedFlow.setOperation(obj.getOperation());
+                aggregatedFlow.setTransport(obj.getTransport());
 
-                result.add(af);
+                result.add(aggregatedFlow);
             }
         }
         FlowCollection fc = new FlowCollection();

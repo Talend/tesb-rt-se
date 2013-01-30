@@ -1,5 +1,6 @@
 package org.talend.esb.sam.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
             String dataQuery = dialect.getDataQuery(criteria);
             flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
         }
-
+        if(flows == null) flows = new ArrayList<Flow>();
         return flows;
     }
 

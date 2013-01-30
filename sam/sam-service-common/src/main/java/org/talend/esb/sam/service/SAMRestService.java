@@ -20,7 +20,7 @@ public interface SAMRestService {
     Response getEvent(@PathParam("id") String id);
 
     @GET
-    @Path("flows")
+    @Path("flow")
     @Produces({ "application/json" })
     Response getFlows(@QueryParam("offset") @DefaultValue("0") Integer offset, @QueryParam("limit") @DefaultValue("10") Integer limit, @MatrixParam("params") @DefaultValue("") List<String> params);
     
