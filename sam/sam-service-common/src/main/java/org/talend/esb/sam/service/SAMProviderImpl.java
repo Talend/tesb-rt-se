@@ -44,7 +44,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
 
     @Override
-    public Event getEventDetails(String eventID) {
+    public Event getEventDetails(Integer eventID) {
         List<Event> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
                 Collections.singletonMap("eventID", eventID));
         if (list.isEmpty()) {

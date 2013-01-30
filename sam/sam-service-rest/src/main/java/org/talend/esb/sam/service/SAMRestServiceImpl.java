@@ -33,7 +33,14 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getEvent(String arg0) {
-        Event event = provider.getEventDetails(arg0);
+        Integer eventId;
+        try {
+            eventId = Integer.parseInt(arg0);
+        }
+        catch(NumberFormatException ex) {
+            throw new IllegalParameterException("Error during converting " + arg0 + " parameter to Integer", ex);
+        }
+        Event event = provider.getEventDetails(eventId);
         if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
         return Response.ok(event).build();
     }
