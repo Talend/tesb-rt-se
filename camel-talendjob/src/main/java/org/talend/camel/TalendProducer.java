@@ -43,6 +43,7 @@ public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
     private static final String[] EMPTY_STRING_ARRAY = {};
+    private static final String PROPAGATE_HEADER = "##propagateheader##";    
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -61,21 +62,26 @@ public class TalendProducer extends DefaultProducer {
 		if (context != null) {
 			args.add("--context=" + context);
 		}
-		populateTalendContextParamsWithCamelHeaders(exchange, args);
 		
-		if (propertiesMap != null) {
-			addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
-		}
+		if (propertiesMap == null || propertiesMap.isEmpty() || propertiesMap.get(PROPAGATE_HEADER).equals("1")) {		
+			populateTalendContextParamsWithCamelHeaders(exchange, args);
+		} 
+		
+		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
 		invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
 	}
 
 	private void addTalendContextParamsFromCTalendJobContext(
 			Map<String, String> propertiesMap, List<String> args) {
-		for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
-			String propertyKey = entry.getKey();
-			String propertyValue = entry.getValue();
-			if (propertyValue != null) {
-				args.add("--context_param " + propertyKey + "=" + propertyValue);
+		if (propertiesMap != null) {
+			for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+				String propertyKey = entry.getKey();
+				String propertyValue = entry.getValue();
+				if (!propertyKey.equals(PROPAGATE_HEADER)
+						&& propertyValue != null) {
+					args.add("--context_param " + propertyKey + "="
+							+ propertyValue);
+				}
 			}
 		}
 	}
