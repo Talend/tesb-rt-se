@@ -34,8 +34,8 @@
       <cm:property name="locator.reloadAdressesCount" value="10"/>
       <cm:property name="connection.timeout" value="5000"/>
       <cm:property name="session.timeout" value="5000"/>
-      <cm:property name="authentication.name value=""/>
-      <cm:property name="authentication.password value=""/>
+      <cm:property name="authentication.name" value=""/>
+      <cm:property name="authentication.password" value=""/>
     </cm:default-properties>
   </cm:property-placeholder>
 
