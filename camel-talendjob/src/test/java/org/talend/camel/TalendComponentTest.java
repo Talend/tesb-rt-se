@@ -21,6 +21,7 @@
 package org.talend.camel;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,16 +60,15 @@ public class TalendComponentTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
         assertFileExists("target/output/out.csv");
     }
-    
+
     @Test
     public void testRunJobWithCustomContextParam() throws Exception {
-        
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);       
-        
-        Map<String, Object> headers = new HashMap<String, Object>();
-        headers.put("filename", "target/output/outCtxParam.csv");
-        sendBody("direct:defaultContext", "foo", headers);
+        mock.expectedMessageCount(1);
+
+        Map<String, String> properties = Collections.singletonMap("filename", "target/output/outCtxParam.csv");
+        mock.getCamelContext().setProperties(properties);
+        sendBody("direct:defaultContext", "foo");
         assertMockEndpointsSatisfied();
         assertFileExists("target/output/outCtxParam.csv");
     }

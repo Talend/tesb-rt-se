@@ -54,7 +54,7 @@ public class TalendProducer extends DefaultProducer {
 		String context = ((TalendEndpoint) getEndpoint()).getContext();
 		Method setExchangeMethod = ((TalendEndpoint) getEndpoint())
 				.getSetExchangeMethod();
-		Map<String, String> propertiesMap = ((TalendEndpoint) getEndpoint())
+		Map<String, String> propertiesMap = getEndpoint()
 				.getCamelContext().getProperties();
 
 		List<String> args = new ArrayList<String>();
