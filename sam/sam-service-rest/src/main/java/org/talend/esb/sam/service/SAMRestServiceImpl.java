@@ -20,6 +20,7 @@ import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.service.exception.IllegalParameterException;
 import org.talend.esb.sam.service.exception.ResourceNotFoundException;
 
+
 public class SAMRestServiceImpl implements SAMRestService {
 
     SAMProvider provider;
@@ -47,20 +48,10 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     @Override
     public Response getFlow(String flowID) {
-        FlowDetails flowDetails = new FlowDetails();
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
         if (flowEvents.size() == 0)
             throw new ResourceNotFoundException("There no flow with "+ flowID + " ID can be found");
-        for (FlowEvent flow : flowEvents) {
-            try {
-                flow.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/")
-                        .concat(String.valueOf(flow.getId()))));
-            } catch (MalformedURLException e) {
-                throw new IllegalParameterException("cannot create URI for: " + flowID);
-            }
-        }
-        flowDetails.setEvents(flowEvents);
-        return Response.ok(flowDetails).build();
+        return Response.ok(aggregateFlowDetails(flowEvents)).build();
     }
 
     @Override
@@ -79,6 +70,58 @@ public class SAMRestServiceImpl implements SAMRestService {
             }
         }
         return paramsMap;
+    }
+    
+    public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
+        FlowDetails flowDetails = new FlowDetails();
+        Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
+        Set<Long> allEvents = new HashSet<Long>();
+        for (FlowEvent flowEvent : flowEvents) {
+            allEvents.add(flowEvent.getId());
+            String custKey = flowEvent.getCustomKey();
+            String custValue = flowEvent.getCustomValue();
+            if (custKey != null) {
+                if (!customInfo.containsKey(flowEvent.getId())) {
+                    customInfo.put(flowEvent.getId(), new HashMap<String, String>());
+                }
+                customInfo.get(flowEvent.getId()).put(custKey, custValue);
+            }
+        }
+        List<AggregatedFlowEvent> aggregatedFlowEventList = new ArrayList<AggregatedFlowEvent>();
+        for (FlowEvent flowEvent : flowEvents) {
+            AggregatedFlowEvent aggregatedFlowEvent = new AggregatedFlowEvent();
+            if (allEvents.contains(flowEvent.getId())) {
+                allEvents.remove(flowEvent.getId());
+                aggregatedFlowEvent.setContentCut(flowEvent.isContentCut());
+                aggregatedFlowEvent.setCustomId(flowEvent.getCustomId());
+                try {
+                    aggregatedFlowEvent.setDetails(
+                            new URL(uriInfo.getBaseUri().toString().concat("/event/")
+                            .concat(String.valueOf(flowEvent.getId()))));
+                } catch (MalformedURLException e) {
+                    throw new IllegalParameterException("cannot create URI for: " + flowEvent.getFlowID());
+                }
+                aggregatedFlowEvent.setEventType(flowEvent.getEventType());
+                aggregatedFlowEvent.setFlowID(flowEvent.getFlowID());
+                aggregatedFlowEvent.setHost(flowEvent.getHost());
+                aggregatedFlowEvent.setId(flowEvent.getId());
+                aggregatedFlowEvent.setIp(flowEvent.getIp());
+                aggregatedFlowEvent.setMessageID(flowEvent.getMessageID());
+                aggregatedFlowEvent.setOperation(flowEvent.getOperation());
+                aggregatedFlowEvent.setPort(flowEvent.getPort());
+                aggregatedFlowEvent.setPrincipal(flowEvent.getPrincipal());
+                aggregatedFlowEvent.setProcess(flowEvent.getProcess());
+                aggregatedFlowEvent.setTimestamp(flowEvent.getTimestamp());
+                aggregatedFlowEvent.setTransport(flowEvent.getTransport());
+                
+                if (customInfo.containsKey(flowEvent.getId())) {
+                    aggregatedFlowEvent.setCustomInfo(customInfo.get(flowEvent.getId()));
+                }
+                aggregatedFlowEventList.add(aggregatedFlowEvent);
+            }
+        }
+        flowDetails.setEvents(aggregatedFlowEventList);
+        return flowDetails;
     }
 
     public FlowCollection aggregateRawData(List<Flow> objects) {
