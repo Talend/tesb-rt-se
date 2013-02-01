@@ -48,7 +48,7 @@ public class TalendEndpoint extends DefaultEndpoint {
     private TalendJob jobInstance;
     private Method setExchangeMethod;
 
-    private boolean propagateHeader = false;
+    private boolean propagateHeader = true;
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
         super(uri, component);
