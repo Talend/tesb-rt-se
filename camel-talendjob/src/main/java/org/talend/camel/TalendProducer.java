@@ -54,28 +54,30 @@ public class TalendProducer extends DefaultProducer {
 		String context = ((TalendEndpoint) getEndpoint()).getContext();
 		Method setExchangeMethod = ((TalendEndpoint) getEndpoint())
 				.getSetExchangeMethod();
-		Map<String, String> propertiesMap = ((TalendEndpoint) getEndpoint())
+		Map<String, String> propertiesMap = getEndpoint()
 				.getCamelContext().getProperties();
 
 		List<String> args = new ArrayList<String>();
 		if (context != null) {
 			args.add("--context=" + context);
 		}
-		populateTalendContextParamsWithCamelHeaders(exchange, args);
 		
-		if (propertiesMap != null) {
-			addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
-		}
+		if (((TalendEndpoint)getEndpoint()).isPropagateHeader()) {		
+			populateTalendContextParamsWithCamelHeaders(exchange, args);
+		} 
+		
+		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
 		invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
 	}
 
 	private void addTalendContextParamsFromCTalendJobContext(
 			Map<String, String> propertiesMap, List<String> args) {
-		for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
-			String propertyKey = entry.getKey();
-			String propertyValue = entry.getValue();
-			if (propertyValue != null) {
-				args.add("--context_param " + propertyKey + "=" + propertyValue);
+		if (propertiesMap != null) {
+			for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+				String propertyKey = entry.getKey();
+				String propertyValue = entry.getValue();
+				args.add("--context_param " + propertyKey + "="
+						+ propertyValue);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package org.talend.esb.sam.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
 
     @Override
-    public Event getEventDetails(String eventID) {
+    public Event getEventDetails(Integer eventID) {
         List<Event> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
                 Collections.singletonMap("eventID", eventID));
         if (list.isEmpty()) {
@@ -60,21 +61,20 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public FlowCollection getFlows(CriteriaAdapter criteria) {
+    public List<Flow> getFlows(CriteriaAdapter criteria) {
         final String whereClause = criteria.getWhereClause();
         final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
                 (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
         int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
         List<Flow> flows = null;
-        FlowCollection flowCollection = new FlowCollection();
+        
         if (offset < rowCount) {
             String dataQuery = dialect.getDataQuery(criteria);
             flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
         }
-        flowCollection.setCount(rowCount);
-        flowCollection.setFlows(flows);
-        return flowCollection;
+        if(flows == null) flows = new ArrayList<Flow>();
+        return flows;
     }
 
 }

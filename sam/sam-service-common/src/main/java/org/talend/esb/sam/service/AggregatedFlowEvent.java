@@ -1,14 +1,15 @@
 package org.talend.esb.sam.service;
 
 import java.net.URL;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 @XmlRootElement
-public class FlowEvent {
-    
+public class AggregatedFlowEvent {
+
     public long getId() {
         return id;
     }
@@ -120,7 +121,7 @@ public class FlowEvent {
     public void setDetails(URL details) {
         this.details = details;
     }
-    
+
     public String getMessageID() {
         return messageID;
     }
@@ -129,53 +130,43 @@ public class FlowEvent {
         this.messageID = messageID;
     }
 
+    public Map<String, String> getCustomInfo() {
+        return customInfo;
+    }
+
+    public void setCustomInfo(Map<String, String> customInfo) {
+        this.customInfo = customInfo;
+    }
+
     private long id;
-    
+
     private long timestamp;
-    
+
     private EventTypeEnum eventType;
-    
+
     private String customId;
-    
+
     private String process;
-    
+
     private String host;
 
     private String ip;
 
     private String principal;
-    
+
     private String port;
-    
+
     private String operation;
-    
+
     private String flowID;
-    
+
     private String transport;
-    
+
     private boolean isContentCut;
-    
-    private String customKey;
-    
-    private String customValue;
-    
-    public String getCustomKey() {
-        return customKey;
-    }
 
-    public void setCustomKey(String customKey) {
-        this.customKey = customKey;
-    }
-
-    public String getCustomValue() {
-        return customValue;
-    }
-
-    public void setCustomValue(String customValue) {
-        this.customValue = customValue;
-    }
+    private Map<String, String> customInfo;
 
     private String messageID;
-    
+
     private URL details;
 }

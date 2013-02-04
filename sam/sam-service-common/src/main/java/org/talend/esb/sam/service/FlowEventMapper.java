@@ -2,8 +2,6 @@ package org.talend.esb.sam.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.talend.esb.sam.common.event.EventTypeEnum;
@@ -27,13 +25,8 @@ public class FlowEventMapper implements RowMapper<FlowEvent> {
         event.setMessageID(rs.getString("MI_MESSAGE_ID"));
         event.setTransport(rs.getString("MI_TRANSPORT_TYPE"));
         event.setContentCut(rs.getBoolean("CONTENT_CUT"));
-        Map<String, String> customInfo = new HashMap<String, String>();
-        String custKey = rs.getString("CUST_KEY");
-        String custValue = rs.getString("CUST_VALUE");
-        if(custKey != null) {
-            customInfo.put(custKey, custValue);
-        }
-        event.setCustomInfo(customInfo);
+        event.setCustomKey(rs.getString("CUST_KEY"));
+        event.setCustomValue(rs.getString("CUST_VALUE"));
         return event;
     }
 

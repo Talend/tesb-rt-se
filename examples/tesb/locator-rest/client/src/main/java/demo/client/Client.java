@@ -27,31 +27,49 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import demo.common.*;
+import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Client {
 
-	private static final Logger LOG = Logger.getLogger(Client.class
-			.getPackage().getName());
+        public void runCodeProxyClient() throws Exception {
+            System.out.println("*** Running Proxy client initialized from the code ***");
 
+            JAXRSClientFactoryBean factoryBean = prepareFactoryBean();
+            factoryBean.setServiceClass(OrderService.class);
+            OrderService client = factoryBean.create(OrderService.class);
+            useOrderService(client); 
+        }
 
-        public void runCodeClient() throws Exception {
-            System.out.println("*** Running the client initialized from the code ***");
+        public void runCodeWebClient() throws Exception {
+            System.out.println("*** Running WebClient initialized from the code ***");
 
+            JAXRSClientFactoryBean factoryBean = prepareFactoryBean();
+            WebClient wc = factoryBean.createWebClient();
+            wc.accept("application/xml"); 
+		
+            String orderId = "1";
+            for (int i = 1; i <= 3; i++) {
+                wc.path("orderservice").path(orderId); 
+                Order ord = wc.get(Order.class);
+                describeOrder(i, ord);
+		wc.back(true);
+	
+        	Thread.sleep(2000);
+            } 
+        }
+
+        private JAXRSClientFactoryBean prepareFactoryBean() throws Exception {
             JAXRSClientFactoryBean factoryBean = new JAXRSClientFactoryBean();
             factoryBean.setAddress("locator://some_usefull_information");
-            factoryBean.setServiceClass(OrderService.class);
             factoryBean.setServiceName(new QName("http://service.demo/", "OrderServiceImpl"));
             
             org.talend.esb.servicelocator.cxf.LocatorFeature feature =
                 new org.talend.esb.servicelocator.cxf.LocatorFeature();
             feature.setSelectionStrategy("evenDistributionSelectionStrategy");  
             factoryBean.setFeatures(Collections.singletonList(feature)); 
-
-
-            OrderService client = factoryBean.create(OrderService.class);
-            useOrderService(client); 
+            return factoryBean; 
         }
 
         public void runSpringClient() throws Exception {
@@ -66,24 +84,31 @@ public class Client {
 
         private void useOrderService(OrderService client) throws Exception {
             String orderId = "1";
-            for (int i = 0; i < 5; i++) {
+            for (int i = 1; i <= 3; i++) {
 		Order ord = client.getOrder(orderId);
 
-		System.out.println("invoaction number:"+i);
-		System.out.println("Order description is::"+ord.getDescription());
-		if (LOG.isLoggable(Level.INFO)) {
-			LOG.log(Level.INFO, ord.getDescription());
-		}
+		describeOrder(i, ord);
 		
 		Thread.sleep(2000);
 	    }
         } 
 
+        private void describeOrder(int invocationNumber, Order ord) {
+            System.out.println("invocation number:" + invocationNumber);
+	    System.out.println("Order description is::" + ord.getDescription());
+	    if (LOG.isLoggable(Level.INFO)) {
+		LOG.log(Level.INFO, ord.getDescription());
+	    }
+        }
+
+	private static final Logger LOG = Logger.getLogger(Client.class
+			.getPackage().getName());
+
 	public static void main(String[] args) throws Exception {
 		Client client = new Client();
                 client.runSpringClient();
-                client.runCodeClient();
-		
+                client.runCodeProxyClient();
+		client.runCodeWebClient();
 		
 		System.exit(0);
 
