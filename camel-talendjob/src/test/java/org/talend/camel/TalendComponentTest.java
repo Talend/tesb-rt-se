@@ -72,13 +72,24 @@ public class TalendComponentTest extends CamelTestSupport {
         assertMockEndpointsSatisfied();
         assertFileExists("target/output/outCtxParam.csv");
     }
-    
+
+    @Test
+    public void testRunJobWithCustomContextParamFromHeaders() throws Exception {
+        MockEndpoint mock = getMockEndpoint("mock:result");
+        mock.expectedMessageCount(1);
+
+        Map<String, Object> headers = Collections.singletonMap("filename", (Object) "target/output/outCtxParam.csv");
+        sendBody("direct:defaultContext", "foo", headers);
+        assertMockEndpointsSatisfied();
+        assertFileExists("target/output/outCtxParam.csv");
+    }
+
     @Test
     public void testRunJobWithNoExistingCustomContextParam() throws Exception {
         
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);       
-        
+        mock.expectedMessageCount(1);
+
         Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("noExistingTalendParam", "bar");
         sendBody("direct:defaultContext", "foo", headers);
