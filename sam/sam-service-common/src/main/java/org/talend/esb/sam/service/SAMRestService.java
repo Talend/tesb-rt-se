@@ -18,6 +18,11 @@ public interface SAMRestService {
     @Path("event/{id}")
     @Produces({ "application/json" })
     Response getEvent(@PathParam("id") String id);
+    
+    @GET
+    @Path("message/{id}")
+    @Produces({ "application/json" })
+    Response getMessage(@PathParam("id") String id);
 
     @GET
     @Path("flow")

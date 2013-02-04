@@ -201,4 +201,18 @@ public class SAMRestServiceImpl implements SAMRestService {
         fc.setCount(result.size());
         return fc;
     }
+
+    @Override
+    public Response getMessage(String id) {
+        Integer eventId;
+        try {
+            eventId = Integer.parseInt(id);
+        }
+        catch(NumberFormatException ex) {
+            throw new IllegalParameterException("Error during converting " + id + " parameter to Integer", ex);
+        }
+        String messageContent = provider.getMessageContent(eventId);
+        if(messageContent == null) throw new ResourceNotFoundException("There no message content for event with "+ id + " ID can be found");
+        return Response.ok(messageContent).build();
+    }
 }
