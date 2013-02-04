@@ -3,7 +3,6 @@ package org.talend.esb.sam.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
@@ -28,10 +27,6 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
             + "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
             + "from EVENTS where ID = :eventID";
 
-    private static final String SELECT_MESSAGE_CONTENT_QUERY = "select "
-        + "ID,MESSAGE_CONTENT "
-        + "from EVENTS where ID = :eventID";
-
     private DatabaseDialect dialect;
 
     public DatabaseDialect getDialect() {
@@ -47,8 +42,6 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     private final RowMapper<Flow> flowMapper = new FlowMapper();
 
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
-    
-    private final RowMapper<String> messageContentMapper = new MessageContentMapper();
 
     @Override
     public Event getEventDetails(Integer eventID) {
@@ -82,17 +75,6 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         }
         if(flows == null) flows = new ArrayList<Flow>();
         return flows;
-    }
-
-    @Override
-    public String getMessageContent(Integer eventID) {
-        List<String> messageContentList = getSimpleJdbcTemplate().query(SELECT_MESSAGE_CONTENT_QUERY, messageContentMapper,
-                Collections.singletonMap("eventID", eventID));
-        if (messageContentList.isEmpty()) {
-            return null;
-        } else {
-            return messageContentList.get(0);
-        }
     }
 
 }
