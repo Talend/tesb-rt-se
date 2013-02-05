@@ -34,8 +34,6 @@
       <cm:property name="locator.reloadAdressesCount" value="10"/>
       <cm:property name="connection.timeout" value="5000"/>
       <cm:property name="session.timeout" value="5000"/>
-      <cm:property name="authentication.name value=""/>
-      <cm:property name="authentication.password value=""/>
     </cm:default-properties>
   </cm:property-placeholder>
 
@@ -45,8 +43,6 @@
     <property name="locatorEndpoints" value="${locator.endpoints}"/>
     <property name="connectionTimeout" value="${connection.timeout}"/>
     <property name="sessionTimeout" value="${session.timeout}"/>
-    <property name="name" value="${authentication.name}"/>
-    <property name="password" value="${authentication.password}"/>
   </bean>
 
   <bean id="serviceLocator"
@@ -54,6 +50,15 @@
     <property name="backend" ref="serviceLocatorBackend"/>
   </bean>
 
+<!--
+  <bean id="serviceLocator"
+      class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
+      destroy-method="disconnect">
+    <property name="locatorEndpoints" value="${locator.endpoints}"/>
+    <property name="connectionTimeout" value="${connection.timeout}"/>
+    <property name="sessionTimeout" value="${session.timeout}"/>
+  </bean>
+-->
   <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
     <property name="serviceLocator" ref="serviceLocator" />
     <property name="endpointPrefix" value="${endpoint.prefix}"/>
