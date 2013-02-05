@@ -28,4 +28,81 @@
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd" >
+
+	<!-- Configuration Admin entry -->
+    <osgix:cm-properties id="locator-server-props" persistent-id="org.talend.esb.locator">
+        <prop key="locator.endpoints">localhost:2181</prop>
+        <prop key="endpoint.prefix"></prop>
+        <prop key="endpoint.http.prefix"></prop>
+        <prop key="endpoint.https.prefix"></prop>
+        <prop key="locator.strategy">defaultSelectionStrategy</prop>
+        <prop key="locator.reloadAdressesCount">10</prop>
+        <prop key="connection.timeout">5000</prop>
+        <prop key="session.timeout">5000</prop>
+        <prop key="authentication.name"></prop>
+        <prop key="authentication.password"></prop>
+   </osgix:cm-properties>
+
+    <!-- placeholder configurer -->
+    <!-- context:property-placeholder properties-ref="locator-server-props" /-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="locator-server-props" />
+        <property name="placeholderPrefix" value="$sl{" />
+    </bean>
+
+    <bean id="serviceLocatorBackend"
+          class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"
+          destroy-method="disconnect" lazy-init="true">
+        <property name="locatorEndpoints" value="$sl{locator.endpoints}"/>
+        <property name="connectionTimeout" value="$sl{connection.timeout}"/>
+        <property name="sessionTimeout" value="$sl{session.timeout}"/>
+        <property name="userName" value="$sl{authentication.name}"/>
+        <property name="password" value="$sl{authentication.password}"/>
+    </bean>
+
+    <bean id="serviceLocator"
+          class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
+          lazy-init="true">
+        <property name="backend" ref="serviceLocatorBackend"/>
+    </bean>
+
+    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">
+        <property name="serviceLocator" ref="serviceLocator" />
+        <property name="endpointPrefix" value="$sl{endpoint.prefix}"/>
+        <property name="endpointPrefixes">
+            <map>
+                <entry key="HTTP" value="$sl{endpoint.http.prefix}" />
+                <entry key="HTTPS" value="$sl{endpoint.https.prefix}" />
+            </map>
+        </property>
+    </bean>
+
+    <bean id="defaultSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategyFactory">
+    </bean>
+
+    <bean id="evenDistributionSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategyFactory">
+        <property name="reloadAdressesCount" value="$sl{locator.reloadAdressesCount}"/>
+    </bean>
+
+    <bean id="randomSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategyFactory">
+        <property name="reloadAdressesCount" value="$sl{locator.reloadAdressesCount}"/>
+    </bean>
+
+    <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler" lazy-init="true">
+      	<property name="locatorSelectionStrategies">
+            <map>
+                <entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategyFactory" />
+                <entry key="randomSelectionStrategy" value-ref="randomSelectionStrategyFactory" />
+                <entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategyFactory" />
+            </map>
+        </property>
+        <property name="serviceLocator" ref="serviceLocator" />
+        <property name="defaultLocatorSelectionStrategy" value="$sl{locator.strategy}" />
+    </bean>
+
+    <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManagerImpl" lazy-init="true">
+        <property name="bus" ref="cxf" />
+        <property name="locatorRegistrar" ref="locatorRegistrar" />
+        <property name="locatorClientEnabler" ref="locatorClientEnabler" />
+    </bean>
 </beans>
