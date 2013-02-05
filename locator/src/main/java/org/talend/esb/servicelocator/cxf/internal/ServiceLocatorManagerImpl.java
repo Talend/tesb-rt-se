@@ -29,7 +29,6 @@ import org.apache.cxf.extension.BusExtension;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
-import org.talend.esb.servicelocator.cxf.ServiceLocatorManager;
 import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
 
 public class ServiceLocatorManagerImpl implements ServiceLocatorManager, BusExtension {

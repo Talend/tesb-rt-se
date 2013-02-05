@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.cxf;
+package org.talend.esb.servicelocator.cxf.internal;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
