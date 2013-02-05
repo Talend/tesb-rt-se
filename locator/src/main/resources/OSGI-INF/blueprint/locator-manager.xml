@@ -45,7 +45,7 @@
     <property name="locatorEndpoints" value="${locator.endpoints}"/>
     <property name="connectionTimeout" value="${connection.timeout}"/>
     <property name="sessionTimeout" value="${session.timeout}"/>
-    <property name="userName" value="${authentication.name}"/>
+    <property name="name" value="${authentication.name}"/>
     <property name="password" value="${authentication.password}"/>
   </bean>
 
