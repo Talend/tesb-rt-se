@@ -35,15 +35,17 @@ import org.talend.esb.servicelocator.cxf.ServiceLocatorManager;
 public class ServiceLocatorManagerDelegate implements ServiceLocatorManager {
 
     private static final Logger LOG = Logger.getLogger(ServiceLocatorManagerDelegate.class.getPackage().getName());
-
-    Bus bus;
+    
+//    private ServiceLocatorManager origin;
     
     private ServiceLocatorManagerProvider provider;
 
     public ServiceLocatorManagerDelegate(Bus cxfBus) {
-        bus = cxfBus;
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Calling ServiceLocatorManagerDelegate.");
+        }
 
-        init();
+        init(cxfBus);  
     }
 
     @Override
@@ -105,31 +107,28 @@ public class ServiceLocatorManagerDelegate implements ServiceLocatorManager {
         provider.getServiceLocatorManager().enableClient(clientConfiguration, matcher, selectionStrategy);
     }
 
-    private void init() {
+    private void init(Bus cxfBus) {
         if (inOSGi()) {            
-            provider = new ServiceLocatorManagerProviderOSGi(bus);
+            provider = new ServiceLocatorManagerProviderOSGi(cxfBus);
         } else {
             provider = new ServiceLocatorManagerProviderSpring();
         }
     }
     
     private boolean inOSGi() {
-        boolean inOSGi = false;
         try {
             Class.forName("org.osgi.framework.BundleContext");
-            inOSGi = (bus.getExtension(BundleContext.class) != null);
-        } catch (ClassNotFoundException e) {
-        }
-
-        if (LOG.isLoggable(Level.INFO)) {
-            if (inOSGi) {
+            if (LOG.isLoggable(Level.INFO)) {
                 LOG.log(Level.INFO, "BundleContext available, running in an OSGi environment.");
-            } else {
-                LOG.log(Level.INFO, "BundleContext not available, not running in an OSGi environment.");
             }
-        }
-
-        return inOSGi;
+            return true;
+           }
+           catch (ClassNotFoundException e) {
+               if (LOG.isLoggable(Level.INFO)) {
+                   LOG.log(Level.INFO, "BundleContext not available, not running in an OSGi environment.");
+               }
+            return false;
+           }
     }
 
     public static interface ServiceLocatorManagerProvider {
