@@ -36,6 +36,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.ContextUtils;
 //import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
@@ -85,10 +86,12 @@ public class MessageToEventMapper {
 
         if (!isRestMessage(message)) {
             messageInfo.setMessageId(getMessageId(message));
-            String portTypeName = message.getExchange().getBinding().getBindingInfo().getService()
-                .getInterface().getName().toString();
-            messageInfo.setPortType(portTypeName);
-            messageInfo.setOperationName(getOperationName(message));
+            ServiceInfo serviceInfo = message.getExchange().getBinding().getBindingInfo().getService();
+            if (null != serviceInfo){
+                String portTypeName = serviceInfo.getInterface().getName().toString();
+                messageInfo.setPortType(portTypeName);
+                messageInfo.setOperationName(getOperationName(message));
+            }
         }
 
         if (message.getExchange().getBinding() instanceof SoapBinding) {
