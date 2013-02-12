@@ -49,8 +49,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
         String alternateAddress = null;
         if (alternates != null && !alternates.isEmpty()) {
             int index = random.nextInt(alternates.size());
-            //alternateAddress = alternates.remove(index);
-            alternateAddress = alternates.get(index);
+            alternateAddress = alternates.remove(index);
         }
         return alternateAddress;
     }
