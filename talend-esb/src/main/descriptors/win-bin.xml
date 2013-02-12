@@ -212,15 +212,12 @@
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
-                <exclude>etc/jre.properties</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
-                <!-- workaround for Jetty version -->
-                <exclude>system/org/apache/karaf/assemblies/features/standard/2.2.9/standard-2.2.9-features.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -355,8 +352,6 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/**</exclude>
                 <!-- workaround for saaj-api bundle version-->
                 <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
-                <!-- workaround for Jetty version -->
-                <exclude>org/apache/karaf/assemblies/features/standard/2.2.9/standard-2.2.9-features.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -491,14 +486,6 @@
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
             <fileMode>0644</fileMode>
-        </file>
-        <!-- workaround for Jetty version -->
-        <file>
-            <source>${basedir}/target/classes/standard-2.2.9-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/assemblies/features/standard/2.2.9</outputDirectory>
-            <destName>standard-2.2.9-features.xml</destName>
-            <fileMode>0644</fileMode>
-            <lineEnding>dos</lineEnding>
         </file>
     </files>
 
