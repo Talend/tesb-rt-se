@@ -92,7 +92,7 @@
     <properties>
         <packages.version>${project.version}</packages.version>
         <cxf.version>2.7.3</cxf.version>
-        <camel.version>2.10.2</camel.version>
+        <camel.version>2.10.4-SNAPSHOT</camel.version>
         <activemq.version>5.7.0</activemq.version>
         <spring.version>3.0.7.RELEASE</spring.version>
         <karaf.version>2.3.1-SNAPSHOT</karaf.version>
@@ -108,7 +108,7 @@
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <gson.version>1.7.1</gson.version>
         <commons-collections.version>3.2.1</commons-collections.version>
-        <commons-beanutils.version>1.8.3</commons-beanutils.version>
+        <commons-beanutils.version>1.8.3_1</commons-beanutils.version>
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <commons-fileupload.version>1.2.2</commons-fileupload.version>
         <commons-io.bundle.version>1.4_2</commons-io.bundle.version>
