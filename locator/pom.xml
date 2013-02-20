@@ -40,6 +40,14 @@
 					<groupId>com.sun.jmx</groupId>
 					<artifactId>jmxri</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jline</groupId>
+					<artifactId>jline</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
