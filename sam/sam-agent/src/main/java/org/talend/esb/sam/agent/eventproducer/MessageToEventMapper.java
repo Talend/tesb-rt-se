@@ -312,12 +312,7 @@ public class MessageToEventMapper {
      * @return
      */
     private boolean isRestMessage(Message message) {
-        if (MessageUtils.isOutbound(message)){
-            Boolean isRest = (Boolean)message.get(Message.REST_MESSAGE);
-            return isRest != null && isRest.booleanValue();
-        }else {
-            String resName = (String)message.getExchange().get("org.apache.cxf.resource.operation.name");
-            return resName != null && !resName.isEmpty();
-        }
+        String resName = (String)message.getExchange().get("org.apache.cxf.resource.operation.name");
+        return resName != null && !resName.isEmpty();
     }
 }
