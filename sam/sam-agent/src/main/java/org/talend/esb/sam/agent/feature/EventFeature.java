@@ -23,6 +23,9 @@ import java.util.Iterator;
 import java.util.Queue;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.binding.soap.SoapBinding;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.interceptor.Interceptor;
@@ -69,18 +72,36 @@ public class EventFeature extends AbstractFeature {
         super();
     }
 
+    @Override
+    public void initialize(Server server, Bus bus) {
+        //if enforceMessageIDTransfer and WS Addressing feature/interceptors not enabled, 
+        //then add its interceptors to InterceptorProvider
+        if (server.getEndpoint().getBinding() instanceof SoapBinding &&
+                enforceMessageIDTransfer && !detectWSAddressingFeature(server.getEndpoint(), bus)) {
+            addWSAddressingInterceptors(server.getEndpoint());
+        }
+
+        initializeProvider(server.getEndpoint(), bus);
+    }
+
+    @Override
+    public void initialize(Client client, Bus bus) {
+        //if enforceMessageIDTransfer and WS Addressing feature/interceptors not enabled, 
+        //then add its interceptors to InterceptorProvider
+        if (client.getEndpoint().getBinding() instanceof SoapBinding &&
+                enforceMessageIDTransfer && !detectWSAddressingFeature(client, bus)) {
+            addWSAddressingInterceptors(client);
+        }
+
+        initializeProvider(client, bus);
+    }
+
     /* (non-Javadoc)
      * @see org.apache.cxf.feature.AbstractFeature#initializeProvider(org.apache.cxf.interceptor.InterceptorProvider, org.apache.cxf.Bus)
      */
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
-
-        //if enforceMessageIDTransfer and WS Addressing feature/interceptors not enabled, 
-        //then add its interceptors to InterceptorProvider
-        if (enforceMessageIDTransfer && !detectWSAddressingFeature(provider, bus)) {
-            addWSAddressingInterceptors(provider);
-        }
 
         FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
         provider.getInInterceptors().add(flowIdProducerIn);
