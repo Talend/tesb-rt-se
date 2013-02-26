@@ -44,6 +44,10 @@
 					<groupId>jline</groupId>
 					<artifactId>jline</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
         <dependency>
