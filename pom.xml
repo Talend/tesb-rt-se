@@ -92,7 +92,7 @@
     <properties>
         <packages.version>${project.version}</packages.version>
         <cxf.version>2.7.3</cxf.version>
-        <camel.version>2.10.4-SNAPSHOT</camel.version>
+        <camel.version>2.10.4</camel.version>
         <activemq.version>5.7.0</activemq.version>
         <spring.version>3.0.7.RELEASE</spring.version>
         <karaf.version>2.3.1-SNAPSHOT</karaf.version>
