@@ -41,12 +41,12 @@
 					<artifactId>jmxri</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>jline</groupId>
 					<artifactId>jline</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
