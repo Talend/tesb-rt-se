@@ -352,6 +352,8 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/**</exclude>
                 <!-- workaround for saaj-api bundle version-->
                 <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
+                <!-- patch for TESB-7884 -->
+                <exclude>org/apache/camel/karaf/camel-karaf-commands/**</exclude>
             </excludes>
         </fileSet>
 
@@ -485,6 +487,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for TESB-7884 -->
+        <file>
+            <source>${basedir}/target/dependencies/camel-karaf-commands-2.10.4.P1.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/karaf/camel-karaf-commands/2.10.4.P1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
