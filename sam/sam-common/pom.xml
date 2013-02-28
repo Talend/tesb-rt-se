@@ -24,6 +24,7 @@
             <groupId>commons-jxpath</groupId>
             <artifactId>commons-jxpath</artifactId>
             <version>${commons-jxpath.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
