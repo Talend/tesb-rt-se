@@ -298,6 +298,7 @@
                                     <version>2.10.4.P1</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
