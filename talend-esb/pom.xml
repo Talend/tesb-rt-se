@@ -569,8 +569,8 @@
                                         value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${saaj-api.version}"/>
                                     <!-- patch for TESB-7884 -->
                                     <replacefilter
-                                        token="camel-karaf-commands/2.10.4"
-                                        value="camel-karaf-commands/2.10.4.P1"/>
+                                        token="camel-karaf-commands/2.10.4&lt;"
+                                        value="camel-karaf-commands/2.10.4.P1&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
