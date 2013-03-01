@@ -434,7 +434,7 @@
 				<executions>
 					<execution>
 						<id>collect-add-ons</id>
-						<phase>package</phase>
+						<phase>generate-resources</phase>
 						<configuration>
 							<target>
 								<copy todir="target/add-ons/sam">
