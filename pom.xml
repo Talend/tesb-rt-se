@@ -95,7 +95,7 @@
         <camel.version>2.10.4</camel.version>
         <activemq.version>5.7.0</activemq.version>
         <spring.version>3.0.7.RELEASE</spring.version>
-        <karaf.version>2.3.1-SNAPSHOT</karaf.version>
+        <karaf.version>2.3.1</karaf.version>
         <zookeeper.version>3.3.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <slf4j.version>1.6.3</slf4j.version>
@@ -116,7 +116,7 @@
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <jetty.version>7.6.8.v20121106</jetty.version>
         <derby.servicemix.version>10.8.1.2_1</derby.servicemix.version>
-        <pax-web-jsp.version>1.1.12-SNAPSHOT</pax-web-jsp.version>
+        <pax-web-jsp.version>1.1.12</pax-web-jsp.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
         <jolokia.version>1.0.4</jolokia.version>
