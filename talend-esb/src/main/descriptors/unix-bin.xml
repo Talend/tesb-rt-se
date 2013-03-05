@@ -344,7 +344,7 @@
                 <exclude>com/microsoft/sqlserver/**</exclude>
                 <!-- workaround for CXF and Zookeeper version in Camel 2.10.2 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.6.3/**</exclude>
+                <exclude>org/apache/cxf/karaf/apache-cxf/2.6.6.1/**</exclude>
                 <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
