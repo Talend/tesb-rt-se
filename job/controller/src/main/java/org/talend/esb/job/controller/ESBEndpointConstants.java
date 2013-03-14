@@ -29,6 +29,7 @@ public interface ESBEndpointConstants {
     String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
     String USE_SERVICE_LOCATOR = "useServiceLocator";
     String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
+    String USE_SERVICE_REGISTRY = "useServiceRegistry";
     String USE_HTTPS = "useHTTPS";
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
