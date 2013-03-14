@@ -92,6 +92,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean isRequestResponse, 
             final LocatorFeature slFeature,
             final EventFeature samFeature,
+            boolean useServiceRegistry,
             final SecurityArguments securityArguments, 
             final Bus bus,
             boolean logging,
@@ -204,6 +205,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
 
         clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
+        clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP, 
+                Boolean.toString(useServiceRegistry));
     }
 
     @Override

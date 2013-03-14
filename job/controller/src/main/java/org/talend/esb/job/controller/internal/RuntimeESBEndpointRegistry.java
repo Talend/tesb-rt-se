@@ -93,8 +93,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useServiceActivityMonitor = ((Boolean) props
                 .get(ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR))
                 .booleanValue();
-        boolean useServiceRegistry = ((Boolean) props
-                .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
+        boolean useServiceRegistry = false;
+        if (null != props.get(ESBEndpointConstants.USE_SERVICE_REGISTRY)) {
+            useServiceRegistry = ((Boolean) props
+                    .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
+        }
         boolean logMessages = false;
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
@@ -123,14 +126,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             if (slProps != null) {
                 slFeature.setRequiredEndpointProperties((Map<String, String>)slProps);
             }
-        }
-
-        String wsdlURL = null;
-        if (useServiceRegistry) {
-            wsdlURL = clientProperties.get("registry.url") + "/rest/" + serviceName + "/WSDL";
-            //to do: process policies
-        }else {
-            wsdlURL = (String) props.get(ESBEndpointConstants.WSDL_URL);
         }
 
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
@@ -172,11 +167,13 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 clientProperties,
                 stsProperties);
         return new RuntimeESBConsumer(
-                serviceName, portName, operationName, publishedEndpointUrl, wsdlURL,
+                serviceName, portName, operationName, publishedEndpointUrl, 
+                (String) props.get(ESBEndpointConstants.WSDL_URL),
                 OperationStyle.isRequestResponse((String) props
                         .get(ESBEndpointConstants.COMMUNICATION_STYLE)),
                 slFeature,
                 useServiceActivityMonitor ? samFeature : null,
+                useServiceRegistry,
                 securityArguments,
                 bus,
                 logMessages,

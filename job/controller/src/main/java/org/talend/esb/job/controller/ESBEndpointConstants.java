@@ -30,6 +30,7 @@ public interface ESBEndpointConstants {
     String USE_SERVICE_LOCATOR = "useServiceLocator";
     String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
     String USE_SERVICE_REGISTRY = "useServiceRegistry";
+    String USE_SERVICE_REGISTRY_PROP = "use.service.registry";
     String USE_HTTPS = "useHTTPS";
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
