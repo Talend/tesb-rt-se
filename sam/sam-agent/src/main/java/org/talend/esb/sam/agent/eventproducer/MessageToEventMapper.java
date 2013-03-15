@@ -64,14 +64,16 @@ public class MessageToEventMapper {
 
     /**
      * Map to event.
-     *
-     * @param message the message
+     * 
+     * @param message
+     *            the message
      * @return the event
      */
     public Event mapToEvent(Message message) {
         Event event = new Event();
         MessageInfo messageInfo = new MessageInfo();
         Originator originator = new Originator();
+        boolean isRestMessage = isRestMessage(message);
 
         event.setMessageInfo(messageInfo);
         event.setOriginator(originator);
@@ -83,30 +85,39 @@ public class MessageToEventMapper {
         event.setTimestamp(date);
 
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
-
-        if (!isRestMessage(message)) {
+        if (!isRestMessage) {
             messageInfo.setMessageId(getMessageId(message));
             ServiceInfo serviceInfo = message.getExchange().getBinding().getBindingInfo().getService();
-            if (null != serviceInfo){
+            if (null != serviceInfo) {
                 String portTypeName = serviceInfo.getInterface().getName().toString();
                 messageInfo.setPortType(portTypeName);
                 messageInfo.setOperationName(getOperationName(message));
             }
+            if (message.getExchange().getBinding() instanceof SoapBinding) {
+                SoapBinding soapBinding = (SoapBinding) message.getExchange().getBinding();
+                if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
+                    SoapBindingInfo soapBindingInfo = (SoapBindingInfo) soapBinding.getBindingInfo();
+                    messageInfo.setTransportType(soapBindingInfo.getTransportURI());
+                }
+            }
+        } else {
+            messageInfo.setTransportType("http://cxf.apache.org/transports/http");
+            messageInfo.setPortType(message.getExchange().getEndpoint().getEndpointInfo().getName()
+                    .toString());
+            String opName = getRestOperationName(message);
+            messageInfo.setOperationName(opName);
         }
 
-        if (message.getExchange().getBinding() instanceof SoapBinding) {
-            SoapBinding soapBinding = (SoapBinding)message.getExchange().getBinding();
-            if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
-                SoapBindingInfo soapBindingInfo = (SoapBindingInfo)soapBinding.getBindingInfo();
-                messageInfo.setTransportType(soapBindingInfo.getTransportURI());
-            }
-        }
         if (messageInfo.getTransportType() == null) {
             messageInfo.setTransportType("Unknown transport type");
         }
 
-        String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
-        event.getCustomInfo().put("address", addr);
+        String addr = null;
+        if(isRestMessage) addr = (String) message.get(Message.BASE_PATH);
+        else addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
+        if (null != addr) {
+            event.getCustomInfo().put("address", addr);
+        }
 
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
@@ -118,15 +129,22 @@ public class MessageToEventMapper {
         }
         originator.setProcessId(Converter.getPID());
 
-        String httpMethod = (String)message.get(Message.HTTP_REQUEST_METHOD);
+        if (isRestMessage) {
+            String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
+            if (null != accept) {
+                event.getCustomInfo().put("Accept", accept);
+            }
+        }
+
+        String httpMethod = (String) message.get(Message.HTTP_REQUEST_METHOD);
         if (null != httpMethod) {
             event.getCustomInfo().put("HTTP_Method", httpMethod);
         }
 
-        String contentType = (String)message.get(Message.CONTENT_TYPE);
+        String contentType = (String) message.get(Message.CONTENT_TYPE);
         event.getCustomInfo().put("Content_Type", contentType);
 
-        Integer responseCode = (Integer)message.get(Message.RESPONSE_CODE);
+        Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
         if (null != responseCode) {
             event.getCustomInfo().put("Response_Code", responseCode.toString());
         }
@@ -147,10 +165,62 @@ public class MessageToEventMapper {
         event.setEventType(eventType);
 
         CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
-        //System.out.println("custom props: " + customInfo);
+        // System.out.println("custom props: " + customInfo);
         event.getCustomInfo().putAll(customInfo);
 
         return event;
+    }
+
+    private String getRestOperationName(Message message) {
+        boolean isRequestor = MessageUtils.isRequestor(message);
+        boolean isOutbound = MessageUtils.isOutbound(message);
+        String opName = "";
+        if (isRequestor) {
+            if (isOutbound) {
+                String path = message.get(Message.REQUEST_URI).toString()
+                        .substring(message.get(Message.BASE_PATH).toString().length());
+                if (null == path || path.isEmpty())
+                    path = "/";
+                opName = message.get(Message.HTTP_REQUEST_METHOD).toString()
+                        .concat("[".concat(path).concat("]"));
+            } else {
+                String path = message
+                        .getExchange()
+                        .getOutMessage()
+                        .get(Message.REQUEST_URI)
+                        .toString()
+                        .substring(
+                                message.getExchange().getOutMessage().get(Message.BASE_PATH).toString()
+                                        .length());
+                if (null == path || path.isEmpty())
+                    path = "/";
+                opName = message.getExchange().getOutMessage().get(Message.HTTP_REQUEST_METHOD).toString()
+                        .concat("[").concat(path).concat("]");
+            }
+        } else {
+            if (!isOutbound) {
+                String path = message.get(Message.REQUEST_URI).toString()
+                        .substring(message.get(Message.BASE_PATH).toString().length());
+                if (null == path || path.isEmpty())
+                    path = "/";
+                opName = message.get(Message.HTTP_REQUEST_METHOD).toString()
+                        .concat("[".concat(path).concat("]"));
+            } else {
+                String path = message
+                        .getExchange()
+                        .getInMessage()
+                        .get(Message.REQUEST_URI)
+                        .toString()
+                        .substring(
+                                message.getExchange().getInMessage().get(Message.BASE_PATH).toString()
+                                        .length());
+                if (null == path || path.isEmpty())
+                    path = "/";
+                opName = message.getExchange().getInMessage().get(Message.HTTP_REQUEST_METHOD).toString()
+                        .concat("[").concat(path).concat("]");
+            }
+        }
+        return opName;
     }
 
     /**
@@ -165,8 +235,8 @@ public class MessageToEventMapper {
     private String getMessageId(Message message) {
         String messageId = null;
 
-        AddressingProperties addrProp =
-            ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
+        AddressingProperties addrProp = ContextUtils.retrieveMAPs(message, false,
+                MessageUtils.isOutbound(message));
         if (addrProp != null) {
             messageId = addrProp.getMessageID().getValue();
         }
@@ -205,33 +275,34 @@ public class MessageToEventMapper {
         BindingOperationInfo boi = null;
 
         boi = message.getExchange().getBindingOperationInfo();
-        if (null == boi){
-            //get BindingOperationInfo from message content
+        if (null == boi) {
+            // get BindingOperationInfo from message content
             boi = getOperationFromContent(message);
         }
 
-        //if BindingOperationInfo is still null, try to get it from Request message content
-        if (null == boi){
+        // if BindingOperationInfo is still null, try to get it from Request
+        // message content
+        if (null == boi) {
             Message inMsg = message.getExchange().getInMessage();
-            if (null != inMsg){
+            if (null != inMsg) {
                 Message reqMsg = inMsg.getExchange().getInMessage();
-                if (null != reqMsg){
+                if (null != reqMsg) {
                     boi = getOperationFromContent(reqMsg);
                 }
             }
         }
 
-        if (null != boi){
+        if (null != boi) {
             operationName = boi.getName().toString();
         }
 
         return operationName;
     }
 
-    private BindingOperationInfo getOperationFromContent(Message message){
+    private BindingOperationInfo getOperationFromContent(Message message) {
         BindingOperationInfo boi = null;
         XMLStreamReader xmlReader = message.getContent(XMLStreamReader.class);
-        if (null != xmlReader){
+        if (null != xmlReader) {
             QName qName = xmlReader.getName();
             boi = ServiceModelUtil.getOperation(message.getExchange(), qName);
         }
@@ -246,14 +317,14 @@ public class MessageToEventMapper {
      */
     protected String getPayload(Message message) {
         try {
-            String encoding = (String)message.get(Message.ENCODING);
+            String encoding = (String) message.get(Message.ENCODING);
             if (encoding == null) {
                 encoding = "UTF-8";
             }
             CachedOutputStream cos = message.getContent(CachedOutputStream.class);
             if (cos == null) {
                 LOG.warning("Could not find CachedOutputStream in message."
-                    + " Continuing without message content");
+                        + " Continuing without message content");
                 return "";
             }
             return new String(cos.getBytes(), encoding);
@@ -264,7 +335,7 @@ public class MessageToEventMapper {
 
     /**
      * Gets the max message content length.
-     *
+     * 
      * @return the max content length
      */
     public int getMaxContentLength() {
@@ -273,8 +344,9 @@ public class MessageToEventMapper {
 
     /**
      * Sets the max message content length.
-     *
-     * @param maxContentLength the new max content length
+     * 
+     * @param maxContentLength
+     *            the new max content length
      */
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
@@ -282,8 +354,9 @@ public class MessageToEventMapper {
 
     /**
      * Handle content length.
-     *
-     * @param event the event
+     * 
+     * @param event
+     *            the event
      */
     private void handleContentLength(Event event) {
         if (event.getContent() == null) {
@@ -301,18 +374,18 @@ public class MessageToEventMapper {
         }
 
         int contentLength = maxContentLength - CUT_START_TAG.length() - CUT_END_TAG.length();
-        event.setContent(CUT_START_TAG
-                + event.getContent().substring(0, contentLength) + CUT_END_TAG);
+        event.setContent(CUT_START_TAG + event.getContent().substring(0, contentLength) + CUT_END_TAG);
         event.setContentCut(true);
     }
-    
+
     /**
      * check if a Message is a Rest Message
+     * 
      * @param message
      * @return
      */
     private boolean isRestMessage(Message message) {
-        String resName = (String)message.getExchange().get("org.apache.cxf.resource.operation.name");
+        String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
         return resName != null && !resName.isEmpty();
     }
 }
