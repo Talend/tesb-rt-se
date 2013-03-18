@@ -98,6 +98,14 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             useServiceRegistry = ((Boolean) props
                     .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
         }
+        boolean useAuthorization = false;
+        if (null != props.get(ESBEndpointConstants.USE_AUTHORIZATION)) {
+            useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();
+        }
+        String authzRole = "";
+        if (null != props.get(ESBEndpointConstants.AUTHZ_ROLE)) {
+            authzRole = (String) props.get(ESBEndpointConstants.AUTHZ_ROLE);
+        }
         boolean logMessages = false;
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
@@ -131,10 +139,13 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
+        Policy policyAuthz = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
             policy = policyProvider.getTokenPolicy();
+            policyAuthz = policyProvider.getTokenPolicyAuthz();
         } else if (EsbSecurity.SAML == esbSecurity) {
             policy = policyProvider.getSamlPolicy();
+            policyAuthz = policyProvider.getSamlPolicyAuthz();
         }
 
         List<Header> soapHeaders = null;
@@ -166,6 +177,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
                 stsProperties);
+        final AuthzArguments authzArguments = new AuthzArguments(policyAuthz, authzRole);
+
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
                 (String) props.get(ESBEndpointConstants.WSDL_URL),
@@ -175,6 +188,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 useServiceActivityMonitor ? samFeature : null,
                 useServiceRegistry,
                 securityArguments,
+                useAuthorization ? authzArguments : null,
                 bus,
                 logMessages,
                 (String) props.get(ESBEndpointConstants.SOAPACTION),

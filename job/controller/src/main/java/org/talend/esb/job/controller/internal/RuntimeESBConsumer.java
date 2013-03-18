@@ -94,6 +94,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final EventFeature samFeature,
             boolean useServiceRegistry,
             final SecurityArguments securityArguments, 
+            final AuthzArguments authzArguments,
             final Bus bus,
             boolean logging,
             String soapAction,
