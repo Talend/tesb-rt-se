@@ -139,13 +139,18 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
-        Policy policyAuthz = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
-            policy = policyProvider.getTokenPolicy();
-            policyAuthz = policyProvider.getTokenPolicyAuthz();
+            if (useAuthorization) {
+                policy = policyProvider.getTokenPolicyAuthz();
+            } else {
+                policy = policyProvider.getTokenPolicy();
+            }
         } else if (EsbSecurity.SAML == esbSecurity) {
-            policy = policyProvider.getSamlPolicy();
-            policyAuthz = policyProvider.getSamlPolicyAuthz();
+            if (useAuthorization) {
+                policy = policyProvider.getSamlPolicyAuthz();
+            } else {
+                policy = policyProvider.getSamlPolicy();
+            }
         }
 
         List<Header> soapHeaders = null;
@@ -177,7 +182,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
                 stsProperties);
-        final AuthzArguments authzArguments = new AuthzArguments(policyAuthz, authzRole);
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
@@ -188,7 +192,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 useServiceActivityMonitor ? samFeature : null,
                 useServiceRegistry,
                 securityArguments,
-                useAuthorization ? authzArguments : null,
+                authzRole,
                 bus,
                 logMessages,
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
