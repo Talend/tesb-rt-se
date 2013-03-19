@@ -85,7 +85,7 @@ public class MessageToEventMapper {
         event.setTimestamp(date);
         
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
-        if (!isRestMessage && message.getExchange().getBinding() instanceof SoapBinding) {
+        if (!isRestMessage) {
             messageInfo.setMessageId(getMessageId(message));
             ServiceInfo serviceInfo = message.getExchange().getBinding().getBindingInfo().getService();
             if (null != serviceInfo) {
@@ -384,6 +384,6 @@ public class MessageToEventMapper {
      */
     private boolean isRestMessage(Message message) {
         String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
-        return resName != null && !resName.isEmpty();
+        return (resName != null && !resName.isEmpty()) || (!(message.getExchange().getBinding() instanceof SoapBinding));
     }
 }
