@@ -28,6 +28,10 @@ public interface PolicyProvider {
 
     Policy getSamlPolicy();
 
+    Policy getTokenPolicyAuthz();
+
+    Policy getSamlPolicyAuthz();
+
     void register(Bus cxf);
 
 }

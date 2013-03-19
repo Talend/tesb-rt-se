@@ -98,6 +98,14 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             useServiceRegistry = ((Boolean) props
                     .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
         }
+        boolean useAuthorization = false;
+        if (null != props.get(ESBEndpointConstants.USE_AUTHORIZATION)) {
+            useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();
+        }
+        String authzRole = "";
+        if (null != props.get(ESBEndpointConstants.AUTHZ_ROLE)) {
+            authzRole = (String) props.get(ESBEndpointConstants.AUTHZ_ROLE);
+        }
         boolean logMessages = false;
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
@@ -132,9 +140,17 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
-            policy = policyProvider.getTokenPolicy();
+            if (useAuthorization) {
+                policy = policyProvider.getTokenPolicyAuthz();
+            } else {
+                policy = policyProvider.getTokenPolicy();
+            }
         } else if (EsbSecurity.SAML == esbSecurity) {
-            policy = policyProvider.getSamlPolicy();
+            if (useAuthorization) {
+                policy = policyProvider.getSamlPolicyAuthz();
+            } else {
+                policy = policyProvider.getSamlPolicy();
+            }
         }
 
         List<Header> soapHeaders = null;
@@ -165,7 +181,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.USERNAME),
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
-                stsProperties);
+                stsProperties,
+                authzRole);
+
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
                 (String) props.get(ESBEndpointConstants.WSDL_URL),
