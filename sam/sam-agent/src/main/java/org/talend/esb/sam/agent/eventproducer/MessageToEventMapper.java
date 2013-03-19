@@ -84,6 +84,15 @@ public class MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
         
+        if(isRestMessage)
+        {
+            String queryString = (String) message.get(Message.QUERY_STRING);
+            if(queryString == null && message.getExchange().getInMessage() !=null)
+                queryString = (String) message.getExchange().getInMessage().get(Message.QUERY_STRING);
+            if(queryString != null && queryString.contains("_wadl")) 
+                return null;
+        }
+        
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
         if (!isRestMessage) {
             messageInfo.setMessageId(getMessageId(message));
@@ -252,11 +261,17 @@ public class MessageToEventMapper {
         boolean isRequestor = MessageUtils.isRequestor(message);
         boolean isFault = MessageUtils.isFault(message);
         boolean isOutbound = MessageUtils.isOutbound(message);
-
+        
+        //Needed because if it is rest request and method does not exists had better to return Fault
+        if(!isFault && isRestMessage(message)) 
+        {
+            isFault = (message.getExchange().get("org.apache.cxf.resource.operation.name") == null);
+        }
         if (isOutbound) {
             if (isFault) {
                 return EventTypeEnum.FAULT_OUT;
-            } else {
+            }
+            else {
                 return isRequestor ? EventTypeEnum.REQ_OUT : EventTypeEnum.RESP_OUT;
             }
         } else {
@@ -383,7 +398,7 @@ public class MessageToEventMapper {
      * @return
      */
     private boolean isRestMessage(Message message) {
-        String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
-        return (resName != null && !resName.isEmpty()) || (!(message.getExchange().getBinding() instanceof SoapBinding));
+        //String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
+        return !(message.getExchange().getBinding() instanceof SoapBinding);
     }
 }

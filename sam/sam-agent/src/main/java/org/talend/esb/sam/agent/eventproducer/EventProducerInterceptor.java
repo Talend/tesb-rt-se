@@ -100,7 +100,7 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
             LOG.fine("Store event [message_id=" + id + "] in cache.");
         }
-        queue.add(event);
+        if(event != null) queue.add(event);
     }
 
     /**
