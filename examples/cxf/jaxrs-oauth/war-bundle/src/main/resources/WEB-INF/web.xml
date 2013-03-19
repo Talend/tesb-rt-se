@@ -27,7 +27,7 @@
 	</init-param>
 	<init-param>
     	   <param-name>redirect-servlet-name</param-name>
-	   <param-value>pax-web-jsp-servlet</param-value>
+	   <param-value>jsp</param-value>
 	</init-param>
 	<load-on-startup>1</load-on-startup>
     </servlet>

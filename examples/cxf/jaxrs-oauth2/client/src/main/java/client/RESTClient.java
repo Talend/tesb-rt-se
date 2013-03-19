@@ -50,7 +50,9 @@ public final class RESTClient {
     	WebClient rs = WebClient.create("http://localhost:" + port + "/services/oauth/registerProvider");
     	WebClient.getConfig(rs).getHttpConduit().getClient().setReceiveTimeout(10000000L);
     	rs.form(new Form().set("appName", "Restaurant Reservations")
-    			          .set("appURI", "http://localhost:" + port + "/services/reservations/reserve"));
+    			          .set("appURI", "http://localhost:" + port + "/services/reservations/reserve")
+    			          .set("appRedirectURI", "http://localhost:" + port + "/services/reservations/reserve/complete")
+    			          );
     }
     
     public void createUserAccount() throws Exception {

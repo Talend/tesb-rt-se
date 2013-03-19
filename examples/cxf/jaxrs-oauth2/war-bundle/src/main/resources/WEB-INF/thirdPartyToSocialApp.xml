@@ -30,19 +30,14 @@
     <!-- ThirdPartyAccessService service endpoint.
          Only third-party cconsumers which have valid OAuth Access tokens will be able to use it.
     -->
-    <bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/thirdPartyAccess"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="thirdPartyAccessService"/>
-             </list> 
-         </property>
-         <property name="providers">
-             <list>
-               <ref bean="oAuthFilter"/>
-             </list> 
-         </property>  
-     </bean>
+    <jaxrs:server id="thirdPartyAccessServer" address="/thirdPartyAccess">
+        <jaxrs:serviceBeans>
+           <ref bean="thirdPartyAccessService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="oAuthFilter"/>
+        </jaxrs:providers>
+     </jaxrs:server>
           
 </beans>
 

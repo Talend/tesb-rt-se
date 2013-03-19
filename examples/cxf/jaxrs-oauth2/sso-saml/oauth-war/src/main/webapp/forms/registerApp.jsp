@@ -51,6 +51,15 @@
             </td>
         </tr>
         <tr>
+            <td><big><big><big>Application Redirect URI:</big></big></big></td>
+            <td>
+              <input type="text" size="50" name="appRedirectURI" value="<%= httpProtocol %>://localhost:${reservations.port}/reservations/service/reserve/complete"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>

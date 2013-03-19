@@ -19,14 +19,11 @@
           it makes a booking if it has a free table for a specific hour and
           returns its address   
      -->
-     <bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/restaurant"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="restaurantService"/>
-             </list> 
-         </property>  
-     </bean>
+     <jaxrs:server id="restaurantServer" address="/restaurant">
+        <jaxrs:serviceBeans>
+           <ref bean="restaurantService"/>
+        </jaxrs:serviceBeans>
+     </jaxrs:server>
     
           
 </beans>

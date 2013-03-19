@@ -44,21 +44,16 @@
      </bean>
 
      <!-- OAuthManager service endpoint, consists of 2 JAX-RS root resources --> 
-     <bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/oauth"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="thirdPartyRegService"/>
-               <ref bean="accessTokenService"/>
-             </list> 
-         </property>
-         <property name="providers">
-             <list>
-               <ref bean="jsonProvider"/>
-               <ref bean="clientRegistrationConfirmView"/>
-             </list> 
-         </property>  
-     </bean>
+     <jaxrs:server id="oauthServer" address="/oauth">
+        <jaxrs:serviceBeans>
+           <ref bean="thirdPartyRegService"/>
+           <ref bean="accessTokenService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="jsonProvider"/>
+           <ref bean="clientRegistrationConfirmView"/>
+        </jaxrs:providers>
+     </jaxrs:server>
           
           
 </beans>

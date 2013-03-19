@@ -13,6 +13,12 @@
         </listener-class>
     </listener>
     <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>
+           org.springframework.osgi.web.context.support.OsgiBundleXmlWebApplicationContext
+        </param-value>
+    </context-param>    
+    <context-param>  
         <param-name>contextConfigLocation</param-name>
         <param-value>
 	      WEB-INF/applicationContext.xml
@@ -27,7 +33,7 @@
 	</init-param>
 	<init-param>
     	   <param-name>redirect-servlet-name</param-name>
-	   <param-value>pax-web-jsp-servlet</param-value>
+	   <param-value>jsp</param-value>
 	</init-param>
 	<load-on-startup>1</load-on-startup>
     </servlet>

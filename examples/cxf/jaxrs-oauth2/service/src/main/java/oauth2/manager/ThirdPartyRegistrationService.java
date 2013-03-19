@@ -47,7 +47,9 @@ public class ThirdPartyRegistrationService {
 	public ConsumerRegistration register(MultipartBody body) {
 	    String appName = body.getAttachmentObject("appName", String.class);
 	    String appURI = body.getAttachmentObject("appURI", String.class);
+	    String appRedirectURI = body.getAttachmentObject("appRedirectURI", String.class);
 	    String appDesc = body.getAttachmentObject("appDescription", String.class);
+	    
 
 	    URI logoURI = null;
 	    
@@ -82,7 +84,7 @@ public class ThirdPartyRegistrationService {
 		
 		newClient.setApplicationDescription(appDesc);
 		newClient.setApplicationLogoUri(logoURI.toString());
-		
+		newClient.getRedirectUris().add(appRedirectURI);
 		manager.registerClient(newClient);
 		return new ConsumerRegistration(clientId, clientSecret);
 	}
@@ -91,11 +93,13 @@ public class ThirdPartyRegistrationService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/")
 	public ConsumerRegistration registerForm(@FormParam("appName") String appName,
-			@FormParam("appURI") String appURI) {
+			@FormParam("appURI") String appURI,
+			@FormParam("appRedirectURI") String appRedirectURI) {
 	    String clientId = generateClientId(appName, appURI);
 		String clientSecret = generateClientSecret();
 	
 		Client newClient = new Client(clientId, clientSecret, true, appName, appURI);
+		newClient.getRedirectUris().add(appRedirectURI);
 		manager.registerClient(newClient);
 		return new ConsumerRegistration(clientId, clientSecret);
 	}

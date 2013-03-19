@@ -113,20 +113,15 @@
      </bean>
      
      <!-- Restaurant Reservations Service Endpoint --> 
-     <bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/reservations"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="restaurantReserveService"/>
-             </list> 
-         </property>
-         <property name="providers">
-             <list>
-               <ref bean="thirdPartySecurityContext"/>
-               <ref bean="reserveRegistrationViews"/>
-             </list> 
-         </property>  
-     </bean>
+     <jaxrs:server id="reservationsServer" address="/reservations">
+        <jaxrs:serviceBeans>
+           <ref bean="restaurantReserveService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="thirdPartySecurityContext"/>
+           <ref bean="reserveRegistrationViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
      
           
 </beans>

@@ -75,35 +75,25 @@
      <!-- 
          Social.com service endpoint which consists of 2 JAX-RS root resources
      -->
-     <bean id="socialServer" class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/social"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="socialService"/>
-               <ref bean="oauthAuthorizeService"/>
-             </list> 
-         </property>  
-         <property name="providers">
-             <list>
-               <ref bean="socialSecurityContext"/>
-               <ref bean="socialViews"/>
-             </list> 
-         </property>
-     </bean>
-
-     <bean id="registerUsers" class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
-         <property name="address" value="/register"/>
-         <property name="serviceBeans">
-             <list>
-               <ref bean="userRegistrationService"/>
-             </list> 
-         </property>  
-         <property name="providers">
-             <list>
-               <ref bean="socialViews"/>
-             </list> 
-         </property>
-     </bean>
+     <jaxrs:server id="socialServer" address="/social">
+        <jaxrs:serviceBeans>
+           <ref bean="socialService"/>
+           <ref bean="oauthAuthorizeService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="socialSecurityContext"/>
+           <ref bean="socialViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
+     
+     <jaxrs:server id="registerUsers" address="/register">
+        <jaxrs:serviceBeans>
+           <ref bean="userRegistrationService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+           <ref bean="socialViews"/>
+        </jaxrs:providers>
+     </jaxrs:server>
 
           
 </beans>
