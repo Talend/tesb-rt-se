@@ -83,9 +83,9 @@ public class MessageToEventMapper {
         event.setEventType(null);
         Date date = new Date();
         event.setTimestamp(date);
-
+        
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
-        if (!isRestMessage) {
+        if (!isRestMessage && message.getExchange().getBinding() instanceof SoapBinding) {
             messageInfo.setMessageId(getMessageId(message));
             ServiceInfo serviceInfo = message.getExchange().getBinding().getBindingInfo().getService();
             if (null != serviceInfo) {
@@ -93,12 +93,10 @@ public class MessageToEventMapper {
                 messageInfo.setPortType(portTypeName);
                 messageInfo.setOperationName(getOperationName(message));
             }
-            if (message.getExchange().getBinding() instanceof SoapBinding) {
-                SoapBinding soapBinding = (SoapBinding) message.getExchange().getBinding();
-                if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
-                    SoapBindingInfo soapBindingInfo = (SoapBindingInfo) soapBinding.getBindingInfo();
-                    messageInfo.setTransportType(soapBindingInfo.getTransportURI());
-                }
+            SoapBinding soapBinding = (SoapBinding) message.getExchange().getBinding();
+            if (soapBinding.getBindingInfo() instanceof SoapBindingInfo) {
+                SoapBindingInfo soapBindingInfo = (SoapBindingInfo) soapBinding.getBindingInfo();
+                messageInfo.setTransportType(soapBindingInfo.getTransportURI());
             }
         } else {
             messageInfo.setTransportType("http://cxf.apache.org/transports/http");
