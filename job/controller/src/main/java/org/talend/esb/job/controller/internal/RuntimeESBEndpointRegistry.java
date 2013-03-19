@@ -181,7 +181,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.USERNAME),
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
-                stsProperties);
+                stsProperties,
+                authzRole);
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
@@ -192,7 +193,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 useServiceActivityMonitor ? samFeature : null,
                 useServiceRegistry,
                 securityArguments,
-                authzRole,
                 bus,
                 logMessages,
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
