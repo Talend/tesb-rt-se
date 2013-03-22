@@ -6,6 +6,7 @@ package oauth2.manager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class ThirdPartyRegistrationService {
 		
 		newClient.setApplicationDescription(appDesc);
 		newClient.setApplicationLogoUri(logoURI.toString());
-		newClient.getRedirectUris().add(appRedirectURI);
+		newClient.setRedirectUris(Collections.singletonList(appRedirectURI));
 		manager.registerClient(newClient);
 		return new ConsumerRegistration(clientId, clientSecret);
 	}
@@ -99,7 +100,7 @@ public class ThirdPartyRegistrationService {
 		String clientSecret = generateClientSecret();
 	
 		Client newClient = new Client(clientId, clientSecret, true, appName, appURI);
-		newClient.getRedirectUris().add(appRedirectURI);
+		newClient.setRedirectUris(Collections.singletonList(appRedirectURI));
 		manager.registerClient(newClient);
 		return new ConsumerRegistration(clientId, clientSecret);
 	}

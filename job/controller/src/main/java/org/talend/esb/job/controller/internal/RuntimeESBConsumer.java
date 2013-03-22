@@ -210,6 +210,59 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientFactory.setProperties(clientProps);
         }
 
+        if (useServiceRegistry) {
+            Map<String, Object> clientProps = new HashMap<String, Object>();
+
+            //add properties for Username Token
+            clientProps.put(SecurityConstants.USERNAME,
+                    securityArguments.getUsername());
+            clientProps.put(SecurityConstants.PASSWORD,
+                    securityArguments.getPassword());
+
+            //add properties for SAML Token
+            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
+
+            final STSClient stsClient = new STSClient(bus);
+            stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
+            stsClient.setServiceQName(
+                new QName(stsPropsDef.get(STS_NAMESPACE),
+                    stsPropsDef.get(STS_SERVICE_NAME)));
+            stsClient.setEndpointQName(
+                new QName(stsPropsDef.get(STS_NAMESPACE),
+                    stsPropsDef.get(STS_ENDPOINT_NAME)));
+
+            Map<String, Object> stsProps = new HashMap<String, Object>();
+
+            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
+                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
+                    stsProps.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            stsProps.put(SecurityConstants.USERNAME,
+                    securityArguments.getUsername());
+            stsProps.put(SecurityConstants.PASSWORD,
+                    securityArguments.getPassword());
+            stsClient.setProperties(stsProps);
+
+            clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
+
+            Map<String, String> clientPropsDef =
+                securityArguments.getClientProperties();
+
+            for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
+                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
+                    clientProps.put(entry.getKey(), entry.getValue());
+                }
+            }
+            clientProps.put(SecurityConstants.CALLBACK_HANDLER,
+                    new WSPasswordCallbackHandler(
+                        clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
+                        clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
+
+            clientFactory.setProperties(clientProps);
+        }
+
         clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
         clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP, 
                 Boolean.toString(useServiceRegistry));
