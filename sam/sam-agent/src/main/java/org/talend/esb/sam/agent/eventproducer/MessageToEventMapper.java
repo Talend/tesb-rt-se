@@ -119,9 +119,7 @@ public class MessageToEventMapper {
             messageInfo.setTransportType("Unknown transport type");
         }
 
-        String addr = null;
-        if(isRestMessage) addr = (String) message.get(Message.BASE_PATH);
-        else addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
+        String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
         if (null != addr) {
             event.getCustomInfo().put("address", addr);
         }
@@ -136,24 +134,22 @@ public class MessageToEventMapper {
         }
         originator.setProcessId(Converter.getPID());
 
-        if (isRestMessage) {
-            String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
-            if (null != accept) {
-                event.getCustomInfo().put("Accept", accept);
-            }
+        String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
+        if (null != accept) {
+            event.getCustomInfo().put("Accept Type", accept);
         }
 
         String httpMethod = (String) message.get(Message.HTTP_REQUEST_METHOD);
         if (null != httpMethod) {
-            event.getCustomInfo().put("HTTP_Method", httpMethod);
+            event.getCustomInfo().put("HTTP Method", httpMethod);
         }
 
         String contentType = (String) message.get(Message.CONTENT_TYPE);
-        event.getCustomInfo().put("Content_Type", contentType);
+        event.getCustomInfo().put("Content Type", contentType);
 
         Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
         if (null != responseCode) {
-            event.getCustomInfo().put("Response_Code", responseCode.toString());
+            event.getCustomInfo().put("Response Code", responseCode.toString());
         }
 
         SecurityContext sc = message.get(SecurityContext.class);
