@@ -133,8 +133,6 @@ public class SAMRestServiceImpl implements SAMRestService {
         Map<String, String> flowConsumerHost = new HashMap<String, String>();
         Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 
-        AggregatedFlow aggregatedFlow = new AggregatedFlow();
-
         for (Flow obj : objects) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
@@ -166,6 +164,9 @@ public class SAMRestServiceImpl implements SAMRestService {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
             }
+
+            AggregatedFlow aggregatedFlow = new AggregatedFlow();
+
             String flowID = obj.getflowID();
             long timestamp = obj.getTimeStamp();
             Long endTime = flowLastTimestamp.get(flowID);
