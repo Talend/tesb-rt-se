@@ -44,7 +44,7 @@
 		<config> 
 			<option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi"/> 
 			<option name="jmx.username" description="JMX username" optional="true" default=""/> 
-			<option name="jmx.password" description="JMX password" optional="true" default="" type="secret"/>
+			<option name="jmx.password" description="JMX password" optional="true" default=""/>
 		</config>
 		<!--
 			<property name="TOMCAT_HOME" value="C:\apache-tomcat-7.0.5" /> 

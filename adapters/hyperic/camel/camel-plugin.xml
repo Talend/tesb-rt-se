@@ -71,7 +71,7 @@
 		<config> 
 			<option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun"/> 
 			<option name="jmx.username" description="JMX username" optional="true" default="tadmin"/> 
-			<option name="jmx.password" description="JMX password" optional="true" default="tadmin" type="hidden"/>
+			<option name="jmx.password" description="JMX password" optional="true" default="tadmin"/>
 			<option name="domain" description="Apache Camel Domain" optional="true" default="org.apache.camel"/>
 		</config> 
 		<plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
