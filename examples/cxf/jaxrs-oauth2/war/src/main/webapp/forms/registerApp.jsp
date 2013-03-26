@@ -50,7 +50,7 @@
         <tr>
             <td><big><big><big>Application Redirect URI:</big></big></big></td>
             <td>
-              <input type="text" size="50" name="appRedirectURI" value="http://localhost:${http.port}/examples/reservations/reserve/complete"/>
+              <input type="text" size="50" name="appRedirectURI" value="http://localhost:${http.port}/services/reservations/reserve/complete"/>
             </td>
         </tr>
         <tr>
