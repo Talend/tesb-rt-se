@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy">
+<wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+    xmlns:wsaw="http://www.w3.org/2005/08/addressing"
+    xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
   <wsp:ExactlyOne>
      <wsp:All>
         <wsam:Addressing wsp:Optional="false">
-           <wsp:Policy/>
+            <wsp:Policy/>
         </wsam:Addressing>
         <tpa:Authorization xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="XACML" />
         <sp:SymmetricBinding>
