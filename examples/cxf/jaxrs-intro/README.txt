@@ -62,7 +62,7 @@ Running the client
    instead of the default 8080), recompile the client as follows:
    - mvn clean install -Dhttp.port=8040
 
-   Then, for either OSGi- or Tomcat-hosted services:
+   Then, for either OSGi- or Jetty-hosted services:
    - mvn exec:java
 
 
