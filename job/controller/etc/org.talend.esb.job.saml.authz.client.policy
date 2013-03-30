@@ -2,7 +2,6 @@
 <wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy">
     <wsp:ExactlyOne>
         <wsp:All>
-            <tpa:Authorization xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="XACML" /> 
             <sp:AsymmetricBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
                 <wsp:Policy>
                     <sp:InitiatorToken>

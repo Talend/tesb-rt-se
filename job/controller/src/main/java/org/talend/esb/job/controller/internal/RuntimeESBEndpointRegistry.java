@@ -140,14 +140,10 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
-            if (useAuthorization) {
-                policy = policyProvider.getTokenPolicyAuthz();
-            } else {
-                policy = policyProvider.getTokenPolicy();
-            }
+            policy = policyProvider.getTokenPolicy();
         } else if (EsbSecurity.SAML == esbSecurity) {
             if (useAuthorization) {
-                policy = policyProvider.getSamlPolicyAuthz();
+                policy = policyProvider.getSamlAuthzClientPolicy();
             } else {
                 policy = policyProvider.getSamlPolicy();
             }

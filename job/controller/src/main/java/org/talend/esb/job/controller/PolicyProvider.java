@@ -28,9 +28,9 @@ public interface PolicyProvider {
 
     Policy getSamlPolicy();
 
-    Policy getTokenPolicyAuthz();
+    Policy getSamlAuthzServicePolicy();
 
-    Policy getSamlPolicyAuthz();
+    Policy getSamlAuthzClientPolicy();
 
     void register(Bus cxf);
 

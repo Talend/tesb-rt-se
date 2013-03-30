@@ -75,8 +75,8 @@
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
         <property name="policyToken" value="$job{policy.token}"/>
         <property name="policySaml" value="$job{policy.saml}"/>
-        <property name="policyTokenAuthz" value="$job{policy.token.authz}"/>
-        <property name="policySamlAuthz" value="$job{policy.saml.authz}"/>
+        <property name="policySamlAuthzService" value="$job{policy.saml.authz.service}"/>
+        <property name="policySamlAuthzClient" value="$job{policy.saml.authz.client}"/>
     </bean>
     <!--osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/-->
 

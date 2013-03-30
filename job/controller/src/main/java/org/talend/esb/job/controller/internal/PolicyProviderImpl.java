@@ -37,8 +37,8 @@ public class PolicyProviderImpl implements PolicyProvider {
 
     private String policyToken;
     private String policySaml;
-    private String policyTokenAuthz;
-    private String policySamlAuthz;
+    private String policySamlAuthzService;
+    private String policySamlAuthzClient;
     private PolicyBuilder policyBuilder;
 
     public void setPolicyToken(String policyToken) {
@@ -49,15 +49,15 @@ public class PolicyProviderImpl implements PolicyProvider {
         this.policySaml = policySaml;
     }
 
-    public void setPolicyTokenAuthz(String policyTokenAuthz) {
-        this.policyTokenAuthz = policyTokenAuthz;
+    public void setPolicySamlAuthzService(String policySamlAuthzService) {
+        this.policySamlAuthzService = policySamlAuthzService;
     }
 
-    public void setPolicySamlAuthz(String policySamlAuthz) {
-        this.policySamlAuthz = policySamlAuthz;
+    public void setPolicySamlAuthzClient(String policySamlAuthzClient) {
+        this.policySamlAuthzClient = policySamlAuthzClient;
     }
 
-    @javax.annotation.Resource
+	@javax.annotation.Resource
     public void setBus(Bus bus) {
         policyBuilder = bus.getExtension(PolicyBuilder.class);
     }
@@ -70,12 +70,12 @@ public class PolicyProviderImpl implements PolicyProvider {
         return loadPolicy(policySaml);
     }
 
-    public Policy getTokenPolicyAuthz() {
-        return loadPolicy(policyTokenAuthz);
+    public Policy getSamlAuthzServicePolicy() {
+        return loadPolicy(policySamlAuthzService);
     }
 
-    public Policy getSamlPolicyAuthz() {
-        return loadPolicy(policySamlAuthz);
+    public Policy getSamlAuthzClientPolicy() {
+        return loadPolicy(policySamlAuthzClient);
     }
 
     public void register(Bus cxf) {
@@ -85,10 +85,10 @@ public class PolicyProviderImpl implements PolicyProvider {
                 getTokenPolicy());
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML,
                 getSamlPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_TOKEN_AUTHZ,
-                getTokenPolicyAuthz());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ,
-                getSamlPolicyAuthz());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_SERVICE,
+                getSamlAuthzServicePolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CLIENT,
+                getSamlAuthzClientPolicy());
     }
 
     private Policy loadPolicy(String location) {
