@@ -354,6 +354,8 @@
                 <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
                 <!-- patch for TESB-7884 -->
                 <exclude>org/apache/camel/karaf/camel-karaf-commands/**</exclude>
+                <!-- patch for woodstox version (TESB-8887)-->
+                <exclude>org/codehaus/woodstox/woodstox-core-asl/4.1.4/**</exclude>
             </excludes>
         </fileSet>
 
@@ -467,7 +469,7 @@
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <!-- workaround for CXF version in Camel 2.10.2 features file -->
+        <!-- workaround for CXF version in Camel 2.10.4 features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
@@ -493,6 +495,12 @@
         <file>
             <source>${basedir}/target/dependencies/camel-karaf-commands-2.10.4.P1.jar</source>
             <outputDirectory>/container/system/org/apache/camel/karaf/camel-karaf-commands/2.10.4.P1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for woodstox version (TESB-8887)-->
+        <file>
+            <source>${basedir}/target/dependencies/woodstox-core-asl-${woodstox.version}.jar</source>
+            <outputDirectory>/container/system/org/codehaus/woodstox/woodstox-core-asl/${woodstox.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
