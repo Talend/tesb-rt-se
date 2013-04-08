@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -64,7 +64,7 @@ public class MessageToEventMapper {
 
     /**
      * Map to event.
-     * 
+     *
      * @param message
      *            the message
      * @return the event
@@ -83,16 +83,17 @@ public class MessageToEventMapper {
         event.setEventType(null);
         Date date = new Date();
         event.setTimestamp(date);
-        
-        if(isRestMessage)
-        {
+
+        if (isRestMessage) {
             String queryString = (String) message.get(Message.QUERY_STRING);
-            if(queryString == null && message.getExchange().getInMessage() !=null)
+            if (queryString == null && message.getExchange().getInMessage() != null) {
                 queryString = (String) message.getExchange().getInMessage().get(Message.QUERY_STRING);
-            if(queryString != null && queryString.contains("_wadl")) 
+            }
+            if (queryString != null && queryString.contains("_wadl")) {
                 return null;
+            }
         }
-        
+
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
         if (!isRestMessage) {
             messageInfo.setMessageId(getMessageId(message));
@@ -134,22 +135,26 @@ public class MessageToEventMapper {
         }
         originator.setProcessId(Converter.getPID());
 
-        String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
-        if (null != accept) {
-            event.getCustomInfo().put("Accept Type", accept);
-        }
+        if (isRestMessage) {
+            String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
+            if (null != accept) {
+                event.getCustomInfo().put("Accept Type", accept);
+            }
 
-        String httpMethod = (String) message.get(Message.HTTP_REQUEST_METHOD);
-        if (null != httpMethod) {
-            event.getCustomInfo().put("HTTP Method", httpMethod);
-        }
+            //String httpMethod = (String) message.get(Message.HTTP_REQUEST_METHOD);
+            //if (null != httpMethod) {
+            //    event.getCustomInfo().put("HTTP Method", httpMethod);
+            //}
 
-        String contentType = (String) message.get(Message.CONTENT_TYPE);
-        event.getCustomInfo().put("Content Type", contentType);
+            String contentType = (String) message.get(Message.CONTENT_TYPE);
+            if (null != contentType) {
+                event.getCustomInfo().put("Content Type", contentType);
+            }
 
-        Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
-        if (null != responseCode) {
-            event.getCustomInfo().put("Response Code", responseCode.toString());
+            Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
+            if (null != responseCode) {
+                event.getCustomInfo().put("Response Code", responseCode.toString());
+            }
         }
 
         SecurityContext sc = message.get(SecurityContext.class);
@@ -227,8 +232,8 @@ public class MessageToEventMapper {
     }
 
     /**
-     * Get MessageId string. 
-     * if enforceMessageIDTransfer=true or WS-Addressing enabled explicitly (i.e with <wsa:addressing/> feature), 
+     * Get MessageId string.
+     * if enforceMessageIDTransfer=true or WS-Addressing enabled explicitly (i.e with <wsa:addressing/> feature),
      * then MessageId is not null and conform with the definition in the WS-Addressing Spec;
      * if enforceMessageIDTransfer=false and WS-Addressing doesn't enable,
      * then MessageId is null.
@@ -257,17 +262,21 @@ public class MessageToEventMapper {
         boolean isRequestor = MessageUtils.isRequestor(message);
         boolean isFault = MessageUtils.isFault(message);
         boolean isOutbound = MessageUtils.isOutbound(message);
-        
+
         //Needed because if it is rest request and method does not exists had better to return Fault
-        if(!isFault && isRestMessage(message)) 
-        {
+        if(!isFault && isRestMessage(message)) {
             isFault = (message.getExchange().get("org.apache.cxf.resource.operation.name") == null);
+            if (!isFault) {
+                Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
+                if (null != responseCode) {
+                    isFault = (responseCode >= 400);
+                }
+            }
         }
         if (isOutbound) {
             if (isFault) {
                 return EventTypeEnum.FAULT_OUT;
-            }
-            else {
+            } else {
                 return isRequestor ? EventTypeEnum.REQ_OUT : EventTypeEnum.RESP_OUT;
             }
         } else {
@@ -344,7 +353,7 @@ public class MessageToEventMapper {
 
     /**
      * Gets the max message content length.
-     * 
+     *
      * @return the max content length
      */
     public int getMaxContentLength() {
@@ -353,7 +362,7 @@ public class MessageToEventMapper {
 
     /**
      * Sets the max message content length.
-     * 
+     *
      * @param maxContentLength
      *            the new max content length
      */
@@ -363,7 +372,7 @@ public class MessageToEventMapper {
 
     /**
      * Handle content length.
-     * 
+     *
      * @param event
      *            the event
      */
@@ -389,7 +398,7 @@ public class MessageToEventMapper {
 
     /**
      * check if a Message is a Rest Message
-     * 
+     *
      * @param message
      * @return
      */
