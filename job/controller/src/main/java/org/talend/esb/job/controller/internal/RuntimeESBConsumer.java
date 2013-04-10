@@ -33,6 +33,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
+import org.apache.cxf.bus.spring.SpringBusFactory;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
@@ -94,7 +95,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final EventFeature samFeature,
             boolean useServiceRegistry,
             final SecurityArguments securityArguments, 
-            final Bus bus,
+            Bus bus,
             boolean logging,
             String soapAction,
             final List<Header> soapHeaders) {
@@ -125,6 +126,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientFactory.setWsdlURL(wsdlURL);
         }
         clientFactory.setServiceClass(this.getClass());
+
+        //for TESB-9006, create new bus when registry enabled but no wsdl-client/policy-client
+        //extension set on the old bus. (used to instead the action of refresh job controller bundle.
+        if (useServiceRegistry && !hasRegistryClientExtension(bus)) {
+            SpringBusFactory sbf = new SpringBusFactory();
+            bus = sbf.createBus();
+        }
+
         clientFactory.setBus(bus);
         final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
         if (slFeature != null) {
@@ -338,6 +347,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
             ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
         }
         return client;
+    }
+
+    private boolean hasRegistryClientExtension(Bus bus) {
+        return (bus.hasExtensionByName("org.talend.esb.registry.client.wsdl.RegistryFactoryBeanListener")
+            || bus.hasExtensionByName("org.talend.esb.registry.client.policy.RegistryFactoryBeanListener"));
     }
 
 }

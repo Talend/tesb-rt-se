@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.headers.Header;
 import org.apache.neethi.Policy;
 import org.talend.esb.job.controller.ESBEndpointConstants;
@@ -42,7 +41,6 @@ import routines.system.api.ESBConsumer;
 import routines.system.api.ESBEndpointInfo;
 import routines.system.api.ESBEndpointRegistry;
 
-@NoJSR250Annotations(unlessNull = "bus") 
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     private static final Logger LOG = Logger.getLogger(RuntimeESBEndpointRegistry.class.getName());
@@ -54,7 +52,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private Map<String, String> stsProperties;
 //    private static final String HTTPS_CONFIG = "https.config";
 
-    @javax.annotation.Resource
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -98,6 +95,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             useServiceRegistry = ((Boolean) props
                     .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
         }
+
         boolean useAuthorization = false;
         if (null != props.get(ESBEndpointConstants.USE_AUTHORIZATION)) {
             useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();

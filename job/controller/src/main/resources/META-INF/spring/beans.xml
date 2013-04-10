@@ -62,6 +62,7 @@
     </bean>
 
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
+        <property name="bus" ref="cxf"/>
         <property name="samFeature" ref="eventFeature"/>
         <property name="policyProvider" ref="policyProvider"/>
         <property name="clientProperties">
