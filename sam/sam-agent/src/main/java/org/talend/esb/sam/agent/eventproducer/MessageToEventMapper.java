@@ -84,15 +84,15 @@ public class MessageToEventMapper {
         Date date = new Date();
         event.setTimestamp(date);
 
-        if (isRestMessage) {
-            String queryString = (String) message.get(Message.QUERY_STRING);
-            if (queryString == null && message.getExchange().getInMessage() != null) {
-                queryString = (String) message.getExchange().getInMessage().get(Message.QUERY_STRING);
-            }
-            if (queryString != null && queryString.contains("_wadl")) {
-                return null;
-            }
-        }
+//        if (isRestMessage) {
+//            String queryString = (String) message.get(Message.QUERY_STRING);
+//            if (queryString == null && message.getExchange().getInMessage() != null) {
+//                queryString = (String) message.getExchange().getInMessage().get(Message.QUERY_STRING);
+//            }
+//            if (queryString != null && queryString.contains("_wadl")) {
+//                return null;
+//            }
+//        }
 
         messageInfo.setFlowId(FlowIdHelper.getFlowId(message));
         if (!isRestMessage) {
@@ -136,6 +136,14 @@ public class MessageToEventMapper {
         originator.setProcessId(Converter.getPID());
 
         if (isRestMessage) {
+            //String queryString = (String) message.get(Message.QUERY_STRING);
+            //if (null == queryString && null != message.getExchange().getInMessage()) {
+            //    queryString = (String) message.getExchange().getInMessage().get(Message.QUERY_STRING);
+            //}
+            //if (null != queryString) {
+            //    event.getCustomInfo().put("Query String", queryString);
+            //}
+
             String accept = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
             if (null != accept) {
                 event.getCustomInfo().put("Accept Type", accept);
@@ -182,53 +190,40 @@ public class MessageToEventMapper {
     private String getRestOperationName(Message message) {
         boolean isRequestor = MessageUtils.isRequestor(message);
         boolean isOutbound = MessageUtils.isOutbound(message);
-        String opName = "";
+
+        Message effectiveMessage = message;
+
         if (isRequestor) {
-            if (isOutbound) {
-                String path = message.get(Message.REQUEST_URI).toString()
-                        .substring(message.get(Message.BASE_PATH).toString().length());
-                if (null == path || path.isEmpty())
-                    path = "/";
-                opName = message.get(Message.HTTP_REQUEST_METHOD).toString()
-                        .concat("[".concat(path).concat("]"));
-            } else {
-                String path = message
-                        .getExchange()
-                        .getOutMessage()
-                        .get(Message.REQUEST_URI)
-                        .toString()
-                        .substring(
-                                message.getExchange().getOutMessage().get(Message.BASE_PATH).toString()
-                                        .length());
-                if (null == path || path.isEmpty())
-                    path = "/";
-                opName = message.getExchange().getOutMessage().get(Message.HTTP_REQUEST_METHOD).toString()
-                        .concat("[").concat(path).concat("]");
+            if (!isOutbound) {
+                effectiveMessage = message.getExchange().getOutMessage();
             }
         } else {
-            if (!isOutbound) {
-                String path = message.get(Message.REQUEST_URI).toString()
-                        .substring(message.get(Message.BASE_PATH).toString().length());
-                if (null == path || path.isEmpty())
-                    path = "/";
-                opName = message.get(Message.HTTP_REQUEST_METHOD).toString()
-                        .concat("[".concat(path).concat("]"));
-            } else {
-                String path = message
-                        .getExchange()
-                        .getInMessage()
-                        .get(Message.REQUEST_URI)
-                        .toString()
-                        .substring(
-                                message.getExchange().getInMessage().get(Message.BASE_PATH).toString()
-                                        .length());
-                if (null == path || path.isEmpty())
-                    path = "/";
-                opName = message.getExchange().getInMessage().get(Message.HTTP_REQUEST_METHOD).toString()
-                        .concat("[").concat(path).concat("]");
+            if (isOutbound) {
+                effectiveMessage = message.getExchange().getInMessage();
             }
         }
-        return opName;
+
+        return buildRestOperationName(effectiveMessage);
+    }
+
+    private static String buildRestOperationName(Message message) {
+        if (message.containsKey(Message.HTTP_REQUEST_METHOD)) {
+            String httpMethod = message.get(Message.HTTP_REQUEST_METHOD).toString();
+
+            String path = "";
+            if (message.containsKey(Message.REQUEST_URI)) {
+                String requestUri = message.get(Message.REQUEST_URI).toString();
+                int baseUriLength = (message.containsKey(Message.BASE_PATH))
+                        ? message.get(Message.BASE_PATH).toString().length() : 0;
+                path = requestUri.substring(baseUriLength);
+                if (path.isEmpty()) {
+                    path = "/";
+                }
+            }
+
+            return new StringBuffer().append(httpMethod).append('[').append(path).append(']').toString();
+        }
+        return "";
     }
 
     /**
