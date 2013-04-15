@@ -18,7 +18,6 @@
         <module>sam-common</module>
         <module>sam-agent</module>
         <module>sam-server</module>
-        <module>sam-server-war</module>
         <module>derby-starter</module>
         <module>datasource-service</module>
         <module>sam-service-common</module>
