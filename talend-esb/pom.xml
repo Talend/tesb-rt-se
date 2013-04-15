@@ -451,6 +451,7 @@
 								<copy todir="target/add-ons/sam">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/*.jar" />
+										<include name="**/target/*.war" />
 										<exclude name="**/sam-example*.*" />
 									</fileset>
 									<flattenmapper />
