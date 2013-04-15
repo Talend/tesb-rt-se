@@ -22,6 +22,10 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+            <!--bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+                <property name="dropRootElement" value="false" />
+                <property name="supportUnwrapped" value="true" />
+            </bean-->
         </jaxrs:providers>
     </jaxrs:server>
 </beans>
