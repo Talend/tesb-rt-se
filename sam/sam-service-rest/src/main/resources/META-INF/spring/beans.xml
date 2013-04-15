@@ -16,7 +16,7 @@
     
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:/datasource-osgi.xml"/>
-    <import resource="classpath:/persistence.xml"/>
+    <import resource="classpath:/persistence-rest.xml"/>
     
     <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="db.datasource">ds-derby</prop>

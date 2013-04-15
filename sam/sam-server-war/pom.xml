@@ -19,6 +19,12 @@
             <artifactId>sam-server</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.talend.esb.sam.service</groupId>
+            <artifactId>sam-service-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
