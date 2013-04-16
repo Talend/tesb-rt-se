@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -35,3 +35,13 @@ sam-server-war:
 derby-starter: 
   The derby-starter bundle which ONLY can be used to install on the OSGI container for starting 
 the Derby Database server.
+
+datasource-service:
+  There are 6 datasources provided to connect SAM server to Derby, MySQL, H2, Oracle, DB2 and 
+  SQLServer database.
+  
+sam-service-common:
+  The common codes used for SAM Service (Restful api).
+  
+sam-service-rest:
+  The Restful api which can be used to retrieve Events data from SAM server.

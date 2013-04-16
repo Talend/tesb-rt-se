@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -45,7 +45,11 @@ install the Datasource for SQLServer into the Talend ESB container.
 
 tesb-sam-server
 ---------------
-install Monitoring Server in a Talend ESB container:
+install SAM Server into the Talend ESB container.
+
+tesb-sam-service
+----------------
+install SAM service (RESTful api) into the Talend ESB container.
 
 tesb-locator-client
 -------------------
