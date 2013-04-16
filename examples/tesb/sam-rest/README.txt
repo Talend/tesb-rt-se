@@ -28,7 +28,7 @@ client/
 
 Prerequisite
 ---------------------------------------
-To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
+To build and run this example, you must install the J2SE Development Kit (JDK) 6.0 or above.
 
 The SAM Server should be running.
 

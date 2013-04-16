@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -32,8 +32,6 @@ Examples
 OSGi Container
 Service Locator
 Service Activity Monitoring
-Talend Service Factory
-Talend Integration Factory
 
 
 Getting Started 
@@ -69,7 +67,7 @@ The examples demonstrate how to use different functionality including:
 *    Use of blueprint to define routes 
 *    Rent a Car demo 
 *    Locator sample 
-*    Monitoring sample 
+*    SAM sample 
 
 OSGi Container
 ==============
@@ -111,41 +109,3 @@ events are first collected locally and then sent to the monitoring server
 periodically to not disturb the normal message flow. The Monitoring Server
 receives events from the Agent, optionally filters/handlers events and stores them
 into a database.
-
-Talend Service Factory
-======================
-Talend Service Factory uses the industry leading 
-open source Apache CXF implementation of JAX-WS to help you service enable 
-your existing applications and interfaces. It also includes value
-added components such as an OSGi container and several new examples. 
-For more information about Apache CXF see http://cxf.apache.org/ .
-CXF supports Web Services using SOAP with full WS-*functionality 
-including support for WS-Addressing, WS-Reliable Messaging, and 
-WS-Security over both HTTP and JMS transports.  CXF's elegantly 
-simple architecture allows declarative, policy-centric support of 
-these qualities of service through configuration rather than 
-code. It also supports non-SOAP bindings including REST. CXF open 
-standards and portability enable you to deliver interoperability for 
-your applications to maximize the value of your application to your users.
-The lightweight, modular architecture is based on Spring, so it will work with
-your application regardless of the platform on which it is running. It will run
-on stand-alone JVM applications, as part of a servlet container such as
-Tomcat, within a JEE server, or in an OSGi container such as Equinox.
-
-Talend Integration Factory
-==========================
-Talend Integration Factory is a fully supported,
-stable, production ready distribution based on the industry leading open
-source integration framework Apache Camel. Apache Camel uses well known 
-Enterprise Integration Patterns to make message based system 
-integration simpler yet powerful and scalable. 
-Talend Integration Factory includes an impressive set of available components
-for all commonly used protocols like http, https, ftp, xmpp, rss and 
-many more. A large number of data formats like EDI, JSON, CSV, HL7 
-and languages like JS, Python, Scala, are supported out of the box. 
-Its extensible architecture allows developers to easily add support
-for proprietary protocols and data formats.
-It uses a lightweight, component based architecture
-which allows a great of flexibility in deployment scenarios: as stand-alone
-JVM applications or embedded in a servlet container such as Tomcat,
-or within a JEE server, or in an OSGi container such as Equinox.

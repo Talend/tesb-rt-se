@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -14,27 +14,28 @@ Example how to use Service Activity Monitoring in OSGi
 
 Prerequisite
 ------------
-You need an installation of the TESB OSGI container and an Apche Tomcat installation.
+To build and run this example, you must install:
+    J2SE Development Kit (JDK) 1.6 or above
+    Apache Maven 3.x or above
+    OSGI Container (TESB Runtime Container or Karaf container)
 
-Install
--------
-Set the http port for TIF to 9090 in the file org.ops4j.pax.web.cfg.
 
-Start TESB Container
+Building the example using Maven
+--------------------------------------------
 
-> startup.bat
+From the base directory of this sample (i.e., where this README file is
+located), the pom.xml file is used to build and run this sample. 
 
-> features:addurl mvn:org.talend.esb/features/4.0/xml
-> features:install tesb-example-sam-osgi
+Using either UNIX or Windows:
 
-> list
+  mvn install   (builds the example)
 
-List should show that the example was started
+To remove the generated target/*.* files, run "mvn clean".  
 
-Check that the service can be reached on:
-http://localhost:9090/services/CustomerServicePort?wsdl
 
-Copy sam-server.war to the Tomcat webapps directory. Make sure tomcat listens on Port 8080.
+Deploy SAM Server into Tomcat
+-----------------------------
+Copy sam-server war to the Tomcat webapps directory. Make sure tomcat listens on Port 8080.
 Start tomcat
 
 > startup.bat
@@ -42,9 +43,25 @@ Start tomcat
 Check that the monitoring service can be reached on:
 http://localhost:8080/sam-server-war/services/MonitoringServiceSOAP?wsdl
 
+
+Install into TESB Runtime Container
+-----------------------------------
+Start TESB Runtime Container
+
+>install -s mvn:org.talend.esb.examples/sam-example-osgi/<version>
+
+or
+
+deploy the sam-example-osgi-<version>.jar bundle into Container/deploy folder.
+
+Check that the service can be reached on:
+http://localhost:8040/services/CustomerServicePort?wsdl
+
+
 Run the client
 --------------
 
 Run ExampleClientMainOSGI in the project sam-example-client
 
-The client should run successfully. That logs should show that the events were written to the server.
+The client should run successfully. That logs should show that the events were written to 
+the SAM Server.
