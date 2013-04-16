@@ -71,7 +71,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         }
         return paramsMap;
     }
-    
+
     public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
         FlowDetails flowDetails = new FlowDetails();
         Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
@@ -101,7 +101,7 @@ public class SAMRestServiceImpl implements SAMRestService {
                 } catch (MalformedURLException e) {
                     throw new IllegalParameterException("cannot create URI for: " + flowEvent.getFlowID());
                 }
-                aggregatedFlowEvent.setEventType(flowEvent.getEventType());
+                aggregatedFlowEvent.setType(flowEvent.getType());
                 aggregatedFlowEvent.setFlowID(flowEvent.getFlowID());
                 aggregatedFlowEvent.setHost(flowEvent.getHost());
                 aggregatedFlowEvent.setId(flowEvent.getId());
@@ -113,7 +113,7 @@ public class SAMRestServiceImpl implements SAMRestService {
                 aggregatedFlowEvent.setProcess(flowEvent.getProcess());
                 aggregatedFlowEvent.setTimestamp(flowEvent.getTimestamp());
                 aggregatedFlowEvent.setTransport(flowEvent.getTransport());
-                
+
                 if (customInfo.containsKey(flowEvent.getId())) {
                     aggregatedFlowEvent.setCustomInfo(customInfo.get(flowEvent.getId()));
                 }
@@ -138,7 +138,7 @@ public class SAMRestServiceImpl implements SAMRestService {
                 continue;
             }
             String flowID = obj.getflowID();
-            long timestamp = obj.getTimeStamp();
+            long timestamp = obj.getTimestamp();
             flowLastTimestamp.put(flowID, timestamp);
             if (!flowTypes.containsKey(flowID)) {
                 flowTypes.put(flowID, new HashSet<String>());
@@ -168,7 +168,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             AggregatedFlow aggregatedFlow = new AggregatedFlow();
 
             String flowID = obj.getflowID();
-            long timestamp = obj.getTimeStamp();
+            long timestamp = obj.getTimestamp();
             Long endTime = flowLastTimestamp.get(flowID);
             if (endTime != null) {
                 flowLastTimestamp.remove(flowID);
@@ -188,8 +188,8 @@ public class SAMRestServiceImpl implements SAMRestService {
                     aggregatedFlow.setProviderHost(flowProviderHost.get(flowID));
                     aggregatedFlow.setProviderIP(flowProviderIP.get(flowID));
                 }
-                aggregatedFlow.setflowID(flowID);
-                aggregatedFlow.setTimeStamp(timestamp);
+                aggregatedFlow.setFlowID(flowID);
+                aggregatedFlow.setTimestamp(timestamp);
                 aggregatedFlow.setPort(obj.getPort());
                 aggregatedFlow.setOperation(obj.getOperation());
                 aggregatedFlow.setTransport(obj.getTransport());

@@ -10,7 +10,7 @@ public class AggregatedFlow {
 
     private String flowID;
 
-    private long timeStamp;
+    private long timestamp;
 
     private String port;
 
@@ -32,11 +32,11 @@ public class AggregatedFlow {
 
     private String providerIP;
 
-    public void setflowID(String flowID) {
+    public void setFlowID(String flowID) {
         this.flowID = flowID;
     }
 
-    public String getflowID() {
+    public String getFlowID() {
         return flowID;
     }
 
@@ -120,11 +120,11 @@ public class AggregatedFlow {
         return transport;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 }

@@ -13,7 +13,7 @@ public class FlowEventMapper implements RowMapper<FlowEvent> {
         FlowEvent event = new FlowEvent();
         event.setId(rs.getLong("ID"));
         event.setTimestamp(rs.getTimestamp("EI_TIMESTAMP").getTime());
-        event.setEventType(EventTypeEnum.valueOf(rs.getString("EI_EVENT_TYPE")));
+        event.setType(EventTypeEnum.valueOf(rs.getString("EI_EVENT_TYPE")));
         event.setCustomId(rs.getString("ORIG_CUSTOM_ID"));
         event.setProcess(rs.getString("ORIG_PROCESS_ID"));
         event.setHost(rs.getString("ORIG_HOSTNAME"));
