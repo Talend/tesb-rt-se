@@ -9,6 +9,40 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 @XmlRootElement
 public class FlowEvent {
 
+    private long id;
+
+    private long timestamp;
+
+    private EventTypeEnum type;
+
+    private String customId;
+
+    private String process;
+
+    private String host;
+
+    private String ip;
+
+    private String principal;
+
+    private String port;
+
+    private String operation;
+
+    private String flowID;
+
+    private String messageID;
+
+    private String transport;
+
+
+    private boolean isContentCut;
+
+    private String content;
+
+    private URL details;
+
+
     public long getId() {
         return id;
     }
@@ -32,6 +66,7 @@ public class FlowEvent {
     public void setType(EventTypeEnum type) {
         this.type = type;
     }
+
 
     public String getCustomId() {
         return customId;
@@ -73,6 +108,7 @@ public class FlowEvent {
         this.principal = principal;
     }
 
+
     public String getPort() {
         return port;
     }
@@ -97,6 +133,14 @@ public class FlowEvent {
         this.flowID = flowID;
     }
 
+    public String getMessageID() {
+        return messageID;
+    }
+
+    public void setMessageID(String messageID) {
+        this.messageID = messageID;
+    }
+
     public String getTransport() {
         return transport;
     }
@@ -105,12 +149,21 @@ public class FlowEvent {
         this.transport = transport;
     }
 
+
     public boolean isContentCut() {
         return isContentCut;
     }
 
     public void setContentCut(boolean isContentCut) {
         this.isContentCut = isContentCut;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public URL getDetails() {
@@ -121,39 +174,6 @@ public class FlowEvent {
         this.details = details;
     }
 
-    public String getMessageID() {
-        return messageID;
-    }
-
-    public void setMessageID(String messageID) {
-        this.messageID = messageID;
-    }
-
-    private long id;
-
-    private long timestamp;
-
-    private EventTypeEnum type;
-
-    private String customId;
-
-    private String process;
-
-    private String host;
-
-    private String ip;
-
-    private String principal;
-
-    private String port;
-
-    private String operation;
-
-    private String flowID;
-
-    private String transport;
-
-    private boolean isContentCut;
 
     private String customKey;
 
@@ -175,7 +195,4 @@ public class FlowEvent {
         this.customValue = customValue;
     }
 
-    private String messageID;
-
-    private URL details;
 }

@@ -1,7 +1,6 @@
 package org.talend.esb.sam.service;
 
 import java.net.MalformedURLException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.service.exception.IllegalParameterException;
@@ -41,7 +39,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         catch(NumberFormatException ex) {
             throw new IllegalParameterException("Error during converting " + arg0 + " parameter to Integer", ex);
         }
-        Event event = provider.getEventDetails(eventId);
+        FlowEvent event = provider.getEventDetails(eventId);
         if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
         return Response.ok(event).build();
     }

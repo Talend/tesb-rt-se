@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
@@ -37,15 +36,15 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         this.dialect = dialect;
     }
 
-    private final RowMapper<Event> eventMapper = new EventMapper();
+    private final RowMapper<FlowEvent> eventMapper = new EventMapper();
 
     private final RowMapper<Flow> flowMapper = new FlowMapper();
 
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
 
     @Override
-    public Event getEventDetails(Integer eventID) {
-        List<Event> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
+    public FlowEvent getEventDetails(Integer eventID) {
+        List<FlowEvent> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
                 Collections.singletonMap("eventID", eventID));
         if (list.isEmpty()) {
             return null;
@@ -69,7 +68,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
         List<Flow> flows = null;
-        
+
         if (offset < rowCount) {
             String dataQuery = dialect.getDataQuery(criteria);
             flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
