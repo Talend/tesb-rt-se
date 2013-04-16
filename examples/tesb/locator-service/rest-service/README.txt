@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -54,7 +54,7 @@ soapui/
 Prerequisite
 ---------------------------------------
 To run this example successfully, Karaf  should be running. 
-you must install the J2SE Development Kit (JDK) 5.0 or above.
+you must install the J2SE Development Kit (JDK) 6.0 or above.
 
 The Service Locator Server (zookeeper) should be running in any mode.
 

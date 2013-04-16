@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -19,6 +19,7 @@ Examples list:
 [Locator Service example]
 [Locator Rest example]
 [SAM example]
+[SAM Rest example]
 [CXF JMX example]
 [Camel JMX example]
 [Karaf JMX example]

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -27,7 +27,7 @@ to illustrate Service Locator feature at runtime.
 Prerequisite
 ------------
 
-To build and run this example, you must install the J2SE Development Kit (JDK) 5.0 or above.
+To build and run this example, you must install the J2SE Development Kit (JDK) 6.0 or above.
 
 
 The Service Locator Server (zookeeper) should be running.
@@ -62,6 +62,9 @@ Linux:
 
 Windows:
 .\zookeeper\bin\zkServer.cmd stop
+
+Alternatively, you can start Service Locator Server (zookeeper) in Runtime container with command:
+>tesb:start-locator
 
 
 Building the Demo
