@@ -57,8 +57,8 @@ public class SAMRestServiceImpl implements SAMRestService {
     @Override
     public Response getFlows(Integer offset, Integer limit, List<String> params) {
         CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        List<Flow> flows = provider.getFlows(adapter);
-        return Response.ok(aggregateRawData(flows)).build();
+        FlowCollection flowCollection = provider.getFlows(adapter);
+        return Response.ok(aggregateRawData(flowCollection)).build();
     }
 
     private Map<String, String[]> convertParams(List<String> params) {
@@ -124,7 +124,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         return flowDetails;
     }
 
-    public FlowCollection aggregateRawData(List<Flow> objects) {
+    public AggregatedFlowCollection aggregateRawData(FlowCollection collection) {
         // Render RAW data
         Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
         Map<String, String> flowProviderIP = new HashMap<String, String>();
@@ -133,7 +133,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         Map<String, String> flowConsumerHost = new HashMap<String, String>();
         Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 
-        for (Flow obj : objects) {
+        for (Flow obj : collection.getFlows()) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
             }
@@ -160,7 +160,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             }
         }
         List<AggregatedFlow> result = new ArrayList<AggregatedFlow>();
-        for (Flow obj : objects) {
+        for (Flow obj : collection.getFlows()) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
             }
@@ -197,9 +197,9 @@ public class SAMRestServiceImpl implements SAMRestService {
                 result.add(aggregatedFlow);
             }
         }
-        FlowCollection fc = new FlowCollection();
+        AggregatedFlowCollection fc = new AggregatedFlowCollection();
         fc.setFlows(result);
-        fc.setCount(result.size());
+        fc.setCount(collection.getCount());
         return fc;
     }
 }

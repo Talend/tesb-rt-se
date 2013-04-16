@@ -61,7 +61,8 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
     }
 
     @Override
-    public List<Flow> getFlows(CriteriaAdapter criteria) {
+    public FlowCollection getFlows(CriteriaAdapter criteria) {
+        FlowCollection flowCollection = new FlowCollection();
         final String whereClause = criteria.getWhereClause();
         final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
                 (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
@@ -74,7 +75,9 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
             flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
         }
         if(flows == null) flows = new ArrayList<Flow>();
-        return flows;
+        flowCollection.setFlows(flows);
+        flowCollection.setCount(rowCount);
+        return flowCollection;
     }
 
 }

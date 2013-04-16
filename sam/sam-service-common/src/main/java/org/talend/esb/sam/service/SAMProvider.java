@@ -12,5 +12,5 @@ public interface SAMProvider {
     
     List<FlowEvent> getFlowDetails(String flowID);
 
-    List<Flow> getFlows(CriteriaAdapter criteria);
+    FlowCollection getFlows(CriteriaAdapter criteria);
 }
