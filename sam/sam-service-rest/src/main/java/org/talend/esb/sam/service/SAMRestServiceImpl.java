@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -31,43 +33,39 @@ public class SAMRestServiceImpl implements SAMRestService {
     }
 
     @Override
-    public Response getEvent(String arg0) {
+    public Response getEvent(String id) {
         Integer eventId;
         try {
-            eventId = Integer.parseInt(arg0);
-        }
-        catch(NumberFormatException ex) {
-            throw new IllegalParameterException("Error during converting " + arg0 + " parameter to Integer", ex);
+            eventId = Integer.parseInt(id);
+        } catch (NumberFormatException ex) {
+            throw new IllegalParameterException("Error during converting " + id + " parameter to Integer", ex);
         }
         FlowEvent event = provider.getEventDetails(eventId);
-        if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
+        if (null == event) {
+            throw new ResourceNotFoundException("There no event with " + id + " ID can be found");
+        }
         return Response.ok(event).build();
     }
 
     @Override
     public Response getFlow(String flowID) {
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
-        if (flowEvents.size() == 0)
-            throw new ResourceNotFoundException("There no flow with "+ flowID + " ID can be found");
+        if (0 == flowEvents.size()) {
+            throw new ResourceNotFoundException("There no flow with " + flowID + " ID can be found");
+        }
         return Response.ok(aggregateFlowDetails(flowEvents)).build();
     }
 
     @Override
-    public Response getFlows(Integer offset, Integer limit, List<String> params) {
-        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
+    public Response getFlows(Integer offset, Integer limit) {
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+        for (Entry<String, List<String>> entry : queryParams.entrySet()) {
+            params.put(entry.getKey(), entry.getValue().toArray(new String[] {}));
+        }
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, params);
         FlowCollection flowCollection = provider.getFlows(adapter);
         return Response.ok(aggregateRawData(flowCollection)).build();
-    }
-
-    private Map<String, String[]> convertParams(List<String> params) {
-        Map<String, String[]> paramsMap = new HashMap<String, String[]>();
-        for (String param : params) {
-            String[] p = param.split(",");
-            if (p.length == 2) {
-                paramsMap.put(p[0], new String[] { p[1] });
-            }
-        }
-        return paramsMap;
     }
 
     public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
@@ -93,8 +91,7 @@ public class SAMRestServiceImpl implements SAMRestService {
                 aggregatedFlowEvent.setContentCut(flowEvent.isContentCut());
                 aggregatedFlowEvent.setCustomId(flowEvent.getCustomId());
                 try {
-                    aggregatedFlowEvent.setDetails(
-                            new URL(uriInfo.getBaseUri().toString().concat("/event/")
+                    aggregatedFlowEvent.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/")
                             .concat(String.valueOf(flowEvent.getId()))));
                 } catch (MalformedURLException e) {
                     throw new IllegalParameterException("cannot create URI for: " + flowEvent.getFlowID());
