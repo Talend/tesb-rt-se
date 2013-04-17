@@ -33,6 +33,11 @@ public class SAMRestServiceImpl implements SAMRestService {
     }
 
     @Override
+    public Response aliveCheck() {
+        return Response.ok("alive").build();
+    }
+
+    @Override
     public Response getEvent(String id) {
         Integer eventId;
         try {
@@ -193,7 +198,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             }
         }
         AggregatedFlowCollection fc = new AggregatedFlowCollection();
-        fc.setFlows(result);
+        fc.setAggregated(result);
         fc.setCount(collection.getCount());
         return fc;
     }

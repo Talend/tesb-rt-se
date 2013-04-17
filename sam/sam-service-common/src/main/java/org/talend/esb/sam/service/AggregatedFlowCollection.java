@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AggregatedFlowCollection {
 
     private int count;
-    
-    private List<AggregatedFlow> flows;
-    
+
+    private List<AggregatedFlow> aggregated;
+
     public int getCount() {
         return count;
     }
@@ -19,11 +19,11 @@ public class AggregatedFlowCollection {
         this.count = count;
     }
 
-    public List<AggregatedFlow> getFlows() {
-        return flows;
+    public List<AggregatedFlow> getAggregated() {
+        return aggregated;
     }
 
-    public void setFlows(List<AggregatedFlow> flows) {
-        this.flows = flows;
+    public void setAggregated(List<AggregatedFlow> flows) {
+        this.aggregated = flows;
     }
 }

@@ -12,6 +12,10 @@ import javax.ws.rs.core.Response;
 public interface SAMRestService {
 
     @GET
+    @Path("")
+    Response aliveCheck();
+
+    @GET
     @Path("event/{id}")
     @Produces({ "application/json" })
     Response getEvent(@PathParam("id") String id);
