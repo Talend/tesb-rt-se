@@ -11,7 +11,7 @@
 
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -25,72 +25,44 @@
         <groupId>org.talend.esb</groupId>
         <artifactId>sam-parent</artifactId>
         <version>5.3.0-SNAPSHOT</version>
-        
     </parent>
 
     <dependencies>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-api</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxws</artifactId>
-        <version>${cxf.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-        <version>${cxf.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.talend.esb</groupId>
-        <artifactId>sam-common</artifactId>
-        <version>5.3.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>org.talend.esb</groupId>
-        <artifactId>sam-server</artifactId>
-        <version>5.3.0-SNAPSHOT</version>
-      </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-common</artifactId>
+            <version>5.3.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-server</artifactId>
+            <version>5.3.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-    
+
     <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <configuration>
-            <instructions>
-              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-              <Require-Bundle>
-                  org.apache.cxf.bundle,
-                  org.springframework.beans,
-                  org.springframework.jdbc,
-                  org.apache.commons.dbcp
-              </Require-Bundle>
-              <Export-Package>
-                org.talend.esb.sam.service.*
-              </Export-Package>
-              <Import-Package>
-                org.talend.esb.sam.common.*,
-                javax.ws.rs.*,
-                javax.xml.bind.annotation.*,
-                org.talend.esb.sam.server.*,
-                org.springframework.jdbc.core.*
-              </Import-Package>
-            </instructions>
-          </configuration>
-        </plugin>
-      </plugins>
-     </build>
-     
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>
+                            org.springframework.beans,
+                            org.springframework.jdbc,
+                            org.apache.commons.dbcp
+                        </Require-Bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
