@@ -292,7 +292,7 @@
             <directory>${basedir}/..</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>README</include>
+                <include>README.txt</include>
                 <include>NOTICE</include>
             </includes>
             <lineEnding>unix</lineEnding>
@@ -313,7 +313,7 @@
             <directory>${basedir}</directory>
             <outputDirectory>/container</outputDirectory>
             <includes>
-                <include>README</include>
+                <include>README.txt</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
@@ -406,7 +406,7 @@
             <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
             <includes>
-                <include>README</include>
+                <include>README.txt</include>
             </includes>
         </fileSet>
 
