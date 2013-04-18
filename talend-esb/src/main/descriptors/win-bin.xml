@@ -292,7 +292,7 @@
             <directory>${basedir}/..</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>readme.txt</include>
+                <include>README.txt</include>
                 <include>NOTICE</include>
             </includes>
             <lineEnding>dos</lineEnding>
@@ -308,12 +308,12 @@
             <fileMode>0644</fileMode>
         </fileSet>
 
-        <!-- Copy over the container readme.txt -->
+        <!-- Copy over the container README.txt -->
         <fileSet>
             <directory>${basedir}</directory>
             <outputDirectory>/container</outputDirectory>
             <includes>
-                <include>readme.txt</include>
+                <include>README.txt</include>
             </includes>
             <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>
@@ -406,7 +406,7 @@
             <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
             <includes>
-                <include>readme.txt</include>
+                <include>README.txt</include>
             </includes>
         </fileSet>
 
