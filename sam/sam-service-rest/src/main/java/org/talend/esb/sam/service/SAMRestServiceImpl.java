@@ -79,7 +79,7 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
         FlowDetails flowDetails = new FlowDetails();
-        Map<Long, Set<CustomInfo>> customInfo = new HashMap<Long, Set<CustomInfo>>();
+        Map<Long, List<CustomInfo>> customInfo = new HashMap<Long, List<CustomInfo>>();
         Set<Long> allEvents = new HashSet<Long>();
         for (FlowEvent flowEvent : flowEvents) {
             allEvents.add(flowEvent.getId());
@@ -87,7 +87,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             String custValue = flowEvent.getCustomValue();
             if (custKey != null) {
                 if (!customInfo.containsKey(flowEvent.getId())) {
-                    customInfo.put(flowEvent.getId(), new HashSet<CustomInfo>());
+                    customInfo.put(flowEvent.getId(), new ArrayList<CustomInfo>());
                 }
                 CustomInfo custom = new CustomInfo();
                 custom.setKey(custKey);

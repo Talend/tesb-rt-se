@@ -1,7 +1,7 @@
 package org.talend.esb.sam.service;
 
 import java.net.URL;
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,7 +41,7 @@ public class AggregatedFlowEvent {
 
     private boolean isContentCut;
 
-    private Set<CustomInfo> customInfo;
+    private List<CustomInfo> customInfo;
 
     private URL details;
 
@@ -161,11 +161,11 @@ public class AggregatedFlowEvent {
         this.isContentCut = isContentCut;
     }
 
-    public Set<CustomInfo> getCustomInfo() {
+    public List<CustomInfo> getCustomInfo() {
         return customInfo;
     }
 
-    public void setCustomInfo(Set<CustomInfo> custom) {
+    public void setCustomInfo(List<CustomInfo> custom) {
         this.customInfo = custom;
     }
 
