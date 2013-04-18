@@ -13,15 +13,10 @@ public interface SAMRestService {
 
     @GET
     @Path("")
-    Response aliveCheck();
+    Response checkAlive();
 
     @GET
-    @Path("event/{id}")
-    @Produces({ "application/json" })
-    Response getEvent(@PathParam("id") String id);
-
-    @GET
-    @Path("flow")
+    @Path("list")
     @Produces({ "application/json" })
     Response getFlows(@QueryParam("offset") @DefaultValue("0") Integer offset,
             @QueryParam("limit") @DefaultValue("10") Integer limit);
@@ -30,4 +25,10 @@ public interface SAMRestService {
     @Path("flow/{id}")
     @Produces({ "application/json" })
     Response getFlow(@PathParam("id") String id);
+
+    @GET
+    @Path("event/{id}")
+    @Produces({ "application/json" })
+    Response getEvent(@PathParam("id") String id);
+
 }

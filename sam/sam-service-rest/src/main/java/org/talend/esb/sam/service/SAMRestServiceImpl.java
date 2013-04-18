@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -32,9 +33,12 @@ public class SAMRestServiceImpl implements SAMRestService {
         this.provider = provider;
     }
 
+    private final String ALIVE_CHECK_TEXT = "Talend Service Activity Monitoring Server :: REST API - ";
+
     @Override
-    public Response aliveCheck() {
-        return Response.ok("alive").build();
+    public Response checkAlive() {
+        String startUrl = uriInfo.getBaseUriBuilder().path("list").build().toString();
+        return Response.ok(ALIVE_CHECK_TEXT + startUrl).type(MediaType.TEXT_PLAIN).build();
     }
 
     @Override
@@ -75,7 +79,7 @@ public class SAMRestServiceImpl implements SAMRestService {
 
     public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
         FlowDetails flowDetails = new FlowDetails();
-        Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
+        Map<Long, Set<CustomInfo>> customInfo = new HashMap<Long, Set<CustomInfo>>();
         Set<Long> allEvents = new HashSet<Long>();
         for (FlowEvent flowEvent : flowEvents) {
             allEvents.add(flowEvent.getId());
@@ -83,9 +87,12 @@ public class SAMRestServiceImpl implements SAMRestService {
             String custValue = flowEvent.getCustomValue();
             if (custKey != null) {
                 if (!customInfo.containsKey(flowEvent.getId())) {
-                    customInfo.put(flowEvent.getId(), new HashMap<String, String>());
+                    customInfo.put(flowEvent.getId(), new HashSet<CustomInfo>());
                 }
-                customInfo.get(flowEvent.getId()).put(custKey, custValue);
+                CustomInfo custom = new CustomInfo();
+                custom.setKey(custKey);
+                custom.setValue(custValue);
+                customInfo.get(flowEvent.getId()).add(custom);
             }
         }
         List<AggregatedFlowEvent> aggregatedFlowEventList = new ArrayList<AggregatedFlowEvent>();

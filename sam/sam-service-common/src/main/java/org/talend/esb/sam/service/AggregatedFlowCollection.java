@@ -26,4 +26,5 @@ public class AggregatedFlowCollection {
     public void setAggregated(List<AggregatedFlow> flows) {
         this.aggregated = flows;
     }
+
 }

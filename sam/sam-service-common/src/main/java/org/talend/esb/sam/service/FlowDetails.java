@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class FlowDetails {
 
+    private List<AggregatedFlowEvent> events;
+
     public List<AggregatedFlowEvent> getEvents() {
         return events;
     }
@@ -15,6 +17,4 @@ public class FlowDetails {
         this.events = events;
     }
 
-    private List<AggregatedFlowEvent> events;
-    
 }

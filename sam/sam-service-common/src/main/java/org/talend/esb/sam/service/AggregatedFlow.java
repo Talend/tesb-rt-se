@@ -12,17 +12,17 @@ public class AggregatedFlow {
 
     private long timestamp;
 
+    private long elapsed;
+
+    Set<String> types;
+
+
     private String port;
 
     private String operation;
 
     private String transport;
 
-    private long elapsed;
-
-    Set<String> types;
-
-    URL details;
 
     private String consumerHost;
 
@@ -32,99 +32,107 @@ public class AggregatedFlow {
 
     private String providerIP;
 
-    public void setFlowID(String flowID) {
-        this.flowID = flowID;
-    }
+
+    URL details;
+
 
     public String getFlowID() {
         return flowID;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setFlowID(String flowID) {
+        this.flowID = flowID;
     }
 
-    public String getPort() {
-        return port;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setElapsed(long elapsed) {
-        this.elapsed = elapsed;
-    }
-
-    public long getElapsed() {
-        return elapsed;
-    }
-
-    public void setTypes(Set<String> types) {
-        this.types = types;
-    }
-
-    public Set<String> getTypes() {
-        return types;
-    }
-
-    public void setDetails(URL details) {
-        this.details = details;
-    }
-
-    public URL getDetails() {
-        return details;
-    }
-
-    public void setConsumerHost(String consumerHost) {
-        this.consumerHost = consumerHost;
-    }
-
-    public String getConsumerHost() {
-        return consumerHost;
-    }
-
-    public void setConsumerIP(String consumerIP) {
-        this.consumerIP = consumerIP;
-    }
-
-    public String getConsumerIP() {
-        return consumerIP;
-    }
-
-    public void setProviderHost(String providerHost) {
-        this.providerHost = providerHost;
-    }
-
-    public String getProviderHost() {
-        return providerHost;
-    }
-
-    public void setProviderIP(String providerIP) {
-        this.providerIP = providerIP;
-    }
-
-    public String getProviderIP() {
-        return providerIP;
-    }
-
-    public void setTransport(String transport) {
-        this.transport = transport;
-    }
-
-    public String getTransport() {
-        return transport;
+    public long getTimestamp() {
+        return timestamp;
     }
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getElapsed() {
+        return elapsed;
     }
+
+    public void setElapsed(long elapsed) {
+        this.elapsed = elapsed;
+    }
+
+    public Set<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(Set<String> types) {
+        this.types = types;
+    }
+
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getTransport() {
+        return transport;
+    }
+
+    public void setTransport(String transport) {
+        this.transport = transport;
+    }
+
+
+    public String getConsumerHost() {
+        return consumerHost;
+    }
+
+    public void setConsumerHost(String consumerHost) {
+        this.consumerHost = consumerHost;
+    }
+
+    public String getConsumerIP() {
+        return consumerIP;
+    }
+
+    public void setConsumerIP(String consumerIP) {
+        this.consumerIP = consumerIP;
+    }
+
+    public String getProviderHost() {
+        return providerHost;
+    }
+
+    public void setProviderHost(String providerHost) {
+        this.providerHost = providerHost;
+    }
+
+    public String getProviderIP() {
+        return providerIP;
+    }
+
+    public void setProviderIP(String providerIP) {
+        this.providerIP = providerIP;
+    }
+
+
+    public URL getDetails() {
+        return details;
+    }
+
+    public void setDetails(URL details) {
+        this.details = details;
+    }
+
 }
