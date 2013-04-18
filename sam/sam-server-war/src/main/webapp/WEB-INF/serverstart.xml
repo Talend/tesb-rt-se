@@ -35,6 +35,7 @@
     </bean>
     
     <import resource="classpath:/server.xml" />
+    <import resource="classpath:/server-rest.xml" />
 
     <!--  Sample filters -->
     <!-- 

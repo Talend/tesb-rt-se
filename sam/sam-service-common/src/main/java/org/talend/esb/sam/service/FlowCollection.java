@@ -2,14 +2,11 @@ package org.talend.esb.sam.service;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class FlowCollection {
 
     private int count;
     
-    private List<AggregatedFlow> flows;
+    private List<Flow> flows;
     
     public int getCount() {
         return count;
@@ -19,11 +16,11 @@ public class FlowCollection {
         this.count = count;
     }
 
-    public List<AggregatedFlow> getFlows() {
+    public List<Flow> getFlows() {
         return flows;
     }
 
-    public void setFlows(List<AggregatedFlow> flows) {
+    public void setFlows(List<Flow> flows) {
         this.flows = flows;
     }
 }

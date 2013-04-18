@@ -27,8 +27,6 @@
 	  <jaxrs:client id="restClient"
          address="locator://some_usefull_information"
          serviceClass="demo.common.OrderService"
-         xmlns:serviceNamespace="http://service.demo/"
-         serviceName="serviceNamespace:OrderServiceImpl"
          inheritHeaders="true">
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>

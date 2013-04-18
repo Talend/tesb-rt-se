@@ -26,12 +26,12 @@ public class AggregatedFlowEvent {
         this.timestamp = timestamp;
     }
 
-    public EventTypeEnum getEventType() {
-        return eventType;
+    public EventTypeEnum getType() {
+        return type;
     }
 
-    public void setEventType(EventTypeEnum eventType) {
-        this.eventType = eventType;
+    public void setType(EventTypeEnum type) {
+        this.type = type;
     }
 
     public String getCustomId() {
@@ -142,7 +142,7 @@ public class AggregatedFlowEvent {
 
     private long timestamp;
 
-    private EventTypeEnum eventType;
+    private EventTypeEnum type;
 
     private String customId;
 

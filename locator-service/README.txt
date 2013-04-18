@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -52,9 +52,9 @@ For enabling security for Locator SOAP Service open org.talend.esb.locator.servi
 
 Change locator.authentication property:
 TOKEN - enabling username token scenario
-SAML - enabling SAML token scenario
-NO- no security
+SAML  - enabling SAML token scenario
+NO    - no security
 
 Policy configuration is located in etc directory of Talend ESB container in files:
-SAML token policy - org.talend.esb.locator.saml.policy
+SAML token policy     - org.talend.esb.locator.saml.policy
 Username token policy - org.talend.esb.locator.token.policy

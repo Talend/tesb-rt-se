@@ -17,7 +17,6 @@
     <modules>
         <module>job-api</module>
         <module>controller</module>
-        <module>console</module>
     </modules>
 
 	<build>

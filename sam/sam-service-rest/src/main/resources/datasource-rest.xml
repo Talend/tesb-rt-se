@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   #%L
-  Talend :: ESB :: Job :: Web Console
+  Service Activity Monitoring :: Server
   %%
   Copyright (C) 2011 - 2012 Talend Inc.
   %%
@@ -17,10 +18,15 @@
   limitations under the License.
   #L%
   -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-<head>
-<!--  forward to the main home servlet -->
-<meta http-equiv="REFRESH" content="0;url=home.do">
-</head>
-</html>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    ">
+
+    <bean id="datasource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="${db.datasource}"/>
+    </bean>
+
+</beans>

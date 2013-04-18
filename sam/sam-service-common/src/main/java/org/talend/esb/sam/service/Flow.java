@@ -7,21 +7,21 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
 public class Flow {
 
     private String flowID;
-    
-    private long timeStamp;
-    
+
+    private long timestamp;
+
     private EventTypeEnum eventType;
-    
+
     private String host;
-    
+
     private String ip;
-    
+
     private String port;
-    
+
     private String operation;
-    
+
     private String transport;
-    
+
 	public void setflowID(String flowID) {
 		this.flowID = flowID;
 	}
@@ -58,11 +58,11 @@ public class Flow {
 	public String getTransport() {
 		return transport;
 	}
-	public void setTimeStamp(long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
-	public long getTimeStamp() {
-		return timeStamp;
+	public long getTimestamp() {
+		return timestamp;
 	}
 	public void setEventType(EventTypeEnum eventType) {
 		this.eventType = eventType;

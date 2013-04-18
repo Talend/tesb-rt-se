@@ -237,7 +237,6 @@
 								<feature>tesb-locator-rest-service</feature>
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
-								<feature>talend-job-console</feature>
 								<feature>tesb-zookeeper-server</feature>
 								<feature>tesb-sts</feature>
                                 <feature>camel-talendjob</feature>

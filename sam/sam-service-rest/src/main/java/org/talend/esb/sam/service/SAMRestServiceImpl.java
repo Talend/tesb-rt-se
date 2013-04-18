@@ -1,20 +1,20 @@
 package org.talend.esb.sam.service;
 
 import java.net.MalformedURLException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.server.ui.CriteriaAdapter;
 import org.talend.esb.sam.service.exception.IllegalParameterException;
@@ -33,45 +33,46 @@ public class SAMRestServiceImpl implements SAMRestService {
     }
 
     @Override
-    public Response getEvent(String arg0) {
+    public Response aliveCheck() {
+        return Response.ok("alive").build();
+    }
+
+    @Override
+    public Response getEvent(String id) {
         Integer eventId;
         try {
-            eventId = Integer.parseInt(arg0);
+            eventId = Integer.parseInt(id);
+        } catch (NumberFormatException ex) {
+            throw new IllegalParameterException("Error during converting " + id + " parameter to Integer", ex);
         }
-        catch(NumberFormatException ex) {
-            throw new IllegalParameterException("Error during converting " + arg0 + " parameter to Integer", ex);
+        FlowEvent event = provider.getEventDetails(eventId);
+        if (null == event) {
+            throw new ResourceNotFoundException("There no event with " + id + " ID can be found");
         }
-        Event event = provider.getEventDetails(eventId);
-        if(event == null) throw new ResourceNotFoundException("There no event with "+ arg0 + " ID can be found");
         return Response.ok(event).build();
     }
 
     @Override
     public Response getFlow(String flowID) {
         List<FlowEvent> flowEvents = provider.getFlowDetails(flowID);
-        if (flowEvents.size() == 0)
-            throw new ResourceNotFoundException("There no flow with "+ flowID + " ID can be found");
+        if (0 == flowEvents.size()) {
+            throw new ResourceNotFoundException("There no flow with " + flowID + " ID can be found");
+        }
         return Response.ok(aggregateFlowDetails(flowEvents)).build();
     }
 
     @Override
-    public Response getFlows(Integer offset, Integer limit, List<String> params) {
-        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, convertParams(params));
-        List<Flow> flows = provider.getFlows(adapter);
-        return Response.ok(aggregateRawData(flows)).build();
+    public Response getFlows(Integer offset, Integer limit) {
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+        for (Entry<String, List<String>> entry : queryParams.entrySet()) {
+            params.put(entry.getKey(), entry.getValue().toArray(new String[] {}));
+        }
+        CriteriaAdapter adapter = new CriteriaAdapter(offset, limit, params);
+        FlowCollection flowCollection = provider.getFlows(adapter);
+        return Response.ok(aggregateRawData(flowCollection)).build();
     }
 
-    private Map<String, String[]> convertParams(List<String> params) {
-        Map<String, String[]> paramsMap = new HashMap<String, String[]>();
-        for (String param : params) {
-            String[] p = param.split(",");
-            if (p.length == 2) {
-                paramsMap.put(p[0], new String[] { p[1] });
-            }
-        }
-        return paramsMap;
-    }
-    
     public FlowDetails aggregateFlowDetails(List<FlowEvent> flowEvents) {
         FlowDetails flowDetails = new FlowDetails();
         Map<Long, Map<String, String>> customInfo = new HashMap<Long, Map<String, String>>();
@@ -95,13 +96,12 @@ public class SAMRestServiceImpl implements SAMRestService {
                 aggregatedFlowEvent.setContentCut(flowEvent.isContentCut());
                 aggregatedFlowEvent.setCustomId(flowEvent.getCustomId());
                 try {
-                    aggregatedFlowEvent.setDetails(
-                            new URL(uriInfo.getBaseUri().toString().concat("/event/")
+                    aggregatedFlowEvent.setDetails(new URL(uriInfo.getBaseUri().toString().concat("/event/")
                             .concat(String.valueOf(flowEvent.getId()))));
                 } catch (MalformedURLException e) {
                     throw new IllegalParameterException("cannot create URI for: " + flowEvent.getFlowID());
                 }
-                aggregatedFlowEvent.setEventType(flowEvent.getEventType());
+                aggregatedFlowEvent.setType(flowEvent.getType());
                 aggregatedFlowEvent.setFlowID(flowEvent.getFlowID());
                 aggregatedFlowEvent.setHost(flowEvent.getHost());
                 aggregatedFlowEvent.setId(flowEvent.getId());
@@ -113,7 +113,7 @@ public class SAMRestServiceImpl implements SAMRestService {
                 aggregatedFlowEvent.setProcess(flowEvent.getProcess());
                 aggregatedFlowEvent.setTimestamp(flowEvent.getTimestamp());
                 aggregatedFlowEvent.setTransport(flowEvent.getTransport());
-                
+
                 if (customInfo.containsKey(flowEvent.getId())) {
                     aggregatedFlowEvent.setCustomInfo(customInfo.get(flowEvent.getId()));
                 }
@@ -124,7 +124,7 @@ public class SAMRestServiceImpl implements SAMRestService {
         return flowDetails;
     }
 
-    public FlowCollection aggregateRawData(List<Flow> objects) {
+    public AggregatedFlowCollection aggregateRawData(FlowCollection collection) {
         // Render RAW data
         Map<String, Long> flowLastTimestamp = new HashMap<String, Long>();
         Map<String, String> flowProviderIP = new HashMap<String, String>();
@@ -133,12 +133,12 @@ public class SAMRestServiceImpl implements SAMRestService {
         Map<String, String> flowConsumerHost = new HashMap<String, String>();
         Map<String, Set<String>> flowTypes = new HashMap<String, Set<String>>();
 
-        for (Flow obj : objects) {
+        for (Flow obj : collection.getFlows()) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
             }
             String flowID = obj.getflowID();
-            long timestamp = obj.getTimeStamp();
+            long timestamp = obj.getTimestamp();
             flowLastTimestamp.put(flowID, timestamp);
             if (!flowTypes.containsKey(flowID)) {
                 flowTypes.put(flowID, new HashSet<String>());
@@ -160,7 +160,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             }
         }
         List<AggregatedFlow> result = new ArrayList<AggregatedFlow>();
-        for (Flow obj : objects) {
+        for (Flow obj : collection.getFlows()) {
             if (null == obj.getflowID() || obj.getflowID().isEmpty()) {
                 continue;
             }
@@ -168,7 +168,7 @@ public class SAMRestServiceImpl implements SAMRestService {
             AggregatedFlow aggregatedFlow = new AggregatedFlow();
 
             String flowID = obj.getflowID();
-            long timestamp = obj.getTimeStamp();
+            long timestamp = obj.getTimestamp();
             Long endTime = flowLastTimestamp.get(flowID);
             if (endTime != null) {
                 flowLastTimestamp.remove(flowID);
@@ -188,8 +188,8 @@ public class SAMRestServiceImpl implements SAMRestService {
                     aggregatedFlow.setProviderHost(flowProviderHost.get(flowID));
                     aggregatedFlow.setProviderIP(flowProviderIP.get(flowID));
                 }
-                aggregatedFlow.setflowID(flowID);
-                aggregatedFlow.setTimeStamp(timestamp);
+                aggregatedFlow.setFlowID(flowID);
+                aggregatedFlow.setTimestamp(timestamp);
                 aggregatedFlow.setPort(obj.getPort());
                 aggregatedFlow.setOperation(obj.getOperation());
                 aggregatedFlow.setTransport(obj.getTransport());
@@ -197,9 +197,9 @@ public class SAMRestServiceImpl implements SAMRestService {
                 result.add(aggregatedFlow);
             }
         }
-        FlowCollection fc = new FlowCollection();
-        fc.setFlows(result);
-        fc.setCount(result.size());
+        AggregatedFlowCollection fc = new AggregatedFlowCollection();
+        fc.setAggregated(result);
+        fc.setCount(collection.getCount());
         return fc;
     }
 }

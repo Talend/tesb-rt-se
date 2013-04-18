@@ -8,16 +8,15 @@
     xmlns:jaxrs="http://cxf.apache.org/jaxrs"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
     ">
-    
-    <import resource="classpath:META-INF/cxf/cxf.xml"/>
-    <import resource="classpath:/datasource-osgi.xml"/>
-    <import resource="classpath:/persistence.xml"/>
-    
+
+    <import resource="classpath:/datasource-osgi.xml" />
+    <import resource="classpath:/persistence-rest.xml" />
+
     <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
@@ -27,15 +26,19 @@
     <context:property-placeholder properties-ref="sam-server-props" />
 
     <bean id="restService" class="org.talend.esb.sam.service.SAMRestServiceImpl">
-        <property name="provider" ref="providerBean"/>
+        <property name="provider" ref="providerBean" />
     </bean>
-    
+
     <jaxrs:server id="SAMService" address="/sam">
         <jaxrs:serviceBeans>
-             <ref bean="restService" />
+            <ref bean="restService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+            <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
+                <property name="ignoreNamespaces" value="true" />
+                <property name="dropRootElement" value="true" />
+            </bean>
         </jaxrs:providers>
     </jaxrs:server>
 </beans>
