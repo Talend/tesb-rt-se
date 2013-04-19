@@ -37,6 +37,7 @@
         <saaj-impl.version>1.3.19_1</saaj-impl.version>
         <saaj-api.version>2.2.0</saaj-api.version>
         <woodstox.version>4.2.0</woodstox.version>
+        <xalan.version>2.7.1_7</xalan.version>
 	</properties>
 
 	<dependencies>
@@ -306,6 +307,14 @@
                                     <groupId>org.codehaus.woodstox</groupId>
                                     <artifactId>woodstox-core-asl</artifactId>
                                     <version>${woodstox.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- patch for xalan version (TESB-9005) -->
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.xalan</artifactId>
+                                    <version>${xalan.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -585,12 +594,20 @@
                                     <replacefilter
                                         token="woodstox-core-asl/4.1.4"
                                         value="woodstox-core-asl/${woodstox.version}"/>
+                                    <!-- patch for xalan version (TESB-9005) -->
+                                    <replacefilter
+                                        token="org.apache.servicemix.bundles.xalan/2.7.1_5"
+                                        value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for woodstox version (TESB-8887) -->
                                     <replacefilter
                                         token="woodstox-core-asl/4.1.4"
                                         value="woodstox-core-asl/${woodstox.version}"/>
+                                    <!-- patch for xalan version (TESB-9005) -->
+                                    <replacefilter
+                                        token="org.apache.servicemix.bundles.xalan/2.7.1_5"
+                                        value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
                                 </replace>
                             </target>
                         </configuration>
