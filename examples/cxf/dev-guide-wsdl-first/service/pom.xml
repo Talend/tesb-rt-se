@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
         <artifactId>dev-guide-wsdl-first</artifactId>
-        <version>5.3.0-SNAPSHOT</version>
+        <version>5.3.0</version>
     </parent>
 
     <dependencies>
