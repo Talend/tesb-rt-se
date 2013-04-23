@@ -38,6 +38,7 @@
         <saaj-api.version>2.2.0</saaj-api.version>
         <woodstox.version>4.2.0</woodstox.version>
         <xalan.version>2.7.1_7</xalan.version>
+        <xbean.version>3.13</xbean.version>
 	</properties>
 
 	<dependencies>
@@ -315,6 +316,22 @@
                                     <groupId>org.apache.servicemix.bundles</groupId>
                                     <artifactId>org.apache.servicemix.bundles.xalan</artifactId>
                                     <version>${xalan.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xbean</groupId>
+                                    <artifactId>xbean-blueprint</artifactId>
+                                    <version>${xbean.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -608,6 +625,12 @@
                                     <replacefilter
                                         token="org.apache.servicemix.bundles.xalan/2.7.1_5"
                                         value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
+                                    <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                    <replacefilter
+                                        token="xbean-blueprint/3.11.1"
+                                        value="xbean-blueprint/${xbean.version}"/>
                                 </replace>
                             </target>
                         </configuration>
