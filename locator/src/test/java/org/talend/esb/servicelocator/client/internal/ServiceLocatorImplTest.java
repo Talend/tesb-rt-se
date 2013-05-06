@@ -19,18 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.easymock.EasyMockSupport;
-import org.hamcrest.Matcher;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
-
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -39,7 +27,22 @@ import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.TestContent.createContent;
-import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.PROPERTIES_1;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+
+import org.easymock.EasyMockSupport;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public class ServiceLocatorImplTest extends EasyMockSupport {
   
@@ -210,8 +213,7 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
 
         List<String> endpoints = slc.lookup(SERVICE_QNAME_1);
 
-        Matcher<java.util.Collection<String>> empty = empty();
-        assertThat(endpoints, empty);
+        assertThat(endpoints, empty());
         verifyAll();
     }
 
@@ -277,9 +279,8 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         slc.setBackend(backend);
 
         List<String> endpoints = slc.getEndpointNames(SERVICE_QNAME_1);
-        Matcher<java.util.Collection<String>> empty = empty();
-        
-        assertThat(endpoints, empty);
+
+        assertThat(endpoints, empty());
         verifyAll();
     }
 }

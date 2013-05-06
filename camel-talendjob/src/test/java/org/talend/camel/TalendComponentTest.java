@@ -66,11 +66,11 @@ public class TalendComponentTest extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(1);
 
-        Map<String, String> properties = Collections.singletonMap("filename", "target/output/outCtxParam.csv");
+        Map<String, String> properties = Collections.singletonMap("filename", "target/output/outCtxParam1.csv");
         mock.getCamelContext().setProperties(properties);
         sendBody("direct:defaultContext", "foo");
         assertMockEndpointsSatisfied();
-        assertFileExists("target/output/outCtxParam.csv");
+        assertFileExists("target/output/outCtxParam1.csv");
     }
 
     @Test
@@ -78,10 +78,10 @@ public class TalendComponentTest extends CamelTestSupport {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(1);
 
-        Map<String, Object> headers = Collections.singletonMap("filename", (Object) "target/output/outCtxParam.csv");
+        Map<String, Object> headers = Collections.singletonMap("filename", (Object) "target/output/outCtxParam2.csv");
         sendBody("direct:defaultContext", "foo", headers);
         assertMockEndpointsSatisfied();
-        assertFileExists("target/output/outCtxParam.csv");
+        assertFileExists("target/output/outCtxParam2.csv");
     }
 
     @Test

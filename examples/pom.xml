@@ -37,6 +37,10 @@
         </license>
     </licenses>
 
+    <prerequisites>
+        <maven>2.2.1</maven>
+    </prerequisites>
+
     <modules>
         <module>tesb</module>
         <module>camel</module>
@@ -48,7 +52,7 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <cxf.version>2.7.3</cxf.version>
+        <cxf.version>2.7.5</cxf.version>
         <cxf.xjc.version>2.6.0</cxf.xjc.version>
         <camel.version>2.10.4</camel.version>
         <spring.version>3.0.7.RELEASE</spring.version>
@@ -63,11 +67,11 @@
         <jetty.version>7.6.8.v20121106</jetty.version>
 
         <!-- Test dependencies -->
-        <junit.version>4.10</junit.version>
+        <junit.version>4.11</junit.version>
 
         <!-- Log dependencies -->
         <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.6.3</slf4j.version>
+        <slf4j.version>1.7.5</slf4j.version>
     </properties>
 
     <build>
@@ -78,7 +82,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
+                    <version>3.1</version>
                     <configuration>
                         <source>1.6</source>
                         <target>1.6</target>
@@ -98,7 +102,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.7</version>
+                    <version>1.8</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -108,7 +112,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>1.0</version>
+                    <version>1.4</version>
                     <configuration>
                         <licenseName>apache_v2</licenseName>
                         <licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
@@ -140,7 +144,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>2.6</version>
                     <configuration>
                        <encoding>UTF-8</encoding>
                     </configuration>
@@ -153,12 +157,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.2</version>
+                    <version>2.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.0</version>
+                    <version>3.2</version>
                     <configuration>
                         <generateReports>false</generateReports>
                     </configuration>
@@ -180,27 +184,27 @@
             </releases>
         </repository>
         <repository>
-            <id>apache-snapshots</id>
-            <url>http://repository.apache.org/snapshots</url>
+            <id>apache-staging</id>
+            <url>https://repository.apache.org/content/groups/staging/</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>apache-snapshots</id>
-            <url>http://repository.apache.org/snapshots</url>
+            <id>apache-staging</id>
+            <url>https://repository.apache.org/content/groups/staging/</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
             <releases>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </releases>
         </pluginRepository>
     </pluginRepositories>

@@ -19,23 +19,6 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collection;
-
-import javax.xml.transform.dom.DOMResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.ws.addressing.EndpointReferenceType;
-
-import org.hamcrest.Matcher;
-import org.junit.Test;
-
-import org.talend.esb.servicelocator.client.BindingType;
-import org.talend.esb.servicelocator.client.SLProperties;
-import org.talend.esb.servicelocator.client.TransportType;
-
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
@@ -64,6 +47,19 @@ import static org.talend.esb.servicelocator.cxf.internal.CXFEndpointProvider.SOA
 import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.SERVER_2;
 import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createJAXRSServerStub;
 import static org.talend.esb.servicelocator.cxf.internal.CXFTestStubs.createServerStub;
+
+import java.util.Collection;
+
+import javax.xml.transform.dom.DOMResult;
+
+import org.apache.cxf.endpoint.Server;
+import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.BindingType;
+import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.TransportType;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class CXFEndpointProviderTest {
 
@@ -113,8 +109,7 @@ public class CXFEndpointProviderTest {
 
         SLProperties properties = epp.getProperties();
         Collection<String> keys = properties.getPropertyNames();
-        Matcher<Collection<String>> empty = empty(); 
-        assertThat(keys, empty);
+        assertThat(keys, empty());
     }
 
 
