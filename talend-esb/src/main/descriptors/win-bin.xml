@@ -503,12 +503,6 @@
             <outputDirectory>/container/system/org/apache/camel/karaf/camel-karaf-commands/2.10.4.P1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for woodstox version (TESB-8887)-->
-        <file>
-            <source>${basedir}/target/dependencies/woodstox-core-asl-${woodstox.version}.jar</source>
-            <outputDirectory>/container/system/org/codehaus/woodstox/woodstox-core-asl/${woodstox.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for xalan version (TESB-9005)-->
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xalan-${xalan.version}.jar</source>

@@ -617,13 +617,9 @@
                                         value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
-                                    <!-- patch for woodstox version (TESB-8887) -->
-                                    <replacefilter
-                                        token="woodstox-core-asl/4.1.4"
-                                        value="woodstox-core-asl/${woodstox.version}"/>
                                     <!-- patch for xalan version (TESB-9005) -->
                                     <replacefilter
-                                        token="org.apache.servicemix.bundles.xalan/2.7.1_5"
+                                        token="org.apache.servicemix.bundles.xalan/2.7.1_6"
                                         value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
