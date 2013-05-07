@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:osgi="http://www.springframework.org/schema/osgi"
-    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:cxf="http://cxf.apache.org/core"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
@@ -17,9 +15,15 @@
     <import resource="classpath:/datasource-osgi.xml" />
     <import resource="classpath:/persistence-rest.xml" />
 
+    <cxf:bus name="cxf" />
+
     <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
+        <prop key="sam.authentication">NO</prop>
+        <prop key="ws-security.signature.username" />
+        <prop key="ws-security.signature.password" />
+        <prop key="ws-security.signature.properties" />
     </osgix:cm-properties>
 
     <!-- placeholder configurer -->
@@ -41,4 +45,14 @@
             </bean>
         </jaxrs:providers>
     </jaxrs:server>
+
+    <bean id="policyProvider" class="org.talend.esb.sam.service.security.SAMServiceSecurityProvider"
+        init-method="init">
+        <property name="monitoringEndpoint" ref="SAMService" />
+        <property name="serviceAutentication" value="${sam.authentication}" />
+        <property name="signatureUsername" value="${ws-security.signature.username}" />
+        <property name="signaturePassword" value="${ws-security.signature.password}" />
+        <property name="signatureProperties" value="${ws-security.signature.properties}" />
+    </bean>
+
 </beans>
