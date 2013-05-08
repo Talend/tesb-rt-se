@@ -42,6 +42,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-xml</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.talend.esb.sam.service</groupId>
             <artifactId>sam-service-common</artifactId>
             <version>${project.version}</version>

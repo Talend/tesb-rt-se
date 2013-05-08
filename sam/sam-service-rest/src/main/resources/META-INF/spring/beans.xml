@@ -47,7 +47,7 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="policyProvider" class="org.talend.esb.sam.service.security.SAMServiceSecurityProvider"
+    <bean id="securityProvider" class="org.talend.esb.sam.service.security.SAMServiceSecurityProvider"
         init-method="init">
         <property name="monitoringEndpoint" ref="SAMService" />
         <property name="serviceAutentication" value="${sam.authentication}" />
