@@ -122,6 +122,7 @@
 
   <feature name='tesb-sam-service' version='${project.version}'>
       <feature>tesb-sam-server</feature>
+      <feature>cxf-rs-security-xml</feature>
       <bundle>mvn:org.talend.esb.sam.service/sam-service-common/${project.version}</bundle>
       <bundle>mvn:org.talend.esb.sam.service/sam-service-rest/${project.version}</bundle>
   </feature>
