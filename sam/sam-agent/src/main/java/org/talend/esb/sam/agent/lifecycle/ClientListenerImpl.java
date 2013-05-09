@@ -23,6 +23,8 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientLifeCycleListener;
+import org.apache.cxf.endpoint.Endpoint;
+import org.apache.cxf.service.model.ServiceInfo;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 /**
@@ -39,8 +41,7 @@ public class ClientListenerImpl extends AbstractListenerImpl implements ClientLi
      */
     @Override
     public void clientCreated(Client client) {
-        if (AGENT_PORT_TYPE.equals(
-                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())) {
+        if (AGENT_PORT_TYPE.equals(getEndpointName(client.getEndpoint()))) {
             return;
         }
         processStart(client.getEndpoint(), EventTypeEnum.CLIENT_CREATE);
@@ -51,11 +52,15 @@ public class ClientListenerImpl extends AbstractListenerImpl implements ClientLi
      */
     @Override
     public void clientDestroyed(Client client) {
-        if (AGENT_PORT_TYPE.equals(
-                client.getEndpoint().getBinding().getBindingInfo().getService().getInterface().getName())) {
+        if (AGENT_PORT_TYPE.equals(getEndpointName(client.getEndpoint()))) {
             return;
         }
         processStop(client.getEndpoint(), EventTypeEnum.CLIENT_DESTROY);
+    }
+
+    private QName getEndpointName(Endpoint e) {
+        ServiceInfo sInfo = e.getBinding().getBindingInfo().getService();
+        return sInfo == null ? e.getEndpointInfo().getName() : sInfo.getInterface().getName();
     }
 
 }
