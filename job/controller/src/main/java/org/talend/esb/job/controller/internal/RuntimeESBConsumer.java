@@ -184,7 +184,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), entry.getValue());
+                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
 
@@ -208,7 +208,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    clientProps.put(entry.getKey(), entry.getValue());
+                    clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
             clientProps.put(SecurityConstants.CALLBACK_HANDLER,
@@ -244,7 +244,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), entry.getValue());
+                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
 
@@ -267,7 +267,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    clientProps.put(entry.getKey(), entry.getValue());
+                    clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
             clientProps.put(SecurityConstants.CALLBACK_HANDLER,
@@ -358,6 +358,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private boolean hasRegistryClientExtension(Bus bus) {
         return (bus.hasExtensionByName("org.talend.esb.registry.client.wsdl.RegistryFactoryBeanListener")
             || bus.hasExtensionByName("org.talend.esb.registry.client.policy.RegistryFactoryBeanListener"));
+    }
+
+    private String processFileURI(String fileURI) {
+        return fileURI.startsWith("file:") ? fileURI.replaceAll("\\\\", "/") : fileURI;
     }
 
 }
