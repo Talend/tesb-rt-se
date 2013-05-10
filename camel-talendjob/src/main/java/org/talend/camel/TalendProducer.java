@@ -22,7 +22,7 @@ package org.talend.camel;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
@@ -57,44 +57,40 @@ public class TalendProducer extends DefaultProducer {
 		Map<String, String> propertiesMap = getEndpoint()
 				.getCamelContext().getProperties();
 
-		List<String> args = new ArrayList<String>();
+		Collection<String> args = new ArrayList<String>();
 		if (context != null) {
 			args.add("--context=" + context);
 		}
-		
+
 		if (((TalendEndpoint)getEndpoint()).isPropagateHeader()) {		
 			populateTalendContextParamsWithCamelHeaders(exchange, args);
 		} 
-		
+
 		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
 		invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
 	}
 
-	private void addTalendContextParamsFromCTalendJobContext(
-			Map<String, String> propertiesMap, List<String> args) {
+	private static void addTalendContextParamsFromCTalendJobContext(
+			Map<String, String> propertiesMap, Collection<String> args) {
 		if (propertiesMap != null) {
 			for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
-				String propertyKey = entry.getKey();
-				String propertyValue = entry.getValue();
-				args.add("--context_param " + propertyKey + "="
-						+ propertyValue);
+				args.add("--context_param " + entry.getKey() + '=' + entry.getValue());
 			}
 		}
 	}
-    
-    private void populateTalendContextParamsWithCamelHeaders(Exchange exchange, List<String> args) {
+
+    private static void populateTalendContextParamsWithCamelHeaders(Exchange exchange, Collection<String> args) {
         Map<String, Object> headers = exchange.getIn().getHeaders();
-        for (Map.Entry<String, Object> entry : headers.entrySet()) {
-            String headerKey = entry.getKey();
-            Object headerValue = entry.getValue();
+        for (Map.Entry<String, Object> header : headers.entrySet()) {
+            Object headerValue = header.getValue();
             if (headerValue != null) {
                 String headerStringValue = exchange.getContext().getTypeConverter().convertTo(String.class, exchange, headerValue);
-                args.add("--context_param " + headerKey + "=" + headerStringValue);
+                args.add("--context_param " + header.getKey() + '=' + headerStringValue);
             }
         }
     }
 
-    private void invokeTalendJob(TalendJob jobInstance, List<String> args, Method setExchangeMethod, Exchange exchange) {
+    private void invokeTalendJob(TalendJob jobInstance, Collection<String> args, Method setExchangeMethod, Exchange exchange) {
         if(setExchangeMethod != null){
             LOG.debug("Pass the exchange from router to Job");
             ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
@@ -104,11 +100,17 @@ public class TalendProducer extends DefaultProducer {
                     + ".runJob(String[] args)' with args: " + args.toString());
         }
 
-        int result = jobInstance.runJobInTOS(args.toArray(EMPTY_STRING_ARRAY));
-        if (result != 0) {
-            throw new RuntimeCamelException("Execution of Talend job '" 
-                    + jobInstance.getClass().getCanonicalName() + "' with args: "
-                    + args.toString() + "' failed, see stderr for details"); // Talend logs errors using System.err.println
+        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+        try {
+            Thread.currentThread().setContextClassLoader(jobInstance.getClass().getClassLoader());
+            int result = jobInstance.runJobInTOS(args.toArray(EMPTY_STRING_ARRAY));
+            if (result != 0) {
+                throw new RuntimeCamelException("Execution of Talend job '" 
+                        + jobInstance.getClass().getCanonicalName() + "' with args: "
+                        + args.toString() + "' failed, see stderr for details"); // Talend logs errors using System.err.println
+            }
+        } finally {
+            Thread.currentThread().setContextClassLoader(oldContextCL);
         }
     }
 
