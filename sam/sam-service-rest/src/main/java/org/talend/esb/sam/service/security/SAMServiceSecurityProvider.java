@@ -26,11 +26,11 @@ public class SAMServiceSecurityProvider {
 
     private static final String ENDPOINT_SIGNATURE_PASSWORD = "ws-security.signature.password";
 
-    public JAXRSServerFactoryBean getServer() {
+    public JAXRSServerFactoryBean getMonitoringEndpoint() {
         return server;
     }
 
-    public void setServer(JAXRSServerFactoryBean server) {
+    public void setMonitoringEndpoint(JAXRSServerFactoryBean server) {
         this.server = server;
     }
 
