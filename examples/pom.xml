@@ -185,7 +185,8 @@
         </repository>
         <repository>
             <id>apache-staging</id>
-            <url>https://repository.apache.org/content/groups/staging/</url>
+            <!--url>https://repository.apache.org/content/groups/staging/</url-->
+            <url>https://repository.apache.org/content/repositories/orgapachecxf-001/</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
                 <enabled>false</enabled>
@@ -198,7 +199,8 @@
     <pluginRepositories>
         <pluginRepository>
             <id>apache-staging</id>
-            <url>https://repository.apache.org/content/groups/staging/</url>
+            <!--url>https://repository.apache.org/content/groups/staging/</url-->
+            <url>https://repository.apache.org/content/repositories/orgapachecxf-001/</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
                 <enabled>false</enabled>
