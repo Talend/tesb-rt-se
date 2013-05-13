@@ -1,7 +1,5 @@
 package org.talend.esb.sam.service;
 
-import java.net.URL;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.talend.esb.sam.common.event.EventTypeEnum;
@@ -39,8 +37,6 @@ public class FlowEvent {
     private boolean isContentCut;
 
     private String content;
-
-    private URL details;
 
 
     public long getId() {
@@ -164,14 +160,6 @@ public class FlowEvent {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public URL getDetails() {
-        return details;
-    }
-
-    public void setDetails(URL details) {
-        this.details = details;
     }
 
 

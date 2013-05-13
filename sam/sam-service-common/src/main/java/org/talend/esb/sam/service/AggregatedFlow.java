@@ -1,6 +1,6 @@
 package org.talend.esb.sam.service;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,7 +33,7 @@ public class AggregatedFlow {
     private String providerIP;
 
 
-    URL details;
+    URI details;
 
 
     public String getFlowID() {
@@ -127,11 +127,11 @@ public class AggregatedFlow {
     }
 
 
-    public URL getDetails() {
+    public URI getDetails() {
         return details;
     }
 
-    public void setDetails(URL details) {
+    public void setDetails(URI details) {
         this.details = details;
     }
 

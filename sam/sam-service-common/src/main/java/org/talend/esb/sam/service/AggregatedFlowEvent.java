@@ -1,6 +1,6 @@
 package org.talend.esb.sam.service;
 
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,7 +43,7 @@ public class AggregatedFlowEvent {
 
     private List<CustomInfo> customInfo;
 
-    private URL details;
+    private URI details;
 
 
     public long getId() {
@@ -169,11 +169,11 @@ public class AggregatedFlowEvent {
         this.customInfo = custom;
     }
 
-    public URL getDetails() {
+    public URI getDetails() {
         return details;
     }
 
-    public void setDetails(URL details) {
+    public void setDetails(URI details) {
         this.details = details;
     }
 
