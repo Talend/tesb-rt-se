@@ -13,6 +13,7 @@ public interface SAMRestService {
 
     @GET
     @Path("")
+    @Produces({ "text/plain" })
     Response checkAlive();
 
     @GET

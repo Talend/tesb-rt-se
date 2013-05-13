@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,10 +58,10 @@ public class CriteriaAdapter implements SqlParameterSource, QueryFilter {
         new DateCriteria("timestamp_after", "EI_TIMESTAMP"),
         new DateCriteria("timestamp_on", "EI_TIMESTAMP"),
         new PatternCriteria("flowID", "MI_FLOW_ID"),
-        new PatternCriteria("consumer_ip", "ORIG_IP", CONSUMER_EVENT_TYPES),
-        new PatternCriteria("consumer_host", "ORIG_HOSTNAME", CONSUMER_EVENT_TYPES),
-        new PatternCriteria("provider_ip", "ORIG_IP", PROVIDER_EVENT_TYPES),
-        new PatternCriteria("provider_host", "ORIG_HOSTNAME", PROVIDER_EVENT_TYPES)
+        new PatternCriteria("consumerIP", "ORIG_IP", CONSUMER_EVENT_TYPES),
+        new PatternCriteria("consumerHost", "ORIG_HOSTNAME", CONSUMER_EVENT_TYPES),
+        new PatternCriteria("providerIP", "ORIG_IP", PROVIDER_EVENT_TYPES),
+        new PatternCriteria("providerHost", "ORIG_HOSTNAME", PROVIDER_EVENT_TYPES)
     };
 
     private static final String LIMIT_NAME = "limit";
