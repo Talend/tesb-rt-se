@@ -324,12 +324,14 @@
             <directory>src/main/distribution/text</directory>
             <outputDirectory>/</outputDirectory>
             <fileMode>0644</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
         <fileSet>
             <directory>target/classes/etc</directory>
             <outputDirectory>/container/etc/</outputDirectory>
             <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
 
         <fileSet>
@@ -357,8 +359,9 @@
                 <exclude>org/apache/camel/karaf/camel-karaf-commands/**</exclude>
                 <!-- patch for woodstox version (TESB-8887)-->
                 <exclude>org/codehaus/woodstox/woodstox-core-asl/4.1.4/**</exclude>
-                <!-- patch for xalan version (TESB-9005)-->
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/2.7.1_5/**</exclude>
+                <!-- patch for xalan and xerces version -->
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                  <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
@@ -503,10 +506,15 @@
             <outputDirectory>/container/system/org/apache/camel/karaf/camel-karaf-commands/2.10.4.P1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for xalan version (TESB-9005)-->
+        <!-- patch for xalan and xerces version -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xalan-${xalan.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/${xalan.version}/</outputDirectory>
+            <outputDirectory>/container/lib/endorsed/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xerces-${xerces.version}.jar</source>
+            <outputDirectory>/container/lib/endorsed/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- workaround ActiveMQ features descriptor -->

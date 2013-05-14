@@ -39,6 +39,7 @@
         <woodstox.version>4.2.0</woodstox.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.13</xbean.version>
+        <xerces.version>2.11.0_1</xerces.version>
 	</properties>
 
 	<dependencies>
@@ -311,11 +312,18 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for xalan version (TESB-9005) -->
+                                <!-- patch for xalan and xerces version -->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
                                     <artifactId>org.apache.servicemix.bundles.xalan</artifactId>
                                     <version>${xalan.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.xerces</artifactId>
+                                    <version>${xerces.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -611,16 +619,22 @@
                                     <replacefilter
                                         token="woodstox-core-asl/4.1.4"
                                         value="woodstox-core-asl/${woodstox.version}"/>
-                                    <!-- patch for xalan version (TESB-9005) -->
+                                    <!-- patch for xalan and xerces version -->
                                     <replacefilter
                                         token="org.apache.servicemix.bundles.xalan/2.7.1_5"
                                         value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
+                                    <replacefilter
+                                        token="org.apache.servicemix.bundles.xerces/2.9.1_5"
+                                        value="org.apache.servicemix.bundles.xerces/${xerces.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
-                                    <!-- patch for xalan version (TESB-9005) -->
+                                    <!-- patch for xalan and xerces version -->
                                     <replacefilter
                                         token="org.apache.servicemix.bundles.xalan/2.7.1_6"
                                         value="org.apache.servicemix.bundles.xalan/${xalan.version}"/>
+                                    <replacefilter
+                                        token="org.apache.servicemix.bundles.xerces/2.9.1_5"
+                                        value="org.apache.servicemix.bundles.xerces/${xerces.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <!-- patch for xbean-blueprint version (TESB-9304) -->
