@@ -67,6 +67,8 @@ Starting the service
  * From within the TESB OSGi container:
 
    Install and start the demo server bundle:
+   karaf@trun> features:install talend-cxf-example-jaxrs-advanced-jpa
+   karaf@trun> features:install spring-orm
    karaf@trun> features:install talend-cxf-example-jaxrs-advanced-server
 
    (Make sure you've first installed the examples features repository as described in the
