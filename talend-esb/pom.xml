@@ -35,6 +35,7 @@
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.4.0</jclouds.version>
         <opensaml.version>2.5.3_1</opensaml.version>
+        <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <saaj-impl.version>1.3.20_1</saaj-impl.version>
         <saaj-api.version>2.2.0</saaj-api.version>
         <woodstox.version>4.2.0</woodstox.version>
@@ -50,6 +51,13 @@
 			<version>${project.version}</version>
 			<type>war</type>
 		</dependency>
+        <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-classpath</artifactId>
+            <version>${pax-url-classpath.version}</version>
+            <type>jar</type>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -351,6 +359,14 @@
                                     <version>${opensaml.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                               <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
+                                <artifactItem>
+                                     <groupId>org.ops4j.pax.url</groupId>
+                                     <artifactId>pax-url-classpath</artifactId>
+                                     <version>${pax-url-classpath.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
