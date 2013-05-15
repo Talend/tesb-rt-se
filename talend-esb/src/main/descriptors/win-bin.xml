@@ -365,6 +365,8 @@
                  <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
+                <!-- patch for opensaml version -->
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/**</exclude>
             </excludes>
         </fileSet>
 
@@ -528,6 +530,12 @@
         <file>
             <source>${basedir}/target/dependencies/xbean-blueprint-${xbean.version}.jar</source>
             <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- workaround for opensaml bundle version-->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.opensaml-${opensaml.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/${opensaml.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
