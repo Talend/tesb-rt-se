@@ -42,6 +42,7 @@
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.13</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
+        <xmlsec.version>1.5.4</xmlsec.version>
 	</properties>
 
 	<dependencies>
@@ -367,6 +368,14 @@
                                      <version>${pax-url-classpath.version}</version>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- patch for xmlsec version -->
+                                <artifactItem>
+                                    <groupId>org.apache.santuario</groupId>
+                                    <artifactId>xmlsec</artifactId>
+                                    <version>${xmlsec.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>

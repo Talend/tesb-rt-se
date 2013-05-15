@@ -367,6 +367,8 @@
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
                 <!-- patch for opensaml version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/**</exclude>
+                <!-- workaround for xmlsec bundle version-->
+                <exclude>org/apache/santuario/xmlsec/1.5.3/**</exclude>
             </excludes>
         </fileSet>
 
@@ -542,6 +544,12 @@
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
             <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- workaround for xmlsec bundle version-->
+        <file>
+            <source>${basedir}/target/dependencies/xmlsec-${xmlsec.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/santuario/xmlsec/${xmlsec.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
