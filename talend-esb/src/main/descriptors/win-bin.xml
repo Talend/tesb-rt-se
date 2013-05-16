@@ -365,9 +365,8 @@
                  <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
-                <!-- patch for opensaml version -->
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/**</exclude>
-                <!-- workaround for xmlsec bundle version-->
+                <!-- exclude unnecessary depenedncies -->
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/2.5.1_2/**</exclude>
                 <exclude>org/apache/santuario/xmlsec/1.5.3/**</exclude>
             </excludes>
         </fileSet>
@@ -535,11 +534,11 @@
             <fileMode>0644</fileMode>
         </file>
         <!-- workaround for opensaml bundle version-->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.opensaml-${opensaml.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/${opensaml.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
+<!--         <file> -->
+<!--             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.opensaml-${opensaml.version}.jar</source> -->
+<!--             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/${opensaml.version}/</outputDirectory> -->
+<!--             <fileMode>0644</fileMode> -->
+<!--         </file> -->
         <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
@@ -547,11 +546,11 @@
             <fileMode>0644</fileMode>
         </file>
         <!-- workaround for xmlsec bundle version-->
-        <file>
-            <source>${basedir}/target/dependencies/xmlsec-${xmlsec.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/santuario/xmlsec/${xmlsec.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
+<!--         <file> -->
+<!--             <source>${basedir}/target/dependencies/xmlsec-${xmlsec.version}.jar</source> -->
+<!--             <outputDirectory>/container/system/org/apache/santuario/xmlsec/${xmlsec.version}/</outputDirectory> -->
+<!--             <fileMode>0644</fileMode> -->
+<!--         </file> -->
     </files>
 
     <dependencySets>

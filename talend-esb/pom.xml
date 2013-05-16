@@ -34,15 +34,14 @@
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.4.0</jclouds.version>
-        <opensaml.version>2.5.3_1</opensaml.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <saaj-impl.version>1.3.20_1</saaj-impl.version>
         <saaj-api.version>2.2.0</saaj-api.version>
         <woodstox.version>4.2.0</woodstox.version>
+        <wss4j.version>1.6.10</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.13</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
-        <xmlsec.version>1.5.4</xmlsec.version>
 	</properties>
 
 	<dependencies>
@@ -126,10 +125,11 @@
 						        <feature>activemq-optional</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
-						        <feature>cxf</feature>
-						        <feature>cxf-abdera</feature>
-						        <feature>cxf-sts</feature>
-						        <feature>cxf-wsn</feature>
+						        <feature>cxf/${cxf.version}</feature>
+						        <feature>cxf-abdera/${cxf.version}</feature>
+						        <feature>cxf-sts/${cxf.version}</feature>
+						        <feature>cxf-wsn/${cxf.version}</feature>
+						        <feature>wss4j/${wss4j.version}</feature>
 						        <!-- Camel Features -->
 						        <feature>camel</feature>
 						        <feature>camel-core</feature>
@@ -353,14 +353,6 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for opensaml version -->
-                                <artifactItem>
-                                    <groupId>org.apache.servicemix.bundles</groupId>
-                                    <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
-                                    <version>${opensaml.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                                <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
                                 <artifactItem>
                                      <groupId>org.ops4j.pax.url</groupId>
@@ -368,14 +360,6 @@
                                      <version>${pax-url-classpath.version}</version>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- patch for xmlsec version -->
-                                <artifactItem>
-                                    <groupId>org.apache.santuario</groupId>
-                                    <artifactId>xmlsec</artifactId>
-                                    <version>${xmlsec.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
