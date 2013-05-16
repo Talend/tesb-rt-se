@@ -43,6 +43,7 @@
         <xbean.version>3.13</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
         <xmlsec.version>1.5.4</xmlsec.version>
+        <spring-oxm.version>3.1.4.RELEASE</spring-oxm.version>
 	</properties>
 
 	<dependencies>
@@ -679,6 +680,10 @@
                                     <replacefilter
                                         token="xbean-blueprint/3.11.1"
                                         value="xbean-blueprint/${xbean.version}"/>
+                                    <!-- patch for spring-oxm version (TESB-9359) -->
+                                    <replacefilter
+                                        token="spring-oxm/3.0.7.RELEASE"
+                                        value="spring-oxm/${spring-oxm.version}"/>
                                 </replace>
                             </target>
                         </configuration>

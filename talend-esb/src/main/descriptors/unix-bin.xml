@@ -365,6 +365,8 @@
                 <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
+                <!-- patch for spring-oxm version (TESB-9359) -->
+                <exclude>org/springframework/spring-oxm/3.0.7.RELEASE/**</exclude>
                 <!-- patch for opensaml version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/**</exclude>
                 <!-- workaround for xmlsec bundle version-->
