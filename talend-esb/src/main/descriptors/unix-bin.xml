@@ -535,38 +535,15 @@
             <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround for opensaml bundle version-->
-<!--         <file> -->
-<!--             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.opensaml-${opensaml.version}.jar</source> -->
-<!--             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/${opensaml.version}/</outputDirectory> -->
-<!--             <fileMode>0644</fileMode> -->
-<!--         </file> -->
         <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
             <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround for xmlsec bundle version-->
-<!--         <file> -->
-<!--             <source>${basedir}/target/dependencies/xmlsec-${xmlsec.version}.jar</source> -->
-<!--             <outputDirectory>/container/system/org/apache/santuario/xmlsec/${xmlsec.version}/</outputDirectory> -->
-<!--             <fileMode>0644</fileMode> -->
-<!--         </file> -->
     </files>
 
     <dependencySets>
-        <!--dependencySet>
-            <outputDirectory>/lib</outputDirectory>
-            <unpack>false</unpack>
-            <useProjectArtifact>false</useProjectArtifact>
-            <includes>
-                <include>com.sun.xml.bind:jaxb-xjc</include>
-                <include>com.sun.xml.bind:jaxb-impl</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </dependencySet-->
         <dependencySet>
             <outputDirectory>/add-ons/sts</outputDirectory>
             <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
