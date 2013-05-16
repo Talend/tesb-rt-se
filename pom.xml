@@ -422,29 +422,27 @@
 
     <repositories>
         <repository>
-            <id>apache-staging</id>
-            <!--url>https://repository.apache.org/content/groups/staging/</url-->
-            <url>https://repository.apache.org/content/repositories/orgapachecxf-001/</url>
+            <id>apache-snapshots</id>
+            <url>http://repository.apache.org/snapshots</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>apache-staging</id>
-            <!--url>https://repository.apache.org/content/groups/staging/</url-->
-            <url>https://repository.apache.org/content/repositories/orgapachecxf-001/</url>
+            <id>apache-snapshots</id>
+            <url>http://repository.apache.org/snapshots</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </pluginRepository>
     </pluginRepositories>
