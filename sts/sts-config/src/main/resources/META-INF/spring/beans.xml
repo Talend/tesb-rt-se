@@ -22,17 +22,26 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:cxf="http://cxf.apache.org/core"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+    <cxf:bus name="cxf">           
+    </cxf:bus>
 
     <bean id="utSTSProviderBean"
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
         <property name="issueOperation" ref="utIssueDelegate"/>
         <property name="validateOperation" ref="utValidateDelegate"/>
     </bean> 
-
+ 
+    <bean id="stsConfigurator" class="org.talend.esb.sts.config.StsConfigurator" lazy-init="false" destroy-method="shutDown">
+    	<constructor-arg ref="cxf"/>
+    </bean>
+    
     <bean id="utIssueDelegate"
         class="org.apache.cxf.sts.operation.TokenIssueOperation">
         <property name="tokenProviders" ref="utSamlTokenProvider"/>
