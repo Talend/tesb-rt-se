@@ -63,12 +63,14 @@ public class StsConfigurator implements ManagedService {
 	
 	@Override
 	public void updated(Dictionary props) throws ConfigurationException {
-		Dictionary<String, String> properties = CastUtils.cast(props);
-		String useMessageLogging = properties
-				.get(LOGGING_PROPERTY);
-		//System.out.println("\nUse Logging = " + useMessageLogging);
-		setMessageLogging(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
-		//setMessageLoggingAll(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
+		if (props != null) {
+			Dictionary<String, String> properties = CastUtils.cast(props);
+			String useMessageLogging = properties
+					.get(LOGGING_PROPERTY);
+			//System.out.println("\nUse Logging = " + useMessageLogging);
+			setMessageLogging(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
+		} else
+			setMessageLogging(false);
 	}
 	
 	private ServiceRegistration registerManagedService(
