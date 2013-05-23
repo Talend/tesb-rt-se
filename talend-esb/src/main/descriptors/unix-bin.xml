@@ -345,7 +345,7 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF and Zookeeper version in Camel 2.10.2 features file -->
+                <!-- workaround for CXF and Zookeeper version in Camel 2.10.4 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/cxf/karaf/apache-cxf/2.6.6.1/**</exclude>
                 <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
@@ -370,6 +370,12 @@
                 <!-- exclude unnecessary depenedncies -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/2.5.1_2/**</exclude>
                 <exclude>org/apache/santuario/xmlsec/1.5.3/**</exclude>
+                <!-- workaround Karaf features descriptor -->
+                <exclude>org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <!-- patch for Karaf webconsole bundles (TESB-9328) -->
+                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.3.1/**</exclude>
+                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.3.1/**</exclude>
+                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.3.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -539,6 +545,29 @@
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
             <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- workaround Karaf features descriptor -->
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/assemblies/features/standard/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <!-- patch for Karaf webconsole bundles (TESB-9328) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.admin-${karaf.version}-tesb.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.features-${karaf.version}-tesb.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.gogo-${karaf.version}-tesb.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
