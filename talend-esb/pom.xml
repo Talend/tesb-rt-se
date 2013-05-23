@@ -377,7 +377,7 @@
                                      <groupId>org.apache.karaf.webconsole</groupId>
                                      <artifactId>org.apache.karaf.webconsole.admin</artifactId>
                                      <version>${karaf.version}</version>
-                                     <classifier>tesb</classifier>
+                                     <classifier>TESB</classifier>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -385,7 +385,7 @@
                                      <groupId>org.apache.karaf.webconsole</groupId>
                                      <artifactId>org.apache.karaf.webconsole.features</artifactId>
                                      <version>${karaf.version}</version>
-                                     <classifier>tesb</classifier>
+                                     <classifier>TESB</classifier>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -393,7 +393,7 @@
                                      <groupId>org.apache.karaf.webconsole</groupId>
                                      <artifactId>org.apache.karaf.webconsole.gogo</artifactId>
                                      <version>${karaf.version}</version>
-                                     <classifier>tesb</classifier>
+                                     <classifier>TESB</classifier>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -708,13 +708,13 @@
                                     <!-- patch for Karaf webconsole bundles (TESB-9328) -->
                                     <replacefilter
                                         token="org.apache.karaf.webconsole.admin/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.admin/2.3.1/jar/tesb&lt;"/>
+                                        value="org.apache.karaf.webconsole.admin/2.3.1/jar/TESB&lt;"/>
                                     <replacefilter
                                         token="org.apache.karaf.webconsole.features/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.features/2.3.1/jar/tesb&lt;"/>
+                                        value="org.apache.karaf.webconsole.features/2.3.1/jar/TESB&lt;"/>
                                     <replacefilter
                                         token="org.apache.karaf.webconsole.gogo/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.gogo/2.3.1/jar/tesb&lt;"/>
+                                        value="org.apache.karaf.webconsole.gogo/2.3.1/jar/TESB&lt;"/>
                                </replace>
                             </target>
                         </configuration>

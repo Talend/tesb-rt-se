@@ -219,6 +219,8 @@
                 <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
+                <!-- workaround Karaf features descriptor -->
+                <exclude>system/org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -556,17 +558,17 @@
         </file>
         <!-- patch for Karaf webconsole bundles (TESB-9328) -->
         <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.admin-${karaf.version}-tesb.jar</source>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.admin-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.features-${karaf.version}-tesb.jar</source>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.features-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.gogo-${karaf.version}-tesb.jar</source>
+            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.gogo-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
