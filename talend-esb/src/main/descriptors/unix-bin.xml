@@ -221,6 +221,9 @@
                 <exclude>karaf-manual*.pdf</exclude>
                 <!-- workaround Karaf features descriptor -->
                 <exclude>system/org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <!-- patch for Karaf JAAS modules bundle -->
+                <exclude>etc/startup.properties</exclude>
+                <exclude>system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.3.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -378,6 +381,8 @@
                 <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.3.1/**</exclude>
                 <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.3.1/**</exclude>
                 <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.3.1/**</exclude>
+                <!-- patch for Karaf JAAS modules bundles (TESB-9328) -->
+                <exclude>org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.3.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -570,6 +575,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.gogo-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for Karaf JAAS modules bundle -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.jaas.modules-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

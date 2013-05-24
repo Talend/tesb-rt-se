@@ -397,6 +397,15 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                 <!-- patch for Karaf JAAS modules bundle -->
+                                <artifactItem>
+                                     <groupId>org.apache.karaf.jaas</groupId>
+                                     <artifactId>org.apache.karaf.jaas.modules</artifactId>
+                                     <version>${karaf.version}</version>
+                                     <classifier>TESB</classifier>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -715,6 +724,10 @@
                                     <replacefilter
                                         token="org.apache.karaf.webconsole.gogo/2.3.1&lt;"
                                         value="org.apache.karaf.webconsole.gogo/2.3.1/jar/TESB&lt;"/>
+                                    <!-- patch for Karaf JAAS modules bundle -->
+                                    <replacefilter
+                                        token="org.apache.karaf.jaas.modules/2.3.1&lt;"
+                                        value="org.apache.karaf.jaas.modules/2.3.1/jar/TESB&lt;"/>
                                </replace>
                             </target>
                         </configuration>
