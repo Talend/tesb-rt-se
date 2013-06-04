@@ -77,6 +77,10 @@ public class ZKBackend implements ServiceLocatorBackend {
             CountDownLatch connectionLatch = new CountDownLatch(1);
             zk = createZooKeeper(connectionLatch);
 
+            if (authentication) {
+                authenticate();
+            }
+
             boolean connected = connectionLatch.await(settings.getConnectionTimeout(),
                     TimeUnit.MILLISECONDS);
 
@@ -85,9 +89,7 @@ public class ZKBackend implements ServiceLocatorBackend {
                         "Connection to Service Locator failed.");
             }
 
-            if (authentication) {
-                authenticate();
-            }
+            postConnectAction.process(null);
 
             if (LOG.isLoggable(Level.FINER)) {
                 LOG.log(Level.FINER, "End connect session");
@@ -398,7 +400,8 @@ public class ZKBackend implements ServiceLocatorBackend {
                             initializeRootNode();
                         }
                     }
-                    postConnectAction.process(null);
+                    //fix for TESB-9642
+                    //postConnectAction.process(null); moved to connect() method
                     connectionLatch.countDown();
                 } else if (eventState == KeeperState.Expired) {
                     connect();
