@@ -63,7 +63,7 @@ public class Client {
         private JAXRSClientFactoryBean prepareFactoryBean() throws Exception {
             JAXRSClientFactoryBean factoryBean = new JAXRSClientFactoryBean();
             factoryBean.setAddress("locator://some_usefull_information");
-            factoryBean.setServiceName(new QName("http://service.demo/", "OrderServiceImpl"));
+            factoryBean.setServiceName(new QName("http://common.demo/", "OrderService"));
             
             org.talend.esb.servicelocator.cxf.LocatorFeature feature =
                 new org.talend.esb.servicelocator.cxf.LocatorFeature();
