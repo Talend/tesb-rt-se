@@ -22,6 +22,7 @@ package org.talend.camel;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -42,7 +43,6 @@ import routines.system.api.TalendJob;
 public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
-    private static final String[] EMPTY_STRING_ARRAY = {};
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -64,10 +64,10 @@ public class TalendProducer extends DefaultProducer {
 
 		if (((TalendEndpoint)getEndpoint()).isPropagateHeader()) {		
 			populateTalendContextParamsWithCamelHeaders(exchange, args);
-		} 
+		}
 
 		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
-		invokeTalendJob(jobInstance, args, setExchangeMethod, exchange);
+		invokeTalendJob(jobInstance, args.toArray(new String[args.size()]), setExchangeMethod, exchange);
 	}
 
 	private static void addTalendContextParamsFromCTalendJobContext(
@@ -90,20 +90,20 @@ public class TalendProducer extends DefaultProducer {
         }
     }
 
-    private void invokeTalendJob(TalendJob jobInstance, Collection<String> args, Method setExchangeMethod, Exchange exchange) {
+    private void invokeTalendJob(TalendJob jobInstance, String[] args, Method setExchangeMethod, Exchange exchange) {
         if(setExchangeMethod != null){
             LOG.debug("Pass the exchange from router to Job");
             ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug("Invoking Talend job '" + jobInstance.getClass().getCanonicalName() 
-                    + ".runJob(String[] args)' with args: " + args.toString());
+                    + ".runJob(String[] args)' with args: " + Arrays.toString(args));
         }
 
         ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
         try {
             Thread.currentThread().setContextClassLoader(jobInstance.getClass().getClassLoader());
-            int result = jobInstance.runJobInTOS(args.toArray(EMPTY_STRING_ARRAY));
+            int result = jobInstance.runJobInTOS(args);
             if (result != 0) {
                 throw new RuntimeCamelException("Execution of Talend job '" 
                         + jobInstance.getClass().getCanonicalName() + "' with args: "
