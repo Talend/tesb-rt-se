@@ -37,6 +37,7 @@ public class DBInitializer implements InitializingBean {
     private DataSource dataSource;
     private boolean recreateDb;
     private String createSql;
+    private String createSqlInd;
 
     /**
      * Sets the data source.
@@ -65,6 +66,15 @@ public class DBInitializer implements InitializingBean {
         this.createSql = createSql;
     }
 
+    /**
+     * Sets the sql.
+     *
+     * @param createSqlInd the sql for indexes
+     */
+    public void setCreateSqlInd(String createSqlInd) {
+        this.createSqlInd = createSqlInd;
+    }
+
     /* (non-Javadoc)
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -78,6 +88,11 @@ public class DBInitializer implements InitializingBean {
             sr.setLogWriter(null);
             sr.setErrorLogWriter(null);
             sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
+            if (createSqlInd != null && !createSqlInd.equals("")) {
+            	sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSqlInd)));
+            } else {
+            	LOG.warning("The script to create indexes has not been set. Indexes will not be created.");
+            }
         }
     }
 
