@@ -44,6 +44,7 @@
         <prop key="db.dialect">derbyDialect</prop>
         <prop key="db.recreate">true</prop>
         <prop key="db.createsql">create.sql</prop>
+        <prop key="db.createsql.indexes">create_ind.sql</prop>
     </osgix:cm-properties>
 
     <!-- placeholder configurer -->
