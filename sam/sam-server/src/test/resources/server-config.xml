@@ -30,7 +30,6 @@
         <property name="properties">
             <props>
                 <prop key="db.recreate">false</prop>
-                <prop key="db.createsql">create.sql</prop>
             </props>
         </property>
     </bean>

@@ -39,7 +39,7 @@
 
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
         <property name="dataSource" ref="datasource"/>
-        <property name="createSql" value="create.sql"/>
+        <property name="dialect" value="derbyDialect" />
     </bean>
 
     <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">

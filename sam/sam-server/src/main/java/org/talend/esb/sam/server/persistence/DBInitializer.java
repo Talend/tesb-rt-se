@@ -23,6 +23,8 @@ import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -51,24 +53,28 @@ public class DBInitializer implements InitializingBean {
     }
 
     /**
-     * Sets the sql.
+     * Sets the database dialect.
      * 
-     * @param createSql
-     *            the sql
+     * @param dialect
+     *            the database dialect
      */
-    public void setCreateSql(String createSql) {
-        this.createSql = createSql;
+    public void setDialect(String dialect) {
+        String[] scripts = createScripts.get(dialect);
+        createSql = scripts[0];
+        createSqlInd = scripts[1];
     }
 
-    /**
-     * Sets the sql.
-     * 
-     * @param createSqlInd
-     *            the sql for indexes
-     */
-    public void setCreateSqlInd(String createSqlInd) {
-        this.createSqlInd = createSqlInd;
-    }
+    @SuppressWarnings("serial")
+    private final Map<String, String[]> createScripts = new HashMap<String, String[]>() {
+        {
+            put("derbyDialect", new String[] { "create.sql", "create_ind.sql" });
+            put("h2Dialect", new String[] { "create_h2.sql", "create_h2_ind.sql" });
+            put("mysqlDialect", new String[] { "create_mysql.sql", "create_mysql_ind.sql" });
+            put("oracleDialect", new String[] { "create_oracle.sql", "create_oracle_ind.sql" });
+            put("DB2Dialect", new String[] { "create_db2.sql", "create_db2_ind.sql" });
+            put("sqlServerDialect", new String[] { "create_sqlserver.sql", "create_sqlserver_ind.sql" });
+        }
+    };
 
     /*
      * (non-Javadoc)
@@ -101,4 +107,5 @@ public class DBInitializer implements InitializingBean {
             }
         }
     }
+
 }
