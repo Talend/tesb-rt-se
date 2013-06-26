@@ -105,7 +105,6 @@
 
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
         <property name="dataSource" ref="datasource"/>
-        <property name="recreateDb" value="${db.recreate}"/>
         <property name="createSql" value="${db.createsql}"/>
         <property name="createSqlInd" value="${db.createsql.indexes}"/> 
     </bean>

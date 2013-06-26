@@ -21,6 +21,8 @@ package org.talend.esb.sam.server.persistence;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -35,32 +37,24 @@ public class DBInitializer implements InitializingBean {
     private static final Logger LOG = Logger.getLogger(DBInitializer.class.getName());
 
     private DataSource dataSource;
-    private boolean recreateDb;
     private String createSql;
     private String createSqlInd;
 
     /**
      * Sets the data source.
-     *
-     * @param dataSource the new data source
+     * 
+     * @param dataSource
+     *            the new data source
      */
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     /**
-     * Sets the recreate db flag.
-     *
-     * @param recreateDb the recreateDb flag
-     */
-    public void setRecreateDb(boolean recreateDb) {
-        this.recreateDb = recreateDb;
-    }
-
-    /**
      * Sets the sql.
-     *
-     * @param createSql the sql
+     * 
+     * @param createSql
+     *            the sql
      */
     public void setCreateSql(String createSql) {
         this.createSql = createSql;
@@ -68,32 +62,43 @@ public class DBInitializer implements InitializingBean {
 
     /**
      * Sets the sql.
-     *
-     * @param createSqlInd the sql for indexes
+     * 
+     * @param createSqlInd
+     *            the sql for indexes
      */
     public void setCreateSqlInd(String createSqlInd) {
         this.createSqlInd = createSqlInd;
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        if (recreateDb) {
-            if("create_oracle.sql".equals(createSql)) {
-                LOG.warning("Not recomended to use db.recreate=true parameter for Oracle database");
+        boolean createTables = true;
+        try {
+            ResultSet rs = dataSource.getConnection().getMetaData()
+                    .getTables(dataSource.getConnection().getCatalog(), null, "EVENTS_CUSTOMINFO", null);
+            while (rs.next()) {
+                createTables = false;
             }
+        } catch (SQLException e) {
+            LOG.warning("The create tables parameter has not been set. Tables and indexes will not be created.");
+            createTables = false;
+        }
+        if (createTables) {
             ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), true, false);
             sr.setLogWriter(null);
             sr.setErrorLogWriter(null);
             sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
             if (createSqlInd != null && !createSqlInd.equals("")) {
-            	sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSqlInd)));
+                sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSqlInd)));
             } else {
-            	LOG.warning("The script to create indexes has not been set. Indexes will not be created.");
+                LOG.warning("The script to create indexes has not been set. Indexes will not be created.");
             }
         }
     }
-
 }

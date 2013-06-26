@@ -42,7 +42,6 @@
         <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
         <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
-        <prop key="db.recreate">true</prop>
         <prop key="db.createsql">create.sql</prop>
         <prop key="db.createsql.indexes">create_ind.sql</prop>
     </osgix:cm-properties>
