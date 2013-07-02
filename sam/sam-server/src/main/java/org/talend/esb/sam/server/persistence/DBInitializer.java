@@ -96,7 +96,7 @@ public class DBInitializer implements InitializingBean {
             createTables = false;
         }
         if (createTables) {
-            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), true, false);
+            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), false, false);
             sr.setLogWriter(null);
             sr.setErrorLogWriter(null);
             sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
