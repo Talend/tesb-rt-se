@@ -28,14 +28,15 @@ package org.talend.esb.sam.server.persistence.dialects;
 public class DB2Dialect extends AbstractDatabaseDialect {
 
     private static final String QUERY =
-    "SELECT MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, " +
-    "MI_TRANSPORT_TYPE, ORIG_HOSTNAME, ORIG_IP " +
- "FROM EVENTS WHERE MI_FLOW_ID IN ( " +
- "SELECT MI_FLOW_ID FROM ( " +
- "SELECT MI_FLOW_ID, MAX(EI_TIMESTAMP) AS TSTAMP FROM EVENTS WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%% GROUP BY MI_FLOW_ID " +
- "ORDER BY MAX(EI_TIMESTAMP) DESC FETCH FIRST :limit + :offset ROW ONLY) " +
- "ORDER BY TSTAMP FETCH FIRST :limit ROW ONLY) " +
- "ORDER BY EI_TIMESTAMP DESC";   
+       "SELECT MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, ORIG_HOSTNAME,  ORIG_IP " + 
+       "FROM EVENTS " +
+       "WHERE MI_FLOW_ID IN " +
+    	  "(SELECT MI_FLOW_ID FROM " +
+    	     "(SELECT MI_FLOW_ID, MAX(EI_TIMESTAMP) AS MTSTAMP FROM EVENTS " + 
+    	     "WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%% GROUP BY MI_FLOW_ID " +
+    	     "ORDER BY MAX(EI_TIMESTAMP) DESC LIMIT (:offset + :limit)) " +
+          "ORDER BY MTSTAMP LIMIT :limit) " +
+       "ORDER BY EI_TIMESTAMP";  
     
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
