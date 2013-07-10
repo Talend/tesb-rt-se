@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Map;
 
+import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.talend.esb.job.controller.GenericServiceProvider;
 import org.talend.esb.job.controller.JobLauncher;
@@ -41,9 +42,14 @@ public class ProviderFactoryImpl implements ProviderFactory {
     }
 
     public GenericServiceProvider create(Map<String, String> operations) {
-        policyProvider.register(BusFactory.getThreadDefaultBus());
-        return new GenericServiceProviderImpl(
-                jobLauncher, operations);
+        return create(operations, BusFactory.getThreadDefaultBus(false));
+    }
+
+    public GenericServiceProvider create(Map<String, String> operations, Bus bus) {
+        if (null != bus) {
+            policyProvider.register(bus);
+        }
+        return new GenericServiceProviderImpl(jobLauncher, operations);
     }
 
 }

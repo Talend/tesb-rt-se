@@ -21,9 +21,13 @@ package org.talend.esb.job.controller;
 
 import java.util.Map;
 
+import org.apache.cxf.Bus;
+
 
 public interface ProviderFactory {
 
     GenericServiceProvider create(Map<String, String> operations);
+
+    GenericServiceProvider create(Map<String, String> operations, Bus bus);
 
 }
