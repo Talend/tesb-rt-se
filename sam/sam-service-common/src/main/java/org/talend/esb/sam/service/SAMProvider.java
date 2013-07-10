@@ -6,6 +6,9 @@ import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 
 public interface SAMProvider {
+	
+	String SUBSTITUTION_STRING_LIMIT = "%%LIMIT%%";
+	String SUBSTITUTION_STRING_OFFSET = "%%OFFSET%%";
 
     FlowEvent getEventDetails(Integer eventID);
 

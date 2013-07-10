@@ -34,8 +34,8 @@ public class DB2Dialect extends AbstractDatabaseDialect {
     	  "(SELECT MI_FLOW_ID FROM " +
     	     "(SELECT MI_FLOW_ID, MAX(EI_TIMESTAMP) AS MTSTAMP FROM EVENTS " + 
     	     "WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%% GROUP BY MI_FLOW_ID " +
-    	     "ORDER BY MAX(EI_TIMESTAMP) DESC LIMIT (:offset + :limit)) " +
-          "ORDER BY MTSTAMP LIMIT :limit) " +
+    	     "ORDER BY MAX(EI_TIMESTAMP) DESC LIMIT (%%OFFSET%% + %%LIMIT%%)) " +
+          "ORDER BY MTSTAMP LIMIT %%LIMIT%%) " +
        "ORDER BY EI_TIMESTAMP";  
     
     /* (non-Javadoc)
