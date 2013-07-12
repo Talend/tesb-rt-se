@@ -27,25 +27,21 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class SqlServerDialect extends AbstractDatabaseDialect {
 
-    private static final String QUERY = "select "
-            + "[MI_FLOW_ID], [EI_TIMESTAMP], [EI_EVENT_TYPE], "
-            + "[MI_PORT_TYPE], [MI_OPERATION_NAME], [MI_TRANSPORT_TYPE], "
-            + "[ORIG_HOSTNAME], [ORIG_IP] "
-            + "FROM "
-            + "[EVENTS] "
-            + "WHERE "
-            + "[MI_FLOW_ID] in ( "
-            + "select [MI_FLOW_ID] from ( "
-            + "select [MI_FLOW_ID], rn from "
-            + "( "
-            + "select [MI_FLOW_ID], ROW_NUMBER() over(order by MAX([EI_TIMESTAMP]) DESC) as rn "
-            + "from [EVENTS] as subq WHERE (MI_FLOW_ID is not null) %%FILTER%% "
-            + "group by [MI_FLOW_ID] "
-            + ") as subq1 where rn <= :offset + :limit "
-            + ") as subq2 where rn > :offset "
-            + ") "
-            + "order by [EI_TIMESTAMP] DESC";
-
+    private static final String QUERY =
+    	"SELECT " + 
+    	"[MI_FLOW_ID], [EI_TIMESTAMP], [EI_EVENT_TYPE], " + 
+    	"[MI_PORT_TYPE], [MI_OPERATION_NAME], [MI_TRANSPORT_TYPE], " + 
+    	"[ORIG_HOSTNAME], [ORIG_IP]  " +
+    	"FROM  " +
+    	"[EVENTS]  " +
+    	"WHERE [MI_FLOW_ID] IN " + 
+    	"(select top %%LIMIT%% [MI_FLOW_ID] from " + 
+    	"(select top (%%LIMIT%% + %%OFFSET%%) [MI_FLOW_ID], MAX([ID]) as mid " + 
+    	"from [EVENTS] WHERE (MI_FLOW_ID is not null) %%FILTER%% " +  
+    	"group by [MI_FLOW_ID] " +
+    	"order by MAX([ID]) desc)as subq " + 
+    	"order by mid)  " +
+    	"ORDER BY [EI_TIMESTAMP] DESC";
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
