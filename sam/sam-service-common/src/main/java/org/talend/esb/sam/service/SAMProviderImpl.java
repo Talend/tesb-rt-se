@@ -11,9 +11,9 @@ import org.talend.esb.sam.server.ui.CriteriaAdapter;
 
 public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
-    private static final String COUNT_QUERY = "select count(distinct MI_FLOW_ID) from EVENTS "
-            + DatabaseDialect.SUBSTITUTION_STRING;
-
+    private static final String COUNT_QUERY = "SELECT COUNT(GROUPQ.MI_FLOW_ID) FROM (SELECT MI_FLOW_ID FROM EVENTS WHERE (MI_FLOW_ID IS NOT NULL) "
+    + DatabaseDialect.SUBSTITUTION_STRING + " GROUP BY MI_FLOW_ID) GROUPQ";
+    
     private static final String SELECT_FLOW_QUERY = "select "
             + "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
             + "ORIG_HOSTNAME, ORIG_IP, ORIG_PRINCIPAL, MI_PORT_TYPE, MI_OPERATION_NAME, "
@@ -64,7 +64,7 @@ public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider
         FlowCollection flowCollection = new FlowCollection();
         final String whereClause = criteria.getWhereClause();
         final String countQuery = COUNT_QUERY.replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
-                (whereClause != null && whereClause.length() > 0) ? " WHERE " + whereClause : "");
+                (whereClause != null && whereClause.length() > 0) ? " AND " + whereClause : "");
         int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
         List<Flow> flows = null;
