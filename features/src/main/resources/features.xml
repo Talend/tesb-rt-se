@@ -232,4 +232,9 @@
     <feature name='tesb-jmx-http-agent' version='${project.version}'>
         <bundle>mvn:org.jolokia/jolokia-osgi/${jolokia.version}</bundle>
     </feature>
+
+    <feature name="activemq" version="${activemq.version}" resolver="(obr)">
+        <feature version="${activemq.version}">activemq-broker</feature>
+    </feature>
+
 </features>

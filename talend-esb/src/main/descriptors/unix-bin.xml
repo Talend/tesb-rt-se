@@ -206,24 +206,19 @@
             <excludes>
                 <exclude>**/demos/**</exclude>
                 <exclude>bin/**</exclude>
-                <exclude>etc/config.properties</exclude>
                 <exclude>etc/custom.properties</exclude>
                 <exclude>etc/system.properties</exclude>
                 <exclude>etc/users.properties</exclude>
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
+                <exclude>lib/endorsed/xercesImpl-2.11.0.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
                 <exclude>karaf-manual*.pdf</exclude>
-                <!-- workaround Karaf features descriptor -->
-                <exclude>system/org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <!-- patch for Karaf JAAS modules bundle -->
-                <exclude>etc/startup.properties</exclude>
-                <exclude>system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.3.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -350,39 +345,17 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF and Zookeeper version in Camel 2.10.4 features file -->
+                <!-- workaround for CXF and Zookeeper version in Camel 2.11.2 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/cxf/karaf/apache-cxf/2.6.6.1/**</exclude>
-                <exclude>org/apache/zookeeper/zookeeper/3.3.5/**</exclude>
+                <exclude>org/apache/cxf/karaf/apache-cxf/2.7.5/**</exclude>
+                <exclude>org/apache/zookeeper/zookeeper/3.4.5/**</exclude>
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
                 <!-- workaround for saaj-impl bundle version-->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/**</exclude>
-                <!-- workaround for saaj-api bundle version-->
-                <exclude>org/apache/servicemix/specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0/**</exclude>
-                <!-- patch for TESB-7884 -->
-                <exclude>org/apache/camel/karaf/camel-karaf-commands/**</exclude>
-                <!-- patch for woodstox version (TESB-8887)-->
-                <exclude>org/codehaus/woodstox/woodstox-core-asl/4.1.4/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
-                <!-- patch for xbean-blueprint version (TESB-9304) -->
-                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
-                <!-- patch for spring-oxm version (TESB-9359) -->
-                <exclude>org/springframework/spring-oxm/3.0.7.RELEASE/**</exclude>
-                <!-- exclude unnecessary depenedncies -->
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/2.5.1_2/**</exclude>
-                <exclude>org/apache/santuario/xmlsec/1.5.3/**</exclude>
-                <!-- workaround Karaf features descriptor -->
-                <exclude>org/apache/karaf/assemblies/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <!-- patch for Karaf webconsole bundles (TESB-9328) -->
-                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/2.3.1/**</exclude>
-                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/2.3.1/**</exclude>
-                <exclude>org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/2.3.1/**</exclude>
-                <!-- patch for Karaf JAAS modules bundles (TESB-9328) -->
-                <exclude>org/apache/karaf/jaas/org.apache.karaf.jaas.modules/2.3.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -518,12 +491,6 @@
             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for TESB-7884 -->
-        <file>
-            <source>${basedir}/target/dependencies/camel-karaf-commands-2.10.4.P1.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/karaf/camel-karaf-commands/2.10.4.P1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for xalan and xerces version -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xalan-${xalan.version}.jar</source>
@@ -535,52 +502,10 @@
             <outputDirectory>/container/lib/endorsed/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround ActiveMQ features descriptor -->
-        <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <!-- patch for xbean-blueprint version (TESB-9304) -->
-        <file>
-            <source>${basedir}/target/dependencies/xbean-blueprint-${xbean.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
             <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- workaround Karaf features descriptor -->
-        <file>
-            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/assemblies/features/standard/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <!-- patch for Karaf webconsole bundles (TESB-9328) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.admin-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.admin/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.features-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.features/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.webconsole.gogo-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/webconsole/org.apache.karaf.webconsole.gogo/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for Karaf JAAS modules bundle -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.jaas.modules-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

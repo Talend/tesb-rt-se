@@ -33,15 +33,11 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>1.4.0</jclouds.version>
+        <jclouds.version>1.5.7</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <saaj-impl.version>1.3.20_1</saaj-impl.version>
-        <saaj-api.version>2.2.0</saaj-api.version>
-        <spring-oxm.version>3.1.4.RELEASE</spring-oxm.version>
-        <woodstox.version>4.2.0</woodstox.version>
         <wss4j.version>1.6.10</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
-        <xbean.version>3.13</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
 	</properties>
 
@@ -104,7 +100,7 @@
 						<configuration>
 							<descriptors>
 <!--                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
+                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
@@ -119,11 +115,8 @@
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
 						        <!-- ActiveMQ Features -->
-						        <feature>activemq</feature>
-						        <feature>activemq-blueprint</feature>
-						        <feature>activemq-spring</feature>
+						        <feature>activemq-broker</feature>
                                 <feature>activemq-web-console</feature>
-						        <feature>activemq-optional</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -307,22 +300,6 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for TESB-7884 -->
-                                <artifactItem>
-                                    <groupId>org.apache.camel.karaf</groupId>
-                                    <artifactId>camel-karaf-commands</artifactId>
-                                    <version>2.10.4.P1</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- patch for woodstox version (TESB-8887) -->
-                                <artifactItem>
-                                    <groupId>org.codehaus.woodstox</groupId>
-                                    <artifactId>woodstox-core-asl</artifactId>
-                                    <version>${woodstox.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                                 <!-- patch for xalan and xerces version -->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
@@ -338,71 +315,11 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for xbean-blueprint version (TESB-9304) -->
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-karaf</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.xbean</groupId>
-                                    <artifactId>xbean-blueprint</artifactId>
-                                    <version>${xbean.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                                <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
                                 <artifactItem>
                                      <groupId>org.ops4j.pax.url</groupId>
                                      <artifactId>pax-url-classpath</artifactId>
                                      <version>${pax-url-classpath.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- workarounds for Karaf features descriptor -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.assemblies.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <!-- patch for Karaf webconsole bundles (TESB-9328) -->
-                                <artifactItem>
-                                     <groupId>org.apache.karaf.webconsole</groupId>
-                                     <artifactId>org.apache.karaf.webconsole.admin</artifactId>
-                                     <version>${karaf.version}</version>
-                                     <classifier>TESB</classifier>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                     <groupId>org.apache.karaf.webconsole</groupId>
-                                     <artifactId>org.apache.karaf.webconsole.features</artifactId>
-                                     <version>${karaf.version}</version>
-                                     <classifier>TESB</classifier>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                     <groupId>org.apache.karaf.webconsole</groupId>
-                                     <artifactId>org.apache.karaf.webconsole.gogo</artifactId>
-                                     <version>${karaf.version}</version>
-                                     <classifier>TESB</classifier>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                 <!-- patch for Karaf JAAS modules bundle -->
-                                <artifactItem>
-                                     <groupId>org.apache.karaf.jaas</groupId>
-                                     <artifactId>org.apache.karaf.jaas.modules</artifactId>
-                                     <version>${karaf.version}</version>
-                                     <classifier>TESB</classifier>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -665,30 +582,18 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/2.6.6.1/xml/features"
+                                        token="apache-cxf/2.7.5/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
-                                        token="org.apache.zookeeper/zookeeper/3.3.5"
+                                        token="org.apache.zookeeper/zookeeper/3.4.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
-                                    <!-- workaround for saaj-api bundle version-->
-                                    <replacefilter
-                                        token="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/1.9.0"
-                                        value="mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/${saaj-api.version}"/>
-                                    <!-- patch for TESB-7884 -->
-                                    <replacefilter
-                                        token="camel-karaf-commands/2.10.4&lt;"
-                                        value="camel-karaf-commands/2.10.4.P1&lt;"/>
-                                    <!-- patch for woodstox version (TESB-8887) -->
-                                    <replacefilter
-                                        token="woodstox-core-asl/4.1.4"
-                                        value="woodstox-core-asl/${woodstox.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_5&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_6&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.9.1_5&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.10.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>
@@ -703,32 +608,6 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>
-                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
-                                    <!-- patch for xbean-blueprint version (TESB-9304) -->
-                                    <replacefilter
-                                        token="xbean-blueprint/3.11.1"
-                                        value="xbean-blueprint/${xbean.version}"/>
-                                    <!-- patch for spring-oxm version (TESB-9359) -->
-                                    <replacefilter
-                                        token="spring-oxm/3.0.7.RELEASE"
-                                        value="spring-oxm/${spring-oxm.version}"/>
-                                </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch for Karaf webconsole bundles (TESB-9328) -->
-                                    <replacefilter
-                                        token="org.apache.karaf.webconsole.admin/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.admin/2.3.1/jar/TESB&lt;"/>
-                                    <replacefilter
-                                        token="org.apache.karaf.webconsole.features/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.features/2.3.1/jar/TESB&lt;"/>
-                                    <replacefilter
-                                        token="org.apache.karaf.webconsole.gogo/2.3.1&lt;"
-                                        value="org.apache.karaf.webconsole.gogo/2.3.1/jar/TESB&lt;"/>
-                                    <!-- patch for Karaf JAAS modules bundle -->
-                                    <replacefilter
-                                        token="org.apache.karaf.jaas.modules/2.3.1&lt;"
-                                        value="org.apache.karaf.jaas.modules/2.3.1/jar/TESB&lt;"/>
-                               </replace>
                             </target>
                         </configuration>
                         <goals>
@@ -764,9 +643,19 @@
 	</build>
 	
     <repositories>
-        <!-- OPS4J SNAPSHOT repository -->
         <repository>
-            <id>ops4j.sonatype.snapshots.deploy</id>
+            <id>springsource.release</id>
+            <name>Springsource release repository</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ops4j.sonatype.snapshots</id>
             <name>OPS4J snapshot repository</name>
             <url>https://oss.sonatype.org/content/repositories/ops4j-snapshots/</url>
             <releases>
