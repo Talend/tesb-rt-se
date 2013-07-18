@@ -26,6 +26,10 @@ package routines.system.api;
  */
 public interface ESBProviderCallback {
 
+    String HEADERS = "HEADERS";
+
+    String REQUEST = "REQUEST";
+
     /**
      * Returns a request to the Job.
      * This method is <em>blocking</em> it will
