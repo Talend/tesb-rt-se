@@ -148,25 +148,29 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         }
 
         List<Header> soapHeaders = null;
-        Object soapHeadersDoc = props.get(ESBEndpointConstants.SOAP_HEADERS);
-        if (null != soapHeadersDoc) {
-            soapHeaders = new java.util.ArrayList<Header>();
-            try {
-                javax.xml.transform.dom.DOMResult result = new javax.xml.transform.dom.DOMResult();
-                javax.xml.transform.TransformerFactory.newInstance().newTransformer().transform(
-                    new org.dom4j.io.DocumentSource((org.dom4j.Document) soapHeadersDoc), result);
-                for (Node node = ((org.w3c.dom.Document) result.getNode())
-                            .getDocumentElement().getFirstChild();
-                        node != null;
-                        node = node.getNextSibling()) {
-                    if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
-                        soapHeaders.add(new org.apache.cxf.headers.Header(
-                            new javax.xml.namespace.QName(node.getNamespaceURI(), node.getLocalName()),
-                            node));
+        Object soapHeadersObject = props.get(ESBEndpointConstants.SOAP_HEADERS);
+        if (null != soapHeadersObject) {
+            if (soapHeadersObject instanceof org.dom4j.Document) {
+                soapHeaders = new java.util.ArrayList<Header>();
+                try {
+                    javax.xml.transform.dom.DOMResult result = new javax.xml.transform.dom.DOMResult();
+                    javax.xml.transform.TransformerFactory.newInstance().newTransformer().transform(
+                        new org.dom4j.io.DocumentSource((org.dom4j.Document) soapHeadersObject), result);
+                    for (Node node = ((org.w3c.dom.Document) result.getNode())
+                                .getDocumentElement().getFirstChild();
+                            node != null;
+                            node = node.getNextSibling()) {
+                        if (org.w3c.dom.Node.ELEMENT_NODE == node.getNodeType()) {
+                            soapHeaders.add(new org.apache.cxf.headers.Header(
+                                new javax.xml.namespace.QName(node.getNamespaceURI(), node.getLocalName()),
+                                node));
+                        }
                     }
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, "Uncaught exception during SOAP headers transformation: ", e);
                 }
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Uncaught exception during SOAP headers transformation: ", e);
+            } else if (soapHeadersObject instanceof List) {
+                soapHeaders = (List<Header>) soapHeadersObject;
             }
         }
         final SecurityArguments securityArguments = new SecurityArguments(
