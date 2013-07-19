@@ -23,7 +23,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -31,6 +33,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 import javax.xml.ws.handler.MessageContext;
 
+import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.dom4j.io.SAXReader;
@@ -42,6 +45,8 @@ import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+
+import routines.system.api.ESBProviderCallback;
 
 @javax.xml.ws.WebServiceProvider()
 @javax.xml.ws.ServiceMode(value = javax.xml.ws.Service.Mode.PAYLOAD)
@@ -74,7 +79,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
         QName operationQName = (QName) context.getMessageContext().get(
                 MessageContext.WSDL_OPERATION);
         LOG.info("Invoke operation '" + operationQName + "'");
-
         GenericOperation esbProviderCallback = 
              getESBProviderCallback(operationQName.getLocalPart());
         
@@ -87,7 +91,11 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             StaxUtils.copy(request, os);
             org.dom4j.Document requestDoc = new SAXReader()
                     .read(new ByteArrayInputStream(os.toByteArray()));
-            Object result = esbProviderCallback.invoke(requestDoc,
+
+            Map<String, Object> esbRequest = new HashMap<String, Object>();
+            esbRequest.put(ESBProviderCallback.HEADERS, (Collection<Header>) context.getMessageContext().get(Header.HEADER_LIST));
+            esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
+            Object result = esbProviderCallback.invoke(esbRequest,
                     isOperationRequestResponse(operationQName.getLocalPart()));
 
             // oneway
