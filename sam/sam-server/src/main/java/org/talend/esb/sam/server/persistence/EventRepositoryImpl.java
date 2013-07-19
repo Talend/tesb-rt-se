@@ -85,12 +85,12 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
 	        int rowCount = getSimpleJdbcTemplate().queryForInt(flowQuery);
 	        if (rowCount <= 0) {
 	            getSimpleJdbcTemplate().update(
-	                "insert into FLOWS (ID, FI_TIMESTAMP) " +
-	                "values ('" + messageInfo.getFlowId() + "','" + event.getTimestamp() + "')");
+	                "insert into FLOWS (ID, FI_TIMESTAMP) values (?,?)",
+	                messageInfo.getFlowId(), event.getTimestamp());
 	        } else {
 	            getSimpleJdbcTemplate().update(
-	                "update FLOWS set FI_TIMESTAMP='" + event.getTimestamp() +
-	                    "' where ID = '" + messageInfo.getFlowId() + "'");
+	                "update FLOWS set FI_TIMESTAMP=? where ID=?",
+	                event.getTimestamp(), messageInfo.getFlowId());
 	        }
         }
 

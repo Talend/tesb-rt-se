@@ -44,6 +44,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.talend.esb.sam._2011._03.common.CustomInfoType;
 import org.talend.esb.sam._2011._03.common.EventEnumType;
 import org.talend.esb.sam._2011._03.common.EventType;
+import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
@@ -93,6 +94,10 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         prop2.setValue("myValue2");
         ciType.getItem().add(prop2);
         eventType.setCustomInfo(ciType);
+        
+        MessageInfoType mit = new MessageInfoType();
+        mit.setFlowId("uuid");
+        eventType.setMessageInfo(mit);
         
         events.add(eventType);
         String result = monitoringService.putEvents(events);
