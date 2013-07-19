@@ -58,6 +58,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     private final Map<String, String> operations;
 
     private EventFeature eventFeature;
+    private boolean extractHeaders;
 
     private Configuration configuration;
 
@@ -72,6 +73,10 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
 
     public void setEventFeature(EventFeature eventFeature) {
         this.eventFeature = eventFeature;
+    }
+
+    public void setExtractHeaders(boolean extractHeaders) {
+        this.extractHeaders = extractHeaders;
     }
 
     // @javax.jws.WebMethod(exclude=true)
@@ -92,10 +97,16 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             org.dom4j.Document requestDoc = new SAXReader()
                     .read(new ByteArrayInputStream(os.toByteArray()));
 
-            Map<String, Object> esbRequest = new HashMap<String, Object>();
-            esbRequest.put(ESBProviderCallback.HEADERS, (Collection<Header>) context.getMessageContext().get(Header.HEADER_LIST));
-            esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
-            Object result = esbProviderCallback.invoke(esbRequest,
+            Object payload;
+            if (extractHeaders) {
+                Map<String, Object> esbRequest = new HashMap<String, Object>();
+                esbRequest.put(ESBProviderCallback.HEADERS, (Collection<Header>) context.getMessageContext().get(Header.HEADER_LIST));
+                esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
+                payload = esbRequest;
+            } else {
+                payload = requestDoc;
+            }
+            Object result = esbProviderCallback.invoke(payload,
                     isOperationRequestResponse(operationQName.getLocalPart()));
 
             // oneway
