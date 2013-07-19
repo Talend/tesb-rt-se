@@ -51,5 +51,10 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
         return QUERY;
     }
 
+	@Override
+	public String getName() {
+		return "sqlServerDialect";
+	}
+
 
 }

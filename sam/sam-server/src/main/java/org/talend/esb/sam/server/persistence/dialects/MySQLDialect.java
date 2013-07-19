@@ -46,4 +46,9 @@ public class MySQLDialect extends AbstractDatabaseDialect {
         return QUERY;
     }
 
+	@Override
+	public String getName() {
+		return "mysqlDialect";
+	}
+
 }

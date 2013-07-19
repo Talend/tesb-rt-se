@@ -31,6 +31,12 @@ public interface DatabaseDialect {
     String SUBSTITUTION_STRING = "%%FILTER%%";
 
     /**
+     * get the name of the dialect
+     * @return
+     */
+    String getName();
+
+    /**
      * Returns {@link DataFieldMaxValueIncrementer} for specific database.
      *
      * @return the incrementer

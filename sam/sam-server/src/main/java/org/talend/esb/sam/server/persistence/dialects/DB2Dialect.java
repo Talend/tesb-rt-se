@@ -46,4 +46,9 @@ public class DB2Dialect extends AbstractDatabaseDialect {
         return QUERY;
     }
 
+	@Override
+	public String getName() {
+		return "DB2Dialect";
+	}
+
 }

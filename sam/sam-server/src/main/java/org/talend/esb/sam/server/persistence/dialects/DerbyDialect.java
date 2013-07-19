@@ -57,4 +57,9 @@ public class DerbyDialect extends AbstractDatabaseDialect {
     String getQuery() {
         return QUERY;
     }
+
+	@Override
+	public String getName() {
+		return "derbyDialect";
+	}
 }

@@ -46,4 +46,9 @@ public class OracleDialect extends AbstractDatabaseDialect{
         return QUERY;
     }
 
+	@Override
+	public String getName() {
+		return "oracleDialect";
+	}
+
 }
