@@ -28,6 +28,8 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  *
  */
 public abstract class AbstractDatabaseDialect implements DatabaseDialect {
+	
+	String SUBQUERY_FOR_FILTER = " JOIN EVENTS ON EVENTS.MI_FLOW_ID = FL.ID WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%% ";
 
     private DataFieldMaxValueIncrementer incrementer;
 
@@ -57,9 +59,10 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         String whereClause = filter.getWhereClause();
         String result = null;
         if (whereClause != null && whereClause.length() > 0) {
-            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
+        	result = query.replaceAll(SUBQUERY_SUBSTITUTION_STRING, SUBQUERY_FOR_FILTER)
+        			.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
         } else {
-            result = query.replaceAll(SUBSTITUTION_STRING, "");
+            result = query.replaceAll(SUBQUERY_SUBSTITUTION_STRING, "").replaceAll(SUBSTITUTION_STRING, "");
         }
         return result;
     }

@@ -44,11 +44,12 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "ORIG_HOSTNAME,  ORIG_IP "
             + "from "
             + "EVENTS E, "
-            + "(select ID from FLOWS WHERE (ID is not null) "
+            + "(select FL.ID from FLOWS FL " 
+            + "%%FILTERSUBQUERY%% "
             + "order by FI_TIMESTAMP DESC "
             + "OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY) F "
             + "where "
-            + "E.MI_FLOW_ID = F.ID %%FILTER%%";
+            + "E.MI_FLOW_ID = F.ID";
     
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()

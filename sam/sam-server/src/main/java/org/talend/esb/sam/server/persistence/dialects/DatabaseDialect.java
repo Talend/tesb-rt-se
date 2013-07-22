@@ -29,6 +29,7 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
 public interface DatabaseDialect {
 
     String SUBSTITUTION_STRING = "%%FILTER%%";
+    String SUBQUERY_SUBSTITUTION_STRING = "%%FILTERSUBQUERY%%";
 
     /**
      * get the name of the dialect
