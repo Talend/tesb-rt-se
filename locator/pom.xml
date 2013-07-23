@@ -98,7 +98,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-xjc-plugin</artifactId>
-                <version>${cxf.xjc.version}</version>
+                <version>${cxf.xjc-utils.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
