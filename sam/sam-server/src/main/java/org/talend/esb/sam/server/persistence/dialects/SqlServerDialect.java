@@ -36,11 +36,11 @@ public class SqlServerDialect extends AbstractDatabaseDialect {
     	"[EVENTS]  " +
     	"WHERE [MI_FLOW_ID] IN " + 
     	"(select top %%LIMIT%% [MI_FLOW_ID] from " + 
-    	"(select top (%%LIMIT%% + %%OFFSET%%) [MI_FLOW_ID], MAX([ID]) as mid " + 
+    	"(select top (%%LIMIT%% + %%OFFSET%%) [MI_FLOW_ID], MAX([EI_TIMESTAMP]) as ts " + 
     	"from [EVENTS] WHERE (MI_FLOW_ID is not null) %%FILTER%% " +  
     	"group by [MI_FLOW_ID] " +
-    	"order by MAX([ID]) desc)as subq " + 
-    	"order by mid)  " +
+    	"order by MAX([EI_TIMESTAMP]) desc)as subq " + 
+    	"order by ts)  " +
     	"ORDER BY [EI_TIMESTAMP] DESC";
 
     /* (non-Javadoc)
