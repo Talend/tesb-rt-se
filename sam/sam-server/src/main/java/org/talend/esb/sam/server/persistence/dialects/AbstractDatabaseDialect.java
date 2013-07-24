@@ -73,12 +73,24 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
     }
     
     
-   /**
+    /**
      * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
      * for where clause.
      *
      * @return the query
      */
     abstract String getQuery();
+
+    /**
+     * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
+     * for where clause.
+     *
+     * @return the count query
+     */
+    public String getCountQuery() {
+        final String CountQuery = "SELECT COUNT(GROUPQ.MI_FLOW_ID) FROM (SELECT MI_FLOW_ID FROM EVENTS WHERE (MI_FLOW_ID IS NOT NULL) "
+        	    + SUBSTITUTION_STRING + " GROUP BY MI_FLOW_ID) GROUPQ";
+        return CountQuery;
+    }
     
 }

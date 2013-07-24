@@ -52,4 +52,11 @@ public interface DatabaseDialect {
      */
     String getDataQuery(QueryFilter filter);
 
+    /**
+     * Should return a count query.
+     *
+     * @return the count query string with {@link #SUBSTITUTION_STRING} placeholder for where clause.
+     */
+    String getCountQuery();
+
 }
