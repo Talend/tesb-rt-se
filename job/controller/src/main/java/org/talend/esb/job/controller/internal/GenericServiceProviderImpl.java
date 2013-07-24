@@ -23,7 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Collection;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,7 +99,8 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             Object payload;
             if (extractHeaders) {
                 Map<String, Object> esbRequest = new HashMap<String, Object>();
-                esbRequest.put(ESBProviderCallback.HEADERS, (Collection<Header>) context.getMessageContext().get(Header.HEADER_LIST));
+                esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(Header.HEADER_LIST));
+                esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS));
                 esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
                 payload = esbRequest;
             } else {
