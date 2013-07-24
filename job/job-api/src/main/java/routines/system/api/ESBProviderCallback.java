@@ -26,7 +26,9 @@ package routines.system.api;
  */
 public interface ESBProviderCallback {
 
-    String HEADERS = "HEADERS";
+    String HEADERS_SOAP = "HEADERS_SOAP";
+
+    String HEADERS_HTTP = "HEADERS_HTTP";
 
     String REQUEST = "REQUEST";
 
