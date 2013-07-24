@@ -33,7 +33,7 @@ public class MySQLDialect extends AbstractDatabaseDialect {
             + "ORIG_HOSTNAME,  ORIG_IP "
             + "from "
             + "(select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID "
-            + "order by MAX(EI_TIMESTAMP) DESC LIMIT :limit OFFSET :offset) as SUBQ "
+            + "order by MAX(EI_TIMESTAMP) DESC LIMIT %%LIMIT%% OFFSET %%OFFSET%%) as SUBQ "
             + "LEFT JOIN EVENTS ON "
             + "SUBQ.MI_FLOW_ID = EVENTS.MI_FLOW_ID "
             + "order by EI_TIMESTAMP DESC";
