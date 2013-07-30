@@ -27,7 +27,7 @@ package org.talend.esb.sam.server.persistence.dialects;
  */
 public class DerbyDialect extends AbstractDatabaseDialect {
 
-/*    private static final String QUERY = "select "
+    private static final String QUERY = "select "
             + "MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
             + "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, "
             + "ORIG_HOSTNAME,  ORIG_IP "
@@ -37,9 +37,9 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "MI_FLOW_ID in ("
             + "select MI_FLOW_ID from EVENTS WHERE (MI_FLOW_ID is not null) %%FILTER%% group by MI_FLOW_ID order by MAX(EI_TIMESTAMP) "
             + "DESC OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY"
-            + ") order by EI_TIMESTAMP DESC";*/
+            + ") order by EI_TIMESTAMP DESC";
             
-    private static final String QUERY = "select MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
+/*    private static final String QUERY = "select MI_FLOW_ID, EI_TIMESTAMP, EI_EVENT_TYPE, "
             + "MI_PORT_TYPE, MI_OPERATION_NAME, MI_TRANSPORT_TYPE, " 
             + "ORIG_HOSTNAME,  ORIG_IP "
             + "from "
@@ -48,7 +48,7 @@ public class DerbyDialect extends AbstractDatabaseDialect {
             + "order by FI_TIMESTAMP DESC "
             + "OFFSET :offset ROWS FETCH FIRST :limit ROWS ONLY) F "
             + "where "
-            + "E.MI_FLOW_ID = F.ID %%FILTER%%";
+            + "E.MI_FLOW_ID = F.ID %%FILTER%%";*/
     
     /* (non-Javadoc)
      * @see org.talend.esb.sam.server.persistence.dialects.AbstractDatabaseDialect#getQuery()
