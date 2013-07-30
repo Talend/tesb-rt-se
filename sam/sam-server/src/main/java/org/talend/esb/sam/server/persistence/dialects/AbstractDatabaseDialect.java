@@ -29,12 +29,7 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  */
 public abstract class AbstractDatabaseDialect implements DatabaseDialect {
 	
-	String SUBQUERY_FOR_FILTER = 
-			"  ,(" +
-			"   SELECT DISTINCT MI_FLOW_ID FROM EVENTS" +
-			"   WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%%" +
-			"  ) SUBQ" +
-			"  WHERE FL.ID = SUBQ.MI_FLOW_ID";
+	String SUBQUERY_FOR_FILTER = " JOIN EVENTS ON EVENTS.MI_FLOW_ID = FL.ID WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%% ";
 
     private DataFieldMaxValueIncrementer incrementer;
 
