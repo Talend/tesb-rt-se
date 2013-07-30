@@ -19,8 +19,6 @@
  */
 package org.talend.esb.sam.agent.message;
 
-import javax.xml.namespace.QName;
-
 import org.apache.cxf.message.Message;
 
 /**
