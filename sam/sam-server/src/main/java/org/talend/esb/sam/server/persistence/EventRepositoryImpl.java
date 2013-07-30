@@ -79,21 +79,6 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
 
         writeCustomInfo(event);
 
-        if (dialect.getName().equals("derbyDialect") || 
-                dialect.getName().equals("h2Dialect")) {
-	        String flowQuery = "SELECT count(*) FROM FLOWS WHERE ID = '" + messageInfo.getFlowId() + "'";
-	        int rowCount = getSimpleJdbcTemplate().queryForInt(flowQuery);
-	        if (rowCount <= 0) {
-	            getSimpleJdbcTemplate().update(
-	                "insert into FLOWS (ID, FI_TIMESTAMP) values (?,?)",
-	                messageInfo.getFlowId(), event.getTimestamp());
-	        } else {
-	            getSimpleJdbcTemplate().update(
-	                "update FLOWS set FI_TIMESTAMP=? where ID=?",
-	                event.getTimestamp(), messageInfo.getFlowId());
-	        }
-        }
-
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("event [message_id=" + messageInfo.getMessageId() + "] persist to Database successful."
                 + " ID=" + id);
