@@ -1,14 +1,23 @@
-<!-- 
-
- Copyright (C) 2011 - 2012 Talend Inc. - www.talend.com
- All rights reserved.
-
- This program and the accompanying materials are made available
- under the terms of the Apache License v2.0
- which accompanies this distribution, and is available at
- http://www.apache.org/licenses/LICENSE-2.0
-
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Talend ESB :: Adapters :: HQ :: Talend Runtime Plugin
+  %%
+  Copyright (C) 2011 - 2013 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -23,7 +32,95 @@
 		<version>5.4.0-SNAPSHOT</version>
 	</parent>
 
+	<modules>
+		<module>hyperic/tesb-hq-plugins-common</module>
+		<module>hyperic/camel-plugin</module>
+		<module>hyperic/cxf-plugin</module>
+		<module>hyperic/activemq-plugin</module>
+		<module>hyperic/trun-plugin</module>
+<!-- 		<module>tesb-adapters</module>  -->
+	</modules>
+	
+	<properties>
+		<maven.compiler.ver>2.5.1</maven.compiler.ver>
+<!-- 	<maven.source.ver>2.2.1</maven.source.ver>   -->
+		<maven.jar.ver>2.4</maven.jar.ver>
+		<maven.resource.ver>2.5</maven.resource.ver>
+		<maven.shade.ver>2.0</maven.shade.ver>
+		<maven.assembly.ver>2.3</maven.assembly.ver>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<hyperic.ver>4.6.6</hyperic.ver>
+		<commons.logging.ver>1.0.4</commons.logging.ver>
+	</properties>
+	
+<!-- 	<licenses>
+		<license>
+			<name>Apache Software License - Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>  -->
+	
 	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>1.0</version>
+				<configuration>
+					<licenseName>apache_v2</licenseName>
+					<licenseFile>${project.build.directory}/LICENSE.txt</licenseFile>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>update-project-license</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											license-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0,)
+										</versionRange>
+										<goals>
+											<goal>
+												update-project-license
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>

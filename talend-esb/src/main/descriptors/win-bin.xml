@@ -388,16 +388,8 @@
                 <exclude>**/*.i??</exclude>
             </excludes>
         </fileSet>
-
-		<!-- Copy Adapters -->
-        <fileSet>
-            <directory>${basedir}/../adapters/hyperic/camel</directory>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>${basedir}/../adapters/hyperic/cxf</directory>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-        </fileSet>
+        
+        <!-- Copy Adapters -->
         <fileSet>
             <directory>${basedir}/../adapters/nagios</directory>
             <outputDirectory>/add-ons/adapters/nagios</outputDirectory>
@@ -421,6 +413,28 @@
     </fileSets>
 
     <files>
+		<!-- Copy Adapters -->
+        <file>
+            <source>${basedir}/../adapters/hyperic/camel-plugin/target/camel-plugin-${project.version}.jar</source>
+            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+   		    <destName>camel-plugin.jar</destName>
+        </file>
+        <file>
+            <source>${basedir}/../adapters/hyperic/cxf-plugin/target/cxf-plugin-${project.version}.jar</source>
+            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+   			<destName>cxf-plugin.jar</destName>
+        </file>
+   		<file>
+   			<source>${basedir}/../adapters/hyperic/activemq-plugin/target/activemq-plugin-${project.version}.jar</source>
+   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+   			<destName>activemq-plugin.jar</destName>
+   		</file>
+   		<file>
+   			<source>${basedir}/../adapters/hyperic/trun-plugin/target/trun-plugin-${project.version}.jar</source>
+   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
+   			<destName>trun-plugin.jar</destName>
+   		</file>
+
         <file>
             <source>${basedir}/src/main/bin/trun.bat</source>
             <outputDirectory>/container/bin/</outputDirectory>
