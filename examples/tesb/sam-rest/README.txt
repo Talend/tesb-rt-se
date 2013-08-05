@@ -61,3 +61,5 @@ Running the Client
 ---------------------------------------
   * From the command line:
      cd client ; mvn exec:java
+
+Note: please make sure the SAM Server already has been started (e.g. run tesb:start-sam) before you start the example Service/Client.
