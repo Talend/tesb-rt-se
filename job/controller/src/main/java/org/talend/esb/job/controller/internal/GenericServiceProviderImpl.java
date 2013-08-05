@@ -33,6 +33,7 @@ import javax.xml.transform.Source;
 import javax.xml.validation.Schema;
 import javax.xml.ws.handler.MessageContext;
 
+import org.apache.cxf.annotations.SchemaValidation.SchemaValidationType;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;
@@ -125,11 +126,19 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             MessageContext mContext = context.getMessageContext();
             WrappedMessageContext wmc = (WrappedMessageContext)mContext;
             Message message = wmc.getWrappedMessage();
-            String shouldValidate = (String)message.getContextualProperty(Message.SCHEMA_VALIDATION_ENABLED);
+            Object validationObj = message.getContextualProperty(Message.SCHEMA_VALIDATION_ENABLED);
+            boolean shouldValidate = false;
+            if (validationObj instanceof String) {
+                String validationStr = (String)validationObj;
+                shouldValidate = validationStr.equalsIgnoreCase("true") || validationStr.equalsIgnoreCase("out");
+            } else if (validationObj instanceof SchemaValidationType) {
+                SchemaValidationType validationType = (SchemaValidationType)validationObj;
+                shouldValidate = (validationType == SchemaValidationType.BOTH || 
+                        validationType == SchemaValidationType.OUT);
+            }
 
             Schema schema = null;
-            if (null != shouldValidate && (shouldValidate.equals("true") || 
-                    shouldValidate.equalsIgnoreCase("out"))) {
+            if (shouldValidate) {
                 Service service = ServiceModelUtil.getService(message.getExchange());
                 schema = EndpointReferenceUtils.getSchema(service.getServiceInfos().get(0),
                         message.getExchange().getBus());
