@@ -130,7 +130,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             boolean shouldValidate = false;
             if (validationObj instanceof String) {
                 String validationStr = (String)validationObj;
-                shouldValidate = validationStr.equalsIgnoreCase("true") || validationStr.equalsIgnoreCase("out");
+                shouldValidate = validationStr.equalsIgnoreCase("true") || validationStr.equalsIgnoreCase("OUT");
             } else if (validationObj instanceof SchemaValidationType) {
                 SchemaValidationType validationType = (SchemaValidationType)validationObj;
                 shouldValidate = (validationType == SchemaValidationType.BOTH || 
@@ -175,13 +175,14 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     	Source source = null;
         if (result instanceof org.dom4j.Document) {
         	try {
-				source = DOM4JMarshaller
-				        .documentToSource((org.dom4j.Document) result);
-
 	            //workaround for CXF-5169
                 if (null != schema) {
+                    source = DOM4JMarshaller.documentToSource((org.dom4j.Document) result);
                     schema.newValidator().validate(source);
+                    source = null;
                 }
+
+			    source = DOM4JMarshaller.documentToSource((org.dom4j.Document) result);
 
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException(e);

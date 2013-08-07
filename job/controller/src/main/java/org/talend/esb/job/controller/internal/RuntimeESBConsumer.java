@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
+import javax.xml.validation.Schema;
 import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
 
@@ -44,6 +45,7 @@ import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
@@ -51,6 +53,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
+import org.apache.cxf.wsdl.EndpointReferenceUtils;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
@@ -315,9 +318,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (null != soapHeaders) {
             client.getRequestContext().put(org.apache.cxf.headers.Header.HEADER_LIST, soapHeaders);
         }
+
         try {
-            Object[] result = client.invoke(operationName,
-                    DOM4JMarshaller.documentToSource(doc));
+            //workaround for CXF-5169
+            Object svObj = client.getRequestContext().get(Message.SCHEMA_VALIDATION_ENABLED);
+            if (svObj instanceof String && ((String) svObj).equalsIgnoreCase("OUT")) {
+                //Service service = ServiceModelUtil.getService(message.getExchange());
+                Schema schema = EndpointReferenceUtils.getSchema(client.getEndpoint().getService().getServiceInfos().get(0),
+                        client.getBus());
+                if (null != schema) {
+                    schema.newValidator().validate(DOM4JMarshaller.documentToSource(doc));
+                }
+            }
+
+            Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
             if (result != null) {
                 return DOM4JMarshaller.sourceToDocument((Source) result[0]);
             }
