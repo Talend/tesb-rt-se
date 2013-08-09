@@ -23,7 +23,7 @@ crmservice/
     - CRM Service which implements the getCRMInformation() and getCRMStatus() operations.
 
 reservationservice/
-    - Reservation Service which implemants getAvailableCars(), submitCarReservation() and 
+    - Reservation Service which implements getAvailableCars(), submitCarReservation() and 
 	  getConfirmationOfReservation() operations.
 
 app-reservation/
@@ -63,7 +63,7 @@ Install/Deploy the Example
       features:install tesb-rac-services-sts
       features:install tesb-rac-app-sts
       (Note: STS server should be started before install features for this scenario.)
-   For all fesatures enabled Rent-a-Car example:
+   For all features enabled Rent-a-Car example:
       features:addurl mvn:org.talend.esb.examples.rent-a-car/features-all/<version>/xml
       features:install tesb-rac-services-all
       features:install tesb-rac-app-all
