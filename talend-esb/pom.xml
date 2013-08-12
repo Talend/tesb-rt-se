@@ -248,6 +248,7 @@
 								<feature>tesb-sts</feature>
                                 <feature>camel-talendjob</feature>
 								<feature>tesb-jmx-http-agent</feature>
+								<feature>tesb-policy-correlationid</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
