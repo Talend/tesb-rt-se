@@ -1,0 +1,2 @@
+org.talend.esb.correlation.impl.CorrelationIDPolicyBuilder::true:true
+org.talend.esb.correlation.impl.CorrelationIDInterceptorProvider::true:true
