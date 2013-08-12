@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!--
+  #%L
+  Talend ESB :: Adapters :: HQ :: Camel Plugin
+  %%
+  Copyright (C) 2011 - 2013 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<plugin name="camel">
+	<property name="PLUGIN_VERSION" value="@project.version@" />
+	
+	<classpath>
+		<include name="pdk/lib/mx4j"/>
+	</classpath>
+
+	<filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+	<filter name="domain" value="org.apache.camel" />
+
+	<filter name="route_object_name" value="${domain}:context=*,type=routes,name=*" />
+
+	<metrics name="route">
+		<metric name="Availability" indicator="true"
+			template="${route_object_name}:${alias}" />
+
+		<metric name="Exchanges Completed" indicator="true" category="THROUGHPUT"
+			template="${route_object_name}:${alias}" collectionType="trendsup" />
+		<metric name="Exchanges Failed" indicator="true" category="THROUGHPUT"
+			template="${route_object_name}:${alias}" collectionType="trendsup" />
+		<metric name="Exchanges Total" indicator="true" category="THROUGHPUT"
+			template="${route_object_name}:${alias}" collectionType="trendsup" />
+		<metric name="Last Processing Time" indicator="true" category="PERFORMANCE"
+			template="${route_object_name}:${alias}" units="ms" />
+		<metric name="Max Processing Time" indicator="true" category="PERFORMANCE"
+			template="${route_object_name}:${alias}" units="ms" />
+		<metric name="Mean Processing Time" indicator="true" category="PERFORMANCE"
+			template="${route_object_name}:${alias}" units="ms" />
+		<metric name="Min Processing Time" indicator="true" category="PERFORMANCE"
+			template="${route_object_name}:${alias}" units="ms" />
+		<metric name="Total Processing Time" indicator="true" category="UTILIZATION"
+			template="${route_object_name}:${alias}" units="ms" />
+	</metrics>
+
+	<server name="Apache Camel [Karaf]" version="2.10" description="Route Server">
+
+		<property name="PROC_HOME_PROPERTY" value="karaf.home" />
+		<property name="VERSION_FILE" value="**/.*camel-core-(2.\d*).*.jar" />
+
+		<!-- <property name="INSTALLPATH" value="Camel Karaf" /> -->
+		<!-- <property name="KARAF_HOME" value="C:\talend-esb-4.0\container\bin"/> -->
+		<!-- <property name="INSTALLPATH_MATCH" value="${KARAF_HOME}"/> -->
+
+		<!-- Common -->
+		<property name="server_title" value="Apache Camel" />
+		<property name="target_domain" value="${domain}" />
+
+		<!-- Measurement Plugin -->
+		<!-- <property name="gc_interval" value="3600" /> -->
+
+		<!-- Detector Plugin -->
+		<property name="dynamic_field_pattern" value="[^/]*/[0-9]+[-0-9]*-(.*)" />
+		<property name="dynamic_field_name" value="context" />
+		<property name="target_format" value="*-{}" />
+		<property name="library_path" value="system/org/apache/camel/camel-core" />
+
+		<config>
+			<option name="jmx.url" description="JMX URL to MBeanServer"
+				default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun" />
+			<option name="jmx.username" description="JMX username"
+				optional="true" default="tadmin" />
+			<option name="jmx.password" description="JMX password"
+				optional="true" default="tadmin" />
+		</config>
+
+		<plugin type="autoinventory"
+			class="org.talend.esb.monitoring.hq.KarafEmbeddedServerDetector" />
+		<plugin type="measurement"
+			class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
+		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
+
+		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
+		<metric name="Availability" indicator="true" />
+		
+		<service name="Routes">
+			<property name="AUTOINVENTORY_NAME" value="Camel %context% %name%" />
+			<property name="OBJECT_NAME" value="${route_object_name}"/>
+
+			<config>
+				<option name="context" description="context" default="" />
+				<option name="name" description="name" default="" />
+			</config>
+
+			<plugin type="autoinventory" />
+			<plugin type="measurement" />
+
+			<metrics include="route" />
+		</service>
+	</server>
+	
+	<server name="Apache Camel [Karaf]" version="2.11" include="2.10">
+	</server>
+
+	<server name="Apache Camel [Tomcat]" version="2.10" description="Route Server">
+
+		<property name="PROC_HOME_PROPERTY" value="catalina.base" />
+		<property name="VERSION_FILE" value="**/.*camel-core-(2.\d*).*.jar" />
+<!-- 		<property name="INSTALLPATH" value="Camel Tomcat" /> -->
+
+		<!-- Common -->
+		<property name="server_title" value="Apache Camel" />
+		<property name="target_domain" value="${domain}" />
+
+		<!-- Measurement Plugin -->
+		<!-- <property name="gc_interval" value="3600" /> -->
+
+		<!-- Detector Plugin -->
+		<property name="dynamic_field_pattern" value="[^/]*/[0-9]+[-0-9]*-(.*)" />
+		<property name="dynamic_field_name" value="context" />
+		<property name="target_format" value="*-{}" />
+		
+		<config>
+			<option name="jmx.url" description="JMX URL to MBeanServer"
+				default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi" />
+			<option name="jmx.username" description="JMX username"
+				optional="true" default="" />
+			<option name="jmx.password" description="JMX password"
+				optional="true" default="" />
+		</config>
+
+		<plugin type="autoinventory"
+			class="org.talend.esb.monitoring.hq.TomcatEmbeddedServerDetector" />
+		<plugin type="measurement"
+			class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
+		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
+
+		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
+		<metric name="Availability" template="${OBJECT_NAME}:${alias}"
+			indicator="true" />
+
+		<service name="Routes">
+			<property name="AUTOINVENTORY_NAME" value="Camel %context% %name%" />
+			<property name="OBJECT_NAME" value="${route_object_name}"/>
+			
+			<config>
+				<option name="context" description="context" default="" />
+				<option name="name" description="name" default="" />
+			</config>
+			
+			<plugin type="autoinventory" />
+			<plugin type="measurement" />
+
+			<metrics include="route" />
+		</service>
+	</server>
+
+	<server name="Apache Camel [Tomcat]" version="2.11" include="2.10">
+	</server>
+	
+</plugin>

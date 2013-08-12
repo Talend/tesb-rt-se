@@ -28,13 +28,6 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
  *
  */
 public abstract class AbstractDatabaseDialect implements DatabaseDialect {
-	
-	String SUBQUERY_FOR_FILTER = 
-			"  ,(" +
-			"   SELECT DISTINCT MI_FLOW_ID FROM EVENTS" +
-			"   WHERE (MI_FLOW_ID IS NOT NULL) %%FILTER%%" +
-			"  ) SUBQ" +
-			"  WHERE FL.ID = SUBQ.MI_FLOW_ID";
 
     private DataFieldMaxValueIncrementer incrementer;
 
@@ -64,21 +57,32 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         String whereClause = filter.getWhereClause();
         String result = null;
         if (whereClause != null && whereClause.length() > 0) {
-        	result = query.replaceAll(SUBQUERY_SUBSTITUTION_STRING, SUBQUERY_FOR_FILTER)
-        			.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
+            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
         } else {
-            result = query.replaceAll(SUBQUERY_SUBSTITUTION_STRING, "").replaceAll(SUBSTITUTION_STRING, "");
+            result = query.replaceAll(SUBSTITUTION_STRING, "");
         }
         return result;
     }
     
     
-   /**
+    /**
      * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
      * for where clause.
      *
      * @return the query
      */
     abstract String getQuery();
+
+    /**
+     * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
+     * for where clause.
+     *
+     * @return the count query
+     */
+    public String getCountQuery() {
+        final String CountQuery = "SELECT COUNT(GROUPQ.MI_FLOW_ID) FROM (SELECT MI_FLOW_ID FROM EVENTS WHERE (MI_FLOW_ID IS NOT NULL) "
+        	    + SUBSTITUTION_STRING + " GROUP BY MI_FLOW_ID) GROUPQ";
+        return CountQuery;
+    }
     
 }

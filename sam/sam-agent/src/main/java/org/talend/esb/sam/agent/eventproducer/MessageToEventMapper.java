@@ -42,6 +42,7 @@ import org.apache.cxf.ws.addressing.ContextUtils;
 //import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.apache.cxf.service.model.ServiceModelUtil;
 
+import org.talend.esb.sam.agent.message.CorrelationIdHelper;
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
 import org.talend.esb.sam.agent.util.Converter;
@@ -123,6 +124,11 @@ public class MessageToEventMapper {
         String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();
         if (null != addr) {
             event.getCustomInfo().put("address", addr);
+        }
+        
+        String correlationId = CorrelationIdHelper.getCorrelationId(message);
+        if (null != correlationId) {
+            event.getCustomInfo().put("CorrelationID", correlationId);
         }
 
         try {

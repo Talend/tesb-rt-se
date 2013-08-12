@@ -29,7 +29,6 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
 public interface DatabaseDialect {
 
     String SUBSTITUTION_STRING = "%%FILTER%%";
-    String SUBQUERY_SUBSTITUTION_STRING = "%%FILTERSUBQUERY%%";
 
     /**
      * get the name of the dialect
@@ -51,5 +50,12 @@ public interface DatabaseDialect {
      * @return the data query
      */
     String getDataQuery(QueryFilter filter);
+
+    /**
+     * Should return a count query.
+     *
+     * @return the count query string with {@link #SUBSTITUTION_STRING} placeholder for where clause.
+     */
+    String getCountQuery();
 
 }
