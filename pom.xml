@@ -136,6 +136,7 @@
         <module>locator-auth</module>
         <module>locator-server</module>
         <module>locator-service</module>
+        <module>policies-correlation</module>
         <module>sam</module>
         <module>job</module>
         <module>features</module>
