@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsp:Policy Name="org.talend.esb.job.correlation.id.policy"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" method="CALLBACK" />
+			<!--tpa:CorrelationID method="GENERATE" xmlns:tpa="http://types.talend.com/policy/assertion/1.0"/-->
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>

@@ -78,6 +78,7 @@
         <property name="policySaml" value="$job{policy.saml}"/>
         <property name="policySamlAuthzService" value="$job{policy.saml.authz.service}"/>
         <property name="policySamlAuthzClient" value="$job{policy.saml.authz.client}"/>
+        <property name="policyCorrelationId" value="$job{policy.correlation.id}"/>
     </bean>
     <!--osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/-->
 
