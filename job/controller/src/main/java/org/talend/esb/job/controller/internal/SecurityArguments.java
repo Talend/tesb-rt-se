@@ -33,6 +33,7 @@ public class SecurityArguments {
     private final Map<String, String> clientProperties;
     private final Map<String, String> stsProperties;
     private final String roleName;
+    private final Object securityToken;
 
     public SecurityArguments(final EsbSecurity esbSecurity,
             final Policy policy,
@@ -40,7 +41,8 @@ public class SecurityArguments {
             String password,
             Map<String, String> clientProperties,
             Map<String, String> stsProperties,
-            String roleName) {
+            String roleName,
+            Object securityToken) {
         this.esbSecurity = esbSecurity;
         this.policy = policy;
         this.username = username;
@@ -48,6 +50,8 @@ public class SecurityArguments {
         this.clientProperties = clientProperties;
         this.stsProperties = stsProperties;
         this.roleName = roleName;
+        this.securityToken = securityToken;
+        
     }
 
     public EsbSecurity getEsbSecurity() {
@@ -76,6 +80,10 @@ public class SecurityArguments {
 
     public String getRoleName() {
         return roleName;
+    }
+
+    public Object getSecurityToken() {
+        return securityToken;
     }
 
 }

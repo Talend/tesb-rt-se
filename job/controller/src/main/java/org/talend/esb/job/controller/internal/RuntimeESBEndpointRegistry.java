@@ -100,10 +100,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         if (null != props.get(ESBEndpointConstants.USE_AUTHORIZATION)) {
             useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();
         }
-        String authzRole = "";
-        if (null != props.get(ESBEndpointConstants.AUTHZ_ROLE)) {
-            authzRole = (String) props.get(ESBEndpointConstants.AUTHZ_ROLE);
-        }
+
         boolean logMessages = false;
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
@@ -180,7 +177,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 clientProperties,
                 stsProperties,
-                authzRole);
+                (String) props.get(ESBEndpointConstants.AUTHZ_ROLE),
+                props.get(ESBEndpointConstants.SECURITY_TOKEN));
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 

@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,10 +199,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             stsClient.setProperties(stsProps);
 
-            if (!(securityArguments.getRoleName().equals(""))) {
+            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
                 ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
                 roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
                 stsClient.setClaimsCallbackHandler(roleCallbackHandler);
+            }
+            if (null != securityArguments.getSecurityToken()) {
+                stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
             }
 
             Map<String, Object> clientProps = new HashMap<String, Object>();
@@ -374,8 +379,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
             || bus.hasExtensionByName("org.talend.esb.registry.client.policy.RegistryFactoryBeanListener"));
     }
 
-    private String processFileURI(String fileURI) {
-        return fileURI.startsWith("file:") ? fileURI.replaceAll("\\\\", "/") : fileURI;
+    private Object processFileURI(String fileURI) {
+        if (fileURI.startsWith("file:")) {
+            try {
+                return new URL(fileURI);
+            } catch (MalformedURLException e) {
+            }
+        }
+        return fileURI;
     }
 
 }
