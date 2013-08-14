@@ -45,6 +45,7 @@
     <bean id="utIssueDelegate"
         class="org.apache.cxf.sts.operation.TokenIssueOperation">
         <property name="tokenProviders" ref="utSamlTokenProvider"/>
+        <property name="tokenValidators" ref="utSamlTokenValidator"/>
         <property name="services" ref="utService"/>
         <property name="stsProperties" ref="utSTSProperties"/>
     </bean>
