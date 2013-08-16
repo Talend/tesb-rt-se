@@ -262,7 +262,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             stsClient.setProperties(stsProps);
 
-            if (!(securityArguments.getRoleName().equals(""))) {
+            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
                 ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
                 roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
                 stsClient.setClaimsCallbackHandler(roleCallbackHandler);
