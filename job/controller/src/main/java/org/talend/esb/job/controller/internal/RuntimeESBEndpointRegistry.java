@@ -101,6 +101,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();
         }
 
+        boolean enhancedResponse = false;
+        if(null !=props.get(ESBEndpointConstants.ENHANCED_RESPONSE)){
+        	enhancedResponse = ((Boolean) props.get(ESBEndpointConstants.ENHANCED_RESPONSE)).booleanValue();
+        }
+
         boolean logMessages = false;
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
@@ -192,7 +197,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 bus,
                 logMessages,
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
-                soapHeaders);
+                soapHeaders,
+                enhancedResponse);
     }
 
 }
