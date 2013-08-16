@@ -22,6 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,7 @@ import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.wsdl.EndpointReferenceUtils;
+import org.dom4j.Document;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
@@ -90,6 +92,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
     private Client client;
 
+	private boolean enhancedResponse;
+
     RuntimeESBConsumer(final QName serviceName, 
             final QName portName,
             String operationName, 
@@ -103,12 +107,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Bus bus,
             boolean logging,
             String soapAction,
-            final List<Header> soapHeaders) {
+            final List<Header> soapHeaders,
+            boolean enhancedResponse) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
         this.soapAction = soapAction;
         this.soapHeaders = soapHeaders;
+        this.enhancedResponse = enhancedResponse;
 
         clientFactory = new JaxWsClientFactoryBean() {
             @Override
@@ -338,7 +344,16 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
             if (result != null) {
-                return DOM4JMarshaller.sourceToDocument((Source) result[0]);
+            	Document payload = DOM4JMarshaller.sourceToDocument((Source) result[0]);
+            	if(enhancedResponse) {
+            		Map<String, Object> enhancedBody = new HashMap<String, Object>();
+            		enhancedBody.put("payload", payload);
+            		enhancedBody.put(Client.REQUEST_CONTEXT, client.getRequestContext());
+            		enhancedBody.put(Client.RESPONSE_CONTEXT, client.getResponseContext());
+            		return enhancedBody;
+            	}else {
+            		return payload;
+				}
             }
         } catch (org.apache.cxf.binding.soap.SoapFault e) {
             SOAPFault soapFault = ServiceHelper.createSoapFault(e);

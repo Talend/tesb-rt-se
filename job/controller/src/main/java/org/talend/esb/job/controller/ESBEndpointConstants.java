@@ -42,6 +42,7 @@ public interface ESBEndpointConstants {
     String LOG_MESSAGES = "logMessages";
     String SOAP_HEADERS = "soapHeaders";
     String SECURITY_TOKEN = "securityToken";
+    String ENHANCED_RESPONSE = "enhancedResponse";
 
     // request constants
     String REQUEST_PAYLOAD = "PAYLOAD";
