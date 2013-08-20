@@ -15,78 +15,21 @@
 	<description>Custom policy for correlation id implementation
 	</description>
 	<dependencies>
-	
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
 			<version>${osgi.core.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-api</artifactId>
-			<version>${cxf.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-core</artifactId>
-			<version>${cxf.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>${cxf.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-ws-policy</artifactId>
 			<version>${cxf.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.neethi</groupId>
-			<artifactId>neethi</artifactId>
-			<version>${neethi.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
 			<version>${cxf.version}</version>
-			<scope>compile</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>		
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<scope>test</scope>
-		</dependency>
-	
 	</dependencies>
 
 	<build>
