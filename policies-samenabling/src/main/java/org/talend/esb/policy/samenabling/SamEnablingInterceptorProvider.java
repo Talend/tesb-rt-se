@@ -95,11 +95,12 @@ public class SamEnablingInterceptorProvider extends
                     // Service service = ServiceModelUtil.getService(message
                     // .getExchange());
                     Exchange ex = message.getExchange();
-                    Endpoint ep = ex.getEndpoint();
                     Bus b = ex.getBus();
 
                     if (b.getFeatures().contains(EventFeature.class))
                         return;
+                    
+                    Endpoint ep = ex.getEndpoint();
 
                     BundleContext context = b.getExtension(BundleContext.class);
                     ServiceReference sref = context
