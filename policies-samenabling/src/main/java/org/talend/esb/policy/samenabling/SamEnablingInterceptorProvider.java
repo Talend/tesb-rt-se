@@ -1,4 +1,4 @@
-package org.talend.esb.policy.samenable;
+package org.talend.esb.policy.samenabling;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,9 +26,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.sam.agent.feature.EventFeature;
 
-import org.talend.esb.policy.samenable.SamEnablePolicy.ApplyToType;
+import org.talend.esb.policy.samenabling.SamEnablingPolicy.ApplyToType;
 
-public class SamEnableInterceptorProvider extends
+public class SamEnablingInterceptorProvider extends
         AbstractPolicyInterceptorProvider {
 
     /**
@@ -36,9 +36,9 @@ public class SamEnableInterceptorProvider extends
      */
     private static final long serialVersionUID = 4595900233265934333L;
 
-    public SamEnableInterceptorProvider() {
+    public SamEnablingInterceptorProvider() {
 
-        super(Arrays.asList(SamEnablePolicyBuilder.SAM_ENABLE));
+        super(Arrays.asList(SamEnablingPolicyBuilder.SAM_ENABLE));
 
         this.getOutInterceptors().add(new SAMEnableOutInterceptor());
         this.getOutFaultInterceptors().add(new SAMEnableOutInterceptor());
@@ -79,15 +79,15 @@ public class SamEnableInterceptorProvider extends
         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
         if (aim != null) {
             Collection<AssertionInfo> ais = aim
-                    .get(SamEnablePolicyBuilder.SAM_ENABLE);
+                    .get(SamEnablingPolicyBuilder.SAM_ENABLE);
 
             if (ais == null) {
                 return;
             }
 
             for (AssertionInfo ai : ais) {
-                if (ai.getAssertion() instanceof SamEnablePolicy) {
-                    SamEnablePolicy vPolicy = (SamEnablePolicy) ai
+                if (ai.getAssertion() instanceof SamEnablingPolicy) {
+                    SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai
                             .getAssertion();
 
                     ApplyToType applyToType = vPolicy.getApplyToType();

@@ -10,7 +10,7 @@
 	<groupId>org.talend.esb.policies</groupId>
 	<artifactId>samenabling-policy</artifactId>
 	<packaging>bundle</packaging>
-	<name>SAMenabling-policy</name>
+	<name>SAMEnabling-policy</name>
 	<description>Policy for enabling of the Service Activity Monitoring
 	</description>
 	<dependencies>

@@ -1,4 +1,4 @@
-package org.talend.esb.policy.samenable;
+package org.talend.esb.policy.samenabling;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -8,7 +8,7 @@ import org.apache.neethi.Assertion;
 import org.apache.neethi.PolicyComponent;
 import org.w3c.dom.Element;
 
-public class SamEnablePolicy implements Assertion {
+public class SamEnablingPolicy implements Assertion {
 
     public enum ApplyToType {
         consumer, provider, always;
@@ -16,7 +16,7 @@ public class SamEnablePolicy implements Assertion {
 
     private ApplyToType applyToType = ApplyToType.provider;
 
-    public SamEnablePolicy(Element element) {
+    public SamEnablingPolicy(Element element) {
 
         if (element.hasAttributeNS(null, "applyTo")) {
             String target = element.getAttributeNS(null, "applyTo");
@@ -36,7 +36,7 @@ public class SamEnablePolicy implements Assertion {
 
     @Override
     public QName getName() {
-        return SamEnablePolicyBuilder.SAM_ENABLE;
+        return SamEnablingPolicyBuilder.SAM_ENABLE;
     }
 
     @Override
@@ -51,18 +51,18 @@ public class SamEnablePolicy implements Assertion {
 
     @Override
     public void serialize(XMLStreamWriter writer) throws XMLStreamException {
-        String prefix = writer.getPrefix(SamEnablePolicyBuilder.NAMESPACE);
+        String prefix = writer.getPrefix(SamEnablingPolicyBuilder.NAMESPACE);
 
         if (prefix == null) {
             prefix = "tpa";
-            writer.setPrefix(prefix, SamEnablePolicyBuilder.NAMESPACE);
+            writer.setPrefix(prefix, SamEnablingPolicyBuilder.NAMESPACE);
         }
 
         writer.writeStartElement(prefix,
-                SamEnablePolicyBuilder.SAM_ENABLE_NAME,
-                SamEnablePolicyBuilder.NAMESPACE);
+                SamEnablingPolicyBuilder.SAM_ENABLE_NAME,
+                SamEnablingPolicyBuilder.NAMESPACE);
 
-        writer.writeNamespace(prefix, SamEnablePolicyBuilder.NAMESPACE);
+        writer.writeNamespace(prefix, SamEnablingPolicyBuilder.NAMESPACE);
 
         writer.writeAttribute(null, "applyTo", applyToType.name());
 
