@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@ package org.talend.esb.job.controller.internal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +56,6 @@ import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.wsdl.EndpointReferenceUtils;
-import org.dom4j.Document;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
@@ -94,16 +92,16 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
 	private boolean enhancedResponse;
 
-    RuntimeESBConsumer(final QName serviceName, 
+    RuntimeESBConsumer(final QName serviceName,
             final QName portName,
-            String operationName, 
+            String operationName,
             String publishedEndpointUrl,
             String wsdlURL,
-            boolean isRequestResponse, 
+            boolean isRequestResponse,
             final LocatorFeature slFeature,
             final EventFeature samFeature,
             boolean useServiceRegistry,
-            final SecurityArguments securityArguments, 
+            final SecurityArguments securityArguments,
             Bus bus,
             boolean logging,
             String soapAction,
@@ -268,7 +266,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             stsClient.setProperties(stsProps);
 
-            if (!(securityArguments.getRoleName().equals(""))) {
+            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
                 ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
                 roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
                 stsClient.setClaimsCallbackHandler(roleCallbackHandler);
@@ -293,7 +291,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
 
         clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
-        clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP, 
+        clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP,
                 Boolean.toString(useServiceRegistry));
     }
 
@@ -344,16 +342,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
             if (result != null) {
-            	Document payload = DOM4JMarshaller.sourceToDocument((Source) result[0]);
-            	if(enhancedResponse) {
-            		Map<String, Object> enhancedBody = new HashMap<String, Object>();
-            		enhancedBody.put("payload", payload);
-            		enhancedBody.put(Client.REQUEST_CONTEXT, client.getRequestContext());
-            		enhancedBody.put(Client.RESPONSE_CONTEXT, client.getResponseContext());
-            		return enhancedBody;
-            	}else {
-            		return payload;
-				}
+                if(enhancedResponse) {
+                    Map<String, Object> enhancedBody = new HashMap<String, Object>();
+                    enhancedBody.put("payload", DOM4JMarshaller.sourceToDocument((Source) result[0]));
+                    enhancedBody.put(Client.REQUEST_CONTEXT, client.getRequestContext());
+                    enhancedBody.put(Client.RESPONSE_CONTEXT, client.getResponseContext());
+                    return enhancedBody;
+                } else {
+                    return DOM4JMarshaller.sourceToDocument((Source) result[0]);
+                }
             }
         } catch (org.apache.cxf.binding.soap.SoapFault e) {
             SOAPFault soapFault = ServiceHelper.createSoapFault(e);
