@@ -24,8 +24,8 @@ balancing scenarios. Service Activity Monitoring allows to log and
 monitor service calls. A documented Car Rental demo application illustrates
 how to use these features. 
 
-Contents 
-======== 
+Contents
+========
 
 Getting Started
 Examples
