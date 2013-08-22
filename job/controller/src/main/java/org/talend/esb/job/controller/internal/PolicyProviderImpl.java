@@ -40,6 +40,7 @@ public class PolicyProviderImpl implements PolicyProvider {
     private String policySamlAuthzService;
     private String policySamlAuthzClient;
     private String policyCorrelationId;
+    private String policySamEnable;
     private PolicyBuilder policyBuilder;
 
     public void setPolicyToken(String policyToken) {
@@ -61,6 +62,10 @@ public class PolicyProviderImpl implements PolicyProvider {
 	public void setPolicyCorrelationId(String policyCorrelationId) {
 		this.policyCorrelationId = policyCorrelationId;
 	}
+	
+    public void setPolicySamEnable(String policySamEnable) {
+        this.policySamEnable = policySamEnable;
+    }
 
 	@javax.annotation.Resource
     public void setBus(Bus bus) {
@@ -87,6 +92,10 @@ public class PolicyProviderImpl implements PolicyProvider {
 		return loadPolicy(policyCorrelationId);
 	}
     
+    private Policy getSamenablePolicy() {
+        return loadPolicy(policySamEnable);
+    }
+    
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
@@ -100,6 +109,8 @@ public class PolicyProviderImpl implements PolicyProvider {
                 getSamlAuthzClientPolicy());
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_CORRELATION_ID,
         		getCorrelationIdPolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAMENABLE,
+                getSamenablePolicy());
     }
 
     private Policy loadPolicy(String location) {
@@ -119,4 +130,5 @@ public class PolicyProviderImpl implements PolicyProvider {
             }
         }
     }
+
 }
