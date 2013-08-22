@@ -11,7 +11,6 @@ import org.w3c.dom.Element;
 public class CorrelationIDAssertion implements Assertion {
 
 	public enum MethodType {
-		GENERATE,
 		CALLBACK,
 		XPATH;
 	}
@@ -21,7 +20,7 @@ public class CorrelationIDAssertion implements Assertion {
 	//by default only validate the incoming request
 	private String value = "";
 	//by default use xpath
-	private MethodType methodType = MethodType.GENERATE;
+	private MethodType methodType = MethodType.CALLBACK;
 
 	public CorrelationIDAssertion(Element element) {
         if (element.hasAttributeNS(null, "method")) {
