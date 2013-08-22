@@ -137,6 +137,7 @@
         <module>locator-server</module>
         <module>locator-service</module>
         <module>policies-correlation</module>
+        <module>policies-samenabling</module>
         <module>sam</module>
         <module>job</module>
         <module>features</module>

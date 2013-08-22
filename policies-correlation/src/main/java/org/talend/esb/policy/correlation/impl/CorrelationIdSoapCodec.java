@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.correlation.impl;
+package org.talend.esb.policy.correlation.impl;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

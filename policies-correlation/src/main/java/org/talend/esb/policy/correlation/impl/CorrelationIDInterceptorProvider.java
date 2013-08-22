@@ -1,4 +1,4 @@
-package org.talend.esb.correlation.impl;
+package org.talend.esb.policy.correlation.impl;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,8 +20,8 @@ import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import org.talend.esb.correlation.CorrelationIDCallbackHandler;
-import org.talend.esb.correlation.impl.CorrelationIDAssertion.MethodType;
+import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
+import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion.MethodType;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorProvider {

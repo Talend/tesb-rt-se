@@ -1,4 +1,4 @@
-package org.talend.esb.correlation.impl;
+package org.talend.esb.policy.correlation.impl;
 
 import javax.xml.namespace.QName;
 

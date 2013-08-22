@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.correlation.impl;
+package org.talend.esb.policy.correlation.impl;
 
 import java.util.Collections;
 import java.util.HashMap;

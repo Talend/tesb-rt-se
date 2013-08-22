@@ -1,4 +1,4 @@
-package org.talend.esb.correlation;
+package org.talend.esb.policy.correlation;
 
 public interface CorrelationIDCallbackHandler {
 
