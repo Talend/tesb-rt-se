@@ -27,7 +27,7 @@ how to use these features.
 Contents
 ========
 
-Getting Started
+Getting Started 
 Examples
 OSGi Container
 Service Locator

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.clustering.FailoverTargetSelector;
-import org.apache.cxf.message.Exchange;
+import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.model.EndpointInfo;
+import org.apache.cxf.transport.Conduit;
 
 public class LocatorTargetSelector extends FailoverTargetSelector {
 
@@ -37,20 +38,35 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
 
+
+    @Override
+    public synchronized Conduit selectConduit(Message message) {
+        setAddress(message);
+        return super.selectConduit(message);
+    }
+
     /* (non-Javadoc)
      * @see org.apache.cxf.clustering.FailoverTargetSelector#prepare(org.apache.cxf.message.Message)
      */
     @Override
     public synchronized void prepare(Message message) {
-        Exchange exchange = message.getExchange();
+        setAddress(message);
+        super.prepare(message);
+    }
+
+    protected void setAddress(Message message) {
         EndpointInfo ei = endpoint.getEndpointInfo();
         if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
+            if (message.getExchange().getEndpoint() == null) {
+                //bug in CXF
+                message.getExchange().put(Endpoint.class, endpoint);
+            }
             if (LOG.isLoggable(Level.INFO)) {
                 LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
                 LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
             }
 
-            String physAddress = strategy.getPrimaryAddress(exchange);
+            String physAddress = strategy.getPrimaryAddress(message.getExchange());
 
             if (physAddress != null) {
                 ei.setAddress(physAddress);
@@ -64,7 +80,6 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
                         + endpoint.getService().getName());
             }
         }
-        super.prepare(message);
     }
 
     public void setLocatorSelectionStrategy(LocatorSelectionStrategy locatorSelectionStrategy) {
