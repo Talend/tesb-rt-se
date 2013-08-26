@@ -492,75 +492,40 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<selector id="not.already.in">
+									<none>
+										<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
+											<mapper type="flatten" />
+										</present>
+										<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
+											<mapper type="flatten" />
+										</present>
+										<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
+											<mapper type="flatten" />
+										</present>
+										<present targetdir="target/add-ons/sam">
+											<mapper type="flatten" />
+										</present>
+										<present targetdir="target/add-ons/locator">
+											<mapper type="flatten" />
+										</present>
+										<present targetdir="target/add-ons/job">
+											<mapper type="flatten" />
+										</present>
+									</none>
+								</selector>
 								<copy todir="target/add-ons/lib">
 									<fileset dir="${basedir}/../sam">
 										<include name="**/target/dependency/*.jar" />
-										<none>
-											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/sam">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/job">
-												<mapper type="flatten" />
-											</present>
-										</none>
+										<selector refid="not.already.in"/>
 									</fileset>
 									<fileset dir="${basedir}/../locator">
 										<include name="**/target/dependency/*.jar" />
-										<none>
-											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/sam">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/job">
-												<mapper type="flatten" />
-											</present>
-										</none>
+										<selector refid="not.already.in"/>
 									</fileset>
 									<fileset dir="${basedir}/../job">
 										<include name="**/target/dependency/*.jar" />
-										<none>
-											<present targetdir="target/dependencies/camel/apache-camel-${camel.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/lib">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/dependencies/cxf/apache-cxf-${cxf.version}/modules">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/sam">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/locator">
-												<mapper type="flatten" />
-											</present>
-											<present targetdir="target/add-ons/job">
-												<mapper type="flatten" />
-											</present>
-										</none>
+										<selector refid="not.already.in"/>
 									</fileset>
 									<flattenmapper />
 								</copy>
