@@ -22,6 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
@@ -35,67 +36,35 @@ import org.talend.esb.job.controller.PolicyProvider;
 @NoJSR250Annotations(unlessNull = "bus") 
 public class PolicyProviderImpl implements PolicyProvider {
 
-    private String policyToken;
-    private String policySaml;
-    private String policySamlAuthzService;
-    private String policySamlAuthzClient;
-    private String policyCorrelationId;
-    private String policySamEnable;
+    private Map<String, String> policyProperties;
+
     private PolicyBuilder policyBuilder;
 
-    public void setPolicyToken(String policyToken) {
-        this.policyToken = policyToken;
-    }
-
-    public void setPolicySaml(String policySaml) {
-        this.policySaml = policySaml;
-    }
-
-    public void setPolicySamlAuthzService(String policySamlAuthzService) {
-        this.policySamlAuthzService = policySamlAuthzService;
-    }
-
-    public void setPolicySamlAuthzClient(String policySamlAuthzClient) {
-        this.policySamlAuthzClient = policySamlAuthzClient;
-    }
-
-	public void setPolicyCorrelationId(String policyCorrelationId) {
-		this.policyCorrelationId = policyCorrelationId;
-	}
-	
-    public void setPolicySamEnable(String policySamEnable) {
-        this.policySamEnable = policySamEnable;
-    }
-
-	@javax.annotation.Resource
+    @javax.annotation.Resource
     public void setBus(Bus bus) {
         policyBuilder = bus.getExtension(PolicyBuilder.class);
     }
 
+    public void setPolicyProperties(Map<String, String> policyProperties) {
+        this.policyProperties = policyProperties;
+    }
+
     public Policy getTokenPolicy() {
-        return loadPolicy(policyToken);
+        return loadPolicy(policyProperties.get("policy.token"));
     }
 
     public Policy getSamlPolicy() {
-        return loadPolicy(policySaml);
+        return loadPolicy(policyProperties.get("policy.saml"));
     }
 
     public Policy getSamlAuthzServicePolicy() {
-        return loadPolicy(policySamlAuthzService);
+        return loadPolicy(policyProperties.get("policy.saml.authz.service"));
     }
 
     public Policy getSamlAuthzClientPolicy() {
-        return loadPolicy(policySamlAuthzClient);
+        return loadPolicy(policyProperties.get("policy.saml.authz.client"));
     }
 
-    private Policy getCorrelationIdPolicy() {
-		return loadPolicy(policyCorrelationId);
-	}
-    
-    private Policy getSamenablePolicy() {
-        return loadPolicy(policySamEnable);
-    }
-    
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
@@ -105,12 +74,9 @@ public class PolicyProviderImpl implements PolicyProvider {
                 getSamlPolicy());
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_SERVICE,
                 getSamlAuthzServicePolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CLIENT,
-                getSamlAuthzClientPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_CORRELATION_ID,
-        		getCorrelationIdPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAMENABLE,
-                getSamenablePolicy());
+        // consumer retrieve policy directly
+        //policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CLIENT,
+        //        getSamlAuthzClientPolicy());
     }
 
     private Policy loadPolicy(String location) {
