@@ -8,8 +8,8 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
-import org.talend.esb.policy.correlation.impl.CorrelationIDFeaturePolicyInInterceptor;
-import org.talend.esb.policy.correlation.impl.CorrelationIDFeaturePolicyOutInterceptor;
+import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureInInterceptor;
+import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureOutInterceptor;
 
 public class CorrelationIDFeature extends AbstractFeature {
 
@@ -45,11 +45,11 @@ public class CorrelationIDFeature extends AbstractFeature {
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
 
-        CorrelationIDFeaturePolicyInInterceptor corrIdProducerIn = new CorrelationIDFeaturePolicyInInterceptor();
+        CorrelationIDFeatureInInterceptor corrIdProducerIn = new CorrelationIDFeatureInInterceptor();
         provider.getInInterceptors().add(corrIdProducerIn);
         provider.getInFaultInterceptors().add(corrIdProducerIn);
 
-        CorrelationIDFeaturePolicyOutInterceptor corrIdProducerOut = new CorrelationIDFeaturePolicyOutInterceptor();
+        CorrelationIDFeatureOutInterceptor corrIdProducerOut = new CorrelationIDFeatureOutInterceptor();
         provider.getOutInterceptors().add(corrIdProducerOut);
         provider.getOutFaultInterceptors().add(corrIdProducerOut);
 
