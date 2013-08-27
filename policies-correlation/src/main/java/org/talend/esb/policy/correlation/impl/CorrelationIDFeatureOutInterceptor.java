@@ -11,8 +11,8 @@ import org.apache.cxf.phase.Phase;
 import org.xml.sax.SAXException;
 import static org.talend.esb.policy.correlation.impl.CorrelationIDProcessor.process;
 
-public class CorrelationIDFeaturePolicyOutInterceptor extends AbstractPhaseInterceptor<Message> {
-    public CorrelationIDFeaturePolicyOutInterceptor() {
+public class CorrelationIDFeatureOutInterceptor extends AbstractPhaseInterceptor<Message> {
+    public CorrelationIDFeatureOutInterceptor() {
         super(Phase.PRE_STREAM);
     }
 
