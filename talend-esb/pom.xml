@@ -249,6 +249,8 @@
                                 <feature>camel-talendjob</feature>
 								<feature>tesb-jmx-http-agent</feature>
 								<feature>tesb-policy-correlationid</feature>
+                                <feature>tesb-policy-samenable</feature>
+								
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
