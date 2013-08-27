@@ -86,7 +86,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
         // get from message
         if (null == correlationId) {
             // Get ID from Message
-            correlationId = (String) message.get("CorrelationID");
+            correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
         }
         // get from message exchange
         if (null == correlationId) {
@@ -100,7 +100,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
                     reqMsg = ex.getOutMessage();
                 }
                 if (null != reqMsg) {
-                    correlationId = (String) reqMsg.get("CorrelationID");
+                    correlationId = (String) reqMsg.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
                 }
             }
         }
@@ -116,7 +116,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
                 correlationId = ContextUtils.generateUUID();
             }
         }
-        message.put("CorrelationID", correlationId);
+        message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
 
         if (isRestMessage(message)) {
             // Add correlationId to http header
