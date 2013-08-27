@@ -12,6 +12,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDProcessor {
@@ -35,7 +36,7 @@ public class CorrelationIDProcessor {
         // get from message
         if (null == correlationId) {
             // Get ID from Message
-            correlationId = (String) message.get("CorrelationID");
+            correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
         }
         // get from message exchange
         if (null == correlationId) {
@@ -49,7 +50,7 @@ public class CorrelationIDProcessor {
                     reqMsg = ex.getOutMessage();
                 }
                 if (null != reqMsg) {
-                    correlationId = (String) reqMsg.get("CorrelationID");
+                    correlationId = (String) reqMsg.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
                 }
             }
         }
@@ -65,7 +66,7 @@ public class CorrelationIDProcessor {
                 correlationId = ContextUtils.generateUUID();
             }
         }
-        message.put("CorrelationID", correlationId);
+        message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
 
         if (isRestMessage(message)) {
             // Add correlationId to http header
