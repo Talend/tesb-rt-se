@@ -33,6 +33,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
 import org.talend.esb.job.controller.PolicyProvider;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import org.w3c.dom.Node;
@@ -102,8 +103,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         }
 
         boolean enhancedResponse = false;
-        if(null !=props.get(ESBEndpointConstants.ENHANCED_RESPONSE)){
-        	enhancedResponse = ((Boolean) props.get(ESBEndpointConstants.ENHANCED_RESPONSE)).booleanValue();
+        if(null != props.get(ESBEndpointConstants.ENHANCED_RESPONSE)){
+            enhancedResponse = ((Boolean) props.get(ESBEndpointConstants.ENHANCED_RESPONSE)).booleanValue();
         }
 
         boolean logMessages = false;
@@ -198,7 +199,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 logMessages,
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
                 soapHeaders,
-                enhancedResponse);
+                enhancedResponse,
+                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
     }
 
 }
