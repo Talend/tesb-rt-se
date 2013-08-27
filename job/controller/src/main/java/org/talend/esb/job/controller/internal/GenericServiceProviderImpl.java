@@ -49,6 +49,7 @@ import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.GenericServiceProvider;
 import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 import org.xml.sax.SAXException;
@@ -110,6 +111,7 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                 esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(Header.HEADER_LIST));
                 esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS));
                 esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
+                esbRequest.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, context.getMessageContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
                 payload = esbRequest;
             } else {
                 payload = requestDoc;
