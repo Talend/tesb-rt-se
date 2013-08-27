@@ -56,8 +56,12 @@ public class CorrelationIDProcessor {
         }
         // If correlationId is null we should add it to headers
         if (null == correlationId) {
-            CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
-                    .get(CORRELATION_ID_CALLBACK_HANDLER);
+            CorrelationIDCallbackHandler handler = null;
+            handler = (CorrelationIDCallbackHandler) message
+                    .getContextualProperty(CORRELATION_ID_CALLBACK_HANDLER);
+            if (null == handler) {
+                handler = (CorrelationIDCallbackHandler) message.get(CORRELATION_ID_CALLBACK_HANDLER);
+            }
             if (handler != null)
                 correlationId = handler.getCorrelationId();
             // Generate new ID if it was not set in callback or
