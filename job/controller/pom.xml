@@ -142,9 +142,9 @@
                                     <classifier>org.talend.esb.job</classifier>
                                 </artifact>
                                 <artifact>
-                                    <file>etc/org.talend.esb.job.username.policy</file>
+                                    <file>etc/org.talend.esb.job.token.policy</file>
                                     <type>policy</type>
-                                    <classifier>org.talend.esb.job.username</classifier>
+                                    <classifier>org.talend.esb.job.token</classifier>
                                 </artifact>
                                 <artifact>
                                     <file>etc/org.talend.esb.job.saml.policy</file>

@@ -18,13 +18,12 @@ import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion.MethodType;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorProvider {
 
-    private static final String CORRELATION_ID_CALLBACK_HANDLER = "correlation-id.callback-handler";
-    
     private static final long serialVersionUID = 5698743589425687361L;
 
     public CorrelationIDInterceptorProvider() {
@@ -102,7 +101,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     // get from message
                     if (null == correlationId) {
                         // Get ID from Message
-                        correlationId = (String) message.get("CorrelationID");
+                        correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
                     }
                     // get from message exchange
                     if (null == correlationId) {
@@ -116,7 +115,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                                 reqMsg = ex.getOutMessage();
                             }
                             if (null != reqMsg) {
-                                correlationId = (String) reqMsg.get("CorrelationID");
+                                correlationId = (String) reqMsg.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
                             }
                         }
                     }
@@ -149,7 +148,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
 //                            }
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
-                                    .get(CORRELATION_ID_CALLBACK_HANDLER);
+                                    .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
                             if (handler != null)
                                 correlationId = handler.getCorrelationId();
                         }
@@ -159,7 +158,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                             correlationId = ContextUtils.generateUUID();
                         }
                     }
-                    message.put("CorrelationID", correlationId);
+                    message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
                     // if (!MessageUtils.isRequestor(message) &&
                     // MessageUtils.isOutbound(message)) {// RESP_OUT
                     if (isRestMessage(message)) {
