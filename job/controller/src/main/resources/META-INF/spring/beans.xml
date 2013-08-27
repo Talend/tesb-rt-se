@@ -30,15 +30,6 @@
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
 
-    <!-- placeholder configurer -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties">
-            <!-- Configuration Admin entry -->
-            <osgix:cm-properties persistent-id="org.talend.esb.job"/>
-        </property>
-        <property name="placeholderPrefix" value="$job{" />
-    </bean>
-
 <!--
     <osgi:list id="jobs" interface="routines.system.api.TalendJob" greedy-proxying="true" cardinality="0..N">
         <osgi:listener bind-method="jobAdded" unbind-method="jobRemoved" ref="jobLauncher"/>
@@ -74,11 +65,9 @@
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
-        <property name="policyToken" value="$job{policy.token}"/>
-        <property name="policySaml" value="$job{policy.saml}"/>
-        <property name="policySamlAuthzService" value="$job{policy.saml.authz.service}"/>
-        <property name="policySamlAuthzClient" value="$job{policy.saml.authz.client}"/>
-        <property name="policyCorrelationId" value="$job{policy.correlation.id}"/>
+        <property name="policyProperties">
+            <osgix:cm-properties persistent-id="org.talend.esb.job"/>
+        </property>
     </bean>
     <!--osgi:service interface="org.talend.esb.job.controller.PolicyProvider" ref="policyProvider"/-->
 

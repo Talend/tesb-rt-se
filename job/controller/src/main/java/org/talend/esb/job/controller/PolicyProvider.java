@@ -24,13 +24,11 @@ import org.apache.neethi.Policy;
 
 public interface PolicyProvider {
 
-    Policy getTokenPolicy();
+    Policy getUsernamePolicy();
 
-    Policy getSamlPolicy();
+    Policy getSAMLPolicy();
 
-    Policy getSamlAuthzServicePolicy();
-
-    Policy getSamlAuthzClientPolicy();
+    Policy getSAMLAuthzPolicy();
 
     void register(Bus cxf);
 
