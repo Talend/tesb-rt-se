@@ -20,8 +20,6 @@ import org.xml.sax.SAXException;
 
 public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedInterceptorProvider {
 
-    private static final String CORRELATION_ID_CALLBACK_HANDLER = "correlation-id.callback-handler";
-
     private static final long serialVersionUID = 5698743589425687361L;
 
     public CorrelationIDFeatureInterceptorProvider() {
@@ -107,7 +105,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
         // If correlationId is null we should add it to headers
         if (null == correlationId) {
             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
-                    .get(CORRELATION_ID_CALLBACK_HANDLER);
+                    .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
             if (handler != null)
                 correlationId = handler.getCorrelationId();
             // Generate new ID if it was not set in callback or

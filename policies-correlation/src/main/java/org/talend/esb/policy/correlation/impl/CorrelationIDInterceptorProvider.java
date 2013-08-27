@@ -24,8 +24,6 @@ import org.xml.sax.SAXException;
 
 public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorProvider {
 
-    private static final String CORRELATION_ID_CALLBACK_HANDLER = "correlation-id.callback-handler";
-    
     private static final long serialVersionUID = 5698743589425687361L;
 
     public CorrelationIDInterceptorProvider() {
@@ -150,7 +148,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
 //                            }
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
-                                    .get(CORRELATION_ID_CALLBACK_HANDLER);
+                                    .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
                             if (handler != null)
                                 correlationId = handler.getCorrelationId();
                         }
