@@ -49,34 +49,27 @@ public class PolicyProviderImpl implements PolicyProvider {
         this.policyProperties = policyProperties;
     }
 
-    public Policy getTokenPolicy() {
-        return loadPolicy(policyProperties.get("policy.token"));
+    public Policy getUsernamePolicy() {
+        return loadPolicy(policyProperties.get("policy.username"));
     }
 
-    public Policy getSamlPolicy() {
+    public Policy getSAMLPolicy() {
         return loadPolicy(policyProperties.get("policy.saml"));
     }
 
-    public Policy getSamlAuthzServicePolicy() {
-        return loadPolicy(policyProperties.get("policy.saml.authz.service"));
-    }
-
-    public Policy getSamlAuthzClientPolicy() {
-        return loadPolicy(policyProperties.get("policy.saml.authz.client"));
+    public Policy getSAMLAuthzPolicy() {
+        return loadPolicy(policyProperties.get("policy.saml.authz"));
     }
 
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_TOKEN,
-                getTokenPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML,
-                getSamlPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_SERVICE,
-                getSamlAuthzServicePolicy());
-        // consumer retrieve policy directly
-        //policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CLIENT,
-        //        getSamlAuthzClientPolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_USERNAME_TOKEN,
+                getUsernamePolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN,
+                getSAMLPolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ,
+                getSAMLAuthzPolicy());
     }
 
     private Policy loadPolicy(String location) {

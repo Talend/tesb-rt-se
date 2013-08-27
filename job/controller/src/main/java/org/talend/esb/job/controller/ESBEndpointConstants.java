@@ -50,9 +50,9 @@ public interface ESBEndpointConstants {
     String REQUEST_SL_PROPS = "SL-PROPS";
 
     // policy id
-    String ID_POLICY_TOKEN = "org.talend.esb.job.token.policy";
-    String ID_POLICY_SAML = "org.talend.esb.job.saml.policy";
-    String ID_POLICY_SAML_AUTHZ_SERVICE = "org.talend.esb.job.saml.authz.policy";
+    String ID_POLICY_USERNAME_TOKEN = "org.talend.esb.job.username.policy";
+    String ID_POLICY_SAML_TOKEN = "org.talend.esb.job.saml.policy";
+    String ID_POLICY_SAML_AUTHZ = "org.talend.esb.job.saml.authz.policy";
 
     enum OperationStyle {
         REQUEST_RESPONSE("request-response"),

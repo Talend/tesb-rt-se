@@ -197,10 +197,9 @@
 
     <feature name="talend-job-controller" version="${project.version}" resolver="(obr)">
         <configfile finalname="/etc/org.talend.esb.job.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job</configfile>
-        <configfile finalname="/etc/org.talend.esb.job.token.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.token</configfile>
+        <configfile finalname="/etc/org.talend.esb.job.username.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.username</configfile>
         <configfile finalname="/etc/org.talend.esb.job.saml.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.saml</configfile>
         <configfile finalname="/etc/org.talend.esb.job.saml.authz.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.saml.authz</configfile>
-        <configfile finalname="/etc/org.talend.esb.job.saml.authz.client.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/policy/org.talend.esb.job.saml.authz.client</configfile>
         <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.service</configfile>
         <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client</configfile>
         <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client.sts</configfile>
