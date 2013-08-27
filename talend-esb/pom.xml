@@ -550,9 +550,9 @@
                                     <replacefilter
                                         token="apache-cxf/2.7.6/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
-<!--                                     <replacefilter -->
-<!--                                         token="org.apache.zookeeper/zookeeper/3.4.5" -->
-<!--                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/> -->
+                                    <replacefilter
+                                        token="org.apache.zookeeper/zookeeper/3.4.5"
+                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_6&lt;/bundle&gt;</replacetoken> 
