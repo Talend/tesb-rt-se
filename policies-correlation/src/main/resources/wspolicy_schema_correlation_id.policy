@@ -3,6 +3,7 @@
     <wsp:ExactlyOne>
         <wsp:All>
             <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CALLBACK" />
+			<!--tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="XPATH" />//*[namespace-uri()='http://services.talend.org/crm/types' and local-name()='LoginUser']/username/text()</tpa:CorrelationID-->
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>
