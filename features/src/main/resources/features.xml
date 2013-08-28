@@ -213,6 +213,7 @@
         <feature version='${project.version}'>tesb-sam-agent</feature>
         <feature version='${project.version}'>talend-job-dependencies</feature>
         <feature version='${project.version}'>tesb-policy-correlationid</feature>
+        <feature version='${project.version}'>tesb-policy-samenable</feature>
         <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
     </feature>
 
