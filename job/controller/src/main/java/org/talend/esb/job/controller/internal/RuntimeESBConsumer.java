@@ -60,6 +60,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.job.controller.internal.util.ServiceHelper;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
@@ -106,7 +107,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean logging,
             String soapAction,
             final List<Header> soapHeaders,
-            boolean enhancedResponse) {
+            boolean enhancedResponse,
+            Object correlationIDCallbackHandler) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
@@ -150,6 +152,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         if (samFeature != null) {
             features.add(samFeature);
+        }
+        if (correlationIDCallbackHandler != null) {
+            features.add(new CorrelationIDFeature());
         }
         if (null != securityArguments.getPolicy()) {
             features.add(new WSPolicyFeature(securityArguments.getPolicy()));
@@ -293,6 +298,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
         clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
         clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP,
                 Boolean.toString(useServiceRegistry));
+        if (correlationIDCallbackHandler != null) {
+            clientFactory.getProperties(true).put(
+                CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
+        }
     }
 
     @Override
@@ -342,14 +351,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
             if (result != null) {
+                org.dom4j.Document response = DOM4JMarshaller.sourceToDocument((Source) result[0]);
                 if(enhancedResponse) {
                     Map<String, Object> enhancedBody = new HashMap<String, Object>();
-                    enhancedBody.put("payload", DOM4JMarshaller.sourceToDocument((Source) result[0]));
-                    enhancedBody.put(Client.REQUEST_CONTEXT, client.getRequestContext());
-                    enhancedBody.put(Client.RESPONSE_CONTEXT, client.getResponseContext());
+                    enhancedBody.put("payload", response);
+                    enhancedBody.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, client.getResponseContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
                     return enhancedBody;
                 } else {
-                    return DOM4JMarshaller.sourceToDocument((Source) result[0]);
+                    return response;
                 }
             }
         } catch (org.apache.cxf.binding.soap.SoapFault e) {

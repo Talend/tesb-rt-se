@@ -20,8 +20,6 @@ import org.xml.sax.SAXException;
 
 public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedInterceptorProvider {
 
-    private static final String CORRELATION_ID_CALLBACK_HANDLER = "correlation-id.callback-handler";
-
     private static final long serialVersionUID = 5698743589425687361L;
 
     public CorrelationIDFeatureInterceptorProvider() {
@@ -86,7 +84,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
         // get from message
         if (null == correlationId) {
             // Get ID from Message
-            correlationId = (String) message.get("CorrelationID");
+            correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
         }
         // get from message exchange
         if (null == correlationId) {
@@ -100,14 +98,14 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
                     reqMsg = ex.getOutMessage();
                 }
                 if (null != reqMsg) {
-                    correlationId = (String) reqMsg.get("CorrelationID");
+                    correlationId = (String) reqMsg.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
                 }
             }
         }
         // If correlationId is null we should add it to headers
         if (null == correlationId) {
             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
-                    .get(CORRELATION_ID_CALLBACK_HANDLER);
+                    .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
             if (handler != null)
                 correlationId = handler.getCorrelationId();
             // Generate new ID if it was not set in callback or
@@ -116,7 +114,7 @@ public class CorrelationIDFeatureInterceptorProvider extends AbstractAttributedI
                 correlationId = ContextUtils.generateUUID();
             }
         }
-        message.put("CorrelationID", correlationId);
+        message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
 
         if (isRestMessage(message)) {
             // Add correlationId to http header

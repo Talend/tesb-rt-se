@@ -348,7 +348,7 @@
                 <!-- workaround for CXF and Zookeeper version in Camel 2.11.2 features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/cxf/karaf/apache-cxf/2.7.5/**</exclude>
-<!--                 <exclude>org/apache/zookeeper/zookeeper/3.4.5/**</exclude> -->
+                <exclude>org/apache/zookeeper/zookeeper/3.4.5/**</exclude>
                 <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/${cxf.version}/apache-cxf-${cxf.version}-features.xml</exclude>
                 <!-- workaround for saaj-impl bundle version-->
