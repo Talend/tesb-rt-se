@@ -1,2 +1,2 @@
-org.talend.esb.policy.samenabling.SAMEnablingPolicyBuilder::true:true
-org.talend.esb.policy.samenabling.SAMEnablingInterceptorProvider::true:true
+org.talend.esb.policy.samenabling.SamEnablingPolicyBuilder::true:true
+org.talend.esb.policy.samenabling.SamEnablingInterceptorProvider::true:true
