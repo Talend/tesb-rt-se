@@ -2,8 +2,7 @@
 <wsp:Policy Name="wspolicy_schema_correlation_id"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
     <wsp:ExactlyOne>
         <wsp:All>
-            <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" method="CALLBACK" />
-			<!--tpa:CorrelationID method="GENERATE" xmlns:tpa="http://types.talend.com/policy/assertion/1.0"/-->
+            <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CALLBACK" />
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>

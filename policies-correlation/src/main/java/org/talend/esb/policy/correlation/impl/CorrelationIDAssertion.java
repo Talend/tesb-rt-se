@@ -23,14 +23,11 @@ public class CorrelationIDAssertion implements Assertion {
 	private MethodType methodType = MethodType.CALLBACK;
 
 	public CorrelationIDAssertion(Element element) {
-        if (element.hasAttributeNS(null, "method")) {
-            String method = element.getAttributeNS(null, "method");
-            methodType = MethodType.valueOf(method.toUpperCase());
+        if (element.hasAttributeNS(null, "type")) {
+            String type = element.getAttributeNS(null, "type");
+            methodType = MethodType.valueOf(type.toUpperCase());
         }
-
-        if (element.hasAttributeNS(null, "value")) {
-            value = element.getAttributeNS(null, "value");      
-        }
+        value = element.getTextContent();
 	}
 
 	@Override
