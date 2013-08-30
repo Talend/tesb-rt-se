@@ -153,7 +153,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (samFeature != null) {
             features.add(samFeature);
         }
-        if (correlationIDCallbackHandler != null) {
+		if (correlationIDCallbackHandler != null && (!useServiceRegistry)) {
             features.add(new CorrelationIDFeature());
         }
         if (null != securityArguments.getPolicy()) {
