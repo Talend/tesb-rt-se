@@ -149,6 +149,10 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
                                     .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
+                            if (null == handler) {
+                                handler = (CorrelationIDCallbackHandler) message
+                                        .getContextualProperty(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
+                            }
                             if (handler != null)
                                 correlationId = handler.getCorrelationId();
                         }
