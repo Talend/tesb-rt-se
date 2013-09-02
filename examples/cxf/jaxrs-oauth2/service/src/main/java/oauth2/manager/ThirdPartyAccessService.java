@@ -56,7 +56,7 @@ public class ThirdPartyAccessService {
 	        if (perm.getPermission().startsWith(OAuthConstants.UPDATE_CALENDAR_SCOPE)) {
 	            int authorizedHour = 
 	                Integer.valueOf(perm.getPermission().substring(OAuthConstants.UPDATE_CALENDAR_SCOPE.length()));
-	            if (authorizedHour == hour) {
+	            if (authorizedHour == 24 || authorizedHour == hour) {
 	                checkPassed = true;
 	            }
 	        }

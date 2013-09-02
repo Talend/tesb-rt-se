@@ -41,7 +41,7 @@
         <tr>
             <td><big><big><big>Application URI:</big></big></big></td>
             <td>
-              <input type="text" size="50" name="appURI" value="http://localhost:${http.port}/services/reservations"/>
+              <input type="text" size="50" name="appURI" value="http://localhost:${http.reservations.port}/services/reservations"/>
             </td>
         </tr>
         <tr>
@@ -50,7 +50,7 @@
         <tr>
             <td><big><big><big>Application Redirect URI:</big></big></big></td>
             <td>
-              <input type="text" size="50" name="appRedirectURI" value="http://localhost:${http.port}/services/reservations/reserve/complete"/>
+              <input type="text" size="50" name="appRedirectURI" value="http://localhost:${http.reservations.port}/services/reservations/reserve/complete"/>
             </td>
         </tr>
         <tr>

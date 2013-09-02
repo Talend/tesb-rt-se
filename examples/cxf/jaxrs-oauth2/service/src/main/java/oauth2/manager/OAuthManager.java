@@ -103,9 +103,15 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 		    if (scope.equals(OAuthConstants.READ_CALENDAR_SCOPE)) {
 		        list.add(READ_CALENDAR_PERMISSION); 
 		    } else if (scope.startsWith(OAuthConstants.UPDATE_CALENDAR_SCOPE)) {
+		    	String description = OAuthConstants.UPDATE_CALENDAR_DESCRIPTION;
+		    	
 		        String hourValue = scope.substring(OAuthConstants.UPDATE_CALENDAR_SCOPE.length());
-		        list.add(new OAuthPermission(scope, 
-		                OAuthConstants.UPDATE_CALENDAR_DESCRIPTION + hourValue + " o'clock"));
+		        if (hourValue.equals("24")) {
+		        	description += " any time of the day";
+		        }  else {
+		        	description += hourValue + " o'clock";
+		        }
+		        list.add(new OAuthPermission(scope, description));
 		    }
 		}
 		if (!scopes.contains(OAuthConstants.READ_CALENDAR_SCOPE)) {
@@ -113,4 +119,5 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
         }
 		return list;
 	}
+
 }

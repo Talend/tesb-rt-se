@@ -16,7 +16,7 @@
 <em></em>
 <p>
  <table>
-     <form action="/services/reservations/reserve/table" method="POST">
+     <form action="http://localhost:${http.reservations.port}/services/reservations/reserve/table" method="POST">
         <tr>
             <td><big><big><big>Customer Name:</big></big></big></td>
             <td>

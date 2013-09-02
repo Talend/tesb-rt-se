@@ -16,7 +16,11 @@
         <version>1.0</version>
         <relativePath>..</relativePath>
     </parent>
-
+    
+    <properties>
+        <http.reservations.port>8080</http.reservations.port>
+    </properties>    
+    
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
@@ -70,6 +74,7 @@
                             <includes>
                                 <include>**/restaurantReserve.xml</include>
                                 <include>**/registerApp.jsp</include>
+                                <include>**/reservation.jsp</include>
                             </includes>
                         </resource>
                     </webResources>
