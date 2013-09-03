@@ -46,7 +46,7 @@
 <!-- 	<maven.source.ver>2.2.1</maven.source.ver>   -->
 		<maven.jar.ver>2.4</maven.jar.ver>
 		<maven.resource.ver>2.5</maven.resource.ver>
-		<maven.shade.ver>2.0</maven.shade.ver>
+		<maven.shade.ver>2.1</maven.shade.ver>
 		<maven.assembly.ver>2.3</maven.assembly.ver>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
