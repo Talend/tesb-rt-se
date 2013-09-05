@@ -209,9 +209,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             stsClient.setProperties(stsProps);
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
+                stsClient.setClaims(org.talend.esb.authorization.xacml.rt.sts.ClaimsBuilder.createClaimValue(securityArguments.getRoleName()));
             }
             if (null != securityArguments.getSecurityToken()) {
                 stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
@@ -272,9 +270,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             stsClient.setProperties(stsProps);
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
+                stsClient.setClaims(org.talend.esb.authorization.xacml.rt.sts.ClaimsBuilder.createClaimValue(securityArguments.getRoleName()));
             }
 
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
