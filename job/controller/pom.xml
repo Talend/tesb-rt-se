@@ -84,6 +84,12 @@
             <version>${dom4j.bundle.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.talend.esb.authorization</groupId>
+            <artifactId>tesb-xacml-rt</artifactId>
+            <version>${project.version}</version>
+            <optional>true</optional>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
