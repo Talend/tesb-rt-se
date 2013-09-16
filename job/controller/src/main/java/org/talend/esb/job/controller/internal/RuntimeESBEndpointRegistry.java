@@ -143,6 +143,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             }
         }
 
+        boolean useXKMS = false;
+        if (null != props.get(ESBEndpointConstants.USE_XKMS)) {
+            useXKMS = ((Boolean) props.get(ESBEndpointConstants.USE_XKMS)).booleanValue();
+        }
+
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
@@ -150,15 +155,18 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             policy = policyProvider.getUsernamePolicy();
         } else if (EsbSecurity.SAML == esbSecurity) {
             if (useAuthorization) {
-                policy = policyProvider.getSAMLAuthzPolicy();
+                if (useXKMS) {
+                    policy = policyProvider.getSAMLAuthzXkmsPolicy();
+                } else {
+                    policy = policyProvider.getSAMLAuthzPolicy();
+                }
             } else {
-                policy = policyProvider.getSAMLPolicy();
+                if (useXKMS) {
+                    policy = policyProvider.getSAMLXkmsPolicy();
+                } else {
+                    policy = policyProvider.getSAMLPolicy();
+                }
             }
-        }
-
-        boolean useXKMS = false;
-        if (null != props.get(ESBEndpointConstants.USE_XKMS)) {
-            useXKMS = ((Boolean) props.get(ESBEndpointConstants.USE_XKMS)).booleanValue();
         }
 
         List<Header> soapHeaders = null;

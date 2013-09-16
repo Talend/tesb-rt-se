@@ -61,6 +61,14 @@ public class PolicyProviderImpl implements PolicyProvider {
         return loadPolicy(policyProperties.get("policy.saml.authz"));
     }
 
+    public Policy getSAMLXkmsPolicy() {
+        return loadPolicy(policyProperties.get("policy.saml.xkms"));
+    }
+
+    public Policy getSAMLAuthzXkmsPolicy() {
+        return loadPolicy(policyProperties.get("policy.saml.authz.xkms"));
+    }
+
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
@@ -70,6 +78,10 @@ public class PolicyProviderImpl implements PolicyProvider {
                 getSAMLPolicy());
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ,
                 getSAMLAuthzPolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN_XKMS,
+                getSAMLXkmsPolicy());
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_XKMS,
+                getSAMLAuthzXkmsPolicy());
     }
 
     private Policy loadPolicy(String location) {

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:Authorization xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="XACML" /> 
+            <sp:AsymmetricBinding>
+                <wsp:Policy>
+                    <sp:InitiatorToken>
+                        <wsp:Policy>
+                            <sp:IssuedToken
+                                sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                                <sp:RequestSecurityTokenTemplate>
+                                    <t:TokenType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0</t:TokenType>
+                                    <t:KeyType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/PublicKey</t:KeyType>
+                                    <t:Claims xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
+                                        Dialect="http://schemas.xmlsoap.org/ws/2005/05/identity" xmlns:ic="http://schemas.xmlsoap.org/ws/2005/05/identity">
+                                        <ic:ClaimType
+                                            Uri="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role" />
+                                    </t:Claims>
+                                </sp:RequestSecurityTokenTemplate>
+                                <wsp:Policy>
+                                    <sp:RequireInternalReference />
+                                </wsp:Policy>
+                            </sp:IssuedToken>
+                        </wsp:Policy>
+                    </sp:InitiatorToken>
+                    <sp:RecipientToken>
+                        <wsp:Policy>
+                            <sp:X509Token
+                                sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never">
+                                <wsp:Policy>
+                                    <sp:WssX509V3Token10 />
+                                    <sp:RequireIssuerSerialReference />
+                                </wsp:Policy>
+                            </sp:X509Token>
+                        </wsp:Policy>
+                    </sp:RecipientToken>
+                    <sp:Layout>
+                        <wsp:Policy>
+                            <sp:Lax />
+                        </wsp:Policy>
+                    </sp:Layout>
+                    <sp:IncludeTimestamp />
+                    <sp:OnlySignEntireHeadersAndBody />
+                    <sp:AlgorithmSuite>
+                        <wsp:Policy>
+                            <sp:Basic256 />
+                        </wsp:Policy>
+                    </sp:AlgorithmSuite>
+                </wsp:Policy>
+            </sp:AsymmetricBinding>
+            <sp:Wss11>
+                <wsp:Policy>
+                    <sp:MustSupportRefIssuerSerial />
+                    <sp:MustSupportRefThumbprint />
+                    <sp:MustSupportRefEncryptedKey />
+                </wsp:Policy>
+            </sp:Wss11>
+            <sp:Trust13>
+                <wsp:Policy>
+                    <sp:MustSupportIssuedTokens />
+                    <sp:RequireClientEntropy />
+                    <sp:RequireServerEntropy />
+                </wsp:Policy>
+            </sp:Trust13>
+            <sp:EncryptedParts>
+                <sp:Body/>
+            </sp:EncryptedParts>
+            <sp:SignedParts>
+                <sp:Body/>
+            </sp:SignedParts>
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>

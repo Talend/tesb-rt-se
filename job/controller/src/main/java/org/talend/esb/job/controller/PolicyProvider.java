@@ -30,6 +30,10 @@ public interface PolicyProvider {
 
     Policy getSAMLAuthzPolicy();
 
+    Policy getSAMLXkmsPolicy();
+
+    Policy getSAMLAuthzXkmsPolicy();
+
     void register(Bus cxf);
 
 }

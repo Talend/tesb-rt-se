@@ -54,6 +54,8 @@ public interface ESBEndpointConstants {
     String ID_POLICY_USERNAME_TOKEN = "org.talend.esb.job.token.policy";
     String ID_POLICY_SAML_TOKEN = "org.talend.esb.job.saml.policy";
     String ID_POLICY_SAML_AUTHZ = "org.talend.esb.job.saml.authz.policy";
+    String ID_POLICY_SAML_TOKEN_XKMS = "org.talend.esb.job.saml.xkms.policy";
+    String ID_POLICY_SAML_AUTHZ_XKMS = "org.talend.esb.job.saml.authz.xkms.policy";
 
     enum OperationStyle {
         REQUEST_RESPONSE("request-response"),
