@@ -22,10 +22,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:osgi="http://www.springframework.org/schema/osgi"
     xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
+        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     "
 >
     <import resource="classpath:META-INF/cxf/cxf.xml" />
@@ -62,6 +64,7 @@
         <property name="stsProperties">
             <osgix:cm-properties persistent-id="org.talend.esb.job.client.sts"/>
         </property>
+        <property name="xkmsCryptoProvider" ref="xkmsCryptoProvider"/>
     </bean>
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
@@ -77,4 +80,47 @@
     </bean>
     <osgi:service interface="org.talend.esb.job.controller.ProviderFactory" ref="providerFactory"/>
 
+    <!-- placeholder configurer -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <!-- Configuration Admin entry -->
+            <osgix:cm-properties persistent-id="org.talend.esb.job.service"/>
+        </property>
+        <property name="placeholderPrefix" value="$service{" />
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties">
+            <!-- Configuration Admin entry -->
+            <osgix:cm-properties persistent-id="org.talend.esb.job.client"/>
+        </property>
+        <property name="placeholderPrefix" value="$client{" />
+    </bean>
+
+    <osgi:reference id="xkmsClient" interface="org.w3._2002._03.xkms_wsdl.XKMSPortType" />
+    <osgi:reference id="xkmsCryptoProviderFactory" interface="org.apache.cxf.xkms.crypto.CryptoProviderFactory" />
+
+    <bean id="localServiceCrypto" class="org.apache.ws.security.components.crypto.CryptoFactory" factory-method="getInstance">
+        <constructor-arg>
+            <util:properties id="keystoreProps" location="$service{ws-security.signature.properties}" />
+        </constructor-arg>
+    </bean>
+
+    <osgi:service interface="org.apache.ws.security.components.crypto.Crypto" >
+        <bean factory-bean="xkmsCryptoProviderFactory" factory-method="create">
+            <constructor-arg ref="xkmsClient" />
+            <constructor-arg ref="localServiceCrypto" />
+        </bean>
+    </osgi:service>
+
+    <bean id="localClientCrypto" class="org.apache.ws.security.components.crypto.CryptoFactory" factory-method="getInstance">
+        <constructor-arg>
+            <util:properties id="keystoreProps" location="$client{ws-security.signature.properties}" />
+        </constructor-arg>
+    </bean>
+
+    <bean id="xkmsCryptoProvider" factory-bean="xkmsCryptoProviderFactory" factory-method="create">
+        <constructor-arg ref="xkmsClient" />
+        <constructor-arg ref="localClientCrypto" />
+    </bean>
 </beans>

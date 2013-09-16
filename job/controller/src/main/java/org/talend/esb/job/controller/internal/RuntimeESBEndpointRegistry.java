@@ -29,6 +29,7 @@ import javax.xml.namespace.QName;
 import org.apache.cxf.Bus;
 import org.apache.cxf.headers.Header;
 import org.apache.neethi.Policy;
+import org.apache.ws.security.components.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
@@ -51,6 +52,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
+    private Crypto xkmsCryptoProvider;
 //    private static final String HTTPS_CONFIG = "https.config";
 
     public void setBus(Bus bus) {
@@ -73,7 +75,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.stsProperties = stsProperties;
     }
 
-    @Override
+    public void setXkmsCryptoProvider(Crypto xkmsCryptoProvider) {
+		this.xkmsCryptoProvider = xkmsCryptoProvider;
+	}
+
+	@Override
     public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
         final Map<String, Object> props = endpoint.getEndpointProperties();
 
@@ -150,6 +156,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             }
         }
 
+        boolean useXKMS = false;
+        if (null != props.get(ESBEndpointConstants.USE_XKMS)) {
+            useXKMS = ((Boolean) props.get(ESBEndpointConstants.USE_XKMS)).booleanValue();
+        }
+
         List<Header> soapHeaders = null;
         Object soapHeadersObject = props.get(ESBEndpointConstants.SOAP_HEADERS);
         if (null != soapHeadersObject) {
@@ -200,7 +211,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
                 soapHeaders,
                 enhancedResponse,
-                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
+                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER),
+                useXKMS,
+                xkmsCryptoProvider);
     }
 
 }
