@@ -185,17 +185,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
         } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && !useXKMS) {
-            final Map<String, String> stsPropsDef =
-                securityArguments.getStsProperties();
+            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
             stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
             stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE),
-                    stsPropsDef.get(STS_SERVICE_NAME)));
+                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
             stsClient.setEndpointQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE),
-                    stsPropsDef.get(STS_ENDPOINT_NAME)));
+                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
 
             Map<String, Object> stsProps = new HashMap<String, Object>();
 
@@ -205,10 +202,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            stsProps.put(SecurityConstants.USERNAME,
-                    securityArguments.getUsername());
-            stsProps.put(SecurityConstants.PASSWORD,
-                    securityArguments.getPassword());
+            stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+            stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
             stsClient.setProperties(stsProps);
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
@@ -223,8 +218,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Map<String, Object> clientProps = new HashMap<String, Object>();
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
-            Map<String, String> clientPropsDef =
-                securityArguments.getClientProperties();
+            Map<String, String> clientPropsDef = securityArguments.getClientProperties();
 
             for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
@@ -307,10 +301,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Map<String, Object> clientProps = new HashMap<String, Object>();
 
             //add properties for Username Token
-            clientProps.put(SecurityConstants.USERNAME,
-                    securityArguments.getUsername());
-            clientProps.put(SecurityConstants.PASSWORD,
-                    securityArguments.getPassword());
+            clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+            clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
 
             //add properties for SAML Token
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
@@ -318,11 +310,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final STSClient stsClient = new STSClient(bus);
             stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
             stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE),
-                    stsPropsDef.get(STS_SERVICE_NAME)));
+                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
             stsClient.setEndpointQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE),
-                    stsPropsDef.get(STS_ENDPOINT_NAME)));
+                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
 
             Map<String, Object> stsProps = new HashMap<String, Object>();
 
@@ -332,10 +322,16 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            stsProps.put(SecurityConstants.USERNAME,
-                    securityArguments.getUsername());
-            stsProps.put(SecurityConstants.PASSWORD,
-                    securityArguments.getPassword());
+            if (useXKMS) {
+                stsProps.put(SecurityConstants.ENCRYPT_PROPERTIES, null);
+                stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
+                stsProps.put(SecurityConstants.STS_TOKEN_PROPERTIES, null);
+                stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, xkmsCryptoProvider);
+                stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, xkmsCryptoProvider);
+            }
+
+            stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+            stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
             stsClient.setProperties(stsProps);
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
@@ -346,14 +342,19 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
-            Map<String, String> clientPropsDef =
-                securityArguments.getClientProperties();
+            Map<String, String> clientPropsDef = securityArguments.getClientProperties();
 
             for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
                     clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
+
+            if (useXKMS) {
+                stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
+                clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, xkmsCryptoProvider);
+            }
+
             clientProps.put(SecurityConstants.CALLBACK_HANDLER,
                     new WSPasswordCallbackHandler(
                         clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
