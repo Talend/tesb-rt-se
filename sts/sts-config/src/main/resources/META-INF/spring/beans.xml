@@ -36,11 +36,11 @@
         <property name="issueOperation" ref="utIssueDelegate"/>
         <property name="validateOperation" ref="utValidateDelegate"/>
     </bean> 
- 
+
     <bean id="stsConfigurator" class="org.talend.esb.sts.config.StsConfigurator" lazy-init="false" destroy-method="shutDown">
         <constructor-arg ref="cxf"/>
     </bean>
-    
+
     <bean id="utIssueDelegate"
         class="org.apache.cxf.sts.operation.TokenIssueOperation">
         <property name="tokenProviders" ref="utSamlTokenProvider"/>
@@ -109,22 +109,31 @@
 
     <jaxws:endpoint id="UTSTS"
         implementor="#utSTSProviderBean"
-        address="$sts{stsServiceUrl}" 
+        address="$sts{stsServiceUrl}"
         wsdlLocation="ws-trust-1.4-service.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService"
         endpointName="ns1:UT_Port">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
             <entry key="ws-security.ut.validator" value-ref="jaasUTValidator" />
-            <entry key="ws-security.signature.properties" value="$sts{signatureProperties}"/>
+        </jaxws:properties> 
+    </jaxws:endpoint>
+
+    <jaxws:endpoint id="X509STS"
+        implementor="#utSTSProviderBean"
+        address="$sts{stsX509ServiceUrl}"
+        wsdlLocation="ws-trust-1.4-service.wsdl"
+        xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
+        serviceName="ns1:SecurityTokenService"
+        endpointName="ns1:X509_Port">
+        <jaxws:properties>
             <entry key="ws-security.signature.username" value="$sts{signatureUsername}"/>
+            <entry key="ws-security.callback-handler" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
+            <entry key="ws-security.signature.properties" value="$sts{signatureProperties}"/>
+            <entry key="ws-security.encryption.username" value="useReqSigCert" />
             <!-- Below needs to be set to non-default value of false for Metro clients -->
             <entry key="ws-security.is-bsp-compliant" value="$sts{bspCompliant}"/>
         </jaxws:properties> 
     </jaxws:endpoint>
 
 </beans>
-
-
-
