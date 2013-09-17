@@ -38,7 +38,7 @@
 					<sp:OnlySignEntireHeadersAndBody />
 					<sp:AlgorithmSuite>
 						<wsp:Policy>
-							<sp:Basic256 />
+							<sp:Basic128 />
 						</wsp:Policy>
 					</sp:AlgorithmSuite>
 				</wsp:Policy>
@@ -47,7 +47,7 @@
 				<wsp:Policy>
 					<sp:MustSupportRefIssuerSerial />
 					<sp:MustSupportRefThumbprint />
-					<sp:MustSupportRefEncryptedKey />
+					<!--sp:MustSupportRefEncryptedKey /-->
 				</wsp:Policy>
 			</sp:Wss11>
 			<sp:Trust13>
