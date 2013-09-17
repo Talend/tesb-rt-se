@@ -36,8 +36,10 @@
         <jclouds.version>1.6.1-incubating</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <saaj-impl.version>1.3.20_1</saaj-impl.version>
+        <spring-oxm.version>3.2.3.RELEASE</spring-oxm.version>
         <wss4j.version>1.6.11</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
+        <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
 	</properties>
 
@@ -100,7 +102,7 @@
 						<configuration>
 							<descriptors>
 <!--                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor> -->
-                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor>
+<!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
@@ -114,9 +116,12 @@
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
-						        <!-- ActiveMQ Features -->
-						        <feature>activemq-broker</feature>
+                                <!-- ActiveMQ Features -->
+                                <feature>activemq</feature>
+                                <feature>activemq-blueprint</feature>
+                                <feature>activemq-spring</feature>
                                 <feature>activemq-web-console</feature>
+                                <feature>activemq-optional</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -325,6 +330,22 @@
                                      <version>${pax-url-classpath.version}</version>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xbean</groupId>
+                                    <artifactId>xbean-blueprint</artifactId>
+                                    <version>${xbean.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -575,6 +596,16 @@
                                         <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
+                                    <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                    <replacefilter
+                                        token="xbean-blueprint/3.11.1"
+                                        value="xbean-blueprint/${xbean.version}"/>
+                                    <!-- patch for spring-oxm version (TESB-9359) -->
+                                    <replacefilter
+                                        token="spring-oxm/3.0.7.RELEASE"
+                                        value="org.springframework.oxm/${spring-oxm.version}"/>
                                 </replace>
                             </target>
                         </configuration>

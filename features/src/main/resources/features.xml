@@ -236,10 +236,6 @@
         <bundle>mvn:org.jolokia/jolokia-osgi/${jolokia.version}</bundle>
     </feature>
 
-    <feature name="activemq" version="${activemq.version}" resolver="(obr)">
-        <feature version="${activemq.version}">activemq-broker</feature>
-    </feature>
-
     <feature name='tesb-policy-correlationid' version='${project.version}'>
         <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>
     </feature>
