@@ -75,9 +75,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
             .getName());
 
     private static final String STS_WSDL_LOCATION = "sts.wsdl.location";
+    private static final String STS_X509_WSDL_LOCATION = "sts.x509.wsdl.location";
     private static final String STS_NAMESPACE = "sts.namespace";
     private static final String STS_SERVICE_NAME = "sts.service.name";
     private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
+    private static final String STS_X509_ENDPOINT_NAME = "sts.x509.endpoint.name";
     private static final String CONSUMER_SIGNATURE_PASSWORD =
              "ws-security.signature.password";
 
@@ -213,6 +215,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
             if (null != securityArguments.getSecurityToken()) {
                 stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
+                if (null != securityArguments.getAlias()) {
+                    stsClient.setWsdlLocation(stsPropsDef.get(STS_X509_WSDL_LOCATION));
+                    stsClient.setEndpointQName(
+                        new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_X509_ENDPOINT_NAME)));
+                    stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
+                }
             }
 
             Map<String, Object> clientProps = new HashMap<String, Object>();
