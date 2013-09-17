@@ -38,6 +38,7 @@ public interface ESBEndpointConstants {
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
     String PASSWORD = "password";
+    String ALIAS = "alias";
     String SOAPACTION = "soapAction";
     String WSDL_URL = "wsdlURL";
     String LOG_MESSAGES = "logMessages";

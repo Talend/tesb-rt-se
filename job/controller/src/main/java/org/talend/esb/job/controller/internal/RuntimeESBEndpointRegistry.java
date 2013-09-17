@@ -200,6 +200,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 policy,
                 (String) props.get(ESBEndpointConstants.USERNAME),
                 (String) props.get(ESBEndpointConstants.PASSWORD),
+                (String) props.get(ESBEndpointConstants.ALIAS),
                 clientProperties,
                 stsProperties,
                 (String) props.get(ESBEndpointConstants.AUTHZ_ROLE),

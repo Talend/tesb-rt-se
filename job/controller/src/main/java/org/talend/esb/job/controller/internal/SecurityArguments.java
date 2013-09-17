@@ -30,6 +30,7 @@ public class SecurityArguments {
     private final Policy policy;
     private final String username;
     private final String password;
+    private final String alias;
     private final Map<String, String> clientProperties;
     private final Map<String, String> stsProperties;
     private final String roleName;
@@ -39,6 +40,7 @@ public class SecurityArguments {
             final Policy policy,
             String username,
             String password,
+            String alias,
             Map<String, String> clientProperties,
             Map<String, String> stsProperties,
             String roleName,
@@ -47,6 +49,7 @@ public class SecurityArguments {
         this.policy = policy;
         this.username = username;
         this.password = password;
+        this.alias = alias;
         this.clientProperties = clientProperties;
         this.stsProperties = stsProperties;
         this.roleName = roleName;
@@ -68,6 +71,10 @@ public class SecurityArguments {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getAlias() {
+        return alias;
     }
 
     public Map<String, String> getClientProperties() {
