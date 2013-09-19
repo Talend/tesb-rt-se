@@ -190,23 +190,29 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
-            stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
             stsClient.setServiceQName(
                 new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
-            stsClient.setEndpointQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
 
             Map<String, Object> stsProps = new HashMap<String, Object>();
-
             for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
                     stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
 
-            stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-            stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-            stsClient.setProperties(stsProps);
+            if (null == securityArguments.getAlias()) {
+                stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
+                stsClient.setEndpointQName(
+                        new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
+
+                stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+                stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
+            } else {
+                stsClient.setWsdlLocation(stsPropsDef.get(STS_X509_WSDL_LOCATION));
+                stsClient.setEndpointQName(
+                    new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_X509_ENDPOINT_NAME)));
+                stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
+            }
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
                 ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
@@ -215,13 +221,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
             if (null != securityArguments.getSecurityToken()) {
                 stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
-                if (null != securityArguments.getAlias()) {
-                    stsClient.setWsdlLocation(stsPropsDef.get(STS_X509_WSDL_LOCATION));
-                    stsClient.setEndpointQName(
-                        new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_X509_ENDPOINT_NAME)));
-                    stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
-                }
             }
+
+            stsClient.setProperties(stsProps);
 
             Map<String, Object> clientProps = new HashMap<String, Object>();
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
@@ -233,10 +235,18 @@ public class RuntimeESBConsumer implements ESBConsumer {
                     clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
-            clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                    new WSPasswordCallbackHandler(
-                        clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
-                        clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
+            if (null == securityArguments.getAlias()) {
+                clientProps.put(SecurityConstants.CALLBACK_HANDLER,
+                        new WSPasswordCallbackHandler(
+                            clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
+                            clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
+            } else {
+                clientProps.put(SecurityConstants.SIGNATURE_USERNAME, securityArguments.getAlias());
+                clientProps.put(SecurityConstants.CALLBACK_HANDLER,
+                        new WSPasswordCallbackHandler(
+                            securityArguments.getAlias(),
+                            securityArguments.getPassword()));
+            }
 
             clientFactory.setProperties(clientProps);
         } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && useXKMS) {
