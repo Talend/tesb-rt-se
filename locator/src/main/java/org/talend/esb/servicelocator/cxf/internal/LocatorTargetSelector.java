@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.clustering.FailoverTargetSelector;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Conduit;
@@ -57,10 +56,11 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
     protected void setAddress(Message message) {
         EndpointInfo ei = endpoint.getEndpointInfo();
         if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
-            if (message.getExchange().getEndpoint() == null) {
-                //bug in CXF
-                message.getExchange().put(Endpoint.class, endpoint);
-            }
+            // bug in CXF - https://issues.apache.org/jira/browse/CXF-5225
+            // uncomment this in case backport to version used CXF without the fix
+            //if (message.getExchange().getEndpoint() == null) {
+            //    message.getExchange().put(Endpoint.class, endpoint);
+            //}
             if (LOG.isLoggable(Level.INFO)) {
                 LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
                 LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
