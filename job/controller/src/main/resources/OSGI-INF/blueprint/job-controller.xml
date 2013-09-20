@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Talend :: ESB :: Job :: Controller
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+
+    <cxf:bus xmlns:cxf="http://cxf.apache.org/blueprint/core" />
+
+    <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"
+            ext:proxy-method="classes" xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" />
+
+    <reference id="cryptoProvider" interface="org.apache.ws.security.components.crypto.Crypto"
+            availability="optional" timeout="100" filter="(type=client-crypto)" />
+
+    <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
+        <property name="policyProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.job" />
+        </property>
+    </bean>
+
+    <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
+        <property name="bus" ref="cxf" />
+        <property name="samFeature" ref="eventFeature" />
+        <property name="policyProvider" ref="policyProvider" />
+        <property name="clientProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.job.client" />
+        </property>
+        <property name="stsProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.job.client.sts" />
+        </property>
+        <property name="xkmsCryptoProvider" ref="cryptoProvider" />
+    </bean>
+
+    <bean id="executorService" class="org.talend.esb.job.controller.internal.JobExecutorFactory"
+            factory-method="newExecutor" />
+
+    <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl"
+            destroy-method="unbind">
+        <property name="bundleContext" ref="blueprintBundleContext" />
+        <property name="executorService" ref="executorService" />
+        <property name="endpointRegistry" ref="endpointRegistry" />
+    </bean>
+
+    <bean id="jobTracker" class="org.talend.esb.job.controller.internal.JobTracker"
+            init-method="bind" destroy-method="unbind">
+        <property name="bundleContext" ref="blueprintBundleContext" />
+        <property name="jobListener" ref="jobLauncher" />
+    </bean>
+
+    <bean id="providerFactory" class="org.talend.esb.job.controller.internal.ProviderFactoryImpl">
+        <property name="jobLauncher" ref="jobLauncher" />
+        <property name="policyProvider" ref="policyProvider" />
+    </bean>
+    <service interface="org.talend.esb.job.controller.ProviderFactory" ref="providerFactory" />
+
+</blueprint>
