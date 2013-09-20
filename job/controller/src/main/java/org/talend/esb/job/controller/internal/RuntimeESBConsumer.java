@@ -112,7 +112,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final List<Header> soapHeaders,
             boolean enhancedResponse,
             Object correlationIDCallbackHandler, 
-            boolean useXKMS,
+            boolean useCrypto,
             Crypto xkmsCryptoProvider) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
@@ -186,7 +186,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             properties.put(SecurityConstants.PASSWORD,
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && !useXKMS) {
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && !useCrypto) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -249,7 +249,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             clientFactory.setProperties(clientProps);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && useXKMS) {
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && useCrypto) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -340,7 +340,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            if (useXKMS) {
+            if (useCrypto) {
                 stsProps.put(SecurityConstants.ENCRYPT_PROPERTIES, null);
                 stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
                 stsProps.put(SecurityConstants.STS_TOKEN_PROPERTIES, null);
@@ -368,7 +368,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            if (useXKMS) {
+            if (useCrypto) {
                 stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
                 clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, xkmsCryptoProvider);
             }

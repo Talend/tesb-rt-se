@@ -143,9 +143,9 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             }
         }
 
-        boolean useXKMS = false;
-        if (null != props.get(ESBEndpointConstants.USE_XKMS)) {
-            useXKMS = ((Boolean) props.get(ESBEndpointConstants.USE_XKMS)).booleanValue();
+        boolean useCrypto = false;
+        if (null != props.get(ESBEndpointConstants.USE_CRYPTO)) {
+            useCrypto = ((Boolean) props.get(ESBEndpointConstants.USE_CRYPTO)).booleanValue();
         }
 
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props
@@ -155,13 +155,13 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
             policy = policyProvider.getUsernamePolicy();
         } else if (EsbSecurity.SAML == esbSecurity) {
             if (useAuthorization) {
-                if (useXKMS) {
+                if (useCrypto) {
                     policy = policyProvider.getSAMLAuthzXkmsPolicy();
                 } else {
                     policy = policyProvider.getSAMLAuthzPolicy();
                 }
             } else {
-                if (useXKMS) {
+                if (useCrypto) {
                     policy = policyProvider.getSAMLXkmsPolicy();
                 } else {
                     policy = policyProvider.getSAMLPolicy();
@@ -221,7 +221,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 soapHeaders,
                 enhancedResponse,
                 props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER),
-                useXKMS,
+                useCrypto,
                 xkmsCryptoProvider);
     }
 
