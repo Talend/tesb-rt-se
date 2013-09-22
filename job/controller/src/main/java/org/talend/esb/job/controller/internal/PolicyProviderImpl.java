@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.ws.policy.PolicyBuilder;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.neethi.Policy;
@@ -33,14 +32,12 @@ import org.apache.neethi.PolicyRegistry;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.PolicyProvider;
 
-@NoJSR250Annotations(unlessNull = "bus") 
 public class PolicyProviderImpl implements PolicyProvider {
 
     private Map<String, String> policyProperties;
 
     private PolicyBuilder policyBuilder;
 
-    @javax.annotation.Resource
     public void setBus(Bus bus) {
         policyBuilder = bus.getExtension(PolicyBuilder.class);
     }

@@ -30,6 +30,7 @@
             availability="optional" timeout="100" filter="(type=client-crypto)" />
 
     <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
+        <property name="bus" ref="cxf" />
         <property name="policyProperties">
             <cm:cm-properties persistent-id="org.talend.esb.job" />
         </property>
