@@ -23,8 +23,7 @@
 
     <cxf:bus xmlns:cxf="http://cxf.apache.org/blueprint/core" />
 
-    <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"
-            ext:proxy-method="classes" xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" />
+    <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature" />
 
     <reference id="cryptoProvider" interface="org.apache.ws.security.components.crypto.Crypto"
             availability="optional" timeout="100" filter="(type=client-crypto)" />

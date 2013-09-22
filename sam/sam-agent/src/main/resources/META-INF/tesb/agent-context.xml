@@ -54,7 +54,7 @@
 
 	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
-    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeature">
+    <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeatureImpl">
 	    <property name="logMessageContent" value="${log.messageContent}" />
         <property name="maxContentLength" value="${log.maxContentLength}"/>
         <property name="enforceMessageIDTransfer" value="${log.enforceMessageIDTransfer}"/>
