@@ -183,7 +183,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             properties.put(SecurityConstants.PASSWORD,
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && null == securityArguments.getCryptoProvider()) {
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -244,70 +244,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
                             securityArguments.getAlias(),
                             securityArguments.getPassword()));
             }
-
-            clientFactory.setProperties(clientProps);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && null != securityArguments.getCryptoProvider()) {
-            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
-
-            final STSClient stsClient = new STSClient(bus);
-            stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
-            stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
-            stsClient.setEndpointQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
-
-            Map<String, Object> stsProps = new HashMap<String, Object>();
-
-            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
-                //igore "ws-security.encryption.properties", "ws-security.signature.properties" and
-                //"ws-security.sts.token.properties"
-//                if (entry.getKey().equals(SecurityConstants.ENCRYPT_PROPERTIES) || 
-//                        entry.getKey().equals(SecurityConstants.STS_TOKEN_PROPERTIES)) {
-//                    continue;
-//                }
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
-//            stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
-//            stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, securityArguments.getCryptoProvider());
-
-            stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-            stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-            stsClient.setProperties(stsProps);
-
-            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
-            }
-            if (null != securityArguments.getSecurityToken()) {
-                stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
-            }
-
-            Map<String, Object> clientProps = new HashMap<String, Object>();
-            clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
-
-            Map<String, String> clientPropsDef = securityArguments.getClientProperties();
-
-            for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
-                //igore "ws-security.signature.properties"
-                if (entry.getKey().equals(SecurityConstants.SIGNATURE_PROPERTIES)) {
-                    continue;
-                }
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
-            clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, securityArguments.getCryptoProvider());
-
-            clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                    new WSPasswordCallbackHandler(
-                        clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
-                        clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
-            clientProps.put(SecurityConstants.ENCRYPT_USERNAME, clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME));
             clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
 
             clientFactory.setProperties(clientProps);
