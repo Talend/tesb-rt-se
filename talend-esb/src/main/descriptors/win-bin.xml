@@ -361,6 +361,8 @@
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
                 <!-- patch for spring-oxm version (TESB-9359) -->
                 <exclude>org/springframework/spring-oxm/**</exclude>
+                <!-- patch xmlsec bundle (TESB-11262) -->
+                <exclude>org/apache/santuario/xmlsec/**</exclude>
             </excludes>
         </fileSet>
 
@@ -547,6 +549,12 @@
         <file>
             <source>${basedir}/target/dependencies/xbean-blueprint-${xbean.version}.jar</source>
             <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch xmlsec bundle (TESB-11262) -->
+        <file>
+            <source>${basedir}/target/dependencies/xmlsec-1.5.5-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/santuario/xmlsec/1.5.5/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
