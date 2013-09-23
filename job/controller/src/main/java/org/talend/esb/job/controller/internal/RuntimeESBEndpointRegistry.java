@@ -52,7 +52,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
-    private Crypto xkmsCryptoProvider;
+    private Crypto cryptoProvider;
 //    private static final String HTTPS_CONFIG = "https.config";
 
     public void setBus(Bus bus) {
@@ -75,11 +75,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.stsProperties = stsProperties;
     }
 
-    public void setXkmsCryptoProvider(Crypto xkmsCryptoProvider) {
-		this.xkmsCryptoProvider = xkmsCryptoProvider;
-	}
+    public void setCryptoProvider(Crypto cryptoProvider) {
+        this.cryptoProvider = cryptoProvider;
+    }
 
-	@Override
+    @Override
     public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
         final Map<String, Object> props = endpoint.getEndpointProperties();
 
@@ -152,19 +152,19 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = null;
         if (EsbSecurity.TOKEN == esbSecurity) {
-            policy = policyProvider.getUsernamePolicy();
+            policy = policyProvider.getUsernamePolicy(bus);
         } else if (EsbSecurity.SAML == esbSecurity) {
             if (useAuthorization) {
                 if (useCrypto) {
-                    policy = policyProvider.getSAMLAuthzXkmsPolicy();
+                    policy = policyProvider.getSAMLAuthzCryptoPolicy(bus);
                 } else {
-                    policy = policyProvider.getSAMLAuthzPolicy();
+                    policy = policyProvider.getSAMLAuthzPolicy(bus);
                 }
             } else {
                 if (useCrypto) {
-                    policy = policyProvider.getSAMLXkmsPolicy();
+                    policy = policyProvider.getSAMLCryptoPolicy(bus);
                 } else {
-                    policy = policyProvider.getSAMLPolicy();
+                    policy = policyProvider.getSAMLPolicy(bus);
                 }
             }
         }
@@ -204,7 +204,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 clientProperties,
                 stsProperties,
                 (String) props.get(ESBEndpointConstants.AUTHZ_ROLE),
-                props.get(ESBEndpointConstants.SECURITY_TOKEN));
+                props.get(ESBEndpointConstants.SECURITY_TOKEN),
+                useCrypto ? cryptoProvider : null);
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
@@ -220,9 +221,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.SOAPACTION),
                 soapHeaders,
                 enhancedResponse,
-                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER),
-                useCrypto,
-                xkmsCryptoProvider);
+                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
     }
 
 }

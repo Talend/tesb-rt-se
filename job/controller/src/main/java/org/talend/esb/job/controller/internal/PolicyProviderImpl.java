@@ -36,56 +36,71 @@ public class PolicyProviderImpl implements PolicyProvider {
 
     private Map<String, String> policyProperties;
 
-    private PolicyBuilder policyBuilder;
-
-    public void setBus(Bus bus) {
-        policyBuilder = bus.getExtension(PolicyBuilder.class);
-    }
+    private Policy policyUsername;
+    private Policy policySAML;
+    private Policy policySAMLAuthz;
+    private Policy policySAMLCrypto;
+    private Policy policySAMLAuthzCrypto;
 
     public void setPolicyProperties(Map<String, String> policyProperties) {
         this.policyProperties = policyProperties;
     }
 
-    public Policy getUsernamePolicy() {
-        return loadPolicy(policyProperties.get("policy.username"));
+    public Policy getUsernamePolicy(Bus cxf) {
+        if (null == policyUsername) {
+            policyUsername = loadPolicy(policyProperties.get("policy.username"), cxf);
+        }
+        return policyUsername;
     }
 
-    public Policy getSAMLPolicy() {
-        return loadPolicy(policyProperties.get("policy.saml"));
+    public Policy getSAMLPolicy(Bus cxf) {
+        if (null == policySAML) {
+            policySAML = loadPolicy(policyProperties.get("policy.saml"), cxf);
+        }
+        return policySAML;
     }
 
-    public Policy getSAMLAuthzPolicy() {
-        return loadPolicy(policyProperties.get("policy.saml.authz"));
+    public Policy getSAMLAuthzPolicy(Bus cxf) {
+        if (null == policySAMLAuthz) {
+            policySAMLAuthz = loadPolicy(policyProperties.get("policy.saml.authz"), cxf);
+        }
+        return policySAMLAuthz;
     }
 
-    public Policy getSAMLXkmsPolicy() {
-        return loadPolicy(policyProperties.get("policy.saml.xkms"));
+    public Policy getSAMLCryptoPolicy(Bus cxf) {
+        if (null == policySAMLCrypto) {
+            policySAMLCrypto = loadPolicy(policyProperties.get("policy.saml.crypto"), cxf);
+        }
+        return policySAMLCrypto;
     }
 
-    public Policy getSAMLAuthzXkmsPolicy() {
-        return loadPolicy(policyProperties.get("policy.saml.authz.xkms"));
+    public Policy getSAMLAuthzCryptoPolicy(Bus cxf) {
+        if (null == policySAMLAuthzCrypto) {
+            policySAMLAuthzCrypto = loadPolicy(policyProperties.get("policy.saml.authz.crypto"), cxf);
+        }
+        return policySAMLAuthzCrypto;
     }
 
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_USERNAME_TOKEN,
-                getUsernamePolicy());
+                getUsernamePolicy(cxf));
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN,
-                getSAMLPolicy());
+                getSAMLPolicy(cxf));
         policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ,
-                getSAMLAuthzPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN_XKMS,
-                getSAMLXkmsPolicy());
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_XKMS,
-                getSAMLAuthzXkmsPolicy());
+                getSAMLAuthzPolicy(cxf));
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN_CRYPTO,
+                getSAMLCryptoPolicy(cxf));
+        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CRYPTO,
+                getSAMLAuthzCryptoPolicy(cxf));
     }
 
-    private Policy loadPolicy(String location) {
+    private Policy loadPolicy(String location, Bus cxf) {
         InputStream is = null;
         try {
             is = new FileInputStream(location);
-            return policyBuilder.getPolicy(is);
+            return cxf.getExtension(PolicyBuilder.class).getPolicy(is);
         } catch (Exception e) {
             throw new RuntimeException("Cannot load policy", e);
         } finally {

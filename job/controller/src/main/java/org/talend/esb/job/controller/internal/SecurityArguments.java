@@ -22,6 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.util.Map;
 
 import org.apache.neethi.Policy;
+import org.apache.ws.security.components.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 
 public class SecurityArguments {
@@ -35,6 +36,7 @@ public class SecurityArguments {
     private final Map<String, String> stsProperties;
     private final String roleName;
     private final Object securityToken;
+    private final Crypto cryptoProvider;
 
     public SecurityArguments(final EsbSecurity esbSecurity,
             final Policy policy,
@@ -44,7 +46,8 @@ public class SecurityArguments {
             Map<String, String> clientProperties,
             Map<String, String> stsProperties,
             String roleName,
-            Object securityToken) {
+            Object securityToken,
+            Crypto cryptoProvider) {
         this.esbSecurity = esbSecurity;
         this.policy = policy;
         this.username = username;
@@ -54,7 +57,7 @@ public class SecurityArguments {
         this.stsProperties = stsProperties;
         this.roleName = roleName;
         this.securityToken = securityToken;
-        
+        this.cryptoProvider = cryptoProvider;
     }
 
     public EsbSecurity getEsbSecurity() {
@@ -91,6 +94,10 @@ public class SecurityArguments {
 
     public Object getSecurityToken() {
         return securityToken;
+    }
+
+    public Crypto getCryptoProvider() {
+        return cryptoProvider;
     }
 
 }
