@@ -196,6 +196,9 @@ This product includes software OpenSAML-J, OpenWS, XMLTooling-J developed at
 OpenSAML (http://opensaml.org/)
 Licensed under the Apache License 2.0.
 
+This product includes software developed at
+JEST: Java HTTP Rest client for ElasticSearch. (https://github.com/searchbox-io/Jest)
+Licensed under the Apache License 2.0.
 
 
 	 
