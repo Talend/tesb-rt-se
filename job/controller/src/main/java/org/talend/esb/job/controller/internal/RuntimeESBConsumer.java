@@ -56,7 +56,6 @@ import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.wsdl.EndpointReferenceUtils;
-import org.apache.ws.security.components.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
@@ -111,9 +110,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             String soapAction,
             final List<Header> soapHeaders,
             boolean enhancedResponse,
-            Object correlationIDCallbackHandler, 
-            boolean useCrypto,
-            Crypto xkmsCryptoProvider) {
+            Object correlationIDCallbackHandler) {
         this.operationName = operationName;
         this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
@@ -186,7 +183,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             properties.put(SecurityConstants.PASSWORD,
                     securityArguments.getPassword());
             clientFactory.setProperties(properties);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && !useCrypto) {
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && null == securityArguments.getCryptoProvider()) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -249,7 +246,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
 
             clientFactory.setProperties(clientProps);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && useCrypto) {
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() && null != securityArguments.getCryptoProvider()) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -264,18 +261,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
             for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
                 //igore "ws-security.encryption.properties", "ws-security.signature.properties" and
                 //"ws-security.sts.token.properties"
-                if (entry.getKey().equals(SecurityConstants.ENCRYPT_PROPERTIES) || 
-                        entry.getKey().equals(SecurityConstants.SIGNATURE_PROPERTIES) || 
-                        entry.getKey().equals(SecurityConstants.STS_TOKEN_PROPERTIES)) {
-                    continue;
-                }
+//                if (entry.getKey().equals(SecurityConstants.ENCRYPT_PROPERTIES) || 
+//                        entry.getKey().equals(SecurityConstants.STS_TOKEN_PROPERTIES)) {
+//                    continue;
+//                }
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
                     stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
 
-            stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, xkmsCryptoProvider);
-            stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, xkmsCryptoProvider);
+//            stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
+//            stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, securityArguments.getCryptoProvider());
 
             stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
             stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
@@ -305,12 +301,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, xkmsCryptoProvider);
+            clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, securityArguments.getCryptoProvider());
 
             clientProps.put(SecurityConstants.CALLBACK_HANDLER,
                     new WSPasswordCallbackHandler(
                         clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
                         clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
+            clientProps.put(SecurityConstants.ENCRYPT_USERNAME, clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME));
+            clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
 
             clientFactory.setProperties(clientProps);
         }
@@ -340,12 +338,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            if (useCrypto) {
+            if (null != securityArguments.getCryptoProvider()) {
                 stsProps.put(SecurityConstants.ENCRYPT_PROPERTIES, null);
                 stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
                 stsProps.put(SecurityConstants.STS_TOKEN_PROPERTIES, null);
-                stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, xkmsCryptoProvider);
-                stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, xkmsCryptoProvider);
+                stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
+                stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, securityArguments.getCryptoProvider());
             }
 
             stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
@@ -368,9 +366,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
 
-            if (useCrypto) {
+            if (null != securityArguments.getCryptoProvider()) {
                 stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
-                clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, xkmsCryptoProvider);
+                clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, securityArguments.getCryptoProvider());
             }
 
             clientProps.put(SecurityConstants.CALLBACK_HANDLER,
@@ -486,7 +484,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             || bus.hasExtensionByName("org.talend.esb.registry.client.policy.RegistryFactoryBeanListener"));
     }
 
-    private Object processFileURI(String fileURI) {
+    private static Object processFileURI(String fileURI) {
         if (fileURI.startsWith("file:")) {
             try {
                 return new URL(fileURI);
