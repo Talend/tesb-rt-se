@@ -603,7 +603,7 @@
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_6&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
