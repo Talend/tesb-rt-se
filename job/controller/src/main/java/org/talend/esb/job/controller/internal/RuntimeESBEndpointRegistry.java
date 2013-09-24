@@ -37,6 +37,7 @@ import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
+import org.talend.esb.servicelocator.cxf.internal.LocatorFeatureImpl;
 import org.w3c.dom.Node;
 
 import routines.system.api.ESBConsumer;
@@ -135,7 +136,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         
         LocatorFeature slFeature = null;
         if (useServiceLocator) {
-            slFeature = new LocatorFeature();
+            slFeature = new LocatorFeatureImpl();
             //pass SL custom properties to Consumer
             Object slProps = props.get(ESBEndpointConstants.REQUEST_SL_PROPS);
             if (slProps != null) {

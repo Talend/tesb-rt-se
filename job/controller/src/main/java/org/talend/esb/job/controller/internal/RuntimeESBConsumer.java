@@ -42,7 +42,7 @@ import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
-import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.feature.Feature;
 import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
@@ -148,7 +148,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
 
         clientFactory.setBus(bus);
-        final List<AbstractFeature> features = new ArrayList<AbstractFeature>();
+        final List<Feature> features = new ArrayList<Feature>();
         if (slFeature != null) {
             features.add(slFeature);
         }

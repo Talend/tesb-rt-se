@@ -100,7 +100,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
         lf.setSelectionStrategy("randomSelectionStrategy");
 
         lf.initialize(client, busMock);
@@ -131,7 +131,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         replayAll();
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
         Client client1 = null;
         Client client2 = null;
         {
@@ -202,7 +202,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
         lf.setSelectionStrategy(null);
 
         lf.initialize(client, busMock);
@@ -234,7 +234,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         replayAll();
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
 
         Client client1 = null;
         Client client2 = null;
@@ -298,7 +298,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
         lf.setSelectionStrategy("randomSelectionStrategy");
 
         lf.initialize(client, busMock);
@@ -339,7 +339,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
         client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
+        LocatorFeature lf = new LocatorFeatureImpl();
         lf.setSelectionStrategy("randomSelectionStrategy");
 
         lf.initialize((InterceptorProvider) client, busMock);
