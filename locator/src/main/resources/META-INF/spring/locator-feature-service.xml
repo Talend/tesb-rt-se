@@ -35,7 +35,7 @@
 
 	<osgi:service ref="locatorManager" interface="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager"/>
 
-    <bean id="locatorFeature" scope="bundle" class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
+    <bean id="locatorFeature" scope="bundle" class="org.talend.esb.servicelocator.cxf.internal.LocatorFeatureImpl"/>
 
 	<osgi:service ref="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
 
