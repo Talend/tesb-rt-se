@@ -122,8 +122,8 @@
         <h2database.version>1.3.165</h2database.version>
 		<neethi.version>3.0.2</neethi.version>
 
-        <cxf.build-utils.version>2.5.1-SNAPSHOT</cxf.build-utils.version>
-        <cxf.xjc-utils.version>2.6.3-SNAPSHOT</cxf.xjc-utils.version> 
+        <cxf.build-utils.version>2.6.0</cxf.build-utils.version>
+        <cxf.xjc-utils.version>2.6.2</cxf.xjc-utils.version> 
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
 
