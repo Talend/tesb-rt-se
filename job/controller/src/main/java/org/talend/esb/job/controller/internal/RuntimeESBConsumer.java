@@ -166,6 +166,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         clientFactory.setFeatures(features);
 
+        Map<String, Object> clientProps = new HashMap<String, Object>();
         if (EsbSecurity.BASIC == securityArguments.getEsbSecurity()) {
             authorizationPolicy = new AuthorizationPolicy();
             authorizationPolicy.setUserName(securityArguments.getUsername());
@@ -176,14 +177,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
             authorizationPolicy.setUserName(securityArguments.getUsername());
             authorizationPolicy.setPassword(securityArguments.getPassword());
             authorizationPolicy.setAuthorizationType("Digest");
-        } else if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity()) {
-            Map<String, Object> properties = new HashMap<String, Object>(2);
-            properties.put(SecurityConstants.USERNAME,
-                    securityArguments.getUsername());
-            properties.put(SecurityConstants.PASSWORD,
-                    securityArguments.getPassword());
-            clientFactory.setProperties(properties);
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity()) {
+        } else if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity() || useServiceRegistry) {
+            clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
+            clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
+        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
@@ -222,7 +219,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
             stsClient.setProperties(stsProps);
 
-            Map<String, Object> clientProps = new HashMap<String, Object>();
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
             Map<String, String> clientPropsDef = securityArguments.getClientProperties();
@@ -245,83 +241,16 @@ public class RuntimeESBConsumer implements ESBConsumer {
                             securityArguments.getPassword()));
             }
             clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
-
-            clientFactory.setProperties(clientProps);
         }
 
-        if (useServiceRegistry) {
-            Map<String, Object> clientProps = new HashMap<String, Object>();
-
-            //add properties for Username Token
-            clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-            clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-
-            //add properties for SAML Token
-            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
-
-            final STSClient stsClient = new STSClient(bus);
-            stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
-            stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
-            stsClient.setEndpointQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
-
-            Map<String, Object> stsProps = new HashMap<String, Object>();
-
-            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
-            if (null != securityArguments.getCryptoProvider()) {
-                stsProps.put(SecurityConstants.ENCRYPT_PROPERTIES, null);
-                stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
-                stsProps.put(SecurityConstants.STS_TOKEN_PROPERTIES, null);
-                stsProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
-                stsProps.put(SecurityConstants.STS_TOKEN_CRYPTO, securityArguments.getCryptoProvider());
-            }
-
-            stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-            stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-            stsClient.setProperties(stsProps);
-
-            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
-            }
-
-            clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
-
-            Map<String, String> clientPropsDef = securityArguments.getClientProperties();
-
-            for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
-            if (null != securityArguments.getCryptoProvider()) {
-                stsProps.put(SecurityConstants.SIGNATURE_PROPERTIES, null);
-                clientProps.put(SecurityConstants.SIGNATURE_CRYPTO, securityArguments.getCryptoProvider());
-            }
-
-            clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                    new WSPasswordCallbackHandler(
-                        clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
-                        clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
-
-            clientFactory.setProperties(clientProps);
-        }
-
-        clientFactory.getProperties(true).put("soap.no.validate.parts", Boolean.TRUE);
-        clientFactory.getProperties(true).put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP,
+        clientProps.put("soap.no.validate.parts", Boolean.TRUE);
+        clientProps.put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP,
                 Boolean.toString(useServiceRegistry));
         if (correlationIDCallbackHandler != null) {
-            clientFactory.getProperties(true).put(
+            clientProps.put(
                 CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
         }
+        clientFactory.setProperties(clientProps);
     }
 
     @Override

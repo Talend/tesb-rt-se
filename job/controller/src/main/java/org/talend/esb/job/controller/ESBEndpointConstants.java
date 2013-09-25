@@ -31,7 +31,6 @@ public interface ESBEndpointConstants {
     String USE_SERVICE_ACTIVITY_MONITOR = "useServiceActivityMonitor";
     String USE_SERVICE_REGISTRY = "useServiceRegistry";
     String USE_SERVICE_REGISTRY_PROP = "use.service.registry";
-    String USE_AUTHORIZATION = "useAuthorization";
     String USE_CRYPTO = "useCrypto";
     String AUTHZ_ROLE = "role";
     String USE_HTTPS = "useHTTPS";

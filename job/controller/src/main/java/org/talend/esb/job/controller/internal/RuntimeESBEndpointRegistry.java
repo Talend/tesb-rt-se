@@ -103,10 +103,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                     .get(ESBEndpointConstants.USE_SERVICE_REGISTRY)).booleanValue();
         }
 
-        boolean useAuthorization = false;
-        if (null != props.get(ESBEndpointConstants.USE_AUTHORIZATION)) {
-            useAuthorization = ((Boolean) props.get(ESBEndpointConstants.USE_AUTHORIZATION)).booleanValue();
-        }
+        final String authorizationRole = (String) props.get(ESBEndpointConstants.AUTHZ_ROLE);
 
         boolean enhancedResponse = false;
         if(null != props.get(ESBEndpointConstants.ENHANCED_RESPONSE)){
@@ -154,7 +151,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         if (EsbSecurity.TOKEN == esbSecurity) {
             policy = policyProvider.getUsernamePolicy(bus);
         } else if (EsbSecurity.SAML == esbSecurity) {
-            if (useAuthorization) {
+            if (null != authorizationRole) {
                 if (useCrypto) {
                     policy = policyProvider.getSAMLAuthzCryptoPolicy(bus);
                 } else {
@@ -203,7 +200,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.ALIAS),
                 clientProperties,
                 stsProperties,
-                (String) props.get(ESBEndpointConstants.AUTHZ_ROLE),
+                authorizationRole,
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
                 useCrypto ? cryptoProvider : null);
 
