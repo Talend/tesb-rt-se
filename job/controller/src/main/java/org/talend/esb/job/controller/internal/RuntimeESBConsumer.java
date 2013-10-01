@@ -177,10 +177,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             authorizationPolicy.setUserName(securityArguments.getUsername());
             authorizationPolicy.setPassword(securityArguments.getPassword());
             authorizationPolicy.setAuthorizationType("Digest");
-        } else if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity() || useServiceRegistry) {
+        }
+        if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity() || useServiceRegistry) {
             clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
             clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-        } else if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
+        }
+        if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
             final STSClient stsClient = new STSClient(bus);
