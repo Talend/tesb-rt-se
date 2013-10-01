@@ -86,6 +86,20 @@
     <bundle>mvn:org.talend.esb/ds-service-oracle/${project.version}</bundle>
   </feature>
 
+  <!-- PostgreSQL JDBC driver should be installed into container before installing PostgreSQL DataSource.
+       You will have eventually have to adjust the path and version. The commands below is for windows and PostgreSQL.
+       1st variant. Install the driver via copying driver library into <container.root>/deploy folder.
+       2nd variant. Install the driver directly into container
+           osgi:install wrap:file:C:/postgresql.jar
+       3rd variant. Install PostgreSQL driver into maven repo and than into container.
+           osgi:install wrap:mvn:postgresql/postgresql/9.1-901.jdbc4
+  -->
+  <feature name='tesb-datasource-postgresql' version='${project.version}'>
+    <configfile finalname="/etc/org.talend.esb.datasource.postgresql.cfg">mvn:org.talend.esb/ds-service-postgresql/${project.version}/cfg/org.talend.esb.datasource.postgresql</configfile>
+    <bundle>mvn:org.talend.esb/ds-service-postgresql/${project.version}</bundle>
+  </feature>
+
+
   <!-- DB2 JDBC driver should be installed into container before installing DB2 DataSource.
        You will have eventually have to adjust the path and version. The command below is for windows and DB2.
        1st variant. Install the driver via copying driver library into <container.root>/deploy folder.
