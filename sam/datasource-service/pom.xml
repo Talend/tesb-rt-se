@@ -22,5 +22,6 @@
         <module>oracle</module>
         <module>db2</module>
         <module>sqlserver</module>
+        <module>postgresql</module>
     </modules>
 </project>
