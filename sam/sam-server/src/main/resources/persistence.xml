@@ -66,6 +66,10 @@
         <property name="incrementer" ref="sqlServerIncrementer" />
     </bean>
 
+    <bean id="postgresqlDialect" class="org.talend.esb.sam.server.persistence.dialects.PostgreSQLDialect">
+        <property name="incrementer" ref="postgresqlIncrementer" />
+    </bean>
+
     <bean id="derbyIncrementer" class="org.springframework.jdbc.support.incrementer.DerbyMaxValueIncrementer">
         <property name="dataSource" ref="datasource" />
         <property name="incrementerName" value="TAB_SEQUENCE" />
@@ -76,6 +80,11 @@
         <property name="dataSource" ref="datasource" />
         <property name="incrementerName" value="SEQUENCE" />
         <property name="columnName" value="SEQ_COUNT"/>
+    </bean>
+
+    <bean id="postgresqlIncrementer" class="org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIncrementer">
+        <property name="dataSource" ref="datasource" />
+        <property name="incrementerName" value="EVENT_ID" />
     </bean>
 
     <bean id="h2Incrementer" class="org.springframework.jdbc.support.incrementer.H2SequenceMaxValueIncrementer">

@@ -55,6 +55,9 @@
     <bean id="sqlServerDialect" class="org.talend.esb.sam.server.persistence.dialects.SqlServerDialect">
     </bean>
 
+    <bean id="postgresqlDialect" class="org.talend.esb.sam.server.persistence.dialects.PostgreSQLDialect">
+    </bean>
+
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="datasource"/>
     </bean>

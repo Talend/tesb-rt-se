@@ -73,7 +73,7 @@ public class DBInitializer implements InitializingBean {
             put("oracleDialect", new String[] { "create_oracle.sql", "create_oracle_ind.sql" });
             put("DB2Dialect", new String[] { "create_db2.sql", "create_db2_ind.sql" });
             put("sqlServerDialect", new String[] { "create_sqlserver.sql", "create_sqlserver_ind.sql" });
-            put("postgresDialect", new String[] { "create_postgres.sql", "create_postgres_ind.sql" });
+            put("postgresqlDialect", new String[] { "create_postgres.sql", "create_postgres_ind.sql" });
         }
     };
 
