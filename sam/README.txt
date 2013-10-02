@@ -37,7 +37,7 @@ derby-starter:
 the Derby Database server.
 
 datasource-service:
-  There are 6 datasources provided to connect SAM server to Derby, MySQL, H2, Oracle, DB2 and 
+  There are 7 datasources provided to connect SAM server to Derby, MySQL, H2, Oracle, DB2, PostgreSQL and 
   SQLServer database.
   
 sam-service-common:
