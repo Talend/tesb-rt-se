@@ -240,6 +240,7 @@
 								<feature>tesb-datasource-mysql</feature>
                                 <feature>tesb-datasource-oracle</feature>
                                 <feature>tesb-datasource-db2</feature>
+                                <feature>tesb-datasource-postgresql</feature>
                                 <feature>tesb-datasource-sqlserver</feature>
 								<feature>tesb-derby-starter</feature>
 								<feature>tesb-sam-server</feature>
