@@ -107,7 +107,7 @@ public class TalendProducer extends DefaultProducer {
             if (result != 0) {
                 throw new RuntimeCamelException("Execution of Talend job '" 
                         + jobInstance.getClass().getCanonicalName() + "' with args: "
-                        + args.toString() + "' failed, see stderr for details"); // Talend logs errors using System.err.println
+                        + Arrays.toString(args) + "' failed, see stderr for details"); // Talend logs errors using System.err.println
             }
         } finally {
             Thread.currentThread().setContextClassLoader(oldContextCL);

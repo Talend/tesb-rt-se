@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Service Activity Monitoring :: Datasource-mysql
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    default-activation="lazy">
+
+    <cm:property-placeholder persistent-id="org.talend.esb.datasource.postgresql" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="datasource.name" value="datasource"/>
+            <cm:property name="datasource.servername" value="localhost"/>
+            <cm:property name="datasource.databasename" value="postgres"/>
+            <cm:property name="datasource.username" value="postgres"/>
+            <cm:property name="datasource.password" value="postgres"/>
+            <cm:property name="datasource.port" value="5432"/>
+            <cm:property name="datasource.pool.maxActive" value="10"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="dataSource" class="org.postgresql.ds.PGPoolingDataSource">
+        <property name="dataSourceName" value="${datasource.name}"/>
+        <property name="serverName" value="${datasource.servername}"/>
+        <property name="databaseName" value="${datasource.databasename}"/>
+        <property name="user" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+        <property name="portNumber" value="${datasource.port}"/>
+        <property name="maxConnections" value="${datasource.pool.maxActive}"/>
+    </bean>
+
+    <service ref="dataSource" interface="javax.sql.DataSource">
+        <service-properties>
+             <entry key="org.talend.esb.datasource.name" value="ds-postgresql"/>
+             <entry key="osgi.jndi.service.name" value="jdbc/sam"/>
+        </service-properties>
+    </service>
+</blueprint>
