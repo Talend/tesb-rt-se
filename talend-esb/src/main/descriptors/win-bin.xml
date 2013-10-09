@@ -363,6 +363,9 @@
                 <exclude>org/springframework/spring-oxm/**</exclude>
                 <!-- patch xmlsec bundle (TESB-11262) -->
                 <exclude>org/apache/santuario/xmlsec/**</exclude>
+                <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
+                <exclude>org/apache/camel/camel-blueprint/**</exclude>
+                <exclude>org/apache/camel/camel-spring/**</exclude>
             </excludes>
         </fileSet>
 
@@ -555,6 +558,17 @@
         <file>
             <source>${basedir}/target/dependencies/xmlsec-1.5.5-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/santuario/xmlsec/1.5.5/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
+        <file>
+            <source>${basedir}/target/dependencies/camel-blueprint-2.12.1-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-blueprint/2.12.1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/camel-spring-2.12.1-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-spring/2.12.1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

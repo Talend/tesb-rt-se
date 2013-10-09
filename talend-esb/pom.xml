@@ -357,6 +357,23 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-blueprint</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-spring</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -599,6 +616,15 @@
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.santuario/xmlsec/1.5.5&lt;</replacetoken> 
                                         <replacevalue>mvn:org.apache.santuario/xmlsec/1.5.5/jar/TESB&lt;</replacevalue>
+                                    </replacefilter>
+                                    <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-blueprint/2.12.1&lt;</replacetoken> 
+                                        <replacevalue>mvn:org.apache.camel/camel-blueprint/2.12.1/jar/TESB&lt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-spring/2.12.1&lt;</replacetoken> 
+                                        <replacevalue>mvn:org.apache.camel/camel-spring/2.12.1/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
