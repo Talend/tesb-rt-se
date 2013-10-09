@@ -33,29 +33,29 @@
     <tx:annotation-driven />
 
     <bean id="providerBean" class="org.talend.esb.sam.service.SAMProviderImpl">
-         <property name="dataSource" ref="datasource"/>
-         <property name="dialect" ref="${db.dialect}" />
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" ref="${db.dialect}REST" />
     </bean>
 
-    <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
+    <bean id="derbyDialectREST" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
     </bean>
 
-    <bean id="DB2Dialect" class="org.talend.esb.sam.server.persistence.dialects.DB2Dialect">
+    <bean id="DB2DialectREST" class="org.talend.esb.sam.server.persistence.dialects.DB2Dialect">
     </bean>
 
-    <bean id="mysqlDialect" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
+    <bean id="mysqlDialectREST" class="org.talend.esb.sam.server.persistence.dialects.MySQLDialect">
     </bean>
 
-    <bean id="h2Dialect" class="org.talend.esb.sam.server.persistence.dialects.H2Dialect">
+    <bean id="h2DialectREST" class="org.talend.esb.sam.server.persistence.dialects.H2Dialect">
     </bean>
 
-    <bean id="oracleDialect" class="org.talend.esb.sam.server.persistence.dialects.OracleDialect">
+    <bean id="oracleDialectREST" class="org.talend.esb.sam.server.persistence.dialects.OracleDialect">
     </bean>
 
-    <bean id="sqlServerDialect" class="org.talend.esb.sam.server.persistence.dialects.SqlServerDialect">
+    <bean id="sqlServerDialectREST" class="org.talend.esb.sam.server.persistence.dialects.SqlServerDialect">
     </bean>
 
-    <bean id="postgresqlDialect" class="org.talend.esb.sam.server.persistence.dialects.PostgreSQLDialect">
+    <bean id="postgresqlDialectREST" class="org.talend.esb.sam.server.persistence.dialects.PostgreSQLDialect">
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
