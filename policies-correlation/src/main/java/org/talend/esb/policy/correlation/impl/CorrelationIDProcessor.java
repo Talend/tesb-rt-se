@@ -7,12 +7,14 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.cxf.binding.soap.SoapBinding;
+import org.apache.cxf.binding.soap.saaj.SAAJStreamWriter;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDProcessor {
@@ -27,17 +29,30 @@ public class CorrelationIDProcessor {
         }
 
         String correlationId = null;
-        // get ID from Http header
-        correlationId = CorrelationIdProtocolHeaderCodec.readCorrelationId(message);
         // get ID from SOAP header
+        correlationId = CorrelationIdSoapCodec.readCorrelationId(message);
+        // get ID from Http header
         if (null == correlationId) {
-            correlationId = CorrelationIdSoapCodec.readCorrelationId(message);
+            correlationId = CorrelationIdProtocolHeaderCodec.readCorrelationId(message);
+            
         }
         // get from message
         if (null == correlationId) {
             // Get ID from Message
             correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
         }
+
+        if ((message.getContent(javax.xml.stream.XMLStreamWriter.class) != null)
+                && (message.getContent(javax.xml.stream.XMLStreamWriter.class) instanceof SAAJStreamWriter)) {
+            NodeList nodeList = ((SAAJStreamWriter) message
+                    .getContent(javax.xml.stream.XMLStreamWriter.class))
+                    .getDocument()
+                    .getElementsByTagNameNS("http://www.talend.com/esb/sam/correlationId/v1", "correlationId");
+            if(nodeList.getLength()>0) {
+                correlationId = nodeList.item(0).getTextContent();
+            }
+        }
+
         // get from message exchange
         if (null == correlationId) {
             // Get ID from Message exchange
@@ -70,16 +85,19 @@ public class CorrelationIDProcessor {
                 correlationId = ContextUtils.generateUUID();
             }
         }
+
         message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
 
         if (isRestMessage(message)) {
             // Add correlationId to http header
-            if (null == CorrelationIdProtocolHeaderCodec.readCorrelationId(message)) {
+            if ((!MessageUtils.isRequestor(message) && MessageUtils.isOutbound(message))
+                    && (null == CorrelationIdProtocolHeaderCodec.readCorrelationId(message))) {
                 CorrelationIdProtocolHeaderCodec.writeCorrelationId(message, correlationId);
             }
         } else {
             // Add correlationId to soap header
-            if (null == CorrelationIdSoapCodec.readCorrelationId(message)) {
+            if ((!MessageUtils.isRequestor(message) && MessageUtils.isOutbound(message))
+                    && (null == CorrelationIdSoapCodec.readCorrelationId(message))) {
                 CorrelationIdSoapCodec.writeCorrelationId(message, correlationId);
             }
         }

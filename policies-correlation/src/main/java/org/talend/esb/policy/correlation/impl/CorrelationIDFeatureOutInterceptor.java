@@ -13,7 +13,7 @@ import static org.talend.esb.policy.correlation.impl.CorrelationIDProcessor.proc
 
 public class CorrelationIDFeatureOutInterceptor extends AbstractPhaseInterceptor<Message> {
     public CorrelationIDFeatureOutInterceptor() {
-        super(Phase.PRE_STREAM);
+        super(Phase.WRITE);
     }
 
     @Override

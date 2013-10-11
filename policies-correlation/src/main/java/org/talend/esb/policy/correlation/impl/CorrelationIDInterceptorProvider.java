@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.cxf.binding.soap.SoapBinding;
+import org.apache.cxf.binding.soap.saaj.SAAJStreamWriter;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
@@ -20,6 +21,7 @@ import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion.MethodType;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorProvider {
@@ -102,6 +104,16 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     if (null == correlationId) {
                         // Get ID from Message
                         correlationId = (String) message.get(CorrelationIDFeature.MESSAGE_CORRELATION_ID);
+                    }
+                    if ((message.getContent(javax.xml.stream.XMLStreamWriter.class) != null)
+                            && (message.getContent(javax.xml.stream.XMLStreamWriter.class) instanceof SAAJStreamWriter)) {
+                        NodeList nodeList = ((SAAJStreamWriter) message
+                                .getContent(javax.xml.stream.XMLStreamWriter.class))
+                                .getDocument()
+                                .getElementsByTagNameNS("http://www.talend.com/esb/sam/correlationId/v1", "correlationId");
+                        if(nodeList.getLength()>0) {
+                            correlationId = nodeList.item(0).getTextContent();
+                        }
                     }
                     // get from message exchange
                     if (null == correlationId) {
