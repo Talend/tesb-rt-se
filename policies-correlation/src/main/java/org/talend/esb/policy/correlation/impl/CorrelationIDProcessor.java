@@ -90,14 +90,12 @@ public class CorrelationIDProcessor {
 
         if (isRestMessage(message)) {
             // Add correlationId to http header
-            if ((!MessageUtils.isRequestor(message) && MessageUtils.isOutbound(message))
-                    && (null == CorrelationIdProtocolHeaderCodec.readCorrelationId(message))) {
+            if (null == CorrelationIdProtocolHeaderCodec.readCorrelationId(message)) {
                 CorrelationIdProtocolHeaderCodec.writeCorrelationId(message, correlationId);
             }
         } else {
             // Add correlationId to soap header
-            if ((!MessageUtils.isRequestor(message) && MessageUtils.isOutbound(message))
-                    && (null == CorrelationIdSoapCodec.readCorrelationId(message))) {
+            if (null == CorrelationIdSoapCodec.readCorrelationId(message)) {
                 CorrelationIdSoapCodec.writeCorrelationId(message, correlationId);
             }
         }

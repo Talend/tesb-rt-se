@@ -51,8 +51,7 @@ public final class CorrelationIdSoapCodec {
     /**
      * Read correlation id.
      * 
-     * @param message
-     *            the message
+     * @param message the message
      * @return correlation id from the message
      */
     public static String readCorrelationId(Message message) {
@@ -78,17 +77,14 @@ public final class CorrelationIdSoapCodec {
     /**
      * Write correlation id to message.
      * 
-     * @param message
-     *            the message
-     * @param correlationId
-     *            the correlation id
+     * @param message the message
+     * @param correlationId the correlation id
      */
     public static void writeCorrelationId(Message message, String correlationId) {
         if (!(message instanceof SoapMessage)) {
             return;
         }
         SoapMessage soapMessage = (SoapMessage) message;
-        // ((SAAJStreamWriter)message.get("org.apache.cxf.staxutils.W3CDOMStreamWriter")).getDocument();
         Header hdCorrelationId = soapMessage.getHeader(CORRELATION_ID_QNAME);
         if (hdCorrelationId != null) {
             LOG.warning("CorrelationId already existing in soap header, need not to write CorrelationId header.");
