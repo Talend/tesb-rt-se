@@ -242,7 +242,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
                             securityArguments.getAlias(),
                             securityArguments.getPassword()));
             }
-            clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
+            if (null != securityArguments.getCryptoProvider()) {
+                clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
+            }
+
+            Object encryptUsername = clientProps.get(SecurityConstants.ENCRYPT_USERNAME);
+            if (encryptUsername == null || encryptUsername.toString().isEmpty()) {
+                clientProps.put(SecurityConstants.ENCRYPT_USERNAME, serviceName.toString());
+            }
         }
 
         clientProps.put("soap.no.validate.parts", Boolean.TRUE);
