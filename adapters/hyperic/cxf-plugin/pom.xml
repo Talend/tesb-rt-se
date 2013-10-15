@@ -24,6 +24,7 @@
 
 	<name>Talend ESB :: Adapters :: HQ :: CXF Plugin</name>
 
+	<groupId>org.talend.esb.hyperic</groupId>
     <artifactId>cxf-plugin</artifactId>
 	<packaging>jar</packaging>
 

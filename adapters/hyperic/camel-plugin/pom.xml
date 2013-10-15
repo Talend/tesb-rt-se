@@ -24,6 +24,7 @@
 
 	<name>Talend ESB :: Adapters :: HQ :: Camel Plugin</name>
 
+	<groupId>org.talend.esb.hyperic</groupId>
 	<artifactId>camel-plugin</artifactId>
 	<packaging>jar</packaging>
 
