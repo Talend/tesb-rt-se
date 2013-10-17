@@ -202,7 +202,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 stsProperties,
                 authorizationRole,
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
-                useCrypto ? cryptoProvider : null);
+                (useCrypto || useServiceRegistry) ? cryptoProvider : null);
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
