@@ -26,7 +26,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.sam.agent.feature.EventFeature;
 
-import org.talend.esb.policy.samenabling.SamEnablingPolicy.ApplyToType;
+import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 
 public class SamEnablingInterceptorProvider extends
         AbstractPolicyInterceptorProvider {
@@ -90,7 +90,7 @@ public class SamEnablingInterceptorProvider extends
                     SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai
                             .getAssertion();
 
-                    ApplyToType applyToType = vPolicy.getApplyToType();
+                    AppliesToType appliesToType = vPolicy.getAppliesToType();
 
                     // Service service = ServiceModelUtil.getService(message
                     // .getExchange());
@@ -111,12 +111,12 @@ public class SamEnablingInterceptorProvider extends
 
                     if (MessageUtils.isRequestor(message)) {
                         if (MessageUtils.isOutbound(message)) { // REQ_OUT
-                            if ((applyToType == ApplyToType.consumer || applyToType == ApplyToType.always)) {
+                            if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
                                 Client cli = ex.get(Client.class);
                                 eventFeature.initialize(cli, b);
                             }
                         } else { // RESP_IN
-                            if ((applyToType == ApplyToType.consumer || applyToType == ApplyToType.always)) {
+                            if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
                                 Client cli = ex.get(Client.class);
                                 eventFeature.initialize(cli, b);
                             }
@@ -126,7 +126,7 @@ public class SamEnablingInterceptorProvider extends
                                 .getExtension(ServerRegistry.class);
                         List<Server> servers = registry.getServers();
                         if (MessageUtils.isOutbound(message)) { // RESP_OUT
-                            if ((applyToType == ApplyToType.provider || applyToType == ApplyToType.always)) {
+                            if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
                                 for (Server sr : servers) {
                                     EndpointInfo ei = sr.getEndpoint()
                                             .getEndpointInfo();
@@ -139,7 +139,7 @@ public class SamEnablingInterceptorProvider extends
                                 }
                             }
                         } else { // REQ_IN
-                            if ((applyToType == ApplyToType.provider || applyToType == ApplyToType.always)) {
+                            if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
                                 for (Server sr : servers) {
                                     EndpointInfo ei = sr.getEndpoint()
                                             .getEndpointInfo();

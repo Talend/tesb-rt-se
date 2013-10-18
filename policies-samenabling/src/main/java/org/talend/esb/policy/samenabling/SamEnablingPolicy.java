@@ -10,17 +10,19 @@ import org.w3c.dom.Element;
 
 public class SamEnablingPolicy implements Assertion {
 
-    public enum ApplyToType {
-        consumer, provider, always;
+    public enum AppliesToType {
+        consumer,
+        provider,
+        always;
     }
 
-    private ApplyToType applyToType = ApplyToType.provider;
+    private AppliesToType appliesToType = AppliesToType.provider;
 
     public SamEnablingPolicy(Element element) {
 
-        if (element.hasAttributeNS(null, "applyTo")) {
-            String target = element.getAttributeNS(null, "applyTo");
-            applyToType = ApplyToType.valueOf(target);
+        if (element.hasAttributeNS(null, "appliesTo")) {
+            String target = element.getAttributeNS(null, "appliesTo");
+            appliesToType = AppliesToType.valueOf(target);
         }
     }
 
@@ -64,7 +66,7 @@ public class SamEnablingPolicy implements Assertion {
 
         writer.writeNamespace(prefix, SamEnablingPolicyBuilder.NAMESPACE);
 
-        writer.writeAttribute(null, "applyTo", applyToType.name());
+        writer.writeAttribute(null, "appliesTo", appliesToType.name());
 
         writer.writeEndElement();
     }
@@ -74,8 +76,8 @@ public class SamEnablingPolicy implements Assertion {
         return this;
     }
 
-    public ApplyToType getApplyToType() {
-        return applyToType;
+    public AppliesToType getAppliesToType() {
+        return appliesToType;
     }
 
 }
