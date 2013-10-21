@@ -15,12 +15,10 @@ public class CorrelationIDAssertion implements Assertion {
 		XPATH;
 	}
 
-	
-
-	//by default only validate the incoming request
-	private String value = "";
-	//by default use xpath
+	//by default use callback
 	private MethodType methodType = MethodType.CALLBACK;
+	//value used for xpath
+	private String value = "";
 
 	public CorrelationIDAssertion(Element element) {
         if (element.hasAttributeNS(null, "type")) {
@@ -42,7 +40,7 @@ public class CorrelationIDAssertion implements Assertion {
 
 	@Override
 	public QName getName() {
-		return CorrelationIDPolicyBuilder.CORRELATION_ID_SCHEMA;
+		return CorrelationIDPolicyBuilder.CORRELATION_ID;
 	}
 
 	@Override
@@ -65,15 +63,16 @@ public class CorrelationIDAssertion implements Assertion {
         }
 
         // <tpa:CorrelationID>
-        writer.writeStartElement(prefix, CorrelationIDPolicyBuilder.CORRELATION_ID_SCHEMA_NAME, 
+        writer.writeStartElement(prefix, CorrelationIDPolicyBuilder.CORRELATION_ID_NAME, 
         		CorrelationIDPolicyBuilder.NAMESPACE);
 
         // xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
         writer.writeNamespace(prefix, CorrelationIDPolicyBuilder.NAMESPACE);
 
         // attributes
-        writer.writeAttribute(null, "method", methodType.name());
-        writer.writeAttribute(null, "value", value);
+        writer.writeAttribute(null, "type", methodType.name().toLowerCase());
+        // value used for xpath
+        writer.writeCharacters(value);
 
         // </tpa:SchemaValidation>
         writer.writeEndElement();

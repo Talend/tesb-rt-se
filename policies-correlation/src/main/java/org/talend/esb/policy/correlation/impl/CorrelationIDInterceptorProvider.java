@@ -29,7 +29,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
     private static final long serialVersionUID = 5698743589425687361L;
 
     public CorrelationIDInterceptorProvider() {
-        super(Arrays.asList(CorrelationIDPolicyBuilder.CORRELATION_ID_SCHEMA));
+        super(Arrays.asList(CorrelationIDPolicyBuilder.CORRELATION_ID));
 
         this.getOutInterceptors().add(new CorrelationIDPolicyOutInterceptor());
         this.getOutFaultInterceptors().add(new CorrelationIDPolicyOutInterceptor());
@@ -82,7 +82,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
     static void process(Message message) throws SAXException, IOException, ParserConfigurationException {
         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
         if (aim != null) {
-            Collection<AssertionInfo> ais = aim.get(CorrelationIDPolicyBuilder.CORRELATION_ID_SCHEMA);
+            Collection<AssertionInfo> ais = aim.get(CorrelationIDPolicyBuilder.CORRELATION_ID);
 
             if (ais == null) {
                 return;

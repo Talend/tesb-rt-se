@@ -374,15 +374,6 @@
             <directory>target/add-ons</directory>
             <outputDirectory>/add-ons</outputDirectory>
         </fileSet>
-        <fileSet>
-            <directory>${basedir}/../policies-correlation/src/main/resources</directory>
-            <outputDirectory>/add-ons/registry/policies</outputDirectory>
-            <includes>
-            	<include>wspolicy_schema_correlation_id.policy</include>
-            </includes>
-            <fileMode>0644</fileMode>
-            <directoryMode>755</directoryMode>
-        </fileSet>
 
         <!-- Copy Locator proxy resources -->
         <fileSet>
