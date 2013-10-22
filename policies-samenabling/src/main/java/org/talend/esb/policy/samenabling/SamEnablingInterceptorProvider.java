@@ -28,8 +28,7 @@ import org.talend.esb.sam.agent.feature.EventFeature;
 
 import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 
-public class SamEnablingInterceptorProvider extends
-        AbstractPolicyInterceptorProvider {
+public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorProvider {
 
     /**
      * 
@@ -51,7 +50,7 @@ public class SamEnablingInterceptorProvider extends
             AbstractPhaseInterceptor<Message> {
 
         public SAMEnableOutInterceptor() {
-            super(Phase.POST_LOGICAL_ENDING);
+            super(Phase.SETUP);
         }
 
         @Override
@@ -77,86 +76,73 @@ public class SamEnablingInterceptorProvider extends
 
     static void process(Message message) {
         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
+
         if (aim != null) {
-            Collection<AssertionInfo> ais = aim
-                    .get(SamEnablingPolicyBuilder.SAM_ENABLE);
+            Collection<AssertionInfo> ais = aim.get(SamEnablingPolicyBuilder.SAM_ENABLE);
+            if (ais != null) {
+                for (AssertionInfo ai : ais) {
+                    if (ai.getAssertion() instanceof SamEnablingPolicy) {
+                        SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai.getAssertion();
 
-            if (ais == null) {
-                return;
-            }
+                        AppliesToType appliesToType = vPolicy.getAppliesToType();
 
-            for (AssertionInfo ai : ais) {
-                if (ai.getAssertion() instanceof SamEnablingPolicy) {
-                    SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai
-                            .getAssertion();
+                        // Service service = ServiceModelUtil.getService(message
+                        // .getExchange());
+                        Exchange ex = message.getExchange();
+                        Bus b = ex.getBus();
 
-                    AppliesToType appliesToType = vPolicy.getAppliesToType();
-
-                    // Service service = ServiceModelUtil.getService(message
-                    // .getExchange());
-                    Exchange ex = message.getExchange();
-                    Bus b = ex.getBus();
-
-                    if (b.getFeatures().contains(EventFeature.class))
-                        return;
-                    
-                    Endpoint ep = ex.getEndpoint();
-
-                    BundleContext context = b.getExtension(BundleContext.class);
-                    ServiceReference sref = context
-                            .getServiceReference(EventFeature.class.getName());
-
-                    EventFeature eventFeature = (EventFeature) context
-                            .getService(sref);
-
-                    if (MessageUtils.isRequestor(message)) {
-                        if (MessageUtils.isOutbound(message)) { // REQ_OUT
-                            if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
-                                Client cli = ex.get(Client.class);
-                                eventFeature.initialize(cli, b);
-                            }
-                        } else { // RESP_IN
-                            if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
-                                Client cli = ex.get(Client.class);
-                                eventFeature.initialize(cli, b);
-                            }
+                        if (b.getFeatures().contains(EventFeature.class)) {
+                            ai.setAsserted(true);
+                            return;
                         }
-                    } else {
-                        ServerRegistry registry = b
-                                .getExtension(ServerRegistry.class);
-                        List<Server> servers = registry.getServers();
-                        if (MessageUtils.isOutbound(message)) { // RESP_OUT
-                            if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
-                                for (Server sr : servers) {
-                                    EndpointInfo ei = sr.getEndpoint()
-                                            .getEndpointInfo();
-                                    if (null != ei
-                                            && ei.getAddress().equals(
-                                                    ep.getEndpointInfo()
-                                                            .getAddress())) {
-                                        eventFeature.initialize(sr, b);
-                                    }
+                        Endpoint ep = ex.getEndpoint();
+
+                        BundleContext context = b.getExtension(BundleContext.class);
+                        ServiceReference sref = context
+                                .getServiceReference(EventFeature.class.getName());
+
+                        EventFeature eventFeature = (EventFeature) context.getService(sref);
+
+                        if (MessageUtils.isRequestor(message)) {
+                            if (MessageUtils.isOutbound(message)) { // REQ_OUT
+                                if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
+                                    Client cli = ex.get(Client.class);
+                                    eventFeature.initialize(cli, b);
+                                }
+                            } else { // RESP_IN
+                                if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
+                                    Client cli = ex.get(Client.class);
+                                    eventFeature.initialize(cli, b);
                                 }
                             }
-                        } else { // REQ_IN
-                            if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
-                                for (Server sr : servers) {
-                                    EndpointInfo ei = sr.getEndpoint()
-                                            .getEndpointInfo();
-                                    if (null != ei
-                                            && ei.getAddress().equals(
-                                                    ep.getEndpointInfo()
-                                                            .getAddress())) {
-                                        eventFeature.initialize(sr, b);
+                        } else {
+                            ServerRegistry registry = b.getExtension(ServerRegistry.class);
+                            List<Server> servers = registry.getServers();
+                            if (MessageUtils.isOutbound(message)) { // RESP_OUT
+                                if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
+                                    for (Server sr : servers) {
+                                        EndpointInfo ei = sr.getEndpoint().getEndpointInfo();
+                                        if (null != ei && ei.getAddress().equals(ep.getEndpointInfo().getAddress())) {
+                                            eventFeature.initialize(sr, b);
+                                        }
+                                    }
+                                }
+                            } else { // REQ_IN
+                                if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
+                                    for (Server sr : servers) {
+                                        EndpointInfo ei = sr.getEndpoint().getEndpointInfo();
+                                        if (null != ei && ei.getAddress().equals(ep.getEndpointInfo().getAddress())) {
+                                            eventFeature.initialize(sr, b);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-
                 }
+            }
+            for (AssertionInfo ai : ais) {
                 ai.setAsserted(true);
-                return;
             }
         }
     }
