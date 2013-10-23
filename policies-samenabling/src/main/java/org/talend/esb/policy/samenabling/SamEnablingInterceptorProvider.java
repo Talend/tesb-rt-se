@@ -11,6 +11,7 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
 //import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.interceptor.Interceptor;
 
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
@@ -25,10 +26,13 @@ import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.sam.agent.wiretap.WireTapIn;
+import org.talend.esb.sam.agent.wiretap.WireTapOut;
 
 import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 
-public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorProvider {
+public class SamEnablingInterceptorProvider extends
+        AbstractPolicyInterceptorProvider {
 
     /**
      * 
@@ -78,13 +82,16 @@ public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorPro
         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
 
         if (aim != null) {
-            Collection<AssertionInfo> ais = aim.get(SamEnablingPolicyBuilder.SAM_ENABLE);
+            Collection<AssertionInfo> ais = aim
+                    .get(SamEnablingPolicyBuilder.SAM_ENABLE);
             if (ais != null) {
                 for (AssertionInfo ai : ais) {
                     if (ai.getAssertion() instanceof SamEnablingPolicy) {
-                        SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai.getAssertion();
+                        SamEnablingPolicy vPolicy = (SamEnablingPolicy) ai
+                                .getAssertion();
 
-                        AppliesToType appliesToType = vPolicy.getAppliesToType();
+                        AppliesToType appliesToType = vPolicy
+                                .getAppliesToType();
 
                         // Service service = ServiceModelUtil.getService(message
                         // .getExchange());
@@ -97,17 +104,28 @@ public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorPro
                         }
                         Endpoint ep = ex.getEndpoint();
 
-                        BundleContext context = b.getExtension(BundleContext.class);
+                        BundleContext context = b
+                                .getExtension(BundleContext.class);
                         ServiceReference sref = context
-                                .getServiceReference(EventFeature.class.getName());
+                                .getServiceReference(EventFeature.class
+                                        .getName());
 
-                        EventFeature eventFeature = (EventFeature) context.getService(sref);
+                        EventFeature eventFeature = (EventFeature) context
+                                .getService(sref);
 
                         if (MessageUtils.isRequestor(message)) {
                             if (MessageUtils.isOutbound(message)) { // REQ_OUT
                                 if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
                                     Client cli = ex.get(Client.class);
-                                    eventFeature.initialize(cli, b);
+                                    if (!cli.getOutInterceptors().contains(
+                                            WireTapOut.class)) {
+                                        eventFeature.initialize(cli, b);
+                                        List<Interceptor<? extends Message>> outInterceptors = cli
+                                                .getOutInterceptors();
+                                        message.getInterceptorChain().add(
+                                                outInterceptors);
+                                        outInterceptors.getClass();
+                                    }
                                 }
                             } else { // RESP_IN
                                 if ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)) {
@@ -116,13 +134,18 @@ public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorPro
                                 }
                             }
                         } else {
-                            ServerRegistry registry = b.getExtension(ServerRegistry.class);
+                            ServerRegistry registry = b
+                                    .getExtension(ServerRegistry.class);
                             List<Server> servers = registry.getServers();
                             if (MessageUtils.isOutbound(message)) { // RESP_OUT
                                 if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
                                     for (Server sr : servers) {
-                                        EndpointInfo ei = sr.getEndpoint().getEndpointInfo();
-                                        if (null != ei && ei.getAddress().equals(ep.getEndpointInfo().getAddress())) {
+                                        EndpointInfo ei = sr.getEndpoint()
+                                                .getEndpointInfo();
+                                        if (null != ei
+                                                && ei.getAddress().equals(
+                                                        ep.getEndpointInfo()
+                                                                .getAddress())) {
                                             eventFeature.initialize(sr, b);
                                         }
                                     }
@@ -130,9 +153,22 @@ public class SamEnablingInterceptorProvider extends AbstractPolicyInterceptorPro
                             } else { // REQ_IN
                                 if ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)) {
                                     for (Server sr : servers) {
-                                        EndpointInfo ei = sr.getEndpoint().getEndpointInfo();
-                                        if (null != ei && ei.getAddress().equals(ep.getEndpointInfo().getAddress())) {
+                                        EndpointInfo ei = sr.getEndpoint()
+                                                .getEndpointInfo();
+                                        if (null != ei
+                                                && ei.getAddress().equals(
+                                                        ep.getEndpointInfo()
+                                                                .getAddress())
+                                                && (!sr.getEndpoint()
+                                                        .getInInterceptors()
+                                                        .contains(
+                                                                WireTapIn.class))) {
                                             eventFeature.initialize(sr, b);
+                                            List<Interceptor<? extends Message>> inInterceptors = sr
+                                                    .getEndpoint()
+                                                    .getInInterceptors();
+                                            message.getInterceptorChain().add(
+                                                    inInterceptors);
                                         }
                                     }
                                 }
