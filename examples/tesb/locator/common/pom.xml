@@ -25,14 +25,6 @@
         <version>5.4.0</version>
     </parent>
 
-    <dependencies>
-        <dependency>   
-	          <groupId>log4j</groupId>
-	          <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
