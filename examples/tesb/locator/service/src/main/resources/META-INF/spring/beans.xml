@@ -9,7 +9,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
   
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
   
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,22 +25,16 @@
 	xmlns:p="http://cxf.apache.org/policy"
 	xmlns:wsp="http://www.w3.org/ns/ws-policy"
 	xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
 		http://www.w3.org/ns/ws-policy http://www.w3.org/2007/02/ws-policy.xsd">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
-	
 	<jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
 			id="greeter_Https"
 			implementor="demo.service.Greeter_HttpsImpl"
 			serviceName="tns:Greeter_HttpsService"
 			address="/Greeter_HttpsService">
-		<!--jaxws:properties>
-		    <entry key="org.talend.tesb.endpoint.secured" value="true"/>
-		</jaxws:properties-->
 		<jaxws:features>
 			<p:policies>
 				<wsp:Policy>
@@ -49,22 +43,22 @@
 						  <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
 							<wsp:Policy>
 							  <sp:TransportToken>
-							    <wsp:Policy>
-							      <sp:HttpsToken RequireClientCertificate="false"/>
-							    </wsp:Policy>
+								<wsp:Policy>
+								  <sp:HttpsToken RequireClientCertificate="false"/>
+								</wsp:Policy>
 							  </sp:TransportToken>
 							</wsp:Policy>
 						  </sp:TransportBinding>
 						</wsp:All>
 					</wsp:ExactlyOne>
 				</wsp:Policy>
-			</p:policies>	
-			
+			</p:policies>
+
 			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/>
-			
+
 		</jaxws:features>
 	</jaxws:endpoint>
-	
+
 	<jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
 			id="greeter"
 			implementor="demo.service.GreeterImpl"

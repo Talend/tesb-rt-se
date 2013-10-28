@@ -27,35 +27,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>locator</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>locator-demo-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 
@@ -68,18 +42,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans, locator</Require-Bundle>
-<Import-Package>
-META-INF.tesb.locator, demo.common, javax.jws, org.springframework.context.support, org.talend.esb.servicelocator.cxf
-</Import-Package>
                     </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>demo.service.Server</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -94,7 +94,7 @@
         <cxf.version>2.7.7</cxf.version>
         <camel.version>2.12.1</camel.version>
         <activemq.version>5.7.0</activemq.version>
-        <spring.version>3.2.3.RELEASE</spring.version>
+        <spring.version>3.2.4.RELEASE</spring.version>
         <karaf.version>2.3.3</karaf.version>
         <zookeeper.version>3.3.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
