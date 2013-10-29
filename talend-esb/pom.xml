@@ -134,105 +134,148 @@
 						        <feature>camel-core</feature>
 						        <feature>camel-spring</feature>
 						        <feature>camel-blueprint</feature>
-						        <feature>camel-test</feature>
-						        <feature>camel-context</feature>
-						        <feature>camel-cxf</feature>
-						        <feature>camel-cache</feature>
-						        <feature>camel-castor</feature>
-						        <feature>camel-crypto</feature>
-						        <feature>camel-http</feature>
-						        <feature>camel-http4</feature>
-						        <feature>camel-mina</feature>
-                                <feature>camel-mina2</feature>
-						        <feature>camel-jetty</feature>
-						        <feature>camel-servlet</feature>
-						        <feature>camel-jms</feature>
-						        <feature>camel-jmx</feature>
                                 <feature>camel-ahc</feature>
 						        <feature>camel-amqp</feature>
+                                <feature>camel-apns</feature>
 						        <feature>camel-atom</feature>
+                                <feature>camel-avro</feature>
 						        <feature>camel-aws</feature>
 						        <feature>camel-bam</feature>
+						        <feature>camel-base64</feature>
 						        <feature>camel-bean-validator</feature>
+						        <feature>camel-beanio</feature>
 						        <feature>camel-bindy</feature>
+						        <feature>camel-cache</feature>
+						        <feature>camel-castor</feature>
+                                <feature>camel-cmis</feature>
 						        <feature>camel-cometd</feature>
+						        <feature>camel-context</feature>
+                                <feature>camel-couchdb</feature>
+						        <feature>camel-crypto</feature>
 						        <feature>camel-csv</feature>
+						        <feature>camel-cxf</feature>
+                                <feature>camel-disruptor</feature>
+                                <feature>camel-dns</feature>
 						        <feature>camel-dozer</feature>
+                                <feature>camel-elasticsearch</feature>
 						        <feature>camel-eventadmin</feature>
 						        <feature>camel-exec</feature>
+						        <feature>camel-facebook</feature>
 						        <feature>camel-flatpack</feature>
+                                <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
-                                <feature>camel-jsch</feature>
-						        <feature>camel-guice</feature>
+                                <feature>camel-gae</feature>
+                                <feature>camel-geocoder</feature>
 						        <feature>camel-groovy</feature>
-						        <feature>camel-hazelcast</feature>
+						        <feature>camel-gson</feature>
+                                <feature>camel-guava-eventbus</feature>
+						        <feature>camel-guice</feature>
 						        <feature>camel-hawtdb</feature>
+						        <feature>camel-hazelcast</feature>
+                                <feature>camel-hbase</feature>
                                 <feature>camel-hdfs</feature>
                                 <feature>camel-hl7</feature>
+						        <feature>camel-http</feature>
+						        <feature>camel-http4</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-irc</feature>
 						        <feature>camel-jackson</feature>
 						        <feature>camel-jasypt</feature>
 						        <feature>camel-jaxb</feature>
+						        <feature>camel-jclouds</feature>
 						        <feature>camel-jcr</feature>
-						        <feature>camel-jing</feature>
-						        <feature>camel-jibx</feature>
 						        <feature>camel-jdbc</feature>
+						        <feature>camel-jetty</feature>
+						        <feature>camel-jibx</feature>
+						        <feature>camel-jing</feature>
+						        <feature>camel-jms</feature>
+						        <feature>camel-jmx</feature>
 						        <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
-						        <feature>camel-jxpath</feature>
+                                <feature>camel-jsch</feature>
+						        <feature>camel-jt400</feature>
 						        <feature>camel-juel</feature>
+						        <feature>camel-jxpath</feature>
 						        <feature>camel-kestrel</feature>
                                 <feature>camel-krati</feature>
 						        <feature>camel-ldap</feature>
 						        <feature>camel-lucene</feature>
 						        <feature>camel-mail</feature>
+						        <feature>camel-mina</feature>
+                                <feature>camel-mina2</feature>
+                                <feature>camel-mongodb</feature>
+                                <feature>camel-mqtt</feature>
 						        <feature>camel-msv</feature>
+                                <feature>camel-mustache</feature>
 						        <feature>camel-mvel</feature>
                                 <feature>camel-mybatis</feature>
 						        <feature>camel-nagios</feature>
 						        <feature>camel-netty</feature>
+                                <feature>camel-netty-http</feature>
 						        <feature>camel-ognl</feature>
 						        <feature>camel-paxlogging</feature>
 						        <feature>camel-printer</feature>
 						        <feature>camel-protobuf</feature>
 						        <feature>camel-quartz</feature>
+                                <feature>camel-quartz2</feature>
 						        <feature>camel-quickfix</feature>
+                                <feature>camel-rabbitmq</feature>
                                 <feature>camel-restlet</feature>
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
-                                <feature>camel-ruby</feature>
 						        <feature>camel-rss</feature>
-						        <feature>camel-saxon</feature>
+                                <feature>camel-ruby</feature>
+						        <feature>camel-rx</feature>
+                                <feature>camel-sap-netweaver</feature>
+                                <feature>camel-salesforce</feature>
+                                <feature>camel-saxon</feature>
 						        <feature>camel-scala</feature>
                                 <feature>camel-script-jruby</feature>
                                 <feature>camel-script-javascript</feature>
                                 <feature>camel-script-groovy</feature>
 						        <feature>camel-script</feature>
-						        <feature>camel-sip</feature>
+						        <feature>camel-servlet</feature>
+						        <feature>camel-servletlistener</feature>
 						        <feature>camel-shiro</feature>
+						        <feature>camel-sip</feature>
+                                <feature>camel-sjms</feature>
 						        <feature>camel-smpp</feature>
 						        <feature>camel-snmp</feature>
 						        <feature>camel-soap</feature>
                                 <feature>camel-solr</feature>
+                                <feature>camel-spring-batch</feature>
                                 <feature>camel-spring-integration</feature>
 						        <feature>camel-spring-javaconfig</feature>
+                                <feature>camel-spring-ldap</feature>
+                                <feature>camel-spring-redis</feature>
 						        <feature>camel-spring-security</feature>
 						        <feature>camel-spring-ws</feature>
 						        <feature>camel-sql</feature>
+                                <feature>camel-ssh</feature>
                                 <feature>camel-stax</feature>
 						        <feature>camel-stream</feature>
+                                <feature>camel-stomp</feature>
 						        <feature>camel-string-template</feature>
 						        <feature>camel-syslog</feature>
 						        <feature>camel-tagsoup</feature>
+						        <feature>camel-test</feature>
+						        <feature>camel-test-spring</feature>
+                                <feature>camel-twitter</feature>
+                                <feature>camel-urlrewrite</feature>
+						        <feature>camel-vertx</feature>
 						        <feature>camel-velocity</feature>
-						        <feature>camel-xmlbeans</feature>
+                                <feature>camel-weather</feature>
+                                <feature>camel-websocket</feature>
+                                <feature>camel-xmlbeans</feature>
+                                <feature>camel-xmljson</feature>
+                                <feature>camel-xmlrpc</feature>
 						        <feature>camel-xmlsecurity</feature>
 						        <feature>camel-xmpp</feature>
 						        <feature>camel-xstream</feature>
+                                <feature>camel-yammer</feature>
+                                <feature>camel-zipfile</feature>
                                 <feature>camel-zookeeper</feature>
-								
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-datasource-derby</feature>
