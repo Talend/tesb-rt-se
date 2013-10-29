@@ -125,7 +125,7 @@ public class MessageToEventMapper {
         if (null != addr) {
             event.getCustomInfo().put("address", addr);
         }
-        
+
         String correlationId = CorrelationIdHelper.getCorrelationId(message);
         if (null != correlationId) {
             event.getCustomInfo().put("CorrelationID", correlationId);
@@ -403,7 +403,7 @@ public class MessageToEventMapper {
      * @param message
      * @return
      */
-    private boolean isRestMessage(Message message) {
+    static boolean isRestMessage(Message message) {
         //String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
         return !(message.getExchange().getBinding() instanceof SoapBinding);
     }

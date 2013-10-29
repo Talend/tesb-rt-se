@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,9 +45,9 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     private final MessageToEventMapper mapper;
     private final Queue<Event> queue;
     private EventHandler handler;
-    
+
     private static final String SAM_OPERATION = "{http://www.talend.org/esb/sam/MonitoringService/v1}putEvents";
-    
+
     /**
      * Instantiates a new event producer interceptor.
      *
@@ -85,22 +85,31 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         BindingOperationInfo boi = message.getExchange().getBindingOperationInfo();
         if (null != boi){
             String operationName = boi.getName().toString();
-            if (SAM_OPERATION.equals(operationName)) return;
+            if (SAM_OPERATION.equals(operationName)) {
+                return;
+            }
+        }
+
+        if (isRestWadlRequestMessage(message)) {
+            // skip handling REST service WADL requests - temporary fix since will be fixed in CXF soon
+            return;
         }
 
         //check MessageID
         checkMessageID(message);
 
         Event event = mapper.mapToEvent(message);
-        
-        if (handler != null) {
+
+        if (null != handler) {
             handler.handleEvent(event);
         }
         if (LOG.isLoggable(Level.FINE)) {
             String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
             LOG.fine("Store event [message_id=" + id + "] in cache.");
         }
-        if(event != null) queue.add(event);
+        if (null != event) {
+            queue.add(event);
+        }
     }
 
     /**
@@ -121,6 +130,20 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             maps.setMessageID(ContextUtils.getAttributedURI(messageID));
             ContextUtils.storeMAPs(maps, message, ContextUtils.isOutbound(message), isRequestor);
         }
+    }
 
+    private boolean isRestWadlRequestMessage(Message message) {
+        if (MessageToEventMapper.isRestMessage(message)) {
+            String queryString = (String) message.get(Message.QUERY_STRING);
+            if (null != queryString) {
+                String[] queryParams = queryString.split("&");
+                for (String param : queryParams) {
+                    if ("_wadl".equals(param) || param.startsWith("_wadl=")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
