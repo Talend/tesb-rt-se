@@ -359,8 +359,6 @@
                 <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
-                <!-- patch for spring-oxm version (TESB-9359) -->
-                <exclude>org/springframework/spring-oxm/**</exclude>
                 <!-- patch xmlsec bundle (TESB-11262) -->
                 <exclude>org/apache/santuario/xmlsec/**</exclude>
                 <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->

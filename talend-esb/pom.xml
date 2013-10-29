@@ -691,10 +691,6 @@
                                     <replacefilter
                                         token="xbean-blueprint/3.11.1"
                                         value="xbean-blueprint/${xbean.version}"/>
-                                    <!-- patch for spring-oxm version (TESB-9359) -->
-                                    <replacefilter
-                                        token="spring-oxm/3.0.7.RELEASE"
-                                        value="org.springframework.oxm/${spring-oxm.version}"/>
                                 </replace>
                             </target>
                         </configuration>
