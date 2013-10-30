@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -90,7 +91,7 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             }
         }
 
-        if (isRestWadlRequestMessage(message)) {
+        if (isRestWadlRequest(message)) {
             // skip handling REST service WADL requests - temporary fix since will be fixed in CXF soon
             return;
         }
@@ -132,15 +133,35 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         }
     }
 
-    private boolean isRestWadlRequestMessage(Message message) {
+    private boolean isRestWadlRequest(Message message) {
         if (MessageToEventMapper.isRestMessage(message)) {
             String queryString = (String) message.get(Message.QUERY_STRING);
-            if (null != queryString) {
-                String[] queryParams = queryString.split("&");
-                for (String param : queryParams) {
-                    if ("_wadl".equals(param) || param.startsWith("_wadl=")) {
-                        return true;
+            boolean isRestWadlRequest = isRestWadlRequest(queryString);
+            if (isRestWadlRequest) {
+                return true;
+            }
+
+            // unfortunately response for WADL request do not contain request QUERY_STRING
+            if (MessageUtils.isOutbound(message)) {
+                Exchange ex = message.getExchange();
+                if (null != ex) {
+                    Message requestMessage = ex.getInMessage();
+                    if (null != requestMessage) {
+                        queryString = (String) requestMessage.get(Message.QUERY_STRING);
+                        return isRestWadlRequest(queryString);
                     }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isRestWadlRequest(String requestQueryString) {
+        if (null != requestQueryString) {
+            String[] queryParams = requestQueryString.split("&");
+            for (String param : queryParams) {
+                if ("_wadl".equals(param) || param.startsWith("_wadl=")) {
+                    return true;
                 }
             }
         }
