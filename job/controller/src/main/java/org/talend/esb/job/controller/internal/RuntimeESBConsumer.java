@@ -92,6 +92,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final ClientFactoryBean clientFactory;
 
     private Client client;
+    private STSClient stsClient;
 
 	private boolean enhancedResponse;
 
@@ -185,7 +186,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
             final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
 
-            final STSClient stsClient = new STSClient(bus);
+            stsClient = new STSClient(bus);
             stsClient.setServiceQName(
                 new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
 
@@ -338,6 +339,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private Client getClient() throws BusException, EndpointException {
         if (client == null) {
             client = clientFactory.create();
+
+            //fix TESB-11750
+            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
+            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
+                    ((String) isAuthzPolicyApplied).equals("false")) {
+                stsClient.setClaimsCallbackHandler(null);
+            }
 
             if (null != authorizationPolicy) {
                 HTTPConduit conduit = (HTTPConduit) client.getConduit();
