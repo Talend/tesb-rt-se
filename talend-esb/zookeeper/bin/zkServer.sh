@@ -76,7 +76,7 @@ start)
     echo  "Starting zookeeper ... "
     java  "-Dzookeeper.log.dir=${ZOO_LOG_DIR}" "-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}" \
     -cp "$CLASSPATH" $JVMFLAGS $ZOOMAIN "$ZOOCFG" &
-    /bin/echo -n $! > "$ZOOPIDFILE"
+    /bin/echo $! > "$ZOOPIDFILE"
     echo STARTED
     ;;
 stop)
