@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.util.Dictionary;
 import java.util.concurrent.FutureTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.osgi.service.cm.ConfigurationException;
@@ -79,8 +80,11 @@ public class SimpleJobTask implements ManagedService, JobTask  {
                 Thread.currentThread().setContextClassLoader(job.getClass().getClassLoader());
                 int ret = job.runJobInTOS(args);
                 LOG.info("Job " + name + " finished, return code is " + ret);
+            } catch (RuntimeException ex) {
+                ex.printStackTrace();
+                LOG.log(Level.SEVERE, "RuntimeException when invoking runJobInTOS()", ex);
             } finally {
-                Thread.currentThread().setContextClassLoader(oldContextCL);            
+                Thread.currentThread().setContextClassLoader(oldContextCL);
             }
         }
     }

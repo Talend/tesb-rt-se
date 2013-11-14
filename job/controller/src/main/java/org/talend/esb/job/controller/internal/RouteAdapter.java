@@ -77,6 +77,9 @@ public class RouteAdapter implements ManagedService, JobTask {
             Thread.currentThread().setContextClassLoader(route.getClass().getClassLoader());
             int ret = route.runJobInTOS(args);
             LOG.info("Route " + name + " finished, return code is " + ret);
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            LOG.log(Level.SEVERE, "RuntimeException when invoking runJobInTOS()", ex);
         } finally {
             Thread.currentThread().setContextClassLoader(oldContextCL);
         }

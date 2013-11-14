@@ -122,6 +122,9 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
                         + ret);
 
             }
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            LOG.log(Level.SEVERE, "RuntimeException when invoking runJobInTOS()", ex);
         } finally {
             Thread.currentThread().setContextClassLoader(oldContextCL);
         }
