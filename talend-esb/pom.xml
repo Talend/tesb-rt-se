@@ -40,6 +40,7 @@
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
+        <xmlsec.version>1.5.6</xmlsec.version>
 	</properties>
 
 	<dependencies>
@@ -390,12 +391,11 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch xmlsec bundle (TESB-11262) -->
+                                <!-- patch xmlsec bundle (TESB-12067) -->
                                 <artifactItem>
                                     <groupId>org.apache.santuario</groupId>
                                     <artifactId>xmlsec</artifactId>
-                                    <version>1.5.5</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${xmlsec.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
@@ -654,10 +654,10 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- patch xmlsec bundle (TESB-11262) -->
+                                    <!-- patch xmlsec bundle (TESB-12067) -->
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.santuario/xmlsec/1.5.5&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.santuario/xmlsec/1.5.5/jar/TESB&lt;</replacevalue>
+                                        <replacevalue>mvn:org.apache.santuario/xmlsec/${xmlsec.version}&lt;</replacevalue>
                                     </replacefilter>
                                     <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
                                     <replacefilter>
@@ -679,10 +679,10 @@
                                         <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- patch xmlsec bundle (TESB-11262) -->
+                                    <!-- patch xmlsec bundle (TESB-12067) -->
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.santuario/xmlsec/1.5.5&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.santuario/xmlsec/1.5.5/jar/TESB&lt;</replacevalue>
+                                        <replacevalue>mvn:org.apache.santuario/xmlsec/${xmlsec.version}&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">

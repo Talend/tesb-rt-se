@@ -359,7 +359,7 @@
                 <!-- patch for xbean-blueprint version (TESB-9304) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
-                <!-- patch xmlsec bundle (TESB-11262) -->
+                <!-- patch xmlsec bundle (TESB-12067) -->
                 <exclude>org/apache/santuario/xmlsec/**</exclude>
                 <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
                 <exclude>org/apache/camel/camel-blueprint/**</exclude>
@@ -543,10 +543,10 @@
             <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch xmlsec bundle (TESB-11262) -->
+        <!-- patch xmlsec bundle (TESB-12067) -->
         <file>
-            <source>${basedir}/target/dependencies/xmlsec-1.5.5-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/santuario/xmlsec/1.5.5/</outputDirectory>
+            <source>${basedir}/target/dependencies/xmlsec-${xmlsec.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/santuario/xmlsec/${xmlsec.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
