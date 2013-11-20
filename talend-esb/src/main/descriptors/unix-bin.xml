@@ -364,6 +364,8 @@
                 <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
                 <exclude>org/apache/camel/camel-blueprint/**</exclude>
                 <exclude>org/apache/camel/camel-spring/**</exclude>
+                <!-- patch camel-paxlogging bundle (TESB-11291) -->
+                <exclude>org/apache/camel/camel-paxlogging/**</exclude>
             </excludes>
         </fileSet>
 
@@ -558,6 +560,12 @@
         <file>
             <source>${basedir}/target/dependencies/camel-spring-2.12.1-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-spring/2.12.1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch camel-paxlogging bundle (TESB-11291) -->
+        <file>
+            <source>${basedir}/target/dependencies/camel-paxlogging-2.12.1-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-paxlogging/2.12.1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

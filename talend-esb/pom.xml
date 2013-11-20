@@ -416,6 +416,15 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- patch camel-paxlogging bundle (TESB-11291) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-paxlogging</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -667,6 +676,11 @@
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.camel/camel-spring/2.12.1&lt;</replacetoken> 
                                         <replacevalue>mvn:org.apache.camel/camel-spring/2.12.1/jar/TESB&lt;</replacevalue>
+                                    </replacefilter>
+                                    <!-- patch camel-paxlogging bundle (TESB-11291) -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-paxlogging/2.12.1&lt;</replacetoken> 
+                                        <replacevalue>mvn:org.apache.camel/camel-paxlogging/2.12.1/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
