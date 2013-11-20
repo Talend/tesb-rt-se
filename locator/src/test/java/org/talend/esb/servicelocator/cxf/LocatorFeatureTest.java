@@ -17,7 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.servicelocator.cxf.internal;
+package org.talend.esb.servicelocator.cxf;
+
+import static org.easymock.EasyMock.expect;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +31,7 @@ import org.apache.cxf.bus.managers.ClientLifeCycleManagerImpl;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ClientImpl;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
+import org.apache.cxf.endpoint.ConduitSelectorHolder;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.endpoint.EndpointImpl;
@@ -40,9 +43,17 @@ import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.esb.servicelocator.cxf.LocatorFeature;
-
-import static org.easymock.EasyMock.expect;
+import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy;
+import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategyFactory;
+import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy;
+import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategyFactory;
+import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler;
+import org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar;
+import org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategyFactory;
+import org.talend.esb.servicelocator.cxf.internal.LocatorTargetSelector;
+import org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy;
+import org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategyFactory;
+import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 public class LocatorFeatureTest extends EasyMockSupport {
 
@@ -301,7 +312,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
         LocatorFeature lf = new LocatorFeature();
         lf.setSelectionStrategy("randomSelectionStrategy");
 
-        lf.initialize(client, busMock);
+        lf.initialize((ConduitSelectorHolder) client, busMock);
 
         Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector()).getStrategy()
                 instanceof RandomSelectionStrategy);

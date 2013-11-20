@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.endpoint.ConduitSelector;
+import org.apache.cxf.endpoint.ConduitSelectorHolder;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
@@ -152,14 +152,6 @@ public class LocatorClientEnabler {
             LOG.log(Level.FINE, "Successfully enabled client " + conduitSelectorHolder
                     + " for the service locator");
         }
-    }
-
-    interface ConduitSelectorHolder {
-
-        ConduitSelector getConduitSelector();
-
-        void setConduitSelector(ConduitSelector selector);
-
     }
 
 }

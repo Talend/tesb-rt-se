@@ -19,6 +19,16 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,17 +40,6 @@ import org.easymock.Capture;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler.ConduitSelectorHolder;
-
-import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
 
 public class LocatorClientEnablerTest {
 
@@ -78,7 +77,7 @@ public class LocatorClientEnablerTest {
         // clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
         clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
         clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
-        clientRegistrar.enable(wrap(client));
+        clientRegistrar.enable(client);
 
         LocatorTargetSelector selector = capturedSelector.getValue();
         assertEquals(endpoint, selector.getEndpoint());
@@ -92,18 +91,4 @@ public class LocatorClientEnablerTest {
         verify(client);
     }
 
-    private static ConduitSelectorHolder wrap(final Client client) {
-        return new ConduitSelectorHolder() {
-
-            @Override
-            public void setConduitSelector(ConduitSelector selector) {
-                client.setConduitSelector(selector);
-            }
-
-            @Override
-            public ConduitSelector getConduitSelector() {
-                return client.getConduitSelector();
-            }
-        };
-    }
 }
