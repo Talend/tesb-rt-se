@@ -61,6 +61,8 @@ public class TestValues {
     public static final QName SERVICE_QNAME_3 = new QName("http://example.com/services", "service3");
 
     public static final QName SERVICE_QNAME_4 = new QName("http://example.com/services", "service4");
+    
+    public static final QName SERVICE_QNAME_5 = new QName("http://example.com/services", "service5");
 
     public static final String REL_ENDPOINT_1 = "endpoint1";
 
@@ -79,6 +81,8 @@ public class TestValues {
     public static final String ENDPOINT_3 = "http://ep.com/endpoint3";
 
     public static final String ENDPOINT_4 = "http://ep.com/endpoint4";
+    
+    public static final String ENDPOINT_5 = "http://ep.com/endpoint5";
 
     public static final byte[] EMPTY_CONTENT = new byte[0];
 

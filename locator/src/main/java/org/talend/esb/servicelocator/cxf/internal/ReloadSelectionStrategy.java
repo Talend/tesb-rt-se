@@ -33,16 +33,41 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
 
     private int reloadAdressesCount = 10;
 
-    private Map<QName, List<String>> availableAddressesMap = new HashMap<QName, List<String>>();
+    static class ServiceEndpoints {
 
-    private int reloadCounter;
+        private List<String> endpoints;
+
+        private int reloadCounter;
+
+        public List<String> getEndpoints() {
+            return endpoints;
+        }
+
+        public void setEndpoints(List<String> endpoints) {
+            this.endpoints = endpoints;
+        }
+
+        public int getReloadCounter() {
+            return reloadCounter;
+        }
+
+        public void setReloadCounter(int reloadCounter) {
+            this.reloadCounter = reloadCounter;
+        }
+    }
+
+    private static Map<QName, ServiceEndpoints> availableAddressesMap = new HashMap<QName, ServiceEndpoints>();
 
     public void setReloadAdressesCount(int reloadAdressesCount) {
         this.reloadAdressesCount = reloadAdressesCount;
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.
+     * apache.cxf.message.Exchange)
      */
     @Override
     public List<String> getAlternateAddresses(Exchange exchange) {
@@ -50,8 +75,11 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
         return getRotatedAdresses(getServiceName(exchange), true);
     }
 
-    /* (non-Javadoc)
-     * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+     * getPrimaryAddress(org.apache.cxf.message.Exchange)
      */
     @Override
     public String getPrimaryAddress(Exchange exchange) {
@@ -72,40 +100,48 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
     protected abstract List<String> getRotatedList(List<String> strings);
 
     /**
-     * Retrieves a list of endpoint adresses. The list is reloaded if either forceReload is true or
-     * the reloadCounter reaches its limit reloadAdressesCount. The cached (or reloaded) list of endpoint adresses   
+     * Retrieves a list of endpoint adresses. The list is reloaded if either
+     * forceReload is true or the reloadCounter reaches its limit
+     * reloadAdressesCount. The cached (or reloaded) list of endpoint adresses
      * is rotated.
+     * 
      * @param serviceName
      * @param forceReload
      * @return
      */
     private synchronized List<String> getRotatedAdresses(QName serviceName, boolean forceReload) {
-        List<String> availableAddresses = availableAddressesMap.get(serviceName);
-        if (forceReload || isReloadAdresses() || availableAddresses == null || availableAddresses.isEmpty()) {
+        ServiceEndpoints serviceEndpoints = availableAddressesMap.get(serviceName);
+        if (serviceEndpoints == null) {
+            serviceEndpoints = new ServiceEndpoints();
+        }
+        List<String> availableAddresses = serviceEndpoints.getEndpoints();
+        if (forceReload || isReloadAdresses(serviceEndpoints) || availableAddresses == null
+                || availableAddresses.isEmpty()) {
             availableAddresses = getEndpoints(serviceName);
         }
-        if (!availableAddresses.isEmpty()) {
+        if (availableAddresses != null && !availableAddresses.isEmpty()) {
             if (availableAddresses.size() > 1) {
                 availableAddresses = getRotatedList(availableAddresses);
             }
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + " List of endpoints for service " + serviceName + ": "
-                        + availableAddresses);
+                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + " List of endpoints for service "
+                        + serviceName + ": " + availableAddresses);
             }
         } else {
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + "Received empty list of endpoints from locator for service "
-                        + serviceName);
+                LOG.log(Level.FINE, "Strategy = " + this.hashCode()
+                        + "Received empty list of endpoints from locator for service " + serviceName);
             }
         }
-        availableAddressesMap.put(serviceName, availableAddresses);
+        serviceEndpoints.setEndpoints(availableAddresses);
+        availableAddressesMap.put(serviceName, serviceEndpoints);
         // need clone because selectAlternateAddress modifies the list
         return new ArrayList<String>(availableAddresses);
     }
 
-    private synchronized boolean isReloadAdresses() {
-        boolean isReloadAdresses = reloadCounter == 0;
-        reloadCounter = (reloadCounter + 1) % reloadAdressesCount;
+    private synchronized boolean isReloadAdresses(ServiceEndpoints serviceEndpoints) {
+        boolean isReloadAdresses = serviceEndpoints.getReloadCounter() == 0;
+        serviceEndpoints.setReloadCounter((serviceEndpoints.getReloadCounter() + 1) % reloadAdressesCount);
         return isReloadAdresses;
     }
 
