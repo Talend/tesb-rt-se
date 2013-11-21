@@ -121,7 +121,7 @@
 						<configuration>
 							<artifactSet>
 								<includes>
-									<include>org.talend.esb:tesb-hq-plugins-common</include>
+									<include>org.talend.esb.hyperic:tesb-hq-plugins-common</include>
 								</includes>
 							</artifactSet>
 						</configuration>
