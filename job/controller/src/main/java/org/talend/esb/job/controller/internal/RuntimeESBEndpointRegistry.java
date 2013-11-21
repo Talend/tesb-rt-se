@@ -53,7 +53,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
     private Crypto cryptoProvider;
-//    private static final String HTTPS_CONFIG = "https.config";
 
     public void setBus(Bus bus) {
         this.bus = bus;
@@ -114,22 +113,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         if (null != props.get(ESBEndpointConstants.LOG_MESSAGES)) {
             logMessages = ((Boolean) props.get(ESBEndpointConstants.LOG_MESSAGES)).booleanValue();
         }
-        //for future HTTPS checking
-//      boolean useHTTPS = ((Boolean) props
-//                .get(ESBEndpointConstants.USE_HTTPS))
-//                .booleanValue();
-//     boolean useHTTPS = publishedEndpointUrl.startsWith("https://");
-        
-//        if (useHTTPS) {
-//            Bus currentBus = BusFactory.getThreadDefaultBus();
-//            SpringBusFactory bf = new SpringBusFactory();
-//            this.bus = bf.createBus(clientProperties.get(HTTPS_CONFIG));   
-//                if (useServiceLocator) {
-//                    ServiceLocatorManager slm = currentBus.getExtension(ServiceLocatorManager.class);
-//                    bus.setExtension(slm, ServiceLocatorManager.class);
-//                }
-//        }
-        
+
         LocatorFeature slFeature = null;
         if (useServiceLocator) {
             slFeature = new LocatorFeature();

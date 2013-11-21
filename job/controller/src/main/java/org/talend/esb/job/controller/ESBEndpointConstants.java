@@ -33,7 +33,6 @@ public interface ESBEndpointConstants {
     String USE_SERVICE_REGISTRY_PROP = "use.service.registry";
     String USE_CRYPTO = "useCrypto";
     String AUTHZ_ROLE = "role";
-    String USE_HTTPS = "useHTTPS";
     String ESB_SECURITY = "esbSecurity";
     String USERNAME = "username";
     String PASSWORD = "password";
