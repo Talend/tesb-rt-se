@@ -13,10 +13,11 @@ public class SamEnablingPolicy implements Assertion {
     public enum AppliesToType {
         consumer,
         provider,
-        always;
+        always,
+        none;
     }
 
-    private AppliesToType appliesToType = AppliesToType.provider;
+    private AppliesToType appliesToType = AppliesToType.none;
 
     public SamEnablingPolicy(Element element) {
 
