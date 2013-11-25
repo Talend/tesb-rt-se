@@ -105,25 +105,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             org.dom4j.Document requestDoc = new SAXReader()
                     .read(new ByteArrayInputStream(os.toByteArray()));
 
-            Object payload;
-            if (extractHeaders) {
-                Map<String, Object> esbRequest = new HashMap<String, Object>();
-                esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(Header.HEADER_LIST));
-                esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS));
-                esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
-                esbRequest.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, context.getMessageContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
-                payload = esbRequest;
-            } else {
-                payload = requestDoc;
-            }
-            Object result = esbProviderCallback.invoke(payload,
-                    isOperationRequestResponse(operationQName.getLocalPart()));
-
-            // oneway
-            if (result == null) {
-                return null;
-            }
-
             //workaround for CXF-5169
             MessageContext mContext = context.getMessageContext();
             WrappedMessageContext wmc = (WrappedMessageContext)mContext;
@@ -144,6 +125,30 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                 Service service = ServiceModelUtil.getService(message.getExchange());
                 schema = EndpointReferenceUtils.getSchema(service.getServiceInfos().get(0),
                         message.getExchange().getBus());
+            }
+
+            if (null != schema) {
+                Source source = DOM4JMarshaller.documentToSource((org.dom4j.Document) requestDoc);
+                schema.newValidator().validate(source);
+            }
+
+            Object payload;
+            if (extractHeaders) {
+                Map<String, Object> esbRequest = new HashMap<String, Object>();
+                esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(Header.HEADER_LIST));
+                esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(MessageContext.HTTP_REQUEST_HEADERS));
+                esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
+                esbRequest.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, context.getMessageContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
+                payload = esbRequest;
+            } else {
+                payload = requestDoc;
+            }
+            Object result = esbProviderCallback.invoke(payload,
+                    isOperationRequestResponse(operationQName.getLocalPart()));
+
+            // oneway
+            if (result == null) {
+                return null;
             }
 
             if (result instanceof Map<?, ?>) {
