@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>datasource-service</artifactId>
-        <version>5.4.1-SNAPSHOT</version>
+        <version>5.4.1</version>
     </parent>
 
     <name>Service Activity Monitoring :: Datasource-oracle</name>

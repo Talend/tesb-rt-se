@@ -12,14 +12,14 @@
     <parent>
         <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
         <artifactId>dev-guide-java-first</artifactId>
-        <version>5.4.1-SNAPSHOT</version>
+        <version>5.4.1</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
             <artifactId>dev-guide-java-first-service</artifactId>
-            <version>5.4.1-SNAPSHOT</version>
+            <version>5.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
