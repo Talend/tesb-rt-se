@@ -68,6 +68,7 @@
                 <exclude>lib/geronimo-stax-api**</exclude>
                 <exclude>lib/geronimo-ws-metadata**</exclude>
                 <exclude>lib/geronimo-jaxws**</exclude>
+                <exclude>lib/activemq**</exclude>
                 <exclude>samples/**</exclude>
             </excludes>
             <directoryMode>755</directoryMode>
