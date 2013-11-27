@@ -110,32 +110,35 @@ abstract class ReloadSelectionStrategy extends LocatorSelectionStrategy {
      * @return
      */
     private synchronized List<String> getRotatedAdresses(QName serviceName, boolean forceReload) {
-        ServiceEndpoints serviceEndpoints = availableAddressesMap.get(serviceName);
-        if (serviceEndpoints == null) {
-            serviceEndpoints = new ServiceEndpoints();
-        }
-        List<String> availableAddresses = serviceEndpoints.getEndpoints();
-        if (forceReload || isReloadAdresses(serviceEndpoints) || availableAddresses == null
-                || availableAddresses.isEmpty()) {
-            availableAddresses = getEndpoints(serviceName);
-        }
-        if (availableAddresses != null && !availableAddresses.isEmpty()) {
-            if (availableAddresses.size() > 1) {
-                availableAddresses = getRotatedList(availableAddresses);
+        List<String> availableAddresses = null;
+        synchronized (availableAddressesMap) {
+            ServiceEndpoints serviceEndpoints = availableAddressesMap.get(serviceName);
+            if (serviceEndpoints == null) {
+                serviceEndpoints = new ServiceEndpoints();
             }
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Strategy = " + this.hashCode() + " List of endpoints for service "
-                        + serviceName + ": " + availableAddresses);
+            availableAddresses = serviceEndpoints.getEndpoints();
+            if (forceReload || isReloadAdresses(serviceEndpoints) || availableAddresses == null
+                    || availableAddresses.isEmpty()) {
+                availableAddresses = getEndpoints(serviceName);
             }
-        } else {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.log(Level.FINE, "Strategy = " + this.hashCode()
-                        + "Received empty list of endpoints from locator for service " + serviceName);
+            if (availableAddresses != null && !availableAddresses.isEmpty()) {
+                if (availableAddresses.size() > 1) {
+                    availableAddresses = getRotatedList(availableAddresses);
+                }
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.log(Level.FINE, "Strategy = " + this.hashCode() + " List of endpoints for service "
+                            + serviceName + ": " + availableAddresses);
+                }
+            } else {
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.log(Level.FINE, "Strategy = " + this.hashCode()
+                            + "Received empty list of endpoints from locator for service " + serviceName);
+                }
             }
+            serviceEndpoints.setEndpoints(availableAddresses);
+            availableAddressesMap.put(serviceName, serviceEndpoints);
+            // need clone because selectAlternateAddress modifies the list
         }
-        serviceEndpoints.setEndpoints(availableAddresses);
-        availableAddressesMap.put(serviceName, serviceEndpoints);
-        // need clone because selectAlternateAddress modifies the list
         return new ArrayList<String>(availableAddresses);
     }
 

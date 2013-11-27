@@ -40,7 +40,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     @Override
     public synchronized Conduit selectConduit(Message message) {
-        setAddress(message);
+        //setAddress(message); fix for TESB-10915
         return super.selectConduit(message);
     }
 
@@ -79,6 +79,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
                 throw new IllegalStateException("No endpoint found in Service Locator for service "
                         + endpoint.getService().getName());
             }
+
         }
     }
 
