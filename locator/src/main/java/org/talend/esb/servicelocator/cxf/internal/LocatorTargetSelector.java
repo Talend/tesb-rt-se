@@ -40,7 +40,9 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     @Override
     public synchronized Conduit selectConduit(Message message) {
-        //setAddress(message); fix for TESB-10915
+        if (endpoint.getEndpointInfo().getAddress().startsWith(LOCATOR_PROTOCOL)) {
+            setAddress(message);
+        }
         return super.selectConduit(message);
     }
 
