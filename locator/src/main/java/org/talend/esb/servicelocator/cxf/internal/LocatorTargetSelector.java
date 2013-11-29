@@ -33,6 +33,8 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     private static final String LOCATOR_PROTOCOL = "locator://";
 
+    private static final String LOCATOR_SETADDRESS_FLAG = "setAddress.called";
+
     private boolean locatorProtocol;
 
     private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
@@ -40,9 +42,7 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
     @Override
     public synchronized Conduit selectConduit(Message message) {
-        if (endpoint.getEndpointInfo().getAddress().startsWith(LOCATOR_PROTOCOL)) {
-            setAddress(message);
-        }
+        setAddress(message);
         return super.selectConduit(message);
     }
 
@@ -56,32 +56,40 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
     }
 
     protected void setAddress(Message message) {
-        EndpointInfo ei = endpoint.getEndpointInfo();
-        if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
-            // bug in CXF - https://issues.apache.org/jira/browse/CXF-5225
-            // uncomment this in case backport to version used CXF without the fix
-            //if (message.getExchange().getEndpoint() == null) {
-            //    message.getExchange().put(Endpoint.class, endpoint);
-            //}
-            if (LOG.isLoggable(Level.INFO)) {
-                LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
-                LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
-            }
-
-            String physAddress = strategy.getPrimaryAddress(message.getExchange());
-
-            if (physAddress != null) {
-                ei.setAddress(physAddress);
-                locatorProtocol = true;
-                message.put(Message.ENDPOINT_ADDRESS, physAddress);
-            } else {
-                if (LOG.isLoggable(Level.SEVERE)) {
-                    LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");
+        if(message.getExchange().get(LOCATOR_SETADDRESS_FLAG) != Boolean.TRUE) {
+            EndpointInfo ei = endpoint.getEndpointInfo();
+            if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
+                // bug in CXF - https://issues.apache.org/jira/browse/CXF-5225
+                // uncomment this in case backport to version used CXF without the fix
+                //if (message.getExchange().getEndpoint() == null) {
+                //    message.getExchange().put(Endpoint.class, endpoint);
+                //}
+                if (LOG.isLoggable(Level.INFO)) {
+                    LOG.log(Level.INFO, "Found address with locator protocol, mapping it to physical address.");
+                    LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
                 }
-                throw new IllegalStateException("No endpoint found in Service Locator for service "
-                        + endpoint.getService().getName());
+    
+                String physAddress = strategy.getPrimaryAddress(message.getExchange());
+    
+                if (physAddress != null) {
+                    ei.setAddress(physAddress);
+                    locatorProtocol = true;
+                    message.put(Message.ENDPOINT_ADDRESS, physAddress);
+                } else {
+                    if (LOG.isLoggable(Level.SEVERE)) {
+                        LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");
+                    }
+                    throw new IllegalStateException("No endpoint found in Service Locator for service "
+                            + endpoint.getService().getName());
+                }
+    
             }
-
+            message.getExchange().put(LOCATOR_SETADDRESS_FLAG, Boolean.TRUE);
+        }
+        else {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.log(Level.FINE, "Setting address was skipped. It was already applied for this message");
+            }
         }
     }
 
