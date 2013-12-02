@@ -28,6 +28,10 @@
 
     <cm:cm-properties persistent-id="org.talend.esb.job.client" id="org.talend.esb.job.client" />
     <cm:cm-properties persistent-id="org.talend.esb.job.client.sts" id="org.talend.esb.job.client.sts" />
+
+    <reference id="cryptoProviderFactory" interface="org.apache.cxf.xkms.crypto.CryptoProviderFactory" />
+    <bean id="cryptoProvider" factory-ref="cryptoProviderFactory" factory-method="create" />
+
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
         <property name="bus" >
             <cxf:bus xmlns:cxf="http://cxf.apache.org/blueprint/core" />
@@ -38,10 +42,7 @@
         <property name="policyProvider" ref="policyProvider" />
         <property name="clientProperties" ref="org.talend.esb.job.client" />
         <property name="stsProperties" ref="org.talend.esb.job.client.sts" />
-        <property name="cryptoProvider" >
-            <reference interface="org.apache.ws.security.components.crypto.Crypto"
-                availability="optional" timeout="100" filter="(type=client-crypto)" />
-        </property>
+        <property name="cryptoProvider" ref="cryptoProvider" />
     </bean>
 
     <bean id="jobLauncher" class="org.talend.esb.job.controller.internal.JobLauncherImpl"
