@@ -224,6 +224,7 @@ public class ZKBackend implements ServiceLocatorBackend {
                 } else if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Node " + path + " already exists.");
                 }
+                setNodeData(path, content);
             }
         } catch (KeeperException e) {
             if (!e.code().equals(Code.NODEEXISTS)) {
