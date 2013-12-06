@@ -5,6 +5,7 @@ import static org.talend.esb.servicelocator.client.internal.zk.ServiceLocatorACL
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -224,7 +225,7 @@ public class ZKBackend implements ServiceLocatorBackend {
                 } else if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Node " + path + " already exists.");
                 }
-                setNodeData(path, content);
+                if (!Arrays.equals(EMPTY_CONTENT, content) && (content.length != 0)) setNodeData(path, content);
             }
         } catch (KeeperException e) {
             if (!e.code().equals(Code.NODEEXISTS)) {
