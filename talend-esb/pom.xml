@@ -108,7 +108,6 @@
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>file:${basedir}/target/classes/standard-2.2.9-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.apache.cxf.services.xkms/cxf-services-xkms-features/${cxf.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -300,8 +299,6 @@
 								<feature>tesb-jmx-http-agent</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
-                                <!-- XKMS features -->
-                                <feature>cxf-xkms-client</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
