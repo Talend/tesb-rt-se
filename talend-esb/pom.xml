@@ -33,9 +33,9 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
+        <activation-api.version>2.4.0</activation-api.version>
         <jclouds.version>1.6.1-incubating</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-<!--         <saaj-impl.version>1.3.20_1</saaj-impl.version> -->
         <wss4j.version>1.6.11</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.14</xbean.version>
@@ -343,14 +343,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>apache-cxf-${cxf.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- workaround for saaj-impl bundle version -->
-<!--                                 <artifactItem> -->
-<!--                                     <groupId>org.apache.servicemix.bundles</groupId> -->
-<!--                                     <artifactId>org.apache.servicemix.bundles.saaj-impl</artifactId> -->
-<!--                                     <version>${saaj-impl.version}</version> -->
-<!--                                     <type>jar</type> -->
-<!--                                     <outputDirectory>target/dependencies</outputDirectory> -->
-<!--                                 </artifactItem> -->
                                 <!-- patch for xalan and xerces version -->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
@@ -421,6 +413,14 @@
                                     <artifactId>camel-paxlogging</artifactId>
                                     <version>${camel.version}</version>
                                     <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- patch activation-api bundle version -->
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.specs</groupId>
+                                    <artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
+                                    <version>${activation-api.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
