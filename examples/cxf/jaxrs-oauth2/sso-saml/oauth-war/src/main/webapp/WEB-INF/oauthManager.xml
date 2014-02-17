@@ -9,7 +9,7 @@
       xmlns:sec="http://cxf.apache.org/configuration/security"
       xsi:schemaLocation="
          http://www.springframework.org/schema/beans 
-         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
          http://cxf.apache.org/jaxrs
          http://cxf.apache.org/schemas/jaxrs.xsd
          http://cxf.apache.org/transports/http/configuration
