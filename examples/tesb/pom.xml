@@ -30,6 +30,7 @@
         <module>camel-jmx</module>
         <module>karaf-jmx</module>
         <module>locator-rest</module>
+        <module>tomcat</module>
     </modules>
 
     <organization>

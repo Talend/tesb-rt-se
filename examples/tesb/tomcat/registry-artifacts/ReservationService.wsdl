@@ -1,0 +1,220 @@
+<definitions targetNamespace="http://services.talend.org/ReservationService"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:crm="http://services.talend.org/crm/types"
+    xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/" xmlns:res="http://services.talend.org/reservation/types"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.talend.org/ReservationService"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <types>
+        <xsd:schema elementFormDefault="unqualified"
+            targetNamespace="http://services.talend.org/reservation/types"
+            xmlns="http://services.talend.org/reservation/types">
+            <xsd:import namespace="http://services.talend.org/crm/types" />
+
+            <xsd:element name="RESProfile" type="res:RESProfileType" />
+            <xsd:element name="RESCarList" type="res:RESCarListType" />
+            <xsd:element name="Reservation" type="res:ReservationType" />
+            <xsd:element name="ReservationStatus" type="res:RESStatusType" />
+            <xsd:element name="ReservationToConfirm" type="res:ReservationType" />
+            <xsd:element name="Confirmation" type="res:ConfirmationType" />
+            <xsd:complexType name="ReservationType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="reservationId"
+                        type="xsd:string" />
+                    <xsd:element name="customer"
+                        type="crm:CustomerDetailsType" />
+                    <xsd:element name="car" type="res:RESCarType" />
+                    <xsd:element name="fromDate" type="xsd:string" />
+                    <xsd:element name="toDate" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ConfirmationType">
+                <xsd:sequence>
+                    <xsd:element name="reservationId" type="xsd:string" />
+                    <xsd:element name="customer"
+                        type="crm:CustomerDetailsType" />
+                    <xsd:element name="car" type="res:RESCarType" />
+                    <xsd:element name="fromDate" type="xsd:string" />
+                    <xsd:element name="toDate" type="xsd:string" />
+                    <xsd:element name="creditPoints" type="xsd:integer" />
+                    <xsd:element minOccurs="0" name="description"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="RESProfileType">
+                <xsd:sequence>
+                    <xsd:element name="crmStatus" type="crm:CRMStatusType" />
+                    <xsd:element name="rylcStatus"
+                        type="crm:RYLCStatusCodeType" />
+                    <xsd:element name="fromDate" type="xsd:string" />
+                    <xsd:element name="toDate" type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="RESCarListType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded"
+                        minOccurs="0" name="car" type="res:RESCarType" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="RESCarType">
+                <xsd:sequence>
+                    <xsd:element name="carId" type="xsd:string" />
+                    <xsd:element name="designModel" type="xsd:string" />
+                    <xsd:element name="class" type="xsd:string" />
+                    <xsd:element name="brand" type="xsd:string" />
+                    <xsd:element name="rateDay" type="xsd:string" />
+                    <xsd:element name="rateWeekend" type="xsd:string" />
+                    <xsd:element name="securityGuarantee"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="RESStatusType">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string" />
+                    <xsd:element name="code"
+                        type="res:RESStatucCodeType" />
+                    <xsd:element minOccurs="0" name="creditPoints"
+                        type="xsd:integer" />
+                    <xsd:element minOccurs="0" name="description"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="RESStatucCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="OK" />
+                    <xsd:enumeration value="FAILED" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="unqualified"
+            targetNamespace="http://services.talend.org/crm/types"
+            xmlns="http://services.talend.org/crm/types">
+            <xsd:element name="CustomerDetails" type="crm:CustomerDetailsType" />
+            <xsd:element name="LoginUser" type="crm:LoginUserType" />
+            <xsd:element name="RYLCStatus" type="crm:RYLCStatusType" />
+            <xsd:complexType name="LoginUserType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="name"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="username"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="email"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CustomerDetailsType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="city"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="email"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="gender"
+                        type="xsd:string" />
+                    <xsd:element name="id" type="xsd:long" />
+                    <xsd:element minOccurs="0" name="name"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="status"
+                        type="crm:CRMStatusType" />
+                    <xsd:element minOccurs="0" name="street"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="username"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="zip"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="CRMStatusType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="NONE" />
+                    <xsd:enumeration value="NORMAL" />
+                    <xsd:enumeration value="GOLD" />
+                    <xsd:enumeration value="PLATINUM" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="RYLCStatusType">
+                <xsd:sequence>
+                    <xsd:element name="customerId" type="xsd:long" />
+                    <xsd:element name="code"
+                        type="crm:RYLCStatusCodeType" />
+                    <xsd:element name="creditPoints" type="xsd:integer" />
+                    <xsd:element name="description" type="xsd:string"
+                        minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="RYLCStatusCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ACTIVE" />
+                    <xsd:enumeration value="INACTIVE" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:schema>
+    </types>
+    <message name="getAvailableCarsRequest">
+        <part element="res:RESProfile" name="body" />
+    </message>
+    <message name="getAvailableCarsResponse">
+        <part element="res:RESCarList" name="body" />
+    </message>
+    <message name="submitCarReservationRequest">
+        <part element="res:Reservation" name="body" />
+    </message>
+    <message name="submitCarReservationResponse">
+        <part element="res:ReservationStatus" name="body" />
+    </message>
+    <message name="getConfirmationRequest">
+        <part element="res:ReservationToConfirm" name="body" />
+    </message>
+    <message name="getConfirmationResponse">
+        <part element="res:Confirmation" name="body" />
+    </message>
+    <portType name="ReservationService">
+        <operation name="getAvailableCars">
+            <input message="tns:getAvailableCarsRequest" />
+            <output message="tns:getAvailableCarsResponse" />
+        </operation>
+        <operation name="submitCarReservation">
+            <input message="tns:submitCarReservationRequest" />
+            <output message="tns:submitCarReservationResponse" />
+        </operation>
+        <operation name="getConfirmationOfReservation">
+            <input message="tns:getConfirmationRequest" />
+            <output message="tns:getConfirmationResponse" />
+        </operation>
+    </portType>
+    <wsdl:service name="ReservationServiceProvider">
+        <wsdl:port binding="tns:ReservationServiceBinding"
+            name="ReservationServicePort">
+            <soap:address
+                location="http://localhost:8040/services/ReservationServiceProvider/" />
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:binding name="ReservationServiceBinding" type="tns:ReservationService">
+        <soap:binding style="document"
+            transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="getAvailableCars">
+            <soap:operation soapAction="getAvailableCars" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="submitCarReservation">
+            <soap:operation soapAction="submitCarReservation" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getConfirmationOfReservation">
+            <soap:operation soapAction="getConfirmationOfReservation" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</definitions>

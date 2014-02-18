@@ -1,0 +1,6 @@
+<wsp:PolicyAttachment xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:AppliesTo>
+        <wsp:URI>http://services.talend.org/ReservationService#wsdl11.service(ReservationServiceProvider)</wsp:URI>
+    </wsp:AppliesTo>
+    <wsp:PolicyReference URI="usernameToken" />
+</wsp:PolicyAttachment>
