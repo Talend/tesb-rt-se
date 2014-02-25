@@ -81,7 +81,7 @@ public class TalendEndpoint extends DefaultEndpoint {
     public TalendJob getJobInstance() throws ClassNotFoundException, SecurityException, NoSuchMethodException {
         TalendJob jobInstance;
         Class<?> jobType = this.getCamelContext().getClassResolver().resolveMandatoryClass(clazz);
-        TalendESBJobFactory talendESBJobFactory = Activator.getJobService(TalendESBJobFactory.class, jobType.getSimpleName());
+        TalendESBJobFactory talendESBJobFactory = Activator.getJobService(TalendESBJobFactory.class, jobType);
         if (null != talendESBJobFactory) {
             jobInstance = talendESBJobFactory.newTalendESBJob();
         } else {
