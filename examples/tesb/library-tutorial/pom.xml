@@ -96,6 +96,28 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass> org.talend.services.demos.client.LibraryClient</mainClass>
+                </configuration>
+            </plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <configuration>
+			        <webResources>
+			            <resource>
+			                <filtering>true</filtering>
+			                <directory>src/main/filtered-resources</directory>
+			                <includes>
+			                    <include>**/cxf-servlet.xml</include>
+			                </includes>
+			            </resource>
+			        </webResources>
+			    </configuration>
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -107,5 +129,38 @@
 				</configuration>
 			</plugin>
 		</plugins>
+	
+		<resources>
+			<resource>
+				<directory>src/main/filtered-resources</directory>
+				<includes>
+					<include>client-applicationContext.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>		
+		</resources>
+	
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>sreg</id>
+			<properties>
+				<use.service.registry>true</use.service.registry>
+			</properties>
+		</profile>
+		<profile>
+			<id>simple</id>
+			<properties>
+				<use.service.registry>false</use.service.registry>
+			</properties>
+		    <activation>
+		      <activeByDefault>true</activeByDefault>
+		    </activation>
+		</profile>		
+	</profiles>
+		
 </project>

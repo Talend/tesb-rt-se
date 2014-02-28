@@ -19,22 +19,18 @@ Deployment:
 - web container for service
 - standalone for client
 
-Building the Example
---------------------
+Running the Example
+-------------------
 From the base directory of this example (i.e., where this README file is
 located), the maven pom.xml file can be used to build this example. 
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
 
-mvn clean install                 (for building basic Rent-a-Car example)
-mvn clean install -Pslsam         (for building Service Locator and Service Activity Monitoring enabled Rent-a-Car example)
-mvn clean install -Psts           (for building Security Token Service enabled Rent-a-Car example)
-mvn clean install -Pall           (for building Rent-a-Car example that enabled with all tesb features: SL, SAM, STS)
 
-Running the Example
--------------------
 a) Without Service registry
+   - run provider "mvn tomcat7:run-war"
+   - run consumer "mvn exec:java"
 
 b) With Service Registry
    1. Prepare TESB container
@@ -42,7 +38,9 @@ b) With Service Registry
    - start Service Registry server tesb:start-registry
    - import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library
 -tutorial/src/main/resources/Library.wsdl
+   
    2. Run example
-   -
-   -  
+   - run provider "mvn tomcat7:run-war -Psreg"
+   - run consumer "mvn exec:java"
+  
    
