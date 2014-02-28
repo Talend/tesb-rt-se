@@ -28,19 +28,26 @@ Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
 
 
-a) Without Service registry
-   - run provider "mvn tomcat7:run-war"
-   - run consumer "mvn exec:java"
+a) Without Service registry:
+   mvn clean:install
+   mvn -Pservice
+   mvn -Pclient
 
-b) With Service Registry
+b) With Service Registry:
    1. Prepare TESB container
-   - start TESB container
-   - start Service Registry server tesb:start-registry
-   - import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library
+      start TESB container
+      start Service Registry server tesb:start-registry
+      import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library
 -tutorial/src/main/resources/Library.wsdl
    
-   2. Run example
-   - run provider "mvn tomcat7:run-war -Psreg"
-   - run consumer "mvn exec:java"
+   2. Run example:
+      mvn clean:install -Psreg
+      mvn -Pservice
+      mvn -Pclient
   
+
+To run client from eclipse:
+copy resource "client-applicationContext.xml" from "filtered-resources" to "resources" folder
+and set ${use.service.registry} variable in this file manually
+
    
