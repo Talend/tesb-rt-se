@@ -130,21 +130,6 @@
 
 	<profiles>
 		<profile>
-			<id>sreg</id>
-			<properties>
-				<use.service.registry>true</use.service.registry>
-			</properties>
-		</profile>
-		<profile>
-			<id>simple</id>
-			<properties>
-				<use.service.registry>false</use.service.registry>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
 			<id>client</id>
 			<build>
 				<defaultGoal>test</defaultGoal>

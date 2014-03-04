@@ -29,21 +29,18 @@ Using maven commands on either UNIX/Linux or Windows:
 
 
 a) Without Service registry:
-   mvn clean:install
-   mvn -Pservice
-   mvn -Pclient
+   mvn -Pservice -Duse.service.registry=false
+   mvn -Pclient -Duse.service.registry=false
 
 b) With Service Registry:
    1. Prepare TESB container
       start TESB container
       start Service Registry server tesb:start-registry
-      import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library
--tutorial/src/main/resources/Library.wsdl
+      import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library-tutorial/src/main/resources/Library.wsdl
    
    2. Run example:
-      mvn clean:install -Psreg
-      mvn -Pservice
-      mvn -Pclient
+   mvn -Pservice -Duse.service.registry=true
+   mvn -Pclient -Duse.service.registry=true
   
 
 To run client from eclipse:
