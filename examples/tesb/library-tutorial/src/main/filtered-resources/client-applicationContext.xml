@@ -39,7 +39,7 @@
 	<jaxws:client id="library" 
 		serviceName="library:LibraryProvider" 
 		endpointName="library:LibraryPort"
-		address="http://localhost:8090/tesb-library-tutorial/services/LibraryPort" 
+		address="http://localhost:8080/tesb-library-tutorial/services/LibraryPort" 
 		serviceClass="org.talend.services.demos.library._1_0.Library">
         <jaxws:properties>
             <entry key="use.service.registry" value="${use.service.registry}" />
