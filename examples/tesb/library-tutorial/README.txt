@@ -34,17 +34,32 @@ a) Without Service registry:
 
 b) With Service Registry:
    1. Prepare TESB container
-      start TESB container
-      start Service Registry server tesb:start-registry
-      import Library WSDL: tregistry:create wsdl <base-dir>/tesb-rt-se/examples/tesb/library-tutorial/src/main/resources/Library.wsdl
-   
-   2. Run example:
+      - start TESB container
+      - start Service Registry server tesb:start-registry
+      - import Library WSDL: 
+        tregistry:create wsdl <resources-dir>/Library.wsdl
+      - import policies:
+   	 	tregistry:create ws-policy <resources-dir>/policies/saml.policy
+		tregistry:create ws-policy <resources-dir>/policies/saml-ut.policy
+		tregistry:create ws-policy <resources-dir>/policies/usernameToken.policy
+      - import policy attachments:	 
+     	tregistry:create ws-policy-attach <resources-dir>/policy-attachments/LibraryServicePolicyAttachment.policy
+     	tregistry:create ws-policy-attach <resources-dir>/policy-attachments/LibraryConsumerPolicyAttachment-ut.policy
+     	tregistry:create ws-policy-attach <resources-dir>/policy-attachments/LibraryConsumerPolicyAttachment-saml.policy
+
+   2. Run service:
    mvn -Pservice -Duse.service.registry=true
-   mvn -Pclient -Duse.service.registry=true
+   
+   3. Run client:
+   	 a) UserNameToken authentication:
+        mvn -Pclient -Duse.service.registry=true  -Dconsumer.policy.alias=utLibraryConsumerPolicy
+        
+	 b) Saml Authentication:
+		mvn -Pclient -Duse.service.registry=true  -Dconsumer.policy.alias=samlLibraryConsumerPolicy
   
 
 To run client from eclipse:
 copy resource "client-applicationContext.xml" from "filtered-resources" to "resources" folder
-and set ${use.service.registry} variable in this file manually
+and set ${use.service.registry}, ${consumer.policy.alias} variables in this file manually
 
    

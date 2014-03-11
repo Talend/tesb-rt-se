@@ -32,6 +32,10 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
             implementor="org.talend.services.demos.server.LibraryServerImpl">
         <jaxws:properties>
             <entry key="use.service.registry" value="${use.service.registry}" />
+            <entry key="ws-security.callback-handler">
+                <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
+            </entry>
+            <entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />            
         </jaxws:properties>
     </jaxws:endpoint>
 
