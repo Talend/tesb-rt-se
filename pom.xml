@@ -91,8 +91,8 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>2.7.7</cxf.version>
-        <camel.version>2.12.1</camel.version>
+        <cxf.version>2.7.11-SNAPSHOT</cxf.version>
+        <camel.version>2.13-SNAPSHOT</camel.version>
         <activemq.version>5.7.0</activemq.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <karaf.version>2.3.3</karaf.version>
@@ -123,7 +123,7 @@
 		<neethi.version>3.0.2</neethi.version>
 
         <cxf.build-utils.version>2.6.0</cxf.build-utils.version>
-        <cxf.xjc-utils.version>2.6.2</cxf.xjc-utils.version> 
+        <cxf.xjc-utils.version>2.7.0</cxf.xjc-utils.version> 
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
 
