@@ -24,7 +24,7 @@ import java.util.Set;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
-import org.apache.camel.test.junit4.CamelSpringTestSupport;
+import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -41,19 +41,19 @@ public class ManagementExampleTest extends CamelSpringTestSupport {
     @Test
     public void testManagementExample() throws Exception {
         // Give it a bit of time to run
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
 
         MBeanServer mbeanServer = context.getManagementStrategy().getManagementAgent().getMBeanServer();
 
         // Find the endpoints
         Set<ObjectName> set = mbeanServer.queryNames(new ObjectName("*:type=endpoints,*"), null);
-        // now there is no managed endpoint for the dead queue
-        assertEquals(5, set.size()); 
-        
+        // log: activemq: timer: file:
+        assertEquals(4, set.size());
+
         // Find the routes
         set = mbeanServer.queryNames(new ObjectName("*:type=routes,*"), null);
         assertEquals(3, set.size());
-        
+
         // Stop routes
         for (ObjectName on : set) {
             mbeanServer.invoke(on, "stop", null, null);
