@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
+            <artifactId>activemq-osgi</artifactId>
             <scope>runtime</scope>
         </dependency>
 
@@ -73,7 +73,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>*,org.apache.camel.osgi</Import-Package>
-                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-core,org.apache.camel.camel-cxf</Require-Bundle>
+                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-osgi,org.apache.camel.camel-cxf</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

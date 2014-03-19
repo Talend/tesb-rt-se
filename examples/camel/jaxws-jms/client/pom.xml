@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
+            <artifactId>activemq-osgi</artifactId>
             <scope>runtime</scope>
         </dependency>
 

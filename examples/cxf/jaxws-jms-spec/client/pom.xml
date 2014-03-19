@@ -26,7 +26,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-core,jms-spec-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-osgi,jms-spec-common</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
@@ -63,7 +63,7 @@
 
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
+            <artifactId>activemq-osgi</artifactId>
             <version>${activemq.version}</version>
             <scope>runtime</scope>
         </dependency>

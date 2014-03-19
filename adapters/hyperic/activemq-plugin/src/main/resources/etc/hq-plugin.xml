@@ -292,7 +292,7 @@
 
 		<property name="server_title" value="ActiveMQ" />
 		<property name="target_domain" value="${domain}" />
-		<property name="library_path" value="system/org/apache/activemq/activemq-core" />
+		<property name="library_path" value="system/org/apache/activemq/activemq-osgi" />
 
 		<plugin type="autoinventory"
 			class="org.talend.esb.monitoring.hq.KarafEmbeddedServerDetector" />

@@ -57,7 +57,7 @@
 
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-core</artifactId>
+            <artifactId>activemq-osgi</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -96,7 +96,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.apache.camel.camel-cxf,org.springframework.beans,org.apache.activemq.activemq-core</Require-Bundle>
+                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.apache.camel.camel-cxf,org.springframework.beans,org.apache.activemq.activemq-osgi</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
