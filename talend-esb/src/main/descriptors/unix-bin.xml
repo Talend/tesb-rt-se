@@ -359,9 +359,8 @@
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
-                <!-- patch for xbean-blueprint version (TESB-9304) -->
-                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <exclude>org/apache/xbean/xbean-blueprint/3.11.1/**</exclude>
+                <!-- patch for ActiveMQ features descriptor -->
+                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -522,18 +521,12 @@
             <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround ActiveMQ features descriptor -->
+        <!-- patch ActiveMQ features descriptor -->
         <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
+            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- patch for xbean-blueprint version (TESB-9304) -->
-        <file>
-            <source>${basedir}/target/dependencies/xbean-blueprint-${xbean.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- patch activation-api bundle version -->
         <file>

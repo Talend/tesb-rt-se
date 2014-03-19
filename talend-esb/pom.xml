@@ -119,9 +119,7 @@
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
-                                <feature>activemq-spring</feature>
-                                <feature>activemq-web-console</feature>
-                                <feature>activemq-optional</feature>
+                                <feature>activemq-broker</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -394,21 +392,15 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <!-- patch for ActiveMQ features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
                                     <version>${activemq.version}</version>
-                                    <classifier>features</classifier>
+                                    <classifier>features-core</classifier>
                                     <type>xml</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.xbean</groupId>
-                                    <artifactId>xbean-blueprint</artifactId>
-                                    <version>${xbean.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
+                                   <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
                                 <!-- patch activation-api bundle version -->
                                 <artifactItem>
@@ -668,11 +660,10 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>
-                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
-                                    <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
-                                        token="xbean-blueprint/3.11.1"
-                                        value="xbean-blueprint/${xbean.version}"/>
+                                        token="org.apache.zookeeper/zookeeper/3.4.5"
+                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
                             </target>
                         </configuration>
