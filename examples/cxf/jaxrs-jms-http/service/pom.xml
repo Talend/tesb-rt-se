@@ -61,6 +61,12 @@
             <artifactId>activemq-osgi</artifactId>
             <version>${activemq.version}</version>
             <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
