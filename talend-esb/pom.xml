@@ -34,7 +34,7 @@
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <activation-api.version>2.4.0</activation-api.version>
-        <jclouds.version>1.7.0</jclouds.version>
+        <jclouds.version>1.7.1</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <wss4j.version>1.6.14</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
@@ -127,34 +127,6 @@
 						        <feature>cxf-sts/${cxf.version}</feature>
 						        <feature>cxf-wsn/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
-						        <!-- workaround for wrong version of transitive CXF Features -->
-<!-- 						        <feature>cxf-specs/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-core/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-jaxws/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-jaxrs/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-databinding-jaxb/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-databinding-aegis/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-databinding-xmlbeans/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-bindings-corba/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-bindings-coloc/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-bindings-object/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-bindings-soap/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-http-jetty/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-transports-local/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-transports-jms/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-transports-udp/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-xjc-runtime/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-ws-security/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-ws-rm/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-ws-mex/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-javascript/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-frontend-javascript/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-features-clustering/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-rs-security-xml/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-http/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-ws-addr/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-ws-policy/${cxf.version}</feature> -->
-<!-- 						        <feature>cxf-wsn-api/${cxf.version}</feature> -->
 						        <!-- Camel Features -->
 						        <feature>camel</feature>
 						        <feature>camel-core</feature>
@@ -634,14 +606,14 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/2.7.8/xml/features"
+                                        token="apache-cxf/2.7.10/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_5&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
