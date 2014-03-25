@@ -111,7 +111,7 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-								<feature>spring</feature>
+								<feature>spring/3.2.8.RELEASE_1</feature>
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
@@ -128,33 +128,33 @@
 						        <feature>cxf-wsn/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
 						        <!-- workaround for wrong version of transitive CXF Features -->
-						        <feature>cxf-specs/${cxf.version}</feature>
-						        <feature>cxf-core/${cxf.version}</feature>
-						        <feature>cxf-jaxws/${cxf.version}</feature>
-						        <feature>cxf-jaxrs/${cxf.version}</feature>
-						        <feature>cxf-databinding-jaxb/${cxf.version}</feature>
-						        <feature>cxf-databinding-aegis/${cxf.version}</feature>
-						        <feature>cxf-databinding-xmlbeans/${cxf.version}</feature>
-						        <feature>cxf-bindings-corba/${cxf.version}</feature>
-						        <feature>cxf-bindings-coloc/${cxf.version}</feature>
-						        <feature>cxf-bindings-object/${cxf.version}</feature>
-						        <feature>cxf-bindings-soap/${cxf.version}</feature>
-						        <feature>cxf-http-jetty/${cxf.version}</feature>
-						        <feature>cxf-transports-local/${cxf.version}</feature>
-						        <feature>cxf-transports-jms/${cxf.version}</feature>
-						        <feature>cxf-transports-udp/${cxf.version}</feature>
-						        <feature>cxf-xjc-runtime/${cxf.version}</feature>
-						        <feature>cxf-ws-security/${cxf.version}</feature>
-						        <feature>cxf-ws-rm/${cxf.version}</feature>
-						        <feature>cxf-ws-mex/${cxf.version}</feature>
-						        <feature>cxf-javascript/${cxf.version}</feature>
-						        <feature>cxf-frontend-javascript/${cxf.version}</feature>
-						        <feature>cxf-features-clustering/${cxf.version}</feature>
-						        <feature>cxf-rs-security-xml/${cxf.version}</feature>
-						        <feature>cxf-http/${cxf.version}</feature>
-						        <feature>cxf-ws-addr/${cxf.version}</feature>
-						        <feature>cxf-ws-policy/${cxf.version}</feature>
-						        <feature>cxf-wsn-api/${cxf.version}</feature>
+<!-- 						        <feature>cxf-specs/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-core/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-jaxws/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-jaxrs/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-databinding-jaxb/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-databinding-aegis/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-databinding-xmlbeans/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-bindings-corba/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-bindings-coloc/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-bindings-object/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-bindings-soap/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-http-jetty/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-transports-local/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-transports-jms/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-transports-udp/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-xjc-runtime/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-ws-security/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-ws-rm/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-ws-mex/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-javascript/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-frontend-javascript/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-features-clustering/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-rs-security-xml/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-http/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-ws-addr/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-ws-policy/${cxf.version}</feature> -->
+<!-- 						        <feature>cxf-wsn-api/${cxf.version}</feature> -->
 						        <!-- Camel Features -->
 						        <feature>camel</feature>
 						        <feature>camel-core</feature>
