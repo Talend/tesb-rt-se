@@ -44,7 +44,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-oauth-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,jaxrs-oauth-common</Require-Bundle>
                         <Export-Package>
                            oauth.service,oauth.manager,oauth.thirdparty
                         </Export-Package>

@@ -23,7 +23,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-osgi,jaxrs-jms-http-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.apache.activemq.activemq-osgi,jaxrs-jms-http-common</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

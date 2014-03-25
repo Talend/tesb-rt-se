@@ -37,7 +37,7 @@
                         <Web-ContextPath>/examples</Web-ContextPath>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Import-Package>model</Import-Package>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-jaxws-transformations-common, jaxrs-jaxws-transformations-service</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,jaxrs-jaxws-transformations-common, jaxrs-jaxws-transformations-service</Require-Bundle>
                         <DynamicImport-Package>*</DynamicImport-Package> 
                     </instructions>
                 </configuration>

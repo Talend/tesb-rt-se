@@ -36,7 +36,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.springframework.beans,org.apache.activemq.activemq-osgi</Require-Bundle>
+                        <Require-Bundle>org.apache.activemq.activemq-osgi</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

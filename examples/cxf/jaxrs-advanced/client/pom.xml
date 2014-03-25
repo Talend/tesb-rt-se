@@ -46,7 +46,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-advanced-common</Require-Bundle>
                         <Export-Package>
                             client
                         </Export-Package>

@@ -49,9 +49,6 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.bundle,
-                            org.springframework.beans,
-                            org.springframework.context,
-                            org.springframework.osgi.core,
                             locator,
                             sam-agent,
                             sam-common

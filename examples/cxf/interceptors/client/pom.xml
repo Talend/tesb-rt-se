@@ -23,7 +23,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,interceptors-common</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

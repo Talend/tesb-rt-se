@@ -62,7 +62,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.cxf.services.sts.core</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.apache.cxf.services.sts.core</Require-Bundle>
                         <Export-Package>sts</Export-Package>
                     </instructions>
                 </configuration>
