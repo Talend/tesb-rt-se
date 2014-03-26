@@ -28,7 +28,6 @@
 	"
 >
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 
 	<osgi:service ref="serviceLocator" interface="org.talend.esb.servicelocator.client.ServiceLocator"/>

@@ -20,8 +20,6 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 	">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-
 	<osgix:cm-properties id="locator-server-props"
 		persistent-id="org.talend.esb.locator">
 		<prop key="locator.endpoints">localhost:2181</prop>

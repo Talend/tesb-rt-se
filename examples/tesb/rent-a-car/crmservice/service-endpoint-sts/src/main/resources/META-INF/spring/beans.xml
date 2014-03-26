@@ -36,8 +36,6 @@
             http://www.w3.org/2000/09/xmldsig# http://www.w3.org/TR/xmldsig-core/xmldsig-core-schema.xsd
         ">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-
     <cxf:bus>
         <cxf:features>
             <cxf:logging />

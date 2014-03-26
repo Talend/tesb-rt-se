@@ -15,8 +15,6 @@
          http://cxf.apache.org/jaxws
          http://cxf.apache.org/schemas/jaxws.xsd">
 
-     <import resource="classpath:META-INF/cxf/cxf.xml" />
-
      <!-- Old SOAP and REST endpoints -->
 
      <jaxrs:server address="/rest" 

@@ -175,12 +175,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             authorizationPolicy = new AuthorizationPolicy();
             authorizationPolicy.setUserName(securityArguments.getUsername());
             authorizationPolicy.setPassword(securityArguments.getPassword());
-            authorizationPolicy.setAuthorizationType("Basic");
+            authorizationPolicy.setAuthorizationType(org.apache.cxf.transport.http.auth.HttpAuthHeader.AUTH_TYPE_BASIC);
         } else if (EsbSecurity.DIGEST == securityArguments.getEsbSecurity()) {
             authorizationPolicy = new AuthorizationPolicy();
             authorizationPolicy.setUserName(securityArguments.getUsername());
             authorizationPolicy.setPassword(securityArguments.getPassword());
-            authorizationPolicy.setAuthorizationType("Digest");
+            authorizationPolicy.setAuthorizationType(org.apache.cxf.transport.http.auth.HttpAuthHeader.AUTH_TYPE_DIGEST);
         }
         if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity() || useServiceRegistry) {
             clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());

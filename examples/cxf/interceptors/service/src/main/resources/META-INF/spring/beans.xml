@@ -9,10 +9,6 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-
-
-
 	<jaxws:endpoint id="GreeterService"
 	                implementor="demo.interceptors.server.GreeterImpl"
 	                address="/InterceptorExample"/>

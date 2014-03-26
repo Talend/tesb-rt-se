@@ -20,8 +20,6 @@
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-
     <cxf:bus>
         <cxf:features>
             <cxf:logging />

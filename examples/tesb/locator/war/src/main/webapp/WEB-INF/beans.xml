@@ -44,7 +44,6 @@
        http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd">
  
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
 
 	<jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
