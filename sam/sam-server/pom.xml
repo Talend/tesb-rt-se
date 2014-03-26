@@ -129,10 +129,11 @@
                             org.talend.esb.sam.server.persistence.dialects,
                             org.talend.esb.sam.server.ui
                         </Export-Package>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.apache.commons.dbcp
-                        </Require-Bundle>
+                        <Import-Package>
+                            *
+                            ,org.springframework.transaction.annotation
+                            ,org.springframework.jdbc.datasource
+                        </Import-Package>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
                     </instructions>

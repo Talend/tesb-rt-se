@@ -120,7 +120,7 @@
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
         <jolokia.version>1.0.4</jolokia.version>
         <h2database.version>1.3.165</h2database.version>
-		<neethi.version>3.0.2</neethi.version>
+        <jettison.version>1.3.4</jettison.version>
 
         <cxf.build-utils.version>2.6.0</cxf.build-utils.version>
         <cxf.xjc-utils.version>2.7.0</cxf.xjc-utils.version> 
