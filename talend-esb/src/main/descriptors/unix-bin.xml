@@ -213,7 +213,6 @@
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
-                <exclude>lib/endorsed/org.apache.servicemix.specs.activation-api-1.1*</exclude>
                 <exclude>lib/endorsed/xercesImpl-2.11.0.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
@@ -531,12 +530,6 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- patch activation-api bundle version -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.specs.activation-api-1.1-${activation-api.version}.jar</source>
-            <outputDirectory>/container/lib/endorsed/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- workaround for opensaml bundle -->
         <file>

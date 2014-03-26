@@ -33,7 +33,6 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <activation-api.version>2.4.0</activation-api.version>
         <jclouds.version>1.7.1</jclouds.version>
         <joda-time.version>2.2</joda-time.version>
         <opensaml.bundle.version>2.6.1_1</opensaml.bundle.version>
@@ -375,14 +374,6 @@
                                     <type>xml</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                    <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
-                                </artifactItem>
-                                <!-- patch activation-api bundle version -->
-                                <artifactItem>
-                                    <groupId>org.apache.servicemix.specs</groupId>
-                                    <artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
-                                    <version>${activation-api.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <!-- workaround for opensaml version -->
                                 <artifactItem>
