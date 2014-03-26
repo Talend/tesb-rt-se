@@ -56,6 +56,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
+                        <Import-Package>
+                            *
+                            ,org.apache.cxf.bus.spring
+                        </Import-Package>
+                        <_nouses>true</_nouses>
                     </instructions>
                 </configuration>
             </plugin>
