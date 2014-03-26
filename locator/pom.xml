@@ -134,7 +134,13 @@
 							org.talend.esb.servicelocator.*, 
 							'=META-INF.tesb.locator'
                         </Export-Package>
+                        <Import-Package>
+                            *
+                            ,org.springframework.beans.factory.config
+                            ,org.apache.cxf.bus.spring
+                        </Import-Package>
 						<_failok>true</_failok>
+                        <_nouses>true</_nouses>
 					</instructions>
 				</configuration>
 			</plugin>

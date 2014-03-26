@@ -87,6 +87,13 @@
                             META-INF.tesb
                         </Export-Package>
 						<Bundle-Activator>org.talend.esb.sam.agent.activator.AgentActivator</Bundle-Activator>
+                        <Import-Package>
+                            *
+                            ,org.springframework.beans.factory.config
+                            ,org.springframework.scheduling.annotation
+                            ,org.springframework.scheduling.config
+                            ,org.springframework.scheduling.concurrent
+                        </Import-Package>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
                     </instructions>
