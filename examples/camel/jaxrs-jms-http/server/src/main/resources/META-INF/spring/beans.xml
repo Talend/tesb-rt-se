@@ -18,6 +18,9 @@
         http://camel.apache.org/schema/spring
             http://camel.apache.org/schema/spring/camel-spring.xsd">
  
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/camel/cxf-extension-camel.xml" />
+
     <jaxrs:server address="camel://direct:bookStore" id="http-server">
         <jaxrs:serviceBeans>
             <ref bean="store" />

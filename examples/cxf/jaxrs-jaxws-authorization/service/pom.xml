@@ -34,7 +34,7 @@
               <configuration>
                 <instructions>
                  <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                 <Require-Bundle>org.apache.cxf.bundle,jaxrs-jaxws-authorization-common</Require-Bundle>
+                 <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-jaxws-authorization-common</Require-Bundle>
                  <Import-Package>
                        org.apache.karaf.jaas.modules,
                        org.eclipse.jetty.plus.jaas,

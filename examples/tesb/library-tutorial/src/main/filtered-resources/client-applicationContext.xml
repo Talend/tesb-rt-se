@@ -33,7 +33,9 @@
 		practice to use the service namespace and Service Interface name in
 		the names
 	-->
-
+	
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	
 	<jaxws:client id="library" 
 		serviceName="library:LibraryProvider" 
 		endpointName="library:LibraryPort"

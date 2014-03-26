@@ -102,7 +102,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.apache.camel.camel-cxf,org.apache.activemq.activemq-osgi</Require-Bundle>
+                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.apache.camel.camel-cxf,org.springframework.beans,org.apache.activemq.activemq-osgi</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

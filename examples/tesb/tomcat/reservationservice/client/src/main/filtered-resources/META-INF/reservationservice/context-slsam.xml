@@ -26,6 +26,9 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
 >
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+<!-- 	<import resource="classpath:META-INF/tesb/locator/beans.xml" /> -->
+<!--     <import resource="classpath:META-INF/tesb/agent-context.xml" /> -->
 
 	<jaxws:client id="ReservationServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"

@@ -37,7 +37,7 @@
                     <instructions>
                         <Web-ContextPath>/examples</Web-ContextPath>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,jaxrs-oauth2-common, jaxrs-oauth2-service</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,jaxrs-oauth2-common, jaxrs-oauth2-service</Require-Bundle>
                         <DynamicImport-Package>*</DynamicImport-Package> 
                     </instructions>
                 </configuration>

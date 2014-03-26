@@ -7,6 +7,9 @@
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-camel.xml"/>
+
 	<jaxws:client id="greeterProxy" 
 		address="camel://direct:greeterClientEndpoint"
 		serviceClass="com.talend.examples.jms_greeter.JMSGreeterPortType"/>

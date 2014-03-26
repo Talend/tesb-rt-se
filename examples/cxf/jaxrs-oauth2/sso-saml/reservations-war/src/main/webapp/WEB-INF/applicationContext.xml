@@ -25,6 +25,8 @@
          http://cxf.apache.org/jaxrs
          http://cxf.apache.org/schemas/jaxrs.xsd">
 
+     <import resource="classpath:META-INF/cxf/cxf.xml" />
+
      <!-- Restaurant Reservations Application -->
      <import resource="restaurantReserve.xml" />     
      

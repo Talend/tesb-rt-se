@@ -50,7 +50,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.hsqldb.hsqldb,org.apache.geronimo.specs.geronimo-jpa_2.0_spec,org.apache.openjpa,jaxrs-advanced-common</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.bundle,org.hsqldb.hsqldb,org.apache.geronimo.specs.geronimo-jpa_2.0_spec,org.apache.openjpa,org.springframework.beans,jaxrs-advanced-common</Require-Bundle>
                         <Export-Package>
                    service
                         </Export-Package>

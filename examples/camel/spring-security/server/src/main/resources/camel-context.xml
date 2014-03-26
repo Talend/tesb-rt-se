@@ -20,6 +20,9 @@
           http://cxf.apache.org/jaxrs
           http://cxf.apache.org/schemas/jaxrs.xsd">
 
+    <import resource="classpath:/META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:/META-INF/cxf/camel/cxf-extension-camel.xml"/>
+
     <global-method-security jsr250-annotations="enabled" xmlns="http://www.springframework.org/schema/security"/>
 
     <!--  set up the user configuration here -->

@@ -8,6 +8,9 @@
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/camel/cxf-extension-camel.xml"/>
+
 	<jaxws:endpoint 
 		address="camel://direct:greeterServerEndpoint"
 		implementor="#greeterImpl"/>
