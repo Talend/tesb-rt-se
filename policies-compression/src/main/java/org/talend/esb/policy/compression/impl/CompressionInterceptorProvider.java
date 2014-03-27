@@ -1,0 +1,31 @@
+package org.talend.esb.policy.compression.impl;
+
+import java.util.Arrays;
+import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
+import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
+
+/**
+ * The Class CompressionInterceptorProvider.
+ */
+public class CompressionInterceptorProvider extends AbstractPolicyInterceptorProvider {
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 5698743589425687361L;
+   
+    /**
+     * Instantiates a new compression interceptor provider.
+     */
+    public CompressionInterceptorProvider() {
+        super(Arrays.asList(CompressionPolicyBuilder.COMPRESSION));
+        
+        CompressionOutInterceptor out = new CompressionOutInterceptor();
+
+        remove(this.getOutInterceptors());
+        remove(this.getOutFaultInterceptors());
+        
+        this.getOutInterceptors().add(out);
+        this.getOutFaultInterceptors().add(out);
+        
+        this.getInInterceptors().add(new GZIPInInterceptor());
+   }        
+} 

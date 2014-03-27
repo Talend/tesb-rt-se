@@ -1,0 +1,2 @@
+org.talend.esb.policy.compression.impl.CompressionPolicyBuilder::true:true
+org.talend.esb.policy.compression.impl.CompressionInterceptorProvider::true:true

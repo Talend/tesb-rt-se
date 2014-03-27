@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>esb-parent</artifactId>
+		<groupId>org.talend.esb</groupId>
+		<version>5.6.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.talend.esb.policies</groupId>
+	<artifactId>compression-policy</artifactId>
+	<packaging>bundle</packaging>
+	<name>compression-policy</name>
+	<description>Custom policy for compression processing</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-policy</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-bindings-soap</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+        <plugins>
+          <plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+			</plugin>
+        </plugins>
+    </build>
+
+</project>
