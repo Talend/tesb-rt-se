@@ -112,7 +112,7 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-								<feature>spring/3.2.8.RELEASE_1</feature>
+								<feature>spring/3.2.4.RELEASE</feature>
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
