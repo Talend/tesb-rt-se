@@ -35,7 +35,8 @@ a) Without Service registry:
 b) With Service Registry:
    1. Prepare TESB container
       - start TESB container
-      - start Service Registry server tesb:start-registry
+      - start Service Registry server: "tesb:start-registry"
+      - start STS: "features:install tesb-sts"
       - import Library WSDL: 
         tregistry:create wsdl <resources-dir>/Library.wsdl
       - import policies:
