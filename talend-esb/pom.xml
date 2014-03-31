@@ -112,7 +112,7 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-								<feature>spring/3.2.4.RELEASE</feature>
+								<feature>spring/${spring.version}</feature>
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
@@ -174,10 +174,13 @@
 						        <feature>camel-hazelcast</feature>
                                 <feature>camel-hbase</feature>
                                 <feature>camel-hdfs</feature>
+                                <feature>camel-hdfs2</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
 						        <feature>camel-ibatis</feature>
+						        <feature>camel-ical</feature>
+						        <feature>camel-infinispan</feature>
 						        <feature>camel-irc</feature>
 						        <feature>camel-jackson</feature>
 						        <feature>camel-jasypt</feature>
@@ -186,6 +189,7 @@
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
 						        <feature>camel-jetty</feature>
+						        <feature>camel-jgroups</feature>
 						        <feature>camel-jibx</feature>
 						        <feature>camel-jing</feature>
 						        <feature>camel-jms</feature>
@@ -193,12 +197,15 @@
 						        <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
                                 <feature>camel-jsch</feature>
+                                <feature>camel-jsonpath</feature>
 						        <feature>camel-jt400</feature>
 						        <feature>camel-juel</feature>
 						        <feature>camel-jxpath</feature>
+						        <feature>camel-kafka</feature>
 						        <feature>camel-kestrel</feature>
                                 <feature>camel-krati</feature>
 						        <feature>camel-ldap</feature>
+						        <feature>camel-leveldb</feature>
 						        <feature>camel-lucene</feature>
 						        <feature>camel-mail</feature>
 						        <feature>camel-mina</feature>
@@ -213,6 +220,7 @@
 						        <feature>camel-netty</feature>
                                 <feature>camel-netty-http</feature>
 						        <feature>camel-ognl</feature>
+						        <feature>camel-optaplanner</feature>
 						        <feature>camel-paxlogging</feature>
 						        <feature>camel-printer</feature>
 						        <feature>camel-protobuf</feature>
@@ -243,6 +251,7 @@
 						        <feature>camel-snmp</feature>
 						        <feature>camel-soap</feature>
                                 <feature>camel-solr</feature>
+                                <feature>camel-splunk</feature>
                                 <feature>camel-spring-batch</feature>
                                 <feature>camel-spring-integration</feature>
 						        <feature>camel-spring-javaconfig</feature>
