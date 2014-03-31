@@ -1,7 +1,6 @@
 package org.talend.esb.policy.compression.impl;
 
 import java.util.Arrays;
-import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
 import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
 
 /**
@@ -19,6 +18,7 @@ public class CompressionInterceptorProvider extends AbstractPolicyInterceptorPro
         super(Arrays.asList(CompressionPolicyBuilder.COMPRESSION));
         
         CompressionOutInterceptor out = new CompressionOutInterceptor();
+        CompressionInInterceptor in = new CompressionInInterceptor();
 
         remove(this.getOutInterceptors());
         remove(this.getOutFaultInterceptors());
@@ -26,6 +26,6 @@ public class CompressionInterceptorProvider extends AbstractPolicyInterceptorPro
         this.getOutInterceptors().add(out);
         this.getOutFaultInterceptors().add(out);
         
-        this.getInInterceptors().add(new GZIPInInterceptor());
+        this.getInInterceptors().add(in);
    }        
 } 

@@ -17,10 +17,12 @@ import org.apache.cxf.transport.common.gzip.GZIPFeature;
  * <pre>
  * <![CDATA[
  * <jaxws:endpoint ...>
- *   <jaxws:features>
- *     <bean class="org.apache.cxf.transport.common.gzip.GZIPFeature"
- *     p:threshold="100" p:force="false" />     
- *   </jaxws:features>
+ *    <jaxws:features>
+ * 	     <bean id="compressionFeature" class="org.talend.esb.policy.compression.feature.CompressionFeature">
+ * 		    <property name="threshold" value="100"/>	
+ * 		    <property name="force" value="false"/>
+ * 	     </bean>
+ *    </jaxws:features>
  * </jaxws:endpoint>
  * ]]>
  * </pre>

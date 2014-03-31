@@ -30,7 +30,9 @@ Here is example of the policy:
 b) Enabling via feature (support both Soap and REST service)
 You can add compression feature to features list:
 
-<jaxrs:features>
-    <bean class="org.talend.esb.policy.compression.feature.CompressionFeature"
-     p:threshold="100" p:force="false" />
-</jaxrs:features>
+<jaxws:features>
+	<bean id="compressionFeature" class="org.talend.esb.policy.compression.feature.CompressionFeature">
+		<property name="threshold" value="1"/>	
+		<property name="force" value="true"/>
+	</bean>
+</jaxws:features>
