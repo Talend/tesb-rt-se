@@ -12,6 +12,7 @@
 
 Library Tutorial Example
 =================================
+This is a web application example.
 This example demonstrates using of different message exchange patterns on the base of Library service.
 
 Example contains single module: library-tutorial.
@@ -32,11 +33,13 @@ a) Without Service registry:
    mvn -Pservice -Duse.service.registry=false
    mvn -Pclient -Duse.service.registry=false
 
-b) With Service Registry:
+b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
+   With Service Registry:
    1. Prepare TESB container
       - start TESB container
       - start Service Registry server: "tesb:start-registry"
-      - start STS: "features:install tesb-sts"
+      - start STS: "tesb:start-sts"
+      - switch STS to use jaas (local user.properties file): "tesb:switch-sts-jaas"
       - import Library WSDL: 
         tregistry:create wsdl <resources-dir>/Library.wsdl
       - import policies:
