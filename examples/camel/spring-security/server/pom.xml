@@ -99,7 +99,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>*,javax.servlet,
+                        <Import-Package>*,
                             org.aopalliance.aop
                         </Import-Package>
                         <Require-Bundle>
