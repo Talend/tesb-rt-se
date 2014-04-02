@@ -1,6 +1,7 @@
 package org.talend.esb.policy.compression.impl;
 
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.cxf.interceptor.Fault;
@@ -20,9 +21,13 @@ public class CompressionInInterceptor extends GZIPInInterceptor {
 	@Override
 	public void handleMessage(Message message) throws Fault {
 		try {
+			
+			// Perform compression
+			super.handleMessage(message);
+			
+			// Confirm policy processing
 			AssertionInfo ai = CompressionPolicyBuilder.getAssertion(message);
 			if (ai != null){
-				super.handleMessage(message);
 				ai.setAsserted(true);
 			}
 		} catch (SAXException e) {

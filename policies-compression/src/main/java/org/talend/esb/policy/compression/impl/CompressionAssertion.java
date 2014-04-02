@@ -13,38 +13,25 @@ import org.w3c.dom.Element;
  */
 public class CompressionAssertion implements Assertion {
 
-	/** The force attribute name. */
-	private static String  FORCE_ATTRIBUTE_NAME = "force";
-	
-	/** The force attribute default. */
-	private static boolean FORCE_ATTRIBUTE_DEFAULT = false;
 
 	/** The treshold attribute name. */
 	private static String  TRESHOLD_ATTRIBUTE_NAME = "threshold";
 	
 	/** The treshold attribute default. */
-	private static int TRESHOLD_ATTRIBUTE_DEFAULT = -1;
+	private static int TRESHOLD_ATTRIBUTE_DEFAULT = 1024;
 
-    
     /**
      * The compression threshold to pass to the outgoing interceptor.
      */
     private int threshold = TRESHOLD_ATTRIBUTE_DEFAULT;
     
-    /** Force GZIP instead of negotiate. */
-    private boolean force = FORCE_ATTRIBUTE_DEFAULT;
-
 	/**
 	 * Instantiates a new compression assertion.
 	 *
 	 * @param element the element
 	 */
 	public CompressionAssertion(Element element) {
-        if (element.hasAttributeNS(null, FORCE_ATTRIBUTE_NAME)) {
-        	String attribute = element.getAttributeNS(null, FORCE_ATTRIBUTE_NAME);
-        	force = Boolean.parseBoolean(attribute);
-        }
-        
+      
         if (element.hasAttributeNS(null, TRESHOLD_ATTRIBUTE_NAME)) {
         	String attribute = element.getAttributeNS(null, TRESHOLD_ATTRIBUTE_NAME);
         	threshold = Integer.parseInt(attribute);
@@ -112,7 +99,6 @@ public class CompressionAssertion implements Assertion {
 
         // attributes
         writer.writeAttribute(null, TRESHOLD_ATTRIBUTE_NAME, String.valueOf(threshold));
-        writer.writeAttribute(null, FORCE_ATTRIBUTE_NAME, String.valueOf(force));
 
         // </tpa:Compression>
         writer.writeEndElement();
@@ -135,12 +121,4 @@ public class CompressionAssertion implements Assertion {
 		return threshold;
 	}
 
-	/**
-	 * Checks if is forced.
-	 *
-	 * @return true, if is forced
-	 */
-	public boolean isForced() {
-		return force;
-	}
 }
