@@ -30,8 +30,8 @@ Using maven commands on either UNIX/Linux or Windows:
 
 
 a) Without Service registry:
-   mvn -Pservice -Duse.service.registry=false
-   mvn -Pclient -Duse.service.registry=false
+   mvn -Pservice
+   mvn -Pclient
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
    With Service Registry:
