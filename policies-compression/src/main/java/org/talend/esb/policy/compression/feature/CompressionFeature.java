@@ -27,7 +27,6 @@ import org.talend.esb.policy.compression.impl.CompressionOutInterceptor;
  *    <jaxws:features>
  * 	     <bean id="compressionFeature" class="org.talend.esb.policy.compression.feature.CompressionFeature">
  * 		    <property name="threshold" value="100"/>	
- * 		    <property name="force" value="false"/>
  * 	     </bean>
  *    </jaxws:features>
  * </jaxws:endpoint>
@@ -93,6 +92,4 @@ public class CompressionFeature extends GZIPFeature {
             }
         }
     }    
-    
-
 }
