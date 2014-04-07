@@ -39,10 +39,22 @@ public class Activator implements BundleActivator {
         Activator.context = null;
     }
 
-    public static <T> T getJobService(Class<T> clazz, String name) {
+    public static <T> T getJobService(Class<T> clazz, Class<?> jobType) {
         if (context != null) {
             try {
-                ServiceReference[] serviceReferences = context.getServiceReferences(clazz.getName(), "(&(name=" + name + ")(type=job))");
+            	String clazzName = clazz.getName();
+            	
+            	/*
+            	 * read old version style first
+            	 * see https://jira.talendforge.org/browse/TESB-12909
+            	 */
+                ServiceReference[] serviceReferences = context.getServiceReferences(clazzName, "(&(name=" + jobType.getSimpleName() + ")(type=job))");
+                
+                //if no old version style, then read fashion style
+                if(null == serviceReferences){
+                	serviceReferences = context.getServiceReferences(clazzName, "(&(name=" + jobType.getName() + ")(type=job))");
+                }
+                
                 if (null != serviceReferences) {
                     return clazz.cast(context.getService(serviceReferences[0]));
                 }

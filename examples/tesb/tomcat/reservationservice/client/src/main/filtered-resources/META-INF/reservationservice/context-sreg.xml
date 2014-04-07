@@ -1,0 +1,47 @@
+<!-- 
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================ 
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://cxf.apache.org/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging />
+        </cxf:features>
+    </cxf:bus>
+
+    <jaxws:client id="ReservationServiceClient"
+        name="{http://services.talend.org/ReservationService}ReservationServiceProvider"
+        xmlns:serviceNamespace="http://services.talend.org/ReservationService"
+        serviceClass="org.talend.services.reservationservice.ReservationService"
+        serviceName="serviceNamespace:ReservationServiceProvider"
+        endpointName="serviceNamespace:ReservationServicePort" address="${endpoint.prefix}/ReservationServiceProvider"
+        wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
+        <jaxws:properties>
+            <entry key="use.service.registry" value="true" />
+            <entry key="ws-security.username" value="aebert" />
+            <entry key="ws-security.callback-handler">
+                <bean class="common.talend.ClientCallbackHandler" />
+            </entry>
+        </jaxws:properties>
+    </jaxws:client>
+
+</beans>

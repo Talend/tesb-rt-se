@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
         <artifactId>dev-guide-wsdl-first</artifactId>
-        <version>5.4.1</version>
+        <version>5.6.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.5</version>
+                <version>2.4.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

@@ -19,13 +19,12 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.dom.DOMSource;
 
 import org.dom4j.DocumentException;
+import org.dom4j.io.DOMWriter;
 
 public final class DOM4JMarshaller {
 
@@ -63,17 +62,8 @@ public final class DOM4JMarshaller {
 	}
 
 	public static Source documentToSource(org.dom4j.Document document)
-			throws UnsupportedEncodingException, IOException {
-		// fix for unsupported xmlns="" declaration processing over dom4j
-		// implementation
-		// // old version:
-		// // return new org.dom4j.io.DocumentSource(responseDoc);
-		// new version:
-		java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-		new org.dom4j.io.XMLWriter(baos).write(document);
-		return new javax.xml.transform.stream.StreamSource(
-				new java.io.ByteArrayInputStream(baos.toByteArray()));
-
+			throws org.dom4j.DocumentException {
+	    return new DOMSource(new DOMWriter().write(document));
 	}
 
 }

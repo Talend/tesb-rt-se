@@ -32,8 +32,6 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
 >
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-
 	<jaxws:endpoint
 		xmlns:serviceNamespace="http://examples.esb.talend.org/"
 		serviceName="serviceNamespace:DoubleItService"

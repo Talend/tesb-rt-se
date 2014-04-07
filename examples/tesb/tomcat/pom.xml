@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2014 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.talend.esb.examples.tomcat</groupId>
+	<artifactId>tomcat-examples-parent</artifactId>
+	<name>Talend ESB Runtime :: Examples on Tomcat</name>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>org.talend.esb.examples</groupId>
+		<artifactId>talend-esb-examples</artifactId>
+		<version>5.6.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+    	<dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <module>crmservice</module>
+        <module>reservationservice</module>
+        <module>app-reservation</module>
+    </modules>
+	
+	<properties>
+		<tomcat.username>tomcat</tomcat.username>
+		<tomcat.password>tomcat</tomcat.password>
+		
+		<tomcat.host>localhost</tomcat.host>
+		<tomcat.http.port>8080</tomcat.http.port>
+		<tomcat.https.port>8443</tomcat.https.port>
+		<tomcat.port>${tomcat.http.port}</tomcat.port>
+		
+		<tomcat.url>http://${tomcat.host}:${tomcat.port}/manager/text</tomcat.url>
+		
+		<tesb.runtime.host>localhost</tesb.runtime.host>
+		<tesb.runtime.port>8040</tesb.runtime.port>
+		
+		<sam.endpoint>http://${tesb.runtime.host}:${tesb.runtime.port}/services/MonitoringServiceSOAP</sam.endpoint>
+		
+		<locator.port>2181</locator.port>
+		<locator.endpoint>${tesb.runtime.host}:${locator.port}</locator.endpoint>
+		
+		<log.level>INFO</log.level>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>Tomcat6</id>
+			<properties>
+				<tomcat.url>http://${tomcat.host}:${tomcat.port}/manager</tomcat.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>slsam</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profile.name>slsam</profile.name>
+			</properties>
+		</profile>
+		<profile>
+			<id>sreg</id>
+			<properties>
+				<profile.name>sreg</profile.name>
+			</properties>
+		</profile>
+	</profiles>
+
+	<organization>
+		<name>Talend Inc.</name>
+		<url>www.talend.com</url>
+	</organization>
+	<inceptionYear>2014</inceptionYear>
+	<url>http://talend.com</url>
+
+	<licenses>
+		<license>
+			<name>Apache Software License -  Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<prerequisites>
+		<maven>3.0.3</maven>
+	</prerequisites>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources/</directory>
+			</resource>
+			<resource>
+				<directory>src/main/filtered-resources/</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+    <repositories>
+		<repository>
+			<id>registry-artifacts-repo</id>
+			<url>file:../registry/maven-repo</url>
+		</repository>
+	</repositories>
+</project>

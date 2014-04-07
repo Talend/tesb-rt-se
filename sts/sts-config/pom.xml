@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>sts</artifactId>
-        <version>5.4.1</version>
+        <version>5.6.0-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -56,12 +56,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans,
-                            org.springframework.context,
-                            org.springframework.osgi.core
-                        </Require-Bundle>
+                        <Import-Package>
+                            *
+                            ,org.apache.cxf.bus.spring
+                        </Import-Package>
+                        <_nouses>true</_nouses>
                     </instructions>
                 </configuration>
             </plugin>

@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.talend.esb.locator.service</groupId>
 		<artifactId>locator-service-parent</artifactId>
-		<version>5.4.1</version>
+		<version>5.6.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -61,10 +61,6 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Require-Bundle>
-							org.apache.cxf.bundle,
-							org.springframework.beans
-                        </Require-Bundle>
 					</instructions>
 				</configuration>
 			</plugin>

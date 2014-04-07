@@ -32,8 +32,6 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-
     <context:annotation-config/>
 
     <!-- Configuration Admin entry -->

@@ -1,0 +1,11 @@
+<entry xmlns="http://www.w3.org/2005/Atom">
+    <title>CRMServicePolicyAttachment</title>
+    <content type="application/xml">
+        <wsp:PolicyAttachment xmlns:wsp="http://www.w3.org/ns/ws-policy">
+            <wsp:AppliesTo>
+                <wsp:URI>http://services.talend.org/CRMService#wsdl11.service(CRMServiceProvider)</wsp:URI>
+            </wsp:AppliesTo>
+            <wsp:PolicyReference URI="usernameToken" />
+        </wsp:PolicyAttachment>
+    </content>
+</entry>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsp:Policy Name="wspolicy_sam" xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:ServiceActivityMonitoring xmlns:tpa="http://types.talend.com/policy/assertion/1.0" applyTo="provider" />
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>

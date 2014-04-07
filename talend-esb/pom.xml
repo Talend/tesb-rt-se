@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2011 - 2012 Talend Inc.
+    Copyright (C) 2011 - 2014 Talend Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>5.4.1</version>
+		<version>5.6.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.talend.esb.assembly</groupId>
@@ -33,15 +33,15 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>1.6.1-incubating</jclouds.version>
+        <jclouds.version>1.7.1</jclouds.version>
+        <joda-time.version>2.2</joda-time.version>
+        <opensaml.bundle.version>2.6.1_1</opensaml.bundle.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-<!--         <saaj-impl.version>1.3.20_1</saaj-impl.version> -->
-        <wss4j.version>1.6.11</wss4j.version>
+        <wss4j.version>1.6.14</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
-        <xmlsec.version>1.5.6</xmlsec.version>
-	</properties>
+ 	</properties>
 
 	<dependencies>
 		<dependency>
@@ -95,7 +95,7 @@
 				<executions>
 					<execution>
 						<id>add-features-to-repo</id>
-						<phase>generate-resources</phase>
+						<phase>process-resources</phase>
 						<goals>
 							<goal>add-features-to-repo</goal>
 						</goals>
@@ -107,21 +107,21 @@
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>file:${basedir}/target/classes/standard-2.2.9-features.xml</descriptor> -->
+<!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-								<feature>spring</feature>
+								<feature>spring/${spring.version}</feature>
 								<feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
+                                <feature>transaction</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
-                                <feature>activemq-spring</feature>
-                                <feature>activemq-web-console</feature>
-                                <feature>activemq-optional</feature>
+                                <feature>activemq-broker</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -175,10 +175,13 @@
 						        <feature>camel-hazelcast</feature>
                                 <feature>camel-hbase</feature>
                                 <feature>camel-hdfs</feature>
+                                <feature>camel-hdfs2</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
 						        <feature>camel-ibatis</feature>
+						        <feature>camel-ical</feature>
+						        <feature>camel-infinispan</feature>
 						        <feature>camel-irc</feature>
 						        <feature>camel-jackson</feature>
 						        <feature>camel-jasypt</feature>
@@ -187,6 +190,7 @@
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
 						        <feature>camel-jetty</feature>
+						        <feature>camel-jgroups</feature>
 						        <feature>camel-jibx</feature>
 						        <feature>camel-jing</feature>
 						        <feature>camel-jms</feature>
@@ -194,12 +198,15 @@
 						        <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
                                 <feature>camel-jsch</feature>
+                                <feature>camel-jsonpath</feature>
 						        <feature>camel-jt400</feature>
 						        <feature>camel-juel</feature>
 						        <feature>camel-jxpath</feature>
+						        <feature>camel-kafka</feature>
 						        <feature>camel-kestrel</feature>
                                 <feature>camel-krati</feature>
 						        <feature>camel-ldap</feature>
+						        <feature>camel-leveldb</feature>
 						        <feature>camel-lucene</feature>
 						        <feature>camel-mail</feature>
 						        <feature>camel-mina</feature>
@@ -214,6 +221,7 @@
 						        <feature>camel-netty</feature>
                                 <feature>camel-netty-http</feature>
 						        <feature>camel-ognl</feature>
+						        <feature>camel-optaplanner</feature>
 						        <feature>camel-paxlogging</feature>
 						        <feature>camel-printer</feature>
 						        <feature>camel-protobuf</feature>
@@ -244,6 +252,7 @@
 						        <feature>camel-snmp</feature>
 						        <feature>camel-soap</feature>
                                 <feature>camel-solr</feature>
+                                <feature>camel-splunk</feature>
                                 <feature>camel-spring-batch</feature>
                                 <feature>camel-spring-integration</feature>
 						        <feature>camel-spring-javaconfig</feature>
@@ -343,14 +352,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>apache-cxf-${cxf.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- workaround for saaj-impl bundle version -->
-<!--                                 <artifactItem> -->
-<!--                                     <groupId>org.apache.servicemix.bundles</groupId> -->
-<!--                                     <artifactId>org.apache.servicemix.bundles.saaj-impl</artifactId> -->
-<!--                                     <version>${saaj-impl.version}</version> -->
-<!--                                     <type>jar</type> -->
-<!--                                     <outputDirectory>target/dependencies</outputDirectory> -->
-<!--                                 </artifactItem> -->
                                 <!-- patch for xalan and xerces version -->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
@@ -374,55 +375,31 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <!-- patch for ActiveMQ features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
                                     <version>${activemq.version}</version>
-                                    <classifier>features</classifier>
+                                    <classifier>features-core</classifier>
                                     <type>xml</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
+                                   <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
+                                <!-- workaround for opensaml version -->
                                 <artifactItem>
-                                    <groupId>org.apache.xbean</groupId>
-                                    <artifactId>xbean-blueprint</artifactId>
-                                    <version>${xbean.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
+                                     <version>${opensaml.bundle.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- patch xmlsec bundle (TESB-12067) -->
+                                <!-- workaround for joda-time version -->
                                 <artifactItem>
-                                    <groupId>org.apache.santuario</groupId>
-                                    <artifactId>xmlsec</artifactId>
-                                    <version>${xmlsec.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-blueprint</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-spring</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- patch camel-paxlogging bundle (TESB-11291) -->
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-paxlogging</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
+                                     <groupId>joda-time</groupId>
+                                     <artifactId>joda-time</artifactId>
+                                     <version>${joda-time.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -643,43 +620,24 @@
 					</execution>
                     <execution>
                         <id>patch-features-files</id>
-                        <phase>package</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/2.7.6/xml/features"
+                                        token="apache-cxf/2.7.10/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_5&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <!-- patch xmlsec bundle (TESB-12067) -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.santuario/xmlsec/1.5.5&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.santuario/xmlsec/${xmlsec.version}&lt;</replacevalue>
-                                    </replacefilter>
-                                    <!-- patch camel-blueprint and camel-spring bundles (TESB-11244) -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.camel/camel-blueprint/2.12.1&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.camel/camel-blueprint/2.12.1/jar/TESB&lt;</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.camel/camel-spring/2.12.1&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.camel/camel-spring/2.12.1/jar/TESB&lt;</replacevalue>
-                                    </replacefilter>
-                                    <!-- patch camel-paxlogging bundle (TESB-11291) -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.camel/camel-paxlogging/2.12.1&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.camel/camel-paxlogging/2.12.1/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
@@ -692,17 +650,11 @@
                                         <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- patch xmlsec bundle (TESB-12067) -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.santuario/xmlsec/1.5.5&lt;</replacetoken> 
-                                        <replacevalue>mvn:org.apache.santuario/xmlsec/${xmlsec.version}&lt;</replacevalue>
-                                    </replacefilter>
                                 </replace>
-                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
-                                    <!-- patch for xbean-blueprint version (TESB-9304) -->
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
-                                        token="xbean-blueprint/3.11.1"
-                                        value="xbean-blueprint/${xbean.version}"/>
+                                        token="org.apache.zookeeper/zookeeper/3.4.5"
+                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
                             </target>
                         </configuration>

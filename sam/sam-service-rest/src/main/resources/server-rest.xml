@@ -8,7 +8,6 @@
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
     ">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="datasource-rest.xml" />
     <import resource="persistence-rest.xml" />
 

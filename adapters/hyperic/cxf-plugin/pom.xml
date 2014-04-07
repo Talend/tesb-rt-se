@@ -32,7 +32,7 @@
 		<groupId>org.talend.esb</groupId>
 		<artifactId>tesb-adapters</artifactId>
 		<relativePath>../../pom.xml</relativePath>
-		<version>5.4.1</version>
+		<version>5.6.0-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -123,6 +123,27 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>javadoc-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <!-- switch on dependency-driven aggregation -->
+                            <includeDependencySources>true</includeDependencySources>
+                            <dependencySourceIncludes>
+                                <!-- include ONLY our artifacts -->
+                                <dependencySourceInclude>org.talend.esb.hyperic:*</dependencySourceInclude>
+                            </dependencySourceIncludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

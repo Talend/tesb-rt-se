@@ -1,0 +1,132 @@
+<definitions targetNamespace="http://services.talend.org/CRMService"
+    xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:crm="http://services.talend.org/crm/types"
+    xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://services.talend.org/CRMService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <types>
+        <xsd:schema elementFormDefault="unqualified"
+            targetNamespace="http://services.talend.org/crm/types"
+            xmlns="http://services.talend.org/crm/types">
+            <xsd:element name="CustomerDetails" type="crm:CustomerDetailsType" />
+            <xsd:element name="LoginUser" type="crm:LoginUserType" />
+            <xsd:element name="RYLCStatus" type="crm:RYLCStatusType" />
+            <xsd:complexType name="LoginUserType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="name"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="username"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="email"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="CustomerDetailsType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="city"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="email"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="gender"
+                        type="xsd:string" />
+                    <xsd:element name="id" type="xsd:long" />
+                    <xsd:element minOccurs="0" name="name"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="status"
+                        type="crm:CRMStatusType" />
+                    <xsd:element minOccurs="0" name="street"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="username"
+                        type="xsd:string" />
+                    <xsd:element minOccurs="0" name="zip"
+                        type="xsd:string" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="CRMStatusType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="NONE" />
+                    <xsd:enumeration value="NORMAL" />
+                    <xsd:enumeration value="GOLD" />
+                    <xsd:enumeration value="PLATINUM" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="RYLCStatusType">
+                <xsd:sequence>
+                    <xsd:element name="customerId" type="xsd:long" />
+                    <xsd:element name="code"
+                        type="crm:RYLCStatusCodeType" />
+                    <xsd:element name="creditPoints" type="xsd:integer" />
+                    <xsd:element name="description" type="xsd:string"
+                        minOccurs="0" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="RYLCStatusCodeType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="ACTIVE" />
+                    <xsd:enumeration value="INACTIVE" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:schema>
+    </types>
+    <message name="getCRMInformationRequest">
+        <part element="crm:LoginUser" name="body" />
+    </message>
+    <message name="getCRMInformationResponse">
+        <part element="crm:CustomerDetails" name="body" />
+    </message>
+    <message name="getCRMStatusRequest">
+        <part element="crm:CustomerDetails" name="body" />
+    </message>
+    <message name="getCRMStatusResponse">
+        <part element="crm:RYLCStatus" name="body" />
+    </message>
+    <message name="updateCRMStatusRequest">
+        <part element="crm:RYLCStatus" name="body" />
+    </message>
+    <portType name="CRMService">
+        <operation name="getCRMInformation">
+            <input message="tns:getCRMInformationRequest" />
+            <output message="tns:getCRMInformationResponse" />
+        </operation>
+        <operation name="getCRMStatus">
+            <input message="tns:getCRMStatusRequest" />
+            <output message="tns:getCRMStatusResponse" />
+        </operation>
+        <operation name="updateCRMStatus">
+            <input message="tns:updateCRMStatusRequest" />
+        </operation>
+    </portType>
+    <wsdl:service name="CRMServiceProvider">
+        <wsdl:port binding="tns:CRMServiceBinding" name="CRMServicePort">
+            <soap:address
+                location="http://localhost:8040/services/CRMServiceProvider/" />
+        </wsdl:port>
+    </wsdl:service>
+    <wsdl:binding name="CRMServiceBinding" type="tns:CRMService">
+        <soap:binding style="document"
+            transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="getCRMInformation">
+            <soap:operation soapAction="getCRMInformation" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getCRMStatus">
+            <soap:operation soapAction="getCRMStatus" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="updateCRMStatus">
+            <soap:operation soapAction="updateCRMStatus" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+</definitions>

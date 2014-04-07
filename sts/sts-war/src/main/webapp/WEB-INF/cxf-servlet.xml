@@ -34,7 +34,7 @@
         http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+
     <import resource="cxf-transport.xml"/>  
     <import resource="cxf-ut.xml"/>   
     <import resource="cxf-encrypted-ut.xml"/>   

@@ -55,7 +55,7 @@ import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
  * Tests the monitoring service using webservice calls
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/test-server.xml", "/server-config.xml", "/fulltest-client.xml"})
+@ContextConfiguration(locations = {"/fulltest-server.xml", "/server-config.xml", "/fulltest-client.xml"})
 public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource(name = "monitoringServiceV1Client")
     MonitoringService monitoringService;

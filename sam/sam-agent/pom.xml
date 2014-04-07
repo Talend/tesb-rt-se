@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>sam-parent</artifactId>
-        <version>5.4.1</version>
+        <version>5.6.0-SNAPSHOT</version>
     </parent>
 
     <name>Service Activity Monitoring :: Agent</name>
@@ -23,30 +23,6 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-local</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-ws-addr</artifactId>
             <version>${cxf.version}</version>
         </dependency>
 
@@ -66,12 +42,6 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
@@ -86,6 +56,13 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-tools-common</artifactId>
+            <version>${cxf.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-local</artifactId>
             <version>${cxf.version}</version>
             <scope>test</scope>
         </dependency>
@@ -109,12 +86,14 @@
                             {local-packages},
                             META-INF.tesb
                         </Export-Package>
-                        <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans,
-                            org.springframework.context
-                        </Require-Bundle>
 						<Bundle-Activator>org.talend.esb.sam.agent.activator.AgentActivator</Bundle-Activator>
+                        <Import-Package>
+                            *
+                            ,org.springframework.beans.factory.config
+                            ,org.springframework.scheduling.annotation
+                            ,org.springframework.scheduling.config
+                            ,org.springframework.scheduling.concurrent
+                        </Import-Package>
                         <_failok>true</_failok>
                         <_nouses>true</_nouses>
                     </instructions>
