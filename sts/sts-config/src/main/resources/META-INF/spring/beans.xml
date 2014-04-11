@@ -63,8 +63,12 @@
         <property name="stsProperties" ref="utSTSProperties"/>
     </bean>
 
-    <bean id="utSamlTokenProvider"
-        class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
+    <bean id="utSamlTokenProvider" class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
+        <property name="conditionsProvider" ref="utSamlConditionsProvider"/>
+    </bean>
+
+    <bean id="utSamlConditionsProvider" class="org.apache.cxf.sts.token.provider.DefaultConditionsProvider">
+        <property name="lifetime" value="$sts{samlTokenLifetime}"/>
     </bean>
 
     <bean id="utSamlTokenValidator"
@@ -91,6 +95,7 @@
                 <prop key="signatureProperties">file:./etc/keystores/stsKeystore.properties</prop>
                 <prop key="signatureUsername">mystskey</prop>
                 <prop key="bspCompliant">false</prop>
+                <prop key="samlTokenLifetime">1800</prop>
             </osgix:cm-properties>
         </property>
         <property name="placeholderPrefix" value="$sts{" />
