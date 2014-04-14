@@ -34,10 +34,8 @@
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.7.1</jclouds.version>
-        <joda-time.version>2.2</joda-time.version>
-        <opensaml.bundle.version>2.6.1_1</opensaml.bundle.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>1.6.14</wss4j.version>
+        <wss4j.version>1.6.15</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
@@ -385,22 +383,6 @@
                                     <type>xml</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                    <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
-                                </artifactItem>
-                                <!-- workaround for opensaml version -->
-                                <artifactItem>
-                                     <groupId>org.apache.servicemix.bundles</groupId>
-                                     <artifactId>org.apache.servicemix.bundles.opensaml</artifactId>
-                                     <version>${opensaml.bundle.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- workaround for joda-time version -->
-                                <artifactItem>
-                                     <groupId>joda-time</groupId>
-                                     <artifactId>joda-time</artifactId>
-                                     <version>${joda-time.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>

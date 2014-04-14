@@ -360,10 +360,6 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
-                <!-- patch for opensaml version -->
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/2.5.3_3/**</exclude>
-                <!-- patch for joda-time version -->
-                <exclude>joda-time/joda-time/2.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -530,18 +526,6 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- workaround for opensaml bundle -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.opensaml-${opensaml.bundle.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.opensaml/${opensaml.bundle.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- workaround for joda-time jar -->
-        <file>
-            <source>${basedir}/target/dependencies/joda-time-${joda-time.version}.jar</source>
-            <outputDirectory>/container/system/joda-time/joda-time/${joda-time.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
     </files>
 
