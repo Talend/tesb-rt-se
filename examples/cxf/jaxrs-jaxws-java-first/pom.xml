@@ -21,7 +21,7 @@
     </parent>
 
     <properties>
-      <cxf.version>2.7.11-SNAPSHOT</cxf.version>
+      <cxf.version>2.7.11</cxf.version>
     </properties>
 
     <dependencies>
