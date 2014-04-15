@@ -48,7 +48,6 @@ import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.transport.http.HTTPConduit;
@@ -83,9 +82,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
              "ws-security.signature.password";
 
     private final String operationName;
-    private final boolean isRequestResponse;
     private final EventFeature samFeature;
-    private final String soapAction;
     private final List<Header> soapHeaders;
     private AuthorizationPolicy authorizationPolicy;
 
@@ -98,24 +95,22 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
     RuntimeESBConsumer(final QName serviceName,
             final QName portName,
-            String operationName,
+            final String operationName,
             String publishedEndpointUrl,
             String wsdlURL,
-            boolean isRequestResponse,
+            final boolean isRequestResponse,
             final LocatorFeature slFeature,
             final EventFeature samFeature,
             boolean useServiceRegistry,
             final SecurityArguments securityArguments,
             Bus bus,
             boolean logging,
-            String soapAction,
+            final String soapAction,
             final List<Header> soapHeaders,
             boolean enhancedResponse,
             Object correlationIDCallbackHandler) {
         this.operationName = operationName;
-        this.isRequestResponse = isRequestResponse;
         this.samFeature = samFeature;
-        this.soapAction = soapAction;
         this.soapHeaders = soapHeaders;
         this.enhancedResponse = enhancedResponse;
 
@@ -128,6 +123,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 InterfaceInfo ii = endpoint.getService().getServiceInfos()
                         .get(0).getInterface();
                 ii.setName(serviceName);
+
+                final ServiceInfo si = endpoint.getService().getServiceInfos().get(0);
+                ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
+
                 return endpoint;
             }
         };
@@ -354,10 +353,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 HTTPConduit conduit = (HTTPConduit) client.getConduit();
                 conduit.setAuthorization(authorizationPolicy);
             }
-
-            final Service service = client.getEndpoint().getService();
-            final ServiceInfo si = service.getServiceInfos().get(0);
-            ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
         }
         return client;
     }
