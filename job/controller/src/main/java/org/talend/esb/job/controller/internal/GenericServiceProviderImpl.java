@@ -21,7 +21,6 @@ package org.talend.esb.job.controller.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,18 +28,11 @@ import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
-import javax.xml.validation.Schema;
 import javax.xml.ws.handler.MessageContext;
 
-import org.apache.cxf.annotations.SchemaValidation.SchemaValidationType;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
-import org.apache.cxf.jaxws.context.WrappedMessageContext;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.service.Service;
-import org.apache.cxf.service.model.ServiceModelUtil;
 import org.apache.cxf.staxutils.StaxUtils;
-import org.apache.cxf.wsdl.EndpointReferenceUtils;
 import org.dom4j.io.SAXReader;
 import org.osgi.service.cm.ConfigurationException;
 import org.talend.esb.job.controller.ESBEndpointConstants;
@@ -51,7 +43,6 @@ import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
-import org.xml.sax.SAXException;
 
 import routines.system.api.ESBProviderCallback;
 
@@ -104,33 +95,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             org.dom4j.Document requestDoc = new SAXReader()
                     .read(new ByteArrayInputStream(os.toByteArray()));
 
-            //workaround for CXF-5169
-            MessageContext mContext = context.getMessageContext();
-            WrappedMessageContext wmc = (WrappedMessageContext)mContext;
-            Message message = wmc.getWrappedMessage();
-            Object validationObj = message.getContextualProperty(Message.SCHEMA_VALIDATION_ENABLED);
-            boolean shouldValidate = false;
-            if (validationObj instanceof String) {
-                String validationStr = (String)validationObj;
-                shouldValidate = validationStr.equalsIgnoreCase("true") || validationStr.equalsIgnoreCase("OUT");
-            } else if (validationObj instanceof SchemaValidationType) {
-                SchemaValidationType validationType = (SchemaValidationType)validationObj;
-                shouldValidate = (validationType == SchemaValidationType.BOTH || 
-                        validationType == SchemaValidationType.OUT);
-            }
-
-            Schema schema = null;
-            if (shouldValidate) {
-                Service service = ServiceModelUtil.getService(message.getExchange());
-                schema = EndpointReferenceUtils.getSchema(service.getServiceInfos().get(0),
-                        message.getExchange().getBus());
-            }
-
-            if (null != schema) {
-                Source source = DOM4JMarshaller.documentToSource((org.dom4j.Document) requestDoc);
-                schema.newValidator().validate(source);
-            }
-
             Object payload;
             if (extractHeaders) {
                 Map<String, Object> esbRequest = new HashMap<String, Object>();
@@ -162,9 +126,9 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                     eventFeature.setHandler(ciHandler);
                 }
 
-                return processResult(map.get(ESBEndpointConstants.REQUEST_PAYLOAD), schema);
+                return processResult(map.get(ESBEndpointConstants.REQUEST_PAYLOAD));
             } else {
-                return processResult(result, schema);
+                return processResult(result);
             }
         } catch (RuntimeException e) {
             throw e;
@@ -177,24 +141,12 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
         configuration.setProperties(properties);
     }
 
-    private Source processResult(Object result, Schema schema) {
+    private Source processResult(Object result) {
     	Source source = null;
         if (result instanceof org.dom4j.Document) {
         	try {
-	            //workaround for CXF-5169
-                if (null != schema) {
-                    source = DOM4JMarshaller.documentToSource((org.dom4j.Document) result);
-                    schema.newValidator().validate(source);
-                    source = null;
-                }
-
 			    source = DOM4JMarshaller.documentToSource((org.dom4j.Document) result);
-
 			} catch (org.dom4j.DocumentException e) {
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			} catch (SAXException e) {
 				throw new RuntimeException(e);
 			}
         } else if (result instanceof RuntimeException) {
