@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.clustering.FailoverTargetSelector;
+import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Conduit;
@@ -40,7 +41,20 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
     private LocatorSelectionStrategy strategy = new DefaultSelectionStrategy();
 
 
-    @Override
+	@Override
+	public void complete(Exchange exchange) {
+	// This overridden method is workaround for TESB-12457
+	// we should have IOException in exchange header to make failover feature works as expected
+	// in case of TOS generated client route we get it only in message context
+        Message outMessage = exchange.getOutMessage();
+        if (outMessage != null) {
+            Exception ex = outMessage.getContent(Exception.class);
+            if (ex != null && exchange.get(Exception.class) == null)
+                exchange.put(Exception.class, ex);        }
+        super.complete(exchange);
+    }
+
+	@Override
     public synchronized Conduit selectConduit(Message message) {
         setAddress(message);
         return super.selectConduit(message);
