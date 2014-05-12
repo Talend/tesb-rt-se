@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+        xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+        default-activation="lazy">
+
+    <ext:property-placeholder />
+
+    <cm:property-placeholder persistent-id="org.talend.esb.callcontext.store.server"
+            placeholder-prefix="$ccs{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="callcontextstore.repo"   value="${tesb.home}/esbrepo/callcontextstore" />
+            <cm:property name="callcontextstore.schema" value="/callcontext.avro" />
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="persistencyManagerBean"
+          class="org.talend.esb.callcontext.store.persistence.file.PersistencyFileManager"
+          init-method="init">
+        <property name="storageDirPath"     value="$ccs{callcontextstore.repo}/fileStore" />
+        <property name="schemaResourceName" value="$ccs{callcontextstore.schema}" />
+    </bean>
+
+    <bean id="callContextStoreServerBean"
+            class="org.talend.esb.callcontext.store.server.CallContextStoreServerImpl"
+            scope="singleton">
+        <property name="persistencyManager" ref="persistencyManagerBean" />
+<!--         <property name="validators"> -->
+<!--             <list> -->
+<!--                 <bean class="org.talend.esb.callcontext.store.server.validator.SomeValidator"/> -->
+<!--                     <argument> -->
+<!--                         <list> -->
+<!--                             <value>someXSD.xsd</value> -->
+<!--                         </list> -->
+<!--                     </argument> -->
+<!--                 </bean> -->
+<!--             </list> -->
+<!--         </property> -->
+
+<!--         <property name="checkers"> -->
+<!--             <list> -->
+<!--                 <bean class="org.talend.esb.callcontext.store.server.checker.ConsistencyChecker"> -->
+<!--                     <property name="persistencyManager" ref="persistencyManagerBean" /> -->
+<!--                 </bean> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="ext_checkers" ref="ext_checkers" /> -->
+    </bean>
+
+    <service interface="org.talend.esb.callcontext.store.common.CallContextStoreServer" ref="callContextStoreServerBean"/>
+
+</blueprint>

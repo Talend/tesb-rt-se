@@ -178,6 +178,7 @@ public class CallContext implements Serializable {
         		callbackPortName, sourceClass, mode);
         setupDispatch(dispatch);
         Map<String, Object> requestContext = dispatch.getRequestContext();
+        requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         requestContext.put("thread.local.request.context", "true");
         if (operation != null) {
             requestContext.put(MessageContext.WSDL_OPERATION, operationName);

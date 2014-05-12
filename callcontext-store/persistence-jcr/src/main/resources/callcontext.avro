@@ -1,0 +1,7 @@
+{"namespace": "org.talend.esb.callcontext.store",
+ "type": "record",
+ "name": "callContext",
+ "fields": [
+     {"name": "bigString", "type": "string"}
+ ]
+}
