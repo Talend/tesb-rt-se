@@ -28,7 +28,7 @@
   <feature name='tesb-ccs-common' version='${callcontext.store.version}'>
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-common/${callcontext.store.version}</bundle>
   </feature>
-  
+
   <!-- Client Side -->
 
   <feature name='tesb-ccs-client-rest' version='${callcontext.store.version}'>
@@ -54,19 +54,23 @@
     <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.avro/${avro-bundle-version}</bundle>
     <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.paranamer/${paranamer-bundle-version}</bundle>
 
+    <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
+   <!-- <bundle>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit-version}</bundle> -->
+
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-persistence/${callcontext.store.version}</bundle>
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-persistence-file/${callcontext.store.version}</bundle>
+<!--      <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-persistence-jcr/${callcontext.store.version}</bundle>  -->
 
   </feature>
-  
+
   <feature name='tesb-ccs-service-rest' version='${callcontext.store.version}'>
-	<!--External dependency -->
+    <!--External dependency -->
     <feature>cxf-rs-security-xml</feature>
-    
+
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-service-rest/${callcontext.store.version}</bundle>
-  </feature>   
+  </feature>
 
    <feature name='tesb-ccs-server' version='${callcontext.store.version}'>
     <!-- Common dependency -->
@@ -76,7 +80,7 @@
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-server/${callcontext.store.version}</bundle>
   </feature>
-  
+
   <!-- Main feature -->
    <feature name='tesb-ccs' version='${callcontext.store.version}'>
     <feature version="${callcontext.store.version}">tesb-ccs-common</feature>

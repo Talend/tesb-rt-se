@@ -40,16 +40,13 @@ public class CallContextStoreServerImplTest {
 	
 	@Test
 	public void saveCallContext() {
-		/*
 		cleanupRepo();
 		
 		server.saveCallContext(CONTEXT_STRING, KEY);
-		*/
 	}
 
 	@Test
 	public void saveCallContextDublicate() {
-		/*
 		String key = null;
 		boolean exceptionIsCatched = false;
 		try {
@@ -61,22 +58,18 @@ public class CallContextStoreServerImplTest {
 			Assert.assertTrue(exceptionIsCatched);
 			Assert.assertNull(key);
 		}
-		*/
 	}
 
 	@Test
 	public void lookupCallContext() {
-		/*
 		String ctxLookup = server.lookupCallContext(KEY);
 		Assert.assertNotNull(ctxLookup);
 		Assert.assertTrue(ctxLookup.equalsIgnoreCase(
 				CONTEXT_STRING));
-		*/
 	}
 
 	@Test
 	public void lookupCallContextNotExisting() {
-		/*
 		String ctxLookup = null;
 		try {
 			ctxLookup = server.lookupCallContext(KEY + "does not exist");
@@ -85,19 +78,15 @@ public class CallContextStoreServerImplTest {
 		} finally {
 			Assert.assertNull(ctxLookup);
 		}
-		*/
 	}
 
 	@Test
 	public void deleteCallContext() {
-		/*
 		server.deleteCallContext(KEY);
-		*/
 	}
 
 	@Test
 	public void deleteCallContextNotExisting() {
-		/*
 		boolean exceptionIsCatched = false;
 		try {
 			server.deleteCallContext(KEY);
@@ -107,11 +96,9 @@ public class CallContextStoreServerImplTest {
 		} finally {
 			Assert.assertTrue(exceptionIsCatched);
 		}
-		*/
 	}
 
 	private void cleanupRepo() {
-		/*
 		File tempFolder = new File(TMP_PATH);
 		if (tempFolder.exists()) {
 			try {
@@ -120,6 +107,5 @@ public class CallContextStoreServerImplTest {
 				e.printStackTrace();
 			}
 		}
-		*/
 	}
 }

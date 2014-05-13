@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+
+        <command name="tesb/start-callback-repo">
+            <action class="org.talend.esb.callcontext.store.commands.StartCallbackRepo"/>
+        </command>
+
+        <command name="tesb/stop-callback-repo">
+            <action class="org.talend.esb.callcontext.store.commands.StopCallbackRepo"/>
+        </command>
+
+    </command-bundle>
+</blueprint>
