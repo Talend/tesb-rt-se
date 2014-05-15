@@ -67,6 +67,9 @@ public abstract class CallContextStoreRestClientSecurityProvider extends Abstrac
 
     public void setServerURL(String serverURL) {
         this.serverURL = serverURL;
+        if (cachedClientFactory != null) {
+            cachedClientFactory.setAddress(serverURL);
+        }
     }
 
     public void setAuthenticationUser(String authenticationUser) {

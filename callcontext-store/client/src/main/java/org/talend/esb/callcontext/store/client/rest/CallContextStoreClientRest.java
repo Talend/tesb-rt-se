@@ -14,8 +14,11 @@
  */
 package org.talend.esb.callcontext.store.client.rest;
 
+import java.net.ConnectException;
+
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.ClientException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -32,69 +35,77 @@ import org.talend.esb.callcontext.store.common.exception.IllegalParameterExcepti
 public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClientRest<E> implements CallContextStoreClient<E>  {
 
     private static final String CALL_PATH = "/callcontext/{contextKey}";
-    
+
     CallContextFactory<E> factory;
-    
-    
+
+
     @Override
     public CallContextFactory<E> getCallContextFactory(){
- 	   return this.factory;
-    }   
-    
+        return this.factory;
+    }
+
     @Override
     public void setCallContextFactory(CallContextFactory<E> factory){
- 	   this.factory = factory;
-    } 
-    
+        this.factory = factory;
+    }
+
     private CallContextFactory<E> findCallContextFactory(){
- 	if(getCallContextFactory()==null){
- 		throw new IllegalParameterException("Call Context factory is null");
- 	}
- 	return getCallContextFactory();
-    }    
+     if(getCallContextFactory()==null){
+         throw new IllegalParameterException("Call Context factory is null");
+     }
+     return getCallContextFactory();
+    }
 
     public CallContextStoreClientRest() {
         super();
     }
-    
+
     @Override
     public E getCallContext(String contextKey) {
-        WebClient client = getWebClient()
-                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
-                .path(CALL_PATH, contextKey);
 
-        String ctx = lookupCallContext(client);
-        
+        String ctx = lookupCallContext(contextKey);
         return findCallContextFactory().unmarshallCallContext(ctx);
     }
 
     @Override
     public void removeCallContext(String contextKey) {
-    	
-    	findCallContextFactory();
-    	
-        WebClient client = getWebClient()
-                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
-                .path(CALL_PATH, contextKey);
 
-        deleteCallContext(client);
+        findCallContextFactory();
+        deleteCallContext(contextKey);
     }
 
     @Override
     public String saveCallContext(E ctx) {
-    	
-    	String key = findCallContextFactory().createCallContextKey(ctx);
-    	
+
+        String key = findCallContextFactory().createCallContextKey(ctx);
+
         WebClient client = getWebClient()
                 .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
                 .path(CALL_PATH, key);
-        
+
         try{
-             client.put(findCallContextFactory().marshalCallContext(ctx));
-             return key;
-            }catch(WebApplicationException e){
+            Response resp = client.put(findCallContextFactory().marshalCallContext(ctx));
+            if (resp.getStatus() == 404) {
+                if (null != client) {
+                    client.reset();
+                }
+                switchServerURL();
+                return saveCallContext(ctx);
+            }
+
+            return key;
+        } catch(WebApplicationException e){
             handleWebException(e);
-        }finally {
+        } catch (Throwable e) {
+            if (e instanceof ConnectException
+                    || e instanceof ClientException) {
+                if (null != client) {
+                    client.reset();
+                }
+                switchServerURL();
+                return saveCallContext(ctx);
+            }
+        } finally {
             if (null != client) {
                 client.reset();
             }
@@ -103,14 +114,29 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
     }
 
 
-   private String lookupCallContext(final WebClient client){
-	   String callContext = null;
+   private String lookupCallContext(final String contextKey){
+
+       WebClient client = getWebClient()
+               .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
+               .path(CALL_PATH, contextKey);
+
+
+       String callContext = null;
         try {
             callContext = client.get(String.class);
         } catch (NotFoundException e) {
             return null;
         } catch (WebApplicationException e) {
             handleWebException(e);
+        } catch (Throwable e) {
+            if (e instanceof ConnectException
+                    || e instanceof ClientException) {
+                if (null != client) {
+                    client.reset();
+                }
+                switchServerURL();
+                return lookupCallContext(contextKey);
+            }
         } finally {
             if (null != client) {
                 client.reset();
@@ -120,7 +146,11 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
         return callContext;
     }
 
-   private void deleteCallContext(final WebClient client){
+   private void deleteCallContext(final String contextKey){
+
+       WebClient client = getWebClient()
+               .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
+               .path(CALL_PATH, contextKey);
 
        try {
            client.delete();
@@ -128,6 +158,15 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
            return;
        } catch (WebApplicationException e) {
            handleWebException(e);
+       } catch (Throwable e) {
+           if (e instanceof ConnectException
+                   || e instanceof ClientException) {
+               if (null != client) {
+                   client.reset();
+               }
+               switchServerURL();
+               deleteCallContext(contextKey);
+           }
        } finally {
            if (null != client) {
                client.reset();

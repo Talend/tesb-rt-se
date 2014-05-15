@@ -38,7 +38,7 @@
         <property name="callContextStoreServer" ref="callContextStoreServer" />
     </bean>
 
-    <jaxrs:server id="callContextService" address="/callcontextstore">
+    <jaxrs:server id="callContextService" address="/CallbackService">
         <jaxrs:serviceBeans>
             <ref component-id="callContextServiceImpl" />
         </jaxrs:serviceBeans>

@@ -42,7 +42,7 @@ public  class WriteReadDeleteContext implements Example {
 	factory = createCallContextFactory();
 	client = createCallContextClient();
 	client.setCallContextFactory(factory);
-	client.setServerURL("http://localhost:8040/services/callcontextstore");
+	client.setServerURL("htttp://localhost:8040/services/CallbackService");
 		
 	System.out.println("Test is run");
 	

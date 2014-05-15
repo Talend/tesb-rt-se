@@ -45,11 +45,11 @@
             <version>${callcontext.store.version}</version>
         </dependency>
 
-<!--        <dependency>
+        <dependency>
             <groupId>org.talend.esb.callcontext.store</groupId>
             <artifactId>callcontext-store-persistence-jcr</artifactId>
             <version>${callcontext.store.version}</version>
-        </dependency> -->
+        </dependency>
 
         <dependency>
             <groupId>org.apache.cxf</groupId>

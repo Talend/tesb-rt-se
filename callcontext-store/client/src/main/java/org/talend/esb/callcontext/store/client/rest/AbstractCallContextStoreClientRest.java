@@ -24,8 +24,12 @@ import org.talend.esb.callcontext.store.rest.security.CallContextStoreRestClient
 
 public abstract class AbstractCallContextStoreClientRest<E> extends CallContextStoreRestClientSecurityProvider {
 
+    private String[] serverURLs;
+
+    private int currentServerURLIndex;
+
     CallContextFactory<E> factory;
-    
+
     private WebClient cachedClient = null;
 
     protected WebClient getWebClient() {
@@ -37,5 +41,26 @@ public abstract class AbstractCallContextStoreClientRest<E> extends CallContextS
 
     protected String urlEncode(String param) throws UnsupportedEncodingException {
         return URLEncoder.encode(param, "UTF-8");
-    } 
+    }
+
+    public void switchServerURL() {
+        currentServerURLIndex++;
+
+        if (currentServerURLIndex >= serverURLs.length) {
+            currentServerURLIndex = 0;
+            super.setServerURL(serverURLs[currentServerURLIndex]);
+            cachedClient = null;
+
+            throw new RuntimeException("None of the call context REST server(s) is available");
+        }
+
+        super.setServerURL(serverURLs[currentServerURLIndex]);
+        cachedClient = null;
+    }
+
+    public void setServerURL(String serverURL) {
+        serverURLs = serverURL.split(",");
+        currentServerURLIndex = 0;
+        super.setServerURL(serverURLs[currentServerURLIndex]);
+    }
 }

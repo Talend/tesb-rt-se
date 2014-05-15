@@ -1,140 +1,140 @@
-<!-- // ============================================================================ 
-	// // Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com // // This source 
-	code is available under agreement available at // %InstallDIR%\license.txt 
-	// // You should have received a copy of the agreement // along with this 
-	program; if not, write to Talend SA // 9 rue Pages 92150 Suresnes, France 
-	// // ============================================================================ -->
+<!-- // ============================================================================
+    // // Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com // // This source
+    code is available under agreement available at // %InstallDIR%\license.txt
+    // // You should have received a copy of the agreement // along with this
+    program; if not, write to Talend SA // 9 rue Pages 92150 Suresnes, France
+    // // ============================================================================ -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>callcontext-store-client-rest</artifactId>
-	<version>${callcontext.store.version}</version>
-	<packaging>bundle</packaging>
-	<name>Talend ESB Call Context Store :: REST client </name>
+    <artifactId>callcontext-store-client-rest</artifactId>
+    <version>${callcontext.store.version}</version>
+    <packaging>bundle</packaging>
+    <name>Talend ESB Call Context Store :: REST client </name>
 
-	<parent>
-		<groupId>org.talend.esb.callcontext.store</groupId>
-		<artifactId>callcontext-store-parent</artifactId>
-		<version>5.6.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.talend.esb.callcontext.store</groupId>
+        <artifactId>callcontext-store-parent</artifactId>
+        <version>5.6.0-SNAPSHOT</version>
+    </parent>
 
-	<prerequisites>
-		<maven>${maven.version}</maven>
-	</prerequisites>
+    <prerequisites>
+        <maven>${maven.version}</maven>
+    </prerequisites>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
-        </dependency>		
+        </dependency>
 
-		<dependency>
-			<groupId>org.talend.esb.callcontext.store</groupId>
-			<artifactId>callcontext-store-common</artifactId>
-			<version>${callcontext.store.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.talend.esb.callcontext.store</groupId>
-			<artifactId>callcontext-store-client-common</artifactId>
-			<version>${callcontext.store.version}</version>
-		</dependency>	
-		
-		<dependency>
-			<groupId>org.talend.esb.callcontext.store</groupId>
-			<artifactId>callcontext-store-rest-security</artifactId>
-			<version>${callcontext.store.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.talend.esb.callcontext.store</groupId>
+            <artifactId>callcontext-store-common</artifactId>
+            <version>${callcontext.store.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.talend.esb.callcontext.store</groupId>
+            <artifactId>callcontext-store-client-common</artifactId>
+            <version>${callcontext.store.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.talend.esb.callcontext.store</groupId>
+            <artifactId>callcontext-store-rest-security</artifactId>
+            <version>${callcontext.store.version}</version>
+        </dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${bundle.plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Require-Bundle>
-							org.apache.cxf.bundle,
-							org.springframework.beans
-						</Require-Bundle>
-					</instructions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>${build.helper.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>etc/org.talend.esb.callcontext.store.client.cfg</file>
-									<type>cfg</type>
-									<classifier>org.talend.esb.callcontext.store.client</classifier>
-								</artifact>
-								<artifact>
-									<file>etc/keystores/clientKeystore.properties</file>
-									<type>properties</type>
-									<classifier>clientKeystore</classifier>
-								</artifact>
-								<artifact>
-									<file>etc/keystores/clientstore.jks</file>
-									<type>jks</type>
-									<classifier>clientstore</classifier>
-								</artifact>
-								<artifact>
-									<file>etc/keystores/serviceKeystore.properties</file>
-									<type>properties</type>
-									<classifier>serviceKeystore</classifier>
-								</artifact>
-								<artifact>
-									<file>etc/keystores/servicestore.jks</file>
-									<type>jks</type>
-									<classifier>servicestore</classifier>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${bundle.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Require-Bundle>
+                            org.apache.cxf.bundle,
+                            org.springframework.beans
+                        </Require-Bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build.helper.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>etc/org.talend.esb.callback.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.callback</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>clientKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/clientstore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>clientstore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/serviceKeystore.properties</file>
+                                    <type>properties</type>
+                                    <classifier>serviceKeystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/keystores/servicestore.jks</file>
+                                    <type>jks</type>
+                                    <classifier>servicestore</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
