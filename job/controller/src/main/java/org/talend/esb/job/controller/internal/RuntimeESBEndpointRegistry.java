@@ -27,7 +27,12 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.bus.extension.Extension;
+import org.apache.cxf.bus.extension.ExtensionManager;
+import org.apache.cxf.bus.extension.ExtensionManagerImpl;
+import org.apache.cxf.bus.extension.ExtensionRegistry;
 import org.apache.cxf.headers.Header;
+import org.apache.cxf.service.factory.FactoryBeanListenerManager;
 import org.apache.neethi.Policy;
 import org.apache.ws.security.components.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants;
@@ -46,6 +51,10 @@ import routines.system.api.ESBEndpointRegistry;
 public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     private static final Logger LOG = Logger.getLogger(RuntimeESBEndpointRegistry.class.getName());
+    
+    private static final String WSDL_CLIENT_EXTENSION_NAME = "org.talend.esb.registry.client.wsdl.RegistryFactoryBeanListener";
+    
+    private static final String POLICY_CLIENT_EXTENSION_NAME = "org.talend.esb.registry.client.policy.RegistryFactoryBeanListener";
 
     private Bus bus;
     private EventFeature samFeature;
@@ -53,7 +62,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private Map<String, String> clientProperties;
     private Map<String, String> stsProperties;
     private Crypto cryptoProvider;
-
+    
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -187,6 +196,33 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 authorizationRole,
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
                 (useCrypto || useServiceRegistry) ? cryptoProvider : null);
+        
+
+        //for TESB-9006, update extensions when registry enabled but no wsdl-client/policy-client
+        //extension set on the old bus. (used to instead the action of refresh job controller bundle.
+
+        if (useServiceRegistry 
+        		&& (!bus.hasExtensionByName(WSDL_CLIENT_EXTENSION_NAME) 
+        				|| !bus.hasExtensionByName(POLICY_CLIENT_EXTENSION_NAME))) {
+        	
+        	boolean updated = false;
+        	Map<String, Extension> exts = ExtensionRegistry.getRegisteredExtensions();
+        	
+        	updated |= setExtensionOnBusIfMissing(bus, exts, WSDL_CLIENT_EXTENSION_NAME);
+        	updated |= setExtensionOnBusIfMissing(bus, exts, POLICY_CLIENT_EXTENSION_NAME);
+        	
+			if (updated) {
+				// this should cause FactoryBeanListenerManager to refresh its list of event listeners
+				FactoryBeanListenerManager fblm = bus
+						.getExtension(FactoryBeanListenerManager.class);
+				
+				if (fblm != null) {
+					fblm.setBus(bus);
+				} else {
+					throw new RuntimeException("CXF bus doesn't contain FactoryBeanListenerManager.");
+				}
+			}
+        }
 
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
@@ -205,4 +241,24 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
     }
 
+	private static boolean setExtensionOnBusIfMissing(Bus bus,
+			Map<String, Extension> exts, String extensionName) {
+		if (exts.containsKey(extensionName)
+				&& !bus.hasExtensionByName(extensionName)) {
+			ExtensionManager extMan = bus.getExtension(ExtensionManager.class);
+			if (extMan instanceof ExtensionManagerImpl) {
+				((ExtensionManagerImpl) extMan).add(exts.get(extensionName));
+				return true;
+			} else {
+				throw new RuntimeException(
+						"A required extension '"
+								+ extensionName
+								+ "' is not loaded on the CXF bus used by Job Controller. "
+								+ "In the same time, the bus uses unknown implementation of ExtensionManager, "
+								+ "so it is not possible to set the extension automatically.");
+			}
+		}
+
+		return false;
+	}
 }
