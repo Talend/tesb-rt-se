@@ -31,20 +31,25 @@ public class StopCallbackRepo extends FeaturesCommandSupport {
              admin.uninstallFeature("tesb-ccs");
          }
 
-         if (admin.isInstalled(admin.getFeature("tesb-ccs-server"))) {
-             admin.uninstallFeature("tesb-ccs-server");
-         }
-
-         if (admin.isInstalled(admin.getFeature("tesb-ccs-persistence"))) {
-             admin.uninstallFeature("tesb-ccs-persistence");
+         if (admin.isInstalled(admin.getFeature("tesb-ccs-common"))) {
+             admin.uninstallFeature("tesb-ccs-common");
          }
 
          if (admin.isInstalled(admin.getFeature("tesb-ccs-client-rest"))) {
              admin.uninstallFeature("tesb-ccs-client-rest");
          }
 
-         if (admin.isInstalled(admin.getFeature("tesb-ccs-common"))) {
-             admin.uninstallFeature("tesb-ccs-common");
+         if (admin.isInstalled(admin.getFeature("tesb-ccs-service-rest"))) {
+             admin.uninstallFeature("tesb-ccs-service-rest");
+         }
+
+         if (admin.isInstalled(admin.getFeature("tesb-ccs-persistence"))) {
+             admin.uninstallFeature("tesb-ccs-persistence");
+         }
+
+
+         if (admin.isInstalled(admin.getFeature("tesb-ccs-server"))) {
+             admin.uninstallFeature("tesb-ccs-server");
          }
     }
 }
