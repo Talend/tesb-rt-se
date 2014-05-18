@@ -89,7 +89,7 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
                 if (null != client) {
                     client.reset();
                 }
-                switchServerURL();
+                switchServerURL(client.getBaseURI().toString());
                 return saveCallContext(ctx);
             }
 
@@ -102,7 +102,7 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
                 if (null != client) {
                     client.reset();
                 }
-                switchServerURL();
+                switchServerURL(client.getBaseURI().toString());
                 return saveCallContext(ctx);
             }
         } finally {
@@ -134,7 +134,7 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
                 if (null != client) {
                     client.reset();
                 }
-                switchServerURL();
+                switchServerURL(client.getBaseURI().toString());
                 return lookupCallContext(contextKey);
             }
         } finally {
@@ -164,7 +164,7 @@ public class CallContextStoreClientRest<E> extends AbstractCallContextStoreClien
                if (null != client) {
                    client.reset();
                }
-               switchServerURL();
+               switchServerURL(client.getBaseURI().toString());
                deleteCallContext(contextKey);
            }
        } finally {
