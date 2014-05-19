@@ -45,6 +45,9 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
     private Session session;
     private Node root;
 
+    private String storageDirPath;
+
+
 
     public PersistencyJCRManager() {
         repositoryFactory = new RepositoryFactoryImpl();
@@ -60,9 +63,9 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
         }
 
 
-
         HashMap<String,String> parameters = new HashMap<String, String>();
-        parameters.put(RepositoryFactoryImpl.REPOSITORY_HOME, "/tmp/jcr-repo/");
+        parameters.put(RepositoryFactoryImpl.REPOSITORY_HOME, storageDirPath);
+        parameters.put(RepositoryFactoryImpl.REPOSITORY_CONF, "etc/org.talend.esb.callback.repo.xml");
 
 
         try {
@@ -175,6 +178,10 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
                 throw new PersistencyException(errorMessage);
             }
         }
+    }
+
+    public void setStorageDirPath(String storageDirPath) {
+        this.storageDirPath = storageDirPath;
     }
 
 }
