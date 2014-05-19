@@ -23,6 +23,22 @@
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
 
+
+   <feature name='jackrabbit-bundles' version='${pom.version}'>
+        <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-api/${jackrabbit-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-jcr-commons/${jackrabbit-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${servicemix.derby.version}</bundle>
+        <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-jcr-tests/${jackrabbit-version}</bundle>
+        <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-core/${lucene-core.version}</bundle>
+        <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-analyzers-common/${lucene-analyzer-common.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika-core.version}</bundle>
+        <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit-version}$Import-Package=!org.apache.lucene.queryParser,*,org.apache.derby.jdbc;</bundle>
+        <bundle dependency='true'>wrap:mvn:concurrent/concurrent/${concurrent.version}</bundle>
+    </feature>
+
   <!-- Common -->
 
   <feature name='tesb-ccs-common' version='${callcontext.store.version}'>
@@ -54,14 +70,9 @@
     <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.avro/${avro-bundle-version}</bundle>
     <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.paranamer/${paranamer-bundle-version}</bundle>
 
-    <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-api/${jackrabbit-version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-jcr-commons/${jackrabbit-version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit-version}</bundle>
-    <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit-version}</bundle>
 
-    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit-version}</bundle>
-    <bundle dependency='true'>wrap:mvn:concurrent/concurrent/${concurrent.version}</bundle>
+     <feature>jackrabbit-bundles</feature>
+
 
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-persistence/${callcontext.store.version}</bundle>

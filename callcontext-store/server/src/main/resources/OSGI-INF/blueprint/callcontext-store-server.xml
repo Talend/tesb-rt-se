@@ -20,12 +20,12 @@
 
     <ext:property-placeholder />
 
-    <cm:property-placeholder persistent-id="org.talend.esb.callcontext.store.server"
+    <cm:property-placeholder persistent-id="org.talend.esb.callback.server"
             placeholder-prefix="$ccs{" update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="callback.store.home"   value="${tesb.home}/esbrepo/callcontextstore" />
+            <cm:property name="callback.store.home"   value="${tesb.home}/esbrepo/callbackrepo" />
             <cm:property name="callback.store.schema" value="/callcontext.avro" />
-            <cm:property name="callback.store"   value= "JCRStore" />
+            <cm:property name="callback.store"   value= "FILEStore" />
         </cm:default-properties>
     </cm:property-placeholder>
 
