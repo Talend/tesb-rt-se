@@ -33,18 +33,14 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 	 */
 	@Override
 	public void handleMessage(SoapMessage message) throws Fault {
-		final Exchange e = message.getExchange();
-		if (!e.isOneWay()) {
-			return;
-		}
-		doHandleSoapMessage(message);
-	}
-
-	private void doHandleSoapMessage(SoapMessage message) throws Fault {
 		final Header callHeader = message.getHeader(
 				RequestCallbackFeature.CALL_ID_HEADER_NAME);
 		if (callHeader == null) {
 			return;
+		}
+		final Exchange e = message.getExchange();
+		if (!e.isOneWay()) {
+			e.setOneWay(true);
 		}
 		final Header callbackHeader = message.getHeader(
 				RequestCallbackFeature.CALLBACK_ID_HEADER_NAME);

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -18,12 +19,18 @@ import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.MessageContext;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
+import org.apache.cxf.service.factory.AbstractServiceConfiguration;
+import org.apache.cxf.service.factory.DefaultServiceConfiguration;
+import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfiguration;
 
 public class CallContext implements Serializable {
 	
@@ -39,6 +46,7 @@ public class CallContext implements Serializable {
 	private String bindingId;
 	private URL wsdlLocationURL;
 	private Map<String, String> userData;
+	private transient CallbackInfo callbackInfo = null;
 	private static boolean logging = false;
 
 	public QName getPortTypeName() {
@@ -47,6 +55,7 @@ public class CallContext implements Serializable {
 
 	public void setPortTypeName(QName portTypeName) {
 		this.portTypeName = portTypeName;
+		this.callbackInfo = null;
 	}
 
 	public QName getServiceName() {
@@ -55,6 +64,7 @@ public class CallContext implements Serializable {
 
 	public void setServiceName(QName serviceName) {
 		this.serviceName = serviceName;
+		this.callbackInfo = null;
 	}
 
 	public QName getOperationName() {
@@ -111,10 +121,12 @@ public class CallContext implements Serializable {
 
 	public void setWsdlLocation(String wsdlLocation) throws MalformedURLException {
 		this.wsdlLocationURL = wsdlLocation == null ? null : new URL(wsdlLocation);
+		this.callbackInfo = null;
 	}
 
 	public void setWsdlLocation(File wsdlLocation) throws MalformedURLException {
 		this.wsdlLocationURL = wsdlLocation == null ? null : wsdlLocation.toURI().toURL();
+		this.callbackInfo = null;
 	}
 
 	public void setWsdlLocation(URL wsdlLocation) {
@@ -127,6 +139,14 @@ public class CallContext implements Serializable {
 
 	public void setWsdlLocationURL(URL wsdlLocationURL) {
 		this.wsdlLocationURL = wsdlLocationURL;
+		this.callbackInfo = null;
+	}
+
+	public CallbackInfo getCallbackInfo() {
+		if (callbackInfo == null && wsdlLocationURL != null) {
+			callbackInfo = new CallbackInfo(wsdlLocationURL);
+		}
+		return callbackInfo;
 	}
 
 	public Map<String, String> getUserData() {
@@ -150,10 +170,10 @@ public class CallContext implements Serializable {
 
 	public <T> T createCallbackProxy(Class<T> proxyInterface) {
         JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();
-        // callback.setServiceName(serviceName);
-        // callback.setEndpointName(new QName(serviceName.getNamespaceURI(), serviceName.getLocalPart() + "Port"));
+        callback.setServiceName(serviceName);
+        callback.setEndpointName(new QName(serviceName.getNamespaceURI(), serviceName.getLocalPart() + "Port"));
         callback.setAddress(replyToAddress);
-        // callback.setServiceClass(proxyInterface);
+        callback.setServiceClass(proxyInterface);
         callback.getFeatures().add(new RequestCallbackFeature());
         if (logging) {
         	callback.getFeatures().add(new LoggingFeature());
@@ -181,9 +201,9 @@ public class CallContext implements Serializable {
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         requestContext.put("thread.local.request.context", "true");
         if (operation != null) {
-            requestContext.put(MessageContext.WSDL_OPERATION, operationName);
+            requestContext.put(MessageContext.WSDL_OPERATION, operation);
             requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
-            requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operationName.getLocalPart());
+            requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operation.getLocalPart());
         }
 		return dispatch;
 	}
@@ -210,6 +230,53 @@ public class CallContext implements Serializable {
 		} catch (ClassCastException e) {
 			return null;
 		}
+	}
+
+	public static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
+		Bus bus = BusFactory.getThreadDefaultBus();
+		JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
+        List<Feature> features = new ArrayList<Feature>();
+        features.add(new RequestCallbackFeature());
+        if (logging) {
+        	features.add(new LoggingFeature());
+        }
+		serverFactory.setFeatures(features);
+		QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
+		String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
+		boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
+				cbInfo.getCallbackPortName() != null;
+		if (cbInterfaceName != null) {
+			QName cbServiceName = cbInfo.getCallbackServiceName() == null
+					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "Service")
+					: cbInfo.getCallbackServiceName();
+			QName cbPortName = cbInfo.getCallbackPortName() == null
+					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "ServicePort")
+					: cbInfo.getCallbackPortName();
+			serverFactory.setServiceName(cbServiceName);
+			serverFactory.setEndpointName(cbPortName);
+			List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
+			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator(); it.hasNext(); ) {
+				AbstractServiceConfiguration cfg = it.next();
+				if (cfg instanceof DefaultServiceConfiguration) {
+					AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
+					it.set(ncfg);
+				}
+			}
+			if (useWsdlLocation) {
+				serverFactory.setWsdlLocation(wsdlLocation);
+			}
+		}
+		EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
+		endpoint.setFeatures(features);
+        endpoint.getProperties().put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+        if (cbInterfaceName != null) {
+        	endpoint.setEndpointName(serverFactory.getEndpointName());
+        	endpoint.setServiceName(serverFactory.getServiceName());
+        	if (useWsdlLocation) {
+        		endpoint.setWsdlLocation(wsdlLocation);
+        	}
+        }
+		return endpoint;
 	}
 
 	public static void setCallbackEndpoint(Map<String, Object> context, Object callbackEndpoint) {
@@ -242,5 +309,13 @@ public class CallContext implements Serializable {
 	        LoggingFeature loggingFeature = new LoggingFeature();
 	        loggingFeature.initialize(dispatchClient, dispatchClient.getBus());
         }
+	}
+
+	public static CallbackInfo createCallbackInfo(String wsdlLocation) {
+		return new CallbackInfo(wsdlLocation);
+	}
+
+	public static CallbackInfo createCallbackInfo(URL wsdlLocationURL) {
+		return new CallbackInfo(wsdlLocationURL);
 	}
 }

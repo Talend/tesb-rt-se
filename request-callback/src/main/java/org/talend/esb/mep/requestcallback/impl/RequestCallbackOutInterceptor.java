@@ -110,15 +110,6 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 		if (action == null || StringUtils.isEmpty(action.getValue())) {
 			message.put(ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME,
 					Boolean.TRUE);
-			/*
-			final String actionName = queryAction(message);
-			if (!StringUtils.isEmpty(actionName)) {
-				maps.setAction(ContextUtils.getAttributedURI(actionName));
-			} else {
-				message.put(ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME,
-						Boolean.TRUE);
-			}
-			*/
 		}
 		if (callbackEndpoint != null) {
 			EndpointReferenceType replyTo= maps.getReplyTo();
@@ -161,17 +152,4 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 		return (Map<String, Object>) message.getContextualProperty(
 				RequestCallbackFeature.CALL_INFO_PROPERTY_NAME);
 	}
-	/*
-	private static String queryAction(SoapMessage message) throws Fault {
-		final QName wsdlOperation = (QName) message.getContextualProperty(MessageContext.WSDL_OPERATION);
-		if (wsdlOperation != null) {
-			return wsdlOperation.getLocalPart();
-		}
-		final String action = (String) message.getContextualProperty(BindingProvider.SOAPACTION_URI_PROPERTY);
-		if (action != null) {
-			return action;
-		}
-		return null;
-	}
-	*/
 }

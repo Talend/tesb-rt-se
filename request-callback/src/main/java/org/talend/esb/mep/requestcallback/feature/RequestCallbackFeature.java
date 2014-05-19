@@ -12,6 +12,7 @@ import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.talend.esb.mep.requestcallback.impl.ActionVerifierInterceptor;
+import org.talend.esb.mep.requestcallback.impl.CallbackActionInterceptor;
 import org.talend.esb.mep.requestcallback.impl.RequestCallbackInInterceptor;
 import org.talend.esb.mep.requestcallback.impl.RequestCallbackOutInterceptor;
 
@@ -75,12 +76,6 @@ public class RequestCallbackFeature extends AbstractFeature {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Resolving bus extensions for Request-Callback feature");
         }
-    	final ToolBox toolBox = bus.getExtension(ToolBox.class);
-    	if (toolBox == null) {
-    		throw new IllegalStateException(
-    				"Bus extensions for Request-Callback feature are not configured. ");
-    	}
-        toolBox.initialize(this);
         WSAddressingFeature addressing = new WSAddressingFeature();
         addressing.setAddressingRequired(true);
         addressing.initialize(provider, bus);
@@ -88,9 +83,11 @@ public class RequestCallbackFeature extends AbstractFeature {
             LOG.log(Level.FINE, "Initializing interceptors for Request-Callback feature");
         }
 		final RequestCallbackInInterceptor inInterceptor = new RequestCallbackInInterceptor();
+		final CallbackActionInterceptor cbInterceptor = new CallbackActionInterceptor();
 		final RequestCallbackOutInterceptor outInterceptor = new RequestCallbackOutInterceptor();
 		final ActionVerifierInterceptor avInterceptor = new ActionVerifierInterceptor();
 		provider.getInInterceptors().add(inInterceptor);
+		provider.getInInterceptors().add(cbInterceptor);
 		provider.getOutInterceptors().add(outInterceptor);
 		provider.getOutInterceptors().add(avInterceptor);
     }
