@@ -17,6 +17,7 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
+import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.Bus;
@@ -224,6 +225,10 @@ public class CallContext implements Serializable {
 		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null);
 	}
 
+	public static CallContext getCallContext(WebServiceContext wsContext) {
+		return getCallContext(wsContext.getMessageContext());
+	}
+
 	public static CallContext getCallContext(Map<?, ?> contextHolder) {
 		try {
 			return (CallContext) contextHolder.get(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME);
@@ -232,51 +237,16 @@ public class CallContext implements Serializable {
 		}
 	}
 
-	public static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
-		Bus bus = BusFactory.getThreadDefaultBus();
-		JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
-        List<Feature> features = new ArrayList<Feature>();
-        features.add(new RequestCallbackFeature());
-        if (logging) {
-        	features.add(new LoggingFeature());
-        }
-		serverFactory.setFeatures(features);
-		QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
-		String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
-		boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
-				cbInfo.getCallbackPortName() != null;
-		if (cbInterfaceName != null) {
-			QName cbServiceName = cbInfo.getCallbackServiceName() == null
-					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "Service")
-					: cbInfo.getCallbackServiceName();
-			QName cbPortName = cbInfo.getCallbackPortName() == null
-					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "ServicePort")
-					: cbInfo.getCallbackPortName();
-			serverFactory.setServiceName(cbServiceName);
-			serverFactory.setEndpointName(cbPortName);
-			List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
-			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator(); it.hasNext(); ) {
-				AbstractServiceConfiguration cfg = it.next();
-				if (cfg instanceof DefaultServiceConfiguration) {
-					AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
-					it.set(ncfg);
-				}
-			}
-			if (useWsdlLocation) {
-				serverFactory.setWsdlLocation(wsdlLocation);
-			}
-		}
-		EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
-		endpoint.setFeatures(features);
-        endpoint.getProperties().put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
-        if (cbInterfaceName != null) {
-        	endpoint.setEndpointName(serverFactory.getEndpointName());
-        	endpoint.setServiceName(serverFactory.getServiceName());
-        	if (useWsdlLocation) {
-        		endpoint.setWsdlLocation(wsdlLocation);
-        	}
-        }
-		return endpoint;
+	public static Endpoint createCallbackEndpoint(Object implementor, String wsdlLocation) {
+		return createCallbackEndpoint(implementor, new CallbackInfo(wsdlLocation));
+	}
+
+	public static Endpoint createCallbackEndpoint(Object implementor, URL wsdlLocation) {
+		return createCallbackEndpoint(implementor, new CallbackInfo(wsdlLocation));
+	}
+
+	public static void setCallbackEndpoint(Dispatch<?> dispatch, Object callbackEndpoint) {
+		dispatch.getRequestContext().put(RequestCallbackFeature.CALLBACK_ENDPOINT_PROPERTY_NAME, callbackEndpoint);
 	}
 
 	public static void setCallbackEndpoint(Map<String, Object> context, Object callbackEndpoint) {
@@ -311,11 +281,74 @@ public class CallContext implements Serializable {
         }
 	}
 
+	public static void setupDispatch(Dispatch<?> dispatch, Object callbackEndpoint) {
+		setupDispatch(dispatch);
+		setCallbackEndpoint(dispatch, callbackEndpoint);
+	}
+
+	public static void setupServerFactory(JaxWsServerFactoryBean serverFactory) {
+		List<Feature> features = serverFactory.getFeatures();
+        features.add(new RequestCallbackFeature());
+        if (logging) {
+	        features.add(new LoggingFeature());
+        }
+        serverFactory.getProperties(true).put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+	}
+
 	public static CallbackInfo createCallbackInfo(String wsdlLocation) {
 		return new CallbackInfo(wsdlLocation);
 	}
 
 	public static CallbackInfo createCallbackInfo(URL wsdlLocationURL) {
 		return new CallbackInfo(wsdlLocationURL);
+	}
+
+	private static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
+		Bus bus = BusFactory.getThreadDefaultBus();
+		JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
+        List<Feature> features = new ArrayList<Feature>();
+        features.add(new RequestCallbackFeature());
+        if (logging) {
+        	features.add(new LoggingFeature());
+        }
+		serverFactory.setFeatures(features);
+		QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
+		String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
+		boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
+				cbInfo.getCallbackPortName() != null;
+		if (cbInterfaceName != null) {
+			QName cbServiceName = cbInfo.getCallbackServiceName() == null
+					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "Service")
+					: cbInfo.getCallbackServiceName();
+			QName cbEndpointName = cbInfo.getCallbackServiceName() == null
+					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "ServicePort")
+					: new QName(cbServiceName.getNamespaceURI(), cbInfo.getCallbackPortName() == null
+							? cbServiceName.getLocalPart() + "Port"
+							: cbInfo.getCallbackPortName());
+			serverFactory.setServiceName(cbServiceName);
+			serverFactory.setEndpointName(cbEndpointName);
+			List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
+			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator(); it.hasNext(); ) {
+				AbstractServiceConfiguration cfg = it.next();
+				if (cfg instanceof DefaultServiceConfiguration) {
+					AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
+					it.set(ncfg);
+				}
+			}
+			if (useWsdlLocation) {
+				serverFactory.setWsdlLocation(wsdlLocation);
+			}
+		}
+		EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
+		endpoint.setFeatures(features);
+        endpoint.getProperties().put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+        if (cbInterfaceName != null) {
+        	endpoint.setEndpointName(serverFactory.getEndpointName());
+        	endpoint.setServiceName(serverFactory.getServiceName());
+        	if (useWsdlLocation) {
+        		endpoint.setWsdlLocation(wsdlLocation);
+        	}
+        }
+		return endpoint;
 	}
 }

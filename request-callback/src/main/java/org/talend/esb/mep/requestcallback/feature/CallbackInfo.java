@@ -50,7 +50,7 @@ public class CallbackInfo {
 	private QName portTypeName = null;
 	private QName callbackPortTypeName = null;
 	private QName callbackServiceName = null;
-	private QName callbackPortName = null;
+	private String callbackPortName = null;
 	private String wsdlLocation;
 	private List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
 	
@@ -74,7 +74,7 @@ public class CallbackInfo {
 		return callbackServiceName;
 	}
 
-	public QName getCallbackPortName() {
+	public String getCallbackPortName() {
 		return callbackPortName;
 	}
 
@@ -148,7 +148,7 @@ public class CallbackInfo {
 				Service service = (Service) entry.getValue();
 				for (Object p : service.getPorts().entrySet()) {
 					Entry<?, ?> portEntry = (Entry<?, ?>) p;
-					QName portName = (QName) portEntry.getKey();
+					String portName = (String) portEntry.getKey();
 					Port port = (Port) portEntry.getValue();
 					Binding b = port.getBinding();
 					if (callbackPortTypeName.equals(b.getPortType().getQName())) {
