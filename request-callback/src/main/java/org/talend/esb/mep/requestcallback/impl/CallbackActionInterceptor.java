@@ -80,7 +80,7 @@ public class CallbackActionInterceptor extends AbstractPhaseInterceptor<SoapMess
 			}
 		} else {
 			// A generic default exchange has been created.
-			// Provide it MAP aggregator as generic request-response
+			// Provide it to MAP aggregator as anon. request-response
 			// and convert it afterwards to one-way.
 			if (Names.WSA_NONE_ADDRESS.equals(replyTo)) {
 				addr.setValue(Names.WSA_ANONYMOUS_ADDRESS);

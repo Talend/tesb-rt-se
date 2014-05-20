@@ -303,6 +303,16 @@ public class CallContext implements Serializable {
 		return new CallbackInfo(wsdlLocationURL);
 	}
 
+	public static void enforceOperation(QName operationName, Dispatch<?> dispatch) {
+		enforceOperation(operationName, dispatch.getRequestContext());
+	}
+
+	public static void enforceOperation(QName operationName, Map<String, Object> requestContext) {
+        requestContext.put(MessageContext.WSDL_OPERATION, operationName);
+        requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
+        requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operationName.getLocalPart());
+	}
+
 	private static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
 		Bus bus = BusFactory.getThreadDefaultBus();
 		JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();

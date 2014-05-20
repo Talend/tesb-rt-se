@@ -1,0 +1,17 @@
+<ns:ListOfBooks xmlns:ns='http://types.talend.org/demos/Library/Common/1.0'>
+   <Book>
+      <Title>Hunting Basement Inhabitants</Title>
+        <Author>
+         <PersonID>11111111111</PersonID>
+         <LastName>Stripycat</LastName>
+         <FirstName>Tom</FirstName>
+         <TitleID>12345678901</TitleID>
+         <SalutationID>2</SalutationID>
+         <DateOfBirth>2011-01-01</DateOfBirth>
+         <EMail>stripycat@meow.talend.org</EMail>
+      </Author>
+      <ISBN>1234567890</ISBN>
+      <Publisher>Meow Edition</Publisher>
+      <Year_published>2014</Year_published>
+   </Book>
+</ns:ListOfBooks>
