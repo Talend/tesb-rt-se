@@ -28,10 +28,14 @@ public class ClientProviderHandler implements Provider<StreamSource> {
     private WebServiceContext wsContext;
 
 	private final BlockingQueue<Throwable> errorTransfer;
+	private final BlockingQueue<String> messageTransfer;
 	private final Map<String, IncomingMessageHandler> callbackMap;
 
-    public ClientProviderHandler(BlockingQueue<Throwable> errorTransfer, Map<String, IncomingMessageHandler> callbackMap) {
+    public ClientProviderHandler(BlockingQueue<Throwable> errorTransfer,
+    		BlockingQueue<String> messageTransfer,
+    		Map<String, IncomingMessageHandler> callbackMap) {
     	this.errorTransfer = errorTransfer;
+    	this.messageTransfer = messageTransfer;
         this.callbackMap = callbackMap;
     }
     
@@ -56,6 +60,7 @@ public class ClientProviderHandler implements Provider<StreamSource> {
     }
 
     public void addError(Throwable error) {
-    	errorTransfer.add(error);
+    	errorTransfer.offer(error);
+    	messageTransfer.offer("ERROR");
     }
 }

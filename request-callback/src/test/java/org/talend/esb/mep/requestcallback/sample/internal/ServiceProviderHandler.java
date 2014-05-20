@@ -25,13 +25,17 @@ public class ServiceProviderHandler implements Provider<StreamSource> {
 	@Resource
     private WebServiceContext wsContext;
 
-	private BlockingQueue<Throwable> errorTransfer;
-	private IncomingMessageHandler businessHandler;
-	private String expectedOperation;
+	private final BlockingQueue<Throwable> errorTransfer;
+	private final BlockingQueue<String> messageTransfer;
+	private final IncomingMessageHandler businessHandler;
+	private final String expectedOperation;
 
     public ServiceProviderHandler(BlockingQueue<Throwable> errorTransfer,
-    		IncomingMessageHandler businessHandler, String expectedOperation) {
+    		BlockingQueue<String> messageTransfer,
+    		IncomingMessageHandler businessHandler,
+    		String expectedOperation) {
     	this.errorTransfer = errorTransfer;
+    	this.messageTransfer = messageTransfer;
     	this.businessHandler = businessHandler;
     	this.expectedOperation = expectedOperation;
     }
@@ -52,6 +56,7 @@ public class ServiceProviderHandler implements Provider<StreamSource> {
     }
 
     public void addError(Throwable error) {
-    	errorTransfer.add(error);
+    	errorTransfer.offer(error);
+    	messageTransfer.offer("ERROR");
     }
 }

@@ -62,12 +62,14 @@ public class RequestCallbackTest {
 	private final String responseLocation;
 	private final String operation;
 	private final int mep;
-	private final BlockingQueue<String> messageTransfer = new ArrayBlockingQueue<String>(8);
-	private final BlockingQueue<Throwable> errorTransfer = new ArrayBlockingQueue<Throwable>(8);
+	private final BlockingQueue<String> messageTransfer =
+			new ArrayBlockingQueue<String>(8);
+	private final BlockingQueue<Throwable> errorTransfer =
+			new ArrayBlockingQueue<Throwable>(8);
 	private final Map<String, IncomingMessageHandler> callbackMap =
 			new ConcurrentHashMap<String, IncomingMessageHandler>();
-	private EndpointInfo endpointInfo = null;
 
+	private EndpointInfo endpointInfo = null;
 	private Server server = null;
 
 	public RequestCallbackTest(
@@ -96,6 +98,11 @@ public class RequestCallbackTest {
 				"/response-library-rc.xml",
 				"seekBookInBasement",
 				REQUEST_CALLBACK   },
+			{   "/LibraryC.wsdl",
+				"/request-library-rc-C.xml",
+				"/response-library-rc-C.xml",
+				"seekBookInBasement",
+				REQUEST_CALLBACK   },
 			{ "", "", "", "", NO_RUN }
 		});
 	}
@@ -107,19 +114,31 @@ public class RequestCallbackTest {
 		}
     	final Bus bus = BusFactory.getDefaultBus();
     	final LocalTransportFactory localTransport = new LocalTransportFactory();
-    	final DestinationFactoryManager dfm = bus.getExtension(DestinationFactoryManager.class);
-    	dfm.registerDestinationFactory("http://schemas.xmlsoap.org/soap/http", localTransport);
-    	dfm.registerDestinationFactory("http://schemas.xmlsoap.org/soap/jms", localTransport);
-    	dfm.registerDestinationFactory("http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
-    	dfm.registerDestinationFactory("http://cxf.apache.org/bindings/xformat", localTransport);
-    	dfm.registerDestinationFactory("http://cxf.apache.org/transports/local", localTransport);
+    	final DestinationFactoryManager dfm =
+    			bus.getExtension(DestinationFactoryManager.class);
+    	dfm.registerDestinationFactory(
+    			"http://schemas.xmlsoap.org/soap/http", localTransport);
+    	dfm.registerDestinationFactory(
+    			"http://schemas.xmlsoap.org/soap/jms", localTransport);
+    	dfm.registerDestinationFactory(
+    			"http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
+    	dfm.registerDestinationFactory(
+    			"http://cxf.apache.org/bindings/xformat", localTransport);
+    	dfm.registerDestinationFactory(
+    			"http://cxf.apache.org/transports/local", localTransport);
     	 
-    	final ConduitInitiatorManager extension = bus.getExtension(ConduitInitiatorManager.class);
-    	extension.registerConduitInitiator("http://cxf.apache.org/transports/local", localTransport);
-    	extension.registerConduitInitiator("http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
-    	extension.registerConduitInitiator("http://schemas.xmlsoap.org/soap/http", localTransport);
-    	extension.registerConduitInitiator("http://schemas.xmlsoap.org/soap/jms", localTransport);
-    	extension.registerConduitInitiator("http://cxf.apache.org/bindings/xformat", localTransport);
+    	final ConduitInitiatorManager extension =
+    			bus.getExtension(ConduitInitiatorManager.class);
+    	extension.registerConduitInitiator(
+    			"http://cxf.apache.org/transports/local", localTransport);
+    	extension.registerConduitInitiator(
+    			"http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
+    	extension.registerConduitInitiator(
+    			"http://schemas.xmlsoap.org/soap/http", localTransport);
+    	extension.registerConduitInitiator(
+    			"http://schemas.xmlsoap.org/soap/jms", localTransport);
+    	extension.registerConduitInitiator(
+    			"http://cxf.apache.org/bindings/xformat", localTransport);
 
         final WSDLServiceFactory wsdlSvcFactory = new WSDLServiceFactory
         		(CXFBusFactory.getThreadDefaultBus(), wsdlLocation);
@@ -134,11 +153,13 @@ public class RequestCallbackTest {
 		}
 		endpointInfo = ei;
 
-		callbackMap.put("seekBookInBasementResponse", new SeekBookInBasementResponseCallback(messageTransfer));
-		callbackMap.put("seekBookInBasementFault", new SeekBookInBasementFaultCallback(messageTransfer));
+		callbackMap.put("seekBookInBasementResponse",
+				new SeekBookInBasementResponseCallback(messageTransfer));
+		callbackMap.put("seekBookInBasementFault",
+				new SeekBookInBasementFaultCallback(messageTransfer));
 	}
 
-	@Test
+	@Test(timeout = 300000L)
 	public void testRequestCallback() throws Exception {
 		if (mep == NO_RUN) {
 			return;
@@ -158,10 +179,13 @@ public class RequestCallbackTest {
 	}
 
 	private void subTestServerStartup() throws Exception {
-        SeekBookInBasementHandler businessHandler = new SeekBookInBasementHandler(responseLocation);
-        ServiceProviderHandler implementor = new ServiceProviderHandler(errorTransfer, businessHandler, operation);
+        final SeekBookInBasementHandler businessHandler =
+        		new SeekBookInBasementHandler(responseLocation);
+        final ServiceProviderHandler implementor =
+        		new ServiceProviderHandler(
+        				errorTransfer, messageTransfer, businessHandler, operation);
 
-        JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+        final JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
 
         factory.setServiceName(SERVICE_NAME);
         factory.setEndpointName(PORT_NAME);
@@ -176,25 +200,29 @@ public class RequestCallbackTest {
 
 	private void subTestServiceCall() throws Exception {
 		// server.start();
-        Service service = Service.create(getClass().getResource(wsdlLocation), SERVICE_NAME);
-        service.addPort(PORT_NAME, endpointInfo.getBinding().getBindingId(), endpointInfo.getAddress());
+        final Service service = Service.create(
+        		getClass().getResource(wsdlLocation), SERVICE_NAME);
+        service.addPort(PORT_NAME, endpointInfo.getBinding().getBindingId(),
+        		endpointInfo.getAddress());
 
         // 1. Register a local callback endpoint on the client side
-        ClientProviderHandler callbackHandler = new ClientProviderHandler(errorTransfer, callbackMap);
-        Endpoint ep = CallContext.createCallbackEndpoint(callbackHandler, wsdlLocation);
+        final ClientProviderHandler callbackHandler = new ClientProviderHandler(
+        		errorTransfer, messageTransfer, callbackMap);
+        final Endpoint ep = CallContext.createCallbackEndpoint(
+        		callbackHandler, wsdlLocation);
         ep.publish(CLIENT_CALLBACK_ENDPOINT);
         
         // 2. Create a client
-        Dispatch<StreamSource> dispatcher = service.createDispatch(
+        final Dispatch<StreamSource> dispatcher = service.createDispatch(
         		PORT_NAME, StreamSource.class, Service.Mode.PAYLOAD);
         CallContext.setupDispatch(dispatcher, ep);
         if (mep == REQUEST_CALLBACK_ENFORCED) {
-        	QName opName = new QName(SERVICE_NAMESPACE, operation);
+        	final QName opName = new QName(SERVICE_NAMESPACE, operation);
         	CallContext.enforceOperation(opName, dispatcher);
         }
 
         // 3. Invoke the service operation
-        StreamSource request = new StreamSource(
+        final StreamSource request = new StreamSource(
         		getClass().getResourceAsStream(requestLocation));
         dispatcher.invokeOneWay(request);
         assertTrue(messageTransfer.take() != null);
@@ -203,11 +231,11 @@ public class RequestCallbackTest {
 	}
 
 	private void checkError(boolean clear) throws Exception {
-		if (errorTransfer.isEmpty()) {
-			return;
-		}
 		try {
-			throw errorTransfer.remove();
+			final Throwable t = errorTransfer.poll();
+			if (t != null) {
+				throw t;
+			}
 		} catch (Exception e) {
 			throw e;
 		} catch (Error e) {
