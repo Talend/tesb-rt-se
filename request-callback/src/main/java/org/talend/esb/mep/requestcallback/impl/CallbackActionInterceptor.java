@@ -13,6 +13,7 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
+import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.addressing.Names;
@@ -33,20 +34,7 @@ public class CallbackActionInterceptor extends AbstractPhaseInterceptor<SoapMess
 		if (callHeader == null) {
 			return;
 		}
-		final Exchange e = message.getExchange();
-		if (!e.isOneWay()) {
-			AddressingProperties maps = (AddressingProperties) message.getContextualProperty(
-					JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
-			if (maps != null && maps.getReplyTo() != null) {
-				AttributedURIType addr = maps.getReplyTo().getAddress();
-				if (addr != null) {
-					String replyTo = addr.getValue();
-					if (Names.WSA_NONE_ADDRESS.equals(replyTo)) {
-						addr.setValue(Names.WSA_ANONYMOUS_ADDRESS);
-					}
-				}
-			}
-		}
+		handleAddressing(message);
 		final Header callbackHeader = message.getHeader(
 				RequestCallbackFeature.CALLBACK_ID_HEADER_NAME);
 		if (callbackHeader == null) {
@@ -69,4 +57,34 @@ public class CallbackActionInterceptor extends AbstractPhaseInterceptor<SoapMess
         }
 	}
 
+	private void handleAddressing(SoapMessage message) {
+		final AddressingProperties maps = (AddressingProperties) message.getContextualProperty(
+				JAXWSAConstants.ADDRESSING_PROPERTIES_INBOUND);
+		if (maps == null) {
+			return;
+		}
+		final EndpointReferenceType rpl = maps.getReplyTo();
+		if (rpl == null) {
+			return;
+		}
+		final AttributedURIType addr = rpl.getAddress();
+		if (addr == null) {
+			return;
+		}
+		final String replyTo = addr.getValue();
+		final Exchange exchange = message.getExchange();
+		if (exchange.isOneWay()) {
+			if (!Names.WSA_NONE_ADDRESS.equals(replyTo)) {
+				// disable CXF decoupled response
+				exchange.setOneWay(false);
+			}
+		} else {
+			// A generic default exchange has been created.
+			// Provide it MAP aggregator as generic request-response
+			// and convert it afterwards to one-way.
+			if (Names.WSA_NONE_ADDRESS.equals(replyTo)) {
+				addr.setValue(Names.WSA_ANONYMOUS_ADDRESS);
+			}
+		}
+	}
 }
