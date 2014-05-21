@@ -149,26 +149,34 @@ public class ConfigurationImpl implements Map<String, Object>, Configuration {
 		return getMergedMap().entrySet();
 	}
 
-	public synchronized void updateDynamicConfiguration(Map<?, ?> updateMap) {
+	public synchronized void updateDynamicConfiguration(
+			Map<?, ?> updateMap, boolean replaceCurrent) {
 		mergedMap = null;
 		if (updateMap == null || updateMap.isEmpty()) {
-			dynamicMap = null;
+			if (replaceCurrent) {
+				dynamicMap = null;
+			}
 			return;
 		}
-		Map<String, Object> dynMap = new HashMap<String, Object>();
+		Map<String, Object> dynMap = dynamicMap == null || replaceCurrent
+				? new HashMap<String, Object>() : dynamicMap;
 		for (Entry<?, ?> entry : updateMap.entrySet()) {
 			dynMap.put(entry.getKey().toString(), entry.getValue());
 		}
 		dynamicMap = dynMap;
 	}
 
-	public synchronized void updateDynamicConfiguration(Dictionary<?, ?> updateDict) {
+	public synchronized void updateDynamicConfiguration(
+			Dictionary<?, ?> updateDict, boolean replaceCurrent) {
 		mergedMap = null;
 		if (updateDict == null || updateDict.isEmpty()) {
-			dynamicMap = null;
+			if (replaceCurrent) {
+				dynamicMap = null;
+			}
 			return;
 		}
-		Map<String, Object> dynMap = new HashMap<String, Object>();
+		Map<String, Object> dynMap = dynamicMap == null || replaceCurrent
+				? new HashMap<String, Object>() : dynamicMap;
 		for (Enumeration<?> keys = updateDict.keys(); keys.hasMoreElements(); ) {
 			Object key = keys.nextElement();
 			dynMap.put(key.toString(), updateDict.get(key));

@@ -11,7 +11,7 @@ public class ConfigurationUpdater implements ManagedService {
 	@Override
 	public void updated(@SuppressWarnings("rawtypes") Dictionary properties)
 			throws ConfigurationException {
-		CallContext.getConfiguration().updateDynamicConfiguration(properties);
+		CallContext.getConfiguration().updateDynamicConfiguration(properties, true);
 		
 	}
 
