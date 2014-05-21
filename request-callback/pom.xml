@@ -66,6 +66,16 @@
 			<!-- version>${junit.version}</version -->
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>${osgi.compendium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>${osgi.core.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -73,6 +83,13 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Activator>org.talend.esb.mep.requestcallback.impl.osgi.Activator</Bundle-Activator>
+						<Private-Package>org.talend.esb.mep.requestcallback.impl.osgi</Private-Package>
+					</instructions>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -22,7 +22,16 @@ import org.talend.esb.mep.requestcallback.impl.RequestCallbackOutInterceptor;
 
 public class RequestCallbackFeature extends AbstractFeature {
 
-    public static final String CALL_ID_NAME = "callId";
+	public static final String REQUEST_CALLBACK_CONFIGURATION_OSGI_PROPERTY =
+			"org.talend.esb.mep.requestcallback";
+
+	public static final String REQUEST_CALLBACK_CONFIGURATION_SYSTEM_PROPERTY =
+			"org.talend.esb.mep.requestcallback.configuration";
+
+	public static final String REQUEST_CALLBACK_CONFIGURATION_RESOURCE =
+			"org.talend.esb.mep.requestcallback.Configuration.properties";
+
+	public static final String CALL_ID_NAME = "callId";
 
     public static final String CALLBACK_ID_NAME = "callbackId";
 
