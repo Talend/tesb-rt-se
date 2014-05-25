@@ -31,13 +31,13 @@ public class CallContextStoreResponseExceptionMapper implements ResponseExceptio
         if (Status.BAD_REQUEST.getStatusCode() == r.getStatus()) {
             return new IllegalParameterException("This is one");
         } else if (Status.NOT_FOUND.getStatusCode() == r.getStatus()) {
-            return new CallContextNotFoundException("This is two");
+            return new CallContextNotFoundException("Call context was not found");
         } else if (Status.CONFLICT.getStatusCode() == r.getStatus()) {
-            return new CallContextAlreadyExistsException("This is three");
+            return new CallContextAlreadyExistsException("Call context already exists");
         } else if (Status.INTERNAL_SERVER_ERROR.getStatusCode() == r.getStatus()) {
-            return new CallContextStoreException("This is default");
+            return new CallContextStoreException("Call context store error occured");
         } else {
-            return new CallContextStoreException("This is NoName00");
+            return new CallContextStoreException("An error occured");
         }
     }
 
