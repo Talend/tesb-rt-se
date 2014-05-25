@@ -1,5 +1,7 @@
 package org.talend.esb.mep.requestcallback.sample;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -22,13 +24,15 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.DestinationFactoryManager;
-import org.apache.cxf.transport.local.LocalTransportFactory;
+import org.apache.cxf.transport.jms.JMSConfiguration;
+import org.apache.cxf.transport.jms.JMSTransportFactory;
 import org.apache.cxf.wsdl11.WSDLServiceFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.talend.esb.mep.requestcallback.beans.JmsConfigurator;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.sample.internal.ClientProviderHandler;
 import org.talend.esb.mep.requestcallback.sample.internal.ClientProviderHandler.IncomingMessageHandler;
@@ -40,7 +44,7 @@ import org.talend.esb.mep.requestcallback.sample.internal.ServiceProviderHandler
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class RequestCallbackTest {
+public class RequestCallbackJmsTest {
 
 	private static final int NO_RUN = 0;
 	// private static final int REQUEST_RESPONSE = 1;
@@ -53,9 +57,10 @@ public class RequestCallbackTest {
     private static final QName SERVICE_NAME =
     		new QName(SERVICE_NAMESPACE, "LibraryProvider"); 
     private static final QName PORT_NAME =
-    		new QName(SERVICE_NAMESPACE, "Library_WS-I");
+    		new QName(SERVICE_NAMESPACE, "Library_jmsPort");
     private static final String CLIENT_CALLBACK_ENDPOINT =
-    		"local://LibraryConsumerEndpoint";
+    		"jms://";
+    private static boolean hasActiveMQ = probeActiveMQ();
 
 	private final String wsdlLocation;
 	private final String requestLocation;
@@ -73,7 +78,7 @@ public class RequestCallbackTest {
 	private Server server = null;
 	private Endpoint callbackEndpoint = null;
 
-	public RequestCallbackTest(
+	public RequestCallbackJmsTest(
 			String wsdlLocation,
 			String requestLocation,
 			String responseLocation,
@@ -83,23 +88,23 @@ public class RequestCallbackTest {
 		this.requestLocation = requestLocation;
 		this.responseLocation = responseLocation;
 		this.operation = operation;
-		this.mep = mep;
+		this.mep = hasActiveMQ ? mep : NO_RUN;
 	}
 
 	@Parameterized.Parameters
 	public static Collection<Object[]> getParameters() {
 		return Arrays.asList(new Object[][] {
-			{   "/LibraryA.wsdl",
+			{   "/LibraryJmsA.wsdl",
 				"/request-library-rc.xml",
 				"/response-library-rc.xml",
 				"seekBookInBasement",
 				REQUEST_CALLBACK_ENFORCED   },
-			{   "/LibraryB.wsdl",
+			{   "/LibraryJmsB.wsdl",
 				"/request-library-rc.xml",
 				"/response-library-rc.xml",
 				"seekBookInBasement",
 				REQUEST_CALLBACK   },
-			{   "/LibraryC.wsdl",
+			{   "/LibraryJmsC.wsdl",
 				"/request-library-rc-C.xml",
 				"/response-library-rc-C.xml",
 				"seekBookInBasement",
@@ -113,35 +118,36 @@ public class RequestCallbackTest {
 		if (mep == NO_RUN) {
 			return;
 		}
+
     	final Bus bus = BusFactory.getDefaultBus();
-    	final LocalTransportFactory localTransport = new LocalTransportFactory();
+    	final JMSTransportFactory jmsTransport = new JMSTransportFactory(bus);
     	final DestinationFactoryManager dfm =
     			bus.getExtension(DestinationFactoryManager.class);
     	dfm.registerDestinationFactory(
-    			"http://schemas.xmlsoap.org/soap/http", localTransport);
+    			"http://schemas.xmlsoap.org/soap/http", jmsTransport);
     	dfm.registerDestinationFactory(
-    			"http://schemas.xmlsoap.org/soap/jms", localTransport);
+    			"http://schemas.xmlsoap.org/soap/jms", jmsTransport);
     	dfm.registerDestinationFactory(
-    			"http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
+    			"http://schemas.xmlsoap.org/wsdl/soap/http", jmsTransport);
     	dfm.registerDestinationFactory(
-    			"http://cxf.apache.org/bindings/xformat", localTransport);
+    			"http://cxf.apache.org/bindings/xformat", jmsTransport);
     	dfm.registerDestinationFactory(
-    			"http://cxf.apache.org/transports/local", localTransport);
+    			"http://cxf.apache.org/transports/local", jmsTransport);
     	 
     	final ConduitInitiatorManager extension =
     			bus.getExtension(ConduitInitiatorManager.class);
     	extension.registerConduitInitiator(
-    			"http://cxf.apache.org/transports/local", localTransport);
+    			"http://cxf.apache.org/transports/local", jmsTransport);
     	extension.registerConduitInitiator(
-    			"http://schemas.xmlsoap.org/wsdl/soap/http", localTransport);
+    			"http://schemas.xmlsoap.org/wsdl/soap/http", jmsTransport);
     	extension.registerConduitInitiator(
-    			"http://schemas.xmlsoap.org/soap/http", localTransport);
+    			"http://schemas.xmlsoap.org/soap/http", jmsTransport);
     	extension.registerConduitInitiator(
-    			"http://schemas.xmlsoap.org/soap/jms", localTransport);
+    			"http://schemas.xmlsoap.org/soap/jms", jmsTransport);
     	extension.registerConduitInitiator(
-    			"http://cxf.apache.org/bindings/xformat", localTransport);
+    			"http://cxf.apache.org/bindings/xformat", jmsTransport);
 
-        final WSDLServiceFactory wsdlSvcFactory = new WSDLServiceFactory
+		final WSDLServiceFactory wsdlSvcFactory = new WSDLServiceFactory
         		(CXFBusFactory.getThreadDefaultBus(), wsdlLocation);
 		final org.apache.cxf.service.Service cxfService = wsdlSvcFactory.create();
 		final ServiceInfo si = findServiceByName(cxfService, SERVICE_NAME);
@@ -163,6 +169,9 @@ public class RequestCallbackTest {
 	@Test(timeout = 300000L)
 	public void testRequestCallback() throws Exception {
 		if (mep == NO_RUN) {
+			if (!hasActiveMQ) {
+				System.err.println("ActiveMQ is not available");
+			}
 			return;
 		}
 		subTestServerStartup();
@@ -199,6 +208,11 @@ public class RequestCallbackTest {
         factory.setServiceBean(implementor);
 
         CallContext.setupServerFactory(factory);
+        JMSConfiguration jmsCfg = new JMSConfiguration();
+        JmsConfigurator configurator = new JmsConfigurator();
+        configurator.setJmsConfiguration(jmsCfg);
+        configurator.setConfigurationPrefix("libraryServiceJms");
+        configurator.configureServerFactory(factory);
         server = factory.create();
         sleep(1);
         checkError(false);
@@ -216,13 +230,23 @@ public class RequestCallbackTest {
         		errorTransfer, messageTransfer, callbackMap);
         final Endpoint ep = CallContext.createCallbackEndpoint(
         		callbackHandler, wsdlLocation);
+        JMSConfiguration jmsCCfg = new JMSConfiguration();
+        JmsConfigurator cConfigurator = new JmsConfigurator();
+        cConfigurator.setJmsConfiguration(jmsCCfg);
+        cConfigurator.setConfigurationPrefix("libraryConsumerJms");
+        cConfigurator.configureEndpoint(ep);
         callbackEndpoint = ep;
         ep.publish(CLIENT_CALLBACK_ENDPOINT);
-        
+
         // 2. Create a client
         final Dispatch<StreamSource> dispatcher = service.createDispatch(
         		PORT_NAME, StreamSource.class, Service.Mode.PAYLOAD);
         CallContext.setupDispatch(dispatcher, ep);
+        JMSConfiguration jmsCfg = new JMSConfiguration();
+        JmsConfigurator configurator = new JmsConfigurator();
+        configurator.setJmsConfiguration(jmsCfg);
+        configurator.setConfigurationPrefix("libraryServiceJms");
+        configurator.configureDispatch(dispatcher);
         if (mep == REQUEST_CALLBACK_ENFORCED) {
         	final QName opName = new QName(SERVICE_NAMESPACE, operation);
         	CallContext.enforceOperation(opName, dispatcher);
@@ -281,5 +305,15 @@ public class RequestCallbackTest {
 			}
 		}
 		return null;
+	}
+
+	private static boolean probeActiveMQ() {
+		try {
+			Socket s = new Socket("localhost", 61616);
+			s.close();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 }

@@ -11,8 +11,10 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.apache.cxf.transport.jms.JMSDestination;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.AttributedURIType;
+import org.apache.cxf.ws.addressing.ContextUtils;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
@@ -73,17 +75,24 @@ public class CallbackActionInterceptor extends AbstractPhaseInterceptor<SoapMess
 		}
 		final String replyTo = addr.getValue();
 		final Exchange exchange = message.getExchange();
-		if (exchange.isOneWay()) {
-			if (!Names.WSA_NONE_ADDRESS.equals(replyTo)) {
-				// disable CXF decoupled response
-				exchange.setOneWay(false);
+		if (exchange.getDestination() instanceof JMSDestination) {
+			ContextUtils.storePartialResponseSent(message);
+			if (!exchange.isOneWay()) {
+				exchange.setOneWay(true);
 			}
 		} else {
-			// A generic default exchange has been created.
-			// Provide it to MAP aggregator as anon. request-response
-			// and convert it afterwards to one-way.
-			if (Names.WSA_NONE_ADDRESS.equals(replyTo)) {
-				addr.setValue(Names.WSA_ANONYMOUS_ADDRESS);
+			if (exchange.isOneWay()) {
+				if (!Names.WSA_NONE_ADDRESS.equals(replyTo)) {
+					// disable CXF decoupled response
+					exchange.setOneWay(false);
+				}
+			} else {
+				// A generic default exchange has been created.
+				// Provide it to MAP aggregator as anon. request-response
+				// and convert it afterwards to one-way.
+				if (Names.WSA_NONE_ADDRESS.equals(replyTo)) {
+					addr.setValue(Names.WSA_ANONYMOUS_ADDRESS);
+				}
 			}
 		}
 	}

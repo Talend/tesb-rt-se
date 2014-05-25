@@ -13,15 +13,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.talend.esb.mep.requestcallback.feature.Configuration;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 
-public class ConfigurationImpl implements Map<String, Object>, Configuration {
+public class ConfigurationImpl extends AbstractConfiguration {
 
 	private Map<String, Object> userMap = null;
 	private Map<String, Object> dynamicMap = null;
 	private Map<String, Object> staticMap = null;
 	private Map<String, Object> mergedMap = null;
+	private ChangeListener changeListener = null;
 
 	@Override
 	public synchronized int size() {
@@ -149,32 +149,47 @@ public class ConfigurationImpl implements Map<String, Object>, Configuration {
 		return getMergedMap().entrySet();
 	}
 
+	@Override
 	public synchronized void updateDynamicConfiguration(
 			Map<?, ?> updateMap, boolean replaceCurrent) {
-		mergedMap = null;
+
 		if (updateMap == null || updateMap.isEmpty()) {
 			if (replaceCurrent) {
+				mergedMap = null;
 				dynamicMap = null;
+				if (changeListener != null) {
+					changeListener.changed(this);
+				}
 			}
 			return;
 		}
+		mergedMap = null;
 		Map<String, Object> dynMap = dynamicMap == null || replaceCurrent
 				? new HashMap<String, Object>() : dynamicMap;
 		for (Entry<?, ?> entry : updateMap.entrySet()) {
 			dynMap.put(entry.getKey().toString(), entry.getValue());
 		}
 		dynamicMap = dynMap;
+		if (changeListener != null) {
+			changeListener.changed(this);
+		}
 	}
 
+	@Override
 	public synchronized void updateDynamicConfiguration(
 			Dictionary<?, ?> updateDict, boolean replaceCurrent) {
-		mergedMap = null;
+
 		if (updateDict == null || updateDict.isEmpty()) {
 			if (replaceCurrent) {
+				mergedMap = null;
 				dynamicMap = null;
+				if (changeListener != null) {
+					changeListener.changed(this);
+				}
 			}
 			return;
 		}
+		mergedMap = null;
 		Map<String, Object> dynMap = dynamicMap == null || replaceCurrent
 				? new HashMap<String, Object>() : dynamicMap;
 		for (Enumeration<?> keys = updateDict.keys(); keys.hasMoreElements(); ) {
@@ -182,8 +197,12 @@ public class ConfigurationImpl implements Map<String, Object>, Configuration {
 			dynMap.put(key.toString(), updateDict.get(key));
 		}
 		dynamicMap = dynMap;
+		if (changeListener != null) {
+			changeListener.changed(this);
+		}
 	}
 
+	@Override
 	public synchronized void refreshStaticConfiguration() {
 		staticMap = null;
 		mergedMap = null;
@@ -247,6 +266,46 @@ public class ConfigurationImpl implements Map<String, Object>, Configuration {
 			}
 			staticMap = statMap;
 		}
+		if (changeListener != null) {
+			changeListener.changed(this);
+		}
+	}
+
+	@Override
+	public synchronized void fillProperties(
+			String prefix, Map<? super String, Object> properties) {
+
+		if (mergedMap != null) {
+			transferProperties(prefix, mergedMap, properties);
+			return;
+		}
+		if (staticMap != null) {
+			transferProperties(prefix, staticMap, properties);
+		}
+		if (dynamicMap != null) {
+			transferProperties(prefix, dynamicMap, properties);
+		}
+		if (userMap != null) {
+			transferProperties(prefix, userMap, properties);
+		}
+	}
+
+	@Override
+	public synchronized void fillExpandedProperties(
+			String prefix, Map<? super String, Object> properties) {
+
+		final Map<String, Object> source = getMergedMap();
+		transferExpandedProperties(prefix, source, properties, source);
+	}
+
+	@Override
+	public ChangeListener getChangeListener() {
+		return changeListener;
+	}
+
+	@Override
+	public void setChangeListener(ChangeListener changeListener) {
+		this.changeListener = changeListener;
 	}
 
 	private Map<String, Object> getMergedMap() {
