@@ -43,7 +43,11 @@
   <!-- Common -->
 
   <feature name='tesb-ccs-common' version='${callcontext.store.version}'>
+   <!--External dependency -->
+    <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
+
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-common/${callcontext.store.version}</bundle>
+     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-rest-security/${callcontext.store.version}</bundle>
   </feature>
 
   <!-- Client Side -->
@@ -52,7 +56,6 @@
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-client-common/${callcontext.store.version}</bundle>
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-client-rest/${callcontext.store.version}</bundle>
-    <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-rest-security/${callcontext.store.version}</bundle>
   </feature>
 
   <!-- Server Side -->
@@ -83,9 +86,6 @@
   </feature>
 
   <feature name='tesb-ccs-service-rest' version='${callcontext.store.version}'>
-    <!--External dependency -->
-    <feature>cxf-rs-security-xml</feature>
-
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.callcontext.store/callcontext-store-service-rest/${callcontext.store.version}</bundle>
   </feature>
