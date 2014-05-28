@@ -32,8 +32,6 @@ public class StartCallbackRepo extends FeaturesCommandSupport {
     @Override
     protected void doExecute(FeaturesService admin) throws Exception {
 
-        session.execute("tesb:start-sam");
-
         Feature callContextServerFeature = admin.getFeature(FEATURE_NAME);
 
         if (callContextServerFeature == null ) {

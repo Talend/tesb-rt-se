@@ -34,7 +34,7 @@
 
     <bean id="persistencyManagerFactory"
        class="org.talend.esb.callcontext.store.server.PersistencyManagerFactory">
-        <property name="storageDirPath"     value="$ccs{callback.store.home}/fileStore" />
+        <property name="storageDirPath"     value="$ccs{callback.store.home}/store" />
         <property name="schemaResourceName" value="$ccs{callback.store.schema}" />
     </bean>
 
