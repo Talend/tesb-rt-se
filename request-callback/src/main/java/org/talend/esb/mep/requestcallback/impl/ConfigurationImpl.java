@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 
 public class ConfigurationImpl extends AbstractConfiguration {
@@ -22,6 +24,21 @@ public class ConfigurationImpl extends AbstractConfiguration {
 	private Map<String, Object> staticMap = null;
 	private Map<String, Object> mergedMap = null;
 	private ChangeListener changeListener = null;
+	private final QName configurationName;
+	private final String configurationId;
+	private final String alternateConfigId;
+
+	public ConfigurationImpl(QName configurationName) {
+		super();
+		this.configurationName = configurationName;
+		configurationId = asConfigIdentifier(configurationName);
+		if (configurationName == null) {
+			alternateConfigId = null;
+		} else {
+			final String cfgid = asConfigIdentifier(configurationName.getLocalPart());
+			alternateConfigId = configurationId.equals(cfgid) ? null : cfgid;
+		}
+	}
 
 	@Override
 	public synchronized int size() {
@@ -206,57 +223,66 @@ public class ConfigurationImpl extends AbstractConfiguration {
 	public synchronized void refreshStaticConfiguration() {
 		staticMap = null;
 		mergedMap = null;
+		final String cfgFileName = configurationId + ".cfg";
+		final String altFileName = alternateConfigId == null
+				? null : alternateConfigId + ".cfg";
 		Properties staticProps = null;
-		InputStream is = getClass().getClassLoader().getResourceAsStream(
-				RequestCallbackFeature.REQUEST_CALLBACK_CONFIGURATION_RESOURCE);
-		if (is != null) {
-			try {
-				staticProps = new Properties();
-				staticProps.load(is);
-			} catch (Exception e) {
-				staticProps = null;
-			} finally {
-				try {
-					is.close();
-				} catch (Exception e) {
-					// ignore
-				}
-				is = null;
-			}
+		Properties loadedProps = null;
+		InputStream is = getClass().getClassLoader().getResourceAsStream(cfgFileName);
+		loadedProps = loadProps(staticProps, is);
+		if (loadedProps == null && altFileName != null) {
+			is = getClass().getClassLoader().getResourceAsStream(altFileName);
+			loadedProps = loadProps(staticProps, is);
+		}
+		if (loadedProps != null) {
+			staticProps = loadedProps;
 		}
 		String sysprop = System.getProperty(
 				RequestCallbackFeature.REQUEST_CALLBACK_CONFIGURATION_SYSTEM_PROPERTY);
 		if (sysprop != null) {
-			Properties props = staticProps;
 			try {
 				if (sysprop.startsWith("file:/") || sysprop.contains("://")) {
-					URL configURL = new URL(sysprop);
-					is = configURL.openStream();
-					if (props == null) {
-						props = new Properties();
+					String cfgURLName = sysprop.endsWith("/")
+							? sysprop + cfgFileName : sysprop + "/" + cfgFileName;
+					try {
+						URL configURL = new URL(cfgURLName);
+						is = configURL.openStream();
+					} catch (Exception e) {
+						is = null;
 					}
-					props.load(is);
+					loadedProps = loadProps(staticProps, is);
+					if (loadedProps == null && altFileName != null) {
+						cfgURLName = sysprop.endsWith("/")
+								? sysprop + altFileName : sysprop + "/" + altFileName;
+						try {
+							URL configURL = new URL(cfgURLName);
+							is = configURL.openStream();
+						} catch (Exception e) {
+							is = null;
+						}
+						loadedProps = loadProps(staticProps, is);
+					}
 				} else {
-					File configFile = new File(sysprop);
-					if (configFile.canRead()) {
-						is = new FileInputStream(configFile);
-						props.load(is);
+					File configDir = new File(sysprop);
+					if (configDir.canRead() && configDir.isDirectory()) {
+						File cfgFile = new File(configDir, cfgFileName);
+						if (cfgFile.isFile() && cfgFile.canRead()) {
+							is = new FileInputStream(cfgFile);
+							loadedProps = loadProps(staticProps, is);
+						} else if (altFileName != null) {
+							cfgFile = new File(configDir, altFileName);
+							if (cfgFile.isFile() && cfgFile.canRead()) {
+								is = new FileInputStream(cfgFile);
+								loadedProps = loadProps(staticProps, is);
+							}
+						}
 					}
 				}
 			} catch (Exception e) {
-				props = null;
-			} finally {
-				if (is != null) {
-					try {
-						is.close();
-					} catch (Exception e) {
-						// ignore
-					}
-					is = null;
-				}
+				loadedProps = null;
 			}
-			if (staticProps == null) {
-				staticProps = props;
+			if (loadedProps != null) {
+				staticProps = loadedProps;
 			}
 		}
 		if (staticProps != null) {
@@ -299,6 +325,21 @@ public class ConfigurationImpl extends AbstractConfiguration {
 	}
 
 	@Override
+	public QName getConfigurationName() {
+		return configurationName;
+	}
+
+	@Override
+	public String getConfigurationIdentifier() {
+		return configurationId;
+	}
+
+	@Override
+	public String getAlternateConfigurationIdentifier() {
+		return alternateConfigId;
+	}
+
+	@Override
 	public ChangeListener getChangeListener() {
 		return changeListener;
 	}
@@ -323,5 +364,24 @@ public class ConfigurationImpl extends AbstractConfiguration {
 			mergedMap = Collections.unmodifiableMap(result);
 		}
 		return mergedMap;
+	}
+
+	private static Properties loadProps(Properties props, InputStream is) {
+		if (is == null) {
+			return null;
+		}
+		try {
+			Properties result = props == null ? new Properties() : props;
+			result.load(is);
+			return result;
+		} catch (Exception e) {
+			return null;
+		} finally {
+			try {
+				is.close();
+			} catch (Exception e) {
+				// ignore
+			}
+		}
 	}
 }

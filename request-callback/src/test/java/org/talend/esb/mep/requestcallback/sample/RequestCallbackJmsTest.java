@@ -24,7 +24,6 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.DestinationFactoryManager;
-import org.apache.cxf.transport.jms.JMSConfiguration;
 import org.apache.cxf.transport.jms.JMSTransportFactory;
 import org.apache.cxf.wsdl11.WSDLServiceFactory;
 import org.junit.After;
@@ -58,6 +57,8 @@ public class RequestCallbackJmsTest {
     		new QName(SERVICE_NAMESPACE, "LibraryProvider"); 
     private static final QName PORT_NAME =
     		new QName(SERVICE_NAMESPACE, "Library_jmsPort");
+    // private static final String CLIENT_CALLBACK_ENDPOINT =
+    //		"jms:jndi:dynamicQueues/test.cxf.jmstransport.queue";
     private static final String CLIENT_CALLBACK_ENDPOINT =
     		"jms://";
     private static boolean hasActiveMQ = probeActiveMQ();
@@ -208,10 +209,7 @@ public class RequestCallbackJmsTest {
         factory.setServiceBean(implementor);
 
         CallContext.setupServerFactory(factory);
-        JMSConfiguration jmsCfg = new JMSConfiguration();
-        JmsConfigurator configurator = new JmsConfigurator();
-        configurator.setJmsConfiguration(jmsCfg);
-        configurator.setConfigurationPrefix("libraryServiceJms");
+        JmsConfigurator configurator = JmsConfigurator.create(factory);
         configurator.configureServerFactory(factory);
         server = factory.create();
         sleep(1);
@@ -230,22 +228,15 @@ public class RequestCallbackJmsTest {
         		errorTransfer, messageTransfer, callbackMap);
         final Endpoint ep = CallContext.createCallbackEndpoint(
         		callbackHandler, wsdlLocation);
-        JMSConfiguration jmsCCfg = new JMSConfiguration();
-        JmsConfigurator cConfigurator = new JmsConfigurator();
-        cConfigurator.setJmsConfiguration(jmsCCfg);
-        cConfigurator.setConfigurationPrefix("libraryConsumerJms");
-        cConfigurator.configureEndpoint(ep);
         callbackEndpoint = ep;
-        ep.publish(CLIENT_CALLBACK_ENDPOINT);
+        JmsConfigurator cConfigurator = JmsConfigurator.create(ep);
+        assertNotNull(cConfigurator.configureAndPublishEndpoint(ep, CLIENT_CALLBACK_ENDPOINT));
 
         // 2. Create a client
         final Dispatch<StreamSource> dispatcher = service.createDispatch(
         		PORT_NAME, StreamSource.class, Service.Mode.PAYLOAD);
         CallContext.setupDispatch(dispatcher, ep);
-        JMSConfiguration jmsCfg = new JMSConfiguration();
-        JmsConfigurator configurator = new JmsConfigurator();
-        configurator.setJmsConfiguration(jmsCfg);
-        configurator.setConfigurationPrefix("libraryServiceJms");
+        JmsConfigurator configurator = JmsConfigurator.create(dispatcher);
         configurator.configureDispatch(dispatcher);
         if (mep == REQUEST_CALLBACK_ENFORCED) {
         	final QName opName = new QName(SERVICE_NAMESPACE, operation);

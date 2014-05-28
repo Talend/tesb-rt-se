@@ -3,10 +3,13 @@ package org.talend.esb.mep.requestcallback.impl;
 import java.util.Dictionary;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.talend.esb.mep.requestcallback.feature.Configuration;
 
 public abstract class AbstractConfiguration implements Configuration {
 
+	public static final String CONFIG_ID_PREFIX = "org.talend.esb.mep.requestcallback";
 	@Override
 	public String getProperty(String key) {
 		final Object raw = get(key);
@@ -64,6 +67,25 @@ public abstract class AbstractConfiguration implements Configuration {
 	}
 
 	@Override
+	public PidMode getPidModeProperty(String key) {
+		final Object raw = get(key);
+		if (raw == null) {
+			return null;
+		}
+		if (raw instanceof PidMode) {
+			return (PidMode) raw;
+		}
+		final String s = raw.toString();
+		if ("fullName".equalsIgnoreCase(s)) {
+			return PidMode.FULL_NAME;
+		}
+		if ("localName".equalsIgnoreCase(s)) {
+			return PidMode.LOCAL_NAME;
+		}
+		return null;
+	}
+
+	@Override
 	public String getExpandedProperty(String key) {
 		return expandedValue(get(key), this);
 	}
@@ -97,6 +119,21 @@ public abstract class AbstractConfiguration implements Configuration {
 	@Override
 	public void refreshStaticConfiguration() {
 		// empty default implementation
+	}
+
+	@Override
+	public QName getConfigurationName() {
+		return null;
+	}
+
+	@Override
+	public String getConfigurationIdentifier() {
+		return null;
+	}
+
+	@Override
+	public String getAlternateConfigurationIdentifier() {
+		return null;
 	}
 
 	@Override
@@ -175,5 +212,90 @@ public abstract class AbstractConfiguration implements Configuration {
 						expandedValue(e.getValue(), replacements));
 			}
 		}
+	}
+
+	public static String asConfigIdentifier(QName serviceName) {
+		if (serviceName == null) {
+			return CONFIG_ID_PREFIX;
+		}
+		final StringBuilder buf = new StringBuilder(CONFIG_ID_PREFIX);
+		String namespaceName = serviceName.getNamespaceURI();
+		if (namespaceName != null && namespaceName.length() > 0) {
+			buf.append(".").append(fileEncodedNamespaceURI(namespaceName));
+		}
+		String localName = serviceName.getLocalPart();
+		if (localName != null && localName.length() > 0) {
+			buf.append(".").append(localName);
+		}
+		return buf.toString();
+	}
+
+	public static String asConfigIdentifier(String serviceLocalName) {
+		if (serviceLocalName == null || serviceLocalName.length() == 0) {
+			return CONFIG_ID_PREFIX;
+		}
+		if (serviceLocalName.startsWith("{")) {
+			return asConfigIdentifier(QName.valueOf(serviceLocalName));
+		}
+		return CONFIG_ID_PREFIX + "." + serviceLocalName;
+	}
+
+	private static String fileEncodedNamespaceURI(final String namespaceURI) {
+		final int strlen = namespaceURI.length();
+		final StringBuilder buf = new StringBuilder();
+		boolean compact = false;
+		boolean pendingAppend = false;
+		char lastChar = '-';
+		for (int i = 0; i < strlen; i++) {
+			char currentChar = namespaceURI.charAt(i);
+			switch (currentChar) {
+			case ' ':
+			// Replace any spaces in the config file name
+				currentChar = '_';
+				compact = false;
+				break;
+			// Delimiter and sub-delimiter characters according to RFC 3986
+			// are replaced by '-' and compacted in the config file name
+			case ':':
+			case '/':
+			case '?':
+			case '#':
+			case '[':
+			case ']':
+			case '@':
+			case '!':
+			case '$':
+			case '&':
+			case '\'':
+			case '(':
+			case ')':
+			case '*':
+			case '+':
+			case ',':
+			case ';':
+			case '=':
+				currentChar = '-';
+				compact = true;
+				break;
+			default:
+				compact = false;
+				break;
+			}
+			if (compact) {
+				if (!pendingAppend) {
+					pendingAppend = lastChar != '-';
+				}
+			} else {
+				if (pendingAppend) {
+					pendingAppend = false;
+					if (currentChar != '-') {
+						buf.append('-');
+					}
+				}
+				buf.append(currentChar);
+			}
+			lastChar = currentChar;
+		}
+		return buf.toString();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.xml.namespace.QName;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 
@@ -22,13 +23,87 @@ import org.talend.esb.mep.requestcallback.feature.Configuration;
 
 public class JmsConfigurator implements InitializingBean {
 
+	private QName serviceName;
 	private String configurationPrefix;
+	private String workPrefix;
 	private Configuration configuration;
 	private JMSConfiguration jmsConfiguration;
 	private boolean jmsConfigured = false;
 
+	public JmsConfigurator() {
+		super();
+	}
+
+	public static JmsConfigurator create(Endpoint endpoint) {
+		if (!(endpoint instanceof EndpointImpl)) {
+			return null;
+		}
+		final EndpointImpl ep = (EndpointImpl) endpoint;
+		final QName serviceName = ep.getServiceName();
+		if (serviceName == null) {
+			return null;
+		}
+		final QName endpointName = ep.getEndpointName();
+		final String portName = endpointName == null
+				? null : endpointName.getLocalPart();
+		JmsConfigurator result = new JmsConfigurator();
+		result.setConfigurationPrefix(portName);
+		result.setJmsConfiguration(new JMSConfiguration());
+		result.setServiceName(serviceName);
+		return result;
+	}
+
+	public static JmsConfigurator create(JaxWsServerFactoryBean factory) {
+		if (factory == null) {
+			return null;
+		}
+		final QName serviceName = factory.getServiceName();
+		if (serviceName == null) {
+			return null;
+		}
+		final QName endpointName = factory.getEndpointName();
+		final String portName = endpointName == null
+				? null : endpointName.getLocalPart();
+		JmsConfigurator result = new JmsConfigurator();
+		result.setConfigurationPrefix(portName);
+		result.setJmsConfiguration(new JMSConfiguration());
+		result.setServiceName(serviceName);
+		return result;
+	}
+
+	public static JmsConfigurator create(Dispatch<?> dispatch) {
+		if (!(dispatch instanceof DispatchImpl<?>)) {
+			return null;
+		}
+		DispatchImpl<?> dsp = (DispatchImpl<?>) dispatch;
+		Client cl = dsp.getClient();
+		final QName serviceName;
+		try {
+			serviceName = cl.getEndpoint().getService().getName();
+		} catch (Exception e) {
+			return null;
+		}
+		if (serviceName == null) {
+			return null;
+		}
+		QName endpointName;
+		try {
+			endpointName = cl.getEndpoint().getEndpointInfo().getName();
+		} catch (Exception e) {
+			endpointName = null;
+		}
+		final String portName = endpointName == null
+				? null : endpointName.getLocalPart();
+		JmsConfigurator result = new JmsConfigurator();
+		result.setConfigurationPrefix(portName);
+		result.setJmsConfiguration(new JMSConfiguration());
+		result.setServiceName(serviceName);
+		return result;
+	}
+
 	public Endpoint configureEndpoint(Endpoint endpoint) {
-		if (jmsConfiguration == null || !(endpoint instanceof EndpointImpl)) {
+		if (jmsConfiguration == null || !(endpoint instanceof EndpointImpl) ||
+				(serviceName == null && configuration == null)) {
 			return null;
 		}
 		if (!jmsConfigured) {
@@ -46,8 +121,17 @@ public class JmsConfigurator implements InitializingBean {
 		return endpoint;
 	}
 
+	public Endpoint configureAndPublishEndpoint(Endpoint endpoint, String jmsAddress) {
+		Endpoint result = configureEndpoint(endpoint);
+		if (result != null) {
+			result.publish(jmsAddress);
+		}
+		return result;
+	}
+
 	public <T> Dispatch<T> configureDispatch(Dispatch<T> dispatch) {
-		if (jmsConfiguration == null || !(dispatch instanceof DispatchImpl<?>)) {
+		if (jmsConfiguration == null || !(dispatch instanceof DispatchImpl<?>) ||
+				(serviceName == null && configuration == null)) {
 			return null;
 		}
 		if (!jmsConfigured) {
@@ -62,7 +146,8 @@ public class JmsConfigurator implements InitializingBean {
 	}
 
 	public JaxWsServerFactoryBean configureServerFactory(JaxWsServerFactoryBean serverFactory) {
-		if (jmsConfiguration == null || serverFactory == null) {
+		if (jmsConfiguration == null || serverFactory == null ||
+				(serviceName == null && configuration == null)) {
 			return null;
 		}
 		if (!jmsConfigured) {
@@ -84,170 +169,179 @@ public class JmsConfigurator implements InitializingBean {
 			return null;
 		}
 		jmsConfigured = true;
-		final Configuration cfg = configuration == null
-				? CallContext.getConfiguration() : configuration;
-		final String cacheLevelName = cfg.getProperty(prefixedKey("cacheLevelName"));
+		if (configuration == null) {
+			configuration = CallContext.resolveConfiguration(serviceName);
+		}
+		final String cacheLevelName = getProperty("cacheLevelName");
 		if (cacheLevelName != null) {
 			jmsConfiguration.setCacheLevelName(cacheLevelName);
 		}
-		final Integer cacheLevel = cfg.getIntegerProperty(prefixedKey("cacheLevel"));
+		final Integer cacheLevel = getIntegerProperty("cacheLevel");
 		if (cacheLevel != null) {
 			jmsConfiguration.setCacheLevel(cacheLevel);
 		}
-		final Long recoveryInterval = cfg.getLongProperty(prefixedKey("recoveryInterval"));
+		final Long recoveryInterval = getLongProperty("recoveryInterval");
 		if (recoveryInterval != null) {
 			jmsConfiguration.setRecoveryInterval(recoveryInterval);
 		}
-		final Boolean autoResolveDestination = cfg.getBooleanProperty(prefixedKey("autoResolveDestination"));
+		final Boolean autoResolveDestination = getBooleanProperty("autoResolveDestination");
 		if (autoResolveDestination != null) {
 			jmsConfiguration.setAutoResolveDestination(autoResolveDestination);
 		}
-		final Boolean usingEndpointInfo = cfg.getBooleanProperty(prefixedKey("usingEndpointInfo"));
+		final Boolean usingEndpointInfo = getBooleanProperty("usingEndpointInfo");
 		if (usingEndpointInfo != null) {
 			jmsConfiguration.setUsingEndpointInfo(usingEndpointInfo);
 		}
-		final Boolean messageIdEnabled = cfg.getBooleanProperty(prefixedKey("messageIdEnabled"));
+		final Boolean messageIdEnabled = getBooleanProperty("messageIdEnabled");
 		if (messageIdEnabled != null) {
 			jmsConfiguration.setMessageIdEnabled(messageIdEnabled);
 		}
-		final Boolean messageTimestampEnabled = cfg.getBooleanProperty(prefixedKey("messageTimestampEnabled"));
+		final Boolean messageTimestampEnabled = getBooleanProperty("messageTimestampEnabled");
 		if (messageTimestampEnabled != null) {
 			jmsConfiguration.setMessageTimestampEnabled(messageTimestampEnabled);
 		}
-		final Boolean pubSubNoLocal = cfg.getBooleanProperty(prefixedKey("pubSubNoLocal"));
+		final Boolean pubSubNoLocal = getBooleanProperty("pubSubNoLocal");
 		if (pubSubNoLocal != null) {
 			jmsConfiguration.setPubSubNoLocal(pubSubNoLocal);
 		}
-		final Long receiveTimeout = cfg.getLongProperty(prefixedKey("receiveTimeout"));
+		final Long receiveTimeout = getLongProperty("receiveTimeout");
 		if (receiveTimeout != null) {
 			jmsConfiguration.setReceiveTimeout(receiveTimeout);
 		}
-		final Long clientReceiveTimeout = cfg.getLongProperty(prefixedKey("clientReceiveTimeout"));
+		final Long clientReceiveTimeout = getLongProperty("clientReceiveTimeout");
 		if (clientReceiveTimeout != null) {
 			jmsConfiguration.setReceiveTimeout(clientReceiveTimeout);
 		}
-		final Long serverReceiveTimeout = cfg.getLongProperty(prefixedKey("serverReceiveTimeout"));
+		final Long serverReceiveTimeout = getLongProperty("serverReceiveTimeout");
 		if (serverReceiveTimeout != null) {
 			jmsConfiguration.setServerReceiveTimeout(serverReceiveTimeout);
 		}
-		final Boolean explicitQosEnabled = cfg.getBooleanProperty(prefixedKey("explicitQosEnabled"));
+		final Boolean explicitQosEnabled = getBooleanProperty("explicitQosEnabled");
 		if (explicitQosEnabled != null) {
 			jmsConfiguration.setExplicitQosEnabled(explicitQosEnabled);
 		}
-		final Integer deliveryMode = cfg.getIntegerProperty(prefixedKey("deliveryMode"));
+		final Integer deliveryMode = getIntegerProperty("deliveryMode");
 		if (deliveryMode != null) {
 			jmsConfiguration.setDeliveryMode(deliveryMode);
 		}
-		final Integer priority = cfg.getIntegerProperty(prefixedKey("priority"));
+		final Integer priority = getIntegerProperty("priority");
 		if (priority != null) {
 			jmsConfiguration.setPriority(priority);
 		}
-		final Long timeToLive = cfg.getLongProperty(prefixedKey("timeToLive"));
+		final Long timeToLive = getLongProperty("timeToLive");
 		if (timeToLive != null) {
 			jmsConfiguration.setTimeToLive(timeToLive);
 		}
-		final String messageSelector = cfg.getProperty(prefixedKey("messageSelector"));
+		final String messageSelector = getProperty("messageSelector");
 		if (messageSelector != null) {
 			jmsConfiguration.setMessageSelector(messageSelector);
 		}
-		final String conduitSelectorPrefix = cfg.getProperty(prefixedKey("conduitSelectorPrefix"));
+		final String conduitSelectorPrefix = getProperty("conduitSelectorPrefix");
 		if (conduitSelectorPrefix != null) {
 			jmsConfiguration.setConduitSelectorPrefix(conduitSelectorPrefix);
 		}
-		final Boolean subscriptionDurable = cfg.getBooleanProperty(prefixedKey("subscriptionDurable"));
+		final Boolean subscriptionDurable = getBooleanProperty("subscriptionDurable");
 		if (subscriptionDurable != null) {
 			jmsConfiguration.setSubscriptionDurable(subscriptionDurable);
 		}
-		final String durableSubscriptionName = cfg.getProperty(prefixedKey("durableSubscriptionName"));
+		final String durableSubscriptionName = getProperty("durableSubscriptionName");
 		if (durableSubscriptionName != null) {
 			jmsConfiguration.setDurableSubscriptionName(durableSubscriptionName);
 		}
-		final String targetDestination = cfg.getProperty(prefixedKey("targetDestination"));
+		final String targetDestination = getProperty("targetDestination");
 		if (targetDestination != null) {
 			jmsConfiguration.setTargetDestination(targetDestination);
 		}
-		final String replyDestination = cfg.getProperty(prefixedKey("replyDestination"));
+		final String replyDestination = getProperty("replyDestination");
 		if (replyDestination != null) {
 			jmsConfiguration.setReplyDestination(replyDestination);
 		}
-		final String replyToDestination = cfg.getProperty(prefixedKey("replyToDestination"));
+		final String replyToDestination = getProperty("replyToDestination");
 		if (replyToDestination != null) {
 			jmsConfiguration.setReplyToDestination(replyToDestination);
 		}
-		final String messageType = cfg.getProperty(prefixedKey("messageType"));
+		final String messageType = getProperty("messageType");
 		if (messageType != null) {
 			jmsConfiguration.setMessageType(messageType);
 		}
-		final Boolean pubSubDomain = cfg.getBooleanProperty(prefixedKey("pubSubDomain"));
+		final Boolean pubSubDomain = getBooleanProperty("pubSubDomain");
 		if (pubSubDomain != null) {
 			jmsConfiguration.setPubSubDomain(pubSubDomain);
 		}
-		final Boolean replyPubSubDomain = cfg.getBooleanProperty(prefixedKey("replyPubSubDomain"));
+		final Boolean replyPubSubDomain = getBooleanProperty("replyPubSubDomain");
 		if (replyPubSubDomain != null) {
 			jmsConfiguration.setReplyPubSubDomain(replyPubSubDomain);
 		}
-		final Boolean useJms11 = cfg.getBooleanProperty(prefixedKey("useJms11"));
+		final Boolean useJms11 = getBooleanProperty("useJms11");
 		if (useJms11 != null) {
 			jmsConfiguration.setUseJms11(useJms11);
 		}
-		final Boolean sessionTransacted = cfg.getBooleanProperty(prefixedKey("sessionTransacted"));
+		final Boolean sessionTransacted = getBooleanProperty("sessionTransacted");
 		if (sessionTransacted != null) {
 			jmsConfiguration.setSessionTransacted(sessionTransacted);
 		}
-		final Integer concurrentConsumers = cfg.getIntegerProperty(prefixedKey("concurrentConsumers"));
+		final Integer concurrentConsumers = getIntegerProperty("concurrentConsumers");
 		if (concurrentConsumers != null) {
 			jmsConfiguration.setConcurrentConsumers(concurrentConsumers);
 		}
-		final Integer maxConcurrentConsumers = cfg.getIntegerProperty(prefixedKey("maxConcurrentConsumers"));
+		final Integer maxConcurrentConsumers = getIntegerProperty("maxConcurrentConsumers");
 		if (maxConcurrentConsumers != null) {
 			jmsConfiguration.setMaxConcurrentConsumers(maxConcurrentConsumers);
 		}
-		final Integer maxSuspendedContinuations = cfg.getIntegerProperty(prefixedKey("maxSuspendedContinuations"));
+		final Integer maxSuspendedContinuations = getIntegerProperty("maxSuspendedContinuations");
 		if (maxSuspendedContinuations != null) {
 			jmsConfiguration.setMaxSuspendedContinuations(maxSuspendedContinuations);
 		}
-		final Integer reconnectPercentOfMax = cfg.getIntegerProperty(prefixedKey("reconnectPercentOfMax"));
+		final Integer reconnectPercentOfMax = getIntegerProperty("reconnectPercentOfMax");
 		if (reconnectPercentOfMax != null) {
 			jmsConfiguration.setReconnectPercentOfMax(reconnectPercentOfMax);
 		}
-		final Boolean useConduitIdSelector = cfg.getBooleanProperty(prefixedKey("useConduitIdSelector"));
+		final Boolean useConduitIdSelector = getBooleanProperty("useConduitIdSelector");
 		if (useConduitIdSelector != null) {
 			jmsConfiguration.setUseConduitIdSelector(useConduitIdSelector);
 		}
-		final Boolean reconnectOnException = cfg.getBooleanProperty(prefixedKey("reconnectOnException"));
+		final Boolean reconnectOnException = getBooleanProperty("reconnectOnException");
 		if (reconnectOnException != null) {
 			jmsConfiguration.setReconnectOnException(reconnectOnException);
 		}
-		final Boolean acceptMessagesWhileStopping = cfg.getBooleanProperty(prefixedKey("acceptMessagesWhileStopping"));
+		final Boolean acceptMessagesWhileStopping = getBooleanProperty("acceptMessagesWhileStopping");
 		if (acceptMessagesWhileStopping != null) {
 			jmsConfiguration.setAcceptMessagesWhileStopping(acceptMessagesWhileStopping);
 		}
-		final Boolean wrapInSingleConnectionFactory = cfg.getBooleanProperty(prefixedKey("wrapInSingleConnectionFactory"));
+		final Boolean wrapInSingleConnectionFactory = getBooleanProperty("wrapInSingleConnectionFactory");
 		if (wrapInSingleConnectionFactory != null) {
 			jmsConfiguration.setWrapInSingleConnectionFactory(wrapInSingleConnectionFactory);
 		}
-		final String durableSubscriptionClientId = cfg.getProperty(prefixedKey("durableSubscriptionClientId"));
+		final String durableSubscriptionClientId = getProperty("durableSubscriptionClientId");
 		if (durableSubscriptionClientId != null) {
 			jmsConfiguration.setDurableSubscriptionClientId(durableSubscriptionClientId);
 		}
-		final String targetService = cfg.getProperty(prefixedKey("targetService"));
+		final String targetService = getProperty("targetService");
 		if (targetService != null) {
 			jmsConfiguration.setTargetService(targetService);
 		}
-		final String requestURI = cfg.getProperty(prefixedKey("requestURI"));
+		final String requestURI = getProperty("requestURI");
 		if (requestURI != null) {
 			jmsConfiguration.setRequestURI(requestURI);
 		}
-		final Boolean enforceSpec = cfg.getBooleanProperty(prefixedKey("enforceSpec"));
+		final Boolean enforceSpec = getBooleanProperty("enforceSpec");
 		if (enforceSpec != null) {
 			jmsConfiguration.setEnforceSpec(enforceSpec);
 		}
-		final Boolean jmsProviderTibcoEms = cfg.getBooleanProperty(prefixedKey("jmsProviderTibcoEms"));
+		final Boolean jmsProviderTibcoEms = getBooleanProperty("jmsProviderTibcoEms");
 		if (jmsProviderTibcoEms != null) {
 			jmsConfiguration.setJmsProviderTibcoEms(jmsProviderTibcoEms);
 		}
 		configureJndi(jmsConfiguration);
 		return jmsConfiguration;
+	}
+
+	public QName getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(QName serviceName) {
+		this.serviceName = serviceName;
 	}
 
 	public String getConfigurationPrefix() {
@@ -256,6 +350,8 @@ public class JmsConfigurator implements InitializingBean {
 
 	public void setConfigurationPrefix(String configurationPrefix) {
 		this.configurationPrefix = configurationPrefix;
+		this.workPrefix = configurationPrefix == null
+				? null : configurationPrefix + ".";
 	}
 
 	public Configuration getConfiguration() {
@@ -276,15 +372,9 @@ public class JmsConfigurator implements InitializingBean {
 
 	private void configureJndi(JMSConfiguration jmsConfiguration) {
 		final Configuration cfg = configuration == null
-				? CallContext.getConfiguration() : configuration;
+				? CallContext.resolveConfiguration(serviceName) : configuration;
 		JNDIConfiguration jndiCfg = jmsConfiguration.getJndiConfig();
-		String jndiCfgPrefixRaw = prefixedKey("jndiConfig");
-		String jndiCfgPrefix = cfg.getProperty(jndiCfgPrefixRaw);
-		if (jndiCfgPrefix == null) {
-			jndiCfgPrefix = jndiCfgPrefixRaw;
-		}
-		jndiCfgPrefix += ".";
-		final String jndiConnectionFactoryName = cfg.getProperty(jndiCfgPrefix + "jndiConnectionFactoryName");
+		final String jndiConnectionFactoryName = getJndiProperty("jndiConnectionFactoryName");
 		if (jndiConnectionFactoryName != null) {
 			if (jndiCfg == null) {
 				jndiCfg = new JNDIConfiguration();
@@ -292,7 +382,7 @@ public class JmsConfigurator implements InitializingBean {
 			}
 			jndiCfg.setJndiConnectionFactoryName(jndiConnectionFactoryName);
 		}
-		final String connectionUserName = cfg.getProperty(jndiCfgPrefix + "connectionUserName");
+		final String connectionUserName = getJndiProperty("connectionUserName");
 		if (connectionUserName != null) {
 			if (jndiCfg == null) {
 				jndiCfg = new JNDIConfiguration();
@@ -300,7 +390,7 @@ public class JmsConfigurator implements InitializingBean {
 			}
 			jndiCfg.setConnectionUserName(connectionUserName);
 		}
-		final String connectionPassword = cfg.getProperty(jndiCfgPrefix + "connectionPassword");
+		final String connectionPassword = getJndiProperty("connectionPassword");
 		if (connectionPassword != null) {
 			if (jndiCfg == null) {
 				jndiCfg = new JNDIConfiguration();
@@ -308,17 +398,15 @@ public class JmsConfigurator implements InitializingBean {
 			}
 			jndiCfg.setConnectionPassword(connectionPassword);
 		}
-		String jndiEnvPrefixRaw = jndiCfgPrefix + "environment";
-		String jndiEnvPrefix = cfg.getProperty(jndiEnvPrefixRaw);
-		if (jndiEnvPrefix == null) {
-			jndiEnvPrefix = jndiEnvPrefixRaw;
-		}
 		Properties env = jndiCfg == null ? null : jndiCfg.getEnvironment();
 		final boolean hasNoEnv = env == null;
 		if (hasNoEnv) {
 			env = new Properties();
 		}
-		cfg.fillProperties(jndiEnvPrefix, env);
+		cfg.fillProperties("jndiConfig.environment", env);
+		if (workPrefix != null) {
+			cfg.fillProperties(workPrefix + "jndiConfig.environment", env);
+		}
 		if (hasNoEnv && !env.isEmpty()) {
 			if (jndiCfg == null) {
 				jndiCfg = new JNDIConfiguration();
@@ -342,8 +430,44 @@ public class JmsConfigurator implements InitializingBean {
 		}
 	}
 
-	private String prefixedKey(String key) {
-		return configurationPrefix == null ? key : configurationPrefix + "." + key;
+	private String getProperty(String key) {
+		String result = null;
+		if (workPrefix != null) {
+			result = configuration.getProperty(workPrefix + key);
+		}
+		return result == null ? configuration.getProperty(key) : result;
+	}
+
+	private String getJndiProperty(String key) {
+		String result = null;
+		if (workPrefix != null) {
+			result = configuration.getProperty(workPrefix + "jndiConfig." + key);
+		}
+		return result == null ? configuration.getProperty("jndiConfig." + key) : result;
+	}
+
+	private Boolean getBooleanProperty(String key) {
+		Boolean result = null;
+		if (workPrefix != null) {
+			result = configuration.getBooleanProperty(workPrefix + key);
+		}
+		return result == null ? configuration.getBooleanProperty(key) : result;
+	}
+
+	private Integer getIntegerProperty(String key) {
+		Integer result = null;
+		if (workPrefix != null) {
+			result = configuration.getIntegerProperty(workPrefix + key);
+		}
+		return result == null ? configuration.getIntegerProperty(key) : result;
+	}
+
+	private Long getLongProperty(String key) {
+		Long result = null;
+		if (workPrefix != null) {
+			result = configuration.getLongProperty(workPrefix + key);
+		}
+		return result == null ? configuration.getLongProperty(key) : result;
 	}
 
 	@Override

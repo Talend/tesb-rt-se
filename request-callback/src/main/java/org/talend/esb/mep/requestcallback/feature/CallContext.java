@@ -31,12 +31,10 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.factory.AbstractServiceConfiguration;
 import org.apache.cxf.service.factory.DefaultServiceConfiguration;
-import org.talend.esb.mep.requestcallback.impl.ConfigurationImpl;
 import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfiguration;
 
 public class CallContext implements Serializable {
 
-	private static final Configuration CONFIG = createConfiguration();
 	private static final long serialVersionUID = -5024912330689208965L;
 	
 	private QName portTypeName;
@@ -315,8 +313,8 @@ public class CallContext implements Serializable {
         requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operationName.getLocalPart());
 	}
 
-	public static Configuration getConfiguration() {
-		return CONFIG;
+	public static Configuration resolveConfiguration(QName serviceName) {
+		return ConfigurationInitializer.resolveConfiguration(serviceName);
 	}
 
 	private static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
@@ -366,11 +364,5 @@ public class CallContext implements Serializable {
         	}
         }
 		return endpoint;
-	}
-
-	private static Configuration createConfiguration() {
-		Configuration config = new ConfigurationImpl();
-		config.refreshStaticConfiguration();
-		return config;
 	}
 }
