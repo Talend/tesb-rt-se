@@ -51,26 +51,6 @@
             class="org.talend.esb.callcontext.store.server.CallContextStoreServerImpl"
             scope="singleton">
         <property name="persistencyManager" ref="persistencyManagerBean" />
-<!--         <property name="validators"> -->
-<!--             <list> -->
-<!--                 <bean class="org.talend.esb.callcontext.store.server.validator.SomeValidator"/> -->
-<!--                     <argument> -->
-<!--                         <list> -->
-<!--                             <value>someXSD.xsd</value> -->
-<!--                         </list> -->
-<!--                     </argument> -->
-<!--                 </bean> -->
-<!--             </list> -->
-<!--         </property> -->
-
-<!--         <property name="checkers"> -->
-<!--             <list> -->
-<!--                 <bean class="org.talend.esb.callcontext.store.server.checker.ConsistencyChecker"> -->
-<!--                     <property name="persistencyManager" ref="persistencyManagerBean" /> -->
-<!--                 </bean> -->
-<!--             </list> -->
-<!--         </property> -->
-<!--         <property name="ext_checkers" ref="ext_checkers" /> -->
     </bean>
 
     <service interface="org.talend.esb.callcontext.store.common.CallContextStoreServer" ref="callContextStoreServerBean"/>
