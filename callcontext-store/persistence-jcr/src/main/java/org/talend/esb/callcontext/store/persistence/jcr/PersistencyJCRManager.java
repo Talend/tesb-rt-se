@@ -42,8 +42,6 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
 
     private RepositoryFactory repositoryFactory;
     private Repository repository;
-    private Session session;
-    private Node root;
 
     private String storageDirPath;
 
@@ -76,53 +74,35 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
             LOG.log(Level.SEVERE, errorMessage);
             throw new InitializationException(errorMessage);
         }
-
-
-        try {
-            session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
-        } catch (LoginException e) {
-            String errorMessage = "Failed to initialize callcontext persistency manager. " +
-                                  "Failed to login to jackrabbit repository: " + e.getMessage();
-            LOG.log(Level.SEVERE, errorMessage);
-            throw new InitializationException(errorMessage);
-        } catch (RepositoryException e) {
-            String errorMessage = "Failed to initialize callcontext persistency manager. " +
-                                  "Error occured during login process to jackrabbit repository: " + e.getMessage();
-            LOG.log(Level.SEVERE, errorMessage);
-            throw new InitializationException(errorMessage);
-        }
-
-        try {
-            root = session.getRootNode();
-        } catch (RepositoryException e) {
-            String errorMessage = "Failed to initialize callcontext persistency manager. " +
-                                  "Error occured when getting jackrabbit repository root node: " + e.getMessage();
-            LOG.log(Level.SEVERE, errorMessage);
-            throw new InitializationException(errorMessage);
-        }
     }
 
 
     @Override
     public void storeCallContext(String context, String key) throws PersistencyException {
 
+        Session session = null;
+        Node rootNode;
+        Node node;
+
         synchronized (this) {
 
-            Node node;
-
             try {
+                session = getSession();
+                rootNode = session.getRootNode();
 
-                if (root.hasNode(key)) {
+                if (rootNode.hasNode(key)) {
                     throw new CallContextAlreadyExistsException("Dublicated call context with key {" + key + "}");
                 }
 
-                node = root.addNode(key);
+                node = rootNode.addNode(key);
                 node.setProperty(CONTEXT_DATA_PROPERTY_NAME, context);
                 session.save();
 
             } catch (RepositoryException e) {
                 LOG.log(Level.SEVERE, "Failed to sotre context. RepositoryException. Error message: " + e.getMessage());
                 throw new PersistencyException("Saving context failed due to error " + e.getMessage());
+            } finally {
+                releaseSession(session);
             }
         }
     }
@@ -133,26 +113,24 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
         Node node = null;
         Property property = null;
 
-        synchronized (this) {
+        Session session=null;
+        Node rootNode;
 
+        synchronized (this) {
             try {
-                node = root.getNode(contextKey);
+                session = getSession();
+                rootNode = session.getRootNode();
+                node = rootNode.getNode(contextKey);
+                property = node.getProperty(CONTEXT_DATA_PROPERTY_NAME);
+                return (property == null) ? null : property.getString();
             } catch (PathNotFoundException e) {
                 return null;
             } catch (RepositoryException e) {
                 LOG.log(Level.SEVERE, "Failed to resotre context. RepositoryException. Error message: " + e.getMessage());
-                throw new PersistencyException("Error retrieving context store node with the key "
-                        + contextKey + "  Underlying error message is:" + e.getMessage());
-            }
-
-            // TODO Check if this could be moved out of synchronized block
-            try {
-                property = node.getProperty(CONTEXT_DATA_PROPERTY_NAME);
-                return (property == null) ? null : property.getString();
-            } catch (RepositoryException e) {
-                LOG.log(Level.SEVERE, "Failed to resotre context. RepositoryException. Error message: " + e.getMessage());
-                throw new PersistencyException("Error retrieving context data of context "
-                        + contextKey + "  Underlying error message is:" + e.getMessage());
+                    throw new PersistencyException("Error retrieving context store node with the key "
+                            + contextKey + "  Underlying error message is:" + e.getMessage());
+            } finally {
+                releaseSession(session);
             }
         }
     }
@@ -163,8 +141,14 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
 
         synchronized (this) {
 
+            Session session=null;
+            Node rootNode;
+
             try {
-                Node node = root.getNode(key);
+                session = getSession();
+                rootNode = session.getRootNode();
+
+                Node node = rootNode.getNode(key);
                 node.remove();
                 session.save();
             } catch (PathNotFoundException e) {
@@ -176,12 +160,39 @@ public class PersistencyJCRManager extends AbstractPersistencyManager {
                         + "RepositoryException. Error message is: " + e.getMessage();
                 LOG.log(Level.WARNING, errorMessage);
                 throw new PersistencyException(errorMessage);
+            } finally {
+                 releaseSession(session);
             }
         }
     }
 
     public void setStorageDirPath(String storageDirPath) {
         this.storageDirPath = storageDirPath;
+    }
+
+    private Session getSession() {
+
+        Session session = null;
+
+        try {
+            session = repository.login(new SimpleCredentials("admin", "admin".toCharArray()));
+            return session;
+        } catch (LoginException e) {
+            String errorMessage = "Failed to login to jackrabbit repository: " + e.getMessage();
+            LOG.log(Level.SEVERE, errorMessage);
+            throw new InitializationException(errorMessage);
+        } catch (RepositoryException e) {
+            String errorMessage = "Error occured during login process to jackrabbit repository: " + e.getMessage();
+            LOG.log(Level.SEVERE, errorMessage);
+            throw new InitializationException(errorMessage);
+        }
+    }
+
+    private void releaseSession(Session session) {
+        if (session != null) {
+            session.logout();
+            session = null;
+        }
     }
 
 }
