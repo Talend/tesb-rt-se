@@ -377,6 +377,12 @@
             <directoryMode>755</directoryMode>
         </fileSet>
 
+        <!-- SAP add-on -->
+        <fileSet>
+            <directory>sap</directory>
+            <outputDirectory>/add-ons/datasources/sap</outputDirectory>
+        </fileSet>
+
         <!-- Copy Examples -->
         <fileSet>
             <directory>${basedir}/../examples</directory>
