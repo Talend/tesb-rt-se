@@ -108,6 +108,7 @@
 <!--                                 <descriptor>file:${basedir}/target/classes/standard-2.2.9-features.xml</descriptor> -->
 <!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
+                                <descriptor>mvn:org.talend.esb/callcontext-store-features/${callcontext.store.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -307,6 +308,13 @@
 								<feature>tesb-jmx-http-agent</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
+                                <feature>jackrabbit-bundles</feature>
+                                <feature>tesb-ccs-common</feature>
+                                <feature>tesb-ccs-client-rest</feature>
+                                <feature>tesb-ccs-persistence</feature>
+                                <feature>tesb-ccs-service-rest</feature>
+                                <feature>tesb-ccs-server</feature>
+                                <feature>tesb-ccs</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>

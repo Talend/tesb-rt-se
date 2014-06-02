@@ -18,7 +18,7 @@
   limitations under the License.
   #L%
   -->
-<features name="tesb-${callcontext.store.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="tesb-ccs-${callcontext.store.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
