@@ -108,7 +108,7 @@
 <!--                                 <descriptor>file:${basedir}/target/classes/standard-2.2.9-features.xml</descriptor> -->
 <!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.talend.esb/callcontext-store-features/${project.version}/xml</descriptor>
+                                <descriptor>mvn:org.talend.esb.callcontext.store/callcontext-store-features/${project.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
