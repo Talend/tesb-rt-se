@@ -396,6 +396,8 @@
                 <exclude>**/.classpath</exclude>
                 <!-- Exclude Intellij IDEA files and directories -->
                 <exclude>**/*.i??</exclude>
+                <!-- Exclude generated classes -->
+                <exclude>**/*_.java</exclude>
             </excludes>
         </fileSet>
         
