@@ -94,6 +94,7 @@ public final class RESTClient {
     			"barry@social.com", "1234");
     	OAuthAuthorizationData data = authorizeClient.get(OAuthAuthorizationData.class);    	
     	Object authenticityCookie = authorizeClient.getResponse().getMetadata().getFirst("Set-Cookie");
+    	System.out.println(authenticityCookie);
     	    	
     	Form authorizationResult = getAuthorizationResult(data);
     	authorizeClient.reset();

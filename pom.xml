@@ -139,6 +139,7 @@
         <module>policies-correlation</module>
         <module>policies-samenabling</module>
         <module>sam</module>
+        <module>security-common</module>
         <module>job</module>
         <module>features</module>
         <module>sts</module>
