@@ -1,20 +1,25 @@
 1. bus-extensions.txt: ToolBox extension seems to be obsolate? 
    Doesn't exist in packages
+   <action>: remove, obsolate
 2. Was fault scenario tested? There are no outFault interceptors initialized
+   <action>: correct, additional test with exception on server side is necessary  
 3. Role of ActionVerifierInterceptor is not clear.
    As far as I see it just checks that wsa:action is non-empty.
    But by default, if wsa feature is active, CXF sets WSA action.
-   Is it not enough to verify that on reciever side?
+   Is it not enough to verify that on receiver side?
+   <action>: must be validated for last CXF version (is it still actual)  
 4. CallbackActionInterceptor:
    a) What is the reason to explicitly set soapAction into SoapOperationIOnfo?
       Is it workaround for SOAPAction mismatch error?
       Take into account that since CXF 2.7.11 you can match empty SoapOperationInfo action
       to non-empty SOAPAction by activating allowNonMatchingToDefaultSoapAction property.
       Perhaps it is more elegant way.
+   <action>: must be validated for last CXF version (is it still actual)  
    b) Do not get logic in handleAddressing():
       // disable CXF decoupled response
       exchange.setOneWay(false);
       CXF decoupled responses are allowed only for request-response, not oneWay.
+   <action>: must be validated for last CXF version (is it still actual). Can be fixed with "https://issues.apache.org/jira/browse/CXF-5434"      
 5. RequestCallbackOutInterceptor
    a) Do not understand logic with ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME:
 		if (action == null || StringUtils.isEmpty(action.getValue())) {
@@ -22,10 +27,11 @@
 					Boolean.TRUE);
 		}
       The action will be additionaly validated into ActionVerifierInterceptor, but who will set it?
+   <action>: must be validated for last CXF version (is it still actual)  
 6. ConfigurationUpdater & Activator:
    Is not easy to use blueprint for OSGi to set and update the properties?
    Blueprint handles updates automatically.
-
+   <action>: evaluate use of blueprint (JMS configuration in CXF 3.0.0 style is implemented by Andrei Poltavtsev) 
 7. RequestCallbackTest:
    Why it is necessary to parse WSDL in test?
    I think port should be created from the WSDL here, it is not necessary to do it manually:
@@ -33,6 +39,7 @@
         		getClass().getResource(wsdlLocation), SERVICE_NAME);
         service.addPort(PORT_NAME, endpointInfo.getBinding().getBindingId(),
         		endpointInfo.getAddress());
+   <action>: check if it is still necessary 
 
 
 8. SeekBookInBasementHandler:
