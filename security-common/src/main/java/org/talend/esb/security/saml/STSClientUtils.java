@@ -41,9 +41,27 @@ public class STSClientUtils {
     private STSClientUtils() {
     }
 
-    // if "ws-security.sts.token.username" prop specified => certificate scenario
     public static STSClient createSTSClient(Bus bus, Map<String, String> stsProps) {
+        STSClient stsClient = createClient(bus, stsProps);
 
+        stsClient.setWsdlLocation(stsProps.get(STS_WSDL_LOCATION));
+        stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_ENDPOINT_NAME)));
+//        props.put(SecurityConstants.CALLBACK_HANDLER, new PasswordCallbackHandler(
+//                stsProps.get(SecurityConstants.USERNAME), stsProps.get(SecurityConstants.PASSWORD)));
+
+        return stsClient;
+    }
+
+    public static STSClient createSTSX509Client(Bus bus, Map<String, String> stsProps) {
+        STSClient stsClient = createClient(bus, stsProps);
+
+        stsClient.setWsdlLocation(stsProps.get(STS_X509_WSDL_LOCATION));
+        stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_X509_ENDPOINT_NAME)));
+
+        return stsClient;
+    }
+
+    private static STSClient createClient(Bus bus, Map<String, String> stsProps) {
         STSClient stsClient = new STSClient(bus);
         stsClient.setServiceQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_SERVICE_NAME)));
 
@@ -54,17 +72,6 @@ public class STSClientUtils {
             }
         }
         stsClient.setProperties(props);
-
-        String alias = stsProps.get(SecurityConstants.STS_TOKEN_USERNAME);
-        if (null == alias) {
-            stsClient.setWsdlLocation(stsProps.get(STS_WSDL_LOCATION));
-            stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_ENDPOINT_NAME)));
-//            props.put(SecurityConstants.CALLBACK_HANDLER, new PasswordCallbackHandler(
-//                    stsProps.get(SecurityConstants.USERNAME), stsProps.get(SecurityConstants.PASSWORD)));
-        } else {
-            stsClient.setWsdlLocation(stsProps.get(STS_X509_WSDL_LOCATION));
-            stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_X509_ENDPOINT_NAME)));
-        }
 
         return stsClient;
     }
@@ -77,7 +84,7 @@ public class STSClientUtils {
         }
     }
 
-    public static Object processFileURI(String fileURI) {
+    private static Object processFileURI(String fileURI) {
         if (fileURI.startsWith("file:")) {
             // return value.replaceAll("\\\\", "/");
             try {
