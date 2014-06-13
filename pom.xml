@@ -146,6 +146,7 @@
         <module>camel-talendjob</module>
         <module>adapters</module>
         <module>callcontext-store</module>
+        <module>request-callback</module>
     </modules>
 
     <dependencyManagement>
