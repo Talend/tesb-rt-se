@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxb.JAXBDataBinding;
@@ -106,11 +105,6 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 	private void aggregateAddressing(
 			SoapMessage message, String callbackEndpoint, String relatesTo) {
 		final AddressingProperties maps = initAddressingProperties(message);
-		AttributedURIType action = maps.getAction();
-		if (action == null || StringUtils.isEmpty(action.getValue())) {
-			message.put(ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME,
-					Boolean.TRUE);
-		}
 		if (callbackEndpoint != null) {
 			EndpointReferenceType replyTo= maps.getReplyTo();
 	        if (replyTo == null || ContextUtils.isGenericAddress(replyTo)) {

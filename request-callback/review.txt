@@ -1,37 +1,28 @@
-1. bus-extensions.txt: ToolBox extension seems to be obsolate? 
-   Doesn't exist in packages
-   <action>: remove, obsolate
+1./3./5. RESOLVED (Obsolete code parts have been removed).
 2. Was fault scenario tested? There are no outFault interceptors initialized
-   <action>: correct, additional test with exception on server side is necessary  
-3. Role of ActionVerifierInterceptor is not clear.
-   As far as I see it just checks that wsa:action is non-empty.
-   But by default, if wsa feature is active, CXF sets WSA action.
-   Is it not enough to verify that on receiver side?
-   <action>: must be validated for last CXF version (is it still actual)  
+   <action>: correct, additional test with exception on server side is necessary
+   RESULT: outFault interceptors are not available in one-way message exchanges
+           as used in the request-callback feature.  
 4. CallbackActionInterceptor:
    a) What is the reason to explicitly set soapAction into SoapOperationIOnfo?
       Is it workaround for SOAPAction mismatch error?
       Take into account that since CXF 2.7.11 you can match empty SoapOperationInfo action
       to non-empty SOAPAction by activating allowNonMatchingToDefaultSoapAction property.
       Perhaps it is more elegant way.
-   <action>: must be validated for last CXF version (is it still actual)  
+   <action>: must be validated for last CXF version (is it still actual)
+   RESULT: is still required  
    b) Do not get logic in handleAddressing():
       // disable CXF decoupled response
       exchange.setOneWay(false);
       CXF decoupled responses are allowed only for request-response, not oneWay.
    <action>: must be validated for last CXF version (is it still actual). Can be fixed with "https://issues.apache.org/jira/browse/CXF-5434"      
-5. RequestCallbackOutInterceptor
-   a) Do not understand logic with ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME:
-		if (action == null || StringUtils.isEmpty(action.getValue())) {
-			message.put(ActionVerifierInterceptor.ACTION_VERIFICATION_PROPERTY_NAME,
-					Boolean.TRUE);
-		}
-      The action will be additionaly validated into ActionVerifierInterceptor, but who will set it?
-   <action>: must be validated for last CXF version (is it still actual)  
+   RESULT: In One-Way exchanges, the MAP Aggregator initates send of a broken dummy response
+           which is avoided when the message exchange one-way flag is set to "false".
 6. ConfigurationUpdater & Activator:
    Is not easy to use blueprint for OSGi to set and update the properties?
    Blueprint handles updates automatically.
    <action>: evaluate use of blueprint (JMS configuration in CXF 3.0.0 style is implemented by Andrei Poltavtsev) 
+   RESULT: PoC of a blueprint-based implementation is in progress.
 7. RequestCallbackTest:
    Why it is necessary to parse WSDL in test?
    I think port should be created from the WSDL here, it is not necessary to do it manually:
@@ -40,7 +31,9 @@
         service.addPort(PORT_NAME, endpointInfo.getBinding().getBindingId(),
         		endpointInfo.getAddress());
    <action>: check if it is still necessary 
-
+   RESULT: This is not part of the test for the request-callback feature, but just code
+           to ensure resolution of the right port for all samples WSDLs in preparation
+           of the tests. 
 
 8. SeekBookInBasementHandler:
    I think we should hide this code from business implementation, it is too technical:

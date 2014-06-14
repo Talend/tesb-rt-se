@@ -83,7 +83,8 @@ public class CallbackActionInterceptor extends AbstractPhaseInterceptor<SoapMess
 		} else {
 			if (exchange.isOneWay()) {
 				if (!Names.WSA_NONE_ADDRESS.equals(replyTo)) {
-					// disable CXF decoupled response
+					// disable creation of "partial" response
+					// by CXF decoupled response feature
 					exchange.setOneWay(false);
 				}
 			} else {

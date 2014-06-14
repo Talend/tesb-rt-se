@@ -1,4 +1,4 @@
-package org.talend.esb.mep.requestcallback.impl;
+package org.talend.esb.mep.requestcallback.sample.internal;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.common.util.StringUtils;

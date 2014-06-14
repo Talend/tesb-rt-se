@@ -11,7 +11,6 @@ import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
-import org.talend.esb.mep.requestcallback.impl.ActionVerifierInterceptor;
 import org.talend.esb.mep.requestcallback.impl.CallbackActionInterceptor;
 import org.talend.esb.mep.requestcallback.impl.RequestCallbackInInterceptor;
 import org.talend.esb.mep.requestcallback.impl.RequestCallbackOutInterceptor;
@@ -94,10 +93,8 @@ public class RequestCallbackFeature extends AbstractFeature {
 		final RequestCallbackInInterceptor inInterceptor = new RequestCallbackInInterceptor();
 		final CallbackActionInterceptor cbInterceptor = new CallbackActionInterceptor();
 		final RequestCallbackOutInterceptor outInterceptor = new RequestCallbackOutInterceptor();
-		final ActionVerifierInterceptor avInterceptor = new ActionVerifierInterceptor();
 		provider.getInInterceptors().add(inInterceptor);
 		provider.getInInterceptors().add(cbInterceptor);
 		provider.getOutInterceptors().add(outInterceptor);
-		provider.getOutInterceptors().add(avInterceptor);
     }
 }
