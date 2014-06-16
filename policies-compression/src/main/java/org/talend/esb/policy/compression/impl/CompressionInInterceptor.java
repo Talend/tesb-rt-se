@@ -1,5 +1,7 @@
 package org.talend.esb.policy.compression.impl;
 
+import java.util.List;
+
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
@@ -21,10 +23,14 @@ public class CompressionInInterceptor extends GZIPInInterceptor {
 			super.handleMessage(message);
 			
 			// Confirm policy processing
-			AssertionInfo ai = CompressionPolicyBuilder.getAssertion(message);
-			if (ai != null){
-				ai.setAsserted(true);
+			List<AssertionInfo> aiList = CompressionPolicyBuilder.getAssertions(message);
+			
+			for (AssertionInfo ai : aiList) {
+				if (ai != null){
+					ai.setAsserted(true);
+				}				
 			}
+
 		}catch (RuntimeException e) {
 			throw e;
 		}catch (Exception e) {
