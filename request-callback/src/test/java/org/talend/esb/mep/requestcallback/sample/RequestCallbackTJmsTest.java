@@ -24,7 +24,6 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.DestinationFactoryManager;
-import org.apache.cxf.transport.jms.JMSTransportFactory;
 import org.apache.cxf.wsdl11.WSDLServiceFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -39,11 +38,12 @@ import org.talend.esb.mep.requestcallback.sample.internal.SeekBookInBasementFaul
 import org.talend.esb.mep.requestcallback.sample.internal.SeekBookInBasementHandler;
 import org.talend.esb.mep.requestcallback.sample.internal.SeekBookInBasementResponseCallback;
 import org.talend.esb.mep.requestcallback.sample.internal.ServiceProviderHandler;
+import org.talend.esb.transport.jms.TesbJmsTransportFactory;
 
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class RequestCallbackJmsTest {
+public class RequestCallbackTJmsTest {
 
 	private static final int NO_RUN = 0;
 	// private static final int REQUEST_RESPONSE = 1;
@@ -65,8 +65,8 @@ public class RequestCallbackJmsTest {
     		new QName(SERVICE_NAMESPACE_A, "Library_jmsPort");
     // private static final String CLIENT_CALLBACK_ENDPOINT =
     //		"jms:jndi:dynamicQueues/test.cxf.jmstransport.queue";
-    private static final String CLIENT_CALLBACK_ENDPOINT =
-    		"jms://";
+    // private static final String CLIENT_CALLBACK_ENDPOINT =
+    //		"jms://";
     private static boolean hasActiveMQ = probeActiveMQ();
 
     private final QName serviceName;
@@ -87,7 +87,7 @@ public class RequestCallbackJmsTest {
 	private Server server = null;
 	private Endpoint callbackEndpoint = null;
 
-	public RequestCallbackJmsTest(
+	public RequestCallbackTJmsTest(
 			String wsdlLocation,
 			String requestLocation,
 			String responseLocation,
@@ -140,7 +140,7 @@ public class RequestCallbackJmsTest {
 		}
 
     	final Bus bus = BusFactory.getDefaultBus();
-    	final JMSTransportFactory jmsTransport = new JMSTransportFactory(bus);
+    	final TesbJmsTransportFactory jmsTransport = new TesbJmsTransportFactory(bus);
     	final DestinationFactoryManager dfm =
     			bus.getExtension(DestinationFactoryManager.class);
     	dfm.registerDestinationFactory(
@@ -245,7 +245,8 @@ public class RequestCallbackJmsTest {
         		callbackHandler, wsdlLocation);
         callbackEndpoint = ep;
         JmsConfigurator cConfigurator = JmsConfigurator.create(ep);
-        assertNotNull(cConfigurator.configureAndPublishEndpoint(ep, CLIENT_CALLBACK_ENDPOINT));
+        assertNotNull(cConfigurator.configureAndPublishEndpoint(
+        		ep, JmsConfigurator.OVERRIDE_BY_URI_CONFIG));
 
         // 2. Create a client
         final Dispatch<StreamSource> dispatcher = service.createDispatch(

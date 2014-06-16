@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions
-  targetNamespace="http://services.talend.org/demos/Library/1.0"
+  targetNamespace="http://services.talend.org/demos/Library/1.1"
   xmlns="http://schemas.xmlsoap.org/wsdl/"
   xmlns:doc="http://types.talend.org/service/Documentation/1.0"
-  xmlns:tdem="http://services.talend.org/demos/Library/1.0"
+  xmlns:tdem="http://services.talend.org/demos/Library/1.1"
   xmlns:err="http://types.talend.org/demos/GeneralObjects/ErrorHandling/1.0"
   xmlns:jms="http://cxf.apache.org/transports/jms"
-  xmlns:port_type="http://services.talend.org/demos/Library/1.0"
+  xmlns:port_type="http://services.talend.org/demos/Library/1.1"
   xmlns:sdx="http://types.talend.org/service/ServiceDescription/2.0"
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
   xmlns:spdx="http://types.talend.org/service/ServiceProviderDescription/1.0"
   xmlns:svn="http://types.talend.org/demos/Library/Common/1.0"
-  xmlns:tns="http://services.talend.org/demos/Library/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  xmlns:tns="http://services.talend.org/demos/Library/1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <documentation>
     <doc:revisionHistory current="rev_02">
       <doc:revision id="rev_00" revisionNumber="0" status="open">

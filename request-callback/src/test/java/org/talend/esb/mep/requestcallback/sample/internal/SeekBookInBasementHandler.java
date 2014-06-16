@@ -29,7 +29,7 @@ public class SeekBookInBasementHandler implements IncomingMessageHandler {
         		new QName("seekBookInBasementResponse"));
         if (context.getReplyToAddress().startsWith("jms")) {
             JmsConfigurator cConfigurator = JmsConfigurator.create(responseProxy);
-            cConfigurator.configureDispatch(responseProxy);
+            cConfigurator.configureDispatch(responseProxy, context.getReplyToAddress());
         }
         responseProxy.invokeOneWay(response);
     }

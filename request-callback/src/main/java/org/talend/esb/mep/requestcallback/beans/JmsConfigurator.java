@@ -23,6 +23,7 @@ import org.talend.esb.mep.requestcallback.feature.Configuration;
 
 public class JmsConfigurator implements InitializingBean {
 
+	public static final String OVERRIDE_BY_URI_CONFIG = "override";
 	private QName serviceName;
 	private String configurationPrefix;
 	private String workPrefix;
@@ -122,14 +123,57 @@ public class JmsConfigurator implements InitializingBean {
 	}
 
 	public Endpoint configureAndPublishEndpoint(Endpoint endpoint, String jmsAddress) {
+		String address = jmsAddress;
+		if (OVERRIDE_BY_URI_CONFIG.equals(jmsAddress)) {
+			if (configuration == null) {
+				if (serviceName == null) {
+					return null;
+				}
+				configuration = CallContext.resolveConfiguration(serviceName);
+			}
+			String overrideAddress = getProperty("requestURI2010");
+			if (overrideAddress != null) {
+				endpoint.publish(overrideAddress);
+				return endpoint;
+			}
+			address = "jms://";
+		}
 		Endpoint result = configureEndpoint(endpoint);
 		if (result != null) {
-			result.publish(jmsAddress);
+			result.publish(address);
 		}
 		return result;
 	}
 
 	public <T> Dispatch<T> configureDispatch(Dispatch<T> dispatch) {
+		if (jmsConfiguration == null || !(dispatch instanceof DispatchImpl<?>) ||
+				(serviceName == null && configuration == null)) {
+			return null;
+		}
+		if (!jmsConfigured) {
+			setupJmsConfiguration();
+		}
+		final DispatchImpl<?> di = (DispatchImpl<?>) dispatch;
+		final Client cl = di.getClient();
+		final JMSConfigFeature feature = new JMSConfigFeature();
+		feature.setJmsConfig(jmsConfiguration);
+		feature.initialize(cl, cl.getBus());
+		return dispatch;
+	}
+
+	public <T> Dispatch<T> configureDispatch(Dispatch<T> dispatch, String addressing) {
+		if (configuration == null) {
+			if (serviceName == null) {
+				return null;
+			}
+			configuration = CallContext.resolveConfiguration(serviceName);
+		}
+		String overrideAddress = getProperty("requestURI2010");
+		if (overrideAddress != null &&
+				(overrideAddress.equals(addressing) ||
+						OVERRIDE_BY_URI_CONFIG.equals(addressing))) {
+			return dispatch;
+		}
 		if (jmsConfiguration == null || !(dispatch instanceof DispatchImpl<?>) ||
 				(serviceName == null && configuration == null)) {
 			return null;
