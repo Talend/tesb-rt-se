@@ -95,8 +95,13 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.SERVICE_NAME));
         final QName portName = QName.valueOf((String) props
                 .get(ESBEndpointConstants.PORT_NAME));
-        final String operationName = (String) props
-                .get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
+        String operationNamespace = (String) props
+                .get(ESBEndpointConstants.OPERATION_NAMESPACE);
+        if (null == operationNamespace) {
+            operationNamespace = serviceName.getNamespaceURI();
+        }
+        final QName operationName = new QName(operationNamespace,
+                (String) props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME));
 
         final String publishedEndpointUrl = (String) props
                 .get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);
@@ -197,6 +202,32 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
                 (useCrypto || useServiceRegistry) ? cryptoProvider : null);
         
+
+        //for TESB-9006, update extensions when registry enabled but no wsdl-client/policy-client
+        //extension set on the old bus. (used to instead the action of refresh job controller bundle.
+
+        if (useServiceRegistry 
+        		&& (!bus.hasExtensionByName(WSDL_CLIENT_EXTENSION_NAME) 
+        				|| !bus.hasExtensionByName(POLICY_CLIENT_EXTENSION_NAME))) {
+        	
+        	boolean updated = false;
+        	Map<String, Extension> exts = ExtensionRegistry.getRegisteredExtensions();
+        	
+        	updated |= setExtensionOnBusIfMissing(bus, exts, WSDL_CLIENT_EXTENSION_NAME);
+        	updated |= setExtensionOnBusIfMissing(bus, exts, POLICY_CLIENT_EXTENSION_NAME);
+        	
+			if (updated) {
+				// this should cause FactoryBeanListenerManager to refresh its list of event listeners
+				FactoryBeanListenerManager fblm = bus
+						.getExtension(FactoryBeanListenerManager.class);
+				
+				if (fblm != null) {
+					fblm.setBus(bus);
+				} else {
+					throw new RuntimeException("CXF bus doesn't contain FactoryBeanListenerManager.");
+				}
+			}
+        }
 
         //for TESB-9006, update extensions when registry enabled but no wsdl-client/policy-client
         //extension set on the old bus. (used to instead the action of refresh job controller bundle.
