@@ -60,6 +60,8 @@ import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+import org.talend.esb.security.saml.STSClientUtils;
+import org.talend.esb.security.saml.WSPasswordCallbackHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
@@ -70,12 +72,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class
             .getName());
 
-    private static final String STS_WSDL_LOCATION = "sts.wsdl.location";
-    private static final String STS_X509_WSDL_LOCATION = "sts.x509.wsdl.location";
-    private static final String STS_NAMESPACE = "sts.namespace";
-    private static final String STS_SERVICE_NAME = "sts.service.name";
-    private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
-    private static final String STS_X509_ENDPOINT_NAME = "sts.x509.endpoint.name";
     private static final String CONSUMER_SIGNATURE_PASSWORD =
              "ws-security.signature.password";
 
@@ -181,43 +177,23 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
         }
         if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
-            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
-
-            stsClient = new STSClient(bus);
-            stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
-
-            Map<String, Object> stsProps = new HashMap<String, Object>();
-            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
+            Map<String, String> stsProps = new HashMap<String, String>(securityArguments.getStsProperties());
+            //final STSClient stsClient;
             if (null == securityArguments.getAlias()) {
-                stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
-                stsClient.setEndpointQName(
-                        new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
-
                 stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
                 stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
+                stsClient= STSClientUtils.createSTSClient(bus, stsProps);
             } else {
-                stsClient.setWsdlLocation(stsPropsDef.get(STS_X509_WSDL_LOCATION));
-                stsClient.setEndpointQName(
-                    new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_X509_ENDPOINT_NAME)));
                 stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
+                stsClient= STSClientUtils.createSTSX509Client(bus, stsProps);
             }
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
+                STSClientUtils.applyAuthorization(stsClient, securityArguments.getRoleName());
             }
             if (null != securityArguments.getSecurityToken()) {
                 stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
             }
-
-            stsClient.setProperties(stsProps);
 
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
@@ -326,12 +302,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (client == null) {
             client = clientFactory.create();
 
-            //fix TESB-11750
-            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
-            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
-                    ((String) isAuthzPolicyApplied).equals("false")) {
-                stsClient.setClaimsCallbackHandler(null);
-            }
+//            //fix TESB-11750
+//            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
+//            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
+//                    ((String) isAuthzPolicyApplied).equals("false")) {
+//                stsClient.setClaims(null);
+//            }
 
             if (null != authorizationPolicy) {
                 HTTPConduit conduit = (HTTPConduit) client.getConduit();
