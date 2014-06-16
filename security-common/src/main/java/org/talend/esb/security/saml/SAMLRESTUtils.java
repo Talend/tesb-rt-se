@@ -25,7 +25,6 @@ import org.apache.cxf.rs.security.saml.SamlHeaderInHandler;
 import org.apache.cxf.rs.security.saml.SamlHeaderOutInterceptor;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
-import org.talend.esb.security.PasswordCallbackHandler;
 
 public class SAMLRESTUtils {
 
@@ -61,7 +60,7 @@ public class SAMLRESTUtils {
         String username = (String) securityProps.get(SecurityConstants.SIGNATURE_USERNAME);
         props.put(SecurityConstants.SIGNATURE_USERNAME, username);
         props.put(SecurityConstants.CALLBACK_HANDLER,
-                new PasswordCallbackHandler(username, (String) securityProps.get(SIGNATURE_PASSWORD)));
+                new WSPasswordCallbackHandler(username, (String) securityProps.get(SIGNATURE_PASSWORD)));
         props.put(SecurityConstants.SIGNATURE_PROPERTIES,
                 securityProps.get(SecurityConstants.SIGNATURE_PROPERTIES));
 
