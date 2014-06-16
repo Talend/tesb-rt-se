@@ -229,32 +229,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 			}
         }
 
-        //for TESB-9006, update extensions when registry enabled but no wsdl-client/policy-client
-        //extension set on the old bus. (used to instead the action of refresh job controller bundle.
-
-        if (useServiceRegistry 
-        		&& (!bus.hasExtensionByName(WSDL_CLIENT_EXTENSION_NAME) 
-        				|| !bus.hasExtensionByName(POLICY_CLIENT_EXTENSION_NAME))) {
-        	
-        	boolean updated = false;
-        	Map<String, Extension> exts = ExtensionRegistry.getRegisteredExtensions();
-        	
-        	updated |= setExtensionOnBusIfMissing(bus, exts, WSDL_CLIENT_EXTENSION_NAME);
-        	updated |= setExtensionOnBusIfMissing(bus, exts, POLICY_CLIENT_EXTENSION_NAME);
-        	
-			if (updated) {
-				// this should cause FactoryBeanListenerManager to refresh its list of event listeners
-				FactoryBeanListenerManager fblm = bus
-						.getExtension(FactoryBeanListenerManager.class);
-				
-				if (fblm != null) {
-					fblm.setBus(bus);
-				} else {
-					throw new RuntimeException("CXF bus doesn't contain FactoryBeanListenerManager.");
-				}
-			}
-        }
-
         return new RuntimeESBConsumer(
                 serviceName, portName, operationName, publishedEndpointUrl, 
                 (String) props.get(ESBEndpointConstants.WSDL_URL),
