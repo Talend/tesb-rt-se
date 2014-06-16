@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller.internal;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
 import javax.xml.ws.WebServiceException;
@@ -35,18 +38,18 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
+import org.apache.cxf.binding.soap.SoapFault;
+import org.apache.cxf.binding.soap.saaj.SAAJFactoryResolver;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.jaxws.JaxWsClientFactoryBean;
+import org.apache.cxf.service.factory.AbstractServiceConfiguration;
 import org.apache.cxf.service.model.InterfaceInfo;
-import org.apache.cxf.service.model.ServiceInfo;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
 import org.apache.cxf.ws.security.SecurityConstants;
@@ -54,10 +57,11 @@ import org.apache.cxf.ws.security.trust.STSClient;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
-import org.talend.esb.job.controller.internal.util.ServiceHelper;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+import org.talend.esb.security.saml.STSClientUtils;
+import org.talend.esb.security.saml.WSPasswordCallbackHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
@@ -68,16 +72,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class
             .getName());
 
-    private static final String STS_WSDL_LOCATION = "sts.wsdl.location";
-    private static final String STS_X509_WSDL_LOCATION = "sts.x509.wsdl.location";
-    private static final String STS_NAMESPACE = "sts.namespace";
-    private static final String STS_SERVICE_NAME = "sts.service.name";
-    private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
-    private static final String STS_X509_ENDPOINT_NAME = "sts.x509.endpoint.name";
     private static final String CONSUMER_SIGNATURE_PASSWORD =
              "ws-security.signature.password";
 
-    private final String operationName;
+    private final QName operationName;
     private final EventFeature samFeature;
     private final List<Header> soapHeaders;
     private AuthorizationPolicy authorizationPolicy;
@@ -87,11 +85,15 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private Client client;
     private STSClient stsClient;
 
-	private boolean enhancedResponse;
+    private boolean enhancedResponse;
+
+    static interface GenericServiceClass {
+        Object invoke(Object param);
+    }
 
     RuntimeESBConsumer(final QName serviceName,
             final QName portName,
-            final String operationName,
+            final QName operationName,
             String publishedEndpointUrl,
             String wsdlURL,
             final boolean isRequestResponse,
@@ -110,22 +112,23 @@ public class RuntimeESBConsumer implements ESBConsumer {
         this.soapHeaders = soapHeaders;
         this.enhancedResponse = enhancedResponse;
 
-        clientFactory = new JaxWsClientFactoryBean() {
+        clientFactory = new ClientFactoryBean();
+        clientFactory.setServiceClass(GenericServiceClass.class);
+        clientFactory.getServiceFactory().getServiceConfigurations().add(0, new AbstractServiceConfiguration() {
             @Override
-            protected Endpoint createEndpoint() throws BusException,
-                    EndpointException {
-                final Endpoint endpoint = super.createEndpoint();
-                // set portType = serviceName
-                InterfaceInfo ii = endpoint.getService().getServiceInfos()
-                        .get(0).getInterface();
-                ii.setName(serviceName);
-
-                final ServiceInfo si = endpoint.getService().getServiceInfos().get(0);
-                ServiceHelper.addOperation(si, operationName, isRequestResponse, soapAction);
-
-                return endpoint;
+            public Boolean isOperation(Method method) {
+                return "invoke".equals(method.getName());
             }
-        };
+            @Override
+            public QName getOperationName(InterfaceInfo service, Method method) {
+                return operationName;
+            }
+            @Override
+            public Boolean isWrapped() {
+                return Boolean.FALSE;
+            }
+        });
+
         clientFactory.setServiceName(serviceName);
         clientFactory.setEndpointName(portName);
         final String endpointUrl = (slFeature == null) ? publishedEndpointUrl
@@ -136,7 +139,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (!useServiceRegistry && null != wsdlURL) {
             clientFactory.setWsdlURL(wsdlURL);
         }
-        clientFactory.setServiceClass(this.getClass());
         clientFactory.setDataBinding(new SourceDataBinding());
 
         clientFactory.setBus(bus);
@@ -175,43 +177,23 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
         }
         if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
-            final Map<String, String> stsPropsDef = securityArguments.getStsProperties();
-
-            stsClient = new STSClient(bus);
-            stsClient.setServiceQName(
-                new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_SERVICE_NAME)));
-
-            Map<String, Object> stsProps = new HashMap<String, Object>();
-            for (Map.Entry<String, String> entry : stsPropsDef.entrySet()) {
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    stsProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-
+            Map<String, String> stsProps = new HashMap<String, String>(securityArguments.getStsProperties());
+            //final STSClient stsClient;
             if (null == securityArguments.getAlias()) {
-                stsClient.setWsdlLocation(stsPropsDef.get(STS_WSDL_LOCATION));
-                stsClient.setEndpointQName(
-                        new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_ENDPOINT_NAME)));
-
                 stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
                 stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
+                stsClient= STSClientUtils.createSTSClient(bus, stsProps);
             } else {
-                stsClient.setWsdlLocation(stsPropsDef.get(STS_X509_WSDL_LOCATION));
-                stsClient.setEndpointQName(
-                    new QName(stsPropsDef.get(STS_NAMESPACE), stsPropsDef.get(STS_X509_ENDPOINT_NAME)));
                 stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
+                stsClient= STSClientUtils.createSTSX509Client(bus, stsProps);
             }
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                ClaimValueCallbackHandler roleCallbackHandler = new ClaimValueCallbackHandler();
-                roleCallbackHandler.setClaimValue(securityArguments.getRoleName());
-                stsClient.setClaimsCallbackHandler(roleCallbackHandler);
+                STSClientUtils.applyAuthorization(stsClient, securityArguments.getRoleName());
             }
             if (null != securityArguments.getSecurityToken()) {
                 stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
             }
-
-            stsClient.setProperties(stsProps);
 
             clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
 
@@ -301,7 +283,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
         } catch (org.apache.cxf.binding.soap.SoapFault e) {
-            SOAPFault soapFault = ServiceHelper.createSoapFault(e);
+            SOAPFault soapFault = createSoapFault(e);
             if (soapFault == null) {
                 throw new WebServiceException(e);
             }
@@ -320,12 +302,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (client == null) {
             client = clientFactory.create();
 
-            //fix TESB-11750
-            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
-            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
-                    ((String) isAuthzPolicyApplied).equals("false")) {
-                stsClient.setClaimsCallbackHandler(null);
-            }
+//            //fix TESB-11750
+//            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
+//            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
+//                    ((String) isAuthzPolicyApplied).equals("false")) {
+//                stsClient.setClaims(null);
+//            }
 
             if (null != authorizationPolicy) {
                 HTTPConduit conduit = (HTTPConduit) client.getConduit();
@@ -334,7 +316,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         return client;
     }
-    
+
     private static Object processFileURI(String fileURI) {
         if (fileURI.startsWith("file:")) {
             try {
@@ -343,6 +325,47 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
         }
         return fileURI;
+    }
+
+    // org.apache.cxf.jaxws.JaxWsClientProxy
+    private static SOAPFault createSoapFault(Exception ex) throws SOAPException {
+        SOAPFault soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault(); 
+        if (ex instanceof SoapFault) {
+            if (!soapFault.getNamespaceURI().equals(((SoapFault)ex).getFaultCode().getNamespaceURI())
+                && SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE
+                    .equals(((SoapFault)ex).getFaultCode().getNamespaceURI())) {
+                //change to 1.1
+                try {
+                    soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault();
+                } catch (Throwable t) {
+                    //ignore
+                }
+            }
+            soapFault.setFaultString(((SoapFault)ex).getReason());
+            soapFault.setFaultCode(((SoapFault)ex).getFaultCode());
+            soapFault.setFaultActor(((SoapFault)ex).getRole());
+            if (((SoapFault)ex).getSubCode() != null) {
+                soapFault.appendFaultSubcode(((SoapFault)ex).getSubCode());
+            }
+
+            if (((SoapFault)ex).hasDetails()) {
+                org.w3c.dom.Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
+                                                                  true);
+                nd = nd.getFirstChild();
+                soapFault.addDetail();
+                while (nd != null) {
+                    org.w3c.dom.Node next = nd.getNextSibling();
+                    soapFault.getDetail().appendChild(nd);
+                    nd = next;
+                }
+            }
+        } else {
+            String msg = ex.getMessage();
+            if (msg != null) {
+                soapFault.setFaultString(msg);
+            }
+        }      
+        return soapFault;
     }
 
 }

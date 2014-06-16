@@ -1,7 +1,9 @@
 package org.talend.esb.policy.compression.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,9 +57,11 @@ public class CompressionPolicyBuilder implements AssertionBuilder<Element> {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ParserConfigurationException the parser configuration exception
 	 */
-	public static AssertionInfo getAssertion(Message message)
+	public static List<AssertionInfo> getAssertions(Message message)
 			throws SAXException, IOException, ParserConfigurationException {
 		AssertionInfoMap aim = message.get(AssertionInfoMap.class);
+		
+		List<AssertionInfo> aiList = new ArrayList<AssertionInfo>();
 		if (aim != null) {
 			Collection<AssertionInfo> ais = aim
 					.get(CompressionPolicyBuilder.COMPRESSION);
@@ -68,11 +72,11 @@ public class CompressionPolicyBuilder implements AssertionBuilder<Element> {
 
 			for (AssertionInfo ai : ais) {
 				if (ai.getAssertion() instanceof CompressionAssertion) {
-					return ai;
+					aiList.add(ai);
 				}
 			}
 		}
 
-		return null;
+		return aiList;
 	}
 }

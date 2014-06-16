@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.talend.esb.security;
+package org.talend.esb.security.saml;
 
 import java.io.IOException;
 
@@ -26,12 +26,12 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 import org.apache.ws.security.WSPasswordCallback;
 
-public class PasswordCallbackHandler implements CallbackHandler {
+public class WSPasswordCallbackHandler implements CallbackHandler {
 
     private final String user;
     private final String pass;
 
-    public PasswordCallbackHandler(String username, String password) {
+    public WSPasswordCallbackHandler(String username, String password) {
         user = username;
         pass = password;
     }

@@ -95,8 +95,13 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 .get(ESBEndpointConstants.SERVICE_NAME));
         final QName portName = QName.valueOf((String) props
                 .get(ESBEndpointConstants.PORT_NAME));
-        final String operationName = (String) props
-                .get(ESBEndpointConstants.DEFAULT_OPERATION_NAME);
+        String operationNamespace = (String) props
+                .get(ESBEndpointConstants.OPERATION_NAMESPACE);
+        if (null == operationNamespace) {
+            operationNamespace = serviceName.getNamespaceURI();
+        }
+        final QName operationName = new QName(operationNamespace,
+                (String) props.get(ESBEndpointConstants.DEFAULT_OPERATION_NAME));
 
         final String publishedEndpointUrl = (String) props
                 .get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL);

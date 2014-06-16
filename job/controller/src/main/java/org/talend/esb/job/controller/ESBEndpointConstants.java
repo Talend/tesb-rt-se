@@ -24,6 +24,7 @@ public interface ESBEndpointConstants {
     // keys for ESBEndpointInfo properties
     String PUBLISHED_ENDPOINT_URL = "publishedEndpointUrl";
     String DEFAULT_OPERATION_NAME = "defaultOperationName";
+    String OPERATION_NAMESPACE = "operationNamespace";
     String SERVICE_NAME = "serviceName";
     String PORT_NAME = "portName";
     String COMMUNICATION_STYLE = "COMMUNICATION_STYLE";
