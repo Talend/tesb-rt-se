@@ -262,4 +262,10 @@
     <bundle>mvn:org.talend.esb.policies/samenabling-policy/${project.version}</bundle>
   </feature>
 
+  <feature name="request-callback" version='${project.version}'>
+       <bundle>mvn:org.talend.esb.mep/request-callback/${project.version}</bundle>
+       <configfile finalname="/etc/org.talend.esb.mep.request.callback.http.request.callback.example.com.service1.cfg">mvn:org.talend.esb.mep/request-callback/${project.version}/cfg1</configfile>
+       <configfile finalname="/etc/org.talend.esb.mep.request.callback.http.request.callback.example.com.service2.cfg">mvn:org.talend.esb.mep/request-callback/${project.version}/cfg2</configfile>
+  </feature>
+
 </features>

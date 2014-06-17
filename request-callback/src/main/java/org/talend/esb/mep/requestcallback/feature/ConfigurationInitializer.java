@@ -1,5 +1,6 @@
 package org.talend.esb.mep.requestcallback.feature;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -60,6 +61,12 @@ public final class ConfigurationInitializer {
 			return listeners.remove(listener);
 		}
 
+		public synchronized void addConfigurations(Collection<Configuration> configurations) {
+	        for (Configuration configuration : configurations) {
+	            configs.put(configuration.getConfigurationName(), configuration);
+	        }
+	    }
+
 		private Configuration createConfiguration(QName serviceName) {
 			ConfigurationImpl result = new ConfigurationImpl(serviceName);
 			result.refreshStaticConfiguration();
@@ -99,5 +106,9 @@ public final class ConfigurationInitializer {
 	public static boolean removeConfigurationCreationListener(
 			ConfigurationCreationListener listener) {
 		return MANAGER.removeConfigurationCreationListener(listener);
+	}
+
+	public static void addConfigurations(Collection<Configuration> configurations) {
+		MANAGER.addConfigurations(configurations);
 	}
 }
