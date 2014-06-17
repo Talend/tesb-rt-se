@@ -97,12 +97,15 @@ public class CallbackInfo {
 			}
 			final PLType pl = (PLType) ee;
 			if (pl != null) {
-				for (PLRole role : pl.getRoles()) {
-					final String name = role.getName();
-					if ("service".equals(name)) {
-						portTypeHint = role.getPortType().getName();
-					} else if ("callback".equals(name)) {
-						callbackPortTypeHint = role.getPortType().getName();
+				final List<PLRole> roles = pl.getRoles();
+				if (roles != null) {
+					for (PLRole role : roles) {
+						final String name = role.getName();
+						if ("service".equals(name)) {
+							portTypeHint = role.getPortType().getName();
+						} else if ("callback".equals(name)) {
+							callbackPortTypeHint = role.getPortType().getName();
+						}
 					}
 				}
 				if (portTypeHint != null && callbackPortTypeHint != null) {
