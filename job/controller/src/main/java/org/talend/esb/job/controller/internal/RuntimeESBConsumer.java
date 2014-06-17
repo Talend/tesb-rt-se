@@ -83,7 +83,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private final ClientFactoryBean clientFactory;
 
     private Client client;
-    private STSClient stsClient;
 
     private boolean enhancedResponse;
 
@@ -178,7 +177,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
             Map<String, String> stsProps = new HashMap<String, String>(securityArguments.getStsProperties());
-            //final STSClient stsClient;
+            final STSClient stsClient;
             if (null == securityArguments.getAlias()) {
                 stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
                 stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
@@ -218,11 +217,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
             if (null != securityArguments.getCryptoProvider()) {
                 clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
-            }
-
-            Object encryptUsername = clientProps.get(SecurityConstants.ENCRYPT_USERNAME);
-            if (encryptUsername == null || encryptUsername.toString().isEmpty()) {
-                clientProps.put(SecurityConstants.ENCRYPT_USERNAME, serviceName.toString());
+                Object encryptUsername = clientProps.get(SecurityConstants.ENCRYPT_USERNAME);
+                if (encryptUsername == null || encryptUsername.toString().isEmpty()) {
+                    clientProps.put(SecurityConstants.ENCRYPT_USERNAME, serviceName.toString());
+                }
             }
         }
 
@@ -301,13 +299,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private Client getClient() throws BusException, EndpointException {
         if (client == null) {
             client = clientFactory.create();
-
-//            //fix TESB-11750
-//            Object isAuthzPolicyApplied = client.getRequestContext().get("isAuthzPolicyApplied");
-//            if (null != stsClient && isAuthzPolicyApplied instanceof String && 
-//                    ((String) isAuthzPolicyApplied).equals("false")) {
-//                stsClient.setClaims(null);
-//            }
 
             if (null != authorizationPolicy) {
                 HTTPConduit conduit = (HTTPConduit) client.getConduit();
