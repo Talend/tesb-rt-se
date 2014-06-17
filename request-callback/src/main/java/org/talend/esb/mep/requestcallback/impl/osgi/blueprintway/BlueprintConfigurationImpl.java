@@ -3,31 +3,25 @@ package org.talend.esb.mep.requestcallback.impl.osgi.blueprintway;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
-import org.talend.esb.mep.requestcallback.feature.Configuration.ChangeListener;
 import org.talend.esb.mep.requestcallback.impl.AbstractConfiguration;
 
 
 public class BlueprintConfigurationImpl extends AbstractConfiguration {
 
-
-
-    private Map<String, Object> userMap = null;
+	private Map<String, Object> userMap = null;
     private Map<String, Object> dynamicMap = null;
     private Map<String, Object> staticMap = null;
     private Map<String, Object> mergedMap = null;
@@ -45,8 +39,7 @@ public class BlueprintConfigurationImpl extends AbstractConfiguration {
         super();
     }
 
-
-    public void updateProps(Map properties) {
+    public void updateProps(Map<?, ?> properties) {
 
         if (!active) {
             return;
@@ -70,10 +63,6 @@ public class BlueprintConfigurationImpl extends AbstractConfiguration {
             alternateConfigId = configurationId.equals(cfgid) ? null : cfgid;
         }
     }
-
-
-
-
 
     @Override
     public synchronized int size() {

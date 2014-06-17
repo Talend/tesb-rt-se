@@ -98,18 +98,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Activator>org.talend.esb.mep.requestcallback.impl.osgi.Activator</Bundle-Activator>
-<!--                         <Private-Package>org.talend.esb.mep.requestcallback.impl.osgi</Private-Package> -->
+                        <!-- Private-Package>org.talend.esb.mep.requestcallback.impl.osgi</Private-Package -->
                     </instructions>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>false</skipTests>
-                </configuration>
-            </plugin>
-               <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
