@@ -1,13 +1,13 @@
 package org.talend.esb.policy.compression.impl;
 
-import java.util.List;
-
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.neethi.Assertion;
+import org.talend.esb.policy.compression.impl.CompressionAssertion;
+import org.talend.esb.policy.compression.impl.CompressionPolicyBuilder;
 
 /**
  * The Class CompressionOutInterceptor.
@@ -26,9 +26,9 @@ public class CompressionOutInterceptor extends GZIPOutInterceptor {
 			this.setForce(MessageUtils.isRequestor(message));
 
 			// Load threshold value from policy assertion
-			List<AssertionInfo> aiList = CompressionPolicyBuilder.getAssertions(message);
-			if (aiList != null && !aiList.isEmpty()){
-				Assertion a = aiList.get(0).getAssertion();
+			AssertionInfo ai = CompressionPolicyBuilder.getAssertion(message);
+			if (ai != null){
+				Assertion a = ai.getAssertion();
 				if ( a instanceof CompressionAssertion) {
 					this.setThreshold(((CompressionAssertion)a).getThreshold());
 				}
@@ -38,11 +38,9 @@ public class CompressionOutInterceptor extends GZIPOutInterceptor {
 			super.handleMessage(message);
 			
 			// Confirm policy processing
-			for (AssertionInfo ai : aiList) {
-				if (ai != null){
-					ai.setAsserted(true);
-				}				
-			}
+			if (ai != null){
+				ai.setAsserted(true);
+			}				
 
 		}catch (RuntimeException e) {
 			throw e;
