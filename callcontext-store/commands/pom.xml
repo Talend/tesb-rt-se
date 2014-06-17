@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>callcontext-store-commands</artifactId>
-    <name>Talend ESB Call Context Store :: commands</name>
+    <name>Talend ESB :: Call Context Store :: Commands</name>
     <version>${callcontext.store.version}</version>
     <packaging>bundle</packaging>
 

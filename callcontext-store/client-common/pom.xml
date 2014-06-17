@@ -12,7 +12,7 @@
 	<artifactId>callcontext-store-client-common</artifactId>
 	<version>${callcontext.store.version}</version>
 	<packaging>bundle</packaging>
-	<name>Talend ESB Call Context Store :: client common</name>
+	<name>Talend ESB :: Call Context Store :: client common</name>
 
 	<parent>
 		<groupId>org.talend.esb.callcontext.store</groupId>

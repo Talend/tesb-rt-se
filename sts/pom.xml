@@ -17,7 +17,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>sts</artifactId>
     <packaging>pom</packaging>
-    <name>Talend :: ESB :: STS</name>
+    <name>Talend ESB :: STS</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

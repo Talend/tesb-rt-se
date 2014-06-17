@@ -11,7 +11,7 @@
 
 	<artifactId>callcontext-store-common</artifactId>
 	<packaging>bundle</packaging>
-	<name>Talend ESB Call Context Store :: common</name>
+	<name>Talend ESB :: Call Context Store :: Common</name>
 
 	<parent>
 		<groupId>org.talend.esb.callcontext.store</groupId>

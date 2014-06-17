@@ -19,7 +19,7 @@
     <artifactId>sam-service-common</artifactId>
     <packaging>bundle</packaging>
 
-    <name>Service Activity Monitoring :: Service common</name>
+    <name>Talend ESB :: SAM :: Service Common</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

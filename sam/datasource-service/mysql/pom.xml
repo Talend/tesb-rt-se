@@ -14,7 +14,7 @@
         <version>5.6.0-SNAPSHOT</version>
     </parent>
 
-    <name>Service Activity Monitoring :: Datasource-mysql</name>
+    <name>Talend ESB :: SAM :: Datasource :: MySQL</name>
 
     <build>
         <plugins>

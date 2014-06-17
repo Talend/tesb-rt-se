@@ -10,7 +10,7 @@
     <groupId>org.talend.camel</groupId>
     <artifactId>camel-talendjob</artifactId>
     <packaging>bundle</packaging>
-    <name>Camel Talend Job Component</name>
+    <name>Talend ESB :: Camel Talend Job Component</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

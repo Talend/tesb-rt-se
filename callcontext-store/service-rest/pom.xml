@@ -20,7 +20,7 @@
     <artifactId>callcontext-store-service-rest</artifactId>
     <version>${callcontext.store.version}</version>
     <packaging>bundle</packaging>
-    <name>Talend ESB Call Context Store :: REST Service</name>
+    <name>Talend ESB :: Call Context Store :: REST Service</name>
 
     <parent>
         <groupId>org.talend.esb.callcontext.store</groupId>

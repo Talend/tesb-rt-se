@@ -18,7 +18,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>org.talend.esb.locator.server</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: LOCATOR :: SERVER</name>
+    <name>Talend ESB :: Locator :: Server</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

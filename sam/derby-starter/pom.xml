@@ -12,7 +12,7 @@
         <version>5.6.0-SNAPSHOT</version>
     </parent>
 
-    <name>Service Activity Monitoring :: Derby Starter</name>
+    <name>Talend ESB :: SAM :: Derby Starter</name>
 
     <dependencies>
         <dependency>

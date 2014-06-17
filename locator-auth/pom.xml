@@ -17,7 +17,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>org.talend.esb.locator.auth</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: LOCATOR :: AUTH</name>
+    <name>Talend ESB :: Locator :: Auth</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

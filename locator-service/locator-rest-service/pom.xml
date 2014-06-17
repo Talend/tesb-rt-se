@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.esb.locator.service.rest</groupId>
     <artifactId>locator-rest-service</artifactId>
-    <name>Locator Service :: REST Service</name>
+    <name>Talend ESB :: Locator :: Service :: REST Service</name>
     <packaging>bundle</packaging>
 
     <parent>

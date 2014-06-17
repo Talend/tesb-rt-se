@@ -15,7 +15,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.talend.esb.locator.service</groupId>
 	<artifactId>locator-service-common</artifactId>
-	<name>Locator Service :: Common</name>
+	<name>Talend ESB :: Locator :: Service :: Common</name>
 	<packaging>bundle</packaging>
 
 	<parent>

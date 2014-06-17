@@ -12,7 +12,7 @@
 
     <groupId>org.talend.esb.job</groupId>
     <artifactId>org.talend.esb.job.api</artifactId>
-    <name>Talend :: ESB :: Job :: API</name>
+    <name>Talend ESB :: Job :: API</name>
     <packaging>bundle</packaging>
 
     <dependencies>

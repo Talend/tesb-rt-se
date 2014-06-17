@@ -11,7 +11,7 @@
     <artifactId>sam-service-rest</artifactId>
     <packaging>bundle</packaging>
 
-    <name>Service Activity Monitoring :: REST Service</name>
+    <name>Talend ESB :: SAM :: REST Service</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

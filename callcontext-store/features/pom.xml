@@ -16,7 +16,7 @@
 	<artifactId>callcontext-store-features</artifactId>
 	<version>${callcontext.store.version}</version>
 	<packaging>pom</packaging>
-	<name>Talend ESB Call Context Store :: features </name>
+	<name>Talend ESB :: Call Context Store :: Features </name>
 
 	<parent>
 		<groupId>org.talend.esb.callcontext.store</groupId>

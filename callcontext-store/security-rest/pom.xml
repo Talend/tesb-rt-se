@@ -20,7 +20,7 @@
     <artifactId>callcontext-store-rest-security</artifactId>
     <version>${callcontext.store.version}</version>
     <packaging>bundle</packaging>
-    <name>Talend ESB Call Context Store :: REST Security</name>
+    <name>Talend ESB :: Call Context Store :: REST Security</name>
 
     <parent>
         <groupId>org.talend.esb.callcontext.store</groupId>

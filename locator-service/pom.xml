@@ -17,7 +17,7 @@
 
     <groupId>org.talend.esb.locator.service</groupId>
     <artifactId>locator-service-parent</artifactId>
-    <name>Locator Service parent</name>
+    <name>Talend ESB :: Locator :: Service :: Parent</name>
     <packaging>pom</packaging>
 
     <parent>

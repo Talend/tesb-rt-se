@@ -17,7 +17,7 @@
     <groupId>org.talend.esb.sts</groupId>
     <artifactId>org.talend.esb.sts.config</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: STS :: CONFIG</name>
+    <name>Talend ESB :: STS :: Config</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

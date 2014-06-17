@@ -17,7 +17,7 @@
     <groupId>org.talend.esb.sts</groupId>
     <artifactId>cxf-sts-war</artifactId>
     <packaging>war</packaging>
-    <name>Talend :: ESB :: STS :: WAR</name>
+    <name>Talend ESB :: STS :: War</name>
 
     <parent>
         <groupId>org.talend.esb</groupId>

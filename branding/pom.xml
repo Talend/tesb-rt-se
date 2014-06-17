@@ -15,7 +15,7 @@
 
     <artifactId>org.talend.esb.branding</artifactId>
     <packaging>bundle</packaging>
-    <name>TESB :: Branding</name>
+    <name>Talend ESB :: Branding</name>
 
     <build>
         <resources>

@@ -19,7 +19,7 @@
 
     <artifactId>callcontext-store-persistence-file</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend ESB Call Context Store :: persistence file</name>
+    <name>Talend ESB :: Call Context Store :: Persistence File</name>
 
     <parent>
         <groupId>org.talend.esb.callcontext.store</groupId>

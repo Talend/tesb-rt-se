@@ -21,7 +21,7 @@
 	<groupId>org.talend.esb</groupId>
 	<artifactId>transport-jms</artifactId>
 	<packaging>jar</packaging>
-	<name>JMS transport for TESB</name>
+	<name>Talend ESB :: JMS Transport</name>
 	<description>JMS Transport for TESB which provides CXF 3 JMS configuration style </description>
 
 	<properties>

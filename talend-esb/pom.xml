@@ -28,7 +28,7 @@
 
 	<groupId>org.talend.esb.assembly</groupId>
 	<artifactId>talend-esb</artifactId>
-	<name>TESB :: Assembly</name>
+	<name>Talend TESB :: Assembly</name>
 	<packaging>pom</packaging>
 
 	<properties>

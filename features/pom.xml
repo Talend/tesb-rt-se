@@ -16,7 +16,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>features</artifactId>
     <packaging>pom</packaging>
-    <name>TESB :. Features</name>
+    <name>Talend ESB :. Features</name>
     
      <parent>
         <groupId>org.talend.esb</groupId>

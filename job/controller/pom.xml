@@ -14,7 +14,7 @@
     <groupId>org.talend.esb.job</groupId>
     <artifactId>org.talend.esb.job.controller</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: Job :: Controller</name>
+    <name>Talend ESB :: Job :: Controller</name>
 
     <dependencies>
         <dependency>

@@ -6,7 +6,7 @@
 
     <groupId>org.talend.esb</groupId>
     <artifactId>datasource-service</artifactId>
-    <name>Datasource osgi service</name>
+    <name>Talend ESB :: SAM :: Datasource OSGi Service</name>
     <packaging>pom</packaging>
 
     <parent>

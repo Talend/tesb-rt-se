@@ -13,7 +13,7 @@
 
     <artifactId>security-common</artifactId>
     <packaging>bundle</packaging>
-    <name>Talend :: ESB :: Security :: Common</name>
+    <name>Talend ESB :: Security :: Common</name>
 
     <dependencies>
         <dependency>

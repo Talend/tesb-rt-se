@@ -13,7 +13,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.talend.esb</groupId>
 	<artifactId>locator</artifactId>
-	<name>Service Locator Client for CXF</name>
+	<name>Talend ESB :: Locator</name>
+	<description>Service Locator Client for CXF</description>
 	<packaging>bundle</packaging>
 
 	<parent>

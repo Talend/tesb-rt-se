@@ -24,7 +24,7 @@
 	<groupId>org.talend.esb</groupId>
 	<artifactId>tesb-adapters</artifactId>
 	<packaging>pom</packaging>
-	<name>Talend :: ESB :: Adapters</name>
+	<name>Talend ESB :: Adapters</name>
 
 	<parent>
 		<groupId>org.talend.esb</groupId>

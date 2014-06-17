@@ -11,7 +11,7 @@
 	<groupId>org.talend.esb.mep</groupId>
 	<artifactId>request-callback</artifactId>
 	<packaging>bundle</packaging>
-	<name>request-callback</name>
+	<name>Talend ESB :: Request-Callback</name>
 	<description>Decoupled request-callback message exchange pattern support through correlated one-way exchanges</description>
 
 	<dependencies>

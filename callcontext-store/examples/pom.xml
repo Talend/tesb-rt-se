@@ -12,7 +12,7 @@
 	<artifactId>callcontext-store-examples</artifactId>
 	<version>${callcontext.store.version}</version>
 	<packaging>bundle</packaging>
-	<name>Talend ESB Call Context Store :: examples </name>
+	<name>Talend ESB :: Call Context Store :: Examples </name>
 
 	<parent>
 		<groupId>org.talend.esb.callcontext.store</groupId>
