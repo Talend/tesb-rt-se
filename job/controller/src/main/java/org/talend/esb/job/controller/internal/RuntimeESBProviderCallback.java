@@ -120,7 +120,9 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
                 int ret = job.runJobInTOS(arguments);
                 LOG.info("ESB job instance " + job + " with name " + name + " finished, return code is "
                         + ret);
-
+                if (ret != 0) {
+                    break;
+                }
             }
         } catch (RuntimeException ex) {
             ex.printStackTrace();
