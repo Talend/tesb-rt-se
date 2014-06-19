@@ -1,8 +1,8 @@
-osgi:install -s mvn:org.talend.esb.callcontext.store/callcontext-store-commands/5.6.0-SNAPSHOT
+osgi:install -s mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-commands/5.6.0-SNAPSHOT
 
 
 
 Available commands:
 
-    tesb:start-callback-repo
-    tesb:stop-callback-repo
+    tesb:start-aux-store
+    tesb:stop-aux-store

@@ -34,7 +34,7 @@ import org.talend.esb.auxiliary.storage.common.exception.IllegalParameterExcepti
 
 public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClientRest<E> implements AuxiliaryStorageClient<E>  {
 
-    private static final String CALL_PATH = "/callcontext/{contextKey}";
+    private static final String CALL_PATH = "/auxstorage/{key}";
 
     AuxiliaryObjectFactory<E> factory;
 

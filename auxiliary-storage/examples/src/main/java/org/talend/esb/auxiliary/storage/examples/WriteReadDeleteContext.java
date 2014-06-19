@@ -42,7 +42,7 @@ public  class WriteReadDeleteContext implements Example {
 	factory = createCallContextFactory();
 	client = createCallContextClient();
 	client.setAuxiliaryObjectFactory(factory);
-	client.setServerURL("http://localhost:8040/services/CallbackService");
+	client.setServerURL("http://localhost:8040/services/AuxStorageService");
 
 	System.out.println("Test is run");
 

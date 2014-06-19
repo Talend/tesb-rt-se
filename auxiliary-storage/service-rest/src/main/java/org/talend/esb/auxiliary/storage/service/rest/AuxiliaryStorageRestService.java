@@ -33,16 +33,16 @@ public interface AuxiliaryStorageRestService {
 
     @GET
     @Produces({"application/xml","application/json"})
-    @Path("/callcontext/{callContextKey}")
-    String lookup(@PathParam("callContextKey") String callContextKey);
+    @Path("/auxstorage/{key}")
+    String lookup(@PathParam("key") String key);
 
     @DELETE
-    @Path("/callcontext/{callContextKey}")
-    void remove(@PathParam("callContextKey") String callContextKey);
+    @Path("/auxstorage/{key}")
+    void remove(@PathParam("key") String key);
 
     @PUT
-    @Path("/callcontext/{callContextKey}")
+    @Path("/auxstorage/{key}")
     @Consumes({"application/xml","application/json"})
-    void put(String callContext, @PathParam("callContextKey") String callContextKey);
+    void put(String object, @PathParam("key") String key);
 
 }

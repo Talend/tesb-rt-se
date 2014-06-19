@@ -21,7 +21,7 @@
     <cm:property-placeholder persistent-id="org.talend.esb.auxiliary.storage.client.rest"
         update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="auxiliary.storage.service.url" value="http://localhost:8040/services/CallbackService" />
+            <cm:property name="auxiliary.storage.service.url" value="http://localhost:8040/services/AuxStorageService" />
             <cm:property name="auxiliary.storage.service.authentication" value="NO" />
             <cm:property name="auxiliary.storage.service.authentication.user" value="tadmin" />
             <cm:property name="auxiliary.storage.service.authentication.password" value="tadmin" />

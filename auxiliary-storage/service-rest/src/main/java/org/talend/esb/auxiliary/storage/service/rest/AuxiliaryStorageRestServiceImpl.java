@@ -52,7 +52,7 @@ public class AuxiliaryStorageRestServiceImpl implements AuxiliaryStorageRestServ
 
         URI baseUri = messageContext.getUriInfo().getBaseUriBuilder().build();
         StringBuffer response = new StringBuffer("Talend Auxiliary Storage REST Service:\n")
-            .append(" - wsdl - ").append(baseUri).append("/callcontext/{callContextKey}.\n");
+            .append(" - wsdl - ").append(baseUri).append("/auxstorage/{key}.\n");
         return Response.ok(response.toString()).type(MediaType.TEXT_PLAIN).build();
     }
 
@@ -85,9 +85,11 @@ public class AuxiliaryStorageRestServiceImpl implements AuxiliaryStorageRestServ
         auxiliaryStorageServer.saveObject(object, key);
     }
 
+
     public AuxiliaryStorageServer getAuxiliaryStorageServer() {
         return auxiliaryStorageServer;
     }
+
 
     public void setAuxiliaryStorageServer(AuxiliaryStorageServer auxiliaryStorageServer) {
         this.auxiliaryStorageServer = auxiliaryStorageServer;

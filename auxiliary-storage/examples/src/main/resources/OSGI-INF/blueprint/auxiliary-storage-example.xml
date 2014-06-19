@@ -17,14 +17,12 @@
     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
     default-activation="lazy">
 
-	<reference id="callContextStoreClient" interface="org.talend.esb.callcontext.store.client.common.CallContextStoreClient" />
+	<reference id="auxiliaryStorageClient" interface="org.talend.esb.auxiliary.storage.client.common.AuxiliaryStorageClient" />
 
 	
-<!--     <bean id="CallContextFactory" class="org.talend.esb.auxiliary.storage.examples.CallContextFactoryImpl" activation="eager"/> -->
-
     <bean id="testService" class="org.talend.esb.auxiliary.storage.examples.WriteReadDeleteContext" 
     	init-method="startUp" activation="eager">
-        <property name="client" ref="callContextStoreClient" />
+        <property name="client" ref="auxiliaryStorageClient" />
     </bean>
     
     <service ref="testService" interface="org.talend.esb.auxiliary.storage.examples.Service"/>

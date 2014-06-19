@@ -1,7 +1,7 @@
-- Install AuxiliaryStore feature to Talend Runtime (karaf):
+- Install AuxiliaryStorage feature to Talend Runtime (karaf):
 
-	features:addurl mvn:org.talend.esb.callcontext.store/callcontext-store-features/0.1-SNAPSHOT/xml
-	features:install tesb-ccs
+	features:addurl mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.0-SNAPSHOT/xml
+	features:install tesb-aux
 	
 - Build Example project:
 

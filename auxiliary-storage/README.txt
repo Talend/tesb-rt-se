@@ -1,12 +1,12 @@
-features:addurl mvn:org.talend.esb.callcontext.store/callcontext-store-features/0.1-SNAPSHOT/xml
+features:addurl mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.0-SNAPSHOT/xml
 
-features:install tesb-ccs
+features:install tesb-aux
 
 or
 
-features:install tesb-ccs-common
-features:install tesb-ccs-client-rest
-features:install tesb-ccs-service-rest
-features:install tesb-ccs-persistence
-features:install tesb-ccs-server
+features:install tesb-aux-common
+features:install tesb-aux-client-rest
+features:install tesb-aux-service-rest
+features:install tesb-aux-persistence
+features:install tesb-aux-server
 

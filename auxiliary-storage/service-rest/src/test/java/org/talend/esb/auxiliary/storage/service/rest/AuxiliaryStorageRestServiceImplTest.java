@@ -28,7 +28,7 @@ import org.talend.esb.auxiliary.storage.service.rest.AuxiliaryStorageRestService
 
 public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 
-	private final static String CONTEXT_STRING = "contextString";
+	private final static String OBJECT_STRING = "objectString";
 	private final static String KEY = "key";
 
 	private AuxiliaryStorageServer server;
@@ -47,21 +47,21 @@ public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 	}
 
 	@Test
-	public void lookupCallContextTest() {
+	public void lookupObjectTest() {
 		server.lookupObject(KEY);
-		EasyMock.expectLastCall().andStubReturn(CONTEXT_STRING);
+		EasyMock.expectLastCall().andStubReturn(OBJECT_STRING);
 		replayAll();
 
 		String ctxLookup = restService.lookup(KEY);
 
 		Assert.assertNotNull(ctxLookup);
 		Assert.assertTrue(ctxLookup.equalsIgnoreCase(
-				CONTEXT_STRING));
+				OBJECT_STRING));
 		verifyAll();
 	}
 
 	@Test
-	public void lookupContextNotFoundTest() {
+	public void lookupObjectNotFoundTest() {
 		server.lookupObject(KEY);
 		EasyMock.expectLastCall().andStubReturn(null);
 		replayAll();
@@ -78,9 +78,9 @@ public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 	}
 	
 	@Test
-	public void deleteContextNotExistingTest() {
+	public void deleteObjectNotExistingTest() {
 		server.deleteObject(KEY);
-		EasyMock.expectLastCall().andStubThrow(new ObjectNotFoundException("Call contest is not found"));
+		EasyMock.expectLastCall().andStubThrow(new ObjectNotFoundException("Object is not found"));
 		replayAll();
 
 		try{

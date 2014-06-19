@@ -38,7 +38,7 @@
         <property name="auxiliaryStorageServer" ref="auxiliaryStorageServer" />
     </bean>
 
-    <jaxrs:server id="auxiliaryStorageService" address="/CallbackService">
+    <jaxrs:server id="auxiliaryStorageService" address="/AuxStorageService">
         <jaxrs:serviceBeans>
             <ref component-id="auxiliaryStorageServiceImpl" />
         </jaxrs:serviceBeans>
