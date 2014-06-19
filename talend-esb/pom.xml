@@ -309,12 +309,12 @@
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
                                 <feature>jackrabbit-bundles</feature>
-                                <feature>tesb-ccs-common</feature>
-                                <feature>tesb-ccs-client-rest</feature>
-                                <feature>tesb-ccs-persistence</feature>
-                                <feature>tesb-ccs-service-rest</feature>
-                                <feature>tesb-ccs-server</feature>
-                                <feature>tesb-ccs</feature>
+                                <feature>tesb-aux-common</feature>
+                                <feature>tesb-aux-client-rest</feature>
+                                <feature>tesb-aux-persistence</feature>
+                                <feature>tesb-aux-service-rest</feature>
+                                <feature>tesb-aux-server</feature>
+                                <feature>tesb-aux</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
