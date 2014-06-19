@@ -1,0 +1,7 @@
+{"namespace": "org.talend.esb.auxiliary.storage",
+ "type": "record",
+ "name": "storedObject",
+ "fields": [
+     {"name": "bigString", "type": "string"}
+ ]
+}

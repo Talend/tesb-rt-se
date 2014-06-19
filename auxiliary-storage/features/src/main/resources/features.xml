@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  TESB :. Features
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<features name="tesb-aux-${auxiliary.storage.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+
+  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+  <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
+
+
+   <feature name='jackrabbit-bundles' version='${pom.version}'>
+        <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
+        <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-api/${jackrabbit.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-jcr-commons/${jackrabbit.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${servicemix.derby.version}</bundle>
+<!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-jcr-tests/${jackrabbit.version}</bundle> -->
+        <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-core/${lucene-core.version}</bundle>
+        <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-analyzers-common/${lucene-analyzer-common.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika-core.version}</bundle>
+<!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit.version}$Import-Package=!org.apache.lucene.queryParser,*,org.gjt.mm.mysql;</bundle> -->
+        <bundle dependency='true'>wrap:mvn:concurrent/concurrent/${concurrent.version}</bundle>
+    </feature>
+
+  <!-- Common -->
+
+  <feature name='tesb-aux-common' version='${auxiliary.storage.version}'>
+   <!--External dependency -->
+    <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
+
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${auxiliary.storage.version}</bundle>
+     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${auxiliary.storage.version}</bundle>
+  </feature>
+
+  <!-- Client Side -->
+
+  <feature name='tesb-aux-client-rest' version='${auxiliary.storage.version}'>
+    <!--Provided bundles  -->
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-common/${auxiliary.storage.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${auxiliary.storage.version}</bundle>
+  </feature>
+
+  <!-- Server Side -->
+
+  <feature name='tesb-aux-persistence' version='${auxiliary.storage.version}'>
+
+    <!-- Common dependency -->
+    <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
+
+    <!--External dependencies -->
+    <bundle dependency='true'>mvn:commons-io/commons-io/${commons-io.version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.snappy-java/${snappy-bundle-version}</bundle>
+    <bundle dependency='true'>mvn:org.codehaus.jackson/jackson-mapper-asl/${jackson-version}</bundle>
+    <bundle dependency='true'>mvn:org.codehaus.jackson/jackson-core-asl/${jackson-version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.avro-ipc/${avro-bundle-version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.avro/${avro-bundle-version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.paranamer/${paranamer-bundle-version}</bundle>
+
+
+     <feature>jackrabbit-bundles</feature>
+
+
+    <!--Provided bundles  -->
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence/${auxiliary.storage.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-file/${auxiliary.storage.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${auxiliary.storage.version}</bundle>
+
+  </feature>
+
+  <feature name='tesb-aux-service-rest' version='${auxiliary.storage.version}'>
+    <!--Provided bundles  -->
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${auxiliary.storage.version}</bundle>
+  </feature>
+
+   <feature name='tesb-aux-server' version='${auxiliary.storage.version}'>
+    <!-- Common dependency -->
+    <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
+    <feature version="${auxiliary.storage.version}">tesb-aux-persistence</feature>
+
+    <!--Provided bundles  -->
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${auxiliary.storage.version}</bundle>
+  </feature>
+
+  <!-- Main feature -->
+   <feature name='tesb-aux' version='${auxiliary.storage.version}'>
+    <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
+    <feature version="${auxiliary.storage.version}">tesb-aux-client-rest</feature>
+    <feature version="${auxiliary.storage.version}">tesb-aux-service-rest</feature>
+    <feature version="${auxiliary.storage.version}">tesb-aux-persistence</feature>
+    <feature version="${auxiliary.storage.version}">tesb-aux-server</feature>
+  </feature>
+</features>

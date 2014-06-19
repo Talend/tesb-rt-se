@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+        xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+        default-activation="lazy">
+
+    <ext:property-placeholder />
+
+    <cm:property-placeholder persistent-id="org.talend.esb.auxiliary.server"
+            placeholder-prefix="$ccs{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="callback.store.home"   value="${tesb.home}/esbrepo/auxiliaryrepo" />
+            <cm:property name="callback.store.schema" value="/auxiliary.avro" />
+            <cm:property name="callback.store"   value= "FILEStore" />
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+
+
+
+    <bean id="persistencyManagerFactory"
+       class="org.talend.esb.auxiliary.storage.server.PersistencyManagerFactory">
+        <property name="storageDirPath"     value="$ccs{callback.store.home}/store" />
+        <property name="schemaResourceName" value="$ccs{callback.store.schema}" />
+    </bean>
+
+    <bean id="persistencyManagerBean"
+       factory-ref="persistencyManagerFactory"
+       factory-method="createPersistencyManager"
+       init-method="init">
+         <argument value="$ccs{callback.store}"/>
+   </bean>
+
+
+
+    <bean id="auxiliaryStorageServerBean"
+            class="org.talend.esb.auxiliary.storage.server.AuxiliaryStorageServerImpl"
+            scope="singleton">
+        <property name="persistencyManager" ref="persistencyManagerBean" />
+    </bean>
+
+    <service interface="org.talend.esb.auxiliary.storage.common.AuxiliaryStorageServer" ref="auxiliaryStorageServerBean"/>
+
+</blueprint>

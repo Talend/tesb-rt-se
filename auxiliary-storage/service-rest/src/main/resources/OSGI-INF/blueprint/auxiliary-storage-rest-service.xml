@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+        xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+        xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+    <ext:property-placeholder />
+
+    <cm:property-placeholder persistent-id="org.talend.esb.auxiliary.storage.service"
+            placeholder-prefix="$ccs{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="auxiliary.storage.service.authentication" value="NO" />
+            <cm:property name="ws-security.signature.properties" value="" />
+            <cm:property name="ws-security.signature.username" value="" />
+            <cm:property name="ws-security.signature.password" value="" />
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <reference id="auxiliaryStorageServer" interface="org.talend.esb.auxiliary.storage.common.AuxiliaryStorageServer" />
+
+    <bean id="auxiliaryStorageServiceImpl"
+            class="org.talend.esb.auxiliary.storage.service.rest.AuxiliaryStorageRestServiceImpl"
+            destroy-method="disconnect">
+        <property name="auxiliaryStorageServer" ref="auxiliaryStorageServer" />
+    </bean>
+
+    <jaxrs:server id="auxiliaryStorageService" address="/CallbackService">
+        <jaxrs:serviceBeans>
+            <ref component-id="auxiliaryStorageServiceImpl" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.talend.esb.auxiliary.storage.service.rest.AuxiliaryStorageExceptionMapper" />
+            <bean class="org.talend.esb.auxiliary.storage.service.rest.ParseExceptionMapper" />
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <bean class="org.talend.esb.auxiliary.storage.rest.security.AuxiliaryStorageRestServiceSecurityProvider"
+            init-method="init">
+        <property name="auxiliaryStorageEndpoint" ref="auxiliaryStorageService" />
+        <property name="auxiliaryStorageAuthentication" value="$ccs{auxiliary.storage.service.authentication}" />
+        <property name="signatureProperties" value="$ccs{ws-security.signature.properties}" />
+        <property name="signatureUsername" value="$ccs{ws-security.signature.username}" />
+        <property name="signaturePassword" value="$ccs{ws-security.signature.password}" />
+    </bean>
+</blueprint>

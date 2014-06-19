@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+
+        <command name="tesb/start-aux-store">
+            <action class="org.talend.esb.auxiliary.storage.commands.StartAuxiliaryRepo"/>
+        </command>
+
+        <command name="tesb/stop-aux-store">
+            <action class="org.talend.esb.auxiliary.storage.commands.StopAuxiliaryRepo"/>
+        </command>
+
+    </command-bundle>
+</blueprint>
