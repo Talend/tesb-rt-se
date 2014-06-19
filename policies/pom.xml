@@ -16,7 +16,7 @@
 	</parent>
 	
 	<modules>
-<!-- 		<module>compression-policy</module> -->
+		<module>compression-policy</module>
 		<module>correlationid-policy</module>
 		<module>samenabling-policy</module>
 	</modules>

@@ -254,6 +254,11 @@
     <bundle>mvn:org.jolokia/jolokia-osgi/${jolokia.version}</bundle>
   </feature>
 
+  <feature name='tesb-policy-compression' version='${project.version}'>
+    <feature version='${cxf.version}'>cxf</feature>
+    <bundle>mvn:org.talend.esb.policies/compression-policy/${project.version}</bundle>
+  </feature>
+
   <feature name='tesb-policy-correlationid' version='${project.version}'>
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>
   </feature>
