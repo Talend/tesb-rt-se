@@ -37,7 +37,7 @@ public class HttpsConnectionHelper {
     private HttpsConnectionHelper() {
     }
 
-    public static void configureURLConnectionToHttps() throws NoSuchAlgorithmException, KeyManagementException {
+    public static void trustAllForUrlConnection() throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext context = SSLContext.getInstance("SSL");
         context.init(null, new TrustManager[] { new FakeX509TrustManager() }, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
@@ -49,7 +49,7 @@ public class HttpsConnectionHelper {
         });
     }
 
-    public static void configureHttpConduitToHttps(HTTPConduit conduit) {
+    public static void trustAllForHttpConduit(HTTPConduit conduit) {
         TLSClientParameters tlsClientParams = conduit.getTlsClientParameters();
         if (tlsClientParams == null) {
             tlsClientParams = new TLSClientParameters();
