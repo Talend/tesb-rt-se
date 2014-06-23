@@ -321,6 +321,7 @@
             <fileMode>0644</fileMode>
         </fileSet>
 
+        <!-- Copy config files to container/etc -->
         <fileSet>
             <directory>src/main/distribution/text</directory>
             <outputDirectory>/</outputDirectory>
@@ -329,6 +330,13 @@
         </fileSet>
         <fileSet>
             <directory>target/classes/etc</directory>
+            <outputDirectory>/container/etc/</outputDirectory>
+            <lineEnding>dos</lineEnding>
+            <fileMode>0644</fileMode>
+            <directoryMode>777</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/dependencies/etc</directory>
             <outputDirectory>/container/etc/</outputDirectory>
             <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>

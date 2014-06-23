@@ -342,6 +342,26 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>tesb.jar</destFileName>
                                 </artifactItem>
+                                <!-- cfg files -->
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>locator</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.locator</classifier>
+                                    <outputDirectory>target/dependencies/etc</outputDirectory>
+                                    <destFileName>org.talend.esb.locator.cfg</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>sam-agent</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sam.agent</classifier>
+                                    <outputDirectory>target/dependencies/etc</outputDirectory>
+                                    <destFileName>org.talend.esb.sam.agent.cfg</destFileName>
+                                </artifactItem>
+                                <!-- workarounds for Camel features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
                                     <artifactId>apache-camel</artifactId>
