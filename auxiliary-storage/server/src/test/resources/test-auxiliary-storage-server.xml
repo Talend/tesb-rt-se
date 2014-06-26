@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2012 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    ">
+
+   <bean id="persistencyManagerBean"
+          class="org.talend.esb.auxiliary.storage.persistence.file.PersistencyFileManager"
+          init-method="init">
+        <property name="storageDirPath"     value="./target/esbrepo/auxiliarystorage/fileStore" />
+        <!-- property name="schemaResourceName" value="/target/test-classes/auxiliary.avro" /-->
+        <property name="schemaResourceName" value="/auxiliary.avro" />
+
+    </bean>
+
+    <bean id="auxiliaryStorageServerBean"
+            class="org.talend.esb.auxiliary.storage.server.AuxiliaryStorageServerImpl"
+            scope="singleton">
+        <property name="persistencyManager" ref="persistencyManagerBean" />
+    </bean>
+
+</beans>

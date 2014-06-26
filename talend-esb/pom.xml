@@ -108,7 +108,7 @@
 <!--                                 <descriptor>file:${basedir}/target/classes/standard-2.2.9-features.xml</descriptor> -->
 <!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.talend.esb.callcontext.store/callcontext-store-features/${project.version}/xml</descriptor>
+                                <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -306,15 +306,17 @@
 								<feature>tesb-sts</feature>
                                 <feature>camel-talendjob</feature>
 								<feature>tesb-jmx-http-agent</feature>
+                                <feature>tesb-policy-compression</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
-                                <feature>jackrabbit-bundles</feature>
-                                <feature>tesb-ccs-common</feature>
-                                <feature>tesb-ccs-client-rest</feature>
-                                <feature>tesb-ccs-persistence</feature>
-                                <feature>tesb-ccs-service-rest</feature>
-                                <feature>tesb-ccs-server</feature>
-                                <feature>tesb-ccs</feature>
+                                <!-- Aux features -->
+                                <feature>jackrabbit-aux-bundles</feature>
+                                <feature>tesb-aux-common</feature>
+                                <feature>tesb-aux-client-rest</feature>
+                                <feature>tesb-aux-persistence</feature>
+                                <feature>tesb-aux-service-rest</feature>
+                                <feature>tesb-aux-server</feature>
+                                <feature>tesb-aux</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
@@ -340,6 +342,26 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>tesb.jar</destFileName>
                                 </artifactItem>
+                                <!-- cfg files -->
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>locator</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.locator</classifier>
+                                    <outputDirectory>target/dependencies/etc</outputDirectory>
+                                    <destFileName>org.talend.esb.locator.cfg</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>sam-agent</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sam.agent</classifier>
+                                    <outputDirectory>target/dependencies/etc</outputDirectory>
+                                    <destFileName>org.talend.esb.sam.agent.cfg</destFileName>
+                                </artifactItem>
+                                <!-- workarounds for Camel features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
                                     <artifactId>apache-camel</artifactId>

@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.talend.esb.mep.requestcallback.beans.JmsConfigurator;
+import org.talend.esb.mep.requestcallback.beans.JmsUriConfigurator;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.sample.internal.ClientProviderHandler;
 import org.talend.esb.mep.requestcallback.sample.internal.ClientProviderHandler.IncomingMessageHandler;
@@ -63,10 +63,6 @@ public class RequestCallbackJmsTest {
     		new QName(SERVICE_NAMESPACE, "Library_jmsPort");
     private static final QName PORT_NAME_A =
     		new QName(SERVICE_NAMESPACE_A, "Library_jmsPort");
-    // private static final String CLIENT_CALLBACK_ENDPOINT =
-    //		"jms:jndi:dynamicQueues/test.cxf.jmstransport.queue";
-    private static final String CLIENT_CALLBACK_ENDPOINT =
-    		"jms://";
     private static boolean hasActiveMQ = probeActiveMQ();
 
     private final QName serviceName;
@@ -224,8 +220,8 @@ public class RequestCallbackJmsTest {
         factory.setServiceBean(implementor);
 
         CallContext.setupServerFactory(factory);
-        JmsConfigurator configurator = JmsConfigurator.create(factory);
-        configurator.configureServerFactory(factory);
+        JmsUriConfigurator configurator = JmsUriConfigurator.create(factory);
+        factory.setAddress(configurator.getJmsAddress());
         server = factory.create();
         sleep(1);
         checkError(false);
@@ -244,14 +240,14 @@ public class RequestCallbackJmsTest {
         final Endpoint ep = CallContext.createCallbackEndpoint(
         		callbackHandler, wsdlLocation);
         callbackEndpoint = ep;
-        JmsConfigurator cConfigurator = JmsConfigurator.create(ep);
-        assertNotNull(cConfigurator.configureAndPublishEndpoint(ep, CLIENT_CALLBACK_ENDPOINT));
+        JmsUriConfigurator cConfigurator = JmsUriConfigurator.create(ep);
+        ep.publish(cConfigurator.getJmsAddress());
 
         // 2. Create a client
         final Dispatch<StreamSource> dispatcher = service.createDispatch(
         		portName, StreamSource.class, Service.Mode.PAYLOAD);
         CallContext.setupDispatch(dispatcher, ep);
-        JmsConfigurator configurator = JmsConfigurator.create(dispatcher);
+        JmsUriConfigurator configurator = JmsUriConfigurator.create(dispatcher);
         configurator.configureDispatch(dispatcher);
         if (mep == REQUEST_CALLBACK_ENFORCED) {
         	final QName opName = new QName(serviceName.getNamespaceURI(), operation);

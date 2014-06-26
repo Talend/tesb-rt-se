@@ -1,0 +1,121 @@
+<!-- // ============================================================================ 
+	// // Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com // // This source 
+	code is available under agreement available at // %InstallDIR%\license.txt 
+	// // You should have received a copy of the agreement // along with this 
+	program; if not, write to Talend SA // 9 rue Pages 92150 Suresnes, France 
+	// // ============================================================================ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>auxiliary-storage-examples</artifactId>
+	<version>${auxiliary.storage.version}</version>
+	<packaging>bundle</packaging>
+	<name>Talend ESB :: Call Context Store :: Examples </name>
+
+	<parent>
+		<groupId>org.talend.esb.auxiliary.storage</groupId>
+		<artifactId>auxiliary-storage-parent</artifactId>
+		<version>5.6.0-SNAPSHOT</version>
+	</parent>
+
+	<prerequisites>
+		<maven>${maven.version}</maven>
+	</prerequisites>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>		
+
+		<dependency>
+			<groupId>org.talend.esb.auxiliary.storage</groupId>
+			<artifactId>auxiliary-storage-common</artifactId>
+			<version>${auxiliary.storage.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.talend.esb.auxiliary.storage</groupId>
+			<artifactId>auxiliary-storage-client-common</artifactId>
+			<version>${auxiliary.storage.version}</version>
+		</dependency>		
+		
+		<dependency>
+			<groupId>org.talend.esb.auxiliary.storage</groupId>
+			<artifactId>auxiliary-storage-client-rest</artifactId>
+			<version>${auxiliary.storage.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${bundle.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Require-Bundle>
+							org.apache.cxf.bundle,
+							org.springframework.beans
+						</Require-Bundle>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+			<profile>
+			<id>test</id>
+			<build>
+				<defaultGoal>test</defaultGoal>				
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>org.talend.esb.auxiliary.storage.examples.Runner</mainClass>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
