@@ -36,7 +36,8 @@ import org.apache.cxf.message.Exchange;
  */
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
 
-    private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
+    // This field is made static as fix for TESB-13146
+    private static Map<QName, String> primaryAddresses = new HashMap<QName, String>();
 
     /* (non-Javadoc)
      * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
