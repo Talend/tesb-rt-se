@@ -52,6 +52,9 @@ public class PolicyProviderImpl implements PolicyProvider {
         if (EsbSecurity.NO == esbSecurity)
             return;
 
+        Bus currentBus = BusFactory.getThreadDefaultBus();
+        policyBuilder = currentBus.getExtension(PolicyBuilder.class);
+
         List<Policy> policies = new ArrayList<Policy>();
 
         if (EsbSecurity.TOKEN == esbSecurity) {
@@ -60,7 +63,6 @@ public class PolicyProviderImpl implements PolicyProvider {
             policies.add(getSamlPolicy());
         }
 
-        Bus currentBus = BusFactory.getThreadDefaultBus();
         ServerRegistry registry = currentBus.getExtension(ServerRegistry.class);
         List<Server> servers = registry.getServers();
 
@@ -145,11 +147,6 @@ public class PolicyProviderImpl implements PolicyProvider {
 
     public void setPolicySaml(String policySaml) {
         this.policySaml = policySaml;
-    }
-
-    @javax.annotation.Resource
-    public void setBus(Bus bus) {
-        policyBuilder = bus.getExtension(PolicyBuilder.class);
     }
 
     public Policy getTokenPolicy() {
