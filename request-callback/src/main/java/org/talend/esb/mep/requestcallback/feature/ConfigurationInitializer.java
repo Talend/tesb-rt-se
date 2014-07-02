@@ -9,9 +9,16 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.talend.esb.mep.requestcallback.impl.AbstractConfiguration;
 import org.talend.esb.mep.requestcallback.impl.ConfigurationImpl;
+import org.talend.esb.mep.requestcallback.impl.DotOnlyNamespaceUriEncoder;
+import org.talend.esb.mep.requestcallback.impl.StandardNamespaceUriEncoder;
 
 public final class ConfigurationInitializer {
+
+	public enum NamespaceToFileNameEncodingMode {
+		STANDARD, DOTONLY
+	}
 
 	public interface ConfigurationCreationListener {
 		void configurationCreated(Configuration configuration);
@@ -110,5 +117,27 @@ public final class ConfigurationInitializer {
 
 	public static void addConfigurations(Collection<Configuration> configurations) {
 		MANAGER.addConfigurations(configurations);
+	}
+
+	public static void setConfigurationNamespaceToFileEncoding(
+			NamespaceToFileNameEncodingMode mode) {
+		switch (mode) {
+		  case STANDARD:
+			if (!(AbstractConfiguration.getNamespaceUriEncoder()
+					instanceof StandardNamespaceUriEncoder)) {
+				AbstractConfiguration.setNamespaceUriEncoder(
+						new StandardNamespaceUriEncoder());
+			}
+			return;
+		  case DOTONLY:
+			if (!(AbstractConfiguration.getNamespaceUriEncoder()
+					instanceof DotOnlyNamespaceUriEncoder)) {
+				AbstractConfiguration.setNamespaceUriEncoder(
+						new DotOnlyNamespaceUriEncoder());
+			}
+			return;
+		  default:
+			return;
+		}
 	}
 }

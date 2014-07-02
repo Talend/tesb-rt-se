@@ -115,31 +115,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>target/classes/org.talend.esb.mep.request.callback.http.request.callback.example.com.service1.cfg</file>
-                                    <type>cfg1</type>
-                                </artifact>
-                                <artifact>
-                                    <file>target/classes/org.talend.esb.mep.request.callback.http.request.callback.example.com.service2.cfg</file>
-                                    <type>cfg2</type>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
