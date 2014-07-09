@@ -36,7 +36,11 @@ import org.apache.cxf.message.Exchange;
  */
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
 
-    private Map<QName, String> primaryAddresses = new HashMap<QName, String>();
+    private static Map<String, String> primaryAddresses = new HashMap<String, String>();
+
+    private String getPrimaryAddressKey(QName serviceName) {
+        return serviceName.toString() + matcher.getAssertionsAsString();
+    }
 
     /* (non-Javadoc)
      * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
@@ -57,14 +61,14 @@ public class DefaultSelectionStrategy extends LocatorSelectionStrategy implement
     @Override
     public synchronized String getPrimaryAddress(Exchange exchange) {
         QName serviceName = getServiceName(exchange);
-        String primaryAddress = primaryAddresses.get(serviceName);
+        String primaryAddress = primaryAddresses.get(getPrimaryAddressKey(serviceName));
 
         if (primaryAddress == null) {
             List<String> availableAddresses = getEndpoints(serviceName);
             if (!availableAddresses.isEmpty()) {
                 int index = random.nextInt(availableAddresses.size());
                 primaryAddress = availableAddresses.get(index);
-                primaryAddresses.put(serviceName, primaryAddress);
+                primaryAddresses.put(getPrimaryAddressKey(serviceName), primaryAddress);
             }
         }
         if (LOG.isLoggable(Level.INFO)) {

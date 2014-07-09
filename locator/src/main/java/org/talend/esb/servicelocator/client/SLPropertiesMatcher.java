@@ -60,6 +60,19 @@ public class SLPropertiesMatcher {
         return true;
     }
 
+    public String getAssertionsAsString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (Map.Entry<String, String> matcher : matchers) {
+            sb.append(matcher.getKey());
+            sb.append("=");
+            sb.append(matcher.getValue());
+            sb.append(",");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
