@@ -54,7 +54,7 @@
 
         <cxf.version>2.7.11</cxf.version>
         <cxf.xjc.version>2.6.1</cxf.xjc.version>
-        <camel.version>2.13.1</camel.version>
+        <camel.version>2.13.2</camel.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <karaf.version>2.3.5</karaf.version>
         <activemq.version>5.10.0</activemq.version>

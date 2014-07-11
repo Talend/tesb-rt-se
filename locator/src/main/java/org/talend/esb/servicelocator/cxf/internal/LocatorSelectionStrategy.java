@@ -42,7 +42,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
     private ServiceLocator serviceLocator;
 
-    private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
+    protected SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
 
     @Override
     public String selectAlternateAddress(List<String> alternates) {

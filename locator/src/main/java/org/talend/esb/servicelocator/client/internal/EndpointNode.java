@@ -25,7 +25,7 @@ public interface EndpointNode {
 
     String getEndpointName();
 
-    boolean exists() throws ServiceLocatorException, InterruptedException;;
+    boolean exists() throws ServiceLocatorException, InterruptedException;
 
     void ensureExists(byte[] content) throws ServiceLocatorException, InterruptedException;
     

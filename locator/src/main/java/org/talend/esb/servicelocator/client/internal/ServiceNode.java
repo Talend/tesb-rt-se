@@ -29,7 +29,7 @@ public interface ServiceNode {
 
     QName getServiceName();
 
-    boolean exists() throws ServiceLocatorException, InterruptedException;;
+    boolean exists() throws ServiceLocatorException, InterruptedException;
 
     void ensureExists()  throws ServiceLocatorException, InterruptedException;
 
