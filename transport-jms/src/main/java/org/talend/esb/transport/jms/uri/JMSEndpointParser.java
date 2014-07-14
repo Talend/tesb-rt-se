@@ -36,7 +36,8 @@ import org.apache.cxf.transport.jms.uri.UnsafeUriCharactersEncoder;
  */
 public final class JMSEndpointParser {
     private static final Logger LOG = LogUtils.getL7dLogger(JMSEndpointParser.class);
-    
+
+    public static final String JNDI_TOPIC_PREFIX = "jndi-topic:";
     public static final String JNDI_PARAMETER_NAME_PREFIX = "jndi-";
 
     private JMSEndpointParser() {
@@ -164,6 +165,7 @@ public final class JMSEndpointParser {
         boolean isQueue = false;
         boolean isTopic = false;
         boolean isJndi = false;
+        boolean isJndiTopic = false;
         if (remaining.startsWith(JMSURIConstants.QUEUE_PREFIX)) {
             remaining = removeStartingCharacters(remaining.substring(JMSURIConstants.QUEUE_PREFIX
                 .length()), '/');
@@ -176,6 +178,10 @@ public final class JMSEndpointParser {
             remaining = removeStartingCharacters(remaining.substring(JMSURIConstants.JNDI_PREFIX
                 .length()), '/');
             isJndi = true;
+        } else if (remaining.startsWith(JNDI_TOPIC_PREFIX)) {
+            remaining = removeStartingCharacters(remaining.substring(JNDI_TOPIC_PREFIX
+                .length()), '/');
+            isJndiTopic = true;
         } else {
             throw new Exception("Unknow JMS Variant");
         }
@@ -192,6 +198,8 @@ public final class JMSEndpointParser {
             endpoint = new JMSTopicEndpoint(uri, subject);
         } else if (isJndi) {
             endpoint = new JMSJNDIEndpoint(uri, subject);
+        } else if (isJndiTopic) {
+            endpoint = new JMSJNDITopicEndpoint(uri, subject);
         }
         return endpoint;
     }
