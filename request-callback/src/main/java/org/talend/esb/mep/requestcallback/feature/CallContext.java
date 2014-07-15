@@ -25,6 +25,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
@@ -183,6 +184,14 @@ public class CallContext implements Serializable {
         properties.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         callback.setProperties(properties);
         return callback.create(proxyInterface);
+	}
+
+	public <T> void initCallbackProxy(T proxy) {
+		Client client = ClientProxy.getClient(proxy);
+        (new RequestCallbackFeature()).initialize(client, client.getBus());
+        ((BindingProvider) proxy).getRequestContext().put("thread.local.request.context", "true");
+        ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
+        ((BindingProvider) proxy).getRequestContext().put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
