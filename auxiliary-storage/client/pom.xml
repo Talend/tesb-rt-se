@@ -107,7 +107,7 @@
                                 <artifact>
                                     <file>etc/org.talend.esb.auxiliary.storage.client.rest.cfg</file>
                                     <type>cfg</type>
-                                    <classifier>org.talend.esb.callback</classifier>
+                                    <classifier>org.talend.esb.auxiliary.storage.client.rest</classifier>
                                 </artifact>
                                 <artifact>
                                     <file>etc/keystores/clientKeystore.properties</file>
