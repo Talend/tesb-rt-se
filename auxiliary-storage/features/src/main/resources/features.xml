@@ -78,7 +78,7 @@
 
      <feature>jackrabbit-aux-bundles</feature>
 
-
+    <configfile finalname="/etc/org.talend.esb.auxiliary.repo.xml">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${auxiliary.storage.version}/xml/org.talend.esb.auxiliary.repo</configfile>
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence/${auxiliary.storage.version}</bundle>
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-file/${auxiliary.storage.version}</bundle>
@@ -104,7 +104,6 @@
 
   <!-- Main feature -->
    <feature name='tesb-aux' version='${auxiliary.storage.version}'>
-      <configfile finalname="/etc/org.talend.esb.registry.client.policy.cfg">mvn:org.talend.esb.registry/registry-policy-client/5.6.0-SNAPSHOT/cfg/org.talend.esb.registry.client.policy</configfile>
     <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
     <feature version="${auxiliary.storage.version}">tesb-aux-client-rest</feature>
     <feature version="${auxiliary.storage.version}">tesb-aux-service-rest</feature>
