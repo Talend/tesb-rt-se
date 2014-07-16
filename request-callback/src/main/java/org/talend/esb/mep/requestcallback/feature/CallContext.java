@@ -28,6 +28,7 @@ import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.jaxws.JaxWsClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.factory.AbstractServiceConfiguration;
@@ -36,6 +37,7 @@ import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfig
 
 public class CallContext implements Serializable {
 
+	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
 	private static final long serialVersionUID = -5024912330689208965L;
 	
 	private QName portTypeName;
@@ -187,11 +189,7 @@ public class CallContext implements Serializable {
 	}
 
 	public <T> void initCallbackProxy(T proxy) {
-		Client client = ClientProxy.getClient(proxy);
-        (new RequestCallbackFeature()).initialize(client, client.getBus());
-        ((BindingProvider) proxy).getRequestContext().put("thread.local.request.context", "true");
-        ((BindingProvider) proxy).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
-        ((BindingProvider) proxy).getRequestContext().put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
+		setupCallbackProxy(proxy);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
@@ -209,7 +207,9 @@ public class CallContext implements Serializable {
         setupDispatch(dispatch);
         Map<String, Object> requestContext = dispatch.getRequestContext();
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
-        requestContext.put("thread.local.request.context", "true");
+        // The current request context is still not thread local, but subsequent
+        // calls to dispatch.getRequestContext() return a thread local one.
+        requestContext.put(JaxWsClientProxy.THREAD_LOCAL_REQUEST_CONTEXT, Boolean.TRUE);
         if (operation != null) {
             requestContext.put(MessageContext.WSDL_OPERATION, operation);
             requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
@@ -273,7 +273,7 @@ public class CallContext implements Serializable {
         	features.add(new LoggingFeature());
         }
         ep.setFeatures(features);
-        ep.getProperties().put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+        ep.getProperties().put(NULL_MEANS_ONEWAY, Boolean.TRUE);
 	}
 
 	public static void setupDispatch(Dispatch<?> dispatch) {
@@ -282,11 +282,9 @@ public class CallContext implements Serializable {
 		}
 		DispatchImpl<?> dsp = (DispatchImpl<?>) dispatch;
         Client dispatchClient = dsp.getClient();
-        RequestCallbackFeature requestCallbackFeature = new RequestCallbackFeature();
-        requestCallbackFeature.initialize(dispatchClient, dispatchClient.getBus());
+        (new RequestCallbackFeature()).initialize(dispatchClient, dispatchClient.getBus());
         if (logging) {
-	        LoggingFeature loggingFeature = new LoggingFeature();
-	        loggingFeature.initialize(dispatchClient, dispatchClient.getBus());
+	        (new LoggingFeature()).initialize(dispatchClient, dispatchClient.getBus());
         }
 	}
 
@@ -301,7 +299,22 @@ public class CallContext implements Serializable {
         if (logging) {
 	        features.add(new LoggingFeature());
         }
-        serverFactory.getProperties(true).put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+        serverFactory.getProperties(true).put(NULL_MEANS_ONEWAY, Boolean.TRUE);
+	}
+
+	public <T> void setupCallbackProxy(T proxy) {
+		final Client client = ClientProxy.getClient(proxy);
+        (new RequestCallbackFeature()).initialize(client, client.getBus());
+        if (logging) {
+	        (new LoggingFeature()).initialize(client, client.getBus());
+        }
+        final BindingProvider bp = (BindingProvider) proxy;
+        bp.getRequestContext().put(
+        		JaxWsClientProxy.THREAD_LOCAL_REQUEST_CONTEXT, Boolean.TRUE);
+        // Now re-get the request context as thread local.
+        final Map<String, Object> rctx = bp.getRequestContext();
+        rctx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
+        rctx.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
 	}
 
 	public static CallbackInfo createCallbackInfo(String wsdlLocation) {
@@ -364,7 +377,7 @@ public class CallContext implements Serializable {
 		}
 		EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
 		endpoint.setFeatures(features);
-        endpoint.getProperties().put("jaxws.provider.interpretNullAsOneway", Boolean.TRUE);
+        endpoint.getProperties().put(NULL_MEANS_ONEWAY, Boolean.TRUE);
         if (cbInterfaceName != null) {
         	endpoint.setEndpointName(serverFactory.getEndpointName());
         	endpoint.setServiceName(serverFactory.getServiceName());
