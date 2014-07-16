@@ -198,17 +198,18 @@ public class CallContext implements Serializable {
     }
 
 	public <T> T createCallbackProxy(Class<T> proxyInterface) {
-        JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();
+        final JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();
         callback.setServiceName(serviceName);
         callback.setEndpointName(new QName(serviceName.getNamespaceURI(), serviceName.getLocalPart() + "Port"));
         callback.setAddress(replyToAddress);
         callback.setServiceClass(proxyInterface);
-        callback.getFeatures().add(new RequestCallbackFeature());
+        final List<Feature> features = callback.getFeatures();
+        features.add(new RequestCallbackFeature());
         if (logging) {
-        	callback.getFeatures().add(new LoggingFeature());
+        	features.add(new LoggingFeature());
         }
         if (serviceActivityMonitoring) {
-            callback.getFeatures().add(getEventFeature());
+            features.add(getEventFeature());
         }
 
         Map<String, Object> properties = new HashMap<String, Object>();
@@ -224,18 +225,18 @@ public class CallContext implements Serializable {
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			Class<T> sourceClass, Service.Mode mode, QName operation) {
-		QName callbackPortTypeName = new QName(
+		final QName callbackPortTypeName = new QName(
 				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
-		QName callbackServiceName = new QName(
+		final QName callbackServiceName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Service");
-		QName callbackPortName = new QName(
+		final QName callbackPortName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
-        Service service = Service.create(callbackServiceName);
+        final Service service = Service.create(callbackServiceName);
         service.addPort(callbackPortName, bindingId, replyToAddress);
-        Dispatch<T> dispatch = service.createDispatch(
+        final Dispatch<T> dispatch = service.createDispatch(
         		callbackPortName, sourceClass, mode);
         setupDispatch(dispatch);
-        Map<String, Object> requestContext = dispatch.getRequestContext();
+        final Map<String, Object> requestContext = dispatch.getRequestContext();
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         // The current request context is still not thread local, but subsequent
         // calls to dispatch.getRequestContext() return a thread local one.
@@ -296,8 +297,8 @@ public class CallContext implements Serializable {
 		if (!(endpoint instanceof EndpointImpl)) {
 			throw new IllegalArgumentException("Only CXF JAX-WS endpoints supported. ");
 		}
-		EndpointImpl ep = (EndpointImpl) endpoint;
-        List<Feature> features = new ArrayList<Feature>();
+		final EndpointImpl ep = (EndpointImpl) endpoint;
+        final List<Feature> features = new ArrayList<Feature>();
         features.add(new RequestCallbackFeature());
         if (logging) {
         	features.add(new LoggingFeature());
@@ -316,11 +317,15 @@ public class CallContext implements Serializable {
 		if (!(dispatch instanceof DispatchImpl)) {
 			throw new IllegalArgumentException("Only CXF JAX-WS Dispatch supported. ");
 		}
-		DispatchImpl<?> dsp = (DispatchImpl<?>) dispatch;
-        Client dispatchClient = dsp.getClient();
-        (new RequestCallbackFeature()).initialize(dispatchClient, dispatchClient.getBus());
+		final DispatchImpl<?> dsp = (DispatchImpl<?>) dispatch;
+        final Client dispatchClient = dsp.getClient();
+        final Bus bus = dispatchClient.getBus();
+        (new RequestCallbackFeature()).initialize(dispatchClient, bus);
         if (logging) {
-	        (new LoggingFeature()).initialize(dispatchClient, dispatchClient.getBus());
+	        (new LoggingFeature()).initialize(dispatchClient, bus);
+        }
+        if (serviceActivityMonitoring) {
+            getEventFeature().initialize(dispatchClient, bus);
         }
 	}
 
@@ -330,19 +335,26 @@ public class CallContext implements Serializable {
 	}
 
 	public static void setupServerFactory(JaxWsServerFactoryBean serverFactory) {
-		List<Feature> features = serverFactory.getFeatures();
+		final List<Feature> features = serverFactory.getFeatures();
         features.add(new RequestCallbackFeature());
         if (logging) {
 	        features.add(new LoggingFeature());
+        }
+        if (serviceActivityMonitoring) {
+            features.add(getEventFeature());
         }
         serverFactory.getProperties(true).put(NULL_MEANS_ONEWAY, Boolean.TRUE);
 	}
 
 	public <T> void setupCallbackProxy(T proxy) {
 		final Client client = ClientProxy.getClient(proxy);
-        (new RequestCallbackFeature()).initialize(client, client.getBus());
+		final Bus bus = client.getBus();
+        (new RequestCallbackFeature()).initialize(client, bus);
         if (logging) {
-	        (new LoggingFeature()).initialize(client, client.getBus());
+	        (new LoggingFeature()).initialize(client, bus);
+        }
+        if (serviceActivityMonitoring) {
+        	getEventFeature().initialize(client, bus);
         }
         final BindingProvider bp = (BindingProvider) proxy;
         bp.getRequestContext().put(
@@ -376,9 +388,9 @@ public class CallContext implements Serializable {
 	}
 
 	private static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
-		Bus bus = BusFactory.getThreadDefaultBus();
-		JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
-        List<Feature> features = new ArrayList<Feature>();
+		final Bus bus = BusFactory.getThreadDefaultBus();
+		final JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
+        final List<Feature> features = new ArrayList<Feature>();
         features.add(new RequestCallbackFeature());
         if (logging) {
         	features.add(new LoggingFeature());
@@ -388,26 +400,26 @@ public class CallContext implements Serializable {
         }
 
 		serverFactory.setFeatures(features);
-		QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
-		String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
-		boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
+		final QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
+		final String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
+		final boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
 				cbInfo.getCallbackPortName() != null;
 		if (cbInterfaceName != null) {
-			QName cbServiceName = cbInfo.getCallbackServiceName() == null
+			final QName cbServiceName = cbInfo.getCallbackServiceName() == null
 					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "Service")
 					: cbInfo.getCallbackServiceName();
-			QName cbEndpointName = cbInfo.getCallbackServiceName() == null
+			final QName cbEndpointName = cbInfo.getCallbackServiceName() == null
 					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "ServicePort")
 					: new QName(cbServiceName.getNamespaceURI(), cbInfo.getCallbackPortName() == null
 							? cbServiceName.getLocalPart() + "Port"
 							: cbInfo.getCallbackPortName());
 			serverFactory.setServiceName(cbServiceName);
 			serverFactory.setEndpointName(cbEndpointName);
-			List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
+			final List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
 			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator(); it.hasNext(); ) {
-				AbstractServiceConfiguration cfg = it.next();
+				final AbstractServiceConfiguration cfg = it.next();
 				if (cfg instanceof DefaultServiceConfiguration) {
-					AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
+					final AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
 					it.set(ncfg);
 				}
 			}
@@ -415,7 +427,7 @@ public class CallContext implements Serializable {
 				serverFactory.setWsdlLocation(wsdlLocation);
 			}
 		}
-		EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
+		final EndpointImpl endpoint = new EndpointImpl(bus, implementor, serverFactory);
 		endpoint.setFeatures(features);
         endpoint.getProperties().put(NULL_MEANS_ONEWAY, Boolean.TRUE);
         if (cbInterfaceName != null) {
@@ -429,6 +441,6 @@ public class CallContext implements Serializable {
 	}
 
 	private static Feature getEventFeature() {
-	    return (Feature)samContext.getBean("eventFeature");
+	    return (Feature) samContext.getBean("eventFeature");
 	}
 }
