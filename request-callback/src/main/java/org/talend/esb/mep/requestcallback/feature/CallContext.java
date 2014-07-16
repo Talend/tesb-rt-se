@@ -33,13 +33,14 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.factory.AbstractServiceConfiguration;
 import org.apache.cxf.service.factory.DefaultServiceConfiguration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfiguration;
 
 public class CallContext implements Serializable {
 
 	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
 	private static final long serialVersionUID = -5024912330689208965L;
-	
+
 	private QName portTypeName;
 	private QName serviceName;
 	private QName operationName;
@@ -48,10 +49,14 @@ public class CallContext implements Serializable {
 	private String callbackId;
 	private String replyToAddress;
 	private String bindingId;
+	private String flowId;  // Service Activity Monitoring flowId
 	private URL wsdlLocationURL;
 	private Map<String, String> userData;
 	private transient CallbackInfo callbackInfo = null;
 	private static boolean logging = false;
+	private static boolean serviceActivityMonitoring = false;
+
+	private static ClassPathXmlApplicationContext samContext = null;
 
 	public QName getPortTypeName() {
 		return portTypeName;
@@ -172,6 +177,26 @@ public class CallContext implements Serializable {
 		CallContext.logging = logging;
 	}
 
+    public String getFlowId() {
+        return flowId;
+    }
+
+    public void setFlowId(String flowId) {
+        this.flowId = flowId;
+    }
+
+    public static boolean isServiceActivityMonitoring() {
+        return serviceActivityMonitoring;
+    }
+
+    public static void setServiceActivityMonitoring(boolean value) {
+        CallContext.serviceActivityMonitoring = value;
+        if (CallContext.serviceActivityMonitoring && samContext == null) {
+            samContext = new ClassPathXmlApplicationContext(
+                    new String[] {"/META-INF/tesb/agent-context.xml"});
+        }
+    }
+
 	public <T> T createCallbackProxy(Class<T> proxyInterface) {
         JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();
         callback.setServiceName(serviceName);
@@ -182,9 +207,14 @@ public class CallContext implements Serializable {
         if (logging) {
         	callback.getFeatures().add(new LoggingFeature());
         }
+        if (serviceActivityMonitoring) {
+            callback.getFeatures().add(getEventFeature());
+        }
+
         Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         callback.setProperties(properties);
+
         return callback.create(proxyInterface);
 	}
 
@@ -272,6 +302,12 @@ public class CallContext implements Serializable {
         if (logging) {
         	features.add(new LoggingFeature());
         }
+        if (serviceActivityMonitoring) {
+            features.add(getEventFeature());
+        }
+        if (ep.getFeatures() != null) {
+            features.addAll(ep.getFeatures());
+        }
         ep.setFeatures(features);
         ep.getProperties().put(NULL_MEANS_ONEWAY, Boolean.TRUE);
 	}
@@ -347,6 +383,10 @@ public class CallContext implements Serializable {
         if (logging) {
         	features.add(new LoggingFeature());
         }
+        if (serviceActivityMonitoring) {
+            features.add(getEventFeature());
+        }
+
 		serverFactory.setFeatures(features);
 		QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
 		String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
@@ -386,5 +426,9 @@ public class CallContext implements Serializable {
         	}
         }
 		return endpoint;
+	}
+
+	private static Feature getEventFeature() {
+	    return (Feature)samContext.getBean("eventFeature");
 	}
 }

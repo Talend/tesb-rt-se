@@ -24,6 +24,7 @@ import org.apache.cxf.ws.addressing.RelatesToType;
 import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
+import org.talend.esb.sam.agent.message.FlowIdHelper;
 
 /**
  * The Class CompressionOutInterceptor.
@@ -99,6 +100,12 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 			requestInfo.put(RequestCallbackFeature.CALLBACK_ID_NAME,
 					callbackId);
 		}
+
+        String flowId = callContext.getFlowId();
+        if (flowId != null && !flowId.isEmpty()) {
+            FlowIdHelper.setFlowId(message, flowId);
+        }
+
 		aggregateAddressing(message, null, callContext.getRequestId());
 	}
 
