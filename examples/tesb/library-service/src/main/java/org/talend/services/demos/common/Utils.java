@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.talend.services.demos.library._1_0.SeekBookError;
+import org.talend.types.demos.generalobjects.errorhandling._1.ExceptionFrame;
+import org.talend.types.demos.generalobjects.errorhandling._1.ExceptionType;
 import org.talend.types.demos.library.common._1.BookType;
 import org.talend.types.demos.library.common._1.ListOfBooks;
 import org.talend.types.demos.library.common._1.PersonType;
@@ -55,4 +57,11 @@ public class Utils {
 		System.out.println("ZIP: " + zip);
 		System.out.println("Borrowed: " + borrowed);
 	}
+
+    public static void showExceptionFrame(ExceptionFrame exceptionFrame) {
+        ExceptionType type = exceptionFrame.getException().get(0);
+        if (type != null && type.getExceptionText() != null) {
+            System.out.print("Error message is: " + type.getExceptionText());
+        }
+    }
 }

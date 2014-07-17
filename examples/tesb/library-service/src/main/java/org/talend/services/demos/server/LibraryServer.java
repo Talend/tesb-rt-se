@@ -1,30 +1,30 @@
 package org.talend.services.demos.server;
 
-import javax.xml.ws.Endpoint;
-
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxws.EndpointImpl;
-import org.talend.services.demos.library._1_0.Library;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class LibraryServer {
+	
+	private ClassPathXmlApplicationContext context;
 
 	protected LibraryServer() throws Exception {
         System.out.println("Starting Server");
-        Library implementor = new LibraryServerImpl();
-        EndpointImpl ep = (EndpointImpl)Endpoint.publish(
-        		"http://localhost:9090/LibraryPort", implementor);
-
-        // Adding logging for incoming and outgoing messages
-        ep.getServer().getEndpoint().getInInterceptors().add(new LoggingInInterceptor());
-        ep.getServer().getEndpoint().getOutInterceptors().add(new LoggingOutInterceptor());
+        context = new ClassPathXmlApplicationContext(new String[] {"cxf-servlet.xml"});
+        context.start();
     }
 
-    public static void main(String args[]) throws Exception {
-        new LibraryServer();
+	protected ClassPathXmlApplicationContext getContext() {
+		return context;
+	}
+
+	public static void main(String args[]) throws Exception {
+        final LibraryServer server = new LibraryServer();
+        final ClassPathXmlApplicationContext context = server.getContext();
+        final LibraryPublisher publisher = (LibraryPublisher) context.getBean("publisher");
         System.out.println("Server ready...");
-        Thread.sleep(5 * 60 * 1000);
+        publisher.publishNewBooksNotifications();
+        Thread.sleep(15 * 60 * 1000);
         System.out.println("Server exiting");
+        context.close();
         System.exit(0);
     }
 

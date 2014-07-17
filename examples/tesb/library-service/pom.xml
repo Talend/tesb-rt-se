@@ -25,31 +25,12 @@
 
 	<properties>
 		<use.service.registry>false</use.service.registry>
-        <slf4j.version>1.7.5</slf4j.version>
-        <log4j.version>1.2.17</log4j.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf.xjc-utils</groupId>
-			<artifactId>cxf-xjc-runtime</artifactId>
-			<version>${cxf.xjc.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
+		<!-- TESB -->
 		<dependency>
 			<groupId>org.talend.esb.registry</groupId>
 			<artifactId>registry-wsdl-client</artifactId>
@@ -66,26 +47,64 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.talend.esb</groupId>
+			<artifactId>transport-jms</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.talend.esb.mep</groupId>
+			<artifactId>request-callback</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- CXF -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.xjc-utils</groupId>
+			<artifactId>cxf-xjc-runtime</artifactId>
+			<version>${cxf.xjc.version}</version>
+		</dependency>
+
+		<!-- Third parties -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 		</dependency>
-        <!-- logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
+
 	</dependencies>
 
 	<build>
@@ -137,7 +156,8 @@
 			<resource>
 				<directory>src/main/filtered-resources</directory>
 				<includes>
-					<include>client-applicationContext.xml</include>
+					<include>jmsClient-applicationContext.xml</include>
+					<include>httpClient-applicationContext.xml</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>

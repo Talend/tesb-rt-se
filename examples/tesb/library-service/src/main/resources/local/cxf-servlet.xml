@@ -29,8 +29,10 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		<property name="libraryCallbackClient" ref="libraryCallbackClient" />
 	</bean>
 
+<!-- address="/LibraryPort" -->
+
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="LibraryProviderHTTP" address="/LibraryPort" serviceName="library:LibraryProvider"
+		id="LibraryProviderHTTP" address="http://localhost:9090/LibraryHttpPort" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryPort" implementor="#libraryServerImpl">
 		<jaxws:properties>
 			<entry key="use.service.registry" value="false" />
