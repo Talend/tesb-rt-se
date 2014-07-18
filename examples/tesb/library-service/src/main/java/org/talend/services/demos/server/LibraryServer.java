@@ -8,7 +8,7 @@ public class LibraryServer {
 
 	protected LibraryServer() throws Exception {
         System.out.println("Starting Server");
-        context = new ClassPathXmlApplicationContext(new String[] {"cxf-servlet.xml"});
+        context = new ClassPathXmlApplicationContext(new String[] {"server-applicationContext.xml"});
         context.start();
     }
 
@@ -19,9 +19,7 @@ public class LibraryServer {
 	public static void main(String args[]) throws Exception {
         final LibraryServer server = new LibraryServer();
         final ClassPathXmlApplicationContext context = server.getContext();
-        final LibraryPublisher publisher = (LibraryPublisher) context.getBean("publisher");
         System.out.println("Server ready...");
-        publisher.publishNewBooksNotifications();
         Thread.sleep(15 * 60 * 1000);
         System.out.println("Server exiting");
         context.close();

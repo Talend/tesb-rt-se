@@ -219,10 +219,6 @@ public class CallContext implements Serializable {
         return callback.create(proxyInterface);
 	}
 
-	public <T> void initCallbackProxy(T proxy) {
-		setupCallbackProxy(proxy);
-	}
-
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			Class<T> sourceClass, Service.Mode mode, QName operation) {
 		final QName callbackPortTypeName = new QName(
@@ -357,12 +353,12 @@ public class CallContext implements Serializable {
         	getEventFeature().initialize(client, bus);
         }
         final BindingProvider bp = (BindingProvider) proxy;
-        bp.getRequestContext().put(
-        		JaxWsClientProxy.THREAD_LOCAL_REQUEST_CONTEXT, Boolean.TRUE);
-        // Now re-get the request context as thread local.
-        final Map<String, Object> rctx = bp.getRequestContext();
-        rctx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
-        rctx.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
+		bp.getRequestContext().put(
+				JaxWsClientProxy.THREAD_LOCAL_REQUEST_CONTEXT, Boolean.TRUE);
+		bp.getRequestContext().put(
+				BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
+		bp.getRequestContext().put(
+				RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
 	}
 
 	public static CallbackInfo createCallbackInfo(String wsdlLocation) {

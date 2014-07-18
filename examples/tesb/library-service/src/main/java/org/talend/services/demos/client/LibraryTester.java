@@ -181,6 +181,9 @@ public class LibraryTester {
 	 */
 	public void testJms() throws SeekBookError {
 		
+    	// Positive TestCase for Onway operation
+    	testOnewayPositive();
+
     	// Positive TestCase for Request-Callback operation
     	testRequestCallbackPositive();
         

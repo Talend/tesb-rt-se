@@ -18,24 +18,18 @@ http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:/META-INF/cxf/cxf.xml" />
-	<!-- Service Locator -->
-	<!-- import resource="classpath:/META-INF/tesb/locator/beans.xml" / -->
-	<!-- SAM -->
-	<!--import resource="classpath:/META-INF/tesb/agent-context.xml" / -->
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
 		<property name="libraryCallbackClient" ref="libraryCallbackClient" />
+		<property name="libraryPublisher" ref="publisher"/>
 	</bean>
 
-<!-- address="/LibraryPort" -->
-
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="LibraryProviderHTTP" address="http://localhost:9090/LibraryHttpPort" serviceName="library:LibraryProvider"
+		id="LibraryProviderHTTP" address="http://localhost:8080/tesb-library-tutorial/services/LibraryPort" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryPort" implementor="#libraryServerImpl">
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
 			</entry>
@@ -51,8 +45,6 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
         <jaxws:features>
             <bean class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature"/>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
-<!--        <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/> -->
-<!--        <ref bean="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="false" />

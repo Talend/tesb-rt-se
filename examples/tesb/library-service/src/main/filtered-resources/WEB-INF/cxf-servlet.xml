@@ -18,22 +18,19 @@ http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<import resource="classpath:/META-INF/cxf/cxf.xml" />
-	<!-- Service Locator -->
-	<!-- import resource="classpath:/META-INF/tesb/locator/beans.xml" / -->
-	<!-- SAM -->
-	<!--import resource="classpath:/META-INF/tesb/agent-context.xml" / -->
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
 		<property name="libraryCallbackClient" ref="libraryCallbackClient" />
+		<property name="libraryPublisher" ref="publisher"/>
 	</bean>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="LibraryProviderHTTP" address="/LibraryPort" serviceName="library:LibraryProvider"
-		endpointName="library:LibraryPort" implementor="#libraryServerImpl">
+		id="LibraryProviderHTTP" address="/LibraryHttpPort" serviceName="library:LibraryProvider"
+		endpointName="library:LibraryHttpPort" implementor="#libraryServerImpl">
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
 			</entry>
@@ -53,7 +50,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 <!--        <ref bean="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
-            <entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
             <entry key="ws-security.callback-handler">
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
@@ -69,7 +66,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.username" value="tadmin" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
@@ -87,7 +84,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.username" value="tadmin" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
