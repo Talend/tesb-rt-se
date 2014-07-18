@@ -45,6 +45,7 @@
         <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
         <prop key="service.retry.number">3</prop>
         <prop key="service.retry.delay">5000</prop>
+        <prop key="executor.pool.size">20</prop>
     </osgix:cm-properties>
 
     <!-- placeholder configurer -->
@@ -80,7 +81,7 @@
         the execution of the scheduler new tasks will be created. This tasks will 
         be managed by executor. Change this parameters only for performance tuning. -->
     <task:scheduler id="defaultScheduler" pool-size="2" />
-    <task:executor id="defaultExecutor" pool-size="10" />
+    <task:executor id="defaultExecutor" pool-size="$sam{executor.pool.size}" />
 
     <jaxws:client id="monitoringServiceV1Client"
         serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"

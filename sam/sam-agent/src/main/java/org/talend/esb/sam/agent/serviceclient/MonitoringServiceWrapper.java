@@ -93,10 +93,12 @@ public class MonitoringServiceWrapper implements org.talend.esb.sam.common.servi
                 lastException = e;
                 i++;
             }
-            try {
-                Thread.sleep(delayBetweenRetry);
-            } catch (InterruptedException e) {
-                break;
+            if(i < numberOfRetries) {
+                try {
+                    Thread.sleep(delayBetweenRetry);
+                } catch (InterruptedException e) {
+                    break;
+                }
             }
         }
 
