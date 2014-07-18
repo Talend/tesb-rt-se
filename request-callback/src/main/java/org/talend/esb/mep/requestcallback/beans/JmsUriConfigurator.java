@@ -22,6 +22,7 @@ import org.talend.esb.mep.requestcallback.feature.Configuration;
 public class JmsUriConfigurator implements InitializingBean {
 
 	private QName serviceName;
+	private QName endpointName;
 	private String configurationPrefix;
 	private String workPrefix;
 	private Configuration configuration;
@@ -245,8 +246,26 @@ public class JmsUriConfigurator implements InitializingBean {
 		return serviceName;
 	}
 
+	public void setServiceName(String serviceName) {
+		this.serviceName = validQName(serviceName);
+	}
+
 	public void setServiceName(QName serviceName) {
-		this.serviceName = serviceName;
+		this.serviceName = validQName(serviceName);
+	}
+
+	public QName getEndpointName() {
+		return endpointName;
+	}
+
+	public void setEndpointName(String endpointName) {
+		this.endpointName = validQName(endpointName);
+		setConfigurationPrefix();
+	}
+
+	public void setEndpointName(QName endpointName) {
+		this.endpointName = validQName(endpointName);
+		setConfigurationPrefix();
 	}
 
 	public String getConfigurationPrefix() {
@@ -255,8 +274,8 @@ public class JmsUriConfigurator implements InitializingBean {
 
 	public void setConfigurationPrefix(String configurationPrefix) {
 		this.configurationPrefix = configurationPrefix;
-		this.workPrefix = configurationPrefix == null
-				? null : configurationPrefix + ".";
+		this.workPrefix = nonzero(configurationPrefix)
+				? configurationPrefix + "." : null;
 	}
 
 	public Configuration getConfiguration() {
@@ -275,25 +294,22 @@ public class JmsUriConfigurator implements InitializingBean {
 		this.encodeURI = encodeURI;
 	}
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		jmsAddress = createJmsAddress();
+	}
+
+	private void setConfigurationPrefix() {
+		setConfigurationPrefix(
+				endpointName == null ? null : endpointName.getLocalPart());
+	}
+
 	private String getProperty(String key) {
 		String result = null;
 		if (workPrefix != null) {
 			result = configuration.getProperty(workPrefix + key);
 		}
 		return result == null ? configuration.getProperty(key) : result;
-	}
-
-	private static void copyParams(Map<?, ?> source, JmsUriConfiguration target) {
-		if (nonzero(source)) {
-			final Map<String, String> params = target.getParameters();
-			for (Entry<?, ?> e : source.entrySet()) {
-				final Object key = e.getKey();
-				final Object value = e.getValue();
-				if ((key instanceof String) && (value != null)) {
-					params.put((String) key, value.toString());
-				}
-			}
-		}
 	}
 
 	private void addConfigParamsTo(JmsUriConfiguration target) {
@@ -346,9 +362,17 @@ public class JmsUriConfigurator implements InitializingBean {
 		return null;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		jmsAddress = createJmsAddress();
+	private static void copyParams(Map<?, ?> source, JmsUriConfiguration target) {
+		if (nonzero(source)) {
+			final Map<String, String> params = target.getParameters();
+			for (Entry<?, ?> e : source.entrySet()) {
+				final Object key = e.getKey();
+				final Object value = e.getValue();
+				if ((key instanceof String) && (value != null)) {
+					params.put((String) key, value.toString());
+				}
+			}
+		}
 	}
 
 	private static boolean nonzero(String string) {
@@ -357,5 +381,35 @@ public class JmsUriConfigurator implements InitializingBean {
 
 	private static boolean nonzero(Map<?, ?> map) {
 		return map != null && !map.isEmpty();
+	}
+
+	private static QName validQName(String value) {
+		if (value == null) {
+			return null;
+		}
+		if (value.startsWith("{")) {
+			final int ndx = value.indexOf('}', 1);
+			if (ndx < 0) {
+				return null;
+			}
+			return new QName(
+					value.substring(1, ndx),
+					value.substring(ndx + 1));
+		}
+		final int cndx = value.indexOf(':');
+		if (cndx < 0) {
+			return new QName(value);
+		}
+		return new QName(value.substring(cndx + 1));
+	}
+
+	private static QName validQName(QName qname) {
+		if (qname == null) {
+			return null;
+		}
+		if (nonzero(qname.getNamespaceURI())) {
+			return qname;
+		}
+		return validQName(qname.getLocalPart());
 	}
 }

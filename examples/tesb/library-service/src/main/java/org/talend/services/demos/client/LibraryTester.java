@@ -3,13 +3,20 @@ package org.talend.services.demos.client;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.ws.BindingProvider;
+
 import junit.framework.TestCase;
 
+import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 import org.talend.services.demos.common.Utils;
 import org.talend.services.demos.library._1_0.Library;
 import org.talend.services.demos.library._1_0.SeekBookError;
 import org.talend.types.demos.library.common._1.ListOfBooks;
 import org.talend.types.demos.library.common._1.SearchFor;
+import org.talend.types.demos.library.common._1.SearchInBasementFor;
 
 /**
  * The Class LibraryTester.
@@ -115,14 +122,42 @@ public class LibraryTester {
         library.createLending(isbnNumber, birthDate, zip, borrowed);	
     }    
     
-    
+    /**
+     * Test request callback positive.
+     *
+     * @throws SeekBookError the seek book error
+     */
+    public void testRequestCallbackPositive() throws SeekBookError {
+        // Test the positive case where author(s) are found and we retrieve
+        // a list of books
+        System.out.println("***************************************************************");
+        System.out.println("*** Request-Callback operation ********************************");
+        System.out.println("***************************************************************");
+        System.out.println("\nSending request(callback) for authors named Stripycat");
+        SearchInBasementFor request = new SearchInBasementFor();
+        request.getAuthorLastName().add("Stripycat");
+        Map<String, Object> rctx = ((BindingProvider) library).getRequestContext();
+        Map<String, Object> correlationInfo = new HashMap<String, Object>();
+        rctx.put(RequestCallbackFeature.CALL_INFO_PROPERTY_NAME, correlationInfo);
+        library.seekBookInBasement(request);
+        String correlationId = (String) correlationInfo.get(
+        		RequestCallbackFeature.CALL_ID_NAME);
+        System.out.println("\nRequest sent.");
+        System.out.println("Call ID is " + correlationId);
+        try {
+        	LibraryConsumerImpl.waitForResponse();
+        	System.out.println("\nProcessing of callback response confirmed.\n");
+        } catch (InterruptedException e) {
+        	throw new RuntimeException("Request-callback test interrupted: ", e);
+        }
+    }
     
 	/**
 	 * Test library.
 	 *
 	 * @throws SeekBookError the seek book error
 	 */
-	public void testLibrary() throws SeekBookError {
+	public void testHttp() throws SeekBookError {
 
     	// Positive TestCase for Request-Response operation	
 		testRequestResponsePositive();
@@ -132,6 +167,22 @@ public class LibraryTester {
     	
     	// Positive TestCase for Onway operation
     	testOnewayPositive();
+        
+        System.out.println("***************************************************************");
+        System.out.println("*** All calls were successful *********************************");
+        System.out.println("***************************************************************");
+        
+    }
+
+	/**
+	 * Test library.
+	 *
+	 * @throws SeekBookError the seek book error
+	 */
+	public void testJms() throws SeekBookError {
+		
+    	// Positive TestCase for Request-Callback operation
+    	testRequestCallbackPositive();
         
         System.out.println("***************************************************************");
         System.out.println("*** All calls were successful *********************************");
