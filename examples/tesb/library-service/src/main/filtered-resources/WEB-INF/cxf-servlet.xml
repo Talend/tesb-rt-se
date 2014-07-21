@@ -22,8 +22,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
-		<property name="libraryCallbackClient" ref="libraryCallbackClient" />
-		<property name="libraryPublisher" ref="publisher"/>
+		<property name="callbackResponseClient" ref="callbackResponseClient" />
+		<property name="libraryPublisher" ref="libraryPublisher"/>
 	</bean>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
@@ -59,7 +59,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
     </jaxws:endpoint>
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="libraryCallbackClient" serviceName="library:LibraryConsumer"
+		id="callbackResponseClient" serviceName="library:LibraryConsumer"
 		endpointName="library:LibraryConsumerPort" address="jms://"
 		serviceClass="org.talend.services.demos.library._1_0.LibraryConsumer">
 		<jaxws:features>
@@ -75,7 +75,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	</jaxws:client>
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="libraryPublisherClient" serviceName="library:LibraryProvider"
+		id="publisherClient" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryTopicPort"
 		address="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
@@ -92,8 +92,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</jaxws:properties>
 	</jaxws:client>
 
-	<bean id="publisher" class="org.talend.services.demos.server.LibraryPublisher">
-		<property name="library" ref="libraryPublisherClient" />
+	<bean id="libraryPublisher" class="org.talend.services.demos.server.LibraryPublisher">
+		<property name="library" ref="publisherClient" />
 	</bean>
 
 </beans>

@@ -29,11 +29,11 @@ public class LibraryServerImpl implements Library, InitializingBean {
     @Resource
     private WebServiceContext wsContext;
 
-	private LibraryConsumer libraryCallbackClient;
+	private LibraryConsumer callbackResponseClient;
 	private LibraryPublisher libraryPublisher;
 		
-	public void setLibraryCallbackClient(LibraryConsumer libraryCallbackClient) {
-		this.libraryCallbackClient = libraryCallbackClient;
+	public void setCallbackResponseClient(LibraryConsumer callbackResponseClient) {
+		this.callbackResponseClient = callbackResponseClient;
 	}
 
 	public void setLibraryPublisher(LibraryPublisher libraryPublisher) {
@@ -148,8 +148,8 @@ public class LibraryServerImpl implements Library, InitializingBean {
 
         showSeekBookResponse(result);
 
-		ctx.setupCallbackProxy(libraryCallbackClient);
-		libraryCallbackClient.seekBookInBasementResponse(result);
+		ctx.setupCallbackProxy(callbackResponseClient);
+		callbackResponseClient.seekBookInBasementResponse(result);
 	}
 
 	@Override
