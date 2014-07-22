@@ -96,6 +96,11 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             return;
         }
 
+        if (isOnewayResponse(message)) {
+            // skip oneway response events
+            return;
+        }
+
         //check MessageID
         checkMessageID(message);
 
@@ -166,5 +171,27 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             }
         }
         return false;
+    }
+
+
+    private boolean isOnewayResponse(Message message) {
+
+          boolean isRequestor = MessageUtils.isRequestor(message);
+          boolean isFault = MessageUtils.isFault(message);
+          boolean isOutbound = MessageUtils.isOutbound(message);
+
+          boolean isOnewayOutResp =  message.getExchange().isOneWay()
+                                         && isOutbound
+                                         && !isRequestor
+                                         && !isFault
+                                         && !MessageToEventMapper.isRestMessage(message);
+
+          boolean isOnewayInResp  =  message.getExchange().isOneWay()
+                                         && !isOutbound
+                                         && isRequestor
+                                         && !isFault
+                                         && !MessageToEventMapper.isRestMessage(message);
+
+          return isOnewayOutResp || isOnewayInResp;
     }
 }
