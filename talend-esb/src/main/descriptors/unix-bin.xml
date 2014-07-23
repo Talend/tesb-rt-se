@@ -360,7 +360,7 @@
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
-<!--                 <exclude>org/apache/cxf/**/2.7.8/**</exclude> -->
+                <exclude>org/apache/cxf/**/2.7.11/**</exclude>
                 <!-- workaround for saaj-impl bundle version-->
 <!--                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.20_1/**</exclude> -->
                 <!-- patch for xalan and xerces version -->

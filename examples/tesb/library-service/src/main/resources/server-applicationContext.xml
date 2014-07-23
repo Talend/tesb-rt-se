@@ -22,15 +22,14 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
-		<property name="callbackResponseClient" ref="callbackResponseClient" />
-		<property name="libraryPublisher" ref="libraryPublisher"/>
+		<property name="libraryCallbackClient" ref="libraryCallbackClient" />
+		<property name="libraryPublisher" ref="publisher"/>
 	</bean>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="LibraryProviderHTTP" address="/LibraryHttpPort" serviceName="library:LibraryProvider"
-		endpointName="library:LibraryHttpPort" implementor="#libraryServerImpl">
+		id="LibraryProviderHTTP" address="http://localhost:8080/tesb-library-tutorial/services/LibraryPort" serviceName="library:LibraryProvider"
+		endpointName="library:LibraryPort" implementor="#libraryServerImpl">
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
 			</entry>
@@ -46,11 +45,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
         <jaxws:features>
             <bean class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature"/>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
-<!--        <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/> -->
-<!--        <ref bean="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
-            <entry key="use.service.registry" value="true" />
+            <entry key="use.service.registry" value="false" />
             <entry key="ws-security.callback-handler">
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
@@ -59,14 +56,14 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
     </jaxws:endpoint>
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="callbackResponseClient" serviceName="library:LibraryConsumer"
+		id="libraryCallbackClient" serviceName="library:LibraryConsumer"
 		endpointName="library:LibraryConsumerPort" address="jms://"
 		serviceClass="org.talend.services.demos.library._1_0.LibraryConsumer">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
+			<entry key="use.service.registry" value="false" />
 			<entry key="ws-security.username" value="tadmin" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
@@ -75,7 +72,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	</jaxws:client>
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="publisherClient" serviceName="library:LibraryProvider"
+		id="libraryPublisherClient" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryTopicPort"
 		address="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
@@ -84,7 +81,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
+			<entry key="use.service.registry" value="false" />
 			<entry key="ws-security.username" value="tadmin" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
@@ -92,8 +89,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		</jaxws:properties>
 	</jaxws:client>
 
-	<bean id="libraryPublisher" class="org.talend.services.demos.server.LibraryPublisher">
-		<property name="library" ref="publisherClient" />
+	<bean id="publisher" class="org.talend.services.demos.server.LibraryPublisher">
+		<property name="library" ref="libraryPublisherClient" />
 	</bean>
 
 </beans>
