@@ -51,8 +51,8 @@ public class CallbackInfo {
 	private QName callbackPortTypeName = null;
 	private QName callbackServiceName = null;
 	private String callbackPortName = null;
-	private String wsdlLocation;
-	private List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
+	private final String wsdlLocation;
+	private final List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
 	
 	public CallbackInfo(URL wsdlLocation) {
 		this(createServiceFactory(wsdlLocation).getDefinition(), wsdlLocation.toExternalForm());
@@ -60,6 +60,15 @@ public class CallbackInfo {
 
 	public CallbackInfo(String wsdlLocation) {
 		this(createServiceFactory(wsdlLocation).getDefinition(), wsdlLocation);
+	}
+
+	public CallbackInfo(CallbackInfo source, QName service, String port, boolean copyWsdlLocation) {
+		portTypeName = source.portTypeName;
+		callbackPortTypeName = source.callbackPortTypeName;
+		callbackServiceName = service;
+		callbackPortName = port;
+		wsdlLocation = copyWsdlLocation ? source.wsdlLocation : null;
+		operationMappings.addAll(source.operationMappings);
 	}
 
 	public QName getPortTypeName() {
@@ -139,7 +148,7 @@ public class CallbackInfo {
 						}
 					}
 					if (partnerOpName != null) {
-						this.operationMappings.add(new OperationMapping(operation.getName(), partnerOpName, isFault));
+						this.operationMappings.add(new OperationMapping(partnerOpName, operation.getName(), isFault));
 					}
 				}
 			}

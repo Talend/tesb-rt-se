@@ -387,7 +387,7 @@ public class CallContext implements Serializable {
 		return ConfigurationInitializer.resolveConfiguration(serviceName);
 	}
 
-	private static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
+	public static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
 		final Bus bus = BusFactory.getThreadDefaultBus();
 		final JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
         final List<Feature> features = new ArrayList<Feature>();
