@@ -67,12 +67,13 @@
     <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector">
         <property name="bus" ref="cxf" />
         <property name="queue" ref="samQueue" />
-        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
         <property name="defaultInterval" value="$sam{collector.scheduler.interval}" />
         <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}" />
-		<property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
+        <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
         <property name="executor" ref="defaultExecutor" />
         <property name="scheduler" ref="defaultScheduler" />
+        <property name="availabilityChecker" ref="availabilityChecker" />
     </bean>
 
     <task:annotation-driven executor="defaultExecutor"
@@ -107,5 +108,10 @@
 	    <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
 	    <property name="queue" ref="samQueue"/>
 		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
-	</bean>	
+	</bean>
+
+    <bean id="availabilityChecker" class="org.talend.esb.sam.agent.serviceclient.AvailabilityChecker"
+          scope="singleton">
+        <property name="samServerAddress" value="$sam{service.url}"/>
+    </bean>
 </beans>
