@@ -4,10 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.services.demos.common.Utils;
 import org.talend.services.demos.library._1_0.Library;
@@ -21,15 +24,20 @@ import org.talend.types.demos.library.common._1.PersonType;
 import org.talend.types.demos.library.common._1.SearchFor;
 import org.talend.types.demos.library.common._1.SearchInBasementFor;
 
-public class LibraryServerImpl implements Library {
+public class LibraryServerImpl implements Library, InitializingBean {
 	
     @Resource
     private WebServiceContext wsContext;
 
-	private LibraryConsumer libraryCallbackClient;
+	private LibraryConsumer callbackResponseClient;
+	private LibraryPublisher libraryPublisher;
 		
-	public void setLibraryCallbackClient(LibraryConsumer libraryCallbackClient) {
-		this.libraryCallbackClient = libraryCallbackClient;
+	public void setCallbackResponseClient(LibraryConsumer callbackResponseClient) {
+		this.callbackResponseClient = callbackResponseClient;
+	}
+
+	public void setLibraryPublisher(LibraryPublisher libraryPublisher) {
+		this.libraryPublisher = libraryPublisher;
 	}
 
 	@Override
@@ -140,8 +148,8 @@ public class LibraryServerImpl implements Library {
 
         showSeekBookResponse(result);
 
-		ctx.initCallbackProxy(libraryCallbackClient);
-		libraryCallbackClient.seekBookInBasementResponse(result);
+		ctx.setupCallbackProxy(callbackResponseClient);
+		callbackResponseClient.seekBookInBasementResponse(result);
 	}
 
 	@Override
@@ -188,5 +196,21 @@ public class LibraryServerImpl implements Library {
 		SeekBookError e = new SeekBookError("Book not found", frame);
 		return e;
 	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        Runnable publisher = new Runnable() {
+			@Override
+			public void run() {
+		        try {
+					libraryPublisher.publishNewBooksNotifications();
+				} catch (InterruptedException e) {
+					throw new RuntimeException("Notification is interrupted: " + e.getMessage(), e);
+				}
+			}
+        };
+	    executor.execute(publisher);
+    }
 
 }

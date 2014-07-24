@@ -20,10 +20,6 @@
 ">
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<!-- Service Locator -->
-	<!-- import resource="classpath:/META-INF/tesb/locator/beans.xml" / -->
-	<!-- SAM -->
-	<!--import resource="classpath:/META-INF/tesb/agent-context.xml" / -->
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
@@ -35,8 +31,7 @@
 		<property name="serviceName" value="LibraryConsumer" />
 	</bean>
 
-	<context:property-placeholder
-		properties-ref="endpointConfig" />
+	<context:property-placeholder location="classpath*:callback-endpoint.properties"/>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
 		id="LibraryConsumerJMS" address="${callback.endpoint.address}"
@@ -48,7 +43,7 @@
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
 			</entry>
@@ -64,13 +59,12 @@
 			<bean
 				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
-			<!-- <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
+            <entry key="use.service.registry" value="true" />
 			<entry key="org.talend.esb.mep.requestcallback.CallbackEndpoint">
 				<ref bean="LibraryConsumerJMS" />
 			</entry>
-			<entry key="use.service.registry" value="false" />
 			<entry key="ws-security.username" value="tadmin" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
@@ -88,7 +82,7 @@
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-			<entry key="use.service.registry" value="false" />
+            <entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
 			</entry>

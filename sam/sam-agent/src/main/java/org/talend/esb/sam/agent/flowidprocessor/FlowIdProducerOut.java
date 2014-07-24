@@ -75,6 +75,11 @@ public class FlowIdProducerOut<T extends Message> extends
             handleResponseOut(message);
         }
 
+        // Don't write flowId for Oneway responses
+        if (isOnewayResponse(message)) {
+            return;
+        }
+
         // write FlowId to HTTP and Soap layer
         String flowId = FlowIdHelper.getFlowId(message);
         FlowIdProtocolHeaderCodec.writeFlowId(message, flowId);
@@ -220,5 +225,16 @@ public class FlowIdProducerOut<T extends Message> extends
                 epi.handleMessage(inMsg);
             }
         }
+    }
+
+
+    protected boolean isOnewayResponse(T message) {
+        boolean isRequestor = MessageUtils.isRequestor(message);
+        boolean isFault = MessageUtils.isFault(message);
+        boolean isOutbound = MessageUtils.isOutbound(message);
+
+        return (message.getExchange().isOneWay()
+                  && ((isOutbound && !isRequestor) || (!isOutbound && isRequestor))
+                  && !isFault);
     }
 }
