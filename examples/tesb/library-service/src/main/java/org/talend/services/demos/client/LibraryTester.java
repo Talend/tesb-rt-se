@@ -165,9 +165,6 @@ public class LibraryTester {
     	// Negative TestCase for Request-Response operation (with Business Fault)
     	// testRequestResponseBusinessFault();
     	
-    	// Positive TestCase for Onway operation
-    	testOnewayPositive();
-        
         System.out.println("***************************************************************");
         System.out.println("*** All calls were successful *********************************");
         System.out.println("***************************************************************");
@@ -181,7 +178,7 @@ public class LibraryTester {
 	 */
 	public void testJms() throws SeekBookError {
 		
-    	// Positive TestCase for Onway operation
+    	// Positive TestCase for Oneway operation
     	testOnewayPositive();
 
     	// Positive TestCase for Request-Callback operation
