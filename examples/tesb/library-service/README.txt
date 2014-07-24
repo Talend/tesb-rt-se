@@ -41,6 +41,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
         tesb:start-registry
         tesb:start-sts
+        tesb:start-sam
         tesb:switch-sts-jaas
 
         tregistry:create wsdl <sr-resources-dir>/Library.wsdl
