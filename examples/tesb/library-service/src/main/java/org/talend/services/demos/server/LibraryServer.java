@@ -8,7 +8,7 @@ public class LibraryServer {
 
 	protected LibraryServer() throws Exception {
         System.out.println("Starting Server");
-        context = new ClassPathXmlApplicationContext(new String[] {"server-applicationContext.xml"});
+        context = new ClassPathXmlApplicationContext(new String[] {"cxf-jetty.xml"});
         context.start();
     }
 

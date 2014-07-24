@@ -46,6 +46,22 @@
 			<artifactId>request-callback</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.talend.esb</groupId>
+			<artifactId>sam-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.talend.esb</groupId>
+			<artifactId>sam-agent</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.talend.esb.policies</groupId>
+			<artifactId>samenabling-policy</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 
 		<!-- CXF -->
 		<dependency>
@@ -58,11 +74,11 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-ws-security</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf.xjc-utils</groupId>
 			<artifactId>cxf-xjc-runtime</artifactId>
@@ -115,11 +131,11 @@
 						<configuration>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>src/main/resources/Library.wsdl</wsdl>
+									<wsdl>src/main/sr-resources/Library.wsdl</wsdl>
 									<frontEnd>jaxws21</frontEnd>
 									<faultSerialVersionUID>1</faultSerialVersionUID>
 									<bindingFiles>
-										<bindingFile>src/main/resources/binding.xml</bindingFile>
+										<bindingFile>src/main/sr-resources/binding.xml</bindingFile>
 									</bindingFiles>
 								</wsdlOption>
 							</wsdlOptions>
@@ -136,8 +152,7 @@
 				<configuration>
 					<webResources>
 						<resource>
-							<filtering>true</filtering>
-							<directory>src/main/filtered-resources</directory>
+							<directory>src/main/resources</directory>
 							<includes>
 								<include>**/cxf-servlet.xml</include>
 							</includes>
@@ -146,21 +161,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
-		<resources>
-			<resource>
-				<directory>src/main/filtered-resources</directory>
-				<includes>
-					<include>jmsClient-applicationContext.xml</include>
-					<include>httpClient-applicationContext.xml</include>
-				</includes>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
-
 	</build>
 
 	<profiles>
