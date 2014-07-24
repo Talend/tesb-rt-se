@@ -19,39 +19,43 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
 		<property name="callbackResponseClient" ref="callbackResponseClient" />
-		<property name="libraryPublisher" ref="libraryPublisher"/>
+		<property name="libraryPublisher" ref="libraryPublisher" />
 	</bean>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
 		id="LibraryProviderHTTP" address="${library.endpoint.http}"
-		serviceName="library:LibraryProvider"
-		endpointName="library:LibraryHttpPort" implementor="#libraryServerImpl">
+		serviceName="library:LibraryProvider" endpointName="library:LibraryHttpPort"
+		implementor="#libraryServerImpl">
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
+			<entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
 			</entry>
 			<entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />
+			<entry key="ws-security.callback-handler">
+				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
+			</entry>
 		</jaxws:properties>
 	</jaxws:endpoint>
 
-    <jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-            id="LibraryProviderJMS" 
-			address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
-            serviceName="library:LibraryProvider" endpointName="library:LibraryJmsPort"
-            implementor="#libraryServerImpl">
-        <jaxws:features>
-            <bean class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature"/>
-            <bean class="org.apache.cxf.feature.LoggingFeature" />
-        </jaxws:features>
-        <jaxws:properties>
-            <entry key="use.service.registry" value="true" />
-            <entry key="ws-security.callback-handler">
-                <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
-            </entry>
-            <entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />            
-        </jaxws:properties>
-    </jaxws:endpoint>
+	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
+		id="LibraryProviderJMS"
+		address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
+		serviceName="library:LibraryProvider" endpointName="library:LibraryJmsPort"
+		implementor="#libraryServerImpl">
+		<jaxws:features>
+			<bean
+				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+		<jaxws:properties>
+			<entry key="use.service.registry" value="true" />
+			<entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />
+			<entry key="ws-security.callback-handler">
+				<bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
+			</entry>
+		</jaxws:properties>
+	</jaxws:endpoint>
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
 		id="callbackResponseClient" serviceName="library:LibraryConsumer"
@@ -61,11 +65,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
-			<entry key="ws-security.username" value="tadmin" />
-			<entry key="ws-security.callback-handler">
-				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
-			</entry>
+			<entry key="use.service.registry" value="true" />
 		</jaxws:properties>
 	</jaxws:client>
 
@@ -79,10 +79,36 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
-            <entry key="use.service.registry" value="true" />
-			<entry key="ws-security.username" value="tadmin" />
+			<entry key="use.service.registry" value="true" />
+			<entry key="ws-security.signature.properties" value="keys/clientKeystore.properties" />
 			<entry key="ws-security.callback-handler">
 				<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
+			</entry>
+			<entry key="ws-security.sts.client">
+				<bean class="org.apache.cxf.ws.security.trust.STSClient">
+					<constructor-arg ref="cxf" />
+					<property name="wsdlLocation"
+						value="http://localhost:8040/services/SecurityTokenService/UT?wsdl" />
+					<property name="serviceName"
+						value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+					<property name="endpointName"
+						value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
+					<property name="properties">
+						<map>
+							<entry key="ws-security.username" value="tadmin" />
+							<entry key="ws-security.callback-handler">
+								<bean class="org.talend.services.demos.client.ClientCallbackHandler" />
+							</entry>
+							<entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
+							<entry key="ws-security.encryption.properties" value="keys/clientKeystore.properties" />
+							<entry key="ws-security.encryption.username" value="mystskey" />
+							<entry key="ws-security.sts.token.usecert" value="true" />
+							<entry key="ws-security.sts.token.username" value="myclientkey" />
+							<entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
+							<entry key="isBSPCompliant" value="false" />
+						</map>
+					</property>
+				</bean>
 			</entry>
 		</jaxws:properties>
 	</jaxws:client>
