@@ -19,89 +19,97 @@
   #L%
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-	<context:annotation-config/>
+    <context:annotation-config/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    	<property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="location" value="classpath:agent.properties"/>
         <property name="properties">
             <props>
                 <prop key="collector.scheduler.interval">500</prop>
                 <prop key="collector.maxEventsPerCall">10</prop>
-	            <prop key="collector.lifecycleEvent">false</prop>
+                <prop key="collector.lifecycleEvent">false</prop>
                 <prop key="log.messageContent">true</prop>
                 <prop key="log.maxContentLength">-1</prop>
                 <prop key="log.enforceMessageIDTransfer">true</prop>
                 <prop key="service.url">http://localhost:8040/services/MonitoringServiceSOAP</prop>
                 <prop key="service.retry.number">3</prop>
                 <prop key="service.retry.delay">5000</prop>
+                <prop key="executor.pool.size">20</prop>
             </props>
         </property>
     </bean>
 
-	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+    <bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeatureImpl">
-	    <property name="logMessageContent" value="${log.messageContent}" />
+        <property name="logMessageContent" value="${log.messageContent}"/>
         <property name="maxContentLength" value="${log.maxContentLength}"/>
         <property name="enforceMessageIDTransfer" value="${log.enforceMessageIDTransfer}"/>
         <property name="queue" ref="samQueue"/>
     </bean>
 
-	<bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" >
-        <property name="bus" ref="cxf" />
-        <property name="queue" ref="samQueue" />
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />		
-		<property name="defaultInterval" value="${collector.scheduler.interval}" />
-		<property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}" />
-        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
-		<property name="executor" ref="defaultExecutor" />
-		<property name="scheduler" ref="defaultScheduler" />
-	</bean>
+    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector">
+        <property name="bus" ref="cxf"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+        <property name="defaultInterval" value="${collector.scheduler.interval}"/>
+        <property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}"/>
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>
+        <property name="executor" ref="defaultExecutor"/>
+        <property name="scheduler" ref="defaultScheduler"/>
+        <property name="availabilityChecker" ref="availabilityChecker"/>
+    </bean>
 
-	<task:annotation-driven executor="defaultExecutor"
-		scheduler="defaultScheduler" />
-	<!-- Scheduler starts in the interval of defaultInterval property. Within 
-		the execution of the scheduler new tasks will be created. This tasks will 
-		be managed by executor. Change this parameters only for performance tuning. -->
-	<task:scheduler id="defaultScheduler" pool-size="2" />
-	<task:executor id="defaultExecutor" pool-size="10" />
+    <task:annotation-driven executor="defaultExecutor"
+                            scheduler="defaultScheduler"/>
+    <!-- Scheduler starts in the interval of defaultInterval property. Within
+        the execution of the scheduler new tasks will be created. This tasks will
+        be managed by executor. Change this parameters only for performance tuning. -->
+    <task:scheduler id="defaultScheduler" pool-size="2"/>
+    <task:executor id="defaultExecutor" pool-size="${executor.pool.size}"/>
 
-	<jaxws:client id="monitoringServiceV1Client"
-		serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
-		address="${service.url}">
+    <jaxws:client id="monitoringServiceV1Client"
+                  serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
+                  address="${service.url}">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>
     </jaxws:client>
 
-	<bean id="monitoringServceV1Wrapper" class="org.talend.esb.sam.agent.serviceclient.MonitoringServiceWrapper">
-		<property name="monitoringService" ref="monitoringServiceV1Client" />
-		<property name="numberOfRetries" value="${service.retry.number}" />
-		<property name="delayBetweenRetry" value="${service.retry.delay}" />
-	</bean>
+    <bean id="monitoringServceV1Wrapper" class="org.talend.esb.sam.agent.serviceclient.MonitoringServiceWrapper">
+        <property name="monitoringService" ref="monitoringServiceV1Client"/>
+        <property name="numberOfRetries" value="${service.retry.number}"/>
+        <property name="delayBetweenRetry" value="${service.retry.delay}"/>
+    </bean>
 
-	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
-        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
-	    <property name="queue" ref="samQueue"/>
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
-	</bean>
+    <bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+    </bean>
 
-	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
-        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}" />
-	    <property name="queue" ref="samQueue"/>
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
-	</bean>		
+    <bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+    </bean>
+
+
+    <bean id="availabilityChecker" class="org.talend.esb.sam.agent.serviceclient.AvailabilityChecker"
+          scope="singleton">
+        <property name="samServerAddress" value="$sam{service.url}"/>
+    </bean>
 
 </beans>

@@ -20,12 +20,12 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:task="http://www.springframework.org/schema/task"
-    xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
@@ -51,64 +51,64 @@
     <!-- placeholder configurer -->
     <!-- context:property-placeholder properties-ref="sam-agent-props" /-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="sam-agent-props" />
-        <property name="placeholderPrefix" value="$sam{" />
+        <property name="properties" ref="sam-agent-props"/>
+        <property name="placeholderPrefix" value="$sam{"/>
     </bean>
 
-	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+    <bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
 
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeatureImpl">
-        <property name="logMessageContent" value="$sam{log.messageContent}" />	
+        <property name="logMessageContent" value="$sam{log.messageContent}"/>
         <property name="maxContentLength" value="$sam{log.maxContentLength}"/>
         <property name="enforceMessageIDTransfer" value="$sam{log.enforceMessageIDTransfer}"/>
         <property name="queue" ref="samQueue"/>
     </bean>
 
     <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector">
-        <property name="bus" ref="cxf" />
-        <property name="queue" ref="samQueue" />
-        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper" />
-        <property name="defaultInterval" value="$sam{collector.scheduler.interval}" />
-        <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}" />
-        <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
-        <property name="executor" ref="defaultExecutor" />
-        <property name="scheduler" ref="defaultScheduler" />
-        <property name="availabilityChecker" ref="availabilityChecker" />
+        <property name="bus" ref="cxf"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+        <property name="defaultInterval" value="$sam{collector.scheduler.interval}"/>
+        <property name="eventsPerMessageCall" value="$sam{collector.maxEventsPerCall}"/>
+        <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}"/>
+        <property name="executor" ref="defaultExecutor"/>
+        <property name="scheduler" ref="defaultScheduler"/>
+        <property name="availabilityChecker" ref="availabilityChecker"/>
     </bean>
 
     <task:annotation-driven executor="defaultExecutor"
-        scheduler="defaultScheduler" />
+                            scheduler="defaultScheduler"/>
     <!-- Scheduler starts in the interval of defaultInterval property. Within 
         the execution of the scheduler new tasks will be created. This tasks will 
         be managed by executor. Change this parameters only for performance tuning. -->
-    <task:scheduler id="defaultScheduler" pool-size="2" />
-    <task:executor id="defaultExecutor" pool-size="$sam{executor.pool.size}" />
+    <task:scheduler id="defaultScheduler" pool-size="2"/>
+    <task:executor id="defaultExecutor" pool-size="$sam{executor.pool.size}"/>
 
     <jaxws:client id="monitoringServiceV1Client"
-        serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
-        address="$sam{service.url}">
+                  serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
+                  address="$sam{service.url}">
         <jaxws:properties>
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>
     </jaxws:client>
 
     <bean id="monitoringServceV1Wrapper" class="org.talend.esb.sam.agent.serviceclient.MonitoringServiceWrapper">
-        <property name="monitoringService" ref="monitoringServiceV1Client" />
-        <property name="numberOfRetries" value="$sam{service.retry.number}" />
-        <property name="delayBetweenRetry" value="$sam{service.retry.delay}" />
+        <property name="monitoringService" ref="monitoringServiceV1Client"/>
+        <property name="numberOfRetries" value="$sam{service.retry.number}"/>
+        <property name="delayBetweenRetry" value="$sam{service.retry.delay}"/>
     </bean>
 
-	<bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
-	    <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
-	    <property name="queue" ref="samQueue"/>
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
-	</bean>
-	
-	<bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
-	    <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}" />
-	    <property name="queue" ref="samQueue"/>
-		<property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
-	</bean>
+    <bean id="clientListener" class="org.talend.esb.sam.agent.lifecycle.ClientListenerImpl">
+        <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+    </bean>
+
+    <bean id="serviceListener" class="org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl">
+        <property name="sendLifecycleEvent" value="$sam{collector.lifecycleEvent}"/>
+        <property name="queue" ref="samQueue"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+    </bean>
 
     <bean id="availabilityChecker" class="org.talend.esb.sam.agent.serviceclient.AvailabilityChecker"
           scope="singleton">
