@@ -7,7 +7,7 @@
   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
   xmlns:svn="http://types.talend.org/demos/Library/Common/1.0"
   xmlns:tns="http://services.talend.org/demos/Library/1.0"
-  xmlns:tmep="http://types.talend.com/mep/1.0"
+  xmlns:tmep="http://types.talend.org/mep/1.0"
   xmlns:sdx="http://types.talend.org/service/ServiceDescription/2.0" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
