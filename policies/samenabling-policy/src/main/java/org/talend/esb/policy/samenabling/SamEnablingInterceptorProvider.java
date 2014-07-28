@@ -24,19 +24,22 @@ import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
-import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 
 public class SamEnablingInterceptorProvider extends
         AbstractPolicyInterceptorProvider {
 
-    private static final String AGENT_CONTEXT_PATH = "META-INF/tesb/agent-context.xml";
 	/**
      * 
      */
     private static final long serialVersionUID = 4595900233265934333L;
+    
+    private static final String AGENT_CONTEXT_PATH = "META-INF/tesb/agent-context.xml";
+    private static ClassPathXmlApplicationContext springContext;
+    private static RuntimeException springContextException;
 
     public SamEnablingInterceptorProvider() {
 
@@ -46,7 +49,14 @@ public class SamEnablingInterceptorProvider extends
         this.getOutFaultInterceptors().add(new SAMEnableOutInterceptor());
         this.getInInterceptors().add(new SAMEnableInInterceptor());
         this.getInFaultInterceptors().add(new SAMEnableInInterceptor());
-
+        
+        // Try to initialize SAM Spring context for non-OSGi environments
+        try {
+    		springContext = new ClassPathXmlApplicationContext(new String[] { AGENT_CONTEXT_PATH });
+        } catch (RuntimeException e) {
+        	// Ignore exception for OSGi and save it for non-OSGi
+        	springContextException = e;
+        }
     }
 
     static class SAMEnableOutInterceptor extends
@@ -117,8 +127,9 @@ public class SamEnablingInterceptorProvider extends
                                     .getService(sref);
                         } else {
                         	// non-OSGi
-							ClassPathXmlApplicationContext springContext = new ClassPathXmlApplicationContext(
-									new String[] { AGENT_CONTEXT_PATH });
+                        	if (springContext == null) {
+                        		throw springContextException;
+                        	}
 							eventFeature = (EventFeature) springContext.getBean("eventFeature");
                         }
 
