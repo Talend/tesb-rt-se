@@ -12,32 +12,34 @@ import org.apache.cxf.endpoint.ServerRegistry;
 //import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
-
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.EndpointInfo;
-
 import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
 
-import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
-
 public class SamEnablingInterceptorProvider extends
         AbstractPolicyInterceptorProvider {
 
-    /**
+	/**
      * 
      */
     private static final long serialVersionUID = 4595900233265934333L;
+    
+    private static final String AGENT_CONTEXT_PATH = "META-INF/tesb/agent-context.xml";
+    private static ClassPathXmlApplicationContext springContext;
+    private static RuntimeException springContextException;
 
     public SamEnablingInterceptorProvider() {
 
@@ -47,7 +49,14 @@ public class SamEnablingInterceptorProvider extends
         this.getOutFaultInterceptors().add(new SAMEnableOutInterceptor());
         this.getInInterceptors().add(new SAMEnableInInterceptor());
         this.getInFaultInterceptors().add(new SAMEnableInInterceptor());
-
+        
+        // Try to initialize SAM Spring context for non-OSGi environments
+        try {
+    		springContext = new ClassPathXmlApplicationContext(new String[] { AGENT_CONTEXT_PATH });
+        } catch (RuntimeException e) {
+        	// Ignore exception for OSGi and save it for non-OSGi
+        	springContextException = e;
+        }
     }
 
     static class SAMEnableOutInterceptor extends
@@ -106,12 +115,23 @@ public class SamEnablingInterceptorProvider extends
 
                         BundleContext context = b
                                 .getExtension(BundleContext.class);
-                        ServiceReference sref = context
-                                .getServiceReference(EventFeature.class
-                                        .getName());
+                        
+                        EventFeature eventFeature = null;
+                        if (context != null) {
+                        	// OSGi
+                            ServiceReference sref = context
+                                    .getServiceReference(EventFeature.class
+                                            .getName());
 
-                        EventFeature eventFeature = (EventFeature) context
-                                .getService(sref);
+                            eventFeature = (EventFeature) context
+                                    .getService(sref);
+                        } else {
+                        	// non-OSGi
+                        	if (springContext == null) {
+                        		throw springContextException;
+                        	}
+							eventFeature = (EventFeature) springContext.getBean("eventFeature");
+                        }
 
                         if (MessageUtils.isRequestor(message)) {
                             if (MessageUtils.isOutbound(message)) { // REQ_OUT

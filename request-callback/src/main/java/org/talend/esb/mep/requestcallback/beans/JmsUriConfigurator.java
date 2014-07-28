@@ -319,10 +319,12 @@ public class JmsUriConfigurator implements InitializingBean {
 			excludes.add("variant");
 			excludes.add("destinationName");
 			excludes.add("jmsAddress");
+			excludes.add("nonJmsAddress");
 			if (workPrefix != null) {
 				excludes.add(workPrefix + "variant");
 				excludes.add(workPrefix + "destinationName");
 				excludes.add(workPrefix + "jmsAddress");
+				excludes.add(workPrefix + "nonJmsAddress");
 			}
 			for (Entry<String, Object> e : configuration.entrySet()) {
 				final Object value = e.getValue();

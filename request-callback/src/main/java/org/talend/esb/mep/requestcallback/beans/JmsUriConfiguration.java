@@ -108,15 +108,14 @@ public class JmsUriConfiguration {
 		destinationName = null;
 		parameters.clear();
 	}
+
 	public String toString() {
+		if (variant == null || variant.isEmpty()
+				|| destinationName == null || destinationName.isEmpty()) {
+			return "jms://";
+		}
 		final StringBuilder buf = new StringBuilder("jms:");
-		if (variant != null && variant.length() > 0) {
-			buf.append(encode(variant));
-		}
-		buf.append(':');
-		if (destinationName != null && destinationName.length() > 0) {
-			buf.append(encode(destinationName));
-		}
+		buf.append(variant).append(':').append(encode(destinationName));
 		if (!parameters.isEmpty()) {
 			buf.append('?');
 			boolean addDelimiter = false;
