@@ -23,6 +23,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
+	<!-- for spring SAM definition (without using samenabling policy) -->
+	<!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
+
 
 	<!-- Jetty endpoint address -->
 	<context:property-placeholder

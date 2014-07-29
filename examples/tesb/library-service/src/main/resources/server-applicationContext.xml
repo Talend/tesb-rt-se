@@ -26,6 +26,10 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		id="LibraryProviderHTTP" address="${library.endpoint.http}"
 		serviceName="library:LibraryProvider" endpointName="library:LibraryHttpPort"
 		implementor="#libraryServerImpl">
+		<jaxws:features>
+		<!-- for spring SAM definition (without using samenabling policy) -->
+		<!-- <ref bean="eventFeature"/> -->
+		</jaxws:features>		
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
 			<entry key="ws-security.callback-handler">
@@ -47,6 +51,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean
 				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		<!-- for spring SAM definition (without using samenabling policy) -->
+		<!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
@@ -59,10 +65,13 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
 		id="callbackResponseClient" serviceName="library:LibraryConsumer"
+		wsdlLocation="./src/main/sr-resources/Library.wsdl"
 		endpointName="library:LibraryConsumerPort" address="jms://"
 		serviceClass="org.talend.services.demos.library._1_0.LibraryConsumer">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
@@ -77,6 +86,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		<jaxws:features>
 			<bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->			
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />

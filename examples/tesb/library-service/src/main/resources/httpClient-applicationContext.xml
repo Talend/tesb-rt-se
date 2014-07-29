@@ -25,11 +25,19 @@
 		and Service Interface name in the names -->
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	
+	<!-- for spring SAM definition (without using samenabling policy) -->
+	<!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
+	
 
 	<jaxws:client id="library" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryHttpPort"
 		address="http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
+		<jaxws:features>
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->
+		</jaxws:features>		
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
 			<entry key="ws-security.signature.properties" value="keys/clientKeystore.properties" />

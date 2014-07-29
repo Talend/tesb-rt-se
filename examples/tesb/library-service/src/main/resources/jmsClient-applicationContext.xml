@@ -22,6 +22,9 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:META-INF/tesb/tesb-cxf-transport-jms.xml" />
+	
+	<!-- for spring SAM definition (without using samenabling policy) -->
+	<!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
 
 	<bean id="tester" class="org.talend.services.demos.client.LibraryTester">
 		<property name="library" ref="library" />
@@ -41,6 +44,8 @@
 			<bean
 				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
@@ -56,6 +61,8 @@
 			<bean
 				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />
@@ -103,6 +110,8 @@
 		<jaxws:features>
 			<bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<!-- for spring SAM definition (without using samenabling policy) -->
+			<!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />

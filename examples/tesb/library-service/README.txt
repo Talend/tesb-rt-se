@@ -45,10 +45,10 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
         tesb:switch-sts-jaas
 
         tregistry:create wsdl <sr-resources-dir>/Library.wsdl
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.policy
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.policy
-     	tregistry:create ws-policy-attach <resources-dir>/policies/ws-policy-attach-sam-enabling.policy
-     	tregistry:create ws-policy-attach <resources-dir>/policies/ws-policy-attach-saml.policy
+        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
+        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
+     	tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
+     	tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
 
 
    2. Run service:
