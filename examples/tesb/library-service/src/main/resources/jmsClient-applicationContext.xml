@@ -22,7 +22,11 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<!-- CXF 3 JMS configuration style -->
 	<import resource="classpath:META-INF/tesb/tesb-cxf-transport-jms.xml" />
-	
+
+
+    <!-- For Spring Service Locator definition -->
+    <!-- <import resource="classpath:/META-INF/tesb/locator/beans.xml" /> -->
+
 	<!-- for spring SAM definition (without using samenabling policy) -->
 	<!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
 
@@ -53,16 +57,31 @@
 		</jaxws:properties>
 	</jaxws:endpoint>
 
+
 	<jaxws:client id="library" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryJmsPort"
 		address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
+
+
+        <!-- ActiveMQ with CXF 3 style JMS definition with ServiceLocator -->
+
+        <!-- <jaxws:client id="library" -->
+        <!--     serviceName="library:LibraryProvider" -->
+        <!--     endpointName="library:LibraryJmsPort" -->
+        <!--     address="locator://" -->
+        <!--     serviceClass="org.talend.services.demos.library._1_0.Library"> -->
+
+
 		<jaxws:features>
 			<bean
 				class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 			<!-- for spring SAM definition (without using samenabling policy) -->
 			<!-- <ref bean="eventFeature"/> -->
+
+             <!-- for Spring Service Locator definition -->
+             <!-- <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />

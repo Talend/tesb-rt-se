@@ -17,13 +17,17 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
+    <!-- For Spring Service Locator definition -->
+    <!-- <import resource="classpath:/META-INF/tesb/locator/beans.xml" /> -->
+
+
 	<bean id="libraryServerImpl" class="org.talend.services.demos.server.LibraryServerImpl">
 		<property name="callbackResponseClient" ref="callbackResponseClient" />
 		<property name="libraryPublisher" ref="libraryPublisher" />
 	</bean>
 
 	<jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
-		id="LibraryProviderHTTP" address="${library.endpoint.http}"
+		id="LibraryProviderHTTP" address="$endpoint-config{library.endpoint.http}"
 		serviceName="library:LibraryProvider" endpointName="library:LibraryHttpPort"
 		implementor="#libraryServerImpl">
 		<jaxws:features>
@@ -53,6 +57,9 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		<!-- for spring SAM definition (without using samenabling policy) -->
 		<!-- <ref bean="eventFeature"/> -->
+
+        <!--  for Spring Service Locator definition -->
+        <!-- <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature"/> -->
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="use.service.registry" value="true" />

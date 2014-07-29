@@ -28,17 +28,16 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 
 	<!-- Jetty endpoint address -->
-	<context:property-placeholder
-		properties-ref="endpointProperties" />
+    <bean id="endpointProperties"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="placeholderPrefix" value="$endpoint-config{"/>
+        <property name="properties">
+            <props>
+                <prop key="library.endpoint.http">http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort</prop>
+            </props>
+        </property>
+    </bean>
 
-	<bean id="endpointProperties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="properties">
-			<props>
-				<prop key="library.endpoint.http">http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort</prop>
-			</props>
-		</property>
-	</bean>
 
 	<import resource="classpath:/server-applicationContext.xml" />
 
