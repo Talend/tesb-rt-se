@@ -361,8 +361,9 @@
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
                 <exclude>org/apache/cxf/**/2.7.11/**</exclude>
-                <!-- workaround for saaj-impl bundle version-->
-<!--                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.20_1/**</exclude> -->
+                <!-- workaround for saaj-impl bundle version (TESB-13955) -->
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.21_1/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.23_1/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
@@ -542,6 +543,17 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
+        </file>
+        <!-- workaround for saaj-impl bundle version (TESB-13955) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/stax-ex-${stax-ex.version}.jar</source>
+            <outputDirectory>/container/system/org/jvnet/staxex/stax-ex/${stax-ex.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
         </file>
     </files>
 
