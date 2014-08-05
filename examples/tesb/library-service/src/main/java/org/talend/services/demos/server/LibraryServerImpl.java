@@ -149,6 +149,11 @@ public class LibraryServerImpl implements Library, InitializingBean {
 
                 LibraryConsumer libraryConsumer = ctx.createCallbackProxy(LibraryConsumer.class);
                 libraryConsumer.seekBookInBasementFault(e.getFaultInfo());
+                /**** Removing Call Context *** */
+                System.out.println("RemovingCallContext:");
+                ccs.removeStoredObject(callContextKey);
+                System.out.println("- callContext removed");
+                return;
             }
         }
 
@@ -179,6 +184,11 @@ public class LibraryServerImpl implements Library, InitializingBean {
 
 		ctx.setupCallbackProxy(callbackResponseClient);
 		callbackResponseClient.seekBookInBasementResponse(result);
+
+		/**** Removing Call Context *** */
+        System.out.println("RemovingCallContext:");
+        ccs.removeStoredObject(callContextKey);
+        System.out.println("- callContext removed"); 
 	}
 
 	@Override
