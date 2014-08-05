@@ -112,24 +112,28 @@ public class LibraryServerImpl implements Library, InitializingBean {
         System.out.println("- Call ID is " + ctx.getCallId());
 
         /**** Storing Call Context *** */
-        System.out.println("StoringCallContext:");
+        System.out.println("Storing CallContext:");
         
         CallContextStore<CallContext> ccs = new CallContextStore<CallContext>();
-        String callContextKey = ccs.saveObject(ctx);
-        System.out.println("- callContext saved with key: " + callContextKey);  
-        
-        /**** Restoring Call Context *** */
-        System.out.println("RestoringCallContext:");
-        ctx = ccs.getStoredObject(callContextKey);
-        System.out.println("- callContext restored"); 
-        
-        System.out.println("Info from Restored CallContext:");
-        System.out.println("- Call ID is " + ctx.getCallId()); 
-        
-        /**** Removing Call Context *** */
-        System.out.println("RemovingCallContext:");
-        ccs.removeStoredObject(callContextKey);
-        System.out.println("- callContext removed"); 
+        String callContextKey;
+        try {
+        	callContextKey = ccs.saveObject(ctx);
+            System.out.println("- callContext saved with key: " + callContextKey);  
+        } catch (Exception e) {
+        	callContextKey = null;
+        	System.out.println("Auxiliary Storage Service seems to be unavailable.");
+        	System.out.println("Proceeding without storing the CallContext.");
+        }
+
+        if (callContextKey != null) {
+	        /**** Restoring Call Context *** */
+	        System.out.println("Restoring CallContext:");
+	        ctx = ccs.getStoredObject(callContextKey);
+	        System.out.println("- callContext restored"); 
+	        
+	        System.out.println("Info from restored CallContext:");
+	        System.out.println("- Call ID is " + ctx.getCallId());
+        }
 
         List<String> authorsLastNames = body.getAuthorLastName();
         if (authorsLastNames != null && authorsLastNames.size() > 0) {
@@ -149,10 +153,13 @@ public class LibraryServerImpl implements Library, InitializingBean {
 
                 LibraryConsumer libraryConsumer = ctx.createCallbackProxy(LibraryConsumer.class);
                 libraryConsumer.seekBookInBasementFault(e.getFaultInfo());
-                /**** Removing Call Context *** */
-                System.out.println("RemovingCallContext:");
-                ccs.removeStoredObject(callContextKey);
-                System.out.println("- callContext removed");
+
+                if (callContextKey != null) {
+	                /**** Removing Call Context *** */
+	                System.out.println("Removing CallContext:");
+	                ccs.removeStoredObject(callContextKey);
+	                System.out.println("- callContext removed");
+                }
                 return;
             }
         }
@@ -185,10 +192,12 @@ public class LibraryServerImpl implements Library, InitializingBean {
 		ctx.setupCallbackProxy(callbackResponseClient);
 		callbackResponseClient.seekBookInBasementResponse(result);
 
-		/**** Removing Call Context *** */
-        System.out.println("RemovingCallContext:");
-        ccs.removeStoredObject(callContextKey);
-        System.out.println("- callContext removed"); 
+        if (callContextKey != null) {
+			/**** Removing Call Context *** */
+	        System.out.println("Removing CallContext:");
+	        ccs.removeStoredObject(callContextKey);
+	        System.out.println("- callContext removed");
+        }
 	}
 
 	@Override
