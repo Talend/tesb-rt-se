@@ -36,7 +36,6 @@ import org.springframework.scheduling.TaskScheduler;
 
 import org.talend.esb.sam.agent.lifecycle.ClientListenerImpl;
 import org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl;
-import org.talend.esb.sam.agent.serviceclient.AvailabilityChecker;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.common.service.MonitoringService;
@@ -64,8 +63,6 @@ public class EventCollector implements BusLifeCycleListener {
     private int eventsPerMessageCall = 10;
     private boolean sendLifecycleEvent;
     private boolean stopSending;
-
-    private AvailabilityChecker availabilityChecker;
 
     /**
      * Instantiates a new event collector.
@@ -98,10 +95,6 @@ public class EventCollector implements BusLifeCycleListener {
                 }
             }
         }
-    }
-
-    public void setAvailabilityChecker(AvailabilityChecker availabilityChecker) {
-        this.availabilityChecker = availabilityChecker;
     }
 
     /**
@@ -257,8 +250,9 @@ public class EventCollector implements BusLifeCycleListener {
      * Method will be executed asynchronously from spring.
      */
     public void sendEventsFromQueue() {
-        if (stopSending) return;
-
+        if (stopSending) {
+            return;
+        }
         LOG.fine("Scheduler called for sending events");
 
         int packageSize = getEventsPerMessageCall();
@@ -269,23 +263,16 @@ public class EventCollector implements BusLifeCycleListener {
             while (i < packageSize && !queue.isEmpty()) {
                 Event event = queue.remove();
                 if (event != null && !filter(event)) {
-                    if(availabilityChecker != null && !availabilityChecker.isAvailable()) {
-                        LOG.fine("Skip sending events");
-                    }
-                    else {
-                        list.add(event);
-                        i++;
-                    }
+                    list.add(event);
+                    i++;
                 }
             }
             if (list.size() > 0) {
-
                 executor.execute(new Runnable() {
                     public void run() {
                         try {
                             sendEvents(list);
                         } catch (MonitoringException e) {
-                            availabilityChecker.start();
                             e.logException(Level.SEVERE);
                         }
                     }
@@ -350,7 +337,6 @@ public class EventCollector implements BusLifeCycleListener {
     public void preShutdown() {
         LOG.info("Bus is stopping. Stopping sending events to monitoring service.");
         this.stopSending = true;
-        availabilityChecker.stop();
     }
 
     /* (non-Javadoc)
