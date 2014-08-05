@@ -56,6 +56,21 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-client-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-client-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
             <version>${activemq.version}</version>

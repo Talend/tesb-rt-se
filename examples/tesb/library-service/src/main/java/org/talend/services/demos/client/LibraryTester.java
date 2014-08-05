@@ -146,7 +146,9 @@ public class LibraryTester {
         System.out.println("Call ID is " + correlationId);
         try {
         	LibraryConsumerImpl.waitForResponse();
-        	System.out.println("\nProcessing of callback response confirmed.\n");
+        	System.out.println("\nProcessing of first callback response confirmed.\n");
+        	LibraryConsumerImpl.waitForResponse();
+        	System.out.println("\nProcessing of second callback response confirmed.\n");
         } catch (InterruptedException e) {
         	throw new RuntimeException("Request-callback test interrupted: ", e);
         }

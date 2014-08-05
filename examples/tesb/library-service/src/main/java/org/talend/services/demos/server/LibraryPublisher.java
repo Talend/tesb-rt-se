@@ -34,7 +34,7 @@ public class LibraryPublisher {
     }
 
     public void publishNewBooksNotifications() throws InterruptedException {
-    	for (int ndx = 1; ndx < 6; ndx++) {
+    	for (int ndx = 1; ndx < 3; ndx++) {
     		Thread.sleep(10000L);
 	    	List<BookType> newBooks = new LinkedList<BookType>();
 			BookType book = new BookType();

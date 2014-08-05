@@ -12,6 +12,7 @@ import javax.xml.ws.WebServiceContext;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
+import org.talend.esb.mep.requestcallback.impl.callcontext.CallContextStore;
 import org.talend.services.demos.common.Utils;
 import org.talend.services.demos.library._1_0.Library;
 import org.talend.services.demos.library._1_0.LibraryConsumer;
@@ -109,7 +110,27 @@ public class LibraryServerImpl implements Library, InitializingBean {
         
         System.out.println("Info from CallContext:");
         System.out.println("- Call ID is " + ctx.getCallId());
-                
+
+        /**** Storing Call Context *** */
+        System.out.println("StoringCallContext:");
+        
+        CallContextStore<CallContext> ccs = new CallContextStore<CallContext>();
+        String callContextKey = ccs.saveObject(ctx);
+        System.out.println("- callContext saved with key: " + callContextKey);  
+        
+        /**** Restoring Call Context *** */
+        System.out.println("RestoringCallContext:");
+        ctx = ccs.getStoredObject(callContextKey);
+        System.out.println("- callContext restored"); 
+        
+        System.out.println("Info from Restored CallContext:");
+        System.out.println("- Call ID is " + ctx.getCallId()); 
+        
+        /**** Removing Call Context *** */
+        System.out.println("RemovingCallContext:");
+        ccs.removeStoredObject(callContextKey);
+        System.out.println("- callContext removed"); 
+
         List<String> authorsLastNames = body.getAuthorLastName();
         if (authorsLastNames != null && authorsLastNames.size() > 0) {
             String authorsLastName = authorsLastNames.get(0);
@@ -145,6 +166,14 @@ public class LibraryServerImpl implements Library, InitializingBean {
         book.setYearPublished("2013");
 
         System.out.println("Book(s) is found:");
+
+        showSeekBookResponse(result);
+
+		ctx.setupCallbackProxy(callbackResponseClient);
+		callbackResponseClient.seekBookInBasementResponse(result);
+
+		book.getTitle().set(0, "Hunting more basement inhabitants");
+		book.setYearPublished("2014");
 
         showSeekBookResponse(result);
 
