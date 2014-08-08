@@ -13,7 +13,8 @@ XSLT Transformation can be enabled via policy or by adding feature.
 Note: as far as Xalan XSLT engine is actually not completely stream oriented, XSLT Feature breaks streaming. However it uses high-performance DTM (Document Table Model) instead complete DOM model.
 Performance can be improved in the future by using further versions of Xalan or other XSLT engines (like Saxon or STX oriented Joost). 
 
-Supported attributes:
+Supported assertion attributes:
+type - xslt (if not specified, assumed as xslt)
 inXSLTPath - Path to XSLT script for inbound transformation;
 outXSLTPath - Path to XSLT script for outbound transformation;
 
@@ -31,6 +32,11 @@ Here is example of the policy:
     </wsp:ExactlyOne>
 </wsp:Policy>
 
+inXSLTPath, outXSLTPath attributes can be also specified through context properties:
+"org.talend.esb.transformation.in.xslt-path"
+"org.talend.esb.transformation.out.xslt-path"
+If context properties are specified, they overwrite corresponded policy attributes.
+
 b) Enabling via feature
 You can add XSLT feature to features list:
 
@@ -38,3 +44,24 @@ You can add XSLT feature to features list:
     <property name="inXSLTPath" value="requestTransformation.xsl" />
     <property name="outXSLTPath" value="responseTransformation.xsl" />
 </bean>
+
+2. Simple Transformation
+Supported assertion attributes:
+
+type - simple
+
+Policy sample:
+<wsp:Policy Name="wspolicy_xslt"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:Transformation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="simple"/>
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>
+
+To activate transformation it is necessary to specify in/out transformation maps using contaxt properties:
+"org.talend.esb.transformation.in.transform-map"
+"org.talend.esb.transformation.out.transform-map"
+
+See details about transformation maps in the http://cxf.apache.org/docs/transformationfeature.html
+ 
