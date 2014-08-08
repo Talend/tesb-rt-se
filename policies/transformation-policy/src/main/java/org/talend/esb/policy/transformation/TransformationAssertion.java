@@ -10,13 +10,21 @@ import org.w3c.dom.Element;
 
 public class TransformationAssertion implements Assertion {
 	private static final String NS_PREFIX = "tpa";
+	private static final String TYPE_NAME = "type";
 	private static final String IN_XSLT_PATH_ATTRIBUTE_NAME = "inXSLTPath";
 	private static final String OUT_XSLT_PATH_ATTRIBUTE_NAME = "outXSLTPath";
 	
+	private final TransformationType transformationType;
 	private final String inXSLTPath;
 	private final String outXSLTPath;
 
 	public TransformationAssertion(Element element) {      
+      	String sType = element.getAttribute(TYPE_NAME);
+      	if ((sType == null) || (sType.isEmpty())) {
+      		transformationType = TransformationType.xslt;
+      	} else {
+      		transformationType = TransformationType.valueOf(sType);
+      	}
       	inXSLTPath = element.getAttribute(IN_XSLT_PATH_ATTRIBUTE_NAME);
       	outXSLTPath = element.getAttribute(OUT_XSLT_PATH_ATTRIBUTE_NAME);
 	}
@@ -73,6 +81,10 @@ public class TransformationAssertion implements Assertion {
 	@Override
 	public PolicyComponent normalize() {
 		return this;
+	}
+
+	public TransformationType getTransformationType() {
+		return transformationType;
 	}
 
 	public String getInXSLTPath() {

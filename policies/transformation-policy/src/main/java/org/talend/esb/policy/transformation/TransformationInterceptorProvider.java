@@ -11,8 +11,8 @@ public class TransformationInterceptorProvider extends AbstractPolicyInterceptor
     public TransformationInterceptorProvider() {
         super(Arrays.asList(TransformationPolicyBuilder.TRANSFORMATION));
         
-        XSLTOutPolicyInterceptor out = new XSLTOutPolicyInterceptor();
-        XSLTInPolicyInterceptor in = new XSLTInPolicyInterceptor();
+        TransformationPolicyOutInterceptor out = new TransformationPolicyOutInterceptor();
+        TransformationPolicyInInterceptor in = new TransformationPolicyInInterceptor();
 
         this.getOutInterceptors().add(out);
         this.getOutFaultInterceptors().add(out);        

@@ -1,2 +1,2 @@
 org.talend.esb.policy.transformation.TransformationPolicyBuilder::true:true
-org.talend.esb.policy.transformation.TransformationProvider::true:true
+org.talend.esb.policy.transformation.TransformationInterceptorProvider::true:true
