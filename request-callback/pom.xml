@@ -118,6 +118,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Activator>org.talend.esb.mep.requestcallback.impl.osgi.Activator</Bundle-Activator>
+                        <Export-Package>org.talend.esb.mep.requestcallback.*</Export-Package>
                         <!-- Private-Package>org.talend.esb.mep.requestcallback.impl.osgi</Private-Package -->
                     </instructions>
                 </configuration>

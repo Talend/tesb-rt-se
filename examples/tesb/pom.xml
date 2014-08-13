@@ -31,6 +31,8 @@
         <module>karaf-jmx</module>
         <module>locator-rest</module>
         <module>tomcat</module>
+        <module>library-service</module>
+        <module>library-service-osgi</module>
     </modules>
 
     <organization>

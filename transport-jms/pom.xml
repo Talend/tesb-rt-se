@@ -20,7 +20,7 @@
 	</parent>
 	<groupId>org.talend.esb</groupId>
 	<artifactId>transport-jms</artifactId>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 	<name>Talend ESB :: JMS Transport</name>
 	<description>JMS Transport for TESB which provides CXF 3 JMS configuration style </description>
 
@@ -81,5 +81,21 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Export-Package>
+                            org.talend.esb.transport.jms.*,
+                            '=META-INF.tesb'
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
 	</build>
 </project>
