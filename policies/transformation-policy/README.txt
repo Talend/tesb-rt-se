@@ -1,4 +1,4 @@
-This readme describe how to use transformation feature in Talend ESB.
+This readme describes how to use transformation feature in Talend ESB.
 
 Two different types of transformations are currently supported:
 1. XSLT transformation - transforms the message on the base of XSLT script
@@ -36,6 +36,12 @@ inXSLTPath, outXSLTPath attributes can be also specified through context propert
 "org.talend.esb.transformation.in.xslt-path"
 "org.talend.esb.transformation.out.xslt-path"
 If context properties are specified, they overwrite corresponded policy attributes.
+
+inXSLTPath, outXSLTPath attributes can contain:
+ - HTTP URL's (e.g. http://example.org/xsl/requestTransformation.xsl )
+ - Path to xsl file, relative to TESB container (e.g. etc/requestTransformation.xsl )
+ - Classpath path to xsl file
+
 
 b) Enabling via feature
 You can add XSLT feature to features list:

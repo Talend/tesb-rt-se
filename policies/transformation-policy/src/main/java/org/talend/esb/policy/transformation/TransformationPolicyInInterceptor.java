@@ -2,7 +2,6 @@ package org.talend.esb.policy.transformation;
 
 import java.util.Map;
 
-import org.apache.cxf.feature.transform.XSLTInInterceptor;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.StaxInInterceptor;
 import org.apache.cxf.interceptor.transform.TransformInInterceptor;
@@ -10,6 +9,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
+import org.talend.esb.policy.transformation.interceptor.XslPathProtocolAwareXSLTInInterceptor;
 
 public class TransformationPolicyInInterceptor extends AbstractPhaseInterceptor<Message> {
 
@@ -54,8 +54,10 @@ public class TransformationPolicyInInterceptor extends AbstractPhaseInterceptor<
     		inXSLTPath = tas.getInXSLTPath();
     	}
     	if (inXSLTPath != null) {
-    		XSLTInInterceptor xsltIn = new XSLTInInterceptor(inXSLTPath);
-    		xsltIn.handleMessage(message);
+            //XSLTInInterceptor xsltIn = new XSLTInInterceptor(inXSLTPath);
+            XslPathProtocolAwareXSLTInInterceptor xsltIn
+                = new XslPathProtocolAwareXSLTInInterceptor(inXSLTPath);
+            xsltIn.handleMessage(message);
     	}
     }
 
