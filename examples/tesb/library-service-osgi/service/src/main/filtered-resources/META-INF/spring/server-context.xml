@@ -87,7 +87,7 @@
 
     <jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
         id="callbackResponseClient" serviceName="library:LibraryConsumer"
-        wsdlLocation="classpath:/sr-resources/Library.wsdl"
+        wsdlLocation="classpath:/model/library/Library.wsdl"
         endpointName="library:LibraryConsumerPort" address="jms://"
         serviceClass="org.talend.services.demos.library._1_0.LibraryConsumer">
         <jaxws:features>
