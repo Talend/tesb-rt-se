@@ -376,6 +376,18 @@
         <fileSet>
             <directory>target/add-ons</directory>
             <outputDirectory>/add-ons</outputDirectory>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>${basedir}/../sam/sam-server/target/classes</directory>
+            <outputDirectory>/add-ons/sam/db</outputDirectory>
+            <includes>
+                <include>*.sql</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+            <directoryMode>755</directoryMode>
         </fileSet>
 
         <!-- Copy Locator proxy resources -->
