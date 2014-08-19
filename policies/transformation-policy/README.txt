@@ -46,7 +46,7 @@ inXSLTPath, outXSLTPath attributes can contain:
 b) Enabling via feature
 You can add XSLT feature to features list:
 
-<bean id="xsltFeature" class="org.apache.cxf.feature.transform.XSLTFeature">
+<bean id="xsltFeature" class="org.talend.esb.policy.transformation.feature.XSLTFeature">
     <property name="inXSLTPath" value="requestTransformation.xsl" />
     <property name="outXSLTPath" value="responseTransformation.xsl" />
 </bean>
