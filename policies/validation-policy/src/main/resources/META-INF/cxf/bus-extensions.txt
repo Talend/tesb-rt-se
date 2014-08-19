@@ -1,0 +1,2 @@
+org.talend.esb.registry.policy.schemavalidate.SchemaValidationPolicyBuilder::true:true
+org.talend.esb.registry.policy.schemavalidate.SchemaValidationInterceptorProvider::true:true
