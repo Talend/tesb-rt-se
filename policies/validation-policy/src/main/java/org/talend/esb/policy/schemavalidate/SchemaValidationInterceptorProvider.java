@@ -1,4 +1,4 @@
-package org.talend.esb.registry.policy.schemavalidate;
+package org.talend.esb.policy.schemavalidate;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -21,9 +21,9 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.policy.AssertionInfoMap;
-import org.talend.esb.registry.policy.schemavalidate.SchemaValidationPolicy.MessageType;
-import org.talend.esb.registry.policy.schemavalidate.SchemaValidationPolicy.AppliesToType;
-import org.talend.esb.registry.policy.schemavalidate.SchemaValidationPolicy.ValidationType;
+import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.MessageType;
+import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.AppliesToType;
+import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.ValidationType;
 import org.xml.sax.SAXException;
 
 

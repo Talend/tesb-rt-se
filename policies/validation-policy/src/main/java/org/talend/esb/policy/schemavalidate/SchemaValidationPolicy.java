@@ -1,4 +1,4 @@
-package org.talend.esb.registry.policy.schemavalidate;
+package org.talend.esb.policy.schemavalidate;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
