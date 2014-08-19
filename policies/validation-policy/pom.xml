@@ -10,8 +10,8 @@
 
 	<artifactId>validation-policy</artifactId>
 	<packaging>bundle</packaging>
-	<name>Talend ESB :: Policies :: XSLT Validation</name>
-	<description>Policy for XSLT validation enablement
+	<name>Talend ESB :: Policies :: XSD Schema Validation</name>
+	<description>Policy for XSD schema validation enablement
 	</description>
 	<dependencies>
 		<dependency>
