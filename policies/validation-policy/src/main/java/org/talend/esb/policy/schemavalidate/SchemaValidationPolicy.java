@@ -10,23 +10,62 @@ import org.w3c.dom.Element;
 
 public class SchemaValidationPolicy implements Assertion {
 
+
     public enum ValidationType {
-        WSDLSchema,
-        CustomSchema;
+
+        WSDLSchema("WSDLSchema"),
+        CustomSchema("CustomSchema");
+
+
+        private String symbolicName;
+
+        private ValidationType(String symbolicName) {
+            this.symbolicName = symbolicName;
+        }
+
+        public String getSymbolicName() {
+            return symbolicName;
+        }
     }
+
 
     public enum AppliesToType {
-        consumer,
-        provider,
-        always,
-        none;
+
+        consumer("consumer"),
+        provider("provider"),
+        always("always"),
+        none("none");
+
+
+        private String symbolicName;
+
+        private AppliesToType(String symbolicName) {
+            this.symbolicName = symbolicName;
+        }
+
+        public String getSymbolicName() {
+            return symbolicName;
+        }
     }
 
+
     public enum MessageType {
-        request,
-        response,
-        all,
-        none;
+
+        request("request"),
+        response("response"),
+        all("all"),
+        none("none");
+
+
+        private String symbolicName;
+
+        private MessageType(String symbolicName) {
+            this.symbolicName = symbolicName;
+        }
+
+        public String getSymbolicName() {
+            return symbolicName;
+        }
     }
 
     //by default using schema embedded in the wsdl to do the validation,
@@ -54,11 +93,16 @@ public class SchemaValidationPolicy implements Assertion {
             String message = element.getAttributeNS(null, "message");
             messageType = MessageType.valueOf(message);
         }
-        
+
         if (element.hasAttributeNS(null, "schemaPath")) {
-        	validationType = ValidationType.CustomSchema;
-        	customSchemaPath = element.getAttributeNS(null, "schemaPath");
-        }        
+            validationType = ValidationType.CustomSchema;
+            customSchemaPath = element.getAttributeNS(null, "schemaPath");
+        }
+
+    }
+
+
+    public SchemaValidationPolicy() {
 
     }
 
@@ -97,7 +141,7 @@ public class SchemaValidationPolicy implements Assertion {
         }
 
         // <tpa:SchemaValidation>
-        writer.writeStartElement(prefix, SchemaValidationPolicyBuilder.SCHEMA_VALIDATION_NAME, 
+        writer.writeStartElement(prefix, SchemaValidationPolicyBuilder.SCHEMA_VALIDATION_NAME,
                 SchemaValidationPolicyBuilder.NAMESPACE);
 
         // xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
@@ -108,7 +152,7 @@ public class SchemaValidationPolicy implements Assertion {
         writer.writeAttribute(null, "appliesTo", appliesToType.name());
         writer.writeAttribute(null, "message", messageType.name());
         if(validationType == ValidationType.CustomSchema){
-        	writer.writeAttribute(null, "schemaPath", customSchemaPath);
+            writer.writeAttribute(null, "schemaPath", customSchemaPath);
         }
 
         // </tpa:SchemaValidation>
@@ -124,16 +168,32 @@ public class SchemaValidationPolicy implements Assertion {
         return validationType;
     }
 
+    public void setValidationType(ValidationType validationType) {
+        this.validationType = validationType;
+    }
+
     public MessageType getMessageType() {
         return messageType;
+    }
+
+    public void setMessageType(MessageType messageType) {
+        this.messageType = messageType;
     }
 
     public AppliesToType getApplyToType() {
         return appliesToType;
     }
-    
+
+    public void setAppliesToType(AppliesToType appliesToType) {
+        this.appliesToType = appliesToType;
+    }
+
     public String getCustomSchemaPath() {
         return customSchemaPath;
-    }     
+    }
+
+    public void setCustomSchemaPath(String customSchemaPath) {
+        this.customSchemaPath = customSchemaPath;
+    }
 
 }
