@@ -21,6 +21,7 @@
 package org.talend.camel;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Exchange;
@@ -46,6 +47,8 @@ public class TalendEndpoint extends DefaultEndpoint {
     private String clazz;
     private String context;
     private Method setExchangeMethod;
+    private Map<String, String> endpointProperties;
+    private String id;
 
     private boolean propagateHeader = true;
 
@@ -107,5 +110,21 @@ public class TalendEndpoint extends DefaultEndpoint {
     public boolean isPropagateHeader() {
         return propagateHeader;
     }
+
+	public Map<String, String> getEndpointProperties() {
+		return endpointProperties;
+	}
+
+	public void setEndpointProperties(Map<String, String> endpointProperties) {
+		this.endpointProperties = endpointProperties;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 }

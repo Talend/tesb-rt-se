@@ -56,7 +56,7 @@ public class TalendProducer extends DefaultProducer {
 				.getSetExchangeMethod();
 		Map<String, String> propertiesMap = getEndpoint()
 				.getCamelContext().getProperties();
-
+		Map<String, String> endpointPropertiesMap = ((TalendEndpoint) getEndpoint()).getEndpointProperties();
 		Collection<String> args = new ArrayList<String>();
 		if (context != null) {
 			args.add("--context=" + context);
@@ -67,6 +67,7 @@ public class TalendProducer extends DefaultProducer {
 		}
 
 		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
+		addTalendContextParamsFromCTalendJobContext(endpointPropertiesMap, args);
 		invokeTalendJob(jobInstance, args.toArray(new String[args.size()]), setExchangeMethod, exchange);
 	}
 
