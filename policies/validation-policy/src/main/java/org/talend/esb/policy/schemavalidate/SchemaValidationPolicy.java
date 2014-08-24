@@ -13,59 +13,26 @@ public class SchemaValidationPolicy implements Assertion {
 
     public enum ValidationType {
 
-        WSDLSchema("WSDLSchema"),
-        CustomSchema("CustomSchema");
-
-
-        private String symbolicName;
-
-        private ValidationType(String symbolicName) {
-            this.symbolicName = symbolicName;
-        }
-
-        public String getSymbolicName() {
-            return symbolicName;
-        }
+        WSDLSchema,
+        CustomSchema
     }
 
 
     public enum AppliesToType {
 
-        consumer("consumer"),
-        provider("provider"),
-        always("always"),
-        none("none");
-
-
-        private String symbolicName;
-
-        private AppliesToType(String symbolicName) {
-            this.symbolicName = symbolicName;
-        }
-
-        public String getSymbolicName() {
-            return symbolicName;
-        }
+        consumer,
+        provider,
+        always,
+        none
     }
 
 
     public enum MessageType {
 
-        request("request"),
-        response("response"),
-        all("all"),
-        none("none");
-
-
-        private String symbolicName;
-
-        private MessageType(String symbolicName) {
-            this.symbolicName = symbolicName;
-        }
-
-        public String getSymbolicName() {
-            return symbolicName;
-        }
+        request,
+        response,
+        all,
+        none
     }
 
     //by default using schema embedded in the wsdl to do the validation,

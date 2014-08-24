@@ -26,11 +26,9 @@ public class SchemaValidationFeature extends AbstractFeature {
             throw new IllegalArgumentException("Validation type cannot be null");
         }
 
-        if (type.equals(SchemaValidationPolicy.ValidationType.WSDLSchema.getSymbolicName())) {
-            policy.setValidationType(SchemaValidationPolicy.ValidationType.WSDLSchema);
-        } else if (type.equals(SchemaValidationPolicy.ValidationType.CustomSchema.getSymbolicName())) {
-            policy.setValidationType(SchemaValidationPolicy.ValidationType.CustomSchema);
-        } else {
+        try {
+            policy.setValidationType(SchemaValidationPolicy.ValidationType.valueOf(type));
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Validation type can be 'WSDLSchema' or 'CustomSchema' only");
         }
     }
@@ -40,15 +38,9 @@ public class SchemaValidationFeature extends AbstractFeature {
             throw new IllegalArgumentException("appliesTo cannot be null");
         }
 
-        if (appliesTo.equals(SchemaValidationPolicy.AppliesToType.consumer.getSymbolicName())) {
-            policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.consumer);
-        } else if (appliesTo.equals(SchemaValidationPolicy.AppliesToType.provider.getSymbolicName())) {
-            policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.provider);
-        } else if (appliesTo.equals(SchemaValidationPolicy.AppliesToType.always.getSymbolicName())) {
-            policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.always);
-        } else if (appliesTo.equals(SchemaValidationPolicy.AppliesToType.none.getSymbolicName())) {
-            policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.none);
-        } else {
+        try {
+            policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf(appliesTo));
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("appliesTo can have 'consumer', 'provider', 'always' or 'none' value only");
         }
     }
@@ -59,15 +51,9 @@ public class SchemaValidationFeature extends AbstractFeature {
             throw new IllegalArgumentException("message cannot be null");
         }
 
-        if (message.equals(SchemaValidationPolicy.MessageType.request.getSymbolicName())) {
-            policy.setMessageType(SchemaValidationPolicy.MessageType.request);
-        } else if (message.equals(SchemaValidationPolicy.MessageType.response.getSymbolicName())) {
-               policy.setMessageType(SchemaValidationPolicy.MessageType.response);
-        } else if (message.equals(SchemaValidationPolicy.MessageType.all.getSymbolicName())) {
-            policy.setMessageType(SchemaValidationPolicy.MessageType.all);
-        } else if (message.equals(SchemaValidationPolicy.MessageType.none.getSymbolicName())) {
-             policy.setMessageType(SchemaValidationPolicy.MessageType.none);
-        } else {
+        try {
+            policy.setMessageType(SchemaValidationPolicy.MessageType.valueOf(message));
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("message can have 'request', 'response', 'all' or 'none' value only");
         }
     }
