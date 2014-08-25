@@ -16,7 +16,7 @@
 	<artifactId>library-client</artifactId>
 	<packaging>bundle</packaging>
 	<name>Library Client OSGi</name>
-	<description>Library client illustarting different message exchange patterns</description>
+	<description>Library client illustrating different message exchange patterns</description>
 
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>

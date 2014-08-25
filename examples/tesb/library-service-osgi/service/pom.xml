@@ -16,7 +16,7 @@
 	<artifactId>library-service</artifactId>
 	<packaging>bundle</packaging>
 	<name>Library Service OSGi</name>
-	<description>Library service illustarting different message exchange patterns</description>
+	<description>Library service illustrating different message exchange patterns</description>
 
 	<parent>
 		<groupId>org.talend.esb.examples</groupId>
