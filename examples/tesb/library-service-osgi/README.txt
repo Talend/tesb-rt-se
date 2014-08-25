@@ -36,11 +36,11 @@ Using maven commands on either UNIX/Linux or Windows:
 a) Without Service Registry
    1. Build the example:
 
-       mvn clean install
+      mvn clean install
 
-   2. Prepare TESB container
-      - start TESB container
-      - run following commands in container:
+   2. Prepare the TESB container
+      - start the TESB container
+      - run the following commands in the container:
 
       tesb:start-aux-store
       install mvn:org.talend.esb.mep/request-callback/5.6.0-SNAPSHOT
@@ -49,52 +49,60 @@ a) Without Service Registry
       features:install activemq-client
       install mvn:org.talend.esb.examples.library-service-osgi/library-common/5.6.0-SNAPSHOT
 
-    3. Start service provider
-       - run following commands in container:
+      - run the following command if you have not started an external ActiveMQ broker
 
-       install -s mvn:org.talend.esb.examples.library-service-osgi/library-service/5.6.0-SNAPSHOT
+      features:install activemq-broker
 
-    4. Start service consumer
-       - run following commands in container:
+   3. Start the service provider
+      - run the following commands in the container:
 
-       install -s mvn:org.talend.esb.examples.library-service-osgi/library-client/5.6.0-SNAPSHOT
+      install -s mvn:org.talend.esb.examples.library-service-osgi/library-service/5.6.0-SNAPSHOT
+
+   4. Start the service consumer
+      - run the following commands in the container:
+
+      install -s mvn:org.talend.esb.examples.library-service-osgi/library-client/5.6.0-SNAPSHOT
 
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
    With Service Registry:
 
-    1. Build the example:
+   1. Build the example:
 
-       mvn -Pservice-registry
+      mvn -Pservice-registry
 
-   1. Prepare TESB container
-      - start TESB container
-      - run following commands in container:
+   2. Prepare the TESB container
+      - start the TESB container
+      - run the following commands in the container:
 
-        tesb:start-registry
-        tesb:start-sts
-        tesb:start-sam
-        tesb:switch-sts-jaas
+      tesb:start-registry
+      tesb:start-sts
+      tesb:start-sam
+      tesb:switch-sts-jaas
 
-        tregistry:create wsdl <sr-resources-dir>/Library.wsdl
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
-        tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
-        tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+      tregistry:create wsdl <sr-resources-dir>/Library.wsdl
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
 
-        tesb:start-aux-store
-        install mvn:org.talend.esb.mep/request-callback/5.6.0-SNAPSHOT
-        install mvn:org.talend.esb/transport-jms/5.6.0-SNAPSHOT
-        features:chooseurl activemq 5.10.0
-        features:install activemq-client
-        install mvn:org.talend.esb.examples.library-service-osgi/library-common/5.6.0-SNAPSHOT
+      tesb:start-aux-store
+      install mvn:org.talend.esb.mep/request-callback/5.6.0-SNAPSHOT
+      install mvn:org.talend.esb/transport-jms/5.6.0-SNAPSHOT
+      features:chooseurl activemq 5.10.0
+      features:install activemq-client
+      install mvn:org.talend.esb.examples.library-service-osgi/library-common/5.6.0-SNAPSHOT
 
-     2. Start service provider
-        - run following commands in container:
+      - run the following command if you have not started an external ActiveMQ broker
 
-          install -s mvn:org.talend.esb.examples.library-service-osgi/library-service/5.6.0-SNAPSHOT
+      features:install activemq-broker
 
-     3. Start service consumer
-        - run following commands in container:
+   3. Start service provider
+      - run the following commands in the container:
 
-          install -s mvn:org.talend.esb.examples.library-service-osgi/library-client/5.6.0-SNAPSHOT
+      install -s mvn:org.talend.esb.examples.library-service-osgi/library-service/5.6.0-SNAPSHOT
+
+   4. Start service consumer
+      - run the following commands in the container:
+
+      install -s mvn:org.talend.esb.examples.library-service-osgi/library-client/5.6.0-SNAPSHOT

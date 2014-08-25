@@ -399,18 +399,18 @@
         </port>
         <port binding="tns:LibraryJmsSoap" name="LibraryJmsPort">
             <soap:address
-                location="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616" />
+                location="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb" />
         </port>
         <port binding="tns:LibraryNotificationJmsSoap" name="LibraryTopicPort">
             <soap:address
-                location="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616" />
+                location="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb" />
         </port>
     </service>
 
     <service name="LibraryConsumer">
         <port binding="tns:LibraryConsumerJmsSoap" name="LibraryConsumerPort">
             <soap:address
-                location="jms:jndi:dynamicQueues/libraryconsumer.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616" />
+                location="jms:jndi:dynamicQueues/libraryconsumer.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb" />
         </port>
     </service>
 

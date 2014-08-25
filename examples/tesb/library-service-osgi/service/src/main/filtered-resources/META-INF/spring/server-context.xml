@@ -65,7 +65,7 @@
 
     <jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
         id="LibraryProviderJMS"
-        address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
+        address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb"
         serviceName="library:LibraryProvider" endpointName="library:LibraryJmsPort"
         implementor="#libraryServerImpl">
         <jaxws:features>
@@ -103,7 +103,7 @@
     <jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
         id="publisherClient" serviceName="library:LibraryProvider"
         endpointName="library:LibraryTopicPort"
-        address="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"
+        address="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb"
         serviceClass="org.talend.services.demos.library._1_0.Library">
         <jaxws:features>
             <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
