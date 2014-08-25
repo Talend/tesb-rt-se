@@ -56,7 +56,12 @@ public class Activator implements BundleActivator {
                 }
                 
                 if (null != serviceReferences) {
-                    return clazz.cast(context.getService(serviceReferences[0]));
+                	for( ServiceReference serviceRef : serviceReferences ){
+                		Object service = context.getService(serviceRef);
+						if(jobType.isInstance(service)){
+                			return clazz.cast(service);
+                		}
+                	}
                 }
             } catch (InvalidSyntaxException e) {
             }
