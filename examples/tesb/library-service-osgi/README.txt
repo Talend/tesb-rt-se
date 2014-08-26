@@ -69,7 +69,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
    1. Build the example:
 
-      mvn -Pservice-registry
+      mvn -Pservice-registry clean install
 
    2. Prepare the TESB container
       - start the TESB container
@@ -79,6 +79,10 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tesb:start-sts
       tesb:start-sam
       tesb:switch-sts-jaas
+
+      - uploads into the service registry
+      - <sr-resources-dir> is "<library-service-osgi-dir>/service/src/main/sr-resources"
+      - <library-service-osgi-dir> is the directory which contains the present README
 
       tregistry:create wsdl <sr-resources-dir>/Library.wsdl
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
