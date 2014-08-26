@@ -1,4 +1,4 @@
-package org.talend.esb.policy.transformation.interceptor;
+package org.talend.esb.policy.transformation.interceptor.transformation;
 
 import java.io.IOException;
 import java.io.InputStream;

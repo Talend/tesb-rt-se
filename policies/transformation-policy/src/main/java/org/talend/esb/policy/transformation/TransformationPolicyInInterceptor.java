@@ -9,7 +9,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
-import org.talend.esb.policy.transformation.interceptor.XslPathProtocolAwareXSLTInInterceptor;
+import org.talend.esb.policy.transformation.interceptor.transformation.XslPathProtocolAwareXSLTInInterceptor;
 
 public class TransformationPolicyInInterceptor extends AbstractPhaseInterceptor<Message> {
 
