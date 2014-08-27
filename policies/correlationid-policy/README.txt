@@ -7,12 +7,23 @@ You can enable CorrelationID feature in these ways:
 a) Enabling via policy (for soap services)
 
 At first you should upload correlation policy to the service registry and attach it to a service.
-Here is example of the policy:
+Here are  examples of the policy:
 
 <wsp:Policy Name="wspolicy_schema_correlation_id"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
     <wsp:ExactlyOne>
         <wsp:All>
             <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="callback" />
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>
+
+<wsp:Policy Name="wspolicy_schema_correlation_id"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+			<tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="xpath" name="order">
+				<tpa:Part name="customer_company" optional="true" xpath="order/customer" />
+				<tpa:Part name="ordernr" xpath="order/orderNumber" />
+			</tpa:CorrelationID>
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>
