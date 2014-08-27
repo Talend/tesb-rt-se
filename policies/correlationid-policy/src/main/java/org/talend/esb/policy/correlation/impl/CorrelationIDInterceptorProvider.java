@@ -35,6 +35,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
         this.getOutFaultInterceptors().add(new CorrelationIDPolicyOutInterceptor());
         this.getInInterceptors().add(new CorrelationIDPolicyInInterceptor());
         this.getInFaultInterceptors().add(new CorrelationIDPolicyInInterceptor());
+        this.getOutInterceptors().add(new CorrelationIDXpathInterceptor());
     }
 
     static class CorrelationIDPolicyOutInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -90,8 +91,8 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
 
             for (AssertionInfo ai : ais) {
                 if (ai.getAssertion() instanceof CorrelationIDAssertion) {
-                    CorrelationIDAssertion cAssetrion = (CorrelationIDAssertion) ai.getAssertion();
-                    MethodType mType = cAssetrion.getMethodType();
+                    CorrelationIDAssertion cAssertion = (CorrelationIDAssertion) ai.getAssertion();
+                    MethodType mType = cAssertion.getMethodType();
                     // String value = cAssetrion.getValue();
                     String correlationId = null;
                     // get ID from Http header
@@ -134,30 +135,10 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     // If correlationId is null we should add it to headers
                     if (null == correlationId) {
                         if (MethodType.XPATH.equals(mType)) {
-// TODO: Try to implement receiving JAXB Context to apply XPath                            
-//                            Document doc = getPayload(message);
-//                            NodeList nodes = doc.getChildNodes();
-//                            Node bodyElement = null;
-//                            nodes = doc.getElementsByTagNameNS("http://schemas.xmlsoap.org/soap/envelope/",
-//                                    "Body");
-//                            if (nodes.getLength() > 0) {
-//                                bodyElement = nodes.item(0);
-//                            }
-//                            if (bodyElement != null) {
-//                                XPathFactory xPathfactory = XPathFactory.newInstance();
-//                                XPath xpath = xPathfactory.newXPath();
-//                                try {
-//                                    XPathExpression expr = xpath.compile(cAssetrion.getValue());
-//                                    String result = (String) expr.evaluate(bodyElement, XPathConstants.STRING);
-//                                    if (null != result && !"".equals(result)) {
-//                                        correlationId = result;
-//                                    }
-//                                } catch (XPathExpressionException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            } else {
-//                                throw new RuntimeException("Body element in soap request not found");
-//                            }
+                            message.setContextualProperty(
+                            		CorrelationIDXpathInterceptor.CORRELATION_ID_XPATH_ASSERTION, 
+                            		cAssertion);
+                            correlationId = CorrelationIDXpathInterceptor.TEMP_CORRELATION_ID;
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
                                     .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
