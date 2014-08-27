@@ -5,8 +5,8 @@ import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.talend.esb.policy.transformation.TransformationType;
-import org.talend.esb.policy.transformation.interceptor.transformation.XslPathProtocolAwareXSLTInInterceptor;
-import org.talend.esb.policy.transformation.interceptor.transformation.XslPathProtocolAwareXSLTOutInterceptor;
+import org.talend.esb.policy.transformation.interceptor.xslt.XslPathProtocolAwareXSLTInInterceptor;
+import org.talend.esb.policy.transformation.interceptor.xslt.XslPathProtocolAwareXSLTOutInterceptor;
 
 
 @NoJSR250Annotations
