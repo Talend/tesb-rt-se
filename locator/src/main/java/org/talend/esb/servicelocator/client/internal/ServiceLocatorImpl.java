@@ -224,6 +224,9 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
 
         if (endpointNode.exists()) {
             endpointNode.setExpiryTime(expiringTime, persistent);
+        } else {
+            LOG.warning("Unable to update endpoint expiring time for endpoint " + endpoint 
+                    + " for service " + serviceName + " because it does not exist.");
         }
     }
     
