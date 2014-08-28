@@ -9,12 +9,14 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.neethi.Assertion;
 import org.apache.neethi.PolicyComponent;
+import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
+import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class CorrelationIDAssertion implements Assertion {
+class CorrelationIDAssertion implements Assertion {
 
 	public enum MethodType {
 		CALLBACK,
@@ -23,13 +25,15 @@ public class CorrelationIDAssertion implements Assertion {
 	
 	/** The correlation name attribute name. */
 	private static String CORRELATION_NAME_ATTRIBUTE_NAME = "name";	
-
+	
 	//by default use callback
 	private MethodType methodType = MethodType.CALLBACK;
 	//correlation name used for xpath
 	private String correlationName = null;
 	//correlation parts used for xpath
-	private List<CorrelationIDPart> parts = new ArrayList<CorrelationIDPart>();
+	private List<XpathPart> parts = new ArrayList<XpathPart>();
+	//correlation name spaces used for xpath
+	private List<XpathNamespace> namespaces = new ArrayList<XpathNamespace>();	
 	public CorrelationIDAssertion(Element element) {
         if (element.hasAttributeNS(null, "type")) {
             String type = element.getAttributeNS(null, "type");
@@ -41,23 +45,27 @@ public class CorrelationIDAssertion implements Assertion {
         }        
         
         NodeList partNodes = element.getElementsByTagNameNS(CorrelationIDPolicyBuilder.NAMESPACE,
-        		CorrelationIDPart.CORRELATION_PART_NAME);
+        		XpathPart.XPATH_PART_NODE_NAME);
         
-        if(partNodes.getLength() > 0){
+        NodeList namespaceNodes = element.getElementsByTagNameNS(CorrelationIDPolicyBuilder.NAMESPACE,
+        		XpathNamespace.XPATH_NAMESPACE_NODE_NAME);        
+        
+       
+        if(partNodes!=null && partNodes.getLength() > 0){
             for(int partNum = 0 ; partNum < partNodes.getLength(); partNum++){
-            	CorrelationIDPart part = new CorrelationIDPart();
+            	XpathPart part = new XpathPart();
             	Node partNode = partNodes.item(partNum);
             	NamedNodeMap attributes =  partNode.getAttributes();
             	if(attributes!=null){
-            		Node name = attributes.getNamedItem(CorrelationIDPart.PART_NAME_ATTRIBUTE);
+            		Node name = attributes.getNamedItem(XpathPart.PART_NAME_ATTRIBUTE);
             		if(name != null){
             			part.setName(name.getTextContent());
             		}
-            		Node xpath = attributes.getNamedItem(CorrelationIDPart.PART_XPATH_ATTRIBUTE);
+            		Node xpath = attributes.getNamedItem(XpathPart.PART_XPATH_ATTRIBUTE);
             		if(xpath != null){
             			part.setXpath(xpath.getTextContent());
             		} 
-            		Node optional = attributes.getNamedItem(CorrelationIDPart.PART_OPTIONAL_ATTRIBUTE);
+            		Node optional = attributes.getNamedItem(XpathPart.PART_OPTIONAL_ATTRIBUTE);
             		if(optional != null){
             			part.setOptional(Boolean.parseBoolean(optional.getTextContent()));
             		}            		
@@ -66,6 +74,24 @@ public class CorrelationIDAssertion implements Assertion {
             }
         }
         
+        if(namespaceNodes!=null && namespaceNodes.getLength() > 0){
+            for(int namespaceNum = 0 ; namespaceNum < namespaceNodes.getLength(); namespaceNum++){
+            	XpathNamespace namespace = new XpathNamespace();
+            	Node namespaceNode = namespaceNodes.item(namespaceNum);
+            	NamedNodeMap attributes =  namespaceNode.getAttributes();
+            	if(attributes!=null){
+            		Node prefix = attributes.getNamedItem(XpathNamespace.PREFIX_ATTRIBUTE);
+            		if(prefix != null){
+            			namespace.setPrefix(prefix.getTextContent());
+            		}
+            		Node uri = attributes.getNamedItem(XpathNamespace.URI_ATTRIBUTE);
+            		if(uri != null){
+            			namespace.setUri(uri.getTextContent());
+            		} 
+            	}
+            	namespaces.add(namespace);
+            }
+        }
 	}
 
 	@Override
@@ -97,9 +123,14 @@ public class CorrelationIDAssertion implements Assertion {
 		return correlationName;
 	}
 	
-	public List<CorrelationIDPart> getCorrelationParts(){
+	public List<XpathPart> getCorrelationParts(){
 		return parts;
-	}	
+	}
+	
+	public List<XpathNamespace> getCorrelationNamespaces(){
+		return namespaces;
+	}
+
 
 	@Override
 	public void serialize(XMLStreamWriter writer) throws XMLStreamException {
@@ -125,24 +156,46 @@ public class CorrelationIDAssertion implements Assertion {
         }
         
         if(parts !=null && !parts.isEmpty()){
-        	for (CorrelationIDPart part : parts) {
+        	for (XpathPart part : parts) {
         		// <tpa:Part>
-                writer.writeStartElement(prefix, CorrelationIDPart.CORRELATION_PART_NAME, 
+                writer.writeStartElement(prefix, XpathPart.XPATH_PART_NODE_NAME, 
                 		CorrelationIDPolicyBuilder.NAMESPACE);
-                
+
                 // xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
                 writer.writeNamespace(prefix, CorrelationIDPolicyBuilder.NAMESPACE);
                 
                 // part attribute name
-                writer.writeAttribute(null, CorrelationIDPart.PART_NAME_ATTRIBUTE, 
+                writer.writeAttribute(null, XpathPart.PART_NAME_ATTRIBUTE, 
                 		part.getName());
                 
                 // part attribute xpath
-                writer.writeAttribute(null, CorrelationIDPart.PART_XPATH_ATTRIBUTE, 
+                writer.writeAttribute(null, XpathPart.PART_XPATH_ATTRIBUTE, 
                 		part.getXpath());
                 
                 
                 // </tpa:Part>
+                writer.writeEndElement();
+			}
+        }
+        
+        if(namespaces !=null && !namespaces.isEmpty()){
+        	for (XpathNamespace namespace : namespaces) {
+        		// <tpa:Namespace>
+                writer.writeStartElement(prefix, XpathNamespace.XPATH_NAMESPACE_NODE_NAME, 
+                		CorrelationIDPolicyBuilder.NAMESPACE);
+
+                // xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
+                writer.writeNamespace(prefix, CorrelationIDPolicyBuilder.NAMESPACE);
+                
+                // name space prefix
+                writer.writeAttribute(null, XpathNamespace.PREFIX_ATTRIBUTE, 
+                		namespace.getPrefix());
+                
+                // name space uri
+                writer.writeAttribute(null, XpathNamespace.URI_ATTRIBUTE, 
+                		namespace.getUri());
+                
+                // </tpa:Namespace>
                 writer.writeEndElement();
 			}
         }

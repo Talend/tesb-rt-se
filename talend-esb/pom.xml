@@ -28,7 +28,7 @@
 
 	<groupId>org.talend.esb.assembly</groupId>
 	<artifactId>talend-esb</artifactId>
-	<name>Talend TESB :: Assembly</name>
+	<name>Talend ESB :: Assembly</name>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -120,6 +120,7 @@
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
                                 <feature>transaction</feature>
+                                <feature>jpa</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
