@@ -40,6 +40,8 @@
         <prop key="session.timeout">5000</prop>
         <prop key="authentication.name"></prop>
         <prop key="authentication.password"></prop>
+        <prop key="endpoint.collection.disable">false</prop>
+        <prop key="endpoint.collection.interval">300000</prop>
    </osgix:cm-properties>
 
     <!-- placeholder configurer -->
@@ -63,6 +65,8 @@
           class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl"
           lazy-init="true">
         <property name="backend" ref="serviceLocatorBackend"/>
+        <property name="endpointCollectionDisable" value="$sl{endpoint.collection.disable}"/>
+        <property name="endpointCollectionInterval" value="$sl{endpoint.collection.interval}"/>
     </bean>
 
     <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar" lazy-init="true">

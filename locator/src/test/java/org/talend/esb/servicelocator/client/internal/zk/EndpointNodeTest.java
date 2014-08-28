@@ -38,6 +38,7 @@ import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ANY_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.LIVE;
+import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.EXPIRES;
 
 public class EndpointNodeTest {
     
@@ -117,7 +118,9 @@ public class EndpointNodeTest {
     @Test
     public void setOffline() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
+        NodePath expiryPath = endpointNode.child(EXPIRES);
         backend.ensurePathDeleted(livePath, false);
+        backend.ensurePathDeleted(expiryPath, false);
         replay(backend);
         
         endpointNode.setOffline();
@@ -172,7 +175,9 @@ public class EndpointNodeTest {
     @Test
     public void ensureRemoved() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
+        NodePath expiryPath = endpointNode.child(EXPIRES);
         backend.ensurePathDeleted(livePath, false);
+        backend.ensurePathDeleted(expiryPath, false);
         backend.ensurePathDeleted(endpointNode, true);
         replay(backend);
         
