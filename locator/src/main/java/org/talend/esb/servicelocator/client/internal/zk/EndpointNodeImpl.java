@@ -18,11 +18,7 @@
  * #L%
  */package org.talend.esb.servicelocator.client.internal.zk;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import org.apache.zookeeper.CreateMode;
@@ -35,6 +31,8 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
     public static final String LIVE = "live";
     
     public static final String EXPIRES = "expires";
+    
+    private static final Charset UTF8 = Charset.forName("UTF-8");
     
     private ZKBackend zkBackend;
     
@@ -97,34 +95,18 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
         }
         
         byte[] content = zkBackend.getContent(expNodePath);
-        Date answer = null;
         
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(content));
-            answer = new Date(ois.readLong());
-            ois.close();
-        } catch (IOException e) {
-            throw new ServiceLocatorException(e);
-        }
+        String strTime = new String(content, UTF8);
         
-        return answer;
+        return new Date(Long.valueOf(strTime));
     }
     
     @Override
     public void setExpiryTime(Date expiryTime, boolean persistent) throws ServiceLocatorException, InterruptedException {
         NodePath expNodePath = child(EXPIRES);
         
-        byte[] content = null;
-        
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeLong(expiryTime.getTime());
-            oos.close();
-            content = baos.toByteArray();
-        } catch (IOException e) {
-            throw new ServiceLocatorException(e);
-        }
+        String strTime = Long.toString(expiryTime.getTime());
+        byte[] content = strTime.getBytes(UTF8);
         
         CreateMode mode = persistent ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL;
         zkBackend.ensurePathExists(expNodePath, mode, content);
