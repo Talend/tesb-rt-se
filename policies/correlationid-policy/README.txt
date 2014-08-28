@@ -21,8 +21,9 @@ Here are  examples of the policy:
     <wsp:ExactlyOne>
         <wsp:All>
 			<tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="xpath" name="order">
-				<tpa:Part name="customer_company" optional="true" xpath="order/customer" />
-				<tpa:Part name="ordernr" xpath="order/orderNumber" />
+				<tpa:Namespace prefix="ns2" uri="http://customerservice.example.com/" />
+				<tpa:Part name="customer_company" optional="true" xpath="/ns2:order/customer" />
+				<tpa:Part name="ordernr" xpath="/ns2:order/orderNumber" />
 			</tpa:CorrelationID>
         </wsp:All>
     </wsp:ExactlyOne>
