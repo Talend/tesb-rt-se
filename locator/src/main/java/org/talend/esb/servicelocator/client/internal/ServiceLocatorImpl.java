@@ -33,6 +33,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.ZooKeeper;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -40,6 +41,7 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
 
@@ -223,10 +225,22 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
         if (endpointNode.exists()) {
+            if (expiringTime.before(new Date())) {
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
+                            + " for service " + serviceName + " because given date is in past.");
+                }
+                throw new WrongArgumentException("Given date '" + expiringTime + "' is in past.");
+            }
+            
             endpointNode.setExpiryTime(expiringTime, persistent);
         } else {
-            LOG.warning("Unable to update endpoint expiring time for endpoint " + endpoint 
-                    + " for service " + serviceName + " because it does not exist.");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
+                        + " for service " + serviceName + " because it does not exist.");
+            }
+            throw new EndpointNotFoundException("Endpoint " + endpoint 
+                    + " for service " + serviceName + " does not exist.");
         }
     }
     
