@@ -22,7 +22,6 @@ package org.talend.esb.locator.service.rest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -31,6 +30,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -233,7 +233,8 @@ public class LocatorRestServiceImpl implements LocatorService {
     }
     
     @Override
-    public void updateEndpointExpiringTime(String arg0, String arg1, Date expiringTime) {
+    public void updateEndpointExpiringTime(String arg0, String arg1,
+            XMLGregorianCalendar expiringTime) {
         String endpointURL = null;
         QName serviceName = null;
         try {
@@ -249,7 +250,8 @@ public class LocatorRestServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime, true);
+            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, 
+                    expiringTime.toGregorianCalendar().getTime(), true);
         } catch (ServiceLocatorException e) {
             throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());
