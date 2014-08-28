@@ -19,6 +19,8 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
+import java.util.Date;
+
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public interface EndpointNode {
@@ -40,6 +42,10 @@ public interface EndpointNode {
     void setContent(byte[] content) throws ServiceLocatorException, InterruptedException;
 
     boolean isLive() throws ServiceLocatorException, InterruptedException;
+    
+    Date getExpiryTime() throws ServiceLocatorException, InterruptedException;
+    
+    void setExpiryTime(Date expiryTime, boolean persistent) throws ServiceLocatorException, InterruptedException;
 
 }
 

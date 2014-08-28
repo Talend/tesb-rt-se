@@ -11,12 +11,14 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
 	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
 	">
 
 	<!-- Configuration Admin entry -->
@@ -30,29 +32,10 @@
 		<prop key="ws-security.signature.password"></prop>
 	</osgix:cm-properties>
 
-	<osgix:cm-properties id="locator-server-props"
-		persistent-id="org.talend.esb.locator">
-		<prop key="locator.endpoints">localhost:2181</prop>
-		<prop key="connection.timeout">5000</prop>
-		<prop key="session.timeout">5000</prop>
-		<prop key="authentication.name"></prop>
-		<prop key="authentication.password"></prop>
-	</osgix:cm-properties>
-
-	<!-- placeholder configurer -->
-	<!-- context:property-placeholder properties-ref="locator-server-props" 
-		/ -->
-
 	<bean id="LocatorServicePlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties" ref="locator-service-props" />
 		<property name="placeholderPrefix" value="$slp{" />
-	</bean>
-
-	<bean id="LocatorServerPlaceholder"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="properties" ref="locator-server-props" />
-		<property name="placeholderPrefix" value="$sl{" />
 	</bean>
 
 	<bean id="policyProvider"
@@ -67,14 +50,16 @@
 		<property name="signaturePassword" value="$slp{ws-security.signature.password}" />
 	</bean>
 
-	<bean id="serviceLocatorBean" class="org.talend.esb.locator.service.LocatorSoapServiceImpl"
-		destroy-method="disconnectLocator">
-		<property name="locatorEndpoints" value="$sl{locator.endpoints}" />
-		<property name="connectionTimeout" value="$sl{connection.timeout}" />
-		<property name="sessionTimeout" value="$sl{session.timeout}" />
-		<property name="authenticationName" value="$sl{authentication.name}" />
-		<property name="authenticationPassword" value="$sl{authentication.password}" />
-	</bean>
+    <osgi:reference id="locatorClient" interface="org.talend.esb.servicelocator.client.ServiceLocator" />
+    
+    <osgi:reference id="endpointCollector" interface="org.talend.esb.servicelocator.client.ExpiredEndpointCollector" />
+
+    <bean id="serviceLocatorBean"
+        class="org.talend.esb.locator.service.LocatorSoapServiceImpl"
+        init-method="start" destroy-method="disconnectLocator">
+        <property name="locatorClient" ref="locatorClient" />
+        <property name="endpointCollector" ref="endpointCollector" />
+    </bean>
 
 	<jaxws:endpoint id="ServiceLocatorService"
 		xmlns:serviceNamespace="http://services.talend.org/ServiceLocatorService"

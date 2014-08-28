@@ -21,7 +21,10 @@ package org.talend.esb.servicelocator.client.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +32,8 @@ import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.ZooKeeper;
-
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
@@ -55,7 +58,7 @@ import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
  * </ul>
  * 
  */
-public class ServiceLocatorImpl implements ServiceLocator {
+public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollector {
 
     private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
 
@@ -63,13 +66,20 @@ public class ServiceLocatorImpl implements ServiceLocator {
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
+    private Boolean endpointCollectionDisable;
+
+    private Long endpointCollectionInterval;
+    
+    private Timer timer;
+    
+    private int schedulerRequestCounter = 0;
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void connect() throws InterruptedException,
             ServiceLocatorException {
-
         getBackend().connect();
     }
 
@@ -79,7 +89,6 @@ public class ServiceLocatorImpl implements ServiceLocator {
     @Override
     public synchronized void disconnect() throws InterruptedException,
             ServiceLocatorException {
-
         getBackend().disconnect();
     }
 
@@ -200,7 +209,24 @@ public class ServiceLocatorImpl implements ServiceLocator {
         throws ServiceLocatorException, InterruptedException {
         unregister(new SimpleEndpoint(serviceName, endpoint, null));
     }
+    
+    @Override
+    public void updateEndpointExpiringTime(QName serviceName, String endpoint, Date expiringTime,
+            boolean persistent) throws ServiceLocatorException, InterruptedException {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Updating expiring time to " + expiringTime + " on endpoint " + endpoint 
+                    + " for service " + serviceName + "...");
+        }
 
+        RootNode rootNode = getBackend().connect();
+        ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
+        EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
+
+        if (endpointNode.exists()) {
+            endpointNode.setExpiryTime(expiringTime, persistent);
+        }
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -451,6 +477,14 @@ public class ServiceLocatorImpl implements ServiceLocator {
     public void setEndpointTransformer(EndpointTransformer endpointTransformer) {
         transformer = endpointTransformer;
     }
+    
+    public void setEndpointCollectionDisable(Boolean endpointCollectionDisable) {
+        this.endpointCollectionDisable = endpointCollectionDisable;
+    }
+    
+    public void setEndpointCollectionInterval(Long endpointCollectionInterval) {
+        this.endpointCollectionInterval = endpointCollectionInterval;
+    }
 
     /**
      * {@inheritDoc}
@@ -485,5 +519,95 @@ public class ServiceLocatorImpl implements ServiceLocator {
         }
 */
         return null;
+    }
+    
+    @Override
+    public synchronized void startScheduledCollection() {
+        if (endpointCollectionDisable != null && endpointCollectionDisable) {
+            LOG.info("Expired endpoint collection is disabled in configuration.");
+            return;
+        }
+        
+        if (endpointCollectionInterval == null) {
+            LOG.severe("Expired endpoint collection interval is not set.");
+            return;
+        }
+        
+        if (endpointCollectionInterval < 5000L) {
+            LOG.severe("Expired endpoint collection interval has invalid value '" + endpointCollectionInterval + "'. "
+                    + "It should be >= 5000.");
+            return;
+        }
+        
+        schedulerRequestCounter++;
+        
+        if (timer != null) {
+            return;
+        }
+        
+        if (schedulerRequestCounter != 1) {
+            LOG.warning("Expired endpoint collector schedule is inconsistent.");
+        }
+        
+        timer = new Timer("Expired-Endpoint-Collector-Timer", true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                performCollection();
+            }
+        }, endpointCollectionInterval, endpointCollectionInterval);
+    }
+    
+    @Override
+    public synchronized void stopScheduledCollection() {
+        if (timer == null) {
+            return;
+        }
+        schedulerRequestCounter--;
+        if (schedulerRequestCounter <= 0) {
+            timer.cancel();
+            timer = null;
+            schedulerRequestCounter = 0;
+        }
+    }
+    
+    @Override
+    public synchronized void performCollection() {
+        LOG.fine("Performing expired endpoint collection.");
+        
+        Date now = new Date();
+        
+        try {
+            RootNode root = getBackend().connect();
+            List<QName> svcs = root.getServiceNames();
+            
+            for (QName svc : svcs) {
+                ServiceNode svcNode = root.getServiceNode(svc);
+                List<EndpointNode> epts = svcNode.getEndPoints();
+                
+                for (EndpointNode ept : epts) {
+                    Date expTime = ept.getExpiryTime();
+                    if (expTime != null && expTime.before(now)) {
+                        unregisterEndpoint(svc, ept.getEndpointName());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    private void unregisterEndpoint(QName serviceName, String endpointName) {
+        try {
+            unregister(serviceName, endpointName);
+        } catch (Exception e) {
+            if (e instanceof ServiceLocatorException
+                    || e instanceof InterruptedException) {
+                LOG.warning("Exception during unregistering expired endpoint: " + e);
+            } else {
+                throw new RuntimeException(
+                        "Unexpected exception during unregistering expired endpoint.", e);
+            }
+        }
     }
 }

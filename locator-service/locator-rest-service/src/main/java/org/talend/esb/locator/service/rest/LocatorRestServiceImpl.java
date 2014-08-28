@@ -22,6 +22,7 @@ package org.talend.esb.locator.service.rest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
@@ -61,18 +63,24 @@ public class LocatorRestServiceImpl implements LocatorService {
     private static final Random RANDOM = new Random();
 
     private ServiceLocator locatorClient;
+    
+    private ExpiredEndpointCollector endpointCollector;
 
     private String locatorEndpoints = "localhost:2181";
 
     private int sessionTimeout = 5000;
 
     private int connectionTimeout = 5000;
-
+    
     public void setLocatorClient(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set for Rest Service.");
         }
+    }
+    
+    public void setEndpointCollector(ExpiredEndpointCollector endpointCollector) {
+        this.endpointCollector = endpointCollector;
     }
 
     public void setLocatorEndpoints(String locatorEndpoints) {
@@ -85,6 +93,12 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+    
+    public void start() {
+        if (endpointCollector != null) {
+            endpointCollector.startScheduledCollection();
+        }
     }
 
     /**
@@ -125,6 +139,11 @@ public class LocatorRestServiceImpl implements LocatorService {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Destroy Locator client");
         }
+        
+        if (endpointCollector != null) {
+            endpointCollector.stopScheduledCollection();
+        }
+        
         if (locatorClient != null) {
             locatorClient.disconnect();
             locatorClient = null;
@@ -209,6 +228,33 @@ public class LocatorRestServiceImpl implements LocatorService {
         } catch (InterruptedException e) {
             throw new WebApplicationException(Response
                     .status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build());
+        }
+    }
+    
+    @Override
+    public void updateEndpointExpiringTime(String arg0, String arg1, Date expiringTime) {
+        String endpointURL = null;
+        QName serviceName = null;
+        try {
+            serviceName = QName.valueOf(URLDecoder.decode(arg0, "UTF-8"));
+            endpointURL = URLDecoder.decode(arg1, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+            throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(e1.getMessage()).build());
+        }
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Updating expiring time to " + expiringTime.toString() + " on endpoint " + endpointURL
+                    + " for service " + serviceName + "...");
+        }
+        try {
+            initLocator();
+            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime, true);
+        } catch (ServiceLocatorException e) {
+            throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
+                    .entity(e.getMessage()).build());
+        } catch (InterruptedException e) {
+            throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());
         }
     }

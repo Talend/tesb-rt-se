@@ -19,6 +19,7 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -229,6 +230,9 @@ public interface ServiceLocator {
      */
     void unregister(Endpoint epProvider) throws ServiceLocatorException, InterruptedException;
 
+    void updateEndpointExpiringTime(QName serviceName, String endpoint, Date expiringTime,
+            boolean persistent) throws ServiceLocatorException, InterruptedException;
+
     /**
      * Remove the given endpoint from the list of endpoints of the given
      * service. When calling
@@ -357,6 +361,9 @@ public interface ServiceLocator {
      */
     List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
         throws ServiceLocatorException, InterruptedException;
+    
+//    void updateActiveTimestamp(Endpoint endpoint, long activeTimestamp)
+//            throws ServiceLocatorException, InterruptedException;
 
     /**
      * Specify the action to be be executed after the Service Locator has

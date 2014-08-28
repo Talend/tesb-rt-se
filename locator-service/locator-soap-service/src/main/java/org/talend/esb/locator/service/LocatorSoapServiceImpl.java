@@ -25,12 +25,14 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.talend.esb.servicelocator.client.BindingType;
+import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
@@ -64,6 +66,8 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     private ServiceLocator locatorClient;
 
+    private ExpiredEndpointCollector endpointCollector;
+
     private String locatorEndpoints = "localhost:2181";
 
     private int sessionTimeout = 5000;
@@ -73,12 +77,16 @@ public class LocatorSoapServiceImpl implements LocatorService {
     private String authenticationName;
 
     private String authenticationPassword;
-
+    
     public void setLocatorClient(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set for Soap service.");
         }
+    }
+    
+    public void setEndpointCollector(ExpiredEndpointCollector endpointCollector) {
+        this.endpointCollector = endpointCollector;
     }
 
     public void setLocatorEndpoints(String locatorEndpoints) {
@@ -91,6 +99,12 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+    
+    public void start() {
+        if (endpointCollector != null) {
+            endpointCollector.startScheduledCollection();
+        }
     }
 
     /**
@@ -136,11 +150,14 @@ public class LocatorSoapServiceImpl implements LocatorService {
             LOG.fine("Destroy Locator client");
         }
 
+        if (endpointCollector != null) {
+            endpointCollector.stopScheduledCollection();
+        }
+        
         if (locatorClient != null) {
             locatorClient.disconnect();
             locatorClient = null;
         }
-
     }
 
     /**
@@ -220,6 +237,32 @@ public class LocatorSoapServiceImpl implements LocatorService {
                     .toString() + "throws InterruptionFault");
             throw new InterruptedExceptionFault(e.getMessage(),
                     interruptionFaultDetail);
+        }
+    }
+    
+    /**
+     * @see ServiceLocator
+     */
+    @Override
+    public void updateEndpointExpiringTime(QName serviceName, String endpointURL,
+            XMLGregorianCalendar expiringTime) throws ServiceLocatorFault, InterruptedExceptionFault {
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Updating expiring time to " + expiringTime.toString() + " on endpoint " + endpointURL
+                    + " for service " + serviceName + "...");
+        }
+        try {
+            initLocator();
+            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime
+                    .toGregorianCalendar().getTime(), true);
+        } catch (ServiceLocatorException e) {
+            ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
+            serviceFaultDetail.setLocatorFaultDetail(serviceName.toString() + "throws ServiceLocatorFault");
+            throw new ServiceLocatorFault(e.getMessage(), serviceFaultDetail);
+        } catch (InterruptedException e) {
+            InterruptionFaultDetail interruptionFaultDetail = new InterruptionFaultDetail();
+            interruptionFaultDetail
+                    .setInterruptionDetail(serviceName.toString() + "throws InterruptionFault");
+            throw new InterruptedExceptionFault(e.getMessage(), interruptionFaultDetail);
         }
     }
 
