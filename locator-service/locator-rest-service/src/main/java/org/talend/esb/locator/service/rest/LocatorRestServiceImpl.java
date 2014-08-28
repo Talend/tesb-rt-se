@@ -36,6 +36,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.talend.esb.locator.service.common.DateTime;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
@@ -233,8 +234,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     }
     
     @Override
-    public void updateEndpointExpiringTime(String arg0, String arg1,
-            XMLGregorianCalendar expiringTime) {
+    public void updateEndpointExpiringTime(String arg0, String arg1, DateTime expiringTime) {
         String endpointURL = null;
         QName serviceName = null;
         try {
@@ -250,8 +250,7 @@ public class LocatorRestServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, 
-                    expiringTime.toGregorianCalendar().getTime(), true);
+            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime, true);
         } catch (ServiceLocatorException e) {
             throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());

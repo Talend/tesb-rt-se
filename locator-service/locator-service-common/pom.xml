@@ -60,7 +60,8 @@
 							model,
 							org.talend.services.esb.locator.rest.v1,
 							org.talend.schemas.esb.locator.rest._2011._11,
-							org.w3._2005._08.addressing
+							org.w3._2005._08.addressing,
+                            org.talend.esb.locator.service.common
                         </Export-Package>
 						<Import-Package>
 							javax.xml.bind,
@@ -114,7 +115,7 @@
 									<packagename>org.talend.services.esb.locator.rest.v1</packagename>
                                     <extraargs>
                                         <extraarg>-tMap</extraarg>
-                                        <extraarg>{http://www.w3.org/2001/XMLSchema}dateTime=javax.xml.datatype.XMLGregorianCalendar</extraarg>
+                                        <extraarg>{http://www.w3.org/2001/XMLSchema}dateTime=org.talend.esb.locator.service.common.DateTime</extraarg>
                                     </extraargs>
 								</wadlOption>
 							</wadlOptions>
