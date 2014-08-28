@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -39,6 +38,7 @@ import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import org.talend.esb.locator.service.common.DateTime;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -48,6 +48,7 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.TransportType;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
@@ -252,6 +253,14 @@ public class LocatorRestServiceImpl implements LocatorService {
             initLocator();
             locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime, true);
         } catch (ServiceLocatorException e) {
+            if (e instanceof EndpointNotFoundException) {
+                throw new WebApplicationException(Response.status(Status.NOT_FOUND)
+                        .entity(e.getMessage()).build());
+            }
+            if (e instanceof WrongArgumentException) {
+                throw new WebApplicationException(Response.status(Status.BAD_REQUEST)
+                        .entity(e.getMessage()).build());
+            }
             throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR)
                     .entity(e.getMessage()).build());
         } catch (InterruptedException e) {
