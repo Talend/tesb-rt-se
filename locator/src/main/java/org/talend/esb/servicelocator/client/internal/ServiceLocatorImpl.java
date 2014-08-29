@@ -70,7 +70,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
 
     private Boolean endpointCollectionDisable;
 
-    private Long endpointCollectionInterval;
+    private Integer endpointCollectionInterval;
     
     private Timer timer;
     
@@ -499,7 +499,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         this.endpointCollectionDisable = endpointCollectionDisable;
     }
     
-    public void setEndpointCollectionInterval(Long endpointCollectionInterval) {
+    public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
         this.endpointCollectionInterval = endpointCollectionInterval;
     }
 
@@ -544,35 +544,37 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             LOG.info("Expired endpoint collection is disabled in configuration.");
             return;
         }
-        
+
         if (endpointCollectionInterval == null) {
             LOG.severe("Expired endpoint collection interval is not set.");
             return;
         }
         
-        if (endpointCollectionInterval < 5000L) {
-            LOG.severe("Expired endpoint collection interval has invalid value '" + endpointCollectionInterval + "'. "
-                    + "It should be >= 5000.");
+        Long collectionInterval = endpointCollectionInterval * 1000L;
+
+        if (collectionInterval < 5000L) {
+            LOG.severe("Expired endpoint collection interval has invalid value '"
+                    + collectionInterval + "'. " + "It should be >= 5000.");
             return;
         }
-        
+
         schedulerRequestCounter++;
-        
+
         if (timer != null) {
             return;
         }
-        
+
         if (schedulerRequestCounter != 1) {
             LOG.warning("Expired endpoint collector schedule is inconsistent.");
         }
-        
+
         timer = new Timer("Expired-Endpoint-Collector-Timer", true);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 performCollection();
             }
-        }, endpointCollectionInterval, endpointCollectionInterval);
+        }, collectionInterval, collectionInterval);
     }
     
     @Override
