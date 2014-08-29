@@ -30,16 +30,16 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.DelegatingXMLStreamWriter;
 import org.apache.cxf.staxutils.StaxUtils;
 
-public class XslPathProtocolAwareXSLTOutInterceptor extends
-        XslPathProtocolAwareXSLTInterceptor {
+public class HttpAwareXSLTOutInterceptor extends
+        AbstractHttpAwareXSLTInterceptor {
 
       private static final Logger LOG = LogUtils.getL7dLogger(XSLTOutInterceptor.class);
 
-        public XslPathProtocolAwareXSLTOutInterceptor(String xsltPath) {
+        public HttpAwareXSLTOutInterceptor(String xsltPath) {
             super(Phase.PRE_STREAM, StaxOutInterceptor.class, null, xsltPath);
         }
 
-        public XslPathProtocolAwareXSLTOutInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
+        public HttpAwareXSLTOutInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
             super(phase, before, after, xsltPath);
         }
 

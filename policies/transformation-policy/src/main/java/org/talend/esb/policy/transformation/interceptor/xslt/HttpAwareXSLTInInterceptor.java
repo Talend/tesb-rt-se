@@ -18,16 +18,16 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.StaxUtils;
 
-public class XslPathProtocolAwareXSLTInInterceptor extends
-        XslPathProtocolAwareXSLTInterceptor {
+public class HttpAwareXSLTInInterceptor extends
+        AbstractHttpAwareXSLTInterceptor {
 
      private static final Logger LOG = LogUtils.getL7dLogger(XSLTInInterceptor.class);
 
-        public XslPathProtocolAwareXSLTInInterceptor(String xsltPath) {
+        public HttpAwareXSLTInInterceptor(String xsltPath) {
             super(Phase.POST_STREAM, StaxInInterceptor.class, null, xsltPath);
         }
 
-        public XslPathProtocolAwareXSLTInInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
+        public HttpAwareXSLTInInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
             super(phase, before, after, xsltPath);
         }
 

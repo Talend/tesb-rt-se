@@ -2,7 +2,6 @@ package org.talend.esb.policy.transformation.interceptor.xslt;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,23 +13,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 
 import org.apache.cxf.common.classloader.ClassLoaderUtils;
-import org.apache.cxf.feature.transform.XSLTInInterceptor;
-import org.apache.cxf.interceptor.StaxInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.w3c.dom.Document;
 
-public abstract class XslPathProtocolAwareXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
+public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
 
     private static final TransformerFactory TRANSFORM_FACTORIY = TransformerFactory.newInstance();
 
     private String contextPropertyName;
     private final Templates xsltTemplate;
 
-    public XslPathProtocolAwareXSLTInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
+    public AbstractHttpAwareXSLTInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
         super(phase);
         if (before != null) {
             addBefore(before.getName());

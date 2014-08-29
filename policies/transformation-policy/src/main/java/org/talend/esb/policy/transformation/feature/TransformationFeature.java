@@ -5,8 +5,8 @@ import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.talend.esb.policy.transformation.TransformationType;
-import org.talend.esb.policy.transformation.interceptor.xslt.XslPathProtocolAwareXSLTInInterceptor;
-import org.talend.esb.policy.transformation.interceptor.xslt.XslPathProtocolAwareXSLTOutInterceptor;
+import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTInInterceptor;
+import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTOutInterceptor;
 
 
 @NoJSR250Annotations
@@ -25,12 +25,12 @@ public class TransformationFeature extends AbstractFeature {
 
     private void initializeXslt(InterceptorProvider provider) {
         if (inXSLTPath != null) {
-            XslPathProtocolAwareXSLTInInterceptor in = new XslPathProtocolAwareXSLTInInterceptor(inXSLTPath);
+            HttpAwareXSLTInInterceptor in = new HttpAwareXSLTInInterceptor(inXSLTPath);
             provider.getInInterceptors().add(in);
         }
 
         if (outXSLTPath != null) {
-            XslPathProtocolAwareXSLTOutInterceptor out = new XslPathProtocolAwareXSLTOutInterceptor(outXSLTPath);
+            HttpAwareXSLTOutInterceptor out = new HttpAwareXSLTOutInterceptor(outXSLTPath);
             provider.getOutInterceptors().add(out);
             provider.getOutFaultInterceptors().add(out);
         }

@@ -9,7 +9,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
-import org.talend.esb.policy.transformation.interceptor.xslt.XslPathProtocolAwareXSLTOutInterceptor;
+import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTOutInterceptor;
 
 public class TransformationPolicyOutInterceptor extends AbstractPhaseInterceptor<Message> {
 
@@ -55,8 +55,8 @@ public class TransformationPolicyOutInterceptor extends AbstractPhaseInterceptor
     	}
     	if (outXSLTPath != null) {
             //XSLTOutInterceptor xsltOut = new XSLTOutInterceptor(outXSLTPath);
-            XslPathProtocolAwareXSLTOutInterceptor xsltOut
-                = new XslPathProtocolAwareXSLTOutInterceptor(outXSLTPath);
+            HttpAwareXSLTOutInterceptor xsltOut
+                = new HttpAwareXSLTOutInterceptor(outXSLTPath);
             xsltOut.handleMessage(message);
     	}
     }
