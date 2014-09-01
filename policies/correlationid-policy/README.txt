@@ -47,3 +47,46 @@ Where common.talend.CorrelationHandler is a custom class that implement
 org.talend.esb.policy.correlation.CorrelationIDCallbackHandler interface
 
 If callback is not specified in properties then Correlation Id will be generated automatically.
+
+c) Enabling via feature using XPATH (for SOAP service only)
+
+		<jaxws:features>
+			<bean
+				class="org.talend.esb.policy.correlation.feature.CorrelationIDFeature">
+				<property name="name" value="order" />
+				<property name="type" value="xpath" />
+				<property name="xpathNamespaces">
+					<list value-type="org.talend.esb.policy.correlation.impl.xpath.XpathNamespace">
+						<ref bean="XpathNamespaceNS2" />
+					</list>
+				</property>
+				<property name="xpathParts">
+					<list value-type="org.talend.esb.policy.correlation.impl.xpath.XpathNamespace">
+						<ref bean="XpathPartCustomerName" />
+						<ref bean="XpathPartCustomerID" />
+					</list>
+				</property>
+			</bean>
+		</jaxws:features>
+		
+		...
+		
+		<bean id="XpathNamespaceNS2"
+			class="org.talend.esb.policy.correlation.impl.xpath.XpathNamespace">
+			<property name="prefix" value="ns2" />
+			<property name="uri" value="http://customerservice.example.com/" />
+		</bean>
+	
+		<bean id="XpathPartCustomerName"
+			class="org.talend.esb.policy.correlation.impl.xpath.XpathPart">
+			<property name="name" value="customerName" />
+			<property name="xpath" value="/ns2:updateCustomer/customer/name" />
+			<property name="optional" value="true" />
+		</bean>
+		
+		<bean id="XpathPartCustomerID"
+			class="org.talend.esb.policy.correlation.impl.xpath.XpathPart">
+			<property name="name" value="customerID" />
+			<property name="xpath" value="/ns2:updateCustomer/customer/customerId" />
+			<property name="optional" value="false" />
+		</bean>			

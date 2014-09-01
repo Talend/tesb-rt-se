@@ -54,10 +54,17 @@ public class CorrelationIDXpathInterceptor extends
 	public CorrelationIDXpathInterceptor() {
 		super(Phase.PREPARE_SEND);
 	}
-
+	
+	public CorrelationIDXpathInterceptor(String phase, CorrelationIDAssertion policy) {
+		super(phase);
+		this.policy = policy;
+	}	
+	
 	OutputStream originalOutputStream;
 
 	ByteArrayOutputStream captureStream;
+	
+	CorrelationIDAssertion policy = null;
 
 	@Override
 	public void handleMessage(Message message) throws Fault {
@@ -72,7 +79,7 @@ public class CorrelationIDXpathInterceptor extends
 		}
 		// Add a final interceptor to write end elements
 		message.getInterceptorChain().add(
-				new CorrelationIDXpathEndingInterceptor(originalOutputStream, captureStream));
+				new CorrelationIDXpathEndingInterceptor(originalOutputStream, captureStream, policy));
 	}
 
 	protected void captureOutStream(Message message) throws SAXException,
@@ -92,13 +99,15 @@ public class CorrelationIDXpathInterceptor extends
 
 		OutputStream originalOuputStream;
 		ByteArrayOutputStream captureStream;
+		CorrelationIDAssertion policy = null;
 		
 		public CorrelationIDXpathEndingInterceptor(final OutputStream orignalStream, 
-				final ByteArrayOutputStream captureStream){
+				final ByteArrayOutputStream captureStream, CorrelationIDAssertion policy){
 			super(Phase.PRE_STREAM_ENDING);
 			addAfter(StaxOutEndingInterceptor.class.getName());
 			this.originalOuputStream = orignalStream;
 			this.captureStream = captureStream;
+			this.policy = policy;
 		}
 		
 		public CorrelationIDXpathEndingInterceptor() {
@@ -363,6 +372,10 @@ public class CorrelationIDXpathInterceptor extends
 
 		protected CorrelationIDAssertion getCorrelationIdXPathAssertion(
 				final Message message) {
+			
+			if(this.policy!=null){
+				return policy;
+			}
 
 			Object assertion = message
 					.getContextualProperty(CORRELATION_ID_XPATH_ASSERTION);

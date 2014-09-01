@@ -16,12 +16,17 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-class CorrelationIDAssertion implements Assertion {
+public class CorrelationIDAssertion implements Assertion {
 
 	public enum MethodType {
 		CALLBACK,
 		XPATH;
 	}
+	
+	public CorrelationIDAssertion(){
+		
+	}
+	
 	
 	/** The correlation name attribute name. */
 	private static String CORRELATION_NAME_ATTRIBUTE_NAME = "name";	
@@ -37,11 +42,11 @@ class CorrelationIDAssertion implements Assertion {
 	public CorrelationIDAssertion(Element element) {
         if (element.hasAttributeNS(null, "type")) {
             String type = element.getAttributeNS(null, "type");
-            methodType = MethodType.valueOf(type.toUpperCase());
+            setMethodType(type);
         }
         
         if (element.hasAttributeNS(null, "name")) {
-        	correlationName = element.getAttributeNS(null, "name");
+        	setCorrelationName(element.getAttributeNS(null, "name"));
         }        
         
         NodeList partNodes = element.getElementsByTagNameNS(CorrelationIDPolicyBuilder.NAMESPACE,
@@ -76,20 +81,22 @@ class CorrelationIDAssertion implements Assertion {
         
         if(namespaceNodes!=null && namespaceNodes.getLength() > 0){
             for(int namespaceNum = 0 ; namespaceNum < namespaceNodes.getLength(); namespaceNum++){
-            	XpathNamespace namespace = new XpathNamespace();
             	Node namespaceNode = namespaceNodes.item(namespaceNum);
             	NamedNodeMap attributes =  namespaceNode.getAttributes();
             	if(attributes!=null){
             		Node prefix = attributes.getNamedItem(XpathNamespace.PREFIX_ATTRIBUTE);
+            		String p = null;
             		if(prefix != null){
-            			namespace.setPrefix(prefix.getTextContent());
+            			p = prefix.getTextContent();
             		}
             		Node uri = attributes.getNamedItem(XpathNamespace.URI_ATTRIBUTE);
+            		String u = null;
             		if(uri != null){
-            			namespace.setUri(uri.getTextContent());
+            			u = uri.getTextContent();
             		} 
+            		
+            		addNamespace(p, u);
             	}
-            	namespaces.add(namespace);
             }
         }
 	}
@@ -119,6 +126,10 @@ class CorrelationIDAssertion implements Assertion {
 		return false;
 	}
 	
+	public final void setCorrelationName(String correlationName) {
+		this.correlationName = correlationName;
+	}
+	
 	public String getCorrelationName(){
 		return correlationName;
 	}
@@ -130,6 +141,25 @@ class CorrelationIDAssertion implements Assertion {
 	public List<XpathNamespace> getCorrelationNamespaces(){
 		return namespaces;
 	}
+	
+	public final void addNamespace(String prefix, String uri){
+    	XpathNamespace namespace = new XpathNamespace();
+    	namespace.setPrefix(prefix);
+    	namespace.setUri(uri);
+    	namespaces.add(namespace);
+	}
+	
+	public void addNamespace(XpathNamespace namespace){
+		if(namespace!=null){
+			namespaces.add(namespace);
+		}
+    }	
+	
+	public final void addXpathPart(XpathPart part){
+		if(part!=null){
+			parts.add(part);
+		}
+	}	
 
 
 	@Override
@@ -215,6 +245,7 @@ class CorrelationIDAssertion implements Assertion {
 		return methodType;
 	}
 
-
-
+	public final void setMethodType(String type){
+		methodType = MethodType.valueOf(type.toUpperCase());
+	}
 }
