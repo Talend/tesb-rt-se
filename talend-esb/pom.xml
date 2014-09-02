@@ -312,6 +312,8 @@
                                 <feature>tesb-policy-compression</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
+                                <feature>request-callback</feature>
+                                <feature>transport-jms</feature>
                                 <!-- Aux features -->
                                 <feature>jackrabbit-aux-bundles</feature>
                                 <feature>tesb-aux-common</feature>
