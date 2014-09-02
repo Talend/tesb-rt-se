@@ -85,8 +85,7 @@ public class STSClientUtils {
     }
 
     private static Object processFileURI(String fileURI) {
-        if (fileURI.startsWith("file:")) {
-            // return value.replaceAll("\\\\", "/");
+        if (null != fileURI && fileURI.startsWith("file:")) {
             try {
                 return new URL(fileURI);
             } catch (MalformedURLException e) {
