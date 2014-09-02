@@ -15,6 +15,7 @@ Talend ESB Runtime Examples
 The examples can be obtained from: http://www.talend.com/download.php#ESB
 
 Examples list:
+[Library Service example]
 [Locator example]
 [Locator Service example]
 [Locator Rest example]
