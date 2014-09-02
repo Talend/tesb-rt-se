@@ -78,10 +78,8 @@ public class CorrelationIDProcessor {
         	}
 
             if (MethodType.XPATH.equals(mType)) {
-                message.setContextualProperty(
-                		CorrelationIDXpathInterceptor.CORRELATION_ID_XPATH_ASSERTION, 
-                		policy);
-                correlationId = CorrelationIDXpathInterceptor.TEMP_CORRELATION_ID;
+            	XPathProcessor proc = new XPathProcessor(message);
+            	correlationId = proc.getCorrelationID(policy, message);
             } else if (MethodType.CALLBACK.equals(mType)){
                 CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
                         .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);

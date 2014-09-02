@@ -10,11 +10,9 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
-import org.apache.cxf.phase.Phase;
 import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion;
 import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureInInterceptor;
 import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureOutInterceptor;
-import org.talend.esb.policy.correlation.impl.CorrelationIDXpathInterceptor;
 import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
 import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 
@@ -66,10 +64,6 @@ public class CorrelationIDFeature extends AbstractFeature {
 				policy);
 		provider.getOutInterceptors().add(corrIdProducerOut);
 		provider.getOutFaultInterceptors().add(corrIdProducerOut);
-
-		CorrelationIDXpathInterceptor corrIdXpath = new CorrelationIDXpathInterceptor(
-				Phase.PRE_STREAM, policy);
-		provider.getOutInterceptors().add(corrIdXpath);
 	}
 
 	public void setName(String name) {
