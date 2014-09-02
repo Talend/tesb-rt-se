@@ -15,6 +15,8 @@ import javax.xml.transform.dom.DOMSource;
 import org.apache.cxf.common.classloader.ClassLoaderUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
+import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
+import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.w3c.dom.Document;
@@ -25,6 +27,9 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
 
     private String contextPropertyName;
     private final Templates xsltTemplate;
+
+    private MessageType msgType;
+    private AppliesToType appliesToType;
 
     public AbstractHttpAwareXSLTInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
         super(phase);
@@ -90,6 +95,26 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
     }
 
 
+    protected boolean shouldSchemaValidate(Message message) {
+        if (MessageUtils.isRequestor(message)) {
+            if (MessageUtils.isOutbound(message)) { // REQ_OUT
+                return ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)
+                    && (msgType == MessageType.request || msgType == MessageType.all));
+            } else { // RESP_IN
+                return ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)
+                    && (msgType == MessageType.response || msgType == MessageType.all));
+            }
+        } else {
+            if (MessageUtils.isOutbound(message)) { // RESP_OUT
+                return ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)
+                    && (msgType == MessageType.response || msgType == MessageType.all));
+            } else { // REQ_IN
+                return ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)
+                    && (msgType == MessageType.request || msgType == MessageType.all));
+            }
+        }
+    }
+
 
     public void setContextPropertyName(String propertyName) {
         contextPropertyName = propertyName;
@@ -104,4 +129,11 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
         return xsltTemplate;
     }
 
+    public void setMsgType(MessageType msgType) {
+        this.msgType = msgType;
+    }
+
+    public void setAppliesToType(AppliesToType appliesToType) {
+        this.appliesToType = appliesToType;
+    }
 }

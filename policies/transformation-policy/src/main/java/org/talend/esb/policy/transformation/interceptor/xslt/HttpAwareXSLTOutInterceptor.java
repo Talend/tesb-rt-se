@@ -15,9 +15,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.feature.transform.XSLTOutInterceptor;
 import org.apache.cxf.feature.transform.XSLTUtils;
-import org.apache.cxf.feature.transform.XSLTOutInterceptor.XSLTCachedOutputStreamCallback;
-import org.apache.cxf.feature.transform.XSLTOutInterceptor.XSLTCachedWriter;
-import org.apache.cxf.feature.transform.XSLTOutInterceptor.XSLTStreamWriter;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.AbstractOutDatabindingInterceptor;
 import org.apache.cxf.interceptor.Fault;
@@ -45,6 +42,9 @@ public class HttpAwareXSLTOutInterceptor extends
 
         @Override
         public void handleMessage(Message message) {
+            if (!shouldSchemaValidate(message)) {
+                return;
+            }
             if (checkContextProperty(message)) {
                 return;
             }
