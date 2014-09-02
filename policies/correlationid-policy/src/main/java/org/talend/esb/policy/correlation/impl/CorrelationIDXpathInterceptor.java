@@ -43,8 +43,8 @@ import org.xml.sax.SAXException;
 public class CorrelationIDXpathInterceptor extends
 		AbstractPhaseInterceptor<Message> {
 
-	public static final String CORRELATION_NAME_SEPARATOR = "#";//"&";
-	public static final String CORRELATION_PART_SEPARATOR = ";";//";";
+	public static final String CORRELATION_NAME_SEPARATOR = "#";
+	public static final String CORRELATION_PART_SEPARATOR = ";";
 	public static final String CORRELATION_PART_NAME_VALUE_SEPARATOR = "=";
    	public static String TEMP_CORRELATION_ID = "org.talend.esb.temp.correlation.id";
    	public static String CORRELATION_ID_XPATH_ASSERTION = "org.talend.esb.correlation-id.xpath.assertion";
@@ -137,9 +137,12 @@ public class CorrelationIDXpathInterceptor extends
 			message.setContent(OutputStream.class, originalOuputStream);
 			
 			CorrelationIDAssertion cAssertion = getCorrelationIdXPathAssertion(message);
+			
+			
 			if(cAssertion!=null){
 				String correlationId = buildCorrelationID(cAssertion);
-				fillOriginalStream(correlationId, true);
+				boolean rewriteCorrelationId = cAssertion.getMethodType().equals(CorrelationIDAssertion.MethodType.XPATH);
+				fillOriginalStream(correlationId, rewriteCorrelationId);
 			}else{
 				fillOriginalStream(null, false);
 			}			
