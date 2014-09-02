@@ -31,6 +31,7 @@ import org.apache.cxf.interceptor.StaxOutEndingInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
 import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 import org.w3c.dom.Document;
@@ -134,6 +135,7 @@ public class CorrelationIDXpathInterceptor extends
 		protected void restoreOriginalStream(Message message) throws SAXException,
 				IOException, ParserConfigurationException {
 			
+			OutputStream wrapper = message.getContent(OutputStream.class);
 			message.setContent(OutputStream.class, originalOuputStream);
 			
 			CorrelationIDAssertion cAssertion = getCorrelationIdXPathAssertion(message);
@@ -142,13 +144,16 @@ public class CorrelationIDXpathInterceptor extends
 			if(cAssertion!=null){
 				String correlationId = buildCorrelationID(cAssertion);
 				boolean rewriteCorrelationId = cAssertion.getMethodType().equals(CorrelationIDAssertion.MethodType.XPATH);
-				fillOriginalStream(correlationId, rewriteCorrelationId);
+				if(rewriteCorrelationId){
+					message.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, correlationId);
+				}
+				fillOriginalStream(correlationId, rewriteCorrelationId, wrapper);
 			}else{
-				fillOriginalStream(null, false);
+				fillOriginalStream(null, false, wrapper);
 			}			
 		}
 
-		protected void fillOriginalStream(String correlationId, boolean replaceCorrelationID)
+		protected void fillOriginalStream(String correlationId, boolean replaceCorrelationID, OutputStream wrapper)
 				throws UnsupportedEncodingException, IOException {
 
 			if(replaceCorrelationID){
@@ -165,7 +170,8 @@ public class CorrelationIDXpathInterceptor extends
 			}else{
 				captureStream.writeTo(originalOuputStream);
 			}
-			captureStream.close();
+			wrapper.flush();
+			wrapper.close();
 		}
 		
 		
