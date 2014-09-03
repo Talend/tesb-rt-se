@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor
+    license agreements. See the NOTICE file distributed with this work for additional
+    information regarding copyright ownership. The ASF licenses this file to
+    you under the Apache License, Version 2.0 (the "License"); you may not use
+    this file except in compliance with the License. You may obtain a copy of
+    the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+    OF ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:soap="http://cxf.apache.org/bindings/soap"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <import resource="classpath:/META-INF/cxf/cxf.xml" />
+    <!-- CXF 3 JMS configuration style -->
+    <import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
+
+    <!-- for spring SAM definition (without using samenabling policy) -->
+    <!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
+
+
+    <!-- Service Registry activation property -->
+    <bean id="serviceRegistryProperties"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="placeholderPrefix" value="$sr-config{"/>
+        <property name="properties">
+            <props>
+                <prop key="use.service.registry">${use.service.registry}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Jetty endpoint address -->
+    <bean id="endpointProperties"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="placeholderPrefix" value="$endpoint-config{"/>
+        <property name="properties">
+            <props>
+                <prop key="library.endpoint.http">http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort</prop>
+            </props>
+        </property>
+    </bean>
+
+    <import resource="classpath:/server-context.xml" />
+
+</beans>

@@ -66,6 +66,18 @@
             <properties>
                 <use.service.registry>true</use.service.registry>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.talend.esb.registry</groupId>
+                    <artifactId>registry-wsdl-client</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.talend.esb.registry</groupId>
+                    <artifactId>registry-policy-client</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

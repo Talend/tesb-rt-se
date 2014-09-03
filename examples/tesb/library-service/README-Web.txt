@@ -84,6 +84,6 @@ a) Without Service Registry:
    mvn eclipse:eclipse
    Use LibraryServer.java LibraryClient.java main() methods to start service and client.
 b) With Service Registry:
-   mvn eclipse:eclipse -Pservice-sr
+   mvn eclipse:eclipse -Pservice-registry
    Use LibraryServer.java LibraryClient.java main() methods to start service and client.
    
