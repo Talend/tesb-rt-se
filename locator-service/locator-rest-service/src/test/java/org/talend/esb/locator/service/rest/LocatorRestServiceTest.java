@@ -20,16 +20,21 @@
 package org.talend.esb.locator.service.rest;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
+
 import junit.framework.Assert;
 
 import org.easymock.EasyMock;
@@ -42,12 +47,15 @@ import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
+import org.talend.esb.locator.service.common.DateTime;
 import org.talend.esb.locator.service.rest.LocatorRestServiceImpl;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.w3c.dom.Document;
 
@@ -349,6 +357,59 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setBinding(BindingType.JAXRS);
         req.setTransport(TransportType.HTTPS);
         lps.registerEndpoint(req);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTime() throws Exception {
+        final String expiringTimeStr = "2000-01-02T01:02:03Z";
+        final DateTime expiringTime = new DateTime(expiringTimeStr);
+        
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        replay(sl);
+        
+        lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
+        final String expiringTimeStr = "2000-01-02T01:02:03Z";
+        final DateTime expiringTime = new DateTime(expiringTimeStr);
+                
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        expectLastCall().andThrow(new EndpointNotFoundException());
+        replay(sl);
+        
+        try {
+            lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            fail();
+        } catch (WebApplicationException e) {
+            assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
+            // pass
+        }
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeWrongTime() throws Exception {
+        final String expiringTimeStr = "2000-01-02T01:02:03Z";
+        final DateTime expiringTime = new DateTime(expiringTimeStr);
+                
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        expectLastCall().andThrow(new WrongArgumentException());
+        replay(sl);
+        
+        try {
+            lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            fail();
+        } catch (WebApplicationException e) {
+            assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getResponse().getStatus());
+            // pass
+        }
+        
+        verify(sl);
     }
 
     public static Endpoint endpoint() {

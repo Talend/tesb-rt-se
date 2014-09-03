@@ -19,21 +19,27 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
 import org.apache.zookeeper.CreateMode;
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.internal.NodePath;
 import org.talend.esb.servicelocator.client.internal.zk.RootNodeImpl;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ANY_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
@@ -184,5 +190,55 @@ public class EndpointNodeTest {
         endpointNode.ensureRemoved();
 
         verify(backend);
+    }
+    
+    @Test
+    public void getExpiryTime() throws Exception {
+        final Date expected = new Date();
+        
+        NodePath expiryPath = endpointNode.child(EXPIRES);
+        expect(backend.nodeExists(expiryPath)).andReturn(true);
+        expect(backend.getContent(expiryPath)).andReturn(getDateBytes(expected));
+        replay(backend);
+        
+        Date answer = endpointNode.getExpiryTime();
+        
+        assertEquals(expected, answer);
+
+        verify(backend);
+    }
+    
+    @Test
+    public void getExpiryTimeMissingNode() throws Exception {
+        NodePath expiryPath = endpointNode.child(EXPIRES);
+        expect(backend.nodeExists(expiryPath)).andReturn(false);
+        replay(backend);
+        
+        Date answer = endpointNode.getExpiryTime();
+        
+        assertNull(answer);
+
+        verify(backend);
+    }
+    
+    @Test
+    public void setExpiryTime() throws Exception {
+        final Date expiryTime = new Date();
+        
+        NodePath expiryPath = endpointNode.child(EXPIRES);
+        backend.ensurePathExists(eq(expiryPath), eq(CreateMode.PERSISTENT), anyObject(byte[].class));
+        replay(backend);
+        
+        endpointNode.setExpiryTime(expiryTime, true);
+
+        verify(backend);
+    }
+    
+    private static byte[] getDateBytes(Date date) {
+        try {
+            return Long.toString(date.getTime()).getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

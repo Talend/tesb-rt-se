@@ -20,10 +20,18 @@
 package org.talend.esb.locator.service;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -47,10 +55,12 @@ import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.w3c.dom.Document;
 
@@ -158,6 +168,62 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         value.getEntry().add(e);
 
         lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null, null, value);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTime() throws Exception {
+        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
+        grCal.add(Calendar.MINUTE, 3);
+        
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        replay(sl);
+        
+        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
+        lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
+        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
+        grCal.add(Calendar.MINUTE, 3);
+        
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        expectLastCall().andThrow(new EndpointNotFoundException());
+        replay(sl);
+        
+        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
+        
+        try {
+            lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            fail();
+        } catch (ServiceLocatorFault e) {
+            // pass
+        }
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeWrongTime() throws Exception {
+        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
+        grCal.add(Calendar.MINUTE, 3);
+        
+        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        expectLastCall().andThrow(new WrongArgumentException());
+        replay(sl);
+        
+        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
+        
+        try {
+            lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            fail();
+        } catch (ServiceLocatorFault e) {
+            // pass
+        }
+        
+        verify(sl);
     }
 
     @Test
