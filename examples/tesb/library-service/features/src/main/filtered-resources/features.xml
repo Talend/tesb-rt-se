@@ -23,11 +23,13 @@
     <!-- repository>mvn:org.talend.esb/features/${project.version}/xml</repository -->
     <feature name='library-service' version='${project.version}'>
         <feature>cxf</feature>
+        <feature>activemq-client</feature>
         <bundle>mvn:${project.groupId}/library-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/library-service/${project.version}</bundle>
     </feature>
     <feature name='library-client' version='${project.version}'>
         <feature>cxf</feature>
+        <feature>activemq-client</feature>
         <bundle>mvn:${project.groupId}/library-common/${project.version}</bundle>
         <bundle>mvn:${project.groupId}/library-client/${project.version}</bundle>
     </feature>

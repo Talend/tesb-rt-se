@@ -15,10 +15,11 @@ Library Tutorial OSGi Example
 This is an example of OSGi applications.
 This example demonstrates using of different message exchange patterns on the base of Library service.
 
-Example contains 3 modules: 
+Example contains 4 modules:
 - service   Contains code of the service provider
 - client    Contains code of the service consumer
 - common    Contains code common for provider and consumer      
+- features  Contains Karaf features to install service provider and consumer
 
 
 Deployment:
@@ -43,11 +44,8 @@ a) Without Service Registry
       - run the following commands in the container:
 
       tesb:start-aux-store
-      install mvn:org.talend.esb.mep/request-callback/5.6.0-SNAPSHOT
-      install mvn:org.talend.esb/transport-jms/5.6.0-SNAPSHOT
-      features:chooseurl activemq 5.10.0
-      features:install activemq-client
-      install mvn:org.talend.esb.examples.library-service-osgi/library-common/5.6.0-SNAPSHOT
+
+      features:addurl mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
       - run the following command if you have not started an external ActiveMQ broker
 
@@ -56,12 +54,12 @@ a) Without Service Registry
    3. Start the service provider
       - run the following commands in the container:
 
-      install -s mvn:org.talend.esb.examples.library-service-osgi/library-service/5.6.0-SNAPSHOT
+      features:install library-service
 
    4. Start the service consumer
       - run the following commands in the container:
 
-      install -s mvn:org.talend.esb.examples.library-service-osgi/library-client/5.6.0-SNAPSHOT
+      features:install library-client
 
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
@@ -75,6 +73,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       - start the TESB container
       - run the following commands in the container:
 
+      tesb:start-aux-store
       tesb:start-registry
       tesb:start-sts
       tesb:start-sam
@@ -90,12 +89,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
 
-      tesb:start-aux-store
-      install mvn:org.talend.esb.mep/request-callback/5.6.0-SNAPSHOT
-      install mvn:org.talend.esb/transport-jms/5.6.0-SNAPSHOT
-      features:chooseurl activemq 5.10.0
-      features:install activemq-client
-      install mvn:org.talend.esb.examples.library-service/library-common/5.6.0-SNAPSHOT
+      features:addurl mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
       - run the following command if you have not started an external ActiveMQ broker
 
@@ -104,9 +98,9 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
    3. Start service provider
       - run the following commands in the container:
 
-      install -s mvn:org.talend.esb.examples.library-service/library-service/5.6.0-SNAPSHOT
+      features:install library-service
 
    4. Start service consumer
       - run the following commands in the container:
 
-      install -s mvn:org.talend.esb.examples.library-service/library-client/5.6.0-SNAPSHOT
+      features:install library-client

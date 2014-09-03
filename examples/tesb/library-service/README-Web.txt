@@ -28,8 +28,6 @@ located), the maven pom.xml file can be used to build this example.
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.7.0 and Maven 3.0.3 or later required)
 
-Running the example requires Active MQ instance up and running on the localhost. 
-
 
 a) Without Service Registry:
 
@@ -38,6 +36,10 @@ a) Without Service Registry:
       - run following command in container:
       
         tesb:start-aux-store
+
+      - run the following command if you have not started an external ActiveMQ broker
+
+        features:install activemq-broker
 
 
    2. Run service:
