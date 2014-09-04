@@ -68,7 +68,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
-    private Boolean endpointCollectionDisable;
+    private Boolean endpointCollectionEnable;
 
     private Integer endpointCollectionInterval;
     
@@ -495,8 +495,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         transformer = endpointTransformer;
     }
     
-    public void setEndpointCollectionDisable(Boolean endpointCollectionDisable) {
-        this.endpointCollectionDisable = endpointCollectionDisable;
+    public void setEndpointCollectionEnable(Boolean endpointCollectionDisable) {
+        this.endpointCollectionEnable = endpointCollectionDisable;
     }
     
     public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
@@ -540,7 +540,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     
     @Override
     public synchronized void startScheduledCollection() {
-        if (endpointCollectionDisable != null && endpointCollectionDisable) {
+        if (endpointCollectionEnable != null && !endpointCollectionEnable) {
             LOG.info("Expired endpoint collection is disabled in configuration.");
             return;
         }
