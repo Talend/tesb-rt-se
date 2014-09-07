@@ -364,10 +364,10 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         final String expiringTimeStr = "2000-01-02T01:02:03Z";
         final DateTime expiringTime = new DateTime(expiringTimeStr);
         
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
         replay(sl);
         
-        lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+        lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
         
         verify(sl);
     }
@@ -377,12 +377,12 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         final String expiringTimeStr = "2000-01-02T01:02:03Z";
         final DateTime expiringTime = new DateTime(expiringTimeStr);
                 
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
         
         try {
-            lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
             fail();
         } catch (WebApplicationException e) {
             assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
@@ -397,12 +397,12 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         final String expiringTimeStr = "2000-01-02T01:02:03Z";
         final DateTime expiringTime = new DateTime(expiringTimeStr);
                 
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
         
         try {
-            lps.updateEndpointExpiringTime(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
             fail();
         } catch (WebApplicationException e) {
             assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getResponse().getStatus());

@@ -244,7 +244,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
      * @see ServiceLocator
      */
     @Override
-    public void updateEndpointExpiringTime(QName serviceName, String endpointURL,
+    public void updateTimetolive(QName serviceName, String endpointURL,
             XMLGregorianCalendar expiringTime) throws ServiceLocatorFault, InterruptedExceptionFault {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Updating expiring time to " + expiringTime.toString() + " on endpoint " + endpointURL
@@ -252,7 +252,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime
+            locatorClient.updateTimetolive(serviceName, endpointURL, expiringTime
                     .toGregorianCalendar().getTime(), true);
         } catch (ServiceLocatorException e) {
             ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();

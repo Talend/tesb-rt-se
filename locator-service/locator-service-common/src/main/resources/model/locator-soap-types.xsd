@@ -78,7 +78,7 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-    <xsd:element name="updateEndpointExpiringTime">
+    <xsd:element name="updateTimetolive">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="serviceName" type="xsd:QName" />
@@ -87,7 +87,7 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
-    <xsd:element name="updateEndpointExpiringTimeResponse">
+    <xsd:element name="updateTimetoliveResponse">
         <xsd:complexType>
             <xsd:sequence />
         </xsd:complexType>

@@ -235,7 +235,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     }
     
     @Override
-    public void updateEndpointExpiringTime(String arg0, String arg1, DateTime expiringTime) {
+    public void updateTimetolive(String arg0, String arg1, DateTime expiringTime) {
         String endpointURL = null;
         QName serviceName = null;
         try {
@@ -251,7 +251,7 @@ public class LocatorRestServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateEndpointExpiringTime(serviceName, endpointURL, expiringTime, true);
+            locatorClient.updateTimetolive(serviceName, endpointURL, expiringTime, true);
         } catch (ServiceLocatorException e) {
             if (e instanceof EndpointNotFoundException) {
                 throw new WebApplicationException(Response.status(Status.NOT_FOUND)

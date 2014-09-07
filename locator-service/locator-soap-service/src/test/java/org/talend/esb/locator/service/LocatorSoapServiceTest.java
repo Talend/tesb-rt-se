@@ -175,11 +175,11 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
         grCal.add(Calendar.MINUTE, 3);
         
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
         replay(sl);
         
         XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
-        lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+        lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
         
         verify(sl);
     }
@@ -189,14 +189,14 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
         grCal.add(Calendar.MINUTE, 3);
         
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
         
         XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
         
         try {
-            lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass
@@ -210,14 +210,14 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
         grCal.add(Calendar.MINUTE, 3);
         
-        sl.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
         
         XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
         
         try {
-            lps.updateEndpointExpiringTime(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass

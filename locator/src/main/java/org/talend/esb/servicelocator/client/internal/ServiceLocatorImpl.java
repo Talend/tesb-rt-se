@@ -213,7 +213,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     }
     
     @Override
-    public void updateEndpointExpiringTime(QName serviceName, String endpoint, Date expiringTime,
+    public void updateTimetolive(QName serviceName, String endpoint, Date expiringTime,
             boolean persistent) throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Updating expiring time to " + expiringTime + " on endpoint " + endpoint 

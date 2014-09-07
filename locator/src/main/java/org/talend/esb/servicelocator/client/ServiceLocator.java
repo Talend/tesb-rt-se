@@ -230,7 +230,25 @@ public interface ServiceLocator {
      */
     void unregister(Endpoint epProvider) throws ServiceLocatorException, InterruptedException;
 
-    void updateEndpointExpiringTime(QName serviceName, String endpoint, Date expiringTime,
+    /**
+     * Updates the time-to-live (ttl) for specified endpoint. If the endpoint did not have ttl before
+     * then this method sets it up.
+     * 
+     * @param serviceName
+     *          name of the service the endpoint belongs to
+     * @param endpoint
+     *          name of the endpoint
+     * @param expiringTime
+     *          point in time after which the endpoint is considered expired
+     * @param persistent
+     * @throws ServiceLocatorException
+     *          thrown if a problem happened. For example if the endpoint does not exist, 
+     *          if given time is in past, etc.
+     * @throws InterruptedException
+     *          the current <code>Thread</code> was interrupted when waiting for a response of the
+     *          ServiceLocator
+     */
+    void updateTimetolive(QName serviceName, String endpoint, Date expiringTime,
             boolean persistent) throws ServiceLocatorException, InterruptedException;
 
     /**
