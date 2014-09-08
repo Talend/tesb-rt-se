@@ -25,7 +25,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -245,15 +244,14 @@ public class LocatorSoapServiceImpl implements LocatorService {
      */
     @Override
     public void updateTimetolive(QName serviceName, String endpointURL,
-            XMLGregorianCalendar expiringTime) throws ServiceLocatorFault, InterruptedExceptionFault {
+            int timetolive) throws ServiceLocatorFault, InterruptedExceptionFault {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Updating expiring time to " + expiringTime.toString() + " on endpoint " + endpointURL
+            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpointURL
                     + " for service " + serviceName + "...");
         }
         try {
             initLocator();
-            locatorClient.updateTimetolive(serviceName, endpointURL, expiringTime
-                    .toGregorianCalendar().getTime(), true);
+            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive, true);
         } catch (ServiceLocatorException e) {
             ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
             serviceFaultDetail.setLocatorFaultDetail(serviceName.toString() + "throws ServiceLocatorFault");

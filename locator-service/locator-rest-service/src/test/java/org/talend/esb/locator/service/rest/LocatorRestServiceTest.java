@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
@@ -47,7 +48,6 @@ import org.talend.schemas.esb.locator.rest._2011._11.EndpointReferenceList;
 import org.talend.schemas.esb.locator.rest._2011._11.EntryType;
 import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
-import org.talend.esb.locator.service.common.DateTime;
 import org.talend.esb.locator.service.rest.LocatorRestServiceImpl;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.EndpointNotFoundException;
@@ -361,28 +361,26 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTime() throws Exception {
-        final String expiringTimeStr = "2000-01-02T01:02:03Z";
-        final DateTime expiringTime = new DateTime(expiringTimeStr);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
         
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         replay(sl);
         
-        lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+        lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
         
         verify(sl);
     }
     
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
-        final String expiringTimeStr = "2000-01-02T01:02:03Z";
-        final DateTime expiringTime = new DateTime(expiringTimeStr);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
                 
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
         
         try {
-            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
             fail();
         } catch (WebApplicationException e) {
             assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
@@ -394,15 +392,14 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
-        final String expiringTimeStr = "2000-01-02T01:02:03Z";
-        final DateTime expiringTime = new DateTime(expiringTimeStr);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
                 
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, expiringTime, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
         
         try {
-            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, expiringTime);
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
             fail();
         } catch (WebApplicationException e) {
             assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getResponse().getStatus());

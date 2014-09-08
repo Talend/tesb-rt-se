@@ -83,7 +83,7 @@
             <xsd:sequence>
                 <xsd:element name="serviceName" type="xsd:QName" />
                 <xsd:element name="endpointURL" type="xsd:anyURI" />
-                <xsd:element name="expiringTime" type="xsd:dateTime" />
+                <xsd:element name="timetolive" type="xsd:int" />
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

@@ -19,7 +19,6 @@
  */
 package org.talend.esb.servicelocator.client;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -238,17 +237,17 @@ public interface ServiceLocator {
      *          name of the service the endpoint belongs to
      * @param endpoint
      *          name of the endpoint
-     * @param expiringTime
-     *          point in time after which the endpoint is considered expired
+     * @param timetolive
+     *          period of time (in seconds) when this endpoint is considered "alive"
      * @param persistent
      * @throws ServiceLocatorException
      *          thrown if a problem happened. For example if the endpoint does not exist, 
-     *          if given time is in past, etc.
+     *          if given time-to-live is negative or zero, etc.
      * @throws InterruptedException
      *          the current <code>Thread</code> was interrupted when waiting for a response of the
      *          ServiceLocator
      */
-    void updateTimetolive(QName serviceName, String endpoint, Date expiringTime,
+    void updateTimetolive(QName serviceName, String endpoint, int timetolive,
             boolean persistent) throws ServiceLocatorException, InterruptedException;
 
     /**

@@ -26,12 +26,9 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
@@ -172,31 +169,26 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTime() throws Exception {
-        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
-        grCal.add(Calendar.MINUTE, 3);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
         
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         replay(sl);
         
-        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
-        lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
+        lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         
         verify(sl);
     }
     
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
-        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
-        grCal.add(Calendar.MINUTE, 3);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
         
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
         
-        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
-        
         try {
-            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass
@@ -207,17 +199,14 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
-        final GregorianCalendar grCal = (GregorianCalendar) GregorianCalendar.getInstance();
-        grCal.add(Calendar.MINUTE, 3);
+        final int ttl = new Random().nextInt() ^ 95 + 5;
         
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, grCal.getTime(), true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
         
-        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(grCal);
-        
         try {
-            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, xmlCal);
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass

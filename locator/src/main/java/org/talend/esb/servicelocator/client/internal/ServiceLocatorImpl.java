@@ -213,11 +213,19 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     }
     
     @Override
-    public void updateTimetolive(QName serviceName, String endpoint, Date expiringTime,
+    public void updateTimetolive(QName serviceName, String endpoint, int timetolive,
             boolean persistent) throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Updating expiring time to " + expiringTime + " on endpoint " + endpoint 
+            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpoint 
                     + " for service " + serviceName + "...");
+        }
+        
+        if (timetolive < 0) {
+            throw new WrongArgumentException("Time-to-live cannot be negative.");
+        }
+        
+        if (timetolive == 0) {
+            throw new WrongArgumentException("Time-to-live cannot be zero.");
         }
 
         RootNode rootNode = getBackend().connect();
@@ -225,15 +233,13 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
         if (endpointNode.exists()) {
-            if (expiringTime.before(new Date())) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
-                            + " for service " + serviceName + " because given date is in past.");
-                }
-                throw new WrongArgumentException("Given date '" + expiringTime + "' is in past.");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
+                        + " for service " + serviceName + " because given date is in past.");
             }
             
-            endpointNode.setExpiryTime(expiringTime, persistent);
+            endpointNode.setExpiryTime(new Date(System.currentTimeMillis() + timetolive * 1000), 
+                    persistent);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 

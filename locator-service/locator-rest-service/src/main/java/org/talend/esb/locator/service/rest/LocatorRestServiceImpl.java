@@ -35,7 +35,6 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import org.talend.esb.locator.service.common.DateTime;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.EndpointNotFoundException;
@@ -235,7 +234,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     }
     
     @Override
-    public void updateTimetolive(String arg0, String arg1, DateTime expiringTime) {
+    public void updateTimetolive(String arg0, String arg1, int timetolive) {
         String endpointURL = null;
         QName serviceName = null;
         try {
@@ -246,12 +245,12 @@ public class LocatorRestServiceImpl implements LocatorService {
                     .entity(e1.getMessage()).build());
         }
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Updating expiring time to " + expiringTime.toString() + " on endpoint " + endpointURL
+            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpointURL
                     + " for service " + serviceName + "...");
         }
         try {
             initLocator();
-            locatorClient.updateTimetolive(serviceName, endpointURL, expiringTime, true);
+            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive, true);
         } catch (ServiceLocatorException e) {
             if (e instanceof EndpointNotFoundException) {
                 throw new WebApplicationException(Response.status(Status.NOT_FOUND)

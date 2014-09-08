@@ -77,7 +77,7 @@
                             required="true" />
                         <param name="endpointURL" type="xsd:string" style="template"
                             required="true" />
-                        <param name="expiringTime" type="xsd:dateTime" style="query"
+                        <param name="timetolive" type="xsd:int" style="query"
                             required="true" />
                     </request>
                 </method>
