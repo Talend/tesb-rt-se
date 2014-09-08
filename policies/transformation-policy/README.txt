@@ -15,8 +15,9 @@ Performance can be improved in the future by using further versions of Xalan or 
 
 Supported assertion attributes:
 type - xslt (if not specified, assumed as xslt)
-inXSLTPath - Path to XSLT script for inbound transformation;
-outXSLTPath - Path to XSLT script for outbound transformation;
+path - Path to XSLT script for transformation;
+appliesTo - Participant role to which the transformation will be applied. Supported values: consumer\provider\always\none
+message - Message type to which the transformation will be applied. Supported values: request\response\always\none
 
 a) Enabling via policy
 
@@ -27,17 +28,19 @@ Here is example of the policy:
     <wsp:ExactlyOne>
         <wsp:All>
             <tpa:Transformation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" 
-              inXSLTPath="requestTransformation.xsl" outXSLTPath="responseTransformation.xsl"/>
+                path="etc/transformations/someTransformation.xsl"
+                appliesTo="provider"
+                message="response"
+                type="xslt"/>
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>
 
-inXSLTPath, outXSLTPath attributes can be also specified through context properties:
-"org.talend.esb.transformation.in.xslt-path"
-"org.talend.esb.transformation.out.xslt-path"
+"path" attribute can be also specified through context properties:
+"org.talend.esb.transformation.xslt-path"
 If context properties are specified, they overwrite corresponded policy attributes.
 
-inXSLTPath, outXSLTPath attributes can contain:
+"path" attribute can contain:
  - HTTP URL's (e.g. http://example.org/xsl/requestTransformation.xsl )
  - Path to xsl file, relative to TESB container (e.g. etc/requestTransformation.xsl )
  - Classpath path to xsl file
@@ -46,9 +49,11 @@ inXSLTPath, outXSLTPath attributes can contain:
 b) Enabling via feature
 You can add XSLT feature to features list:
 
-<bean id="xsltFeature" class="org.talend.esb.policy.transformation.feature.XSLTFeature">
-    <property name="inXSLTPath" value="requestTransformation.xsl" />
-    <property name="outXSLTPath" value="responseTransformation.xsl" />
+<bean id="xsltFeature" class="org.talend.esb.policy.transformation.feature.TransformationFeature">
+    <property name="path"      value="etc/transformations/someTransformation.xsl" />
+    <property name="appliesTo" value="provider"/>
+    <property name="message"   value="request"/>
+    <property name="type"      value="xslt"/>
 </bean>
 
 2. Simple Transformation
@@ -65,9 +70,8 @@ Policy sample:
     </wsp:ExactlyOne>
 </wsp:Policy>
 
-To activate transformation it is necessary to specify in/out transformation maps using contaxt properties:
-"org.talend.esb.transformation.in.transform-map"
-"org.talend.esb.transformation.out.transform-map"
+To activate transformation it is necessary to specify transformation map using contaxt properties:
+"org.talend.esb.transformation.transform-map"
 
 See details about transformation maps in the http://cxf.apache.org/docs/transformationfeature.html
  

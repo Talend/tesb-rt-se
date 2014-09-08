@@ -103,6 +103,7 @@ public class EndpointNodeTest {
     public void setLivePersistent() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
         backend.ensurePathExists(livePath, CreateMode.PERSISTENT);
+        backend.ensurePathDeleted(endpointNode.child(EXPIRES), false);
         replay(backend);
         
         endpointNode.setLive(true);
@@ -114,6 +115,7 @@ public class EndpointNodeTest {
     public void setLiveNonPersistent() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
         backend.ensurePathExists(livePath, CreateMode.EPHEMERAL);
+        backend.ensurePathDeleted(endpointNode.child(EXPIRES), false);
         replay(backend);
         
         endpointNode.setLive(false);

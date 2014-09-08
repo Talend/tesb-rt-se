@@ -1,5 +1,7 @@
 package org.talend.esb.policy.schemavalidate.interceptors;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
@@ -111,7 +113,20 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends Abstract
             throw new IllegalArgumentException("Path to custom schema is not set or empty");
         }
 
-        InputStream customSchemaStream = ClassLoaderUtils.getResourceAsStream(customSchemaPath, c);
+        InputStream customSchemaStream = null;
+        // try to load schema from file system
+        try {
+        	customSchemaStream = new FileInputStream(customSchemaPath);
+        } catch (FileNotFoundException e) {
+        	customSchemaStream = null;
+        }
+        
+        
+        if(customSchemaStream == null){
+        	// try to load schema from class loader root
+        	customSchemaStream = ClassLoaderUtils.getResourceAsStream(customSchemaPath, c);
+        }
+        
         if (customSchemaStream == null) {
             // try to load schema as web resource
             try {

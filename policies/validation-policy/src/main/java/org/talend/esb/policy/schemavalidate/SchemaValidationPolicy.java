@@ -61,9 +61,9 @@ public class SchemaValidationPolicy implements Assertion {
             messageType = MessageType.valueOf(message);
         }
 
-        if (element.hasAttributeNS(null, "schemaPath")) {
+        if (element.hasAttributeNS(null, "path")) {
             validationType = ValidationType.CustomSchema;
-            customSchemaPath = element.getAttributeNS(null, "schemaPath");
+            customSchemaPath = element.getAttributeNS(null, "path");
         }
 
     }
@@ -119,7 +119,7 @@ public class SchemaValidationPolicy implements Assertion {
         writer.writeAttribute(null, "appliesTo", appliesToType.name());
         writer.writeAttribute(null, "message", messageType.name());
         if(validationType == ValidationType.CustomSchema){
-            writer.writeAttribute(null, "schemaPath", customSchemaPath);
+            writer.writeAttribute(null, "path", customSchemaPath);
         }
 
         // </tpa:SchemaValidation>
