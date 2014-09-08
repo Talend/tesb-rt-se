@@ -44,7 +44,7 @@ import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ANY_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.LIVE;
-import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.EXPIRES;
+import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.TIMETOLIVE;
 
 public class EndpointNodeTest {
     
@@ -103,7 +103,7 @@ public class EndpointNodeTest {
     public void setLivePersistent() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
         backend.ensurePathExists(livePath, CreateMode.PERSISTENT);
-        backend.ensurePathDeleted(endpointNode.child(EXPIRES), false);
+        backend.ensurePathDeleted(endpointNode.child(TIMETOLIVE), false);
         replay(backend);
         
         endpointNode.setLive(true);
@@ -115,7 +115,7 @@ public class EndpointNodeTest {
     public void setLiveNonPersistent() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
         backend.ensurePathExists(livePath, CreateMode.EPHEMERAL);
-        backend.ensurePathDeleted(endpointNode.child(EXPIRES), false);
+        backend.ensurePathDeleted(endpointNode.child(TIMETOLIVE), false);
         replay(backend);
         
         endpointNode.setLive(false);
@@ -126,7 +126,7 @@ public class EndpointNodeTest {
     @Test
     public void setOffline() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
-        NodePath expiryPath = endpointNode.child(EXPIRES);
+        NodePath expiryPath = endpointNode.child(TIMETOLIVE);
         backend.ensurePathDeleted(livePath, false);
         backend.ensurePathDeleted(expiryPath, false);
         replay(backend);
@@ -183,7 +183,7 @@ public class EndpointNodeTest {
     @Test
     public void ensureRemoved() throws Exception {
         NodePath livePath = endpointNode.child(LIVE);
-        NodePath expiryPath = endpointNode.child(EXPIRES);
+        NodePath expiryPath = endpointNode.child(TIMETOLIVE);
         backend.ensurePathDeleted(livePath, false);
         backend.ensurePathDeleted(expiryPath, false);
         backend.ensurePathDeleted(endpointNode, true);
@@ -198,7 +198,7 @@ public class EndpointNodeTest {
     public void getExpiryTime() throws Exception {
         final Date expected = new Date();
         
-        NodePath expiryPath = endpointNode.child(EXPIRES);
+        NodePath expiryPath = endpointNode.child(TIMETOLIVE);
         expect(backend.nodeExists(expiryPath)).andReturn(true);
         expect(backend.getContent(expiryPath)).andReturn(getDateBytes(expected));
         replay(backend);
@@ -212,7 +212,7 @@ public class EndpointNodeTest {
     
     @Test
     public void getExpiryTimeMissingNode() throws Exception {
-        NodePath expiryPath = endpointNode.child(EXPIRES);
+        NodePath expiryPath = endpointNode.child(TIMETOLIVE);
         expect(backend.nodeExists(expiryPath)).andReturn(false);
         replay(backend);
         
@@ -227,7 +227,7 @@ public class EndpointNodeTest {
     public void setExpiryTime() throws Exception {
         final Date expiryTime = new Date();
         
-        NodePath expiryPath = endpointNode.child(EXPIRES);
+        NodePath expiryPath = endpointNode.child(TIMETOLIVE);
         backend.ensurePathExists(eq(expiryPath), eq(CreateMode.PERSISTENT), anyObject(byte[].class));
         replay(backend);
         
