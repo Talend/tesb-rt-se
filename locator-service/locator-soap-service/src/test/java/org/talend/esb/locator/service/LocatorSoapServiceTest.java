@@ -27,7 +27,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
@@ -166,7 +165,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTime() throws Exception {
-        final int ttl = new Random().nextInt() ^ 95 + 5;
+        final int ttl = 95;
         
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         replay(sl);
@@ -178,7 +177,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
-        final int ttl = new Random().nextInt() ^ 95 + 5;
+        final int ttl = 95;
         
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new EndpointNotFoundException());
@@ -196,7 +195,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
     
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
-        final int ttl = new Random().nextInt() ^ 95 + 5;
+        final int ttl = 95;
         
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new WrongArgumentException());
