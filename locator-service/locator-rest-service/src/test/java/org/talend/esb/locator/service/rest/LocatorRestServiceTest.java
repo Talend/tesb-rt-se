@@ -36,8 +36,6 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import junit.framework.Assert;
-
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.easymock.IArgumentMatcher;
@@ -113,7 +111,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(),
                 new ArrayList<String>());
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+       assertTrue(endpointRef.toString().equals(expectedRef.toString()));
     }
     
     @Test
@@ -148,7 +146,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
 
         endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -183,7 +181,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         try {
             lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
         } catch (WebApplicationException ex) {
-            Assert.assertTrue(ex.getResponse().getStatus() == 404);
+            assertTrue(ex.getResponse().getStatus() == 404);
         }
     }
 
@@ -363,7 +361,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     public void updateEndpointExpiringTime() throws Exception {
         final int ttl = new Random().nextInt() ^ 95 + 5;
         
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         replay(sl);
         
         lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
@@ -374,8 +372,8 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
         final int ttl = new Random().nextInt() ^ 95 + 5;
-                
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
         
@@ -393,8 +391,8 @@ public class LocatorRestServiceTest extends EasyMockSupport {
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
         final int ttl = new Random().nextInt() ^ 95 + 5;
-                
-        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl, true);
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
         

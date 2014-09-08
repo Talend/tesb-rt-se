@@ -250,7 +250,7 @@ public class LocatorRestServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive, true);
+            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive);
         } catch (ServiceLocatorException e) {
             if (e instanceof EndpointNotFoundException) {
                 throw new WebApplicationException(Response.status(Status.NOT_FOUND)

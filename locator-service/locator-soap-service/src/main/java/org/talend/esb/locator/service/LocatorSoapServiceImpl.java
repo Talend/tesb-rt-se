@@ -251,7 +251,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
         }
         try {
             initLocator();
-            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive, true);
+            locatorClient.updateTimetolive(serviceName, endpointURL, timetolive);
         } catch (ServiceLocatorException e) {
             ServiceLocatorFaultDetail serviceFaultDetail = new ServiceLocatorFaultDetail();
             serviceFaultDetail.setLocatorFaultDetail(serviceName.toString() + "throws ServiceLocatorFault");

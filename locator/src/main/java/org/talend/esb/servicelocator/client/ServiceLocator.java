@@ -239,7 +239,6 @@ public interface ServiceLocator {
      *          name of the endpoint
      * @param timetolive
      *          period of time (in seconds) when this endpoint is considered "alive"
-     * @param persistent
      * @throws ServiceLocatorException
      *          thrown if a problem happened. For example if the endpoint does not exist, 
      *          if given time-to-live is negative or zero, etc.
@@ -247,8 +246,8 @@ public interface ServiceLocator {
      *          the current <code>Thread</code> was interrupted when waiting for a response of the
      *          ServiceLocator
      */
-    void updateTimetolive(QName serviceName, String endpoint, int timetolive,
-            boolean persistent) throws ServiceLocatorException, InterruptedException;
+    void updateTimetolive(QName serviceName, String endpoint, int timetolive) 
+            throws ServiceLocatorException, InterruptedException;
 
     /**
      * Remove the given endpoint from the list of endpoints of the given
