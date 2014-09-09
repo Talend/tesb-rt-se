@@ -1,0 +1,151 @@
+package org.talend.esb.servicelocator.cxf.internal;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.namespace.QName;
+
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
+import org.talend.esb.servicelocator.client.ServiceLocator;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
+
+public class LocatorCache {
+
+	private Map<String, List<String>> cachedAddresses = new HashMap<String, List<String>>();
+
+	private Map<String, Integer> lastIndex = new HashMap<String, Integer>();
+
+	private Map<String, Integer> cacheCounter = new HashMap<String, Integer>();
+
+	private ServiceLocator serviceLocator;
+
+	private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
+
+	private int reloadCount = 10;
+	
+    private Random random = new Random();
+
+	static final Logger LOG = Logger.getLogger(LocatorCache.class.getName());
+			
+    public void setMatcher(SLPropertiesMatcher matcher) {
+    	this.matcher = matcher;
+    }
+
+    public void setServiceLocator(ServiceLocator serviceLocator) {
+        this.serviceLocator = serviceLocator;
+    }
+
+    public void setReloadCount(int reloadCount) {
+        this.reloadCount = reloadCount;
+    }
+
+    synchronized String getPrimaryAddressSame(QName serviceName) {
+    	List<String> endpoints = getEndpoints(serviceName, false);
+    	if (endpoints == null || endpoints.isEmpty())
+    		return null;
+    	String key = getPrimaryAddressKey(serviceName);
+		if (!lastIndex.containsKey(key) || lastIndex.get(key) >= endpoints.size()) {
+			lastIndex.put(key, random.nextInt(endpoints.size()));
+		}
+		String primaryAddress = endpoints.get(lastIndex.get(key));
+    	cacheCounter.put(key, 0); // cache never expires for this strategy
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Get primary address same for service " + serviceName + " using strategy "
+                    + this.getClass().getName() + " selecting from " + endpoints
+                    + " selected = " + primaryAddress);
+        }
+        return primaryAddress;
+    }
+
+    synchronized String getPrimaryAddressNext(QName serviceName) {
+    	List<String> endpoints = getEndpoints(serviceName, false);
+    	if (endpoints == null || endpoints.isEmpty())
+    		return null;
+    	String key = getPrimaryAddressKey(serviceName);
+		if (!lastIndex.containsKey(key)) {
+			lastIndex.put(key, random.nextInt(endpoints.size()));
+		} else {
+			lastIndex.put(key, (lastIndex.get(key) + 1) % endpoints.size());
+		}
+		String primaryAddress = endpoints.get(lastIndex.get(key));
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Get primary address next for service " + serviceName + " using strategy "
+                    + this.getClass().getName() + " selecting from " + endpoints
+                    + " selected = " + primaryAddress);
+        }
+        return primaryAddress;
+    }
+
+    synchronized String getPrimaryAddressRandom(QName serviceName) {
+    	List<String> endpoints = getEndpoints(serviceName, false);
+    	if (endpoints == null || endpoints.isEmpty())
+    		return null;
+    	String key = getPrimaryAddressKey(serviceName);
+    	lastIndex.put(key, random.nextInt(endpoints.size()));
+		String primaryAddress = endpoints.get(lastIndex.get(key));
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "Get primary address random for service " + serviceName + " using strategy "
+                    + this.getClass().getName() + " selecting from " + endpoints
+                    + " selected = " + primaryAddress);
+        }
+        return primaryAddress;
+    }
+    
+	synchronized List<String> getFailoverEndpoints(QName serviceName) {
+	   	List<String> endpoints = getEndpoints(serviceName, true);
+	   	return new ArrayList<String>(endpoints);
+	}
+    	
+	private synchronized List<String> getEndpoints(QName serviceName, boolean isFailover) {
+		List<String> endpoints = Collections.emptyList();
+		String key = getPrimaryAddressKey(serviceName);
+		if (isFailover || !cacheCounter.containsKey(key) ||
+				cacheCounter.get(key) >= reloadCount) {
+			endpoints = getLocatorEndpoints(serviceName);
+			if (endpoints != null && !endpoints.isEmpty()) {
+				cachedAddresses.put(key, endpoints);
+				cacheCounter.put(key, 0);
+			}
+		} else {
+			cacheCounter.put(key, cacheCounter.get(key) + 1);
+			endpoints = cachedAddresses.get(key);
+		}
+		return endpoints;
+	}
+	
+	private String getPrimaryAddressKey(QName serviceName) {
+		return matcher == null ? serviceName.toString() : serviceName
+				.toString() + matcher.getAssertionsAsString();
+	}
+
+	synchronized private List<String> getLocatorEndpoints(QName serviceName) {
+		List<String> endpoints = Collections.emptyList();
+		try {
+			endpoints = serviceLocator.lookup(serviceName, matcher);
+			LOG.log(Level.INFO,
+					"serviceLocator.lookup " + " serviceName = " + serviceName
+							+ " matcher = " + matcher.getAssertionsAsString()
+							+ " endpoints  + " + endpoints);
+
+		} catch (ServiceLocatorException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Can not refresh list of endpoints due to ServiceLocatorException",
+						e);
+			}
+		} catch (InterruptedException e) {
+			if (LOG.isLoggable(Level.SEVERE)) {
+				LOG.log(Level.SEVERE,
+						"Can not refresh list of endpoints due to InterruptedException",
+						e);
+			}
+		}
+		return endpoints;
+	}
+}
