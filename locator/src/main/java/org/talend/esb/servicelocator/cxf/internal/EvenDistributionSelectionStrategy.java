@@ -22,6 +22,8 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.cxf.message.Exchange;
+
 /**
  * Performs a client side round robin strategy. 
  * In case of a fail over all strategies are equivalent.
@@ -31,15 +33,14 @@ import java.util.List;
  * instances for each client operate independently. RandomSelectionStrategy avoids this
  * problem.
  */
-public class EvenDistributionSelectionStrategy extends ReloadSelectionStrategy {
+public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy {
 
-    /* (non-Javadoc)
-     * @see org.talend.esb.servicelocator.cxf.internal.ReloadSelectionStrategy#getRotatedList(java.util.List)
-     */
-    @Override
-    protected List<String> getRotatedList(List<String> strings) {
-        Collections.rotate(strings, -1);
-        return strings;
-    }
+	/* (non-Javadoc)
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+	 */
+	@Override
+	public String getPrimaryAddress(Exchange exchange) {
+		return locatorCache.getPrimaryAddressNext(getServiceName(exchange));
+	}
 
 }

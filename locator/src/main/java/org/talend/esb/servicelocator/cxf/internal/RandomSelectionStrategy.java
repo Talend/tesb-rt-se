@@ -19,8 +19,9 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collections;
 import java.util.List;
+
+import org.apache.cxf.message.Exchange;
 
 /**
  * Selects randomly from the available endpoints for each call.
@@ -29,15 +30,14 @@ import java.util.List;
  * instances for each client operate independently. RandomSelectionStrategy avoids this
  * problem.
  */
-public class RandomSelectionStrategy extends ReloadSelectionStrategy {
+public class RandomSelectionStrategy extends LocatorSelectionStrategy {
 
-    /* (non-Javadoc)
-     * @see org.talend.esb.servicelocator.cxf.internal.ReloadSelectionStrategy#getRotatedList(java.util.List)
-     */
-    @Override
-    protected List<String> getRotatedList(List<String> strings) {
-        Collections.rotate(strings, -random.nextInt(strings.size()));
-        return strings;
-    }
+	/* (non-Javadoc)
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+	 */
+	@Override
+	public String getPrimaryAddress(Exchange exchange) {
+		return locatorCache.getPrimaryAddressRandom(getServiceName(exchange));
+	}
 
 }

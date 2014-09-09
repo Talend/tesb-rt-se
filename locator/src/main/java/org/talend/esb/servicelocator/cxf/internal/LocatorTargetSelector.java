@@ -70,6 +70,14 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
     }
 
     protected void setAddress(Message message) {
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.log(Level.INFO, "setAddress attempt, "
+            		+ " locatorProtocol = " + locatorProtocol
+            		+ " adress = " + endpoint.getEndpointInfo().getAddress()
+            		+ " ");
+            LOG.log(Level.INFO, "Using strategy " + strategy.getClass().getName() + ".");
+        }
+
         if(message.getExchange().get(LOCATOR_SETADDRESS_FLAG) != Boolean.TRUE) {
             EndpointInfo ei = endpoint.getEndpointInfo();
             if (locatorProtocol || ei.getAddress().startsWith(LOCATOR_PROTOCOL)) {
@@ -89,6 +97,10 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
                     ei.setAddress(physAddress);
                     locatorProtocol = true;
                     message.put(Message.ENDPOINT_ADDRESS, physAddress);
+                    if (LOG.isLoggable(Level.INFO)) {
+                        LOG.log(Level.INFO, "Physical adress " + physAddress);
+                    }
+      
                 } else {
                     if (LOG.isLoggable(Level.SEVERE)) {
                         LOG.log(Level.SEVERE, "Failed to map logical locator address to physical address.");

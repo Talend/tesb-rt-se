@@ -267,7 +267,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
         boolean distributed = false;
         List<String> alternates = randomStrategy.getAlternateAddresses(exchangeMock);
         randomStrategy.selectAlternateAddress(alternates);
-        for (int i = 0; i < 9 * 10; i++) {
+        for (int i = 0; i < 10 * 10; i++) {
             lastPrimary = primary;
             primary = randomStrategy.getPrimaryAddress(exchangeMock);
             assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));

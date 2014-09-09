@@ -19,19 +19,6 @@
  */
 package org.talend.esb.servicelocator.client;
 
-import javax.xml.transform.dom.DOMResult;
-
-import org.easymock.EasyMock;
-import org.easymock.IArgumentMatcher;
-import org.junit.Before;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.Endpoint.PropertiesTransformer;
-import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
-import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
-import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.eq;
@@ -48,8 +35,29 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.DomMother.newDocument;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
-import static org.talend.esb.servicelocator.TestContent.*;
-import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.TestContent.createContent;
+import static org.talend.esb.servicelocator.TestContent.createContentInvalidEPR;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STOPPED;
+import static org.talend.esb.servicelocator.TestValues.NAME_1;
+import static org.talend.esb.servicelocator.TestValues.PROPERTIES;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+import static org.talend.esb.servicelocator.TestValues.VALUE_1;
+import static org.talend.esb.servicelocator.TestValues.VALUE_2;
+
+import javax.xml.transform.dom.DOMResult;
+
+import org.easymock.EasyMock;
+import org.easymock.IArgumentMatcher;
+import org.junit.Before;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.Endpoint.PropertiesTransformer;
+import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
+import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
+import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class SimpleEndpointTest {
 

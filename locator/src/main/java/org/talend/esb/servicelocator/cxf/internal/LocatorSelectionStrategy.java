@@ -19,7 +19,6 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -32,18 +31,18 @@ import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.message.Exchange;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
     protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class.getName());
 
-    protected Random random = new Random();
+    protected LocatorCache locatorCache = new LocatorCache();
+    
+    private Random random = new Random();
 
-    private ServiceLocator serviceLocator;
-
-    protected SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
-
+    /* (non-Javadoc)
+     * @see org.apache.cxf.clustering.FailoverStrategy#selectAlternateAddress(java.util.List)
+     */
     @Override
     public String selectAlternateAddress(List<String> alternates) {
         String alternateAddress = null;
@@ -51,8 +50,20 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
             int index = random.nextInt(alternates.size());
             alternateAddress = alternates.remove(index);
         }
+        LOG.log(Level.INFO, "selectAlternateAddress "
+        		+ " alternates = " + alternates
+        		+ " alternateAddress = " + alternateAddress);
+
         return alternateAddress;
     }
+
+	/* (non-Javadoc)
+	 * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
+	 */
+    @Override
+    public List<String> getAlternateAddresses(Exchange exchange) {
+		return locatorCache.getFailoverEndpoints(getServiceName(exchange));
+	}
 
     /* (non-Javadoc)
      * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateEndpoints(org.apache.cxf.message.Exchange)
@@ -71,7 +82,6 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
     }
 
     /**
-     * 
      * @param exchange
      * @return
      */
@@ -79,36 +89,20 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
     synchronized public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
         if (propertiesMatcher != null) {
-            matcher = propertiesMatcher;
+        	locatorCache.setMatcher(propertiesMatcher);
         }
     }
 
     public void setServiceLocator(ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    	locatorCache.setServiceLocator(serviceLocator);
     }
-
-    public ServiceLocator getServiceLocator() {
-        return serviceLocator;
+    
+    public void setReloadAdressesCount(int reloadAdressesCount) {
+    	locatorCache.setReloadCount(reloadAdressesCount);
     }
-
+    
     protected QName getServiceName(Exchange exchange) {
         return exchange.getEndpoint().getService().getName();
-    }
-
-    protected List<String> getEndpoints(QName serviceName) {
-        List<String> endpoints = Collections.emptyList();
-        try {
-            endpoints = serviceLocator.lookup(serviceName, matcher);
-        } catch (ServiceLocatorException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Can not refresh list of endpoints due to ServiceLocatorException", e);
-            }
-        } catch (InterruptedException e) {
-            if (LOG.isLoggable(Level.SEVERE)) {
-                LOG.log(Level.SEVERE, "Can not refresh list of endpoints due to InterruptedException", e);
-            }
-        }
-        return endpoints;
     }
 
 }
