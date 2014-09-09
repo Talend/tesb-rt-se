@@ -38,11 +38,11 @@
 	<message name="unregisterEndpointOutput">
 		<part name="parameters" element="lpx:unregisterEndpointResponse"/>
 	</message>
-    <message name="updateEndpointExpiringTimeInput">
-        <part name="parameters" element="lpx:updateEndpointExpiringTime" />
+    <message name="updateTimetoliveInput">
+        <part name="parameters" element="lpx:updateTimetolive" />
     </message>
-    <message name="updateEndpointExpiringTimeOutput">
-        <part name="parameters" element="lpx:updateEndpointExpiringTimeResponse"/>
+    <message name="updateTimetoliveOutput">
+        <part name="parameters" element="lpx:updateTimetoliveResponse"/>
     </message>
 	<message name="lookupEndpointInput">
 		<part name="parameters" element="lpx:lookupEndpoint" />
@@ -87,9 +87,9 @@
 			<fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
 			<fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
 		</operation>
-        <operation name="updateEndpointExpiringTime">
-            <input message="lps:updateEndpointExpiringTimeInput" />
-            <output message="lps:updateEndpointExpiringTimeOutput" />
+        <operation name="updateTimetolive">
+            <input message="lps:updateTimetoliveInput" />
+            <output message="lps:updateTimetoliveOutput" />
             <fault name="InterruptedExceptionFault" message="lps:InterruptedExceptionFault" />
             <fault name="ServiceLocatorFault" message="lps:ServiceLocatorFault" />
         </operation>
@@ -153,8 +153,8 @@
 				<soap:fault name="ServiceLocatorFault" use="literal" />
 			</fault>
 		</operation>
-        <operation name="updateEndpointExpiringTime">
-            <soap:operation soapAction="updateEndpointExpiringTime" />
+        <operation name="updateTimetolive">
+            <soap:operation soapAction="updateTimetolive" />
             <input>
                 <soap:body use="literal" />
             </input>

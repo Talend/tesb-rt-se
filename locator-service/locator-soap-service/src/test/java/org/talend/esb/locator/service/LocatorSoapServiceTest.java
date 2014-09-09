@@ -20,6 +20,10 @@
 package org.talend.esb.locator.service;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +33,10 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
-import junit.framework.Assert;
-
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.easymock.IArgumentMatcher;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.schemas.esb.locator._2011._11.EntryType;
 import org.talend.schemas.esb.locator._2011._11.LookupEndpointResponse;
@@ -47,10 +48,12 @@ import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.services.esb.locator.v1.InterruptedExceptionFault;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.w3c.dom.Document;
 
@@ -159,6 +162,54 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
 
         lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null, null, value);
     }
+    
+    @Test
+    public void updateEndpointExpiringTime() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        replay(sl);
+        
+        lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        expectLastCall().andThrow(new EndpointNotFoundException());
+        replay(sl);
+        
+        try {
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+            fail();
+        } catch (ServiceLocatorFault e) {
+            // pass
+        }
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeWrongTime() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        expectLastCall().andThrow(new WrongArgumentException());
+        replay(sl);
+        
+        try {
+            lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+            fail();
+        } catch (ServiceLocatorFault e) {
+            // pass
+        }
+        
+        verify(sl);
+    }
 
     @Test
     public void unregisterEndpoint() throws InterruptedExceptionFault,
@@ -210,7 +261,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
 
         endpointRef = lps.lookupEndpoint(SERVICE_NAME, null);
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -247,7 +298,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
 
         endpointRef = lps.lookupEndpoint(SERVICE_NAME, null);
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -274,7 +325,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         lrt.setServiceName(SERVICE_NAME);
         LookupEndpointResponse ler = lps.lookupEndpoint(lrt);
         endpointRef = ler.getEndpointReference();
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -335,7 +386,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         LookupEndpointsResponse ler = lps.lookupEndpoints(lrt);
         endpointRef = ler.getEndpointReference().get(0);
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -362,7 +413,7 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
         refs = lps.lookupEndpoints(SERVICE_NAME, null);
         endpointRef = refs.get(0);
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 

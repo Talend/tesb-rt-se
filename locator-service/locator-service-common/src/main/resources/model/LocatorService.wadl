@@ -71,13 +71,13 @@
 			</resource>
 			
 			<resource path="endpoint/{serviceName}/{endpointURL}/meta">
-                <method name="PUT" id="updateEndpointExpiringTime">
+                <method name="PUT" id="updateTimetolive">
                     <request>
                         <param name="serviceName" type="xsd:string" style="template"
                             required="true" />
                         <param name="endpointURL" type="xsd:string" style="template"
                             required="true" />
-                        <param name="expiringTime" type="xsd:dateTime" style="query"
+                        <param name="timetolive" type="xsd:int" style="query"
                             required="true" />
                     </request>
                 </method>
