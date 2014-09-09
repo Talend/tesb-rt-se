@@ -60,10 +60,6 @@ public class Activator implements BundleActivator {
                 	serviceReference = serviceReferences[0];
                 }
                 
-                if(serviceReference == null){
-                	serviceReference = context.getServiceReference(clazzName);
-                }
-
                 Object service = context.getService(serviceReference);
                 return clazz.cast(service);
             } catch (InvalidSyntaxException e) {
