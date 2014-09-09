@@ -75,8 +75,8 @@ public class LocatorCache {
 		String primaryAddress = endpoints.get(lastIndex.get(key));
     	cacheCounter.put(key, 0); // cache never expires for this strategy
         if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address same for service " + serviceName + " using strategy "
-                    + this.getClass().getName() + " selecting from " + endpoints
+            LOG.log(Level.INFO, "Get primary address same for service " + serviceName 
+            		+ " selecting from " + endpoints
                     + " selected = " + primaryAddress);
         }
         return primaryAddress;
@@ -94,8 +94,8 @@ public class LocatorCache {
 		}
 		String primaryAddress = endpoints.get(lastIndex.get(key));
         if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address next for service " + serviceName + " using strategy "
-                    + this.getClass().getName() + " selecting from " + endpoints
+            LOG.log(Level.INFO, "Get primary address next for service " + serviceName 
+            		+ " selecting from " + endpoints
                     + " selected = " + primaryAddress);
         }
         return primaryAddress;
@@ -109,8 +109,8 @@ public class LocatorCache {
     	lastIndex.put(key, random.nextInt(endpoints.size()));
 		String primaryAddress = endpoints.get(lastIndex.get(key));
         if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address random for service " + serviceName + " using strategy "
-                    + this.getClass().getName() + " selecting from " + endpoints
+            LOG.log(Level.INFO, "Get primary address random for service " + serviceName 
+            		+ " selecting from " + endpoints
                     + " selected = " + primaryAddress);
         }
         return primaryAddress;
