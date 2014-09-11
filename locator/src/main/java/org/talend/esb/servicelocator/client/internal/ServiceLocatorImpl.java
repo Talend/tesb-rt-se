@@ -375,8 +375,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         throws ServiceLocatorException, InterruptedException {
     	
 
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Looking up endpoints of service " + serviceName + "...");
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.info("Looking up endpoints of service " + serviceName + "...");
         }
 
         List<String> liveEndpoints;
@@ -394,7 +394,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                     SLEndpoint endpoint = transformer.toSLEndpoint(serviceName, content, true);
                     SLProperties props = endpoint.getProperties();
 
-                    if (LOG.isLoggable(Level.FINE)) {
+                    if (LOG.isLoggable(Level.INFO)) {
                         StringBuilder sb = new StringBuilder();
                         for (String prop: props.getPropertyNames()) {
                             sb.append(prop + " : ");
@@ -402,22 +402,22 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                                 sb.append(value + " ");
                             sb.append("\n");
                         }        
-                        LOG.fine("Lookup of service " + serviceName + " props = " + sb.toString());
-                        LOG.fine("matcher = " + matcher.toString());
+                        LOG.info("Lookup of service " + serviceName + " props = " + sb.toString());
+                        LOG.info("matcher = " + matcher.toString());
                     }
                     if (matcher.isMatching(props)) {
                         liveEndpoints.add(endpointNode.getEndpointName());
-                        if (LOG.isLoggable(Level.FINE))
-                            LOG.fine("matched =  " + endpointNode.getEndpointName());
+                        if (LOG.isLoggable(Level.INFO))
+                            LOG.info("matched =  " + endpointNode.getEndpointName());
                     } else 
-                        if (LOG.isLoggable(Level.FINE))
-                            LOG.fine("not matched =  " + endpointNode.getEndpointName());
+                        if (LOG.isLoggable(Level.INFO))
+                            LOG.info("not matched =  " + endpointNode.getEndpointName());
 
                 }
             }
         } else {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Lookup of service " + serviceName
+            if (LOG.isLoggable(Level.INFO)) {
+                LOG.info("Lookup of service " + serviceName
                         + " failed, service is not known.");
             }
             liveEndpoints = Collections.emptyList();
