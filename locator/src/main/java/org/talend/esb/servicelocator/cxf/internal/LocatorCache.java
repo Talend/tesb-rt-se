@@ -149,11 +149,12 @@ public class LocatorCache {
 		List<String> endpoints = Collections.emptyList();
 		try {
 			endpoints = serviceLocator.lookup(serviceName, matcher);
-			LOG.log(Level.INFO,
+			if (LOG.isLoggable(Level.INFO)) {
+				LOG.log(Level.INFO,
 					"serviceLocator.lookup " + " serviceName = " + serviceName
 							+ " matcher = " + matcher.getAssertionsAsString()
 							+ " endpoints  + " + endpoints);
-
+			}
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {
 				LOG.log(Level.SEVERE,
