@@ -24,16 +24,19 @@ import java.util.List;
 import org.apache.cxf.message.Exchange;
 
 /**
- * Selects randomly from the available endpoints for each call.
- * If multiple clients use EvenDistributionSelectionStrategy it
- * could happen that all clients choose subsequently the same endpoints since the locator
- * instances for each client operate independently. RandomSelectionStrategy avoids this
+ * Selects randomly from the available endpoints for each call. If multiple
+ * clients use EvenDistributionSelectionStrategy it could happen that all
+ * clients choose subsequently the same endpoints since the locator instances
+ * for each client operate independently. RandomSelectionStrategy avoids this
  * problem.
  */
 public class RandomSelectionStrategy extends LocatorSelectionStrategy {
 
-	/* (non-Javadoc)
-	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+	 * getPrimaryAddress(org.apache.cxf.message.Exchange)
 	 */
 	@Override
 	public String getPrimaryAddress(Exchange exchange) {

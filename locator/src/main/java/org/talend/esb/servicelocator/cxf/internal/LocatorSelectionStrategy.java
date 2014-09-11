@@ -34,75 +34,91 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 
 public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
-    protected static final Logger LOG = Logger.getLogger(LocatorSelectionStrategy.class.getName());
+	protected static final Logger LOG = Logger
+			.getLogger(LocatorSelectionStrategy.class.getName());
 
-    protected LocatorCache locatorCache = new LocatorCache();
-    
-    private Random random = new Random();
+	protected LocatorCache locatorCache = new LocatorCache();
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.clustering.FailoverStrategy#selectAlternateAddress(java.util.List)
-     */
-    @Override
-    public String selectAlternateAddress(List<String> alternates) {
-        String alternateAddress = null;
-        if (alternates != null && !alternates.isEmpty()) {
-            int index = random.nextInt(alternates.size());
-            alternateAddress = alternates.remove(index);
-        }
-        LOG.log(Level.INFO, "selectAlternateAddress "
-        		+ " alternates = " + alternates
-        		+ " alternateAddress = " + alternateAddress);
+	private Random random = new Random();
 
-        return alternateAddress;
-    }
-
-	/* (non-Javadoc)
-	 * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.cxf.clustering.FailoverStrategy#selectAlternateAddress(java
+	 * .util.List)
 	 */
-    @Override
-    public List<String> getAlternateAddresses(Exchange exchange) {
+	@Override
+	public String selectAlternateAddress(List<String> alternates) {
+		String alternateAddress = null;
+		if (alternates != null && !alternates.isEmpty()) {
+			int index = random.nextInt(alternates.size());
+			alternateAddress = alternates.remove(index);
+		}
+		LOG.log(Level.INFO, "selectAlternateAddress " + " alternates = "
+				+ alternates + " alternateAddress = " + alternateAddress);
+
+		return alternateAddress;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.
+	 * apache.cxf.message.Exchange)
+	 */
+	@Override
+	public List<String> getAlternateAddresses(Exchange exchange) {
 		return locatorCache.getFailoverEndpoints(getServiceName(exchange));
 	}
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateEndpoints(org.apache.cxf.message.Exchange)
-     */
-    @Override
-    public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.cxf.clustering.FailoverStrategy#getAlternateEndpoints(org.
+	 * apache.cxf.message.Exchange)
+	 */
+	@Override
+	public List<Endpoint> getAlternateEndpoints(Exchange exchange) {
+		return null;
+	}
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.clustering.FailoverStrategy#selectAlternateEndpoint(java.util.List)
-     */
-    @Override
-    public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.cxf.clustering.FailoverStrategy#selectAlternateEndpoint(java
+	 * .util.List)
+	 */
+	@Override
+	public Endpoint selectAlternateEndpoint(List<Endpoint> alternates) {
+		return null;
+	}
 
-    /**
-     * @param exchange
-     * @return
-     */
-    public abstract String getPrimaryAddress(Exchange exchange);
+	/**
+	 * @param exchange
+	 * @return
+	 */
+	public abstract String getPrimaryAddress(Exchange exchange);
 
-    synchronized public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
-        if (propertiesMatcher != null) {
-        	locatorCache.setMatcher(propertiesMatcher);
-        }
-    }
+	synchronized public void setMatcher(SLPropertiesMatcher propertiesMatcher) {
+		if (propertiesMatcher != null) {
+			locatorCache.setMatcher(propertiesMatcher);
+		}
+	}
 
-    public void setServiceLocator(ServiceLocator serviceLocator) {
-    	locatorCache.setServiceLocator(serviceLocator);
-    }
-    
-    public void setReloadAdressesCount(int reloadAdressesCount) {
-    	locatorCache.setReloadCount(reloadAdressesCount);
-    }
-    
-    protected QName getServiceName(Exchange exchange) {
-        return exchange.getEndpoint().getService().getName();
-    }
+	public void setServiceLocator(ServiceLocator serviceLocator) {
+		locatorCache.setServiceLocator(serviceLocator);
+	}
+
+	public void setReloadAdressesCount(int reloadAdressesCount) {
+		locatorCache.setReloadCount(reloadAdressesCount);
+	}
+
+	protected QName getServiceName(Exchange exchange) {
+		return exchange.getEndpoint().getService().getName();
+	}
 
 }

@@ -25,18 +25,20 @@ import java.util.List;
 import org.apache.cxf.message.Exchange;
 
 /**
- * Performs a client side round robin strategy. 
- * In case of a fail over all strategies are equivalent.
- * A random alternative endpoint is selected. 
- * If multiple clients use EvenDistributionSelectionStrategy it
- * could happen that all clients choose subsequently the same endpoints since the locator
- * instances for each client operate independently. RandomSelectionStrategy avoids this
- * problem.
+ * Performs a client side round robin strategy. In case of a fail over all
+ * strategies are equivalent. A random alternative endpoint is selected. If
+ * multiple clients use EvenDistributionSelectionStrategy it could happen that
+ * all clients choose subsequently the same endpoints since the locator
+ * instances for each client operate independently. RandomSelectionStrategy
+ * avoids this problem.
  */
 public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy {
 
-	/* (non-Javadoc)
-	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+	 * getPrimaryAddress(org.apache.cxf.message.Exchange)
 	 */
 	@Override
 	public String getPrimaryAddress(Exchange exchange) {

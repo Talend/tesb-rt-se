@@ -30,14 +30,16 @@ import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.message.Exchange;
 
 /**
- * Keeps the endpoint as long as there is no failover. 
- * In case of a fail over all strategies are equivalent - a random alternative
- * endpoint is selected.
+ * Keeps the endpoint as long as there is no failover. In case of a fail over
+ * all strategies are equivalent - a random alternative endpoint is selected.
  */
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy {
 
-	/* (non-Javadoc)
-	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+	 * getPrimaryAddress(org.apache.cxf.message.Exchange)
 	 */
 	@Override
 	public String getPrimaryAddress(Exchange exchange) {

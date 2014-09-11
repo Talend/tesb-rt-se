@@ -47,85 +47,87 @@ public class LocatorCache {
 	private SLPropertiesMatcher matcher = SLPropertiesMatcher.ALL_MATCHER;
 
 	private int reloadCount = 10;
-	
-    private Random random = new Random();
+
+	private Random random = new Random();
 
 	static final Logger LOG = Logger.getLogger(LocatorCache.class.getName());
-			
-    public void setMatcher(SLPropertiesMatcher matcher) {
-    	this.matcher = matcher;
-    }
 
-    public void setServiceLocator(ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
-    }
+	public void setMatcher(SLPropertiesMatcher matcher) {
+		this.matcher = matcher;
+	}
 
-    public void setReloadCount(int reloadCount) {
-        this.reloadCount = reloadCount;
-    }
+	public void setServiceLocator(ServiceLocator serviceLocator) {
+		this.serviceLocator = serviceLocator;
+	}
 
-    synchronized String getPrimaryAddressSame(QName serviceName) {
-    	List<String> endpoints = getEndpoints(serviceName, false);
-    	if (endpoints == null || endpoints.isEmpty())
-    		return null;
-    	String key = getPrimaryAddressKey(serviceName);
-		if (!lastIndex.containsKey(key) || lastIndex.get(key) >= endpoints.size()) {
+	public void setReloadCount(int reloadCount) {
+		this.reloadCount = reloadCount;
+	}
+
+	synchronized String getPrimaryAddressSame(QName serviceName) {
+		List<String> endpoints = getEndpoints(serviceName, false);
+		if (endpoints == null || endpoints.isEmpty())
+			return null;
+		String key = getPrimaryAddressKey(serviceName);
+		if (!lastIndex.containsKey(key)
+				|| lastIndex.get(key) >= endpoints.size()) {
 			lastIndex.put(key, random.nextInt(endpoints.size()));
 		}
 		String primaryAddress = endpoints.get(lastIndex.get(key));
-    	cacheCounter.put(key, 0); // cache never expires for this strategy
-        if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address same for service " + serviceName 
-            		+ " selecting from " + endpoints
-                    + " selected = " + primaryAddress);
-        }
-        return primaryAddress;
-    }
+		cacheCounter.put(key, 0); // cache never expires for this strategy
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Get same primary address for service "
+					+ serviceName + " selecting from " + endpoints
+					+ " selected = " + primaryAddress);
+		}
+		return primaryAddress;
+	}
 
-    synchronized String getPrimaryAddressNext(QName serviceName) {
-    	List<String> endpoints = getEndpoints(serviceName, false);
-    	if (endpoints == null || endpoints.isEmpty())
-    		return null;
-    	String key = getPrimaryAddressKey(serviceName);
+	synchronized String getPrimaryAddressNext(QName serviceName) {
+		List<String> endpoints = getEndpoints(serviceName, false);
+		if (endpoints == null || endpoints.isEmpty())
+			return null;
+		String key = getPrimaryAddressKey(serviceName);
 		if (!lastIndex.containsKey(key)) {
 			lastIndex.put(key, random.nextInt(endpoints.size()));
 		} else {
 			lastIndex.put(key, (lastIndex.get(key) + 1) % endpoints.size());
 		}
 		String primaryAddress = endpoints.get(lastIndex.get(key));
-        if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address next for service " + serviceName 
-            		+ " selecting from " + endpoints
-                    + " selected = " + primaryAddress);
-        }
-        return primaryAddress;
-    }
-
-    synchronized String getPrimaryAddressRandom(QName serviceName) {
-    	List<String> endpoints = getEndpoints(serviceName, false);
-    	if (endpoints == null || endpoints.isEmpty())
-    		return null;
-    	String key = getPrimaryAddressKey(serviceName);
-    	lastIndex.put(key, random.nextInt(endpoints.size()));
-		String primaryAddress = endpoints.get(lastIndex.get(key));
-        if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get primary address random for service " + serviceName 
-            		+ " selecting from " + endpoints
-                    + " selected = " + primaryAddress);
-        }
-        return primaryAddress;
-    }
-    
-	synchronized List<String> getFailoverEndpoints(QName serviceName) {
-	   	List<String> endpoints = getEndpoints(serviceName, true);
-	   	return new ArrayList<String>(endpoints);
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Get next primary address for service "
+					+ serviceName + " selecting from " + endpoints
+					+ " selected = " + primaryAddress);
+		}
+		return primaryAddress;
 	}
-    	
-	private synchronized List<String> getEndpoints(QName serviceName, boolean isFailover) {
+
+	synchronized String getPrimaryAddressRandom(QName serviceName) {
+		List<String> endpoints = getEndpoints(serviceName, false);
+		if (endpoints == null || endpoints.isEmpty())
+			return null;
+		String key = getPrimaryAddressKey(serviceName);
+		lastIndex.put(key, random.nextInt(endpoints.size()));
+		String primaryAddress = endpoints.get(lastIndex.get(key));
+		if (LOG.isLoggable(Level.INFO)) {
+			LOG.log(Level.INFO, "Get random primary address for service "
+					+ serviceName + " selecting from " + endpoints
+					+ " selected = " + primaryAddress);
+		}
+		return primaryAddress;
+	}
+
+	synchronized List<String> getFailoverEndpoints(QName serviceName) {
+		List<String> endpoints = getEndpoints(serviceName, true);
+		return new ArrayList<String>(endpoints);
+	}
+
+	private synchronized List<String> getEndpoints(QName serviceName,
+			boolean isFailover) {
 		List<String> endpoints = Collections.emptyList();
 		String key = getPrimaryAddressKey(serviceName);
-		if (isFailover || !cacheCounter.containsKey(key) ||
-				cacheCounter.get(key) >= reloadCount) {
+		if (isFailover || !cacheCounter.containsKey(key)
+				|| cacheCounter.get(key) >= reloadCount) {
 			endpoints = getLocatorEndpoints(serviceName);
 			if (endpoints != null && !endpoints.isEmpty()) {
 				cachedAddresses.put(key, endpoints);
@@ -137,7 +139,7 @@ public class LocatorCache {
 		}
 		return endpoints;
 	}
-	
+
 	private String getPrimaryAddressKey(QName serviceName) {
 		return matcher == null ? serviceName.toString() : serviceName
 				.toString() + matcher.getAssertionsAsString();
