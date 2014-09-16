@@ -312,6 +312,7 @@
                                 <feature>tesb-policy-compression</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
+                                <feature>tesb-policy-transformation</feature>
                                 <feature>request-callback</feature>
                                 <feature>transport-jms</feature>
                                 <!-- Aux features -->
