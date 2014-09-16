@@ -36,11 +36,11 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public class LocatorCache {
 
-	private Map<String, List<String>> cachedAddresses = new HashMap<String, List<String>>();
+	static private Map<String, List<String>> cachedAddresses = new HashMap<String, List<String>>();
 
-	private Map<String, Integer> lastIndex = new HashMap<String, Integer>();
+	static private Map<String, Integer> lastIndex = new HashMap<String, Integer>();
 
-	private Map<String, Integer> cacheCounter = new HashMap<String, Integer>();
+	static private Map<String, Integer> cacheCounter = new HashMap<String, Integer>();
 
 	private ServiceLocator serviceLocator;
 

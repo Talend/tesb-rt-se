@@ -140,7 +140,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void defaultGetPrimaryAddress() throws Exception {
-		lookup(SERVICE_QNAME_2, ENDPOINT_1, ENDPOINT_2);
+		//lookup(SERVICE_QNAME_2, ENDPOINT_1, ENDPOINT_2);
 		replayAll();
 		String primary = defaultStrategy.getPrimaryAddress(exchangeMock2);
 		assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
@@ -149,7 +149,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void defaultDistribution() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+		//lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		replayAll();
 		String primary = null;
 		String lastPrimary = null;
@@ -178,7 +178,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void evenGetPrimaryAddress() throws Exception {
-		lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
+		//lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		replayAll();
 		String primary = evenDistributionStrategy
 				.getPrimaryAddress(exchangeMock);
@@ -241,7 +241,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 	@Test
 	public void randomDistribution() throws Exception {
 		randomStrategy.setReloadAdressesCount(10);
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 9; i++) {
 			lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		}
 		replayAll();
