@@ -159,7 +159,7 @@ public class LocatorCache {
 			if (LOG.isLoggable(Level.INFO)) {
 				LOG.log(Level.INFO, "serviceLocator.lookup "
 						+ " serviceName = " + serviceName + " matcher = "
-						+ matcher.getAssertionsAsString() + " endpoints  + "
+						+ matcher.getAssertionsAsString() + " endpoints "
 						+ endpoints);
 			}
 		} catch (ServiceLocatorException e) {
