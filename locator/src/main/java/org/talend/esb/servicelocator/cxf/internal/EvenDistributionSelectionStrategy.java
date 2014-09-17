@@ -34,6 +34,10 @@ import org.apache.cxf.message.Exchange;
  */
 public class EvenDistributionSelectionStrategy extends LocatorSelectionStrategy {
 
+	public EvenDistributionSelectionStrategy() {
+		locatorCache.setStrategyId("evenDistributionSelectionStrategy");
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

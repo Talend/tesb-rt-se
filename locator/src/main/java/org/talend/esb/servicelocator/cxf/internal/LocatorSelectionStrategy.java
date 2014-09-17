@@ -37,7 +37,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 	protected static final Logger LOG = Logger
 			.getLogger(LocatorSelectionStrategy.class.getName());
 
-	static protected LocatorCache locatorCache = new LocatorCache();
+	protected LocatorCache locatorCache = new LocatorCache();
 
 	private Random random = new Random();
 

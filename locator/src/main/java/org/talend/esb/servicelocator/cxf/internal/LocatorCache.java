@@ -36,11 +36,11 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public class LocatorCache {
 
-	private Map<String, List<String>> cachedAddresses = new HashMap<String, List<String>>();
+	private static Map<String, List<String>> cachedAddresses = new HashMap<String, List<String>>();
 
-	private Map<String, Integer> lastIndex = new HashMap<String, Integer>();
+	private static Map<String, Integer> lastIndex = new HashMap<String, Integer>();
 
-	private Map<String, Integer> cacheCounter = new HashMap<String, Integer>();
+	private static Map<String, Integer> cacheCounter = new HashMap<String, Integer>();
 
 	private ServiceLocator serviceLocator;
 
@@ -49,6 +49,8 @@ public class LocatorCache {
 	private int reloadCount = 10;
 
 	private Random random = new Random();
+
+	private String strategyId = "";
 
 	static final Logger LOG = Logger.getLogger(LocatorCache.class.getName());
 
@@ -62,6 +64,10 @@ public class LocatorCache {
 
 	public void setReloadCount(int reloadCount) {
 		this.reloadCount = reloadCount;
+	}
+
+	public void setStrategyId(String strategyId) {
+		this.strategyId = strategyId;
 	}
 
 	synchronized String getPrimaryAddressSame(QName serviceName) {
@@ -141,8 +147,9 @@ public class LocatorCache {
 	}
 
 	private String getPrimaryAddressKey(QName serviceName) {
-		return matcher == null ? serviceName.toString() : serviceName
-				.toString() + matcher.getAssertionsAsString();
+		return strategyId + "." + matcher == null ? serviceName.toString()
+				: serviceName.toString() + "."
+						+ matcher.getAssertionsAsString();
 	}
 
 	synchronized private List<String> getLocatorEndpoints(QName serviceName) {
@@ -150,10 +157,10 @@ public class LocatorCache {
 		try {
 			endpoints = serviceLocator.lookup(serviceName, matcher);
 			if (LOG.isLoggable(Level.INFO)) {
-				LOG.log(Level.INFO,
-					"serviceLocator.lookup " + " serviceName = " + serviceName
-							+ " matcher = " + matcher.getAssertionsAsString()
-							+ " endpoints  + " + endpoints);
+				LOG.log(Level.INFO, "serviceLocator.lookup "
+						+ " serviceName = " + serviceName + " matcher = "
+						+ matcher.getAssertionsAsString() + " endpoints  + "
+						+ endpoints);
 			}
 		} catch (ServiceLocatorException e) {
 			if (LOG.isLoggable(Level.SEVERE)) {

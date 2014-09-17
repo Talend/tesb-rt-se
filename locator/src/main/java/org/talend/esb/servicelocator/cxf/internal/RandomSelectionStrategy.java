@@ -32,6 +32,11 @@ import org.apache.cxf.message.Exchange;
  */
 public class RandomSelectionStrategy extends LocatorSelectionStrategy {
 
+	
+	public RandomSelectionStrategy() {
+		locatorCache.setStrategyId("randomSelectionStrategy");
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

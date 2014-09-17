@@ -35,6 +35,11 @@ import org.apache.cxf.message.Exchange;
  */
 public class DefaultSelectionStrategy extends LocatorSelectionStrategy {
 
+	
+	public DefaultSelectionStrategy() {
+		locatorCache.setStrategyId("defaultSelectionStrategy");
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
