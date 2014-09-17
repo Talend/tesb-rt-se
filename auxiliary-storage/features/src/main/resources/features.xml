@@ -76,7 +76,7 @@
     <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.paranamer/${paranamer-bundle-version}</bundle>
 
 
-     <feature>jackrabbit-aux-bundles</feature>
+    <feature>jackrabbit-aux-bundles</feature>
 
     <configfile finalname="/etc/org.talend.esb.auxiliary.repo.xml">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${auxiliary.storage.version}/xml/org.talend.esb.auxiliary.repo</configfile>
     <!--Provided bundles  -->
@@ -87,13 +87,13 @@
   </feature>
 
   <feature name='tesb-aux-service-rest' version='${auxiliary.storage.version}'>
-  <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${auxiliary.storage.version}/cfg/org.talend.esb.auxiliary.storage.service</configfile>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${auxiliary.storage.version}/cfg/org.talend.esb.auxiliary.storage.service</configfile>
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${auxiliary.storage.version}</bundle>
   </feature>
 
-   <feature name='tesb-aux-server' version='${auxiliary.storage.version}'>
-   <configfile finalname="/etc/org.talend.esb.auxiliary.storage.server.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${auxiliary.storage.version}/cfg/org.talend.esb.auxiliary.storage.server</configfile>
+  <feature name='tesb-aux-server' version='${auxiliary.storage.version}'>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.server.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${auxiliary.storage.version}/cfg/org.talend.esb.auxiliary.storage.server</configfile>
     <!-- Common dependency -->
     <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
     <feature version="${auxiliary.storage.version}">tesb-aux-persistence</feature>
@@ -103,7 +103,7 @@
   </feature>
 
   <!-- Main feature -->
-   <feature name='tesb-aux' version='${auxiliary.storage.version}'>
+  <feature name='tesb-aux' version='${auxiliary.storage.version}'>
     <feature version="${auxiliary.storage.version}">tesb-aux-common</feature>
     <feature version="${auxiliary.storage.version}">tesb-aux-client-rest</feature>
     <feature version="${auxiliary.storage.version}">tesb-aux-service-rest</feature>
