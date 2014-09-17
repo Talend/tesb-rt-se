@@ -95,50 +95,50 @@
                 <extensions>true</extensions>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-codegen-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-test-sources</id>
-                        <phase>generate-test-sources</phase>
-                        <configuration>
-                            <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
-                            <wsdlOptions>
-                                <wsdlOption>
-                                    <wsdl>${basedir}/src/test/resources/Library.wsdl</wsdl>
-                                    <frontEnd>jaxws21</frontEnd>
-                                    <faultSerialVersionUID>1</faultSerialVersionUID>
-                                    <bindingFiles>
-                                        <bindingFile>${basedir}/src/test/resources/binding.xml</bindingFile>
-                                    </bindingFiles>
-                                </wsdlOption>
-                            </wsdlOptions>
-                        </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-test-sources</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated/cxf</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--             <plugin> -->
+<!--                 <groupId>org.apache.cxf</groupId> -->
+<!--                 <artifactId>cxf-codegen-plugin</artifactId> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>generate-test-sources</id> -->
+<!--                         <phase>generate-test-sources</phase> -->
+<!--                         <configuration> -->
+<!--                             <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot> -->
+<!--                             <wsdlOptions> -->
+<!--                                 <wsdlOption> -->
+<!--                                     <wsdl>${basedir}/src/test/resources/Library.wsdl</wsdl> -->
+<!--                                     <frontEnd>jaxws21</frontEnd> -->
+<!--                                     <faultSerialVersionUID>1</faultSerialVersionUID> -->
+<!--                                     <bindingFiles> -->
+<!--                                         <bindingFile>${basedir}/src/test/resources/binding.xml</bindingFile> -->
+<!--                                     </bindingFiles> -->
+<!--                                 </wsdlOption> -->
+<!--                             </wsdlOptions> -->
+<!--                         </configuration> -->
+<!--                         <goals> -->
+<!--                             <goal>wsdl2java</goal> -->
+<!--                         </goals> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
+<!--             <plugin> -->
+<!--                 <groupId>org.codehaus.mojo</groupId> -->
+<!--                 <artifactId>build-helper-maven-plugin</artifactId> -->
+<!--                 <executions> -->
+<!--                     <execution> -->
+<!--                         <id>add-test-sources</id> -->
+<!--                         <phase>generate-test-sources</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>add-test-source</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <sources> -->
+<!--                                 <source>${project.build.directory}/generated/cxf</source> -->
+<!--                             </sources> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
         </plugins>
     </build>
 </project>
