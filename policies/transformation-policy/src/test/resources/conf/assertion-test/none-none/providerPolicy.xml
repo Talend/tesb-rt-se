@@ -3,7 +3,7 @@
         <wsp:All>
             <tpa:Transformation xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
                 path="conf/assertion-test/none-none/providerTransformation.xsl"
-                appliesTo="always"
+                appliesTo="none"
                 message="none"
                 type="xslt"/>
         </wsp:All>

@@ -2,6 +2,8 @@ package org.talend.esb.policy.transformation.test;
 
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.services.test.library._1_0.Library;
@@ -11,6 +13,9 @@ import org.talend.types.test.library.common._1.SearchFor;
 
 
 public class TransformationAssertionTest {
+
+    private ClassPathXmlApplicationContext serviceContext;
+    private ClassPathXmlApplicationContext clientContext;
 
     private ClassPathXmlApplicationContext startContext(String configFileName) {
         ClassPathXmlApplicationContext context;
@@ -48,8 +53,8 @@ public class TransformationAssertionTest {
 
         final String dir = testName;
 
-        ClassPathXmlApplicationContext serviceContext = startProvider(dir);
-        ClassPathXmlApplicationContext clientContext  = startConsumer(dir);
+        serviceContext = startProvider(dir);
+        clientContext  = startConsumer(dir);
 
         Library client = (Library)clientContext.getBean("libraryHttp");
 
@@ -63,7 +68,10 @@ public class TransformationAssertionTest {
 
         assertEquals("Books amount in response differs from 1", 1, booksInResponse(response));
         assertEquals("Received unexpected author name", expectedResult, authorLastName(response));
+    }
 
+    @After
+    public void closeContextsAfterEachTest() {
         clientContext.stop();
         clientContext.close();
 

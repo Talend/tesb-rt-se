@@ -3,8 +3,8 @@
         <wsp:All>
             <tpa:Transformation xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
                 path="conf/assertion-test/none-response/consumerTransformation.xsl"
-                appliesTo="always"
-                message="none"
+                appliesTo="none"
+                message="response"
                 type="xslt"/>
         </wsp:All>
     </wsp:ExactlyOne>
