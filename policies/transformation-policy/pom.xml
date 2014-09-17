@@ -28,6 +28,12 @@
             <artifactId>cxf-rt-bindings-soap</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>${cxf.xjc.version}</version>
+<!--             <scope>test</scope> -->
+        </dependency>
 
 
   <!-- ====================================  Test dependencies ========================================== -->
@@ -48,12 +54,6 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf.xjc-utils</groupId>
-            <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf.xjc.version}</version>
-<!--             <scope>test</scope> -->
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -77,13 +77,6 @@
 
     <build>
         <plugins>
-<!--             <plugin> -->
-<!--                 <groupId>org.apache.maven.plugins</groupId> -->
-<!--                 <artifactId>maven-surefire-plugin</artifactId> -->
-<!--                 <configuration> -->
-<!--                     <skipTests>true</skipTests> -->
-<!--                 </configuration> -->
-<!--             </plugin> -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
