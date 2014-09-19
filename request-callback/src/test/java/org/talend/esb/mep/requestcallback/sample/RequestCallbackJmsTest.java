@@ -28,6 +28,7 @@ import org.apache.cxf.transport.jms.JMSTransportFactory;
 import org.apache.cxf.wsdl11.WSDLServiceFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -42,6 +43,7 @@ import org.talend.esb.mep.requestcallback.sample.internal.ServiceProviderHandler
 
 import static org.junit.Assert.*;
 
+@Ignore
 @RunWith(Parameterized.class)
 public class RequestCallbackJmsTest {
 
