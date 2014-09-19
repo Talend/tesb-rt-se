@@ -23,6 +23,7 @@
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
   <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
+  <repository>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</repository>
 
   <feature name='tesb-sam-common' version='${project.version}'>
     <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
@@ -265,6 +266,11 @@
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>
   </feature>
 
+  <feature name='tesb-policy-transformation' version='${project.version}'>
+    <feature version='${cxf.version}'>cxf</feature>
+    <bundle>mvn:org.talend.esb.policies/transformation-policy/${project.version}</bundle>
+  </feature>
+
   <feature name='tesb-policy-samenable' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <feature version='${project.version}'>tesb-sam-agent</feature>
@@ -272,9 +278,15 @@
   </feature>
 
   <feature name="request-callback" version='${project.version}'>
-       <bundle>mvn:org.talend.esb.mep/request-callback/${project.version}</bundle>
-       <configfile finalname="/etc/org.talend.esb.mep.request.callback.http.request.callback.example.com.service1.cfg">mvn:org.talend.esb.mep/request-callback/${project.version}/cfg1</configfile>
-       <configfile finalname="/etc/org.talend.esb.mep.request.callback.http.request.callback.example.com.service2.cfg">mvn:org.talend.esb.mep/request-callback/${project.version}/cfg2</configfile>
+    <feature version='${cxf.version}'>cxf</feature>
+    <feature version='${project.version}'>tesb-aux-common</feature>
+    <feature version='${project.version}'>tesb-aux-client-rest</feature>
+    <bundle>mvn:org.talend.esb.mep/request-callback/${project.version}</bundle>
+  </feature>
+
+  <feature name="transport-jms" version='${project.version}'>
+    <feature version='${cxf.version}'>cxf</feature>
+    <bundle>mvn:org.talend.esb/transport-jms/${project.version}</bundle>
   </feature>
 
 </features>

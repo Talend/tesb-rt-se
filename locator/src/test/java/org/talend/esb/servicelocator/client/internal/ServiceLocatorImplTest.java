@@ -19,12 +19,16 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.talend.esb.servicelocator.TestContent.createContent;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
@@ -34,15 +38,19 @@ import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 
 public class ServiceLocatorImplTest extends EasyMockSupport {
   
@@ -160,6 +168,7 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         expect(serviceNode.exists()).andReturn(true);
         expect(serviceNode.getEndPoints()).andReturn(Arrays.asList(endpointNode));
         expect(endpointNode.isLive()).andReturn(true);
+        expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getContent()).andStubReturn(createContent(PROPERTIES_1));
         
@@ -281,6 +290,78 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         List<String> endpoints = slc.getEndpointNames(SERVICE_QNAME_1);
 
         assertThat(endpoints, empty());
+        verifyAll();
+    }
+    
+    @Test
+    public void updateTimetolive() throws Exception {
+        final int ttl = 95;
+        
+        Capture<Date> dateCap = new Capture<Date>();
+        
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+        expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
+        expect(endpointNode.exists()).andReturn(true);
+        endpointNode.setExpiryTime(capture(dateCap), eq(true));
+
+        replayAll();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
+        
+        Date startD = new Date();
+
+        slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, ttl);
+        
+        assertNotNull(dateCap.getValue());
+        assertTrue(dateCap.getValue().after(startD));
+        assertTrue(dateCap.getValue().before(new Date(startD.getTime() + (ttl + 5) * 1000)));
+
+        verifyAll();
+    }
+    
+    @Test
+    public void updateTimetoliveWrongArgument() throws Exception {
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
+        
+        try {
+            slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, -3);
+            fail();
+        } catch (WrongArgumentException e) {
+            // pass
+        }
+        
+        try {
+            slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, 0);
+            fail();
+        } catch (WrongArgumentException e) {
+            // pass
+        }
+    }
+    
+    @Test
+    public void updateTimetoliveEndpointNotFound() throws Exception {
+        final int ttl = 95;
+        
+        expect(backend.connect()).andReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
+        expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
+        expect(endpointNode.exists()).andReturn(false);
+
+        replayAll();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
+        
+        try {
+            slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, ttl);
+            fail();
+        } catch (EndpointNotFoundException e) {
+            // pass
+        }
+        
         verifyAll();
     }
 }

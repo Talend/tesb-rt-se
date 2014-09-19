@@ -9,54 +9,76 @@ import org.apache.neethi.PolicyComponent;
 import org.w3c.dom.Element;
 
 public class TransformationAssertion implements Assertion {
-	private static final String NS_PREFIX = "tpa";
-	private static final String TYPE_NAME = "type";
-	private static final String IN_XSLT_PATH_ATTRIBUTE_NAME = "inXSLTPath";
-	private static final String OUT_XSLT_PATH_ATTRIBUTE_NAME = "outXSLTPath";
-	
-	private final TransformationType transformationType;
-	private final String inXSLTPath;
-	private final String outXSLTPath;
+    private static final String NS_PREFIX = "tpa";
+    private static final String TYPE_NAME = "type";
 
-	public TransformationAssertion(Element element) {      
-      	String sType = element.getAttribute(TYPE_NAME);
-      	if ((sType == null) || (sType.isEmpty())) {
-      		transformationType = TransformationType.xslt;
-      	} else {
-      		transformationType = TransformationType.valueOf(sType);
-      	}
-      	inXSLTPath = element.getAttribute(IN_XSLT_PATH_ATTRIBUTE_NAME);
-      	outXSLTPath = element.getAttribute(OUT_XSLT_PATH_ATTRIBUTE_NAME);
-	}
+    private static final String PATH_ATTRIBUTE_NAME         = "path";
+    private static final String APPLIES_TO_ATTRIBUTE_NAME   = "appliesTo";
+    private static final String MESSAGE_TYPE_ATTRIBUTE_NAME = "message";
 
-	@Override
-	public short getType() {
-		return org.apache.neethi.Constants.TYPE_ASSERTION;
-	}
 
-	@Override
-	public boolean equal(PolicyComponent policyComponent) {
+    public enum AppliesToType {
+        consumer,
+        provider,
+        always,
+        none
+    }
+
+
+    public enum MessageType {
+        request,
+        response,
+        all,
+        none
+    }
+
+
+    private final TransformationType transformationType;
+    private final String path;
+    private final String appliesTo;
+    private final String messageType;
+
+    public TransformationAssertion(Element element) {
+          String sType = element.getAttribute(TYPE_NAME);
+          if ((sType == null) || (sType.isEmpty())) {
+              transformationType = TransformationType.xslt;
+          } else {
+              transformationType = TransformationType.valueOf(sType);
+          }
+
+          path = element.getAttribute(PATH_ATTRIBUTE_NAME);
+          appliesTo = element.getAttribute(APPLIES_TO_ATTRIBUTE_NAME);
+          messageType = element.getAttribute(MESSAGE_TYPE_ATTRIBUTE_NAME);
+    }
+
+    @Override
+    public short getType() {
+        return org.apache.neethi.Constants.TYPE_ASSERTION;
+    }
+
+    @Override
+    public boolean equal(PolicyComponent policyComponent) {
         return policyComponent == this;
-	}
+    }
 
-	@Override
-	public QName getName() {
-		return TransformationPolicyBuilder.TRANSFORMATION;
-	}
+    @Override
+    public QName getName() {
+        return TransformationPolicyBuilder.TRANSFORMATION;
+    }
 
-	@Override
-	public boolean isOptional() {
-		return false;
-	}
+    @Override
+    public boolean isOptional() {
+        return false;
+    }
 
-	@Override
-	public boolean isIgnorable() {
-		return false;
-	}
+    @Override
+    public boolean isIgnorable() {
+        return false;
+    }
 
-	@Override
-	public void serialize(XMLStreamWriter writer) throws XMLStreamException {
-		String prefix = writer.getPrefix(TransformationPolicyBuilder.NAMESPACE);
+    @Override
+    public void serialize(XMLStreamWriter writer) throws XMLStreamException {
+        String prefix = writer.getPrefix(TransformationPolicyBuilder.NAMESPACE);
 
         if (prefix == null) {
             prefix = NS_PREFIX;
@@ -64,36 +86,40 @@ public class TransformationAssertion implements Assertion {
         }
 
         // <tpa:Transformation>
-        writer.writeStartElement(prefix, TransformationPolicyBuilder.TRANSFORMATION_NAME, 
-        		TransformationPolicyBuilder.NAMESPACE);
+        writer.writeStartElement(prefix, TransformationPolicyBuilder.TRANSFORMATION_NAME,
+                TransformationPolicyBuilder.NAMESPACE);
 
         // xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
         writer.writeNamespace(prefix, TransformationPolicyBuilder.NAMESPACE);
 
         // attributes
-        writer.writeAttribute(null, IN_XSLT_PATH_ATTRIBUTE_NAME, String.valueOf(inXSLTPath));
-        writer.writeAttribute(null, OUT_XSLT_PATH_ATTRIBUTE_NAME, String.valueOf(outXSLTPath));
+        writer.writeAttribute(null, PATH_ATTRIBUTE_NAME, String.valueOf(path));
+        writer.writeAttribute(null, APPLIES_TO_ATTRIBUTE_NAME, String.valueOf(appliesTo));
+        writer.writeAttribute(null, MESSAGE_TYPE_ATTRIBUTE_NAME, String.valueOf(messageType));
+
 
         // </tpa:Transformation>
         writer.writeEndElement();
-	}
+    }
 
-	@Override
-	public PolicyComponent normalize() {
-		return this;
-	}
+    @Override
+    public PolicyComponent normalize() {
+        return this;
+    }
 
-	public TransformationType getTransformationType() {
-		return transformationType;
-	}
+    public TransformationType getTransformationType() {
+        return transformationType;
+    }
 
-	public String getInXSLTPath() {
-		return inXSLTPath;
-	}
+    public String getPath() {
+         return path;
+     }
 
-	public String getOutXSLTPath() {
-		return outXSLTPath;
-	}
+     public String getAppliesTo() {
+         return appliesTo;
+     }
 
-
+     public String getMessageType() {
+         return messageType;
+     }
 }

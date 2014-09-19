@@ -33,6 +33,9 @@ public class HttpAwareXSLTInInterceptor extends
 
         @Override
         public void handleMessage(Message message) {
+            if (!shouldSchemaValidate(message)) {
+                return;
+            }
             if (!isRequestor(message) && isGET(message) || checkContextProperty(message)) {
                 return;
             }

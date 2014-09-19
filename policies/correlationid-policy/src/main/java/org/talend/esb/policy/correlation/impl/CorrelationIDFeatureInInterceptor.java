@@ -8,18 +8,30 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.apache.neethi.Assertion;
 import org.xml.sax.SAXException;
+
 import static org.talend.esb.policy.correlation.impl.CorrelationIDProcessor.process;
 
 public class CorrelationIDFeatureInInterceptor extends AbstractPhaseInterceptor<Message> {
-    public CorrelationIDFeatureInInterceptor() {
+	
+	Assertion policy = null;
+	
+	public CorrelationIDFeatureInInterceptor() {
         super(Phase.PRE_PROTOCOL);
     }
+	
+	public CorrelationIDFeatureInInterceptor(Assertion policy) {
+        super(Phase.PRE_PROTOCOL);
+        this.policy = policy;
+    }	
+	
+	
 
     @Override
     public void handleMessage(Message message) throws Fault {
         try {
-            process(message);
+            process(message, policy);
         } catch (SAXException e) {
             throw new Fault(e);
         } catch (IOException e) {

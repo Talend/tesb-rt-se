@@ -19,6 +19,7 @@
 		<module>compression-policy</module>
 		<module>correlationid-policy</module>
 		<module>samenabling-policy</module>
+        <module>transformation-policy</module>
         <module>validation-policy</module>
 	</modules>
 

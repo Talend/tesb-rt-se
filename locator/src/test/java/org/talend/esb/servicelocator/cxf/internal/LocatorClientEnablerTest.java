@@ -85,9 +85,6 @@ public class LocatorClientEnablerTest {
         FailoverStrategy strategy = selector.getStrategy();
         assertThat(strategy, instanceOf(LocatorSelectionStrategy.class));
 
-        LocatorSelectionStrategy locatorstrategy = (LocatorSelectionStrategy) strategy;
-        assertSame(sl, locatorstrategy.getServiceLocator());
-
         verify(client);
     }
 

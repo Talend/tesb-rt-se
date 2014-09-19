@@ -12,17 +12,17 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.ws.addressing.ContextUtils;
+import org.apache.neethi.Assertion;
 import org.talend.esb.policy.correlation.CorrelationIDCallbackHandler;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
+import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion.MethodType;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class CorrelationIDProcessor {
     private static final Logger LOG = Logger.getLogger(CorrelationIDProcessor.class.getName());
 
-    private static final String CORRELATION_ID_CALLBACK_HANDLER = "correlation-id.callback-handler";
-
-    static void process(Message message) throws SAXException, IOException, ParserConfigurationException {
+    static void process(Message message, Assertion policy) throws SAXException, IOException, ParserConfigurationException {
 
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Message process for correlation ID started");
@@ -71,14 +71,25 @@ public class CorrelationIDProcessor {
         }
         // If correlationId is null we should add it to headers
         if (null == correlationId) {
-            CorrelationIDCallbackHandler handler = null;
-            handler = (CorrelationIDCallbackHandler) message
-                    .getContextualProperty(CORRELATION_ID_CALLBACK_HANDLER);
-            if (null == handler) {
-                handler = (CorrelationIDCallbackHandler) message.get(CORRELATION_ID_CALLBACK_HANDLER);
+
+        	MethodType mType = CorrelationIDAssertion.MethodType.CALLBACK;
+        	if(policy instanceof CorrelationIDAssertion){
+        		mType = ((CorrelationIDAssertion) policy).getMethodType();
+        	}
+
+            if (MethodType.XPATH.equals(mType)) {
+            	XPathProcessor proc = new XPathProcessor(message);
+            	correlationId = proc.getCorrelationID(policy, message);
+            } else if (MethodType.CALLBACK.equals(mType)){
+                CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
+                        .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
+                if (null == handler) {
+                    handler = (CorrelationIDCallbackHandler) message
+                            .getContextualProperty(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
+                }
+                if (handler != null)
+                    correlationId = handler.getCorrelationId();
             }
-            if (handler != null)
-                correlationId = handler.getCorrelationId();
             // Generate new ID if it was not set in callback or
             // request
             if (null == correlationId) {

@@ -30,53 +30,25 @@ import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.message.Exchange;
 
 /**
- * Keeps the endpoint as long as there is no failover. 
- * In case of a fail over all strategies are equivalent - a random alternative
- * endpoint is selected.
+ * Keeps the endpoint as long as there is no failover. In case of a fail over
+ * all strategies are equivalent - a random alternative endpoint is selected.
  */
-public class DefaultSelectionStrategy extends LocatorSelectionStrategy implements FailoverStrategy {
+public class DefaultSelectionStrategy extends LocatorSelectionStrategy {
 
-    private static Map<String, String> primaryAddresses = new HashMap<String, String>();
+	
+	public DefaultSelectionStrategy() {
+		locatorCache.setStrategyId("defaultSelectionStrategy");
+	}
 
-    private String getPrimaryAddressKey(QName serviceName) {
-        return serviceName.toString() + matcher.getAssertionsAsString();
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.apache.cxf.message.Exchange)
-     */
-    @Override
-    public List<String> getAlternateAddresses(Exchange exchange) {
-        QName serviceName = getServiceName(exchange);
-        List<String> alternateAddresses = getEndpoints(serviceName);
-        synchronized (this) {
-            primaryAddresses.remove(serviceName);
-        }
-        return alternateAddresses;
-    }
-
-    /* (non-Javadoc)
-     * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#getPrimaryAddress(org.apache.cxf.message.Exchange)
-     */
-    @Override
-    public synchronized String getPrimaryAddress(Exchange exchange) {
-        QName serviceName = getServiceName(exchange);
-        String primaryAddress = primaryAddresses.get(getPrimaryAddressKey(serviceName));
-
-        if (primaryAddress == null) {
-            List<String> availableAddresses = getEndpoints(serviceName);
-            if (!availableAddresses.isEmpty()) {
-                int index = random.nextInt(availableAddresses.size());
-                primaryAddress = availableAddresses.get(index);
-                primaryAddresses.put(getPrimaryAddressKey(serviceName), primaryAddress);
-            }
-        }
-        if (LOG.isLoggable(Level.INFO)) {
-            LOG.log(Level.INFO, "Get address for service " + serviceName + " using strategy "
-                    + this.getClass().getName() + " selecting from " + primaryAddresses.entrySet()
-                    + " selected = " + primaryAddress);
-        }
-        return primaryAddress;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+	 * getPrimaryAddress(org.apache.cxf.message.Exchange)
+	 */
+	@Override
+	public String getPrimaryAddress(Exchange exchange) {
+		return locatorCache.getPrimaryAddressSame(getServiceName(exchange));
+	}
 
 }

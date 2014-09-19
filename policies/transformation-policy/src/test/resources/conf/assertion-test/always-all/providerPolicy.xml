@@ -1,0 +1,11 @@
+<wsp:Policy Name="wspolicy_xslt"  xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:Transformation xmlns:tpa="http://types.talend.com/policy/assertion/1.0"
+                path="conf/assertion-test/always-all/providerTransformation.xsl"
+                appliesTo="always"
+                message="all"
+                type="xslt"/>
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>

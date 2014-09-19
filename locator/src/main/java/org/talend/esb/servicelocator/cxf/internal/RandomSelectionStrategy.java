@@ -19,25 +19,33 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collections;
 import java.util.List;
 
+import org.apache.cxf.message.Exchange;
+
 /**
- * Selects randomly from the available endpoints for each call.
- * If multiple clients use EvenDistributionSelectionStrategy it
- * could happen that all clients choose subsequently the same endpoints since the locator
- * instances for each client operate independently. RandomSelectionStrategy avoids this
+ * Selects randomly from the available endpoints for each call. If multiple
+ * clients use EvenDistributionSelectionStrategy it could happen that all
+ * clients choose subsequently the same endpoints since the locator instances
+ * for each client operate independently. RandomSelectionStrategy avoids this
  * problem.
  */
-public class RandomSelectionStrategy extends ReloadSelectionStrategy {
+public class RandomSelectionStrategy extends LocatorSelectionStrategy {
 
-    /* (non-Javadoc)
-     * @see org.talend.esb.servicelocator.cxf.internal.ReloadSelectionStrategy#getRotatedList(java.util.List)
-     */
-    @Override
-    protected List<String> getRotatedList(List<String> strings) {
-        Collections.rotate(strings, -random.nextInt(strings.size()));
-        return strings;
-    }
+	
+	public RandomSelectionStrategy() {
+		locatorCache.setStrategyId("randomSelectionStrategy");
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.talend.esb.servicelocator.cxf.internal.LocatorSelectionStrategy#
+	 * getPrimaryAddress(org.apache.cxf.message.Exchange)
+	 */
+	@Override
+	public String getPrimaryAddress(Exchange exchange) {
+		return locatorCache.getPrimaryAddressRandom(getServiceName(exchange));
+	}
 
 }

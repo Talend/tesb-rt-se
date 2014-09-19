@@ -68,7 +68,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
-    private Boolean endpointCollectionDisable;
+    private Boolean endpointCollectionEnable;
 
     private Integer endpointCollectionInterval;
     
@@ -213,11 +213,19 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     }
     
     @Override
-    public void updateEndpointExpiringTime(QName serviceName, String endpoint, Date expiringTime,
-            boolean persistent) throws ServiceLocatorException, InterruptedException {
+    public void updateTimetolive(QName serviceName, String endpoint, int timetolive) 
+            throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Updating expiring time to " + expiringTime + " on endpoint " + endpoint 
+            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpoint 
                     + " for service " + serviceName + "...");
+        }
+        
+        if (timetolive < 0) {
+            throw new WrongArgumentException("Time-to-live cannot be negative.");
+        }
+        
+        if (timetolive == 0) {
+            throw new WrongArgumentException("Time-to-live cannot be zero.");
         }
 
         RootNode rootNode = getBackend().connect();
@@ -225,15 +233,13 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
         if (endpointNode.exists()) {
-            if (expiringTime.before(new Date())) {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
-                            + " for service " + serviceName + " because given date is in past.");
-                }
-                throw new WrongArgumentException("Given date '" + expiringTime + "' is in past.");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
+                        + " for service " + serviceName + " because given date is in past.");
             }
             
-            endpointNode.setExpiryTime(expiringTime, persistent);
+            endpointNode.setExpiryTime(new Date(System.currentTimeMillis() + timetolive * 1000), 
+                    true);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
@@ -369,8 +375,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         throws ServiceLocatorException, InterruptedException {
     	
 
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Looking up endpoints of service " + serviceName + "...");
+        if (LOG.isLoggable(Level.INFO)) {
+            LOG.info("Looking up endpoints of service " + serviceName + "...");
         }
 
         List<String> liveEndpoints;
@@ -388,7 +394,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                     SLEndpoint endpoint = transformer.toSLEndpoint(serviceName, content, true);
                     SLProperties props = endpoint.getProperties();
 
-                    if (LOG.isLoggable(Level.FINE)) {
+                    if (LOG.isLoggable(Level.INFO)) {
                         StringBuilder sb = new StringBuilder();
                         for (String prop: props.getPropertyNames()) {
                             sb.append(prop + " : ");
@@ -396,22 +402,22 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                                 sb.append(value + " ");
                             sb.append("\n");
                         }        
-                        LOG.fine("Lookup of service " + serviceName + " props = " + sb.toString());
-                        LOG.fine("matcher = " + matcher.toString());
+                        LOG.info("Lookup of service " + serviceName + " props = " + sb.toString());
+                        LOG.info("matcher = " + matcher.toString());
                     }
                     if (matcher.isMatching(props)) {
                         liveEndpoints.add(endpointNode.getEndpointName());
-                        if (LOG.isLoggable(Level.FINE))
-                            LOG.fine("matched =  " + endpointNode.getEndpointName());
+                        if (LOG.isLoggable(Level.INFO))
+                            LOG.info("matched =  " + endpointNode.getEndpointName());
                     } else 
-                        if (LOG.isLoggable(Level.FINE))
-                            LOG.fine("not matched =  " + endpointNode.getEndpointName());
+                        if (LOG.isLoggable(Level.INFO))
+                            LOG.info("not matched =  " + endpointNode.getEndpointName());
 
                 }
             }
         } else {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Lookup of service " + serviceName
+            if (LOG.isLoggable(Level.INFO)) {
+                LOG.info("Lookup of service " + serviceName
                         + " failed, service is not known.");
             }
             liveEndpoints = Collections.emptyList();
@@ -495,8 +501,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         transformer = endpointTransformer;
     }
     
-    public void setEndpointCollectionDisable(Boolean endpointCollectionDisable) {
-        this.endpointCollectionDisable = endpointCollectionDisable;
+    public void setEndpointCollectionEnable(Boolean endpointCollectionDisable) {
+        this.endpointCollectionEnable = endpointCollectionDisable;
     }
     
     public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
@@ -540,7 +546,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     
     @Override
     public synchronized void startScheduledCollection() {
-        if (endpointCollectionDisable != null && endpointCollectionDisable) {
+        if (endpointCollectionEnable != null && !endpointCollectionEnable) {
             LOG.info("Expired endpoint collection is disabled in configuration.");
             return;
         }

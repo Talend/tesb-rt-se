@@ -30,7 +30,7 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
     
     public static final String LIVE = "live";
     
-    public static final String EXPIRES = "expires";
+    public static final String TIMETOLIVE = "timetolive";
     
     private static final Charset UTF8 = Charset.forName("UTF-8");
     
@@ -57,7 +57,7 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
     
     public void ensureRemoved() throws ServiceLocatorException, InterruptedException {
         zkBackend.ensurePathDeleted(child(LIVE), false);
-        zkBackend.ensurePathDeleted(child(EXPIRES), false);
+        zkBackend.ensurePathDeleted(child(TIMETOLIVE), false);
         zkBackend.ensurePathDeleted(this, true);        
     }
 
@@ -65,11 +65,14 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
         CreateMode mode = persistent ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL;
         NodePath endpointStatusNodePath = child(LIVE);
         zkBackend.ensurePathExists(endpointStatusNodePath, mode);
+        
+        // the old expiration time is not valid after re-registering the endpoint
+        zkBackend.ensurePathDeleted(child(TIMETOLIVE), false);
     }
 
     public void setOffline() throws ServiceLocatorException, InterruptedException {
         NodePath endpointStatusNodePath = child(LIVE);
-        NodePath expNodePath = child(EXPIRES);
+        NodePath expNodePath = child(TIMETOLIVE);
         zkBackend.ensurePathDeleted(endpointStatusNodePath, false);
         zkBackend.ensurePathDeleted(expNodePath, false);
     }
@@ -88,7 +91,7 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
     
     @Override
     public Date getExpiryTime() throws ServiceLocatorException, InterruptedException {
-        NodePath expNodePath = child(EXPIRES);
+        NodePath expNodePath = child(TIMETOLIVE);
         
         if (!zkBackend.nodeExists(expNodePath)) {
             return null;
@@ -103,7 +106,7 @@ public class EndpointNodeImpl extends NodePath implements EndpointNode {
     
     @Override
     public void setExpiryTime(Date expiryTime, boolean persistent) throws ServiceLocatorException, InterruptedException {
-        NodePath expNodePath = child(EXPIRES);
+        NodePath expNodePath = child(TIMETOLIVE);
         
         String strTime = Long.toString(expiryTime.getTime());
         byte[] content = strTime.getBytes(UTF8);

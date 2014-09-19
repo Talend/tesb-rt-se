@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+  targetNamespace="http://services.talend.org/test/Library/1.0"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:err="http://types.talend.org/test/GeneralObjects/ErrorHandling/1.0"
+  xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:svn="http://types.talend.org/test/Library/Common/1.0"
+  xmlns:tns="http://services.talend.org/test/Library/1.0"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <types>
+        <xsd:schema elementFormDefault="unqualified"
+            targetNamespace="http://types.talend.org/test/GeneralObjects/ErrorHandling/1.0"
+            xmlns="http://types.talend.org/test/GeneralObjects/ErrorHandling/1.0">
+            <xsd:element name="Exceptions" type="ExceptionFrame" />
+            <xsd:complexType name="ExceptionFrame">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0"
+                        name="Exception" type="ExceptionType" />
+                </xsd:sequence>
+                <xsd:attribute default="true" name="success" type="xsd:boolean"
+                    use="optional" />
+            </xsd:complexType>
+            <xsd:complexType name="ExceptionType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0"
+                        name="Parameter" type="ParameterType" />
+                </xsd:sequence>
+                <xsd:attribute name="ServiceParticipant" type="ServiceParticipantType"
+                    use="required" />
+                <xsd:attribute name="DomainName" type="xsd:string"
+                    use="required" />
+                <xsd:attribute name="ServiceName" type="xsd:string"
+                    use="required" />
+                <xsd:attribute name="Version" type="xsd:string" use="required" />
+                <xsd:attribute name="Operation" type="xsd:string" use="required" />
+                <xsd:attribute name="ExceptionClass" type="ExceptionClassType"
+                    use="required" />
+                <xsd:attribute name="ExceptionID" type="ExceptionIDType"
+                    use="required" />
+                <xsd:attribute name="ExceptionText" type="ExceptionTextType"
+                    use="required" />
+                <xsd:attribute name="CAT_Severity" type="CAT_ITOLogLevel"
+                    use="required" />
+                <xsd:attribute name="hasBeenLogged" type="xsd:boolean"
+                    use="required" />
+                <xsd:attribute name="LogTargetList" type="xsd:string"
+                    use="optional" />
+            </xsd:complexType>
+            <xsd:simpleType name="ExceptionClassType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Z]{1}[a-zA-Z0-9_]*Exception" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="ExceptionIDType">
+                <xsd:restriction base="xsd:decimal">
+                    <xsd:totalDigits fixed="true" value="5" />
+                    <xsd:minInclusive value="10000" />
+                    <xsd:maxInclusive value="99999" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="ExceptionTextType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength fixed="false" value="256" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="ServiceParticipantType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:length value="9" />
+                    <xsd:pattern value="[0-9]*" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="CAT_ITOLogLevel">
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="NORM" />
+                    <xsd:enumeration value="WARN" />
+                    <xsd:enumeration value="MINO" />
+                    <xsd:enumeration value="MAJO" />
+                    <xsd:enumeration value="CRIT" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="ParameterType">
+                <xsd:attribute name="name" type="xsd:string" use="required" />
+                <xsd:attribute name="value" type="xsd:string" use="required" />
+                <xsd:attribute name="comment" type="xsd:string" use="optional" />
+            </xsd:complexType>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="unqualified"
+            targetNamespace="http://types.talend.org/test/Library/Common/1.0"
+            xmlns="http://types.talend.org/test/Library/Common/1.0">
+            <xsd:element name="ListOfBooks">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="Book"
+                            type="BookType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SearchFor">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="0" name="Publisher" type="LongNameType" />
+                        <xsd:element maxOccurs="unbounded" minOccurs="0"
+                            name="AuthorLastName" type="NameType" />
+                        <xsd:element minOccurs="0" name="ISBNNumber" type="ISBNType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SearchInBasementFor">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element minOccurs="0" name="Publisher" type="LongNameType" />
+                        <xsd:element maxOccurs="unbounded" minOccurs="0"
+                            name="AuthorLastName" type="NameType" />
+                        <xsd:element minOccurs="0" name="ISBNNumber" type="ISBNType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="createLending">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="ISBNNumber" type="ISBNType" />
+                        <xsd:element name="DateOfBirth" type="DateType" />
+                        <xsd:element name="ZIP" type="ZIPType" />
+                        <xsd:element name="Borrowed" type="DateType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="StreetAddressType">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="Street" type="StreetType" />
+                    <xsd:element minOccurs="0" name="HouseNumber" type="HouseNumberType" />
+                    <xsd:element name="ZIP" type="ZIPType" />
+                    <xsd:element minOccurs="0" name="City" type="CityType" />
+                    <xsd:element name="CountryID" type="IDType" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PersonType">
+                <xsd:sequence>
+                    <xsd:element name="PersonID" type="IDType" />
+                    <xsd:element name="LastName" type="NameType" />
+                    <xsd:element name="FirstName" type="NameType" />
+                    <xsd:element minOccurs="0" name="TitleID" type="IDType" />
+                    <xsd:element minOccurs="0" name="SalutationID" type="IDType" />
+                    <xsd:element name="DateOfBirth" type="DateType" />
+                    <xsd:element name="EMail" type="MailToType" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BookType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="3" name="Title" type="LongNameType" />
+                    <xsd:element maxOccurs="unbounded" name="Author" type="PersonType" />
+                    <xsd:element name="ISBN" type="ISBNType" />
+                    <xsd:element maxOccurs="unbounded" name="Publisher"
+                        type="LongNameType" />
+                    <xsd:element name="Year_published">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:length value="4" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:simpleType name="ZIPType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for ZIP codes</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="10" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="CityType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for cities</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="35" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="StreetType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for streets</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="35" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="HouseNumberType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for house numbers</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="10" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="NameType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for names (firstname, lastname, ...)
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:whiteSpace value="collapse" />
+                    <xsd:maxLength value="35" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="LongNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for long names (titles, publisher,
+                        ...)</xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:whiteSpace value="collapse" />
+                    <xsd:maxLength value="200" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="MailToType">
+                <xsd:annotation>
+                    <xsd:documentation>Base type for e-mail accounts
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="200" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="IDType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:maxLength value="11" />
+                    <xsd:pattern value="[0-9]{1}[0-9]*" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="DateType">
+                <xsd:restriction base="xsd:date" />
+            </xsd:simpleType>
+            <xsd:simpleType name="ISBNType">
+                <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                    <xsd:maxLength value="15" />
+                    <xsd:pattern value="[0-9\-]*" />
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:element name="newBooks">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="ListDate" type="svn:DateType" />
+                        <xsd:element maxOccurs="unbounded" name="Book" type="svn:BookType" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="seekBookRequest">
+        <part element="svn:SearchFor" name="body" />
+    </message>
+    <message name="seekBookResponse">
+        <part element="svn:ListOfBooks" name="body" />
+    </message>
+    <message name="seekBookError">
+        <part element="err:Exceptions" name="Exception" />
+    </message>
+
+    <portType name="Library">
+        <operation name="seekBook">
+            <input message="tns:seekBookRequest" />
+            <output message="tns:seekBookResponse" />
+            <fault message="tns:seekBookError" name="error" />
+        </operation>
+    </portType>
+
+    <binding name="LibraryHttpSoap" type="tns:Library">
+        <soap:binding style="document"
+            transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="seekBook">
+            <soap:operation soapAction="seekBook" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="error">
+                <soap:fault name="error" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+
+    <service name="LibraryProvider">
+        <port binding="tns:LibraryHttpSoap" name="LibraryHttpPort">
+            <soap:address location="http://localhost:31415/tesb-library-tutorial/services/LibraryHttpPort" />
+        </port>
+    </service>
+</definitions>

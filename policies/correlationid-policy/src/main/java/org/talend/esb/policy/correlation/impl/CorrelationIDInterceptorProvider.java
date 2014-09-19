@@ -35,7 +35,6 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
         this.getOutFaultInterceptors().add(new CorrelationIDPolicyOutInterceptor());
         this.getInInterceptors().add(new CorrelationIDPolicyInInterceptor());
         this.getInFaultInterceptors().add(new CorrelationIDPolicyInInterceptor());
-        this.getOutInterceptors().add(new CorrelationIDXpathInterceptor());
     }
 
     static class CorrelationIDPolicyOutInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -135,10 +134,9 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     // If correlationId is null we should add it to headers
                     if (null == correlationId) {
                         if (MethodType.XPATH.equals(mType)) {
-                            message.setContextualProperty(
-                            		CorrelationIDXpathInterceptor.CORRELATION_ID_XPATH_ASSERTION, 
-                            		cAssertion);
-                            correlationId = CorrelationIDXpathInterceptor.TEMP_CORRELATION_ID;
+                        	
+                        	XPathProcessor proc = new XPathProcessor(message);
+                        	correlationId = proc.getCorrelationID(cAssertion, message);
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
                                     .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);

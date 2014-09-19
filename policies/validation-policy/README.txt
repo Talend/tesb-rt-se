@@ -30,7 +30,7 @@ Here is example of the policy:
 Supported assertion attributes:
 
 type - CustomSchema (if not specified, assumed as WSDLSchema)
-schemaPath - URL, absolute or relative path to custom schema;
+path - URL, absolute or relative path to custom schema;
 appliesTo - consumer/provider/always/none;
 message - request/response/all/none;
 
@@ -38,7 +38,7 @@ Policy samples:
 <wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy" Name="wspolicy_schema_custom_validation">
     <wsp:ExactlyOne>
         <wsp:All>
-            <tpa:SchemaValidation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CustomSchema" schemaPath="http://localhost:8080/CustomSchema.xsd" appliesTo="provider" message="request"/>
+            <tpa:SchemaValidation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CustomSchema" path="http://localhost:8080/CustomSchema.xsd" appliesTo="provider" message="request"/>
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>
@@ -46,7 +46,7 @@ Policy samples:
 <wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy" Name="wspolicy_schema_custom_validation">
     <wsp:ExactlyOne>
         <wsp:All>
-            <tpa:SchemaValidation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CustomSchema" schemaPath="/opt/CustomSchema.xsd" appliesTo="consumer" message="response"/>
+            <tpa:SchemaValidation xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="CustomSchema" path="/opt/CustomSchema.xsd" appliesTo="consumer" message="response"/>
         </wsp:All>
     </wsp:ExactlyOne>
 </wsp:Policy>

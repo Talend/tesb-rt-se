@@ -20,17 +20,21 @@
 package org.talend.esb.locator.service.rest;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
-import junit.framework.Assert;
 
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
@@ -44,10 +48,12 @@ import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
 import org.talend.esb.locator.service.rest.LocatorRestServiceImpl;
 import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
 import org.w3c.dom.Document;
 
@@ -105,7 +111,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(),
                 new ArrayList<String>());
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+       assertTrue(endpointRef.toString().equals(expectedRef.toString()));
     }
     
     @Test
@@ -140,7 +146,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
 
         endpointRef = lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
 
-        Assert.assertTrue(endpointRef.toString().equals(expectedRef.toString()));
+        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
 
     }
 
@@ -175,7 +181,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         try {
             lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
         } catch (WebApplicationException ex) {
-            Assert.assertTrue(ex.getResponse().getStatus() == 404);
+            assertTrue(ex.getResponse().getStatus() == 404);
         }
     }
 
@@ -349,6 +355,56 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setBinding(BindingType.JAXRS);
         req.setTransport(TransportType.HTTPS);
         lps.registerEndpoint(req);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTime() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        replay(sl);
+        
+        lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        expectLastCall().andThrow(new EndpointNotFoundException());
+        replay(sl);
+        
+        try {
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
+            fail();
+        } catch (WebApplicationException e) {
+            assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
+            // pass
+        }
+        
+        verify(sl);
+    }
+    
+    @Test
+    public void updateEndpointExpiringTimeWrongTime() throws Exception {
+        final int ttl = 95;
+        
+        sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
+        expectLastCall().andThrow(new WrongArgumentException());
+        replay(sl);
+        
+        try {
+            lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
+            fail();
+        } catch (WebApplicationException e) {
+            assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getResponse().getStatus());
+            // pass
+        }
+        
+        verify(sl);
     }
 
     public static Endpoint endpoint() {

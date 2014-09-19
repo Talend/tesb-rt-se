@@ -58,7 +58,7 @@ public class SchemaValidationFeature extends AbstractFeature {
         }
     }
 
-    public void setSchemaPath(String schemaPath) {
-        policy.setCustomSchemaPath(schemaPath);
+    public void setPath(String path) {
+        policy.setCustomSchemaPath(path);
     }
 }

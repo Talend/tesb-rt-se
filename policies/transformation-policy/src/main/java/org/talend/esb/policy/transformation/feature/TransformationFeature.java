@@ -7,12 +7,18 @@ import org.apache.cxf.interceptor.InterceptorProvider;
 import org.talend.esb.policy.transformation.TransformationType;
 import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTInInterceptor;
 import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTOutInterceptor;
+import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
+import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;;
 
 
 @NoJSR250Annotations
 public class TransformationFeature extends AbstractFeature {
-    private String inXSLTPath;
-    private String outXSLTPath;
+
+    private String path;
+    private MessageType messageType;
+    private AppliesToType appliesTo;
+
+
 
     private TransformationType transformationType = TransformationType.xslt;
 
@@ -24,32 +30,33 @@ public class TransformationFeature extends AbstractFeature {
     }
 
     private void initializeXslt(InterceptorProvider provider) {
-        if (inXSLTPath != null) {
-            HttpAwareXSLTInInterceptor in = new HttpAwareXSLTInInterceptor(inXSLTPath);
+        if (path != null) {
+            HttpAwareXSLTInInterceptor in = new HttpAwareXSLTInInterceptor(path);
+            in.setAppliesToType(appliesTo);
+            in.setMsgType(messageType);
             provider.getInInterceptors().add(in);
-        }
 
-        if (outXSLTPath != null) {
-            HttpAwareXSLTOutInterceptor out = new HttpAwareXSLTOutInterceptor(outXSLTPath);
+            HttpAwareXSLTOutInterceptor out = new HttpAwareXSLTOutInterceptor(path);
+            out.setAppliesToType(appliesTo);
+            out.setMsgType(messageType);
             provider.getOutInterceptors().add(out);
             provider.getOutFaultInterceptors().add(out);
         }
     }
 
-    public void setInXSLTPath(String inXSLTPath) {
-        this.inXSLTPath = inXSLTPath;
-    }
-
-    public void setOutXSLTPath(String outXSLTPath) {
-        this.outXSLTPath = outXSLTPath;
-    }
-
-    public String getType() {
-        return transformationType.toString();
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public void setType(String type) {
         transformationType = TransformationType.valueOf(type);
     }
 
+    public void setAppliesTo(String appliesTo) {
+        this.appliesTo = AppliesToType.valueOf(appliesTo);
+    }
+
+    public void setMessage(String messageType) {
+        this.messageType = MessageType.valueOf(messageType);
+    }
 }

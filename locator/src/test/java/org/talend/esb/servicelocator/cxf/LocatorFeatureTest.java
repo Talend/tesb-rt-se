@@ -57,305 +57,319 @@ import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 public class LocatorFeatureTest extends EasyMockSupport {
 
-    Bus busMock;
-    LocatorRegistrar locatorRegistrarMock;
-    Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
-    ClassLoader cll;
+	Bus busMock;
+	LocatorRegistrar locatorRegistrarMock;
+	Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
+	ClassLoader cll;
 
-    @Before
-    public void setUp() {
-        busMock = createMock(Bus.class);
+	@Before
+	public void setUp() {
+		busMock = createMock(Bus.class);
 
-        expect(busMock.getExtension(ClassLoader.class)).andStubReturn(cll);
+		expect(busMock.getExtension(ClassLoader.class)).andStubReturn(cll);
 
-        locatorRegistrarMock = createMock(LocatorRegistrar.class);
-        locatorRegistrarMock.startListenForServers(busMock);
-        EasyMock.expectLastCall().anyTimes();
-        cll = this.getClass().getClassLoader();
+		locatorRegistrarMock = createMock(LocatorRegistrar.class);
+		locatorRegistrarMock.startListenForServers(busMock);
+		EasyMock.expectLastCall().anyTimes();
+		cll = this.getClass().getClassLoader();
 
-        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
-        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
-        locatorSelectionStrategies.put("randomSelectionStrategy", new RandomSelectionStrategyFactory());
-        locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
-                new EvenDistributionSelectionStrategyFactory());
-    }
+		locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
+		locatorSelectionStrategies.put("defaultSelectionStrategy",
+				new DefaultSelectionStrategyFactory());
+		locatorSelectionStrategies.put("randomSelectionStrategy",
+				new RandomSelectionStrategyFactory());
+		locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
+				new EvenDistributionSelectionStrategyFactory());
+	}
 
-    @Test
-    public void initializeClient() throws EndpointException {
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+	@Test
+	public void initializeClient() throws EndpointException {
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
-        enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        EndpointInfo ei = new EndpointInfo();
-        Service service = new org.apache.cxf.service.ServiceImpl();
-        Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-        Client client = new ClientImpl(busMock, endpoint);
+		EndpointInfo ei = new EndpointInfo();
+		Service service = new org.apache.cxf.service.ServiceImpl();
+		Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+		Client client = new ClientImpl(busMock, endpoint);
 
-        LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(endpoint);
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+		selector.setEndpoint(endpoint);
 
-        client.setConduitSelector(selector);
+		client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
-        lf.setSelectionStrategy("randomSelectionStrategy");
+		LocatorFeature lf = new LocatorFeature();
+		lf.setSelectionStrategy("randomSelectionStrategy");
 
-        lf.initialize(client, busMock);
+		lf.initialize(client, busMock);
 
-        Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector()).getStrategy()
-                instanceof RandomSelectionStrategy);
+		Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector())
+				.getStrategy() instanceof RandomSelectionStrategy);
 
-    }
+	}
 
-    @Test
-    public void initializeClientsOneWithStrategy() throws EndpointException {
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+	@Test
+	public void initializeClientsOneWithStrategy() throws EndpointException {
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
-        enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        LocatorFeature lf = new LocatorFeature();
-        Client client1 = null;
-        Client client2 = null;
-        {
-            EndpointInfo ei = new EndpointInfo();
-            Service service = new org.apache.cxf.service.ServiceImpl();
-            Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-            client1 = new ClientImpl(busMock, endpoint);
+		LocatorFeature lf = new LocatorFeature();
+		Client client1 = null;
+		Client client2 = null;
+		{
+			EndpointInfo ei = new EndpointInfo();
+			Service service = new org.apache.cxf.service.ServiceImpl();
+			Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+			client1 = new ClientImpl(busMock, endpoint);
 
-            LocatorTargetSelector selector = new LocatorTargetSelector();
-            selector.setEndpoint(endpoint);
+			LocatorTargetSelector selector = new LocatorTargetSelector();
+			selector.setEndpoint(endpoint);
 
-            client1.setConduitSelector(selector);
+			client1.setConduitSelector(selector);
 
-            lf.setSelectionStrategy("randomSelectionStrategy");
+			lf.setSelectionStrategy("randomSelectionStrategy");
 
-            lf.initialize(client1, busMock);
-        }
-        {
-            EndpointInfo ei = new EndpointInfo();
-            Service service = new org.apache.cxf.service.ServiceImpl();
-            Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-            client2 = new ClientImpl(busMock, endpoint);
+			lf.initialize(client1, busMock);
+		}
+		{
+			EndpointInfo ei = new EndpointInfo();
+			Service service = new org.apache.cxf.service.ServiceImpl();
+			Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+			client2 = new ClientImpl(busMock, endpoint);
 
-            LocatorTargetSelector selector = new LocatorTargetSelector();
-            selector.setEndpoint(endpoint);
+			LocatorTargetSelector selector = new LocatorTargetSelector();
+			selector.setEndpoint(endpoint);
 
-            client2.setConduitSelector(selector);
+			client2.setConduitSelector(selector);
 
-            lf.setSelectionStrategy(null);
+			lf.setSelectionStrategy(null);
 
-            lf.initialize(client2, busMock);
-        }
-        Assert.assertTrue(((LocatorTargetSelector) client1.getConduitSelector()).getStrategy()
-                instanceof RandomSelectionStrategy);
-        Assert.assertTrue(((LocatorTargetSelector) client2.getConduitSelector()).getStrategy()
-                instanceof EvenDistributionSelectionStrategy);
+			lf.initialize(client2, busMock);
+		}
+		Assert.assertTrue(((LocatorTargetSelector) client1.getConduitSelector())
+				.getStrategy() instanceof RandomSelectionStrategy);
+		Assert.assertTrue(((LocatorTargetSelector) client2.getConduitSelector())
+				.getStrategy() instanceof EvenDistributionSelectionStrategy);
 
-    }
+	}
 
-    @Test
-    public void initializeClientDefault() throws EndpointException {
+	@Test
+	public void initializeClientDefault() throws EndpointException {
 
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        EndpointInfo ei = new EndpointInfo();
-        Service service = new org.apache.cxf.service.ServiceImpl();
-        Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-        Client client = new ClientImpl(busMock, endpoint);
+		EndpointInfo ei = new EndpointInfo();
+		Service service = new org.apache.cxf.service.ServiceImpl();
+		Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+		Client client = new ClientImpl(busMock, endpoint);
 
-        LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(endpoint);
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+		selector.setEndpoint(endpoint);
 
-        client.setConduitSelector(selector);
+		client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
-        lf.setSelectionStrategy(null);
+		LocatorFeature lf = new LocatorFeature();
+		lf.setSelectionStrategy(null);
 
-        lf.initialize(client, busMock);
+		lf.initialize(client, busMock);
 
-        Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector()).getStrategy()
-                instanceof DefaultSelectionStrategy);
+		Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector())
+				.getStrategy() instanceof DefaultSelectionStrategy);
 
-    }
+	}
 
-    @Test
-    public void initializeClientsBothWithStrategies() throws EndpointException {
+	@Test
+	public void initializeClientsBothWithStrategies() throws EndpointException {
 
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
-        enabler.setDefaultLocatorSelectionStrategy("defaultSelectionStrategy");
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setDefaultLocatorSelectionStrategy("defaultSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        LocatorFeature lf = new LocatorFeature();
+		LocatorFeature lf = new LocatorFeature();
 
-        Client client1 = null;
-        Client client2 = null;
+		Client client1 = null;
+		Client client2 = null;
 
-        {
-            EndpointInfo ei = new EndpointInfo();
-            Service service = new org.apache.cxf.service.ServiceImpl();
-            Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-            client1 = new ClientImpl(busMock, endpoint);
-            LocatorTargetSelector selector = new LocatorTargetSelector();
-            selector.setEndpoint(endpoint);
-            client1.setConduitSelector(selector);
-            lf.setSelectionStrategy("randomSelectionStrategy");
-            lf.initialize(client1, busMock);
-        }
-        {
-            EndpointInfo ei = new EndpointInfo();
-            Service service = new org.apache.cxf.service.ServiceImpl();
-            Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-            client2 = new ClientImpl(busMock, endpoint);
-            LocatorTargetSelector selector = new LocatorTargetSelector();
-            selector.setEndpoint(endpoint);
-            client2.setConduitSelector(selector);
-            lf.setSelectionStrategy("evenDistributionSelectionStrategy");
-            lf.initialize(client2, busMock);
-        }
-        Assert.assertTrue(((LocatorTargetSelector) client1.getConduitSelector()).getStrategy()
-                instanceof RandomSelectionStrategy);
-        Assert.assertTrue(((LocatorTargetSelector) client2.getConduitSelector()).getStrategy()
-                instanceof EvenDistributionSelectionStrategy);
-    }
+		{
+			EndpointInfo ei = new EndpointInfo();
+			Service service = new org.apache.cxf.service.ServiceImpl();
+			Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+			client1 = new ClientImpl(busMock, endpoint);
+			LocatorTargetSelector selector = new LocatorTargetSelector();
+			selector.setEndpoint(endpoint);
+			client1.setConduitSelector(selector);
+			lf.setSelectionStrategy("randomSelectionStrategy");
+			lf.initialize(client1, busMock);
+		}
+		{
+			EndpointInfo ei = new EndpointInfo();
+			Service service = new org.apache.cxf.service.ServiceImpl();
+			Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+			client2 = new ClientImpl(busMock, endpoint);
+			LocatorTargetSelector selector = new LocatorTargetSelector();
+			selector.setEndpoint(endpoint);
+			client2.setConduitSelector(selector);
+			lf.setSelectionStrategy("evenDistributionSelectionStrategy");
+			lf.initialize(client2, busMock);
+		}
+		Assert.assertTrue(((LocatorTargetSelector) client1.getConduitSelector())
+				.getStrategy() instanceof RandomSelectionStrategy);
+		Assert.assertTrue(((LocatorTargetSelector) client2.getConduitSelector())
+				.getStrategy() instanceof EvenDistributionSelectionStrategy);
+	}
 
-    @Test
-    public void initializeClientConfiguration() throws EndpointException {
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+	@Test
+	public void initializeClientConfiguration() throws EndpointException {
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
-        enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        EndpointInfo ei = new EndpointInfo();
-        Service service = new org.apache.cxf.service.ServiceImpl();
-        Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-        ClientConfiguration client = new ClientConfiguration();
+		EndpointInfo ei = new EndpointInfo();
+		Service service = new org.apache.cxf.service.ServiceImpl();
+		Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+		ClientConfiguration client = new ClientConfiguration();
 
-        LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(endpoint);
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+		selector.setEndpoint(endpoint);
 
-        client.setConduitSelector(selector);
+		client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
-        lf.setSelectionStrategy("randomSelectionStrategy");
+		LocatorFeature lf = new LocatorFeature();
+		lf.setSelectionStrategy("randomSelectionStrategy");
 
-        lf.initialize((ConduitSelectorHolder) client, busMock);
+		lf.initialize((ConduitSelectorHolder) client, busMock);
 
-        Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector()).getStrategy()
-                instanceof RandomSelectionStrategy);
+		Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector())
+				.getStrategy() instanceof RandomSelectionStrategy);
 
-    }
+	}
 
-    @Test
-    public void initializeInterceptorProvider() throws EndpointException {
-        LocatorClientEnabler enabler = new LocatorClientEnabler();
-        enabler.setBus(busMock);
+	@Test
+	public void initializeInterceptorProvider() throws EndpointException {
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+		enabler.setBus(busMock);
 
-        enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
-        enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
-        ServiceLocatorManager slm = new ServiceLocatorManager();
+		ServiceLocatorManager slm = new ServiceLocatorManager();
 
-        slm.setBus(busMock);
-        slm.setLocatorRegistrar(locatorRegistrarMock);
-        slm.setLocatorClientEnabler(enabler);
+		slm.setBus(busMock);
+		slm.setLocatorRegistrar(locatorRegistrarMock);
+		slm.setLocatorClientEnabler(enabler);
 
-        expect(busMock.getExtension(ServiceLocatorManager.class)).andStubReturn(slm);
+		expect(busMock.getExtension(ServiceLocatorManager.class))
+				.andStubReturn(slm);
 
-        ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
-        expect(busMock.getExtension(ClientLifeCycleManager.class)).andStubReturn(clcm);
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
 
-        replayAll();
+		replayAll();
 
-        EndpointInfo ei = new EndpointInfo();
-        Service service = new org.apache.cxf.service.ServiceImpl();
-        Endpoint endpoint = new EndpointImpl(busMock, service, ei);
-        ClientConfiguration client = new ClientConfiguration();
+		EndpointInfo ei = new EndpointInfo();
+		Service service = new org.apache.cxf.service.ServiceImpl();
+		Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+		ClientConfiguration client = new ClientConfiguration();
 
-        LocatorTargetSelector selector = new LocatorTargetSelector();
-        selector.setEndpoint(endpoint);
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+		selector.setEndpoint(endpoint);
 
-        client.setConduitSelector(selector);
+		client.setConduitSelector(selector);
 
-        LocatorFeature lf = new LocatorFeature();
-        lf.setSelectionStrategy("randomSelectionStrategy");
+		LocatorFeature lf = new LocatorFeature();
+		lf.setSelectionStrategy("randomSelectionStrategy");
 
-        lf.initialize((InterceptorProvider) client, busMock);
+		lf.initialize((InterceptorProvider) client, busMock);
 
-        Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector()).getStrategy()
-                instanceof RandomSelectionStrategy);
-    }
+		Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector())
+				.getStrategy() instanceof RandomSelectionStrategy);
+	}
 }

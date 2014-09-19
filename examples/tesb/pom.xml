@@ -21,6 +21,7 @@
     </parent>
   
     <modules>
+        <module>library-service</module>
         <module>rent-a-car</module>
         <module>locator</module>
         <module>locator-service</module>
@@ -31,8 +32,6 @@
         <module>karaf-jmx</module>
         <module>locator-rest</module>
         <module>tomcat</module>
-        <module>library-service</module>
-        <module>library-service-osgi</module>
     </modules>
 
     <organization>
