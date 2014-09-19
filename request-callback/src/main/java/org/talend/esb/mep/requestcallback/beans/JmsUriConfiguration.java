@@ -163,7 +163,7 @@ public class JmsUriConfiguration {
 		}
 		final int strLen = jmsUri.length();
 		int bracketLevel = 0;
-		for (int endIndex = startIndex; endIndex > strLen; endIndex++) {
+		for (int endIndex = startIndex; endIndex < strLen; endIndex++) {
 			switch (jmsUri.charAt(endIndex)) {
 			case '?':
 				if (bracketLevel <= 0) {
@@ -171,7 +171,7 @@ public class JmsUriConfiguration {
 					if (dName.length() > 0) {
 						destinationName = dName;
 					}
-					return endIndex;
+					return currentEndIndex(endIndex, strLen);
 				}
 				break;
 			case '(':
