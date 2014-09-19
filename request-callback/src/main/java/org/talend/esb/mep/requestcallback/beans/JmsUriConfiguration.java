@@ -154,7 +154,7 @@ public class JmsUriConfiguration {
 		if (v.length() > 0) {
 			setVariant(v);
 		}
-		return -1;
+		return currentEndIndex(endIndex, jmsUri.length());
 	}
 
 	private int extractDestinationName(String jmsUri, int startIndex) {
@@ -197,7 +197,7 @@ public class JmsUriConfiguration {
 				? jmsUri.substring(startIndex)
 						: jmsUri.substring(startIndex, endIndex);
 		addParametersFromQueryString(queryString);
-		return endIndex;
+		return currentEndIndex(endIndex, jmsUri.length());
 	}
 
 	private void addParametersFromQueryString(String queryString) {
@@ -239,5 +239,13 @@ public class JmsUriConfiguration {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Unexpected Exception: ", e);
 		}
+	}
+
+	private static int currentEndIndex(int markIndex, int strlen) {
+		if (markIndex < 0) {
+			return -1;
+		}
+		int rawResult = markIndex + 1;
+		return rawResult < strlen ? rawResult : -1;
 	}
 }
