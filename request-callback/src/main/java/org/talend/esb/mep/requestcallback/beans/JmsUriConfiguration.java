@@ -192,6 +192,9 @@ public class JmsUriConfiguration {
 	}
 
 	private int extractParameters(String jmsUri, int startIndex) {
+		if (startIndex < 0) {
+			return -1;
+		}
 		final int endIndex = jmsUri.indexOf('#', startIndex);
 		final String queryString = endIndex < 0
 				? jmsUri.substring(startIndex)
