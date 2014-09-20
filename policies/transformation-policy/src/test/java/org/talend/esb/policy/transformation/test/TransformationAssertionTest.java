@@ -15,7 +15,6 @@ import org.talend.types.test.library.common._1.SearchFor;
 public class TransformationAssertionTest {
 
     private ClassPathXmlApplicationContext serviceContext;
-    private ClassPathXmlApplicationContext clientContext;
 
     private ClassPathXmlApplicationContext startContext(String configFileName) {
         ClassPathXmlApplicationContext context;
@@ -24,13 +23,8 @@ public class TransformationAssertionTest {
         return context;
     }
 
-    private ClassPathXmlApplicationContext startProvider(String dir) {
+    private ClassPathXmlApplicationContext startParticipants(String dir) {
         String configFileName = "conf/assertion-test/"+dir+"/service-context.xml";
-        return startContext(configFileName);
-    }
-
-    private ClassPathXmlApplicationContext startConsumer(String dir) {
-        String configFileName = "conf/assertion-test/"+dir+"/client-context.xml";
         return startContext(configFileName);
     }
 
@@ -53,10 +47,9 @@ public class TransformationAssertionTest {
 
         final String dir = testName;
 
-        serviceContext = startProvider(dir);
-        clientContext  = startConsumer(dir);
+        serviceContext = startParticipants(dir);
 
-        Library client = (Library)clientContext.getBean("libraryHttp");
+        Library client = (Library)serviceContext.getBean("libraryHttp");
 
         ListOfBooks response = null;
 
@@ -71,92 +64,90 @@ public class TransformationAssertionTest {
     }
 
     @After
-    public void closeContextsAfterEachTest() {
-        clientContext.stop();
-        clientContext.close();
-
+    public void closeContextAfterEachTest() {
         serviceContext.stop();
         serviceContext.close();
+        serviceContext = null;
     }
 
 
-    //@Test
+    @Test
     public void testConsumerRequest() {
         commonTest("consumer-request", "Panda", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testConsumerResponse() {
          commonTest("consumer-response", "Icebear", "Grizzly");
 
     }
 
-    //@Test
+    @Test
     public void testConsumerAll() {
          commonTest("consumer-all", "Panda", "Panda");
     }
 
-    //@Test
+    @Test
     public void testConsumerNone() {
          commonTest("consumer-none", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testProviderRequest() {
          commonTest("provider-request", "Panda", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testProviderResponse() {
          commonTest("provider-response", "Icebear", "Panda");
     }
 
-    //@Test
+    @Test
     public void testProviderAll() {
          commonTest("provider-all", "Panda", "Panda");
     }
 
-    //@Test
+    @Test
     public void testProviderNone() {
          commonTest("provider-none", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testAlwaysRequest() {
          commonTest("always-request", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testAlwaysResponse() {
          commonTest("always-response", "Icebear", "Grizzly");
     }
 
-    //@Test
+    @Test
     public void testAlwaysAll() {
          commonTest("always-all", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testAlwaysNone() {
          commonTest("always-none", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testNoneRequest() {
          commonTest("none-request", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testNoneResponse() {
          commonTest("none-response", "Icebear", "Icebear");
     }
 
-    //@Test
-    public void testNoneAlL() {
+    @Test
+    public void testNoneAll() {
          commonTest("none-all", "Icebear", "Icebear");
     }
 
-    //@Test
+    @Test
     public void testNoneNone() {
          commonTest("none-none", "Icebear", "Icebear");
     }

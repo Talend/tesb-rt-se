@@ -23,33 +23,49 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     <import resource="classpath:/META-INF/cxf/cxf.xml" />
 
-    <bean id="xsltFeature" class="org.talend.esb.policy.transformation.feature.TransformationFeature">
+    <bean class="org.apache.cxf.transport.local.LocalTransportFactory" lazy-init="false">
+        <property name="transportIds">
+            <list>
+                <value>http://cxf.apache.org/transports/local</value>
+                <value>http://schemas.xmlsoap.org/soap/http</value>
+                <value>http://schemas.xmlsoap.org/wsdl/soap/http</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="xsltFeatureProvider" class="org.talend.esb.policy.transformation.feature.TransformationFeature">
         <property name="path"      value="conf/feature-test/always-response/providerTransformation.xsl" />
         <property name="appliesTo" value="always"/>
         <property name="message"   value="response"/>
         <property name="type"      value="xslt"/>
     </bean>
 
-    <!-- Jetty endpoint address -->
-    <bean id="endpointProperties"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="placeholderPrefix" value="$endpoint-config{"/>
-        <property name="properties">
-            <props>
-                <prop key="library.endpoint.http">http://localhost:31415/tesb-library-tutorial/services/LibraryHttpPort</prop>
-            </props>
-        </property>
+    <bean id="xsltFeatureConsumer" class="org.talend.esb.policy.transformation.feature.TransformationFeature">
+        <property name="path"      value="conf/feature-test/always-response/consumerTransformation.xsl" />
+        <property name="appliesTo" value="always"/>
+        <property name="message"   value="response"/>
+        <property name="type"      value="xslt"/>
     </bean>
 
-    <bean id="libraryServerImpl" class="org.talend.esb.policy.transformation.test.internal.LibraryServerImpl"/>
 
+    <bean id="libraryServerImpl" class="org.talend.esb.policy.transformation.test.internal.LibraryServerImpl"/>
     <jaxws:endpoint xmlns:library="http://services.talend.org/test/Library/1.0"
-        id="LibraryProviderHTTP" address="$endpoint-config{library.endpoint.http}"
+        id="LibraryProviderHTTP" address="local://LibraryHttpPort"
         serviceName="library:LibraryProvider" endpointName="library:LibraryHttpPort"
         implementor="#libraryServerImpl">
         <jaxws:features>
-            <ref bean="xsltFeature"/>
+            <ref bean="xsltFeatureProvider"/>
         </jaxws:features>
     </jaxws:endpoint>
+
+    <jaxws:client xmlns:library="http://services.talend.org/test/Library/1.0"
+        id="libraryHttp" serviceName="library:LibraryProvider"
+        endpointName="library:LibraryHttpPort"
+        address="local://LibraryHttpPort"
+        serviceClass="org.talend.services.test.library._1_0.Library">
+        <jaxws:features>
+            <ref bean="xsltFeatureConsumer"/>
+        </jaxws:features>
+    </jaxws:client>
 
 </beans>
