@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright (c) 2014 Talend Inc. - www.talend.com
+ All rights reserved.
+
+ This program and the accompanying materials are made available
+ under the terms of the Apache License v2.0
+ which accompanies this distribution, and is available at
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ -->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+    <reference id="serviceLocator" interface="org.talend.esb.servicelocator.client.ServiceLocator" />
+
+    <bean id="serviceNameCompleter" class="org.talend.esb.locator.completer.ServiceNameCompleter" >
+        <argument ref="serviceLocator" />
+    </bean>
+    
+    <bean id="endpointAddressCompleter" class="org.talend.esb.locator.completer.EndpointAddressCompleter" >
+        <argument ref="serviceLocator" />
+    </bean>
+
+    <command-bundle xmlns="http://karaf.apache.org/xmlns/shell/v1.0.0">
+        <command name="tlocator/list">
+            <action class="org.talend.esb.locator.commands.ListOperation">
+                <argument ref="serviceLocator" />
+            </action>
+            <completers>
+                <ref component-id="serviceNameCompleter" />
+                <null />
+            </completers>
+        </command>
+        <command name="tlocator/remove">
+            <action class="org.talend.esb.locator.commands.RemoveOperation">
+                <property name="serviceLocator" ref="serviceLocator" />
+            </action>
+            <completers>
+                <ref component-id="endpointAddressCompleter" />
+                <ref component-id="endpointAddressCompleter" />
+                <null />
+            </completers>
+        </command>
+        <command name="tlocator/register">
+            <action class="org.talend.esb.locator.commands.RegisterOperation">
+                <property name="serviceLocator" ref="serviceLocator" />
+            </action>
+            <completers>
+                <ref component-id="endpointAddressCompleter" />
+                <ref component-id="endpointAddressCompleter" />
+                <null />
+            </completers>
+        </command>
+        <command name="tlocator/unregister">
+            <action class="org.talend.esb.locator.commands.UnregisterOperation">
+                <property name="serviceLocator" ref="serviceLocator" />
+            </action>
+            <completers>
+                <ref component-id="endpointAddressCompleter" />
+                <ref component-id="endpointAddressCompleter" />
+                <null />
+            </completers>
+        </command>
+    </command-bundle>
+</blueprint>
