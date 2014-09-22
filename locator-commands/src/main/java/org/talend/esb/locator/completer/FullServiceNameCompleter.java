@@ -1,6 +1,6 @@
 /*
  * #%L
- * Service Locator Monitor
+ * Service Locator Commands
  * %%
  * Copyright (C) 2011 - 2014 Talend Inc.
  * %%
