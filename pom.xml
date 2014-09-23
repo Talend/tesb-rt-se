@@ -137,6 +137,7 @@
         <module>locator-server</module>
         <module>locator-service</module>
         <module>locator-monitor</module>
+        <module>locator-commands</module>
         <module>sam</module>
         <module>policies</module>
         <module>security-common</module>
