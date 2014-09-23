@@ -21,7 +21,6 @@ package org.talend.esb.policy.schemavalidate.tests.policy;
 
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy;
 import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.ValidationType;
@@ -29,22 +28,19 @@ import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.ValidationTyp
 
 public class CustomSchemaPolicyTest extends AbstractPolicyTest{
 
-    //@Test
-	@Ignore
+    @Test
     public void testLocalCustomSchemaConsumerRequestValid() throws Exception {
     	basicPolicyTest(new String[]{"classpath:spring/client/policy/client-customSchemaContext.xml"}, 
     			VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaConsumerRequestNotValid() throws Exception {
     	basicPolicyTest(new String[]{"classpath:spring/client/policy/client-customSchemaContext.xml"}, 
     			NOT_VALID_CUSTOMER_NAME);
     }
     
-    //@Test
-	@Ignore
+    @Test
     public void testLocalCustomSchemaConsumerResponseValid() throws Exception {
     	SchemaValidationPolicy policy = new SchemaValidationPolicy();
     	policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf("consumer"));
@@ -54,8 +50,7 @@ public class CustomSchemaPolicyTest extends AbstractPolicyTest{
     	customPolicyTest(policy, VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaConsumerResponseNotValid() throws Exception {
     	SchemaValidationPolicy policy = new SchemaValidationPolicy();
     	policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf("consumer"));
@@ -65,8 +60,7 @@ public class CustomSchemaPolicyTest extends AbstractPolicyTest{
     	customPolicyTest(policy, NOT_VALID_CUSTOMER_NAME);
     }    
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaNotExists() throws Exception {
     	SchemaValidationPolicy policy = new SchemaValidationPolicy();
     	policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf("consumer"));

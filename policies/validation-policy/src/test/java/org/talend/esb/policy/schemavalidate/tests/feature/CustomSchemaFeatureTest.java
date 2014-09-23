@@ -21,7 +21,6 @@ package org.talend.esb.policy.schemavalidate.tests.feature;
 
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.policy.schemavalidate.feature.SchemaValidationFeature;
 
@@ -31,20 +30,17 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
 	private static String[] CLIENT_APPLICATION_CONTEXT_PATH = 
 			new String[] {"classpath:spring/client/feature/client-customSchemaContext.xml"};
 	
-    //@Test
-	@Ignore
+    @Test
     public void testLocalCustomSchemaConsumerRequestValid() throws Exception {
     	basicFeatureTest(CLIENT_APPLICATION_CONTEXT_PATH, VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaConsumerRequestNotValid() throws Exception {
     	basicFeatureTest(CLIENT_APPLICATION_CONTEXT_PATH, NOT_VALID_CUSTOMER_NAME);
     }
     
-    //@Test
-	@Ignore
+    @Test
     public void testLocalCustomSchemaConsumerResponseValid() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");
@@ -54,8 +50,7 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
     	customFeatureTest(f, VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaConsumerResponseNotValid() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");
@@ -65,8 +60,7 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
     	customFeatureTest(f, NOT_VALID_CUSTOMER_NAME);
     }    
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaNotExists() throws Exception {
 	  	SchemaValidationFeature f = new SchemaValidationFeature();
 	  	f.setAppliesTo("consumer");
@@ -76,8 +70,7 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
 	  	customFeatureTest(f, VALID_CUSTOMER_NAME);
   } 
     
-    //@Test
-	@Ignore
+    @Test
     public void testLocalCustomSchemaAbsolutePathConsumerResponseValid() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");
@@ -87,8 +80,7 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
     	customFeatureTest(f, VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalCustomSchemaAbsolutePathNotExist() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");
@@ -98,8 +90,7 @@ public class CustomSchemaFeatureTest extends AbstractFeatureTest{
     	customFeatureTest(f, VALID_CUSTOMER_NAME);
     }   
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testLocalNotValidCustomSchema() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");

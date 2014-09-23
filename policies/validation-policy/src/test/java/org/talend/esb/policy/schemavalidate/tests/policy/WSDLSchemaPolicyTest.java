@@ -21,7 +21,6 @@ package org.talend.esb.policy.schemavalidate.tests.policy;
 
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy;
 import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.ValidationType;
@@ -29,22 +28,19 @@ import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy.ValidationTyp
 
 public class WSDLSchemaPolicyTest extends AbstractPolicyTest {
 	
-    //@Test
-	@Ignore
+    @Test
     public void testWSDLConsumerRequestValid() throws Exception {
     	basicPolicyTest(new String[]{"classpath:spring/client/policy/client-wsdlSchemaContext.xml"}, 
     			VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testWSDLConsumerRequestNotValid() throws Exception {
     	basicPolicyTest(new String[]{"classpath:spring/client/policy/client-wsdlSchemaContext.xml"},
     			NOT_VALID_CUSTOMER_NAME);
     }
     
-    //@Test
-	@Ignore
+    @Test
     public void testWSLDConsumerResponseValid() throws Exception {
     	SchemaValidationPolicy policy = new SchemaValidationPolicy();
     	policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf("consumer"));
@@ -53,8 +49,7 @@ public class WSDLSchemaPolicyTest extends AbstractPolicyTest {
     	customPolicyTest(policy, VALID_CUSTOMER_NAME);
     }
     
-    //@Test(expected=SOAPFaultException.class)
-	@Ignore
+    @Test(expected=SOAPFaultException.class)
     public void testWSLDConsumerResponseNotValid() throws Exception {
     	SchemaValidationPolicy policy = new SchemaValidationPolicy();
     	policy.setAppliesToType(SchemaValidationPolicy.AppliesToType.valueOf("consumer"));

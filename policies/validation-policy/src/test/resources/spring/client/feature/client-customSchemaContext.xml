@@ -9,10 +9,25 @@
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 ">
+
+ 	<import resource="classpath:/META-INF/cxf/cxf.xml" />
+ 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+ 
+    <bean class="org.apache.cxf.transport.local.LocalTransportFactory" lazy-init="false">
+        <property name="transportIds">
+            <list>
+                <value>http://cxf.apache.org/transports/local</value>
+                <value>http://schemas.xmlsoap.org/soap/http</value>
+                <value>http://schemas.xmlsoap.org/wsdl/soap/http</value>
+            </list>
+        </property>
+    </bean>
+
+
 	<jaxws:client id="customerService" 
 		serviceName="customer:CustomerServiceService" 
 		endpointName="customer:CustomerServicePort"
-		address="http://localhost:8080/CustomerServicePort" 
+		address="local://CustomerServicePort" 
 		serviceClass="com.example.customerservice.CustomerService"
 		wsdlLocation="CustomerService.wsdl">
 		
@@ -27,6 +42,15 @@
 		</jaxws:features>
 		
 	</jaxws:client>
+	
+	<jaxws:endpoint xmlns:customer="http://customerservice.example.com/"
+		id="CustomerServiceHTTP" address="local://CustomerServicePort"
+		serviceName="customer:CustomerServiceService" endpointName="customer:CustomerServiceEndpoint"
+		implementor="org.talend.esb.policy.schemavalidate.testservice.server.CustomerServiceImpl">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+	</jaxws:endpoint>
 	
 	<bean id="tester" class="org.talend.esb.policy.schemavalidate.testservice.client.CustomerServiceTester">
 		<property name="customerService" ref="customerService"></property>

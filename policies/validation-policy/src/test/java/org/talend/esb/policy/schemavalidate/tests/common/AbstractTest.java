@@ -24,7 +24,6 @@ public abstract class AbstractTest {
 	
 	public static String NOT_EXISTING_SCHEMA_ABSOLUTE_PATH = VALID_SCHEMA_ABSOLUTE_PATH + "doesNotExist";
 	
-	public static ClassPathXmlApplicationContext serverCtxt;
 	protected ClassPathXmlApplicationContext clientCtxt;
 	
 	public AbstractTest(){
@@ -32,13 +31,10 @@ public abstract class AbstractTest {
 	
 	@BeforeClass
 	public static void setUp(){
-		serverCtxt = new ClassPathXmlApplicationContext(SERVER_APP_CTX_LOCATION);
-		serverCtxt.start();
 	}
    
 	@AfterClass
 	public static void shutdown(){
-		serverCtxt.close();
 	}
 	
 }
