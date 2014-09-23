@@ -12,7 +12,7 @@
 	<jaxws:client id="customerService" 
 		serviceName="customer:CustomerServiceService" 
 		endpointName="customer:CustomerServicePort"
-		address="http://localhost:8765/CustomerServicePort"
+		address="http://localhost:8080/CustomerServicePort"
 		serviceClass="com.example.customerservice.CustomerService"
 		wsdlLocation="CustomerService-wsdlSchemaValidationPolicy.wsdl">
 	</jaxws:client>

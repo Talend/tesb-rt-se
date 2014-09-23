@@ -131,7 +131,7 @@
   <wsdl:service name="CustomerServiceService">
     <wsdl:port name="CustomerServicePort" binding="tns:CustomerServiceServiceSoapBinding">
       <!-- embedded deployment -->
-      <soap:address location="http://localhost:8765/CustomerServicePort"/>
+      <soap:address location="http://localhost:8080/CustomerServicePort"/>
     </wsdl:port>
   </wsdl:service>
 	 
