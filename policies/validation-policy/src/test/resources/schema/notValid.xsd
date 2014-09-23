@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- THIS SCHEMA IS NOT VALID (root tag is not closed) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://customerservice.example.com/" attributeFormDefault="unqualified"
+	elementFormDefault="unqualified" targetNamespace="http://customerservice.example.com/">
+	<xs:element name="getCustomersByName" type="tns:getCustomersByName" />
+	<xs:element name="getCustomersByNameResponse" type="tns:getCustomersByNameResponse" />
+	<xs:element name="updateCustomer" type="tns:updateCustomer" />
+	<xs:complexType name="updateCustomer">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="customer" type="tns:customer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="customer">
+		<xs:sequence>
+			<xs:element name="customerId" type="xs:int" />
+			<xs:element minOccurs="0" name="name" type="xs:string" />
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="address"
+				nillable="true" type="xs:string" />
+			<xs:element minOccurs="0" name="numOrders" type="xs:int" />
+			<xs:element name="revenue" type="xs:double" />
+			<xs:element minOccurs="0" name="test" type="xs:decimal" />
+			<xs:element minOccurs="0" name="birthDate" type="xs:date" />
+			<xs:element minOccurs="0" name="type" type="tns:customerType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getCustomersByName">
+		<xs:sequence>
+<!-- 			<xs:element minOccurs="0" name="name" type="xs:string" /> -->
+
+			<xs:element minOccurs="0" name="name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="getCustomersByNameResponse">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="return"
+				type="tns:customer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="customerType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PRIVATE" />
+			<xs:enumeration value="BUSINESS" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="NoSuchCustomer" type="tns:NoSuchCustomer" />
+	<xs:complexType name="NoSuchCustomer">
+		<xs:sequence>
+			<xs:element name="customerName" nillable="true" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+<!-- THIS SCHEMA IS NOT VALID (root tag is not closed) -->
+<!-- </xs:schema> -->
