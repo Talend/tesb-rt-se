@@ -21,25 +21,29 @@ package org.talend.esb.policy.schemavalidate.tests.feature;
 
 import javax.xml.ws.soap.SOAPFaultException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.talend.esb.policy.schemavalidate.feature.SchemaValidationFeature;
 
 
 public class WSDLSchemaFeatureTest extends AbstractFeatureTest {
 	
-    @Test
+    //@Test
+	@Ignore
     public void testWSDLConsumerRequestValid() throws Exception {
     	basicFeatureTest(new String[]{"classpath:spring/client/feature/client-wsdlSchemaContext.xml"}, 
     			VALID_CUSTOMER_NAME);
     }
     
-    @Test(expected=SOAPFaultException.class)
+    //@Test(expected=SOAPFaultException.class)
+	@Ignore
     public void testWSDLConsumerRequestNotValid() throws Exception {
     	basicFeatureTest(new String[]{"classpath:spring/client/feature/client-wsdlSchemaContext.xml"},
     			NOT_VALID_CUSTOMER_NAME);
     }
     
-    @Test
+    //@Test
+	@Ignore
     public void testWsdlConsumerResponseValid() throws Exception {
     	SchemaValidationFeature f = new SchemaValidationFeature();
     	f.setAppliesTo("consumer");
