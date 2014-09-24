@@ -42,26 +42,24 @@ public class Activator implements BundleActivator {
     public static <T> T getJobService(Class<T> clazz, String fullJobName) {
         if (context != null) {
             try {
-            	String clazzName = clazz.getName();
-            	String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
-            	/*
-            	 * read old version style first
-            	 * see https://jira.talendforge.org/browse/TESB-12909
-            	 */
-            	ServiceReference serviceReference = null;
-                ServiceReference[] serviceReferences = context.getServiceReferences(clazzName, "(&(name=" + simpleName + ")(type=job))");
+                String clazzName = clazz.getName();
+                String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
+                /*
+                 * read old version style first
+                 * see https://jira.talendforge.org/browse/TESB-12909
+                 */
+                ServiceReference[] serviceReferences =
+                        context.getServiceReferences(clazzName, "(&(name=" + simpleName + ")(type=job))");
 
                 //if no old version style, then read fashion style
                 if(null == serviceReferences){
-                	serviceReferences = context.getServiceReferences(clazzName, "(&(name=" + fullJobName + ")(type=job))");
+                    serviceReferences =
+                        context.getServiceReferences(clazzName, "(&(name=" + fullJobName + ")(type=job))");
                 }
-                
-                if (null != serviceReferences && serviceReferences.length != 0) {
-                	serviceReference = serviceReferences[0];
+
+                if (null != serviceReferences) {
+                    return clazz.cast(context.getService(serviceReferences[0]));
                 }
-                
-                Object service = context.getService(serviceReference);
-                return clazz.cast(service);
             } catch (InvalidSyntaxException e) {
             }
         }
