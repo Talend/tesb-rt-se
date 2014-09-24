@@ -174,13 +174,17 @@
     <feature>tesb-zookeeper</feature>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/locator/${project.version}</bundle>
-    <bundle start-level='50'>mvn:org.talend.esb/locator-commands/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-monitor' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.monitoring.locator.cfg">mvn:org.talend.esb.locator.service/locator-monitor/${project.version}/cfg/org.talend.esb.monitoring.locator</configfile>
     <feature>tesb-locator-client</feature>
     <bundle>mvn:org.talend.esb/locator-monitor/${project.version}</bundle>
+  </feature>
+
+  <feature name='tesb-locator-commands' version='${project.version}'>
+    <feature>tesb-locator-client</feature>
+    <bundle>mvn:org.talend.esb/locator-commands/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-zookeeper-server' version='${project.version}'>
