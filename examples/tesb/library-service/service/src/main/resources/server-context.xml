@@ -88,6 +88,10 @@
         </jaxws:properties>
     </jaxws:client>
 
+    <bean id="publisherDurableSubscriptionFeature" class="org.talend.esb.transport.jms.DurableSubscriptionFeature" >
+    	<property name="durableSubscriptionClientId" value="publisherClientId"/>
+    </bean>
+
     <jaxws:client xmlns:library="http://services.talend.org/demos/Library/1.0"
         id="publisherClient" serviceName="library:LibraryProvider"
         endpointName="library:LibraryTopicPort"
@@ -96,6 +100,7 @@
         <jaxws:features>
             <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
             <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <ref bean="publisherDurableSubscriptionFeature" />
             <!-- for spring SAM definition (without using samenabling policy) -->
             <!-- <ref bean="eventFeature"/> -->
         </jaxws:features>
