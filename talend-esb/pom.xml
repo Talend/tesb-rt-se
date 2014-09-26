@@ -303,6 +303,8 @@
 								<feature>tesb-locator-client</feature>
 								<feature>tesb-locator-soap-service</feature>
 								<feature>tesb-locator-rest-service</feature>
+								<feature>tesb-locator-commands</feature>
+								<feature>tesb-locator-monitor</feature>
 								<feature>talend-job-api</feature>
 								<feature>talend-job-controller</feature>
 								<feature>tesb-zookeeper-server</feature>
