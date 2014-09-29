@@ -177,7 +177,7 @@
   </feature>
 
   <feature name='tesb-locator-monitor' version='${project.version}'>
-    <configfile finalname="/etc/org.talend.esb.monitoring.locator.cfg">mvn:org.talend.esb.locator.service/locator-monitor/${project.version}/cfg/org.talend.esb.monitoring.locator</configfile>
+    <configfile finalname="/etc/org.talend.esb.monitoring.locator.cfg">mvn:org.talend.esb/locator-monitor/${project.version}/cfg/org.talend.esb.monitoring.locator</configfile>
     <feature>tesb-locator-client</feature>
     <bundle>mvn:org.talend.esb/locator-monitor/${project.version}</bundle>
   </feature>
