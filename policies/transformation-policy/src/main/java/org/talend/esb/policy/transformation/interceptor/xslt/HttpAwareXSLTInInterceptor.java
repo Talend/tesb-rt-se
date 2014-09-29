@@ -32,7 +32,8 @@ public class HttpAwareXSLTInInterceptor extends
         }
 
         @Override
-        public void handleMessage(Message message) {
+        public void performTransformation(Message message) {
+
             if (!shouldSchemaValidate(message)) {
                 return;
             }

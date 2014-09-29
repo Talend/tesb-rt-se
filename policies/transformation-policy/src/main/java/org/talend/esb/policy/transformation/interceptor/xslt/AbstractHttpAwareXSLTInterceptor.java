@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collection;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.Templates;
@@ -13,12 +14,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 
 import org.apache.cxf.common.classloader.ClassLoaderUtils;
+import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
 import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;
+import org.talend.esb.policy.transformation.TransformationAssertion;
+import org.talend.esb.policy.transformation.TransformationPolicyBuilder;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.staxutils.StaxUtils;
+import org.apache.cxf.ws.policy.AssertionInfo;
+import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.w3c.dom.Document;
 
 public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -90,6 +96,39 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
 
             if (urlConnection != null) {
                 urlConnection.disconnect();
+            }
+        }
+    }
+
+
+    @Override
+    public void handleMessage(Message message) {
+        try {
+            performTransformation(message);
+            confirmPolicyProcessing(message);
+        }catch (RuntimeException e) {
+            throw e;
+        }catch (Exception e) {
+            throw new Fault(e);
+        }
+    }
+
+
+    abstract protected void performTransformation(Message message);
+
+
+    private void confirmPolicyProcessing(Message message) {
+        AssertionInfoMap aim = message.get(AssertionInfoMap.class);
+        if (aim != null) {
+            Collection<AssertionInfo> ais = aim
+                      .get(TransformationPolicyBuilder.TRANSFORMATION);
+
+            if (ais != null) {
+                for (AssertionInfo ai : ais) {
+                    if (ai.getAssertion() instanceof TransformationAssertion) {
+                        ai.setAsserted(true);
+                    }
+                }
             }
         }
     }
