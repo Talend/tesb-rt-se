@@ -137,7 +137,7 @@ public class LocatorCache {
 			endpoints = getLocatorEndpoints(serviceName);
 			if (endpoints != null && !endpoints.isEmpty()) {
 				cachedAddresses.put(key, endpoints);
-				cacheCounter.put(key, 0);
+				cacheCounter.put(key, 1);
 			}
 		} else {
 			cacheCounter.put(key, cacheCounter.get(key) + 1);

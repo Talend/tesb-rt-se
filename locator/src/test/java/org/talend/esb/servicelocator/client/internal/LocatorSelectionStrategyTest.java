@@ -241,7 +241,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 	@Test
 	public void randomDistribution() throws Exception {
 		randomStrategy.setReloadAdressesCount(10);
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 10; i++) {
 			lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		}
 		replayAll();
@@ -273,7 +273,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 		List<String> alternates = randomStrategy
 				.getAlternateAddresses(exchangeMock);
 		randomStrategy.selectAlternateAddress(alternates);
-		for (int i = 0; i < 10 * 10; i++) {
+		for (int i = 0; i < 99; i++) {
 			lastPrimary = primary;
 			primary = randomStrategy.getPrimaryAddress(exchangeMock);
 			assertThat(primary, isOneOf(ENDPOINT_1, ENDPOINT_2));
