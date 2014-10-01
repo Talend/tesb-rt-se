@@ -48,28 +48,20 @@ public class TalendProducer extends DefaultProducer {
         super(endpoint);
     }
 
-	public void process(Exchange exchange) throws Exception {
-		TalendJob jobInstance = ((TalendEndpoint) getEndpoint())
-				.getJobInstance();
-		String context = ((TalendEndpoint) getEndpoint()).getContext();
-		Method setExchangeMethod = ((TalendEndpoint) getEndpoint())
-				.getSetExchangeMethod();
-		Map<String, String> propertiesMap = getEndpoint()
-				.getCamelContext().getProperties();
-		Map<String, String> endpointPropertiesMap = ((TalendEndpoint) getEndpoint()).getEndpointProperties();
-		Collection<String> args = new ArrayList<String>();
-		if (context != null) {
-			args.add("--context=" + context);
-		}
-
-		if (((TalendEndpoint)getEndpoint()).isPropagateHeader()) {		
-			populateTalendContextParamsWithCamelHeaders(exchange, args);
-		}
-
-		addTalendContextParamsFromCTalendJobContext(propertiesMap, args);
-		addTalendContextParamsFromCTalendJobContext(endpointPropertiesMap, args);
-		invokeTalendJob(jobInstance, args.toArray(new String[args.size()]), setExchangeMethod, exchange);
-	}
+    public void process(Exchange exchange) throws Exception {
+        final TalendEndpoint talendEndpoint = (TalendEndpoint) getEndpoint();
+        final String context = talendEndpoint.getContext();
+        final Collection<String> args = new ArrayList<String>();
+        if (context != null) {
+            args.add("--context=" + context);
+        }
+        if (talendEndpoint.isPropagateHeader()) {       
+            populateTalendContextParamsWithCamelHeaders(exchange, args);
+        }
+        addTalendContextParamsFromCTalendJobContext(getEndpoint().getCamelContext().getProperties(), args);
+        addTalendContextParamsFromCTalendJobContext(talendEndpoint.getEndpointProperties(), args);
+        invokeTalendJob(talendEndpoint.getJobInstance(), args.toArray(new String[args.size()]), exchange);
+    }
 
 	private static void addTalendContextParamsFromCTalendJobContext(
 			Map<String, String> propertiesMap, Collection<String> args) {
@@ -80,21 +72,27 @@ public class TalendProducer extends DefaultProducer {
 		}
 	}
 
-    private static void populateTalendContextParamsWithCamelHeaders(Exchange exchange, Collection<String> args) {
+    private static void populateTalendContextParamsWithCamelHeaders(
+            Exchange exchange, Collection<String> args) {
         Map<String, Object> headers = exchange.getIn().getHeaders();
         for (Map.Entry<String, Object> header : headers.entrySet()) {
             Object headerValue = header.getValue();
             if (headerValue != null) {
-                String headerStringValue = exchange.getContext().getTypeConverter().convertTo(String.class, exchange, headerValue);
+                String headerStringValue = exchange.getContext().getTypeConverter()
+                        .convertTo(String.class, exchange, headerValue);
                 args.add("--context_param " + header.getKey() + '=' + headerStringValue);
             }
         }
     }
 
-    private void invokeTalendJob(TalendJob jobInstance, String[] args, Method setExchangeMethod, Exchange exchange) {
-        if(setExchangeMethod != null){
+    private static void invokeTalendJob(TalendJob jobInstance, String[] args, Exchange exchange) {
+        try {
+            Method setExchangeMethod =
+                    jobInstance.getClass().getMethod("setExchange", new Class[]{Exchange.class});
             LOG.debug("Pass the exchange from router to Job");
             ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
+        } catch (NoSuchMethodException e) {
+            LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug("Invoking Talend job '" + jobInstance.getClass().getCanonicalName() 
