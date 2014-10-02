@@ -1,8 +1,8 @@
 /*
  * #%L
- * Camel Talend Job Component
+ * Talend ESB :: Camel Talend Job Component
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011 - 2014 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,8 @@ import routines.system.api.TalendJob;
 public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
+
+    private Thread workingThread = null;
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -85,7 +87,7 @@ public class TalendProducer extends DefaultProducer {
         }
     }
 
-    private static void invokeTalendJob(TalendJob jobInstance, String[] args, Exchange exchange) {
+    private void invokeTalendJob(TalendJob jobInstance, String[] args, Exchange exchange) {
         try {
             Method setExchangeMethod =
                     jobInstance.getClass().getMethod("setExchange", new Class[]{Exchange.class});
@@ -101,7 +103,8 @@ public class TalendProducer extends DefaultProducer {
 
         ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
         try {
-            Thread.currentThread().setContextClassLoader(jobInstance.getClass().getClassLoader());
+            workingThread = Thread.currentThread();
+            workingThread.setContextClassLoader(jobInstance.getClass().getClassLoader());
             int result = jobInstance.runJobInTOS(args);
             if (result != 0) {
                 throw new RuntimeCamelException("Execution of Talend job '" 
@@ -109,8 +112,17 @@ public class TalendProducer extends DefaultProducer {
                         + Arrays.toString(args) + "' failed, see stderr for details"); // Talend logs errors using System.err.println
             }
         } finally {
-            Thread.currentThread().setContextClassLoader(oldContextCL);
+            workingThread.setContextClassLoader(oldContextCL);
+            workingThread = null;
         }
     }
 
+    @Override
+    protected void doStop() throws Exception {
+        super.doStop();
+        if (null != workingThread) {
+            LOG.info("Force terminate Talend job");
+            workingThread.interrupt();
+        }
+    }
 }

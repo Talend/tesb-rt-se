@@ -49,16 +49,12 @@
             <version>${camel.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- TOS job jars used for testing -->
         <dependency>
-            <groupId>talendesb</groupId>
-            <artifactId>systemRoutines</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/test/lib/systemRoutines.jar</systemPath>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
