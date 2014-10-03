@@ -57,24 +57,23 @@ public class TalendProducer extends DefaultProducer {
         if (context != null) {
             args.add("--context=" + context);
         }
-        if (talendEndpoint.isPropagateHeader()) {       
-            populateTalendContextParamsWithCamelHeaders(exchange, args);
+        if (talendEndpoint.isPropagateHeader()) {
+            getParamsFromHeaders(exchange, args);
         }
-        addTalendContextParamsFromCTalendJobContext(getEndpoint().getCamelContext().getProperties(), args);
-        addTalendContextParamsFromCTalendJobContext(talendEndpoint.getEndpointProperties(), args);
+        getParamsFromProperties(getEndpoint().getCamelContext().getProperties(), args);
+        getParamsFromProperties(talendEndpoint.getEndpointProperties(), args);
         invokeTalendJob(talendEndpoint.getJobInstance(), args.toArray(new String[args.size()]), exchange);
     }
 
-	private static void addTalendContextParamsFromCTalendJobContext(
-			Map<String, String> propertiesMap, Collection<String> args) {
-		if (propertiesMap != null) {
-			for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
-				args.add("--context_param " + entry.getKey() + '=' + entry.getValue());
-			}
-		}
-	}
+    private static void getParamsFromProperties(Map<String, String> propertiesMap, Collection<String> args) {
+        if (propertiesMap != null) {
+            for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+                args.add("--context_param " + entry.getKey() + '=' + entry.getValue());
+            }
+        }
+    }
 
-    private static void populateTalendContextParamsWithCamelHeaders(
+    private static void getParamsFromHeaders(
             Exchange exchange, Collection<String> args) {
         Map<String, Object> headers = exchange.getIn().getHeaders();
         for (Map.Entry<String, Object> header : headers.entrySet()) {
@@ -91,7 +90,7 @@ public class TalendProducer extends DefaultProducer {
         try {
             Method setExchangeMethod =
                     jobInstance.getClass().getMethod("setExchange", new Class[]{Exchange.class});
-            LOG.debug("Pass the exchange from router to Job");
+            LOG.debug("Pass the exchange from route to Job");
             ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
         } catch (NoSuchMethodException e) {
             LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");

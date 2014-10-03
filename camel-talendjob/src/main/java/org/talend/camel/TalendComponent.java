@@ -20,11 +20,13 @@
 
 package org.talend.camel;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.util.IntrospectionSupport;
 
 /**
  * <p>
@@ -43,8 +45,18 @@ public class TalendComponent extends DefaultComponent {
 
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters)
             throws Exception {
-        final Endpoint endpoint = new TalendEndpoint(uri, remaining, this);
+        final TalendEndpoint endpoint = new TalendEndpoint(uri, remaining, this);
         setProperties(endpoint, parameters);
+        // extract the properties.xxx and set them as properties
+        Map<String, Object> properties =
+                IntrospectionSupport.extractProperties(parameters, "endpointProperties.");
+        if (properties != null) {
+            Map<String, String> endpointProperties = new HashMap<String, String>(properties.size());
+            for (Map.Entry<String, Object> entry : properties.entrySet()) {
+                endpointProperties.put(entry.getKey(), entry.getValue().toString());
+            }
+            endpoint.setEndpointProperties(endpointProperties);
+        }
         return endpoint;
     }
 
