@@ -20,6 +20,7 @@
 
 package org.talend.camel;
 
+import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
@@ -32,42 +33,41 @@ public class TalendComponentParamTest extends CamelTestSupport {
         BasicConfigurator.configure();
     }
 
+    @EndpointInject(uri = "mock:result")
+    protected MockEndpoint resultEndpoint;
+
     @Test
     public void testJobWithoutContext() throws Exception {
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(1);
-        mock.expectedBodiesReceived((Object) null);
+        resultEndpoint.expectedMinimumMessageCount(1);
+        resultEndpoint.expectedBodiesReceived((Object) null);
         sendBody("direct:withoutContext", null);
-        assertMockEndpointsSatisfied();
+        resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobWithContext() throws Exception {
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(1);
-        mock.expectedBodiesReceived("--context=Default");
+        resultEndpoint.expectedMinimumMessageCount(1);
+        resultEndpoint.expectedBodiesReceived("--context=Default");
         sendBody("direct:withContext", null);
-        assertMockEndpointsSatisfied();
+        resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobWithParamFromHeaders() throws Exception {
         context.setUseBreadcrumb(false);
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
-        mock.expectedBodiesReceived("--context_param header=value");
+        resultEndpoint.expectedMessageCount(1);
+        resultEndpoint.expectedBodiesReceived("--context_param header=value");
         sendBody("direct:paramFromHeader", null);
-        assertMockEndpointsSatisfied();
+        resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobParamFromContext() throws Exception {
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
-        mock.expectedBodiesReceived("--context_param property=context");
+        resultEndpoint.expectedMessageCount(1);
+        resultEndpoint.expectedBodiesReceived("--context_param property=context");
         context.getProperties().put("property", "context");
         sendBody("direct:paramFromContext", null);
-        assertMockEndpointsSatisfied();
+        resultEndpoint.assertIsSatisfied();
     }
 
     @Test
@@ -76,7 +76,7 @@ public class TalendComponentParamTest extends CamelTestSupport {
         mock.expectedMessageCount(1);
         mock.expectedBodiesReceived("--context_param property=endpoint");
         sendBody("direct:paramFromEndpoint", null);
-        assertMockEndpointsSatisfied();
+        resultEndpoint.assertIsSatisfied();
     }
 
     @Override

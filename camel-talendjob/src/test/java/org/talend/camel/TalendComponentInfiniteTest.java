@@ -20,35 +20,38 @@
 
 package org.talend.camel;
 
-import java.util.concurrent.TimeUnit;
-
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 import routines.system.api.TalendJob;
 
-public class InfiniteTest extends CamelTestSupport {
+public class TalendComponentInfiniteTest extends CamelTestSupport {
 
     static {
         BasicConfigurator.configure();
     }
 
     public static class JobInfinite implements TalendJob {
+
+        private static boolean passed = false;
+
+        public static boolean isPassed() {
+            boolean result = passed;
+            passed = false;
+            return result;
+        }
+
         public String[][] runJob(String[] args) {
-            fail();
             return null;
         }
+
         public int runJobInTOS(String[] args) {
-//            while (true) {
-//            }
             try {
                 Thread.sleep(10000);
-                fail();
             } catch (InterruptedException e) {
-                // expexcted
+                passed = true;
             }
             return 0;
         }
@@ -60,21 +63,30 @@ public class InfiniteTest extends CamelTestSupport {
     }
 
     @Test
-    public void testJobInfinite() throws Exception {
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
+    public void testJobInfiniteDirect() throws Exception {
+        template.asyncRequestBody("direct:infinite", null);
+        assertFalse(JobInfinite.isPassed());
+        context.stop();
+        assertTrue(JobInfinite.isPassed());
+    }
+
+    @Test
+    public void testJobInfiniteSeda() throws Exception {
         sendBody("seda:infinite", null);
-        context.stopRoute("infinite");
-        assertMockEndpointsSatisfied();
+        assertFalse(JobInfinite.isPassed());
+        context.stop();
+        assertTrue(JobInfinite.isPassed());
     }
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() {
-                from("seda:infinite").routeId("infinite")
-                    .to("talend://org.talend.camel.InfiniteTest$JobInfinite?propagateHeader=false")
-                    .to("mock:result");
+                from("direct:infinite")
+                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite?propagateHeader=false");
+
+                from("seda:infinite")
+                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite?propagateHeader=false");
             }
         };
     }
