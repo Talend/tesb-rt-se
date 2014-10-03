@@ -44,7 +44,7 @@ public class TalendComponent extends DefaultComponent {
     }
 
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters)
-            throws Exception {
+        throws Exception {
         final TalendEndpoint endpoint = new TalendEndpoint(uri, remaining, this);
         setProperties(endpoint, parameters);
         // extract the properties.xxx and set them as properties

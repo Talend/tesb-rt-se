@@ -30,37 +30,34 @@ public class Activator implements BundleActivator {
     private static BundleContext context;
 
     @Override
-    public void start(BundleContext context) throws Exception {
-        Activator.context = context;
+    public void start(BundleContext ctx) throws Exception {
+        Activator.context = ctx;
     }
 
     @Override
-    public void stop(BundleContext context) throws Exception {
+    public void stop(BundleContext ctx) throws Exception {
         Activator.context = null;
     }
 
-    public static <T> T getJobService(Class<T> clazz, String fullJobName) {
+    public static <T> T getJobService(Class<T> clazz, String fullJobName) throws InvalidSyntaxException {
         if (context != null) {
-            try {
-                String clazzName = clazz.getName();
-                String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
-                /*
-                 * read old version style first
-                 * see https://jira.talendforge.org/browse/TESB-12909
-                 */
-                ServiceReference[] serviceReferences =
-                        context.getServiceReferences(clazzName, "(&(name=" + simpleName + ")(type=job))");
+            String clazzName = clazz.getName();
+            String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
+            /*
+             * read old version style first
+             * see https://jira.talendforge.org/browse/TESB-12909
+             */
+            ServiceReference[] serviceReferences =
+                    context.getServiceReferences(clazzName, "(&(name=" + simpleName + ")(type=job))");
 
-                //if no old version style, then read fashion style
-                if(null == serviceReferences){
-                    serviceReferences =
-                        context.getServiceReferences(clazzName, "(&(name=" + fullJobName + ")(type=job))");
-                }
+            //if no old version style, then read fashion style
+            if (null == serviceReferences) {
+                serviceReferences =
+                    context.getServiceReferences(clazzName, "(&(name=" + fullJobName + ")(type=job))");
+            }
 
-                if (null != serviceReferences) {
-                    return clazz.cast(context.getService(serviceReferences[0]));
-                }
-            } catch (InvalidSyntaxException e) {
+            if (null != serviceReferences) {
+                return clazz.cast(context.getService(serviceReferences[0]));
             }
         }
         return null;

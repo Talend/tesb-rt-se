@@ -44,7 +44,7 @@ public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
 
-    private Thread workingThread = null;
+    private Thread workingThread;
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -108,7 +108,8 @@ public class TalendProducer extends DefaultProducer {
             if (result != 0) {
                 throw new RuntimeCamelException("Execution of Talend job '" 
                         + jobInstance.getClass().getCanonicalName() + "' with args: "
-                        + Arrays.toString(args) + "' failed, see stderr for details"); // Talend logs errors using System.err.println
+                        + Arrays.toString(args) + "' failed, see stderr for details");
+                // Talend logs errors using System.err.println
             }
         } finally {
             workingThread.setContextClassLoader(oldContextCL);
