@@ -45,7 +45,7 @@ public class InfiniteTest extends CamelTestSupport {
 //            while (true) {
 //            }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10000);
                 fail();
             } catch (InterruptedException e) {
                 // expexcted
@@ -54,12 +54,17 @@ public class InfiniteTest extends CamelTestSupport {
         }
     }
 
+    @Override
+    protected int getShutdownTimeout() {
+        return 1;
+    }
+
     @Test
     public void testJobInfinite() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
         mock.expectedMessageCount(1);
         sendBody("seda:infinite", null);
-        context.stopRoute("infinite", 1, TimeUnit.MILLISECONDS);
+        context.stopRoute("infinite");
         assertMockEndpointsSatisfied();
     }
 
