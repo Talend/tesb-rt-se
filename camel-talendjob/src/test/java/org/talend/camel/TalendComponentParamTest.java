@@ -20,6 +20,8 @@
 
 package org.talend.camel;
 
+import java.util.Collections;
+
 import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -38,44 +40,38 @@ public class TalendComponentParamTest extends CamelTestSupport {
 
     @Test
     public void testJobWithoutContext() throws Exception {
-        resultEndpoint.expectedMinimumMessageCount(1);
         resultEndpoint.expectedBodiesReceived((Object) null);
-        sendBody("direct:withoutContext", null);
+        sendBody("direct:test", "propagateHeader=false");
         resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobWithContext() throws Exception {
-        resultEndpoint.expectedMinimumMessageCount(1);
         resultEndpoint.expectedBodiesReceived("--context=Default");
-        sendBody("direct:withContext", null);
+        sendBody("direct:test", "context=Default&propagateHeader=false");
         resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobWithParamFromHeaders() throws Exception {
         context.setUseBreadcrumb(false);
-        resultEndpoint.expectedMessageCount(1);
         resultEndpoint.expectedBodiesReceived("--context_param header=value");
-        sendBody("direct:paramFromHeader", null);
+        sendBody("direct:test", null, Collections.singletonMap("header", (Object) "value"));
         resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobParamFromContext() throws Exception {
-        resultEndpoint.expectedMessageCount(1);
         resultEndpoint.expectedBodiesReceived("--context_param property=context");
         context.getProperties().put("property", "context");
-        sendBody("direct:paramFromContext", null);
+        sendBody("direct:test", "propagateHeader=false");
         resultEndpoint.assertIsSatisfied();
     }
 
     @Test
     public void testJobParamFromEndpoint() throws Exception {
-        MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMessageCount(1);
-        mock.expectedBodiesReceived("--context_param property=endpoint");
-        sendBody("direct:paramFromEndpoint", null);
+        resultEndpoint.expectedBodiesReceived("--context_param property=endpoint");
+        sendBody("direct:test", "propagateHeader=false&endpointProperties.property=endpoint");
         resultEndpoint.assertIsSatisfied();
     }
 
@@ -83,26 +79,8 @@ public class TalendComponentParamTest extends CamelTestSupport {
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() {
-
-                from("direct:withoutContext")
-                    .to("talend://org.talend.camel.TestJob?propagateHeader=false")
-                    .to("mock:result");
-
-                from("direct:withContext")
-                    .to("talend://org.talend.camel.TestJob?context=Default&propagateHeader=false")
-                    .to("mock:result");
-
-                from("direct:paramFromHeader")
-                    .setHeader("header", constant("value"))
-                    .to("talend://org.talend.camel.TestJob")
-                    .to("mock:result");
-
-                from("direct:paramFromContext")
-                    .to("talend://org.talend.camel.TestJob?propagateHeader=false")
-                    .to("mock:result");
-
-                from("direct:paramFromEndpoint")
-                    .to("talend://org.talend.camel.TestJob?propagateHeader=false&endpointProperties.property=endpoint")
+                from("direct:test")
+                    .recipientList(simple("talend://org.talend.camel.TestJob?${body}"))
                     .to("mock:result");
             }
         };

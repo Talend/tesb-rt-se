@@ -17,9 +17,7 @@ public class TestJob implements TalendJob {
     }
 
     public int runJobInTOS(String[] args) {
-        if (args.length == 1) {
-            exchange.getIn().setBody(args[0]);
-        }
+        exchange.getIn().setBody((args.length == 1) ? args[0] : null);
         return 0;
     }
 
