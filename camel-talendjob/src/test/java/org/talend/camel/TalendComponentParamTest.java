@@ -32,6 +32,7 @@ import org.junit.Test;
 public class TalendComponentParamTest extends CamelTestSupport {
 
     static {
+        BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure();
     }
 

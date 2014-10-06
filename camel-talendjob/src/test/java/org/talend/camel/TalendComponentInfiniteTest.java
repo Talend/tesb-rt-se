@@ -30,6 +30,7 @@ import routines.system.api.TalendJob;
 public class TalendComponentInfiniteTest extends CamelTestSupport {
 
     static {
+        BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure();
     }
 
