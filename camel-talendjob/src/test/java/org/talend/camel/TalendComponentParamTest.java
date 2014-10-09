@@ -26,15 +26,9 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 public class TalendComponentParamTest extends CamelTestSupport {
-
-    static {
-        BasicConfigurator.resetConfiguration();
-        BasicConfigurator.configure();
-    }
 
     @EndpointInject(uri = "mock:result")
     protected MockEndpoint resultEndpoint;

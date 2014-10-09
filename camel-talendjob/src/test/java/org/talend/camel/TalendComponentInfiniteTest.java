@@ -22,17 +22,11 @@ package org.talend.camel;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.log4j.BasicConfigurator;
 import org.junit.Test;
 
 import routines.system.api.TalendJob;
 
 public class TalendComponentInfiniteTest extends CamelTestSupport {
-
-    static {
-        BasicConfigurator.resetConfiguration();
-        BasicConfigurator.configure();
-    }
 
     public static class JobInfinite implements TalendJob {
 
