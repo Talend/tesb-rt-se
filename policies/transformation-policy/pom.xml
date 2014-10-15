@@ -23,6 +23,12 @@
             <artifactId>cxf-rt-ws-policy</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>${cxf.xjc.version}</version>
+            <!--scope>test</scope-->
+        </dependency>
 
   <!-- ====================================  Test dependencies ========================================== -->
         <dependency>
@@ -42,12 +48,6 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf.xjc-utils</groupId>
-            <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf.xjc.version}</version>
-             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
