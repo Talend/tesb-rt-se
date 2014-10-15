@@ -247,8 +247,8 @@
     <feature version='${project.version}'>tesb-policy-correlationid</feature>
     <feature version='${project.version}'>tesb-policy-samenable</feature>
     <feature version='${project.version}'>tesb-policy-compression</feature>
-    <feature version='${project.version}'>tesb-policy-transformation</feature>
-    <feature version='${project.version}'>tesb-policy-validation</feature>
+    <!--feature version='${project.version}'>tesb-policy-transformation</feature>
+    <feature version='${project.version}'>tesb-policy-validation</feature-->
     <feature version='${project.version}'>tesb-security-common</feature>
     <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}</bundle>
   </feature>
