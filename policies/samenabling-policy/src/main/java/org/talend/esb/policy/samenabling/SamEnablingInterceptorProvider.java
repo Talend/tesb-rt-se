@@ -203,4 +203,11 @@ public class SamEnablingInterceptorProvider extends
         }
     }
 
+    public static void shutdown() {
+    	if (springContext != null) {
+    		springContext.close();
+    		springContext = null;
+    		springContextException = new IllegalStateException("Sam enabling shut down. ");
+    	}
+    }
 }
