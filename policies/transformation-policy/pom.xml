@@ -24,17 +24,11 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-bindings-soap</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf.xjc.version}</version>
-<!--             <scope>test</scope> -->
+            <!--scope>test</scope-->
         </dependency>
-
 
   <!-- ====================================  Test dependencies ========================================== -->
         <dependency>
@@ -85,7 +79,6 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                     </instructions>
                 </configuration>
-                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>
