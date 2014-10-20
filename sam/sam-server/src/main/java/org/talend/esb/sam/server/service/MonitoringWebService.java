@@ -41,6 +41,8 @@ public class MonitoringWebService implements MonitoringService {
     private static final Logger LOG = Logger.getLogger(MonitoringWebService.class.getName());
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
+    
+    private String enableSAMCollectorService;
 
     /**
      * Sets the monitoring service.
@@ -50,11 +52,22 @@ public class MonitoringWebService implements MonitoringService {
     public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
         this.monitoringService = monitoringService;
     }
+    /**
+     * Set the enableSoapService.
+     */
+    public void setEnableSAMCollectorService(String enableSAMCollectorService) {
+    	this.enableSAMCollectorService = enableSAMCollectorService;
+    }
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.monitoringservice.v1.MonitoringService#putEvents(java.util.List)
      */
     public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
+    	//enableSoapService != null && true not equal enableSoapService, only rest service , return
+    	if ((enableSAMCollectorService != null && !"true".equals(enableSAMCollectorService)) 
+    			|| enableSAMCollectorService == null) {
+    		return;
+    	}
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
         }
@@ -106,5 +119,4 @@ public class MonitoringWebService implements MonitoringService {
 
         throw new PutEventsFault(message, faultType, t);
     }
-
 }
