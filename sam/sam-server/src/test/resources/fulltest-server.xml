@@ -47,6 +47,7 @@
     <bean id="MonitoringServiceWrapper"
         class="org.talend.esb.sam.server.service.MonitoringWebService">
         <property name="monitoringService" ref="monitoringService" />
+        <property name="enableSAMCollectorService" value="${enableSAMCollectorService}"/>
     </bean>
 
 </beans>

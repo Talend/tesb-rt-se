@@ -66,7 +66,8 @@ public class MonitoringWebService implements MonitoringService {
     	//enableSoapService != null && true not equal enableSoapService, only rest service , return
     	if ((enableSAMCollectorService != null && !"true".equals(enableSAMCollectorService)) 
     			|| enableSAMCollectorService == null) {
-    		return;
+    		LOG.info("enableSAMCollectorService : " + enableSAMCollectorService + " from sam-server.");
+    		return null;
     	}
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
