@@ -235,6 +235,7 @@
     </server>
     
     <server name="Talend Runtime" version="5.5.9" include="5.5.0">
+    </server>
     
     <!-- -->
     
