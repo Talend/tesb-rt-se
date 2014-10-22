@@ -233,11 +233,6 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
         if (endpointNode.exists()) {
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
-                        + " for service " + serviceName + " because given date is in past.");
-            }
-            
             endpointNode.setExpiryTime(new Date(System.currentTimeMillis() + timetolive * 1000), 
                     true);
         } else {
