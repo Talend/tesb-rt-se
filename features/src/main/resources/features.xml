@@ -276,7 +276,7 @@
 
   <feature name='tesb-policy-correlationid' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
-    <bundle>mvn:uk.com.robust-it/cloning/$cloning.version}</bundle>
+    <bundle>mvn:uk.com.robust-it/cloning/${cloning.version}</bundle>
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>
   </feature>
 
