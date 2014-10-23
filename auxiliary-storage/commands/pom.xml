@@ -20,7 +20,6 @@
 
     <artifactId>auxiliary-storage-commands</artifactId>
     <name>Talend ESB :: Auxiliary Storage :: Commands</name>
-    <version>${auxiliary.storage.version}</version>
     <packaging>bundle</packaging>
 
     <parent>

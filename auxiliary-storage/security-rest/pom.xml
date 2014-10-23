@@ -18,7 +18,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>auxiliary-storage-rest-security</artifactId>
-    <version>${auxiliary.storage.version}</version>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: REST Security</name>
 

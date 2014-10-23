@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>auxiliary-storage-server</artifactId>
-    <version>${auxiliary.storage.version}</version>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: Server</name>
 
@@ -30,25 +29,25 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-persistence</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-persistence-file</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-persistence-jcr</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

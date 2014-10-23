@@ -47,7 +47,7 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-			<version>${auxiliary.storage.version}</version>
+			<version>${project.version}</version>
         </dependency>
     </dependencies>
 
