@@ -27,6 +27,8 @@ import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
 import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 import org.w3c.dom.Document;
 
+import com.rits.cloning.Cloner;
+
 public class XPathProcessor extends BareOutInterceptor {
 
 	public static final String CORRELATION_NAME_SEPARATOR = "#";
@@ -50,7 +52,12 @@ public class XPathProcessor extends BareOutInterceptor {
 	}
 	
 	private void loadSoapBodyToBuffer(Message message){
+		Cloner cloner = new Cloner();
+		MessageContentsList original = MessageContentsList.getContentsList(message);
+		MessageContentsList clone = cloner.deepClone(original);
+		message.setContent(List.class, clone);
 		handleMessage(message);
+		message.setContent(List.class, original);
 	}
 
 	@Override

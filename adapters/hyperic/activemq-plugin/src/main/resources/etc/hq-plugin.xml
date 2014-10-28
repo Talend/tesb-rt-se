@@ -283,6 +283,9 @@
 			<metrics include="AMQ55Connector" />
 		</service>
 	</server>
+    
+    <server name="ActiveMQ" version="5.10" include="5.8">
+    </server>
 
 	<!-- Embedded - Karaf -->
 
@@ -334,4 +337,7 @@
 				default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun" />
 		</config>
 	</server>
+    
+    <server name="ActiveMQ [Karaf]" version="5.10" include="5.8">
+    </server>
 </plugin>

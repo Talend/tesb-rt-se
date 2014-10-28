@@ -10,14 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>auxiliary-storage-client-rest</artifactId>
-    <version>${auxiliary.storage.version}</version>
+    <version>5.6.0</version>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: REST client </name>
 
     <parent>
         <groupId>org.talend.esb.auxiliary.storage</groupId>
         <artifactId>auxiliary-storage-parent</artifactId>
-        <version>5.6.0-SNAPSHOT</version>
+        <version>5.6.0</version>
     </parent>
 
     <prerequisites>
@@ -41,19 +41,19 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-common</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-rest-security</artifactId>
-            <version>${auxiliary.storage.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
