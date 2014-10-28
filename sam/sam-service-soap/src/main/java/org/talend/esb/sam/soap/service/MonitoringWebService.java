@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.service;
+package org.talend.esb.sam.soap.service;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -42,8 +42,6 @@ public class MonitoringWebService implements MonitoringService {
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
     
-    private String enableSAMCollectorService;
-
     /**
      * Sets the monitoring service.
      *
@@ -52,23 +50,11 @@ public class MonitoringWebService implements MonitoringService {
     public void setMonitoringService(org.talend.esb.sam.common.service.MonitoringService monitoringService) {
         this.monitoringService = monitoringService;
     }
-    /**
-     * Set the enableSoapService.
-     */
-    public void setEnableSAMCollectorService(String enableSAMCollectorService) {
-    	this.enableSAMCollectorService = enableSAMCollectorService;
-    }
 
     /* (non-Javadoc)
      * @see org.talend.esb.sam.monitoringservice.v1.MonitoringService#putEvents(java.util.List)
      */
     public String putEvents(List<EventType> eventTypes) throws PutEventsFault {
-    	//enableSoapService != null && true not equal enableSoapService, only rest service , return
-    	if ((enableSAMCollectorService != null && !"true".equals(enableSAMCollectorService)) 
-    			|| enableSAMCollectorService == null) {
-    		LOG.info("enableSAMCollectorService : " + enableSAMCollectorService + " from sam-server.");
-    		return null;
-    	}
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Received event(" + eventTypes.size() + ") from Agent.");
         }

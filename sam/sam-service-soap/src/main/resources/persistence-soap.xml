@@ -32,11 +32,11 @@
     <context:annotation-config />
     <tx:annotation-driven />
 
-    <!-- <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
+    <bean id="eventRepository" class="org.talend.esb.sam.soap.service.EventRepositoryImpl">
         <property name="dataSource" ref="datasource"/>
         <property name="dialect" ref="${db.dialect}" />
     </bean>
-	 -->
+
 	 
     <bean id="uiProvider" class="org.talend.esb.sam.server.ui.UIProviderImpl">
         <property name="dataSource" ref="datasource"/>
@@ -111,10 +111,5 @@
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="datasource"/>
-    </bean>
-
-    <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
-        <property name="dataSource" ref="datasource"/>
-        <property name="dialect" value="${db.dialect}" />
     </bean>
 </beans>
