@@ -143,10 +143,17 @@
       <bundle>mvn:org.talend.esb.sam.service/sam-service-rest/${project.version}</bundle>
   </feature>
   
+  <feature name='tesb-sam-service-rest' version='${project.version}'>
+      <feature>tesb-sam-server</feature>
+      <feature>cxf-rs-security-xml</feature>
+      <bundle>mvn:org.talend.esb.sam.service/sam-service-common/${project.version}</bundle>
+      <bundle>mvn:org.talend.esb.sam.service/sam-service-rest/${project.version}</bundle>
+  </feature>
+  
   <feature name='tesb-sam-soap'  version='${project.version}'>
-  	<configfile finalname="/etc/org.talend.esb.sam.soap.cfg">mvn:org.talend.service/sam-service-soap/${project.version}/cfg/org.talend.esb.sam.server</configfile>
+  	<configfile finalname="/etc/org.talend.esb.sam.soap.cfg">mvn:org.talend.esb/sam-service-soap/${project.version}/cfg/org.talend.esb.sam.soap</configfile>
   	<feature version='${cxf.version}'>cxf</feature>
-  	<bundle>mvn:org.talend.esb.sam/sam-service-soap/${project.version}</bundle>
+  	<bundle>mvn:org.talend.esb/sam-service-soap/${project.version}</bundle>
   </feature>
   
   <feature name='tesb-sam-server' version='${project.version}'>
