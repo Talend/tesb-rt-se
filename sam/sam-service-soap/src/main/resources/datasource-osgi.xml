@@ -21,32 +21,12 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
     ">
 
-    <import resource="test-persistence.xml"/>
-
-    <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
-        <property name="persistenceHandler" ref="eventRepository" />
-    </bean>
-
-    <jaxws:endpoint id="monitoringservice1" 
-        implementor="#MonitoringServiceWrapper"
-        address="${monitoringServiceUrl}">
-        <jaxws:properties>
-            <entry key="mtom-enabled" value="true"/>
-        </jaxws:properties>
-        <jaxws:features>
-            <bean class="org.apache.cxf.feature.LoggingFeature" />
-        </jaxws:features>
-    </jaxws:endpoint>
-
-    <bean id="MonitoringServiceWrapper"
-        class="org.talend.esb.sam.server.service.MonitoringWebService">
-        <property name="monitoringService" ref="monitoringService" />
-    </bean>
+    <osgi:reference id="datasource" interface="javax.sql.DataSource" filter="(org.talend.esb.datasource.name=${db.datasource})"/>
 
 </beans>
