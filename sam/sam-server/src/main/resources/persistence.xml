@@ -32,12 +32,11 @@
     <context:annotation-config />
     <tx:annotation-driven />
 
-    <!-- <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
+    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
         <property name="dataSource" ref="datasource"/>
         <property name="dialect" ref="${db.dialect}" />
     </bean>
-	 -->
-	 
+
     <bean id="uiProvider" class="org.talend.esb.sam.server.ui.UIProviderImpl">
         <property name="dataSource" ref="datasource"/>
         <property name="dialect" ref="${db.dialect}" />

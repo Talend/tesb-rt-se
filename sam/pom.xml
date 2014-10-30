@@ -24,7 +24,6 @@
         <module>datasource-service</module>
         <module>sam-service-common</module>
         <module>sam-service-rest</module>
-        <module>sam-service-soap</module>
     </modules>
 
 	<build>
