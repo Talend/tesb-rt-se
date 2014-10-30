@@ -316,7 +316,7 @@
     <port binding="tns:Library_jmsSoap" name="Library_jmsPort">
          <!-- soap:address location="jms:jndi:dynamicQueues/test.cxf.jmstransport.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616"/ -->
          <!-- soap:address location="local://LibraryProviderEndpoint"/ -->
-         <soap:address location="jms://"/>
+         <soap:address location="local://"/>
     </port>
     <!-- port binding="tns:LibraryNotification_jmsSoap" name="LibraryNotificationProvider_jmsPort">
                <jms:address
@@ -370,4 +370,25 @@
       </input>
     </operation>
   </binding>
+	<binding name="LibraryConsumerJmsSoap" type="tns:LibraryConsumer">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/jms" />
+		<operation name="seekBookInBasementResponse">
+			<soap:operation soapAction="seekBookInBasementResponse" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+		</operation>
+		<operation name="seekBookInBasementFault">
+			<soap:operation soapAction="seekBookInBasementFault" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+		</operation>
+	</binding>
+
+	<service name="LibraryConsumerService">
+		<port binding="tns:LibraryConsumerJmsSoap" name="LibraryConsumerPort">
+			<soap:address location="jms://" />
+		</port>
+	</service>
 </definitions>

@@ -87,8 +87,13 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 	private void doHandleCallbackSoapMessage(
 			SoapMessage message, CallContext callContext) throws Fault {
 		final String callId = callContext.getCallId();
+		final String correlationID = callContext.getCorrelationId();
 		final String callbackId = ContextUtils.generateUUID();
 		List<Header> headers = message.getHeaders();
+		if(correlationID!=null){
+			message.getHeaders().add(createHeader(
+				RequestCallbackFeature.CORRELATION_ID_HEADER_NAME, correlationID));
+		}
 		message.getHeaders().add(createHeader(
 				RequestCallbackFeature.CALL_ID_HEADER_NAME, callId));
 		headers.add(createHeader(

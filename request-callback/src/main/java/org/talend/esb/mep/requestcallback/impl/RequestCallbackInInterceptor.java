@@ -2,6 +2,7 @@ package org.talend.esb.mep.requestcallback.impl;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.binding.soap.SoapHeader;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.DOMUtils;
@@ -85,7 +86,8 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 		ctx.setRequestId(maps.getMessageID().getValue());
 		ctx.setReplyToAddress(maps.getReplyTo().getAddress().getValue());
-
+		ctx.setCorrelationId(getCorrelationId(message));
+		
 		// Try to get SAM flowId in request message
 		// to store it in CallContext for subsequent use
 		// in callback message
@@ -96,6 +98,14 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		fillCallContext(ctx, message);
 	}
 
+	private static String getCorrelationId(SoapMessage message) {
+		Header h = message.getHeader(RequestCallbackFeature.CORRELATION_ID_HEADER_NAME);		
+		if(h!=null){
+			return valueOf(h);
+		}
+		return null;
+	}
+	
 	private static AddressingProperties getAddressingProperties(SoapMessage message) {
 		AddressingProperties maps = (AddressingProperties) message.get(
 				JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES);

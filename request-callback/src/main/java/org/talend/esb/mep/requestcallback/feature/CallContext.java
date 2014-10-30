@@ -46,6 +46,7 @@ public class CallContext implements Serializable {
 	private QName operationName;
 	private String requestId;
 	private String callId;
+	private String correlationId;
 	private String callbackId;
 	private String replyToAddress;
 	private String bindingId;
@@ -100,6 +101,14 @@ public class CallContext implements Serializable {
 		this.callId = callId;
 	}
 
+	public String getCorrelationId() {
+		return correlationId;
+	}
+	
+	public void setCorrelationId(String correlationId){
+		this.correlationId = correlationId;
+	}
+	
 	public String getCallbackId() {
 		return callbackId;
 	}
@@ -220,17 +229,29 @@ public class CallContext implements Serializable {
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
-			Class<T> sourceClass, Service.Mode mode, QName operation) {
+			Class<T> sourceClass, Service.Mode mode, QName operation, URL wsdlLocation) {
 		final QName callbackPortTypeName = new QName(
 				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
 		final QName callbackServiceName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Service");
 		final QName callbackPortName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
-        final Service service = Service.create(callbackServiceName);
-        service.addPort(callbackPortName, bindingId, replyToAddress);
-        final Dispatch<T> dispatch = service.createDispatch(
-        		callbackPortName, sourceClass, mode);
+	
+		Service service = null;
+		Dispatch<T> dispatch = null;
+		if(wsdlLocation!=null){
+			service = Service.create(wsdlLocation, callbackServiceName);
+			dispatch = service.createDispatch(
+	        		callbackPortName, sourceClass, mode);
+	        dispatch.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
+			
+		}else{
+			service = Service.create(callbackServiceName);
+			service.addPort(callbackPortName, bindingId, replyToAddress);
+			dispatch = service.createDispatch(
+	        		callbackPortName, sourceClass, mode);
+		}
+         
         setupDispatch(dispatch);
         final Map<String, Object> requestContext = dispatch.getRequestContext();
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
@@ -245,20 +266,20 @@ public class CallContext implements Serializable {
 		return dispatch;
 	}
 
-	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation);
+	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation, URL wsdlLocation) {
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, wsdlLocation);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null);
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch(QName operation) {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, operation);
+		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, operation, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch() {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null);
+		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null, null);
 	}
 
 	public static CallContext getCallContext(WebServiceContext wsContext) {

@@ -33,7 +33,12 @@ public class RequestCallbackFeature extends AbstractFeature {
 	public static final String CALL_ID_NAME = "callId";
 
     public static final String CALLBACK_ID_NAME = "callbackId";
+    
+    public static final String CORRELATION_ID_NAME = "correlationId";
 
+    public static final QName CORRELATION_ID_HEADER_NAME = new QName(
+            "http://www.talend.com/esb/sam/correlationId/v1", CORRELATION_ID_NAME);
+    
     public static final QName CALL_ID_HEADER_NAME = new QName(
             "http://www.talend.com/esb/requestcallback", CALL_ID_NAME);
 
