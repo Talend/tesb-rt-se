@@ -370,6 +370,8 @@
       </input>
     </operation>
   </binding>
+
+  <!--
 	<binding name="LibraryConsumerJmsSoap" type="tns:LibraryConsumer">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/jms" />
 		<operation name="seekBookInBasementResponse">
@@ -391,4 +393,5 @@
 			<soap:address location="jms://" />
 		</port>
 	</service>
+  -->
 </definitions>

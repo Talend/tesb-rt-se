@@ -1,8 +1,11 @@
 package org.talend.esb.mep.requestcallback.impl;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 import javax.xml.namespace.QName;
 
-import org.apache.cxf.binding.soap.SoapHeader;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.DOMUtils;
@@ -144,7 +147,26 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
 		callContext.setBindingId(bi == null
 				? "http://schemas.xmlsoap.org/wsdl/soap/" : bi.getBindingId());
-
+		final Object wsdlLoc = message.getContextualProperty("javax.xml.ws.wsdl.description");
+		if (wsdlLoc != null) {
+			try {
+				if (wsdlLoc instanceof URL) {
+					callContext.setWsdlLocation((URL) wsdlLoc);
+				} else if (wsdlLoc instanceof URI) {
+					try {
+						callContext.setWsdlLocation(((URI) wsdlLoc).toURL());
+					} catch (MalformedURLException e) {
+						if (!"local".equals(((URI) wsdlLoc).getScheme())) {
+							throw e;
+						}
+					}
+				} else if (wsdlLoc instanceof String) {
+					callContext.setWsdlLocation((String) wsdlLoc);
+				}
+			} catch (MalformedURLException e) {
+				throw new IllegalStateException("Invalid WSDL location. ", e);
+			}
+		}
         String flowId = FlowIdHelper.getFlowId(message);
         if (flowId != null && !flowId.isEmpty()) {
             callContext.setFlowId(flowId);

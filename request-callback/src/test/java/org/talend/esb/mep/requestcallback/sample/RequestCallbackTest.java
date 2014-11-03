@@ -186,7 +186,7 @@ public class RequestCallbackTest {
 
 	private void subTestServerStartup() throws Exception {
         final SeekBookInBasementHandler businessHandler =
-        		new SeekBookInBasementHandler(responseLocation);
+        		new SeekBookInBasementHandler(responseLocation, asClasspathLoc(wsdlLocation));
         final ServiceProviderHandler implementor =
         		new ServiceProviderHandler(
         				errorTransfer, messageTransfer, businessHandler, operation);
@@ -281,5 +281,10 @@ public class RequestCallbackTest {
 			}
 		}
 		return null;
+	}
+
+	private static String asClasspathLoc(String wsdlLoc) {
+		String s = wsdlLoc.startsWith("/") ? wsdlLoc.substring(1) : wsdlLoc;
+		return "classpath:" + s;
 	}
 }
