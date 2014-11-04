@@ -90,7 +90,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		ctx.setRequestId(maps.getMessageID().getValue());
 		ctx.setReplyToAddress(maps.getReplyTo().getAddress().getValue());
 		ctx.setCorrelationId(getCorrelationId(message));
-		
+
 		// Try to get SAM flowId in request message
 		// to store it in CallContext for subsequent use
 		// in callback message
@@ -102,13 +102,13 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 	}
 
 	private static String getCorrelationId(SoapMessage message) {
-		Header h = message.getHeader(RequestCallbackFeature.CORRELATION_ID_HEADER_NAME);		
+		Header h = message.getHeader(RequestCallbackFeature.CORRELATION_ID_HEADER_NAME);
 		if(h!=null){
 			return valueOf(h);
 		}
 		return null;
 	}
-	
+
 	private static AddressingProperties getAddressingProperties(SoapMessage message) {
 		AddressingProperties maps = (AddressingProperties) message.get(
 				JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES);
@@ -147,7 +147,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
 		callContext.setBindingId(bi == null
 				? "http://schemas.xmlsoap.org/wsdl/soap/" : bi.getBindingId());
-		final Object wsdlLoc = message.getContextualProperty("javax.xml.ws.wsdl.description");
+		final Object wsdlLoc = message.getExchange().getEndpoint().get(Message.WSDL_DESCRIPTION);
 		if (wsdlLoc != null) {
 			try {
 				if (wsdlLoc instanceof URL) {
