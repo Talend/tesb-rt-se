@@ -34,50 +34,66 @@ a) Without Service Registry:
    1. Prepare TESB container
       - start TESB container
       - run following command in container:
-      
-        tesb:start-aux-store
+
+      tesb:start-aux-store
 
       - run the following command if you have not started an external ActiveMQ broker
 
-        features:install activemq-broker
+      features:install activemq-broker
 
 
    2. Run service:
       In the command line from the "war" directory run:  mvn -Pservice
-    
-   3. Run client:    
+
+   3. Run client:
       In the command line from the "client" directory run:  mvn -Pclient
 
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
    With Service Registry:
+
    1. Prepare TESB container
       - start TESB container
       - run following commands in container:
 
-        tesb:start-aux-store
-        tesb:start-registry
-        tesb:start-sts
-        tesb:start-sam
-        tesb:switch-sts-jaas
-        
-        - uploads into the service registry
-        - <sr-resources-dir> is "<library-service-dir>/service/src/main/sr-resources"
-        - <library-service-dir> is the directory which contains the present README
+      tesb:start-aux-store
+      tesb:start-registry
+      tesb:start-sts
+      tesb:start-sam
+      tesb:switch-sts-jaas
 
-        tregistry:create wsdl <sr-resources-dir>/Library.wsdl
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
-        tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
-     	tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
-     	tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+      - uploads into the service registry
+      - <sr-resources-dir> is "<library-service-dir>/service/src/main/sr-resources"
+      - <library-service-dir> is the directory which contains the present README
+
+      tregistry:create wsdl <sr-resources-dir>/Library.wsdl
+
+      - depending on the policy you want to activate,
+      - do one of the following policy document uploads
+      - (by default, you should do policy upload (a)):
+
+      - (a) SAML authentication and SAM enabling:
+
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml-and-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml-and-sam-enabling.xml
+
+      - (b) SAML authentication only:
+
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+
+      - (c) SAM enabling only:
+
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
 
 
    2. Run service:
       In the command line from the "war" directory run:  mvn -Pservice-sr
-   
+
    3. Run client:
       In the command line from the "client" directory run:  mvn -Pclient-sr
-  
+
 
 To run client/service from eclipse:
 a) Without Service Registry:
@@ -86,4 +102,3 @@ a) Without Service Registry:
 b) With Service Registry:
    mvn eclipse:eclipse -Pservice-registry
    Use LibraryServer.java LibraryClient.java main() methods to start service and client.
-   

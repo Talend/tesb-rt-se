@@ -1,0 +1,7 @@
+<wsp:PolicyAttachment 
+   xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:AppliesTo>
+        <wsp:URI>http://services.talend.org/demos/Library/1.0#wsdl11.service(LibraryProvider)</wsp:URI>
+    </wsp:AppliesTo>
+    <wsp:PolicyReference URI="samlandsam" />
+</wsp:PolicyAttachment>
