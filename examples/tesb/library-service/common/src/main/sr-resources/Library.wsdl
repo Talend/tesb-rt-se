@@ -331,28 +331,10 @@
 				<soap:fault name="error" use="literal" />
 			</fault>
 		</operation>
-		<operation name="createLending">
-			<soap:operation soapAction="createLending" />
-			<input>
-				<soap:body use="literal" />
-			</input>
-		</operation>
 	</binding>
 
 	<binding name="LibraryJmsSoap" type="tns:Library">
 		<soap:binding style="document" transport="http://www.w3.org/2010/soapjms/" />
-		<operation name="seekBook">
-			<soap:operation soapAction="seekBook" />
-			<input>
-				<soap:body use="literal" />
-			</input>
-			<output>
-				<soap:body use="literal" />
-			</output>
-			<fault name="error">
-				<soap:fault name="error" use="literal" />
-			</fault>
-		</operation>
 		<operation name="createLending">
 			<soap:operation soapAction="createLending" />
 			<input>
