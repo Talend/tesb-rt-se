@@ -147,7 +147,8 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
 		callContext.setBindingId(bi == null
 				? "http://schemas.xmlsoap.org/wsdl/soap/" : bi.getBindingId());
-		final Object wsdlLoc = message.getExchange().getEndpoint().get(Message.WSDL_DESCRIPTION);
+		//final Object wsdlLoc = message.getExchange().getEndpoint().get(Message.WSDL_DESCRIPTION);
+		final Object wsdlLoc = message.getContextualProperty("javax.xml.ws.wsdl.description");
 		if (wsdlLoc != null) {
 			try {
 				if (wsdlLoc instanceof URL) {
