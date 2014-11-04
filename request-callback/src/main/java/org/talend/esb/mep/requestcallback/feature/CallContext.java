@@ -493,7 +493,13 @@ public class CallContext implements Serializable {
         		if (cl == null) {
         			return null;
         		}
-        		return cl.getResource(wsdlLocation.substring(CLASSPATH_URL_PREFIX_LENGTH));
+        		final int len = wsdlLocation.length();
+        		for (int ndx = CLASSPATH_URL_PREFIX_LENGTH; ndx < len; ndx++) {
+        			if (wsdlLocation.charAt(ndx) != '/') {
+        				return cl.getResource(wsdlLocation.substring(ndx));
+        			}
+        		}
+        		return null;
         	}
             return new URL(wsdlLocation);
         }
