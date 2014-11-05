@@ -43,7 +43,7 @@ import org.talend.esb.mep.requestcallback.sample.internal.ServiceProviderHandler
 
 import static org.junit.Assert.*;
 
-// @Ignore
+@Ignore
 @RunWith(Parameterized.class)
 public class RequestCallbackJmsTest {
 
