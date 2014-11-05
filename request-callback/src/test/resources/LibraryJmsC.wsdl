@@ -337,11 +337,13 @@
   </plnk:partnerLinkType>
   <service name="LibraryProvider">
     <port binding="tns:Library_httpSoap" name="Library_WS-I">
-      <soap:address location="http://localhost:8080/tesb-library-tutorial/services/LibraryProvider"/>
+      <!--soap:address location="http://localhost:8080/tesb-library-tutorial/services/LibraryProvider"/-->
+      <soap:address location="local://LibraryProvider"/>
       <!-- soap:address location="local://LibraryEndpoint"/ -->
     </port>
     <port binding="tns:Library_jmsSoap" name="Library_jmsPort">
-      <soap:address location="jms://"/>
+<!--       <soap:address location="jms://"/> -->
+        <soap:address location="local://"/>
     </port>
   </service>
   <binding name="Library_httpSoap" type="tns:Library">
@@ -448,7 +450,7 @@
 		<port binding="tns:LibraryConsumerJmsSoap" name="LibraryConsumerPort">
 			<soap:address location="local://" />
 		</port>
-	</service>  
+	</service>
 
 	<wsp:Policy wsu:Id="LibraryServiceBindingAsymmetricSAML2Policy">
 	    <wsp:ExactlyOne>

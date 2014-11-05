@@ -310,7 +310,8 @@
   </plnk:partnerLinkType>
   <service name="LibraryProvider">
     <port binding="tns:Library_httpSoap" name="Library_WS-I">
-      <soap:address location="http://127.0.0.1:8888/soap/LibraryProvider"/>
+      <!-- soap:address location="http://127.0.0.1:8888/soap/LibraryProvider"/ -->
+      <soap:address location="local://LibraryProvider"/>
       <!-- soap:address location="local://LibraryEndpoint"/ -->
     </port>
     <port binding="tns:Library_jmsSoap" name="Library_jmsPort">
@@ -321,7 +322,7 @@
     <!-- port binding="tns:LibraryNotification_jmsSoap" name="LibraryNotificationProvider_jmsPort">
                <jms:address
                    destinationStyle="queue"
-                   jndiConnectionFactoryName="ConnectionFactory" 
+                   jndiConnectionFactoryName="ConnectionFactory"
                    jndiDestinationName="dynamicQueues/test.cxf.jmstransport.queue">
                    <jms:JMSNamingProperty name="java.naming.factory.initial" value="org.apache.activemq.jndi.ActiveMQInitialContextFactory"/>
                    <jms:JMSNamingProperty name="java.naming.provider.url" value="tcp://localhost:61616"/>
