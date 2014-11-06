@@ -1,8 +1,8 @@
 package org.talend.esb.mep.requestcallback.impl;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.wsdl.Definition;
@@ -22,6 +22,7 @@ import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.wsdl.WSDLManager;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
+import org.talend.esb.mep.requestcallback.feature.CallbackInfo;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProtocolHeaderCodec;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdSoapCodec;
@@ -32,6 +33,9 @@ import org.w3c.dom.Element;
  * The Class CompressionOutInterceptor.
  */
 public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
+
+	private static final String SR_QUERY_PATH = "/services/registry/lookup/wsdl/";
+	private static final int SR_QUERY_PATH_LEN = SR_QUERY_PATH.length();
 
 	public RequestCallbackInInterceptor() {
 		super(Phase.PRE_LOGICAL);
@@ -150,26 +154,9 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		final BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
 		callContext.setBindingId(bi == null
 				? "http://schemas.xmlsoap.org/wsdl/soap/" : bi.getBindingId());
-		final WSDLManager wsdlManager = message.getExchange().getBus().getExtension(WSDLManager.class);
-		for (Map.Entry<Object, Definition> entry : wsdlManager.getDefinitions().entrySet()) {
-			if (entry.getValue().getService(callContext.getServiceName()) != null) {
-				final Object key = entry.getKey();
-				if (key instanceof URL) {
-					callContext.setWsdlLocation((URL) entry.getKey());
-					break;
-				}
-				if (key instanceof String) {
-					final String loc = (String) key;
-					if (loc.startsWith("file:") || loc.indexOf("://") > 0) {
-						try {
-							callContext.setWsdlLocation(loc);
-						} catch (MalformedURLException e) {
-							throw new IllegalStateException("Corrupted WSDL location URL: ", e);
-						}
-						break;
-					}
-				}
-			}
+		URL wsdlLocation = resolveCallbackWsdlLocation(callContext.getServiceName(), message);
+		if (wsdlLocation != null) {
+			callContext.setWsdlLocation(wsdlLocation);
 		}
         String flowId = FlowIdHelper.getFlowId(message);
         if (flowId != null && !flowId.isEmpty()) {
@@ -177,8 +164,63 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
         }
 	}
 
+	private static URL resolveCallbackWsdlLocation(QName callbackService, SoapMessage message) {
+		final WSDLManager wsdlManager = message.getExchange().getBus().getExtension(WSDLManager.class);
+		for (Map.Entry<Object, Definition> entry : wsdlManager.getDefinitions().entrySet()) {
+			if (entry.getValue().getService(callbackService) != null) {
+				final Object key = entry.getKey();
+				if (key instanceof URL) {
+					return asCallbackWsdlURL((URL) entry.getKey());
+				}
+				if (key instanceof String) {
+					final String loc = (String) key;
+					if (loc.startsWith("file:") || loc.indexOf("://") > 0) {
+						try {
+							return asCallbackWsdlURL(new URL(loc));
+						} catch (MalformedURLException e) {
+							throw new IllegalStateException("Corrupted WSDL location URL: ", e);
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-    /**
+	private static URL asCallbackWsdlURL(URL wsdlURL) {
+		if (wsdlURL == null) {
+			return null;
+		}
+		final CallbackInfo cbInfo = CallContext.createCallbackInfo(wsdlURL);
+		if (cbInfo.getCallbackServiceName() == null) {
+			// old-style callback definition without callback service.
+			return null;
+		}
+		String protocol = wsdlURL.getProtocol();
+		if (!("http".equals(protocol) || "https".equals(protocol))) {
+			// not a service registry query, return as it is.
+			return wsdlURL;
+		}
+		final String path = wsdlURL.getPath();
+		if (!path.startsWith("/services/registry/lookup/wsdl/")) {
+			// not a service registry query, return as it is.
+			return wsdlURL;
+		}
+		try {
+			final String urlString = wsdlURL.toExternalForm();
+			final String resString = urlString.substring(
+					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
+					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8")
+					+ "?mergeWithPolicies=true&participant=provider";
+			return new URL(resString);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new IllegalStateException("Unexpected URL creation problem: ", e);
+		}
+	}
+
+	/**
      * This functions reads SAM flowId and sets it
      * as message property for subsequent store in CallContext
      * @param message

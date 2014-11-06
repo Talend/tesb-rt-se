@@ -2,12 +2,17 @@ package org.talend.esb.mep.requestcallback.impl;
 
 import java.util.Dictionary;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.common.logging.LogUtils;
 import org.talend.esb.mep.requestcallback.feature.Configuration;
 
 public abstract class AbstractConfiguration implements Configuration {
+
+	private static final Logger LOGGER = LogUtils.getL7dLogger(AbstractConfiguration.class);
 
 	public interface NamespaceUriEncoder {
 		String encodedNamespaceURI(String namespaceURI);
@@ -43,6 +48,9 @@ public abstract class AbstractConfiguration implements Configuration {
 		try {
 			return Integer.valueOf(raw.toString());
 		} catch (NumberFormatException e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 	}
@@ -62,6 +70,9 @@ public abstract class AbstractConfiguration implements Configuration {
 		try {
 			return Long.valueOf(raw.toString());
 		} catch (NumberFormatException e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 	}

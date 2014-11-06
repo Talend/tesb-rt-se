@@ -4,11 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 
+import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.DispatchImpl;
 import org.apache.cxf.jaxws.EndpointImpl;
@@ -21,6 +24,7 @@ import org.talend.esb.mep.requestcallback.feature.Configuration;
 
 public class JmsUriConfigurator implements InitializingBean {
 
+	private static final Logger LOGGER = LogUtils.getL7dLogger(JmsUriConfigurator.class);
 	private QName serviceName;
 	private QName endpointName;
 	private String configurationPrefix;
@@ -85,6 +89,9 @@ public class JmsUriConfigurator implements InitializingBean {
 		try {
 			serviceName = cl.getEndpoint().getService().getName();
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 		if (serviceName == null) {
@@ -98,6 +105,9 @@ public class JmsUriConfigurator implements InitializingBean {
 			endpointName = endpointInfo.getName();
 			endpointAddress = endpointInfo.getAddress();
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			endpointInfo = null;
 			endpointName = null;
 			endpointAddress = null;
@@ -125,6 +135,9 @@ public class JmsUriConfigurator implements InitializingBean {
 			cl.getRequestContext().put(Message.ENDPOINT_ADDRESS, jmsAddr);
 			cl.getEndpoint().getEndpointInfo().setAddress(jmsAddr);
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 		return dispatch;

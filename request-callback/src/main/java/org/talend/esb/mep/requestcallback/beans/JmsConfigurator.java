@@ -3,11 +3,14 @@ package org.talend.esb.mep.requestcallback.beans;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 
+import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.DispatchImpl;
@@ -24,6 +27,7 @@ import org.talend.esb.mep.requestcallback.feature.Configuration;
 public class JmsConfigurator implements InitializingBean {
 
 	public static final String OVERRIDE_BY_URI_CONFIG = "override";
+	private static final Logger LOGGER = LogUtils.getL7dLogger(JmsConfigurator.class);
 	private QName serviceName;
 	private String configurationPrefix;
 	private String workPrefix;
@@ -82,6 +86,9 @@ public class JmsConfigurator implements InitializingBean {
 		try {
 			serviceName = cl.getEndpoint().getService().getName();
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 		if (serviceName == null) {
@@ -91,6 +98,9 @@ public class JmsConfigurator implements InitializingBean {
 		try {
 			endpointName = cl.getEndpoint().getEndpointInfo().getName();
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			endpointName = null;
 		}
 		final String portName = endpointName == null

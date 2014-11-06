@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
@@ -23,6 +25,7 @@ import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
+import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.feature.LoggingFeature;
@@ -39,6 +42,7 @@ import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfig
 
 public class CallContext implements Serializable {
 
+	private static final Logger LOGGER = LogUtils.getL7dLogger(CallContext.class);
 	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
 	private static final String CLASSPATH_URL_PREFIX = "classpath:";
 	private static final long serialVersionUID = -5024912330689208965L;
@@ -246,7 +250,14 @@ public class CallContext implements Serializable {
 			try {
 				service = Service.create(wsdlURL, callbackServiceName);
 			} catch (WebServiceException e) {
-				// ignore, as old-style request-callback WSDLs will fail here.
+				if (LOGGER.isLoggable(Level.INFO)) {
+					LOGGER.info("Service " + callbackServiceName +
+							" is not defined in WSDL (old-style callback definition");
+					LOGGER.info("Proceeding without callback service model");
+					if (LOGGER.isLoggable(Level.FINER)) {
+						LOGGER.log(Level.FINER, "Exception caught: ", e);
+					}
+				}
 			}
 		}
 		final Dispatch<T> dispatch;
@@ -312,6 +323,10 @@ public class CallContext implements Serializable {
 		try {
 			return (CallContext) contextHolder.get(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME);
 		} catch (ClassCastException e) {
+			LOGGER.warning("Ignoring CallContext value of invalid type in contextual property");
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		}
 	}

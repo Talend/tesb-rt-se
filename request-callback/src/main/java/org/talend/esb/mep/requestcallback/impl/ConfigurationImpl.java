@@ -12,13 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.apache.cxf.common.logging.LogUtils;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 
 public class ConfigurationImpl extends AbstractConfiguration {
 
+	private static final Logger LOGGER = LogUtils.getL7dLogger(ConfigurationImpl.class);
 	private Map<String, Object> userMap = null;
 	private Map<String, Object> dynamicMap = null;
 	private Map<String, Object> staticMap = null;
@@ -248,6 +252,9 @@ public class ConfigurationImpl extends AbstractConfiguration {
 						URL configURL = new URL(cfgURLName);
 						is = configURL.openStream();
 					} catch (Exception e) {
+						if (LOGGER.isLoggable(Level.FINER)) {
+							LOGGER.log(Level.FINER, "Exception caught: ", e);
+						}
 						is = null;
 					}
 					loadedProps = loadProps(staticProps, is);
@@ -258,6 +265,9 @@ public class ConfigurationImpl extends AbstractConfiguration {
 							URL configURL = new URL(cfgURLName);
 							is = configURL.openStream();
 						} catch (Exception e) {
+							if (LOGGER.isLoggable(Level.FINER)) {
+								LOGGER.log(Level.FINER, "Exception caught: ", e);
+							}
 							is = null;
 						}
 						loadedProps = loadProps(staticProps, is);
@@ -279,6 +289,9 @@ public class ConfigurationImpl extends AbstractConfiguration {
 					}
 				}
 			} catch (Exception e) {
+				if (LOGGER.isLoggable(Level.FINER)) {
+					LOGGER.log(Level.FINER, "Exception caught: ", e);
+				}
 				loadedProps = null;
 			}
 			if (loadedProps != null) {
@@ -375,11 +388,17 @@ public class ConfigurationImpl extends AbstractConfiguration {
 			result.load(is);
 			return result;
 		} catch (Exception e) {
+			if (LOGGER.isLoggable(Level.FINER)) {
+				LOGGER.log(Level.FINER, "Exception caught: ", e);
+			}
 			return null;
 		} finally {
 			try {
 				is.close();
 			} catch (Exception e) {
+				if (LOGGER.isLoggable(Level.FINER)) {
+					LOGGER.log(Level.FINER, "Exception caught: ", e);
+				}
 				// ignore
 			}
 		}
