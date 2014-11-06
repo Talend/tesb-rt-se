@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.service;
+package org.talend.esb.sam.soap.service;
 
 import java.io.IOException;
 import java.io.InputStream;

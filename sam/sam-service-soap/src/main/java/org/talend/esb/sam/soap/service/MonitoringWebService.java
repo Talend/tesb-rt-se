@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.server.service;
+package org.talend.esb.sam.soap.service;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -41,7 +41,7 @@ public class MonitoringWebService implements MonitoringService {
     private static final Logger LOG = Logger.getLogger(MonitoringWebService.class.getName());
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
-
+    
     /**
      * Sets the monitoring service.
      *
@@ -106,5 +106,4 @@ public class MonitoringWebService implements MonitoringService {
 
         throw new PutEventsFault(message, faultType, t);
     }
-
 }

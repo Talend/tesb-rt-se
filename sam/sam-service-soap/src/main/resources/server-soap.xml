@@ -21,33 +21,16 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:osgi="http://www.springframework.org/schema/osgi"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
     ">
 
-    <import resource="classpath:/datasource-osgi.xml"/>
-    <import resource="classpath:/persistence.xml"/>
+    <import resource="datasource-soap.xml"/>
+    <import resource="persistence-soap.xml"/>
 
-    <!-- Configuration Admin entry -->
-    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
-        <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
-        <prop key="db.datasource">ds-derby</prop>
-        <prop key="db.dialect">derbyDialect</prop>
-    </osgix:cm-properties>
-
-    <!-- placeholder configurer -->
-    <context:property-placeholder properties-ref="sam-server-props" />
-
-<!-- 
-    <bean id="monitoringService" class="org.talend.esb.sam.server.service.MonitoringServiceImpl">
+    <bean id="monitoringService" class="org.talend.esb.sam.soap.service.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository" />
     </bean>
 
@@ -63,10 +46,8 @@
     </jaxws:endpoint>
 
     <bean id="MonitoringServiceWrapper"
-        class="org.talend.esb.sam.server.service.MonitoringWebService">
+        class="org.talend.esb.sam.soap.service.MonitoringWebService">
         <property name="monitoringService" ref="monitoringService" />
     </bean>
- -->
-    <osgi:service ref="uiProvider" interface="org.talend.esb.sam.server.ui.UIProvider"/>
 
 </beans>
