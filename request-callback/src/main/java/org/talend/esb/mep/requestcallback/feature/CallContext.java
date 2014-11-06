@@ -18,6 +18,7 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.Bus;
@@ -39,13 +40,16 @@ import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfig
 public class CallContext implements Serializable {
 
 	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
+	private static final String CLASSPATH_URL_PREFIX = "classpath:";
 	private static final long serialVersionUID = -5024912330689208965L;
+	private static final int CLASSPATH_URL_PREFIX_LENGTH = CLASSPATH_URL_PREFIX.length();
 
 	private QName portTypeName;
 	private QName serviceName;
 	private QName operationName;
 	private String requestId;
 	private String callId;
+	private String correlationId;
 	private String callbackId;
 	private String replyToAddress;
 	private String bindingId;
@@ -100,6 +104,14 @@ public class CallContext implements Serializable {
 		this.callId = callId;
 	}
 
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+	public void setCorrelationId(String correlationId){
+		this.correlationId = correlationId;
+	}
+
 	public String getCallbackId() {
 		return callbackId;
 	}
@@ -129,7 +141,7 @@ public class CallContext implements Serializable {
 	}
 
 	public void setWsdlLocation(String wsdlLocation) throws MalformedURLException {
-		this.wsdlLocationURL = wsdlLocation == null ? null : new URL(wsdlLocation);
+		this.wsdlLocationURL = toWsdlUrl(wsdlLocation);
 		this.callbackInfo = null;
 	}
 
@@ -142,7 +154,7 @@ public class CallContext implements Serializable {
 		setWsdlLocationURL(wsdlLocation);
 	}
 
-	public URL getWsdlLocationURL(URL wsdlLocationURL) {
+	public URL getWsdlLocationURL() {
 		return wsdlLocationURL;
 	}
 
@@ -220,17 +232,39 @@ public class CallContext implements Serializable {
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
-			Class<T> sourceClass, Service.Mode mode, QName operation) {
+			Class<T> sourceClass, Service.Mode mode, QName operation, URL wsdlLocationURL) {
 		final QName callbackPortTypeName = new QName(
 				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
 		final QName callbackServiceName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Service");
 		final QName callbackPortName = new QName(
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
-        final Service service = Service.create(callbackServiceName);
-        service.addPort(callbackPortName, bindingId, replyToAddress);
-        final Dispatch<T> dispatch = service.createDispatch(
-        		callbackPortName, sourceClass, mode);
+
+		Service service = null;
+		final URL wsdlURL = wsdlLocationURL == null ? this.wsdlLocationURL : wsdlLocationURL;
+		if (wsdlURL != null) {
+			try {
+				service = Service.create(wsdlURL, callbackServiceName);
+			} catch (WebServiceException e) {
+				// ignore, as old-style request-callback WSDLs will fail here.
+			}
+		}
+		final Dispatch<T> dispatch;
+		if (service != null) {
+			if (!service.getPorts().hasNext()) {
+				service.addPort(callbackPortName, bindingId, replyToAddress);
+			}
+			dispatch = service.createDispatch(
+	        		callbackPortName, sourceClass, mode);
+	        dispatch.getRequestContext().put(
+	        		BindingProvider.ENDPOINT_ADDRESS_PROPERTY, replyToAddress);
+		} else {
+			service = Service.create(callbackServiceName);
+			service.addPort(callbackPortName, bindingId, replyToAddress);
+			dispatch = service.createDispatch(
+	        		callbackPortName, sourceClass, mode);
+		}
+         
         setupDispatch(dispatch);
         final Map<String, Object> requestContext = dispatch.getRequestContext();
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
@@ -245,20 +279,29 @@ public class CallContext implements Serializable {
 		return dispatch;
 	}
 
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			Class<T> sourceClass, Service.Mode mode, QName operation) {
+		return createCallbackDispatch(sourceClass, mode, operation, null);
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation, URL wsdlLocation) {
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, wsdlLocation);
+	}
+
 	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation);
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, null);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null);
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch(QName operation) {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, operation);
+		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, operation, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch() {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null);
+		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null, null);
 	}
 
 	public static CallContext getCallContext(WebServiceContext wsContext) {
@@ -439,4 +482,36 @@ public class CallContext implements Serializable {
 	private static Feature getEventFeature() {
 	    return (Feature) samContext.getBean("eventFeature");
 	}
+
+	private static URL toWsdlUrl(final String wsdlLocation) throws MalformedURLException {
+		if (wsdlLocation == null || wsdlLocation.length() == 0) {
+			return null;
+		}
+        if (isWsdlUrlString(wsdlLocation)) {
+        	if (wsdlLocation.startsWith(CLASSPATH_URL_PREFIX)) {
+        		final ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        		if (cl == null) {
+        			return null;
+        		}
+        		final int len = wsdlLocation.length();
+        		for (int ndx = CLASSPATH_URL_PREFIX_LENGTH; ndx < len; ndx++) {
+        			if (wsdlLocation.charAt(ndx) != '/') {
+        				return cl.getResource(wsdlLocation.substring(ndx));
+        			}
+        		}
+        		return null;
+        	}
+            return new URL(wsdlLocation);
+        }
+        return (new File(wsdlLocation)).toURI().toURL();
+    }
+
+    private static boolean isWsdlUrlString(String wsdlLocation) {
+        if (wsdlLocation == null || wsdlLocation.length() == 0) {
+            return false;
+        }
+        return wsdlLocation.startsWith("file:/") || wsdlLocation.startsWith("http://")
+                || wsdlLocation.startsWith("https://")
+                || wsdlLocation.startsWith(CLASSPATH_URL_PREFIX);
+    }
 }

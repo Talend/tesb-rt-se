@@ -17,14 +17,14 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>library-service</artifactId>
-    <version>5.6.0</version>
+    <version>5.6.1-SNAPSHOT</version>
     <name>Talend ESB Runtime Examples :: Library-Service</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>talend-esb-examples</artifactId>
-        <version>5.6.0</version>
+        <version>5.6.1-SNAPSHOT</version>
     </parent>
 
     <properties>

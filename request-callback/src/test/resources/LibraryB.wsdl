@@ -382,4 +382,26 @@
       </input>
     </operation>
   </binding>
+  
+  	<binding name="LibraryConsumerJmsSoap" type="tns:LibraryConsumer">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="seekBookInBasementResponse">
+			<soap:operation soapAction="seekBookInBasementResponse" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+		</operation>
+		<operation name="seekBookInBasementFault">
+			<soap:operation soapAction="seekBookInBasementFault" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+		</operation>
+	</binding>
+
+	<service name="LibraryConsumerService">
+		<port binding="tns:LibraryConsumerJmsSoap" name="LibraryConsumerPort">
+			<soap:address location="local://" />
+		</port>
+	</service>
 </definitions>

@@ -209,7 +209,7 @@ public class RequestCallbackJmsTest {
 
 	private void subTestServerStartup() throws Exception {
         final SeekBookInBasementHandler businessHandler =
-        		new SeekBookInBasementHandler(responseLocation);
+        		new SeekBookInBasementHandler(responseLocation, "classpath:" + wsdlLocation);
         final ServiceProviderHandler implementor =
         		new ServiceProviderHandler(
         				errorTransfer, messageTransfer, businessHandler, operation);

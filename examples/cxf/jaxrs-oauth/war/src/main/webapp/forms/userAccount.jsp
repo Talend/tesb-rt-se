@@ -1,6 +1,9 @@
 <%@ page import="javax.servlet.http.HttpServletRequest,oauth.service.UserAccount,oauth.common.Calendar,oauth.common.CalendarEntry" %>
 <%
     String basePath = request.getContextPath() + request.getServletPath();
+    if (!basePath.endsWith("/")) {
+        basePath += "/";
+    }
     UserAccount account = (UserAccount)request.getAttribute("account");
     Calendar calendar = account.getCalendar();
 %>

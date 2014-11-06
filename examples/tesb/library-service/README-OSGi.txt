@@ -84,10 +84,27 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       - <library-service-dir> is the directory which contains the present README
 
       tregistry:create wsdl <sr-resources-dir>/Library.wsdl
+
+      - depending on the policy you want to activate,
+      - do one of the following policy document uploads
+      - (by default, you should do policy upload (a)):
+
+      - (a) SAML authentication and SAM enabling:
+
+      tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml-and-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml-and-sam-enabling.xml
+
+      - (b) SAML authentication only:
+
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+
+      - (c) SAM enabling only:
+
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
-      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+
+      - after service registry document upload, prepare installation of the service feature
 
       features:addurl mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 

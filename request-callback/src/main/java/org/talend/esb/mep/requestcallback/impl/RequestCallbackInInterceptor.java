@@ -1,5 +1,11 @@
 package org.talend.esb.mep.requestcallback.impl;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.Map;
+
+import javax.wsdl.Definition;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -14,6 +20,7 @@ import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
+import org.apache.cxf.wsdl.WSDLManager;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProtocolHeaderCodec;
@@ -85,6 +92,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 		ctx.setRequestId(maps.getMessageID().getValue());
 		ctx.setReplyToAddress(maps.getReplyTo().getAddress().getValue());
+		ctx.setCorrelationId(getCorrelationId(message));
 
 		// Try to get SAM flowId in request message
 		// to store it in CallContext for subsequent use
@@ -94,6 +102,14 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 
 		fillCallContext(ctx, message);
+	}
+
+	private static String getCorrelationId(SoapMessage message) {
+		Header h = message.getHeader(RequestCallbackFeature.CORRELATION_ID_HEADER_NAME);
+		if(h!=null){
+			return valueOf(h);
+		}
+		return null;
 	}
 
 	private static AddressingProperties getAddressingProperties(SoapMessage message) {
@@ -131,10 +147,30 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 		callContext.setPortTypeName((QName) message.get(Message.WSDL_INTERFACE));
 		callContext.setServiceName((QName) message.get(Message.WSDL_SERVICE));
-		BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
+		final BindingInfo bi = message.getExchange().getBinding().getBindingInfo();
 		callContext.setBindingId(bi == null
 				? "http://schemas.xmlsoap.org/wsdl/soap/" : bi.getBindingId());
-
+		final WSDLManager wsdlManager = message.getExchange().getBus().getExtension(WSDLManager.class);
+		for (Map.Entry<Object, Definition> entry : wsdlManager.getDefinitions().entrySet()) {
+			if (entry.getValue().getService(callContext.getServiceName()) != null) {
+				final Object key = entry.getKey();
+				if (key instanceof URL) {
+					callContext.setWsdlLocation((URL) entry.getKey());
+					break;
+				}
+				if (key instanceof String) {
+					final String loc = (String) key;
+					if (loc.startsWith("file:") || loc.indexOf("://") > 0) {
+						try {
+							callContext.setWsdlLocation(loc);
+						} catch (MalformedURLException e) {
+							throw new IllegalStateException("Corrupted WSDL location URL: ", e);
+						}
+						break;
+					}
+				}
+			}
+		}
         String flowId = FlowIdHelper.getFlowId(message);
         if (flowId != null && !flowId.isEmpty()) {
             callContext.setFlowId(flowId);
