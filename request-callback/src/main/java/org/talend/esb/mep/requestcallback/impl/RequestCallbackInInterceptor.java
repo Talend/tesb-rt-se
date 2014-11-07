@@ -208,7 +208,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 		try {
 			final String urlString = wsdlURL.toExternalForm();
-			final String resString = urlString.substring(
+			final String resString =  urlString.substring(0,
 					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
 					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8")
 					+ "?mergeWithPolicies=true&participant=provider";
