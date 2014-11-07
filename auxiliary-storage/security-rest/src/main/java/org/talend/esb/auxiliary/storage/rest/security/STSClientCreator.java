@@ -30,6 +30,7 @@ public class STSClientCreator {
 
     public static final String STS_TOKEN_TYPE = "sts.tokentype";
     public static final String STS_KEY_TYPE = "sts.keytype";
+    public static final String STS_ALLOW_RENEWING = "sts.allow.renewing";
 
     public static STSClient create(Bus bus, Map<String, String> stsProps) {
 
@@ -51,12 +52,14 @@ public class STSClientCreator {
 
         stsClient.setProperties(props);
 
-        stsClient.setAllowRenewingAfterExpiry(true);
         stsClient.setEnableLifetime(true);
 
         stsClient.setTokenType(stsProps.get(STS_TOKEN_TYPE));
 
         stsClient.setKeyType(stsProps.get(STS_KEY_TYPE));
+
+        stsClient.setAllowRenewingAfterExpiry(true);
+        stsClient.setAllowRenewing(Boolean.valueOf(stsProps.get(STS_ALLOW_RENEWING)));
 
         return stsClient;
     }

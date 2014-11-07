@@ -36,6 +36,7 @@
             <cm:property name="sts.endpoint.name" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
             <cm:property name="sts.tokentype" value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0" />
             <cm:property name="sts.keytype" value="http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer" />
+            <cm:property name="sts.allow.renewing" value="false" />
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -69,6 +70,7 @@
 
                 <entry key="sts.tokentype" value="${sts.tokentype}" />
                 <entry key="sts.keytype" value="${sts.keytype}" />
+                <entry key="sts.allow.renewing" value="${sts.allow.renewing}" />
             </map>
         </property>
 
