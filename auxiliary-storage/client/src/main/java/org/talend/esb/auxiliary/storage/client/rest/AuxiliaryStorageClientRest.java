@@ -63,7 +63,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
     @Override
     public E getStoredObject(String key) {
 
-        String ctx = lookupObject(key);
+        String ctx = lookupObject(key, true);
         return findAuxiliaryObjectFactory().unmarshallObject(ctx);
     }
 
@@ -71,11 +71,15 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
     public void removeStoredObject(String contextKey) {
 
         findAuxiliaryObjectFactory();
-        deleteObject(contextKey);
+        deleteObject(contextKey, true);
     }
 
     @Override
     public String saveObject(E ctx) {
+    	return saveObject(ctx, true);
+    }
+
+    private String saveObject(final E ctx, final boolean retry) {
 
         String key = findAuxiliaryObjectFactory().createObjectKey(ctx);
 
@@ -86,25 +90,31 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
         try{
             Response resp = client.put(findAuxiliaryObjectFactory().marshalObject(ctx));
             if (resp.getStatus() == 404) {
+            	if (!retry) {
+            		return null;
+            	}
                 if (null != client) {
                     client.reset();
                 }
                 switchServerURL(client.getBaseURI().toString());
-                return saveObject(ctx);
+                return saveObject(ctx, false);
             }
-
             return key;
         } catch(WebApplicationException e){
             handleWebException(e);
-        } catch (Throwable e) {
-            if (e instanceof ConnectException
-                    || e instanceof ClientException) {
+        } catch (Exception e) {
+            if (retry && (e instanceof ConnectException
+                    || e instanceof ClientException)) {
                 if (null != client) {
                     client.reset();
                 }
                 switchServerURL(client.getBaseURI().toString());
                 return saveObject(ctx);
             }
+            if (e instanceof RuntimeException) {
+            	throw (RuntimeException) e;
+            }
+            throw new IllegalStateException("Upload failed: ", e);
         } finally {
             if (null != client) {
                 client.reset();
@@ -113,8 +123,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
         return null;
     }
 
-
-   private String lookupObject(final String contextKey){
+   private String lookupObject(final String contextKey, final boolean retry) {
 
        WebClient client = getWebClient()
                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
@@ -128,15 +137,19 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
             return null;
         } catch (WebApplicationException e) {
             handleWebException(e);
-        } catch (Throwable e) {
-            if (e instanceof ConnectException
-                    || e instanceof ClientException) {
+        } catch (Exception e) {
+            if (retry && (e instanceof ConnectException
+                    || e instanceof ClientException)) {
                 if (null != client) {
                     client.reset();
                 }
                 switchServerURL(client.getBaseURI().toString());
-                return lookupObject(contextKey);
+                return lookupObject(contextKey, false);
             }
+            if (e instanceof RuntimeException) {
+            	throw (RuntimeException) e;
+            }
+            throw new IllegalStateException("Lookup failed: ", e);
         } finally {
             if (null != client) {
                 client.reset();
@@ -146,7 +159,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
         return object;
     }
 
-   private void deleteObject(final String key){
+   private void deleteObject(final String key, final boolean retry) {
 
        WebClient client = getWebClient()
                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
@@ -158,15 +171,19 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
            return;
        } catch (WebApplicationException e) {
            handleWebException(e);
-       } catch (Throwable e) {
-           if (e instanceof ConnectException
-                   || e instanceof ClientException) {
+       } catch (Exception e) {
+           if (retry && (e instanceof ConnectException
+                   || e instanceof ClientException)) {
                if (null != client) {
                    client.reset();
                }
                switchServerURL(client.getBaseURI().toString());
-               deleteObject(key);
+               deleteObject(key, false);
            }
+           if (e instanceof RuntimeException) {
+           	throw (RuntimeException) e;
+           }
+           throw new IllegalStateException("Delete failed: ", e);
        } finally {
            if (null != client) {
                client.reset();
