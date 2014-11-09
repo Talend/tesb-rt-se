@@ -12,6 +12,11 @@
 	<packaging>bundle</packaging>
 	<name>Talend ESB :: Policies :: Compression</name>
 	<description>Custom policy for compression processing</description>
+	
+	<properties>
+		<commons-io.version>2.4</commons-io.version>
+		<commons-codec.version>1.9</commons-codec.version>	
+	</properties>	
 
 	<dependencies>
 		<dependency>
@@ -24,6 +29,11 @@
 			<artifactId>cxf-rt-bindings-soap</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>		
 	</dependencies>
 
 	<build>
