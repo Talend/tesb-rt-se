@@ -95,7 +95,7 @@
         <camel.version>2.13.2</camel.version>
         <activemq.version>5.10.0</activemq.version>
         <spring.version>3.2.4.RELEASE</spring.version>
-        <karaf.version>2.3.8</karaf.version>
+        <karaf.version>2.3.9</karaf.version>
         <zookeeper.version>3.3.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <slf4j.version>1.7.7</slf4j.version>
