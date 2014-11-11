@@ -80,7 +80,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tesb:switch-sts-jaas
 
       - uploads into the service registry
-      - <sr-resources-dir> is "<library-service-dir>/service/src/main/sr-resources"
+      - <sr-resources-dir> is "<library-service-dir>/common/src/main/sr-resources"
       - <library-service-dir> is the directory which contains the present README
 
       tregistry:create wsdl <sr-resources-dir>/Library.wsdl
