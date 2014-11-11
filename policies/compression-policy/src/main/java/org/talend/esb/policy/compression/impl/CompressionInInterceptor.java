@@ -3,7 +3,6 @@ package org.talend.esb.policy.compression.impl;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -50,7 +49,7 @@ public class CompressionInInterceptor extends
 	public void handleMessage(Message message) throws Fault {
 		try {
 
-			// Perform compression
+			// Perform decompression
 			decompressMessage(message);
 
 			// Confirm policy processing

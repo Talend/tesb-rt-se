@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -41,8 +42,7 @@ import org.talend.esb.policy.compression.impl.CompressionOutInterceptor;
 public class CompressionFeature extends AbstractFeature {
 
 	/** The Constant LOG. */
-	private static final Logger LOG = Logger.getLogger(CompressionFeature.class
-			.getName());
+	private static final Logger LOG = LogUtils.getL7dLogger(CompressionFeature.class);
 
 	/**
 	 * The compression threshold to pass to the outgoing interceptor.
