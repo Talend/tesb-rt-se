@@ -155,7 +155,7 @@ public class LocatorMonitor {
                                 if (alive) {
                                     activeEndpoints++;
                                     totalActiveEndpoints++;
-                                    LOG.debug(ENDPOINT_INFO, "Endpoint for Service {} with Address {} is alive since {}", service, address,
+                                    LOG.info(ENDPOINT_INFO, "Endpoint for Service {} with Address {} is alive since {}", service, address,
                                              formatTimeStamp(lastTimeStarted));
                                 } else {
                                     LOG.warn(ENDPOINT_INFO, "Endpoint for Service {} with Address {} is down since {}", service, address,
@@ -168,11 +168,11 @@ public class LocatorMonitor {
 
                             MDC.remove(ACTIVE);
                             MDC.put(COUNT, endpoints.size());
-                            LOG.debug(SERVICE_INFO, "{} endpoints are registered for service {}", endpoints.size(), service);
+                            LOG.info(SERVICE_INFO, "{} endpoints are registered for service {}", endpoints.size(), service);
 
                             MDC.put(ACTIVE, true);
                             MDC.put(COUNT, activeEndpoints);
-                            LOG.debug(SERVICE_INFO, "{} endpoints are active for service {}", activeEndpoints, service);
+                            LOG.info(SERVICE_INFO, "{} endpoints are active for service {}", activeEndpoints, service);
 
                             MDC.put(ACTIVE, false);
                             int offlineEndpoints = endpoints.size() - activeEndpoints;
@@ -180,7 +180,7 @@ public class LocatorMonitor {
                             if (offlineEndpoints > 0) {
                                 LOG.warn(SERVICE_INFO, "{} endpoints are offline for service {}", offlineEndpoints, service);
                             } else {
-                                LOG.debug(SERVICE_INFO, "{} endpoints are offline for service {}", offlineEndpoints, service);
+                                LOG.info(SERVICE_INFO, "{} endpoints are offline for service {}", offlineEndpoints, service);
                             }
                             if (activeEndpoints > 0) {
                                 activeService++;
@@ -191,29 +191,29 @@ public class LocatorMonitor {
                         // Absolute Numbers for Services
                         MDC.put(COUNT, services.size());
                         MDC.remove(ACTIVE);
-                        LOG.debug(SERVICES, "{} services are registered at the ServiceLocator", services.size());
+                        LOG.info(SERVICES, "{} services are registered at the ServiceLocator", services.size());
 
                         MDC.put(COUNT, activeService);
                         MDC.put(ACTIVE, true);
-                        LOG.debug(SERVICES, "{} services are available and currently registered at the ServiceLocator", activeService);
+                        LOG.info(SERVICES, "{} services are available and currently registered at the ServiceLocator", activeService);
 
                         MDC.put(COUNT, services.size() - activeService);
                         MDC.put(ACTIVE, false);
-                        LOG.debug(SERVICES, "{} services are currently registered at the ServiceLocator but are not available", services.size()
+                        LOG.info(SERVICES, "{} services are currently registered at the ServiceLocator but are not available", services.size()
                                                                                                                                - activeService);
 
                         // Absolute Numbers for Endpoints
                         MDC.put(COUNT, totalActiveEndpoints + totalOfflineEndpoints);
                         MDC.remove(ACTIVE);
-                        LOG.debug(ENDPOINTS, "{} endpoints are registered at the ServiceLocator", totalActiveEndpoints + totalOfflineEndpoints);
+                        LOG.info(ENDPOINTS, "{} endpoints are registered at the ServiceLocator", totalActiveEndpoints + totalOfflineEndpoints);
 
                         MDC.put(COUNT, totalActiveEndpoints);
                         MDC.put(ACTIVE, true);
-                        LOG.debug(ENDPOINTS, "{} endpoints are available and currently registered at the ServiceLocator", totalActiveEndpoints);
+                        LOG.info(ENDPOINTS, "{} endpoints are available and currently registered at the ServiceLocator", totalActiveEndpoints);
 
                         MDC.put(COUNT, totalOfflineEndpoints);
                         MDC.put(ACTIVE, false);
-                        LOG.debug(ENDPOINTS, "{} endpoints are currently registered at the ServiceLocator but are not available",
+                        LOG.info(ENDPOINTS, "{} endpoints are currently registered at the ServiceLocator but are not available",
                                  totalOfflineEndpoints);
 
                         cleanMDC(COUNT, ACTIVE);
