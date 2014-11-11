@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -18,8 +17,7 @@ import org.talend.esb.policy.compression.impl.CompressionOutInterceptor;
 /**
  * This class is used to control compression of messages. Attaching this feature
  * to an endpoint will allow the endpoint to handle compressed requests, and
- * will cause outgoing responses to be compressed if the client indicates (via
- * the Accept-Encoding header) that it can handle them.
+ * will cause outgoing responses to be compressed.
  * 
  * <pre>
  * <![CDATA[
@@ -35,24 +33,18 @@ import org.talend.esb.policy.compression.impl.CompressionOutInterceptor;
  * 
  * Attaching this feature to a client will cause outgoing request messages to be
  * compressed and incoming compressed responses to be uncompressed.
- * Accept-Encoding header is sent to let the service know that your client can
- * accept compressed responses.
  */
 
 public class CompressionFeature extends AbstractFeature {
 
 	/** The Constant LOG. */
-	private static final Logger LOG = LogUtils.getL7dLogger(CompressionFeature.class);
+	private static final Logger LOG = Logger.getLogger(CompressionFeature.class
+			.getName());
 
 	/**
 	 * The compression threshold to pass to the outgoing interceptor.
 	 */
 	int threshold = -1;
-
-	/**
-	 * Force GZIP instead of negotiate
-	 */
-	boolean force;
 
 	/*
 	 * (non-Javadoc)
@@ -92,7 +84,6 @@ public class CompressionFeature extends AbstractFeature {
 		CompressionOutInterceptor out = new CompressionOutInterceptor();
 		CompressionInInterceptor in = new CompressionInInterceptor();
 
-		out.setForce(getForce());
 		out.setThreshold(getThreshold());
 
 		remove(provider.getOutInterceptors());
@@ -120,21 +111,5 @@ public class CompressionFeature extends AbstractFeature {
 
 	public int getThreshold() {
 		return threshold;
-	}
-
-	/**
-	 * Set if GZIP is always used without negotiation
-	 * 
-	 * @param b
-	 */
-	public void setForce(boolean b) {
-		force = b;
-	}
-
-	/**
-	 * Retrieve the value set with {@link #setForce(boolean)}.
-	 */
-	public boolean getForce() {
-		return force;
 	}
 }

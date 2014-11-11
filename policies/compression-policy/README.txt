@@ -1,9 +1,6 @@
 This readme describe how to use Compression feature in Talend ESB.
 
 Compression feature enables gzip compression of on-the-wire data. 
-An initial request from a client will not be gzipped, 
-but an Accept header will be added and if the server supports it, 
-the response will be gzipped and any subsequent requests will be.
 
 COMPRESSION conflicts with standard CXF GZIP feature in case of
 GZIP feature is installed after the COMPRESSION feature.

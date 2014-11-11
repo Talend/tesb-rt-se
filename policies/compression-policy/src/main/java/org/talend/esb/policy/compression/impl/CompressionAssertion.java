@@ -6,6 +6,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.neethi.Assertion;
 import org.apache.neethi.PolicyComponent;
+import org.talend.esb.policy.compression.impl.internal.CompressionConstants;
 import org.w3c.dom.Element;
 
 /**
@@ -17,13 +18,10 @@ public class CompressionAssertion implements Assertion {
 	/** The treshold attribute name. */
 	private static String  TRESHOLD_ATTRIBUTE_NAME = "threshold";
 	
-	/** The treshold attribute default. */
-	private static int TRESHOLD_ATTRIBUTE_DEFAULT = 1024;
-
     /**
      * The compression threshold to pass to the outgoing interceptor.
      */
-    private int threshold = TRESHOLD_ATTRIBUTE_DEFAULT;
+    private int threshold = CompressionConstants.TRESHOLD_ATTRIBUTE_DEFAULT;
     
 	/**
 	 * Instantiates a new compression assertion.
