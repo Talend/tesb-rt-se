@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:tns="http://customerservice.example.com/" attributeFormDefault="unqualified"
+	
 	elementFormDefault="unqualified" targetNamespace="http://customerservice.example.com/">
+	
+	<xs:import namespace="http://customerservice.example.com1/" schemaLocation="importedFirstLevel/imported.xsd" />
+		
 	<xs:element name="getCustomersByName" type="tns:getCustomersByName" />
 	<xs:element name="getCustomersByNameResponse" type="tns:getCustomersByNameResponse" />
 	<xs:element name="updateCustomer" type="tns:updateCustomer" />
+
 	<xs:complexType name="updateCustomer">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="customer" type="tns:customer" />
@@ -29,6 +34,13 @@
 			<xs:element minOccurs="0" name="type" type="tns:customerType" />
 		</xs:sequence>
 	</xs:complexType>
+	<xs:simpleType name="customerType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PRIVATE" />
+			<xs:enumeration value="BUSINESS" />
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:complexType name="getCustomersByName">
 		<xs:sequence>
 <!-- 			<xs:element minOccurs="0" name="name" type="xs:string" /> -->
@@ -48,12 +60,7 @@
 				type="tns:customer" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:simpleType name="customerType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="PRIVATE" />
-			<xs:enumeration value="BUSINESS" />
-		</xs:restriction>
-	</xs:simpleType>
+
 	<xs:element name="NoSuchCustomer" type="tns:NoSuchCustomer" />
 	<xs:complexType name="NoSuchCustomer">
 		<xs:sequence>

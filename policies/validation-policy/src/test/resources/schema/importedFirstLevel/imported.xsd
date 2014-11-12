@@ -1,0 +1,13 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://customerservice.example.com1/" targetNamespace="http://customerservice.example.com1/">
+	
+	<xs:import namespace="http://customerservice.example.com2/" schemaLocation="importedSecondLevel/imported.xsd" />
+	
+	<xs:simpleType name="customerType1">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PRIVATE" />
+			<xs:enumeration value="BUSINESS" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
