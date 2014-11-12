@@ -53,15 +53,15 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.WrongArgumentException;
 
 public class ServiceLocatorImplTest extends EasyMockSupport {
-  
+
     private ServiceLocatorBackend backend;
 
     private RootNode rootNode;
 
     private ServiceNode serviceNode;
-    
+
     private EndpointNode endpointNode;
-    
+
     public static void ignore(String txt) {
     }
 
@@ -93,7 +93,7 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
 
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
         slc.setBackend(backend);
-        
+
         try {
             slc.connect();
             fail("A ServiceLocatorException should have been thrown.");
@@ -115,7 +115,7 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
 
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
         slc.setBackend(backend);
-        
+
         try {
             slc.register(SERVICE_QNAME_1, ENDPOINT_1);
             fail("A ServiceLocatorException should have been thrown.");
@@ -171,7 +171,7 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getContent()).andStubReturn(createContent(PROPERTIES_1));
-        
+
         replayAll();
 
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
@@ -186,27 +186,26 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
     @Ignore
     @Test
     public void lookupServiceKnownEndpointsAvailableWithProperties() throws Exception {
-/*
-        SLPropertiesMatcher matcher = new SLPropertiesMatcher();
-        matcher.addAssertion(NAME_1, VALUE_2);
-        
-        pathExists(SERVICE_PATH_1);
-        getChildren(SERVICE_PATH_1, ENDPOINT_NODE_1, ENDPOINT_NODE_2);
-
-        pathExists(ENDPOINT_STATUS_PATH_11);
-        getData(ENDPOINT_PATH_11, createContent(PROPERTIES_1));
-        
-        pathExists(ENDPOINT_STATUS_PATH_12);
-        getData(ENDPOINT_PATH_12, createContent(PROPERTIES_2));
-
-        replayAll();
-
-        ServiceLocatorImpl slc = createServiceLocatorSuccess();
-        List<String> endpoints = slc.lookup(SERVICE_QNAME_1, matcher);
-        
-        assertThat(endpoints, containsInAnyOrder(ENDPOINT_1));
-        verifyAll();
-*/
+        /*
+         * SLPropertiesMatcher matcher = new SLPropertiesMatcher();
+         * matcher.addAssertion(NAME_1, VALUE_2);
+         * 
+         * pathExists(SERVICE_PATH_1); getChildren(SERVICE_PATH_1,
+         * ENDPOINT_NODE_1, ENDPOINT_NODE_2);
+         * 
+         * pathExists(ENDPOINT_STATUS_PATH_11); getData(ENDPOINT_PATH_11,
+         * createContent(PROPERTIES_1));
+         * 
+         * pathExists(ENDPOINT_STATUS_PATH_12); getData(ENDPOINT_PATH_12,
+         * createContent(PROPERTIES_2));
+         * 
+         * replayAll();
+         * 
+         * ServiceLocatorImpl slc = createServiceLocatorSuccess(); List<String>
+         * endpoints = slc.lookup(SERVICE_QNAME_1, matcher);
+         * 
+         * assertThat(endpoints, containsInAnyOrder(ENDPOINT_1)); verifyAll();
+         */
     }
 
     @Test
@@ -292,47 +291,48 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         assertThat(endpoints, empty());
         verifyAll();
     }
-    
+
     @Test
     public void updateTimetolive() throws Exception {
         final int ttl = 95;
-        
+
         Capture<Date> dateCap = new Capture<Date>();
-        
+
         expect(backend.connect()).andReturn(rootNode);
         expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
         expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
         expect(endpointNode.exists()).andReturn(true);
+        endpointNode.setLive(true);
         endpointNode.setExpiryTime(capture(dateCap), eq(true));
 
         replayAll();
 
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
         slc.setBackend(backend);
-        
+
         Date startD = new Date();
 
         slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, ttl);
-        
+
+        verifyAll();
+
         assertNotNull(dateCap.getValue());
         assertTrue(dateCap.getValue().after(startD));
         assertTrue(dateCap.getValue().before(new Date(startD.getTime() + (ttl + 5) * 1000)));
-
-        verifyAll();
     }
-    
+
     @Test
     public void updateTimetoliveWrongArgument() throws Exception {
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
         slc.setBackend(backend);
-        
+
         try {
             slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, -3);
             fail();
         } catch (WrongArgumentException e) {
             // pass
         }
-        
+
         try {
             slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, 0);
             fail();
@@ -340,11 +340,11 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
             // pass
         }
     }
-    
+
     @Test
     public void updateTimetoliveEndpointNotFound() throws Exception {
         final int ttl = 95;
-        
+
         expect(backend.connect()).andReturn(rootNode);
         expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andReturn(serviceNode);
         expect(serviceNode.getEndPoint(ENDPOINT_1)).andReturn(endpointNode);
@@ -354,14 +354,14 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
 
         ServiceLocatorImpl slc = new ServiceLocatorImpl();
         slc.setBackend(backend);
-        
+
         try {
             slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, ttl);
             fail();
         } catch (EndpointNotFoundException e) {
             // pass
         }
-        
+
         verifyAll();
     }
 }

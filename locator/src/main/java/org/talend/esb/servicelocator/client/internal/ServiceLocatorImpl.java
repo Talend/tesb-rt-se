@@ -44,7 +44,6 @@ import org.talend.esb.servicelocator.client.SimpleEndpoint;
 import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
-
 /**
  * This is the entry point for clients of the Service Locator. To access the
  * Service Locator clients have to first {@link #connect() connect} to the
@@ -71,17 +70,16 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     private Boolean endpointCollectionEnable;
 
     private Integer endpointCollectionInterval;
-    
+
     private Timer timer;
-    
+
     private int schedulerRequestCounter = 0;
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized void connect() throws InterruptedException,
-            ServiceLocatorException {
+    public synchronized void connect() throws InterruptedException, ServiceLocatorException {
         getBackend().connect();
     }
 
@@ -89,8 +87,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public synchronized void disconnect() throws InterruptedException,
-            ServiceLocatorException {
+    public synchronized void disconnect() throws InterruptedException, ServiceLocatorException {
         getBackend().disconnect();
     }
 
@@ -98,8 +95,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public synchronized void register(QName serviceName, String endpoint)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void register(QName serviceName, String endpoint) throws ServiceLocatorException,
+            InterruptedException {
         register(new SimpleEndpoint(serviceName, endpoint), false);
     }
 
@@ -108,7 +105,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     public synchronized void register(QName serviceName, String endpoint, boolean persistent)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         register(new SimpleEndpoint(serviceName, endpoint), persistent);
     }
 
@@ -117,7 +114,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     public void register(QName serviceName, String endpoint, SLProperties properties)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         register(new SimpleEndpoint(serviceName, endpoint, properties), false);
     }
 
@@ -126,7 +123,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     public void register(QName serviceName, String endpoint, SLProperties properties, boolean persistent)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         register(new SimpleEndpoint(serviceName, endpoint, properties), persistent);
     }
 
@@ -134,21 +131,20 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public synchronized  void register(Endpoint epProvider)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void register(Endpoint epProvider) throws ServiceLocatorException,
+            InterruptedException {
         register(epProvider, false);
     }
 
     @Override
-    public synchronized  void register(Endpoint epProvider, boolean persistent)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void register(Endpoint epProvider, boolean persistent)
+            throws ServiceLocatorException, InterruptedException {
 
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Registering endpoint " + endpoint + " for service "
-                    + serviceName + "...");
+            LOG.fine("Registering endpoint " + endpoint + " for service " + serviceName + "...");
         }
 
         long lastTimeStarted = System.currentTimeMillis();
@@ -166,21 +162,20 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         }
 
         byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
-        
+
         endpointNode.ensureExists(content);
         endpointNode.setLive(persistent);
     }
 
     @Override
-    public synchronized void unregister(Endpoint epProvider)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void unregister(Endpoint epProvider) throws ServiceLocatorException,
+            InterruptedException {
 
         QName serviceName = epProvider.getServiceName();
         String endpoint = epProvider.getAddress();
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Unregistering endpoint " + endpoint + " for service "
-                    + serviceName + "...");
+            LOG.fine("Unregistering endpoint " + endpoint + " for service " + serviceName + "...");
         }
 
         long lastTimeStarted = -1;
@@ -190,40 +185,40 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
-            if (endpointNode.exists()) {
-                
-                byte[] oldContent = endpointNode.getContent();
-                SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, oldContent, false);
-                lastTimeStarted = oldEndpoint.getLastTimeStarted();
+        if (endpointNode.exists()) {
 
-                endpointNode.setOffline();
+            byte[] oldContent = endpointNode.getContent();
+            SLEndpoint oldEndpoint = transformer.toSLEndpoint(serviceName, oldContent, false);
+            lastTimeStarted = oldEndpoint.getLastTimeStarted();
 
-                byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
-                endpointNode.setContent(content);
-            }
+            endpointNode.setOffline();
+
+            byte[] content = createContent(epProvider, lastTimeStarted, lastTimeStopped);
+            endpointNode.setContent(content);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized void unregister(QName serviceName, String endpoint)
-        throws ServiceLocatorException, InterruptedException {
+    public synchronized void unregister(QName serviceName, String endpoint) throws ServiceLocatorException,
+            InterruptedException {
         unregister(new SimpleEndpoint(serviceName, endpoint, null));
     }
-    
+
     @Override
-    public void updateTimetolive(QName serviceName, String endpoint, int timetolive) 
+    public void updateTimetolive(QName serviceName, String endpoint, int timetolive)
             throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpoint 
+            LOG.fine("Updating expiring time to happen in " + timetolive + " seconds on endpoint " + endpoint
                     + " for service " + serviceName + "...");
         }
-        
+
         if (timetolive < 0) {
             throw new WrongArgumentException("Time-to-live cannot be negative.");
         }
-        
+
         if (timetolive == 0) {
             throw new WrongArgumentException("Time-to-live cannot be zero.");
         }
@@ -233,27 +228,26 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         EndpointNode endpointNode = serviceNode.getEndPoint(endpoint);
 
         if (endpointNode.exists()) {
-            endpointNode.setExpiryTime(new Date(System.currentTimeMillis() + timetolive * 1000), 
-                    true);
+            endpointNode.setLive(true);
+            endpointNode.setExpiryTime(new Date(System.currentTimeMillis() + timetolive * 1000), true);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint 
-                        + " for service " + serviceName + " because it does not exist.");
+                LOG.fine("Unable to update endpoint expiring time for endpoint " + endpoint + " for service "
+                        + serviceName + " because it does not exist.");
             }
-            throw new EndpointNotFoundException("Endpoint " + endpoint 
-                    + " for service " + serviceName + " does not exist.");
+            throw new EndpointNotFoundException("Endpoint " + endpoint + " for service " + serviceName
+                    + " does not exist.");
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void removeEndpoint(QName serviceName, String endpoint)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Removing endpoint " + endpoint + " for service "
-                    + serviceName + "...");
+            LOG.fine("Removing endpoint " + endpoint + " for service " + serviceName + "...");
         }
 
         RootNode rootNode = getBackend().connect();
@@ -267,8 +261,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public List<QName> getServices() throws InterruptedException,
-            ServiceLocatorException {
+    public List<QName> getServices() throws InterruptedException, ServiceLocatorException {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Getting all services...");
         }
@@ -282,16 +275,16 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     synchronized public List<SLEndpoint> getEndpoints(final QName serviceName)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
 
         RootNode rootNode = getBackend().connect();
         ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
-        
+
         if (serviceNode.exists()) {
             List<EndpointNode> endpointNodes = serviceNode.getEndPoints();
-            
+
             List<SLEndpoint> slEndpoints = new ArrayList<SLEndpoint>(endpointNodes.size());
-            for (EndpointNode endpointNode : endpointNodes ) {
+            for (EndpointNode endpointNode : endpointNodes) {
                 byte[] content = endpointNode.getContent();
                 final boolean isLive = endpointNode.isLive();
                 SLEndpoint slEndpoint = transformer.toSLEndpoint(serviceName, content, isLive);
@@ -308,11 +301,11 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     public SLEndpoint getEndpoint(final QName serviceName, final String endpoint)
-        throws ServiceLocatorException, InterruptedException {
+            throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("Get endpoint information for endpoint " + endpoint
-                + " within service " + serviceName + "...");
+            LOG.fine("Get endpoint information for endpoint " + endpoint + " within service " + serviceName
+                    + "...");
         }
 
         RootNode rootNode = getBackend().connect();
@@ -332,8 +325,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public synchronized List<String> getEndpointNames(QName serviceName)
-            throws ServiceLocatorException, InterruptedException {
+    public synchronized List<String> getEndpointNames(QName serviceName) throws ServiceLocatorException,
+            InterruptedException {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Get all endpoint names of service " + serviceName + "...");
         }
@@ -345,8 +338,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             children = serviceNode.getEndpointNames();
         } else {
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Lookup of service " + serviceName
-                        + " failed, service is not known.");
+                LOG.fine("Lookup of service " + serviceName + " failed, service is not known.");
             }
             children = Collections.emptyList();
         }
@@ -357,8 +349,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public List<String> lookup(QName serviceName)
-        throws ServiceLocatorException, InterruptedException {
+    public List<String> lookup(QName serviceName) throws ServiceLocatorException, InterruptedException {
         return lookup(serviceName, SLPropertiesMatcher.ALL_MATCHER);
     }
 
@@ -367,21 +358,20 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      */
     @Override
     public synchronized List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
-        throws ServiceLocatorException, InterruptedException {
-    	
+            throws ServiceLocatorException, InterruptedException {
 
         if (LOG.isLoggable(Level.INFO)) {
             LOG.info("Looking up endpoints of service " + serviceName + "...");
         }
 
         List<String> liveEndpoints;
-        
+
         RootNode rootNode = getBackend().connect();
         ServiceNode serviceNode = rootNode.getServiceNode(serviceName);
         if (serviceNode.exists()) {
             liveEndpoints = new ArrayList<String>();
             List<EndpointNode> endpointNodes = serviceNode.getEndPoints();
-     
+
             for (EndpointNode endpointNode : endpointNodes) {
 
                 if (endpointNode.isLive()) {
@@ -391,12 +381,12 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
 
                     if (LOG.isLoggable(Level.INFO)) {
                         StringBuilder sb = new StringBuilder();
-                        for (String prop: props.getPropertyNames()) {
+                        for (String prop : props.getPropertyNames()) {
                             sb.append(prop + " : ");
-                            for (String value: props.getValues(prop))
+                            for (String value : props.getValues(prop))
                                 sb.append(value + " ");
                             sb.append("\n");
-                        }        
+                        }
                         LOG.info("Lookup of service " + serviceName + " props = " + sb.toString());
                         LOG.info("matcher = " + matcher.toString());
                     }
@@ -404,16 +394,14 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                         liveEndpoints.add(endpointNode.getEndpointName());
                         if (LOG.isLoggable(Level.INFO))
                             LOG.info("matched =  " + endpointNode.getEndpointName());
-                    } else 
-                        if (LOG.isLoggable(Level.INFO))
-                            LOG.info("not matched =  " + endpointNode.getEndpointName());
+                    } else if (LOG.isLoggable(Level.INFO))
+                        LOG.info("not matched =  " + endpointNode.getEndpointName());
 
                 }
             }
         } else {
             if (LOG.isLoggable(Level.INFO)) {
-                LOG.info("Lookup of service " + serviceName
-                        + " failed, service is not known.");
+                LOG.info("Lookup of service " + serviceName + " failed, service is not known.");
             }
             liveEndpoints = Collections.emptyList();
         }
@@ -476,7 +464,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             LOG.fine("Locator connection timeout set to: " + timeout);
         }
     }
-    
+
     public void setBackend(ServiceLocatorBackend backend) {
         this.backend = backend;
     }
@@ -487,7 +475,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             LOG.fine("User name set to: " + name);
         }
     }
-    
+
     public void setPassword(String passWord) {
         ((ZKBackend) getBackend()).setPassword(passWord);
     }
@@ -495,11 +483,11 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     public void setEndpointTransformer(EndpointTransformer endpointTransformer) {
         transformer = endpointTransformer;
     }
-    
+
     public void setEndpointCollectionEnable(Boolean endpointCollectionDisable) {
         this.endpointCollectionEnable = endpointCollectionDisable;
     }
-    
+
     public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
         this.endpointCollectionInterval = endpointCollectionInterval;
     }
@@ -513,10 +501,10 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     }
 
     private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
-        throws ServiceLocatorException {
+            throws ServiceLocatorException {
         return transformer.fromEndpoint(eprProvider, lastTimeStarted, lastTimeStopped);
     }
-    
+
     private ServiceLocatorBackend getBackend() {
         if (backend == null) {
             backend = new ZKBackend();
@@ -524,21 +512,16 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         return backend;
     }
 
-
-    protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch)
-        throws ServiceLocatorException {
-/*
-        try {
-            return new ZooKeeper(locatorEndpoints, sessionTimeout,
-                    new WatcherImpl(connectionLatch));
-        } catch (IOException e) {
-            throw new ServiceLocatorException("At least one of the endpoints "
-                    + locatorEndpoints + " does not represent a valid address.");
-        }
-*/
+    protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch) throws ServiceLocatorException {
+        /*
+         * try { return new ZooKeeper(locatorEndpoints, sessionTimeout, new
+         * WatcherImpl(connectionLatch)); } catch (IOException e) { throw new
+         * ServiceLocatorException("At least one of the endpoints " +
+         * locatorEndpoints + " does not represent a valid address."); }
+         */
         return null;
     }
-    
+
     @Override
     public synchronized void startScheduledCollection() {
         if (endpointCollectionEnable != null && !endpointCollectionEnable) {
@@ -550,12 +533,12 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             LOG.severe("Expired endpoint collection interval is not set.");
             return;
         }
-        
+
         Long collectionInterval = endpointCollectionInterval * 1000L;
 
         if (collectionInterval < 5000L) {
-            LOG.severe("Expired endpoint collection interval has invalid value '"
-                    + collectionInterval + "'. " + "It should be >= 5000.");
+            LOG.severe("Expired endpoint collection interval has invalid value '" + collectionInterval
+                    + "'. " + "It should be >= 5000.");
             return;
         }
 
@@ -577,7 +560,7 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             }
         }, collectionInterval, collectionInterval);
     }
-    
+
     @Override
     public synchronized void stopScheduledCollection() {
         if (timer == null) {
@@ -590,21 +573,21 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             schedulerRequestCounter = 0;
         }
     }
-    
+
     @Override
     public synchronized void performCollection() {
         LOG.fine("Performing expired endpoint collection.");
-        
+
         Date now = new Date();
-        
+
         try {
             RootNode root = getBackend().connect();
             List<QName> svcs = root.getServiceNames();
-            
+
             for (QName svc : svcs) {
                 ServiceNode svcNode = root.getServiceNode(svc);
                 List<EndpointNode> epts = svcNode.getEndPoints();
-                
+
                 for (EndpointNode ept : epts) {
                     Date expTime = ept.getExpiryTime();
                     if (expTime != null && expTime.before(now)) {
@@ -616,17 +599,15 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             throw new RuntimeException(e);
         }
     }
-    
+
     private void unregisterEndpoint(QName serviceName, String endpointName) {
         try {
             unregister(serviceName, endpointName);
         } catch (Exception e) {
-            if (e instanceof ServiceLocatorException
-                    || e instanceof InterruptedException) {
+            if (e instanceof ServiceLocatorException || e instanceof InterruptedException) {
                 LOG.warning("Exception during unregistering expired endpoint: " + e);
             } else {
-                throw new RuntimeException(
-                        "Unexpected exception during unregistering expired endpoint.", e);
+                throw new RuntimeException("Unexpected exception during unregistering expired endpoint.", e);
             }
         }
     }
