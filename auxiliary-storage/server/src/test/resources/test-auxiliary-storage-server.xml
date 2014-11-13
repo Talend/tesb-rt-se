@@ -24,10 +24,7 @@
           class="org.talend.esb.auxiliary.storage.persistence.file.PersistencyFileManager"
           init-method="init">
         <property name="storageDirPath"     value="./target/esbrepo/auxiliarystorage/fileStore" />
-        <!-- property name="schemaResourceName" value="/target/test-classes/auxiliary.avro" /-->
-        <property name="schemaResourceName" value="/auxiliary.avro" />
-
-    </bean>
+   </bean>
 
     <bean id="auxiliaryStorageServerBean"
             class="org.talend.esb.auxiliary.storage.server.AuxiliaryStorageServerImpl"

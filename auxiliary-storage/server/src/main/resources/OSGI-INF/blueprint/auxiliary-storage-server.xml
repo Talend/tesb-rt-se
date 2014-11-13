@@ -24,7 +24,6 @@
             placeholder-prefix="$ccs{" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="callback.store.home"   value="${tesb.home}/esbrepo/auxiliaryrepo" />
-            <cm:property name="callback.store.schema" value="/auxiliary.avro" />
             <cm:property name="callback.store"   value= "FILEStore" />
         </cm:default-properties>
     </cm:property-placeholder>
@@ -35,7 +34,6 @@
     <bean id="persistencyManagerFactory"
        class="org.talend.esb.auxiliary.storage.server.PersistencyManagerFactory">
         <property name="storageDirPath"     value="$ccs{callback.store.home}/store" />
-        <property name="schemaResourceName" value="$ccs{callback.store.schema}" />
     </bean>
 
     <bean id="persistencyManagerBean"

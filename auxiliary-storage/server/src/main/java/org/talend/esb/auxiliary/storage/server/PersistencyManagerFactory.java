@@ -12,7 +12,6 @@ public class PersistencyManagerFactory {
 
 
     private String storageDirPath = null;
-    private String schemaResourceName = null;
 
 
     public PersistencyManager createPersistencyManager(String managerType) {
@@ -31,7 +30,6 @@ public class PersistencyManagerFactory {
 
     private PersistencyManager createFileStore() {
         PersistencyFileManager manager = new PersistencyFileManager();
-        manager.setSchemaResourceName(getSchemaResourceName());
         manager.setStorageDirPath(getStorageDirPath());
         return manager;
     }
@@ -55,15 +53,4 @@ public class PersistencyManagerFactory {
     public void setStorageDirPath(String storageDirPath) {
         this.storageDirPath = storageDirPath;
     }
-
-
-    public String getSchemaResourceName() {
-        return schemaResourceName;
-    }
-
-
-    public void setSchemaResourceName(String schemaResourceName) {
-        this.schemaResourceName = schemaResourceName;
-    }
-
 }

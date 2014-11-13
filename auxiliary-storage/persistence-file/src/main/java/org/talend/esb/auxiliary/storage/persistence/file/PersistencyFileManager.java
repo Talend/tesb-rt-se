@@ -15,18 +15,13 @@
 package org.talend.esb.auxiliary.storage.persistence.file;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 
-import org.apache.avro.Schema;
-import org.apache.avro.file.DataFileReader;
-import org.apache.avro.file.DataFileWriter;
-import org.apache.avro.generic.GenericData;
-import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.generic.GenericDatumWriter;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.DatumWriter;
 import org.apache.commons.io.FileUtils;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectAlreadyExistsException;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectNotFoundException;
@@ -36,10 +31,8 @@ import org.talend.esb.auxiliary.storage.persistence.AbstractPersistencyManager;
 
 public class PersistencyFileManager extends AbstractPersistencyManager {
 
-    private Schema schema = null;
 
     private String storageDirPath = null;
-    private String schemaResourceName = null;
 
     public PersistencyFileManager() {
 
@@ -56,24 +49,27 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
                 return null;
             }
 
-            DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>(schema);
-            DataFileReader<GenericRecord> dataFileReader = null;
+
+            ObjectInputStream ois = null;
 
             String restoredContext = null;
 
             try {
-                dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
-                if (dataFileReader.hasNext()) {
-                    restoredContext =  genericToContext(dataFileReader.next());
-                }
+                ois = new ObjectInputStream(new FileInputStream(file));
+                restoredContext = (String)ois.readObject();
+
             } catch (IOException e) {
                 LOG.log(Level.SEVERE, "Failed to resotre context. IOException. Error message: " + e.getMessage());
                 throw new PersistencyException("Error reading context store file "
                         + filePath + "  Underlying error message is:" + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                 LOG.log(Level.SEVERE, "Failed to resotre context. ClassNotFoundException. Error message: " + e.getMessage());
+                 throw new PersistencyException("Error reading context store file "
+                         + filePath + "  Underlying error message is:" + e.getMessage());
             } finally {
-                if (dataFileReader != null) {
+                if (ois != null) {
                     try {
-                        dataFileReader.close();
+                        ois.close();
                     } catch (IOException e) {
                        LOG.log(Level.WARNING, "Failed to close DataFileReader after restoring context. The message is: " + e.getMessage());
                     }
@@ -97,20 +93,19 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
                 throw new ObjectAlreadyExistsException("Dublicated object with key {" + key + "}");
             }
 
-            DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
-            DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
+            ObjectOutputStream oos = null;
 
             try {
+                oos = new ObjectOutputStream(new FileOutputStream(file));
+                oos.writeObject(context);
+                oos.flush();
 
-                dataFileWriter.create(schema, file);
-                GenericRecord record = contextToGeneric(context);
-                dataFileWriter.append(record);
             } catch (IOException e) {
                  LOG.log(Level.SEVERE, "Failed to sotre context. IOException. Error message: " + e.getMessage());
                 throw new PersistencyException("Saving context failed due to error of writing to file " + filePath);
             } finally {
                 try {
-                    dataFileWriter.close();
+                    oos.close();
                 } catch (IOException e) {
                        LOG.log(Level.WARNING, "Failed to close DataFileWriter after storing context. The message is: " + e.getMessage());
                 }
@@ -120,15 +115,6 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
 
 
     public void init() throws InitializationException {
-
-        try {
-            schema = (new Schema.Parser()).parse(PersistencyFileManager.class.getResourceAsStream(schemaResourceName));
-        } catch (Exception e) {
-            String errorMessage = "Failed to initialize auxiliary storage persistency manager: " + e.getMessage();
-            LOG.log(Level.SEVERE, errorMessage);
-            throw new InitializationException(errorMessage);
-        }
-
 
         File storageDir = new File(storageDirPath);
         if (!storageDir.exists()) {
@@ -154,19 +140,6 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
         this.storageDirPath = dirPath;
     }
 
-    private GenericRecord contextToGeneric(String context) {
-
-        GenericRecord record = new GenericData.Record(schema);
-
-        record.put("bigString",  context);
-        return record;
-    }
-
-    private String genericToContext(GenericRecord record) {
-           String context = ((org.apache.avro.util.Utf8) record.get("bigString"))
-					.toString();
-           return context;
-       }
 
     private String createFilePath(String key) {
         if (storageDirPath == null) {
@@ -189,14 +162,5 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
         }
 
         file.delete();
-    }
-
-
-    public String getSchemaResourceName() {
-        return schemaResourceName;
-    }
-
-    public void setSchemaResourceName(String schemaResourceName) {
-        this.schemaResourceName = schemaResourceName;
     }
 }

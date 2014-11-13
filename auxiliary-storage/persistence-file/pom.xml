@@ -47,12 +47,6 @@
         </dependency>
 
         <dependency>
-              <groupId>org.apache.avro</groupId>
-              <artifactId>avro</artifactId>
-              <version>${avro-version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
