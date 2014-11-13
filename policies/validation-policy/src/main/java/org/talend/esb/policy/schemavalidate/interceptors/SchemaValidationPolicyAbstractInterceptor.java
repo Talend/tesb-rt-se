@@ -224,7 +224,8 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 				String publicId, String systemId, String baseURI) {
 			
 			
-			boolean isRemoteLocation = (systemId!=null && systemId.indexOf("http://") == 0);
+			boolean isRemoteLocation = (systemId != null &&
+					(systemId.startsWith("http://") || systemId.startsWith("https://")));
 			
 			//Try to find path to parent schema directory
 			String parentSchemaDir = "";
