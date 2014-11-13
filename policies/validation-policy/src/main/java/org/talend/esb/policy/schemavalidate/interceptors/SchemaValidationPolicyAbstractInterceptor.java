@@ -90,7 +90,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 							loadCustomSchema(message, customSchemaPath, this.getClass());
 						}catch(IOException ex){
 							throw new RuntimeException("Can not load custom schema", ex);
-						}						
+						}
 					}
 					// do schema validation by setting value to
 					// "schema-validation-enabled" property
@@ -134,7 +134,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 		}
 
 		String absoluteSchemaPath = null;
-		
+
 		CachedOutputStream cos = new CachedOutputStream();
 		absoluteSchemaPath = loadResource(customSchemaPath, cos);
 		InputStream customSchemaStream = cos.getInputStream();
@@ -155,18 +155,19 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 		} catch (SAXException e) {
 			throw new IllegalArgumentException(
 					"Cannot create custom schema from path: "
-							+ customSchemaPath, e);
+							+ customSchemaPath
+							+ "\n" + e.getMessage(), e);
 		}
 		message.getExchange().getService().getServiceInfos().get(0)
 				.setProperty(Schema.class.getName(), customSchema);
 	}
 
 	@SuppressWarnings("resource")
-	private String loadResource(String path, OutputStream output) 
+	private String loadResource(String path, OutputStream output)
 		throws IOException{
 
 		InputStream resource = null;
-		
+
 		String absolutePath = null;
 
 		// try to load resource from file system
@@ -186,7 +187,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			if(resource!=null){
 				URL url = ClassLoaderUtils.getResource(path, this.getClass());
 				if(url!= null){
-					absolutePath = url.getPath();	
+					absolutePath = url.getPath();
 				}
 			}
 		}
@@ -199,34 +200,34 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			} catch (Exception e) {
 			}
 		}
-		
+
 		if(resource!=null){
 			IOUtils.copyAndCloseInput(resource, output);
 			return absolutePath;
 		}
-		
+
 		return null;
 
 	}
 
 	class SchemaResourceResolver implements LSResourceResolver {
-		
+
 		String parentSchemaAbsolutePath = null;
 		String parentSchemaProvidedPath = null;
-		public SchemaResourceResolver(String parentSchemaAbsolutePath, 
+		public SchemaResourceResolver(String parentSchemaAbsolutePath,
 				String parentSchemaProvidedPath){
 			this.parentSchemaAbsolutePath = parentSchemaAbsolutePath;
 			this.parentSchemaProvidedPath = parentSchemaProvidedPath;
-			
+
 		}
-		
+
 		public LSInput resolveResource(String type, String namespaceURI,
 				String publicId, String systemId, String baseURI) {
-			
-			
+
+
 			boolean isRemoteLocation = (systemId != null &&
 					(systemId.startsWith("http://") || systemId.startsWith("https://")));
-			
+
 			//Try to find path to parent schema directory
 			String parentSchemaDir = "";
 			if(parentSchemaAbsolutePath!=null && !isRemoteLocation){
@@ -239,7 +240,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			// Try to resolve path to imported schema
 			// using provided resource properties
 			String resURL = null;
-			
+
 			if (systemId != null) {
 				String schemaLocation = "";
 				if (baseURI != null) {
@@ -264,11 +265,11 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			InputStream resourceStream = null;
 			String actualSchemaURL = null;
 			try{
-				
+
 				// Try to load schema using absolute path
 				actualSchemaURL = resURL;
 				loadResource(actualSchemaURL, cache);
-				
+
 				if(cache.size()==0 && parentSchemaDir!=null && !parentSchemaDir.isEmpty() && !isRemoteLocation){
 					// Schema is not found
 					// Try to load schema using path to basic schema directory
@@ -280,7 +281,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			}catch (IOException ex){
 				return null;
 			}
-			
+
 			if (cache.size() != 0) {
 				LSInput resource = new LSInputImpl();
 				resource.setSystemId(actualSchemaURL);
@@ -296,7 +297,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 					message.append(systemId);
 				}
 				message.append("}");
-				
+
 //				if(baseURI!=null && !baseURI.isEmpty()){
 //					message.append(" which is referenced from schema {");
 //					message.append(baseURI);
