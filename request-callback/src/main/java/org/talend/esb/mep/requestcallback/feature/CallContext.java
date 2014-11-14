@@ -245,7 +245,7 @@ public class CallContext implements Serializable {
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
 
 		Service service = null;
-		final URL wsdlURL = wsdlLocationURL == null ? this.wsdlLocationURL : wsdlLocationURL;
+		final URL wsdlURL = this.wsdlLocationURL == null ? wsdlLocationURL : this.wsdlLocationURL;
 		if (wsdlURL != null) {
 			try {
 				service = Service.create(wsdlURL, callbackServiceName);
@@ -275,7 +275,7 @@ public class CallContext implements Serializable {
 			dispatch = service.createDispatch(
 	        		callbackPortName, sourceClass, mode);
 		}
-         
+
         setupDispatch(dispatch);
         final Map<String, Object> requestContext = dispatch.getRequestContext();
         requestContext.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
