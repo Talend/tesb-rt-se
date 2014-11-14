@@ -7,6 +7,8 @@ import java.util.List;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -17,6 +19,7 @@ import org.apache.cxf.interceptor.BareOutInterceptor;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageContentsList;
+import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.service.model.MessagePartInfo;
@@ -26,6 +29,7 @@ import org.apache.neethi.Assertion;
 import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
 import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import com.rits.cloning.Cloner;
 
@@ -51,15 +55,6 @@ public class XPathProcessor extends BareOutInterceptor {
 				getEncoding(message));
 	}
 	
-	private void loadSoapBodyToBuffer(Message message){
-		Cloner cloner = new Cloner();
-		MessageContentsList original = MessageContentsList.getContentsList(message);
-		MessageContentsList clone = cloner.deepClone(original);
-		message.setContent(List.class, clone);
-		handleMessage(message);
-		message.setContent(List.class, original);
-	}
-
 	@Override
 	protected void writeParts(Message message, Exchange exchange,
 			BindingOperationInfo operation, MessageContentsList objs,
@@ -135,7 +130,7 @@ public class XPathProcessor extends BareOutInterceptor {
 		
 		cAssertion = (CorrelationIDAssertion)assertion;
 		
-		Document body = getSoapBody(message);
+		Node body = getSoapBody(message);
 		
 		if (body == null) {
 			throw new RuntimeException(
@@ -154,11 +149,27 @@ public class XPathProcessor extends BareOutInterceptor {
 				cAssertion.getCorrelationName());
 	}
 	
-	private Document getSoapBody(Message message) {
+	private Node getSoapBody(Message message) {
 		
+		
+		// Try to use SOAPMessage wrapper which is build
+		// by SAAJInInterceptor
+		if(!MessageUtils.isOutbound(message)){
+			try {
+				SOAPMessage soap = message.getContent(SOAPMessage.class);
+				if(soap!=null){
+					soap.writeTo(System.out);
+					return (Node)(soap.getSOAPBody());
+				}
+			}
+			catch (Exception e) {
+				throw new RuntimeException("Can not read SOAP body: " + e);
+			}			
+		}
+		
+		// try to build SoapBody
 		loadSoapBodyToBuffer(message);
 
-		Document body = null;
 		try {
 			
 			DocumentBuilderFactory builderFactory =
@@ -167,13 +178,23 @@ public class XPathProcessor extends BareOutInterceptor {
 			builderFactory.setNamespaceAware(true);
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();				
 			 
-			body = builder.parse(
+			Document doc = builder.parse(
 		            new ByteArrayInputStream(buffer.toByteArray()));
+			
+			return (Node)doc;
+			
 		} catch (Exception e) {
 			throw new RuntimeException("Can not read SOAP body: " + e); 
 		}
-
-		return body;
+	}
+	
+	private void loadSoapBodyToBuffer(Message message){
+		Cloner cloner = new Cloner();
+		MessageContentsList original = MessageContentsList.getContentsList(message);
+		MessageContentsList clone = cloner.deepClone(original);
+		message.setContent(List.class, clone);
+		handleMessage(message);
+		message.setContent(List.class, original);
 	}
 	
 	private String buildCorrelationIdFromXpathParts(
@@ -212,7 +233,7 @@ public class XPathProcessor extends BareOutInterceptor {
 	}
 	
 	private void processJXpathParts(List<XpathPart> parts, 
-			List<XpathNamespace> namespaces,  Document body){
+			List<XpathNamespace> namespaces,  Node body){
 		
 	
 		JXPathContext messageContext = JXPathContext.newContext(body);

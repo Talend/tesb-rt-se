@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
+import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -64,6 +66,10 @@ public class CorrelationIDFeature extends AbstractFeature {
 				policy);
 		provider.getOutInterceptors().add(corrIdProducerOut);
 		provider.getOutFaultInterceptors().add(corrIdProducerOut);
+		
+		SAAJInInterceptor saaj = new SAAJInInterceptor();
+		provider.getInInterceptors().add(saaj);
+		provider.getInFaultInterceptors().add(saaj);
 	}
 
 	public void setName(String name) {
