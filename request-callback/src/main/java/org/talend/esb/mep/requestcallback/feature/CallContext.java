@@ -70,7 +70,7 @@ public class CallContext implements Serializable {
 		return portTypeName;
 	}
 
-	public void setPortTypeName(QName portTypeName) {
+	public void setPortTypeName(final QName portTypeName) {
 		this.portTypeName = portTypeName;
 		this.callbackInfo = null;
 	}
@@ -79,7 +79,7 @@ public class CallContext implements Serializable {
 		return serviceName;
 	}
 
-	public void setServiceName(QName serviceName) {
+	public void setServiceName(final QName serviceName) {
 		this.serviceName = serviceName;
 		this.callbackInfo = null;
 	}
@@ -88,7 +88,7 @@ public class CallContext implements Serializable {
 		return operationName;
 	}
 
-	public void setOperationName(QName operationName) {
+	public void setOperationName(final QName operationName) {
 		this.operationName = operationName;
 	}
 
@@ -96,7 +96,7 @@ public class CallContext implements Serializable {
 		return requestId;
 	}
 
-	public void setRequestId(String requestId) {
+	public void setRequestId(final String requestId) {
 		this.requestId = requestId;
 	}
 
@@ -104,7 +104,7 @@ public class CallContext implements Serializable {
 		return callId;
 	}
 
-	public void setCallId(String callId) {
+	public void setCallId(final String callId) {
 		this.callId = callId;
 	}
 
@@ -112,7 +112,7 @@ public class CallContext implements Serializable {
 		return correlationId;
 	}
 
-	public void setCorrelationId(String correlationId){
+	public void setCorrelationId(final String correlationId){
 		this.correlationId = correlationId;
 	}
 
@@ -120,7 +120,7 @@ public class CallContext implements Serializable {
 		return callbackId;
 	}
 
-	public void setCallbackId(String callbackId) {
+	public void setCallbackId(final String callbackId) {
 		this.callbackId = callbackId;
 	}
 
@@ -128,7 +128,7 @@ public class CallContext implements Serializable {
 		return replyToAddress;
 	}
 
-	public void setReplyToAddress(String replyToAddress) {
+	public void setReplyToAddress(final String replyToAddress) {
 		this.replyToAddress = replyToAddress;
 	}
 
@@ -136,7 +136,7 @@ public class CallContext implements Serializable {
 		return bindingId;
 	}
 
-	public void setBindingId(String bindingId) {
+	public void setBindingId(final String bindingId) {
 		this.bindingId = bindingId;
 	}
 
@@ -144,17 +144,17 @@ public class CallContext implements Serializable {
 		return wsdlLocationURL == null ? null : wsdlLocationURL.toExternalForm();
 	}
 
-	public void setWsdlLocation(String wsdlLocation) throws MalformedURLException {
+	public void setWsdlLocation(final String wsdlLocation) throws MalformedURLException {
 		this.wsdlLocationURL = toWsdlUrl(wsdlLocation);
 		this.callbackInfo = null;
 	}
 
-	public void setWsdlLocation(File wsdlLocation) throws MalformedURLException {
+	public void setWsdlLocation(final File wsdlLocation) throws MalformedURLException {
 		this.wsdlLocationURL = wsdlLocation == null ? null : wsdlLocation.toURI().toURL();
 		this.callbackInfo = null;
 	}
 
-	public void setWsdlLocation(URL wsdlLocation) {
+	public void setWsdlLocation(final URL wsdlLocation) {
 		setWsdlLocationURL(wsdlLocation);
 	}
 
@@ -162,7 +162,7 @@ public class CallContext implements Serializable {
 		return wsdlLocationURL;
 	}
 
-	public void setWsdlLocationURL(URL wsdlLocationURL) {
+	public void setWsdlLocationURL(final URL wsdlLocationURL) {
 		this.wsdlLocationURL = wsdlLocationURL;
 		this.callbackInfo = null;
 	}
@@ -189,7 +189,7 @@ public class CallContext implements Serializable {
 		return logging;
 	}
 
-	public static void setLogging(boolean logging) {
+	public static void setLogging(final boolean logging) {
 		CallContext.logging = logging;
 	}
 
@@ -197,7 +197,7 @@ public class CallContext implements Serializable {
         return flowId;
     }
 
-    public void setFlowId(String flowId) {
+    public void setFlowId(final String flowId) {
         this.flowId = flowId;
     }
 
@@ -205,7 +205,7 @@ public class CallContext implements Serializable {
         return serviceActivityMonitoring;
     }
 
-    public static void setServiceActivityMonitoring(boolean value) {
+    public static void setServiceActivityMonitoring(final boolean value) {
         CallContext.serviceActivityMonitoring = value;
         if (CallContext.serviceActivityMonitoring && samContext == null) {
             samContext = new ClassPathXmlApplicationContext(
@@ -213,7 +213,7 @@ public class CallContext implements Serializable {
         }
     }
 
-	public <T> T createCallbackProxy(Class<T> proxyInterface) {
+	public <T> T createCallbackProxy(final Class<T> proxyInterface) {
         final JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();
         callback.setServiceName(serviceName);
         callback.setEndpointName(new QName(serviceName.getNamespaceURI(), serviceName.getLocalPart() + "Port"));
@@ -228,7 +228,7 @@ public class CallContext implements Serializable {
             features.add(getEventFeature());
         }
 
-        Map<String, Object> properties = new HashMap<String, Object>();
+        final Map<String, Object> properties = new HashMap<String, Object>();
         properties.put(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
         callback.setProperties(properties);
 
@@ -236,7 +236,8 @@ public class CallContext implements Serializable {
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
-			Class<T> sourceClass, Service.Mode mode, QName operation, URL wsdlLocationURL) {
+			final Class<T> sourceClass, final Service.Mode mode,
+			final QName operation, final URL wsdlLocationURL) {
 		final QName callbackPortTypeName = new QName(
 				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
 		final QName callbackServiceName = new QName(
@@ -245,7 +246,7 @@ public class CallContext implements Serializable {
 				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
 
 		Service service = null;
-		final URL wsdlURL = this.wsdlLocationURL == null ? wsdlLocationURL : this.wsdlLocationURL;
+		final URL wsdlURL = wsdlLocationURL == null ? this.wsdlLocationURL : wsdlLocationURL;
 		if (wsdlURL != null) {
 			try {
 				service = Service.create(wsdlURL, callbackServiceName);
@@ -291,37 +292,42 @@ public class CallContext implements Serializable {
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
-			Class<T> sourceClass, Service.Mode mode, QName operation) {
+			final Class<T> sourceClass, final Service.Mode mode, final QName operation) {
 		return createCallbackDispatch(sourceClass, mode, operation, null);
 	}
 
-	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation, URL wsdlLocation) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, wsdlLocation);
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final QName operation, final URL wsdlLocation) {
+		return createCallbackDispatch(
+				sourceClass, Service.Mode.PAYLOAD, operation, wsdlLocation);
 	}
 
-	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass, QName operation) {
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final QName operation) {
 		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, null);
 	}
 
-	public <T extends Source> Dispatch<T> createCallbackDispatch(Class<T> sourceClass) {
+	public <T extends Source> Dispatch<T> createCallbackDispatch(final Class<T> sourceClass) {
 		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null, null);
 	}
 
-	public Dispatch<StreamSource> createCallbackDispatch(QName operation) {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, operation, null);
+	public Dispatch<StreamSource> createCallbackDispatch(final QName operation) {
+		return createCallbackDispatch(
+				StreamSource.class, Service.Mode.PAYLOAD, operation, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch() {
 		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null, null);
 	}
 
-	public static CallContext getCallContext(WebServiceContext wsContext) {
+	public static CallContext getCallContext(final WebServiceContext wsContext) {
 		return getCallContext(wsContext.getMessageContext());
 	}
 
-	public static CallContext getCallContext(Map<?, ?> contextHolder) {
+	public static CallContext getCallContext(final Map<?, ?> contextHolder) {
 		try {
-			return (CallContext) contextHolder.get(RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME);
+			return (CallContext) contextHolder.get(
+					RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME);
 		} catch (ClassCastException e) {
 			LOGGER.warning("Ignoring CallContext value of invalid type in contextual property");
 			if (LOGGER.isLoggable(Level.FINER)) {
@@ -331,23 +337,28 @@ public class CallContext implements Serializable {
 		}
 	}
 
-	public static Endpoint createCallbackEndpoint(Object implementor, String wsdlLocation) {
+	public static Endpoint createCallbackEndpoint(
+			final Object implementor, final String wsdlLocation) {
 		return createCallbackEndpoint(implementor, new CallbackInfo(wsdlLocation));
 	}
 
-	public static Endpoint createCallbackEndpoint(Object implementor, URL wsdlLocation) {
+	public static Endpoint createCallbackEndpoint(
+			final Object implementor, final URL wsdlLocation) {
 		return createCallbackEndpoint(implementor, new CallbackInfo(wsdlLocation));
 	}
 
-	public static void setCallbackEndpoint(Dispatch<?> dispatch, Object callbackEndpoint) {
-		dispatch.getRequestContext().put(RequestCallbackFeature.CALLBACK_ENDPOINT_PROPERTY_NAME, callbackEndpoint);
+	public static void setCallbackEndpoint(
+			final Dispatch<?> dispatch, final Object callbackEndpoint) {
+		dispatch.getRequestContext().put(
+				RequestCallbackFeature.CALLBACK_ENDPOINT_PROPERTY_NAME, callbackEndpoint);
 	}
 
-	public static void setCallbackEndpoint(Map<String, Object> context, Object callbackEndpoint) {
+	public static void setCallbackEndpoint(
+			final Map<String, Object> context, final Object callbackEndpoint) {
 		context.put(RequestCallbackFeature.CALLBACK_ENDPOINT_PROPERTY_NAME, callbackEndpoint);
 	}
 
-	public static void setupEndpoint(Endpoint endpoint) {
+	public static void setupEndpoint(final Endpoint endpoint) {
 		if (!(endpoint instanceof EndpointImpl)) {
 			throw new IllegalArgumentException("Only CXF JAX-WS endpoints supported. ");
 		}
@@ -367,7 +378,7 @@ public class CallContext implements Serializable {
         ep.getProperties().put(NULL_MEANS_ONEWAY, Boolean.TRUE);
 	}
 
-	public static void setupDispatch(Dispatch<?> dispatch) {
+	public static void setupDispatch(final Dispatch<?> dispatch) {
 		if (!(dispatch instanceof DispatchImpl)) {
 			throw new IllegalArgumentException("Only CXF JAX-WS Dispatch supported. ");
 		}
@@ -383,12 +394,12 @@ public class CallContext implements Serializable {
         }
 	}
 
-	public static void setupDispatch(Dispatch<?> dispatch, Object callbackEndpoint) {
+	public static void setupDispatch(final Dispatch<?> dispatch, final Object callbackEndpoint) {
 		setupDispatch(dispatch);
 		setCallbackEndpoint(dispatch, callbackEndpoint);
 	}
 
-	public static void setupServerFactory(JaxWsServerFactoryBean serverFactory) {
+	public static void setupServerFactory(final JaxWsServerFactoryBean serverFactory) {
 		final List<Feature> features = serverFactory.getFeatures();
         features.add(new RequestCallbackFeature());
         if (logging) {
@@ -400,7 +411,7 @@ public class CallContext implements Serializable {
         serverFactory.getProperties(true).put(NULL_MEANS_ONEWAY, Boolean.TRUE);
 	}
 
-	public <T> void setupCallbackProxy(T proxy) {
+	public <T> void setupCallbackProxy(final T proxy) {
 		final Client client = ClientProxy.getClient(proxy);
 		final Bus bus = client.getBus();
         (new RequestCallbackFeature()).initialize(client, bus);
@@ -419,29 +430,47 @@ public class CallContext implements Serializable {
 				RequestCallbackFeature.CALLCONTEXT_PROPERTY_NAME, this);
 	}
 
-	public static CallbackInfo createCallbackInfo(String wsdlLocation) {
+	public static CallbackInfo createCallbackInfo(final String wsdlLocation) {
 		return new CallbackInfo(wsdlLocation);
 	}
 
-	public static CallbackInfo createCallbackInfo(URL wsdlLocationURL) {
+	public static CallbackInfo createCallbackInfo(final URL wsdlLocationURL) {
 		return new CallbackInfo(wsdlLocationURL);
 	}
 
-	public static void enforceOperation(QName operationName, Dispatch<?> dispatch) {
-		enforceOperation(operationName, dispatch.getRequestContext());
+	public static void enforceOperation(
+			final QName operationName, final String soapAction, final Dispatch<?> dispatch) {
+		enforceOperation(operationName, soapAction, dispatch.getRequestContext());
 	}
 
-	public static void enforceOperation(QName operationName, Map<String, Object> requestContext) {
+	public static void enforceOperation(final QName operationName, final Dispatch<?> dispatch) {
+		enforceOperation(operationName, null, dispatch.getRequestContext());
+	}
+
+	public static void enforceOperation(
+			final QName operationName, final Map<String, Object> requestContext) {
+		enforceOperation(operationName, null, requestContext);
+	}
+
+	public static void enforceOperation(
+			final QName operationName, final String soapAction,
+			final Map<String, Object> requestContext) {
+		if (operationName == null) {
+			throw new IllegalArgumentException("Invalid operation name: (null) ");
+		}
         requestContext.put(MessageContext.WSDL_OPERATION, operationName);
         requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
-        requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operationName.getLocalPart());
+        final String action = soapAction == null || soapAction.length() == 0
+        		? operationName.getLocalPart() : soapAction;
+        requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, action);
 	}
 
-	public static Configuration resolveConfiguration(QName serviceName) {
+	public static Configuration resolveConfiguration(final QName serviceName) {
 		return ConfigurationInitializer.resolveConfiguration(serviceName);
 	}
 
-	public static Endpoint createCallbackEndpoint(Object implementor, CallbackInfo cbInfo) {
+	public static Endpoint createCallbackEndpoint(
+			final Object implementor, final CallbackInfo cbInfo) {
 		final Bus bus = BusFactory.getThreadDefaultBus();
 		final JaxWsServerFactoryBean serverFactory = new JaxWsServerFactoryBean();
         final List<Feature> features = new ArrayList<Feature>();
@@ -456,24 +485,31 @@ public class CallContext implements Serializable {
 		serverFactory.setFeatures(features);
 		final QName cbInterfaceName = cbInfo == null ? null : cbInfo.getCallbackPortTypeName();
 		final String wsdlLocation = cbInfo == null ? null : cbInfo.getWsdlLocation();
-		final boolean useWsdlLocation = wsdlLocation != null && cbInfo.getCallbackServiceName() != null &&
+		final boolean useWsdlLocation = wsdlLocation != null &&
+				cbInfo.getCallbackServiceName() != null &&
 				cbInfo.getCallbackPortName() != null;
 		if (cbInterfaceName != null) {
 			final QName cbServiceName = cbInfo.getCallbackServiceName() == null
-					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "Service")
+					? new QName(cbInterfaceName.getNamespaceURI(),
+							cbInterfaceName.getLocalPart() + "Service")
 					: cbInfo.getCallbackServiceName();
 			final QName cbEndpointName = cbInfo.getCallbackServiceName() == null
-					? new QName(cbInterfaceName.getNamespaceURI(), cbInterfaceName.getLocalPart() + "ServicePort")
-					: new QName(cbServiceName.getNamespaceURI(), cbInfo.getCallbackPortName() == null
-							? cbServiceName.getLocalPart() + "Port"
-							: cbInfo.getCallbackPortName());
+					? new QName(cbInterfaceName.getNamespaceURI(),
+							cbInterfaceName.getLocalPart() + "ServicePort")
+					: new QName(cbServiceName.getNamespaceURI(),
+							cbInfo.getCallbackPortName() == null
+									? cbServiceName.getLocalPart() + "Port"
+									: cbInfo.getCallbackPortName());
 			serverFactory.setServiceName(cbServiceName);
 			serverFactory.setEndpointName(cbEndpointName);
-			final List<AbstractServiceConfiguration> svcConfigs = serverFactory.getServiceFactory().getServiceConfigurations();
-			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator(); it.hasNext(); ) {
+			final List<AbstractServiceConfiguration> svcConfigs =
+					serverFactory.getServiceFactory().getServiceConfigurations();
+			for (ListIterator<AbstractServiceConfiguration> it = svcConfigs.listIterator();
+					it.hasNext(); ) {
 				final AbstractServiceConfiguration cfg = it.next();
 				if (cfg instanceof DefaultServiceConfiguration) {
-					final AbstractServiceConfiguration ncfg = new CallbackDefaultServiceConfiguration(cbInfo);
+					final AbstractServiceConfiguration ncfg =
+							new CallbackDefaultServiceConfiguration(cbInfo);
 					it.set(ncfg);
 				}
 			}
@@ -521,7 +557,7 @@ public class CallContext implements Serializable {
         return (new File(wsdlLocation)).toURI().toURL();
     }
 
-    private static boolean isWsdlUrlString(String wsdlLocation) {
+    private static boolean isWsdlUrlString(final String wsdlLocation) {
         if (wsdlLocation == null || wsdlLocation.length() == 0) {
             return false;
         }
