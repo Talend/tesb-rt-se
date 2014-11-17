@@ -237,7 +237,7 @@ public class CallContext implements Serializable {
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			final Class<T> sourceClass, final Service.Mode mode,
-			final QName operation, final URL wsdlLocationURL) {
+			final QName operation, final String soapAction, final URL wsdlLocationURL) {
 		final QName callbackPortTypeName = new QName(
 				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
 		final QName callbackServiceName = new QName(
@@ -286,38 +286,70 @@ public class CallContext implements Serializable {
         if (operation != null) {
             requestContext.put(MessageContext.WSDL_OPERATION, operation);
             requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
-            requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, operation.getLocalPart());
+            final String action = soapAction == null || soapAction.length() == 0
+            		? operation.getLocalPart() : soapAction;
+            requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, action);
+        } else if (soapAction != null && soapAction.length() > 0) {
+            requestContext.put(BindingProvider.SOAPACTION_USE_PROPERTY, Boolean.TRUE);
+            requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, soapAction);
         }
 		return dispatch;
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			final Class<T> sourceClass, final Service.Mode mode, final QName operation) {
-		return createCallbackDispatch(sourceClass, mode, operation, null);
+		return createCallbackDispatch(sourceClass, mode, operation, null, null);
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final Service.Mode mode, final QName operation, final String soapAction) {
+		return createCallbackDispatch(sourceClass, mode, operation, soapAction, null);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			final Class<T> sourceClass, final QName operation, final URL wsdlLocation) {
 		return createCallbackDispatch(
-				sourceClass, Service.Mode.PAYLOAD, operation, wsdlLocation);
+				sourceClass, Service.Mode.PAYLOAD, operation, null, wsdlLocation);
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final QName operation, final String soapAction, final URL wsdlLocation) {
+		return createCallbackDispatch(
+				sourceClass, Service.Mode.PAYLOAD, operation, soapAction, wsdlLocation);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			final Class<T> sourceClass, final QName operation) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, null);
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, null, null);
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final QName operation, final String soapAction) {
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, operation, soapAction, null);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(final Class<T> sourceClass) {
-		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null, null);
+		return createCallbackDispatch(sourceClass, Service.Mode.PAYLOAD, null, null, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch(final QName operation) {
 		return createCallbackDispatch(
-				StreamSource.class, Service.Mode.PAYLOAD, operation, null);
+				StreamSource.class, Service.Mode.PAYLOAD, operation, null, null);
+	}
+
+	public Dispatch<StreamSource> createCallbackDispatch(final QName operation, final String soapAction) {
+		return createCallbackDispatch(
+				StreamSource.class, Service.Mode.PAYLOAD, operation, soapAction, null);
 	}
 
 	public Dispatch<StreamSource> createCallbackDispatch() {
-		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null, null);
+		return createCallbackDispatch(StreamSource.class, Service.Mode.PAYLOAD, null, null, null);
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final Service.Mode mode,
+			final QName operation, final URL wsdlLocationURL) {
+		return createCallbackDispatch(sourceClass, mode, operation, null, wsdlLocationURL);
 	}
 
 	public static CallContext getCallContext(final WebServiceContext wsContext) {
