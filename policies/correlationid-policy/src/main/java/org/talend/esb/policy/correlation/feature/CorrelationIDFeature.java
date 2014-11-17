@@ -66,10 +66,6 @@ public class CorrelationIDFeature extends AbstractFeature {
 				policy);
 		provider.getOutInterceptors().add(corrIdProducerOut);
 		provider.getOutFaultInterceptors().add(corrIdProducerOut);
-		
-		SAAJInInterceptor saaj = new SAAJInInterceptor();
-		provider.getInInterceptors().add(saaj);
-		provider.getInFaultInterceptors().add(saaj);
 	}
 
 	public void setName(String name) {

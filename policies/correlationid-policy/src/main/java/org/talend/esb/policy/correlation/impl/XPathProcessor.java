@@ -7,13 +7,19 @@ import java.util.List;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.SOAPBody;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
+import org.apache.cxf.binding.soap.Soap11;
+import org.apache.cxf.binding.soap.SoapMessage;
+import org.apache.cxf.binding.soap.saaj.SAAJStreamWriter;
 import org.apache.cxf.databinding.DataWriter;
 import org.apache.cxf.interceptor.BareOutInterceptor;
 import org.apache.cxf.message.Exchange;
@@ -43,6 +49,8 @@ public class XPathProcessor extends BareOutInterceptor {
    	public static String ORIGINAL_OUT_STREAM_CTX_PROPERTY_NAME = 
 			"org.talend.correlation.id.original.out.stream"; 
 
+   	private MessageFactory factory11;
+    private MessageFactory factory12;
 	
 	
 	private ByteArrayOutputStream buffer;
@@ -150,43 +158,75 @@ public class XPathProcessor extends BareOutInterceptor {
 	}
 	
 	private Node getSoapBody(Message message) {
-		
-		
-		// Try to use SOAPMessage wrapper which is build
-		// by SAAJInInterceptor
 		if(!MessageUtils.isOutbound(message)){
-			try {
-				SOAPMessage soap = message.getContent(SOAPMessage.class);
-				if(soap!=null){
-					soap.writeTo(System.out);
-					return (Node)(soap.getSOAPBody());
+			//processing of incoming message
+			MessageFactory factory = null;
+			
+			try{
+				if(message instanceof SoapMessage){
+					factory = getFactory((SoapMessage)message);
+				}else{
+					factory = getFactory(null);
 				}
+				
+				SOAPMessage soapMessage = factory.createMessage();
+				
+				SOAPPart part = soapMessage.getSOAPPart();
+				Document node = (Document) message.getContent(Node.class);
+	            if (node != part && node != null) {
+	                StaxUtils.copy(node, new SAAJStreamWriter(part));
+	                return soapMessage.getSOAPBody();
+	            }else{
+	            	throw new RuntimeException("SOAP body is empty");
+	            }
+			}catch(Exception ex){
+				throw new RuntimeException("Can not read SOAP body: " + ex);
 			}
-			catch (Exception e) {
-				throw new RuntimeException("Can not read SOAP body: " + e);
-			}			
-		}
-		
-		// try to build SoapBody
-		loadSoapBodyToBuffer(message);
+		}else{
+			// processing of outgoing message
+			// try to build SoapBody
+			loadSoapBodyToBuffer(message);
 
-		try {
-			
-			DocumentBuilderFactory builderFactory =
-			        DocumentBuilderFactory.newInstance();
-			
-			builderFactory.setNamespaceAware(true);
-			DocumentBuilder builder = builderFactory.newDocumentBuilder();				
-			 
-			Document doc = builder.parse(
-		            new ByteArrayInputStream(buffer.toByteArray()));
-			
-			return (Node)doc;
-			
-		} catch (Exception e) {
-			throw new RuntimeException("Can not read SOAP body: " + e); 
+			try {
+				
+				DocumentBuilderFactory builderFactory =
+				        DocumentBuilderFactory.newInstance();
+				
+				builderFactory.setNamespaceAware(true);
+				DocumentBuilder builder = builderFactory.newDocumentBuilder();				
+				 
+				Document doc = builder.parse(
+			            new ByteArrayInputStream(buffer.toByteArray()));
+				
+				return (Node)doc;
+				
+			} catch (Exception e) {
+				throw new RuntimeException("Can not read SOAP body: " + e); 
+			}
 		}
 	}
+
+	private synchronized MessageFactory getFactory(SoapMessage message) throws SOAPException {
+		
+		if(message == null){
+		     if (factory11 == null) { 
+		         factory11 = MessageFactory.newInstance();
+		     } 
+		      return factory11;
+		}
+		
+		if (message.getVersion() instanceof Soap11) {
+		     if (factory11 == null) { 
+		         factory11 = MessageFactory.newInstance();
+		     } 
+		      return factory11;
+		}
+		if (factory12 == null) {
+		     factory12 = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
+		}
+		return factory12;
+	}
+	           
 	
 	private void loadSoapBodyToBuffer(Message message){
 		Cloner cloner = new Cloner();
