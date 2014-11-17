@@ -7,9 +7,8 @@
         </xsl:copy>
     </xsl:template>
 
-    <!--  This potentially transforms request -->
-    <xsl:template match="AuthorLastName/text()[.='Icebear']">Grizzly</xsl:template>
-
+    <xsl:include href="include.xsl" />
+    
     <!--  This potentially transforms response -->
     <xsl:template match="LastName/text()[.='Grizzly']">Icebear</xsl:template>
 </xsl:stylesheet>
