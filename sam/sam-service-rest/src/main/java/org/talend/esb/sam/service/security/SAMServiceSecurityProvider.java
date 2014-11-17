@@ -74,14 +74,15 @@ public class SAMServiceSecurityProvider {
             return;
         }
 
-        Bus currentBus = BusFactory.getThreadDefaultBus();
-        ServerRegistry registry = currentBus.getExtension(ServerRegistry.class);
+        Bus serverBus = server.getBus();
+        ServerRegistry registry = serverBus.getExtension(ServerRegistry.class);
         List<Server> servers = registry.getServers();
 
-        for (Server server : servers) {
-            EndpointInfo ei = server.getEndpoint().getEndpointInfo();
-            if (null != ei && ei.getAddress().length() == 4 && ei.getAddress().endsWith("sam")) {
-                server.destroy();
+        for (Server sr : servers) {
+            EndpointInfo ei = sr.getEndpoint().getEndpointInfo();
+            if (null != ei && ei.getAddress().endsWith(server.getAddress())){
+                registry.unregister(sr);
+                sr.destroy();
             }
         }
 
