@@ -90,7 +90,7 @@ public class JobLauncherListsTest extends EasyMockSupport {
     private void expectManagedJobStarting() {
         expect(context.registerService((String) anyObject(),
                anyObject(),
-               (Dictionary<?, ?>) anyObject())).andStubReturn(sr);
+               (Dictionary<String, ?>) anyObject())).andStubReturn(sr);
         execService.execute((Runnable)anyObject()); 
     }
 }

@@ -21,7 +21,7 @@ package org.talend.esb.sts.config;
 
 import java.util.Collection;
 import java.util.Dictionary;
-import java.util.Properties;
+import java.util.Hashtable;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
@@ -76,9 +76,9 @@ public class StsConfigurator implements ManagedService {
 	private ServiceRegistration registerManagedService(
 			BundleContext context, Class<?> serviceClass, Object service,
 			String servicePid) {
-		Properties props = new Properties();
-		props.put(Constants.SERVICE_PID, servicePid);
-		return context.registerService(serviceClass.getName(), service, props);
+		Dictionary<String, Object> properties = new Hashtable<String, Object>();
+        properties.put(Constants.SERVICE_PID, servicePid);
+		return context.registerService(serviceClass.getName(), service, properties);
 	}
 
 	private void setMessageLogging(boolean logMessages) {

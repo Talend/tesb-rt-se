@@ -51,7 +51,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     public static final String[] EMPTY_STRING_ARR = new String[0];
 
     @SuppressWarnings("serial")
-    public static final Dictionary<?, ?> PROPERTIES = new Hashtable<String, String>() {
+    public static final Dictionary<String, ?> PROPERTIES = new Hashtable<String, String>() {
         {
             put(Constants.SERVICE_PID, NAME);
         }
