@@ -6,8 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
-import org.apache.cxf.binding.soap.saaj.SAAJOutInterceptor;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
@@ -15,6 +13,7 @@ import org.apache.cxf.interceptor.InterceptorProvider;
 import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion;
 import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureInInterceptor;
 import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureOutInterceptor;
+import org.talend.esb.policy.correlation.impl.CorrelationIDFeatureSelectorInterceptor;
 import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
 import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
 
@@ -66,6 +65,11 @@ public class CorrelationIDFeature extends AbstractFeature {
 				policy);
 		provider.getOutInterceptors().add(corrIdProducerOut);
 		provider.getOutFaultInterceptors().add(corrIdProducerOut);
+		
+		// Selector registers SAAJ interceptor for Soap messages only 
+		CorrelationIDFeatureSelectorInterceptor selector = new CorrelationIDFeatureSelectorInterceptor();
+		provider.getInInterceptors().add(selector);
+		provider.getInFaultInterceptors().add(selector);
 	}
 
 	public void setName(String name) {

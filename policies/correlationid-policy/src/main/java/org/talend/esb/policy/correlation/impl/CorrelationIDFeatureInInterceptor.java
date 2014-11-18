@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -23,6 +24,7 @@ public class CorrelationIDFeatureInInterceptor extends AbstractPhaseInterceptor<
 	
 	public CorrelationIDFeatureInInterceptor(Assertion policy) {
         super(Phase.PRE_PROTOCOL);
+        addAfter(SAAJInInterceptor.class.getName());
         this.policy = policy;
     }	
 	
