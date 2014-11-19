@@ -15,20 +15,21 @@ import org.xml.sax.SAXException;
 import static org.talend.esb.policy.correlation.impl.CorrelationIDProcessor.process;
 
 public class CorrelationIDFeatureInInterceptor extends AbstractPhaseInterceptor<Message> {
-	
+
 	Assertion policy = null;
-	
+
 	public CorrelationIDFeatureInInterceptor() {
         super(Phase.PRE_PROTOCOL);
+        addAfter(SAAJInInterceptor.class.getName());
     }
-	
+
 	public CorrelationIDFeatureInInterceptor(Assertion policy) {
         super(Phase.PRE_PROTOCOL);
         addAfter(SAAJInInterceptor.class.getName());
         this.policy = policy;
-    }	
-	
-	
+    }
+
+
 
     @Override
     public void handleMessage(Message message) throws Fault {
