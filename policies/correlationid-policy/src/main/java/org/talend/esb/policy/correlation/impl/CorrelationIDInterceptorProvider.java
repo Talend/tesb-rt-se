@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.cxf.binding.soap.SoapBinding;
+import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
 import org.apache.cxf.binding.soap.saaj.SAAJStreamWriter;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Exchange;
@@ -35,6 +36,12 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
         this.getOutFaultInterceptors().add(new CorrelationIDPolicyOutInterceptor());
         this.getInInterceptors().add(new CorrelationIDPolicyInInterceptor());
         this.getInFaultInterceptors().add(new CorrelationIDPolicyInInterceptor());
+
+        // Selector registers SAAJ interceptor for Soap messages only
+        CorrelationIDFeatureSelectorInterceptor selector = new CorrelationIDFeatureSelectorInterceptor();
+        this.getInInterceptors().add(selector);
+        this.getInFaultInterceptors().add(selector);
+
     }
 
     static class CorrelationIDPolicyOutInterceptor extends AbstractPhaseInterceptor<Message> {
@@ -62,6 +69,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
 
         public CorrelationIDPolicyInInterceptor() {
             super(Phase.PRE_PROTOCOL);
+            addAfter(SAAJInInterceptor.class.getName());
         }
 
         @Override
@@ -134,7 +142,7 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     // If correlationId is null we should add it to headers
                     if (null == correlationId) {
                         if (MethodType.XPATH.equals(mType)) {
-                        	
+
                         	XPathProcessor proc = new XPathProcessor(message);
                         	correlationId = proc.getCorrelationID(cAssertion, message);
                         } else if (MethodType.CALLBACK.equals(mType)){
@@ -177,4 +185,4 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
     private static boolean isRestMessage(Message message) {
         return !(message.getExchange().getBinding() instanceof SoapBinding);
     }
-} 
+}
