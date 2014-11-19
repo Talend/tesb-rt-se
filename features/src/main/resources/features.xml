@@ -151,7 +151,6 @@
   </feature>
   
   <feature name='tesb-sam-soap'  version='${project.version}'>
-  	<configfile finalname="/etc/org.talend.esb.sam.soap.cfg">mvn:org.talend.esb/sam-service-soap/${project.version}/cfg/org.talend.esb.sam.soap</configfile>
   	<feature version='${cxf.version}'>cxf</feature>
   	<bundle>mvn:org.talend.esb/sam-service-soap/${project.version}</bundle>
   </feature>

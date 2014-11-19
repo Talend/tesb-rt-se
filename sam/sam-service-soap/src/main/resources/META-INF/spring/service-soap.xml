@@ -37,7 +37,7 @@
     <import resource="classpath:/persistence-soap.xml"/>
 
     <!-- Configuration Admin entry -->
-    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.soap">
+    <osgix:cm-properties id="sam-server-props" persistent-id="org.talend.esb.sam.server">
         <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
         <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
