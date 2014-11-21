@@ -2,6 +2,7 @@ package org.talend.esb.policy.schemavalidate.interceptors;
 
 
 import org.apache.cxf.annotations.SchemaValidation.SchemaValidationType;
+import org.apache.cxf.interceptor.StaxInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.talend.esb.policy.schemavalidate.SchemaValidationPolicy;
@@ -14,7 +15,8 @@ public class SchemaValidationPolicyInInterceptor extends SchemaValidationPolicyA
      * with service registry (validation activated via policies)
      */
     public SchemaValidationPolicyInInterceptor() {
-          super(Phase.RECEIVE);
+          super(Phase.POST_STREAM);
+          addAfter(StaxInInterceptor.class.getName());
     }
 
 
@@ -25,7 +27,8 @@ public class SchemaValidationPolicyInInterceptor extends SchemaValidationPolicyA
      * @param policy
      */
     public SchemaValidationPolicyInInterceptor(SchemaValidationPolicy policy) {
-          super(Phase.RECEIVE, policy);
+          super(Phase.POST_STREAM, policy);
+          addAfter(StaxInInterceptor.class.getName());
     }
 
     @Override
