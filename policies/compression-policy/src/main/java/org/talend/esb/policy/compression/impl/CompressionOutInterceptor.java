@@ -18,6 +18,7 @@ import org.apache.cxf.io.AbstractThresholdOutputStream;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.io.CachedOutputStreamCallback;
 import org.apache.cxf.message.Message;
+import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
@@ -115,6 +116,14 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
         @Override
         public void onFlush(CachedOutputStream wrapper) {            
         }
+        
+        public String getEncoding(){
+        	return "base64";
+        }
+        
+        public String getAlgoritm(){
+        	return "gzip";
+        }
 
         @Override
         public void onClose(CachedOutputStream wrapper) {
@@ -122,46 +131,54 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
             	//InputStream with actual SOAP message
             	InputStream wrappedIS = wrapper.getInputStream();
             	
-            	//Loading SOAP body content to separate stream
-                CachedOutputStream soapBodyContent = new CachedOutputStream();
-                
-    			SoapBodyStreamFilter soapBodyFilter = new SoapBodyStreamFilter(
-    					CompressionConstants.SOAP_BODY_TAG_NAME);
-                
-                try {
-                	CompressionHelper.loadSoapBodyContent(wrappedIS, soapBodyContent, soapBodyFilter);
-    			} catch (XMLStreamException e) {
-    				throw new Fault("Can not load SOAP Body content for compression", LOG, e, e.getMessage());
-    			}            	
-            	
-                //Compressing soap body content
-                CachedOutputStream compressedSoapBody = new CachedOutputStream();
-                GZipThresholdOutputStream compressor 
-                    = new GZipThresholdOutputStream(threshold,  compressedSoapBody, message);
-                IOUtils.copy(soapBodyContent.getInputStream(), compressor);
-                compressor.flush();
-                compressor.close();
-                
-                if(compressor.isThresholdReached()){
-                	// body compression was performed
-                	// apply Base64 encoding for compressed data
-                    byte[] encodedBodyBytes = (new Base64()).encode(compressedSoapBody.getBytes());
-                    
-                    //copy original SOAP message with compressed (and base64 encoded) body content to
-                    //original output stream
-                    CompressionHelper.replaceBodyInSOAP(wrapper.getBytes(), 
-                    		soapBodyFilter, 
-                    		new ByteArrayInputStream(encodedBodyBytes), 
-                    		origOutStream,  
-                    		CompressionConstants.COMPRESSION_WRAPPER_START_TAG, 
-                    		CompressionConstants.COMPRESSION_WRAPPER_END_TAG);
-                }else{
-                	//compression was not performed (threshold is not reached)
-                	//skip base64 encoding
-                	//copy cached data from original SOAP to original stream
-                	wrappedIS.reset();
+            	if(MessageUtils.isFault(message)){
+            		//Skipping compression of SOAP fault
+            		wrappedIS.reset();
                 	IOUtils.copy(wrappedIS, origOutStream);
-                }
+            	}else{
+                	//Loading SOAP body content to separate stream
+                    CachedOutputStream soapBodyContent = new CachedOutputStream();
+                    
+        			SoapBodyStreamFilter soapBodyFilter = new SoapBodyStreamFilter(
+        					CompressionConstants.SOAP_BODY_TAG_NAME);
+                    
+                    try {
+                    	CompressionHelper.loadSoapBodyContent(wrappedIS, soapBodyContent, soapBodyFilter);
+        			} catch (XMLStreamException e) {
+        				throw new Fault("Can not load SOAP Body content for compression", LOG, e, e.getMessage());
+        			}            	
+                	
+                    //Compressing soap body content
+                    CachedOutputStream compressedSoapBody = new CachedOutputStream();
+                    GZipThresholdOutputStream compressor 
+                        = new GZipThresholdOutputStream(threshold,  compressedSoapBody, message);
+                    IOUtils.copy(soapBodyContent.getInputStream(), compressor);
+                    compressor.flush();
+                    compressor.close();
+                    
+                    if(compressor.isThresholdReached()){
+                    	// body compression was performed
+                    	// apply Base64 encoding for compressed data
+                        byte[] encodedBodyBytes = (new Base64()).encode(compressedSoapBody.getBytes());
+                        
+                        //copy original SOAP message with compressed (and base64 encoded) body content to
+                        //original output stream
+                        CompressionHelper.replaceBodyInSOAP(wrapper.getBytes(), 
+                        		soapBodyFilter, 
+                        		new ByteArrayInputStream(encodedBodyBytes), 
+                        		origOutStream,  
+                        		CompressionConstants.getCompressionWrapperStartTag(getAlgoritm(), getEncoding()), 
+                        		CompressionConstants.getCompressionWrapperEndTag());
+                    }else{
+                    	//compression was not performed (threshold is not reached)
+                    	//skip base64 encoding
+                    	//copy cached data from original SOAP to original stream
+                    	wrappedIS.reset();
+                    	IOUtils.copy(wrappedIS, origOutStream);
+                    }            		
+            	}
+            	
+
      
             } catch (Exception e) {
                 throw new Fault("Soap Body compression failed", LOG, e, e.getMessage());

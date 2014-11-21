@@ -21,10 +21,8 @@ public class CompressionInterceptorProvider extends AbstractPolicyInterceptorPro
         CompressionInInterceptor in = new CompressionInInterceptor();
 
         remove(this.getOutInterceptors());
-        remove(this.getOutFaultInterceptors());
         
         this.getOutInterceptors().add(out);
-        this.getOutFaultInterceptors().add(out);
         
         this.getInInterceptors().add(in);
    }        

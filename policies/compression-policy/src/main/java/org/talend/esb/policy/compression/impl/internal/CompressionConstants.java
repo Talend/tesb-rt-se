@@ -11,22 +11,31 @@ public class CompressionConstants {
 
 	public static enum GZIP_ACTION {COMPRESSION, DECOMPRESSION};
 	public static String COMPRESSION_WRAPPER_PREFIX = "tesb";
-	public static String COMPRESSION_WRAPPER_TAG_LOCAL_NAME = "GZIPCompressed";
+	public static String COMRESSION_WRAPPER_ALGORITM_PROPERTY = "algoritm";
+	public static String COMRESSION_WRAPPER_ENCODING_PROPERTY = "encoding";
+	public static String COMPRESSION_WRAPPER_TAG_LOCAL_NAME = "compressed";
 	public static String COMPRESSION_WRAPPER_TAG_NAMESPACE = "http://talend.org/interceptors/Compression/1.0";
 	public static QName COMPRESSION_WRAPPER_QNAME = new QName(COMPRESSION_WRAPPER_TAG_NAMESPACE, 
 			COMPRESSION_WRAPPER_TAG_LOCAL_NAME);
 	
-	// <tesb:GZIPCompressed xmlns:tesb="http://headers.talend.org/interceptors/Compression/1.0">
-	public static String COMPRESSION_WRAPPER_START_TAG = 
-			"<"+
-			COMPRESSION_WRAPPER_PREFIX +":"+
-			COMPRESSION_WRAPPER_TAG_LOCAL_NAME + 
-			" xmlns:"+COMPRESSION_WRAPPER_PREFIX+
-			"=\""+
-			COMPRESSION_WRAPPER_TAG_NAMESPACE+"\">";
+	public static String getCompressionWrapperStartTag(String algoritm, String encoding){
+		StringBuilder str = new StringBuilder();
+		str.append("<").
+			append(COMPRESSION_WRAPPER_PREFIX).append(":").
+			append(COMPRESSION_WRAPPER_TAG_LOCAL_NAME).
+			append(" ").append(COMRESSION_WRAPPER_ALGORITM_PROPERTY).append("=\"").
+			append(algoritm).append("\"").
+			append(" ").append(COMRESSION_WRAPPER_ENCODING_PROPERTY).append("=\"").
+			append(encoding).append("\"").
+			append(" xmlns:").append(COMPRESSION_WRAPPER_PREFIX).append("=\"").
+			append(COMPRESSION_WRAPPER_TAG_NAMESPACE+"\">"); 
+		return str.toString();
+	} 
 	
-	// </tesb:GZIPCompressed>
-	public static String COMPRESSION_WRAPPER_END_TAG = "</" +
-			COMPRESSION_WRAPPER_PREFIX+":" + 
-			COMPRESSION_WRAPPER_TAG_LOCAL_NAME+">";
+	public static String getCompressionWrapperEndTag(){
+		StringBuilder str = new StringBuilder();
+			str.append("</").append(COMPRESSION_WRAPPER_PREFIX).append(":").
+			append(COMPRESSION_WRAPPER_TAG_LOCAL_NAME).append(">");
+		return str.toString();
+	} 	
 }
