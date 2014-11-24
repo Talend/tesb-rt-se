@@ -86,6 +86,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling-callback.xml
 
 
    2. Run service:
