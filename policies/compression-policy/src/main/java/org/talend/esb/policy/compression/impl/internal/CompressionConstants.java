@@ -11,7 +11,7 @@ public class CompressionConstants {
 
 	public static enum GZIP_ACTION {COMPRESSION, DECOMPRESSION};
 	public static String COMPRESSION_WRAPPER_PREFIX = "tesb";
-	public static String COMRESSION_WRAPPER_ALGORITM_PROPERTY = "algoritm";
+	public static String COMRESSION_WRAPPER_ALGORITM_PROPERTY = "algorithm";
 	public static String COMRESSION_WRAPPER_ENCODING_PROPERTY = "encoding";
 	public static String COMPRESSION_WRAPPER_TAG_LOCAL_NAME = "compressed";
 	public static String COMPRESSION_WRAPPER_TAG_NAMESPACE = "http://talend.org/interceptors/Compression/1.0";
