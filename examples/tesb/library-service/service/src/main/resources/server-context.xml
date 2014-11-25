@@ -45,9 +45,6 @@
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
             <entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />
-            <entry key="ws-security.callback-handler">
-                <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
-            </entry>
         </jaxws:properties>
     </jaxws:endpoint>
 
