@@ -138,7 +138,7 @@
   <feature name='tesb-sam-service-soap' version='${project.version}'>
       <feature>tesb-sam-server</feature>
       <bundle>mvn:org.talend.esb.sam.service/sam-service-common/${project.version}</bundle>
-      <bundle>mvn:org.talend.esb/sam-service-soap/${project.version}</bundle>
+      <bundle>mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}</bundle>
 
   </feature>
   
