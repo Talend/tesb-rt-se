@@ -93,11 +93,13 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml-and-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml-and-sam-enabling.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml-and-sam-enabling-callback.xml
 
       - (b) SAML authentication only:
 
       tregistry:create ws-policy <sr-resources-dir>/policies/ws-policy-saml.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml.xml
+      tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-saml-callback.xml
 
       - (c) SAM enabling only:
 
