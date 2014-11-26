@@ -16,12 +16,12 @@
 	<name>Talend ESB :: Locator :: Monitor</name>
 	<description>Service Locator Monitor</description>
 	<packaging>bundle</packaging>
-	<version>5.6.1-SNAPSHOT</version>
+	<version>5.6.1</version>
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>5.6.1-SNAPSHOT</version>
+		<version>5.6.1</version>
         <relativePath>../pom.xml</relativePath>
 	</parent>
 
