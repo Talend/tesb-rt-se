@@ -35,7 +35,7 @@
     </bean>
     
     <import resource="classpath:/server-rest.xml" />
-    <import resource="classpath:/server.xml" />
+    <import resource="classpath:/server-soap.xml" />
 
     <!--  Sample filters -->
     <!-- 

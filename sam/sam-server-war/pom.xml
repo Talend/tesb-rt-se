@@ -27,6 +27,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.talend.esb.sam.service</groupId>
+            <artifactId>sam-service-soap</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.derby</artifactId>
             <version>${derby.servicemix.version}</version>
