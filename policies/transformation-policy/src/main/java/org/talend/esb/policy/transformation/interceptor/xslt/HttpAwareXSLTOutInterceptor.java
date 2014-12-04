@@ -43,9 +43,6 @@ public class HttpAwareXSLTOutInterceptor extends
         @Override
         public void performTransformation(Message message) {
 
-            if (!shouldSchemaValidate(message)) {
-                return;
-            }
             if (checkContextProperty(message)) {
                 return;
             }

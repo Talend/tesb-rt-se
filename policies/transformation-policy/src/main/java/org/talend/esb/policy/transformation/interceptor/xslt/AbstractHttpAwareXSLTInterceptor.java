@@ -24,8 +24,6 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
-import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
-import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;
 import org.talend.esb.policy.transformation.TransformationAssertion;
 import org.talend.esb.policy.transformation.TransformationPolicyBuilder;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
@@ -36,12 +34,10 @@ import org.w3c.dom.Document;
 
 public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    
+
     private String contextPropertyName;
     private final Templates xsltTemplate;
 
-    private MessageType msgType;
-    private AppliesToType appliesToType;
 
     public AbstractHttpAwareXSLTInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
         super(phase);
@@ -51,26 +47,26 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
         if (after != null) {
             addAfter(after.getName());
         }
-        
+
         //loading XSLT resource from specified path
         InputStream xsltStream = null;
         String absoluteSchemaPath = null;
-		try {
-			CachedOutputStream cos = new CachedOutputStream();
-			absoluteSchemaPath = loadResource(xsltPath, cos);
-			xsltStream = cos.getInputStream();			
+        try {
+            CachedOutputStream cos = new CachedOutputStream();
+            absoluteSchemaPath = loadResource(xsltPath, cos);
+            xsltStream = cos.getInputStream();
             if (xsltStream == null) {
                 throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath);
             }
-        
-		}catch(Exception  ex){
-			throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath, ex);
-		}
-		
-		TransformerFactory factory = TransformerFactory.newInstance();
-		factory.setURIResolver(new XSLTResourceResolver(absoluteSchemaPath, xsltPath));
-		
-		try{
+
+        }catch(Exception  ex){
+            throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath, ex);
+        }
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setURIResolver(new XSLTResourceResolver(absoluteSchemaPath, xsltPath));
+
+        try{
             Document doc = StaxUtils.read(xsltStream);
 
             xsltTemplate = factory.newTemplates(new DOMSource(doc));
@@ -91,140 +87,140 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
             }
         }
     }
-    
-    
-    
-	class XSLTResourceResolver implements URIResolver {
 
-		String parentXSLTAbsolutePath = null;
-		String parentXSLTProvidedPath = null;
-		
-		public XSLTResourceResolver(String parentXSLTAbsolutePath,
-				String parentXSLTProvidedPath){
-			this.parentXSLTAbsolutePath = parentXSLTAbsolutePath;
-			this.parentXSLTProvidedPath = parentXSLTProvidedPath;
 
-		}
 
-		public Source resolve(String systemId, String baseURI) {
-			
-			boolean isRemoteLocation = (systemId != null &&
-					(systemId.startsWith("http://") || systemId.startsWith("https://")));
+    class XSLTResourceResolver implements URIResolver {
 
-			//Try to find path to parent XSLT directory
-			String parentXSLTDir = "";
-			if(parentXSLTAbsolutePath!=null && !isRemoteLocation){
-				File file = new File(parentXSLTAbsolutePath);
-				if(file.exists()){
-					parentXSLTDir = file.getParentFile().getAbsolutePath();
-				}
-			}
+        String parentXSLTAbsolutePath = null;
+        String parentXSLTProvidedPath = null;
 
-			// Try to resolve path to imported XSLT
-			// using provided resource properties
-			String resURL = null;
+        public XSLTResourceResolver(String parentXSLTAbsolutePath,
+                String parentXSLTProvidedPath){
+            this.parentXSLTAbsolutePath = parentXSLTAbsolutePath;
+            this.parentXSLTProvidedPath = parentXSLTProvidedPath;
 
-			if (systemId != null) {
-				String XSLTLocation = "";
-				if (baseURI != null) {
-					XSLTLocation = baseURI.substring(0,
-							baseURI.lastIndexOf("/") + 1);
-				}
+        }
 
-				if (!isRemoteLocation) {
-					resURL = XSLTLocation + systemId;
-				} else {
-					resURL = systemId;
-				}
-			} 
+        public Source resolve(String systemId, String baseURI) {
 
-			CachedOutputStream cache = new CachedOutputStream();
-			InputStream resourceStream = null;
-			String actualXSLTURL = null;
-			try{
+            boolean isRemoteLocation = (systemId != null &&
+                    (systemId.startsWith("http://") || systemId.startsWith("https://")));
 
-				// Try to load XSLT using absolute path
-				actualXSLTURL = resURL;
-				loadResource(actualXSLTURL, cache);
+            //Try to find path to parent XSLT directory
+            String parentXSLTDir = "";
+            if(parentXSLTAbsolutePath!=null && !isRemoteLocation){
+                File file = new File(parentXSLTAbsolutePath);
+                if(file.exists()){
+                    parentXSLTDir = file.getParentFile().getAbsolutePath();
+                }
+            }
 
-				if(cache.size()==0 && parentXSLTDir!=null && !parentXSLTDir.isEmpty() && !isRemoteLocation){
-					// XSLT is not found
-					// Try to load XSLT using path to basic XSLT directory
-					// (which is referenced in policy) as root
-					actualXSLTURL = parentXSLTDir+File.separator + resURL;
-						loadResource(actualXSLTURL, cache);
-				}
-				resourceStream = cache.getInputStream();
-			}catch (IOException ex){
-				return null;
-			}
+            // Try to resolve path to imported XSLT
+            // using provided resource properties
+            String resURL = null;
 
-			if (cache.size() != 0) {
-					StreamSource source = new StreamSource(resourceStream);
-					source.setSystemId(actualXSLTURL);
-					return source;
-			}else{
-				StringBuilder message = new StringBuilder();
-				message.append("Transformation: can not load internal XSLT with path {");
-				if(systemId==null){
-					message.append(resURL);
-				}else{
-					message.append(systemId);
-				}
-				message.append("}");
+            if (systemId != null) {
+                String XSLTLocation = "";
+                if (baseURI != null) {
+                    XSLTLocation = baseURI.substring(0,
+                            baseURI.lastIndexOf("/") + 1);
+                }
 
-				throw new RuntimeException(message.toString());
-			}
-		}
-	}
-    
-	@SuppressWarnings("resource")
-	private String loadResource(String path, OutputStream output)
-		throws IOException{
+                if (!isRemoteLocation) {
+                    resURL = XSLTLocation + systemId;
+                } else {
+                    resURL = systemId;
+                }
+            }
 
-		InputStream resource = null;
+            CachedOutputStream cache = new CachedOutputStream();
+            InputStream resourceStream = null;
+            String actualXSLTURL = null;
+            try{
 
-		String absolutePath = null;
+                // Try to load XSLT using absolute path
+                actualXSLTURL = resURL;
+                loadResource(actualXSLTURL, cache);
 
-		// try to load resource from file system
-		try {
-			resource = new FileInputStream(path);
-			if(resource!=null){
-				absolutePath = path;
-			}
-		} catch (FileNotFoundException e) {
-			resource = null;
-		}
+                if(cache.size()==0 && parentXSLTDir!=null && !parentXSLTDir.isEmpty() && !isRemoteLocation){
+                    // XSLT is not found
+                    // Try to load XSLT using path to basic XSLT directory
+                    // (which is referenced in policy) as root
+                    actualXSLTURL = parentXSLTDir+File.separator + resURL;
+                        loadResource(actualXSLTURL, cache);
+                }
+                resourceStream = cache.getInputStream();
+            }catch (IOException ex){
+                return null;
+            }
 
-		if (resource == null) {
-			// try to load resource from class loader root
-			resource = ClassLoaderUtils.getResourceAsStream(path,
-					this.getClass());
-			if(resource!=null){
-				URL url = ClassLoaderUtils.getResource(path, this.getClass());
-				if(url!= null){
-					absolutePath = url.getPath();
-				}
-			}
-		}
+            if (cache.size() != 0) {
+                    StreamSource source = new StreamSource(resourceStream);
+                    source.setSystemId(actualXSLTURL);
+                    return source;
+            }else{
+                StringBuilder message = new StringBuilder();
+                message.append("Transformation: can not load internal XSLT with path {");
+                if(systemId==null){
+                    message.append(resURL);
+                }else{
+                    message.append(systemId);
+                }
+                message.append("}");
 
-		if (resource == null) {
-			// try to load schema as web resource
-			try {
-				URL url = new URL(path);
-				resource = url.openStream();
-			} catch (Exception e) {
-			}
-		}
+                throw new RuntimeException(message.toString());
+            }
+        }
+    }
 
-		if(resource!=null){
-			IOUtils.copyAndCloseInput(resource, output);
-			return absolutePath;
-		}
+    @SuppressWarnings("resource")
+    private String loadResource(String path, OutputStream output)
+        throws IOException{
 
-		return null;
+        InputStream resource = null;
 
-	}
+        String absolutePath = null;
+
+        // try to load resource from file system
+        try {
+            resource = new FileInputStream(path);
+            if(resource!=null){
+                absolutePath = path;
+            }
+        } catch (FileNotFoundException e) {
+            resource = null;
+        }
+
+        if (resource == null) {
+            // try to load resource from class loader root
+            resource = ClassLoaderUtils.getResourceAsStream(path,
+                    this.getClass());
+            if(resource!=null){
+                URL url = ClassLoaderUtils.getResource(path, this.getClass());
+                if(url!= null){
+                    absolutePath = url.getPath();
+                }
+            }
+        }
+
+        if (resource == null) {
+            // try to load schema as web resource
+            try {
+                URL url = new URL(path);
+                resource = url.openStream();
+            } catch (Exception e) {
+            }
+        }
+
+        if(resource!=null){
+            IOUtils.copyAndCloseInput(resource, output);
+            return absolutePath;
+        }
+
+        return null;
+
+    }
 
 
     @Override
@@ -259,28 +255,6 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
         }
     }
 
-
-    protected boolean shouldSchemaValidate(Message message) {
-        if (MessageUtils.isRequestor(message)) {
-            if (MessageUtils.isOutbound(message)) { // REQ_OUT
-                return ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)
-                    && (msgType == MessageType.request || msgType == MessageType.all));
-            } else { // RESP_IN
-                return ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)
-                    && (msgType == MessageType.response || msgType == MessageType.all));
-            }
-        } else {
-            if (MessageUtils.isOutbound(message)) { // RESP_OUT
-                return ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)
-                    && (msgType == MessageType.response || msgType == MessageType.all));
-            } else { // REQ_IN
-                return ((appliesToType == AppliesToType.provider || appliesToType == AppliesToType.always)
-                    && (msgType == MessageType.request || msgType == MessageType.all));
-            }
-        }
-    }
-
-
     public void setContextPropertyName(String propertyName) {
         contextPropertyName = propertyName;
     }
@@ -292,13 +266,5 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
 
     protected Templates getXSLTTemplate() {
         return xsltTemplate;
-    }
-
-    public void setMsgType(MessageType msgType) {
-        this.msgType = msgType;
-    }
-
-    public void setAppliesToType(AppliesToType appliesToType) {
-        this.appliesToType = appliesToType;
     }
 }

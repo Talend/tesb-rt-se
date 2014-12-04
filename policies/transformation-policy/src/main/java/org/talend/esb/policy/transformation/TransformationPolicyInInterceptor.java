@@ -1,20 +1,27 @@
 package org.talend.esb.policy.transformation;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.cxf.interceptor.StaxInInterceptor;
 import org.apache.cxf.interceptor.transform.TransformInInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
-import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;
 import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTInInterceptor;
 
 public class TransformationPolicyInInterceptor extends AbstractTransformationPolicyInterceptor {
 
+    private ConcurrentHashMap<String, HttpAwareXSLTInInterceptor> interceptorCache
+        = new ConcurrentHashMap<String, HttpAwareXSLTInInterceptor>();
+
 
     public TransformationPolicyInInterceptor() {
         super(Phase.POST_STREAM);
+        addBefore(StaxInInterceptor.class.getName());
+    }
+
+    public TransformationPolicyInInterceptor(TransformationAssertion assertion) {
+        super(Phase.POST_STREAM, assertion);
         addBefore(StaxInInterceptor.class.getName());
     }
 
@@ -26,24 +33,24 @@ public class TransformationPolicyInInterceptor extends AbstractTransformationPol
         }
         if (xsltPath != null) {
 
-            MessageType msgType = MessageType.valueOf(tas.getMessageType());
-            AppliesToType appliesToType  = AppliesToType.valueOf(tas.getAppliesTo());
+            if (!shouldSchemaValidate(message, tas.getMessageType(), tas.getAppliesTo())) {
+                return;
+            }
 
-            //XSLTInInterceptor xsltIn = new XSLTInInterceptor(inXSLTPath);
-            HttpAwareXSLTInInterceptor xsltIn
-                = new HttpAwareXSLTInInterceptor(xsltPath);
-            xsltIn.setMsgType(msgType);
-            xsltIn.setAppliesToType(appliesToType);
+            HttpAwareXSLTInInterceptor xsltIn;
+            if (interceptorCache.containsKey(xsltPath)) {
+                xsltIn = interceptorCache.get(xsltPath);
+            } else {
+                xsltIn = new HttpAwareXSLTInInterceptor(xsltPath);
+                interceptorCache.put(xsltPath, xsltIn);
+            }
             xsltIn.handleMessage(message);
         }
     }
 
     protected void proceedSimple(Message message, TransformationAssertion tas) {
 
-        MessageType msgType = MessageType.valueOf(tas.getMessageType());
-        AppliesToType appliesToType  = AppliesToType.valueOf(tas.getAppliesTo());
-
-        if (!shouldSchemaValidate(message, msgType, appliesToType)) {
+        if (!shouldSchemaValidate(message, tas.getMessageType(), tas.getAppliesTo())) {
             return;
         }
 

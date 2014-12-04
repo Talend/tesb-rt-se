@@ -4,9 +4,10 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
+import org.talend.esb.policy.transformation.TransformationAssertion;
+import org.talend.esb.policy.transformation.TransformationPolicyInInterceptor;
+import org.talend.esb.policy.transformation.TransformationPolicyOutInterceptor;
 import org.talend.esb.policy.transformation.TransformationType;
-import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTInInterceptor;
-import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTOutInterceptor;
 import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
 import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;;
 
@@ -24,24 +25,15 @@ public class TransformationFeature extends AbstractFeature {
 
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
-        if (transformationType == TransformationType.xslt) {
-            initializeXslt(provider);
-        }
-    }
+        TransformationAssertion assertion =
+                new TransformationAssertion(path, appliesTo, messageType, transformationType);
 
-    private void initializeXslt(InterceptorProvider provider) {
-        if (path != null) {
-            HttpAwareXSLTInInterceptor in = new HttpAwareXSLTInInterceptor(path);
-            in.setAppliesToType(appliesTo);
-            in.setMsgType(messageType);
-            provider.getInInterceptors().add(in);
+        TransformationPolicyInInterceptor in = new TransformationPolicyInInterceptor(assertion);
+        provider.getInInterceptors().add(in);
 
-            HttpAwareXSLTOutInterceptor out = new HttpAwareXSLTOutInterceptor(path);
-            out.setAppliesToType(appliesTo);
-            out.setMsgType(messageType);
-            provider.getOutInterceptors().add(out);
-            provider.getOutFaultInterceptors().add(out);
-        }
+        TransformationPolicyOutInterceptor out = new TransformationPolicyOutInterceptor(assertion);
+        provider.getOutInterceptors().add(out);
+        provider.getOutFaultInterceptors().add(out);
     }
 
     public void setPath(String path) {

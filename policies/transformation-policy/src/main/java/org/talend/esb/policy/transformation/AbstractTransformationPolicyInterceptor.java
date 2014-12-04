@@ -1,10 +1,13 @@
 package org.talend.esb.policy.transformation;
 
+import java.util.Collection;
+
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.ws.policy.AssertionInfo;
+import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.talend.esb.policy.transformation.TransformationAssertion.AppliesToType;
 import org.talend.esb.policy.transformation.TransformationAssertion.MessageType;
 
@@ -13,8 +16,18 @@ public abstract class AbstractTransformationPolicyInterceptor extends AbstractPh
     protected static final String XSLT_PATH     = "org.talend.esb.transformation.xslt-path";
     protected static final String TRANSFORM_MAP = "org.talend.esb.transformation.transform-map";
 
+    private TransformationAssertion featureAssertion;
+
     public AbstractTransformationPolicyInterceptor(String phase) {
         super(phase);
+    }
+
+    public AbstractTransformationPolicyInterceptor(String phase, TransformationAssertion assertion) {
+        super(phase);
+        if (assertion == null) {
+            throw new IllegalArgumentException("Provided assertion is null");
+        }
+        featureAssertion = assertion;
     }
 
     @Override
@@ -26,11 +39,18 @@ public abstract class AbstractTransformationPolicyInterceptor extends AbstractPh
             throw new Fault(e);
         }
 
-        if ((ai == null || !(ai.getAssertion() instanceof TransformationAssertion))) {
-            return;
-        }
 
-        TransformationAssertion tas = (TransformationAssertion) ai.getAssertion();
+        TransformationAssertion tas;
+        if ((ai == null || !(ai.getAssertion() instanceof TransformationAssertion))) {
+            if (featureAssertion != null) {
+                tas = featureAssertion;
+            } else {
+                confirmPolicyProcessing(message);
+                return;
+            }
+        } else {
+            tas = (TransformationAssertion) ai.getAssertion();
+        }
 
         TransformationType transformationType = tas.getTransformationType();
         if (transformationType == TransformationType.xslt) {
@@ -39,9 +59,7 @@ public abstract class AbstractTransformationPolicyInterceptor extends AbstractPh
             proceedSimple(message, tas);
         }
 
-        if (ai != null) {
-            ai.setAsserted(true);
-        }
+       confirmPolicyProcessing(message);
     }
 
 
@@ -67,5 +85,22 @@ public abstract class AbstractTransformationPolicyInterceptor extends AbstractPh
                     && (msgType == MessageType.request || msgType == MessageType.all));
             }
         }
+    }
+
+
+    protected void confirmPolicyProcessing(Message message) {
+         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
+         if (aim != null) {
+             Collection<AssertionInfo> ais = aim
+                       .get(TransformationPolicyBuilder.TRANSFORMATION);
+
+             if (ais != null) {
+                 for (AssertionInfo ai : ais) {
+                     if (ai.getAssertion() instanceof TransformationAssertion) {
+                         ai.setAsserted(true);
+                     }
+                 }
+             }
+         }
     }
 }

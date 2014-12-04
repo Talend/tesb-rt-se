@@ -33,10 +33,10 @@ public class TransformationAssertion implements Assertion {
     }
 
 
-    private final TransformationType transformationType;
     private final String path;
-    private final String appliesTo;
-    private final String messageType;
+    private final TransformationType transformationType;
+    private final AppliesToType appliesTo;
+    private final MessageType messageType;
 
     public TransformationAssertion(Element element) {
           String sType = element.getAttribute(TYPE_NAME);
@@ -47,8 +47,18 @@ public class TransformationAssertion implements Assertion {
           }
 
           path = element.getAttribute(PATH_ATTRIBUTE_NAME);
-          appliesTo = element.getAttribute(APPLIES_TO_ATTRIBUTE_NAME);
-          messageType = element.getAttribute(MESSAGE_TYPE_ATTRIBUTE_NAME);
+          appliesTo = AppliesToType.valueOf(element.getAttribute(APPLIES_TO_ATTRIBUTE_NAME));
+          messageType = MessageType.valueOf(element.getAttribute(MESSAGE_TYPE_ATTRIBUTE_NAME));
+    }
+
+    public TransformationAssertion(String path,
+                                   AppliesToType appliesTo,
+                                   MessageType messageType,
+                                   TransformationType transformationType) {
+        this.path = path;
+        this.appliesTo = appliesTo;
+        this.messageType = messageType;
+        this.transformationType = transformationType;
     }
 
     @Override
@@ -115,11 +125,11 @@ public class TransformationAssertion implements Assertion {
          return path;
      }
 
-     public String getAppliesTo() {
+     public AppliesToType getAppliesTo() {
          return appliesTo;
      }
 
-     public String getMessageType() {
+     public MessageType getMessageType() {
          return messageType;
      }
 }
