@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPOutputStream;
 
@@ -188,6 +189,9 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
                 	origOutStream.close();
                 } catch (IOException e) {
                     LOG.warning("Cannot close stream after compression: " + e.getMessage());
+                } catch (IllegalStateException e) {
+                	// Exception caught and logged, as it is frequently hiding a previously thrown exception.
+                	LOG.log(Level.SEVERE, "Irregular attempt at closing output stream after compression", e);
                 }
             }
         }
