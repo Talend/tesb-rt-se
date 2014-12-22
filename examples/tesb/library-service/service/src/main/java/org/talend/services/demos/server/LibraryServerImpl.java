@@ -65,7 +65,8 @@ public class LibraryServerImpl implements Library, InitializingBean {
         if (authorsLastNames != null && authorsLastNames.size() > 0) {
             String authorsLastName = authorsLastNames.get(0);
             if (authorsLastName != null && authorsLastName.length() > 0 &&
-                    !"Icebear".equalsIgnoreCase(authorsLastName)) {
+                    !("Icebear".equalsIgnoreCase(authorsLastName)
+                            || "Morillo".equalsIgnoreCase(authorsLastName))) {
                 SeekBookError e = prepareException("No book available from author " + authorsLastName);
 
                 System.out.println("No book available from author " +  authorsLastName);
@@ -77,17 +78,32 @@ public class LibraryServerImpl implements Library, InitializingBean {
             }
         }
         ListOfBooks result = new ListOfBooks();
-        BookType book = new BookType();
-        result.getBook().add(book);
-        PersonType author = new PersonType();
-        book.getAuthor().add(author);
-        author.setFirstName("Jack");
-        author.setLastName("Icebear");
-        Calendar dateOfBirth = new GregorianCalendar(101, Calendar.JANUARY, 2);
-        author.setDateOfBirth(dateOfBirth.getTime());
-        book.getTitle().add("Survival in the Arctic");
-        book.getPublisher().add("Frosty Edition");
-        book.setYearPublished("2010");
+        if (authorsLastNames.contains("Icebear")) {
+            BookType book = new BookType();
+            result.getBook().add(book);
+            PersonType author = new PersonType();
+            book.getAuthor().add(author);
+            author.setFirstName("Jack");
+            author.setLastName("Icebear");
+            Calendar dateOfBirth = new GregorianCalendar(101, Calendar.JANUARY, 2);
+            author.setDateOfBirth(dateOfBirth.getTime());
+            book.getTitle().add("Survival in the Arctic");
+            book.getPublisher().add("Frosty Edition");
+            book.setYearPublished("2010");
+        }
+        if (authorsLastNames.contains("Morillo")) {
+            BookType book = new BookType();
+            result.getBook().add(book);
+            PersonType author = new PersonType();
+            book.getAuthor().add(author);
+            author.setFirstName("David A.");
+            author.setLastName("Morillo");
+            Calendar dateOfBirth = new GregorianCalendar(1970, Calendar.JANUARY, 1);
+            author.setDateOfBirth(dateOfBirth.getTime());
+            book.getTitle().add("The book about software");
+            book.getPublisher().add("Frosty Edition");
+            book.setYearPublished("2006");
+        }
 
         System.out.println("Book(s) is found:");
 
@@ -140,7 +156,8 @@ public class LibraryServerImpl implements Library, InitializingBean {
         if (authorsLastNames != null && authorsLastNames.size() > 0) {
             String authorsLastName = authorsLastNames.get(0);
             if (authorsLastName != null && authorsLastName.length() > 0
-                    && !"Stripycat".equalsIgnoreCase(authorsLastName)) {
+                    && !("Stripycat".equalsIgnoreCase(authorsLastName)
+                            || "Morillo".equals(authorsLastName))) {
 
                 SeekBookError e = prepareException("No book available from author "
                         + authorsLastName);
@@ -166,17 +183,33 @@ public class LibraryServerImpl implements Library, InitializingBean {
         }
 
         ListOfBooks result = new ListOfBooks();
-        BookType book = new BookType();
-        result.getBook().add(book);
-        PersonType author = new PersonType();
-        book.getAuthor().add(author);
-        author.setFirstName("John");
-        author.setLastName("Stripycat");
-        Calendar dateOfBirth = new GregorianCalendar(202, Calendar.MAY, 17);
-        author.setDateOfBirth(dateOfBirth.getTime());
-        book.getTitle().add("Hunting basement inhabitants");
-        book.getPublisher().add("Dusty Edition");
-        book.setYearPublished("2013");
+        BookType book1 = new BookType();
+        if (authorsLastNames.contains("Stripycat")) {
+            book1 = new BookType();
+            result.getBook().add(book1);
+            PersonType author = new PersonType();
+            book1.getAuthor().add(author);
+            author.setFirstName("John");
+            author.setLastName("Stripycat");
+            Calendar dateOfBirth = new GregorianCalendar(202, Calendar.MAY, 17);
+            author.setDateOfBirth(dateOfBirth.getTime());
+            book1.getTitle().add("Hunting basement inhabitants");
+            book1.getPublisher().add("Dusty Edition");
+            book1.setYearPublished("2013");
+        }
+        if (authorsLastNames.contains("Morillo")) {
+            BookType book = new BookType();
+            result.getBook().add(book);
+            PersonType author = new PersonType();
+            book.getAuthor().add(author);
+            author.setFirstName("David A.");
+            author.setLastName("Morillo");
+            Calendar dateOfBirth = new GregorianCalendar(1970, Calendar.JANUARY, 1);
+            author.setDateOfBirth(dateOfBirth.getTime());
+            book.getTitle().add("The book about software");
+            book.getPublisher().add("Frosty Edition");
+            book.setYearPublished("2006");
+        }
 
         System.out.println("Book(s) is found:");
 
@@ -185,8 +218,12 @@ public class LibraryServerImpl implements Library, InitializingBean {
         ctx.setupCallbackProxy(callbackResponseClient);
         callbackResponseClient.seekBookInBasementResponse(result);
 
-        book.getTitle().set(0, "Hunting more basement inhabitants");
-        book.setYearPublished("2014");
+        if (authorsLastNames.contains("Stripycat")) {
+            book1.getTitle().set(0, "Hunting more basement inhabitants");
+            book1.setYearPublished("2014");
+            result.getBook().clear();
+            result.getBook().add(book1);
+        }
 
         showSeekBookResponse(result);
 

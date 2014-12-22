@@ -67,6 +67,7 @@ public class LibraryTester implements InitializingBean {
         System.out.println("\nSending request for authors named Icebear");
         SearchFor request = new SearchFor();
         request.getAuthorLastName().add("Icebear");
+        request.getAuthorLastName().add("Sykes");
         ListOfBooks response = libraryHttp.seekBook(request);
         System.out.println("\nResponse received:");
         Utils.showBooks(response);
@@ -76,8 +77,9 @@ public class LibraryTester implements InitializingBean {
             System.out.println("An error occured: number of books found is not equal to 1");
         }
 
-        if (!"Icebear".equals(response.getBook().get(0).getAuthor().get(0).getLastName())) {
-            System.out.println("An error occured: the author of the found book is not Icebear");
+        if (!"Icebear".equals(response.getBook().get(0).getAuthor().get(0).getLastName())
+                && !"Sykes".equals(response.getBook().get(0).getAuthor().get(0).getLastName())) {
+            System.out.println("An error occured: the author of the found book does not match the request");
         }
     }
 
