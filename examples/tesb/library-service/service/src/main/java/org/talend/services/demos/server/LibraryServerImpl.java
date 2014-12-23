@@ -157,7 +157,7 @@ public class LibraryServerImpl implements Library, InitializingBean {
             String authorsLastName = authorsLastNames.get(0);
             if (authorsLastName != null && authorsLastName.length() > 0
                     && !("Stripycat".equalsIgnoreCase(authorsLastName)
-                            || "Morillo".equals(authorsLastName))) {
+                            || "Morillo".equalsIgnoreCase(authorsLastName))) {
 
                 SeekBookError e = prepareException("No book available from author "
                         + authorsLastName);
