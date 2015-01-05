@@ -65,8 +65,8 @@ public class LibraryServerImpl implements Library, InitializingBean {
         if (authorsLastNames != null && authorsLastNames.size() > 0) {
             String authorsLastName = authorsLastNames.get(0);
             if (authorsLastName != null && authorsLastName.length() > 0 &&
-                    !("Icebear".equalsIgnoreCase(authorsLastName)
-                            || "Morillo".equalsIgnoreCase(authorsLastName))) {
+                    (!"Icebear".equalsIgnoreCase(authorsLastName)) && 
+                    (!"Morillo".equalsIgnoreCase(authorsLastName))) {
                 SeekBookError e = prepareException("No book available from author " + authorsLastName);
 
                 System.out.println("No book available from author " +  authorsLastName);

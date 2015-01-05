@@ -20,6 +20,10 @@ public class LibraryServer {
         final LibraryServer server = new LibraryServer();
         final ClassPathXmlApplicationContext context = server.getContext();
         System.out.println("Server ready...");
+        if ((args.length > 0) && "publish".equals(args[0])) {
+        	LibraryPublisher publisher = (LibraryPublisher)context.getBean("libraryPublisher");
+        	publisher.publishNewBooksNotifications();        	
+        }
         Thread.sleep(15 * 60 * 1000);
         System.out.println("Server exiting");
         context.close();
