@@ -40,6 +40,7 @@ public class DurableSubscriptionFeature extends AbstractFeature {
 		
 			if(this.durableSubscriptionName!=null){
 				jmsConfig.setDurableSubscriptionName(durableSubscriptionName);
+				jmsConfig.setSubscriptionDurable(true);
 			}
 		}
 	}
