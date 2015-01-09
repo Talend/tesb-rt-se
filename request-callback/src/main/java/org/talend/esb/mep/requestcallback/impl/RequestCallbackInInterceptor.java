@@ -145,7 +145,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		return name.startsWith("http://cxf.apache.org/jaxws") && name.endsWith("InvokeOneWayRequest");
 	}
 
-	private static void fillCallContext(CallContext callContext, SoapMessage message) {
+	public static void fillCallContext(CallContext callContext, SoapMessage message) {
 		if (callContext.getOperationName() == null) {
 			callContext.setOperationName((QName) message.get(Message.WSDL_OPERATION));
 		}
