@@ -2,6 +2,8 @@ package org.talend.esb.policy.correlation.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.namespace.NamespaceContext;
@@ -10,9 +12,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.JXPathException;
 import org.apache.cxf.databinding.DataWriter;
+import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.BareOutInterceptor;
 import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
@@ -185,6 +190,7 @@ public class XPathProcessor extends BareOutInterceptor {
 	private void loadSoapBodyToBuffer(Message message){
 		Cloner cloner = new Cloner();
 		MessageContentsList original = MessageContentsList.getContentsList(message);
+		fixateStreams(original);
 		MessageContentsList clone = cloner.deepClone(original);
 		message.setContent(List.class, clone);
 		handleMessage(message);
@@ -274,6 +280,23 @@ public class XPathProcessor extends BareOutInterceptor {
 					part.setIgnore(true);
 				}
 
+			}
+		}
+	}
+
+	private static void fixateStreams(List<?> list) {
+		for (Object o : list) {
+			if (o instanceof StreamSource) {
+				final StreamSource s = (StreamSource) o;
+				final InputStream is = s.getInputStream();
+				if (is == null || (is instanceof ByteArrayInputStream)) {
+					continue;
+				}
+				try {
+					s.setInputStream(IOUtils.loadIntoBAIS(is));
+				} catch (IOException e) {
+					// FIXME: add error handling
+				}
 			}
 		}
 	}
