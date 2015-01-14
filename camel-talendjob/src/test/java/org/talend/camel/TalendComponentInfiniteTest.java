@@ -44,7 +44,8 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
 
         public int runJobInTOS(String[] args) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(30000);
+                System.err.println("Job timed out without being closed.");
             } catch (InterruptedException e) {
                 passed = true;
             }
