@@ -30,13 +30,33 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
 
     public static class JobInfinite implements TalendJob {
 
-        private static boolean passed = false;
+        private static volatile boolean passed = false;
 
         public static boolean isPassed() {
-            boolean result = passed;
+            if (!passed) {
+            	return false;
+            }
             passed = false;
-            return result;
+            return true;
         }
+
+        // public static boolean isPassed(int reTries) {
+        //	if (isPassed()) {
+        //		return true;
+        //	}
+        //	for (int i = 0; i < reTries; i++) {
+        //		System.err.println("Job not yet closed, waiting 1 sec.");
+        //		try {
+        //			Thread.sleep(1000L);
+        //		} catch (InterruptedException e) {
+        //			return isPassed();
+        //		}
+        //		if (isPassed()) {
+        //			return true;
+        //		}
+        //	}
+        //	return false;
+        // }
 
         public String[][] runJob(String[] args) {
             return null;
