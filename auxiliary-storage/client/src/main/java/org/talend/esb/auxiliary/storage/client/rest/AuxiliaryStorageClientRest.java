@@ -15,6 +15,7 @@
 package org.talend.esb.auxiliary.storage.client.rest;
 
 import java.net.ConnectException;
+import java.util.Properties;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
@@ -38,7 +39,15 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
 
     AuxiliaryObjectFactory<E> factory;
 
-
+    
+    public AuxiliaryStorageClientRest() {
+        super();
+    }
+    
+    public AuxiliaryStorageClientRest(Properties props) {
+        super(props);
+    }
+    
     @Override
     public AuxiliaryObjectFactory<E> getAuxiliaryObjectFactory(){
         return this.factory;
@@ -54,10 +63,6 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
          throw new IllegalParameterException("Auxiliary factory is null");
      }
      return getAuxiliaryObjectFactory();
-    }
-
-    public AuxiliaryStorageClientRest() {
-        super();
     }
 
     @Override
