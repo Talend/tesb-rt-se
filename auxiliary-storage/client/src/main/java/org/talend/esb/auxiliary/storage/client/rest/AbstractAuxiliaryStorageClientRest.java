@@ -16,6 +16,7 @@ package org.talend.esb.auxiliary.storage.client.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -34,6 +35,14 @@ public abstract class AbstractAuxiliaryStorageClientRest<E> extends AuxiliarySto
     private WebClient cachedClient = null;
 
     private ReentrantLock lock = new ReentrantLock();
+    
+    public AbstractAuxiliaryStorageClientRest() {
+    	super();
+    }
+    
+    public AbstractAuxiliaryStorageClientRest(Properties props) {
+        super(props);
+    }
 
     protected WebClient getWebClient() {
         if (null == cachedClient) {

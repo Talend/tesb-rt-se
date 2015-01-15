@@ -14,7 +14,9 @@
  */
 package org.talend.esb.auxiliary.storage.rest.security;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.rs.security.saml.SamlHeaderOutInterceptor;
@@ -34,6 +36,36 @@ public abstract class AuxiliaryStorageRestClientSecurityProvider extends Abstrac
     private Map<String, String> stsProps;
 
     private JAXRSClientFactoryBean cachedClientFactory = null;
+    
+    public AuxiliaryStorageRestClientSecurityProvider(){
+    	super();
+    }
+    
+    public AuxiliaryStorageRestClientSecurityProvider(Properties props){
+    	super();
+    	if(props!=null && !props.isEmpty()){
+            String url = props.getProperty("auxiliary.storage.service.url");
+            if (null == url || url.trim().isEmpty()) {
+                throw new RuntimeException("Auxiliary Storage client URL property ['auxiliary.storage.service.url'] is not configured");
+            }
+    		
+        	setServerURL(url);
+        	
+        	setAuxiliaryStorageAuthentication(props.getProperty("auxiliary.storage.service.authentication", Authentication.NO.name()));
+            setAuthenticationUser(props.getProperty("auxiliary.storage.service.authentication.user"));
+            setAuthenticationPassword(props.getProperty("auxiliary.storage.service.authentication.password"));
+            
+            Map<String, String> stsProps = new HashMap<String, String>();
+            for (String propName : props.stringPropertyNames()) {
+                if (propName.startsWith("ws-security.") || propName.startsWith("sts.")) {
+                    stsProps.put(propName, props.getProperty(propName));
+                }
+            }
+            setStsProps(stsProps);
+    	}else{
+    		throw new RuntimeException("Provided Auxiliary Storage client properties are empty");
+    	}
+    }
 
     protected JAXRSClientFactoryBean getClientFactory() {
         if (null == cachedClientFactory) {
