@@ -237,16 +237,38 @@ public class CallContext implements Serializable {
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
 			final Class<T> sourceClass, final Service.Mode mode,
-			final QName operation, final String soapAction, final URL wsdlLocationURL) {
-		final QName callbackPortTypeName = new QName(
-				portTypeName.getNamespaceURI(), portTypeName.getLocalPart() + "Consumer");
-		final QName callbackServiceName = new QName(
-				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Service");
-		final QName callbackPortName = new QName(
-				callbackPortTypeName.getNamespaceURI(), callbackPortTypeName.getLocalPart() + "Port");
-
+			final QName operation, final String soapAction,
+			final URL wsdlLocationURL, final String policyAlias) {
+		final URL wsdlURL;
+		final CallbackInfo callbackInfo;
+		if (wsdlLocationURL == null || wsdlLocationURL.equals(this.wsdlLocationURL)) {
+			wsdlURL = integrateAlias(this.wsdlLocationURL, policyAlias);
+			callbackInfo = getCallbackInfo();
+		} else {
+			wsdlURL = integrateAlias(wsdlLocationURL, policyAlias);
+			callbackInfo = new CallbackInfo(wsdlLocationURL);
+		}
+		final QName callbackPortTypeName;
+		final QName callbackServiceName;
+		final QName callbackPortName;
+		if (callbackInfo != null) {
+			callbackPortTypeName = validValue(callbackInfo.getCallbackPortTypeName(),
+					portTypeName.getNamespaceURI(), portTypeName.getLocalPart(), "Consumer");
+			callbackServiceName = validValue(callbackInfo.getCallbackServiceName(),
+					callbackPortTypeName.getNamespaceURI(),
+					callbackPortTypeName.getLocalPart(), "Service");
+			callbackPortName = validValue(callbackInfo.getCallbackPortName(),
+					callbackServiceName.getNamespaceURI(),
+					callbackPortTypeName.getLocalPart(), "Port");
+		} else {
+			callbackPortTypeName = new QName(portTypeName.getNamespaceURI(),
+					portTypeName.getLocalPart() + "Consumer");
+			callbackServiceName = new QName(callbackPortTypeName.getNamespaceURI(),
+					callbackPortTypeName.getLocalPart() + "Service");
+			callbackPortName = new QName(callbackPortTypeName.getNamespaceURI(),
+					callbackPortTypeName.getLocalPart() + "Port");
+		}
 		Service service = null;
-		final URL wsdlURL = wsdlLocationURL == null ? this.wsdlLocationURL : wsdlLocationURL;
 		if (wsdlURL != null) {
 			try {
 				service = Service.create(wsdlURL, callbackServiceName);
@@ -294,6 +316,13 @@ public class CallContext implements Serializable {
             requestContext.put(BindingProvider.SOAPACTION_URI_PROPERTY, soapAction);
         }
 		return dispatch;
+	}
+
+	public <T extends Source> Dispatch<T> createCallbackDispatch(
+			final Class<T> sourceClass, final Service.Mode mode,
+			final QName operation, final String soapAction, final URL wsdlLocationURL) {
+		return createCallbackDispatch(
+				sourceClass, mode, operation, soapAction, wsdlLocationURL, null);
 	}
 
 	public <T extends Source> Dispatch<T> createCallbackDispatch(
@@ -596,5 +625,41 @@ public class CallContext implements Serializable {
         return wsdlLocation.startsWith("file:/") || wsdlLocation.startsWith("http://")
                 || wsdlLocation.startsWith("https://")
                 || wsdlLocation.startsWith(CLASSPATH_URL_PREFIX);
+    }
+
+    private static QName validValue(QName value, String defaultNamespaceURI,
+    		String defaultLocalNameBase, String defaultSuffix) {
+    	if (value != null) {
+    		return value;
+    	}
+    	return new QName(defaultNamespaceURI, defaultLocalNameBase + defaultSuffix);
+    }
+
+    private static QName validValue(String localValue, String defaultNamespaceURI,
+    		String defaultLocalNameBase, String defaultSuffix) {
+    	if (localValue != null && localValue.length() > 0) {
+    		return new QName(defaultNamespaceURI, localValue);
+    	}
+    	return new QName(defaultNamespaceURI, defaultLocalNameBase + defaultSuffix);
+    }
+
+    private static URL integrateAlias(URL wsdlURL, String alias) {
+    	if (wsdlURL == null || alias == null || alias.length() == 0) {
+    		return wsdlURL;
+    	}
+    	final String query = wsdlURL.getQuery();
+    	if (query == null || query.length() == 0) {
+    		return wsdlURL;
+    	}
+    	if (query.indexOf("mergeWithPolicies=true") >= 0 &&
+    			query.indexOf("participant=consumer") >= 0 &&
+    			query.indexOf("consumerPolicyAlias=") < 0) {
+    		try {
+    			return new URL(wsdlURL.toExternalForm() + "&consumerPolicyAlias=" + alias);
+    		} catch (MalformedURLException e) {
+    			throw new IllegalArgumentException("Bad alias String: " + alias + ". ", e);
+    		}
+    	}
+    	return wsdlURL;
     }
 }

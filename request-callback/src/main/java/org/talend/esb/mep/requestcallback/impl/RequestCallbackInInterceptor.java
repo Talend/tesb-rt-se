@@ -1,5 +1,6 @@
 package org.talend.esb.mep.requestcallback.impl;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -181,6 +182,19 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 							throw new IllegalStateException("Corrupted WSDL location URL: ", e);
 						}
 					}
+					final File wsdlFile = new File(loc);
+					if (wsdlFile.exists()) {
+						return toCallbackWsdlURL(wsdlFile);
+					}
+					// classpath resolution will only work where the loader
+					// of request-callback classes is in the same classloader
+					// as the invoking application. Otherwise, the WSDL location
+					// must be provided as URL or absolute file path.
+					URL classpathWsdlURL = CallContext.class.getClassLoader().getResource(loc);
+					if (classpathWsdlURL != null) {
+						return asCallbackWsdlURL(classpathWsdlURL);
+					}
+					return null;
 				}
 			}
 		}
@@ -202,7 +216,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 			return wsdlURL;
 		}
 		final String path = wsdlURL.getPath();
-		if (!path.startsWith("/services/registry/lookup/wsdl/")) {
+		if (!path.startsWith(SR_QUERY_PATH)) {
 			// not a service registry query, return as it is.
 			return wsdlURL;
 		}
@@ -211,12 +225,29 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 			final String resString =  urlString.substring(0,
 					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
 					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8")
-					+ "?mergeWithPolicies=true&participant=provider";
+					+ "?mergeWithPolicies=true&participant=consumer";
 			return new URL(resString);
 		} catch (RuntimeException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new IllegalStateException("Unexpected URL creation problem: ", e);
+		}
+	}
+
+	private static URL toCallbackWsdlURL(File wsdlFile) {
+		if (!(wsdlFile.isFile() && wsdlFile.canRead())) {
+			throw new IllegalStateException("File " + wsdlFile.getName() + " is not a readable file. ");
+		}
+		try {
+			final URL wsdlURL = wsdlFile.toURI().toURL();
+			final CallbackInfo cbInfo = CallContext.createCallbackInfo(wsdlURL);
+			if (cbInfo.getCallbackServiceName() == null) {
+				// old-style callback definition without callback service.
+				return null;
+			}
+			return wsdlURL;
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Cannot create URL for WSDL file location. ", e);
 		}
 	}
 
