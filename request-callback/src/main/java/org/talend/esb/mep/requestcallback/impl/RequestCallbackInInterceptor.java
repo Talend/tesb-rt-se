@@ -225,7 +225,8 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 			final String resString =  urlString.substring(0,
 					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
 					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8")
-					+ "?mergeWithPolicies=true&participant=consumer";
+					+ "?mergeWithPolicies=true&participant="
+					+ callbackSenderParticipant();
 			return new URL(resString);
 		} catch (RuntimeException e) {
 			throw e;
@@ -280,5 +281,17 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
         if (flowId != null && !flowId.isEmpty()) {
             FlowIdHelper.setFlowId(message, flowId);
         }
+    }
+
+    private static String callbackSenderParticipant() {
+    	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
+    	  case EXCHANGE:
+    		return "consumer";
+    	  case SERVICE:
+    		return "provider";
+    	  default:
+    		throw new IllegalStateException(
+    				"Invalid configuration of policy distribution mode. ");
+    	}
     }
 }

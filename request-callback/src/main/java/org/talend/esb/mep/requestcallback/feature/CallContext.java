@@ -1,6 +1,8 @@
 package org.talend.esb.mep.requestcallback.feature;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +45,18 @@ import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfig
 
 public class CallContext implements Serializable {
 
+	public enum PolicyDistributionMode {
+		EXCHANGE, SERVICE
+	}
+
+	public static final String POLICY_DISTRIBUTION_MODE_CONFIG =
+			"org.talend.esb.policy.distribution.properties";
+	public static final String POLICY_DISTRIBUTION_MODE_PROPERTY =
+			"org.talend.esb.policy.distribution.mode";
+	public static final PolicyDistributionMode DEFAULT_POLICY_DISTRIBUTION_MODE =
+			PolicyDistributionMode.EXCHANGE;
+	public static final PolicyDistributionMode EFFECTIVE_POLICY_DISTRIBUTION_MODE =
+			effectivePolicyDistributionMode();
 	private static final Logger LOGGER = LogUtils.getL7dLogger(CallContext.class);
 	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
 	private static final String CLASSPATH_URL_PREFIX = "classpath:";
@@ -242,10 +257,10 @@ public class CallContext implements Serializable {
 		final URL wsdlURL;
 		final CallbackInfo callbackInfo;
 		if (wsdlLocationURL == null || wsdlLocationURL.equals(this.wsdlLocationURL)) {
-			wsdlURL = integrateAlias(this.wsdlLocationURL, policyAlias);
+			wsdlURL = integrateCallbackSenderPolicyAlias(this.wsdlLocationURL, policyAlias);
 			callbackInfo = getCallbackInfo();
 		} else {
-			wsdlURL = integrateAlias(wsdlLocationURL, policyAlias);
+			wsdlURL = integrateCallbackSenderPolicyAlias(wsdlLocationURL, policyAlias);
 			callbackInfo = new CallbackInfo(wsdlLocationURL);
 		}
 		final QName callbackPortTypeName;
@@ -643,7 +658,10 @@ public class CallContext implements Serializable {
     	return new QName(defaultNamespaceURI, defaultLocalNameBase + defaultSuffix);
     }
 
-    private static URL integrateAlias(URL wsdlURL, String alias) {
+    private static URL integrateCallbackSenderPolicyAlias(URL wsdlURL, String alias) {
+    	if (EFFECTIVE_POLICY_DISTRIBUTION_MODE == PolicyDistributionMode.SERVICE) {
+    		return wsdlURL;
+    	}
     	if (wsdlURL == null || alias == null || alias.length() == 0) {
     		return wsdlURL;
     	}
@@ -661,5 +679,35 @@ public class CallContext implements Serializable {
     		}
     	}
     	return wsdlURL;
+    }
+
+    private static PolicyDistributionMode effectivePolicyDistributionMode() {
+    	final InputStream propertyStream =
+    			CallContext.class.getClassLoader().getResourceAsStream(
+    					POLICY_DISTRIBUTION_MODE_CONFIG);
+    	if (propertyStream == null) {
+    		return DEFAULT_POLICY_DISTRIBUTION_MODE;
+    	}
+    	final Properties props = new Properties();
+    	try {
+    		props.load(propertyStream);
+    	} catch (IOException e) {
+    		if (LOGGER.isLoggable(Level.FINER)) {
+    			LOGGER.log(Level.FINER, "Exception caught. ", e);
+    		}
+    		return DEFAULT_POLICY_DISTRIBUTION_MODE;
+    	}
+    	final String modeName = props.getProperty(
+    			POLICY_DISTRIBUTION_MODE_PROPERTY);
+    	if (modeName == null || modeName.length() == 0) {
+    		return DEFAULT_POLICY_DISTRIBUTION_MODE;
+    	}
+    	if ("exchange".equalsIgnoreCase(modeName)) {
+    		return PolicyDistributionMode.EXCHANGE;
+    	}
+    	if ("service".equalsIgnoreCase(modeName)) {
+    		return PolicyDistributionMode.SERVICE;
+    	}
+    	return DEFAULT_POLICY_DISTRIBUTION_MODE;
     }
 }
