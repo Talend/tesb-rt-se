@@ -40,23 +40,23 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
             return true;
         }
 
-        // public static boolean isPassed(int reTries) {
-        //	if (isPassed()) {
-        //		return true;
-        //	}
-        //	for (int i = 0; i < reTries; i++) {
-        //		System.err.println("Job not yet closed, waiting 1 sec.");
-        //		try {
-        //			Thread.sleep(1000L);
-        //		} catch (InterruptedException e) {
-        //			return isPassed();
-        //		}
-        //		if (isPassed()) {
-        //			return true;
-        //		}
-        //	}
-        //	return false;
-        // }
+        public static boolean isPassed(int reTries) {
+        	if (isPassed()) {
+        		return true;
+        	}
+        	for (int i = 0; i < reTries; i++) {
+        		System.err.println("Job not yet closed, waiting 1 sec.");
+        		try {
+        			Thread.sleep(1000L);
+        		} catch (InterruptedException e) {
+        			return isPassed();
+        		}
+        		if (isPassed()) {
+        			return true;
+        		}
+        	}
+        	return false;
+        }
 
         public String[][] runJob(String[] args) {
             return null;
@@ -91,7 +91,7 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
         sendBody("seda:infinite", null);
         assertFalse(JobInfinite.isPassed());
         context.stop();
-        assertTrue(JobInfinite.isPassed());
+        assertTrue(JobInfinite.isPassed(3));
     }
 
     @Override
