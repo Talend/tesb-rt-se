@@ -109,16 +109,6 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="SearchInBasementFor">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element minOccurs="0" name="Publisher" type="LongNameType" />
-						<xsd:element maxOccurs="unbounded" minOccurs="0"
-							name="AuthorLastName" type="NameType" />
-						<xsd:element minOccurs="0" name="ISBNNumber" type="ISBNType" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
 			<xsd:element name="createLending">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -262,9 +252,6 @@
 	<message name="seekBookRequest">
 		<part element="svn:SearchFor" name="body" />
 	</message>
-	<message name="seekBookInBasementRequest">
-		<part element="svn:SearchInBasementFor" name="body" />
-	</message>
 	<message name="seekBookResponse">
 		<part element="svn:ListOfBooks" name="body" />
 	</message>
@@ -288,7 +275,7 @@
 			<input message="tns:createLendingRequest" />
 		</operation>
 		<operation name="seekBookInBasement">
-			<input message="tns:seekBookInBasementRequest" />
+			<input message="tns:seekBookRequest" />
 		</operation>
 		<operation name="newBooks" tmep:mep="notification">
 			<input message="tns:newBooksNotification" />
