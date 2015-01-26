@@ -33,12 +33,6 @@ public class XpathPart {
 	/* optional */
 	private boolean optional = false;	
 	
-	/* result of XPATH extraction */
-	private String value = null;	
-	
-	/* ignore this part inside correlation id */
-	private boolean ignore = false;		
-	
 	public XpathPart(){
 	}
 	
@@ -58,14 +52,6 @@ public class XpathPart {
 		this.xpath = xpath;
 	}
 
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
 	public boolean isOptional() {
 		return optional;
 	}
@@ -74,16 +60,5 @@ public class XpathPart {
 		this.optional = optional;
 	}
 
-	public boolean isIgnore() {
-		return ignore;
-	}
-
-	public void setIgnore(boolean ignore) {
-		this.ignore = ignore;
-	}
-	
-	
-	
-	
 	
 }

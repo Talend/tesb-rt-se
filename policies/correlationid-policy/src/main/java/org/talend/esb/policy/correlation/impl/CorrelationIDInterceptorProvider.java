@@ -143,8 +143,8 @@ public class CorrelationIDInterceptorProvider extends AbstractPolicyInterceptorP
                     if (null == correlationId) {
                         if (MethodType.XPATH.equals(mType)) {
 
-                        	XPathProcessor proc = new XPathProcessor(message);
-                        	correlationId = proc.getCorrelationID(cAssertion, message);
+                        	XPathProcessor proc = new XPathProcessor(cAssertion, message);
+                        	correlationId = proc.getCorrelationID();
                         } else if (MethodType.CALLBACK.equals(mType)){
                             CorrelationIDCallbackHandler handler = (CorrelationIDCallbackHandler) message
                                     .get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER);
