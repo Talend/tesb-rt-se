@@ -222,11 +222,13 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 		try {
 			final String urlString = wsdlURL.toExternalForm();
-			final String resString =  urlString.substring(0,
+			final String urlQuery = wsdlURL.getQuery();
+			String resString =  urlString.substring(0,
 					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
-					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8")
-					+ "?mergeWithPolicies=true&participant="
-					+ callbackSenderParticipant();
+					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8");
+			if (urlQuery != null && urlQuery.indexOf("mergeWithPolicies=true") >= 0) {
+				resString += callbackSenderQuery();
+			}
 			return new URL(resString);
 		} catch (RuntimeException e) {
 			throw e;
@@ -283,12 +285,12 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
         }
     }
 
-    private static String callbackSenderParticipant() {
+    private static String callbackSenderQuery() {
     	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
     	  case EXCHANGE:
-    		return "consumer";
+    		return "?mergeWithPolicies=true&participant=consumer";
     	  case SERVICE:
-    		return "provider";
+    		return "?mergeWithPolicies=true&participant=provider";
     	  default:
     		throw new IllegalStateException(
     				"Invalid configuration of policy distribution mode. ");
