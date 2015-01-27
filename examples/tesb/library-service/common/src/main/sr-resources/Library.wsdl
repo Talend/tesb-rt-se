@@ -364,7 +364,7 @@
 
     <service name="LibraryProvider">
         <port binding="tns:LibraryHttpSoap" name="LibraryHttpPort">
-            <soap:address location="http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort" />
+            <soap:address location="http://localhost:18888/tesb-library-tutorial/services/LibraryHttpPort" />
         </port>
         <port binding="tns:LibraryJmsSoap" name="LibraryJmsPort">
             <soap:address

@@ -103,7 +103,8 @@
 						<version>2.1</version>
 						<configuration>
 							<server>myTomcat</server>
-							<url>http://localhost:8080/manager/text</url>
+							<port>18888</port>
+							<url>http://localhost:18888/manager/text</url>
 							<path>/${project.build.finalName}</path>
 						</configuration>
 					</plugin>
@@ -133,7 +134,8 @@
 						<version>2.1</version>
 						<configuration>
 							<server>myTomcat</server>
-							<url>http://localhost:8080/manager/text</url>
+							<port>18888</port>
+							<url>http://localhost:18888/manager/text</url>
 							<path>/${project.build.finalName}</path>
 						</configuration>
 					</plugin>
