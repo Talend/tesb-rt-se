@@ -18,6 +18,13 @@ public class CompressionConstants {
 	public static QName COMPRESSION_WRAPPER_QNAME = new QName(COMPRESSION_WRAPPER_TAG_NAMESPACE, 
 			COMPRESSION_WRAPPER_TAG_LOCAL_NAME);
 	
+	public static String SOAP_BODY_PATTERN = "(?six)<(.*):Body>(.*)</\\1:Body>";
+	
+	public static String COMPRESSED_SOAP_BODY_PATTERN = "(?six)<(.*):" + 
+			COMPRESSION_WRAPPER_TAG_LOCAL_NAME + 
+			" .* interceptors/Compression .*>(.*)</\\1:"+
+			COMPRESSION_WRAPPER_TAG_LOCAL_NAME+">";
+	
 	public static String getCompressionWrapperStartTag(String algoritm, String encoding){
 		StringBuilder str = new StringBuilder();
 		str.append("<").

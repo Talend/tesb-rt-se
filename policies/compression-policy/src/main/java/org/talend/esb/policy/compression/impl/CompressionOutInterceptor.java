@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.MatchResult;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.stream.XMLStreamException;
@@ -26,7 +28,6 @@ import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.neethi.Assertion;
 import org.talend.esb.policy.compression.impl.internal.CompressionConstants;
 import org.talend.esb.policy.compression.impl.internal.CompressionHelper;
-import org.talend.esb.policy.compression.impl.internal.SoapBodyStreamFilter;
 
 /**
  *Interceptor that compresses outgoing messages using gzip.
@@ -140,11 +141,14 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
                 	//Loading SOAP body content to separate stream
                     CachedOutputStream soapBodyContent = new CachedOutputStream();
                     
-        			SoapBodyStreamFilter soapBodyFilter = new SoapBodyStreamFilter(
-        					CompressionConstants.SOAP_BODY_TAG_NAME);
-                    
+        			Scanner scanner = new Scanner(wrappedIS);
+        			MatchResult bodyPosition = null;
                     try {
-                    	CompressionHelper.loadSoapBodyContent(wrappedIS, soapBodyContent, soapBodyFilter);
+                    	bodyPosition = CompressionHelper.loadSoapBodyContent(soapBodyContent, scanner, 
+                    			CompressionConstants.SOAP_BODY_PATTERN);
+                    	if(bodyPosition==null){
+                    		throw new RuntimeException("Compression: SOAP body is not found");
+                    	}
         			} catch (XMLStreamException e) {
         				throw new Fault("Can not load SOAP Body content for compression", LOG, e, e.getMessage());
         			}            	
@@ -165,7 +169,7 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
                         //copy original SOAP message with compressed (and base64 encoded) body content to
                         //original output stream
                         CompressionHelper.replaceBodyInSOAP(wrapper.getBytes(), 
-                        		soapBodyFilter, 
+                        		bodyPosition, 
                         		new ByteArrayInputStream(encodedBodyBytes), 
                         		origOutStream,  
                         		CompressionConstants.getCompressionWrapperStartTag(getAlgoritm(), getEncoding()), 
