@@ -3,7 +3,6 @@ package org.talend.esb.mep.requestcallback.impl;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.wsdl.Definition;
@@ -34,9 +33,6 @@ import org.w3c.dom.Element;
  * The Class CompressionOutInterceptor.
  */
 public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
-
-	private static final String SR_QUERY_PATH = "/services/registry/lookup/wsdl/";
-	private static final int SR_QUERY_PATH_LEN = SR_QUERY_PATH.length();
 
 	public RequestCallbackInInterceptor() {
 		super(Phase.PRE_LOGICAL);
@@ -210,29 +206,12 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 			// old-style callback definition without callback service.
 			return null;
 		}
-		String protocol = wsdlURL.getProtocol();
-		if (!("http".equals(protocol) || "https".equals(protocol))) {
-			// not a service registry query, return as it is.
-			return wsdlURL;
-		}
-		final String path = wsdlURL.getPath();
-		if (!path.startsWith(SR_QUERY_PATH)) {
-			// not a service registry query, return as it is.
-			return wsdlURL;
-		}
+		final String callbackWsdlLocation =
+				cbInfo.getSpecificCallbackSenderWsdlLocation(null);
 		try {
-			final String urlString = wsdlURL.toExternalForm();
-			final String urlQuery = wsdlURL.getQuery();
-			String resString =  urlString.substring(0,
-					urlString.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
-					+ URLEncoder.encode(cbInfo.getCallbackServiceName().toString(), "UTF-8");
-			if (urlQuery != null && urlQuery.indexOf("mergeWithPolicies=true") >= 0) {
-				resString += callbackSenderQuery();
-			}
-			return new URL(resString);
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Exception e) {
+			return callbackWsdlLocation == null
+					? wsdlURL : new URL(callbackWsdlLocation);
+		} catch (MalformedURLException e) {
 			throw new IllegalStateException("Unexpected URL creation problem: ", e);
 		}
 	}
@@ -283,17 +262,5 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
         if (flowId != null && !flowId.isEmpty()) {
             FlowIdHelper.setFlowId(message, flowId);
         }
-    }
-
-    private static String callbackSenderQuery() {
-    	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
-    	  case EXCHANGE:
-    		return "?mergeWithPolicies=true&participant=consumer";
-    	  case SERVICE:
-    		return "?mergeWithPolicies=true&participant=provider";
-    	  default:
-    		throw new IllegalStateException(
-    				"Invalid configuration of policy distribution mode. ");
-    	}
     }
 }

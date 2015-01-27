@@ -1,6 +1,8 @@
 package org.talend.esb.mep.requestcallback.feature;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -47,12 +49,18 @@ public class CallbackInfo {
 		}
 	}
 
+	private static final String SR_QUERY_PATH = "/services/registry/lookup/wsdl/";
+	private static final String POLICY_QUERY_HINT = "mergeWithPolicies=true";
+	private static final int SR_QUERY_PATH_LEN = SR_QUERY_PATH.length();
+
 	private QName portTypeName = null;
 	private QName callbackPortTypeName = null;
 	private QName callbackServiceName = null;
 	private String callbackPortName = null;
 	private final String wsdlLocation;
+	private String callbackWsdlLocation = null;
 	private final List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
+	private boolean wsdlPolicyQuery = false;
 	
 	public CallbackInfo(URL wsdlLocation) {
 		this(createServiceFactory(wsdlLocation).getDefinition(), wsdlLocation.toExternalForm());
@@ -67,7 +75,15 @@ public class CallbackInfo {
 		callbackPortTypeName = source.callbackPortTypeName;
 		callbackServiceName = service;
 		callbackPortName = port;
-		wsdlLocation = copyWsdlLocation ? source.wsdlLocation : null;
+		if (copyWsdlLocation) {
+			wsdlLocation = source.wsdlLocation;
+			if (service != null && service.equals(source.callbackServiceName)) {
+				callbackWsdlLocation = source.callbackWsdlLocation;
+				wsdlPolicyQuery = source.wsdlPolicyQuery;
+			}
+		} else {
+			wsdlLocation = null;
+		}
 		operationMappings.addAll(source.operationMappings);
 	}
 
@@ -93,6 +109,24 @@ public class CallbackInfo {
 
 	public List<OperationMapping> getOperationMappings() {
 		return operationMappings;
+	}
+
+	public String getSpecificCallbackSenderWsdlLocation(String policyAlias) {
+		return getCallbackWsdlLocation(policyAlias, true);
+	}
+
+	public String getSpecificCallbackReceiverWsdlLocation(String policyAlias) {
+		return getCallbackWsdlLocation(policyAlias, false);
+	}
+
+	public String getEffectiveCallbackSenderWsdlLocation(String policyAlias) {
+		final String loc = getCallbackWsdlLocation(policyAlias, true);
+		return loc == null ? wsdlLocation : loc;
+	}
+
+	public String getEffectiveCallbackReceiverWsdlLocation(String policyAlias) {
+		final String loc = getCallbackWsdlLocation(policyAlias, false);
+		return loc == null ? wsdlLocation : loc;
 	}
 
 	private CallbackInfo(Definition definition, String wsdlLocation) {
@@ -172,6 +206,24 @@ public class CallbackInfo {
 		}
 	}
 
+	private String getCallbackWsdlLocation(String policyAlias, boolean isSender) {
+		if (callbackWsdlLocation == null) {
+			callbackWsdlLocation = callbackWsdlLocation(
+					wsdlLocation, callbackServiceName);
+			wsdlPolicyQuery = wsdlLocation.indexOf(POLICY_QUERY_HINT) >= 0;
+		}
+		if (callbackWsdlLocation.length() == 0) {
+			return null;
+		}
+		String resString = callbackWsdlLocation;
+    	if (wsdlPolicyQuery) {
+			resString += isSender
+					? callbackSenderPolicyQuery(policyAlias)
+							: callbackReceiverPolicyQuery(policyAlias);
+    	}
+    	return resString;
+	}
+
 	private static WSDLServiceFactory createServiceFactory(String wsdlLocation) {
 		final Bus b = CXFBusFactory.getThreadDefaultBus();
 		return new WSDLServiceFactory(b, wsdlLocation);
@@ -195,4 +247,56 @@ public class CallbackInfo {
 		}
 		return namespace.equals(fullName.getNamespaceURI()) && localName.equals(fullName.getLocalPart());
 	}
+
+	private static String callbackWsdlLocation(final String wsdlLocation,
+    		final QName callbackService) {
+    	if (wsdlLocation == null || callbackService == null ||
+    			!(wsdlLocation.startsWith("http://") ||
+    					wsdlLocation.startsWith("https://"))) {
+    		return "";
+    	}
+    	final int ndx = wsdlLocation.indexOf(SR_QUERY_PATH);
+    	if (ndx < 0) {
+    		return "";
+    	}
+    	try {
+			return wsdlLocation.substring(0,
+					wsdlLocation.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
+					+ URLEncoder.encode(callbackService.toString(), "UTF-8");
+    	} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException("Unexpected URL creation problem: ", e);
+    	}
+    }
+
+    private static String callbackSenderPolicyQuery(String policyAlias) {
+    	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
+    	  case EXCHANGE:
+      		if (policyAlias == null || policyAlias.length() == 0) {
+    			return "?mergeWithPolicies=true&participant=consumer";
+    		}
+    		return "?mergeWithPolicies=true&participant=consumer&consumerPolicyAlias="
+    				+ policyAlias;
+    	  case SERVICE:
+    		return "?mergeWithPolicies=true&participant=provider";
+    	  default:
+    		throw new IllegalStateException(
+    				"Invalid configuration of policy distribution mode. ");
+    	}
+    }
+
+    private static String callbackReceiverPolicyQuery(String policyAlias) {
+    	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
+    	  case EXCHANGE:
+    		return "?mergeWithPolicies=true&participant=provider";
+    	  case SERVICE:
+    		if (policyAlias == null || policyAlias.length() == 0) {
+    			return "?mergeWithPolicies=true&participant=consumer";
+    		}
+    		return "?mergeWithPolicies=true&participant=consumer&consumerPolicyAlias="
+    				+ policyAlias;
+    	  default:
+    		throw new IllegalStateException(
+    				"Invalid configuration of policy distribution mode. ");
+    	}
+    }
 }

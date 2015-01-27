@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,8 +60,6 @@ public class CallContext implements Serializable {
 	private static final Logger LOGGER = LogUtils.getL7dLogger(CallContext.class);
 	private static final String NULL_MEANS_ONEWAY = "jaxws.provider.interpretNullAsOneway";
 	private static final String CLASSPATH_URL_PREFIX = "classpath:";
-	private static final String SR_QUERY_PATH = "/services/registry/lookup/wsdl/";
-	private static final int SR_QUERY_PATH_LEN = SR_QUERY_PATH.length();
 	private static final long serialVersionUID = -5024912330689208965L;
 	private static final int CLASSPATH_URL_PREFIX_LENGTH = CLASSPATH_URL_PREFIX.length();
 
@@ -567,11 +563,15 @@ public class CallContext implements Serializable {
         }
 
 		serverFactory.setFeatures(features);
-		final QName cbInterfaceName = cbInfo == null
-				? null : cbInfo.getCallbackPortTypeName();
-		final String wsdlLocation = cbInfo == null
-				? null : asCallbackReceiverWsdlLocation(cbInfo.getWsdlLocation(),
-						cbInfo.getCallbackServiceName(), policyAlias);
+		final QName cbInterfaceName;
+		final String wsdlLocation;
+		if (cbInfo == null) {
+			cbInterfaceName = null;
+			wsdlLocation = null;
+		} else {
+			cbInterfaceName = cbInfo.getCallbackPortTypeName();
+			wsdlLocation = cbInfo.getEffectiveCallbackReceiverWsdlLocation(policyAlias);
+		}
 		final boolean useWsdlLocation = wsdlLocation != null &&
 				cbInfo.getCallbackServiceName() != null &&
 				cbInfo.getCallbackPortName() != null;
@@ -692,30 +692,6 @@ public class CallContext implements Serializable {
     	return wsdlURL;
     }
 
-    private static String asCallbackReceiverWsdlLocation(String wsdlLocation,
-    		QName callbackService, String policyAlias) {
-    	if (wsdlLocation == null || callbackService == null ||
-    			!(wsdlLocation.startsWith("http://") ||
-    					wsdlLocation.startsWith("https://"))) {
-    		return wsdlLocation;
-    	}
-    	final int ndx = wsdlLocation.indexOf(SR_QUERY_PATH);
-    	if (ndx < 0) {
-    		return wsdlLocation;
-    	}
-    	try {
-			String resString =  wsdlLocation.substring(0,
-					wsdlLocation.indexOf(SR_QUERY_PATH) + SR_QUERY_PATH_LEN)
-					+ URLEncoder.encode(callbackService.toString(), "UTF-8");
-	    	if (wsdlLocation.indexOf("mergeWithPolicies=true") >= 0) {
-				resString += callbackReceiverPolicyQuery(policyAlias);
-	    	}
-			return resString;
-    	} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException("Unexpected URL creation problem: ", e);
-    	}
-    }
-
     private static PolicyDistributionMode effectivePolicyDistributionMode() {
     	final InputStream propertyStream =
     			CallContext.class.getClassLoader().getResourceAsStream(
@@ -744,21 +720,5 @@ public class CallContext implements Serializable {
     		return PolicyDistributionMode.SERVICE;
     	}
     	return DEFAULT_POLICY_DISTRIBUTION_MODE;
-    }
-
-    private static String callbackReceiverPolicyQuery(String policyName) {
-    	switch (CallContext.EFFECTIVE_POLICY_DISTRIBUTION_MODE) {
-    	  case EXCHANGE:
-    		return "?mergeWithPolicies=true&participant=provider";
-    	  case SERVICE:
-    		if (policyName == null || policyName.length() == 0) {
-    			return "?mergeWithPolicies=true&participant=consumer";
-    		}
-    		return "?mergeWithPolicies=true&participant=consumer&consumerPolicyAlias="
-    				+ policyName;
-    	  default:
-    		throw new IllegalStateException(
-    				"Invalid configuration of policy distribution mode. ");
-    	}
     }
 }
