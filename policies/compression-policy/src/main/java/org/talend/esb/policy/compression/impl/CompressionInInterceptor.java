@@ -2,7 +2,9 @@ package org.talend.esb.policy.compression.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.regex.MatchResult;
 import java.util.zip.GZIPInputStream;
 
 import javax.xml.stream.XMLStreamException;
@@ -19,7 +21,6 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.talend.esb.policy.compression.impl.internal.CompressionConstants;
 import org.talend.esb.policy.compression.impl.internal.CompressionHelper;
-import org.talend.esb.policy.compression.impl.internal.SoapBodyStreamFilter;
 
 /**
  * Interceptor that uncompresses those incoming messages.
@@ -75,17 +76,17 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 			// Loading SOAP body content to separate stream
 			CachedOutputStream soapBodyContent = new CachedOutputStream();
 
-			SoapBodyStreamFilter soapBodyFilter = new SoapBodyStreamFilter(
-					CompressionConstants.COMPRESSION_WRAPPER_QNAME);
+			Scanner scanner = new Scanner(cache.getInputStream()); 
+			MatchResult bodyPosition =  null;
 			try {
-				CompressionHelper.loadSoapBodyContent(
-						cache.getInputStream(), soapBodyContent, soapBodyFilter);
+				bodyPosition = CompressionHelper.loadSoapBodyContent(soapBodyContent, scanner,
+						CompressionConstants.COMPRESSED_SOAP_BODY_PATTERN);
 			} catch (XMLStreamException e) {
 				throw new Fault("Can not read compressed SOAP Body", LOG, e,
 						e.getMessage());
 			}
 
-			if (!soapBodyFilter.isWrapperFound()) {
+			if (bodyPosition==null) {
 				// compressed SOAP body content is not found
 				// skipping decompression
 				InputStream istream = cache.getInputStream();
@@ -105,7 +106,7 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 				// replace original soap body by compressed one
 				CachedOutputStream decompressedSoapMessage = new CachedOutputStream();
 				CompressionHelper.replaceBodyInSOAP(cache.getBytes(), 
-						soapBodyFilter,
+						bodyPosition,
 						decompressedBody, decompressedSoapMessage, null, null);
 
 				message.setContent(InputStream.class,
