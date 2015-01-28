@@ -50,7 +50,7 @@ public class CallbackInfo {
 	}
 
 	private static final String SR_QUERY_PATH = "/services/registry/lookup/wsdl/";
-	private static final String POLICY_QUERY_HINT = "mergeWithPolicies=true";
+	// private static final String POLICY_QUERY_HINT = "mergeWithPolicies=true";
 	private static final int SR_QUERY_PATH_LEN = SR_QUERY_PATH.length();
 
 	private QName portTypeName = null;
@@ -60,7 +60,7 @@ public class CallbackInfo {
 	private final String wsdlLocation;
 	private String callbackWsdlLocation = null;
 	private final List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
-	private boolean wsdlPolicyQuery = false;
+	// private boolean wsdlPolicyQuery = false;
 	
 	public CallbackInfo(URL wsdlLocation) {
 		this(createServiceFactory(wsdlLocation).getDefinition(), wsdlLocation.toExternalForm());
@@ -79,7 +79,7 @@ public class CallbackInfo {
 			wsdlLocation = source.wsdlLocation;
 			if (service != null && service.equals(source.callbackServiceName)) {
 				callbackWsdlLocation = source.callbackWsdlLocation;
-				wsdlPolicyQuery = source.wsdlPolicyQuery;
+				// wsdlPolicyQuery = source.wsdlPolicyQuery;
 			}
 		} else {
 			wsdlLocation = null;
@@ -210,17 +210,20 @@ public class CallbackInfo {
 		if (callbackWsdlLocation == null) {
 			callbackWsdlLocation = callbackWsdlLocation(
 					wsdlLocation, callbackServiceName);
-			wsdlPolicyQuery = wsdlLocation.indexOf(POLICY_QUERY_HINT) >= 0;
+			// wsdlPolicyQuery = wsdlLocation.indexOf(POLICY_QUERY_HINT) >= 0;
 		}
 		if (callbackWsdlLocation.length() == 0) {
 			return null;
 		}
 		String resString = callbackWsdlLocation;
-    	if (wsdlPolicyQuery) {
-			resString += isSender
-					? callbackSenderPolicyQuery(policyAlias)
-							: callbackReceiverPolicyQuery(policyAlias);
-    	}
+    	// if (wsdlPolicyQuery) {
+		//	resString += isSender
+		//			? callbackSenderPolicyQuery(policyAlias)
+		//					: callbackReceiverPolicyQuery(policyAlias);
+    	// }
+		resString += isSender
+				? callbackSenderPolicyQuery(policyAlias)
+						: callbackReceiverPolicyQuery(policyAlias);
     	return resString;
 	}
 
