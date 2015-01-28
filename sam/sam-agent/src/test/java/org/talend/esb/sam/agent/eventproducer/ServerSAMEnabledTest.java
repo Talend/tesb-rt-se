@@ -84,8 +84,19 @@ public class ServerSAMEnabledTest extends AbstractEventProducerTest{
         }
 
         List<Event> eventsList = new ArrayList<Event>();
-        while(!queue.isEmpty()){
-            eventsList.add(queue.remove());
+        for (int i = 1; i <= 3; i++) {
+            while(!queue.isEmpty()){
+                eventsList.add(queue.remove());
+            }
+            if (i < 3 && eventsList.isEmpty()) {
+                try {
+                    Thread.sleep(500 * i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                break;
+            }
         }
 
         checkEventsNum(eventsList, 1);
