@@ -44,7 +44,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
         <property name="placeholderPrefix" value="$endpoint-config{"/>
         <property name="properties">
             <props>
-                <prop key="library.endpoint.http">http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort</prop>
+                <prop key="library.endpoint.http">http://localhost:18888/tesb-library-tutorial/services/LibraryHttpPort</prop>
             </props>
         </property>
     </bean>

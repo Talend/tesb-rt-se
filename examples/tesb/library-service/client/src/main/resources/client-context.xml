@@ -35,7 +35,7 @@
 
 	<jaxws:client id="libraryHttp" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryHttpPort"
-		address="http://localhost:8080/tesb-library-tutorial/services/LibraryHttpPort"
+		address="http://localhost:18888/tesb-library-tutorial/services/LibraryHttpPort"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
 		<jaxws:features>
 			<!-- for spring SAM definition (without using samenabling policy) -->
