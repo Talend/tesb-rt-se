@@ -30,6 +30,7 @@ public class TransformationFeature extends AbstractFeature {
 
         TransformationPolicyInInterceptor in = new TransformationPolicyInInterceptor(assertion);
         provider.getInInterceptors().add(in);
+        provider.getInInterceptors().add(in);
 
         TransformationPolicyOutInterceptor out = new TransformationPolicyOutInterceptor(assertion);
         provider.getOutInterceptors().add(out);

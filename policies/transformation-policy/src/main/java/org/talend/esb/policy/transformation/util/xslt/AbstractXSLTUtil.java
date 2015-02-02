@@ -1,4 +1,4 @@
-package org.talend.esb.policy.transformation.interceptor.xslt;
+package org.talend.esb.policy.transformation.util.xslt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Collection;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
@@ -26,28 +27,19 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.talend.esb.policy.transformation.TransformationAssertion;
 import org.talend.esb.policy.transformation.TransformationPolicyBuilder;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.w3c.dom.Document;
 
-public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
+public abstract class AbstractXSLTUtil {
 
 
     private String contextPropertyName;
     private final Templates xsltTemplate;
 
 
-    public AbstractHttpAwareXSLTInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
-        super(phase);
-        if (before != null) {
-            addBefore(before.getName());
-        }
-        if (after != null) {
-            addAfter(after.getName());
-        }
-
+    public AbstractXSLTUtil(String xsltPath) {
         //loading XSLT resource from specified path
         InputStream xsltStream = null;
         String absoluteSchemaPath = null;
@@ -223,7 +215,6 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
     }
 
 
-    @Override
     public void handleMessage(Message message) {
         try {
             performTransformation(message);
@@ -266,5 +257,14 @@ public abstract class AbstractHttpAwareXSLTInterceptor extends AbstractPhaseInte
 
     protected Templates getXSLTTemplate() {
         return xsltTemplate;
+    }
+
+    protected boolean isRequestor(Message message) {
+        return MessageUtils.isRequestor(message);
+    }
+
+    protected boolean isGET(Message message) {
+        String method = (String)message.get(Message.HTTP_REQUEST_METHOD);
+        return "GET".equals(method) && message.getContent(XMLStreamReader.class) == null;
     }
 }

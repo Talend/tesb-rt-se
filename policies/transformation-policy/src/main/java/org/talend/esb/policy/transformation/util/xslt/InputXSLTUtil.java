@@ -1,4 +1,4 @@
-package org.talend.esb.policy.transformation.interceptor.xslt;
+package org.talend.esb.policy.transformation.util.xslt;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,23 +12,20 @@ import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.feature.transform.XSLTInInterceptor;
 import org.apache.cxf.feature.transform.XSLTUtils;
 import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.interceptor.StaxInInterceptor;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.StaxUtils;
 
-public class HttpAwareXSLTInInterceptor extends
-        AbstractHttpAwareXSLTInterceptor {
+public class InputXSLTUtil extends AbstractXSLTUtil {
 
      private static final Logger LOG = LogUtils.getL7dLogger(XSLTInInterceptor.class);
 
-        public HttpAwareXSLTInInterceptor(String xsltPath) {
-            super(Phase.POST_STREAM, StaxInInterceptor.class, null, xsltPath);
+        public InputXSLTUtil(String xsltPath) {
+            super(xsltPath);
         }
 
-        public HttpAwareXSLTInInterceptor(String phase, Class<?> before, Class<?> after, String xsltPath) {
-            super(phase, before, after, xsltPath);
+        public InputXSLTUtil(String phase, Class<?> before, Class<?> after, String xsltPath) {
+            super(xsltPath);
         }
 
         @Override
@@ -103,5 +100,4 @@ public class HttpAwareXSLTInInterceptor extends
                 }
             }
         }
-
 }

@@ -3,25 +3,25 @@ package org.talend.esb.policy.transformation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.cxf.interceptor.StaxInInterceptor;
+import org.apache.cxf.binding.soap.interceptor.SoapOutInterceptor;
 import org.apache.cxf.interceptor.transform.TransformOutInterceptor;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.talend.esb.policy.transformation.interceptor.xslt.HttpAwareXSLTOutInterceptor;
+import org.talend.esb.policy.transformation.util.xslt.OutputXSLTUtil;
 
 public class TransformationPolicyOutInterceptor extends AbstractTransformationPolicyInterceptor {
 
-    private ConcurrentHashMap<String, HttpAwareXSLTOutInterceptor> interceptorCache
-        = new ConcurrentHashMap<String, HttpAwareXSLTOutInterceptor>();
+    private ConcurrentHashMap<String, OutputXSLTUtil> utilsCache
+        = new ConcurrentHashMap<String, OutputXSLTUtil>();
 
     public TransformationPolicyOutInterceptor() {
-        super(Phase.PRE_STREAM);
-        addBefore(StaxInInterceptor.class.getName());
+        super(Phase.WRITE);
+        addAfter(SoapOutInterceptor.class.getName());
     }
 
     public TransformationPolicyOutInterceptor(TransformationAssertion assertion) {
-        super(Phase.PRE_STREAM, assertion);
-        addBefore(StaxInInterceptor.class.getName());
+        super(Phase.WRITE, assertion);
+        addAfter(SoapOutInterceptor.class.getName());
     }
 
 
@@ -32,16 +32,16 @@ public class TransformationPolicyOutInterceptor extends AbstractTransformationPo
         }
         if (xsltPath != null) {
 
-            if (!shouldSchemaValidate(message, tas.getMessageType(), tas.getAppliesTo())) {
+            if (!shouldTransform(message, tas.getMessageType(), tas.getAppliesTo())) {
                 return;
             }
 
-            HttpAwareXSLTOutInterceptor xsltOut;
-            if (interceptorCache.containsKey(xsltPath)) {
-                xsltOut = interceptorCache.get(xsltPath);
+            OutputXSLTUtil xsltOut;
+            if (utilsCache.containsKey(xsltPath)) {
+                xsltOut = utilsCache.get(xsltPath);
             } else {
-                xsltOut = new HttpAwareXSLTOutInterceptor(xsltPath);
-                interceptorCache.put(xsltPath, xsltOut);
+                xsltOut = new OutputXSLTUtil(xsltPath);
+                utilsCache.put(xsltPath, xsltOut);
             }
             xsltOut.handleMessage(message);
         }
@@ -50,7 +50,7 @@ public class TransformationPolicyOutInterceptor extends AbstractTransformationPo
 
     protected void proceedSimple(Message message, TransformationAssertion tas) {
 
-        if (!shouldSchemaValidate(message, tas.getMessageType(), tas.getAppliesTo())) {
+        if (!shouldTransform(message, tas.getMessageType(), tas.getAppliesTo())) {
             return;
         }
 

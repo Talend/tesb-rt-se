@@ -67,7 +67,7 @@ public abstract class AbstractTransformationPolicyInterceptor extends AbstractPh
     protected abstract void proceedSimple(Message message, TransformationAssertion tas);
 
 
-    protected boolean shouldSchemaValidate(Message message, MessageType msgType, AppliesToType appliesToType) {
+    protected boolean shouldTransform(Message message, MessageType msgType, AppliesToType appliesToType) {
         if (MessageUtils.isRequestor(message)) {
             if (MessageUtils.isOutbound(message)) { // REQ_OUT
                 return ((appliesToType == AppliesToType.consumer || appliesToType == AppliesToType.always)
