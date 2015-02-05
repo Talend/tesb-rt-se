@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,7 @@ public class CallContext implements Serializable {
 	private transient CallbackInfo callbackInfo = null;
 	private static boolean logging = false;
 	private static boolean serviceActivityMonitoring = false;
+	private X509Certificate requestorSignatureCertificate;
 
 	private static ClassPathXmlApplicationContext samContext = null;
 
@@ -227,6 +229,15 @@ public class CallContext implements Serializable {
                     new String[] {"/META-INF/tesb/agent-context.xml"});
         }
     }
+
+	public X509Certificate getRequestorSignatureCertificate() {
+		return requestorSignatureCertificate;
+	}
+
+	public void setRequestorSignatureCertificate(
+			X509Certificate requestorSignatureCertificate) {
+		this.requestorSignatureCertificate = requestorSignatureCertificate;
+	}
 
 	public <T> T createCallbackProxy(final Class<T> proxyInterface) {
         final JaxWsProxyFactoryBean callback = new JaxWsProxyFactoryBean();

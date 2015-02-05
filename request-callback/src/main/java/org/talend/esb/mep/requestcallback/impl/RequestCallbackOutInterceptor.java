@@ -12,6 +12,7 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.message.Exchange;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.addressing.AddressingProperties;
@@ -22,6 +23,7 @@ import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.addressing.RelatesToType;
 import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
+import org.apache.cxf.ws.security.SecurityConstants;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
@@ -112,6 +114,9 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
         }
 
 		aggregateAddressing(message, null, callContext.getRequestId());
+		
+		// In case of encryption propagate stored requestor certificate to callback response
+		propagateRequestorCertificate(message, callContext);
 	}
 
 	private void aggregateAddressing(
@@ -158,4 +163,12 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 		return (Map<String, Object>) message.getContextualProperty(
 				RequestCallbackFeature.CALL_INFO_PROPERTY_NAME);
 	}
+	
+    private static void propagateRequestorCertificate(Message message, CallContext callContext) {
+    	if (callContext.getRequestorSignatureCertificate() != null) {
+// TODO: Uncomment this code by upgrade to CXF 2.7.15    		
+//    		message.put(SecurityConstants.ENCRYPT_CERT, callContext.getRequestorSignatureCertificate());
+    	}
+    }
+
 }

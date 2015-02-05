@@ -3,6 +3,8 @@ package org.talend.esb.mep.requestcallback.impl;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.X509Certificate;
+import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.Definition;
@@ -10,6 +12,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
+import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Exchange;
@@ -20,7 +23,12 @@ import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
+import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.wsdl.WSDLManager;
+import org.apache.ws.security.WSConstants;
+import org.apache.ws.security.WSSecurityEngineResult;
+import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.ws.security.handler.WSHandlerResult;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.CallbackInfo;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
@@ -64,7 +72,10 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 
 	private void doHandleRequestSoapMessage(
 			SoapMessage message, Header callHeader) throws Fault {
-		setupCallContext(message, callHeader, null);
+		CallContext ctx = setupCallContext(message, callHeader, null);
+		
+		// In case of using requestor certificate for response encryption, store certificate into callContext
+		storeRequestorCertificate(message, ctx);
 	}
 
 	private void doHandleCallbackSoapMessage(
@@ -73,7 +84,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		setupFlowId(message);
 	}
 
-	private void setupCallContext(
+	private CallContext setupCallContext(
 			SoapMessage message, Header callHeader, Header callbackHeader) throws Fault {
 
 		final AddressingProperties maps = getAddressingProperties(message);
@@ -103,6 +114,8 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
 		}
 
 		fillCallContext(ctx, message);
+		
+		return ctx;
 	}
 
 	private static String getCorrelationId(SoapMessage message) {
@@ -263,4 +276,48 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
             FlowIdHelper.setFlowId(message, flowId);
         }
     }
+    
+    private static void storeRequestorCertificate(Message message, CallContext callContext) {
+    	String encrUser = (String) message.getContextualProperty(SecurityConstants.ENCRYPT_USERNAME);
+    	if (WSHandlerConstants.USE_REQ_SIG_CERT.equals(encrUser)) {
+			X509Certificate reqSignCert = getReqSigCert(message);
+			callContext.setRequestorSignatureCertificate(reqSignCert);
+    	}
+    }
+    	
+    // TODO: Currently this method is private in CXF AbstractBindingBuilder.
+    // Refactor the method into public CXF utility and reuse it from CXF instead copy&paste  
+	private static X509Certificate getReqSigCert(Message message) {
+		List<WSHandlerResult> results = 
+                CastUtils.cast((List<?>)
+                    message.getExchange().getInMessage().get(WSHandlerConstants.RECV_RESULTS));
+
+        if (results == null) {
+        	return null;
+        }
+        
+        /*
+		 * Scan the results for a matching actor. Use results only if the
+		 * receiving Actor and the sending Actor match.
+		 */
+		for (WSHandlerResult rResult : results) {
+			List<WSSecurityEngineResult> wsSecEngineResults = rResult
+					.getResults();
+			/*
+			 * Scan the results for the first Signature action. Use the
+			 * certificate of this Signature to set the certificate for the
+			 * encryption action :-).
+			 */
+			for (WSSecurityEngineResult wser : wsSecEngineResults) {
+				Integer actInt = (Integer) wser
+						.get(WSSecurityEngineResult.TAG_ACTION);
+				if (actInt.intValue() == WSConstants.SIGN) {
+					return (X509Certificate) wser
+							.get(WSSecurityEngineResult.TAG_X509_CERTIFICATE);
+				}
+			}
+		}
+		return null;
+	}
+
 }
