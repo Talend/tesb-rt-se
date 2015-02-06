@@ -32,12 +32,13 @@
 	<!-- for spring SAM definition (without using samenabling policy) -->
     <!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
 
-
 	<jaxws:client id="libraryHttp" serviceName="library:LibraryProvider"
 		endpointName="library:LibraryHttpPort"
 		address="http://localhost:18888/tesb-library-tutorial/services/LibraryHttpPort"
 		serviceClass="org.talend.services.demos.library._1_0.Library">
 		<jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
 			<!-- for spring SAM definition (without using samenabling policy) -->
             <!-- <ref bean="eventFeature"/> -->
 		</jaxws:features>

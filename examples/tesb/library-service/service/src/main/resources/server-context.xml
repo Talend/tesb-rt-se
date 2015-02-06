@@ -36,6 +36,8 @@
         serviceName="library:LibraryProvider" endpointName="library:LibraryHttpPort"
         implementor="#libraryServerImpl">
         <jaxws:features>
+            <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
         <!-- for spring SAM definition (without using samenabling policy) -->
         <!-- <ref bean="eventFeature"/> -->
         </jaxws:features>
