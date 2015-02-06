@@ -2,6 +2,7 @@ package org.talend.esb.policy.compression.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import java.util.regex.MatchResult;
@@ -19,6 +20,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.policy.AssertionInfo;
+import org.apache.cxf.ws.policy.AssertionInfoMap;
 import org.talend.esb.policy.compression.impl.internal.CompressionConstants;
 import org.talend.esb.policy.compression.impl.internal.CompressionHelper;
 
@@ -42,11 +44,7 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 			decompressMessage(message);
 
 			// Confirm policy processing
-			AssertionInfo ai = CompressionPolicyBuilder.getAssertion(message);
-
-			if (ai != null) {
-				ai.setAsserted(true);
-			}
+			confirmPolicyProcessing(message);
 
 		} catch (RuntimeException e) {
 			throw e;
@@ -54,6 +52,22 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 			throw new Fault(e);
 		}
 	}
+	
+    protected void confirmPolicyProcessing(Message message) {
+        AssertionInfoMap aim = message.get(AssertionInfoMap.class);
+        if (aim != null) {
+            Collection<AssertionInfo> ais = aim
+                      .get(CompressionPolicyBuilder.COMPRESSION);
+
+            if (ais != null) {
+                for (AssertionInfo ai : ais) {
+                    if (ai.getAssertion() instanceof CompressionAssertion) {
+                        ai.setAsserted(true);
+                    }
+                }
+            }
+        }
+   }
 
 	public void decompressMessage(Message message) throws Fault {
 		if (isGET(message)) {
