@@ -107,7 +107,7 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 				CachedOutputStream decompressedSoapMessage = new CachedOutputStream();
 				CompressionHelper.replaceBodyInSOAP(cache.getBytes(), 
 						bodyPosition,
-						decompressedBody, decompressedSoapMessage, null, null);
+						decompressedBody, decompressedSoapMessage, null, null, true);
 
 				message.setContent(InputStream.class,
 						decompressedSoapMessage.getInputStream());

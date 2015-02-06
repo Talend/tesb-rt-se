@@ -13,6 +13,7 @@ import org.apache.cxf.helpers.IOUtils;
 
 public class CompressionHelper {
 	
+	public static int SOAP_BODY_WRAPPER_INDX = 0;
 	public static int SOAP_BODY_INDX = 2;
 	
 	public static MatchResult loadSoapBodyContent(OutputStream destination, Scanner scanner, String pattern)
@@ -41,11 +42,15 @@ public class CompressionHelper {
 
 	public static void replaceBodyInSOAP(byte[] originalSoap,
 			MatchResult bodyPosition, InputStream newBody,
-			OutputStream out, String wrapperStartTag, String wrapperEndTag)
+			OutputStream out, String wrapperStartTag, String wrapperEndTag, 
+			boolean removeWrapper)
 			throws IOException, XMLStreamException {
 		
-		int orgBodyStart =  bodyPosition.start(CompressionHelper.SOAP_BODY_INDX);
-		int orgBodyEnd =  bodyPosition.end(CompressionHelper.SOAP_BODY_INDX);
+		int patternGroupIndex = removeWrapper? CompressionHelper.SOAP_BODY_WRAPPER_INDX:
+			CompressionHelper.SOAP_BODY_INDX;
+		
+		int orgBodyStart =  bodyPosition.start(patternGroupIndex);
+		int orgBodyEnd =  bodyPosition.end(patternGroupIndex);
 
 		// Write Header
 		out.write(originalSoap, 0, orgBodyStart);

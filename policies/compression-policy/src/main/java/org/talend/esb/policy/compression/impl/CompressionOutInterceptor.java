@@ -173,7 +173,7 @@ public class CompressionOutInterceptor extends AbstractPhaseInterceptor<Message>
                         		new ByteArrayInputStream(encodedBodyBytes), 
                         		origOutStream,  
                         		CompressionConstants.getCompressionWrapperStartTag(getAlgoritm(), getEncoding()), 
-                        		CompressionConstants.getCompressionWrapperEndTag());
+                        		CompressionConstants.getCompressionWrapperEndTag(), false);
                     }else{
                     	//compression was not performed (threshold is not reached)
                     	//skip base64 encoding
