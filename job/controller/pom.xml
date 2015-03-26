@@ -5,13 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.talend.esb</groupId>
-        <artifactId>job</artifactId>
+        <groupId>org.talend.esb.job</groupId>
+        <artifactId>job-parent</artifactId>
         <version>6.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.talend.esb.job</groupId>
     <artifactId>org.talend.esb.job.controller</artifactId>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Job :: Controller</name>
@@ -119,11 +117,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                    </instructions>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

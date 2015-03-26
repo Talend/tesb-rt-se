@@ -4,13 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.talend.esb</groupId>
-        <artifactId>job</artifactId>
+        <groupId>org.talend.esb.job</groupId>
+        <artifactId>job-parent</artifactId>
         <version>6.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.talend.esb.job</groupId>
     <artifactId>org.talend.esb.job.api</artifactId>
     <name>Talend ESB :: Job :: API</name>
     <packaging>bundle</packaging>
@@ -29,13 +27,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Export-Package>
-                            routines.system.api;version="${project.version}"
-                        </Export-Package>
-                    </instructions>
-                </configuration>
             </plugin>
         </plugins>
     </build>
