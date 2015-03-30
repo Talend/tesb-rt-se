@@ -215,11 +215,6 @@
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
                 <exclude>lib/endorsed/xercesImpl-2.11.0.jar</exclude>
-                <exclude>system/org/apache/karaf/assemblies/features/standard/2.3.9/**</exclude>
-                <exclude>system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.3.9/*.jar</exclude>
-                <exclude>system/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.3.9/*.jar</exclude>
-                <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.config/2.3.9/*.jar</exclude>
-                <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.3.9/*.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -367,20 +362,11 @@
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
                 <exclude>org/apache/cxf/**/2.7.11/**</exclude>
-                <!-- workaround for saaj-impl bundle version (TESB-13955) -->
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.21_1/**</exclude>
-                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/1.3.23_1/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
-                <!-- Karaf 2.3.9 patch -->
-                <exclude>org/apache/karaf/assemblies/features/standard/2.3.9/**</exclude>
-                <exclude>org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.3.9/*.jar</exclude>
-                <exclude>org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.3.9/*.jar</exclude>
-                <exclude>org/apache/karaf/shell/org.apache.karaf.shell.config/2.3.9/*.jar</exclude>
-                <exclude>org/apache/karaf/shell/org.apache.karaf.shell.dev/2.3.9/*.jar</exclude>
             </excludes>
         </fileSet>
 
@@ -567,43 +553,6 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <!-- workaround for saaj-impl bundle version (TESB-13955) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/stax-ex-${stax-ex.version}.jar</source>
-            <outputDirectory>/container/system/org/jvnet/staxex/stax-ex/${stax-ex.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- Karaf 2.3.9 patch -->
-        <file>
-            <source>${basedir}/target/dependencies/standard-2.3.9-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/assemblies/features/standard/2.3.9/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.diagnostic.common-2.3.9-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.common/2.3.9/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.management.mbeans.config-2.3.9-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/management/mbeans/org.apache.karaf.management.mbeans.config/2.3.9/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.shell.config-2.3.9-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/shell/org.apache.karaf.shell.config/2.3.9/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.shell.dev-2.3.9-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/shell/org.apache.karaf.shell.dev/2.3.9/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
     </files>
 

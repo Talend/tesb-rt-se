@@ -12,10 +12,10 @@ import org.apache.cxf.sts.token.provider.TokenProvider;
 import org.apache.cxf.sts.token.provider.TokenProviderParameters;
 import org.apache.cxf.sts.token.provider.TokenProviderResponse;
 import org.apache.cxf.ws.security.sts.provider.STSException;
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.WSPasswordCallback;
-import org.apache.ws.security.WSSConfig;
-import org.apache.ws.security.message.token.UsernameToken;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.common.ext.WSPasswordCallback;
+import org.apache.wss4j.dom.WSSConfig;
+import org.apache.wss4j.dom.message.token.UsernameToken;
 import org.w3c.dom.Document;
 
 /**

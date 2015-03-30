@@ -70,7 +70,7 @@
 		<!-- Test dependencies -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <artifactId>cxf-rt-rs-client</artifactId>
             <version>${cxf.version}</version>
 			<scope>test</scope>
         </dependency>

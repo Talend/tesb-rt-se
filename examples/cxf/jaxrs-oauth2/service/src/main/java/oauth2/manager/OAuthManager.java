@@ -119,5 +119,11 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
         }
 		return list;
 	}
+	@Override
+	public void revokeToken(Client client, String token, String tokenTypeHint)
+			throws OAuthServiceException {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

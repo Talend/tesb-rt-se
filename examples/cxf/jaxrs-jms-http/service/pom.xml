@@ -13,6 +13,7 @@
         <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
         <artifactId>jaxrs-jms-http</artifactId>
         <version>1.0</version>
+        <relativePath>..</relativePath>
     </parent>
     <build>
         <plugins>
@@ -23,7 +24,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-osgi,jaxrs-jms-http-common</Require-Bundle>
+                        <Require-Bundle>org.apache.activemq.activemq-osgi,jaxrs-jms-http-common</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
@@ -55,18 +56,6 @@
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
             <version>1.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-osgi</artifactId>
-            <version>${activemq.version}</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>

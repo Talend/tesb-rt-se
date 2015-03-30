@@ -22,12 +22,12 @@ package org.talend.esb.sts.war.handler;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.WSSecurityException;
-import org.apache.ws.security.handler.RequestData;
-import org.apache.ws.security.message.token.UsernameToken;
-import org.apache.ws.security.validate.Credential;
-import org.apache.ws.security.validate.Validator;
+import org.apache.wss4j.common.ext.WSSecurityException;
+import org.apache.wss4j.dom.handler.RequestData;
+import org.apache.wss4j.dom.message.token.UsernameToken;
+import org.apache.wss4j.dom.validate.Credential;
+import org.apache.wss4j.dom.validate.Validator;
+import org.apache.wss4j.dom.WSConstants;
 
 public class PropertyFileCallbackHandler implements Validator{
 
@@ -38,7 +38,7 @@ public class PropertyFileCallbackHandler implements Validator{
     public Credential validate(Credential credential, RequestData data)
             throws WSSecurityException {
         if (credential == null || credential.getUsernametoken() == null) {
-            throw new WSSecurityException(WSSecurityException.FAILURE, "noCredential");
+            throw new WSSecurityException(WSSecurityException.ErrorCode.FAILURE, "noCredential");
         }
         
         String user = null;
@@ -55,19 +55,19 @@ public class PropertyFileCallbackHandler implements Validator{
         
         if (usernameToken.isHashed()) {
             log.warn("Authentication failed as hashed username token not supported");
-            throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+            throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
         }
         
         password = usernameToken.getPassword();
         
         if (!WSConstants.PASSWORD_TEXT.equals(pwType)) {
             log.warn("Password type " + pwType + " not supported");
-            throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);           
+            throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);           
         }
         
         if (!(user != null && user.length() > 0 && password != null && password.length() > 0)) {
             log.warn("User or password empty");
-            throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+            throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
         }
         
         try {
@@ -77,11 +77,11 @@ public class PropertyFileCallbackHandler implements Validator{
             String propertyPwd = (String)properties.get(user);
             if(propertyPwd == null || !propertyPwd.equalsIgnoreCase(password)) {
                 log.info("Authentication failed");
-                throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+                throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
             }
         } catch (Exception ex) {
             log.info("Authentication failed", ex);
-            throw new WSSecurityException(WSSecurityException.FAILED_AUTHENTICATION);
+            throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
         }
         
         return credential;

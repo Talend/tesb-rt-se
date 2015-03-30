@@ -3,10 +3,12 @@
  */
 package client;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
+import java.io.StringReader;
 import java.util.Properties;
 
 import javax.jms.Connection;
@@ -16,7 +18,9 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.ws.rs.core.Response;
@@ -25,7 +29,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.transport.jms.JMSUtils;
+import org.apache.cxf.transport.jms.util.JMSUtil;
 
 import common.books.Book;
 
@@ -192,7 +196,7 @@ public final class JMSHttpClient {
 	    throws Exception {
 	    MessageProducer producer = session.createProducer(destination);
 	    
-	    Message message = JMSUtils.createAndSetPayload(
+	    Message message = JMSUtil.createAndSetPayload(
 	        writeBook(new Book("JMS OneWay", 125L)), session, "text");
 	    message.setStringProperty("org.apache.cxf.request.method", "PUT");
 	                
@@ -204,7 +208,8 @@ public final class JMSHttpClient {
 	    throws Exception {
 	    MessageProducer producer = session.createProducer(destination);
 	    
-	    Message message = JMSUtils.createAndSetPayload(writeBook(book), session, "text");
+	    TextMessage message = session.createTextMessage();
+	    message.setText(writeBook(book));
 	    message.setJMSReplyTo(replyTo);
 	    
 	    message.setStringProperty("org.apache.cxf.request.method", "POST");
@@ -217,14 +222,26 @@ public final class JMSHttpClient {
     private void checkBookInResponse(Session session, Destination replyToDestination) throws Exception {
         MessageConsumer consumer = session.createConsumer(replyToDestination);
         Message jmsMessage = consumer.receive(5000);
-        org.apache.cxf.message.Message cxfMessage = new org.apache.cxf.message.MessageImpl();
-        JMSUtils.retrieveAndSetPayload(cxfMessage, jmsMessage, null);
-        Reader reader = cxfMessage.getContent(Reader.class);
-        if (reader == null) {
-        	reader = new InputStreamReader(cxfMessage.getContent(InputStream.class), "UTF-8");
+        if (jmsMessage == null) {
+            throw new RuntimeException("No message received");
         }
-        Book b = readBook(reader);
+        Book b = getBook(jmsMessage);
         System.out.println(b.getId() + ":" + b.getName());
+    }
+
+    private Book getBook(Message jmsMessage) throws JMSException, Exception {
+        if (jmsMessage instanceof ObjectMessage) {
+            Serializable obj = ((ObjectMessage)jmsMessage).getObject();
+            byte[] data = (byte[])obj;
+            ByteArrayInputStream bis = new ByteArrayInputStream(data);
+            InputStreamReader reader = new InputStreamReader(bis);
+            return readBook(reader);
+        } if (jmsMessage instanceof TextMessage) {
+            String text = ((TextMessage)jmsMessage).getText();
+            return readBook(new StringReader(text));
+        }else {
+            return null;
+        }
     }
     
     private Context getContext() throws Exception {

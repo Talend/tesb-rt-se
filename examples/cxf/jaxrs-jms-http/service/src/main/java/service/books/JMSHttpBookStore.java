@@ -13,9 +13,9 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.ws.rs.Consumes;
@@ -31,7 +31,6 @@ import javax.xml.bind.Marshaller;
 
 import org.apache.cxf.jaxrs.ext.Oneway;
 import org.apache.cxf.jaxrs.ext.ProtocolHeaders;
-import org.apache.cxf.transport.jms.JMSUtils;
 
 import common.books.Book;
 
@@ -69,11 +68,11 @@ public class JMSHttpBookStore {
     @Oneway
     public void oneWayRequest(Book book) throws Exception {
         
-    	printRequestTransport();
+    	//printRequestTransport();
     	
     	Connection connection = null;
     	try {
-    		Context ctx = getContext();
+    	    Context ctx = getContext();
             ConnectionFactory factory = (ConnectionFactory)ctx.lookup("ConnectionFactory");
             Destination replyToDestination = (Destination)ctx.lookup("dynamicQueues/test.jmstransport.response");
             connection = factory.createConnection();
@@ -115,9 +114,8 @@ public class JMSHttpBookStore {
         throws Exception {
         MessageProducer producer = session.createProducer(destination);
         
-        Message message = JMSUtils.createAndSetPayload(
-            writeBook(book), session, "text");
-                    
+        TextMessage message = session.createTextMessage();
+        message.setText(writeBook(book));
         producer.send(message);
         producer.close();
     }

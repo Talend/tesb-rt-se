@@ -31,6 +31,11 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-jaxws-description-first</groupId>
             <artifactId>jaxrs-jaxws-description-first-common</artifactId>
             <version>1.0</version>

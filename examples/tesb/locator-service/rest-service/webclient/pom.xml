@@ -28,9 +28,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-api</artifactId>
+			<artifactId>cxf-core</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>

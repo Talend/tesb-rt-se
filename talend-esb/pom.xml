@@ -35,13 +35,11 @@
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.7.2</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>1.6.15</wss4j.version>
+        <wss4j.version>2.1.0-SNAPSHOT</wss4j.version>
         <xalan.version>2.7.1_7</xalan.version>
         <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
-        <saaj-impl.version>1.3.23_2</saaj-impl.version>
-        <stax-ex.version>1.7.4</stax-ex.version>
 	</properties>
 
 	<dependencies>
@@ -91,18 +89,21 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>features-maven-plugin</artifactId>
-                <version>${karaf.version}</version>
+				<artifactId>karaf-maven-plugin</artifactId>
+                <version>4.0.0.M1</version>
+<!--                 <version>${karaf.version}</version> -->
 				<executions>
 					<execution>
 						<id>add-features-to-repo</id>
 						<phase>process-resources</phase>
 						<goals>
-							<goal>add-features-to-repo</goal>
+							<goal>features-add-to-repository</goal>
 						</goals>
 						<configuration>
 							<descriptors>
-<!--                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor> -->
+                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -422,63 +423,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
-                                <!-- workaround for saaj-impl bundle version (TESB-13955) -->
-                                <artifactItem>
-                                    <groupId>org.apache.servicemix.bundles</groupId>
-                                    <artifactId>org.apache.servicemix.bundles.saaj-impl</artifactId>
-                                    <version>${saaj-impl.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.servicemix.bundles.saaj-impl-${saaj-impl.version}.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jvnet.staxex</groupId>
-                                    <artifactId>stax-ex</artifactId>
-                                    <version>${stax-ex.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- Karaf 2.3.9 patch -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.assemblies.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>2.3.9</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.diagnostic</groupId>
-                                    <artifactId>org.apache.karaf.diagnostic.common</artifactId>
-                                    <version>2.3.9</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.management.mbeans</groupId>
-                                    <artifactId>org.apache.karaf.management.mbeans.config</artifactId>
-                                    <version>2.3.9</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.shell</groupId>
-                                    <artifactId>org.apache.karaf.shell.config</artifactId>
-                                    <version>2.3.9</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.shell</groupId>
-                                    <artifactId>org.apache.karaf.shell.dev</artifactId>
-                                    <version>2.3.9</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -722,35 +666,11 @@
                                         <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level='25'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/1.3.23_1&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>&lt;bundle start-level='25'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/${saaj-impl.version}&lt;/bundle&gt;
-        &lt;bundle start-level='25'&gt;mvn:org.jvnet.staxex/stax-ex/${stax-ex.version}&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.5"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
-                                </replace>
-                                <!-- Karaf 2.3.9 patch -->
-                                <replace file="target/dependencies/standard-2.3.9-features.xml">
-                                    <replacefilter>
-                                        <replacetoken>org.apache.karaf.diagnostic.common/2.3.9&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>org.apache.karaf.diagnostic.common/2.3.9/jar/TESB&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>org.apache.karaf.management.mbeans.config/2.3.9&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>org.apache.karaf.management.mbeans.config/2.3.9/jar/TESB&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>org.apache.karaf.shell.config/2.3.9&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>org.apache.karaf.shell.config/2.3.9/jar/TESB&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>org.apache.karaf.shell.dev/2.3.9&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>org.apache.karaf.shell.dev/2.3.9/jar/TESB&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
                                 </replace>
                             </target>
                         </configuration>

@@ -5,6 +5,7 @@ package client;
 
 import java.util.Properties;
 
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
 import oauth.common.Calendar;
@@ -14,7 +15,6 @@ import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.jaxrs.ext.form.Form;
 import org.apache.cxf.rs.security.oauth.data.OAuthAuthorizationData;
 
 /**
@@ -49,14 +49,14 @@ public final class RESTClient {
     public void registerClientApplication() throws Exception {
     	WebClient rs = WebClient.create("http://localhost:" + port + "/services/oauth/registerProvider");
     	WebClient.getConfig(rs).getHttpConduit().getClient().setReceiveTimeout(10000000L);
-    	rs.form(new Form().set("appName", "Restaurant Reservations")
-    			          .set("appURI", "http://localhost:" + port + "/services/reservations/reserve"));
+    	rs.form(new Form().param("appName", "Restaurant Reservations")
+    			          .param("appURI", "http://localhost:" + port + "/services/reservations/reserve"));
     }
     
     public void createUserAccount() throws Exception {
     	WebClient rs = WebClient.create("http://localhost:" + port + "/services/social/registerUser");
     	WebClient.getConfig(rs).getHttpConduit().getClient().setReceiveTimeout(10000000L);
-    	rs.form(new Form().set("user", "barry@social.com").set("password", "1234"));
+    	rs.form(new Form().param("user", "barry@social.com").param("password", "1234"));
     	
     	printUserCalendar();
     }
@@ -71,7 +71,7 @@ public final class RESTClient {
     private void updateAndGetUserCalendar(int hour, String event) {
     	WebClient client = createClient("http://localhost:" + port + "/services/social/accounts/calendar", 
     			"barry@social.com", "1234");
-    	Form form = new Form().set("hour", hour).set("event", event);
+    	Form form = new Form().param("hour", Integer.toString(hour)).param("event", event);
     	client.form(form);
     	printUserCalendar();
     }
@@ -79,9 +79,9 @@ public final class RESTClient {
     public void reserveTable() throws Exception {
     	WebClient rs = createClient("http://localhost:" + port + "/services/reservations/reserve/table", 
     			"barry@restaurant.com", "5678");
-    	Response r = rs.form(new Form().set("name", "Barry")
-    			                       .set("phone", "12345678")
-    			                       .set("hour", "7"));
+    	Response r = rs.form(new Form().param("name", "Barry")
+    			                       .param("phone", "12345678")
+    			                       .param("hour", "7"));
     	
     	int status = r.getStatus();
     	Object locationHeader = r.getMetadata().getFirst("Location");
@@ -135,10 +135,10 @@ public final class RESTClient {
     
     private Form getAuthorizationResult(OAuthAuthorizationData data) {
         Form form = new Form();
-        form.set("oauth_token", data.getOauthToken());
+        form.param("oauth_token", data.getOauthToken());
         // TODO: get the user confirmation, using a popup window or a blocking cmd input
-        form.set("oauthDecision", "allow");
-        form.set("session_authenticity_token", data.getAuthenticityToken());
+        form.param("oauthDecision", "allow");
+        form.param("session_authenticity_token", data.getAuthenticityToken());
         return form;
     }
     

@@ -40,7 +40,7 @@
         <property name="clientProperties" ref="org.talend.esb.job.client" />
         <property name="stsProperties" ref="org.talend.esb.job.client.sts" />
         <property name="cryptoProvider" >
-            <reference interface="org.apache.ws.security.components.crypto.Crypto"
+            <reference interface="org.apache.wss4j.common.crypto.Crypto"
                 availability="optional" timeout="100" filter="(type=client-crypto)" />
         </property>
     </bean>

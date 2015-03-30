@@ -27,7 +27,7 @@ import org.talend.esb.locator.service.LocatorServiceConstants.EsbSecurity;
 //import org.apache.cxf.jaxws22.spring.JAXWS22SpringEndpointImpl;
 import org.apache.cxf.jaxws.EndpointImpl;
 //jaxws.spring.JAXWSSpringEndpointImpl;
-import org.apache.ws.security.validate.JAASUsernameTokenValidator;
+import org.apache.wss4j.dom.validate.JAASUsernameTokenValidator;
 
 @NoJSR250Annotations(unlessNull = "bus")
 public class PolicyProviderImpl implements PolicyProvider {

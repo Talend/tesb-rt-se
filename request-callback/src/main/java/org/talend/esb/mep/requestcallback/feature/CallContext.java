@@ -39,8 +39,8 @@ import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.service.factory.AbstractServiceConfiguration;
-import org.apache.cxf.service.factory.DefaultServiceConfiguration;
+import org.apache.cxf.wsdl.service.factory.AbstractServiceConfiguration;
+import org.apache.cxf.wsdl.service.factory.DefaultServiceConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.mep.requestcallback.impl.wsdl.CallbackDefaultServiceConfiguration;
 

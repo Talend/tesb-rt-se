@@ -10,9 +10,9 @@ import org.apache.cxf.sts.request.ReceivedToken;
 import org.apache.cxf.sts.request.ReceivedToken.STATE;
 import org.apache.cxf.sts.token.provider.AttributeStatementProvider;
 import org.apache.cxf.sts.token.provider.TokenProviderParameters;
-import org.apache.ws.security.WSConstants;
-import org.apache.ws.security.saml.ext.bean.AttributeBean;
-import org.apache.ws.security.saml.ext.bean.AttributeStatementBean;
+import org.apache.wss4j.dom.WSConstants;
+import org.apache.wss4j.common.saml.bean.AttributeBean;
+import org.apache.wss4j.common.saml.bean.AttributeStatementBean;
 
 /**
  * A custom AttributeStatementProvider that adds a "role" attribute depending on the client principal.
@@ -45,7 +45,7 @@ public class RoleAttributeProvider implements AttributeStatementProvider {
             attributeBean.setSimpleName("role");
             attributeBean.setQualifiedName("http://schemas.xmlsoap.org/ws/2005/05/identity/claims");
         }
-        attributeBean.setAttributeValues(Collections.singletonList(role));
+        attributeBean.setAttributeValues(Collections.singletonList((Object)role));
 
         AttributeStatementBean attributeStatementBean = new AttributeStatementBean();
         attributeStatementBean.setSamlAttributes(Collections.singletonList(attributeBean));

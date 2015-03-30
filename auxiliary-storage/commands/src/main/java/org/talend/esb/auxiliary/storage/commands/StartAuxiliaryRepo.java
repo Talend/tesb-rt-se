@@ -42,7 +42,7 @@ public class StartAuxiliaryRepo extends FeaturesCommandSupport {
             if (auxiliaryStoreServerFeature == null) {
                 String errorMessage = "Failed to start auxiliary storage repository: feature " + FEATURE_NAME + " is missed";
                 System.out.println(errorMessage);
-                log.error(errorMessage);
+//                log.error(errorMessage);
                 return;
             }
         }

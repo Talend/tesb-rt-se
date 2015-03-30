@@ -9,11 +9,11 @@ import java.util.Map;
 
 import org.apache.cxf.interceptor.security.SimpleAuthorizingInterceptor;
 import org.apache.cxf.security.SecurityContext;
-import org.apache.ws.security.SAMLTokenPrincipal;
-import org.apache.ws.security.saml.ext.AssertionWrapper;
-import org.opensaml.saml2.core.Assertion;
-import org.opensaml.saml2.core.Attribute;
-import org.opensaml.saml2.core.AttributeStatement;
+import org.apache.wss4j.common.principal.SAMLTokenPrincipal;
+import org.apache.wss4j.common.saml.SamlAssertionWrapper;
+import org.opensaml.saml.saml2.core.Assertion;
+import org.opensaml.saml.saml2.core.Attribute;
+import org.opensaml.saml.saml2.core.AttributeStatement;
 import org.w3c.dom.Element;
 
 
@@ -24,7 +24,7 @@ public class SAML2AuthorizingInterceptor extends SimpleAuthorizingInterceptor {
         Principal principal = sc.getUserPrincipal();
         if (principal instanceof SAMLTokenPrincipal) {
             SAMLTokenPrincipal samlPrincipal = (SAMLTokenPrincipal)principal;
-            AssertionWrapper assertion = samlPrincipal.getToken();
+            SamlAssertionWrapper assertion = samlPrincipal.getToken();
             String role = getRoleFromAssertion(assertion);
             if (roles.contains(role)) {
                 return true;
@@ -38,7 +38,7 @@ public class SAML2AuthorizingInterceptor extends SimpleAuthorizingInterceptor {
         super.setMethodRolesMap(rolesMap);
     }
     
-    private String getRoleFromAssertion(AssertionWrapper assertion) {
+    private String getRoleFromAssertion(SamlAssertionWrapper assertion) {
         Assertion saml2Assertion = assertion.getSaml2();
         if (saml2Assertion == null) {
             return null;

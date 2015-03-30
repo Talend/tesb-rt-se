@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.karaf.shell.console.completer.ArgumentCompleter;
 import org.apache.karaf.shell.console.completer.StringsCompleter;
-import org.apache.karaf.shell.console.jline.CommandSessionHolder;
+import org.apache.karaf.shell.console.CommandSessionHolder;
 import org.talend.esb.locator.tracker.ServiceLocatorTracker;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 

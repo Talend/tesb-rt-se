@@ -22,7 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.util.Map;
 
 import org.apache.neethi.Policy;
-import org.apache.ws.security.components.crypto.Crypto;
+import org.apache.wss4j.common.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 
 public class SecurityArguments {

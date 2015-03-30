@@ -36,10 +36,10 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Destination;
 import org.apache.cxf.ws.policy.EndpointPolicy;
 import org.apache.cxf.ws.policy.PolicyEngine;
-import org.apache.cxf.ws.security.policy.model.HttpsToken;
-import org.apache.cxf.ws.security.policy.model.Token;
-import org.apache.cxf.ws.security.policy.model.TransportBinding;
-import org.apache.cxf.ws.security.policy.model.TransportToken;
+import org.apache.wss4j.policy.model.HttpsToken;
+import org.apache.wss4j.policy.model.AbstractToken;
+import org.apache.wss4j.policy.model.TransportBinding;
+import org.apache.wss4j.policy.model.TransportToken;
 import org.apache.neethi.Assertion;
 import org.apache.neethi.Policy;
 import org.apache.neethi.PolicyComponent;
@@ -246,13 +246,13 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         }
 
         Destination destination = server.getDestination();
-        EndpointPolicy ep = pe.getServerEndpointPolicy(ei, destination);
+        EndpointPolicy ep = pe.getServerEndpointPolicy(ei, destination, null);
         Collection<Assertion> assertions = ep.getChosenAlternative();
         for (Assertion a : assertions) {
             if (a instanceof TransportBinding) {
                 TransportBinding tb = (TransportBinding)a;
                 TransportToken tt = tb.getTransportToken();
-                Token t = tt.getTransportToken();
+                AbstractToken t = tt.getToken();
                 if (t instanceof HttpsToken) {
                     isSecured = true;
                     break;
@@ -266,7 +266,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
             if (a instanceof TransportBinding) {
                 TransportBinding tb = (TransportBinding)a;
                 TransportToken tt = tb.getTransportToken();
-                Token t = tt.getTransportToken();
+                AbstractToken t = tt.getToken();
                 if (t instanceof HttpsToken) {
                     isSecured = true;
                     break;

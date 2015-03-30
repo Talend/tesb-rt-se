@@ -14,13 +14,18 @@
     <description>Custom policy for transformation</description>
 
     <properties>
-      <cxf.xjc.version>2.6.1</cxf.xjc.version>
+      <cxf.xjc.version>3.0.3</cxf.xjc.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-policy</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-wsdl</artifactId>
             <version>${cxf.version}</version>
         </dependency>
         <dependency>

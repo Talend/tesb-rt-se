@@ -34,7 +34,7 @@ import org.apache.cxf.bus.extension.ExtensionRegistry;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
 import org.apache.neethi.Policy;
-import org.apache.ws.security.components.crypto.Crypto;
+import org.apache.wss4j.common.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;

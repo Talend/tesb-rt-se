@@ -23,6 +23,11 @@
             <artifactId>jaxrs-intro-common</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

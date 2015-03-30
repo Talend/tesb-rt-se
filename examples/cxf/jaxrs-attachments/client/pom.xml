@@ -20,6 +20,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
             <artifactId>jaxrs-attachments-common</artifactId>
             <version>1.0</version>

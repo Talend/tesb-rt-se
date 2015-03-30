@@ -27,6 +27,11 @@
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
         </dependency>
@@ -60,6 +65,11 @@
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}-ep</version>
         </dependency -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-wsdl</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>

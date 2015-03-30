@@ -32,7 +32,6 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.ContextUtils;
-import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
@@ -128,7 +127,7 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         AddressingProperties maps =
                 ContextUtils.retrieveMAPs(message, false, MessageUtils.isOutbound(message));
         if (maps == null) {
-            maps = new AddressingPropertiesImpl();
+            maps = new AddressingProperties();
         }
         if (maps.getMessageID() == null) {
             String messageID = ContextUtils.generateUUID();

@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.xml.namespace.QName;
 
-import org.apache.cxf.service.factory.DefaultServiceConfiguration;
+import org.apache.cxf.wsdl.service.factory.DefaultServiceConfiguration;
 import org.talend.esb.mep.requestcallback.feature.CallbackInfo;
 
 public class CallbackDefaultServiceConfiguration extends DefaultServiceConfiguration {

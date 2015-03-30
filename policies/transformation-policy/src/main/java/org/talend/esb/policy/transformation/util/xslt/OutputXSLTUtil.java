@@ -17,7 +17,6 @@ import org.apache.cxf.feature.transform.XSLTOutInterceptor;
 import org.apache.cxf.feature.transform.XSLTUtils;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.AbstractOutDatabindingInterceptor;
-import org.apache.cxf.interceptor.BareOutInterceptor;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.io.CachedWriter;
@@ -26,6 +25,7 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.staxutils.DelegatingXMLStreamWriter;
 import org.apache.cxf.staxutils.StaxUtils;
+import org.apache.cxf.wsdl.interceptors.BareOutInterceptor;
 
 public class OutputXSLTUtil extends AbstractXSLTUtil {
 

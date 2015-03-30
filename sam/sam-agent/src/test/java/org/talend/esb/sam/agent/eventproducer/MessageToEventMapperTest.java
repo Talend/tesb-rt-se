@@ -34,7 +34,7 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.Binding;
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
-import org.apache.cxf.common.WSDLConstants;
+import org.apache.cxf.wsdl.WSDLConstants;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.endpoint.EndpointImpl;

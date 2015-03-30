@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
+            <artifactId>cxf-core</artifactId>
             <version>${cxf.version}</version>
         </dependency>
     </dependencies>

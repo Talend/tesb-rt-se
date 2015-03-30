@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
@@ -27,7 +28,6 @@ import oauth2.common.ReservationConfirmation;
 import oauth2.common.ReservationFailure;
 
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.apache.cxf.jaxrs.ext.form.Form;
 import org.apache.cxf.rs.security.oauth2.common.ClientAccessToken;
 import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeGrant;
 
@@ -160,9 +160,9 @@ public class RestaurantReservationService {
 		
     	CalendarEntry entry = c.getEntry(request.getHour());
 		if (entry.getEventDescription() == null || entry.getEventDescription().trim().isEmpty()) { 
-			String address = restaurantService.post(new Form().set("name", request.getReserveName()) 
-					                     .set("phone", request.getContactPhone()) 
-					                     .set("hour", request.getHour()),
+			String address = restaurantService.post(new Form().param("name", request.getReserveName()) 
+					                     .param("phone", request.getContactPhone()) 
+					                     .param("hour", Integer.toString(request.getHour())),
 					                      String.class);
 			if (address == null) {
 			    return redirectToFailureHandler(NO_RESERVATION);
@@ -172,8 +172,8 @@ public class RestaurantReservationService {
 			String authHeader = manager.createAuthorizationHeader(accessToken);
             socialService.replaceHeader("Authorization", authHeader);
             
-            Response response = socialService.form(new Form().set("hour", request.getHour())
-			                             .set("description", "Table reserved at " + address));
+            Response response = socialService.form(new Form().param("hour", Integer.toString(request.getHour()))
+			                             .param("description", "Table reserved at " + address));
             boolean calendarUpdated = response.getStatus() == 200 || response.getStatus() == 204;
 			
 			return Response.ok(new ReservationConfirmation(address, request.getHour(), calendarUpdated))

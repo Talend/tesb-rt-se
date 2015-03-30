@@ -66,7 +66,11 @@ public class InputXSLTUtil extends AbstractXSLTUtil {
             } catch (IOException e) {
                 throw new Fault("GET_CACHED_INPUT_STREAM", LOG, e, e.getMessage());
             } finally {
-                StaxUtils.close(xReader);
+                try {
+                    StaxUtils.close(xReader);
+                } catch (XMLStreamException e) {
+                    LOG.warning("Cannot close stream after transformation: " + e.getMessage());
+                }
                 try {
                     cachedOS.close();
                 } catch (IOException e) {

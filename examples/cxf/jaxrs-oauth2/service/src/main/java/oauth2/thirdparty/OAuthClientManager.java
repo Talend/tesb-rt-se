@@ -9,7 +9,7 @@ import oauth2.common.OAuthConstants;
 
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.rs.security.oauth2.client.OAuthClientUtils;
-import org.apache.cxf.rs.security.oauth2.client.OAuthClientUtils.Consumer;
+import org.apache.cxf.rs.security.oauth2.client.Consumer;
 import org.apache.cxf.rs.security.oauth2.common.ClientAccessToken;
 import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeGrant;
 import org.apache.cxf.rs.security.oauth2.provider.OAuthServiceException;
@@ -46,7 +46,7 @@ public class OAuthClientManager {
 	}
 	
 	public String createAuthorizationHeader(ClientAccessToken token) {
-		return OAuthClientUtils.createAuthorizationHeader(consumer, token);
+		return OAuthClientUtils.createAuthorizationHeader(token);
 	}
 	
 	public void setAccessTokenService(WebClient ats) {

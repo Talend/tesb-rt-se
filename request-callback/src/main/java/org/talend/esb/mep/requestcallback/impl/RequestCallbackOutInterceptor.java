@@ -22,7 +22,7 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.addressing.RelatesToType;
-import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
+//import org.apache.cxf.ws.addressing.impl.AddressingProperties;
 // import org.apache.cxf.ws.security.SecurityConstants;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
@@ -156,7 +156,7 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 		AddressingProperties maps = (AddressingProperties) message.getContextualProperty(
 				JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES);
 		if (maps == null) {
-			maps = new AddressingPropertiesImpl();
+			maps = new AddressingProperties();
 			message.put(JAXWSAConstants.CLIENT_ADDRESSING_PROPERTIES, maps);
 		}
 		return maps;

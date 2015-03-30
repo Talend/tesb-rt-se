@@ -73,7 +73,7 @@
 			<plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>${cxf.version}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
