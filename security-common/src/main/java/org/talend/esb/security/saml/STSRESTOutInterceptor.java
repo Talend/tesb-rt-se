@@ -57,7 +57,7 @@ public class STSRESTOutInterceptor extends AbstractPhaseInterceptor<Message> {
         }
 
         if (null != securityToken && !securityToken.isExpired() && null != securityToken.getToken()) {
-            message.setContextualProperty(SAMLConstants.SAML_TOKEN_ELEMENT, securityToken.getToken());
+            message.put(SAMLConstants.SAML_TOKEN_ELEMENT, securityToken.getToken());
             return;
         }
 
@@ -94,7 +94,7 @@ public class STSRESTOutInterceptor extends AbstractPhaseInterceptor<Message> {
             securityToken = tok;
 
             if (null != securityToken && !securityToken.isExpired() && null != securityToken.getToken()) {
-                message.setContextualProperty(SAMLConstants.SAML_TOKEN_ELEMENT, securityToken.getToken());
+                message.put(SAMLConstants.SAML_TOKEN_ELEMENT, securityToken.getToken());
                 return;
             }
         } catch (RuntimeException ex) {

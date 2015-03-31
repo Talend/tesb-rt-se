@@ -143,7 +143,7 @@
         <module>locator-commands</module>
         <module>sam</module>
         <module>policies</module>
-<!--         <module>security-common</module> -->
+        <module>security-common</module>
         <module>job</module>
         <module>features</module>
         <module>sts</module>

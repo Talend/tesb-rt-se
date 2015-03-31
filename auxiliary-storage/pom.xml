@@ -87,7 +87,7 @@
 		<module>persistence-file</module>	
         <module>persistence-jcr</module>
 	
-<!-- 		<module>security-rest</module> -->
+        <module>security-rest</module>
 	
 		<module>client</module>
 		<module>client-common</module>

@@ -33,6 +33,6 @@ public class SchemaValidationPolicyInInterceptor extends SchemaValidationPolicyA
 
     @Override
     protected void validateBySettingProperty(Message message) {
-        message.setContextualProperty(Message.SCHEMA_VALIDATION_ENABLED, SchemaValidationType.IN);
+        message.put(Message.SCHEMA_VALIDATION_ENABLED, SchemaValidationType.IN);
     }
 }
