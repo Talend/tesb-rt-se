@@ -71,7 +71,7 @@ public class ConfigurationUpdater implements ManagedService {
 
 	private final Configuration configuration;
 	private String configIdentifier = null;
-	private ServiceRegistration registration = null;
+	private ServiceRegistration<?> registration = null;
 
 	static {
 		setupListener();
@@ -138,7 +138,7 @@ public class ConfigurationUpdater implements ManagedService {
 		return configuration.getAlternateConfigurationIdentifier();
 	}
 
-	private ServiceRegistration register(
+	private ServiceRegistration<?> register(
 			BundleContext bundleContext, String servicePid) {
 		final Hashtable<String, Object> properties =
 				new Hashtable<String, Object>();

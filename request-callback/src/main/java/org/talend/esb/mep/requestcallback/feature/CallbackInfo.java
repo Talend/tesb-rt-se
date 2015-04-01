@@ -234,7 +234,7 @@ public class CallbackInfo {
 
 	private static WSDLServiceFactory createServiceFactory(URL wsdlLocation) {
 		final Bus b = CXFBusFactory.getThreadDefaultBus();
-		return new WSDLServiceFactory(b, wsdlLocation);
+		return new WSDLServiceFactory(b, wsdlLocation.toExternalForm());
 	}
 
 	private static boolean representsName(QName fullName, String abbrevatedName, Definition definition) {

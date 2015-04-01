@@ -18,9 +18,7 @@ import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.transport.jms.JMSConfigFeature;
 import org.apache.cxf.transport.jms.JMSConfiguration;
-import org.apache.cxf.transport.jms.JNDIConfiguration;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jndi.JndiTemplate;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.Configuration;
 
@@ -228,31 +226,31 @@ public class JmsConfigurator implements InitializingBean {
 		}
 		final String cacheLevelName = getProperty("cacheLevelName");
 		if (cacheLevelName != null) {
-			jmsConfiguration.setCacheLevelName(cacheLevelName);
+			LOGGER.warning("Obsolete JMS configuration property: \"cacheLevelName\"");
 		}
 		final Integer cacheLevel = getIntegerProperty("cacheLevel");
 		if (cacheLevel != null) {
-			jmsConfiguration.setCacheLevel(cacheLevel);
+			LOGGER.warning("Obsolete JMS configuration property: \"cacheLevel\"");
 		}
 		final Long recoveryInterval = getLongProperty("recoveryInterval");
 		if (recoveryInterval != null) {
-			jmsConfiguration.setRecoveryInterval(recoveryInterval);
+			LOGGER.warning("Obsolete JMS configuration property: \"recoveryInterval\"");
 		}
 		final Boolean autoResolveDestination = getBooleanProperty("autoResolveDestination");
 		if (autoResolveDestination != null) {
-			jmsConfiguration.setAutoResolveDestination(autoResolveDestination);
+			LOGGER.warning("Obsolete JMS configuration property: \"autoResolveDestination\"");
 		}
 		final Boolean usingEndpointInfo = getBooleanProperty("usingEndpointInfo");
 		if (usingEndpointInfo != null) {
-			jmsConfiguration.setUsingEndpointInfo(usingEndpointInfo);
+			LOGGER.warning("Obsolete JMS configuration property: \"usingEndpointInfo\"");
 		}
 		final Boolean messageIdEnabled = getBooleanProperty("messageIdEnabled");
 		if (messageIdEnabled != null) {
-			jmsConfiguration.setMessageIdEnabled(messageIdEnabled);
+			LOGGER.warning("Obsolete JMS configuration property: \"messageIdEnabled\"");
 		}
 		final Boolean messageTimestampEnabled = getBooleanProperty("messageTimestampEnabled");
 		if (messageTimestampEnabled != null) {
-			jmsConfiguration.setMessageTimestampEnabled(messageTimestampEnabled);
+			LOGGER.warning("Obsolete JMS configuration property: \"messageTimestampEnabled\"");
 		}
 		final Boolean pubSubNoLocal = getBooleanProperty("pubSubNoLocal");
 		if (pubSubNoLocal != null) {
@@ -328,7 +326,7 @@ public class JmsConfigurator implements InitializingBean {
 		}
 		final Boolean useJms11 = getBooleanProperty("useJms11");
 		if (useJms11 != null) {
-			jmsConfiguration.setUseJms11(useJms11);
+			LOGGER.warning("Obsolete JMS configuration property: \"useJms11\"");
 		}
 		final Boolean sessionTransacted = getBooleanProperty("sessionTransacted");
 		if (sessionTransacted != null) {
@@ -340,7 +338,7 @@ public class JmsConfigurator implements InitializingBean {
 		}
 		final Integer maxConcurrentConsumers = getIntegerProperty("maxConcurrentConsumers");
 		if (maxConcurrentConsumers != null) {
-			jmsConfiguration.setMaxConcurrentConsumers(maxConcurrentConsumers);
+			LOGGER.warning("Obsolete JMS configuration property: \"maxConcurrentConsumers\"");
 		}
 		final Integer maxSuspendedContinuations = getIntegerProperty("maxSuspendedContinuations");
 		if (maxSuspendedContinuations != null) {
@@ -356,15 +354,15 @@ public class JmsConfigurator implements InitializingBean {
 		}
 		final Boolean reconnectOnException = getBooleanProperty("reconnectOnException");
 		if (reconnectOnException != null) {
-			jmsConfiguration.setReconnectOnException(reconnectOnException);
+			LOGGER.warning("Obsolete JMS configuration property: \"reconnectOnException\"");
 		}
 		final Boolean acceptMessagesWhileStopping = getBooleanProperty("acceptMessagesWhileStopping");
 		if (acceptMessagesWhileStopping != null) {
-			jmsConfiguration.setAcceptMessagesWhileStopping(acceptMessagesWhileStopping);
+			LOGGER.warning("Obsolete JMS configuration property: \"acceptMessagesWhileStopping\"");
 		}
 		final Boolean wrapInSingleConnectionFactory = getBooleanProperty("wrapInSingleConnectionFactory");
 		if (wrapInSingleConnectionFactory != null) {
-			jmsConfiguration.setWrapInSingleConnectionFactory(wrapInSingleConnectionFactory);
+			LOGGER.warning("Obsolete JMS configuration property: \"wrapInSingleConnectionFactory\"");
 		}
 		final String durableSubscriptionClientId = getProperty("durableSubscriptionClientId");
 		if (durableSubscriptionClientId != null) {
@@ -380,13 +378,25 @@ public class JmsConfigurator implements InitializingBean {
 		}
 		final Boolean enforceSpec = getBooleanProperty("enforceSpec");
 		if (enforceSpec != null) {
-			jmsConfiguration.setEnforceSpec(enforceSpec);
+			LOGGER.warning("Obsolete JMS configuration property: \"enforceSpec\"");
 		}
 		final Boolean jmsProviderTibcoEms = getBooleanProperty("jmsProviderTibcoEms");
 		if (jmsProviderTibcoEms != null) {
 			jmsConfiguration.setJmsProviderTibcoEms(jmsProviderTibcoEms);
 		}
 		configureJndi(jmsConfiguration);
+		final String connectionFactoryName = getProperty("connectionFactoryName");
+		if (connectionFactoryName != null) {
+			jmsConfiguration.setConnectionFactoryName(connectionFactoryName);
+		}
+		final String userName = getProperty("userName");
+		if (userName != null) {
+			jmsConfiguration.setUserName(userName);
+		}
+		final String password = getProperty("password");
+		if (password != null) {
+			jmsConfiguration.setPassword(password);
+		}
 		return jmsConfiguration;
 	}
 
@@ -427,32 +437,19 @@ public class JmsConfigurator implements InitializingBean {
 	private void configureJndi(JMSConfiguration jmsConfiguration) {
 		final Configuration cfg = configuration == null
 				? CallContext.resolveConfiguration(serviceName) : configuration;
-		JNDIConfiguration jndiCfg = jmsConfiguration.getJndiConfig();
 		final String jndiConnectionFactoryName = getJndiProperty("jndiConnectionFactoryName");
 		if (jndiConnectionFactoryName != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setJndiConnectionFactoryName(jndiConnectionFactoryName);
+			jmsConfiguration.setConnectionFactoryName(jndiConnectionFactoryName);
 		}
 		final String connectionUserName = getJndiProperty("connectionUserName");
 		if (connectionUserName != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setConnectionUserName(connectionUserName);
+			jmsConfiguration.setUserName(connectionUserName);
 		}
 		final String connectionPassword = getJndiProperty("connectionPassword");
 		if (connectionPassword != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setConnectionPassword(connectionPassword);
+			jmsConfiguration.setPassword(connectionPassword);
 		}
-		Properties env = jndiCfg == null ? null : jndiCfg.getEnvironment();
+		Properties env = jmsConfiguration.getJndiEnvironment();
 		final boolean hasNoEnv = env == null;
 		if (hasNoEnv) {
 			env = new Properties();
@@ -462,25 +459,7 @@ public class JmsConfigurator implements InitializingBean {
 			cfg.fillProperties(workPrefix + "jndiConfig.environment", env);
 		}
 		if (hasNoEnv && !env.isEmpty()) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setEnvironment(env);
-		}
-		if (!env.isEmpty()) {
-			JndiTemplate jt = jmsConfiguration.getJndiTemplate();
-			if (jt != null) {
-				Properties jtEnv = jt.getEnvironment();
-				if (jtEnv != null && jtEnv != env) {
-					jtEnv.putAll(env);
-					env.putAll(jtEnv);
-				}
-			} else  {
-				jt = new JndiTemplate();
-				jmsConfiguration.setJndiTemplate(jt);
-			}
-			jt.setEnvironment(env);
+			jmsConfiguration.setJndiEnvironment(env);
 		}
 	}
 
