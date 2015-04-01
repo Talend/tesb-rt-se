@@ -208,7 +208,6 @@
                 <exclude>**/demos/**</exclude>
                 <exclude>bin/**</exclude>
                 <exclude>etc/custom.properties</exclude>
-                <exclude>etc/startup.properties</exclude>
                 <exclude>etc/system.properties</exclude>
                 <exclude>etc/users.properties</exclude>
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
@@ -553,6 +552,12 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
+        </file>
+        <!-- Workaround for missing Equinox bundle -->
+        <file>
+            <source>${basedir}/target/dependencies/osgi-${equinox.version}.jar</source>
+            <outputDirectory>/container/system/org/eclipse/osgi/${equinox.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
         </file>
     </files>
 

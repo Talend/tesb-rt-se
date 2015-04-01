@@ -269,6 +269,7 @@
 
   <feature name="camel-talendjob" version="${project.version}" resolver="(obr)">
     <feature version="${camel.version}">camel-core</feature>
+    <feature version='${project.version}'>talend-job-api</feature>
     <bundle>mvn:org.talend.camel/camel-talendjob/${project.version}</bundle>
   </feature>
 

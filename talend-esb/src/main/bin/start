@@ -68,7 +68,7 @@ locateHome() {
     # In POSIX shells, CDPATH may cause cd to write to stdout
     (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
 
-    KARAF_HOME=`cd "$DIRNAME/.."; pwd`
+    KARAF_HOME=`cd $DIRNAME/..; pwd`
     if [ ! -d "$KARAF_HOME" ]; then
         die "KARAF_HOME is not valid: $KARAF_HOME"
     fi
@@ -94,6 +94,24 @@ locateData() {
     fi
 }
 
+locateEtc() {
+    if [ "x$KARAF_ETC" != "x" ]; then
+        if [ ! -d "$KARAF_ETC" ]; then
+            die "KARAF_ETC is not valid: $KARAF_ETC"
+        fi
+    else
+        KARAF_ETC=$KARAF_BASE/etc
+    fi
+}
+
+enableRedirect() {
+    if [ "x$KARAF_REDIRECT" != "x" ]; then
+        warn "Redirecting Karaf output to $KARAF_REDIRECT"
+    else
+        KARAF_REDIRECT="/dev/null"
+    fi
+}
+
 init() {
     # Determine if there is special OS handling we must perform
     detectOS
@@ -106,6 +124,12 @@ init() {
 
     # Locate the Karaf data directory
     locateData
+
+    # Locate the Karaf etc directory
+    locateEtc
+
+    # Enable or not the Karaf output redirection
+    enableRedirect
 }
 
 run() {
@@ -113,13 +137,14 @@ run() {
         KARAF_HOME=`cygpath --path --windows "$KARAF_HOME"`
         KARAF_BASE=`cygpath --path --windows "$KARAF_BASE"`
         KARAF_DATA=`cygpath --path --windows "$KARAF_DATA"`
+        KARAF_ETC=`cygpath --path --windows "$KARAF_ETC"`
         CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
     fi
     # Ensure the log directory exists -- we need to have a place to redirect stdout/stderr
     if [ ! -d "$KARAF_DATA/log" ]; then
         mkdir -p "$KARAF_DATA/log"
     fi
-    exec "$KARAF_HOME"/bin/trun server "$@" >> "$KARAF_DATA/karaf.out" 2>&1 &
+    exec "$KARAF_HOME"/bin/trun server "$@" >> "$KARAF_REDIRECT" 2>&1 &
 }
 
 main() {

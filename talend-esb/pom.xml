@@ -40,6 +40,7 @@
         <xbean.version>3.14</xbean.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
+        <equinox.version>3.10.1.v20140909-1633</equinox.version>
 	</properties>
 
 	<dependencies>
@@ -423,6 +424,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
+                                <!-- Workaround for missing Equinox bundle -->
+                                <artifactItem>
+                                    <groupId>org.eclipse</groupId>
+                                    <artifactId>osgi</artifactId>
+                                    <version>${equinox.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>osgi-${equinox.version}.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -641,7 +651,7 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/2.7.11/xml/features"
+                                        token="apache-cxf/3.0.4/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.5"
@@ -669,7 +679,7 @@
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
-                                        token="org.apache.zookeeper/zookeeper/3.4.5"
+                                        token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
                             </target>
