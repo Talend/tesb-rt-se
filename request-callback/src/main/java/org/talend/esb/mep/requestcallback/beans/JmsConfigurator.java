@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.naming.Context;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Endpoint;
@@ -18,9 +19,7 @@ import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.transport.jms.JMSConfigFeature;
 import org.apache.cxf.transport.jms.JMSConfiguration;
-import org.apache.cxf.transport.jms.JNDIConfiguration;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jndi.JndiTemplate;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.Configuration;
 
@@ -226,34 +225,6 @@ public class JmsConfigurator implements InitializingBean {
 		if (configuration == null) {
 			configuration = CallContext.resolveConfiguration(serviceName);
 		}
-		final String cacheLevelName = getProperty("cacheLevelName");
-		if (cacheLevelName != null) {
-			jmsConfiguration.setCacheLevelName(cacheLevelName);
-		}
-		final Integer cacheLevel = getIntegerProperty("cacheLevel");
-		if (cacheLevel != null) {
-			jmsConfiguration.setCacheLevel(cacheLevel);
-		}
-		final Long recoveryInterval = getLongProperty("recoveryInterval");
-		if (recoveryInterval != null) {
-			jmsConfiguration.setRecoveryInterval(recoveryInterval);
-		}
-		final Boolean autoResolveDestination = getBooleanProperty("autoResolveDestination");
-		if (autoResolveDestination != null) {
-			jmsConfiguration.setAutoResolveDestination(autoResolveDestination);
-		}
-		final Boolean usingEndpointInfo = getBooleanProperty("usingEndpointInfo");
-		if (usingEndpointInfo != null) {
-			jmsConfiguration.setUsingEndpointInfo(usingEndpointInfo);
-		}
-		final Boolean messageIdEnabled = getBooleanProperty("messageIdEnabled");
-		if (messageIdEnabled != null) {
-			jmsConfiguration.setMessageIdEnabled(messageIdEnabled);
-		}
-		final Boolean messageTimestampEnabled = getBooleanProperty("messageTimestampEnabled");
-		if (messageTimestampEnabled != null) {
-			jmsConfiguration.setMessageTimestampEnabled(messageTimestampEnabled);
-		}
 		final Boolean pubSubNoLocal = getBooleanProperty("pubSubNoLocal");
 		if (pubSubNoLocal != null) {
 			jmsConfiguration.setPubSubNoLocal(pubSubNoLocal);
@@ -326,10 +297,6 @@ public class JmsConfigurator implements InitializingBean {
 		if (replyPubSubDomain != null) {
 			jmsConfiguration.setReplyPubSubDomain(replyPubSubDomain);
 		}
-		final Boolean useJms11 = getBooleanProperty("useJms11");
-		if (useJms11 != null) {
-			jmsConfiguration.setUseJms11(useJms11);
-		}
 		final Boolean sessionTransacted = getBooleanProperty("sessionTransacted");
 		if (sessionTransacted != null) {
 			jmsConfiguration.setSessionTransacted(sessionTransacted);
@@ -337,10 +304,6 @@ public class JmsConfigurator implements InitializingBean {
 		final Integer concurrentConsumers = getIntegerProperty("concurrentConsumers");
 		if (concurrentConsumers != null) {
 			jmsConfiguration.setConcurrentConsumers(concurrentConsumers);
-		}
-		final Integer maxConcurrentConsumers = getIntegerProperty("maxConcurrentConsumers");
-		if (maxConcurrentConsumers != null) {
-			jmsConfiguration.setMaxConcurrentConsumers(maxConcurrentConsumers);
 		}
 		final Integer maxSuspendedContinuations = getIntegerProperty("maxSuspendedContinuations");
 		if (maxSuspendedContinuations != null) {
@@ -354,18 +317,6 @@ public class JmsConfigurator implements InitializingBean {
 		if (useConduitIdSelector != null) {
 			jmsConfiguration.setUseConduitIdSelector(useConduitIdSelector);
 		}
-		final Boolean reconnectOnException = getBooleanProperty("reconnectOnException");
-		if (reconnectOnException != null) {
-			jmsConfiguration.setReconnectOnException(reconnectOnException);
-		}
-		final Boolean acceptMessagesWhileStopping = getBooleanProperty("acceptMessagesWhileStopping");
-		if (acceptMessagesWhileStopping != null) {
-			jmsConfiguration.setAcceptMessagesWhileStopping(acceptMessagesWhileStopping);
-		}
-		final Boolean wrapInSingleConnectionFactory = getBooleanProperty("wrapInSingleConnectionFactory");
-		if (wrapInSingleConnectionFactory != null) {
-			jmsConfiguration.setWrapInSingleConnectionFactory(wrapInSingleConnectionFactory);
-		}
 		final String durableSubscriptionClientId = getProperty("durableSubscriptionClientId");
 		if (durableSubscriptionClientId != null) {
 			jmsConfiguration.setDurableSubscriptionClientId(durableSubscriptionClientId);
@@ -377,10 +328,6 @@ public class JmsConfigurator implements InitializingBean {
 		final String requestURI = getProperty("requestURI");
 		if (requestURI != null) {
 			jmsConfiguration.setRequestURI(requestURI);
-		}
-		final Boolean enforceSpec = getBooleanProperty("enforceSpec");
-		if (enforceSpec != null) {
-			jmsConfiguration.setEnforceSpec(enforceSpec);
 		}
 		final Boolean jmsProviderTibcoEms = getBooleanProperty("jmsProviderTibcoEms");
 		if (jmsProviderTibcoEms != null) {
@@ -425,63 +372,30 @@ public class JmsConfigurator implements InitializingBean {
 	}
 
 	private void configureJndi(JMSConfiguration jmsConfiguration) {
-		final Configuration cfg = configuration == null
-				? CallContext.resolveConfiguration(serviceName) : configuration;
-		JNDIConfiguration jndiCfg = jmsConfiguration.getJndiConfig();
+		final Configuration cfg = configuration == null ? CallContext.resolveConfiguration(serviceName) : configuration;
+		
+		Properties env = jmsConfiguration.getJndiEnvironment();
+		if (env == null) {
+		    env = new Properties();
+		}
+				
 		final String jndiConnectionFactoryName = getJndiProperty("jndiConnectionFactoryName");
 		if (jndiConnectionFactoryName != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setJndiConnectionFactoryName(jndiConnectionFactoryName);
+		    env.put(Context.INITIAL_CONTEXT_FACTORY, jndiConnectionFactoryName);
 		}
 		final String connectionUserName = getJndiProperty("connectionUserName");
 		if (connectionUserName != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setConnectionUserName(connectionUserName);
+		    env.put(Context.SECURITY_PRINCIPAL, connectionUserName);
 		}
 		final String connectionPassword = getJndiProperty("connectionPassword");
 		if (connectionPassword != null) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setConnectionPassword(connectionPassword);
-		}
-		Properties env = jndiCfg == null ? null : jndiCfg.getEnvironment();
-		final boolean hasNoEnv = env == null;
-		if (hasNoEnv) {
-			env = new Properties();
+		    env.put(Context.SECURITY_CREDENTIALS, connectionPassword);
 		}
 		cfg.fillProperties("jndiConfig.environment", env);
 		if (workPrefix != null) {
 			cfg.fillProperties(workPrefix + "jndiConfig.environment", env);
 		}
-		if (hasNoEnv && !env.isEmpty()) {
-			if (jndiCfg == null) {
-				jndiCfg = new JNDIConfiguration();
-				jmsConfiguration.setJndiConfig(jndiCfg);
-			}
-			jndiCfg.setEnvironment(env);
-		}
-		if (!env.isEmpty()) {
-			JndiTemplate jt = jmsConfiguration.getJndiTemplate();
-			if (jt != null) {
-				Properties jtEnv = jt.getEnvironment();
-				if (jtEnv != null && jtEnv != env) {
-					jtEnv.putAll(env);
-					env.putAll(jtEnv);
-				}
-			} else  {
-				jt = new JndiTemplate();
-				jmsConfiguration.setJndiTemplate(jt);
-			}
-			jt.setEnvironment(env);
-		}
+		jmsConfiguration.setJndiEnvironment(env);
 	}
 
 	private String getProperty(String key) {

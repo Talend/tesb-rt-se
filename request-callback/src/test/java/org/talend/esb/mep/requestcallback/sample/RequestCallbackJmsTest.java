@@ -138,7 +138,7 @@ public class RequestCallbackJmsTest {
 		}
 
     	final Bus bus = BusFactory.getDefaultBus();
-    	final JMSTransportFactory jmsTransport = new JMSTransportFactory(bus);
+    	final JMSTransportFactory jmsTransport = new JMSTransportFactory();
     	final DestinationFactoryManager dfm =
     			bus.getExtension(DestinationFactoryManager.class);
     	dfm.registerDestinationFactory(

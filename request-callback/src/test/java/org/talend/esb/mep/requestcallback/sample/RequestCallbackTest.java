@@ -141,8 +141,8 @@ public class RequestCallbackTest {
     	extension.registerConduitInitiator(
     			"http://cxf.apache.org/bindings/xformat", localTransport);
 
-        final WSDLServiceFactory wsdlSvcFactory = new WSDLServiceFactory
-        		(CXFBusFactory.getThreadDefaultBus(), wsdlLocation);
+    	        final WSDLServiceFactory wsdlSvcFactory = new WSDLServiceFactory
+        		(CXFBusFactory.getThreadDefaultBus(), wsdlLocation, SERVICE_NAME);
 		final org.apache.cxf.service.Service cxfService = wsdlSvcFactory.create();
 		final ServiceInfo si = findServiceByName(cxfService, SERVICE_NAME);
 		if (si == null) {

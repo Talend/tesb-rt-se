@@ -46,29 +46,35 @@ public class ThirdPartyAccessService {
 	@POST
 	public void updateCalendar(@FormParam("hour") int hour, 
 	                           @FormParam("description") String description) {
-	    // This permission check can be done in a custom filter; it can be simpler to do
-	    // in the actual service code if the context data (such as an hour in this case)
-	    // are not available in the request URI but in the message payload
-	    OAuthContext oauth = getOAuthContext();
-	    List<OAuthPermission> perms = oauth.getPermissions();
-	    boolean checkPassed = false;
-	    for (OAuthPermission perm : perms) {
-	        if (perm.getPermission().startsWith(OAuthConstants.UPDATE_CALENDAR_SCOPE)) {
-	            int authorizedHour = 
-	                Integer.valueOf(perm.getPermission().substring(OAuthConstants.UPDATE_CALENDAR_SCOPE.length()));
-	            if (authorizedHour == 24 || authorizedHour == hour) {
-	                checkPassed = true;
-	            }
-	        }
-	    }
-	    if (!checkPassed) {
-	        throw new WebApplicationException(403);
-	    }
-	    // end of the check
-	    
+	    assertClientMayUpdate(hour);
 	    Calendar calendar = getUserCalendar();
 	    calendar.getEntry(hour).setEventDescription(description);
 	}
+
+    /**
+     * This permission check can be done in a custom filter; it can be simpler to do in the actual service
+     * code if the context data (such as an hour in this case) are not available in the request URI but in the
+     * message payload
+     * 
+     * @param hour
+     */
+    private void assertClientMayUpdate(int hour) {
+        OAuthContext oauth = getOAuthContext();
+        List<OAuthPermission> perms = oauth.getPermissions();
+        boolean checkPassed = false;
+        for (OAuthPermission perm : perms) {
+            if (perm.getPermission().startsWith(OAuthConstants.UPDATE_CALENDAR_SCOPE)) {
+                int authorizedHour = Integer.valueOf(perm.getPermission()
+                    .substring(OAuthConstants.UPDATE_CALENDAR_SCOPE.length()));
+                if (authorizedHour == 24 || authorizedHour == hour) {
+                    checkPassed = true;
+                }
+            }
+        }
+        if (!checkPassed) {
+            throw new WebApplicationException(403);
+        }
+    }
 	
 	private OAuthContext getOAuthContext() {
 	    OAuthContext oauth = mc.getContent(OAuthContext.class);
