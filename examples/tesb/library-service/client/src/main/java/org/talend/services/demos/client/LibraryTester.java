@@ -15,6 +15,7 @@ import org.talend.services.demos.library._1_0.Library;
 import org.talend.services.demos.library._1_0.SeekBookError;
 import org.talend.types.demos.library.common._1.ListOfBooks;
 import org.talend.types.demos.library.common._1.SearchFor;
+import org.talend.types.demos.library.common._1.SearchInBasementFor;
 
 /**
  * The Class LibraryTester.
@@ -158,7 +159,7 @@ public class LibraryTester implements InitializingBean {
         System.out.println("*** Request-Callback operation ********************************");
         System.out.println("***************************************************************");
         System.out.println("\nSending request(callback) for authors named Stripycat");
-        SearchFor request = new SearchFor();
+        SearchInBasementFor request = new SearchInBasementFor();
         request.getAuthorLastName().add("Stripycat");
         Map<String, Object> rctx = ((BindingProvider) libraryJms).getRequestContext();
         Map<String, Object> correlationInfo = new HashMap<String, Object>();

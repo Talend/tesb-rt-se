@@ -63,7 +63,7 @@ public class CallbackInfo {
 	// private boolean wsdlPolicyQuery = false;
 	
 	public CallbackInfo(URL wsdlLocation) {
-		this(createServiceFactory(wsdlLocation).getDefinition(), wsdlLocation.toExternalForm());
+		this(wsdlLocation.toExternalForm());
 	}
 
 	public CallbackInfo(String wsdlLocation) {
@@ -230,11 +230,6 @@ public class CallbackInfo {
 	private static WSDLServiceFactory createServiceFactory(String wsdlLocation) {
 		final Bus b = CXFBusFactory.getThreadDefaultBus();
 		return new WSDLServiceFactory(b, wsdlLocation);
-	}
-
-	private static WSDLServiceFactory createServiceFactory(URL wsdlLocation) {
-		final Bus b = CXFBusFactory.getThreadDefaultBus();
-		return new WSDLServiceFactory(b, wsdlLocation.toExternalForm());
 	}
 
 	private static boolean representsName(QName fullName, String abbrevatedName, Definition definition) {

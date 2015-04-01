@@ -522,7 +522,7 @@ public class CallContext implements Serializable {
 	}
 
 	public static CallbackInfo createCallbackInfo(final URL wsdlLocationURL) {
-		return new CallbackInfo(wsdlLocationURL);
+		return new CallbackInfo(wsdlLocationURL.toExternalForm());
 	}
 
 	public static void enforceOperation(

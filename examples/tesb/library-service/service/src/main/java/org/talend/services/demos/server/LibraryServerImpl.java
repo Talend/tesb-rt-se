@@ -21,6 +21,7 @@ import org.talend.types.demos.library.common._1.BookType;
 import org.talend.types.demos.library.common._1.ListOfBooks;
 import org.talend.types.demos.library.common._1.PersonType;
 import org.talend.types.demos.library.common._1.SearchFor;
+import org.talend.types.demos.library.common._1.SearchInBasementFor;
 
 public class LibraryServerImpl implements Library, InitializingBean {
 
@@ -112,7 +113,7 @@ public class LibraryServerImpl implements Library, InitializingBean {
     }
 
     @Override
-    public void seekBookInBasement(SearchFor body) {
+    public void seekBookInBasement(SearchInBasementFor body) {
         System.out.println("****************************************************************************");
         System.out.println("*** seekBookInBasement request (Request-Callback operation) was received ***");
         System.out.println("****************************************************************************");
@@ -267,7 +268,7 @@ public class LibraryServerImpl implements Library, InitializingBean {
         Utils.showBooks(response);
     }
 
-    private void showSeekBookInBasementRequest(final SearchFor request){
+    private void showSeekBookInBasementRequest(final SearchInBasementFor request){
         if(request == null){
             System.out.println("Request body is empty");
             return;
