@@ -14,7 +14,6 @@ import org.talend.services.demos.library._1_0.SeekBookError;
 import org.talend.types.demos.library.common._1.BookType;
 import org.talend.types.demos.library.common._1.ListOfBooks;
 import org.talend.types.demos.library.common._1.SearchFor;
-import org.talend.types.demos.library.common._1.SearchInBasementFor;
 
 @WebServiceProvider
 public class LibraryNotificationReceiverImpl implements Library {
@@ -34,7 +33,7 @@ public class LibraryNotificationReceiverImpl implements Library {
 	}
 
 	@Override
-	public void seekBookInBasement(SearchInBasementFor body) {
+	public void seekBookInBasement(SearchFor body) {
 		throw new UnsupportedOperationException();
 	}
 
