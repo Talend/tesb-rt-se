@@ -227,9 +227,9 @@ public class ConfigurationImpl extends AbstractConfiguration {
 	public synchronized void refreshStaticConfiguration() {
 		staticMap = null;
 		mergedMap = null;
-		final String cfgFileName = configurationId + ".cfg";
+		final String cfgFileName = configurationId + ".properties";
 		final String altFileName = alternateConfigId == null
-				? null : alternateConfigId + ".cfg";
+				? null : alternateConfigId + ".properties";
 		Properties staticProps = null;
 		Properties loadedProps = null;
 		InputStream is = getClass().getClassLoader().getResourceAsStream(cfgFileName);

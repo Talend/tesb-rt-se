@@ -35,8 +35,8 @@ public class LibraryTester implements InitializingBean {
         System.out.println("Library Client initialized.");
         Thread.sleep(5000);
         testRequestResponsePositive();
-        testOnewayPositive();
-        testRequestCallbackPositive();
+//        testOnewayPositive();
+//        testRequestCallbackPositive();
     }
 
 
