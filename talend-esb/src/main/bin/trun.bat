@@ -204,6 +204,7 @@ if not exist "%JAVA_HOME%\bin\server\jvm.dll" (
         echo For more details see http://java.sun.com/products/hotspot/whitepaper.html#client
         set JAVA_MODE=-client
     )
+)
 
 rem Sourcing environment settings for karaf similar to tomcats setenv
 SET KARAF_SCRIPT="karaf.bat"
