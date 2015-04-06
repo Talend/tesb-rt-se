@@ -86,6 +86,7 @@
                             {local-packages},
                             META-INF.tesb
                         </Export-Package>
+                        <Export-Service>org.talend.esb.sam.agent.feature.EventFeature</Export-Service>
 						<Bundle-Activator>org.talend.esb.sam.agent.activator.AgentActivator</Bundle-Activator>
                         <Import-Package>
                             *
