@@ -42,7 +42,7 @@
         <derby.version>10.8.1.2</derby.version>
         <servlet.api.version>2.5</servlet.api.version>
         <aries.version>1.0.0</aries.version>
-        <jetty.version>7.6.8.v20121106</jetty.version>
+        <jetty.version>9.2.7.v20150116</jetty.version>
 
         <!-- Test dependencies -->
         <junit.version>4.11</junit.version>

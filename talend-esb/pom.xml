@@ -33,11 +33,10 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>1.7.2</jclouds.version>
+        <jclouds.version>1.8.1</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <wss4j.version>2.1.0-SNAPSHOT</wss4j.version>
-        <xalan.version>2.7.1_7</xalan.version>
-        <xbean.version>3.14</xbean.version>
+        <xalan.version>2.7.2_1</xalan.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
@@ -658,7 +657,7 @@
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
@@ -732,6 +731,18 @@
             <id>ops4j.sonatype.snapshots</id>
             <name>OPS4J snapshot repository</name>
             <url>https://oss.sonatype.org/content/repositories/ops4j-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <!-- OSSRH snapshots -->
+        <repository>
+            <id>ossrh.sonatype.snapshots.deploy</id>
+            <name>OSSRH snapshot repository</name>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
