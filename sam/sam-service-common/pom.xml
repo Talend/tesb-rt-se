@@ -54,9 +54,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>
-                            org.apache.commons.dbcp
-                        </Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>
