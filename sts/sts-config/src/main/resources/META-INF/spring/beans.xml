@@ -111,7 +111,7 @@
         <property name="issuer" value="TalendESB_STSIssuer"/>
     </bean>
 
-    <bean class="org.apache.ws.security.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
+    <bean class="org.apache.wss4j.dom.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
         <property name="contextName" value="$sts{jaasContext}" /> 
     </bean>
 
