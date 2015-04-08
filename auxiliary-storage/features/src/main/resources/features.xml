@@ -43,7 +43,7 @@
   <!-- Common -->
 
   <feature name='tesb-aux-common' version='${project.version}'>
-   <!--External dependency -->
+    <!--External dependency -->
     <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
 
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${project.version}</bundle>
@@ -54,6 +54,8 @@
 
   <feature name='tesb-aux-client-rest' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.auxiliary.storage.client.rest.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${project.version}/cfg/org.talend.esb.auxiliary.storage.client.rest</configfile>
+    <!-- Common dependency -->
+    <feature version="${project.version}">tesb-aux-common</feature>
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-common/${project.version}</bundle>
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${project.version}</bundle>
@@ -81,6 +83,8 @@
 
   <feature name='tesb-aux-service-rest' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${project.version}/cfg/org.talend.esb.auxiliary.storage.service</configfile>
+    <!-- Common dependency -->
+    <feature version="${project.version}">tesb-aux-common</feature>
     <!--Provided bundles  -->
     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${project.version}</bundle>
   </feature>
