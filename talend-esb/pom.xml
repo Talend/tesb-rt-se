@@ -114,8 +114,9 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-								<feature>spring/${spring.version}</feature>
-								<feature>spring-dm</feature>
+                                <feature>spring/${spring.version}</feature>
+                                <feature>spring-tx/${spring.version}</feature>
+                                <feature>spring-dm</feature>
 								<feature>jetty</feature>
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
