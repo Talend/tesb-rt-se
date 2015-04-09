@@ -164,7 +164,7 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.activemq.tooling</groupId>
-                        <artifactId>maven-activemq-plugin</artifactId>
+                        <artifactId>activemq-maven-plugin</artifactId>
                         <version>${activemq.version}</version>
                         <dependencies>
                             <dependency>
