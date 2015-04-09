@@ -116,8 +116,13 @@
 								<!-- Core Features -->
                                 <feature>spring/${spring.version}</feature>
                                 <feature>spring-tx/${spring.version}</feature>
+                                <feature>spring-jdbc/${spring.version}</feature>
                                 <feature>spring-dm</feature>
+                                <feature>spring/3.1.4.RELEASE</feature>
 								<feature>jetty</feature>
+<!--                                 <feature>management</feature> -->
+<!--                                 <feature>bundle</feature> -->
+<!--                                 <feature>diagnostic</feature> -->
 								<feature>webconsole</feature>
                                 <feature>wrapper</feature>
                                 <feature>transaction</feature>
@@ -130,6 +135,7 @@
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
 						        <feature>cxf-abdera/${cxf.version}</feature>
+                                <feature>cxf-commands/${cxf.version}</feature>
 						        <feature>cxf-sts/${cxf.version}</feature>
 						        <feature>cxf-wsn/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
@@ -424,14 +430,30 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
-                                <!-- Workaround for missing Equinox bundle -->
+                                <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
-                                    <groupId>org.eclipse</groupId>
-                                    <artifactId>osgi</artifactId>
-                                    <version>${equinox.version}</version>
+                                    <groupId>org.apache.karaf.management</groupId>
+                                    <artifactId>org.apache.karaf.management.boot</artifactId>
+                                    <version>${karaf.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>osgi-${equinox.version}.jar</destFileName>
+                                    <destFileName>org.apache.karaf.management.boot-${karaf.version}.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.diagnostic</groupId>
+                                    <artifactId>org.apache.karaf.diagnostic.boot</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.diagnostic.boot-${karaf.version}.jar</destFileName>
+                                </artifactItem>
+                               <artifactItem>
+                                    <groupId>org.apache.karaf.jaas</groupId>
+                                    <artifactId>org.apache.karaf.jaas.boot</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.jaas.boot-${karaf.version}.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -669,11 +691,11 @@
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.1_7&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level='30' dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>

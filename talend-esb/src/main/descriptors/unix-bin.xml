@@ -213,7 +213,7 @@
                 <exclude>etc/org.apache.karaf.features.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
-                <exclude>lib/endorsed/xercesImpl-2.11.0.jar</exclude>
+                <exclude>lib/endorsed/xerces-2.11.0.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -360,7 +360,7 @@
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
-                <exclude>org/apache/cxf/**/2.7.11/**</exclude>
+                <exclude>org/apache/cxf/**/3.0.4/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
@@ -553,10 +553,20 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <!-- Workaround for missing Equinox bundle -->
+        <!-- Workaround for Karaf libraries in features -->
         <file>
-            <source>${basedir}/target/dependencies/osgi-${equinox.version}.jar</source>
-            <outputDirectory>/container/system/org/eclipse/osgi/${equinox.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/org.apache.karaf.management.boot-${karaf.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/management/org.apache.karaf.management.boot/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.diagnostic.boot-${karaf.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.boot/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.jaas.boot-${karaf.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
