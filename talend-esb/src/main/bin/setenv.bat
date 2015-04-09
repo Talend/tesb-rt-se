@@ -92,8 +92,8 @@ if "%JAVA_PERM_MEM%" == "" (
 
 if "%JAVA_MAX_PERM_MEM%" == "" (
 	if "%sixtyfour%" == "" (
-		set JAVA_MAX_PERM_MEM=128M 
+		set JAVA_MAX_PERM_MEM=384M
 	) else (
-		set JAVA_MAX_PERM_MEM=256M
+		set JAVA_MAX_PERM_MEM=640M
 	)
 )
