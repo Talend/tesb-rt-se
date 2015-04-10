@@ -44,5 +44,7 @@
 	</bean>
 	
 	<bean id="connectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="userName" value="tadmin" />
+        <property name="password" value="tadmin" />
 	</bean>
 </beans>
