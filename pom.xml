@@ -116,7 +116,7 @@
         <osgi.compendium.version>${osgi.core.version}</osgi.compendium.version>
         <jetty.version>9.2.7.v20150116</jetty.version>
         <derby.servicemix.version>10.8.1.2_1</derby.servicemix.version>
-        <pax-web-jsp.version>1.1.17</pax-web-jsp.version>
+        <pax-web-jsp.version>4.1.0</pax-web-jsp.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
         <jolokia.version>1.2.4-SNAPSHOT</jolokia.version>
