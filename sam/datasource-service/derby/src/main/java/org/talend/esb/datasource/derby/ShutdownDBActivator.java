@@ -19,8 +19,10 @@
  */
 package org.talend.esb.datasource.derby;
 
-import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
+import java.sql.SQLException;
+import java.sql.SQLNonTransientConnectionException;
 
+import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -51,7 +53,21 @@ public class ShutdownDBActivator implements BundleActivator {
     	dataSource.setShutdownDatabase("shutdown");
     	dataSource.setUser(user);
     	dataSource.setPassword(password);
-    	dataSource.getConnection();
+        try {
+            dataSource.getConnection();
+        } catch (SQLException ex) {
+            if (ex.getSQLState().equals("08006")) {
+                // ignore, this is the SQLState derby throws when shutting down the database
+                return;
+            }
+
+            if (ex instanceof SQLNonTransientConnectionException) {
+                // ignore
+                return;
+            }
+
+            throw ex;
+        }
 
     }
 
