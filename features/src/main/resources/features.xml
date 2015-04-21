@@ -31,6 +31,7 @@
     <bundle dependency="true" start-level="30">mvn:commons-collections/commons-collections/${commons-collections.version}</bundle>
     <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
+    <bundle dependency='true'>mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
     <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
@@ -291,6 +292,8 @@
 
   <feature name='tesb-policy-correlationid' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
+    <bundle dependency='true'>mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
+    <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>
   </feature>
