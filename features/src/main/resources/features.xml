@@ -26,14 +26,14 @@
   <repository>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</repository>
 
   <feature name='tesb-sam-common' version='${project.version}'>
-    <bundle>mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <bundle dependency="true">mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
     <bundle dependency="true" start-level="30">mvn:commons-collections/commons-collections/${commons-collections.version}</bundle>
     <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
-    <bundle dependency='true'>mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
-    <bundle>mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
-    <bundle>mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
+    <bundle dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
+    <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
+    <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
   </feature>
 
@@ -48,8 +48,8 @@
     <configfile finalname="/etc/org.talend.esb.datasource.derby.cfg">mvn:org.talend.esb/ds-service-derby/${project.version}/cfg/org.talend.esb.datasource.derby</configfile>
     <feature version="[3.2,4)">spring-jdbc</feature>
 <!--    <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle> -->
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${derby.servicemix.version}</bundle>
-	<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${derby.servicemix.version}</bundle>
+	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-derby/${project.version}</bundle>
   </feature>
 
