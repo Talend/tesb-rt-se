@@ -321,9 +321,4 @@
     <bundle>mvn:org.talend.esb.mep/request-callback/${project.version}</bundle>
   </feature>
 
-  <feature name="transport-jms" version='${project.version}'>
-    <feature version='${cxf.version}'>cxf</feature>
-    <bundle>mvn:org.talend.esb/transport-jms/${project.version}</bundle>
-  </feature>
-
 </features>
