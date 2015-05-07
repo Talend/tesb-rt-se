@@ -430,15 +430,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch for activemq-karaf bundle -->
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-karaf</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-karaf-${activemq.version}-TESB.jar</destFileName>
-                                </artifactItem>
                                 <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.management</groupId>
@@ -570,15 +561,6 @@
 									<classifier>bin</classifier>
 									<outputDirectory>target/dependencies/activemq-win</outputDirectory>
 								</artifactItem>
-                                <!-- patch for activemq-karaf bundle -->
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-karaf</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies/activemq-karaf</outputDirectory>
-                                    <includes>META-INF/MANIFEST.MF</includes>
-                                </artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -684,25 +666,6 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
-                    <!-- patch for activemq-karaf bundle -->
-                    <execution>
-                        <id>patch-activemq-karaf</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <replace file="target/dependencies/activemq-karaf/META-INF/MANIFEST.MF">
-                                    <replacefilter
-                                        token="org.apache.felix.service.command;version=&quot;[0.12,1)&quot;"
-                                        value="org.apache.felix.service.command;status=provisional;version=&quot;[0.12,1)&quot;"/>
-                                </replace>
-                                <jar file="target/dependencies/activemq-karaf-${activemq.version}-TESB.jar" update="true" 
-                                    manifest="target/dependencies/activemq-karaf/META-INF/MANIFEST.MF"/>
-                            </target>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>patch-features-files</id>
                         <phase>generate-resources</phase>
@@ -740,10 +703,6 @@
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
-                                    <replacefilter>
-                                        <replacetoken>org.apache.activemq/activemq-karaf/5.11.1&lt;/bundle&gt;</replacetoken> 
-                                        <replacevalue>org.apache.activemq/activemq-karaf/5.11.1/jar/TESB&lt;/bundle&gt;</replacevalue>
-                                    </replacefilter>
                                 </replace>
                             </target>
                         </configuration>
