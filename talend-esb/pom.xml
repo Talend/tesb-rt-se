@@ -35,7 +35,7 @@
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.8.1</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>2.1.0-SNAPSHOT</wss4j.version>
+        <wss4j.version>2.1.0</wss4j.version>
         <xalan.version>2.7.2_1</xalan.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
@@ -325,7 +325,6 @@
                                 <feature>tesb-policy-samenable</feature>
                                 <feature>tesb-policy-transformation</feature>
                                 <feature>request-callback</feature>
-                                <feature>transport-jms</feature>
                                 <!-- Aux features -->
                                 <feature>jackrabbit-aux-bundles</feature>
                                 <feature>tesb-aux-common</feature>
