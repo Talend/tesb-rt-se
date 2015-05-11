@@ -31,21 +31,21 @@ How to install Rent-a-Car Example features to OSGI container
 ------------------------------------------------------------
 
 Rent A Car Basic:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features/<version>/xml
-features:install tesb-rac-app
-features:install tesb-rac-services
+feature:repo-add mvn:org.talend.esb.examples.rent-a-car/features/<version>/xml
+feature:install tesb-rac-app
+feature:install tesb-rac-services
 
 Rent A Car with Locator and SAM:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sl-sam/<version>/xml
-features:install tesb-rac-app-sl-sam
-features:install tesb-rac-services-sl-sam
+feature:repo-add mvn:org.talend.esb.examples.rent-a-car/features-sl-sam/<version>/xml
+feature:install tesb-rac-app-sl-sam
+feature:install tesb-rac-services-sl-sam
 
 Rent A Car with STS:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
-features:install tesb-rac-app-sts
-features:install tesb-rac-services-sts
+feature:repo-add mvn:org.talend.esb.examples.rent-a-car/features-sts/<version>/xml
+feature:install tesb-rac-app-sts
+feature:install tesb-rac-services-sts
 
 Rent A Car with all features:
-features:addurl mvn:org.talend.esb.examples.rent-a-car/features-all/<version>/xml
-features:install tesb-rac-app-all
-features:install tesb-rac-services-all
+feature:repo-add mvn:org.talend.esb.examples.rent-a-car/features-all/<version>/xml
+feature:install tesb-rac-app-all
+feature:install tesb-rac-services-all
