@@ -52,9 +52,9 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <cxf.version>3.1.0-SNAPSHOT</cxf.version>
+        <cxf.version>3.1.0</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
-        <camel.version>2.15.1</camel.version>
+        <camel.version>2.15.2</camel.version>
         <spring.version>3.2.11.RELEASE</spring.version>
         <karaf.version>4.0.0-SNAPSHOT</karaf.version>
         <activemq.version>5.11.1</activemq.version>
