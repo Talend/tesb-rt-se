@@ -49,15 +49,15 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
-                            org.apache.cxf.bundle,
-                            org.springframework.beans,
-							org.springframework.context,sam-common,sam-agent,
-							locator
+                            org.apache.cxf.cxf-core,
+                            org.apache.servicemix.bundles.spring-beans,org.apache.servicemix.bundles.spring-context,
+                            sam-common,sam-agent,locator
                         </Require-Bundle>
 						<Import-Package>
 							model.reservation-wsdls,
 							*
 						</Import-Package>
+                        <Export-Service>org.talend.services.reservationservice.ReservationService</Export-Service>
                     </instructions>
                 </configuration>
             </plugin>
