@@ -82,7 +82,7 @@ public final class RESTClient {
         if (maxID > -1) {
             System.out.println("Removing member with ID of " + maxID);
             // resp.getStatus() returns 410 returned on successful DELETE, 404 if item not found           
-            resp = wc.path(new Integer(maxID).toString()).delete();
+            resp = wc.path("all").path(new Integer(maxID).toString()).delete();
         }
 
         // reprint of list with latest member removed

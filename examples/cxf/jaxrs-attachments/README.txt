@@ -63,7 +63,7 @@ Starting the service
  * From within the TESB OSGi container:
 
  * From the OSGi command line, run:
-    karaf@trun> features:install talend-cxf-example-jaxrs-attachments
+    karaf@trun> feature:install talend-cxf-example-jaxrs-attachments
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)

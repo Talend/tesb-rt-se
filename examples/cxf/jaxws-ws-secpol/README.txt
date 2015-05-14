@@ -74,7 +74,7 @@ Starting the Service
      cd service ; mvn exec:java
 
   * From within the OSGi container:
-     karaf@trun> features:install talend-cxf-example-jaxws-ws-secpol-server     
+     karaf@trun> feature:install talend-cxf-example-jaxws-ws-secpol-server     
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -86,7 +86,7 @@ Running the Client
      cd client ; mvn exec:java
 
   * From within the OSGi container:
-     karaf@trun> features:install talend-cxf-example-jaxws-ws-secpol-client
+     karaf@trun> feature:install talend-cxf-example-jaxws-ws-secpol-client
 
 
 Cleaning up

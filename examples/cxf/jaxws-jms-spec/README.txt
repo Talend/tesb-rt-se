@@ -59,7 +59,7 @@ ways to get a JMS broker running:
 
  * From within the TESB OSGi container:
      From the OSGi command line, run:
-         features:install activemq-spring
+         feature:install activemq-spring
          activemq:create-broker
      That will create a new broker broker with the defaults and 
      will then start it.
@@ -71,7 +71,7 @@ Starting the Service
      cd service ; mvn exec:java
 
 * From within the OSGi container
-   karaf@trun> features:install talend-cxf-example-jaxws-jms-spec-server
+   karaf@trun> feature:install talend-cxf-example-jaxws-jms-spec-server
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -82,7 +82,7 @@ Running the Client
 * From the command line:
    cd client ; mvn exec:java
 * From within the OSGi container:
-   karaf@trun> features:install talend-cxf-example-jaxws-jms-spec-client
+   karaf@trun> feature:install talend-cxf-example-jaxws-jms-spec-client
 
 
 

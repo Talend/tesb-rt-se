@@ -62,7 +62,7 @@ Starting the service
    otherwise add the content of service-jaas/src/main/resources/users.properties
    to the existing user.properties file.)
 
-     karaf@trun> features:install talend-cxf-example-jaxrs-jaxws-authorization
+     karaf@trun> feature:install talend-cxf-example-jaxrs-jaxws-authorization
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)

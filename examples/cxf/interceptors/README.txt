@@ -77,7 +77,7 @@ Starting the Service
      cd service ; mvn exec:java
 
 * From within the TESB OSGi container:
-   karaf@trun> features:install talend-cxf-example-interceptors-server
+   karaf@trun> feature:install talend-cxf-example-interceptors-server
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -94,7 +94,7 @@ Running the Client
      cd client ; mvn exec:java
 
 * From within the OSGi container
-   karaf@trun> features:install talend-cxf-example-interceptors-client
+   karaf@trun> feature:install talend-cxf-example-interceptors-client
 
 * From within Eclipse:
      Open the Client class in the interceptors-client project

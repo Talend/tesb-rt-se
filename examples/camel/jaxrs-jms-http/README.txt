@@ -59,7 +59,7 @@ karaf@trun> features:install activemq-spring
 karaf@trun> activemq:create-broker
 
 Install and start demo bundles:
-karaf@trun> features:install talend-camel-example-jaxrs-jms-http
+karaf@trun> feature:install talend-camel-example-jaxrs-jms-http
 
 
 4) Running the Client

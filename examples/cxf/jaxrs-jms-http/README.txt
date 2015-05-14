@@ -52,7 +52,7 @@ ways to get a JMS broker running:
      mvn -Pjms.broker
 
 * From within the TESB OSGi container:
-     karaf@trun> features:install activemq-spring
+     karaf@trun> feature:install activemq-spring
      karaf@trun> activemq:create-broker 
 
      That will create a new broker with the defaults and will then start it.
@@ -65,7 +65,7 @@ Starting the service
    cd war; mvn jetty:run
 
 * From within the TESB OSGi container
-   karaf@trun> features:install talend-cxf-example-jaxrs-jms-http
+   karaf@trun> feature:install talend-cxf-example-jaxrs-jms-http
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)

@@ -39,7 +39,7 @@ Start the TESB container
 
 Install the required features
 
-> features:install camel-stream
+> feature:install camel-stream
 
 You should be able to see the OSGi bundles for your Camel blueprint using
 

@@ -65,11 +65,11 @@ Alternatively, you can start a broker from within the TESB OSGi container, see b
 
 Start the broker if not already started:
 
-karaf@trun> features:install activemq-spring
+karaf@trun> feature:install activemq-spring
 karaf@trun> activemq:create-broker
 
 Install and start the demo server bundle:
-karaf@trun> features:install talend-camel-example-jaxws-jms 
+karaf@trun> feature:install talend-camel-example-jaxws-jms 
 
 (Make sure you've first installed the examples features repository as described in the
 parent README.)

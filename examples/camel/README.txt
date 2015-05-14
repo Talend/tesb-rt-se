@@ -43,7 +43,7 @@ Start TESB. From the TESB root directory:
 
 In the TESB shell:
 
-> features:addurl mvn:org.talend.camel-examples/osgi/1.0/xml/features
+> feature:repo-add mvn:org.talend.camel-examples/osgi/1.0/xml/features
 
 This command adds the features repository for the examples to the container.  (See 
 http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for

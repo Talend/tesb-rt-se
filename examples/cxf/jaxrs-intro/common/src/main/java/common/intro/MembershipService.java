@@ -42,7 +42,7 @@ public interface MembershipService {
      * Removes a member (person) from the membership list.
      */
     @DELETE
-    @Path("/{id}")
+    @Path("/all/{id}")
     public Response deleteMember(@PathParam("id") int id);
 
     /**

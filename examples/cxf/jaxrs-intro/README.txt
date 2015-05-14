@@ -57,7 +57,7 @@ Starting the service
     cd war; mvn jetty:run
 
  * From within the TESB OSGi container:
-   karaf@trun> features:install talend-cxf-example-jaxrs-intro
+   karaf@trun> feature:install talend-cxf-example-jaxrs-intro
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
