@@ -29,18 +29,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-			
 		<!-- JMS -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -66,7 +54,6 @@
 		</dependency>
 
 		<!-- TESTS -->
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -76,24 +63,10 @@
 
 	<build>
 		<finalName>transport-jms</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>
-                            org.talend.esb.transport.jms.*,
-                            '=META-INF.tesb'
-                        </Export-Package>
-                    </instructions>
-                </configuration>
                 <extensions>true</extensions>
             </plugin>
         </plugins>

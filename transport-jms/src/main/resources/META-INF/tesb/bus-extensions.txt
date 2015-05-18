@@ -1,2 +1,0 @@
-org.talend.esb.transport.jms.TesbJmsTransportFactory::true
-org.apache.cxf.transport.jms.wsdl11.JMSWSDLExtensionLoader::true:true
