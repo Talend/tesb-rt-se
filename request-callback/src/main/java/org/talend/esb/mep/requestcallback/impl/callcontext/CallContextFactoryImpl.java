@@ -15,70 +15,73 @@ import org.talend.esb.mep.requestcallback.feature.CallContext;
 
 public class CallContextFactoryImpl<E> implements AuxiliaryObjectFactory<E> {
 
-	private static final Logger LOGGER = LogUtils.getL7dLogger(CallContextFactoryImpl.class);
+    private static final Logger LOGGER = LogUtils.getL7dLogger(CallContextFactoryImpl.class);
 
-	@Override
-	public String marshalObject(E ctx) {
-		if(ctx instanceof Serializable){
-	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	        ObjectOutputStream oos;
-			try {
-				oos = new ObjectOutputStream( baos );
-		        oos.writeObject(ctx);
-		        oos.close();
-			} catch (IOException e) {
-				if (LOGGER.isLoggable(Level.FINER)) {
-					LOGGER.log(Level.FINER, "Exception caught: ", e);
-				}
-			}
+    @Override
+    public String marshalObject(E ctx) {
+        if(ctx instanceof Serializable){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos;
+            try {
+                oos = new ObjectOutputStream( baos );
+                oos.writeObject(ctx);
+                oos.close();
+            } catch (IOException e) {
+                if (LOGGER.isLoggable(Level.FINER)) {
+                    LOGGER.log(Level.FINER, "Exception caught: ", e);
+                }
+            }
 
-	        return new String( Base64Coder.encode( baos.toByteArray() ) );
-		}
-		
-		return null;
-	}
+            return new String( Base64Coder.encode( baos.toByteArray() ) );
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public E unmarshallObject(String marshalledData) {
-		
+        } else {
+            throw new IllegalArgumentException("Marshalled object should implement "
+                            + " java.io.Serializable");
+        }
+
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public E unmarshallObject(String marshalledData) {
+
         byte [] data = Base64Coder.decode( marshalledData );
         ObjectInputStream ois;
-		try {
-			ois = new ObjectInputStream(new ByteArrayInputStream(data));
-			Object ctx  = ois.readObject();
-			ois.close();
-			return (E) ctx;
-		} catch (IOException e) {
-			if (LOGGER.isLoggable(Level.FINER)) {
-				LOGGER.log(Level.FINER, "Exception caught: ", e);
-			}
-		} catch (ClassNotFoundException e) {
-			if (LOGGER.isLoggable(Level.FINER)) {
-				LOGGER.log(Level.FINER, "Exception caught: ", e);
-			}
-		}
-        
-		return null ;
-	}
+        try {
+            ois = new ObjectInputStream(new ByteArrayInputStream(data));
+            Object ctx  = ois.readObject();
+            ois.close();
+            return (E) ctx;
+        } catch (IOException e) {
+            if (LOGGER.isLoggable(Level.FINER)) {
+                LOGGER.log(Level.FINER, "Exception caught: ", e);
+            }
+        } catch (ClassNotFoundException e) {
+            if (LOGGER.isLoggable(Level.FINER)) {
+                LOGGER.log(Level.FINER, "Exception caught: ", e);
+            }
+        }
 
-	@Override
-	public String createObjectKey(E ctxObj) {
-		if(ctxObj instanceof CallContext){
-			CallContext ctx = (CallContext)ctxObj;
-			String key = ctx.getCallId();
-			return prettifyCallContextKey(key);
-		}
-		
-		return null;
-	}
-	
-	private String prettifyCallContextKey(String key){
-		String pkey = null;
-		if(key!=null){
-			return key.replace(':', '-');
-		}
-		return pkey;
-	}
+        return null ;
+    }
+
+    @Override
+    public String createObjectKey(E ctxObj) {
+        if(ctxObj instanceof CallContext){
+            CallContext ctx = (CallContext)ctxObj;
+            String key = ctx.getCallId();
+            return prettifyCallContextKey(key);
+        }
+
+        return null;
+    }
+
+    private String prettifyCallContextKey(String key){
+        String pkey = null;
+        if(key!=null){
+            return key.replace(':', '-');
+        }
+        return pkey;
+    }
 
 }
