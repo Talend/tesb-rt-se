@@ -106,14 +106,13 @@ unlimitFD() {
 }
 
 locateHome() {
-    if [ "x$KARAF_HOME" != "x" ]; then
-        warn "Ignoring predefined value for KARAF_HOME"
+    if [ "x$KARAF_HOME" = "x" ]; then
+      # In POSIX shells, CDPATH may cause cd to write to stdout
+      (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
+      # KARAF_HOME is not provided, fall back to default
+      KARAF_HOME=`cd "$DIRNAME/.."; pwd`
     fi
 
-    # In POSIX shells, CDPATH may cause cd to write to stdout
-    (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
-
-    KARAF_HOME=`cd "$DIRNAME/.."; pwd`
     if [ ! -d "$KARAF_HOME" ]; then
         die "KARAF_HOME is not valid: $KARAF_HOME"
     fi
@@ -419,7 +418,7 @@ run() {
     fi
     cd "$KARAF_BASE"
 
-    exec "$JAVA" $JAVA_OPTS -Djava.endorsed.dirs="${JAVA_ENDORSED_DIRS}" -Djava.ext.dirs="${JAVA_EXT_DIRS}" -Dkaraf.instances="${KARAF_HOME}/instances" -Dkaraf.home="$KARAF_HOME" -Dkaraf.base="$KARAF_BASE" -Dkaraf.data="$KARAF_DATA" -Dkaraf.etc="$KARAF_ETC" -Djava.io.tmpdir="$KARAF_DATA/tmp" -Djava.util.logging.config.file="$KARAF_BASE/etc/java.util.logging.properties" -Djavax.management.builder.initial=org.apache.karaf.management.boot.KarafMBeanServerBuilder $KARAF_OPTS $OPTS -classpath "$CLASSPATH" $MAIN "$@"
+    exec "$JAVA" $JAVA_OPTS -Djava.endorsed.dirs="${JAVA_ENDORSED_DIRS}" -Djava.ext.dirs="${JAVA_EXT_DIRS}" -Dkaraf.instances="${KARAF_HOME}/instances" -Dkaraf.home="$KARAF_HOME" -Dkaraf.base="$KARAF_BASE" -Dkaraf.data="$KARAF_DATA" -Dkaraf.etc="$KARAF_ETC" -Djava.io.tmpdir="$KARAF_DATA/tmp" -Djava.util.logging.config.file="$KARAF_BASE/etc/java.util.logging.properties" $KARAF_OPTS $OPTS -classpath "$CLASSPATH" $MAIN "$@"
 }
 
 main() {
