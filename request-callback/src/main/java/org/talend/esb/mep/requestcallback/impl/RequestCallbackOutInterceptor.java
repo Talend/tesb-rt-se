@@ -23,7 +23,7 @@ import org.apache.cxf.ws.addressing.JAXWSAConstants;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.addressing.RelatesToType;
 //import org.apache.cxf.ws.addressing.impl.AddressingProperties;
-// import org.apache.cxf.ws.security.SecurityConstants;
+import org.apache.cxf.ws.security.SecurityConstants;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
 import org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
@@ -33,9 +33,7 @@ import org.talend.esb.sam.agent.message.FlowIdHelper;
  */
 public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
 
-	// Temporary re-definition of SecurityConstants.ENCRYPT_CERT from CXF >= 2.7.15
-	// FIXME: Replace by original definition when no longer used with older CXF versions.
-    private static final String ENCRYPT_CERT = "ws-security.encryption.certificate";
+
 
 	public RequestCallbackOutInterceptor() {
 		super(Phase.PRE_LOGICAL);
@@ -118,7 +116,7 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
         }
 
 		aggregateAddressing(message, null, callContext.getRequestId());
-		
+
 		// In case of encryption propagate stored requestor certificate to callback response
 		propagateRequestorCertificate(message, callContext);
 	}
@@ -167,11 +165,10 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 		return (Map<String, Object>) message.getContextualProperty(
 				RequestCallbackFeature.CALL_INFO_PROPERTY_NAME);
 	}
-	
+
     private static void propagateRequestorCertificate(Message message, CallContext callContext) {
     	if (callContext.getRequestorSignatureCertificate() != null) {
-            // TODO: Revisit on CXF version upgrade    		
-    		message.put(ENCRYPT_CERT, callContext.getRequestorSignatureCertificate());
+            message.put(SecurityConstants.ENCRYPT_CERT, callContext.getRequestorSignatureCertificate());
     	}
     }
 
