@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    default-activation="lazy">
+
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource" destroy-method="close">
+        <property name="connectionCachingEnabled" value="true" />
+        <property name="URL" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+        <property name="user" value="test"/>
+        <property name="password" value="test"/>
+        <property name="connectionCacheProperties">
+            <props>
+                <prop key="MinLimit">1</prop>
+                <prop key="MaxLimit">5</prop>
+                <prop key="InitialLimit">1</prop>
+                <prop key="ConnectionWaitTimeout">200</prop>
+           </props>       
+        </property>
+   </bean>
+    
+    <service ref="dataSource" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="osgi.jndi.service.name" value="jdbc/sample"/>
+        </service-properties>
+    </service>
+
+</blueprint>
