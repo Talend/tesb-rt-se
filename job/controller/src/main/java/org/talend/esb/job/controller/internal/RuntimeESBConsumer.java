@@ -73,7 +73,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             .getName());
 
     private static final String CONSUMER_SIGNATURE_PASSWORD =
-             "ws-security.signature.password";
+             "security.signature.password";
 
     private final QName operationName;
     private final EventFeature samFeature;
