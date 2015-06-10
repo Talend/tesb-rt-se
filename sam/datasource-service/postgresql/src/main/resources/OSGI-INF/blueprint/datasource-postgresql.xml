@@ -35,7 +35,7 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <bean id="dataSource" class="org.postgresql.ds.PGPoolingDataSource">
+    <bean id="dataSource" class="org.postgresql.ds.PGPoolingDataSource" destroy-method="close">
         <property name="dataSourceName" value="${datasource.name}"/>
         <property name="serverName" value="${datasource.servername}"/>
         <property name="databaseName" value="${datasource.databasename}"/>
