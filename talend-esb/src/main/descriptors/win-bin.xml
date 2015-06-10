@@ -174,9 +174,6 @@
             <includes>
                 <include>*.sh</include>
             </includes>
-            <excludes>
-                <exclude>zkServer.sh</exclude>
-            </excludes>
             <lineEnding>unix</lineEnding>
             <directoryMode>755</directoryMode>
             <fileMode>0755</fileMode>
@@ -184,20 +181,8 @@
         <fileSet>
             <directory>zookeeper</directory>
             <outputDirectory>/zookeeper</outputDirectory>
-            <excludes>
-                <exclude>bin/*.sh</exclude>
-            </excludes>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>zookeeper/bin</directory>
-            <outputDirectory>/zookeeper/bin</outputDirectory>
-            <includes>
-                <include>*.sh</include>
-            </includes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0755</fileMode>
         </fileSet>
 
         <!-- Expanded Karaf Runtime -->
