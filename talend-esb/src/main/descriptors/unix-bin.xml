@@ -202,6 +202,8 @@
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
+                <!-- Equinox patch -->
+                <exclude>system/org/eclipse/birt/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -555,6 +557,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.jaas.boot-${karaf.version}.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- Equinox patch -->
+        <file>
+            <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.100-SNAPSHOT.jar</source>
+            <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.100-SNAPSHOT/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
