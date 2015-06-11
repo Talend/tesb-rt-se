@@ -152,6 +152,7 @@
         <module>auxiliary-storage</module>
         <module>request-callback</module>
         <module>transport-jms</module>
+        <module>servlet-resources</module>
     </modules>
 
     <dependencyManagement>
