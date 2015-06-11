@@ -27,6 +27,7 @@ echo "rmiRegistryPort = $1"
 config:property-set rmiRegistryPort $1
 echo "rmiServerPort = $2"
 config:property-set rmiServerPort $2
+config:property-set serviceUrl service:jmx:rmi://\${rmiServerHost}:\${rmiServerPort}/jndi/rmi://\${rmiRegistryHost}:\${rmiRegistryPort}/karaf-\${karaf.name}
 config:update
 
 echo
