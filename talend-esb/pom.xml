@@ -431,6 +431,23 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.talend.esb.servlet</groupId>
+                                    <artifactId>servlet-resources</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>servlet-resources-${project.version}.jar</destFileName>
+                                </artifactItem>
                                 <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.management</groupId>
@@ -714,6 +731,11 @@
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
+                                <replaceregexp byline="true"
+                                           file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"
+                                           match="^(\s*&lt;feature name=&quot;activemq-web-console&quot; version=&quot;5\.11\.1&quot; resolver=&quot;\(obr\)&quot; start-level=&quot;50&quot;&gt;\s*)$"
+                                           replace="\1   &lt;!-- Patched by TESB build: added bundle servlet-resources --&gt;${line.separator}      &lt;bundle&gt;mvn:org.talend.esb.servlet/servlet-resources/${project.version}&lt;/bundle&gt;${line.separator}">
+                                </replaceregexp>
                             </target>
                         </configuration>
                         <goals>
