@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0">
+
+    <cm:property-placeholder persistent-id="org.talend.esb.datasource.sqlserver" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="datasource.url" value="jdbc:sqlserver://localhost:1029;instanceName=sqlexpress;databaseName=Test" />
+            <cm:property name="datasource.user" value="test" />
+            <cm:property name="datasource.password" value="test" />
+            <cm:property name="datasource.pool.maxActive" value="20" />
+            <cm:property name="datasource.pool.maxIdle" value="5" />
+            <cm:property name="datasource.pool.maxWait" value="-1" />
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="sqlServerDataSource" class="com.microsoft.sqlserver.jdbc.SQLServerConnectionPoolDataSource">
+        <property name="URL" value="${datasource.url}" />
+        <property name="user" value="${datasource.user}" />
+        <property name="password" value="${datasource.password}" />
+    </bean>
+
+    <bean id="dataSource"
+        class="org.apache.commons.dbcp.datasources.SharedPoolDataSource" destroy-method="close">
+        <property name="connectionPoolDataSource" ref="sqlServerDataSource" />
+        <property name="maxActive" value="${datasource.pool.maxActive}" />
+        <property name="maxIdle" value="${datasource.pool.maxIdle}" />
+        <property name="maxWait" value="${datasource.pool.maxWait}" />
+    </bean>
+
+
+    <service ref="dataSource" interface="javax.sql.DataSource">
+        <service-properties>
+            <entry key="org.talend.esb.datasource.name" value="ds-sqlserver" />
+            <entry key="osgi.jndi.service.name" value="jdbc/sam" />
+        </service-properties>
+    </service>
+
+</blueprint>
