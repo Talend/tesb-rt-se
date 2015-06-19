@@ -480,7 +480,7 @@
                                     <version>3.10.100-SNAPSHOT</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.eclipse.osgi-3.10.100-SNAPSHOT.jar</destFileName>
+                                    <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>

@@ -573,8 +573,8 @@
         </file>
         <!-- Equinox patch -->
         <file>
-            <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.100-SNAPSHOT.jar</source>
-            <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.100-SNAPSHOT/</outputDirectory>
+            <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
+            <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
