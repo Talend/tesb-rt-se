@@ -60,7 +60,7 @@
 
         <!-- persistence -->
         <jcr-version>2.0</jcr-version>
-        <jackrabbit.version>2.6.2</jackrabbit.version>
+        <jackrabbit.version>2.10.0</jackrabbit.version>
         <concurrent.version>1.3.3</concurrent.version>
         <servicemix.derby.version>10.8.1.2_1</servicemix.derby.version>
         <lucene-core.version>3.6.2</lucene-core.version>

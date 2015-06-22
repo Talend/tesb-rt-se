@@ -28,6 +28,7 @@
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
         <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-api/${jackrabbit.version}</bundle>
+		<bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-data/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-jcr-commons/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit.version}</bundle>
