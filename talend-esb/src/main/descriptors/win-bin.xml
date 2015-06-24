@@ -202,6 +202,7 @@
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
+                <exclude>system/file:/**</exclude>
                 <!-- Equinox patch -->
                 <exclude>system/org/eclipse/birt/**</exclude>
                 <exclude>README</exclude>
