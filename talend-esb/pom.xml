@@ -450,14 +450,6 @@
                                 </artifactItem>
                                 <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
-                                    <groupId>org.apache.karaf.management</groupId>
-                                    <artifactId>org.apache.karaf.management.boot</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.management.boot-${karaf.version}.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.apache.karaf.diagnostic</groupId>
                                     <artifactId>org.apache.karaf.diagnostic.boot</artifactId>
                                     <version>${karaf.version}</version>

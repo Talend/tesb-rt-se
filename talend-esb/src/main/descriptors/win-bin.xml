@@ -557,11 +557,6 @@
         </file>
         <!-- Workaround for Karaf libraries in features -->
         <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.management.boot-${karaf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/management/org.apache.karaf.management.boot/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.diagnostic.boot-${karaf.version}.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
