@@ -142,31 +142,30 @@
                         <Export-Package>
                             org.talend.esb.auxiliary.storage.persistence.jcr
                         </Export-Package>
-
                         <Import-Package>
-                            org.apache.derby.jdbc,
-                            oracle.jdbc;resolution:=optional,
-                            oracle.jdbc.driver;resolution:=optional,
-                            org.postgresql;resolution:=optional,
-                            com.mysql.jdbc;resolution:=optional,
-                            org.gjt.mm.mysql;resolution:=optional,
-                            com.microsoft.sqlserver.jdbc;resolution:=optional,
-                            !org.apache.jackrabbit.test,
-                            *
-                        </Import-Package>
-
-                        <Embed-Transitive>true</Embed-Transitive>
-                        <Embed-Dependency>
-                            commons-dbcp,
-                            lucene-core,
-                            jackrabbit-core,
-                        </Embed-Dependency>
-                        <_removeheaders>
-                            Embed-Dependency,
-                            Embed-Transitive,
-                            Private-Package,
-                            Include-Resource
-                        </_removeheaders>
+            				org.apache.derby.jdbc
+            				,oracle.jdbc;resolution:=optional
+          				  	,org.postgresql;resolution:=optional
+            				,com.mysql.jdbc;resolution:=optional
+           					,com.microsoft.sqlserver.jdbc;resolution:=optional
+            				,!org.apache.jackrabbit.test
+            				,!junit.framework
+            				,!org.junit
+            				,*
+        				</Import-Package>
+        				<Embed-Transitive>true</Embed-Transitive>
+        				<Embed-Dependency>
+         			   		commons-dbcp
+            				,lucene-core
+            				,jackrabbit-core;scope=compile|runtime;inline=true
+            				,jackrabbit-data;scope=compile|runtime;inline=true
+        				</Embed-Dependency>
+        				<_removeheaders>
+            				Embed-Dependency,
+            				Embed-Transitive,
+            				Private-Package,
+            				Include-Resource
+        				</_removeheaders>
                     </instructions>
                 </configuration>
             </plugin>
