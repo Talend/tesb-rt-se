@@ -474,6 +474,24 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-osgi</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-osgi-${activemq.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-web-console</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>war</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -722,6 +740,14 @@
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
+                                    <replacefilter
+                                        token="org.apache.activemq/activemq-osgi/5.11.1&lt;"
+                                        value="org.apache.activemq/activemq-osgi/5.11.1/jar/TESB&lt;"/>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
+                                    <replacefilter
+                                        token="org.apache.activemq/activemq-web-console/5.11.1/war&lt;"
+                                        value="org.apache.activemq/activemq-web-console/5.11.1/war/TESB&lt;"/>
                                 </replace>
                                 <replaceregexp byline="true"
                                            file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"

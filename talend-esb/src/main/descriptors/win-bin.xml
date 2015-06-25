@@ -358,6 +358,8 @@
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
+                <exclude>org/apache/activemq/activemq-osgi/5.11.1/activemq-osgi-5.11.1.jar</exclude>
+                <exclude>org/apache/activemq/activemq-web-console/5.11.1/activemq-web-console-5.11.1.war</exclude>
             </excludes>
         </fileSet>
 
@@ -571,6 +573,16 @@
         <file>
             <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
             <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/activemq-osgi-5.11.1-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-osgi/5.11.1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/activemq-web-console-5.11.1-TESB.war</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/5.11.1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
