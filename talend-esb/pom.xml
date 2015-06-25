@@ -441,12 +441,22 @@
                                     <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.talend.esb.servlet</groupId>
-                                    <artifactId>servlet-resources</artifactId>
-                                    <version>${project.version}</version>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-osgi</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>TESB</classifier>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>servlet-resources-${project.version}.jar</destFileName>
+                                    <destFileName>activemq-osgi-${activemq.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-web-console</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>war</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
                                 </artifactItem>
                                 <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
@@ -473,24 +483,6 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-osgi</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-osgi-${activemq.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-web-console</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>war</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -749,11 +741,6 @@
                                         token="org.apache.activemq/activemq-web-console/5.11.1/war&lt;"
                                         value="org.apache.activemq/activemq-web-console/5.11.1/war/TESB&lt;"/>
                                 </replace>
-                                <replaceregexp byline="true"
-                                           file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"
-                                           match="^(\s*&lt;feature name=&quot;activemq-web-console&quot; version=&quot;5\.11\.1&quot; resolver=&quot;\(obr\)&quot; start-level=&quot;50&quot;&gt;\s*)$"
-                                           replace="\1   &lt;!-- Patched by TESB build: added bundle servlet-resources --&gt;${line.separator}      &lt;bundle&gt;mvn:org.talend.esb.servlet/servlet-resources/${project.version}&lt;/bundle&gt;${line.separator}">
-                                </replaceregexp>
                             </target>
                         </configuration>
                         <goals>

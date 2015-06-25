@@ -554,8 +554,13 @@
             <lineEnding>unix</lineEnding>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/servlet-resources-${project.version}.jar</source>
-            <outputDirectory>/container/system/org/talend/esb/servlet/servlet-resources/${project.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/activemq-osgi-5.11.1-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-osgi/5.11.1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/activemq-web-console-5.11.1-TESB.war</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/5.11.1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- Workaround for Karaf libraries in features -->
@@ -573,16 +578,6 @@
         <file>
             <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
             <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-osgi-5.11.1-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-osgi/5.11.1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-web-console-5.11.1-TESB.war</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/5.11.1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
