@@ -33,9 +33,10 @@
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${servicemix.derby.version}</bundle>
-<!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-jcr-tests/${jackrabbit.version}</bundle> -->
+<!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-jcr-tests/${jackrabbit.version}</bundle>
         <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-core/${lucene-core.version}</bundle>
         <bundle dependency='true'>wrap:mvn:org.apache.lucene/lucene-analyzers-common/${lucene-analyzer-common.version}</bundle>
+ -->
         <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika-core.version}</bundle>
 <!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit.version}$Import-Package=!org.apache.lucene.queryParser,*,org.gjt.mm.mysql;</bundle> -->
         <bundle dependency='true'>wrap:mvn:concurrent/concurrent/${concurrent.version}</bundle>
