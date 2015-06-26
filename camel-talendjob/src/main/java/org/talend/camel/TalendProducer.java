@@ -44,7 +44,7 @@ public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
 
-    private Thread workingThread;
+    private final ThreadLocal<Thread> workingThread = new ThreadLocal<Thread>();
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -100,10 +100,11 @@ public class TalendProducer extends DefaultProducer {
                     + ".runJob(String[] args)' with args: " + Arrays.toString(args));
         }
 
-        ClassLoader oldContextCL = Thread.currentThread().getContextClassLoader();
+        final Thread thread = Thread.currentThread();
+        workingThread.set(thread);
+        final ClassLoader oldContextCL = thread.getContextClassLoader();
         try {
-            workingThread = Thread.currentThread();
-            workingThread.setContextClassLoader(jobInstance.getClass().getClassLoader());
+            thread.setContextClassLoader(jobInstance.getClass().getClassLoader());
             int result = jobInstance.runJobInTOS(args);
             if (result != 0) {
                 throw new RuntimeCamelException("Execution of Talend job '" 
@@ -112,17 +113,18 @@ public class TalendProducer extends DefaultProducer {
                 // Talend logs errors using System.err.println
             }
         } finally {
-            workingThread.setContextClassLoader(oldContextCL);
-            workingThread = null;
+            thread.setContextClassLoader(oldContextCL);
+            workingThread.set(null);
         }
     }
 
     @Override
     protected void doStop() throws Exception {
         super.doStop();
-        if (null != workingThread) {
+        final Thread thread = workingThread.get();
+        if (null != thread) {
             LOG.info("Force terminate Talend job");
-            workingThread.interrupt();
+            thread.interrupt();
         }
     }
 }
