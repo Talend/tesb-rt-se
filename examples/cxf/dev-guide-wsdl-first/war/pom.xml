@@ -10,14 +10,14 @@
     <parent>
         <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
         <artifactId>dev-guide-wsdl-first</artifactId>
-        <version>6.0.0-SNAPSHOT</version>
+        <version>6.0.0</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
             <artifactId>dev-guide-wsdl-first-service</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
