@@ -19,7 +19,7 @@ Licensed under the Apache License Version 2.0
 
 This product includes software developed at
 the Eclipse Foundation (http://www.eclipse.org/).
-Licensed under the Eclipse Public License - v 1.0
+Licensed under the Eclipse Public License - v 1.0Gson
 
 This product includes software developed at
 The Codehaus Foundation (http://www.codehaus.org/).
@@ -98,6 +98,10 @@ Licensed under the Apache License 2.0.
 
 This product includes software developed at
 Gson (http://code.google.com/p/google-gson)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+Guava: Google Core Libraries for Java (http://code.google.com/p/guava-libraries/guava)
 Licensed under the Apache License 2.0.
 
 This product includes software developed at
@@ -212,3 +216,22 @@ This product includes software developed at
 Objenesis (http://objenesis.org/index.html)
 Licensed under the Apache License 2.0.
 
+This product includes software developed at
+The Netty Project (http://netty.io/)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+Bouncy Castle Provider (http://www.bouncycastle.org/)
+Licensed under the Bouncy Castle Licence.
+
+This product includes software developed at
+Cryptacular (http://www.cryptacular.org)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+hawtbuf (http://hawtbuf.fusesource.org/hawtbuf)
+Licensed under the Apache License 2.0.
+
+This product includes software developed at
+ASM (http://asm.objectweb.org/asm/)
+Licensed under the BSD License.
