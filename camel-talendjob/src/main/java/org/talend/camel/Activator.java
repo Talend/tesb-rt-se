@@ -20,10 +20,14 @@
 
 package org.talend.camel;
 
+import java.util.Collection;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+
+import routines.system.api.TalendESBJobFactory;
 
 public class Activator implements BundleActivator {
 
@@ -39,25 +43,24 @@ public class Activator implements BundleActivator {
         Activator.context = null;
     }
 
-    public static <T> T getJobService(Class<T> clazz, String fullJobName) throws InvalidSyntaxException {
+    public static TalendESBJobFactory getJobService(String fullJobName) throws InvalidSyntaxException {
         if (context != null) {
-            String clazzName = clazz.getName();
-            String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
+            final String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
             /*
              * read old version style first
              * see https://jira.talendforge.org/browse/TESB-12909
              */
-            ServiceReference[] serviceReferences =
-                    context.getServiceReferences(clazzName, "(&(name=" + simpleName + ")(type=job))");
+            Collection<ServiceReference<TalendESBJobFactory>> serviceReferences =
+                    context.getServiceReferences(TalendESBJobFactory.class, "(&(name=" + simpleName + ")(type=job))");
 
             //if no old version style, then read fashion style
-            if (null == serviceReferences) {
+            if (null == serviceReferences || serviceReferences.isEmpty()) {
                 serviceReferences =
-                    context.getServiceReferences(clazzName, "(&(name=" + fullJobName + ")(type=job))");
+                    context.getServiceReferences(TalendESBJobFactory.class, "(&(name=" + fullJobName + ")(type=job))");
             }
 
-            if (null != serviceReferences) {
-                return clazz.cast(context.getService(serviceReferences[0]));
+            if (null != serviceReferences && !serviceReferences.isEmpty()) {
+                return context.getService(serviceReferences.iterator().next());
             }
         }
         return null;

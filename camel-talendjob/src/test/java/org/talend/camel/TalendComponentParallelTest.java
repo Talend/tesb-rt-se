@@ -33,8 +33,8 @@ public class TalendComponentParallelTest extends CamelTestSupport {
 
     @Test
     public void testJobParallel() throws Exception {
-        resultEndpoint.expectedMessageCount(3);
-        sendBody("direct:test", "propagateHeader=false");
+        resultEndpoint.expectedBodiesReceivedInAnyOrder("1", "2", "3");
+        sendBody("direct:test", null);
         resultEndpoint.assertIsSatisfied();
     }
 
@@ -44,7 +44,7 @@ public class TalendComponentParallelTest extends CamelTestSupport {
             public void configure() {
                 from("direct:test")
                     .split(constant("1,2,3").tokenize(",")).parallelProcessing()
-                    .recipientList(constant("talend://org.talend.camel.TestJob"))
+                    .recipientList(constant("talend://org.talend.camel.TestJob?propagateHeader=false"))
                     .to("mock:result");
             }
         };

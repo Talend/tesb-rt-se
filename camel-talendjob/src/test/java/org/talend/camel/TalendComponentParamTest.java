@@ -35,7 +35,7 @@ public class TalendComponentParamTest extends CamelTestSupport {
 
     @Test
     public void testJobWithoutContext() throws Exception {
-        resultEndpoint.expectedBodiesReceived((Object) null);
+        resultEndpoint.expectedBodiesReceived("propagateHeader=false");
         sendBody("direct:test", "propagateHeader=false");
         resultEndpoint.assertIsSatisfied();
     }

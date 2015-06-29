@@ -30,32 +30,12 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
 
     public static class JobInfinite implements TalendJob {
 
-        private static volatile boolean passed = false;
+        private static boolean passed = false;
 
         public static boolean isPassed() {
-            if (!passed) {
-            	return false;
-            }
+            boolean result = passed;
             passed = false;
-            return true;
-        }
-
-        public static boolean isPassed(int reTries) {
-        	if (isPassed()) {
-        		return true;
-        	}
-        	for (int i = 0; i < reTries; i++) {
-        		System.err.println("Job not yet closed, waiting 1 sec.");
-        		try {
-        			Thread.sleep(1000L);
-        		} catch (InterruptedException e) {
-        			return isPassed();
-        		}
-        		if (isPassed()) {
-        			return true;
-        		}
-        	}
-        	return false;
+            return result;
         }
 
         public String[][] runJob(String[] args) {
@@ -63,9 +43,11 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
         }
 
         public int runJobInTOS(String[] args) {
+            synchronized (JobInfinite.class) {
+                JobInfinite.class.notify();
+            }
             try {
-                Thread.sleep(30000);
-                System.err.println("Job timed out without being closed.");
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 passed = true;
             }
@@ -82,6 +64,9 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
     public void testJobInfiniteDirect() throws Exception {
         template.asyncRequestBody("direct:infinite", null);
         assertFalse(JobInfinite.isPassed());
+        synchronized (JobInfinite.class) {
+            JobInfinite.class.wait();
+        }
         context.stop();
         assertTrue(JobInfinite.isPassed());
     }
@@ -90,8 +75,22 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
     public void testJobInfiniteSeda() throws Exception {
         sendBody("seda:infinite", null);
         assertFalse(JobInfinite.isPassed());
+        synchronized (JobInfinite.class) {
+            JobInfinite.class.wait();
+        }
         context.stop();
-        assertTrue(JobInfinite.isPassed(3));
+        assertTrue(JobInfinite.isPassed());
+    }
+
+    @Test
+    public void testJobInfiniteDirectParallel() throws Exception {
+        template.asyncRequestBody("direct:parallel", null);
+        assertFalse(JobInfinite.isPassed());
+        synchronized (JobInfinite.class) {
+            JobInfinite.class.wait();
+        }
+        context.stop();
+        assertTrue(JobInfinite.isPassed());
     }
 
     @Override
@@ -99,10 +98,14 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
         return new RouteBuilder() {
             public void configure() {
                 from("direct:infinite")
-                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite?propagateHeader=false");
+                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite");
 
                 from("seda:infinite")
-                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite?propagateHeader=false");
+                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite");
+
+                from("direct:parallel")
+                    .split(constant("1,2,3").tokenize(",")).parallelProcessing()
+                    .to("talend://org.talend.camel.TalendComponentInfiniteTest$JobInfinite");
             }
         };
     }

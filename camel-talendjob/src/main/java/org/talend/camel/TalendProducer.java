@@ -44,7 +44,7 @@ public class TalendProducer extends DefaultProducer {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
 
-    private final ThreadLocal<Thread> workingThread = new ThreadLocal<Thread>();
+    private Thread workingThread;
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -86,9 +86,9 @@ public class TalendProducer extends DefaultProducer {
         }
     }
 
-    private void invokeTalendJob(TalendJob jobInstance, String[] args, Exchange exchange) {
+    private void invokeTalendJob(final TalendJob jobInstance, String[] args, Exchange exchange) {
         try {
-            Method setExchangeMethod =
+            final Method setExchangeMethod =
                     jobInstance.getClass().getMethod("setExchange", new Class[]{Exchange.class});
             LOG.debug("Pass the exchange from route to Job");
             ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
@@ -100,8 +100,9 @@ public class TalendProducer extends DefaultProducer {
                     + ".runJob(String[] args)' with args: " + Arrays.toString(args));
         }
 
+        // use local variable due to single component instance during parallel processing
         final Thread thread = Thread.currentThread();
-        workingThread.set(thread);
+        workingThread = thread;
         final ClassLoader oldContextCL = thread.getContextClassLoader();
         try {
             thread.setContextClassLoader(jobInstance.getClass().getClassLoader());
@@ -114,17 +115,16 @@ public class TalendProducer extends DefaultProducer {
             }
         } finally {
             thread.setContextClassLoader(oldContextCL);
-            workingThread.set(null);
+            workingThread = null;
         }
     }
 
     @Override
     protected void doStop() throws Exception {
         super.doStop();
-        final Thread thread = workingThread.get();
-        if (null != thread) {
+        if (null != workingThread) {
             LOG.info("Force terminate Talend job");
-            thread.interrupt();
+            workingThread.interrupt();
         }
     }
 }

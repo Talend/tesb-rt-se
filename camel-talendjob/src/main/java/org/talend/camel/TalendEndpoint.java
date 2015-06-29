@@ -74,10 +74,9 @@ public class TalendEndpoint extends DefaultEndpoint {
         return context;
     }
 
-    public TalendJob getJobInstance()
-        throws ClassNotFoundException, NoSuchMethodException, InvalidSyntaxException {
+    public TalendJob getJobInstance() throws ClassNotFoundException, InvalidSyntaxException {
         final TalendJob jobInstance;
-        TalendESBJobFactory talendESBJobFactory = Activator.getJobService(TalendESBJobFactory.class, clazz);
+        TalendESBJobFactory talendESBJobFactory = Activator.getJobService(clazz);
         if (null != talendESBJobFactory) {
             jobInstance = talendESBJobFactory.newTalendESBJob();
         } else {
