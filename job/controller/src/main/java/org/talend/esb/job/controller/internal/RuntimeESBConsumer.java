@@ -60,6 +60,7 @@ import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
+import org.talend.esb.security.saml.SAMLRESTUtils;
 import org.talend.esb.security.saml.STSClientUtils;
 import org.talend.esb.security.saml.WSPasswordCallbackHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
@@ -71,9 +72,6 @@ import routines.system.api.ESBConsumer;
 public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class
             .getName());
-
-    private static final String CONSUMER_SIGNATURE_PASSWORD =
-             "security.signature.password";
 
     private final QName operationName;
     private final EventFeature samFeature;
@@ -207,7 +205,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 clientProps.put(SecurityConstants.CALLBACK_HANDLER,
                         new WSPasswordCallbackHandler(
                             clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
-                            clientPropsDef.get(CONSUMER_SIGNATURE_PASSWORD)));
+                            clientPropsDef.get(SAMLRESTUtils.SIGNATURE_PASSWORD)));
             } else {
                 clientProps.put(SecurityConstants.SIGNATURE_USERNAME, securityArguments.getAlias());
                 clientProps.put(SecurityConstants.CALLBACK_HANDLER,

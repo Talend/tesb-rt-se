@@ -28,7 +28,7 @@ import org.apache.cxf.ws.security.trust.STSClient;
 
 public class SAMLRESTUtils {
 
-    public static final String SIGNATURE_PASSWORD = "ws-security.signature.password";
+    public static final String SIGNATURE_PASSWORD = "security.signature.password";
 
     private static final String SAML2_TOKEN_TYPE =
             "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0";
