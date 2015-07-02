@@ -128,6 +128,8 @@
                                 <feature>wrapper</feature>
                                 <feature>transaction</feature>
                                 <feature>jpa</feature>
+                                <feature>jndi</feature>
+                                <feature>jms</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
