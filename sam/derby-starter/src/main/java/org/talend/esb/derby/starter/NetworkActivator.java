@@ -20,22 +20,51 @@
 package org.talend.esb.derby.starter;
 
 import java.net.InetAddress;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import org.apache.derby.drda.NetworkServerControl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NetworkActivator implements BundleActivator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(NetworkActivator.class);
 
     private NetworkServerControl server;
 
     public void start(BundleContext context) throws Exception {
-        server = new NetworkServerControl(InetAddress.getByAddress(new byte[]{0, 0, 0, 0}), 1527);
+        LOG.info("Starting internal Derby DB...");
+
+        server = new NetworkServerControl(InetAddress.getByAddress(new byte[] { 0, 0, 0, 0 }), 1527);
         server.start(null);
+
+        // if it already exists nothing should happen
+        DriverManager.getConnection(getDerbyJDBC_Create("db"));
     }
 
     public void stop(BundleContext context) throws Exception {
+        LOG.info("Stopping internal Derby DB...");
+
+        try {
+            DriverManager.getConnection(getDerbyJDBC_Shutdown("db"));
+        } catch (SQLException e) {
+            if (!"08006".equals(e.getSQLState())) {
+                LOG.error("Exception during shutting db down.", e);
+            }
+        }
+
         server.shutdown();
+    }
+
+    private static String getDerbyJDBC_Create(String databaseName) {
+        return "jdbc:derby:" + databaseName + ";create=true";
+    }
+
+    private static String getDerbyJDBC_Shutdown(String databaseName) {
+        return "jdbc:derby:" + databaseName + ";shutdown=true";
     }
 
 }

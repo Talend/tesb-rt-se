@@ -28,7 +28,6 @@
             <cm:property name="datasource.server" value="localhost"/>
             <cm:property name="datasource.port" value="1527"/>
             <cm:property name="datasource.database" value="db"/>
-            <cm:property name="datasource.create" value="create"/>
             <cm:property name="datasource.username" value="test"/>
             <cm:property name="datasource.password" value="test"/>
             <cm:property name="datasource.pool.maxActive" value="20"/>
@@ -42,7 +41,6 @@
         <property name="serverName" value="${datasource.server}"/>
         <property name="portNumber" value="${datasource.port}"/>
         <property name="databaseName" value="${datasource.database}"/>
-        <property name="createDatabase" value="${datasource.create}" />
         <property name="user" value="${datasource.username}"/>
         <property name="password" value="${datasource.password}"/>
     </bean>
