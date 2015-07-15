@@ -24,26 +24,6 @@
 #   Actions go here...
 # fi
 
-#
-# general settings which should be applied for all scripts go here; please keep
-# in mind that it is possible that scripts might be executed more than once, e.g.
-# in example of the start script where the start script is executed first and the
-# karaf script afterwards.
-#
-
-#
-# The following section shows the possible configuration options for the default 
-# karaf scripts
-#
-# export JAVA_MIN_MEM # Minimum memory for the JVM
-# export JAVA_MAX_MEM # Maximum memory for the JVM
-# export JAVA_PERM_MEM # Minimum perm memory for the JVM
-# export JAVA_MAX_PERM_MEM # Maximum memory for the JVM
-# export KARAF_HOME # Karaf home folder
-# export KARAF_DATA # Karaf data folder
-# export KARAF_BASE # Karaf base folder
-# export KARAF_OPTS # Additional available Karaf options
-
 JAVA_64BIT_SOLARIS=true
 export JAVA_64BIT_SOLARIS # use 64bit jvm mode on solaris
 

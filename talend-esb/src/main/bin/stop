@@ -24,6 +24,9 @@ PROGNAME=`basename "$0"`
 #
 KARAF_SCRIPT="stop"
 export KARAF_SCRIPT
+if [ -f "$DIRNAME/setenv" ]; then
+  . "$DIRNAME/setenv"
+fi
 
 warn() {
     echo "${PROGNAME}: $*"

@@ -220,6 +220,7 @@
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
                 <include>client.bat</include>
+                <include>setenv.bat</include>
             </includes>
             <lineEnding>dos</lineEnding>
             <fileMode>0755</fileMode>
@@ -231,6 +232,7 @@
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
                 <include>client</include>
+                <include>setenv</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
@@ -472,13 +474,13 @@
             <lineEnding>unix</lineEnding>
         </file>
         <file>
-            <source>${basedir}/src/main/bin/setenv.bat</source>
+            <source>${basedir}/src/main/bin/setmem.bat</source>
             <outputDirectory>/container/bin/</outputDirectory>
             <fileMode>0755</fileMode>
             <lineEnding>dos</lineEnding>
         </file>
         <file>
-            <source>${basedir}/src/main/bin/setenv</source>
+            <source>${basedir}/src/main/bin/setmem</source>
             <outputDirectory>/container/bin/</outputDirectory>
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>

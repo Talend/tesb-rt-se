@@ -24,6 +24,12 @@ set DIRNAME=%~dp0%
 set PROGNAME=%~nx0%
 set ARGS=%*
 
+rem Sourcing environment settings for karaf similar to tomcats setenv
+SET KARAF_SCRIPT="karaf.bat"
+if exist "%DIRNAME%setenv.bat" (
+  call "%DIRNAME%setenv.bat"
+)
+
 rem Check console window title. Set to Karaf by default
 if not "%KARAF_TITLE%" == "" (
     title %KARAF_TITLE%
@@ -206,10 +212,10 @@ if not exist "%JAVA_HOME%\bin\server\jvm.dll" (
     )
 )
 
-rem Sourcing environment settings for karaf similar to tomcats setenv
+rem Setup default memory settings
 SET KARAF_SCRIPT="karaf.bat"
-if exist "%DIRNAME%setenv.bat" (
-  call "%DIRNAME%setenv.bat"
+if exist "%DIRNAME%setmem.bat" (
+  call "%DIRNAME%setmem.bat"
 )
 
 set DEFAULT_JAVA_OPTS=%JAVA_MODE% -Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -Dderby.system.home="%KARAF_DATA%\derby" -Dderby.storage.fileSyncTransactionLog=true -Dcom.sun.management.jmxremote  -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass

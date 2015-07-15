@@ -24,11 +24,10 @@ set DIRNAME=%~dp0%
 set PROGNAME=%~nx0%
 set ARGS=%*
 
-rem Check console window title. Set to Karaf by default
-if not "%KARAF_TITLE%" == "" (
-    title %KARAF_TITLE%
-) else (
-    title Karaf
+rem Sourcing environment settings for karaf similar to tomcats setenv
+SET KARAF_SCRIPT="start.bat"
+if exist "%DIRNAME%setenv.bat" (
+  call "%DIRNAME%setenv.bat"
 )
 
 goto BEGIN

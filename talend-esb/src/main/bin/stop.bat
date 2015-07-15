@@ -26,6 +26,9 @@ set ARGS=%*
 
 rem Sourcing environment settings for karaf similar to tomcats setenv
 SET KARAF_SCRIPT="stop.bat"
+if exist "%DIRNAME%setenv.bat" (
+  call "%DIRNAME%setenv.bat"
+)
 
 rem Check console window title. Set to Karaf by default
 if not "%KARAF_TITLE%" == "" (
