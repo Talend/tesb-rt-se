@@ -60,9 +60,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private EventFeature samFeature;
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
-    private Map<String, String> stsProperties;
     private Crypto cryptoProvider;
-    
+
     public void setBus(Bus bus) {
         this.bus = bus;
     }
@@ -77,10 +76,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     public void setClientProperties(Map<String, String> clientProperties) {
         this.clientProperties = clientProperties;
-    }
-
-    public void setStsProperties(Map<String, String> stsProperties) {
-        this.stsProperties = stsProperties;
     }
 
     public void setCryptoProvider(Crypto cryptoProvider) {
@@ -197,7 +192,6 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 (String) props.get(ESBEndpointConstants.ALIAS),
                 clientProperties,
-                stsProperties,
                 authorizationRole,
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
                 (useCrypto || useServiceRegistry) ? cryptoProvider : null);

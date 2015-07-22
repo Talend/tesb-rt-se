@@ -33,7 +33,6 @@ public class SecurityArguments {
     private final String password;
     private final String alias;
     private final Map<String, String> clientProperties;
-    private final Map<String, String> stsProperties;
     private final String roleName;
     private final Object securityToken;
     private final Crypto cryptoProvider;
@@ -44,7 +43,6 @@ public class SecurityArguments {
             String password,
             String alias,
             Map<String, String> clientProperties,
-            Map<String, String> stsProperties,
             String roleName,
             Object securityToken,
             Crypto cryptoProvider) {
@@ -54,7 +52,6 @@ public class SecurityArguments {
         this.password = password;
         this.alias = alias;
         this.clientProperties = clientProperties;
-        this.stsProperties = stsProperties;
         this.roleName = roleName;
         this.securityToken = securityToken;
         this.cryptoProvider = cryptoProvider;
@@ -82,10 +79,6 @@ public class SecurityArguments {
 
     public Map<String, String> getClientProperties() {
         return clientProperties;
-    }
-
-    public Map<String, String> getStsProperties() {
-        return stsProperties;
     }
 
     public String getRoleName() {

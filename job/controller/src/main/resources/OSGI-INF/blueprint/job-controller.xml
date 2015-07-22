@@ -27,7 +27,6 @@
     </bean>
 
     <cm:cm-properties persistent-id="org.talend.esb.job.client" id="org.talend.esb.job.client" />
-    <cm:cm-properties persistent-id="org.talend.esb.job.client.sts" id="org.talend.esb.job.client.sts" />
 
     <bean id="endpointRegistry" class="org.talend.esb.job.controller.internal.RuntimeESBEndpointRegistry">
         <property name="bus" >
@@ -38,7 +37,6 @@
         </property>
         <property name="policyProvider" ref="policyProvider" />
         <property name="clientProperties" ref="org.talend.esb.job.client" />
-        <property name="stsProperties" ref="org.talend.esb.job.client.sts" />
         <property name="cryptoProvider" >
             <reference interface="org.apache.wss4j.common.crypto.Crypto"
                 availability="optional" timeout="100" filter="(type=client-crypto)" />

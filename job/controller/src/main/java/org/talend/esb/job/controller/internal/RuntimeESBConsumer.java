@@ -174,15 +174,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
         }
         if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
-            Map<String, String> stsProps = new HashMap<String, String>(securityArguments.getStsProperties());
             final STSClient stsClient;
             if (null == securityArguments.getAlias()) {
-                stsProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-                stsProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-                stsClient= STSClientUtils.createSTSClient(bus, stsProps);
+                stsClient= STSClientUtils.createSTSClient(bus,
+                    securityArguments.getUsername(), securityArguments.getPassword());
             } else {
-                stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, securityArguments.getAlias());
-                stsClient= STSClientUtils.createSTSX509Client(bus, stsProps);
+                stsClient= STSClientUtils.createSTSX509Client(bus, securityArguments.getAlias());
             }
 
             if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
