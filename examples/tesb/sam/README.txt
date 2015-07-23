@@ -49,9 +49,9 @@ Start Derby database and sam-server in OSGI Container
 	* starting Derby database and sam-server in TESB OSGi container:
 
 	Enter the following command on the OSGI console:
-	karaf@trun> features:install tesb-datasource-derby
-	karaf@trun> features:install tesb-derby-starter
-	karaf@trun> features:install tesb-sam-server
+	karaf@trun> feature:install tesb-datasource-derby
+	karaf@trun> feature:install tesb-derby-starter
+	karaf@trun> feature:install tesb-sam-server
 
 	By default the TESB OSGI Container runs on 8040 port and the sam-server can be accessible under this url: 
 	http://localhost:8040/services/MonitoringServiceSOAP?wsdl

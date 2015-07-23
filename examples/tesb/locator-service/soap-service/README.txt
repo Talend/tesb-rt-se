@@ -53,10 +53,10 @@ Starting the Demo
 -----------------
 
 - Start zookeeper in container
-    features:install tesb-zookeeper-server
+    feature:install tesb-zookeeper-server
     
 - Start locator soap service in container
-	features:install tesb-locator-soap-service
+	feature:install tesb-locator-soap-service
 
 - Start service
     cd war; mvn jetty:run

@@ -108,7 +108,7 @@ for Tomcat 6.
 2) Type this command in TESB container: 		
 features:addurl mvn:org.talend.esb.examples/cxf-jmx-feature/<version>/xml
 3) Type this command in TESB container:
-features:install cxf-jmx-service
+feature:install cxf-jmx-service
 4) You can find wsdl at http://localhost:8040/services/simpleService?wsdl
 
 Running the client

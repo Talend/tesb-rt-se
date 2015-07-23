@@ -67,7 +67,7 @@ Using either Linux or Windows:
 Starting the Locator REST Service
 ---------------------------------------
    * Run a command in TESB container:  
-features:install tesb-locator-rest-service
+feature:install tesb-locator-rest-service
 
 Executing client application
 ---------------------------------------

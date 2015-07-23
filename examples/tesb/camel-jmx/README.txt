@@ -90,7 +90,7 @@ for Tomcat 6.
 2) Type command in TESB container: 		
 features:addurl mvn:org.talend.esb.examples/camel-jmx-feature/<version>/xml
 4) Type command in TESB container
-features:install camel-jmx-service
+feature:install camel-jmx-service
 
 Using JConsole to find MBean Attributes
 ============================================

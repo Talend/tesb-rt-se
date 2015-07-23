@@ -55,7 +55,7 @@ Make sure you've first installed the examples features repository
 as described in the parent README.
 
 Start the broker if not already started:
-karaf@trun> features:install activemq-spring
+karaf@trun> feature:install activemq-spring
 karaf@trun> activemq:create-broker
 
 Install and start demo bundles:

@@ -54,7 +54,7 @@ Starting the Service
 features:addurl mvn:org.talend.esb.examples.sam-rest/features/<version>/xml
 
   * Install example feature in container:
-features:install tesb-sam-rest
+feature:install tesb-sam-rest
 
 
 Running the Client

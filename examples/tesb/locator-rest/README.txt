@@ -54,7 +54,7 @@ Starting the Service
 features:addurl mvn:org.talend.esb.examples.locator-rest/features/<version>/xml
 
   * Install example feature in container:
-features:install tesb-locator-rest
+feature:install tesb-locator-rest
 
 
 Running the Client

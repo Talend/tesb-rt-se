@@ -49,17 +49,17 @@ a) Without Service Registry
 
       - run the following command if you have not started an external ActiveMQ broker
 
-      features:install activemq-broker
+      feature:install activemq-broker
 
    3. Start the service provider
       - run the following commands in the container:
 
-      features:install library-service
+      feature:install library-service
 
    4. Start the service consumer
       - run the following commands in the container:
 
-      features:install library-client
+      feature:install library-client
 
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
@@ -113,14 +113,14 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
       - run the following command if you have not started an external ActiveMQ broker
 
-      features:install activemq-broker
+      feature:install activemq-broker
 
    3. Start service provider
       - run the following commands in the container:
 
-      features:install library-service
+      feature:install library-service
 
    4. Start service consumer
       - run the following commands in the container:
 
-      features:install library-client
+      feature:install library-client

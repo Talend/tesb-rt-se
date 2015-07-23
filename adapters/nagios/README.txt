@@ -58,7 +58,7 @@ On TESB container side:
 2. Install cxf_jmx example feature to TESB container
 ----------------------------------------------------
   features:addurl mvn:org.talend.esb.examples/cxf-jmx-feature/<version>/xml
-  features:install cxf-jmx-service
+  feature:install cxf-jmx-service
 
 3. Run the client of cxf_jmx example
 ------------------------------------
@@ -94,7 +94,7 @@ On TESB container side:
 2. Install camel_jmx example feature to TESB container
 ------------------------------------------------------
   features:addurl mvn:org.talend.esb.examples/camel-jmx-feature/<version>/xml
-  features:install camel-jmx-service
+  feature:install camel-jmx-service
 
 On Nagios server side:
 

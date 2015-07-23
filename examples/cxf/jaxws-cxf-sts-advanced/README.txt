@@ -106,9 +106,9 @@ OSGi deployment: First run "mvn clean install" from the root jaxws-cxf-sts-advan
 folder.
 
    From the OSGi command line, run:
-      karaf@trun> features:install cxf-sts
-      karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-advanced-sts
-      karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-advanced-service
+      karaf@trun> feature:install cxf-sts
+      karaf@trun> feature:install talend-cxf-example-jaxws-cxf-sts-advanced-sts
+      karaf@trun> feature:install talend-cxf-example-jaxws-cxf-sts-advanced-service
 
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
@@ -126,7 +126,7 @@ CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
    container.
 
    From the OSGi command line, run:
-      karaf@trun> features:install talend-cxf-example-jaxws-cxf-sts-advanced-client
+      karaf@trun> feature:install talend-cxf-example-jaxws-cxf-sts-advanced-client
 
 You should see the results of the web service call. 
 

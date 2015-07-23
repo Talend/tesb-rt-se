@@ -29,7 +29,7 @@ You have several ways to upload resources needed for the example.
 1. Execute following commands from Karaf shell:
 
 1.1. Install registry commands component to the container:
-features:install tesb-registry-server-commands
+feature:install tesb-registry-server-commands
 
 1.2. Upload resources to the registry:
 tregistry:create wsdl "<path-to-this-folder>/CRMService.wsdl"

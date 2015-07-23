@@ -39,7 +39,7 @@ a) Without Service Registry:
 
       - run the following command if you have not started an external ActiveMQ broker
 
-      features:install activemq-broker
+      feature:install activemq-broker
 
 
    2. Run service:

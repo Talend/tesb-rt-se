@@ -9,4 +9,4 @@ Build.
 Usage.
  1. copy multijob-feature-1.0.kar into \talend-esb-5.0-SNAPSHOT\container\deploy
  2. execute in console command:
- features:install CustomerService-feature
+ feature:install CustomerService-feature

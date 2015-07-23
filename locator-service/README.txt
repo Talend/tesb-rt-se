@@ -36,15 +36,15 @@ Prerequisites
 
 2.Install the Service Locator server (Zookeeper Server) feature:
        
- In Talend ESB container execute command: features:install tesb-zookeeper-server
+ In Talend ESB container execute command: feature:install tesb-zookeeper-server
 
 Deploying of Service Locator SOAP Service.
 
- In Talend ESB container execute command: features:install tesb-locator-soap-service
+ In Talend ESB container execute command: feature:install tesb-locator-soap-service
 
 Deploying of Service Locator REST Service.
 
- In Talend ESB container execute command: features:install tesb-locator-rest-service
+ In Talend ESB container execute command: feature:install tesb-locator-rest-service
 
 Configuring authentication for Service Locator SOAP Service.
 
