@@ -43,7 +43,7 @@ Install the required features
 
 You should be able to see the OSGi bundles for your Camel blueprint using
 
-> osgi:list
+> bundle:list
 
 Next, simply drop the src/main/resources/simple.xml or src/main/resources/recipientlist.xml 
 in the container/deploy directory.
