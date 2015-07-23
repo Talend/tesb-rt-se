@@ -51,7 +51,7 @@ Using either Linux or Windows:
 Starting the Service
 ---------------------------------------
   * Add maven URL into karaf:
-features:addurl mvn:org.talend.esb.examples.sam-rest/features/<version>/xml
+feature:repo-add mvn:org.talend.esb.examples.sam-rest/features/<version>/xml
 
   * Install example feature in container:
 feature:install tesb-sam-rest

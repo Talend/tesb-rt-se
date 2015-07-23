@@ -106,7 +106,7 @@ for Tomcat 6.
 * In Talend ESB OSGi container:
 1) Start TESB container.
 2) Type this command in TESB container: 		
-features:addurl mvn:org.talend.esb.examples/cxf-jmx-feature/<version>/xml
+feature:repo-add mvn:org.talend.esb.examples/cxf-jmx-feature/<version>/xml
 3) Type this command in TESB container:
 feature:install cxf-jmx-service
 4) You can find wsdl at http://localhost:8040/services/simpleService?wsdl

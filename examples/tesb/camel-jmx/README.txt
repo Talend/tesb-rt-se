@@ -88,7 +88,7 @@ for Tomcat 6.
 * In Talend ESB OSGi container:
 1) Start TESB container.
 2) Type command in TESB container: 		
-features:addurl mvn:org.talend.esb.examples/camel-jmx-feature/<version>/xml
+feature:repo-add mvn:org.talend.esb.examples/camel-jmx-feature/<version>/xml
 4) Type command in TESB container
 feature:install camel-jmx-service
 

@@ -1,6 +1,6 @@
 - Install AuxiliaryStorage feature to Talend Runtime (karaf):
 
-	features:addurl mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.1/xml
+	feature:repo-add mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.1/xml
 	feature:install tesb-aux
 	
 - Build Example project:

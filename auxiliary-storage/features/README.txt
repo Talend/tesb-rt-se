@@ -1,4 +1,4 @@
-features:addurl mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.1/xml
+feature:repo-add mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/5.6.1/xml
 
 feature:install tesb-aux-common
 feature:install tesb-aux-client-rest
