@@ -14,9 +14,9 @@ Deploy hibersap and sapjco3 jars to Talend Runtime
 ==================================================
 In Talend Runtime install 3 jars (correct path before)
 In Karaf concole execute one by one:
-osgi:install -s 'wrap:file:c:/Apps/jco/v3/sapjco3.jar$Bundle-SymbolicName=com.sap.conn.jco&Bundle-Version=7.30.1&Bundle-Name=SAP Java Connector v3'
-osgi:install -s 'wrap:file:c:/Apps/jco/v3/hibersap-core-1.1.0.jar$Bundle-SymbolicName=org.hibersap.core&Bundle-Version=1.1.0&Bundle-Name=Hibersap Core'
-osgi:install -s 'wrap:file:c:/Apps/jco/v3/hibersap-jco-1.1.0.jar$Bundle-SymbolicName=org.hibersap.jco&Bundle-Version=1.1.0&Bundle-Name=Hibersap JCo'
+bundle:install -s 'wrap:file:c:/Apps/jco/v3/sapjco3.jar$Bundle-SymbolicName=com.sap.conn.jco&Bundle-Version=7.30.1&Bundle-Name=SAP Java Connector v3'
+bundle:install -s 'wrap:file:c:/Apps/jco/v3/hibersap-core-1.1.0.jar$Bundle-SymbolicName=org.hibersap.core&Bundle-Version=1.1.0&Bundle-Name=Hibersap Core'
+bundle:install -s 'wrap:file:c:/Apps/jco/v3/hibersap-jco-1.1.0.jar$Bundle-SymbolicName=org.hibersap.jco&Bundle-Version=1.1.0&Bundle-Name=Hibersap JCo'
 
 Check jars is installed. In Karaf console:
 karaf@trun> list | grep Hibersap
