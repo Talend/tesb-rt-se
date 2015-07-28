@@ -22,7 +22,7 @@ package org.talend.esb.job.controller.internal;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.Properties;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.ws.policy.PolicyBuilder;
@@ -34,7 +34,7 @@ import org.talend.esb.job.controller.PolicyProvider;
 
 public class PolicyProviderImpl implements PolicyProvider {
 
-    private Map<String, String> policyProperties;
+    private Properties policyProperties;
 
     private Policy policyUsername;
     private Policy policySAML;
@@ -42,41 +42,41 @@ public class PolicyProviderImpl implements PolicyProvider {
     private Policy policySAMLCrypto;
     private Policy policySAMLAuthzCrypto;
 
-    public void setPolicyProperties(Map<String, String> policyProperties) {
+    public void setPolicyProperties(Properties policyProperties) {
         this.policyProperties = policyProperties;
     }
 
     public Policy getUsernamePolicy(Bus cxf) {
         if (null == policyUsername) {
-            policyUsername = loadPolicy(policyProperties.get("policy.username"), cxf);
+            policyUsername = loadPolicy(policyProperties.getProperty("policy.username"), cxf);
         }
         return policyUsername;
     }
 
     public Policy getSAMLPolicy(Bus cxf) {
         if (null == policySAML) {
-            policySAML = loadPolicy(policyProperties.get("policy.saml"), cxf);
+            policySAML = loadPolicy(policyProperties.getProperty("policy.saml"), cxf);
         }
         return policySAML;
     }
 
     public Policy getSAMLAuthzPolicy(Bus cxf) {
         if (null == policySAMLAuthz) {
-            policySAMLAuthz = loadPolicy(policyProperties.get("policy.saml.authz"), cxf);
+            policySAMLAuthz = loadPolicy(policyProperties.getProperty("policy.saml.authz"), cxf);
         }
         return policySAMLAuthz;
     }
 
     public Policy getSAMLCryptoPolicy(Bus cxf) {
         if (null == policySAMLCrypto) {
-            policySAMLCrypto = loadPolicy(policyProperties.get("policy.saml.crypto"), cxf);
+            policySAMLCrypto = loadPolicy(policyProperties.getProperty("policy.saml.crypto"), cxf);
         }
         return policySAMLCrypto;
     }
 
     public Policy getSAMLAuthzCryptoPolicy(Bus cxf) {
         if (null == policySAMLAuthzCrypto) {
-            policySAMLAuthzCrypto = loadPolicy(policyProperties.get("policy.saml.authz.crypto"), cxf);
+            policySAMLAuthzCrypto = loadPolicy(policyProperties.getProperty("policy.saml.authz.crypto"), cxf);
         }
         return policySAMLAuthzCrypto;
     }
