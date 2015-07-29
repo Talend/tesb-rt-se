@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.job.controller.internal;
+package org.talend.esb.security.policy.impl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,8 +29,7 @@ import org.apache.cxf.ws.policy.PolicyBuilder;
 import org.apache.cxf.ws.policy.PolicyEngine;
 import org.apache.neethi.Policy;
 import org.apache.neethi.PolicyRegistry;
-import org.talend.esb.job.controller.ESBEndpointConstants;
-import org.talend.esb.job.controller.PolicyProvider;
+import org.talend.esb.security.policy.PolicyProvider;
 
 public class PolicyProviderImpl implements PolicyProvider {
 
@@ -84,15 +83,15 @@ public class PolicyProviderImpl implements PolicyProvider {
     public void register(Bus cxf) {
         final PolicyRegistry policyRegistry =
                 cxf.getExtension(PolicyEngine.class).getRegistry();
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_USERNAME_TOKEN,
+        policyRegistry.register(PolicyProvider.ID_POLICY_USERNAME_TOKEN,
                 getUsernamePolicy(cxf));
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN,
+        policyRegistry.register(PolicyProvider.ID_POLICY_SAML_TOKEN,
                 getSAMLPolicy(cxf));
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ,
+        policyRegistry.register(PolicyProvider.ID_POLICY_SAML_AUTHZ,
                 getSAMLAuthzPolicy(cxf));
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_TOKEN_CRYPTO,
+        policyRegistry.register(PolicyProvider.ID_POLICY_SAML_TOKEN_CRYPTO,
                 getSAMLCryptoPolicy(cxf));
-        policyRegistry.register(ESBEndpointConstants.ID_POLICY_SAML_AUTHZ_CRYPTO,
+        policyRegistry.register(PolicyProvider.ID_POLICY_SAML_AUTHZ_CRYPTO,
                 getSAMLAuthzCryptoPolicy(cxf));
     }
 

@@ -38,9 +38,9 @@ import org.apache.wss4j.common.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.ESBEndpointConstants.OperationStyle;
-import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
+import org.talend.esb.security.policy.PolicyProvider;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import org.w3c.dom.Node;
 

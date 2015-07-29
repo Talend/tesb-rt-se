@@ -25,8 +25,8 @@ import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.talend.esb.job.controller.GenericServiceProvider;
 import org.talend.esb.job.controller.JobLauncher;
-import org.talend.esb.job.controller.PolicyProvider;
 import org.talend.esb.job.controller.ProviderFactory;
+import org.talend.esb.security.policy.PolicyProvider;
 
 public class ProviderFactoryImpl implements ProviderFactory {
 

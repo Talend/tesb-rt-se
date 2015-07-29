@@ -21,10 +21,7 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
         xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0" >
 
-    <cm:cm-properties persistent-id="org.talend.esb.job" id="org.talend.esb.job" />
-    <bean id="policyProvider" class="org.talend.esb.job.controller.internal.PolicyProviderImpl">
-        <property name="policyProperties" ref="org.talend.esb.job" />
-    </bean>
+    <reference id="policyProvider" interface="org.talend.esb.security.policy.PolicyProvider" />
 
     <cm:cm-properties persistent-id="org.talend.esb.job.client" id="org.talend.esb.job.client" />
 

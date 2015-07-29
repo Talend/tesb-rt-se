@@ -22,9 +22,15 @@
         xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0" >
 
     <cm:cm-properties persistent-id="org.talend.esb.job.client.sts" id="org.talend.esb.job.client.sts" />
-
     <bean class="org.talend.esb.security.saml.STSClientUtils" >
         <argument ref="org.talend.esb.job.client.sts" />
     </bean>
+
+    <cm:cm-properties persistent-id="org.talend.esb.job" id="org.talend.esb.job" />
+    <service interface="org.talend.esb.security.policy.PolicyProvider" >
+        <bean class="org.talend.esb.security.policy.impl.PolicyProviderImpl">
+            <property name="policyProperties" ref="org.talend.esb.job" />
+        </bean>
+    </service>
 
 </blueprint>

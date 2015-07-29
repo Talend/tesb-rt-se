@@ -17,12 +17,19 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.job.controller;
+package org.talend.esb.security.policy;
 
 import org.apache.cxf.Bus;
 import org.apache.neethi.Policy;
 
 public interface PolicyProvider {
+
+    // policy id
+    String ID_POLICY_USERNAME_TOKEN = "org.talend.esb.job.token.policy";
+    String ID_POLICY_SAML_TOKEN = "org.talend.esb.job.saml.policy";
+    String ID_POLICY_SAML_AUTHZ = "org.talend.esb.job.saml.authz.policy";
+    String ID_POLICY_SAML_TOKEN_CRYPTO = "org.talend.esb.job.saml.crypto.policy";
+    String ID_POLICY_SAML_AUTHZ_CRYPTO = "org.talend.esb.job.saml.authz.crypto.policy";
 
     Policy getUsernamePolicy(Bus cxf);
 
