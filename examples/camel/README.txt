@@ -30,7 +30,7 @@ Spring-security
 Build
 ===============================================================================
 
-> cd examples
+The examples can be built using Maven.
 > mvn clean install
 
 Prepare the TESB Container for the examples
