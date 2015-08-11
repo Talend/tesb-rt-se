@@ -75,7 +75,7 @@ public final class RESTClient {
 		registerEndpointRequest.setEndpointURL(endpoint);
 		registerEndpointRequest.setServiceName(service);
 		try {
-			client.registerEndpoint(registerEndpointRequest);
+			client.registerEndpointRegisterEndpointRequestJson(registerEndpointRequest);
 			System.out.println("Endpoint registered successfully");
 		} catch (WebApplicationException ex) {
 			System.err.println(ex.getMessage());

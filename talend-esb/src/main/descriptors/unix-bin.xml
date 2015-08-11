@@ -359,9 +359,6 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
-                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <exclude>org/apache/activemq/activemq-osgi/5.11.1/activemq-osgi-5.11.1.jar</exclude>
-                <exclude>org/apache/activemq/activemq-web-console/5.11.1/activemq-web-console-5.11.1.war</exclude>
             </excludes>
         </fileSet>
 
@@ -548,22 +545,6 @@
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-osgi-5.11.1-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-osgi/5.11.1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-web-console-5.11.1-TESB.war</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/5.11.1/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- Workaround for Karaf libraries in features -->
         <file>

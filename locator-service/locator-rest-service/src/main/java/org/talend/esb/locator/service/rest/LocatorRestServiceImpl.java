@@ -195,6 +195,14 @@ public class LocatorRestServiceImpl implements LocatorService {
         }
     }
 
+    public void registerEndpointRegisterEndpointRequestXml(RegisterEndpointRequest registerendpointrequest) {
+        registerEndpoint(registerendpointrequest);
+    }
+
+    public void registerEndpointRegisterEndpointRequestJson(RegisterEndpointRequest registerendpointrequest) {
+        registerEndpoint(registerendpointrequest);
+    }
+
     /**
      * Unregister the endpoint for given service.
      * 

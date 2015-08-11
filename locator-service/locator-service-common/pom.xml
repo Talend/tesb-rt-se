@@ -112,6 +112,9 @@
 									<wadl>${basedir}/src/main/resources/model/LocatorService.wadl</wadl>
 									<impl>false</impl>
 									<packagename>org.talend.services.esb.locator.rest.v1</packagename>
+                                    <extraargs>
+                                        <extraarg>-supportMultipleXmlReps</extraarg>
+                                    </extraargs>
 								</wadlOption>
 							</wadlOptions>
 						</configuration>
