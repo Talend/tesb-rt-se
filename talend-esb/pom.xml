@@ -40,6 +40,7 @@
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
+        <shibboleth.version>7.1.1</shibboleth.version>
 	</properties>
 
 	<dependencies>
@@ -459,6 +460,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
                                 </artifactItem>
+                                <!-- workaround for shibboleth dependency (TESB-16162) -->
+                                <artifactItem>
+                                    <groupId>net.shibboleth.utilities</groupId>
+                                    <artifactId>java-support</artifactId>
+                                    <version>${shibboleth.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>java-support-${shibboleth.version}.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -703,10 +713,11 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>
+                                <!-- workaround for shibboleth dependency (TESB-16162) -->
                                 <replaceregexp  file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
                                            byline="true"
                                            match='^(\s*&lt;bundle start-level="25" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/3.1.0_1&lt;/bundle&gt;\s*)$'
-                                           replace='\1     &lt;!-- Add workaround for shibboleth dependency (TESB-16162) --&gt;${line.separator}        &lt;bundle start-level="30" dependency="true"&gt;wrap:mvn:net.shibboleth.utilities/java-support/7.1.1&lt;/bundle&gt;'>
+                                           replace='\1     &lt;!-- Add workaround for shibboleth dependency (TESB-16162) --&gt;${line.separator}        &lt;bundle start-level="30" dependency="true"&gt;wrap:mvn:net.shibboleth.utilities/java-support/${shibboleth.version}&lt;/bundle&gt;'>
                                 </replaceregexp>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter

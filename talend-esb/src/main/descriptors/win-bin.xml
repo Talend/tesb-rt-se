@@ -563,6 +563,12 @@
             <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <!-- workaround for shibboleth dependency (TESB-16162) -->
+        <file>
+            <source>${basedir}/target/dependencies/java-support-${shibboleth.version}.jar</source>
+            <outputDirectory>/container/system/net/shibboleth/utilities/java-support/${shibboleth.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
     </files>
 
     <dependencySets>
