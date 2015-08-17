@@ -50,7 +50,7 @@ public class LocatorRegistrar {
 
     private String endpointPrefix = "";
 
-    private Map<String, String> endpointPrefixes = null;
+    private Map<String, String> endpointPrefixes;
 
     private Map<Bus, SingleBusLocatorRegistrar> busRegistrars = 
         Collections.synchronizedMap(new LinkedHashMap<Bus, SingleBusLocatorRegistrar>());
@@ -108,6 +108,7 @@ public class LocatorRegistrar {
 
             @Override
             public void postShutdown() {
+                locatorClient.removePostConnectAction(busRegistrars.get(bus));
                 busRegistrars.remove(bus);
 //                manager.unregisterLifeCycleListener(this);
             }

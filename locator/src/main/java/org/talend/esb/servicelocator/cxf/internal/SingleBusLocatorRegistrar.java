@@ -19,11 +19,7 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,13 +32,13 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.transport.Destination;
 import org.apache.cxf.ws.policy.EndpointPolicy;
 import org.apache.cxf.ws.policy.PolicyEngine;
-import org.apache.wss4j.policy.model.HttpsToken;
-import org.apache.wss4j.policy.model.AbstractToken;
-import org.apache.wss4j.policy.model.TransportBinding;
-import org.apache.wss4j.policy.model.TransportToken;
 import org.apache.neethi.Assertion;
 import org.apache.neethi.Policy;
 import org.apache.neethi.PolicyComponent;
+import org.apache.wss4j.policy.model.AbstractToken;
+import org.apache.wss4j.policy.model.HttpsToken;
+import org.apache.wss4j.policy.model.TransportBinding;
+import org.apache.wss4j.policy.model.TransportToken;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
@@ -53,14 +49,14 @@ import org.talend.esb.servicelocator.client.TransportType;
  * The Servers endpoint can either be {@link #registerServer(Server) registered explicitly} or the
  * LocatorRegistrar can be {@link #startListenForServers() enabled to listen for all Servers} that are in the
  * process to start and to register them all.
- * <p>
+ * <p/>
  * If a server which was registered before stops the LocatorRegistrar automatically unregisters from the
  * Service Locator.
  */
 public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, ServiceLocator.PostConnectAction {
 
     private static final Logger LOG =
-        Logger.getLogger(SingleBusLocatorRegistrar.class.getPackage().getName());
+            Logger.getLogger(SingleBusLocatorRegistrar.class.getPackage().getName());
 
     private Bus bus;
 
@@ -68,10 +64,10 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     private String endpointPrefix = "";
 
-    private Map<String, String> endpointPrefixes = null;
+    private Map<String, String> endpointPrefixes;
 
-    private Map<Server, CXFEndpointProvider> registeredServers = 
-        Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
+    private Map<Server, CXFEndpointProvider> registeredServers =
+            Collections.synchronizedMap(new LinkedHashMap<Server, CXFEndpointProvider>());
 
     private boolean listenForServersEnabled;
 
@@ -127,7 +123,8 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     public void setServiceLocator(ServiceLocator serviceLocator) {
         locatorClient = serviceLocator;
-        serviceLocator.setPostConnectAction(this);
+        locatorClient.addPostConnectAction(this);
+
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set.");
         }
@@ -161,7 +158,8 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
             } else {
                 if (isSecuredByProperty(server) || isSecuredByPolicy(server)) {
                     if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Endpoint " + server.getEndpoint().getEndpointInfo().getService().toString() + " is secured");
+                        LOG.fine("Endpoint " + server.getEndpoint().getEndpointInfo().getService().toString() +
+                                " is secured");
                     }
                     prefix = endpointPrefixes.get(TransportType.HTTPS.toString());
                 } else {
@@ -224,16 +222,16 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         return server.getEndpoint().getEndpointInfo().getAddress();
     }
 
-    private boolean isRelativeAddress(String address){
-        if (address.startsWith("http://") || address.startsWith("https://")){
+    private boolean isRelativeAddress(String address) {
+        if (address.startsWith("http://") || address.startsWith("https://")) {
             return false;
         }
         return true;
     }
 
     /**
-    * Is the transport secured by a policy
-    */
+     * Is the transport secured by a policy
+     */
     private boolean isSecuredByPolicy(Server server) {
         boolean isSecured = false;
 
@@ -250,7 +248,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         Collection<Assertion> assertions = ep.getChosenAlternative();
         for (Assertion a : assertions) {
             if (a instanceof TransportBinding) {
-                TransportBinding tb = (TransportBinding)a;
+                TransportBinding tb = (TransportBinding) a;
                 TransportToken tt = tb.getTransportToken();
                 AbstractToken t = tt.getToken();
                 if (t instanceof HttpsToken) {
@@ -264,7 +262,7 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         List<PolicyComponent> pcList = policy.getPolicyComponents();
         for (PolicyComponent a : pcList) {
             if (a instanceof TransportBinding) {
-                TransportBinding tb = (TransportBinding)a;
+                TransportBinding tb = (TransportBinding) a;
                 TransportToken tt = tb.getTransportToken();
                 AbstractToken t = tt.getToken();
                 if (t instanceof HttpsToken) {
@@ -286,14 +284,15 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
         if (value instanceof String) {
             try {
-                isSecured = Boolean.valueOf((String)value);
-            } catch (Exception ex) {}
+                isSecured = Boolean.valueOf((String) value);
+            } catch (Exception ex) {
+            }
         }
 
         return isSecured;
     }
 
-    private  void check(Object obj, String propertyName, String methodName) {
+    private void check(Object obj, String propertyName, String methodName) {
         if (obj == null) {
             throw new IllegalStateException("The property " + propertyName + " must be set before "
                     + methodName + " can be called.");

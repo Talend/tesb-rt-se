@@ -388,7 +388,16 @@ public interface ServiceLocator {
      * @param postConnectAction
      *            the action to be executed, must not be <code>null</code>.
      */
-    void setPostConnectAction(PostConnectAction postConnectAction);
+    void addPostConnectAction(PostConnectAction postConnectAction);
+
+    /**
+     * Remove the action to be be executed after the Service Locator has
+     * connected to the server.
+     *
+     * @param postConnectAction
+     *            the action to be executed, must not be <code>null</code>.
+     */
+    void removePostConnectAction(PostConnectAction postConnectAction);
 
     /**
      * Callback interface to define actions that must be executed after a

@@ -64,6 +64,15 @@ public interface ServiceLocatorBackend {
      * @param postConnectAction
      *            the action to be executed, must not be <code>null</code>.
      */
-    void setPostConnectAction(PostConnectAction postConnectAction);
+    void addPostConnectAction(PostConnectAction postConnectAction);
+
+    /**
+     * Specify the action to be be executed after the Service Locator has
+     * connected to the server.
+     *
+     * @param postConnectAction
+     *            the action to be executed, must not be <code>null</code>.
+     */
+    void removePostConnectAction(PostConnectAction postConnectAction);
 
 }

@@ -19,29 +19,14 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.ZooKeeper;
-import org.talend.esb.servicelocator.client.Endpoint;
-import org.talend.esb.servicelocator.client.EndpointNotFoundException;
-import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
-import org.talend.esb.servicelocator.client.SLEndpoint;
-import org.talend.esb.servicelocator.client.SLProperties;
-import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
-import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
-import org.talend.esb.servicelocator.client.SimpleEndpoint;
-import org.talend.esb.servicelocator.client.WrongArgumentException;
+import org.talend.esb.servicelocator.client.*;
 import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
 /**
@@ -50,14 +35,13 @@ import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
  * Service Locator to get a session assigned. Once the connection is established
  * the client will periodically send heart beats to the server to keep the
  * session alive.
- * <p>
+ * <p/>
  * The Service Locator provides the following operations.
  * <ul>
  * <li>An endpoint for a specific service can be registered.
  * <li>All endpoints for a specific service that were registered before by other
  * clients can be looked up.
  * </ul>
- * 
  */
 public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollector {
 
@@ -383,8 +367,9 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
                         StringBuilder sb = new StringBuilder();
                         for (String prop : props.getPropertyNames()) {
                             sb.append(prop + " : ");
-                            for (String value : props.getValues(prop))
+                            for (String value : props.getValues(prop)) {
                                 sb.append(value + " ");
+                            }
                             sb.append("\n");
                         }
                         LOG.info("Lookup of service " + serviceName + " props = " + sb.toString());
@@ -414,13 +399,12 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@link #connect() connecting}. The object will one by one pick an
      * endpoint (the order is non-deterministic) to connect to the service
      * locator until a connection is established.
-     * 
-     * @param endpoints
-     *            comma separated list of endpoints,each corresponding to a
-     *            service locator instance. Each endpoint is specified as a
-     *            host:port pair. At least one endpoint must be specified. Valid
-     *            exmaples are: "127.0.0.1:2181" or
-     *            "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
+     *
+     * @param endpoints comma separated list of endpoints,each corresponding to a
+     *                  service locator instance. Each endpoint is specified as a
+     *                  host:port pair. At least one endpoint must be specified. Valid
+     *                  exmaples are: "127.0.0.1:2181" or
+     *                  "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
      */
 
     public void setLocatorEndpoints(String endpoints) {
@@ -435,10 +419,9 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * session is kept alive by requests sent by this client object. If the
      * session is idle for a period of time that would timeout the session, the
      * client will send a PING request to keep the session alive.
-     * 
-     * @param sessionTimeout
-     *            timeout in milliseconds, must be greater than zero and less
-     *            than 60000.
+     *
+     * @param timeout timeout in milliseconds, must be greater than zero and less
+     *                       than 60000.
      */
 
     public void setSessionTimeout(int timeout) {
@@ -452,9 +435,8 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
     /**
      * Specify the time this client waits {@link #connect() for a connection to
      * get established}.
-     * 
-     * @param connectionTimeout
-     *            timeout in milliseconds, must be greater than zero
+     *
+     * @param timeout timeout in milliseconds, must be greater than zero
      */
 
     public void setConnectionTimeout(int timeout) {
@@ -463,10 +445,6 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Locator connection timeout set to: " + timeout);
         }
-    }
-
-    public void setBackend(ServiceLocatorBackend backend) {
-        this.backend = backend;
     }
 
     public void setName(String name) {
@@ -496,8 +474,16 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
      * {@inheritDoc}
      */
     @Override
-    public void setPostConnectAction(PostConnectAction postConnectAction) {
-        backend.setPostConnectAction(postConnectAction);
+    public void addPostConnectAction(PostConnectAction postConnectAction) {
+        backend.addPostConnectAction(postConnectAction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removePostConnectAction(PostConnectAction postConnectAction) {
+        backend.removePostConnectAction(postConnectAction);
     }
 
     private byte[] createContent(Endpoint eprProvider, long lastTimeStarted, long lastTimeStopped)
@@ -510,6 +496,10 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
             backend = new ZKBackend();
         }
         return backend;
+    }
+
+    public void setBackend(ServiceLocatorBackend backend) {
+        this.backend = backend;
     }
 
     protected ZooKeeper createZooKeeper(CountDownLatch connectionLatch) throws ServiceLocatorException {

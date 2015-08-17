@@ -1,33 +1,26 @@
 package org.talend.esb.servicelocator.client.internal.zk;
 
-import static org.talend.esb.servicelocator.client.internal.zk.ServiceLocatorACLs.LOCATOR_ACLS;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.zookeeper.CreateMode;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 import org.apache.zookeeper.KeeperException.Code;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.data.ACL;
 import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.NodePath;
 import org.talend.esb.servicelocator.client.internal.RootNode;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorBackend;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
-import org.talend.esb.servicelocator.client.ServiceLocator;
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
+
+import static org.talend.esb.servicelocator.client.internal.zk.ServiceLocatorACLs.LOCATOR_ACLS;
 
 public class ZKBackend implements ServiceLocatorBackend {
 
@@ -40,13 +33,13 @@ public class ZKBackend implements ServiceLocatorBackend {
 
     private static final byte[] EMPTY_CONTENT = new byte[0];
 
-    private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
-        @Override
-        public void process(ServiceLocator lc) {
-        }
-    };
+//    private static final PostConnectAction DO_NOTHING_ACTION = new PostConnectAction() {
+//        @Override
+//        public void process(ServiceLocator lc) {
+//        }
+//    };
 
-    private PostConnectAction postConnectAction = DO_NOTHING_ACTION;
+    private Set<PostConnectAction> postConnectActions = new HashSet<PostConnectAction>();
 
 //    private int sessionTimeout = 5000;
 
@@ -59,8 +52,9 @@ public class ZKBackend implements ServiceLocatorBackend {
     private volatile ZooKeeper zk;
 
     private RootNodeImpl rootNode = new RootNodeImpl(this);
-    
+
     {
+//        postConnectActionList.add(DO_NOTHING_ACTION);
         settings.setEndpoints("localhost:2181");
     }
 
@@ -90,7 +84,9 @@ public class ZKBackend implements ServiceLocatorBackend {
                         "Connection to Service Locator failed.");
             }
 
-            postConnectAction.process(null);
+            for (PostConnectAction postConnectAction : postConnectActions) {
+                postConnectAction.process(null);
+            }
 
             if (LOG.isLoggable(Level.FINER)) {
                 LOG.log(Level.FINER, "End connect session");
@@ -240,16 +236,13 @@ public class ZKBackend implements ServiceLocatorBackend {
     }
 
     /**
-     * 
-     * @param path
-     *            Path to the node to be removed
-     * @param canHaveChildren
-     *            If <code>false</code> method throws an exception in case we
-     *            have {@link KeeperException} with code
-     *            {@link KeeperException.Code.NOTEMPTY NotEmpty}. If
-     *            <code>true</code>, node just not be deleted in case we have
-     *            Keeper {@link KeeperException.NotEmptyException
-     *            NotEmptyException}.
+     * @param path            Path to the node to be removed
+     * @param canHaveChildren If <code>false</code> method throws an exception in case we
+     *                        have {@link KeeperException} with code
+     *                        {@link KeeperException.Code.NOTEMPTY NotEmpty}. If
+     *                        <code>true</code>, node just not be deleted in case we have
+     *                        Keeper {@link KeeperException.NotEmptyException
+     *                        NotEmptyException}.
      * @throws ServiceLocatorException
      * @throws InterruptedException
      */
@@ -279,8 +272,13 @@ public class ZKBackend implements ServiceLocatorBackend {
     }
 
     @Override
-    public void setPostConnectAction(PostConnectAction postConnectAction) {
-        this.postConnectAction = postConnectAction;
+    public void addPostConnectAction(PostConnectAction postConnectAction) {
+        postConnectActions.add(postConnectAction);
+    }
+
+    @Override
+    public void removePostConnectAction(PostConnectAction postConnectAction) {
+        postConnectActions.remove(postConnectAction);
     }
 
     /**
@@ -289,13 +287,12 @@ public class ZKBackend implements ServiceLocatorBackend {
      * {@link #connect() connecting}. The object will one by one pick an
      * endpoint (the order is non-deterministic) to connect to the service
      * locator until a connection is established.
-     * 
-     * @param endpoints
-     *            comma separated list of endpoints,each corresponding to a
-     *            service locator instance. Each endpoint is specified as a
-     *            host:port pair. At least one endpoint must be specified. Valid
-     *            exmaples are: "127.0.0.1:2181" or
-     *            "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
+     *
+     * @param endpoints comma separated list of endpoints,each corresponding to a
+     *                  service locator instance. Each endpoint is specified as a
+     *                  host:port pair. At least one endpoint must be specified. Valid
+     *                  exmaples are: "127.0.0.1:2181" or
+     *                  "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
      */
     public void setLocatorEndpoints(String endpoints) {
         settings.setEndpoints(endpoints);
@@ -309,10 +306,9 @@ public class ZKBackend implements ServiceLocatorBackend {
      * session is kept alive by requests sent by this client object. If the
      * session is idle for a period of time that would timeout the session, the
      * client will send a PING request to keep the session alive.
-     * 
-     * @param sessionTimeout
-     *            timeout in milliseconds, must be greater than zero and less
-     *            than 60000.
+     *
+     * @param timeout timeout in milliseconds, must be greater than zero and less
+     *                than 60000.
      */
     public void setSessionTimeout(int timeout) {
         settings.setSessionTimeout(timeout);
@@ -321,9 +317,8 @@ public class ZKBackend implements ServiceLocatorBackend {
     /**
      * Specify the time this client waits {@link #connect() for a connection to
      * get established}.
-     * 
-     * @param connectionTimeout
-     *            timeout in milliseconds, must be greater than zero
+     *
+     * @param timeout timeout in milliseconds, must be greater than zero
      */
     public void setConnectionTimeout(int timeout) {
         settings.setConnectionTimeout(timeout);
@@ -376,6 +371,11 @@ public class ZKBackend implements ServiceLocatorBackend {
                 "The service locator server signaled an error.", e);
     }
 
+    public interface NodeMapper<T> {
+        T map(String nodeName) throws ServiceLocatorException,
+                InterruptedException;
+    }
+
     public class WatcherImpl implements Watcher {
 
         private CountDownLatch connectionLatch;
@@ -403,7 +403,10 @@ public class ZKBackend implements ServiceLocatorBackend {
                         }
                     }
                     //fix for TESB-9642
-                    //postConnectAction.process(null); moved to connect() method
+//                    for (PostConnectAction postConnectAction : postConnectActionList) {
+//                        postConnectAction.process(null);
+//                    }
+                    //moved to connect() method
                     connectionLatch.countDown();
                 } else if (eventState == KeeperState.Expired) {
                     connect();
@@ -422,11 +425,6 @@ public class ZKBackend implements ServiceLocatorBackend {
                 }
             }
         }
-    }
-
-    public interface NodeMapper<T> {
-        T map(String nodeName) throws ServiceLocatorException,
-                InterruptedException;
     }
 
 }

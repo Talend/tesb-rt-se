@@ -72,7 +72,7 @@ public class LocatorRegistrarTest extends EasyMockSupport {
     @Before
     public void setUp() {
         sl = createMock(ServiceLocator.class);
-        sl.setPostConnectAction((PostConnectAction) anyObject());
+        sl.addPostConnectAction((PostConnectAction) anyObject());
         expectLastCall().anyTimes();
         
     }
