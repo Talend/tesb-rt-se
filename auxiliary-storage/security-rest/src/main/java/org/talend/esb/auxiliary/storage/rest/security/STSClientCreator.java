@@ -47,8 +47,17 @@ public class STSClientCreator {
                 props.put(entry.getKey(), value);
             }
         }
+        
+        String user = stsProps.get(SecurityConstants.USERNAME);
+        if (user == null) {
+            user = stsProps.get("ws-" + SecurityConstants.USERNAME);
+        }
+        String password = stsProps.get(SecurityConstants.PASSWORD);
+        if (password == null) {
+            password = stsProps.get("ws-" + SecurityConstants.PASSWORD);
+        }
         props.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(
-                stsProps.get(SecurityConstants.USERNAME), stsProps.get(SecurityConstants.PASSWORD)));
+                user, password));
 
         stsClient.setProperties(props);
 

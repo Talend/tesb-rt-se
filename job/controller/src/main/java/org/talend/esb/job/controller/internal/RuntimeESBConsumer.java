@@ -199,9 +199,12 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 }
             }
             if (null == securityArguments.getAlias()) {
+                String sigUser = clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME);
+                if (sigUser == null) {
+                    sigUser = clientPropsDef.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
+                }
                 clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                        new WSPasswordCallbackHandler(
-                            clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME),
+                        new WSPasswordCallbackHandler(sigUser,
                             clientPropsDef.get(SAMLRESTUtils.SIGNATURE_PASSWORD)));
             } else {
                 clientProps.put(SecurityConstants.SIGNATURE_USERNAME, securityArguments.getAlias());
@@ -213,6 +216,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
             if (null != securityArguments.getCryptoProvider()) {
                 clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
                 Object encryptUsername = clientProps.get(SecurityConstants.ENCRYPT_USERNAME);
+                if (encryptUsername == null) {
+                    encryptUsername = clientPropsDef.get("ws-" + SecurityConstants.ENCRYPT_USERNAME);
+                }
                 if (encryptUsername == null || encryptUsername.toString().isEmpty()) {
                     clientProps.put(SecurityConstants.ENCRYPT_USERNAME, serviceName.toString());
                 }
