@@ -353,7 +353,7 @@
                 <!-- workaround CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
-                <exclude>org/apache/cxf/**/3.0.4/**</exclude>
+                <exclude>org/apache/cxf/**/3.0.6/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
