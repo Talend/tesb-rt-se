@@ -21,46 +21,58 @@ package org.talend.esb.locator.commands;
 
 import javax.xml.namespace.QName;
 
-import org.apache.felix.gogo.commands.Argument;
-import org.apache.felix.gogo.commands.Command;
-import org.apache.karaf.shell.console.OsgiCommandSupport;
+import org.apache.karaf.shell.api.action.Action;
+import org.apache.karaf.shell.api.action.Argument;
+import org.apache.karaf.shell.api.action.Command;
+import org.apache.karaf.shell.api.action.Completion;
+import org.apache.karaf.shell.api.action.lifecycle.Reference;
+import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.talend.esb.locator.completer.EndpointAddressCompleter;
+import org.talend.esb.locator.completer.ServiceNameCompleter;
 import org.talend.esb.locator.tracker.ServiceLocatorTracker;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 @Command(scope = "tlocator", name = "remove", description = "Removes endpoint from Service Locator\n"
-                                                              + "\n\u001b[1;37mEXAMPLE\u001b[0m"
-                                                              + "\n\ttlocator:remove \"{http://my.company.com/my-service-namespace}MyServiceName\" http://my.server.com:8040/services/MyServiceName"
-                                                              + "\n\ttlocator:remove MyServiceName http://another.server.com:8040/services/MyServiceName")
-public class RemoveOperation extends OsgiCommandSupport {
+        + "\n\u001b[1;37mEXAMPLE\u001b[0m"
+        + "\n\ttlocator:remove \"{http://my.company.com/my-service-namespace}MyServiceName\" http://my.server.com:8040/services/MyServiceName"
+        + "\n\ttlocator:remove MyServiceName http://another.server.com:8040/services/MyServiceName")
+@Service
+public class RemoveOperation implements Action {
 
-    private ServiceLocator sl;
-
-    @Argument(index = 0, name = "serviceName", description = "Service name of endpoint to be removed.\nIf Service name is unique at Service Locator it is sufficient to only type local part of service name. Command completion is available.", required = true, multiValued = false)
+    @Argument(index = 0,
+            name = "serviceName",
+            description = "Service name of endpoint to be removed.\n" +
+                    "If Service name is unique at Service Locator it is sufficient to " +
+                    "only type local part of service name. Command completion is available.",
+            required = true,
+            multiValued = false)
+    @Completion(ServiceNameCompleter.class)
     String service;
 
-    @Argument(index = 1, name = "URL", description = "Endpoint address to be removed from Service Locator. This endpoint will not be tracked / listed any longer.", required = true, multiValued = false)
+    @Argument(index = 1,
+            name = "URL",
+            description = "Endpoint address to be removed from Service Locator. " +
+                    "This endpoint will not be tracked / listed any longer.",
+            required = true,
+            multiValued = false)
+    @Completion(EndpointAddressCompleter.class)
     String endpoint;
 
-    /**
-     * Needed to resolve local part of service name to fully qualified service name.
-     */
-    private ServiceLocatorTracker slt;
-
-    public void setServiceLocator(ServiceLocator sl) {
-        this.sl = sl;
-        slt = ServiceLocatorTracker.getInstance(sl);
-    }
+    @Reference
+    private ServiceLocator sl;
 
     @Override
-    protected Object doExecute() throws Exception {
+    public Object execute() throws Exception {
+
+        ServiceLocatorTracker slt = ServiceLocatorTracker.getInstance(sl);
 
         System.out.println();
         try {
             QName serviceName = slt.getServiceName(service);
             sl.removeEndpoint(serviceName, endpoint);
             System.out.println("Endpoint has been removed from Service Locator");
-            slt.updateServiceListe();
+            slt.updateServiceList();
         } catch (ServiceLocatorException e) {
             System.err.println(e.getMessage());
         }

@@ -17,58 +17,42 @@
  * limitations under the License.
  * #L%
  */
-
 package org.talend.esb.locator.completer;
 
 import java.util.List;
 
-import org.apache.felix.service.command.CommandSession;
-import org.apache.karaf.shell.console.completer.ArgumentCompleter;
-import org.apache.karaf.shell.console.completer.StringsCompleter;
-import org.apache.karaf.shell.console.CommandSessionHolder;
+import org.apache.karaf.shell.api.action.lifecycle.Reference;
+import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.apache.karaf.shell.api.console.CommandLine;
+import org.apache.karaf.shell.api.console.Completer;
+import org.apache.karaf.shell.api.console.Session;
+import org.apache.karaf.shell.support.completers.StringsCompleter;
 import org.talend.esb.locator.tracker.ServiceLocatorTracker;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
-public class EndpointAddressCompleter extends StringsCompleter {
+@Service
+public class EndpointAddressCompleter implements Completer {
 
-    private ServiceNameCompleter serviceNameCompleter;
-
-    private ServiceLocatorTracker slt;
-
-    public EndpointAddressCompleter(ServiceLocator serviceLocator) {
-        super(true);
-        slt = ServiceLocatorTracker.getInstance(serviceLocator);
-        serviceNameCompleter = new ServiceNameCompleter(serviceLocator);
-    }
+    @Reference
+    private ServiceLocator sl;
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public int complete(String buffer, int cursor, List candidates) {
-        CommandSession session = CommandSessionHolder.getSession();
-        ArgumentCompleter.ArgumentList list = (ArgumentCompleter.ArgumentList)session.get(ArgumentCompleter.ARGUMENTS_LIST);
-        String[] arguments = list.getArguments();
-        int index = list.getCursorArgumentIndex();
+    public int complete(Session session, CommandLine commandLine, List<String> list) {
+
+        ServiceLocatorTracker slt = ServiceLocatorTracker.getInstance(sl);
+
+        String[] arguments = commandLine.getArguments();
         int paramCount = 0;
         for (String arg : arguments) {
             if (arg.startsWith("-")) {
                 paramCount++;
             }
         }
-        switch (index - paramCount) {
-        case 1:
-            // Needed because of bug in karaf
-            return serviceNameCompleter.complete(buffer, cursor, candidates);
-        case 2:
-            buffer = (arguments.length - paramCount > 2)
-                ? arguments[arguments.length - 1]
-                : null;
-            synchronized (getStrings()) {
-                getStrings().clear();
-                getStrings().addAll(slt.getEndpoints(arguments[(arguments.length - paramCount > 2) ? arguments.length - 2 : arguments.length - 1]));
-                return super.complete(buffer, cursor, candidates);
-            }
-        default:
-            return -1;
-        }
+
+        StringsCompleter delegate2 = new StringsCompleter();
+        delegate2.getStrings().addAll(slt.getEndpoints(arguments[(arguments.length - paramCount > 2)
+                ? arguments.length - 2
+                : arguments.length - 1]));
+        return delegate2.complete(session, commandLine, list);
     }
 }

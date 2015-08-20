@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
-public class ServiceLocatorTracker {
+public final class ServiceLocatorTracker {
 
     static final int INTERVAL = 30; // Check for Service updates every 30 seconds
 
@@ -62,7 +62,7 @@ public class ServiceLocatorTracker {
         startMonitoringServiceList();
     }
 
-    public synchronized static ServiceLocatorTracker getInstance(ServiceLocator serviceLocator) {
+    public static synchronized ServiceLocatorTracker getInstance(ServiceLocator serviceLocator) {
         if (serviceLocatorTracker == null) {
             serviceLocatorTracker = new ServiceLocatorTracker(serviceLocator);
         }
@@ -75,14 +75,13 @@ public class ServiceLocatorTracker {
 
             @Override
             public void run() {
-                updateServiceListe();
+                updateServiceList();
             }
         }, 2, INTERVAL, TimeUnit.SECONDS);
     }
 
-    public void updateServiceListe() {
+    public void updateServiceList() {
         try {
-
             List<QName> services = sl.getServices();
             synchronized (this) {
                 serviceMap.clear();

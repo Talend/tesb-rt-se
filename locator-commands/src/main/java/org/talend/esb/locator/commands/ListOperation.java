@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,22 +17,21 @@
  * limitations under the License.
  * #L%
  */
+
 package org.talend.esb.locator.commands;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import java.util.*;
 import javax.xml.namespace.QName;
 
-import org.apache.felix.gogo.commands.Argument;
-import org.apache.felix.gogo.commands.Command;
-import org.apache.felix.gogo.commands.Option;
-import org.apache.karaf.shell.console.OsgiCommandSupport;
+import org.apache.karaf.shell.api.action.Action;
+import org.apache.karaf.shell.api.action.Argument;
+import org.apache.karaf.shell.api.action.Command;
+import org.apache.karaf.shell.api.action.Completion;
+import org.apache.karaf.shell.api.action.Option;
+import org.apache.karaf.shell.api.action.lifecycle.Reference;
+import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.talend.esb.locator.completer.ServiceNameCompleter;
 import org.talend.esb.locator.tracker.ServiceLocatorTracker;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -40,64 +39,84 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 @Command(scope = "tlocator", name = "list", description = "List Service Locator Endpoints")
-public class ListOperation extends OsgiCommandSupport {
+@Service
+public class ListOperation implements Action {
 
-    @Option(name = "-v", aliases = {
-        "--verbose"
-    }, required = false, description = "Verbose output. Prints all service and endpoint attributes.", multiValued = false)
+    @Option(name = "-v",
+            aliases = {"--verbose"},
+            required = false,
+            description = "Verbose output. Prints all service and endpoint attributes.",
+            multiValued = false)
     boolean verbose;
 
-    @Option(name = "-ns", aliases = {
-        "--namespace"
-    }, required = false, description = "Prints service name including namespace", multiValued = false)
+    @Option(name = "-ns",
+            aliases = {"--namespace"},
+            required = false,
+            description = "Prints service name including namespace",
+            multiValued = false)
     boolean printServiceNamespace;
 
-    @Option(name = "-p", aliases = {
-        "--protocol"
-    }, required = false, description = "Prints message protocol for endpoints", multiValued = false)
+    @Option(name = "-p",
+            aliases = {"--protocol"},
+            required = false,
+            description = "Prints message protocol for endpoints",
+            multiValued = false)
     boolean printProtocol;
 
-    @Option(name = "-t", aliases = {
-        "--transport"
-    }, required = false, description = "Prints transport protocol for endpoints", multiValued = false)
+    @Option(name = "-t",
+            aliases = {"--transport"},
+            required = false,
+            description = "Prints transport protocol for endpoints",
+            multiValued = false)
     boolean printTransport;
 
-    @Option(name = "-d", aliases = {
-        "--date"
-    }, required = false, description = "Prints date for endpoints: online/offline since...", multiValued = false)
+    @Option(name = "-d",
+            aliases = {"--date"},
+            required = false,
+            description = "Prints date for endpoints: online/offline since...",
+            multiValued = false)
     boolean printDate;
 
-    @Option(name = "-ep", aliases = {
-        "--properties", "--prop"
-    }, required = false, description = "Prints optional endpoint properties", multiValued = false)
+    @Option(name = "-ep",
+            aliases = {"--properties", "--prop"},
+            required = false,
+            description = "Prints optional endpoint properties",
+            multiValued = false)
     boolean printProperties;
 
-    @Option(name = "-o", aliases = {
-        "--offline-endpoints"
-    }, required = false, description = "Prints only services with at least one offline endpoint", multiValued = false)
+    @Option(name = "-o",
+            aliases = {"--offline-endpoints"},
+            required = false,
+            description = "Prints only services with at least one offline endpoint",
+            multiValued = false)
     boolean offlineEndpointsOnly;
 
-    @Option(name = "-O", aliases = {
-        "--offline-services"
-    }, required = false, description = "Prints only services with no active endpoint", multiValued = false)
+    @Option(name = "-O",
+            aliases = {"--offline-services"},
+            required = false,
+            description = "Prints only services with no active endpoint",
+            multiValued = false)
     boolean offlineServicesOnly;
 
-    @Argument(index = 0, name = "filter", description = "Servicename filter. True if any part of the service name matches this filter. This filter is case sensitive.", required = false, multiValued = false)
+    @Argument(index = 0,
+            name = "filter",
+            description = "Servicename filter. True if any part of the service name matches this filter. " +
+                    "This filter is case sensitive.",
+            required = false,
+            multiValued = false)
+    @Completion(ServiceNameCompleter.class)
     String filter;
 
-    private ServiceLocatorTracker slt;
 
+    @Reference
     private ServiceLocator sl;
 
-    public ListOperation(ServiceLocator serviceLocator) {
-        sl = serviceLocator;
-        slt = ServiceLocatorTracker.getInstance(serviceLocator);
-    }
-
     @Override
-    protected Object doExecute() throws Exception {
+    public Object execute() throws Exception {
 
-        slt.updateServiceListe();
+        ServiceLocatorTracker slt = ServiceLocatorTracker.getInstance(sl);
+
+        slt.updateServiceList();
 
         try {
             List<QName> services = new ArrayList<QName>(slt.getServiceQNames());
@@ -135,8 +154,8 @@ public class ListOperation extends OsgiCommandSupport {
                     if (!offlineEndpointsOnly || offlineEndpointsOnly && !alive) {
                         sb.append(" |-");
                         sb.append(alive
-                            ? "\u001b[1;32m online \u001b[0m : "
-                            : "\u001b[1;31m offline\u001b[0m : ");
+                                ? "\u001b[1;32m online \u001b[0m : "
+                                : "\u001b[1;31m offline\u001b[0m : ");
 
                         String address = endpoint.getAddress();
                         sb.append(address);
@@ -179,8 +198,8 @@ public class ListOperation extends OsgiCommandSupport {
 
                 // Now print complete StringBuilder content
                 if (!offlineServicesOnly && !offlineEndpointsOnly // No offline filter applied
-                    || offlineServicesOnly && onlineEndpointsCount == 0 // Only services with no active endpoint
-                    || offlineEndpointsOnly && !offlineServicesOnly && offlineEndpointsCount > 0) // Only offline endpoints
+                        || offlineServicesOnly && onlineEndpointsCount == 0 // Only services with no active endpoint
+                        || offlineEndpointsOnly && !offlineServicesOnly && offlineEndpointsCount > 0) // Only offline endpoints
                 {
                     System.out.println();
                     System.out.println(sb);
@@ -248,5 +267,4 @@ public class ListOperation extends OsgiCommandSupport {
         }
         return timeStampStr;
     }
-
 }

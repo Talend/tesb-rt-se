@@ -21,41 +21,30 @@
 package org.talend.esb.locator.completer;
 
 import java.util.List;
+import java.util.Set;
 
-import org.apache.felix.service.command.CommandSession;
-import org.apache.karaf.shell.console.completer.ArgumentCompleter;
-import org.apache.karaf.shell.console.completer.StringsCompleter;
-import org.apache.karaf.shell.console.CommandSessionHolder;
+import org.apache.karaf.shell.api.action.lifecycle.Reference;
+import org.apache.karaf.shell.api.action.lifecycle.Service;
+import org.apache.karaf.shell.api.console.CommandLine;
+import org.apache.karaf.shell.api.console.Completer;
+import org.apache.karaf.shell.api.console.Session;
+import org.apache.karaf.shell.support.completers.StringsCompleter;
 import org.talend.esb.locator.tracker.ServiceLocatorTracker;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
-public class FullServiceNameCompleter extends StringsCompleter {
+@Service
+public class FullServiceNameCompleter implements Completer {
 
-    private ServiceLocatorTracker slt;
-
-    public FullServiceNameCompleter(ServiceLocator serviceLocator) {
-        super(true);
-        slt = ServiceLocatorTracker.getInstance(serviceLocator);
-    }
+    @Reference
+    private ServiceLocator sl;
 
     @Override
-    @SuppressWarnings({
-        "rawtypes", "unchecked"
-    })
-    public int complete(String buffer, int cursor, List candidates) {
-        CommandSession session = CommandSessionHolder.getSession();
-        ArgumentCompleter.ArgumentList list = (ArgumentCompleter.ArgumentList)session.get(ArgumentCompleter.ARGUMENTS_LIST);
-        switch (list.getCursorArgumentIndex()) {
-        case 1:
-            synchronized (getStrings()) {
-                getStrings().clear();
-                getStrings().addAll(slt.getServiceNames(true));
-                return super.complete(buffer, cursor, candidates);
-            }
-        default:
-            candidates.add("");
-            return 0;
+    public int complete(Session session, CommandLine commandLine, List<String> list) {
+        StringsCompleter delegate = new StringsCompleter();
+        Set<String> strings = ServiceLocatorTracker.getInstance(sl).getServiceNames(true);
+        for (String string : strings) {
+            delegate.getStrings().add(string);
         }
+        return delegate.complete(session, commandLine, list);
     }
-
 }
