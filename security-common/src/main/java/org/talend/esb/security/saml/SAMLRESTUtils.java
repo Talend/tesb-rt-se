@@ -58,11 +58,18 @@ public class SAMLRESTUtils {
         Map<String, Object> props = serverFactory.getProperties(true);
 
         String username = (String) securityProps.get(SecurityConstants.SIGNATURE_USERNAME);
+        if (username == null) {
+            username = (String)securityProps.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
+        }
         props.put(SecurityConstants.SIGNATURE_USERNAME, username);
         props.put(SecurityConstants.CALLBACK_HANDLER,
                 new WSPasswordCallbackHandler(username, (String) securityProps.get(SIGNATURE_PASSWORD)));
-        props.put(SecurityConstants.SIGNATURE_PROPERTIES,
-                securityProps.get(SecurityConstants.SIGNATURE_PROPERTIES));
+        
+        Object sigProps = securityProps.get(SecurityConstants.SIGNATURE_PROPERTIES);
+        if (sigProps == null) {
+            sigProps = securityProps.get("ws-" + SecurityConstants.SIGNATURE_PROPERTIES);
+        }
+        props.put(SecurityConstants.SIGNATURE_PROPERTIES, sigProps);
 
         serverFactory.setProvider(new SamlHeaderInHandler());
     }

@@ -57,7 +57,7 @@ public abstract class AuxiliaryStorageRestClientSecurityProvider extends Abstrac
             
             Map<String, String> stsProps = new HashMap<String, String>();
             for (String propName : props.stringPropertyNames()) {
-                if (propName.startsWith("ws-security.") || propName.startsWith("sts.")) {
+                if (propName.startsWith("ws-security.") || propName.startsWith("security.") || propName.startsWith("sts.")) {
                     stsProps.put(propName, props.getProperty(propName));
                 }
             }

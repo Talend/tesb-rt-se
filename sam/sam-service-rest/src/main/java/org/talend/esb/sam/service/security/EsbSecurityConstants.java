@@ -18,7 +18,7 @@ public enum EsbSecurityConstants {
                 return esbSecurity;
             }
         }
-        throw new IllegalArgumentException("Unsupported secutity value: "
+        throw new IllegalArgumentException("Unsupported security value: "
                 + value);
     }
 }

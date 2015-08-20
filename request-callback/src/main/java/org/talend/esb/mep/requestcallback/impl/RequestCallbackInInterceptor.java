@@ -19,6 +19,7 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
+import org.apache.cxf.rt.security.utils.SecurityUtils;
 import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.JAXWSAConstants;
@@ -278,7 +279,7 @@ public class RequestCallbackInInterceptor extends AbstractPhaseInterceptor<SoapM
     }
     
     private static void storeRequestorCertificate(Message message, CallContext callContext) {
-    	String encrUser = (String) message.getContextualProperty(SecurityConstants.ENCRYPT_USERNAME);
+    	String encrUser = (String) SecurityUtils.getSecurityPropertyValue(SecurityConstants.ENCRYPT_USERNAME, message);
     	if (WSHandlerConstants.USE_REQ_SIG_CERT.equals(encrUser)) {
 			X509Certificate reqSignCert = getReqSigCert(message);
 			callContext.setRequestorSignatureCertificate(reqSignCert);
