@@ -182,7 +182,11 @@ public final class RESTClient {
         wc.query("name", "Fred", "Lorraine");
         printPersonCollection(wc.get(PersonCollection.class));
 
-        
+        System.out.println("Using PATCH...");
+        WebClient.getConfig(wc).getRequestContext().put("use.async.http.conduit",
+        		true);
+        String patch = wc.reset().invoke("PATCH", null, String.class);
+        System.out.println("Patch: " + patch);
     }
 
     /**

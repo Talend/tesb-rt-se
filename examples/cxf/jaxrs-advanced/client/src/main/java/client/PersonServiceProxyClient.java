@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.jaxrs.client.WebClient;
+
 import common.advanced.Person;
 import common.advanced.PersonCollection;
 import common.advanced.PersonService;
@@ -44,6 +46,12 @@ public final class PersonServiceProxyClient {
                                    + person.getAge());
             }
         }
+
+        System.out.println("Using PATCH...");
+        WebClient.getConfig(proxy).getRequestContext().put("use.async.http.conduit",
+        		true);
+        String patch = proxy.patch();
+        System.out.println("Patch: " + patch);
     }
 
 }

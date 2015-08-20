@@ -38,6 +38,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public String patch() {
+        return "Patch is good";
+    }
+    @Override
     public Person getPersonSubresource(Long id) {
         return storage.getPerson(id);
     }

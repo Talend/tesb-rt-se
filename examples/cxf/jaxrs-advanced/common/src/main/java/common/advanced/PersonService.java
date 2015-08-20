@@ -15,13 +15,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.cxf.jaxrs.ext.PATCH;
+
 /**
  * This interface describes a JAX-RS root resource. All the JAXRS annotations (except those overridden) will
  * be inherited by classes implementing it.
  */
 @Path("/main")
 public interface PersonService {
-
+    @PATCH
+    String patch();
     /**
      * Returns an explicit collection of persons in either XML or JSON formats in response to HTTP GET
      * requests. Note that in order to demonstrate that the JAX-RS runtime manages the initialization of both
