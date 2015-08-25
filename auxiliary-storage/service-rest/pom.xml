@@ -118,30 +118,10 @@
                         </goals>
                         <configuration>
                             <artifacts>
-                                  <artifact>
+                                <artifact>
                                     <file>etc/org.talend.esb.auxiliary.storage.service.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.auxiliary.storage.service</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>etc/keystores/clientKeystore.properties</file>
-                                    <type>properties</type>
-                                    <classifier>clientKeystore</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>etc/keystores/clientstore.jks</file>
-                                    <type>jks</type>
-                                    <classifier>clientstore</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>etc/keystores/serviceKeystore.properties</file>
-                                    <type>properties</type>
-                                    <classifier>serviceKeystore</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>etc/keystores/servicestore.jks</file>
-                                    <type>jks</type>
-                                    <classifier>servicestore</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>
