@@ -123,7 +123,7 @@
         serviceName="ns1:SecurityTokenService"
         endpointName="ns1:UT_Port">
         <jaxws:properties>
-            <entry key="security.ut.validator" value-ref="jaasUTValidator" />
+            <entry key="ws-security.ut.validator" value-ref="jaasUTValidator" />
         </jaxws:properties> 
     </jaxws:endpoint>
 

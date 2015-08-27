@@ -28,7 +28,7 @@
         <jaxws:properties>
             <entry key="security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
             <entry key="security.signature.properties" value="serviceKeystore.properties"/>
-            <entry key="security.ut.validator">
+            <entry key="ws-security.ut.validator">
               <bean class="service.UTValidator"/>
             </entry>
          

@@ -94,7 +94,7 @@
         endpointName="ns1:UT_Port">
         <jaxws:properties>
             <entry key="security.callback-handler" value="org.apache.cxf.sts.war.PasswordCallbackHandler"/>
-            <entry key="security.ut.validator" value-ref="propertyFileUTValidator" />
+            <entry key="ws-security.ut.validator" value-ref="propertyFileUTValidator" />
             <entry key="security.signature.properties" value="stsKeystore.properties"/>
             <entry key="security.signature.username" value="mystskey"/>
             <!-- Below needs to be set to non-default value of false for Metro clients -->

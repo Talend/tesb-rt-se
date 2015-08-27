@@ -38,7 +38,7 @@
             <entry key="security.callback-handler" value="com.talend.examples.secure_greeter.PasswordCallback"/>
             <entry key="security.encryption.properties" value="/ws-secpol-wsdl/client.properties"/>
             <entry key="security.signature.properties" value="/ws-secpol-wsdl/service.properties"/>
-            <entry key="security.saml2.validator" value="demo.secure_greeter.server.ServerSamlValidator"/>
+            <entry key="ws-security.saml2.validator" value="demo.secure_greeter.server.ServerSamlValidator"/>
         </jaxws:properties>
     </jaxws:server>
     

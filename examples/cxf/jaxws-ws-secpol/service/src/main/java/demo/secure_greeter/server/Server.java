@@ -43,7 +43,7 @@ public class Server {
                        "/ws-secpol-wsdl/client.properties");
         properties.put("security.signature.properties",
                        "/ws-secpol-wsdl/service.properties");
-        properties.put("security.saml2.validator",
+        properties.put("ws-security.saml2.validator",
                        "demo.secure_greeter.server.ServerSamlValidator");
         properties.put(
             Endpoint.WSDL_PORT, 
