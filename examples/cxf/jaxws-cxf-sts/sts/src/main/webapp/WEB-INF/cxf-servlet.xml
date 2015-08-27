@@ -68,11 +68,11 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService" endpointName="ns1:X509_Port">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler"
+            <entry key="security.callback-handler"
                 value="sts.PasswordCallbackHandler" />
-            <entry key="ws-security.signature.properties" value="stsKeystore.properties" />
-            <entry key="ws-security.signature.username" value="mystskey" />
-            <entry key="ws-security.encryption.username" value="useReqSigCert" />
+            <entry key="security.signature.properties" value="stsKeystore.properties" />
+            <entry key="security.signature.username" value="mystskey" />
+            <entry key="security.encryption.username" value="useReqSigCert" />
         </jaxws:properties>
     </jaxws:endpoint>
 

@@ -43,10 +43,10 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
-            <entry key="ws-security.callback-handler">
+            <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
-            <entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />
+            <entry key="security.signature.properties" value="keys/serviceKeystore.properties" />
         </jaxws:properties>
     </jaxws:endpoint>
 
@@ -64,8 +64,8 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
-            <entry key="ws-security.signature.properties" value="keys/serviceKeystore.properties" />
-            <entry key="ws-security.callback-handler">
+            <entry key="security.signature.properties" value="keys/serviceKeystore.properties" />
+            <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
         </jaxws:properties>
@@ -83,8 +83,8 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
-            <entry key="ws-security.signature.properties" value="keys/clientKeystore.properties" />
-            <entry key="ws-security.callback-handler">
+            <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
+            <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
             </entry>
             <entry key="ws-security.sts.client">
@@ -98,13 +98,12 @@
                         value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                     <property name="properties">
                         <map>
-                            <entry key="ws-security.username" value="tadmin" />
-                            <entry key="ws-security.callback-handler">
+                            <entry key="security.username" value="tadmin" />
+                            <entry key="security.callback-handler">
                                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
                             </entry>
-                            <entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
-                            <entry key="ws-security.encryption.properties" value="keys/clientKeystore.properties" />
-                            <entry key="ws-security.encryption.username" value="mystskey" />
+                            <entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
+                            <entry key="security.encryption.username" value="mystskey" />
                             <entry key="ws-security.sts.token.usecert" value="true" />
                             <entry key="ws-security.sts.token.username" value="myclientkey" />
                             <entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
@@ -134,8 +133,8 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
-            <entry key="ws-security.signature.properties" value="keys/clientKeystore.properties" />
-            <entry key="ws-security.callback-handler">
+            <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
+            <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
             </entry>
             <entry key="ws-security.sts.client">
@@ -149,13 +148,12 @@
                         value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                     <property name="properties">
                         <map>
-                            <entry key="ws-security.username" value="tadmin" />
-                            <entry key="ws-security.callback-handler">
+                            <entry key="security.username" value="tadmin" />
+                            <entry key="security.callback-handler">
                                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
                             </entry>
-                            <entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
-                            <entry key="ws-security.encryption.properties" value="keys/clientKeystore.properties" />
-                            <entry key="ws-security.encryption.username" value="mystskey" />
+                            <entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
+                            <entry key="security.encryption.username" value="mystskey" />
                             <entry key="ws-security.sts.token.usecert" value="true" />
                             <entry key="ws-security.sts.token.username" value="myclientkey" />
                             <entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />

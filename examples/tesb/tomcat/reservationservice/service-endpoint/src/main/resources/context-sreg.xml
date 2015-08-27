@@ -58,7 +58,7 @@
         wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
         <jaxws:properties>
             <entry key="use.service.registry" value="true" />
-            <entry key="ws-security.callback-handler">
+            <entry key="security.callback-handler">
                 <bean class="common.talend.ServiceCallbackHandler" />
             </entry>
         </jaxws:properties>

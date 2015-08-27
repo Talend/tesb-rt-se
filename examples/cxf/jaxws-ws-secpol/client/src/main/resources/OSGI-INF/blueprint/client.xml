@@ -32,11 +32,11 @@
         serviceName="ns1:SecureGreeterService"
         endpointName="ns1:UTGreeterPort">
         <jaxws:properties>
-            <entry key="ws-security.username" value="abcd"/>
-            <entry key="ws-security.callback-handler">
+            <entry key="security.username" value="abcd"/>
+            <entry key="security.callback-handler">
                 <bean class="com.talend.examples.secure_greeter.PasswordCallback"/> 
             </entry>
-            <entry key="ws-security.encryption.properties" value="/ws-secpol-wsdl/service.properties"/>
+            <entry key="security.encryption.properties" value="/ws-secpol-wsdl/service.properties"/>
         </jaxws:properties>
     </jaxws:client>
     
@@ -47,14 +47,14 @@
         serviceName="ns1:SecureGreeterService"
         endpointName="ns1:SAMLGreeterPort">
         <jaxws:properties>
-            <entry key="ws-security.signature.username" value="alice"/>
-            <entry key="ws-security.encryption.username" value="bob"/>
-            <entry key="ws-security.callback-handler">
+            <entry key="security.signature.username" value="alice"/>
+            <entry key="security.encryption.username" value="bob"/>
+            <entry key="security.callback-handler">
                 <bean class="com.talend.examples.secure_greeter.PasswordCallback"/> 
             </entry>
-            <entry key="ws-security.signature.properties" value="/ws-secpol-wsdl/client.properties"/>
-            <entry key="ws-security.encryption.properties" value="/ws-secpol-wsdl/service.properties"/>
-            <entry key="ws-security.saml-callback-handler" value="demo.secure_greeter.client.SamlCallbackHandler"/>
+            <entry key="security.signature.properties" value="/ws-secpol-wsdl/client.properties"/>
+            <entry key="security.encryption.properties" value="/ws-secpol-wsdl/service.properties"/>
+            <entry key="security.saml-callback-handler" value="demo.secure_greeter.client.SamlCallbackHandler"/>
         </jaxws:properties>
     </jaxws:client>
 </blueprint>

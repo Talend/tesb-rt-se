@@ -16,8 +16,8 @@
         address="/doubleit">
 
        <jaxws:properties>
-          <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
-          <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+          <entry key="security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+          <entry key="security.signature.properties" value="serviceKeystore.properties"/>
           <!--entry key="ws-security.is-bsp-compliant" value="false"/-->
        </jaxws:properties>
     </jaxws:endpoint>

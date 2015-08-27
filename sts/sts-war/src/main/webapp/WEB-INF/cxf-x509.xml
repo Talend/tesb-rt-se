@@ -91,10 +91,10 @@
         serviceName="ns1:SecurityTokenService"
         endpointName="ns1:X509_Port">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="org.apache.cxf.sts.war.PasswordCallbackHandler"/>
-            <entry key="ws-security.signature.properties" value="stsKeystore.properties"/>
-            <entry key="ws-security.signature.username" value="mystskey"/>
-            <entry key="ws-security.encryption.username" value="useReqSigCert"/>
+            <entry key="security.callback-handler" value="org.apache.cxf.sts.war.PasswordCallbackHandler"/>
+            <entry key="security.signature.properties" value="stsKeystore.properties"/>
+            <entry key="security.signature.username" value="mystskey"/>
+            <entry key="security.encryption.username" value="useReqSigCert"/>
         </jaxws:properties> 
 	</jaxws:endpoint>
 	

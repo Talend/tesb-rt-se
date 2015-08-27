@@ -42,11 +42,11 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
     <jaxws:client name="{http://examples.esb.talend.org/}DoubleItAsymmetricSAML2Port" 
                   createdFromAPI="true">
        <jaxws:properties>
-           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-           <entry key="ws-security.signature.username" value="myclientkey"/>
-           <entry key="ws-security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
-           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-           <entry key="ws-security.encryption.username" value="myservicekey"/>
+           <entry key="security.signature.properties" value="clientKeystore.properties"/>
+           <entry key="security.signature.username" value="myclientkey"/>
+           <entry key="security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
+           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+           <entry key="security.encryption.username" value="myservicekey"/>
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
@@ -58,10 +58,10 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                              value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port"/>
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="alice"/>
-                           <entry key="ws-security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
-                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.username" value="alice"/>
+                           <entry key="security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
+                           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
@@ -76,11 +76,11 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItAsymmetricSAML2Port" 
                   createdFromAPI="true">
        <jaxws:properties>
-           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-           <entry key="ws-security.signature.username" value="myclientkey"/>
-           <entry key="ws-security.callback-handler" value="common.CommonCallbackHandler"/>
-           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-           <entry key="ws-security.encryption.username" value="myservicekey"/>
+           <entry key="security.signature.properties" value="clientKeystore.properties"/>
+           <entry key="security.signature.username" value="myclientkey"/>
+           <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
+           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+           <entry key="security.encryption.username" value="myservicekey"/>
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
@@ -92,10 +92,10 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                              value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port"/>
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="alice"/>
-                           <entry key="ws-security.callback-handler" value="common.CommonCallbackHandler"/>
-                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.username" value="alice"/>
+                           <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
+                           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
@@ -110,11 +110,11 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItAsymmetricSAML1EncryptedPort" 
                   createdFromAPI="true">
        <jaxws:properties>
-           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-           <entry key="ws-security.signature.username" value="myclientkey"/>
-           <entry key="ws-security.callback-handler" value="common.CommonCallbackHandler"/>
-           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-           <entry key="ws-security.encryption.username" value="myservicekey"/>
+           <entry key="security.signature.properties" value="clientKeystore.properties"/>
+           <entry key="security.signature.username" value="myclientkey"/>
+           <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
+           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+           <entry key="security.encryption.username" value="myservicekey"/>
            <entry key="ws-security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
@@ -126,10 +126,10 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                              value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UTEncrypted_Port"/>
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="alice"/>
-                           <entry key="ws-security.callback-handler" value="common.CommonCallbackHandler"/>
-                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.username" value="alice"/>
+                           <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
+                           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.sts.token.usecert" value="true"/> 

@@ -19,9 +19,9 @@
         address="/doubleit">
 
        <jaxws:properties>
-          <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
-          <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
-          <entry key="ws-security.ut.validator">
+          <entry key="security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+          <entry key="security.signature.properties" value="serviceKeystore.properties"/>
+          <entry key="security.ut.validator">
               <bean class="service.UTValidator"/>
           </entry>
          
@@ -35,11 +35,11 @@
                        value="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0"/>
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.signature.username" value="myservicekey"/>
-                           <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
-                           <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
-                           <entry key="ws-security.encryption.properties" value="serviceKeystore.properties"/>
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.signature.username" value="myservicekey"/>
+                           <entry key="security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+                           <entry key="security.signature.properties" value="serviceKeystore.properties"/>
+                           <entry key="security.encryption.properties" value="serviceKeystore.properties"/>
+                           <entry key="security.encryption.username" value="mystskey"/>
                        </map>
                    </property>
                </bean>            

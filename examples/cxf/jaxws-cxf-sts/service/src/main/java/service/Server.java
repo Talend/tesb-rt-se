@@ -17,9 +17,9 @@ public class Server {
         
         Endpoint ep = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new DoubleItPortTypeImpl());
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("ws-security.callback-handler",
+        properties.put("security.callback-handler",
                        "service.ServiceKeystorePasswordCallback");
-        properties.put("ws-security.signature.properties",
+        properties.put("security.signature.properties",
                        "serviceKeystore.properties");
         properties.put(
             Endpoint.WSDL_PORT, 

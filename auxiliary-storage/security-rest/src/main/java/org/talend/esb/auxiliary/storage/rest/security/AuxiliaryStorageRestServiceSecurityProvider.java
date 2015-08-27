@@ -31,7 +31,7 @@ import org.apache.cxf.ws.security.SecurityConstants;
 @NoJSR250Annotations(unlessNull = "bus")
 public class AuxiliaryStorageRestServiceSecurityProvider extends AbstractRestSecurityProvider {
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "ws-security.signature.password";
+    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
 
     private String signatureProperties;
     private String signatureUsername;

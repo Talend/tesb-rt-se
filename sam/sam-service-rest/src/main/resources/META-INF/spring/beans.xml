@@ -34,9 +34,9 @@
         <prop key="db.datasource">ds-derby</prop>
         <prop key="db.dialect">derbyDialect</prop>
         <prop key="sam.authentication">NO</prop>
-        <prop key="ws-security.signature.username" />
-        <prop key="ws-security.signature.password" />
-        <prop key="ws-security.signature.properties" />
+        <prop key="security.signature.username" />
+        <prop key="security.signature.password" />
+        <prop key="security.signature.properties" />
     </osgix:cm-properties>
 
     <!-- placeholder configurer -->
@@ -63,9 +63,9 @@
         init-method="init">
         <property name="monitoringEndpoint" ref="SAMService" />
         <property name="serviceAutentication" value="${sam.authentication}" />
-        <property name="signatureUsername" value="${ws-security.signature.username}" />
-        <property name="signaturePassword" value="${ws-security.signature.password}" />
-        <property name="signatureProperties" value="${ws-security.signature.properties}" />
+        <property name="signatureUsername" value="${security.signature.username}" />
+        <property name="signaturePassword" value="${security.signature.password}" />
+        <property name="signatureProperties" value="${security.signature.properties}" />
     </bean>
 
 </beans>

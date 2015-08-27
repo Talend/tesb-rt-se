@@ -25,12 +25,12 @@
             <cm:property name="auxiliary.storage.service.authentication" value="NO" />
             <cm:property name="auxiliary.storage.service.authentication.user" value="tadmin" />
             <cm:property name="auxiliary.storage.service.authentication.password" value="tadmin" />
-            <cm:property name="ws-security.username" value="tadmin" />
-            <cm:property name="ws-security.password" value="tadmin" />
+            <cm:property name="security.username" value="tadmin" />
+            <cm:property name="security.password" value="tadmin" />
             <cm:property name="ws-security.sts.token.username" value="myclientkey" />
             <cm:property name="ws-security.sts.token.properties" value="clientKeystore.properties" />
-            <cm:property name="ws-security.encryption.username" value="mystskey" />
-            <cm:property name="ws-security.encryption.properties" value="clientKeystore.properties" />
+            <cm:property name="security.encryption.username" value="mystskey" />
+            <cm:property name="security.encryption.properties" value="clientKeystore.properties" />
             <cm:property name="sts.wsdl.location" value="http://localhost:8042/services/SecurityTokenService/UT?wsdl" />
             <cm:property name="sts.service.name" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
             <cm:property name="sts.endpoint.name" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
@@ -56,11 +56,11 @@
                 <entry key="sts.service.name" value="${sts.service.name}"/>
                 <entry key="sts.endpoint.name" value="${sts.endpoint.name}"/>
 
-                <entry key="ws-security.username" value="${ws-security.username}" />
-                <entry key="ws-security.password" value="${ws-security.password}" />
+                <entry key="security.username" value="${security.username}" />
+                <entry key="security.password" value="${security.password}" />
 
-                <entry key="ws-security.encryption.properties" value="${ws-security.encryption.properties}"/>
-                <entry key="ws-security.encryption.username" value="${ws-security.encryption.username}"/>
+                <entry key="security.encryption.properties" value="${security.encryption.properties}"/>
+                <entry key="security.encryption.username" value="${security.encryption.username}"/>
 
                 <entry key="ws-security.sts.token.properties" value="${ws-security.sts.token.properties}"/>
                 <entry key="ws-security.sts.token.username" value="${ws-security.sts.token.username}"/>

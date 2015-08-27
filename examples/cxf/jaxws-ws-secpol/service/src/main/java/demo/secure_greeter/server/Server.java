@@ -22,9 +22,9 @@ public class Server {
     private void createAndPublishUTPort() {
         Endpoint ep = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new GreeterImpl());
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("ws-security.callback-handler",
+        properties.put("security.callback-handler",
                        "com.talend.examples.secure_greeter.PasswordCallback");
-        properties.put("ws-security.signature.properties",
+        properties.put("security.signature.properties",
                        "/ws-secpol-wsdl/service.properties");
         properties.put(
             Endpoint.WSDL_PORT, 
@@ -37,13 +37,13 @@ public class Server {
     private void createAndPublishSAMLPort() {
         Endpoint ep = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, new GreeterImpl());
         Map<String, Object> properties = new HashMap<String, Object>();
-        properties.put("ws-security.callback-handler",
+        properties.put("security.callback-handler",
                        "com.talend.examples.secure_greeter.PasswordCallback");
-        properties.put("ws-security.encryption.properties",
+        properties.put("security.encryption.properties",
                        "/ws-secpol-wsdl/client.properties");
-        properties.put("ws-security.signature.properties",
+        properties.put("security.signature.properties",
                        "/ws-secpol-wsdl/service.properties");
-        properties.put("ws-security.saml2.validator",
+        properties.put("security.saml2.validator",
                        "demo.secure_greeter.server.ServerSamlValidator");
         properties.put(
             Endpoint.WSDL_PORT, 

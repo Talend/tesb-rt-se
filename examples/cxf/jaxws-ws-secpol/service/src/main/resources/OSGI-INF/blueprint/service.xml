@@ -25,8 +25,8 @@
         endpointName="ns1:UTGreeterPort"
         serviceClass="demo.secure_greeter.server.GreeterImpl">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="com.talend.examples.secure_greeter.PasswordCallback"/>
-            <entry key="ws-security.signature.properties" value="/ws-secpol-wsdl/service.properties"/>
+            <entry key="security.callback-handler" value="com.talend.examples.secure_greeter.PasswordCallback"/>
+            <entry key="security.signature.properties" value="/ws-secpol-wsdl/service.properties"/>
         </jaxws:properties>
     </jaxws:server>
     
@@ -35,10 +35,10 @@
         endpointName="ns1:SAMLGreeterPort"
         serviceClass="demo.secure_greeter.server.GreeterImpl">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="com.talend.examples.secure_greeter.PasswordCallback"/>
-            <entry key="ws-security.encryption.properties" value="/ws-secpol-wsdl/client.properties"/>
-            <entry key="ws-security.signature.properties" value="/ws-secpol-wsdl/service.properties"/>
-            <entry key="ws-security.saml2.validator" value="demo.secure_greeter.server.ServerSamlValidator"/>
+            <entry key="security.callback-handler" value="com.talend.examples.secure_greeter.PasswordCallback"/>
+            <entry key="security.encryption.properties" value="/ws-secpol-wsdl/client.properties"/>
+            <entry key="security.signature.properties" value="/ws-secpol-wsdl/service.properties"/>
+            <entry key="security.saml2.validator" value="demo.secure_greeter.server.ServerSamlValidator"/>
         </jaxws:properties>
     </jaxws:server>
     

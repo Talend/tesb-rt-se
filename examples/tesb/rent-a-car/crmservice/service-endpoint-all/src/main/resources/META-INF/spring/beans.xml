@@ -78,10 +78,10 @@
             implementor="#CRMServiceBean"
             address="/CRMServiceProvider">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler">
+            <entry key="security.callback-handler">
                 <bean class="common.talend.ServiceCallbackHandler" />
             </entry>
-            <entry key="ws-security.signature.properties" value="serviceKeystore.properties" />
+            <entry key="security.signature.properties" value="serviceKeystore.properties" />
         </jaxws:properties>
         <jaxws:features>
             <p:policies>

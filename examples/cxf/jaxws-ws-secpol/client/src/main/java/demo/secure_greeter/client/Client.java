@@ -64,12 +64,12 @@ public final class Client {
             utGreeter = service.getPort(UT_PORT_NAME, SecureGreeterPortType.class);
 
             ((BindingProvider)utGreeter).getRequestContext()
-                .put("ws-security.username", "abcd");
+                .put("security.username", "abcd");
             ((BindingProvider)utGreeter).getRequestContext()
-                .put("ws-security.callback-handler", 
+                .put("security.callback-handler", 
                      "com.talend.examples.secure_greeter.PasswordCallback");
             ((BindingProvider)utGreeter).getRequestContext()
-                .put("ws-security.encryption.properties", "/ws-secpol-wsdl/service.properties");
+                .put("security.encryption.properties", "/ws-secpol-wsdl/service.properties");
         }
         return utGreeter;
     }
@@ -80,18 +80,18 @@ public final class Client {
             samlGreeter = service.getPort(SAML_PORT_NAME, SecureGreeterPortType.class);
 
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.signature.username", "alice");
+                .put("security.signature.username", "alice");
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.encryption.username", "bob");
+                .put("security.encryption.username", "bob");
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.callback-handler", 
+                .put("security.callback-handler", 
                      "com.talend.examples.secure_greeter.PasswordCallback");
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.saml-callback-handler", new SamlCallbackHandler());
+                .put("security.saml-callback-handler", new SamlCallbackHandler());
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.encryption.properties", "/ws-secpol-wsdl/service.properties");
+                .put("security.encryption.properties", "/ws-secpol-wsdl/service.properties");
             ((BindingProvider)samlGreeter).getRequestContext()
-                .put("ws-security.signature.properties", "/ws-secpol-wsdl/client.properties");
+                .put("security.signature.properties", "/ws-secpol-wsdl/client.properties");
         }
         return samlGreeter;
     }

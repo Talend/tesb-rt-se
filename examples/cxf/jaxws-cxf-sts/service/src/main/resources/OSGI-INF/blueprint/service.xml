@@ -26,8 +26,8 @@
         address="http://localhost:9000/doubleit/services/doubleit"
         serviceClass="service.DoubleItPortTypeImpl">
         <jaxws:properties>
-            <entry key="ws-security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
-            <entry key="ws-security.signature.properties" value="serviceKeystore.properties"/>
+            <entry key="security.callback-handler" value="service.ServiceKeystorePasswordCallback"/>
+            <entry key="security.signature.properties" value="serviceKeystore.properties"/>
         </jaxws:properties>
     </jaxws:server>
     

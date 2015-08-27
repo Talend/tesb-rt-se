@@ -27,11 +27,11 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
                    <property name="endpointName" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}DoubleItSTSPort"/>
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.signature.username" value="myclientkey"/>
-                           <entry key="ws-security.callback-handler" value="client.ClientCallbackHandler"/>
-                           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/>
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.signature.username" value="myclientkey"/>
+                           <entry key="security.callback-handler" value="client.ClientCallbackHandler"/>
+                           <entry key="security.signature.properties" value="clientKeystore.properties"/>
+                           <entry key="security.encryption.properties" value="clientKeystore.properties"/>
+                           <entry key="security.encryption.username" value="mystskey"/>
                        </map>
                    </property>
                </bean>

@@ -24,9 +24,9 @@
             placeholder-prefix="$ccs{" update-strategy="reload">
         <cm:default-properties>
             <cm:property name="auxiliary.storage.service.authentication" value="NO" />
-            <cm:property name="ws-security.signature.properties" value="" />
-            <cm:property name="ws-security.signature.username" value="" />
-            <cm:property name="ws-security.signature.password" value="" />
+            <cm:property name="security.signature.properties" value="" />
+            <cm:property name="security.signature.username" value="" />
+            <cm:property name="security.signature.password" value="" />
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -52,8 +52,8 @@
             init-method="init">
         <property name="auxiliaryStorageEndpoint" ref="auxiliaryStorageService" />
         <property name="auxiliaryStorageAuthentication" value="$ccs{auxiliary.storage.service.authentication}" />
-        <property name="signatureProperties" value="$ccs{ws-security.signature.properties}" />
-        <property name="signatureUsername" value="$ccs{ws-security.signature.username}" />
-        <property name="signaturePassword" value="$ccs{ws-security.signature.password}" />
+        <property name="signatureProperties" value="$ccs{security.signature.properties}" />
+        <property name="signatureUsername" value="$ccs{security.signature.username}" />
+        <property name="signaturePassword" value="$ccs{security.signature.password}" />
     </bean>
 </blueprint>

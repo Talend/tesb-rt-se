@@ -50,8 +50,8 @@
         endpointName="serviceNamespace:CRMServicePort"
         address="${endpoint.prefix}/CRMServiceProvider">
         <jaxws:properties>
-           <entry key="ws-security.signature.properties" value="clientKeystore.properties"/>
-           <entry key="ws-security.callback-handler">
+           <entry key="security.signature.properties" value="clientKeystore.properties"/>
+           <entry key="security.callback-handler">
                 <bean class="common.talend.ClientCallbackHandler"/>
            </entry>
            <entry key="ws-security.sts.client">
@@ -64,12 +64,12 @@
                            value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                    <property name="properties">
                        <map>
-                           <entry key="ws-security.username" value="tadmin"/>
-                           <entry key="ws-security.callback-handler">
+                           <entry key="security.username" value="tadmin"/>
+                           <entry key="security.callback-handler">
                                 <bean class="common.talend.ClientCallbackHandler"/>
                            </entry>
-                           <entry key="ws-security.encryption.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.encryption.username" value="mystskey"/>
+                           <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.encryption.username" value="mystskey"/>
                            <entry key="ws-security.sts.token.usecert" value="true"/> 
                            <entry key="ws-security.sts.token.username" value="myclientkey"/>
                            <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 

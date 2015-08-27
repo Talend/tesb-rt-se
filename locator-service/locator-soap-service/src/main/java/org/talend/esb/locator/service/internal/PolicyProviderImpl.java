@@ -42,7 +42,7 @@ public class PolicyProviderImpl implements PolicyProvider {
     private EndpointImpl locatorEndpoint;
     private PolicyBuilder policyBuilder;
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "ws-security.signature.password";
+    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
 
     public void init() {
 

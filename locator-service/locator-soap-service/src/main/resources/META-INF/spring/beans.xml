@@ -27,9 +27,9 @@
 		<prop key="locator.authentication">NO</prop>
 		<prop key="policy.token"></prop>
 		<prop key="policy.saml"></prop>
-		<prop key="ws-security.signature.properties"></prop>
-		<prop key="ws-security.signature.username"></prop>
-		<prop key="ws-security.signature.password"></prop>
+		<prop key="security.signature.properties"></prop>
+		<prop key="security.signature.username"></prop>
+		<prop key="security.signature.password"></prop>
 	</osgix:cm-properties>
 
 	<bean id="LocatorServicePlaceholder"
@@ -45,9 +45,9 @@
 		<property name="policySaml" value="$slp{policy.saml}" />
 		<property name="locatorEndpoint" ref="ServiceLocatorService" />
 		<property name="serviceAutentication" value="$slp{locator.authentication}" />
-		<property name="signatureProperties" value="$slp{ws-security.signature.properties}" />
-		<property name="signatureUsername" value="$slp{ws-security.signature.username}" />
-		<property name="signaturePassword" value="$slp{ws-security.signature.password}" />
+		<property name="signatureProperties" value="$slp{security.signature.properties}" />
+		<property name="signatureUsername" value="$slp{security.signature.username}" />
+		<property name="signaturePassword" value="$slp{security.signature.password}" />
 	</bean>
 
     <osgi:reference id="locatorClient" interface="org.talend.esb.servicelocator.client.ServiceLocator" />
