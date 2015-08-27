@@ -17,6 +17,10 @@
         <version>1.0</version>
         <relativePath>..</relativePath>
     </parent>
+   
+    <properties>
+        <spring.version>4.1.6.RELEASE</spring.version>
+    </properties>
 
     <modules>
         <module>service</module>
