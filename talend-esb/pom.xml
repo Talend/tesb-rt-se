@@ -712,6 +712,11 @@
                                         <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <!-- Patch used jetty version in CXF (TESB-16331) -->
+                                    <replacefilter>
+                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
+                                        <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- workaround for shibboleth dependency (TESB-16162) -->
                                 <replaceregexp  file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
