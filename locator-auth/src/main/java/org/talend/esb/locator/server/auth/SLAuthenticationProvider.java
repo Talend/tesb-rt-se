@@ -130,7 +130,7 @@ public class SLAuthenticationProvider implements AuthenticationProvider {
                 }
 
                 if (size >= 1) {
-                    cnxn.getAuthInfo().add(
+                    cnxn.addAuthInfo(
                             new Id(getScheme(), roles.toString()));
                     return KeeperException.Code.OK;
                 }
