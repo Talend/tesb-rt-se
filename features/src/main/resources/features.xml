@@ -185,7 +185,7 @@
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-zookeeper</feature>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
-    <bundle start-level='50'>mvn:org.talend.esb/locator/${project.version}</bundle>
+    <bundle start-level='51'>mvn:org.talend.esb/locator/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-monitor' version='${project.version}'>
