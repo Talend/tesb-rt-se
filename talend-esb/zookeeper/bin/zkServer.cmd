@@ -48,7 +48,8 @@ echo "Using config: %ZOOCFG%"
 
 set T=%TEMP%\sthUnique.tmp
 wmic process where (Name="WMIC.exe" AND CommandLine LIKE "%%%TIME%%%") get ParentProcessId /value | find "ParentProcessId" >%T%
-set /P PID=<%T%	
+rem set /P PID=<%T%
+for /f "usebackq tokens=2 delims==" %%a in ("%T%") do set PID=%%a
 
 if "%1"=="start" (
 
