@@ -48,15 +48,13 @@ echo "Using config: %ZOOCFG%"
 
 set T=%TEMP%\sthUnique.tmp
 wmic process where (Name="WMIC.exe" AND CommandLine LIKE "%%%TIME%%%") get ParentProcessId /value | find "ParentProcessId" >%T%
-rem set /P PID=<%T%
-for /f "usebackq tokens=2 delims==" %%a in ("%T%") do set PID=%%a
+for /f "usebackq tokens=2 delims==" %%a in ("%T%") do set /a ParentPID=%%a
+setlocal EnableDelayedExpansion
 
 if "%1"=="start" (
 
 	echo  "Starting zookeeper ... "
 	
-	echo %PID:~16%>zookeeper_server.pid
-
    	if %ISJAVA%==YES (
 		start "zookeeper" /b java  "-Dzookeeper.log.dir=%ZOO_LOG_DIR%" "-Dzookeeper.root.logger=%ZOO_LOG4J_PROP%" -cp "%CLASSPATH%" %JVMFLAGS% %ZOOMAIN% "%ZOOCFG%"
 		echo STARTED
@@ -72,6 +70,9 @@ if "%1"=="start" (
 		    echo JAVA_HOME must be set
 		)
 	)
+	wmic process where ^(ParentProcessId=%ParentPID% AND Name="java.exe"^) get ProcessId /value | find "ProcessId" >%T%
+	for /f "usebackq tokens=2 delims==" %%a in ("%T%") do set /a PID=%%a	
+	echo !PID!>zookeeper_server.pid
 )
 
 if "%1"=="stop" (
