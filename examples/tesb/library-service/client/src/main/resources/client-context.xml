@@ -48,7 +48,7 @@
 			<entry key="security.callback-handler">
 				<bean class="org.talend.services.demos.common.ClientCallbackHandler" />
 			</entry>
-			<entry key="ws-security.sts.client">
+			<entry key="security.sts.client">
 				<bean class="org.apache.cxf.ws.security.trust.STSClient">
 					<constructor-arg ref="cxf" />
 					<property name="wsdlLocation"
@@ -133,7 +133,7 @@
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
             </entry>
-            <entry key="ws-security.sts.client">
+            <entry key="security.sts.client">
                 <bean class="org.apache.cxf.ws.security.trust.STSClient">
                     <constructor-arg ref="cxf" />
                     <property name="wsdlLocation"

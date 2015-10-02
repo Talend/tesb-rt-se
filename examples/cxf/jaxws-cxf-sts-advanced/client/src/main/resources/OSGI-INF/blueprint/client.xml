@@ -33,7 +33,7 @@
            <entry key="security.callback-handler" value="client.ClientCallbackHandler"/>
            <entry key="security.encryption.properties" value="clientKeystore.properties"/>
            <entry key="security.encryption.username" value="myservicekey"/>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <argument ref="cxf"/>
                    <property name="wsdlLocation" value="DoubleItSTSService.wsdl"/>

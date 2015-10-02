@@ -32,7 +32,7 @@
               <bean class="service.UTValidator"/>
             </entry>
          
-            <entry key="ws-security.sts.client">
+            <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <argument ref="cxf"/>
                    <property name="wsdlLocation" value="DoubleItSTSService.wsdl"/>

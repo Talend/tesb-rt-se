@@ -47,7 +47,7 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
            <entry key="security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
            <entry key="security.encryption.username" value="myservicekey"/>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
                    <property name="wsdlLocation" 
@@ -81,7 +81,7 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
            <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
            <entry key="security.encryption.username" value="myservicekey"/>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
                    <property name="wsdlLocation" 
@@ -115,7 +115,7 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
            <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
            <entry key="security.encryption.username" value="myservicekey"/>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
                    <property name="wsdlLocation" 
