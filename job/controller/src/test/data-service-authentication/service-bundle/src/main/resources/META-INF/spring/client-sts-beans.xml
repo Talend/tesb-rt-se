@@ -62,9 +62,9 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                            <entry key="security.callback-handler" value="org.talend.esb.examples.CommonCallbackHandler"/>
                            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="security.encryption.username" value="mystskey"/>
-                           <entry key="ws-security.sts.token.username" value="myclientkey"/>
-                           <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.sts.token.usecert" value="true"/> 
+                           <entry key="security.sts.token.username" value="myclientkey"/>
+                           <entry key="security.sts.token.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.sts.token.usecert" value="true"/> 
                            <entry key="ws-security.is-bsp-compliant" value="false"/>
                        </map>
                    </property>
@@ -96,9 +96,9 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                            <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
                            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="security.encryption.username" value="mystskey"/>
-                           <entry key="ws-security.sts.token.username" value="myclientkey"/>
-                           <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.sts.token.usecert" value="true"/> 
+                           <entry key="security.sts.token.username" value="myclientkey"/>
+                           <entry key="security.sts.token.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.sts.token.usecert" value="true"/> 
                            <entry key="ws-security.is-bsp-compliant" value="false"/>
                        </map>
                    </property>
@@ -130,9 +130,9 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
                            <entry key="security.callback-handler" value="common.CommonCallbackHandler"/>
                            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="security.encryption.username" value="mystskey"/>
-                           <entry key="ws-security.sts.token.username" value="myclientkey"/>
-                           <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
-                           <entry key="ws-security.sts.token.usecert" value="true"/> 
+                           <entry key="security.sts.token.username" value="myclientkey"/>
+                           <entry key="security.sts.token.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.sts.token.usecert" value="true"/> 
                            <entry key="ws-security.is-bsp-compliant" value="false"/>
                        </map>
                    </property>

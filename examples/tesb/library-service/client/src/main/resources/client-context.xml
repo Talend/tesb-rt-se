@@ -65,9 +65,9 @@
 							</entry>
 							<entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
 							<entry key="security.encryption.username" value="mystskey" />
-							<entry key="ws-security.sts.token.usecert" value="true" />
-							<entry key="ws-security.sts.token.username" value="myclientkey" />
-							<entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
+							<entry key="security.sts.token.usecert" value="true" />
+							<entry key="security.sts.token.username" value="myclientkey" />
+							<entry key="security.sts.token.properties" value="keys/clientKeystore.properties" />
 							<entry key="isBSPCompliant" value="false" />
 						</map>
 					</property>
@@ -150,9 +150,9 @@
                             </entry>
                             <entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
                             <entry key="security.encryption.username" value="mystskey" />
-                            <entry key="ws-security.sts.token.usecert" value="true" />
-                            <entry key="ws-security.sts.token.username" value="myclientkey" />
-                            <entry key="ws-security.sts.token.properties" value="keys/clientKeystore.properties" />
+                            <entry key="security.sts.token.usecert" value="true" />
+                            <entry key="security.sts.token.username" value="myclientkey" />
+                            <entry key="security.sts.token.properties" value="keys/clientKeystore.properties" />
                             <entry key="isBSPCompliant" value="false" />
                         </map>
                     </property>
