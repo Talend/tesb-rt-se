@@ -54,7 +54,7 @@
            <entry key="security.callback-handler">
                 <bean class="common.talend.ClientCallbackHandler"/>
            </entry>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
                        <property name="wsdlLocation" value="${sts.endpoint.prefix}/SecurityTokenService/UT?wsdl" />
@@ -70,9 +70,9 @@
                            </entry>
                            <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
                            <entry key="security.encryption.username" value="mystskey"/>
-                           <entry key="ws-security.sts.token.usecert" value="true"/> 
-                           <entry key="ws-security.sts.token.username" value="myclientkey"/>
-                           <entry key="ws-security.sts.token.properties" value="clientKeystore.properties"/> 
+                           <entry key="security.sts.token.usecert" value="true"/> 
+                           <entry key="security.sts.token.username" value="myclientkey"/>
+                           <entry key="security.sts.token.properties" value="clientKeystore.properties"/> 
                            <entry key="ws-security.is-bsp-compliant" value="false"/>
                        </map>
                    </property>

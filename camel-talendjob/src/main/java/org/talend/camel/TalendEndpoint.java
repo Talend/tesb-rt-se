@@ -27,7 +27,6 @@ import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.impl.DefaultEndpoint;
-import org.osgi.framework.InvalidSyntaxException;
 
 import routines.system.api.TalendESBJobFactory;
 import routines.system.api.TalendJob;
@@ -74,9 +73,13 @@ public class TalendEndpoint extends DefaultEndpoint {
         return context;
     }
 
-    public TalendJob getJobInstance() throws ClassNotFoundException, InvalidSyntaxException {
+    public TalendJob getJobInstance() throws Exception {
         final TalendJob jobInstance;
-        TalendESBJobFactory talendESBJobFactory = Activator.getJobService(clazz);
+        final JobResolver jobResolver = JobResolverHolder.getJobResolver();
+        TalendESBJobFactory talendESBJobFactory = null;
+        if (null != jobResolver) {
+            talendESBJobFactory = jobResolver.getJobService(clazz);
+        }
         if (null != talendESBJobFactory) {
             jobInstance = talendESBJobFactory.newTalendESBJob();
         } else {

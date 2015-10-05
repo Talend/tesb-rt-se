@@ -19,7 +19,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
    <jaxws:client name="{http://www.example.org/contract/DoubleIt}DoubleItPort" createdFromAPI="true">
        <jaxws:properties>
-           <entry key="ws-security.sts.client">
+           <entry key="security.sts.client">
                <bean class="org.apache.cxf.ws.security.trust.STSClient">
                    <constructor-arg ref="cxf"/>
                    <property name="wsdlLocation" value="DoubleItSTSService.wsdl"/>

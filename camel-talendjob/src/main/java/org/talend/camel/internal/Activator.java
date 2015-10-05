@@ -18,23 +18,25 @@
  * #L%
  */
 
-package org.talend.camel;
+package org.talend.camel.internal;
 
 import java.util.Collection;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.talend.camel.JobResolver;
+import org.talend.camel.JobResolverHolder;
 
 import routines.system.api.TalendESBJobFactory;
 
-public class Activator implements BundleActivator {
+public class Activator implements BundleActivator, JobResolver {
 
     private static BundleContext context;
 
     @Override
     public void start(BundleContext ctx) throws Exception {
+        JobResolverHolder.setJobResolver(this);
         Activator.context = ctx;
     }
 
@@ -43,7 +45,7 @@ public class Activator implements BundleActivator {
         Activator.context = null;
     }
 
-    public static TalendESBJobFactory getJobService(String fullJobName) throws InvalidSyntaxException {
+    public TalendESBJobFactory getJobService(String fullJobName) throws Exception {
         if (context != null) {
             final String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
             /*

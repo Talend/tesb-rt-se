@@ -65,7 +65,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Activator>org.talend.camel.Activator</Bundle-Activator>
+                        <Bundle-Activator>org.talend.camel.internal.Activator</Bundle-Activator>
                     </instructions>
                 </configuration>
             </plugin>
