@@ -25,19 +25,37 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
 import org.apache.wss4j.common.ext.WSPasswordCallback;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
+import org.jasypt.properties.PropertyValueEncryptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WSPasswordCallbackHandler implements CallbackHandler {
     
     private static final transient Logger LOG = LoggerFactory.getLogger(WSPasswordCallbackHandler.class);
+    private static final String ALGORITHM = "PBEWITHSHA256AND128BITAES-CBC-BC";
+    private static final String PASSWORD_ENV_NAME = "TESB_ENV_PASSWORD";
+    private static final String PROVIDER_NAME = "BC";
 
     private final String user;
     private final String pass;
 
     public WSPasswordCallbackHandler(String username, String password) {
+        if(PropertyValueEncryptionUtils.isEncryptedValue(password)) {
+            StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
+            EnvironmentStringPBEConfig env = new EnvironmentStringPBEConfig();
+            env.setProvider(new BouncyCastleProvider());
+            env.setProviderName(PROVIDER_NAME);
+            env.setAlgorithm(ALGORITHM);
+            env.setPasswordEnvName(PASSWORD_ENV_NAME);
+            enc.setConfig(env);
+            pass = PropertyValueEncryptionUtils.decrypt(password, enc);
+        } else {
+            pass = password;
+        }
         user = username;
-        pass = password;
     }
 
     @Override

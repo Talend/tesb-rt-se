@@ -32,6 +32,16 @@
             <artifactId>cxf-rt-ws-policy</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.jasypt</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
