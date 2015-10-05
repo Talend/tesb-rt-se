@@ -17,6 +17,9 @@ http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xs
          <jaxrs:headers>
              <entry key="Accept" value="application/xml"/>
          </jaxrs:headers>
+         <jaxrs:properties>
+             <entry key="use.httpurlconnection.method.reflection" value="true"/>
+         </jaxrs:properties> 
     </jaxrs:client>
     
     <bean class="client.PersonServiceProxyClient">
