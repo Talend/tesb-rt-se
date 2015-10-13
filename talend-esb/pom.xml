@@ -121,6 +121,7 @@
                                 <feature>spring/3.1.4.RELEASE</feature>
                                 <feature>jetty</feature>
                                 <feature>webconsole</feature>
+                                <feature>eventadmin</feature>
                                 <feature>wrap</feature>
                                 <feature>wrapper</feature>
                                 <feature>transaction</feature>
