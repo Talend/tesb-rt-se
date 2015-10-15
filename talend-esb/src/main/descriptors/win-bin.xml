@@ -202,6 +202,8 @@
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
+                <!-- Patch Karaf client -->
+                <exclude>system/org/apache/karaf/org.apache.karaf.client/**</exclude>
                 <exclude>system/file:/**</exclude>
                 <!-- Equinox patch -->
                 <exclude>system/org/eclipse/birt/**</exclude>
@@ -359,6 +361,8 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
+                <!-- Patch Karaf client -->
+                <exclude>org/apache/karaf/org.apache.karaf.client/**</exclude>
             </excludes>
         </fileSet>
 
@@ -561,6 +565,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
             <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- Patch Karaf client -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.client-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/org.apache.karaf.client/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
