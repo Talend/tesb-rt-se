@@ -222,7 +222,7 @@
   <feature name="tesb-security-common" version="${project.version}" resolver="(obr)">
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 
