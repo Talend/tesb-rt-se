@@ -91,8 +91,8 @@
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
-                <version>4.0.0.M1</version>
 <!--                 <version>${karaf.version}</version> -->
+                <version>4.0.0.M1</version>
 				<executions>
 					<execution>
 						<id>add-features-to-repo</id>
@@ -115,16 +115,14 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-                                <feature>spring/${spring.version}</feature>
-                                <feature>spring-tx/${spring.version}</feature>
-                                <feature>spring-jdbc/${spring.version}</feature>
+                                <feature>spring/3.2.14.RELEASE_1</feature>
+                                <feature>spring-tx/3.2.14.RELEASE_1</feature>
+                                <feature>spring-jdbc/3.2.14.RELEASE_1</feature>
                                 <feature>spring-dm</feature>
                                 <feature>spring/3.1.4.RELEASE</feature>
                                 <feature>jetty</feature>
-<!--                                 <feature>management</feature> -->
-<!--                                 <feature>bundle</feature> -->
-<!--                                 <feature>diagnostic</feature> -->
                                 <feature>webconsole</feature>
+                                <feature>eventadmin</feature>
                                 <feature>wrap</feature>
                                 <feature>wrapper</feature>
                                 <feature>transaction</feature>
@@ -460,15 +458,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
                                 </artifactItem>
-                                <!-- workaround for shibboleth dependency (TESB-16162) -->
-                                <artifactItem>
-                                    <groupId>net.shibboleth.utilities</groupId>
-                                    <artifactId>java-support</artifactId>
-                                    <version>${shibboleth.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>java-support-${shibboleth.version}.jar</destFileName>
-                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -718,12 +707,6 @@
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
-                                <!-- workaround for shibboleth dependency (TESB-16162) -->
-                                <replaceregexp  file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
-                                           byline="true"
-                                           match='^(\s*&lt;bundle start-level="25" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.opensaml/3.1.0_1&lt;/bundle&gt;\s*)$'
-                                           replace='\1     &lt;!-- Add workaround for shibboleth dependency (TESB-16162) --&gt;${line.separator}        &lt;bundle start-level="30" dependency="true"&gt;wrap:mvn:net.shibboleth.utilities/java-support/${shibboleth.version}&lt;/bundle&gt;'>
-                                </replaceregexp>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
