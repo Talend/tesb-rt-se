@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="book.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-resource.js"></script>
+<script src= "app.js"></script>
+<body>
+
+<div class="container-fluid" ng-app="ebook" ng-controller="BookController as bookCtrl">
+
+<div class="row-fluid">
+<h1>Ebooks</h1> 
+<div class="col-md-6">
+<div>
+<button class="btn btn-success" ng-click="reload()"><span class="glyphicon glyphicon-refresh"></span> Reload</button>
+</div>
+
+
+<table class="table table-striped" data-sort-name="title" data-card-view="true">
+<thead>
+  <tr>
+    <th>Nr</th>
+    <th>Title</th>
+    <th>Creator</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="b in books" ng-click="select(b.id)" ng-class="{selected: b.id === idSelectedBook}">
+    <td>{{$index}}</td>
+    <td>{{b.title}}</td>
+    <td>{{b.creator}}</td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="col-md-6" ng-show="book">
+<h2>{{book.title}}</h2>
+<div class="col-md-3">
+<img src="{{book.cover}}">
+</div>
+<div class="col-md-9">
+<input type="text" ng-model="email">
+<button class="btn btn-success" ng-click="send(book.id, email)"><span class="glyphicon glyphicon-send"></span> Send</button>
+<div ng-repeat="f in book.formats" >
+<a href="{{f.file}}">{{f.mediaType}}</a>
+</div>
+</div>
+</div>
+
+</div> 
+</div>
+
+</body>
+</html>
