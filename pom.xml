@@ -124,6 +124,7 @@
         <jettison.version>1.3.6</jettison.version>
         <jasypt.version>1.9.2_1</jasypt.version>
         <bouncycastle.version>1.52</bouncycastle.version>
+        <hibersap.version>1.2.0</hibersap.version>
 
         <surefire.plugin.version>2.18.1</surefire.plugin.version>
 

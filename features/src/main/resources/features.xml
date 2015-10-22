@@ -321,4 +321,10 @@
     <bundle>mvn:org.talend.esb/transport-jms/${project.version}</bundle>
   </feature>
 
+  <feature name="talend-sap-hibersap" version='${hibersap.version}'>
+    <bundle dependency="true">mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <bundle>mvn:org.hibersap/hibersap-core/${hibersap.version}</bundle>
+    <bundle>mvn:org.hibersap/hibersap-jco/${hibersap.version}</bundle>
+  </feature>
+
 </features>

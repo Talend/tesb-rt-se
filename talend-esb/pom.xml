@@ -335,6 +335,8 @@
                                 <feature>tesb-aux-service-rest</feature>
                                 <feature>tesb-aux-server</feature>
                                 <feature>tesb-aux</feature>
+                                <!-- Hibersap feature -->
+                                <feature>talend-sap-hibersap</feature>
 							</features>
 							<repository>target/features-repo</repository>
 						</configuration>
