@@ -27,15 +27,27 @@ public class TextEncryptor implements Action {
             multiValued = false)
     String textToEncrypt;
 
+    //TODO: Add description
+    @Argument(index = 1,
+            name = "EncryptionPassword",
+            description = "--",
+            required = false,
+            multiValued = false)
+    String encryptionPassword;
+
     @Override
     public Object execute() throws Exception {
-        //TODO: check that system env var is not null
         StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
         EnvironmentStringPBEConfig env = new EnvironmentStringPBEConfig();
         env.setProvider(new BouncyCastleProvider());
         env.setProviderName(PROVIDER_NAME);
         env.setAlgorithm(ALGORITHM);
-        env.setPasswordEnvName(PASSWORD_ENV_NAME);
+        if (encryptionPassword != null) {
+            env.setPassword(encryptionPassword);
+        } else {
+            //TODO: check that system env var is not null
+            env.setPasswordEnvName(PASSWORD_ENV_NAME);
+        }
         enc.setConfig(env);
         System.out.println(PropertyValueEncryptionUtils.encrypt(textToEncrypt, enc));
         return null;
