@@ -44,9 +44,14 @@ public class TextEncryptor implements Action {
         env.setAlgorithm(ALGORITHM);
         if (encryptionPassword != null) {
             env.setPassword(encryptionPassword);
+            System.out.println("Specified password for decryption should be set to " + PASSWORD_ENV_NAME + " env variable");
         } else {
-            //TODO: check that system env var is not null
-            env.setPasswordEnvName(PASSWORD_ENV_NAME);
+            if (System.getenv(PASSWORD_ENV_NAME) != null) {
+                env.setPasswordEnvName(PASSWORD_ENV_NAME);
+            } else {
+                System.out.println(PASSWORD_ENV_NAME + " system variable is not specified. ");
+                System.out.println("Second parameter should be used to specify password.");
+            }
         }
         enc.setConfig(env);
         System.out.println(PropertyValueEncryptionUtils.encrypt(textToEncrypt, enc));
