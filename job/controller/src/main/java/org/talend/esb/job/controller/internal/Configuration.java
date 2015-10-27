@@ -133,18 +133,19 @@ public final class Configuration {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
                 if (val instanceof String) {
+                	String value = (String) val;
+                    if(PropertyValueEncryptionUtils.isEncryptedValue(value)) {
+                        StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
+                        EnvironmentStringPBEConfig env = new EnvironmentStringPBEConfig();
+                        env.setProvider(new BouncyCastleProvider());
+                        env.setProviderName(PROVIDER_NAME);
+                        env.setAlgorithm(ALGORITHM);
+                        env.setPasswordEnvName(PASSWORD_ENV_NAME);
+                        enc.setConfig(env);
+                        val = PropertyValueEncryptionUtils.decrypt(value, enc);
+                    }
                     String strval = convertArgument(key, (String)val);
                     if (strval != null) {
-                        if(PropertyValueEncryptionUtils.isEncryptedValue(strval)) {
-                            StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
-                            EnvironmentStringPBEConfig env = new EnvironmentStringPBEConfig();
-                            env.setProvider(new BouncyCastleProvider());
-                            env.setProviderName(PROVIDER_NAME);
-                            env.setAlgorithm(ALGORITHM);
-                            env.setPasswordEnvName(PASSWORD_ENV_NAME);
-                            enc.setConfig(env);
-                            strval = PropertyValueEncryptionUtils.decrypt(strval, enc);
-                        }
                         newArgumentList.add(strval);
                     }
                 } else {
