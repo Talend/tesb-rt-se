@@ -144,6 +144,7 @@
         <module>locator-service</module>
         <module>locator-monitor</module>
         <module>locator-commands</module>
+        <module>text-encryptor</module>
         <module>sam</module>
         <module>policies</module>
         <module>security-common</module>
