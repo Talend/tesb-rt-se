@@ -28,6 +28,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
+import org.jasypt.properties.PropertyValueEncryptionUtils;
 import org.osgi.service.cm.ConfigurationException;
 
 /**
@@ -61,6 +65,12 @@ public final class Configuration {
 
     private final List<String> filter;
 
+    private static final String ALGORITHM = "PBEWITHSHA256AND128BITAES-CBC-BC";
+    
+    private static final String PASSWORD_ENV_NAME = "TESB_ENV_PASSWORD";
+    
+    private static final String PROVIDER_NAME = "BC";
+    
     /**
      * A <code>Configuration</code> object with no properties set.
      */
@@ -123,6 +133,17 @@ public final class Configuration {
                 String key = (String) keysEnum.nextElement();
                 Object val = properties.get(key);
                 if (val instanceof String) {
+                	String value = (String) val;
+                    if(PropertyValueEncryptionUtils.isEncryptedValue(value)) {
+                        StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
+                        EnvironmentStringPBEConfig env = new EnvironmentStringPBEConfig();
+                        env.setProvider(new BouncyCastleProvider());
+                        env.setProviderName(PROVIDER_NAME);
+                        env.setAlgorithm(ALGORITHM);
+                        env.setPasswordEnvName(PASSWORD_ENV_NAME);
+                        enc.setConfig(env);
+                        val = PropertyValueEncryptionUtils.decrypt(value, enc);
+                    }
                     String strval = convertArgument(key, (String)val);
                     if (strval != null) {
                         newArgumentList.add(strval);
