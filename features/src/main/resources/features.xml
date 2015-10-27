@@ -222,7 +222,7 @@
   <feature name="tesb-security-common" version="${project.version}" resolver="(obr)">
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
-    <bundle dependency="true">mvn:org.bouncycastle/bcprov-jdk16/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 
@@ -319,6 +319,12 @@
   <feature name="transport-jms" version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <bundle>mvn:org.talend.esb/transport-jms/${project.version}</bundle>
+  </feature>
+
+  <feature name="talend-sap-hibersap" version='${hibersap.version}'>
+    <bundle dependency="true">mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <bundle>mvn:org.hibersap/hibersap-core/${hibersap.version}</bundle>
+    <bundle>mvn:org.hibersap/hibersap-jco/${hibersap.version}</bundle>
   </feature>
 
 </features>
