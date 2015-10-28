@@ -10,7 +10,7 @@ import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
 import org.jasypt.properties.PropertyValueEncryptionUtils;
 
 //TODO: Add description
-@Command(scope = "tesb", name = "encrypt-helper", description = "--")
+@Command(scope = "tesb", name = "encrypt-text", description = "Encrypt text using Jasypt with BouncyCastle provider")
 @Service
 public class TextEncryptor implements Action {
 
@@ -22,7 +22,7 @@ public class TextEncryptor implements Action {
     //TODO: Add description
     @Argument(index = 0,
             name = "TextToEncrypt",
-            description = "--",
+            description = "Text, that need to be encrypted",
             required = true,
             multiValued = false)
     String textToEncrypt;
@@ -30,7 +30,7 @@ public class TextEncryptor implements Action {
     //TODO: Add description
     @Argument(index = 1,
             name = "EncryptionPassword",
-            description = "--",
+            description = "Password that will be used for encryption",
             required = false,
             multiValued = false)
     String encryptionPassword;
