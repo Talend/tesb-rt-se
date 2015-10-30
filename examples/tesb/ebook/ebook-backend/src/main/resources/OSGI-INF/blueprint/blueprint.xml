@@ -22,6 +22,8 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
 	xsi:schemaLocation="
   http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
   http://www.osgi.org/xmlns/blueprint-ext/v1.1.0 https://svn.apache.org/repos/asf/aries/tags/blueprint-0.3.1/blueprint-core/src/main/resources/org/apache/aries/blueprint/ext/blueprint-ext.xsd  
@@ -31,35 +33,16 @@
   http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
   ">
   
-    <cm:property-placeholder persistent-id="ebook.import" update-strategy="reload">
-        <cm:default-properties>
-        </cm:default-properties>
-    </cm:property-placeholder>
-  
-    <reference id="connectionFactory" interface="javax.jms.ConnectionFactory" />
-    <reference id="jtaTransactionManager" interface="javax.transaction.TransactionManager"/>
-    
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <argument ref="jtaTransactionManager"/>
-    </bean>
-    
-    <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="transactionManager" ref="transactionManager"/>
-    </bean>
-    
-    <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
-        <argument ref="jmsConfig"/>
-        <property name="transactionManager" ref="transactionManager"/>
-    </bean>
-    
-    <bean id="PROPAGATION_REQUIRED" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
-        <property name="transactionManager" ref="transactionManager"/>
-        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
-    </bean>
-    
-    <camelContext id="ebook-importer" xmlns="http://camel.apache.org/schema/blueprint">
-        <routeBuilder ref="importRoutes" />
-    </camelContext>	
+    <cxf:bus id="ebookBus">
+    </cxf:bus>
 
+    <jaxrs:server address="/ebook" id="ebook">
+        <jaxrs:serviceBeans>
+            <ref component-id="bookService" />
+        </jaxrs:serviceBeans>
+        <jaxrs:features>
+            <ref component-id="coordinationFeature"/>
+            <cxf:logging />
+        </jaxrs:features>
+    </jaxrs:server>
 </blueprint>

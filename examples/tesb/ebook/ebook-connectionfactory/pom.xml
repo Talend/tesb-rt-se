@@ -3,9 +3,9 @@
   <parent>
     <groupId>org.talend.esb.examples.ebook</groupId>
     <artifactId>ebook</artifactId>
-    <version>6.1.1-SNAPSHOT</version>
+    <version>6.1.0</version>
     <relativePath>..</relativePath>
   </parent>
-  <artifactId>ebook-ui</artifactId>
+  <artifactId>ebook-connectionfactory</artifactId>
   <packaging>bundle</packaging>
 </project>

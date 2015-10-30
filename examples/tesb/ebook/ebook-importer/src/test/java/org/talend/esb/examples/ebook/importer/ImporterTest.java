@@ -3,6 +3,7 @@ package org.talend.esb.examples.ebook.importer;
 import java.io.IOException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.RedeliveryPolicy;
 import org.apache.activemq.jms.pool.PooledConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -29,11 +30,19 @@ public class ImporterTest extends CamelTestSupport {
 
     private JmsComponent createJmsComponent() {
         JmsComponent jmsComponent = new JmsComponent();
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("localhost:61616");
-        PooledConnectionFactory pooled = new PooledConnectionFactory();
-        pooled.setConnectionFactory(connectionFactory);
+        PooledConnectionFactory pooled = createConnectionFactory();
         jmsComponent.setConnectionFactory(pooled);
         return jmsComponent;
+    }
+
+    private PooledConnectionFactory createConnectionFactory() {
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("localhost:61616");
+        RedeliveryPolicy redeliveryPolicy = new RedeliveryPolicy();
+        redeliveryPolicy.setMaximumRedeliveries(2);
+        connectionFactory.setRedeliveryPolicy(redeliveryPolicy);
+        PooledConnectionFactory pooled = new PooledConnectionFactory();
+        pooled.setConnectionFactory(connectionFactory);
+        return pooled;
     }
 
     @Override
