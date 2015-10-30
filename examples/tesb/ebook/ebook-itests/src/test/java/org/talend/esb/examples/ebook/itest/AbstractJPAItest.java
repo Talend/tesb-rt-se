@@ -18,6 +18,7 @@ package org.talend.esb.examples.ebook.itest;
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.CoreOptions.vmOption;
 import static org.ops4j.pax.exam.CoreOptions.when;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.editConfigurationFilePut;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
 
@@ -34,7 +35,6 @@ import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.CoreOptions;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
-import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 import org.ops4j.pax.exam.options.MavenArtifactUrlReference;
 import org.ops4j.pax.exam.options.UrlReference;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -48,6 +48,7 @@ import org.talend.esb.examples.ebook.model.Format;
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
 public abstract class AbstractJPAItest {
+    private static final String LOGGING_CFG = "etc/org.ops4j.pax.logging.cfg";
     @Inject
     BundleContext bundleContext;
     protected UrlReference ebooksFeatures;
@@ -133,9 +134,13 @@ public abstract class AbstractJPAItest {
                 .unpackDirectory(new File("target/exam")).useDeployFolder(false),
             keepRuntimeFolder(),
             //logLevel(LogLevel.INFO),
-            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.rootLogger", "INFO, stdout"),
-            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.logger.org.apache.karaf.features", "WARN"),
-            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.logger.org.apache.karaf.shell.impl.action.osgi.CommandExtension", "WARN"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.rootLogger", "INFO, stdout"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.features", "WARN"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.shell.impl.action.osgi.CommandExtension", "WARN"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.parsing", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.jpa.blueprint.impl", "DEBUG"),
             localRepoConfig()
         );
     }
