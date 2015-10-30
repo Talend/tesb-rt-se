@@ -138,6 +138,8 @@ public abstract class AbstractJPAItest {
             editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.features", "WARN"),
             editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.shell.impl.action.osgi.CommandExtension", "WARN"),
             editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.blueprint", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.springframework.transaction.jta.JtaTransactionManager", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.camel.spring.spi.TransactionErrorHandler", "DEBUG"),
             //editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.parsing", "DEBUG"),
             //editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.jpa.blueprint.impl", "DEBUG"),
             localRepoConfig()

@@ -39,13 +39,8 @@
     <reference id="connectionFactory" interface="javax.jms.ConnectionFactory" />
     <reference id="transactionManager" interface="org.springframework.transaction.PlatformTransactionManager"/>
     
-    <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="transactionManager" ref="transactionManager"/>
-    </bean>
-    
     <bean id="jms" class="org.apache.camel.component.jms.JmsComponent">
-        <argument ref="jmsConfig"/>
+        <property name="connectionFactory" ref="connectionFactory"/>
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
     

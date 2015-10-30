@@ -27,7 +27,7 @@
         <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
     </bean>
 
-    <bean id="pooledConnectionFactory" class="org.apache.activemq.jms.pool.XaPooledConnectionFactory">
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.jms.pool.JcaPooledConnectionFactory">
         <property name="maxConnections" value="8" />
         <property name="connectionFactory" ref="activemqConnectionFactory" />
     </bean>
