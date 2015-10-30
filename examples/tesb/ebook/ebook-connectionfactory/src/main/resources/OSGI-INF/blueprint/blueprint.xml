@@ -20,14 +20,14 @@
         <property name="maximumRedeliveries" value="3"/>
     </bean>
 
-    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQXAConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616" />
         <property name="userName" value="karaf" />
         <property name="password" value="karaf" />
         <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
     </bean>
 
-    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.jms.pool.XaPooledConnectionFactory">
         <property name="maxConnections" value="8" />
         <property name="connectionFactory" ref="activemqConnectionFactory" />
     </bean>
