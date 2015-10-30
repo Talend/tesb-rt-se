@@ -137,10 +137,9 @@ public abstract class AbstractJPAItest {
             editConfigurationFilePut(LOGGING_CFG, "log4j.rootLogger", "INFO, stdout"),
             editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.features", "WARN"),
             editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.karaf.shell.impl.action.osgi.CommandExtension", "WARN"),
-            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction", "DEBUG"),
-            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction", "DEBUG"),
-            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.parsing", "DEBUG"),
-            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.jpa.blueprint.impl", "DEBUG"),
+            editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.blueprint", "DEBUG"),
+            //editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.transaction.parsing", "DEBUG"),
+            //editConfigurationFilePut(LOGGING_CFG, "log4j.logger.org.apache.aries.jpa.blueprint.impl", "DEBUG"),
             localRepoConfig()
         );
     }
