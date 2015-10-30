@@ -20,7 +20,6 @@ import static org.ops4j.pax.exam.CoreOptions.vmOption;
 import static org.ops4j.pax.exam.CoreOptions.when;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.logLevel;
 
 import java.io.File;
 import java.net.URI;
@@ -35,7 +34,7 @@ import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.CoreOptions;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
-import org.ops4j.pax.exam.karaf.options.LogLevelOption.LogLevel;
+import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 import org.ops4j.pax.exam.options.MavenArtifactUrlReference;
 import org.ops4j.pax.exam.options.UrlReference;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -133,7 +132,10 @@ public abstract class AbstractJPAItest {
             karafDistributionConfiguration().frameworkUrl(karaf).name("Apache Karaf")
                 .unpackDirectory(new File("target/exam")).useDeployFolder(false),
             keepRuntimeFolder(),
-            logLevel(LogLevel.INFO),
+            //logLevel(LogLevel.INFO),
+            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.rootLogger", "INFO, stdout"),
+            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.logger.org.apache.karaf.features", "WARN"),
+            KarafDistributionOption.editConfigurationFilePut("etc/org.ops4j.pax.logging.cfg", "log4j.logger.org.apache.karaf.shell.impl.action.osgi.CommandExtension", "WARN"),
             localRepoConfig()
         );
     }
