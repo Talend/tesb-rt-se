@@ -29,17 +29,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
 import javax.xml.transform.Source;
-import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
-import org.apache.cxf.binding.soap.SoapFault;
-import org.apache.cxf.binding.soap.saaj.SAAJFactoryResolver;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.databinding.source.SourceDataBinding;
 import org.apache.cxf.endpoint.Client;
@@ -47,7 +40,6 @@ import org.apache.cxf.endpoint.EndpointException;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.frontend.ClientFactoryBean;
 import org.apache.cxf.headers.Header;
-import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
@@ -268,31 +260,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
             client.getRequestContext().put(org.apache.cxf.headers.Header.HEADER_LIST, soapHeaders);
         }
 
-        try {
-            Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
-            if (result != null) {
-                org.dom4j.Document response = DOM4JMarshaller.sourceToDocument((Source) result[0]);
-                if(enhancedResponse) {
-                    Map<String, Object> enhancedBody = new HashMap<String, Object>();
-                    enhancedBody.put("payload", response);
-                    enhancedBody.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, client.getResponseContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
-                    return enhancedBody;
-                } else {
-                    return response;
-                }
-            }
-        } catch (org.apache.cxf.binding.soap.SoapFault e) {
-            SOAPFault soapFault = createSoapFault(e);
-            if (soapFault == null) {
-                throw new WebServiceException(e);
-            }
-            SOAPFaultException exception = new SOAPFaultException(soapFault);
-            if (e instanceof Fault && e.getCause() != null) {
-                exception.initCause(e.getCause());
+        Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
+        if (result != null) {
+            org.dom4j.Document response = DOM4JMarshaller.sourceToDocument((Source) result[0]);
+            if(enhancedResponse) {
+                Map<String, Object> enhancedBody = new HashMap<String, Object>();
+                enhancedBody.put("payload", response);
+                enhancedBody.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, client.getResponseContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
+                return enhancedBody;
             } else {
-                exception.initCause(e);
+                return response;
             }
-            throw exception;
         }
         return null;
     }
@@ -317,47 +295,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
         }
         return fileURI;
-    }
-
-    // org.apache.cxf.jaxws.JaxWsClientProxy
-    private static SOAPFault createSoapFault(Exception ex) throws SOAPException {
-        SOAPFault soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault(); 
-        if (ex instanceof SoapFault) {
-            if (!soapFault.getNamespaceURI().equals(((SoapFault)ex).getFaultCode().getNamespaceURI())
-                && SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE
-                    .equals(((SoapFault)ex).getFaultCode().getNamespaceURI())) {
-                //change to 1.1
-                try {
-                    soapFault = SAAJFactoryResolver.createSOAPFactory(null).createFault();
-                } catch (Throwable t) {
-                    //ignore
-                }
-            }
-            soapFault.setFaultString(((SoapFault)ex).getReason());
-            soapFault.setFaultCode(((SoapFault)ex).getFaultCode());
-            soapFault.setFaultActor(((SoapFault)ex).getRole());
-            if (((SoapFault)ex).getSubCode() != null) {
-                soapFault.appendFaultSubcode(((SoapFault)ex).getSubCode());
-            }
-
-            if (((SoapFault)ex).hasDetails()) {
-                org.w3c.dom.Node nd = soapFault.getOwnerDocument().importNode(((SoapFault)ex).getDetail(),
-                                                                  true);
-                nd = nd.getFirstChild();
-                soapFault.addDetail();
-                while (nd != null) {
-                    org.w3c.dom.Node next = nd.getNextSibling();
-                    soapFault.getDetail().appendChild(nd);
-                    nd = next;
-                }
-            }
-        } else {
-            String msg = ex.getMessage();
-            if (msg != null) {
-                soapFault.setFaultString(msg);
-            }
-        }      
-        return soapFault;
     }
 
 }
