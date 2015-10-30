@@ -37,11 +37,7 @@
     </cm:property-placeholder>
   
     <reference id="connectionFactory" interface="javax.jms.ConnectionFactory" />
-    <reference id="jtaTransactionManager" interface="javax.transaction.TransactionManager"/>
-    
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <argument ref="jtaTransactionManager"/>
-    </bean>
+    <reference id="transactionManager" interface="org.springframework.transaction.PlatformTransactionManager"/>
     
     <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
         <property name="connectionFactory" ref="connectionFactory"/>

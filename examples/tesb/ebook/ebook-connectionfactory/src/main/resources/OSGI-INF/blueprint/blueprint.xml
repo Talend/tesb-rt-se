@@ -17,7 +17,7 @@
     -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
     <bean id="redeliveryPolicy" class="org.apache.activemq.RedeliveryPolicy">
-        <property name="maximumRedeliveries" value="2"/>
+        <property name="maximumRedeliveries" value="3"/>
     </bean>
 
     <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">

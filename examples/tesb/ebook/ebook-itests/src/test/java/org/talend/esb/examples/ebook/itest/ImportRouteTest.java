@@ -60,7 +60,7 @@ public class ImportRouteTest extends AbstractJPAItest {
             public Book call() throws Exception {
                 return bookRepo.getBook(book.getId());
             }
-        });
+        }, 10000);
     }
 
     private String marshal(Object body) throws JAXBException {
