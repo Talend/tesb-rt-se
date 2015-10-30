@@ -3,11 +3,15 @@ package org.talend.esb.examples.ebook.model;
 import java.net.URI;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Format {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+
     private URI file;
     
     /**
@@ -18,6 +22,14 @@ public class Format {
     private int extent;
     
     private String modified;
+    
+    public long getId() {
+        return id;
+    }
+    
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public URI getFile() {
         return file;

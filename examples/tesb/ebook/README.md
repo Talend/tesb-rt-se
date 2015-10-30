@@ -1,18 +1,28 @@
-
 # Example eBook (XA Transactions with JPA and JMS)
 
 This example implements a backend and UI showing the ebooks of the Gutenberg project.
 It allows to import the whole gutenberg index using a camel route.
 
+You can [download the full index of project gutenberg](http://gutenberg.readingroo.ms/cache/generated/feeds/rdf-files.tar.bz2 "Index download")
+
+The Archive contains one file per book with meta data in rdf Format.
+
 # Install
 
-    feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/6.1.0-SNAPSHOT/xml
+Unpack and start TESB
+
+    feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/6.1.1-SNAPSHOT/xml
     feature:install -v example-ebook-backend example-ebook-importer example-ebook-ui
 
-Then create a directory gutenberg below the karaf directory and put some rdf files from the gutenberg index into it.
+Then put some rdf files from the gutenberg index into the directory gutenberg below your karaf installation.
 The book data will automatically imported into the database.
 
-## Modules
+You should see one line in the log per imported book.
+
+The take a look at the [Ebook UI](http://localhost:8040/ebook/). It should show a list of Books that can be selected.
+On selection it shows the available formats and allows to send the Kindle format to an EMail address.
+
+# Modules
 
 1.  Importer for the Gutenberg Index
 2.  Database backend offering the Library service using Aries JPA
@@ -20,17 +30,24 @@ The book data will automatically imported into the database.
  
 ## Importer
 
-Allows to import the complete ebook index of project Gutenberg into a database. The index consists of RDF files in a zip.
-The index zip is dropped into a directory for an Apache Camel route to process.
+Allows to import the complete ebook index of project Gutenberg into a database.
 
-In a first step the zip is extracted into a second directory. There a second route takes over that parses each RDF file into a Pojo and stores these into the DB using the service offered by the backend.
+The first route watches the directory "gutenberg". Each file that is found is parsed into a Book class and then dumped into jms as XML. 
+
+The second route listen to the jms queue and processes each message using an XA transaction. The xml is unmarshalled into a Book object again and given and stored using the BookRepository service. If an error happens then the db changes are rolled back and the jms message is put back into the queue.
+
+The error handling and retries are configured using an ActiveMQ RedeliveryPolicy in ebook-connectionfctory
+
+## ConnectionFactory
+
+Contains an XA ready connection factory with pooling and a RedeliveryPolicy. 
 
 ## Backend and REST
 
-Offers an BookRepository OSGi service to manage and browse the ebook index. Inside it uses blueprint and Aries JPA.
+* BookRepository OSGi service to manage and browse the ebook index. Inside it uses blueprint and Aries JPA.
 The service is written using CDI Annotations. The blueprint xml is generated at build time.
 
-As second service Offers the eBook index as a REST service for the UI and potentially also for other applications
+* BookService REST resource for the UI and potentially also for other applications
 The rest service also allows to send ebooks to an email address. This can be used to send to an Amazon kindle reader. 
 
 ## UI
