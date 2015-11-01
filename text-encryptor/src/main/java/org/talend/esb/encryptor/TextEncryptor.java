@@ -51,6 +51,7 @@ public class TextEncryptor implements Action {
             } else {
                 System.out.println(PASSWORD_ENV_NAME + " system variable is not specified. ");
                 System.out.println("Second parameter should be used to specify password.");
+                return null;
             }
         }
         enc.setConfig(env);
