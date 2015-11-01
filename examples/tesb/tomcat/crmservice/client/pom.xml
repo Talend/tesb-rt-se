@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb.examples.tomcat</groupId>
         <artifactId>crmservice</artifactId>
-        <version>6.1.0</version>
+        <version>6.1.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

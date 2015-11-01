@@ -61,7 +61,7 @@ public class CallbackInfo {
 	private String callbackWsdlLocation = null;
 	private final List<OperationMapping> operationMappings = new ArrayList<OperationMapping>();
 	// private boolean wsdlPolicyQuery = false;
-	
+
 	public CallbackInfo(URL wsdlLocation) {
 		this(wsdlLocation.toExternalForm());
 	}
@@ -229,6 +229,7 @@ public class CallbackInfo {
 
 	private static WSDLServiceFactory createServiceFactory(String wsdlLocation) {
 		final Bus b = CXFBusFactory.getThreadDefaultBus();
+		RequestCallbackFeature.applyWsdlExtensions(b);
 		return new WSDLServiceFactory(b, wsdlLocation);
 	}
 

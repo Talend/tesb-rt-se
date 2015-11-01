@@ -52,7 +52,7 @@ public class SamEnablingInterceptorProvider extends
         
         // Try to initialize SAM Spring context for non-OSGi environments
         try {
-            if (this.getClass().getResource(AGENT_CONTEXT_PATH) != null) {
+            if (this.getClass().getResource("/"+AGENT_CONTEXT_PATH) != null) {
                 springContext = new ClassPathXmlApplicationContext(new String[] { AGENT_CONTEXT_PATH });
             }
         } catch (RuntimeException e) {

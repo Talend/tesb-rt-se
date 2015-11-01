@@ -293,6 +293,8 @@
 
   <feature name='tesb-policy-correlationid' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
+    <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
     <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
