@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -21,7 +22,7 @@ public class Book {
     /*
      * See http://dublincore.org/documents/2012/06/14/dcmi-terms/?v=terms#LCSH
      */
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Subject> subjects = new ArrayList<Subject>();
     
     private String language;
@@ -34,7 +35,7 @@ public class Book {
     
     private String publisher;
     
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Format> formats = new ArrayList<Format>();
 
     private URI links;
