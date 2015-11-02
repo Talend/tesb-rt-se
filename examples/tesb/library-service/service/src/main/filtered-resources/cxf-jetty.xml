@@ -20,8 +20,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     <import resource="classpath:/META-INF/cxf/cxf.xml" />
-    <!-- CXF 3 JMS configuration style -->
-    <import resource="classpath:/META-INF/tesb/tesb-cxf-transport-jms.xml" />
 
     <!-- for spring SAM definition (without using samenabling policy) -->
     <!-- <import resource="classpath:/META-INF/tesb/agent-context.xml" /> -->
