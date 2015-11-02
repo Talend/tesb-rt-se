@@ -10,19 +10,18 @@ import org.talend.esb.examples.ebook.parser.BookParser;
 
 @Singleton
 public class ImportRoutes extends RouteBuilder {
-    @OsgiService @Inject
+    @OsgiService
+    @Inject
     BookRepository bookRepo;
-    
+
     @Override
     public void configure() throws Exception {
-            from("file:gutenberg?recursive=true&noop=true")
-            //.autoStartup(false)
+        from("file:gutenberg?recursive=true&noop=true")
             .bean(new BookParser())
             .marshal().jaxb(true)
             .to("jms:books.in");
-            
-            from("jms:books.in")
-            //.autoStartup(false)
+
+        from("jms:books.in")
             .transacted()
             .bean(bookRepo, "add")
             .bean(new BookLogger());

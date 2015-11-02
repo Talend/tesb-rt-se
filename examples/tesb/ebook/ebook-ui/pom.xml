@@ -4,6 +4,7 @@
     <groupId>org.talend.esb.examples.ebook</groupId>
     <artifactId>ebook</artifactId>
     <version>6.1.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
   <artifactId>ebook-ui</artifactId>
   <packaging>bundle</packaging>

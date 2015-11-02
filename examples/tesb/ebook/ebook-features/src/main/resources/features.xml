@@ -16,19 +16,22 @@
         <feature>pax-jdbc-pool-dbcp2</feature>
         <feature>jndi</feature>
         <feature>transaction</feature>
-        <feature version="[2.2, 2.3)">jpa</feature>
-        <feature version="[4.3, 4.4)">hibernate</feature>
+        <feature version="[2.2, 3)">jpa</feature>
+        <feature version="[4.3, 5)">hibernate</feature>
         <feature>cxf-jaxrs</feature>
-        <bundle>mvn:org.talend.esb.examples.ebook/ebook-model/${pom.version}</bundle>
+        <bundle dependency="true">mvn:org.talend.esb.examples.ebook/ebook-model/${pom.version}</bundle>
         <bundle>mvn:org.talend.esb.examples.ebook/ebook-backend/${pom.version}</bundle>
     </feature>
     
     <feature name="example-ebook-importer" version="${pom.version}">
         <feature>activemq-client</feature>
+        <feature>activemq-broker</feature>
         <feature>camel-blueprint</feature>
         <feature>camel-jms</feature>
         <feature>camel-jaxb</feature>
         <feature>camel-spring</feature>
+        <bundle dependency="true">mvn:org.talend.esb.examples.ebook/ebook-model/${pom.version}</bundle>
+        <bundle>mvn:org.talend.esb.examples.ebook/ebook-connectionfactory/${pom.version}</bundle>
         <bundle>mvn:org.talend.esb.examples.ebook/ebook-importer/${pom.version}</bundle>
     </feature>
 
