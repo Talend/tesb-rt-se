@@ -169,7 +169,6 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         expect(serviceNode.getEndPoints()).andReturn(Arrays.asList(endpointNode));
         expect(endpointNode.isLive()).andReturn(true);
         expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
-        expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getContent()).andStubReturn(createContent(PROPERTIES_1));
 
         replayAll();
