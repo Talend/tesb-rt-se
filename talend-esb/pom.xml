@@ -321,6 +321,7 @@
 								<feature>tesb-sts</feature>
                                 <feature>camel-talendjob</feature>
 								<feature>tesb-jmx-http-agent</feature>
+								<feature>tesb-encryptor-command</feature>
                                 <feature>tesb-policy-compression</feature>
 								<feature>tesb-policy-correlationid</feature>
                                 <feature>tesb-policy-samenable</feature>
