@@ -126,7 +126,7 @@ public abstract class AbstractJPAItest {
     
     protected Option baseOptions() {
         MavenArtifactUrlReference karaf = maven().groupId("org.apache.karaf").artifactId("apache-karaf")
-            .version("4.0.2").type("tar.gz");
+            .version("4.0.3").type("tar.gz");
         ebooksFeatures = maven().groupId("org.talend.esb.examples.ebook").artifactId("ebook-features")
             .versionAsInProject().type("xml");
         return CoreOptions.composite(
