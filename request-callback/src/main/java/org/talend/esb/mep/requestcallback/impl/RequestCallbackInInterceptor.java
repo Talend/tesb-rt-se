@@ -27,7 +27,7 @@ import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.wsdl.WSDLManager;
 import org.apache.wss4j.dom.WSConstants;
-import org.apache.wss4j.dom.WSSecurityEngineResult;
+import org.apache.wss4j.dom.engine.WSSecurityEngineResult;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;
 import org.apache.wss4j.dom.handler.WSHandlerResult;
 import org.talend.esb.mep.requestcallback.feature.CallContext;
