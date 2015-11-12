@@ -7,6 +7,7 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.LazyInitializationException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
@@ -20,6 +21,7 @@ import org.talend.esb.examples.ebook.model.Book;
 import org.talend.esb.examples.ebook.model.BookRepository;
 import org.talend.esb.examples.ebook.model.Format;
 
+@Ignore
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
 public class BookRepositoryTest extends AbstractJPAItest {

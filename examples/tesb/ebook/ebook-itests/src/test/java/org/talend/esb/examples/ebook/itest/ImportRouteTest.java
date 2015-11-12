@@ -19,6 +19,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
@@ -29,6 +30,7 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.talend.esb.examples.ebook.model.Book;
 import org.talend.esb.examples.ebook.model.BookRepository;
 
+@Ignore
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
 public class ImportRouteTest extends AbstractJPAItest {
