@@ -19,148 +19,131 @@
   #L%
   -->
 <plugin name="cxf">
-	<property name="PLUGIN_VERSION" value="@project.version@" />
+    <property name="PLUGIN_VERSION" value="@project.version@" />
 
-	<filter name="template" value="${OBJECT_NAME}:${alias}" />
+    <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-	<filter name="domain" value="org.apache.cxf" />
+    <filter name="domain" value="org.apache.cxf" />
 
-	<filter name="endpoint_object_name"
-		value="${domain}:bus.id=*,type=Performance.Counter.Server,service=*,port=*,operation=*" />
+    <filter name="endpoint_object_name" value="${domain}:bus.id=*,type=Performance.Counter.Server,service=*,port=*,operation=*" />
 
-	<metrics name="endpoint">
-		<metric name="Availability" indicator="true"
-			template="${endpoint_object_name}:${alias}" />
+    <metrics name="endpoint">
+        <metric name="Availability" indicator="true" template="${endpoint_object_name}:${alias}" />
 
-		<metric name="Total Handling Time" alias="TotalHandlingTime"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="mu"
-			category="PERFORMANCE" />
+        <metric name="Total Handling Time" alias="TotalHandlingTime" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="mu" category="PERFORMANCE" />
 
-		<metric name="Number of Invocations" alias="NumInvocations"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="none"
-			collectionType="trendsup" category="THROUGHPUT" />
-		<metric name="Number of Checked Application Faults" alias="NumCheckedApplicationFaults"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="none"
-			collectionType="trendsup" category="THROUGHPUT" />
-		<metric name="Number of Logical Runtime Faults" alias="NumLogicalRuntimeFaults"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="none"
-			collectionType="trendsup" category="THROUGHPUT" />
-		<metric name="Number of Runtime Faults" alias="NumRuntimeFaults"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="none"
-			collectionType="trendsup" category="THROUGHPUT" />
-		<metric name="Number of UnChecked Application Faults" alias="NumUnCheckedApplicationFaults"
-			template="${endpoint_object_name}:${alias}" indicator="true" units="none"
-			collectionType="trendsup" category="THROUGHPUT" />
-	</metrics>
+        <metric name="Number of Invocations" alias="NumInvocations" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="none" collectionType="trendsup" category="THROUGHPUT" />
+        <metric name="Number of Checked Application Faults" alias="NumCheckedApplicationFaults" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="none" collectionType="trendsup" category="THROUGHPUT" />
+        <metric name="Number of Logical Runtime Faults" alias="NumLogicalRuntimeFaults" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="none" collectionType="trendsup" category="THROUGHPUT" />
+        <metric name="Number of Runtime Faults" alias="NumRuntimeFaults" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="none" collectionType="trendsup" category="THROUGHPUT" />
+        <metric name="Number of UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" template="${endpoint_object_name}:${alias}"
+            indicator="true" units="none" collectionType="trendsup" category="THROUGHPUT" />
+    </metrics>
 
-	<server name="Apache CXF [Karaf]" version="2.7">
+    <server name="Apache CXF [Karaf]" version="2.7">
 
-		<property name="PROC_HOME_PROPERTY" value="karaf.home" />
-		<property name="VERSION_FILE" value="**/.*cxf-rt-core-(2.\d*).*.jar" />
+        <property name="PROC_HOME_PROPERTY" value="karaf.home" />
+        <property name="VERSION_FILE" value="**/.*cxf-rt-core-(2.\d*).*.jar" />
 
 		<!-- <property name="INSTALLPATH" value="CXF Karaf" /> -->
 		<!-- <property name="KARAF_HOME" value="C:\talend-esb-4.0\container\bin"/> -->
 		<!-- <property name="INSTALLPATH_MATCH" value="${KARAF_HOME}"/> -->
 
 		<!-- Common -->
-		<property name="server_title" value="Apache CXF" />
-		<property name="target_domain" value="${domain}" />
+        <property name="server_title" value="Apache CXF" />
+        <property name="target_domain" value="${domain}" />
 
 		<!-- Measurement Plugin -->
 		<!-- <property name="gc_interval" value="3600" /> -->
 
 		<!-- Detector Plugin -->
-		<property name="dynamic_field_pattern" value="(.*-cxf)[0-9]+" />
-		<property name="dynamic_field_name" value="bus.id" />
-		<property name="target_format" value="{}*" />
-		<property name="library_path" value="system/org/apache/cxf/cxf-rt-core" />
+        <property name="dynamic_field_pattern" value="(.*-cxf)[0-9]+" />
+        <property name="dynamic_field_name" value="bus.id" />
+        <property name="target_format" value="{}*" />
+        <property name="library_path" value="system/org/apache/cxf/cxf-rt-core" />
 
-		<config>
-			<option name="jmx.url" description="JMX URL to MBeanServer"
-				default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun" />
-			<option name="jmx.username" description="JMX username"
-				optional="true" default="tadmin" />
-			<option name="jmx.password" description="JMX password"
-				optional="true" default="tadmin" />
-		</config>
+        <config>
+            <option name="jmx.url" description="JMX URL to MBeanServer"
+                default="service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun" />
+            <option name="jmx.username" description="JMX username" optional="true" default="tadmin" />
+            <option name="jmx.password" description="JMX password" optional="true" default="tadmin" />
+        </config>
 
-		<plugin type="autoinventory"
-			class="org.talend.esb.monitoring.hq.KarafEmbeddedServerDetector" />
-		<plugin type="measurement"
-			class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
-		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
+        <plugin type="autoinventory" class="org.talend.esb.monitoring.hq.KarafEmbeddedServerDetector" />
+        <plugin type="measurement" class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
+        <plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
 
-		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
-		<metric name="Availability" indicator="true" />
-		
-		<service name="Services">
-			<property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
-			<property name="OBJECT_NAME" value="${endpoint_object_name}"/>
+        <property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
+        <metric name="Availability" indicator="true" />
 
-			<config>
-				<option name="bus.id" description="CXF Bus ID" />
-				<option name="service" description="Service name" />
-				<option name="port" description="Port name" />
-				<option name="operation" description="Operation name" />
-			</config>
+        <service name="Services">
+            <property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
+            <property name="OBJECT_NAME" value="${endpoint_object_name}" />
 
-			<plugin type="autoinventory" />
-			<plugin type="measurement" />
+            <config>
+                <option name="bus.id" description="CXF Bus ID" />
+                <option name="service" description="Service name" />
+                <option name="port" description="Port name" />
+                <option name="operation" description="Operation name" />
+            </config>
 
-			<metrics include="endpoint" />
-		</service>
-	</server>
+            <plugin type="autoinventory" />
+            <plugin type="measurement" />
 
-	<server name="Apache CXF [Tomcat]" version="2.7">
-		<property name="PROC_HOME_PROPERTY" value="catalina.home" />
-		<property name="VERSION_FILE" value="**/.*cxf-rt-core-(2.\d*).*.jar" />
+            <metrics include="endpoint" />
+        </service>
+    </server>
+
+    <server name="Apache CXF [Tomcat]" version="2.7">
+        <property name="PROC_HOME_PROPERTY" value="catalina.home" />
+        <property name="VERSION_FILE" value="**/.*cxf-rt-core-(2.\d*).*.jar" />
 
 		<!-- Common -->
-		<property name="server_title" value="Apache CXF" />
-		<property name="target_domain" value="${domain}" />
+        <property name="server_title" value="Apache CXF" />
+        <property name="target_domain" value="${domain}" />
 
 		<!-- Measurement Plugin -->
 		<!-- <property name="gc_interval" value="3600" /> -->
 
 		<!-- Detector Plugin -->
-		<property name="dynamic_field_pattern" value="(.*-cxf)[0-9]+" />
-		<property name="dynamic_field_name" value="bus.id" />
-		<property name="target_format" value="{}*" />
-		
-		<config>
-			<option name="jmx.url" description="JMX URL to MBeanServer"
-				default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi" />
-			<option name="jmx.username" description="JMX username"
-				optional="true" default="" />
-			<option name="jmx.password" description="JMX password"
-				optional="true" default="" type="secret" />
-		</config>
+        <property name="dynamic_field_pattern" value="(.*-cxf)[0-9]+" />
+        <property name="dynamic_field_name" value="bus.id" />
+        <property name="target_format" value="{}*" />
 
-		<plugin type="autoinventory"
-			class="org.talend.esb.monitoring.hq.TomcatEmbeddedServerDetector" />
-		<plugin type="measurement"
-			class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
-		<plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
+        <config>
+            <option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi" />
+            <option name="jmx.username" description="JMX username" optional="true" default="" />
+            <option name="jmx.password" description="JMX password" optional="true" default="" type="secret" />
+        </config>
 
-		<property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
-		<metric name="Availability" indicator="true" />
+        <plugin type="autoinventory" class="org.talend.esb.monitoring.hq.TomcatEmbeddedServerDetector" />
+        <plugin type="measurement" class="org.talend.esb.monitoring.hq.DynamicMxFieldMeasurementPlugin" />
+        <plugin type="log_track" class="org.hyperic.hq.product.jmx.MxNotificationPlugin" />
 
-		<service name="Services">
-			<property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
-			<property name="OBJECT_NAME" value="${endpoint_object_name}"/>
+        <property name="OBJECT_NAME" value="java.lang:type=ClassLoading" />
+        <metric name="Availability" indicator="true" />
 
-			<config>
-				<option name="bus.id" description="CXF Bus ID" />
-				<option name="service" description="Service name" />
-				<option name="port" description="Port name" />
-				<option name="operation" description="Operation name" />
-			</config>
+        <service name="Services">
+            <property name="AUTOINVENTORY_NAME" value="CXF %service% %operation%" />
+            <property name="OBJECT_NAME" value="${endpoint_object_name}" />
 
-			<plugin type="autoinventory" />
-			<plugin type="measurement" />
+            <config>
+                <option name="bus.id" description="CXF Bus ID" />
+                <option name="service" description="Service name" />
+                <option name="port" description="Port name" />
+                <option name="operation" description="Operation name" />
+            </config>
 
-			<metrics include="endpoint" />
-		</service>
-	</server>
+            <plugin type="autoinventory" />
+            <plugin type="measurement" />
+
+            <metrics include="endpoint" />
+        </service>
+    </server>
 
 </plugin>

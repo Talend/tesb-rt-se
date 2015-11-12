@@ -41,200 +41,189 @@ import org.hyperic.hq.product.jmx.MxUtil;
 import static org.talend.esb.monitoring.hq.HypericUtils.getMandatoryProperty;
 
 public class KarafOSGiMeasurementPlugin extends MxMeasurementPlugin {
-	
-	public static final String EXPIRATION_TIMEOUT = "expiration.timeout";
 
-	public static final String PROP_BUNDLES_OBJNAME = "KARAF_BUNDLES_OBJECT_NAME";
-	public static final String PROP_FEATURES_OBJNAME = "KARAF_FEATURES_OBJECT_NAME";
-	public static final String PROP_SERVICES_OBJNAME = "KARAF_SERVICES_OBJECT_NAME";
+    public static final String EXPIRATION_TIMEOUT = "expiration.timeout";
 
-//	private final Logger log = Logger
-//			.getLogger(KarafOSGiMeasurementPlugin.class.getName());
+    public static final String PROP_BUNDLES_OBJNAME = "KARAF_BUNDLES_OBJECT_NAME";
+    public static final String PROP_FEATURES_OBJNAME = "KARAF_FEATURES_OBJECT_NAME";
+    public static final String PROP_SERVICES_OBJNAME = "KARAF_SERVICES_OBJECT_NAME";
 
-	private final ConcurrentHashMap<String, MetricValue> dataCache = new ConcurrentHashMap<String, MetricValue>(
-			20);
+    // private final Logger log = Logger
+    // .getLogger(KarafOSGiMeasurementPlugin.class.getName());
 
-	private long lastCollectionTime = 0;
+    private final ConcurrentHashMap<String, MetricValue> dataCache = new ConcurrentHashMap<String, MetricValue>(20);
 
-	/**
-	 * The cached data is considered expired if it was collected more than
-	 * expirationPeriod msecs ago.
-	 */
-	private long expirationTimeout = 60000;
+    private long lastCollectionTime = 0;
 
-	private ObjectName objnameBundles;
-	private ObjectName objnameFeatures;
-	private ObjectName objnameServices;
+    /**
+     * The cached data is considered expired if it was collected more than
+     * expirationPeriod msecs ago.
+     */
+    private long expirationTimeout = 60000;
 
-	@Override
-	public void init(PluginManager manager) throws PluginException {
-		super.init(manager);
+    private ObjectName objnameBundles;
+    private ObjectName objnameFeatures;
+    private ObjectName objnameServices;
 
-		try {
-			expirationTimeout = Long.valueOf(getMandatoryProperty(this, EXPIRATION_TIMEOUT));
-		} catch (NumberFormatException e) {
-			throw new PluginException(e);
-		}
-		
-		try {
-			objnameBundles = ObjectName.getInstance(getMandatoryProperty(this,
-					PROP_BUNDLES_OBJNAME));
-		} catch (PluginException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new PluginException(e);
-		}
+    @Override
+    public void init(PluginManager manager) throws PluginException {
+        super.init(manager);
 
-		try {
-			objnameFeatures = ObjectName.getInstance(getMandatoryProperty(this,
-					PROP_FEATURES_OBJNAME));
-		} catch (PluginException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new PluginException(e);
-		}
+        try {
+            expirationTimeout = Long.valueOf(getMandatoryProperty(this, EXPIRATION_TIMEOUT));
+        } catch (NumberFormatException e) {
+            throw new PluginException(e);
+        }
 
-		try {
-			objnameServices = ObjectName.getInstance(getMandatoryProperty(this,
-					PROP_SERVICES_OBJNAME));
-		} catch (PluginException e) {
-			throw e;
-		} catch (Exception e) {
-			throw new PluginException(e);
-		}
-	}
+        try {
+            objnameBundles = ObjectName.getInstance(getMandatoryProperty(this, PROP_BUNDLES_OBJNAME));
+        } catch (PluginException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new PluginException(e);
+        }
 
-	private TabularData retreiveTabularAttributeData(
-			MBeanServerConnection connection, ObjectName objName,
-			String attributeName) throws MetricUnreachableException,
-			MetricNotFoundException {
-		try {
-			return TabularData.class.cast(connection.getAttribute(objName,
-					attributeName));
-		} catch (IOException e) {
-			throw new MetricUnreachableException("Unable to get attribute value for " + objName + ":" + attributeName, e);
-		} catch (Exception e) {
-			throw new MetricNotFoundException("Unable to get attribute value for " + objName + ":" + attributeName, e);
-		}
-	}
+        try {
+            objnameFeatures = ObjectName.getInstance(getMandatoryProperty(this, PROP_FEATURES_OBJNAME));
+        } catch (PluginException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new PluginException(e);
+        }
 
-	private TabularData retreiveTabularMethodData(
-			MBeanServerConnection connection, ObjectName objName,
-			String operationName) throws MetricUnreachableException,
-			MetricNotFoundException {
-		try {
-			return TabularData.class.cast(connection.invoke(objName,
-					operationName, null, null));
-		} catch (IOException e) {
-			throw new MetricUnreachableException("Unable to get operation return value for " + objName + "->" + operationName, e);
-		} catch (Exception e) {
-			throw new MetricNotFoundException("Unable to get operation return value for " + objName + "->" + operationName, e);
-		}
-	}
+        try {
+            objnameServices = ObjectName.getInstance(getMandatoryProperty(this, PROP_SERVICES_OBJNAME));
+        } catch (PluginException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new PluginException(e);
+        }
+    }
 
-	private void updateBundlesData(MBeanServerConnection connection)
-			throws MetricUnreachableException, MetricNotFoundException {
-		TabularData td = retreiveTabularMethodData(connection, objnameBundles,
-				"list");
+    private TabularData retreiveTabularAttributeData(MBeanServerConnection connection, ObjectName objName,
+            String attributeName) throws MetricUnreachableException, MetricNotFoundException {
+        try {
+            return TabularData.class.cast(connection.getAttribute(objName, attributeName));
+        } catch (IOException e) {
+            throw new MetricUnreachableException("Unable to get attribute value for " + objName + ":" + attributeName,
+                    e);
+        } catch (Exception e) {
+            throw new MetricNotFoundException("Unable to get attribute value for " + objName + ":" + attributeName, e);
+        }
+    }
 
-		long bundlesTotal = td.size();
+    private TabularData retreiveTabularMethodData(MBeanServerConnection connection, ObjectName objName,
+            String operationName) throws MetricUnreachableException, MetricNotFoundException {
+        try {
+            return TabularData.class.cast(connection.invoke(objName, operationName, null, null));
+        } catch (IOException e) {
+            throw new MetricUnreachableException(
+                    "Unable to get operation return value for " + objName + "->" + operationName, e);
+        } catch (Exception e) {
+            throw new MetricNotFoundException(
+                    "Unable to get operation return value for " + objName + "->" + operationName, e);
+        }
+    }
 
-		long bundlesActive = 0;
-		long bundlesResolved = 0;
-		long bundlesInstalled = 0;
+    private void updateBundlesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        TabularData td = retreiveTabularMethodData(connection, objnameBundles, "list");
 
-		for (Object k : td.values()) {
-			if (!(k instanceof CompositeData)) {
-				throw new IllegalArgumentException();
-			}
+        long bundlesTotal = td.size();
 
-			CompositeData cdata = (CompositeData) k;
+        long bundlesActive = 0;
+        long bundlesResolved = 0;
+        long bundlesInstalled = 0;
 
-			if (!cdata.containsKey("State")) {
-				throw new IllegalArgumentException();
-			}
+        for (Object k : td.values()) {
+            if (!(k instanceof CompositeData)) {
+                throw new IllegalArgumentException();
+            }
 
-			String state = (String) cdata.get("State");
-			if (state.startsWith("A") || state.startsWith("a")) {
-				bundlesActive++;
-			} else if (state.startsWith("R") || state.startsWith("r")) {
-				bundlesResolved++;
-			} else if (state.startsWith("I") || state.startsWith("i")) {
-				bundlesInstalled++;
-			}
-		}
+            CompositeData cdata = (CompositeData) k;
 
-		dataCache.put("#Bundles-Total", new MetricValue(bundlesTotal));
-		dataCache.put("#Bundles-Active", new MetricValue(bundlesActive));
-		dataCache.put("#Bundles-Resolved", new MetricValue(bundlesResolved));
-		dataCache.put("#Bundles-Installed", new MetricValue(bundlesInstalled));
-	}
-	
-	private void updateFeaturesData(MBeanServerConnection connection)
-			throws MetricUnreachableException, MetricNotFoundException {
-		TabularData tdFeatures = retreiveTabularAttributeData(connection, objnameFeatures,
-				"Features");
+            if (!cdata.containsKey("State")) {
+                throw new IllegalArgumentException();
+            }
 
-		long featuresTotal = tdFeatures.size();
+            String state = (String) cdata.get("State");
+            if (state.startsWith("A") || state.startsWith("a")) {
+                bundlesActive++;
+            } else if (state.startsWith("R") || state.startsWith("r")) {
+                bundlesResolved++;
+            } else if (state.startsWith("I") || state.startsWith("i")) {
+                bundlesInstalled++;
+            }
+        }
 
-		TabularData tdRepos = retreiveTabularAttributeData(connection, objnameFeatures,
-				"Repositories");
+        dataCache.put("#Bundles-Total", new MetricValue(bundlesTotal));
+        dataCache.put("#Bundles-Active", new MetricValue(bundlesActive));
+        dataCache.put("#Bundles-Resolved", new MetricValue(bundlesResolved));
+        dataCache.put("#Bundles-Installed", new MetricValue(bundlesInstalled));
+    }
 
-		long repositoriesTotal = tdRepos.size();
-		
-		dataCache.put("#Features", new MetricValue(featuresTotal));
-		dataCache.put("#FeatureRepositories", new MetricValue(repositoriesTotal));
-	}
-	
-	private void updateServicesData(MBeanServerConnection connection)
-			throws MetricUnreachableException, MetricNotFoundException {
-		TabularData td = retreiveTabularMethodData(connection, objnameServices,
-				"list");
+    private void updateFeaturesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        TabularData tdFeatures = retreiveTabularAttributeData(connection, objnameFeatures, "Features");
 
-		long servicesTotal = td.size();
+        long featuresTotal = tdFeatures.size();
 
-		dataCache.put("#Services", new MetricValue(servicesTotal));
-	}
+        TabularData tdRepos = retreiveTabularAttributeData(connection, objnameFeatures, "Repositories");
 
-	private synchronized void updateCache(Properties connectionProps)
-			throws MetricUnreachableException, PluginException {
-		if ((System.currentTimeMillis() - lastCollectionTime) < expirationTimeout) {
-			return;
-		}
+        long repositoriesTotal = tdRepos.size();
 
-		JMXConnector jmxConnector = null;
-		try {
-			jmxConnector = MxUtil.getCachedMBeanConnector(connectionProps);
-			MBeanServerConnection conn = jmxConnector.getMBeanServerConnection();
+        dataCache.put("#Features", new MetricValue(featuresTotal));
+        dataCache.put("#FeatureRepositories", new MetricValue(repositoriesTotal));
+    }
 
-			updateBundlesData(conn);
-			updateFeaturesData(conn);
-			updateServicesData(conn);
-		} catch (IOException e) {
-			throw new MetricUnreachableException("Error during communication with remote MBean Server.", e);
-		} catch (Exception e) {
-			throw new PluginException("", e);
-		} finally {
-			// it's null-proof
-			MxUtil.close(jmxConnector);
-		}
+    private void updateServicesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        TabularData td = retreiveTabularMethodData(connection, objnameServices, "list");
 
-		lastCollectionTime = System.currentTimeMillis();
-	}
+        long servicesTotal = td.size();
 
-	@Override
-	public MetricValue getValue(Metric metric) throws PluginException,
-			MetricNotFoundException, MetricUnreachableException {
-		if (metric.isAvail()) {
-			return super.getValue(metric);
-		}
+        dataCache.put("#Services", new MetricValue(servicesTotal));
+    }
 
-		updateCache(metric.getProperties());
+    private synchronized void updateCache(Properties connectionProps)
+            throws MetricUnreachableException, PluginException {
+        if ((System.currentTimeMillis() - lastCollectionTime) < expirationTimeout) {
+            return;
+        }
 
-		if (!dataCache.containsKey(metric.getAttributeName())) {
-			 throw new PluginException("Unknown metric " + metric.toString());
-		}
+        JMXConnector jmxConnector = null;
+        try {
+            jmxConnector = MxUtil.getCachedMBeanConnector(connectionProps);
+            MBeanServerConnection conn = jmxConnector.getMBeanServerConnection();
 
-		return dataCache.get(metric.getAttributeName());
-	}
+            updateBundlesData(conn);
+            updateFeaturesData(conn);
+            updateServicesData(conn);
+        } catch (IOException e) {
+            throw new MetricUnreachableException("Error during communication with remote MBean Server.", e);
+        } catch (Exception e) {
+            throw new PluginException("", e);
+        } finally {
+            // it's null-proof
+            MxUtil.close(jmxConnector);
+        }
+
+        lastCollectionTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public MetricValue getValue(Metric metric)
+            throws PluginException, MetricNotFoundException, MetricUnreachableException {
+        if (metric.isAvail()) {
+            return super.getValue(metric);
+        }
+
+        updateCache(metric.getProperties());
+
+        if (!dataCache.containsKey(metric.getAttributeName())) {
+            throw new PluginException("Unknown metric " + metric.toString());
+        }
+
+        return dataCache.get(metric.getAttributeName());
+    }
 }
