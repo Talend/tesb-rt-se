@@ -246,7 +246,7 @@ public class MessageToEventMapper {
 
         AddressingProperties addrProp = ContextUtils.retrieveMAPs(message, false,
                 MessageUtils.isOutbound(message));
-        if (addrProp != null) {
+        if (addrProp != null && addrProp.getMessageID() != null) {
             messageId = addrProp.getMessageID().getValue();
         }
 
