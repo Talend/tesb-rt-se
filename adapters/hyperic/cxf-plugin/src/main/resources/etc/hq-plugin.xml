@@ -99,6 +99,14 @@
         </service>
     </server>
 
+    <server name="Apache CXF [Karaf]" version="3.0" include="2.7">
+        <property name="VERSION_FILE" value="**/.*cxf-core-(3.\d*).*.jar" />
+        <property name="library_path" value="system/org/apache/cxf/cxf-core" />
+    </server>
+
+    <server name="Apache CXF [Karaf]" version="3.1" include="3.0">
+    </server>
+
     <server name="Apache CXF [Tomcat]" version="2.7">
         <property name="PROC_HOME_PROPERTY" value="catalina.home" />
         <property name="VERSION_FILE" value="**/.*cxf-rt-core-(2.\d*).*.jar" />
@@ -144,6 +152,13 @@
 
             <metrics include="endpoint" />
         </service>
+    </server>
+
+    <server name="Apache CXF [Tomcat]" version="3.0" include="2.7">
+        <property name="VERSION_FILE" value="**/.*cxf-core-(3.\d*).*.jar" />
+    </server>
+
+    <server name="Apache CXF [Tomcat]" version="3.1" include="3.0">
     </server>
 
 </plugin>

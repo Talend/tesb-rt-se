@@ -277,6 +277,9 @@
     <server name="ActiveMQ" version="5.10" include="5.8">
     </server>
 
+    <server name="ActiveMQ" version="5.11" include="5.8">
+    </server>
+
 	<!-- Embedded - Karaf -->
 
     <server name="ActiveMQ [Karaf]" version="5.5" include="ActiveMQ 5.5">
@@ -322,4 +325,9 @@
 
     <server name="ActiveMQ [Karaf]" version="5.10" include="5.8">
     </server>
+
+    <server name="ActiveMQ [Karaf]" version="5.11" include="5.8">
+        <property name="library_path" value="system/org/apache/activemq/activemq-karaf" />
+    </server>
+
 </plugin>

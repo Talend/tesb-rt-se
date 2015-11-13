@@ -100,34 +100,9 @@ public class KarafOSGiMeasurementPlugin extends MxMeasurementPlugin {
         }
     }
 
-    private TabularData retreiveTabularAttributeData(MBeanServerConnection connection, ObjectName objName,
-            String attributeName) throws MetricUnreachableException, MetricNotFoundException {
-        try {
-            return TabularData.class.cast(connection.getAttribute(objName, attributeName));
-        } catch (IOException e) {
-            throw new MetricUnreachableException("Unable to get attribute value for " + objName + ":" + attributeName,
-                    e);
-        } catch (Exception e) {
-            throw new MetricNotFoundException("Unable to get attribute value for " + objName + ":" + attributeName, e);
-        }
-    }
-
-    private TabularData retreiveTabularMethodData(MBeanServerConnection connection, ObjectName objName,
-            String operationName) throws MetricUnreachableException, MetricNotFoundException {
-        try {
-            return TabularData.class.cast(connection.invoke(objName, operationName, null, null));
-        } catch (IOException e) {
-            throw new MetricUnreachableException(
-                    "Unable to get operation return value for " + objName + "->" + operationName, e);
-        } catch (Exception e) {
-            throw new MetricNotFoundException(
-                    "Unable to get operation return value for " + objName + "->" + operationName, e);
-        }
-    }
-
     private void updateBundlesData(MBeanServerConnection connection)
             throws MetricUnreachableException, MetricNotFoundException {
-        TabularData td = retreiveTabularMethodData(connection, objnameBundles, "list");
+        TabularData td = getBundlesData(connection);
 
         long bundlesTotal = td.size();
 
@@ -164,11 +139,11 @@ public class KarafOSGiMeasurementPlugin extends MxMeasurementPlugin {
 
     private void updateFeaturesData(MBeanServerConnection connection)
             throws MetricUnreachableException, MetricNotFoundException {
-        TabularData tdFeatures = retreiveTabularAttributeData(connection, objnameFeatures, "Features");
+        TabularData tdFeatures = getFeaturesData(connection);
 
         long featuresTotal = tdFeatures.size();
 
-        TabularData tdRepos = retreiveTabularAttributeData(connection, objnameFeatures, "Repositories");
+        TabularData tdRepos = getRepositoriesData(connection);
 
         long repositoriesTotal = tdRepos.size();
 
@@ -178,7 +153,7 @@ public class KarafOSGiMeasurementPlugin extends MxMeasurementPlugin {
 
     private void updateServicesData(MBeanServerConnection connection)
             throws MetricUnreachableException, MetricNotFoundException {
-        TabularData td = retreiveTabularMethodData(connection, objnameServices, "list");
+        TabularData td = getServicesData(connection);
 
         long servicesTotal = td.size();
 
@@ -226,4 +201,62 @@ public class KarafOSGiMeasurementPlugin extends MxMeasurementPlugin {
 
         return dataCache.get(metric.getAttributeName());
     }
+
+    protected TabularData getBundlesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        return retreiveTabularMethodData(connection, objnameBundles, "list");
+    }
+
+    protected TabularData getServicesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        return retreiveTabularMethodData(connection, objnameServices, "list");
+    }
+
+    protected TabularData getFeaturesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        return retreiveTabularAttributeData(connection, objnameFeatures, "Features");
+    }
+
+    protected TabularData getRepositoriesData(MBeanServerConnection connection)
+            throws MetricUnreachableException, MetricNotFoundException {
+        return retreiveTabularAttributeData(connection, objnameFeatures, "Repositories");
+    }
+
+    protected final TabularData retreiveTabularAttributeData(MBeanServerConnection connection, ObjectName objName,
+            String attributeName) throws MetricUnreachableException, MetricNotFoundException {
+        try {
+            return TabularData.class.cast(connection.getAttribute(objName, attributeName));
+        } catch (IOException e) {
+            throw new MetricUnreachableException("Unable to get attribute value for " + objName + ":" + attributeName,
+                    e);
+        } catch (Exception e) {
+            throw new MetricNotFoundException("Unable to get attribute value for " + objName + ":" + attributeName, e);
+        }
+    }
+
+    protected final TabularData retreiveTabularMethodData(MBeanServerConnection connection, ObjectName objName,
+            String operationName) throws MetricUnreachableException, MetricNotFoundException {
+        try {
+            return TabularData.class.cast(connection.invoke(objName, operationName, null, null));
+        } catch (IOException e) {
+            throw new MetricUnreachableException(
+                    "Unable to get operation return value for " + objName + "->" + operationName, e);
+        } catch (Exception e) {
+            throw new MetricNotFoundException(
+                    "Unable to get operation return value for " + objName + "->" + operationName, e);
+        }
+    }
+
+    protected final ObjectName getObjnameBundles() {
+        return objnameBundles;
+    }
+
+    protected final ObjectName getObjnameServices() {
+        return objnameServices;
+    }
+
+    protected final ObjectName getObjnameFeatures() {
+        return objnameFeatures;
+    }
+
 }
