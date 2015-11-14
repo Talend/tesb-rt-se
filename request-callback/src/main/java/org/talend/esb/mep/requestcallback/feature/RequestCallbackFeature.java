@@ -86,17 +86,16 @@ public class RequestCallbackFeature extends AbstractFeature {
         ExtensionRegistry registry = bus.getExtension(WSDLManager.class).getExtensionRegistry();
 
         try {
-            JAXBExtensionHelper.addExtensions(registry,
-                    "javax.wsdl.Definition",
-                    "org.talend.esb.mep.requestcallback.impl.wsdl.PLType");
 
             JAXBExtensionHelper.addExtensions(registry,
-                    "javax.wsdl.Binding",
-                    "org.talend.esb.mep.requestcallback.impl.wsdl.CallbackExtension");
+                    javax.wsdl.Definition.class,
+                    org.talend.esb.mep.requestcallback.impl.wsdl.PLType.class);
+
+            JAXBExtensionHelper.addExtensions(registry,
+                    javax.wsdl.Binding.class,
+                    org.talend.esb.mep.requestcallback.impl.wsdl.CallbackExtension.class);
 
         } catch (JAXBException e) {
-            throw new RuntimeException("Failed to add WSDL JAXB extensions", e);
-        } catch (ClassNotFoundException e) {
             throw new RuntimeException("Failed to add WSDL JAXB extensions", e);
         }
     }
