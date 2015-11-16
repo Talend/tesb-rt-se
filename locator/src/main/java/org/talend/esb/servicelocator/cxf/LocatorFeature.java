@@ -37,6 +37,7 @@ import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
 import org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager;
 
 public class LocatorFeature extends AbstractFeature implements LocatorFeatureInterface {
+
     private static final Logger LOG = Logger.getLogger(LocatorFeature.class.getName());
 
     private SLPropertiesImpl slProps;
@@ -56,7 +57,6 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
         slm.listenForAllServers(bus);
         slm.listenForAllClients();
-
     }
 
     @Override
@@ -108,6 +108,12 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
                     + conduitSelectorHolder);
         }
 
+        Map<String, String> endpointProps = getEndpointLocatorProperties(
+                conduitSelectorHolder.getConduitSelector().getEndpoint());
+        if (null != endpointProps) {
+            setRequiredEndpointProperties(endpointProps);
+        }
+
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
         slm.enableClient(conduitSelectorHolder, slPropsMatcher, selectionStrategy);
     }
@@ -144,8 +150,9 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
         }
 
         LOG.fine("set matcher = " + slPropsMatcher.toString());
-        for ( StackTraceElement trace : new Throwable().getStackTrace() )
+        for (StackTraceElement trace : new Throwable().getStackTrace()) {
             LOG.fine(trace.toString());
+        }
     }
 
     @Override
