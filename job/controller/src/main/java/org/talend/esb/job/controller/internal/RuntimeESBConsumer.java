@@ -110,9 +110,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         clientFactory.setServiceName(serviceName);
         clientFactory.setEndpointName(portName);
-        final String endpointUrl = (useServiceLocator) ? publishedEndpointUrl
-                : "locator://" + serviceName.getLocalPart();
         if (!useServiceRegistry) {
+            String endpointUrl = (useServiceLocator) ? "locator://" + serviceName.getLocalPart() : publishedEndpointUrl;
             clientFactory.setAddress(endpointUrl);
         }
         if (!useServiceRegistry && null != wsdlURL) {
