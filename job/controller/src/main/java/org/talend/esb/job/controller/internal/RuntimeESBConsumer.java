@@ -20,8 +20,6 @@
 package org.talend.esb.job.controller.internal;
 
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,18 +41,12 @@ import org.apache.cxf.headers.Header;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
-import org.apache.cxf.ws.security.SecurityConstants;
-import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.wsdl.service.factory.AbstractServiceConfiguration;
 import org.talend.esb.job.controller.ESBEndpointConstants;
-import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
-import org.talend.esb.security.saml.SAMLRESTUtils;
-import org.talend.esb.security.saml.STSClientUtils;
-import org.talend.esb.security.saml.WSPasswordCallbackHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
@@ -62,8 +54,7 @@ import routines.system.api.ESBConsumer;
 
 //@javax.jws.WebService()
 public class RuntimeESBConsumer implements ESBConsumer {
-    private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class.getName());
 
     private final QName operationName;
     private final EventFeature samFeature;
@@ -85,14 +76,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final QName operationName,
             String publishedEndpointUrl,
             String wsdlURL,
-            final boolean isRequestResponse,
-            final LocatorFeature slFeature,
+            final boolean useServiceLocator,
+            final Map<String, String> locatorProps,
             final EventFeature samFeature,
             boolean useServiceRegistry,
             final SecurityArguments securityArguments,
             Bus bus,
             boolean logging,
-            final String soapAction,
             final List<Header> soapHeaders,
             boolean enhancedResponse,
             Object correlationIDCallbackHandler) {
@@ -120,7 +110,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         clientFactory.setServiceName(serviceName);
         clientFactory.setEndpointName(portName);
-        final String endpointUrl = (slFeature == null) ? publishedEndpointUrl
+        final String endpointUrl = (useServiceLocator) ? publishedEndpointUrl
                 : "locator://" + serviceName.getLocalPart();
         if (!useServiceRegistry) {
             clientFactory.setAddress(endpointUrl);
@@ -131,8 +121,13 @@ public class RuntimeESBConsumer implements ESBConsumer {
         clientFactory.setDataBinding(new SourceDataBinding());
 
         clientFactory.setBus(bus);
+
         final List<Feature> features = new ArrayList<Feature>();
-        if (slFeature != null) {
+        if (useServiceLocator) {
+            LocatorFeature slFeature = new LocatorFeature();
+            if (null != locatorProps && !locatorProps.isEmpty()) {
+                slFeature.setRequiredEndpointProperties(locatorProps);
+            }
             features.add(slFeature);
         }
         if (samFeature != null) {
@@ -149,81 +144,23 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         clientFactory.setFeatures(features);
 
-        Map<String, Object> clientProps = new HashMap<String, Object>();
-        if (EsbSecurity.BASIC == securityArguments.getEsbSecurity()) {
-            authorizationPolicy = new AuthorizationPolicy();
-            authorizationPolicy.setUserName(securityArguments.getUsername());
-            authorizationPolicy.setPassword(securityArguments.getPassword());
-            authorizationPolicy.setAuthorizationType(org.apache.cxf.transport.http.auth.HttpAuthHeader.AUTH_TYPE_BASIC);
-        } else if (EsbSecurity.DIGEST == securityArguments.getEsbSecurity()) {
-            authorizationPolicy = new AuthorizationPolicy();
-            authorizationPolicy.setUserName(securityArguments.getUsername());
-            authorizationPolicy.setPassword(securityArguments.getPassword());
-            authorizationPolicy.setAuthorizationType(org.apache.cxf.transport.http.auth.HttpAuthHeader.AUTH_TYPE_DIGEST);
-        }
-        if (EsbSecurity.TOKEN == securityArguments.getEsbSecurity() || useServiceRegistry) {
-            clientProps.put(SecurityConstants.USERNAME, securityArguments.getUsername());
-            clientProps.put(SecurityConstants.PASSWORD, securityArguments.getPassword());
-        }
-        if (EsbSecurity.SAML == securityArguments.getEsbSecurity() || useServiceRegistry) {
-            final STSClient stsClient;
-            if (null == securityArguments.getAlias()) {
-                stsClient= STSClientUtils.createSTSClient(bus,
-                    securityArguments.getUsername(), securityArguments.getPassword());
-            } else {
-                stsClient= STSClientUtils.createSTSX509Client(bus, securityArguments.getAlias());
-            }
+        authorizationPolicy = securityArguments.buildAuthorizationPolicy();
 
-            if (null != securityArguments.getRoleName() && securityArguments.getRoleName().length() != 0) {
-                STSClientUtils.applyAuthorization(stsClient, securityArguments.getRoleName());
-            }
-            if (null != securityArguments.getSecurityToken()) {
-                stsClient.setOnBehalfOf(securityArguments.getSecurityToken());
-            }
-
-            clientProps.put(SecurityConstants.STS_CLIENT, stsClient);
-
-            Map<String, String> clientPropsDef = securityArguments.getClientProperties();
-
-            for (Map.Entry<String, String> entry : clientPropsDef.entrySet()) {
-                if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
-                    clientProps.put(entry.getKey(), processFileURI(entry.getValue()));
-                }
-            }
-            if (null == securityArguments.getAlias()) {
-                String sigUser = clientPropsDef.get(SecurityConstants.SIGNATURE_USERNAME);
-                if (sigUser == null) {
-                    sigUser = clientPropsDef.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
-                }
-                clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                        new WSPasswordCallbackHandler(sigUser,
-                            clientPropsDef.get(SAMLRESTUtils.SIGNATURE_PASSWORD)));
-            } else {
-                clientProps.put(SecurityConstants.SIGNATURE_USERNAME, securityArguments.getAlias());
-                clientProps.put(SecurityConstants.CALLBACK_HANDLER,
-                        new WSPasswordCallbackHandler(
-                            securityArguments.getAlias(),
-                            securityArguments.getPassword()));
-            }
-            if (null != securityArguments.getCryptoProvider()) {
-                clientProps.put(SecurityConstants.ENCRYPT_CRYPTO, securityArguments.getCryptoProvider());
-                Object encryptUsername = clientProps.get(SecurityConstants.ENCRYPT_USERNAME);
-                if (encryptUsername == null) {
-                    encryptUsername = clientPropsDef.get("ws-" + SecurityConstants.ENCRYPT_USERNAME);
-                }
-                if (encryptUsername == null || encryptUsername.toString().isEmpty()) {
-                    clientProps.put(SecurityConstants.ENCRYPT_USERNAME, serviceName.toString());
-                }
-            }
-        }
+        Map<String, Object> clientProps = securityArguments.buildClientConfig(bus, useServiceRegistry,
+                serviceName.toString());
 
         clientProps.put("soap.no.validate.parts", Boolean.TRUE);
-        clientProps.put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP,
-                Boolean.toString(useServiceRegistry));
-        if (correlationIDCallbackHandler != null) {
-            clientProps.put(
-                CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
+
+        clientProps.put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP, Boolean.toString(useServiceRegistry));
+
+        if (useServiceRegistry) {
+            clientProps.put(LocatorFeature.LOCATOR_PROPERTIES, locatorProps);
         }
+
+        if (correlationIDCallbackHandler != null) {
+            clientProps.put(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
+        }
+
         clientFactory.setProperties(clientProps);
     }
 
@@ -240,17 +177,14 @@ public class RuntimeESBConsumer implements ESBConsumer {
                 if (samProps != null) {
                     LOG.info("SAM custom properties received: " + samProps);
                     CustomInfoHandler ciHandler = new CustomInfoHandler();
-                    ciHandler.setCustomInfo((Map<String, String>)samProps);
+                    ciHandler.setCustomInfo((Map<String, String>) samProps);
                     samFeature.setHandler(ciHandler);
                 }
             }
 
-            return sendDocument((org.dom4j.Document) map
-                    .get(ESBEndpointConstants.REQUEST_PAYLOAD));
+            return sendDocument((org.dom4j.Document) map.get(ESBEndpointConstants.REQUEST_PAYLOAD));
         } else {
-            throw new RuntimeException(
-                    "Consumer try to send incompatible object: "
-                            + payload.getClass().getName());
+            throw new RuntimeException("Consumer try to send incompatible object: " + payload.getClass().getName());
         }
     }
 
@@ -263,10 +197,11 @@ public class RuntimeESBConsumer implements ESBConsumer {
         Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
         if (result != null) {
             org.dom4j.Document response = DOM4JMarshaller.sourceToDocument((Source) result[0]);
-            if(enhancedResponse) {
+            if (enhancedResponse) {
                 Map<String, Object> enhancedBody = new HashMap<String, Object>();
                 enhancedBody.put("payload", response);
-                enhancedBody.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID, client.getResponseContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
+                enhancedBody.put(CorrelationIDFeature.MESSAGE_CORRELATION_ID,
+                        client.getResponseContext().get(CorrelationIDFeature.MESSAGE_CORRELATION_ID));
                 return enhancedBody;
             } else {
                 return response;
@@ -285,16 +220,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
             }
         }
         return client;
-    }
-
-    private static Object processFileURI(String fileURI) {
-        if (fileURI.startsWith("file:")) {
-            try {
-                return new URL(fileURI);
-            } catch (MalformedURLException e) {
-            }
-        }
-        return fileURI;
     }
 
 }
