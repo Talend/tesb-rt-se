@@ -123,11 +123,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         final List<Feature> features = new ArrayList<Feature>();
         if (useServiceLocator) {
-            LocatorFeature slFeature = new LocatorFeature();
-            if (null != locatorProps && !locatorProps.isEmpty()) {
-                slFeature.setRequiredEndpointProperties(locatorProps);
-            }
-            features.add(slFeature);
+            features.add(new LocatorFeature());
         }
         if (samFeature != null) {
             features.add(samFeature);
@@ -152,7 +148,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         clientProps.put(ESBEndpointConstants.USE_SERVICE_REGISTRY_PROP, Boolean.toString(useServiceRegistry));
 
-        if (useServiceRegistry) {
+        if ((useServiceLocator || useServiceRegistry) && null != locatorProps && !locatorProps.isEmpty()) {
             clientProps.put(LocatorFeature.LOCATOR_PROPERTIES, locatorProps);
         }
 
