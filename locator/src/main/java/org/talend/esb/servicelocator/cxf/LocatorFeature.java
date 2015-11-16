@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.ConduitSelectorHolder;
+import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.AbstractFeature;
 import org.apache.cxf.interceptor.InterceptorProvider;
@@ -64,6 +65,11 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
             LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and client " + client);
         }
 
+        Map<String, String> endpointProps = getEndpointLocatorProperties(client.getEndpoint());
+        if (null != endpointProps) {
+            setRequiredEndpointProperties(endpointProps);
+        }
+
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
         slm.enableClient(client, slPropsMatcher, selectionStrategy);
     }
@@ -72,6 +78,11 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
     public void initialize(Server server, Bus bus) {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Initializing locator feature for bus " + bus + " and server " + server);
+        }
+
+        Map<String, String> endpointProps = getEndpointLocatorProperties(server.getEndpoint());
+        if (null != endpointProps) {
+            setAvailableEndpointProperties(endpointProps);
         }
 
         ServiceLocatorManager slm = bus.getExtension(ServiceLocatorManager.class);
@@ -145,4 +156,10 @@ public class LocatorFeature extends AbstractFeature implements LocatorFeatureInt
     Collection<String> tokenize(String valueList) {
         return Arrays.asList(valueList.split(","));
     }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, String> getEndpointLocatorProperties(Endpoint endpoint) {
+        return (Map<String, String>) endpoint.get(LOCATOR_PROPERTIES);
+    }
+
 }
