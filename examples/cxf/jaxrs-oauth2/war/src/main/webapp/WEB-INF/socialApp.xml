@@ -63,12 +63,6 @@
               <entry key="oauth2.service.UserAccount" value="/forms/userAccount.jsp"/>
             </map>
          </property>
-         <property name="beanNames">
-            <map>
-              <entry key="org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData" value="data"/>
-              <entry key="oauth2.service.UserAccount" value="account"/>
-            </map>
-         </property>
          <property name="logRedirects" value="true"/>
      </bean>
      

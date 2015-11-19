@@ -4,7 +4,7 @@
     if (!basePath.endsWith("/")) {
         basePath += "/";
     }
-    UserAccount account = (UserAccount)request.getAttribute("account");
+    UserAccount account = (UserAccount)request.getAttribute("useraccount");
     Calendar calendar = account.getCalendar();
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">

@@ -1,7 +1,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest, oauth2.common.ConsumerRegistration" %>
 
 <%
-    ConsumerRegistration reg = (ConsumerRegistration)request.getAttribute("newClient");
+    ConsumerRegistration reg = (ConsumerRegistration)request.getAttribute("consumerregistration");
     String basePath = request.getContextPath() + request.getServletPath();
     if (!basePath.endsWith("/")) {
         basePath += "/";

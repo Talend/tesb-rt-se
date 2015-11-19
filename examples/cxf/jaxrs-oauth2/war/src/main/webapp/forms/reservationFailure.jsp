@@ -1,7 +1,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest, oauth2.common.ReservationFailure" %>
 
 <%
-    ReservationFailure reserve = (ReservationFailure) request.getAttribute("data");
+    ReservationFailure reserve = (ReservationFailure) request.getAttribute("reservationfailure");
     String basePath = request.getContextPath() + request.getServletPath();
     if (!basePath.endsWith("/")) {
         basePath += "/";

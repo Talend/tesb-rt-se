@@ -106,7 +106,6 @@
               <entry key="/reservations/reserve/failure" value="/forms/reservationFailure.jsp"/>
             </map>
          </property>
-         <property name="beanName" value="data"/>
          <!--  
          <property name="logRedirects" value="true"/>
          -->

@@ -58,7 +58,7 @@ public class SecurityContextFilter implements ContainerRequestFilter {
 		}
 		
 		List<String> authValues = headers.getRequestHeader("Authorization");
-		if (authValues.size() != 1) {
+		if (authValues == null || authValues.size() != 1) {
 			requestContext.abortWith(createFaultResponse());
 			return;
 		}

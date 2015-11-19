@@ -1,7 +1,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest,org.apache.cxf.rs.security.oauth2.common.OAuthAuthorizationData,org.apache.cxf.rs.security.oauth2.common.Permission" %>
 
 <%
-    OAuthAuthorizationData data = (OAuthAuthorizationData)request.getAttribute("data");
+    OAuthAuthorizationData data = (OAuthAuthorizationData)request.getAttribute("oauthauthorizationdata");
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

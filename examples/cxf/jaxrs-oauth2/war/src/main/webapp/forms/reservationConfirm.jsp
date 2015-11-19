@@ -1,7 +1,7 @@
 <%@ page import="javax.servlet.http.HttpServletRequest, oauth2.common.ReservationConfirmation" %>
 
 <%
-    ReservationConfirmation reserve = (ReservationConfirmation) request.getAttribute("data");
+    ReservationConfirmation reserve = (ReservationConfirmation) request.getAttribute("reservationconfirmation");
     String basePath = request.getContextPath() + request.getServletPath();
     if (!basePath.endsWith("/")) {
         basePath += "/";
