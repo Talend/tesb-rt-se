@@ -464,6 +464,34 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.eclipse.osgi-3.10.2.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for Karaf org.apache.karaf.features.core bundle -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>framework</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>framework-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>org.apache.karaf.features.core</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.features.core-${karaf.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -718,6 +746,27 @@
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                 </replace>
+                                <!-- patch for Karaf org.apache.karaf.features.core bundle -->
+                                <replace file="target/dependencies/framework-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}&lt;"
+                                        value="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}/jar/TESB&lt;"/>
+                                </replace>
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}&lt;"
+                                        value="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}/jar/TESB&lt;"/>
+                                </replace>
+                                <replaceregexp byline="true"
+                                           match="^(\s*mvn\\:org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version})(\s*=.*)$"
+                                           replace="\1/jar/TESB\2">
+                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/etc/">
+                                        <include name="startup.properties"/>
+                                    </fileset>
+                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/etc/">
+                                        <include name="startup.properties"/>
+                                    </fileset>
+                                </replaceregexp>
                             </target>
                         </configuration>
                         <goals>

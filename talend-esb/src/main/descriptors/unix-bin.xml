@@ -204,6 +204,10 @@
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
                 <!-- Equinox patch -->
                 <exclude>system/org/eclipse/birt/**</exclude>
+                <!-- patch for Karaf org.apache.karaf.features.core bundle -->
+                <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -358,6 +362,10 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- patch for ActiveMQ features descriptor -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
+                <!-- patch for Karaf org.apache.karaf.features.core bundle -->
+                <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -560,6 +568,22 @@
         <file>
             <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
             <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for Karaf org.apache.karaf.features.core bundle -->
+        <file>
+            <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
