@@ -18,7 +18,7 @@
   limitations under the License.
   #L%
   -->
-<features name="tesb-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="tesb-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
 
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
@@ -183,7 +183,7 @@
 
   <feature name='tesb-locator-client' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
-    <feature>tesb-zookeeper</feature>
+    <feature prerequisite='true'>tesb-zookeeper</feature>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
     <bundle start-level='51'>mvn:org.talend.esb/locator/${project.version}</bundle>
   </feature>
