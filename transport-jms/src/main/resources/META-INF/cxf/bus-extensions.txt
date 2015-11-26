@@ -1,2 +1,0 @@
-org.talend.esb.transport.jms.audience.AudienceDisablingListener:org.apache.cxf.endpoint.ServerLifeCycleListener:false
-org.talend.esb.transport.jms.audience.AudienceDisablingListener:org.apache.cxf.endpoint.ClientLifeCycleListener:false
