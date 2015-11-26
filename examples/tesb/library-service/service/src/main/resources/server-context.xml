@@ -45,8 +45,6 @@
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
             <entry key="security.signature.properties" value="keys/serviceKeystore.properties" />
-            <!-- TODO check -->
-            <entry key="ws-security.validate.audience-restriction" value="false" />
         </jaxws:properties>
     </jaxws:endpoint>
 
@@ -67,8 +65,6 @@
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.server.ServiceCallbackHandler" />
             </entry>
-            <!-- TODO check -->
-            <entry key="ws-security.validate.audience-restriction" value="false" />
         </jaxws:properties>
     </jaxws:endpoint>
 
@@ -85,6 +81,7 @@
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
             <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
+            <entry key="security.sts.applies-to" value="{http://services.talend.org/demos/Library/1.0}LibraryConsumer" />
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
             </entry>
@@ -130,6 +127,7 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="security.sts.applies-to" value="{http://services.talend.org/demos/Library/1.0}LibraryProvider" />
             <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ClientCallbackHandler" />

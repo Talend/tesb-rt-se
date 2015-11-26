@@ -105,8 +105,6 @@
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ServiceCallbackHandler" />
             </entry>
-            <!-- TODO check -->
-            <entry key="ws-security.validate.audience-restriction" value="false" />
         </jaxws:properties>
     </jaxws:endpoint>
 
@@ -125,6 +123,7 @@
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="security.sts.applies-to" value="{http://services.talend.org/demos/Library/1.0}LibraryProvider" />
             <entry key="org.talend.esb.mep.requestcallback.CallbackEndpoint">
                 <ref bean="LibraryConsumerJMS" />
             </entry>
@@ -178,8 +177,6 @@
             <entry key="security.callback-handler">
                 <bean class="org.talend.services.demos.common.ServiceCallbackHandler" />
             </entry>
-            <!-- TODO check -->
-            <entry key="ws-security.validate.audience-restriction" value="false" />
         </jaxws:properties>
     </jaxws:endpoint>
 
