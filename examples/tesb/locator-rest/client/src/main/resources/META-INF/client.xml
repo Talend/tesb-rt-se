@@ -18,23 +18,23 @@
   limitations under the License.
   #L%
   -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
-	<import resource="classpath:META-INF/cxf/cxf.xml"/>
-	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
-	
-	  <jaxrs:client id="restClient"
-         address="locator://some_usefull_information"
-         serviceClass="demo.common.OrderService"
-         inheritHeaders="true">
-         <jaxrs:headers>
-             <entry key="Accept" value="application/xml"/>
-         </jaxrs:headers>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs-client"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/tesb/locator/beans.xml" />
+
+    <jaxrs:client id="restClient" address="locator://some_usefull_information"
+        serviceClass="demo.common.OrderService" inheritHeaders="true">
+        <jaxrs:headers>
+            <entry key="Accept" value="application/xml"/>
+        </jaxrs:headers>
 		<jaxrs:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
-			</bean>
-		</jaxrs:features>
-		</jaxrs:client>
+            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
+                <property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
+            </bean>
+        </jaxrs:features>
+    </jaxrs:client>
 </beans>
