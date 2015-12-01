@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>library-service</artifactId>
-        <version>6.1.1-SNAPSHOT</version>
+        <version>6.1.1</version>
     </parent>
 
     <properties>
