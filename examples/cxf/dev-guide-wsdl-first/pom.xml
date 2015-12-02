@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
     <artifactId>dev-guide-wsdl-first</artifactId>
-    <version>6.1.1-SNAPSHOT</version>
+    <version>6.1.1</version>
     <name>Dev Guide Tutorial: WSDL-First Web Service</name>
     <packaging>pom</packaging>
 
