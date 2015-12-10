@@ -41,6 +41,7 @@
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
         <shibboleth.version>7.1.1</shibboleth.version>
+        <pax-web.version>4.2.3</pax-web.version>
 	</properties>
 
 	<dependencies>
@@ -492,6 +493,42 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.features.core-${karaf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- commons-collections version patch (TESB-16945) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>enterprise</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>enterprise-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>spring</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>spring-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.web</groupId>
+                                    <artifactId>pax-web-features</artifactId>
+                                    <version>${pax-web.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>commons-collections</groupId>
+                                    <artifactId>commons-collections</artifactId>
+                                    <version>${commons-collections.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>commons-collections-${commons-collections.version}.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -724,6 +761,10 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <!-- commons-collections version patch (TESB-16945) -->
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
@@ -740,11 +781,19 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
+                                    <!-- commons-collections version patch (TESB-16945) -->
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.6"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
+                                    <!-- commons-collections version patch (TESB-16945) -->
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
                                 </replace>
                                 <!-- patch for Karaf org.apache.karaf.features.core bundle -->
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
@@ -767,6 +816,22 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                 </replaceregexp>
+                                <!-- commons-collections version patch (TESB-16945) -->
+                                <replace file="target/dependencies/enterprise-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/spring-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
+                                    <replacefilter
+                                        token="commons-collections/commons-collections/3.2.1"
+                                        value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
                             </target>
                         </configuration>
                         <goals>
