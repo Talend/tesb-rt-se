@@ -29,7 +29,7 @@
             <cm:property name="datasource.password" value="test" />
             <cm:property name="datasource.pool.maxActive" value="20" />
             <cm:property name="datasource.pool.maxIdle" value="5" />
-            <cm:property name="datasource.pool.maxWait" value="-1" />
+            <cm:property name="datasource.pool.maxWait" value="30000" />
         </cm:default-properties>
     </cm:property-placeholder>
 
