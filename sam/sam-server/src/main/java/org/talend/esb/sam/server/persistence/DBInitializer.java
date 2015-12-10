@@ -21,6 +21,7 @@ package org.talend.esb.sam.server.persistence;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -67,13 +68,13 @@ public class DBInitializer implements InitializingBean {
     @SuppressWarnings("serial")
     private final Map<String, String[]> createScripts = new HashMap<String, String[]>() {
         {
-            put("derbyDialect", new String[] { "create.sql", "create_ind.sql" });
-            put("h2Dialect", new String[] { "create_h2.sql", "create_h2_ind.sql" });
-            put("mysqlDialect", new String[] { "create_mysql.sql", "create_mysql_ind.sql" });
-            put("oracleDialect", new String[] { "create_oracle.sql", "create_oracle_ind.sql" });
-            put("DB2Dialect", new String[] { "create_db2.sql", "create_db2_ind.sql" });
-            put("sqlServerDialect", new String[] { "create_sqlserver.sql", "create_sqlserver_ind.sql" });
-            put("postgresqlDialect", new String[] { "create_postgres.sql", "create_postgres_ind.sql" });
+            put("derbyDialect", new String[] {"create.sql", "create_ind.sql"});
+            put("h2Dialect", new String[] {"create_h2.sql", "create_h2_ind.sql"});
+            put("mysqlDialect", new String[] {"create_mysql.sql", "create_mysql_ind.sql"});
+            put("oracleDialect", new String[] {"create_oracle.sql", "create_oracle_ind.sql"});
+            put("DB2Dialect", new String[] {"create_db2.sql", "create_db2_ind.sql"});
+            put("sqlServerDialect", new String[] {"create_sqlserver.sql", "create_sqlserver_ind.sql"});
+            put("postgresqlDialect", new String[] {"create_postgres.sql", "create_postgres_ind.sql"});
         }
     };
 
@@ -85,26 +86,41 @@ public class DBInitializer implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        boolean createTables = true;
+        Connection conn = null;
+
         try {
-            ResultSet rs = dataSource.getConnection().getMetaData()
-                    .getTables(dataSource.getConnection().getCatalog(), null, "EVENTS_CUSTOMINFO", null);
-            while (rs.next()) {
+            boolean createTables = true;
+
+            try {
+                conn = dataSource.getConnection();
+
+                ResultSet rs = conn.getMetaData().getTables(conn.getCatalog(), null, "EVENTS_CUSTOMINFO", null);
+                while (rs.next()) {
+                    createTables = false;
+                }
+            } catch (SQLException e) {
+                LOG.warning("The create tables parameter has not been set. Tables and indexes will not be created.");
                 createTables = false;
             }
-        } catch (SQLException e) {
-            LOG.warning("The create tables parameter has not been set. Tables and indexes will not be created.");
-            createTables = false;
-        }
-        if (createTables) {
-            ScriptRunner sr = new ScriptRunner(dataSource.getConnection(), false, false);
-            sr.setLogWriter(null);
-            sr.setErrorLogWriter(null);
-            sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
-            if (createSqlInd != null && !createSqlInd.equals("")) {
-                sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSqlInd)));
-            } else {
-                LOG.warning("The script to create indexes has not been set. Indexes will not be created.");
+
+            if (createTables) {
+                ScriptRunner sr = new ScriptRunner(conn, false, false);
+                sr.setLogWriter(null);
+                sr.setErrorLogWriter(null);
+                sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSql)));
+                if (createSqlInd != null && !createSqlInd.equals("")) {
+                    sr.runScript(new InputStreamReader(this.getClass().getResourceAsStream("/" + createSqlInd)));
+                } else {
+                    LOG.warning("The script to create indexes has not been set. Indexes will not be created.");
+                }
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    LOG.warning("Unable to close JDBC connection.");
+                }
             }
         }
     }
