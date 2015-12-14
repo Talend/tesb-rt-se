@@ -113,7 +113,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
                 if (null != client) {
                     client.reset();
                 }
-                switchServerURL(client.getBaseURI().toString());
+                switchServerURL(client.getBaseURI().toString(), e);
                 return saveObject(ctx);
             }
             if (e instanceof RuntimeException) {
@@ -148,7 +148,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
                 if (null != client) {
                     client.reset();
                 }
-                switchServerURL(client.getBaseURI().toString());
+                switchServerURL(client.getBaseURI().toString(), e);
                 return lookupObject(contextKey, false);
             }
             if (e instanceof RuntimeException) {
@@ -182,7 +182,7 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
                if (null != client) {
                    client.reset();
                }
-               switchServerURL(client.getBaseURI().toString());
+               switchServerURL(client.getBaseURI().toString(), e);
                deleteObject(key, false);
            }
            if (e instanceof RuntimeException) {
