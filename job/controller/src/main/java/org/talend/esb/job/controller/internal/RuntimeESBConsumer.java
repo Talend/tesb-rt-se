@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,11 +158,21 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
 
         clientFactory.setProperties(clientProps);
-    }
+        
+        LOG.fine("Generic consumer created, serviceName: " + serviceName + 
+        		" portName: " +  portName + 
+                " operationName: " + operationName + 
+                " publishedEndpointUrl: " + publishedEndpointUrl + 
+                " wsdlURL: " + wsdlURL);
+        LOG.fine("Generic consumer properties: " + clientProps);
+     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Object invoke(Object payload) throws Exception {
+    	
+        LOG.fine("Generic consumer for operation " + operationName + " invoked with payload " + payload);
+        		    	   	
         if (payload instanceof org.dom4j.Document) {
             return sendDocument((org.dom4j.Document) payload);
         } else if (payload instanceof java.util.Map) {
@@ -186,10 +197,17 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private Object sendDocument(org.dom4j.Document doc) throws Exception {
         Client client = getClient();
         if (null != soapHeaders) {
+            LOG.fine("Generic consumer sendDocument soapHeaders: " + Arrays.toString(soapHeaders.toArray()));
             client.getRequestContext().put(org.apache.cxf.headers.Header.HEADER_LIST, soapHeaders);
         }
-
-        Object[] result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
+        Object[] result = null;
+        try {
+        	result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
+        } catch (Exception ex) {
+            LOG.fine("Generic consumer client.invoke throwed exception " + ex.getMessage() + 
+            		" trace: " + Arrays.toString(ex.getStackTrace()));
+        	throw ex;
+        }
         if (result != null) {
             org.dom4j.Document response = DOM4JMarshaller.sourceToDocument((Source) result[0]);
             if (enhancedResponse) {

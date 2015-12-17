@@ -106,6 +106,9 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             } else {
                 payload = requestDoc;
             }
+            
+            LOG.fine("Generic provider invoked with payload: " + payload);
+
             Object result = esbProviderCallback.invoke(payload,
                     isOperationRequestResponse(operationQName.getLocalPart()));
 
@@ -113,6 +116,8 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
             if (result == null) {
                 return null;
             }
+
+            LOG.fine("Generic provider callback returns: " + result);
 
             if (result instanceof Map<?, ?>) {
                 Map<String, Object> map = CastUtils.cast((Map<?, ?>) result);
