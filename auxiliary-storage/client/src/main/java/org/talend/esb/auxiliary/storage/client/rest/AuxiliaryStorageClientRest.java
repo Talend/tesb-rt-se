@@ -39,15 +39,15 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
 
     AuxiliaryObjectFactory<E> factory;
 
-    
+
     public AuxiliaryStorageClientRest() {
         super();
     }
-    
+
     public AuxiliaryStorageClientRest(Properties props) {
         super(props);
     }
-    
+
     @Override
     public AuxiliaryObjectFactory<E> getAuxiliaryObjectFactory(){
         return this.factory;
@@ -87,6 +87,10 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
     private String saveObject(final E ctx, final boolean retry) {
 
         String key = findAuxiliaryObjectFactory().createObjectKey(ctx);
+
+        if (key == null || key.isEmpty()) {
+            throw new IllegalParameterException("Object key can't be empty");
+        }
 
         WebClient client = getWebClient()
                 .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
@@ -130,6 +134,10 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
 
    private String lookupObject(final String contextKey, final boolean retry) {
 
+       if (contextKey == null || contextKey.isEmpty()) {
+           throw new IllegalParameterException("Object key can't be empty");
+       }
+
        WebClient client = getWebClient()
                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
                .path(CALL_PATH, contextKey);
@@ -165,6 +173,10 @@ public class AuxiliaryStorageClientRest<E> extends AbstractAuxiliaryStorageClien
     }
 
    private void deleteObject(final String key, final boolean retry) {
+
+       if (key == null || key.isEmpty()) {
+           throw new IllegalParameterException("Object key can't be empty");
+       }
 
        WebClient client = getWebClient()
                .accept(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
