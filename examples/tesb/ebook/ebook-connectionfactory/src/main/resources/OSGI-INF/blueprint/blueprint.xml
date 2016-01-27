@@ -27,10 +27,11 @@
         <property name="redeliveryPolicy" ref="redeliveryPolicy"/>
     </bean>
 
-    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.XaPooledConnectionFactory">
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.jms.pool.JcaPooledConnectionFactory">
         <property name="maxConnections" value="8" />
         <property name="connectionFactory" ref="activemqConnectionFactory" />
         <property name="transactionManager" ref="transactionManager" /> 
+        <property name="name" value="jms"/>
     </bean>
 
     <bean id="resourceManager" class="org.apache.activemq.pool.ActiveMQResourceManager" init-method="recoverResource">
