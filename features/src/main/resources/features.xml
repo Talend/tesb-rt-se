@@ -182,6 +182,7 @@
   </feature>
 
   <feature name='tesb-locator-client' version='${project.version}'>
+    <feature>spring-dm</feature>
     <feature version='${cxf.version}'>cxf</feature>
     <feature prerequisite='true'>tesb-zookeeper</feature>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
