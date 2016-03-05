@@ -238,7 +238,8 @@ public class JmsUriConfiguration {
 			return enc;
 		}
 		try {
-			return URLEncoder.encode(enc, "UTF-8").replace("%2F", "/").replace("%3A", ":");
+			return URLEncoder.encode(enc, "UTF-8").replace("%2F", "/").replace("%3A", ":").
+					replace("%28", "(").replace("%29", ")").replace("%2C", ",").replace("%3D", "=");
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Unexpected Exception: ", e);
 		}
