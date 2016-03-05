@@ -18,6 +18,7 @@ import org.apache.cxf.rs.security.oauth2.grants.code.AuthorizationCodeRegistrati
 import org.apache.cxf.rs.security.oauth2.grants.code.ServerAuthorizationCodeGrant;
 import org.apache.cxf.rs.security.oauth2.provider.OAuthServiceException;
 import org.apache.cxf.rs.security.oauth2.tokens.bearer.BearerAccessToken;
+import org.apache.cxf.rs.security.oauth2.tokens.refresh.RefreshToken;
 
 public class OAuthManager implements AuthorizationCodeDataProvider {
 
@@ -124,6 +125,22 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
 			throws OAuthServiceException {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public List<ServerAccessToken> getAccessTokens(Client arg0, UserSubject arg1) throws OAuthServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<RefreshToken> getRefreshTokens(Client arg0, UserSubject arg1) throws OAuthServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<ServerAuthorizationCodeGrant> getCodeGrants(Client arg0, UserSubject arg1)
+			throws OAuthServiceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

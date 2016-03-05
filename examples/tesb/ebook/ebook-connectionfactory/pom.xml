@@ -8,4 +8,12 @@
   </parent>
   <artifactId>ebook-connectionfactory</artifactId>
   <packaging>bundle</packaging>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.activemq</groupId>
+  		<artifactId>activemq-pool</artifactId>
+  		<version>5.12.2</version>
+  	</dependency>
+  </dependencies>
 </project>

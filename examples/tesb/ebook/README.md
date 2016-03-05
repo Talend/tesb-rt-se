@@ -11,7 +11,7 @@ The Archive contains one file per book with meta data in rdf Format.
 
 Unpack and start TESB
 
-    feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/6.1.1-SNAPSHOT/xml
+    feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/6.2.0-SNAPSHOT/xml
     feature:install -v example-ebook-backend example-ebook-importer example-ebook-ui
 
 Then put some rdf files from the gutenberg index into the directory gutenberg below your karaf installation.
