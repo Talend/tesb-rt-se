@@ -9,10 +9,15 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class JmsUriConfiguration {
+
+	public enum UriEncoding {
+		NONE, PARTIAL, FULL
+	}
+
 	private String variant = null;
 	private String destinationName = null;
 	private final NavigableMap<String, String> parameters = new TreeMap<String, String>();
-	private boolean encode = true;
+	private UriEncoding uriEncode = UriEncoding.PARTIAL;
 	private boolean validate = true;
 
 	public JmsUriConfiguration() {
@@ -58,12 +63,26 @@ public class JmsUriConfiguration {
 		this.destinationName = destinationName;
 	}
 
+	@Deprecated
 	public boolean isEncode() {
-		return encode;
+		return uriEncode != UriEncoding.NONE;
 	}
 
+	@Deprecated
 	public void setEncode(boolean encode) {
-		this.encode = encode;
+		this.uriEncode = encode ? UriEncoding.PARTIAL : UriEncoding.NONE;
+	}
+
+	public UriEncoding getUriEncode() {
+		return uriEncode;
+	}
+
+	public void setUriEncode(UriEncoding uriEncode) {
+		this.uriEncode = uriEncode;
+	}
+
+	public void setUriEncode(String uriEncodeValue) {
+		this.uriEncode = toUriEncoding(uriEncodeValue);
 	}
 
 	public boolean isValidate() {
@@ -133,6 +152,31 @@ public class JmsUriConfiguration {
 			}
 		}
 		return buf.toString();
+	}
+
+	public static UriEncoding toUriEncoding(String uriEncodeValue) {
+		if (uriEncodeValue == null) {
+			throw new IllegalArgumentException("Invalid URI encoding option value: null");
+		}
+		if ("none".equalsIgnoreCase(uriEncodeValue) ||
+				"false".equalsIgnoreCase(uriEncodeValue) ||
+				"no".equalsIgnoreCase(uriEncodeValue) ||
+				"n".equalsIgnoreCase(uriEncodeValue) ||
+				"off".equalsIgnoreCase(uriEncodeValue)) {
+			return UriEncoding.NONE;
+		}
+		if ("partial".equalsIgnoreCase(uriEncodeValue) ||
+				"true".equalsIgnoreCase(uriEncodeValue) ||
+				"yes".equalsIgnoreCase(uriEncodeValue) ||
+				"y".equalsIgnoreCase(uriEncodeValue) ||
+				"on".equalsIgnoreCase(uriEncodeValue)) {
+			return UriEncoding.PARTIAL;
+		}
+		if ("full".equalsIgnoreCase(uriEncodeValue)) {
+			return UriEncoding.FULL;
+		}
+		throw new IllegalArgumentException(
+				"Invalid URI encoding option value: " + uriEncodeValue + ". ");
 	}
 
 	private int extractPrefix(String jmsUri) {
@@ -223,7 +267,7 @@ public class JmsUriConfiguration {
 	}
 
 	private String decode(String enc) {
-		if (!encode) {
+		if (uriEncode == UriEncoding.NONE) {
 			return enc;
 		}
 		try {
@@ -234,11 +278,12 @@ public class JmsUriConfiguration {
 	}
 
 	private String encode(String enc) {
-		if (!encode) {
+		if (uriEncode == UriEncoding.NONE) {
 			return enc;
 		}
 		try {
-			return URLEncoder.encode(enc, "UTF-8").replace("%2F", "/").replace("%3A", ":").
+			String result = URLEncoder.encode(enc, "UTF-8");
+			return uriEncode == UriEncoding.FULL ? result : result.replace("%2F", "/").replace("%3A", ":").
 					replace("%28", "(").replace("%29", ")").replace("%2C", ",").replace("%3D", "=");
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Unexpected Exception: ", e);

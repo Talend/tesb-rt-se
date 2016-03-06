@@ -38,7 +38,8 @@ public class JmsUriConfigurator implements InitializingBean {
 	private Map<?, ?> parameters;
 	private Map<?, ?> defaultParameters;
 	private String jmsAddress;
-	private boolean encodeURI = true;
+	private JmsUriConfiguration.UriEncoding encodeURI =
+			JmsUriConfiguration.UriEncoding.PARTIAL;
 
 	public JmsUriConfigurator() {
 		super();
@@ -217,7 +218,15 @@ public class JmsUriConfigurator implements InitializingBean {
 			configuration = CallContext.resolveConfiguration(serviceName);
 		}
 		final JmsUriConfiguration jmsConfig = new JmsUriConfiguration();
-		jmsConfig.setEncode(encodeURI);
+		String prop = getProperty("encodeURI");
+		if (nonzero(prop)) {
+			try {
+				setEncodeURI(prop);
+			} catch (IllegalArgumentException e) {
+				// ignore - incorrect value leaves default
+			}
+		}
+		jmsConfig.setUriEncode(encodeURI);
 		if (nonzero(defaultVariant)) {
 			jmsConfig.setVariant(defaultVariant);
 		}
@@ -225,7 +234,7 @@ public class JmsUriConfigurator implements InitializingBean {
 			jmsConfig.setDestinationName(defaultDestinationName);
 		}
 		copyParams(defaultParameters, jmsConfig);
-		String prop = getProperty("jmsAddress");
+		prop = getProperty("jmsAddress");
 		if (nonzero(prop)) {
 			jmsConfig.applyJmsUri(prop);
 		}
@@ -300,11 +309,17 @@ public class JmsUriConfigurator implements InitializingBean {
 	}
 
 	public boolean isEncodeURI() {
-		return encodeURI;
+		return encodeURI != JmsUriConfiguration.UriEncoding.NONE;
 	}
 
-	public void setEncodeURI(boolean encodeURI) {
-		this.encodeURI = encodeURI;
+	public void setEncodeURI(boolean encodeURIValue) {
+		this.encodeURI = encodeURIValue
+				? JmsUriConfiguration.UriEncoding.PARTIAL
+				: JmsUriConfiguration.UriEncoding.NONE;
+	}
+
+	public void setEncodeURI(String encodeURIValue) {
+		encodeURI = JmsUriConfiguration.toUriEncoding(encodeURIValue);
 	}
 
 	@Override
@@ -333,11 +348,13 @@ public class JmsUriConfigurator implements InitializingBean {
 			excludes.add("destinationName");
 			excludes.add("jmsAddress");
 			excludes.add("nonJmsAddress");
+			excludes.add("encodeURI");
 			if (workPrefix != null) {
 				excludes.add(workPrefix + "variant");
 				excludes.add(workPrefix + "destinationName");
 				excludes.add(workPrefix + "jmsAddress");
 				excludes.add(workPrefix + "nonJmsAddress");
+				excludes.add(workPrefix + "encodeURI");
 			}
 			for (Entry<String, Object> e : configuration.entrySet()) {
 				final Object value = e.getValue();
