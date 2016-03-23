@@ -364,6 +364,8 @@
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
+                <!-- zkclient version patch (TESB-17069) -->
+                <exclude>com/101tec/zkclient/0.5/**</exclude>
             </excludes>
         </fileSet>
 
@@ -565,6 +567,12 @@
         <file>
             <source>${basedir}/target/dependencies/pax-web-features-${pax-web.version}-features.xml</source>
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- zkclient version patch (TESB-17069) -->
+        <file>
+            <source>${basedir}/target/dependencies/zkclient-${zkclient.version}.jar</source>
+            <outputDirectory>/container/system/com/101tec/zkclient/${zkclient.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

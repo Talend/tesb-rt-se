@@ -42,6 +42,7 @@
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
         <shibboleth.version>7.1.1</shibboleth.version>
         <pax-web.version>4.2.4</pax-web.version>
+        <zkclient.version>0.8</zkclient.version>
 	</properties>
 
 	<dependencies>
@@ -507,6 +508,14 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- zkclient version patch (TESB-17069) -->
+                                <artifactItem>
+                                    <groupId>com.101tec</groupId>
+                                    <artifactId>zkclient</artifactId>
+                                    <version>${zkclient.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -738,6 +747,11 @@
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <!-- zkclient version patch (TESB-17069) -->
+                                    <replacefilter>
+                                        <replacetoken>wrap:mvn:com.101tec/zkclient/0.5$Bundle-Version=0.5&amp;amp;Export-Package=*;-noimport:=true;version="0.5"</replacetoken> 
+                                        <replacevalue>wrap:mvn:com.101tec/zkclient/${zkclient.version}$Bundle-Version=${zkclient.version}&amp;amp;Export-Package=*;-noimport:=true;version="${zkclient.version}"</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
