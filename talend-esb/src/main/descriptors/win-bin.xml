@@ -575,6 +575,12 @@
             <outputDirectory>/container/system/com/101tec/zkclient/${zkclient.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <!-- workaround for sqpid-amqp dependency (TESB-17178) -->
+        <file>
+            <source>${basedir}/target/dependencies/qpid-amqp-1-0-client-jms-${qpid.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/qpid/qpid-amqp-1-0-client-jms/${qpid.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
     </files>
 
     <dependencySets>

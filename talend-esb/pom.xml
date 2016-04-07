@@ -43,6 +43,7 @@
         <shibboleth.version>7.1.1</shibboleth.version>
         <pax-web.version>4.2.4</pax-web.version>
         <zkclient.version>0.8</zkclient.version>
+        <qpid.version>0.28</qpid.version>
 	</properties>
 
 	<dependencies>
@@ -516,6 +517,14 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- workaround for sqpid-amqp dependency (TESB-17178) -->
+                                <artifactItem>
+                                    <groupId>org.apache.qpid</groupId>
+                                    <artifactId>qpid-amqp-1-0-client-jms</artifactId>
+                                    <version>${qpid.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -754,6 +763,12 @@
                                         <replacevalue>wrap:mvn:com.101tec/zkclient/${zkclient.version}$Bundle-Version=${zkclient.version}&amp;amp;Export-Package=*;-noimport:=true;version="${zkclient.version}"</replacevalue>
                                     </replacefilter>
                                 </replace>
+                                <!-- workaround for sqpid-amqp dependency (TESB-17178) -->
+                                <replaceregexp  file="target/dependencies/apache-camel-${camel.version}-features.xml"
+                                           byline="true"
+                                           match="^(\s*&lt;feature name='camel-amqp' version='2.16.2' resolver='\(obr\)' start-level='50'&gt;\s*)$"
+                                           replace='\1    &lt;!-- Add workaround for qpid-amqp dependency (TESB-17178) --&gt;${line.separator}    &lt;bundle&gt;wrap:mvn:org.apache.qpid/qpid-amqp-1-0-client-jms/${qpid.version}$Bundle-SymbolicName=qpid-amqp-1-0-client-jms&amp;amp;Bundle-Version=0.28&amp;amp;Export-Package=org.apache.qpid.amqp_1_0.jms.*;version=${qpid.version}&lt;/bundle&gt;'>
+                                </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
