@@ -96,7 +96,7 @@
         <camel-extra.version>2.16.2-SNAPSHOT</camel-extra.version>
         <activemq.version>5.13.2</activemq.version>
         <spring.version>3.2.14.RELEASE</spring.version>
-        <karaf.version>4.0.5</karaf.version>
+        <karaf.version>4.0.4</karaf.version>
         <zookeeper.version>3.4.6</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <slf4j.version>1.7.7</slf4j.version>
