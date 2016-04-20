@@ -115,7 +115,6 @@
 <!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.apache-extras.camel-extra.karaf/camel-extra/${camel-extra.version}/xml/features</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -343,8 +342,6 @@
                                 <feature>camel-yammer</feature>
                                 <feature>camel-zipfile</feature>
                                 <feature>camel-zookeeper</feature>
-                                <!-- Camel Extra features -->
-                                <feature>camel-wmq</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-datasource-derby</feature>
@@ -757,18 +754,7 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- zkclient version patch (TESB-17069) -->
-                                    <replacefilter>
-                                        <replacetoken>wrap:mvn:com.101tec/zkclient/0.5$Bundle-Version=0.5&amp;amp;Export-Package=*;-noimport:=true;version="0.5"</replacetoken> 
-                                        <replacevalue>wrap:mvn:com.101tec/zkclient/${zkclient.version}$Bundle-Version=${zkclient.version}&amp;amp;Export-Package=*;-noimport:=true;version="${zkclient.version}"</replacevalue>
-                                    </replacefilter>
                                 </replace>
-                                <!-- workaround for sqpid-amqp dependency (TESB-17178) -->
-                                <replaceregexp  file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                           byline="true"
-                                           match="^(\s*&lt;feature name='camel-amqp' version='2.16.2' resolver='\(obr\)' start-level='50'&gt;\s*)$"
-                                           replace='\1    &lt;!-- Add workaround for qpid-amqp dependency (TESB-17178) --&gt;${line.separator}    &lt;bundle&gt;wrap:mvn:org.apache.qpid/qpid-amqp-1-0-client-jms/${qpid.version}$Bundle-SymbolicName=qpid-amqp-1-0-client-jms&amp;amp;Bundle-Version=0.28&amp;amp;Export-Package=org.apache.qpid.amqp_1_0.jms.*;version=${qpid.version}&lt;/bundle&gt;'>
-                                </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
