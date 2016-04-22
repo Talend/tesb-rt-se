@@ -41,7 +41,7 @@
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
         <shibboleth.version>7.1.1</shibboleth.version>
-        <pax-web.version>4.2.4</pax-web.version>
+        <pax-web.version>4.2.5</pax-web.version>
         <zkclient.version>0.8</zkclient.version>
         <qpid.version>0.28</qpid.version>
 	</properties>
