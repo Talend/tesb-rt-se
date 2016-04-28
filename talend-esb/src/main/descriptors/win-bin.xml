@@ -208,6 +208,9 @@
                 <exclude>system/org/eclipse/birt/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
+                <!-- patch for aries.blueprint.core (TESB-17280) -->
+                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -364,6 +367,9 @@
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
+                <!-- patch for aries.blueprint.core (TESB-17280) -->
+                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
             </excludes>
         </fileSet>
 
@@ -571,6 +577,17 @@
         <file>
             <source>${basedir}/target/dependencies/zkclient-${zkclient.version}.jar</source>
             <outputDirectory>/container/system/com/101tec/zkclient/${zkclient.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for aries.blueprint.core (TESB-17280) -->
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
