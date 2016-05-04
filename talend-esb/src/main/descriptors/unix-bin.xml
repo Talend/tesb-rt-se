@@ -590,6 +590,27 @@
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <!-- patch for camel-kafka -->
+        <file>
+            <source>${basedir}/target/dependencies/scala-library-2.11.7.jar</source>
+            <outputDirectory>/container/system/org/scala-lang/scala-library/2.11.7/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/scala-parser-combinators_2.11-1.0.1.jar</source>
+            <outputDirectory>/container/system/orgscala-lang/modules/scala-parser-combinators/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/kafka_2.11-0.8.2.2.jar</source>
+            <outputDirectory>/container/system/org/apache/kafka/kafka_2.11/0.8.2.2/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/camel-kafka-${camel.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-kafka/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
     </files>
 
     <dependencySets>

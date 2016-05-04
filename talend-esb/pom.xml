@@ -542,6 +542,40 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-kafka -->
+                                <artifactItem>
+                                    <groupId>org.scala-lang</groupId>
+                                    <artifactId>scala-library</artifactId>
+                                    <version>2.11.7</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>scala-library-2.11.7.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.scala-lang.modules/</groupId>
+                                    <artifactId>scala-parser-combinators_2.11</artifactId>
+                                    <version>1.0.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>scala-parser-combinators_2.11-1.0.1.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.kafka</groupId>
+                                    <artifactId>kafka_2.11</artifactId>
+                                    <version>0.8.2.2</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>kafka_2.11-0.8.2.2.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-kafka</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-kafka-${camel.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -773,6 +807,20 @@
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <!-- patch for camel-kafka -->
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.scala-lang/scala-library/2.10.4&lt;/bundle&gt;</replacetoken> 
+                                        <replacevalue>&lt;bundle dependency='true'&gt;mvn:org.scala-lang/scala-library/2.11.7&lt;/bundle&gt;
+    &lt;bundle dependency='true'&gt;mvn:org.scala-lang.modules/scala-parser-combinators_2.11/1.0.1&lt;/bundle&gt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.kafka_2.10/0.8.2.2_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacevalue>&lt;bundle dependency='true'&gt;wrap:mvn:org.apache.kafka/kafka_2.11/0.8.2.2$Bundle-Version=0.8.2.2&amp;amp;Export-Package=*;-noimport:=true;version="0.8.2.2"&lt;/bundle&gt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-kafka/${camel.version}&lt;</replacetoken> 
+                                        <replacevalue>mvn:org.apache.camel/camel-kafka/${camel.version}/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
