@@ -61,7 +61,6 @@
         <!-- persistence -->
         <jcr-version>2.0</jcr-version>
         <jackrabbit.version>2.10.1</jackrabbit.version>
-        <concurrent.version>1.3.3</concurrent.version>
         <servicemix.derby.version>10.8.1.2_1</servicemix.derby.version>
         <lucene-core.version>3.6.2</lucene-core.version>
         <lucene-analyzer-common.version>4.8.0</lucene-analyzer-common.version>

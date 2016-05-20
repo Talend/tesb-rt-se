@@ -39,7 +39,7 @@
  -->
         <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika-core.version}</bundle>
 <!--    <bundle dependency='true'>wrap:mvn:org.apache.jackrabbit/jackrabbit-core/${jackrabbit.version}$Import-Package=!org.apache.lucene.queryParser,*,org.gjt.mm.mysql;</bundle> -->
-        <bundle dependency='true'>wrap:mvn:concurrent/concurrent/${concurrent.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.concurrent/${concurrent.version}</bundle>
     </feature>
 
   <!-- Common -->
