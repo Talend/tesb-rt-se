@@ -33,6 +33,7 @@
 	<context:annotation-config/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2" />
     	<property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="location" value="classpath:agent.properties"/>
         <property name="properties">
@@ -48,6 +49,13 @@
                 <prop key="service.retry.delay">5000</prop>
             </props>
         </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location" value="file:${spring.config.location}/agent.properties"/>
     </bean>
 
 	<bean id="samQueue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
