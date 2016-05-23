@@ -25,6 +25,7 @@
 >
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="order" value="3" />
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="location" value="classpath:locator.properties" />
         <property name="properties">
@@ -40,6 +41,20 @@
             </props>
         </property>
 	</bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location" value="classpath:config/locator.properties"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location" value="file:${spring.config.location}/locator.properties"/>
+    </bean>
 
     <bean id="serviceLocatorBackend"
           class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"

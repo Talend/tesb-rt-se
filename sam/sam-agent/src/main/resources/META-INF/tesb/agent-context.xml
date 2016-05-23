@@ -33,7 +33,7 @@
 	<context:annotation-config/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="order" value="2" />
+        <property name="order" value="3" />
     	<property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="location" value="classpath:agent.properties"/>
         <property name="properties">
@@ -49,6 +49,13 @@
                 <prop key="service.retry.delay">5000</prop>
             </props>
         </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location" value="classpath:config/agent.properties"/>
     </bean>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
