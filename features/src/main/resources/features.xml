@@ -222,13 +222,13 @@
   <feature name="tesb-security-common" version="${project.version}">
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 
   <feature name="tesb-encryptor-command" version="${project.version}">
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/text-encryptor/${project.version}</bundle>
   </feature>
 
@@ -335,8 +335,8 @@
     <bundle>mvn:org.hibersap/hibersap-jco/${hibersap.version}</bundle>
   </feature>
 
-    <feature name="karaf-cxf-workaround" version='${project.version}'>
-        <bundle start-level="5">mvn:org.apache.ws.xmlschema/xmlschema-core/2.2.1</bundle>
-   </feature>
+  <feature name="karaf-cxf-workaround" version='${project.version}'>
+    <bundle start-level="5">mvn:org.apache.ws.xmlschema/xmlschema-core/2.2.1</bundle>
+  </feature>
 
 </features>
