@@ -35,6 +35,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="3" />
     	<property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
         <property name="location" value="classpath:agent.properties"/>
         <property name="properties">
             <props>

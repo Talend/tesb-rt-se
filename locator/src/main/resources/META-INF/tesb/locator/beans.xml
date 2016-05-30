@@ -24,15 +24,16 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="order" value="3" />
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="location" value="classpath:locator.properties" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="3" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="location" value="classpath:locator.properties" />
         <property name="properties">
             <props>
                 <prop key="locator.endpoints">localhost:2181</prop>
                 <prop key="endpoint.prefix"></prop>
-	            <prop key="endpoint.http.prefix"></prop>
+                <prop key="endpoint.http.prefix"></prop>
                 <prop key="endpoint.https.prefix"></prop>
                 <prop key="locator.strategy">defaultSelectionStrategy</prop>
                 <prop key="locator.reloadAdressesCount">10</prop>
@@ -40,7 +41,7 @@
                 <prop key="session.timeout">5000</prop>
             </props>
         </property>
-	</bean>
+    </bean>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2" />
