@@ -205,13 +205,14 @@
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
-                <!-- Equinox patch -->
-                <exclude>system/org/eclipse/birt/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <!-- patch for aries.blueprint.core (TESB-17280) -->
                 <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
+                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-17093) -->
+                <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -371,6 +372,9 @@
                 <!-- patch for aries.blueprint.core (TESB-17280) -->
                 <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
+                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-17093) -->
+                <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -562,12 +566,6 @@
             <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- Equinox patch -->
-        <file>
-            <source>${basedir}/target/dependencies/org.eclipse.osgi-3.10.2.jar</source>
-            <outputDirectory>/container/system/org/eclipse/osgi/org.eclipse.osgi/3.10.2/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- commons-collections version patch (TESB-16945) -->
         <file>
             <source>${basedir}/target/dependencies/pax-web-features-${pax-web.version}-features.xml</source>
@@ -610,6 +608,17 @@
         <file>
             <source>${basedir}/target/dependencies/camel-kafka-${camel.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-kafka/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-17093) -->
+        <file>
+            <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
