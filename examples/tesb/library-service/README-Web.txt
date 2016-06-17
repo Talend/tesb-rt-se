@@ -15,7 +15,13 @@ Library Tutorial Example
 This is a web application example.
 This example demonstrates using of different message exchange patterns on the base of Library service.
 
-Example contains single module: library-tutorial.
+Example contains 4 modules:
+- service   Contains code of the service provider
+- client    Contains code of the service consumer
+- common    Contains code common for provider and consumer
+- war       Contains webapp can be running in the servlet container
+
+
 Deployment:
 - tomcat or jetty web container for service
 - standalone for client
@@ -30,8 +36,11 @@ Using maven commands on either UNIX/Linux or Windows:
 
 
 a) Without Service Registry:
+   1. Build the example:
 
-   1. Prepare TESB container
+      mvn clean install
+
+   2. Prepare TESB container
       - start TESB container
       - run following command in container:
 
@@ -42,17 +51,21 @@ a) Without Service Registry:
       feature:install activemq-broker
 
 
-   2. Run service:
+   3. Run service:
       In the command line from the "war" directory run:  mvn -Pservice
 
-   3. Run client:
+   4. Run client:
       In the command line from the "client" directory run:  mvn -Pclient
 
 
 b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
    With Service Registry:
 
-   1. Prepare TESB container
+   1. Build the example:
+
+      mvn -Pservice-registry clean install
+
+   2. Prepare TESB container
       - start TESB container
       - run following commands in container:
 
@@ -90,11 +103,14 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling-callback.xml
 
+      - run the following command if you have not started an external ActiveMQ broker
 
-   2. Run service:
+      feature:install activemq-broker
+
+   3. Run service:
       In the command line from the "war" directory run:  mvn -Pservice-sr
 
-   3. Run client:
+   4. Run client:
       In the command line from the "client" directory run:  mvn -Pclient-sr
 
 
