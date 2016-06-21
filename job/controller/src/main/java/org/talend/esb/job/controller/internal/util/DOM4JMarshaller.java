@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal.util;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 
 import org.dom4j.DocumentException;
@@ -28,12 +29,17 @@ import org.dom4j.io.DOMWriter;
 
 public final class DOM4JMarshaller {
 
-	private static final javax.xml.transform.TransformerFactory FACTORY = javax.xml.transform.TransformerFactory
-			.newInstance();
+	private static TransformerFactory FACTORY;
 
 	private DOM4JMarshaller() {
-
 	}
+
+    private static TransformerFactory getTransformerFactory() {
+        if (null == FACTORY) {
+            FACTORY = TransformerFactory.newInstance();
+        }
+        return FACTORY;
+    }
 
 	public static org.dom4j.Document sourceToDocument(Source source)
 			throws TransformerException, DocumentException {
@@ -53,7 +59,7 @@ public final class DOM4JMarshaller {
 		// // org.dom4j.Document requestDoc = docResult.getDocument();
 		// new version:
 		java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
-		FACTORY.newTransformer().transform(source,
+		getTransformerFactory().newTransformer().transform(source,
 				new javax.xml.transform.stream.StreamResult(os));
 		return new org.dom4j.io.SAXReader()
 				.read(new java.io.ByteArrayInputStream(os.toByteArray()));
@@ -61,9 +67,8 @@ public final class DOM4JMarshaller {
 
 	}
 
-	public static Source documentToSource(org.dom4j.Document document)
-			throws org.dom4j.DocumentException {
-	    return new DOMSource(new DOMWriter().write(document));
-	}
+    public static Source documentToSource(org.dom4j.Document document) throws DocumentException {
+        return new DOMSource(new DOMWriter().write(document));
+    }
 
 }
