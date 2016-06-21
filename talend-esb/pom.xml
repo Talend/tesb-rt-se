@@ -43,7 +43,6 @@
         <shibboleth.version>7.1.1</shibboleth.version>
         <pax-web.version>4.2.5</pax-web.version>
         <zkclient.version>0.8</zkclient.version>
-        <qpid.version>0.28</qpid.version>
         <aries.blueprint.version>1.6.1</aries.blueprint.version>
 	</properties>
 
@@ -503,14 +502,6 @@
                                     <groupId>com.101tec</groupId>
                                     <artifactId>zkclient</artifactId>
                                     <version>${zkclient.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- workaround for sqpid-amqp dependency (TESB-17178) -->
-                                <artifactItem>
-                                    <groupId>org.apache.qpid</groupId>
-                                    <artifactId>qpid-amqp-1-0-client-jms</artifactId>
-                                    <version>${qpid.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
