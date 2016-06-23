@@ -577,6 +577,25 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.features.core-${karaf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-web-console</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>war</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -886,6 +905,12 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                  </replaceregexp>
+                                 <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
+                                    <replacefilter
+                                        token="org.apache.activemq/activemq-web-console/${activemq.version}/war&lt;"
+                                        value="org.apache.activemq/activemq-web-console/${activemq.version}/war/TESB&lt;"/>
+                                </replace>
                             </target>
                         </configuration>
                         <goals>
