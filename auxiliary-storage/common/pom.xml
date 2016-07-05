@@ -16,7 +16,7 @@
 	<parent>
 		<groupId>org.talend.esb.auxiliary.storage</groupId>
 		<artifactId>auxiliary-storage-parent</artifactId>
-		<version>6.2.1-SNAPSHOT</version>
+		<version>6.2.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
