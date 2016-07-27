@@ -115,7 +115,6 @@
 <!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.apache.ignite/ignite-osgi-karaf/1.5.0.final/xml/features</descriptor>
 							</descriptors>
 							<features>
 								<!-- Core Features -->
@@ -168,7 +167,6 @@
 						        <feature>camel-bindy</feature>
                                 <feature>camel-boon</feature>
                                 <feature>camel-box</feature>
-                                <feature>camel-braintree</feature>
 						        <feature>camel-cache</feature>
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
@@ -183,12 +181,12 @@
 						        <feature>camel-csv</feature>
 						        <feature>camel-cxf</feature>
                                 <feature>camel-disruptor</feature>
+                                <feature>camel-docker</feature>
                                 <feature>camel-dns</feature>
 						        <feature>camel-dozer</feature>
                                 <feature>camel-dropbox</feature>
                                 <feature>camel-elsql</feature>
                                 <feature>camel-elasticsearch</feature>
-                                <feature>camel-etcd</feature>
 						        <feature>camel-eventadmin</feature>
 						        <feature>camel-exec</feature>
 						        <feature>camel-facebook</feature>
@@ -210,31 +208,27 @@
 						        <feature>camel-guice</feature>
 						        <feature>camel-hawtdb</feature>
 						        <feature>camel-hazelcast</feature>
+                                <feature>camel-hbase</feature>
                                 <feature>camel-hdfs</feature>
                                 <feature>camel-hdfs2</feature>
                                 <feature>camel-hipchat</feature>
-                                <feature>camel-hessian</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
 						        <feature>camel-ibatis</feature>
-                                <feature>camel-ignite</feature>
 						        <feature>camel-ical</feature>
 						        <feature>camel-infinispan</feature>
 						        <feature>camel-irc</feature>
-                                <feature>camel-ironmq</feature>
 						        <feature>camel-jackson</feature>
                                 <feature>camel-jacksonxml</feature>
 						        <feature>camel-jasypt</feature>
 						        <feature>camel-jaxb</feature>
                                 <feature>camel-jbpm</feature>
-                                <feature>camel-jcache</feature>
 						        <feature>camel-jclouds</feature>
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
-                                <feature>camel-jetty8</feature>
+						        <feature>camel-jetty</feature>
                                 <feature>camel-jetty9</feature>
-                                <feature>camel-jetty</feature>
 						        <feature>camel-jgroups</feature>
 						        <feature>camel-jibx</feature>
 						        <feature>camel-jing</feature>
@@ -251,26 +245,21 @@
 						        <feature>camel-kafka</feature>
 						        <feature>camel-kestrel</feature>
                                 <feature>camel-krati</feature>
-                                <feature>camel-kubernetes</feature>
 						        <feature>camel-ldap</feature>
                                 <feature>camel-linkedin</feature>
 						        <feature>camel-leveldb</feature>
 						        <feature>camel-lucene</feature>
-                                <feature>camel-lzf</feature>
 						        <feature>camel-mail</feature>
                                 <feature>camel-metrics</feature>
 						        <feature>camel-mina</feature>
                                 <feature>camel-mina2</feature>
-                                <feature>camel-mllp</feature>
                                 <feature>camel-mongodb</feature>
-                                <feature>camel-mongodb-gridfs</feature>
                                 <feature>camel-mqtt</feature>
 						        <feature>camel-msv</feature>
                                 <feature>camel-mustache</feature>
 						        <feature>camel-mvel</feature>
                                 <feature>camel-mybatis</feature>
 						        <feature>camel-nagios</feature>
-                                <feature>camel-nats</feature>
 						        <feature>camel-netty</feature>
                                 <feature>camel-netty-http</feature>
                                 <feature>camel-netty4</feature>
@@ -289,7 +278,7 @@
                                 <feature>camel-quartz2</feature>
 						        <feature>camel-quickfix</feature>
                                 <feature>camel-rabbitmq</feature>
-<!--                                 <feature>camel-restlet</feature> -->
+                                <feature>camel-restlet</feature>
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
 						        <feature>camel-rss</feature>
@@ -299,6 +288,7 @@
                                 <feature>camel-saxon</feature>
 						        <feature>camel-scala</feature>
                                 <feature>camel-schematron</feature>
+                                <feature>camel-scr</feature>
                                 <feature>camel-script-jruby</feature>
                                 <feature>camel-script-javascript</feature>
                                 <feature>camel-script-groovy</feature>
@@ -310,13 +300,13 @@
                                 <feature>camel-sjms</feature>
                                 <feature>camel-slack</feature>
 						        <feature>camel-smpp</feature>
-                                <feature>camel-snakeyaml</feature>
 						        <feature>camel-snmp</feature>
 						        <feature>camel-soap</feature>
                                 <feature>camel-solr</feature>
                                 <feature>camel-spark-rest</feature>
                                 <feature>camel-splunk</feature>
                                 <feature>camel-spring-batch</feature>
+                                <feature>camel-spring-integration</feature>
 						        <feature>camel-spring-javaconfig</feature>
                                 <feature>camel-spring-ldap</feature>
                                 <feature>camel-spring-redis</feature>
@@ -533,6 +523,40 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <!-- patch for camel-kafka -->
+                                <artifactItem>
+                                    <groupId>org.scala-lang</groupId>
+                                    <artifactId>scala-library</artifactId>
+                                    <version>2.11.7</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>scala-library-2.11.7.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.scala-lang.modules/</groupId>
+                                    <artifactId>scala-parser-combinators_2.11</artifactId>
+                                    <version>1.0.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>scala-parser-combinators_2.11-1.0.1.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.kafka</groupId>
+                                    <artifactId>kafka_2.11</artifactId>
+                                    <version>0.8.2.2</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>kafka_2.11-0.8.2.2.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-kafka</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-kafka-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-17093) -->
                                 <artifactItem>
@@ -803,20 +827,34 @@
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
-                                    <!-- replacefilter
-                                        token="apache-cxf/3.1.4/xml/features"
-                                        value="apache-cxf/${cxf.version}/xml/features"/-->
                                     <replacefilter
-                                        token="org.apache.zookeeper/zookeeper/3.4.8"
-                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
+                                        token="apache-cxf/3.1.4/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <!-- replacefilter
+                                        token="org.apache.zookeeper/zookeeper/3.4.5"
+                                        value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/-->
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_2&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <!-- patch for camel-kafka -->
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.scala-lang/scala-library/2.10.4&lt;/bundle&gt;</replacetoken> 
+                                        <replacevalue>&lt;bundle dependency='true'&gt;mvn:org.scala-lang/scala-library/2.11.7&lt;/bundle&gt;
+    &lt;bundle dependency='true'&gt;mvn:org.scala-lang.modules/scala-parser-combinators_2.11/1.0.1&lt;/bundle&gt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.kafka_2.10/0.8.2.2_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacevalue>&lt;bundle dependency='true'&gt;wrap:mvn:org.apache.kafka/kafka_2.11/0.8.2.2$Bundle-Version=0.8.2.2&amp;amp;Export-Package=*;-noimport:=true;version="0.8.2.2"&lt;/bundle&gt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-kafka/${camel.version}&lt;</replacetoken> 
+                                        <replacevalue>mvn:org.apache.camel/camel-kafka/${camel.version}/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
