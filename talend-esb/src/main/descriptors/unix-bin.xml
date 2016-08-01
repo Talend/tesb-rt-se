@@ -542,11 +542,11 @@
             <lineEnding>unix</lineEnding>
         </file>
         <!-- patch for xalan and xerces version -->
-        <file>
+        <!--file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xalan-${xalan.version}.jar</source>
             <outputDirectory>/container/lib/endorsed/</outputDirectory>
             <fileMode>0644</fileMode>
-        </file>
+        </file-->
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xerces-${xerces.version}.jar</source>
             <outputDirectory>/container/lib/endorsed/</outputDirectory>
