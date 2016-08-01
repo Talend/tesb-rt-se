@@ -36,7 +36,6 @@
         <jclouds.version>1.9.1</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <wss4j.version>2.1.4</wss4j.version>
-        <xalan.version>2.7.2_2</xalan.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
@@ -448,13 +447,13 @@
                                     <destFileName>apache-cxf-${cxf.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <!-- patch for xalan and xerces version -->
-                                <artifactItem>
+                                <!--artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
                                     <artifactId>org.apache.servicemix.bundles.xalan</artifactId>
                                     <version>${xalan.version}</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
+                                </artifactItem-->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
                                     <artifactId>org.apache.servicemix.bundles.xerces</artifactId>
@@ -835,7 +834,7 @@
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/-->
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_2&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
