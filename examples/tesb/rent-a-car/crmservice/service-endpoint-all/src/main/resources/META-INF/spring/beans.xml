@@ -61,12 +61,6 @@
         <property name="server" ref="mbeanServer" />
     </bean>
 
-
-    <bean id="CRMCounterRepository"
-            class="org.apache.cxf.management.counters.CounterRepository">
-        <property name="bus" ref="cxf" />
-    </bean>
-
     <bean id="CRMServiceBean"
             class="org.talend.services.crmservice.service.CRMServiceImpl" />
 
@@ -87,6 +81,7 @@
             <p:policies>
                 <wsp:PolicyReference URI="classpath:/saml.policy" />
             </p:policies>
+            <bean class="org.apache.cxf.metrics.MetricsFeature" />
             <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature" />
             <ref bean="eventFeature" />
         </jaxws:features>

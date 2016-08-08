@@ -32,12 +32,12 @@
 		<property name="enabled" value="true" />
 	</bean>
 	
-	<bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
-		<property name="bus" ref="cxf" />
-	</bean>
-	
 	<jaxws:endpoint id="simple-service"
 		implementor="org.talend.esb.examples.SimpleServiceImpl" 
-		address="/simpleService" />
+		address="/simpleService" >
+        <jaxws:features>
+            <bean class="org.apache.cxf.metrics.MetricsFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
 
 </beans>

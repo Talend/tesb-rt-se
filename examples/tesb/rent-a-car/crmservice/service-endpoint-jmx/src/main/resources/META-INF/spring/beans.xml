@@ -45,12 +45,6 @@
         <property name="server" ref="mbeanServer" />
     </bean>
 
-
-    <bean id="CRMCounterRepository"
-            class="org.apache.cxf.management.counters.CounterRepository">
-        <property name="bus" ref="cxf" />
-    </bean>
-
     <bean id="CRMServiceBean"
             class="org.talend.services.crmservice.service.CRMServiceImpl" />
 
@@ -60,6 +54,9 @@
             serviceName="serviceNamespace:CRMServiceProvider"
             endpointName="serviceNamespace:CRMServicePort"
             implementor="#CRMServiceBean"
-            address="/CRMServiceProvider" />
-
+            address="/CRMServiceProvider" >
+        <jaxws:features>
+            <bean class="org.apache.cxf.metrics.MetricsFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
 </beans>

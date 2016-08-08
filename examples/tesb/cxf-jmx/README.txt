@@ -29,7 +29,7 @@ http://download.oracle.com/javase/1.5.0/docs/guide/management/jconsole.html
 
 Enabling CXF samples for JMX
 ============================================
-To enable CXF for JMX two beans need to be added to the Spring context:
+To enable CXF for JMX, one bean and one feature bean need to be added to the Spring context:
 
 <bean id="org.apache.cxf.management.InstrumentationManager"
     class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
@@ -38,9 +38,7 @@ To enable CXF for JMX two beans need to be added to the Spring context:
     <property name="enabled" value="true" />
 </bean>
 	
-<bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
-    <property name="bus" ref="cxf" />
-</bean>
+<bean class="org.apache.cxf.metrics.MetricsFeature" />
 
 Creating CXF MBeans for monitoring attributes
 =============================================

@@ -45,11 +45,6 @@
         <property name="server" ref="mbeanServer" />
     </bean>
 
-    <bean id="ReservationCounterRepository"
-            class="org.apache.cxf.management.counters.CounterRepository">
-        <property name="bus" ref="cxf" />
-    </bean>
-
     <bean id="ReservationServiceBean"
             class="org.talend.services.reservationservice.service.ReservationServiceImpl" />
 
@@ -59,6 +54,10 @@
             serviceName="serviceNamespace:ReservationServiceProvider"
             endpointName="serviceNamespace:ReservationServicePort"
             implementor="#ReservationServiceBean"
-            address="/ReservationServiceProvider" />
+            address="/ReservationServiceProvider" >
+        <jaxws:features>
+            <bean class="org.apache.cxf.metrics.MetricsFeature" />
+        </jaxws:features>
+    </jaxws:endpoint>
 
 </beans>
