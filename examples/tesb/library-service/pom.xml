@@ -30,12 +30,12 @@
     <properties>
         <use.service.registry>false</use.service.registry>
 
-        <cxf.version>3.1.5</cxf.version>
+        <cxf.version>3.1.7</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
-        <camel.version>2.16.3</camel.version>
+        <camel.version>2.17.3</camel.version>
         <spring.version>3.2.14.RELEASE</spring.version>
-        <karaf.version>4.0.5</karaf.version>
-        <activemq.version>5.13.2</activemq.version>
+        <karaf.version>4.0.6-SNAPSHOT</karaf.version>
+        <activemq.version>5.14.0</activemq.version>
         <osgi.version>4.2.0</osgi.version>
         <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>
         <zookeeper.version>3.3.6</zookeeper.version>

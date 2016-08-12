@@ -27,7 +27,7 @@ public class OAuthManager implements AuthorizationCodeDataProvider {
         READ_CALENDAR_PERMISSION = new OAuthPermission(
                 OAuthConstants.READ_CALENDAR_SCOPE, 
                 OAuthConstants.READ_CALENDAR_DESCRIPTION);
-        READ_CALENDAR_PERMISSION.setDefault(true);
+        READ_CALENDAR_PERMISSION.setDefaultPermission(true);
     }
     
 	private Client client;
