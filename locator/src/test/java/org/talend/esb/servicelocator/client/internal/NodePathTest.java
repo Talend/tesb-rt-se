@@ -19,11 +19,11 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import org.junit.Test;
 
 public class NodePathTest {
 

@@ -29,6 +29,18 @@
 
 	<dependencies>
         <dependency>
+            <groupId>org.ops4j.pax.cdi</groupId>
+            <artifactId>pax-cdi-api</artifactId>
+            <version>0.8.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
             <version>${project.version}</version>
@@ -40,26 +52,6 @@
 		<module>locator-soap-service</module>
 		<module>locator-rest-service</module>
     </modules>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+
 	
 </project>

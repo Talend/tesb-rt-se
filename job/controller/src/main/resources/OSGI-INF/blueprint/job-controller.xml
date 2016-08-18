@@ -32,6 +32,9 @@
         <property name="samFeature" >
             <reference interface="org.talend.esb.sam.agent.feature.EventFeature" />
         </property>
+        <property name="locatorFeature" >
+            <reference interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+        </property>
         <property name="policyProvider" ref="policyProvider" />
         <property name="clientProperties" ref="org.talend.esb.job.client" />
         <property name="cryptoProvider" >

@@ -25,6 +25,43 @@
 	</parent>
 
 	<dependencies>
+	    <dependency>
+            <groupId>org.ops4j.pax.cdi</groupId>
+            <artifactId>pax-cdi-api</artifactId>
+            <version>0.8.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <optional>true</optional>
+        </dependency>
+	    <!-- For the spring annotations -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.1.4.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-aop</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-core</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-expression</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-asm</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
+            <optional>true</optional>
+        </dependency>
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
@@ -114,32 +151,36 @@
                 </executions>
             </plugin>
 
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<configuration>
-					<instructions>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Export-Package>
-							org.talend.esb.servicelocator.*, 
-							'=META-INF.tesb.locator'
-                        </Export-Package>
-                        <Import-Package>
-                            *
-                            ,org.springframework.beans.factory.config
-                            ,org.apache.cxf.bus.spring
-                        </Import-Package>
-                        <Export-Service>
-                            org.talend.esb.servicelocator.client.ServiceLocator,
-                            org.talend.esb.servicelocator.client.ExpiredEndpointCollector,
-                            org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager,
-                            org.talend.esb.servicelocator.cxf.LocatorFeatureInterface
-                        </Export-Service>
-						<_failok>true</_failok>
-                        <_nouses>true</_nouses>
-					</instructions>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.0.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <obrRepository>NONE</obrRepository>
+                    <instructions>
+                        <_include>-bnd.bnd</_include>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.aries.blueprint</groupId>
+                <artifactId>blueprint-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>blueprint-generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scanPaths>
+                        <scanPath>org.talend.esb.servicelocator</scanPath>
+                    </scanPaths>
+                </configuration>
+            </plugin>
+            <!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -156,6 +197,7 @@
 					</execution>
 				</executions>
             </plugin>
+             -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

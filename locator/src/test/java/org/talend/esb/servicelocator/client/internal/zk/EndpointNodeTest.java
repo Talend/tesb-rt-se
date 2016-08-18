@@ -19,15 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-
-import org.apache.zookeeper.CreateMode;
-import org.junit.Before;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.internal.NodePath;
-import org.talend.esb.servicelocator.client.internal.zk.RootNodeImpl;
-
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -40,11 +31,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ANY_1;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.LIVE;
 import static org.talend.esb.servicelocator.client.internal.zk.EndpointNodeImpl.TIMETOLIVE;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import org.apache.zookeeper.CreateMode;
+import org.junit.Before;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.internal.NodePath;
 
 public class EndpointNodeTest {
     

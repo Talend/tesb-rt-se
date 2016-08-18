@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<!--
+  #%L
+  Service Locator Client for CXF
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<blueprint 
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.1.0"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://www.osgi.org/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.xsd
+        http://www.osgi.org/xmlns/blueprint-ext/v1.1.0 http://aries.apache.org/schemas/blueprint-ext/blueprint-ext-1.1.xsd
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd
+        "
+    >
+
+	<cm:property-placeholder persistent-id="org.talend.esb.locator"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="locator.endpoints" value="localhost:2181"/>
+			<cm:property name="endpoint.prefix" value=""/>
+			<cm:property name="endpoint.http.prefix" value=""/>
+			<cm:property name="endpoint.https.prefix" value=""/>
+			<cm:property name="locator.strategy" value="defaultSelectionStrategy"/>
+			<cm:property name="locator.reloadAdressesCount" value="10"/>
+			<cm:property name="connection.timeout" value="5000"/>
+			<cm:property name="session.timeout" value="5000"/>
+			<cm:property name="authentication.name" value=""/>
+			<cm:property name="authentication.password" value=""/>
+			<cm:property name="locator.endpoints.timetolive.check" value="true"/>
+			<cm:property name="locator.endpoints.timetolive.interval" value="300"/>
+		</cm:default-properties>
+	</cm:property-placeholder>   
+
+</blueprint>

@@ -19,15 +19,13 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import static org.junit.Assert.assertNull;
+import static org.talend.esb.servicelocator.TestValues.EMPTY_CONTENT;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.internal.EndpointTransformerImpl;
-
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
-
-import static org.junit.Assert.assertNull;
-
-import static org.talend.esb.servicelocator.TestValues.EMPTY_CONTENT;
 
 public class SimpleEndpointlEmptyContentTest {
 

@@ -27,6 +27,11 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,6 +40,7 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.ops4j.pax.cdi.api.OsgiService;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.EndpointNotFoundException;
@@ -56,6 +62,8 @@ import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.services.esb.locator.rest.v1.LocatorService;
 import org.w3c.dom.Document;
 
+@Singleton
+@Named("serviceLocatorBean")
 public class LocatorRestServiceImpl implements LocatorService {
 
     private static final Logger LOG = Logger
@@ -63,9 +71,13 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     private static final Random RANDOM = new Random();
 
-    private ServiceLocator locatorClient;
+    @OsgiService
+    @Inject
+    ServiceLocator locatorClient;
     
-    private ExpiredEndpointCollector endpointCollector;
+    @OsgiService
+    @Inject
+    ExpiredEndpointCollector endpointCollector;
 
     private String locatorEndpoints = "localhost:2181";
 
@@ -96,6 +108,7 @@ public class LocatorRestServiceImpl implements LocatorService {
         this.connectionTimeout = connectionTimeout;
     }
     
+    @PostConstruct
     public void start() {
         if (endpointCollector != null) {
             endpointCollector.startScheduledCollection();
@@ -135,6 +148,7 @@ public class LocatorRestServiceImpl implements LocatorService {
      * @throws InterruptedException
      * @throws ServiceLocatorException
      */
+    @PreDestroy
     public void disconnectLocator() throws InterruptedException,
             ServiceLocatorException {
         if (LOG.isLoggable(Level.FINE)) {

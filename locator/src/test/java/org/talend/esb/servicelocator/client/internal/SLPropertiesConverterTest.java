@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.talend.esb.servicelocator.client.SLPropertiesImpl;
-import org.talend.esb.servicelocator.client.internal.SLPropertiesConverter;
 import org.talend.esb.servicelocator.client.internal.endpoint.EntryType;
 import org.talend.esb.servicelocator.client.internal.endpoint.ServiceLocatorPropertiesType;
 

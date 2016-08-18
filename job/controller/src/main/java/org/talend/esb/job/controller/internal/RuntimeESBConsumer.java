@@ -78,6 +78,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             String publishedEndpointUrl,
             String wsdlURL,
             final boolean useServiceLocator,
+            final LocatorFeature locatorFeature,
             final Map<String, String> locatorProps,
             final EventFeature samFeature,
             boolean useServiceRegistry,
@@ -125,7 +126,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         final List<Feature> features = new ArrayList<Feature>();
         if (useServiceLocator) {
-            features.add(new LocatorFeature());
+            features.add(locatorFeature);
         }
         if (samFeature != null) {
             features.add(samFeature);

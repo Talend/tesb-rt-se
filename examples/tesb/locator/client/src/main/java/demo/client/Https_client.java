@@ -26,7 +26,7 @@ public class Https_client {
 
 	public static void main(String[] args) throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/https_client.xml");
-		Greeter_Https client = (Greeter_Https) context.getBean("greeterService_Https");
+		Greeter_Https client = context.getBean(Greeter_Https.class);
 
 		String response = null;
 		for (int i = 0; i < 10; i++) {

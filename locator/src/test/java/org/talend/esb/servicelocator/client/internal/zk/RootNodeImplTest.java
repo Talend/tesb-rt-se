@@ -19,6 +19,21 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
@@ -28,23 +43,8 @@ import javax.xml.namespace.QName;
 import org.apache.zookeeper.CreateMode;
 import org.junit.Before;
 import org.junit.Test;
-import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
 import org.talend.esb.servicelocator.client.internal.ServiceNode;
-
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.verify;
-import static org.easymock.EasyMock.replay;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
 
 public class RootNodeImplTest {
 

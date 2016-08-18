@@ -1,18 +1,33 @@
 package org.talend.esb.servicelocator.client.internal.zk;
 
+import static org.talend.esb.servicelocator.client.internal.zk.ServiceLocatorACLs.LOCATOR_ACLS;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.zookeeper.*;
+import javax.annotation.PreDestroy;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
+import org.springframework.beans.factory.annotation.Value;
 import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.NodePath;
@@ -20,8 +35,8 @@ import org.talend.esb.servicelocator.client.internal.RootNode;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorBackend;
 import org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl;
 
-import static org.talend.esb.servicelocator.client.internal.zk.ServiceLocatorACLs.LOCATOR_ACLS;
-
+@Named
+@Singleton
 public class ZKBackend implements ServiceLocatorBackend {
 
     public static final NodePath LOCATOR_ROOT_PATH = new NodePath("cxf-locator");
@@ -96,6 +111,7 @@ public class ZKBackend implements ServiceLocatorBackend {
         return rootNode;
     }
 
+    @PreDestroy
     @Override
     public void disconnect() throws InterruptedException,
             ServiceLocatorException {
@@ -294,6 +310,7 @@ public class ZKBackend implements ServiceLocatorBackend {
      *                  exmaples are: "127.0.0.1:2181" or
      *                  "sl1.example.com:3210, sl2.example.com:3210, sl3.example.com:3210"
      */
+    @Value("${locator.endpoints}")
     public void setLocatorEndpoints(String endpoints) {
         settings.setEndpoints(endpoints);
         if (LOG.isLoggable(Level.FINE)) {
@@ -310,6 +327,7 @@ public class ZKBackend implements ServiceLocatorBackend {
      * @param timeout timeout in milliseconds, must be greater than zero and less
      *                than 60000.
      */
+    @Value("${session.timeout}")
     public void setSessionTimeout(int timeout) {
         settings.setSessionTimeout(timeout);
     }
@@ -320,14 +338,17 @@ public class ZKBackend implements ServiceLocatorBackend {
      *
      * @param timeout timeout in milliseconds, must be greater than zero
      */
+    @Value("${connection.timeout}")
     public void setConnectionTimeout(int timeout) {
         settings.setConnectionTimeout(timeout);
     }
 
+    @Value("${authentication.name}")
     public void setUserName(String userName) {
         settings.setUser(userName);
     }
 
+    @Value("${authentication.password}")
     public void setPassword(String passWord) {
         settings.setPassword(passWord);
     }

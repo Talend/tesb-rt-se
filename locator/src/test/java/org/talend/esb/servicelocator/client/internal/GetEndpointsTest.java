@@ -25,7 +25,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.talend.esb.servicelocator.TestContent.CONTENT_ENDPOINT_1;
-import static org.talend.esb.servicelocator.TestValues.*;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 
 import java.util.Arrays;
 import java.util.List;

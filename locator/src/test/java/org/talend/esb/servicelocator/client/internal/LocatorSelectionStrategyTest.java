@@ -19,6 +19,21 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isOneOf;
+import static org.junit.Assert.assertThat;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_3;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_4;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_5;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,21 +51,6 @@ import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategy;
 import org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategy;
-
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isOneOf;
-import static org.junit.Assert.assertThat;
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_3;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_4;
-import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_5;
 
 public class LocatorSelectionStrategyTest extends EasyMockSupport {
 

@@ -45,6 +45,7 @@ import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.security.policy.PolicyProvider;
+import org.talend.esb.servicelocator.cxf.LocatorFeature;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -64,6 +65,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     private Bus bus;
     private EventFeature samFeature;
+    private LocatorFeature locatorFeature;
     private PolicyProvider policyProvider;
     private Map<String, String> clientProperties;
     private Crypto cryptoProvider;
@@ -74,6 +76,10 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
 
     public void setSamFeature(EventFeature samFeature) {
         this.samFeature = samFeature;
+    }
+    
+    public void setLocatorFeature(LocatorFeature locatorFeature) {
+        this.locatorFeature = locatorFeature;
     }
 
     public void setPolicyProvider(PolicyProvider policyProvider) {
@@ -128,6 +134,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 (String) props.get(ESBEndpointConstants.PUBLISHED_ENDPOINT_URL),
                 (String) props.get(ESBEndpointConstants.WSDL_URL),
                 getBoolean(props, ESBEndpointConstants.USE_SERVICE_LOCATOR),
+                locatorFeature,
                 (Map<String, String>) props.get(ESBEndpointConstants.REQUEST_SL_PROPS),
                 getBoolean(props, ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR) ? samFeature : null,
                 useServiceRegistry,

@@ -26,7 +26,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashMap;
@@ -75,7 +74,6 @@ public class LocatorClientEnablerTest {
         clientRegistrar.setServiceLocator(sl);
         clientRegistrar.setLocatorSelectionStrategies(locatorSelectionStrategies);
         // clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
-        clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
         clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
         clientRegistrar.enable(client);
 

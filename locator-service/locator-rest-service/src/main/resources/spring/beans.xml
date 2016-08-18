@@ -12,14 +12,12 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-    xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd 
 		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 	">
 
 	<jaxrs:server id="locatorService" address="/ServiceLocatorRestService">
@@ -31,16 +29,7 @@
 		</jaxrs:providers>
 	</jaxrs:server>
     
-    <osgi:reference id="locatorClient" interface="org.talend.esb.servicelocator.client.ServiceLocator" />
-    
-    <osgi:reference id="endpointCollector" interface="org.talend.esb.servicelocator.client.ExpiredEndpointCollector" />
-
-    <bean id="serviceLocatorBean"
-        class="org.talend.esb.locator.service.rest.LocatorRestServiceImpl"
-        init-method="start" destroy-method="disconnectLocator">
-        <property name="locatorClient" ref="locatorClient" />
-        <property name="endpointCollector" ref="endpointCollector" />
-    </bean>
+    <context:component-scan base-package="com.mkyong.customer" />
 
 	<bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
 		<property name="ignoreNamespaces" value="true" />

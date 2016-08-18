@@ -41,6 +41,11 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
@@ -63,6 +68,7 @@
 		    <plugin>
 		        <groupId>org.mortbay.jetty</groupId>
 		        <artifactId>jetty-maven-plugin</artifactId>
+		        <version>8.1.9.v20130131</version>
 
 		        <configuration>
 		            <connectors>

@@ -19,6 +19,12 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.talend.esb.DomMother.newDocument;
+
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 
@@ -28,13 +34,6 @@ import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.TransportType;
 import org.w3c.dom.Element;
-
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-
-import static org.talend.esb.DomMother.newDocument;
 
 final public class EndpointStubFactory {
 

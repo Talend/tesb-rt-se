@@ -20,16 +20,21 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.endpoint.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.ServiceLocator;
 
@@ -42,18 +47,27 @@ import org.talend.esb.servicelocator.client.ServiceLocator;
  * If a server which was registered before stops the LocatorRegistrar automatically unregisters from the
  * Service Locator.
  */
+@Named
+@Singleton
 public class LocatorRegistrar {
 
     private static final Logger LOG = Logger.getLogger(LocatorRegistrar.class.getPackage().getName());
 
-    private ServiceLocator locatorClient;
+    @Inject
+    ServiceLocator locatorClient;
 
-    private String endpointPrefix = "";
+    @Value("${endpoint.prefix}")
+    String endpointPrefix = "";
+    
+    @Value("${endpoint.http.prefix}")
+    String endpointPrefixHttp;
 
-    private Map<String, String> endpointPrefixes;
+    @Value("${endpoint.https.prefix}")
+    String endpointPrefixHttps;
 
     private Map<Bus, SingleBusLocatorRegistrar> busRegistrars = 
         Collections.synchronizedMap(new LinkedHashMap<Bus, SingleBusLocatorRegistrar>());
+
 
     public void startListenForServers(Bus bus) {
         SingleBusLocatorRegistrar registrar = getRegistrar(bus);
@@ -62,10 +76,6 @@ public class LocatorRegistrar {
 
     public void setEndpointPrefix(String endpointPrefix) {
         this.endpointPrefix = endpointPrefix != null ? endpointPrefix : "";
-    }
-
-    public void setEndpointPrefixes(Map<String, String> endpointPrefixes) {
-        this.endpointPrefixes = endpointPrefixes;
     }
 
     public void setServiceLocator(ServiceLocator serviceLocator) {
@@ -90,6 +100,9 @@ public class LocatorRegistrar {
             registrar = new SingleBusLocatorRegistrar(bus);
             registrar.setServiceLocator(locatorClient);
             registrar.setEndpointPrefix(endpointPrefix);
+            Map<String, String> endpointPrefixes = new HashMap<String, String>();
+            endpointPrefixes.put("HTTP", endpointPrefixHttp);
+            endpointPrefixes.put("HTTPS", endpointPrefixHttps);
             registrar.setEndpointPrefixes(endpointPrefixes);
             busRegistrars.put(bus, registrar);
             addLifeCycleListener(bus);
@@ -120,5 +133,13 @@ public class LocatorRegistrar {
             throw new IllegalStateException("The property " + propertyName + " must be set before "
                     + methodName + " can be called.");
         }
+    }
+    
+    public void setEndpointPrefixHttp(String endpointPrefixHttp) {
+        this.endpointPrefixHttp = endpointPrefixHttp;
+    }
+    
+    public void setEndpointPrefixHttps(String endpointPrefixHttps) {
+        this.endpointPrefixHttps = endpointPrefixHttps;
     }
 }

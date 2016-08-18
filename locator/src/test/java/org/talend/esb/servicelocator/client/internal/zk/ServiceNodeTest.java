@@ -19,16 +19,6 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.zookeeper.CreateMode;
-import org.junit.Before;
-import org.junit.Test;
-import org.talend.esb.servicelocator.client.internal.EndpointNode;
-import org.talend.esb.servicelocator.client.internal.zk.RootNodeImpl;
-import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
-
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -40,10 +30,18 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
 import static org.talend.esb.servicelocator.TestValues.ENDPOINT_2;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.zookeeper.CreateMode;
+import org.junit.Before;
+import org.junit.Test;
+import org.talend.esb.servicelocator.client.internal.EndpointNode;
+import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
 
 public class ServiceNodeTest {
     
