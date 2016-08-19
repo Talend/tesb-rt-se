@@ -788,6 +788,14 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.21</replacetoken> 
+                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.22</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.21</replacetoken> 
+                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
