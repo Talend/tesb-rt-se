@@ -30,20 +30,23 @@
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 	<import resource="classpath:META-INF/tesb/agent-osgi.xml" />
+
+    <osgi:reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
 
 	<jaxws:client id="CRMServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
 		serviceClass="org.talend.services.crmservice.CRMService"
 		serviceName="serviceNamespace:CRMServiceProvider"
 		endpointName="serviceNamespace:CRMServicePort"
-		address="locator://CRMServiceProvider"
-	>
+		address="locator://CRMServiceProvider">
+
+        <jaxws:properties>
+            <entry key="locator.strategy" value="randomSelectionStrategy" />
+        </jaxws:properties>
+
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="randomSelectionStrategy"/>
-			</bean>
+            <ref bean="locatorFeature" />
 			<ref bean="eventFeature"/>
 		</jaxws:features>
 	</jaxws:client>

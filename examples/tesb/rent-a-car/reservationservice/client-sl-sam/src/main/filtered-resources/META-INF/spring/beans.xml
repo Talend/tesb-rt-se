@@ -29,21 +29,23 @@
 	"
 >
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
 	<import resource="classpath:META-INF/tesb/agent-osgi.xml" />
-	
+
+    <osgi:reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
 
 	<jaxws:client id="ReservationServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
 		endpointName="serviceNamespace:ReservationServicePort"
-		address="locator://ReservationServiceProvider"
-	>
+		address="locator://ReservationServiceProvider">
+
+        <jaxws:properties>
+            <entry key="locator.strategy" value="randomSelectionStrategy" />
+        </jaxws:properties>
+
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="randomSelectionStrategy"/>
-			</bean>
+            <ref bean="locatorFeature" />
 			<ref bean="eventFeature"/>
 		</jaxws:features>
 	</jaxws:client>

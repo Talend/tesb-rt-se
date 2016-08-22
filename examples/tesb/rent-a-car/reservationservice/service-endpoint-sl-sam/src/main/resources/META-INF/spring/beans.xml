@@ -30,7 +30,7 @@
         ">
 
     <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" />
+    <!--import resource="classpath:META-INF/tesb/locator/beans-osgi.xml" /-->
     <import resource="classpath:META-INF/tesb/agent-osgi.xml" />
 
     <osgi:reference id="mbeanServer" interface="javax.management.MBeanServer" cardinality="0..1" />
@@ -50,6 +50,8 @@
     <bean id="ReservationServiceBean"
             class="org.talend.services.reservationservice.service.ReservationServiceImpl" />
 
+    <osgi:reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+
     <!-- HTTP Endpoint -->
     <jaxws:endpoint id="ReservationService"
             xmlns:serviceNamespace="http://services.talend.org/ReservationService"
@@ -59,7 +61,7 @@
             address="/ReservationServiceProvider">
         <jaxws:features>
             <bean class="org.apache.cxf.metrics.MetricsFeature" />
-            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+            <ref bean="locatorFeature" />
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:endpoint>
