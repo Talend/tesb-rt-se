@@ -3,6 +3,7 @@ package org.talend.esb.servicelocator.cxf.internal;
 import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -22,9 +23,12 @@ public class LocatorSelectionStrategyMap extends HashMap<String, LocatorSelectio
         RandomSelectionStrategyFactory randomSelectionStrategyFactory = new RandomSelectionStrategyFactory();
         randomSelectionStrategyFactory.setReloadAdressesCount(reloadAdressesCount);
         this.put("randomSelectionStrategy", randomSelectionStrategyFactory);
-        EvenDistributionSelectionStrategyFactory evenDistributionSelectionStrategyFactory = new EvenDistributionSelectionStrategyFactory();
+
+        EvenDistributionSelectionStrategyFactory evenDistributionSelectionStrategyFactory =
+                new EvenDistributionSelectionStrategyFactory();
         evenDistributionSelectionStrategyFactory.setReloadAdressesCount(reloadAdressesCount);
         this.put("evenDistributionSelectionStrategy", evenDistributionSelectionStrategyFactory);
+
         this.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
     }
 }

@@ -41,13 +41,14 @@ public class LocatorClientEnabler {
 
     private static final String DEFAULT_STRATEGY = "defaultSelectionStrategy";
 
+    @Inject
     private ServiceLocator locatorClient;
 
+    @Inject
     private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
 
     private String defaultLocatorSelectionStrategy;
 
-    @Inject
     public void setServiceLocator(ServiceLocator serviceLocator) {
         locatorClient = serviceLocator;
         if (LOG.isLoggable(Level.FINE)) {
@@ -63,11 +64,6 @@ public class LocatorClientEnabler {
      * Sets a map representing the locatorSelectionStrategies and sets locatorSelectionStrategy to the DEFAULT_STRATEGY.
      * @param locatorSelectionStrategies
      */
-    @Inject
-    public void setLocatorSelectionStrategies(LocatorSelectionStrategyMap locatorSelectionStrategies) {
-        this.locatorSelectionStrategies = locatorSelectionStrategies;
-    }
-    
     public void setLocatorSelectionStrategies(Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies) {
         this.locatorSelectionStrategies = locatorSelectionStrategies;
     }
@@ -82,6 +78,7 @@ public class LocatorClientEnabler {
             LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy
                     + " was set for LocatorClientRegistrar.");
         }
+
         if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
             return locatorSelectionStrategies.get(locatorSelectionStrategy).getInstance();
         } else {

@@ -27,7 +27,7 @@ import org.apache.cxf.feature.Feature;
  */
 public interface LocatorFeature extends Feature {
 
-    String KEY_STRATEGY = "strategy";
+    String KEY_STRATEGY = "locator.strategy";
     String LOCATOR_PROPERTIES = "esb.locator.properties";
 
 }

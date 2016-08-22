@@ -28,7 +28,7 @@
 	    <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>
             <artifactId>pax-cdi-api</artifactId>
-            <version>0.8.0</version>
+            <version>1.0.0.RC1</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -160,6 +160,7 @@
                     <obrRepository>NONE</obrRepository>
                     <instructions>
                         <_include>-bnd.bnd</_include>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                     </instructions>
                 </configuration>
             </plugin>
