@@ -59,6 +59,15 @@
             endpointName="serviceNamespace:CRMServicePort"
             implementor="#CRMServiceBean"
             address="/CRMServiceProvider">
+
+        <jaxws:properties>
+            <entry key="esb.locator.properties">
+                <map>
+                    <entry key="city" value="Beijing" />
+                </map>
+            </entry>
+        </jaxws:properties>
+
         <jaxws:features>
             <bean class="org.apache.cxf.metrics.MetricsFeature" />
             <ref bean="locatorFeature" />

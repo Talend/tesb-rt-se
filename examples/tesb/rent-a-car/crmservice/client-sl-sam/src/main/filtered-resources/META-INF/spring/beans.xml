@@ -43,6 +43,11 @@
 
         <jaxws:properties>
             <entry key="locator.strategy" value="randomSelectionStrategy" />
+            <entry key="esb.locator.properties">
+                <map>
+                    <entry key="city" value="Beijing" />
+                </map>
+            </entry>
         </jaxws:properties>
 
 		<jaxws:features>
