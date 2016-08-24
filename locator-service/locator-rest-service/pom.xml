@@ -73,6 +73,7 @@
                     <obrRepository>NONE</obrRepository>
                     <instructions>
                         <_include>-bnd.bnd</_include>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                     </instructions>
                 </configuration>
             </plugin>

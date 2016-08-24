@@ -71,8 +71,12 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     private static final Random RANDOM = new Random();
 
+    @OsgiService
+    @Inject
     private ServiceLocator locatorClient;
 
+    @OsgiService
+    @Inject
     private ExpiredEndpointCollector endpointCollector;
 
     private String locatorEndpoints = "localhost:2181";
@@ -85,8 +89,6 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     private String authenticationPassword;
     
-    @OsgiService
-    @Inject
     public void setLocatorClient(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
         if (LOG.isLoggable(Level.FINE)) {
@@ -94,8 +96,6 @@ public class LocatorSoapServiceImpl implements LocatorService {
         }
     }
     
-    @OsgiService
-    @Inject
     public void setEndpointCollector(ExpiredEndpointCollector endpointCollector) {
         this.endpointCollector = endpointCollector;
     }

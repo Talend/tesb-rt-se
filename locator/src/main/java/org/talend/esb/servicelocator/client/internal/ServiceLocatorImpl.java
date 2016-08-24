@@ -61,7 +61,7 @@ import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
  * clients can be looked up.
  * </ul>
  */
-@OsgiServiceProvider
+@OsgiServiceProvider(classes={ServiceLocator.class,ExpiredEndpointCollector.class})
 @Named
 public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollector {
 

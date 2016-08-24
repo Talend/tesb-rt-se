@@ -36,10 +36,10 @@
 
 	<jaxrs:server id="locatorService" address="/ServiceLocatorRestService">
 		<jaxrs:serviceBeans>
-			<ref bean="serviceLocatorBean" />
+			<ref component-id="serviceLocatorBean" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
-			<ref bean="jsonProvider" />
+			<ref component-id="jsonProvider" />
 		</jaxrs:providers>
 	</jaxrs:server>
     
