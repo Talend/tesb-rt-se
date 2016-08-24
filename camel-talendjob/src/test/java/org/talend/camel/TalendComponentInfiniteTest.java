@@ -28,6 +28,9 @@ import routines.system.api.TalendJob;
 
 public class TalendComponentInfiniteTest extends CamelTestSupport {
 
+    public static final long JOB_WAIT_TIME = 60000;
+
+
     public static class JobInfinite implements TalendJob {
 
         private static boolean passed = false;
@@ -47,7 +50,7 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
                 JobInfinite.class.notify();
             }
             try {
-                Thread.sleep(10000);
+                Thread.sleep(JOB_WAIT_TIME);
             } catch (InterruptedException e) {
                 passed = true;
             }
