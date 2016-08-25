@@ -55,9 +55,7 @@
 		    <entry key="org.talend.tesb.endpoint.secured" value="true"/>
 		</jaxws:properties>
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="serviceLocatorManager" ref="locatorManager"/>
-			</bean>
+            <ref bean="locatorFeature" />
 		</jaxws:features>
 	</jaxws:endpoint>
 	
@@ -68,9 +66,7 @@
 			serviceName="tns:GreeterService"
 			address="/GreeterService">
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="serviceLocatorManager" ref="locatorManager"/>
-			</bean>
+            <ref bean="locatorFeature" />
 		</jaxws:features>
 	</jaxws:endpoint>
 	
