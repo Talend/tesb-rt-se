@@ -20,10 +20,10 @@
   -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jaxrs="http://cxf.apache.org/jaxrs-client"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
-    http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd">
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd">
 
-    <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/tesb/locator/beans.xml" />
 
     <jaxrs:client id="restClient" address="locator://some_usefull_information"
@@ -31,10 +31,13 @@
         <jaxrs:headers>
             <entry key="Accept" value="application/xml"/>
         </jaxrs:headers>
+
+        <jaxrs:properties>
+            <entry key="locator.strategy" value="evenDistributionSelectionStrategy" />
+        </jaxrs:properties>
+
 		<jaxrs:features>
-            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-                <property name="selectionStrategy" value="evenDistributionSelectionStrategy"/>
-            </bean>
+            <ref bean="locatorFeature" />
         </jaxrs:features>
     </jaxrs:client>
 </beans>

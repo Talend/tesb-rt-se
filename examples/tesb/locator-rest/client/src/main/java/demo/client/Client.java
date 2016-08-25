@@ -30,6 +30,7 @@ import demo.common.*;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 public class Client {
 
@@ -65,9 +66,10 @@ public class Client {
             factoryBean.setAddress("locator://some_usefull_information");
             factoryBean.setServiceName(new QName("http://common.demo/", "OrderService"));
             
-            org.talend.esb.servicelocator.cxf.LocatorFeature feature =
-                new org.talend.esb.servicelocator.cxf.LocatorFeature();
-            feature.setSelectionStrategy("evenDistributionSelectionStrategy");  
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "META-INF/tesb/locator/beans.xml" });
+            LocatorFeature feature = (LocatorFeature) context.getBean("locatorFeature");
+
             factoryBean.setFeatures(Collections.singletonList(feature)); 
             return factoryBean; 
         }
