@@ -188,7 +188,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void evenDistribution() throws Exception {
-		evenDistributionStrategy.setReloadAdressesCount(10);
+		evenDistributionStrategy.setReloadAddressesCount(10);
 		lookup(SERVICE_QNAME_3, ENDPOINT_1, ENDPOINT_2);
 		replayAll();
 		String primary = null;
@@ -208,7 +208,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void evenDistributionSingle() throws Exception {
-		evenDistributionStrategy.setReloadAdressesCount(10);
+		evenDistributionStrategy.setReloadAddressesCount(10);
 		lookup(SERVICE_QNAME_5, ENDPOINT_1);
 		replayAll();
 		for (int i = 0; i < 2; i++) {
@@ -240,7 +240,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void randomDistribution() throws Exception {
-		randomStrategy.setReloadAdressesCount(10);
+		randomStrategy.setReloadAddressesCount(10);
 		for (int i = 0; i < 10; i++) {
 			lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		}
@@ -262,7 +262,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void randomDistributionAlternate() throws Exception {
-		randomStrategy.setReloadAdressesCount(10);
+		randomStrategy.setReloadAddressesCount(10);
 		for (int i = 0; i < 10; i++) {
 			lookup(SERVICE_QNAME_1, ENDPOINT_1, ENDPOINT_2);
 		}
@@ -287,7 +287,7 @@ public class LocatorSelectionStrategyTest extends EasyMockSupport {
 
 	@Test
 	public void randomDistributionSingle() throws Exception {
-		randomStrategy.setReloadAdressesCount(10);
+		randomStrategy.setReloadAddressesCount(10);
 		lookup(SERVICE_QNAME_2, ENDPOINT_1);
 		replayAll();
 		for (int i = 0; i < 2; i++) {

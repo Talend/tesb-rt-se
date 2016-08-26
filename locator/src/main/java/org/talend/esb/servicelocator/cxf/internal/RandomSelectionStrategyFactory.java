@@ -29,17 +29,16 @@ package org.talend.esb.servicelocator.cxf.internal;
  */
 public class RandomSelectionStrategyFactory implements LocatorSelectionStrategyFactory {
 
-	private int reloadAdressesCount = 10;
+	private int reloadAddressesCount = 10;
 
-
-	public void setReloadAdressesCount(int reloadAdressesCount) {
-	    this.reloadAdressesCount = reloadAdressesCount;
+	public void setReloadAddressesCount(int reloadAddressesCount) {
+	    this.reloadAddressesCount = reloadAddressesCount;
 	}
 
 	@Override
 	public LocatorSelectionStrategy getInstance() {
 		RandomSelectionStrategy strategy = new RandomSelectionStrategy();
-		strategy.setReloadAdressesCount(reloadAdressesCount);
+		strategy.setReloadAddressesCount(reloadAddressesCount);
 		return strategy;
 	}
 

@@ -58,9 +58,6 @@ public class LocatorClientEnabler {
         
     }
 
-    public void setBus(Bus bus) {
-    }
-
     /**
      * Sets a map representing the locatorSelectionStrategies and sets locatorSelectionStrategy to the DEFAULT_STRATEGY.
      * @param locatorSelectionStrategies

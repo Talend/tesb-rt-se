@@ -114,8 +114,8 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 		locatorCache.setServiceLocator(serviceLocator);
 	}
 
-	public void setReloadAdressesCount(int reloadAdressesCount) {
-		locatorCache.setReloadCount(reloadAdressesCount);
+	public void setReloadAddressesCount(int reloadAddressesCount) {
+		locatorCache.setReloadCount(reloadAddressesCount);
 	}
 
 	protected QName getServiceName(Exchange exchange) {

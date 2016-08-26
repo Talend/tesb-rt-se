@@ -74,7 +74,6 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	@Test
 	public void initializeClient() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
@@ -110,7 +109,6 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	@Test
 	public void initializeClientsOneWithStrategy() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
@@ -162,9 +160,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 	@Test
 	public void initializeClientDefault() throws EndpointException {
-
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 
@@ -196,9 +192,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 	@Test
 	public void initializeClientsBothWithStrategies() throws EndpointException {
-
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		enabler.setDefaultLocatorSelectionStrategy("defaultSelectionStrategy");
@@ -247,7 +241,6 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	@Test
 	public void initializeClientConfiguration() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
@@ -282,7 +275,6 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	@Test
 	public void initializeInterceptorProvider() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
-		enabler.setBus(busMock);
 
 		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");

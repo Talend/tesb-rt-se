@@ -39,7 +39,7 @@
                 <prop key="endpoint.http.prefix"></prop>
                 <prop key="endpoint.https.prefix"></prop>
                 <prop key="locator.strategy">defaultSelectionStrategy</prop>
-                <prop key="locator.reloadAdressesCount">10</prop>
+                <prop key="locator.reloadAddressesCount">10</prop>
                 <prop key="connection.timeout">5000</prop>
                 <prop key="session.timeout">5000</prop>
             </props>

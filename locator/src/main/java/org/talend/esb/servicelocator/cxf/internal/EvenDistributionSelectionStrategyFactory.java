@@ -33,17 +33,16 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 public class EvenDistributionSelectionStrategyFactory implements LocatorSelectionStrategyFactory {
 
-	private int reloadAdressesCount = 10;
+	private int reloadAddressesCount = 10;
 
-
-	public void setReloadAdressesCount(int reloadAdressesCount) {
-	    this.reloadAdressesCount = reloadAdressesCount;
+	public void setReloadAddressesCount(int reloadAddressesCount) {
+	    this.reloadAddressesCount = reloadAddressesCount;
 	}
 
 	@Override
 	public LocatorSelectionStrategy getInstance() {
 		EvenDistributionSelectionStrategy strategy = new EvenDistributionSelectionStrategy();
-		strategy.setReloadAdressesCount(reloadAdressesCount);
+		strategy.setReloadAddressesCount(reloadAddressesCount);
 		return strategy;
 	}
 

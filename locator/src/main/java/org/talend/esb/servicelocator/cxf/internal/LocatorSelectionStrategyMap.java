@@ -15,18 +15,18 @@ public class LocatorSelectionStrategyMap extends HashMap<String, LocatorSelectio
     
     private static final long serialVersionUID = -8736337620917142309L;
     
-    @Value("${locator.reloadAdressesCount}")
-    private int reloadAdressesCount;
+    @Value("${locator.reloadAddressesCount}")
+    private int reloadAddressesCount;
     
     @PostConstruct
     public void init() {
         RandomSelectionStrategyFactory randomSelectionStrategyFactory = new RandomSelectionStrategyFactory();
-        randomSelectionStrategyFactory.setReloadAdressesCount(reloadAdressesCount);
+        randomSelectionStrategyFactory.setReloadAddressesCount(reloadAddressesCount);
         this.put("randomSelectionStrategy", randomSelectionStrategyFactory);
 
         EvenDistributionSelectionStrategyFactory evenDistributionSelectionStrategyFactory =
                 new EvenDistributionSelectionStrategyFactory();
-        evenDistributionSelectionStrategyFactory.setReloadAdressesCount(reloadAdressesCount);
+        evenDistributionSelectionStrategyFactory.setReloadAddressesCount(reloadAddressesCount);
         this.put("evenDistributionSelectionStrategy", evenDistributionSelectionStrategyFactory);
 
         this.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
