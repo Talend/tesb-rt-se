@@ -372,6 +372,8 @@
                 <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/activemq-web-console-${activemq.version}.war</exclude>
+                <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
+                <exclude>org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -590,6 +592,12 @@
         <file>
             <source>${basedir}/target/dependencies/activemq-web-console-${activemq.version}-TESB.war</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-features-metrics-${cxf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

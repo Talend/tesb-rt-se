@@ -542,6 +542,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
                                 </artifactItem>
+                                <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
+                                <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-rt-features-metrics</artifactId>
+                                    <version>${cxf.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>cxf-rt-features-metrics-${cxf.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -811,6 +821,11 @@
                                     <replacefilter>
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
+                                    </replacefilter>
+                                    <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
+                                    <replacefilter>
+                                        <replacetoken>org.apache.cxf/cxf-rt-features-metrics/${cxf.version}&lt;</replacetoken> 
+                                        <replacevalue>org.apache.cxf/cxf-rt-features-metrics/${cxf.version}/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- commons-collections version patch (TESB-16945) -->
