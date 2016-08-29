@@ -19,15 +19,12 @@
   #L%
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-    xmlns:osgi="http://www.springframework.org/schema/osgi"
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
     xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+        http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd">
 
-    <osgi:reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+    <reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
 
     <bean id="orderService" class="demo.service.OrderServiceImpl" />
 
@@ -35,12 +32,12 @@
         xmlns:serviceNamespace="http://common.demo/"
         serviceName="serviceNamespace:OrderService">
         <jaxrs:serviceBeans>
-            <ref bean="orderService" />
+            <ref component-id="orderService" />
         </jaxrs:serviceBeans>
         <jaxrs:features>
-            <ref bean="locatorFeature" />
+            <ref component-id="locatorFeature" />
         </jaxrs:features>
     </jaxrs:server>
 
-</beans>
+</blueprint>
 
