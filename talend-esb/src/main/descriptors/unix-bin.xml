@@ -279,15 +279,6 @@
             <outputDirectory>/activemq/webapps/jolokia</outputDirectory>
         </fileSet>
 
-        <!-- Copy over jar files -->
-        <fileSet>
-            <directory>target/dependencies</directory>
-            <includes>
-                <include>tesb.jar</include>
-            </includes>
-            <outputDirectory>/container/lib/</outputDirectory>
-        </fileSet>
-
         <!-- Copy license and other files from root -->
         <fileSet>
             <directory>${basedir}/..</directory>

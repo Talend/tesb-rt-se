@@ -137,7 +137,6 @@
     </properties>
 
     <modules>
-        <module>branding</module>
         <module>locator</module>
         <module>locator-auth</module>
         <module>locator-server</module>

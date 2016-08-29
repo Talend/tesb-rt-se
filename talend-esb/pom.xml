@@ -408,13 +408,6 @@
 						</goals>
 						<configuration>
 							<artifactItems>
-                                <artifactItem>
-                                    <groupId>org.talend.esb</groupId>
-                                    <artifactId>org.talend.esb.branding</artifactId>
-                                    <version>${project.version}</version>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>tesb.jar</destFileName>
-                                </artifactItem>
                                 <!-- cfg files -->
                                 <artifactItem>
                                     <groupId>org.talend.esb</groupId>
