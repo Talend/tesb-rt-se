@@ -22,9 +22,6 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 	"
 >
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-<!-- 	<import resource="classpath:META-INF/tesb/locator/beans.xml" /> -->
-<!--     <import resource="classpath:META-INF/tesb/agent-context.xml" /> -->
 
 	<jaxws:client id="CRMServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/CRMService"
@@ -33,11 +30,13 @@
 		endpointName="serviceNamespace:CRMServicePort"
 		address="locator://CRMServiceProvider"
 	>
+        <jaxws:properties>
+            <entry key="locator.strategy" value="randomSelectionStrategy" />
+        </jaxws:properties>
+
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-				<property name="selectionStrategy" value="randomSelectionStrategy"/>
-			</bean>
-			<ref bean="eventFeature"/>
+			<ref bean="locatorFeature" />
+			<ref bean="eventFeature" />
 		</jaxws:features>
 	</jaxws:client>
 	

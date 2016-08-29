@@ -49,7 +49,7 @@
             address="/ReservationServiceProvider">
         <jaxws:features>
             <bean class="org.apache.cxf.metrics.MetricsFeature" />
-            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+            <ref bean="locatorFeature" />
             <ref bean="eventFeature" />
         </jaxws:features>
     </jaxws:endpoint>
