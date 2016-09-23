@@ -167,22 +167,22 @@ setupNativePath() {
 }
 
 pathCanonical() {
-    local dst="${1}"
-    while [ -h "${dst}" ] ; do
-        ls=`ls -ld "${dst}"`
-        link=`expr "$ls" : '.*-> \(.*\)$'`
-        if expr "$link" : '/.*' > /dev/null; then
-            dst="$link"
+    pathCanonical_dst="${1}"
+    while [ -h "${pathCanonical_dst}" ] ; do
+        pathCanonical_ls=`ls -ld "${pathCanonical_dst}"`
+        pathCanonical_link=`expr "${pathCanonical_ls}" : '.*-> \(.*\)$'`
+        if expr "${pathCanonical_link}" : '/.*' > /dev/null; then
+            pathCanonical_dst="${pathCanonical_link}"
         else
-            dst="`dirname "${dst}"`/$link"
+            pathCanonical_dst="`dirname "${pathCanonical_dst}"`/${pathCanonical_link}"
         fi
     done
-    local bas=`basename "${dst}"`
-    local dir=`dirname "${dst}"`
-    if [ "$bas" != "$dir" ]; then
-      dst="`pathCanonical "$dir"`/$bas"
+    pathCanonical_bas=`basename "${pathCanonical_dst}"`
+    pathCanonical_dir=`dirname "${pathCanonical_dst}"`
+    if [ "${pathCanonical_bas}" != "${pathCanonical_dir}" ]; then
+        pathCanonical_dst="`pathCanonical "${pathCanonical_dir}"`/${pathCanonical_bas}"
     fi
-    echo "${dst}" | sed -e 's#//#/#g' -e 's#/./#/#g' -e 's#/[^/]*/../#/#g'
+    echo "${pathCanonical_dst}" | sed -e 's#//#/#g' -e 's#/./#/#g' -e 's#/[^/]*/../#/#g'
 }
 
 locateJava() {
