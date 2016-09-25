@@ -16,16 +16,16 @@
 #    limitations under the License.
 #
 
-DIRNAME=`dirname "$0"`
-PROGNAME=`basename "$0"`
+DIRNAME="`dirname "$0"`"
+PROGNAME="`basename "$0"`"
 
 #
 # Sourcing environment settings for karaf similar to tomcats setenv 
 #
 KARAF_SCRIPT="stop"
 export KARAF_SCRIPT
-if [ -f "$DIRNAME/setenv" ]; then
-  . "$DIRNAME/setenv"
+if [ -f "${DIRNAME}/setenv" ]; then
+  . "${DIRNAME}/setenv"
 fi
 
 warn() {
@@ -58,7 +58,7 @@ detectOS() {
             ;;
     esac
     # For AIX, set an environment variable
-    if $aix; then
+    if ${aix}; then
          export LDR_CNTRL=MAXDATA=0xB0000000@DSA
          export IBM_JAVA_HEAPDUMP_TEXT=true
          echo $LDR_CNTRL
@@ -66,46 +66,46 @@ detectOS() {
 }
 
 locateHome() {
-    if [ "x$KARAF_HOME" != "x" ]; then
+    if [ -n "${KARAF_HOME}" ]; then
         warn "Ignoring predefined value for KARAF_HOME"
     fi
 
     # In POSIX shells, CDPATH may cause cd to write to stdout
     (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
 
-    KARAF_HOME=`cd $DIRNAME/..; pwd`
-    if [ ! -d "$KARAF_HOME" ]; then
-        die "KARAF_HOME is not valid: $KARAF_HOME"
+    KARAF_HOME="`cd ${DIRNAME}/..; pwd`"
+    if [ ! -d "${KARAF_HOME}" ]; then
+        die "KARAF_HOME is not valid: ${KARAF_HOME}"
     fi
 }
 
 locateBase() {
-    if [ "x$KARAF_BASE" != "x" ]; then
-        if [ ! -d "$KARAF_BASE" ]; then
-            die "KARAF_BASE is not valid: $KARAF_BASE"
+    if [ -n "${KARAF_BASE}" ]; then
+        if [ ! -d "${KARAF_BASE}" ]; then
+            die "KARAF_BASE is not valid: ${KARAF_BASE}"
         fi
     else
-        KARAF_BASE=$KARAF_HOME
+        KARAF_BASE=${KARAF_HOME}
     fi
 }
 
 locateData() {
-    if [ "x$KARAF_DATA" != "x" ]; then
-        if [ ! -d "$KARAF_DATA" ]; then
-            die "KARAF_DATA is not valid: $KARAF_DATA"
+    if [ -n "${KARAF_DATA}" ]; then
+        if [ ! -d "${KARAF_DATA}" ]; then
+            die "KARAF_DATA is not valid: ${KARAF_DATA}"
         fi
     else
-        KARAF_DATA=$KARAF_BASE/data
+        KARAF_DATA=${KARAF_BASE}/data
     fi
 }
 
 locateEtc() {
-    if [ "x$KARAF_ETC" != "x" ]; then
-        if [ ! -d "$KARAF_ETC" ]; then
-            die "KARAF_ETC is not valid: $KARAF_ETC"
+    if [ -n "${KARAF_ETC}" ]; then
+        if [ ! -d "${KARAF_ETC}" ]; then
+            die "KARAF_ETC is not valid: ${KARAF_ETC}"
         fi
     else
-        KARAF_ETC=$KARAF_BASE/etc
+        KARAF_ETC=${KARAF_BASE}/etc
     fi
 }
 
@@ -122,7 +122,7 @@ init() {
     # Locate the Karaf data directory
     locateData
 
-    # Locat the Karaf etc directory
+    # Locate the Karaf etc directory
     locateEtc
 }
 
@@ -135,10 +135,10 @@ run() {
         CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
     fi
     # Ensure the log directory exists -- we need to have a place to redirect stdout/stderr
-    if [ ! -d "$KARAF_DATA/log" ]; then
-        mkdir -p "$KARAF_DATA/log"
+    if [ ! -d "${KARAF_DATA}/log" ]; then
+        mkdir -p "${KARAF_DATA}/log"
     fi
-    exec "$KARAF_HOME"/bin/trun stop "$@"
+    exec "{$KARAF_HOME}"/bin/trun stop "$@"
 }
 
 main() {
@@ -147,4 +147,3 @@ main() {
 }
 
 main "$@"
-
