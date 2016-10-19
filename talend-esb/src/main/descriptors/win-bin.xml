@@ -224,7 +224,6 @@
             <directory>target/dependencies/win/apache-karaf-${karaf.version}/bin</directory>
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
-                <include>client.bat</include>
                 <include>setenv.bat</include>
             </includes>
             <lineEnding>dos</lineEnding>
@@ -236,7 +235,6 @@
             <directory>target/dependencies/unix/apache-karaf-${karaf.version}/bin</directory>
             <outputDirectory>/container/bin</outputDirectory>
             <includes>
-                <include>client</include>
                 <include>setenv</include>
             </includes>
             <lineEnding>unix</lineEnding>

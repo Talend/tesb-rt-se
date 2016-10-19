@@ -138,7 +138,7 @@ run() {
     if [ ! -d "${KARAF_DATA}/log" ]; then
         mkdir -p "${KARAF_DATA}/log"
     fi
-    exec "{$KARAF_HOME}"/bin/trun stop "$@"
+    exec "${$KARAF_HOME}"/bin/trun stop "$@"
 }
 
 main() {

@@ -149,7 +149,7 @@ run() {
     if [ ! -d "${KARAF_DATA}/log" ]; then
         mkdir -p "${KARAF_DATA}/log"
     fi
-    exec "{$KARAF_HOME}"/bin/trun server "$@" >> "${KARAF_REDIRECT}" 2>&1 &
+    exec "${$KARAF_HOME}"/bin/trun server "$@" >> "${KARAF_REDIRECT}" 2>&1 &
 }
 
 main() {
