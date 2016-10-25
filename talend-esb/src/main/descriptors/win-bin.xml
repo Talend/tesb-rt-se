@@ -227,7 +227,8 @@
                 <include>setenv.bat</include>
             </includes>
             <lineEnding>dos</lineEnding>
-            <fileMode>0755</fileMode>
+            <fileMode>0644</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
         <fileSet>
             <directory>${basedir}/src/main/bin</directory>
@@ -236,7 +237,8 @@
                 <include>*.bat</include>
             </includes>
             <lineEnding>dos</lineEnding>
-            <fileMode>0755</fileMode>
+            <fileMode>0644</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
 
         <!-- Copy over unix bin/* separately to get the correct file mode -->
@@ -248,6 +250,7 @@
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
         <fileSet>
             <directory>${basedir}/src/main/bin</directory>
@@ -257,6 +260,7 @@
             </excludes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
+            <directoryMode>777</directoryMode>
         </fileSet>
 
         <!-- Expanded ActiveMQ Runtime -->
