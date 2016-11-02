@@ -18,6 +18,7 @@
 
     <properties>
       <cxf.version>3.1.7</cxf.version>
+      <activemq.plugin.version>5.7.0</activemq.plugin.version>
     </properties>
 
     <modules>
@@ -86,7 +87,7 @@
                     <plugin>
                         <groupId>org.apache.activemq.tooling</groupId>
                         <artifactId>maven-activemq-plugin</artifactId>
-                        <version>${activemq.version}</version>
+                        <version>${activemq.plugin.version}</version>
                         <dependencies>
                             <dependency>
                                 <groupId>org.slf4j</groupId>
