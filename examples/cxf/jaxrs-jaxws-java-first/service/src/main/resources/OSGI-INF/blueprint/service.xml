@@ -1,0 +1,24 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+           xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+           xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
+             http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
+             ">
+    <jaxrs:server id="hello_rest" address="/rest-hello">
+       <jaxrs:serviceBeans>
+         <ref component-id="hello-world-bean"/>
+       </jaxrs:serviceBeans>
+     </jaxrs:server>
+
+     <jaxws:endpoint xmlns:s="http://hello.com"
+         serviceName="s:HelloWorld"
+         endpointName="s:HelloWorldPort"
+         id="hello_soap"
+         implementor="#hello-world-bean"
+         address="/soap-hello"/>      
+
+     <bean id="hello-world-bean" class="service.codefirst.HelloWorldImpl"/>
+</blueprint>
