@@ -77,6 +77,8 @@ public final class RESTClient {
         factoryBean.setProperties(Collections.singletonMap(org.apache.cxf.message.Message.MTOM_ENABLED, 
                                                     (Object)"true"));
         WebClient client = factoryBean.createWebClient();
+        WebClient.getConfig(client).getRequestContext().put("support.type.as.multipart", 
+            "true"); 
         client.type("multipart/related").accept("multipart/related");
         
         XopBean xop = createXopBean();
