@@ -800,6 +800,17 @@
                                         <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
                                     </replacefilter>
                                 </replace>
+                                <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
+                                <replaceregexp byline="false" flags="gim"
+                                        file="target/dependencies/apache-camel-${camel.version}-features.xml"
+                                        match="^(\s*&lt;details&gt;camel-jetty8.*\s*)(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
+                                        replace="\1&lt;feature version='[8,9)'&gt;jetty&lt;/feature&gt;">
+                                </replaceregexp>
+                                <replaceregexp byline="false" flags="gim"
+                                        file="target/dependencies/apache-camel-${camel.version}-features.xml"
+                                        match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
+                                        replace="\1&lt;feature version='[9.10)'&gt;jetty&lt;/feature&gt;">
+                                </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
