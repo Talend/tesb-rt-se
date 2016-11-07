@@ -809,7 +809,7 @@
                                 <replaceregexp byline="false" flags="gim"
                                         file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                         match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
-                                        replace="\1&lt;feature version='[9.10)'&gt;jetty&lt;/feature&gt;">
+                                        replace="\1&lt;feature version='[9,10)'&gt;jetty&lt;/feature&gt;">
                                 </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
