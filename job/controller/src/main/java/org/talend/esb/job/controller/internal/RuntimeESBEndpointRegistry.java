@@ -35,6 +35,7 @@ import org.apache.cxf.bus.extension.Extension;
 import org.apache.cxf.bus.extension.ExtensionManager;
 import org.apache.cxf.bus.extension.ExtensionManagerImpl;
 import org.apache.cxf.bus.extension.ExtensionRegistry;
+import org.apache.cxf.feature.Feature;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.service.factory.FactoryBeanListenerManager;
 import org.apache.neethi.Policy;
@@ -134,6 +135,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 bus,
                 getBoolean(props, ESBEndpointConstants.LOG_MESSAGES),
                 soapHeaders,
+                (Feature)props.get("httpHeadersFeature"),
                 getBoolean(props, ESBEndpointConstants.ENHANCED_RESPONSE),
                 props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
     }
