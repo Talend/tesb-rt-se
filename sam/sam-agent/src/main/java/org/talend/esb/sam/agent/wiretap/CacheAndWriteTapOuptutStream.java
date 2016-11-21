@@ -19,7 +19,7 @@ public class CacheAndWriteTapOuptutStream extends CacheAndWriteOutputStream {
         resetOut(new OutputStream() {
             @Override
             public void write(int b) throws IOException {
-                return;
+
             }
         }, false);
     }
