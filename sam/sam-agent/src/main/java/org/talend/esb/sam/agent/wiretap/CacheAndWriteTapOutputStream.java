@@ -6,10 +6,10 @@ import org.apache.cxf.io.CacheAndWriteOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class CacheAndWriteTapOuptutStream extends CacheAndWriteOutputStream {
+public class CacheAndWriteTapOutputStream extends CacheAndWriteOutputStream {
 
 
-    public CacheAndWriteTapOuptutStream(OutputStream stream) {
+    public CacheAndWriteTapOutputStream(OutputStream stream) {
         super(stream);
     }
 

@@ -73,7 +73,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
         }
 
         if (null != os) {
-            final CacheAndWriteTapOuptutStream newOut = new CacheAndWriteTapOuptutStream(os);
+            final CacheAndWriteTapOutputStream newOut = new CacheAndWriteTapOutputStream(os);
 
             message.setContent(OutputStream.class, newOut);
 
