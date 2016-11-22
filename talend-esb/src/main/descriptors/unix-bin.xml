@@ -380,9 +380,12 @@
                 <!-- patch for aries.blueprint.core (TESB-17280) -->
                 <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
-                <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/activemq-web-console-${activemq.version}.war</exclude>
+                <exclude>org/apache/xbean/xbean-spring/3.18/**</exclude>
+                <exclude>org/apache/xbean/xbean-blueprint/3.18/**</exclude>
                 <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
                 <exclude>org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/**</exclude>
             </excludes>
@@ -545,7 +548,13 @@
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch ActiveMQ features descriptor (TESB-17588) -->
+        <!-- patch ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+        <file>
+            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
@@ -555,6 +564,16 @@
         <file>
             <source>${basedir}/target/dependencies/activemq-web-console-${activemq.version}-TESB.war</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/xbean-spring-${xbean.spring.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/xbean/xbean-spring/${xbean.spring.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/xbean-blueprint-${xbean.spring.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/xbean/xbean-blueprint/${xbean.spring.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
