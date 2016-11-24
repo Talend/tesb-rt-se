@@ -571,6 +571,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-features-metrics-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-core (DEVOPS-1417) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-core-${camel.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -824,6 +834,11 @@
                                     <replacefilter>
                                         <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.21</replacetoken> 
                                         <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
+                                    </replacefilter>
+                                    <!-- patch for camel-core (DEVOPS-1417) -->
+                                    <replacefilter>
+                                        <replacetoken>org.apache.camel/camel-core/${camel.version}&lt;</replacetoken> 
+                                        <replacevalue>org.apache.camel/camel-core/${camel.version}/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
