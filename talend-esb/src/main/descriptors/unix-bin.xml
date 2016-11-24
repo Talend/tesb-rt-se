@@ -443,13 +443,11 @@
 
         <!-- Copy Adapters -->
         <fileSet>
-            <directory>${basedir}/../adapters/nagios</directory>
-            <outputDirectory>/add-ons/adapters/nagios</outputDirectory>
-        </fileSet>
-        <fileSet>
             <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
             <includes>
+                <include>hyperic_pugins/**</include>
+                <include>nagios/**</include>
                 <include>README.txt</include>
             </includes>
         </fileSet>
@@ -465,28 +463,6 @@
     </fileSets>
 
     <files>
-		<!-- Copy Adapters -->
-        <file>
-            <source>${basedir}/../adapters/hyperic/camel-plugin/target/camel-plugin-${project.version}.jar</source>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   		    <destName>camel-plugin.jar</destName>
-        </file>
-        <file>
-            <source>${basedir}/../adapters/hyperic/cxf-plugin/target/cxf-plugin-${project.version}.jar</source>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>cxf-plugin.jar</destName>
-        </file>
-   		<file>
-   			<source>${basedir}/../adapters/hyperic/activemq-plugin/target/activemq-plugin-${project.version}.jar</source>
-   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>activemq-plugin.jar</destName>
-   		</file>
-   		<file>
-   			<source>${basedir}/../adapters/hyperic/trun-plugin/target/trun-plugin-${project.version}.jar</source>
-   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>trun-plugin.jar</destName>
-   		</file>
-
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>

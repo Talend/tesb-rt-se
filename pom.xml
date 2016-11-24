@@ -151,7 +151,6 @@
         <module>features</module>
         <module>sts</module>
         <module>camel-talendjob</module>
-        <module>adapters</module>
         <module>auxiliary-storage</module>
         <module>request-callback</module>
         <module>transport-jms</module>
