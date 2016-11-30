@@ -222,13 +222,13 @@
   <feature name="tesb-security-common" version="${project.version}">
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/1.54</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 
   <feature name="tesb-encryptor-command" version="${project.version}">
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/1.54</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/text-encryptor/${project.version}</bundle>
   </feature>
 
