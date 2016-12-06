@@ -1,16 +1,7 @@
-###############################################################################
-#
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
-# All rights reserved.
-#
-# This program and the accompanying materials are made available
-# under the terms of the Apache License v2.0
-# which accompanies this distribution, and is available at
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-###############################################################################
-Welcome to Talend ESB!
-=====================================
+# Talend ESB
+
+[![alt text](http://www.talend.com/sites/all/themes/talend_responsive/images/logo.png "Talend")](http://www.talend.com/)
+
 
 Talend ESB bundles Service Factory and Integration Factory, 
 Service Locator, Service Activity Monitoring and demo applications 
@@ -24,18 +15,7 @@ balancing scenarios. Service Activity Monitoring allows to log and
 monitor service calls. A documented Car Rental demo application illustrates
 how to use these features. 
 
-Contents
-========
-
-Getting Started 
-Examples
-OSGi Container
-Service Locator
-Service Activity Monitoring
-
-
-Getting Started 
-===============
+## Getting Started 
 
 The Getting Started Guide can be found in a separate documentation package in the docs
 folder. It illustrates all features of Talend ESB using example applications. 
@@ -44,18 +24,20 @@ The examples are documented individually and include instructions for building
 and running each example with just a few command lines. See below for obtaining 
 the examples.
 
-If you need more help try talking to us on our forums: http://talendforge.org/forum
+If you need more help try talking to us on our [forums](http://talendforge.org/forum).
+
 You can find more information about Apache CXF at http://cxf.apache.org/
+
 You can find more information about Apache Camel at http://camel.apache.org/
 
 Please submit bug reports using one of the following JIRAs:
-CXF bug reports: https://issues.apache.org/jira/browse/CXF 
-Camel bug reports: https://issues.apache.org/jira/browse/CAMEL
-Talend ESB (including Service and Integration Factory) bug reports: http://www.talendforge.org/bugs/
+
+* CXF bug reports: https://issues.apache.org/jira/browse/CXF 
+* Camel bug reports: https://issues.apache.org/jira/browse/CAMEL
+* Talend ESB (including Service and Integration Factory) bug reports: http://www.talendforge.org/bugs/
 
 
-Examples 
-========
+## Examples 
 
 Talend ESB provides several examples in a separate documentation package in 
 the examples folder. The example applications and tutorials demonstrate 
@@ -69,8 +51,7 @@ The examples demonstrate how to use different functionality including:
 *    Locator sample 
 *    SAM sample 
 
-OSGi Container
-==============
+## OSGi Container
 
 The container subdirectory contains a preconfigured OSGi container that 
 contains all the required OSGi bundles for the CXF third party dependencies.
@@ -84,8 +65,8 @@ the basis for Eclipse and provides a lightweight alternative to more
 monolithic JEE containers while still retaining the powerful management 
 features necessary for the enterprise.
 
-Service Locator
-===============
+## Service Locator
+
 The Service Locator in the add-ons directory is a service that provides its
 consumers with a mechanism to discover service endpoints at run time. The
 Service Locator consists of two parts: An Endpoint repository and a CXF feature
@@ -98,8 +79,8 @@ unavailable. The consumer side Locator Feature extension transparently retrieves
 service endpoint addresses from the endpoint repository when a service call to a
 provider is to be made.
 
-Service Activity Monitoring
-===========================
+## Service Activity Monitoring
+
 The Service Activity Monitoring (SAM) in the add-ons directory allows to
 log / monitor service calls done with the Apache CXF Framework. Typical use
 cases are usage statistics and fault monitoring. The solution consists of two
@@ -109,3 +90,9 @@ events are first collected locally and then sent to the monitoring server
 periodically to not disturb the normal message flow. The Monitoring Server
 receives events from the Agent, optionally filters/handlers events and stores them
 into a database.
+
+## License
+
+Copyright (c) 2006-2016 Talend
+
+Licensed under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt)

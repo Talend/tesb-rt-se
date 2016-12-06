@@ -42,6 +42,7 @@
         <shibboleth.version>7.1.1</shibboleth.version>
         <pax-web.version>4.2.6</pax-web.version>
         <aries.blueprint.version>1.6.1</aries.blueprint.version>
+        <xbean.spring.version>4.2</xbean.spring.version>
 	</properties>
 
 	<dependencies>
@@ -516,7 +517,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <classifier>features-core</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
@@ -535,6 +545,22 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xbean</groupId>
+                                    <artifactId>xbean-spring</artifactId>
+                                    <version>${xbean.spring.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>xbean-spring-${xbean.spring.version}.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xbean</groupId>
+                                    <artifactId>xbean-blueprint</artifactId>
+                                    <version>${xbean.spring.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>xbean-blueprint-${xbean.spring.version}.jar</destFileName>
+                                </artifactItem>
                                 <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
@@ -544,6 +570,16 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-features-metrics-${cxf.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <!-- patch for camel-core (DEVOPS-1417) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-core-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -799,6 +835,11 @@
                                         <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.21</replacetoken> 
                                         <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
                                     </replacefilter>
+                                    <!-- patch for camel-core (DEVOPS-1417) -->
+                                    <replacefilter>
+                                        <replacetoken>org.apache.camel/camel-core/${camel.version}&lt;</replacetoken> 
+                                        <replacevalue>org.apache.camel/camel-core/${camel.version}/jar/TESB&lt;</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -809,7 +850,7 @@
                                 <replaceregexp byline="false" flags="gim"
                                         file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                         match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
-                                        replace="\1&lt;feature version='[9.10)'&gt;jetty&lt;/feature&gt;">
+                                        replace="\1&lt;feature version='[9,10)'&gt;jetty&lt;/feature&gt;">
                                 </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
@@ -844,11 +885,20 @@
                                         token="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}&lt;"
                                         value="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/jar/TESB&lt;"/>
                                  </replace>
-                                 <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                 <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter
                                         token="org.apache.activemq/activemq-web-console/${activemq.version}/war&lt;"
                                         value="org.apache.activemq/activemq-web-console/${activemq.version}/war/TESB&lt;"/>
+                                        
+                                    <replacefilter
+                                        token="org.apache.xbean/xbean-blueprint/3.18"
+                                        value="org.apache.xbean/xbean-blueprint/${xbean.spring.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
+                                    <replacefilter
+                                        token="org.apache.xbean/xbean-spring/3.18"
+                                        value="org.apache.xbean/xbean-spring/${xbean.spring.version}"/>
                                 </replace>
                             </target>
                         </configuration>

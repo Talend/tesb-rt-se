@@ -85,6 +85,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
             Bus bus,
             boolean logging,
             final List<Header> soapHeaders,
+            final Feature httpHeadersFeature,
             boolean enhancedResponse,
             Object correlationIDCallbackHandler) {
         this.operationName = operationName;
@@ -134,6 +135,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         if (null != securityArguments.getPolicy()) {
             features.add(new WSPolicyFeature(securityArguments.getPolicy()));
+        }
+        if (null != httpHeadersFeature){
+        	features.add(httpHeadersFeature);
         }
         if (logging) {
             features.add(new org.apache.cxf.feature.LoggingFeature());
