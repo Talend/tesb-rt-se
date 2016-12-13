@@ -43,6 +43,7 @@
         <pax-web.version>4.2.6</pax-web.version>
         <aries.blueprint.version>1.6.1</aries.blueprint.version>
         <xbean.spring.version>4.2</xbean.spring.version>
+        <activemq.webconsole.version>5.14.2</activemq.webconsole.version>
 	</properties>
 
 	<dependencies>
@@ -517,7 +518,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+                                <!-- patch for ActiveMQ features descriptor (TESB-18516, DEVOPS-1403) -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
@@ -539,11 +540,10 @@
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-web-console</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${activemq.webconsole.version}</version>
                                     <type>war</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
+                                    <destFileName>activemq-web-console-${activemq.webconsole.version}.war</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.xbean</groupId>
@@ -687,6 +687,15 @@
 									<classifier>bin</classifier>
 									<outputDirectory>target/dependencies/activemq-win</outputDirectory>
 								</artifactItem>
+                                <!-- AMQ Webconsole version patch (TESB-18516) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>apache-activemq</artifactId>
+                                    <version>${activemq.webconsole.version}</version>
+                                    <type>zip</type>
+                                    <classifier>bin</classifier>
+                                    <outputDirectory>target/dependencies/activemq-webconsole</outputDirectory>
+                                </artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
@@ -885,13 +894,12 @@
                                         token="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}&lt;"
                                         value="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/jar/TESB&lt;"/>
                                  </replace>
-                                 <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+                                 <!-- patch for ActiveMQ features descriptor (TESB-18516, DEVOPS-1403) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter
                                         token="org.apache.activemq/activemq-web-console/${activemq.version}/war&lt;"
-                                        value="org.apache.activemq/activemq-web-console/${activemq.version}/war/TESB&lt;"/>
-                                        
-                                    <replacefilter
+                                        value="org.apache.activemq/activemq-web-console/${activemq.webconsole.version}/war&lt;"/>
+                                     <replacefilter
                                         token="org.apache.xbean/xbean-blueprint/3.18"
                                         value="org.apache.xbean/xbean-blueprint/${xbean.spring.version}"/>
                                 </replace>

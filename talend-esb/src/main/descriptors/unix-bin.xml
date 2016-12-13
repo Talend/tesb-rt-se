@@ -273,8 +273,17 @@
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>conf/jetty.xml</exclude>
-                <exclude>lib/optional/commons-collections-3.2.1.jar</exclude>
+                <!-- AMQ Webconsole version patch (TESB-18516) -->
+                <exclude>webapps/admin/**</exclude>
             </excludes>
+        </fileSet>
+        <!-- AMQ Webconsole version patch (TESB-18516) -->
+        <fileSet>
+            <directory>target/dependencies/activemq-webconsole/apache-activemq-${activemq.webconsole.version}</directory>
+            <outputDirectory>/activemq</outputDirectory>
+            <includes>
+                <include>webapps/admin/**</include>
+            </includes>
         </fileSet>
 
         <!-- Copy over unix activemq bin/ subdirectories -->
@@ -381,10 +390,10 @@
                 <!-- patch for aries.blueprint.core (TESB-17280) -->
                 <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
-                <!-- patch for ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+                <!-- patch for ActiveMQ features descriptor (TESB-18516, DEVOPS-1403) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/activemq-web-console-${activemq.version}.war</exclude>
+                <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/**</exclude>
                 <exclude>org/apache/xbean/xbean-spring/3.18/**</exclude>
                 <exclude>org/apache/xbean/xbean-blueprint/3.18/**</exclude>
                 <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
@@ -527,7 +536,7 @@
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch ActiveMQ features descriptor (TESB-17588, DEVOPS-1403) -->
+        <!-- patch ActiveMQ features descriptor (TESB-18516, DEVOPS-1403) -->
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
@@ -541,8 +550,8 @@
             <lineEnding>unix</lineEnding>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/activemq-web-console-${activemq.version}-TESB.war</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/activemq-web-console-${activemq.webconsole.version}.war</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.webconsole.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
