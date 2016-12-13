@@ -581,6 +581,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>camel-core-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.jaas</groupId>
+                                    <artifactId>org.apache.karaf.jaas.modules</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.jaas.modules-${karaf.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -893,6 +903,10 @@
                                     <replacefilter
                                         token="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}&lt;"
                                         value="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/jar/TESB&lt;"/>
+                                    <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
+                                    <replacefilter
+                                        token="org.apache.karaf.jaas/org.apache.karaf.jaas.modules/${karaf.version}&lt;"
+                                        value="org.apache.karaf.jaas/org.apache.karaf.jaas.modules/${karaf.version}/jar/TESB&lt;"/>
                                  </replace>
                                  <!-- patch for ActiveMQ features descriptor (TESB-18516, DEVOPS-1403) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">

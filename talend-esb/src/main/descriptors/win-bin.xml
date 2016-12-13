@@ -211,6 +211,8 @@
                 <!-- patch for aries.blueprint.core (TESB-17280) -->
                 <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
+                <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
+                <exclude>system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/org.apache.karaf.jaas.modules-${karaf.version}.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -400,6 +402,8 @@
                 <exclude>org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/**</exclude>
                 <!-- patch for camel-core (DEVOPS-1417) -->
                 <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
+                <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
+                <exclude>org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/org.apache.karaf.jaas.modules-${karaf.version}.jar</exclude>
             </excludes>
         </fileSet>
 
@@ -574,6 +578,12 @@
         <file>
             <source>${basedir}/target/dependencies/camel-core-${camel.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.jaas.modules-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
