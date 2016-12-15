@@ -404,6 +404,8 @@
                 <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
                 <!-- patch for org.apache.karaf.jaas.modules (TESB-18517) -->
                 <exclude>org/apache/karaf/jaas/org.apache.karaf.jaas.modules/${karaf.version}/org.apache.karaf.jaas.modules-${karaf.version}.jar</exclude>
+                <!-- patch for AMQ in offline mode (TESB-18554) -->
+                <exclude>org/apache/activemq/activemq-karaf/5.14.1/activemq-karaf-5.14.1-activemq.xml</exclude>
             </excludes>
         </fileSet>
 
