@@ -66,6 +66,12 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
    With Service Registry:
 
    1. Build the example:
+      Copy the registry artifacts to your local maven repository. They are located in
+      the ../../registry/maven-repo directory in the examples directory.
+      On Linux:
+      cp -rf ../../registry/maven-repo ~/.m2/repository/
+      On Windows:
+      xcopy ..\..\registry\maven-repo\*.* %USERPROFILE%\.m2\repository\ /s
 
       mvn -Pservice-registry clean install
 
