@@ -453,6 +453,12 @@
     </fileSets>
 
     <files>
+        <!-- swagger-ui (TESB-18698) -->
+        <file>
+            <source>${basedir}/target/dependencies/swagger-ui-${swagger-ui.version}.jar</source>
+            <outputDirectory>/container/system/org/webjars/swagger-ui/${swagger-ui.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
