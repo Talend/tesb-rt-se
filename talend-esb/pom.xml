@@ -142,6 +142,7 @@
 						        <feature>cxf/${cxf.version}</feature>
 						        <feature>cxf-abdera/${cxf.version}</feature>
                                 <feature>cxf-commands/${cxf.version}</feature>
+                                <feature>cxf-rs-description-swagger2/${cxf.version}</feature>
 						        <feature>cxf-sts/${cxf.version}</feature>
 						        <feature>cxf-wsn/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
