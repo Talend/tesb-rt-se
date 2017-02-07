@@ -20,8 +20,9 @@
     </parent>
 
     <properties>
-      <cxf.version>3.1.9</cxf.version>
+      <cxf.version>3.1.10</cxf.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
