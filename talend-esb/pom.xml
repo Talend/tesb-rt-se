@@ -780,6 +780,11 @@
                                         <replacetoken>org.apache.camel/camel-core/${camel.version}&lt;</replacetoken> 
                                         <replacevalue>org.apache.camel/camel-core/${camel.version}/jar/TESB&lt;</replacevalue>
                                     </replacefilter>
+                                    <!-- Patch TESB-18685 -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
+                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -806,6 +811,11 @@
                                     <replacefilter>
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
+                                    </replacefilter>
+                                    <!-- Patch TESB-18685 -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
+                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- commons-collections version patch (TESB-16945) -->
