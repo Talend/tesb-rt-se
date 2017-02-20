@@ -39,7 +39,7 @@
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
-        <pax-web.version>4.3.0</pax-web.version>
+        <pax-web.version>6.0.2</pax-web.version>
         <swagger-ui.version>2.1.8-M1</swagger-ui.version>
 	</properties>
 
