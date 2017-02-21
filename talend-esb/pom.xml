@@ -116,16 +116,16 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-                                <feature>spring/3.2.17.RELEASE_1</feature>
-                                <feature>spring-tx/3.2.17.RELEASE_1</feature>
-                                <feature>spring-jdbc/3.2.17.RELEASE_1</feature>
+                                <feature>spring/3.2.18.RELEASE_1</feature>
+                                <feature>spring-tx/3.2.18.RELEASE_1</feature>
+                                <feature>spring-jdbc/3.2.18.RELEASE_1</feature>
                                 <feature>spring-dm</feature>
                                 <feature>spring/3.1.4.RELEASE</feature>
                                 <feature>spring/4.1.9.RELEASE_1</feature>
                                 <feature>spring-tx/4.1.9.RELEASE_1</feature>
                                 <feature>spring-jms/4.1.9.RELEASE_1</feature>
                                 <feature>spring-jms/4.0.7.RELEASE_3</feature>
-                                <feature>spring-jms/3.2.17.RELEASE_1</feature>
+                                <feature>spring-jms/3.2.18.RELEASE_1</feature>
                                 <feature>jetty</feature>
                                 <feature>webconsole</feature>
                                 <feature>eventadmin</feature>
