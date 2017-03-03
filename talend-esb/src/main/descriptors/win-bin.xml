@@ -202,6 +202,7 @@
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
                 <exclude>etc/org.apache.karaf.command.acl.feature.cfg</exclude>
+                <exclude>etc/org.apache.karaf.management.cfg</exclude>
                 <exclude>lib/endorsed/xerces-2.11.0.jar</exclude>
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
