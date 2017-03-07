@@ -377,8 +377,6 @@
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
                 <!-- patch for camel-core (DEVOPS-1417) -->
                 <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
-                <!-- patch for AMQ in offline mode (TESB-18554) -->
-                <exclude>org/apache/activemq/activemq-karaf/5.14.2/activemq-karaf-5.14.2-activemq.xml</exclude>
             </excludes>
         </fileSet>
 
