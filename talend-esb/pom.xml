@@ -516,6 +516,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- pax-web-extender-war patch (TESB-19009) -->
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.web</groupId>
+                                    <artifactId>pax-web-extender-war</artifactId>
+                                    <version>${pax-web.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>pax-web-extender-war-${pax-web.version}-TESB.jar</destFileName>
+                                </artifactItem>
                                 <!-- patch for camel-core (DEVOPS-1417) -->
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
@@ -823,11 +833,15 @@
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
                                 </replace>
-                                <!-- commons-collections version patch (TESB-16945) -->
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
+                                    <!-- commons-collections version patch (TESB-16945) -->
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                    <!-- pax-web-extender-war patch (TESB-19009) -->
+                                    <replacefilter
+                                        token="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}&lt;"
+                                        value="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}/jar/TESB&lt;"/>
                                 </replace>
                             </target>
                         </configuration>

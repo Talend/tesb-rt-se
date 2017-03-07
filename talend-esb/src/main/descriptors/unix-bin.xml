@@ -375,6 +375,8 @@
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
+                <!-- pax-web-extender-war patch (TESB-19009) -->
+                <exclude>org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/**</exclude>
                 <!-- patch for camel-core (DEVOPS-1417) -->
                 <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
             </excludes>
@@ -506,6 +508,12 @@
         <file>
             <source>${basedir}/target/dependencies/pax-web-features-${pax-web.version}-features.xml</source>
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- pax-web-extender-war patch (TESB-19009) -->
+        <file>
+            <source>${basedir}/target/dependencies/pax-web-extender-war-${pax-web.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for camel-core (DEVOPS-1417) -->
