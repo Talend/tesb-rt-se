@@ -209,6 +209,9 @@
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
+                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
+                <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -379,6 +382,10 @@
                 <exclude>org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/**</exclude>
                 <!-- patch for camel-core (DEVOPS-1417) -->
                 <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
+                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                <exclude>org/apache/karaf/features/standard/**</exclude>
+                <exclude>org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
+                <exclude>org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -520,6 +527,24 @@
         <file>
             <source>${basedir}/target/dependencies/camel-core-${camel.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for Karaf features descriptor (TESB-19043) -->
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <destName>standard-${karaf.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.shell.core-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.shell.commands-${karaf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

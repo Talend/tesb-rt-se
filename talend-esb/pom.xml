@@ -536,6 +536,34 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>camel-core-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.shell</groupId>
+                                    <artifactId>org.apache.karaf.shell.core</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>jar</type>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.shell.core-${karaf.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.shell</groupId>
+                                    <artifactId>org.apache.karaf.shell.commands</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>jar</type>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.shell.commands-${karaf.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -842,6 +870,15 @@
                                     <replacefilter
                                         token="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}&lt;"
                                         value="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}/jar/TESB&lt;"/>
+                                </replace>
+                                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}&lt;"
+                                        value="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}/jar/TESB&lt;"/>
+                                    <replacefilter
+                                        token="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}&lt;"
+                                        value="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}/jar/TESB&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
