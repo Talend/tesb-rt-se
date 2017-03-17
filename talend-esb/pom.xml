@@ -526,6 +526,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-extender-war-${pax-web.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-core (DEVOPS-1417) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-core-${camel.version}-TESB.jar</destFileName>
+                                </artifactItem>
                                 <!-- patch for Karaf features descriptor (TESB-19043) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -786,7 +796,10 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="org.apache.zookeeper/zookeeper/3.4.9"
+                                        token="apache-cxf/3.1.7/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <replacefilter
+                                        token="org.apache.zookeeper/zookeeper/3.4.8"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
@@ -797,6 +810,19 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.21</replacetoken> 
+                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.22</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.21</replacetoken> 
+                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
+                                    </replacefilter>
+                                    <!-- patch for camel-core (DEVOPS-1417) -->
+                                    <replacefilter>
+                                        <replacetoken>org.apache.camel/camel-core/${camel.version}&lt;</replacetoken> 
+                                        <replacevalue>org.apache.camel/camel-core/${camel.version}/jar/TESB&lt;</replacevalue>
+                                    </replacefilter>
                                     <!-- Patch TESB-18685 -->
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
@@ -804,6 +830,11 @@
                                     </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
+                                <replaceregexp byline="false" flags="gim"
+                                        file="target/dependencies/apache-camel-${camel.version}-features.xml"
+                                        match="^(\s*&lt;details&gt;camel-jetty8.*\s*)(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
+                                        replace="\1&lt;feature version='[8,9)'&gt;jetty&lt;/feature&gt;">
+                                </replaceregexp>
                                 <replaceregexp byline="false" flags="gim"
                                         file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                         match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
