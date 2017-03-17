@@ -365,13 +365,11 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF version in Camel features file -->
+                <!-- workaround for CXF/Zookeeper version in Camel features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/zookeeper/zookeeper/3.4.8/**</exclude>
+                <exclude>org/apache/zookeeper/zookeeper/3.4.9/**</exclude>
                 <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
-                <!-- workaround for wrong version of transitive CXF Features -->
-                <exclude>org/apache/cxf/**/3.1.7/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
@@ -380,8 +378,6 @@
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
                 <!-- pax-web-extender-war patch (TESB-19009) -->
                 <exclude>org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/**</exclude>
-                <!-- patch for camel-core (DEVOPS-1417) -->
-                <exclude>org/apache/camel/camel-core/${camel.version}/**</exclude>
                 <!-- patch for Karaf features descriptor (TESB-19043) -->
                 <exclude>org/apache/karaf/features/standard/**</exclude>
                 <exclude>org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
@@ -521,12 +517,6 @@
         <file>
             <source>${basedir}/target/dependencies/pax-web-extender-war-${pax-web.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for camel-core (DEVOPS-1417) -->
-        <file>
-            <source>${basedir}/target/dependencies/camel-core-${camel.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for Karaf features descriptor (TESB-19043) -->
