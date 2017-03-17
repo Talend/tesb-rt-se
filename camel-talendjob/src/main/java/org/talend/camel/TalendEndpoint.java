@@ -39,6 +39,7 @@ import routines.system.api.TalendJob;
 public class TalendEndpoint extends DefaultEndpoint {
 
     private String clazz;
+    private String owner;
     private String context;
     private Map<String, String> endpointProperties;
 
@@ -46,7 +47,7 @@ public class TalendEndpoint extends DefaultEndpoint {
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
         super(uri, component);
-        this.setClazz(clazz);
+        setOwnerAndClazz(clazz);
     }
 
     public Producer createProducer() throws Exception {
@@ -61,8 +62,8 @@ public class TalendEndpoint extends DefaultEndpoint {
         return true;
     }
 
-    public final void setClazz(String clazz) {
-        this.clazz = clazz;
+    public void setClazz(String clazz) {
+        setOwnerAndClazz(clazz);
     }
 
     public void setContext(String context) {
@@ -78,7 +79,7 @@ public class TalendEndpoint extends DefaultEndpoint {
         final JobResolver jobResolver = JobResolverHolder.getJobResolver();
         TalendESBJobFactory talendESBJobFactory = null;
         if (null != jobResolver) {
-            talendESBJobFactory = jobResolver.getJobService(clazz);
+            talendESBJobFactory = jobResolver.getJobService(owner, clazz);
         }
         if (null != talendESBJobFactory) {
             jobInstance = talendESBJobFactory.newTalendESBJob();
@@ -105,4 +106,19 @@ public class TalendEndpoint extends DefaultEndpoint {
         this.endpointProperties = endpointProperties;
     }
 
+    private void setOwnerAndClazz(String rawClazz) {
+    	if (rawClazz == null) {
+    		owner = null;
+    		clazz = null;
+    		return;
+    	}
+    	int ndx = rawClazz.lastIndexOf('/');
+    	if (ndx < 0) {
+    		owner = null;
+    		clazz = rawClazz;
+    		return;
+    	}
+    	owner = rawClazz.substring(0, ndx);
+    	clazz = rawClazz.substring(ndx + 1);
+    }
 }

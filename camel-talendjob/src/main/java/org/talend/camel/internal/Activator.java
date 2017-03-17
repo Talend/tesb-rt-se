@@ -46,6 +46,10 @@ public class Activator implements BundleActivator, JobResolver {
     }
 
     public TalendESBJobFactory getJobService(String fullJobName) throws Exception {
+    	return getJobService(null, fullJobName);
+    }
+
+    public TalendESBJobFactory getJobService(String jobOwner, String fullJobName) throws Exception {
         if (context != null) {
             final String simpleName = fullJobName.substring(fullJobName.lastIndexOf('.') + 1);
             /*
@@ -62,10 +66,19 @@ public class Activator implements BundleActivator, JobResolver {
             }
 
             if (null != serviceReferences && !serviceReferences.isEmpty()) {
-                return context.getService(serviceReferences.iterator().next());
+            	if (jobOwner == null) {
+            		return context.getService(serviceReferences.iterator().next());
+            	}
+                final String jobBundleName = jobOwner + "_" + simpleName;
+            	for (ServiceReference<TalendESBJobFactory> sref : serviceReferences) {
+            		final String symName = sref.getBundle().getSymbolicName();
+            		final String shortName = symName.substring(symName.lastIndexOf('.') + 1);
+            		if (jobBundleName.equals(shortName)) {
+            			return context.getService(sref);
+            		}
+            	}
             }
         }
         return null;
     }
-
 }
