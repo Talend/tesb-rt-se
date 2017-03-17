@@ -30,7 +30,7 @@
     <properties>
         <use.service.registry>false</use.service.registry>
 
-        <cxf.version>3.1.5</cxf.version>
+        <cxf.version>3.1.9</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
         <camel.version>2.16.5</camel.version>
         <spring.version>3.2.14.RELEASE</spring.version>
