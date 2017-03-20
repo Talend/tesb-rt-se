@@ -157,11 +157,13 @@
                                 <feature>camel-catalog</feature>
 						        <feature>camel-blueprint</feature>
                                 <feature>camel-spring</feature>
+                                <feature>camel-spring-dm</feature>
                                 <feature>camel-scr</feature>
                                 <feature>camel-ahc</feature>
                                 <feature>camel-ahc-ws</feature>
 						        <feature>camel-amqp</feature>
                                 <feature>camel-apns</feature>
+                                <feature>camel-asterisk</feature>
                                 <feature>camel-atmosphere-websocket</feature>
 						        <feature>camel-atom</feature>
                                 <feature>camel-avro</feature>
@@ -180,10 +182,13 @@
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
                                 <feature>camel-cdi</feature>
+                                <feature>camel-chronicle</feature>
                                 <feature>camel-chunk</feature>
+                                <feature>camel-cm-sms</feature>
                                 <feature>camel-cmis</feature>
                                 <feature>camel-coap</feature>
 						        <feature>camel-cometd</feature>
+                                <feature>camel-consul</feature>
 						        <feature>camel-context</feature>
                                 <feature>camel-couchdb</feature>
 						        <feature>camel-crypto</feature>
@@ -193,6 +198,7 @@
                                 <feature>camel-dns</feature>
 						        <feature>camel-dozer</feature>
                                 <feature>camel-dropbox</feature>
+                                <feature>camel-ehcache</feature>
                                 <feature>camel-elsql</feature>
                                 <feature>camel-elasticsearch</feature>
                                 <feature>camel-etcd</feature>
@@ -226,7 +232,7 @@
                                 <feature>camel-hystrix</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-ical</feature>
-                                <feature>camel-ignite</feature>
+<!--                                 <feature>camel-ignite</feature> -->
 						        <feature>camel-infinispan</feature>
                                 <feature>camel-influxdb</feature>
 						        <feature>camel-irc</feature>
