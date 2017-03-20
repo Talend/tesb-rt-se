@@ -223,9 +223,12 @@
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
+                                <feature>camel-hystrix</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-ical</feature>
+                                <feature>camel-ignite</feature>
 						        <feature>camel-infinispan</feature>
+                                <feature>camel-influxdb</feature>
 						        <feature>camel-irc</feature>
                                 <feature>camel-ironmq</feature>
 						        <feature>camel-jackson</feature>
@@ -237,7 +240,6 @@
 						        <feature>camel-jclouds</feature>
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
-                                <feature>camel-jetty8</feature>
                                 <feature>camel-jetty9</feature>
                                 <feature>camel-jetty</feature>
 						        <feature>camel-jgroups</feature>
@@ -246,6 +248,7 @@
 						        <feature>camel-jms</feature>
 						        <feature>camel-jmx</feature>
 						        <feature>camel-jolt</feature>
+                                <feature>camel-johnzon</feature>
                                 <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
                                 <feature>camel-jsch</feature>
@@ -261,6 +264,7 @@
                                 <feature>camel-linkedin</feature>
 						        <feature>camel-leveldb</feature>
 						        <feature>camel-lucene</feature>
+                                <feature>camel-lumberjack</feature>
                                 <feature>camel-lzf</feature>
 						        <feature>camel-mail</feature>
                                 <feature>camel-metrics</feature>
@@ -295,6 +299,8 @@
 						        <feature>camel-quickfix</feature>
                                 <feature>camel-rabbitmq</feature>
 <!--                                 <feature>camel-restlet</feature> -->
+<!--                                 <feature>camel-restlet-jackson</feature> -->
+<!--                                 <feature>camel-restlet-gson</feature> -->
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
 						        <feature>camel-rss</feature>
@@ -309,6 +315,7 @@
                                 <feature>camel-script-javascript</feature>
                                 <feature>camel-script-groovy</feature>
 						        <feature>camel-script</feature>
+                                <feature>camel-servicenow</feature>
 						        <feature>camel-servlet</feature>
 						        <feature>camel-servletlistener</feature>
 						        <feature>camel-shiro</feature>
@@ -339,7 +346,9 @@
 						        <feature>camel-syslog</feature>
 						        <feature>camel-tagsoup</feature>
                                 <feature>camel-tarfile</feature>
+                                <feature>camel-telegram</feature>
 						        <feature>camel-test</feature>
+                                <feature>camel-test-karaf</feature>
 						        <feature>camel-test-spring</feature>
                                 <feature>camel-twitter</feature>
                                 <feature>camel-undertow</feature>
@@ -357,6 +366,7 @@
 						        <feature>camel-xstream</feature>
                                 <feature>camel-yammer</feature>
                                 <feature>camel-zipfile</feature>
+                                <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
