@@ -32,7 +32,7 @@
 
         <cxf.version>3.1.10</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
-        <camel.version>2.17.3</camel.version>
+        <camel.version>2.17.6</camel.version>
         <spring.version>3.2.18.RELEASE</spring.version>
         <karaf.version>4.1.0</karaf.version>
         <activemq.version>5.14.4</activemq.version>
