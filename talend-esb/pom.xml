@@ -203,6 +203,7 @@
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
+                                <feature>camel-gae</feature>
                                 <feature>camel-ganglia</feature>
                                 <feature>camel-geocoder</feature>
                                 <feature>camel-git</feature>
