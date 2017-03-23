@@ -206,6 +206,7 @@
                 <exclude>lib/endorsed/xerces-2.11.0.jar</exclude>
                 <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
                 <exclude>system/org/apache/karaf/features/spring/**</exclude>
+                <exclude>system/org/apache/karaf/features/spring-legacy/**</exclude>
                 <exclude>system/org/apache/karaf/features/standard/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
@@ -367,21 +368,24 @@
                 <exclude>com/microsoft/sqlserver/**</exclude>
                 <!-- workaround for CXF/Zookeeper version in Camel features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/zookeeper/zookeeper/3.4.9/**</exclude>
+                <exclude>org/apache/zookeeper/zookeeper/3.4.8/**</exclude>
                 <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
+                <!-- workaround for wrong version of transitive CXF Features -->
+                <exclude>org/apache/cxf/**/3.1.9/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
-                <!-- pax-web-extender-war patch (TESB-19009) -->
-                <exclude>org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/**</exclude>
-                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                <!-- patch for Karaf features descriptor (TESB-19043/TESB-19146) -->
                 <exclude>org/apache/karaf/features/standard/**</exclude>
                 <exclude>org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
                 <exclude>org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/**</exclude>
+                <!-- patch for Karaf features descriptor (TESB-19043/TESB-19146) -->
+                <exclude>org/apache/karaf/features/spring/**</exclude>
+                <exclude>org/apache/karaf/features/spring-legacy/**</exclude>
             </excludes>
         </fileSet>
 
@@ -513,12 +517,6 @@
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- pax-web-extender-war patch (TESB-19009) -->
-        <file>
-            <source>${basedir}/target/dependencies/pax-web-extender-war-${pax-web.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-extender-war/${pax-web.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for Karaf features descriptor (TESB-19043) -->
         <file>
             <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
@@ -536,6 +534,22 @@
             <source>${basedir}/target/dependencies/org.apache.karaf.shell.commands-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for Karaf features descriptor (TESB-19146) -->
+        <file>
+            <source>${basedir}/target/dependencies/spring-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/spring/${karaf.version}/</outputDirectory>
+            <destName>spring-${karaf.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>dos</lineEnding>
+        </file>
+        <!-- patch for Karaf features descriptor (TESB-19146) -->
+        <file>
+            <source>${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/spring-legacy/${karaf.version}/</outputDirectory>
+            <destName>spring-legacy-${karaf.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>dos</lineEnding>
         </file>
     </files>
 

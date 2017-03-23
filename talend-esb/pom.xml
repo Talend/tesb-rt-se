@@ -39,7 +39,7 @@
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
-        <pax-web.version>6.0.2</pax-web.version>
+        <pax-web.version>6.0.3</pax-web.version>
         <swagger-ui.version>2.1.8-M1</swagger-ui.version>
 	</properties>
 
@@ -157,13 +157,11 @@
                                 <feature>camel-catalog</feature>
 						        <feature>camel-blueprint</feature>
                                 <feature>camel-spring</feature>
-                                <feature>camel-spring-dm</feature>
                                 <feature>camel-scr</feature>
                                 <feature>camel-ahc</feature>
                                 <feature>camel-ahc-ws</feature>
 						        <feature>camel-amqp</feature>
                                 <feature>camel-apns</feature>
-                                <feature>camel-asterisk</feature>
                                 <feature>camel-atmosphere-websocket</feature>
 						        <feature>camel-atom</feature>
                                 <feature>camel-avro</feature>
@@ -182,13 +180,10 @@
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
                                 <feature>camel-cdi</feature>
-                                <feature>camel-chronicle</feature>
                                 <feature>camel-chunk</feature>
-                                <feature>camel-cm-sms</feature>
                                 <feature>camel-cmis</feature>
                                 <feature>camel-coap</feature>
 						        <feature>camel-cometd</feature>
-                                <feature>camel-consul</feature>
 						        <feature>camel-context</feature>
                                 <feature>camel-couchdb</feature>
 						        <feature>camel-crypto</feature>
@@ -198,7 +193,6 @@
                                 <feature>camel-dns</feature>
 						        <feature>camel-dozer</feature>
                                 <feature>camel-dropbox</feature>
-                                <feature>camel-ehcache</feature>
                                 <feature>camel-elsql</feature>
                                 <feature>camel-elasticsearch</feature>
                                 <feature>camel-etcd</feature>
@@ -209,6 +203,7 @@
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
+                                <feature>camel-gae</feature>
                                 <feature>camel-ganglia</feature>
                                 <feature>camel-geocoder</feature>
                                 <feature>camel-git</feature>
@@ -229,12 +224,9 @@
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
-                                <feature>camel-hystrix</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-ical</feature>
-<!--                                 <feature>camel-ignite</feature> -->
 						        <feature>camel-infinispan</feature>
-                                <feature>camel-influxdb</feature>
 						        <feature>camel-irc</feature>
                                 <feature>camel-ironmq</feature>
 						        <feature>camel-jackson</feature>
@@ -246,6 +238,7 @@
 						        <feature>camel-jclouds</feature>
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
+                                <feature>camel-jetty8</feature>
                                 <feature>camel-jetty9</feature>
                                 <feature>camel-jetty</feature>
 						        <feature>camel-jgroups</feature>
@@ -254,7 +247,6 @@
 						        <feature>camel-jms</feature>
 						        <feature>camel-jmx</feature>
 						        <feature>camel-jolt</feature>
-                                <feature>camel-johnzon</feature>
                                 <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
                                 <feature>camel-jsch</feature>
@@ -270,7 +262,6 @@
                                 <feature>camel-linkedin</feature>
 						        <feature>camel-leveldb</feature>
 						        <feature>camel-lucene</feature>
-                                <feature>camel-lumberjack</feature>
                                 <feature>camel-lzf</feature>
 						        <feature>camel-mail</feature>
                                 <feature>camel-metrics</feature>
@@ -305,8 +296,6 @@
 						        <feature>camel-quickfix</feature>
                                 <feature>camel-rabbitmq</feature>
 <!--                                 <feature>camel-restlet</feature> -->
-<!--                                 <feature>camel-restlet-jackson</feature> -->
-<!--                                 <feature>camel-restlet-gson</feature> -->
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
 						        <feature>camel-rss</feature>
@@ -321,7 +310,6 @@
                                 <feature>camel-script-javascript</feature>
                                 <feature>camel-script-groovy</feature>
 						        <feature>camel-script</feature>
-                                <feature>camel-servicenow</feature>
 						        <feature>camel-servlet</feature>
 						        <feature>camel-servletlistener</feature>
 						        <feature>camel-shiro</feature>
@@ -352,9 +340,7 @@
 						        <feature>camel-syslog</feature>
 						        <feature>camel-tagsoup</feature>
                                 <feature>camel-tarfile</feature>
-                                <feature>camel-telegram</feature>
 						        <feature>camel-test</feature>
-                                <feature>camel-test-karaf</feature>
 						        <feature>camel-test-spring</feature>
                                 <feature>camel-twitter</feature>
                                 <feature>camel-undertow</feature>
@@ -372,7 +358,6 @@
 						        <feature>camel-xstream</feature>
                                 <feature>camel-yammer</feature>
                                 <feature>camel-zipfile</feature>
-                                <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
@@ -531,17 +516,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- pax-web-extender-war patch (TESB-19009) -->
-                                <artifactItem>
-                                    <groupId>org.ops4j.pax.web</groupId>
-                                    <artifactId>pax-web-extender-war</artifactId>
-                                    <version>${pax-web.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>pax-web-extender-war-${pax-web.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for Karaf features descriptor (TESB-19043) -->
+                                <!-- patch for Karaf features descriptor (TESB-19043/TESB-19146) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
                                     <artifactId>standard</artifactId>
@@ -568,6 +543,26 @@
                                     <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.shell.commands-${karaf.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <!-- patch for Karaf features descriptor (TESB-19146) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>spring</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>spring-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <!-- patch for Karaf features descriptor (TESB-19146) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>spring-legacy</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>spring-legacy-${karaf.version}-features.xml</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -801,7 +796,10 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="org.apache.zookeeper/zookeeper/3.4.9"
+                                        token="apache-cxf/3.1.9/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <replacefilter
+                                        token="org.apache.zookeeper/zookeeper/3.4.8"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
@@ -850,19 +848,31 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
-                                    <!-- pax-web-extender-war patch (TESB-19009) -->
-                                    <replacefilter
-                                        token="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}&lt;"
-                                        value="org.ops4j.pax.web/pax-web-extender-war/${pax-web.version}/jar/TESB&lt;"/>
                                 </replace>
-                                <!-- patch for Karaf features descriptor (TESB-19043) -->
                                 <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <!-- patch for Karaf features descriptor (TESB-19043) -->
                                     <replacefilter
                                         token="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}&lt;"
                                         value="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}/jar/TESB&lt;"/>
                                     <replacefilter
                                         token="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}&lt;"
                                         value="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}/jar/TESB&lt;"/>
+                                    <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
+                                    <replacefilter
+                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
+                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
+                                </replace>
+                                <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
+                                <replace file="target/dependencies/spring-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
+                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
+                                </replace>
+                                <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
+                                <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
+                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
                                 </replace>
                             </target>
                         </configuration>
