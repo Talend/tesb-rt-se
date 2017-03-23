@@ -103,8 +103,11 @@
 						<configuration>
 							<descriptors>
                                 <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
+<!--                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor> -->
+<!--                                 <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor> -->
+                                <!-- pax-web version patch (TESB-19140) -->
+                                <descriptor>file:${basedir}/target/dependencies/spring-${karaf.version}-features.xml</descriptor>
+                                <descriptor>file:${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
@@ -138,6 +141,8 @@
                                 <feature>jpa</feature>
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
+                                <!-- pax-web version patch (TESB-19140) -->
+                                <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>

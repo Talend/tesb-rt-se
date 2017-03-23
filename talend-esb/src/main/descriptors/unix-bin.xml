@@ -213,6 +213,8 @@
                 <!-- patch for Karaf features descriptor (TESB-19043) -->
                 <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
                 <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/**</exclude>
+                <!-- pax-web version patch (TESB-19140) -->
+                <exclude>system/org/ops4j/pax/web/pax-web-features/6.0.2/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -389,6 +391,8 @@
                 <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/**</exclude>
+                <!-- pax-web version patch (TESB-19140) -->
+                <exclude>org/ops4j/pax/web/**/6.0.2/**</exclude>
             </excludes>
         </fileSet>
 
