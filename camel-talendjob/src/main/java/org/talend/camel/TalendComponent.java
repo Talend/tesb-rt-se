@@ -46,6 +46,7 @@ public class TalendComponent extends DefaultComponent {
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters)
         throws Exception {
         final TalendEndpoint endpoint = new TalendEndpoint(uri, remaining, this);
+        endpoint.setStickyJob(isTrue(parameters.get("sticky")));
         setProperties(endpoint, parameters);
         // extract the properties.xxx and set them as properties
         Map<String, Object> properties =
@@ -60,4 +61,16 @@ public class TalendComponent extends DefaultComponent {
         return endpoint;
     }
 
+    private static boolean isTrue(Object value) {
+    	if (value == null) {
+    		return false;
+    	}
+    	if (value instanceof Boolean) {
+    		return ((Boolean) value).booleanValue();
+    	}
+    	if (value instanceof String) {
+    		return "true".equalsIgnoreCase((String) value);
+    	}
+    	return false;
+    }
 }

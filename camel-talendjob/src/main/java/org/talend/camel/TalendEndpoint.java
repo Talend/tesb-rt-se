@@ -42,6 +42,7 @@ public class TalendEndpoint extends DefaultEndpoint {
     private String owner;
     private String context;
     private Map<String, String> endpointProperties;
+    private boolean stickyJob;
 
     private boolean propagateHeader = true;
 
@@ -72,6 +73,14 @@ public class TalendEndpoint extends DefaultEndpoint {
 
     public String getContext() {
         return context;
+    }
+
+    public boolean isStickyJob() {
+    	return stickyJob;
+    }
+
+    public void setStickyJob(boolean stickyJob) {
+        this.stickyJob = stickyJob;
     }
 
     public TalendJob getJobInstance() throws Exception {
