@@ -139,13 +139,14 @@ public class TalendProducer extends DefaultProducer {
             TalendJob wjob = jobInstance;
             if (wjob instanceof TalendESBRoute) {
                 ((TalendESBRoute) wjob).stop();
+                LOG.info("Job instance stopped.");
                 wait(100L);
             }
             success = true;
         } finally {
             Thread wthread = workingThread;
             if (null != wthread) {
-                LOG.info("Force terminate Talend job");
+                LOG.info("Enforce Talend job termination.");
                 wthread.interrupt();
             }
             if (!success) {
@@ -163,6 +164,9 @@ public class TalendProducer extends DefaultProducer {
     private TalendJob getJobInstance() throws Exception {
         if (jobInstance == null) {
             jobInstance = ((TalendEndpoint) getEndpoint()).getJobInstance();
+            LOG.debug("Getting new job instance.");
+        } else {
+            LOG.debug("Re-using sticky job instance.");
         }
         return jobInstance;
     }
@@ -178,6 +182,7 @@ public class TalendProducer extends DefaultProducer {
     	jobInstance = null;
     	if (job instanceof TalendESBRoute) {
     		((TalendESBRoute) job).shutdown();
+            LOG.info("Job instance shut down.");
     	}
     }
 }
