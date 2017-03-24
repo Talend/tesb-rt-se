@@ -46,7 +46,7 @@ public class TalendComponent extends DefaultComponent {
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters)
         throws Exception {
         final TalendEndpoint endpoint = new TalendEndpoint(uri, remaining, this);
-        endpoint.setStickyJob(isTrue(parameters.get("sticky")));
+        endpoint.setStickyJob(isTrue(parameters.remove("sticky")));
         setProperties(endpoint, parameters);
         // extract the properties.xxx and set them as properties
         Map<String, Object> properties =
