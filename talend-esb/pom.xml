@@ -142,6 +142,8 @@
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
                                 <!-- pax-web version patch (TESB-19140) -->
+                                <feature>pax-jetty/9.3.14.v20161028</feature>
+                                <feature>pax-jetty-http2/${pax-web.version}</feature>
                                 <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
