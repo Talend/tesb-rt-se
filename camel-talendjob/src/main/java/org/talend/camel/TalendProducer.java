@@ -33,6 +33,7 @@ import org.apache.camel.util.ObjectHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import routines.system.api.TalendESBRoute;
 import routines.system.api.TalendJob;
 
 /**
@@ -45,6 +46,7 @@ public class TalendProducer extends DefaultProducer {
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
 
     private Thread workingThread;
+    private TalendJob jobInstance;
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
@@ -62,7 +64,17 @@ public class TalendProducer extends DefaultProducer {
         }
         getParamsFromProperties(getEndpoint().getCamelContext().getProperties(), args);
         getParamsFromProperties(talendEndpoint.getEndpointProperties(), args);
-        invokeTalendJob(talendEndpoint.getJobInstance(), args.toArray(new String[args.size()]), exchange);
+        boolean success = false;
+        TalendJob jobInstance = getJobInstance();
+        try {
+            invokeTalendJob(jobInstance, args.toArray(new String[args.size()]), exchange);
+            jobDone();
+            success = true;
+        } finally {
+            if (!success) {
+                jobDown();
+            }
+        }
     }
 
     private static void getParamsFromProperties(Map<String, String> propertiesMap, Collection<String> args) {
@@ -122,9 +134,55 @@ public class TalendProducer extends DefaultProducer {
     @Override
     protected void doStop() throws Exception {
         super.doStop();
-        if (null != workingThread) {
-            LOG.info("Force terminate Talend job");
-            workingThread.interrupt();
+        boolean success = false;
+        try {
+            TalendJob wjob = jobInstance;
+            if (wjob instanceof TalendESBRoute) {
+                ((TalendESBRoute) wjob).stop();
+                LOG.info("Job instance stopped.");
+                wait(100L);
+            }
+            success = true;
+        } finally {
+            Thread wthread = workingThread;
+            if (null != wthread) {
+                LOG.info("Enforce Talend job termination.");
+                wthread.interrupt();
+            }
+            if (!success) {
+            	jobDown();
+            }
         }
+    }
+
+    @Override
+    protected void doShutdown() throws Exception {
+    	super.doShutdown();
+    	jobDown();
+    }
+
+    private TalendJob getJobInstance() throws Exception {
+        if (jobInstance == null) {
+            jobInstance = ((TalendEndpoint) getEndpoint()).getJobInstance();
+            LOG.debug("Getting new job instance.");
+        } else {
+            LOG.debug("Re-using sticky job instance.");
+        }
+        return jobInstance;
+    }
+
+    private void jobDone() throws Exception {
+        if (!((TalendEndpoint) getEndpoint()).isStickyJob()) {
+            jobDown();
+        }
+    }
+
+    private void jobDown() throws Exception {
+    	TalendJob job = jobInstance;
+    	jobInstance = null;
+    	if (job instanceof TalendESBRoute) {
+    		((TalendESBRoute) job).shutdown();
+            LOG.info("Job instance shut down.");
+    	}
     }
 }
