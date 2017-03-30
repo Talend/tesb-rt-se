@@ -213,6 +213,8 @@
                 <!-- patch for Karaf features descriptor (TESB-19043) -->
                 <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.core/${karaf.version}/**</exclude>
                 <exclude>system/org/apache/karaf/shell/org.apache.karaf.shell.commands/${karaf.version}/**</exclude>
+                <!-- pax-web version patch (TESB-19140) -->
+                <exclude>system/org/ops4j/pax/web/pax-web-features/6.0.2/**</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -386,6 +388,11 @@
                 <!-- patch for Karaf features descriptor (TESB-19043/TESB-19146) -->
                 <exclude>org/apache/karaf/features/spring/**</exclude>
                 <exclude>org/apache/karaf/features/spring-legacy/**</exclude>
+                <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
+                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
+                <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/**</exclude>
+                <!-- pax-web version patch (TESB-19140) -->
+                <exclude>org/ops4j/pax/web/**/6.0.2/**</exclude>
             </excludes>
         </fileSet>
 
@@ -550,6 +557,18 @@
             <destName>spring-legacy-${karaf.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
+        </file>
+        <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
+        <file>
+            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/activemq-web-console-${activemq.version}-TESB.war</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
         </file>
     </files>
 
