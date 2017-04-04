@@ -103,11 +103,8 @@
 						<configuration>
 							<descriptors>
                                 <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
-<!--                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor> -->
-                                <!-- pax-web version patch (TESB-19140) -->
-                                <descriptor>file:${basedir}/target/dependencies/spring-${karaf.version}-features.xml</descriptor>
-                                <descriptor>file:${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
@@ -523,54 +520,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch for Karaf features descriptor (TESB-19043/TESB-19146) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.shell</groupId>
-                                    <artifactId>org.apache.karaf.shell.core</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.shell.core-${karaf.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.shell</groupId>
-                                    <artifactId>org.apache.karaf.shell.commands</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>jar</type>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.shell.commands-${karaf.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for Karaf features descriptor (TESB-19146) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>spring</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>spring-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <!-- patch for Karaf features descriptor (TESB-19146) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>spring-legacy</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>spring-legacy-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
                                 <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
@@ -874,31 +823,6 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
-                                </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch for Karaf features descriptor (TESB-19043) -->
-                                    <replacefilter
-                                        token="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}&lt;"
-                                        value="org.apache.karaf.shell/org.apache.karaf.shell.core/${karaf.version}/jar/TESB&lt;"/>
-                                    <replacefilter
-                                        token="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}&lt;"
-                                        value="org.apache.karaf.shell/org.apache.karaf.shell.commands/${karaf.version}/jar/TESB&lt;"/>
-                                    <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
-                                    <replacefilter
-                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
-                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
-                                </replace>
-                                <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
-                                <replace file="target/dependencies/spring-${karaf.version}-features.xml">
-                                    <replacefilter
-                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
-                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
-                                </replace>
-                                <!-- patch for Karaf features descriptor (TESB-19146/KARAF-5021) -->
-                                <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
-                                    <replacefilter
-                                        token="mvn:org.ops4j.pax.web/pax-web-features/6.0.2/xml/features"
-                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
                                 </replace>
                                  <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">

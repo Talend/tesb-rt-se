@@ -31,3 +31,5 @@ tesb:stop-locator = { feature:uninstall tesb-zookeeper-server } ; // (uninstall 
 tesb:stop-locator-monitor = { feature:uninstall tesb-locator-monitor } ; // (uninstall locator monitor)
 tesb:stop-locator-commands = { feature:uninstall tesb-locator-commands } ; // (uninstall locator commands)
 tesb:stop-all = { tesb:stop-sts; tesb:stop-sam; tesb:stop-locator; tesb:stop-aux-store } ; // (uninstall all four services)
+
+setopt disable-highlighter
