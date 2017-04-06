@@ -26,9 +26,9 @@
         <argument ref="org.talend.esb.job.client.sts" />
     </bean>
     
-    <cm:cm-properties persistent-id="org.talend.esb.openid" id="org.talend.esb.openid" />
+    <cm:cm-properties persistent-id="org.talend.esb.job.openid" id="org.talend.esb.job.openid" />
     <bean class="org.talend.esb.security.openid.OpenIDClientUtils" >
-        <argument ref="org.talend.esb.openid" />
+        <argument ref="org.talend.esb.job.openid" />
     </bean>
 
     <cm:cm-properties persistent-id="org.talend.esb.job" id="org.talend.esb.job" />
