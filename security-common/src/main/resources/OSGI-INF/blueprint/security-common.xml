@@ -25,6 +25,11 @@
     <bean class="org.talend.esb.security.saml.STSClientUtils" >
         <argument ref="org.talend.esb.job.client.sts" />
     </bean>
+    
+    <cm:cm-properties persistent-id="org.talend.esb.openid" id="org.talend.esb.openid" />
+    <bean class="org.talend.esb.security.openid.OpenIDClientUtils" >
+        <argument ref="org.talend.esb.openid" />
+    </bean>
 
     <cm:cm-properties persistent-id="org.talend.esb.job" id="org.talend.esb.job" />
     <service interface="org.talend.esb.security.policy.PolicyProvider" >
