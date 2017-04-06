@@ -18,8 +18,14 @@
  */
 package org.talend.esb.security.openid;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.apache.cxf.helpers.IOUtils;
 
 public class OpenIDClientUtils {
 
@@ -84,6 +90,38 @@ public class OpenIDClientUtils {
 		settings.put(OPENID_PUBLIC_CLIENT_ID, getPublicClientID());
 		settings.put(OPENID_SCOPE, getScope());
 		return settings;
+	}
+	
+	public static Map<String, String> parseJson(InputStream is) throws IOException {
+		String str = IOUtils.readStringFromStream(is).trim();
+		if (str.length() == 0) {
+			return Collections.emptyMap();
+		}
+		if (!str.startsWith("{") || !str.endsWith("}")) {
+			throw new IOException("JSON Sequence is broken");
+		}
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		str = str.substring(1, str.length() - 1).trim();
+		String[] jsonPairs = str.split(",");
+		for (int i = 0; i < jsonPairs.length; i++) {
+			String pair = jsonPairs[i].trim();
+			if (pair.length() == 0) {
+				continue;
+			}
+			int index = pair.indexOf(":");
+			String key = pair.substring(0, index).trim();
+			if (key.startsWith("\"") && key.endsWith("\"")) {
+				key = key.substring(1, key.length() - 1);
+			}
+			String value = pair.substring(index + 1).trim();
+			if (value.startsWith("\"") && value.endsWith("\"")) {
+				value = value.substring(1, value.length() - 1);
+			}
+			map.put(key, value);
+		}
+
+		return map;
 	}
 
 }
