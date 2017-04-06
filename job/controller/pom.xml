@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.talend.esb.job</groupId>
         <artifactId>job-parent</artifactId>
-        <version>6.3.1-SNAPSHOT</version>
+        <version>6.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>org.talend.esb.job.controller</artifactId>
@@ -83,8 +83,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.servicemix.bundles</groupId>
-            <artifactId>org.apache.servicemix.bundles.bcprov-jdk15on</artifactId>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
             <version>${bouncycastle.version}</version>
             <scope>provided</scope>
         </dependency>

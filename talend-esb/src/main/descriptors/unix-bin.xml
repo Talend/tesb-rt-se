@@ -201,15 +201,11 @@
                 <exclude>etc/org.ops4j.pax.url.mvn.cfg</exclude>
                 <exclude>etc/org.ops4j.pax.logging.cfg</exclude>
                 <exclude>etc/shell.init.script</exclude>
+                <exclude>etc/org.apache.karaf.command.acl.feature.cfg</exclude>
+                <exclude>etc/org.apache.karaf.management.cfg</exclude>
                 <exclude>lib/endorsed/xerces-2.11.0.jar</exclude>
-                <exclude>system/org/apache/karaf/features/enterprise/**</exclude>
-                <exclude>system/org/apache/karaf/features/spring/**</exclude>
-                <exclude>system/org/apache/karaf/features/standard/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
-                <!-- patch for aries.blueprint.core (TESB-17280) -->
-                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
                 <exclude>README</exclude>
                 <exclude>RELEASE-NOTES</exclude>
                 <exclude>LICENSE</exclude>
@@ -272,7 +268,6 @@
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>conf/jetty.xml</exclude>
-                <exclude>lib/optional/commons-collections-3.2.1.jar</exclude>
             </excludes>
         </fileSet>
 
@@ -364,27 +359,24 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF version in Camel features file -->
+                <!-- workaround for CXF/Zookeeper version in Camel features file -->
                 <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
                 <exclude>org/apache/zookeeper/zookeeper/3.4.8/**</exclude>
-                <!-- workaround CXF features descriptor -->
+                <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
-<!--                 <exclude>org/apache/cxf/**/3.1.4/**</exclude> -->
+                <exclude>org/apache/cxf/**/3.1.9/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
-                <!-- patch for aries.blueprint.core (TESB-17280) -->
-                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/org.apache.aries.blueprint.core-${aries.blueprint.version}.jar</exclude>
-                <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/activemq-web-console-${activemq.version}.war</exclude>
-                <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
-                <exclude>org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/**</exclude>
+                <exclude>org/apache/activemq/activemq-web-console/${activemq.version}/**</exclude>
+                <!-- pax-web version patch (TESB-19140) -->
+                <exclude>org/ops4j/pax/web/**/6.0.2/**</exclude>
             </excludes>
         </fileSet>
 
@@ -440,13 +432,11 @@
 
         <!-- Copy Adapters -->
         <fileSet>
-            <directory>${basedir}/../adapters/nagios</directory>
-            <outputDirectory>/add-ons/adapters/nagios</outputDirectory>
-        </fileSet>
-        <fileSet>
             <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
             <includes>
+                <include>hyperic_pugins/**</include>
+                <include>nagios/**</include>
                 <include>README.txt</include>
             </includes>
         </fileSet>
@@ -462,28 +452,12 @@
     </fileSets>
 
     <files>
-		<!-- Copy Adapters -->
+        <!-- swagger-ui (TESB-18698) -->
         <file>
-            <source>${basedir}/../adapters/hyperic/camel-plugin/target/camel-plugin-${project.version}.jar</source>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   		    <destName>camel-plugin.jar</destName>
+            <source>${basedir}/target/dependencies/swagger-ui-${swagger-ui.version}.jar</source>
+            <outputDirectory>/container/system/org/webjars/swagger-ui/${swagger-ui.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
         </file>
-        <file>
-            <source>${basedir}/../adapters/hyperic/cxf-plugin/target/cxf-plugin-${project.version}.jar</source>
-            <outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>cxf-plugin.jar</destName>
-        </file>
-   		<file>
-   			<source>${basedir}/../adapters/hyperic/activemq-plugin/target/activemq-plugin-${project.version}.jar</source>
-   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>activemq-plugin.jar</destName>
-   		</file>
-   		<file>
-   			<source>${basedir}/../adapters/hyperic/trun-plugin/target/trun-plugin-${project.version}.jar</source>
-   			<outputDirectory>/add-ons/adapters/hyperic_plugins</outputDirectory>
-   			<destName>trun-plugin.jar</destName>
-   		</file>
-
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
@@ -534,18 +508,7 @@
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for aries.blueprint.core (TESB-17280) -->
-        <file>
-            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch ActiveMQ features descriptor (TESB-17588) -->
+        <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
@@ -555,12 +518,6 @@
         <file>
             <source>${basedir}/target/dependencies/activemq-web-console-${activemq.version}-TESB.war</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-web-console/${activemq.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
-        <file>
-            <source>${basedir}/target/dependencies/cxf-rt-features-metrics-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-features-metrics/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>6.3.1-SNAPSHOT</version>
+		<version>6.4.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.talend.esb.assembly</groupId>
@@ -35,13 +35,12 @@
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>1.9.2</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>2.1.7</wss4j.version>
+        <wss4j.version>2.1.8</wss4j.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
-        <shibboleth.version>7.1.1</shibboleth.version>
-        <pax-web.version>4.2.6</pax-web.version>
-        <aries.blueprint.version>1.6.1</aries.blueprint.version>
+        <pax-web.version>6.0.3</pax-web.version>
+        <swagger-ui.version>2.1.8-M1</swagger-ui.version>
 	</properties>
 
 	<dependencies>
@@ -105,7 +104,9 @@
 							<descriptors>
                                 <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -115,11 +116,19 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-                                <feature>spring/3.2.17.RELEASE_1</feature>
-                                <feature>spring-tx/3.2.17.RELEASE_1</feature>
-                                <feature>spring-jdbc/3.2.17.RELEASE_1</feature>
+                                <feature>spring/3.2.18.RELEASE_1</feature>
+                                <feature>spring-tx/3.2.18.RELEASE_1</feature>
+                                <feature>spring-jdbc/3.2.18.RELEASE_1</feature>
                                 <feature>spring-dm</feature>
                                 <feature>spring/3.1.4.RELEASE</feature>
+                                <feature>spring/4.1.9.RELEASE_1</feature>
+                                <feature>spring/4.2.9.RELEASE_1</feature>
+                                <feature>spring-tx/4.1.9.RELEASE_1</feature>
+                                <feature>spring-tx/4.2.9.RELEASE_1</feature>
+                                <feature>spring-jms/4.1.9.RELEASE_1</feature>
+                                <feature>spring-jms/4.2.9.RELEASE_1</feature>
+                                <feature>spring-jms/4.0.7.RELEASE_3</feature>
+                                <feature>spring-jms/3.2.18.RELEASE_1</feature>
                                 <feature>jetty</feature>
                                 <feature>webconsole</feature>
                                 <feature>eventadmin</feature>
@@ -129,6 +138,10 @@
                                 <feature>jpa</feature>
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
+                                <!-- pax-web version patch (TESB-19140) -->
+                                <feature>pax-jetty/9.3.14.v20161028</feature>
+                                <feature>pax-jetty-http2/${pax-web.version}</feature>
+                                <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
@@ -138,6 +151,7 @@
 						        <feature>cxf/${cxf.version}</feature>
 						        <feature>cxf-abdera/${cxf.version}</feature>
                                 <feature>cxf-commands/${cxf.version}</feature>
+                                <feature>cxf-rs-description-swagger2/${cxf.version}</feature>
 						        <feature>cxf-sts/${cxf.version}</feature>
 						        <feature>cxf-wsn/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
@@ -427,6 +441,15 @@
                                     <outputDirectory>target/dependencies/etc</outputDirectory>
                                     <destFileName>org.talend.esb.sam.agent.cfg</destFileName>
                                 </artifactItem>
+                                <!-- swagger-ui (TESB-18698) -->
+                                <artifactItem>
+                                    <groupId>org.webjars</groupId>
+                                    <artifactId>swagger-ui</artifactId>
+                                    <version>${swagger-ui.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>swagger-ui-${swagger-ui.version}.jar</destFileName>
+                                </artifactItem>
                                 <!-- workarounds for Camel features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
@@ -497,26 +520,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch for aries.blueprint.core (TESB-17280) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.aries.blueprint</groupId>
-                                    <artifactId>org.apache.aries.blueprint.core</artifactId>
-                                    <version>${aries.blueprint.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.aries.blueprint.core-${aries.blueprint.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
@@ -530,20 +534,10 @@
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-web-console</artifactId>
                                     <version>${activemq.version}</version>
-                                    <classifier>TESB</classifier>
                                     <type>war</type>
+                                    <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-web-console-${activemq.version}-TESB.war</destFileName>
-                                </artifactItem>
-                                <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
-                                <artifactItem>
-                                    <groupId>org.apache.cxf</groupId>
-                                    <artifactId>cxf-rt-features-metrics</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-features-metrics-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -776,9 +770,9 @@
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
-<!--                                     <replacefilter -->
-<!--                                         token="apache-cxf/3.1.4/xml/features" -->
-<!--                                         value="apache-cxf/${cxf.version}/xml/features"/> -->
+                                    <replacefilter
+                                        token="apache-cxf/3.1.9/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.8"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
@@ -791,21 +785,13 @@
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <!-- Patch TESB-18685 -->
                                     <replacefilter>
-                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.21</replacetoken> 
-                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch/1.22</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.21</replacetoken> 
-                                        <replacevalue>mvn:org.fusesource.hawtdispatch/hawtdispatch-transport/1.22</replacevalue>
+                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
+                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
-                                <replaceregexp byline="false" flags="gim"
-                                        file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                        match="^(\s*&lt;details&gt;camel-jetty8.*\s*)(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
-                                        replace="\1&lt;feature version='[8,9)'&gt;jetty&lt;/feature&gt;">
-                                </replaceregexp>
                                 <replaceregexp byline="false" flags="gim"
                                         file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                         match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
@@ -826,25 +812,19 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
-                                    <!-- patch for cxf-rt-features-metrics (DEVOPS-977) -->
+                                    <!-- Patch TESB-18685 -->
                                     <replacefilter>
-                                        <replacetoken>org.apache.cxf/cxf-rt-features-metrics/${cxf.version}&lt;</replacetoken> 
-                                        <replacevalue>org.apache.cxf/cxf-rt-features-metrics/${cxf.version}/jar/TESB&lt;</replacevalue>
+                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
+                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
                                 </replace>
-                                <!-- commons-collections version patch (TESB-16945) -->
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
+                                    <!-- commons-collections version patch (TESB-16945) -->
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
                                 </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch for aries.blueprint.core (TESB-17280) -->
-                                    <replacefilter
-                                        token="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}&lt;"
-                                        value="org.apache.aries.blueprint/org.apache.aries.blueprint.core/${aries.blueprint.version}/jar/TESB&lt;"/>
-                                 </replace>
-                                 <!-- patch for ActiveMQ features descriptor (TESB-17588) -->
+                                 <!-- patch for ActiveMQ features descriptor (TESB-19078) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter
                                         token="org.apache.activemq/activemq-web-console/${activemq.version}/war&lt;"

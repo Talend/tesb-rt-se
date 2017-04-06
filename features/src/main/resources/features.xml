@@ -32,6 +32,7 @@
     <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
+    <bundle start-level="30" dependency="true">mvn:javax.el/javax.el-api/${javax.el.version}</bundle>
     <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${project.version}</bundle>
@@ -222,13 +223,13 @@
   <feature name="tesb-security-common" version="${project.version}">
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 
   <feature name="tesb-encryptor-command" version="${project.version}">
     <feature>jasypt-encryption</feature>
-    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/text-encryptor/${project.version}</bundle>
   </feature>
 
@@ -296,6 +297,7 @@
     <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.4</bundle>
+    <bundle start-level="30" dependency="true">mvn:javax.el/javax.el-api/${javax.el.version}</bundle>
     <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax-web-jsp.version}</bundle>
     <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${project.version}</bundle>

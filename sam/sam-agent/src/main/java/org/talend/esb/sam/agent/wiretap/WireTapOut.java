@@ -24,7 +24,6 @@ import java.io.Writer;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
-import org.apache.cxf.io.CacheAndWriteOutputStream;
 import org.apache.cxf.io.CachedOutputStream;
 import org.apache.cxf.io.CachedOutputStreamCallback;
 import org.apache.cxf.message.Message;
@@ -74,7 +73,8 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
         }
 
         if (null != os) {
-            final CacheAndWriteOutputStream newOut = new CacheAndWriteOutputStream(os);
+            final CacheAndWriteTapOutputStream newOut = new CacheAndWriteTapOutputStream(os);
+
             message.setContent(OutputStream.class, newOut);
 
             if (os != null && logMessageContent) {

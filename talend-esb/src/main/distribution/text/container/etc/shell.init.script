@@ -13,6 +13,7 @@ halt = { system:shutdown -h -f $args } ;
 help = { *:help $args | more } ;
 man = { help $args } ;
 log:list = { log:get ALL } ;
+service:get = { $.context getService ($.context getServiceReference $args) };
 
 tesb:start-aux-store = { feature:install tesb-aux } ;
 tesb:start-sts = { feature:install tesb-sts } ;
@@ -21,7 +22,7 @@ tesb:start-sam-retrieval-service = { feature:install tesb-datasource-derby tesb-
 tesb:start-locator = { feature:install tesb-zookeeper-server } ; // (install zookeeper feature)
 tesb:start-locator-monitor = { feature:install tesb-locator-monitor } ; // (install locator monitor)
 tesb:start-locator-commands = { feature:install tesb-locator-commands } ; // (install locator commands)
-tesb:start-all = { tesb:start-sts; tesb:start-sam; tesb:start-locator; tesb:start-aux-store; sleep -s 5; bundle:refresh "Apache CXF JAX-RS Client" } ; // (start all four services)
+tesb:start-all = { tesb:start-sts; tesb:start-sam; tesb:start-locator; tesb:start-aux-store; sleep 5; bundle:refresh "Apache CXF JAX-RS Client" } ; // (start all four services)
 tesb:stop-aux-store  = {feature:uninstall tesb-aux } ;
 tesb:stop-sts = { feature:uninstall tesb-sts } ;
 tesb:stop-sam = { feature:uninstall tesb-sam-service-rest tesb-sam-service-soap tesb-datasource-derby tesb-derby-starter } ; // (uninstall derby-starter and sam feature)
@@ -30,3 +31,5 @@ tesb:stop-locator = { feature:uninstall tesb-zookeeper-server } ; // (uninstall 
 tesb:stop-locator-monitor = { feature:uninstall tesb-locator-monitor } ; // (uninstall locator monitor)
 tesb:stop-locator-commands = { feature:uninstall tesb-locator-commands } ; // (uninstall locator commands)
 tesb:stop-all = { tesb:stop-sts; tesb:stop-sam; tesb:stop-locator; tesb:stop-aux-store } ; // (uninstall all four services)
+
+setopt disable-highlighter

@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-      <cxf.version>3.1.7</cxf.version>
+      <cxf.version>3.1.10</cxf.version>
       <activemq.plugin.version>5.7.0</activemq.plugin.version>
     </properties>
 

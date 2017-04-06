@@ -1,6 +1,6 @@
 # Talend ESB
 
-[![alt text](http://www.talend.com/sites/all/themes/talend_responsive/images/logo.png "Talend")](http://www.talend.com/)
+[![alt text](https://www.talend.com/wp-content/uploads/2016/07/talend-logo.png "Talend")](http://www.talend.com/)
 
 
 Talend ESB bundles Service Factory and Integration Factory, 
