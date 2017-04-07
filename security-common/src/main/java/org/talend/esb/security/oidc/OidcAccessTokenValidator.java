@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.talend.esb.security.openid;
+package org.talend.esb.security.oidc;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -28,9 +28,9 @@ import javax.ws.rs.container.PreMatching;
 
 @PreMatching
 @Priority(Priorities.AUTHENTICATION)
-public class OpenIDAccessTokenValidator implements ContainerRequestFilter {
+public class OidcAccessTokenValidator implements ContainerRequestFilter {
 
-	public OpenIDAccessTokenValidator() {
+	public OidcAccessTokenValidator() {
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class OpenIDAccessTokenValidator implements ContainerRequestFilter {
 			String accessToken = authzHeader.substring("Bearer ".length());
 			if (accessToken != null && !accessToken.isEmpty()) {
 				org.apache.cxf.jaxrs.client.WebClient oidcWebClient = org.apache.cxf.jaxrs.client.WebClient
-						.create(org.talend.esb.security.openid.OpenIDClientUtils
+						.create(org.talend.esb.security.oidc.OidcClientUtils
 								.getValidationEndpointLocation(),
 								java.util.Collections
 										.singletonList(new org.apache.cxf.jaxrs.provider.json.JSONProvider<String>()))
@@ -56,7 +56,7 @@ public class OpenIDAccessTokenValidator implements ContainerRequestFilter {
 								+ "&token_type_hint=access_token");
 
 				try {
-					Map<String, String> map = OpenIDClientUtils
+					Map<String, String> map = org.talend.esb.security.oidc.OidcClientUtils
 							.parseJson((InputStream) response.getEntity());
 
 					String active = map.get("active");

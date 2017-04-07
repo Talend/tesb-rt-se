@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.talend.esb.security.openid;
+package org.talend.esb.security.oidc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,68 +27,68 @@ import java.util.Map;
 
 import org.apache.cxf.helpers.IOUtils;
 
-public class OpenIDClientUtils {
+public class OidcClientUtils {
 
-	private static final String OPENID_TOKEN_ENDPOINT_LOCATION = "org.talend.esb.openid.token.endpoint";
-	private static final String OPENID_VALIDATION_ENDPOINT_LOCATION = "org.talend.esb.openid.validation.endpoint";
-	private static final String OPENID_PUBLIC_CLIENT_ID = "org.talend.esb.openid.public.client.id";
-	private static final String OPENID_SCOPE = "org.talend.esb.openid.scope";
+	private static final String OIDC_TOKEN_ENDPOINT_LOCATION = "org.talend.esb.oidc.token.endpoint";
+	private static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "org.talend.esb.oidc.validation.endpoint";
+	private static final String OIDC_PUBLIC_CLIENT_ID = "org.talend.esb.oidc.public.client.id";
+	private static final String OIDC_SCOPE = "org.talend.esb.oidc.scope";
 
-	private static final String DEFAULT_OPENID_SCOPE = "openid";
+	private static final String DEFAULT_OIDC_SCOPE = "openid";
 	private static final String DEFAULT_PUBLIC_CLIENT_ID = "iam_pub_client";
 
-	private static Map<String, String> openidProperties = new HashMap<String, String>();
+	private static Map<String, String> oidcProperties = new HashMap<String, String>();
 
-	public OpenIDClientUtils(Map<String, String> openidProperties) {
-		OpenIDClientUtils.openidProperties = openidProperties;
+	public OidcClientUtils(Map<String, String> oidcProperties) {
+		OidcClientUtils.oidcProperties = oidcProperties;
 	}
 
 	public static String getTokenEndpointLocation() {
-		if (System.getProperty(OPENID_TOKEN_ENDPOINT_LOCATION) != null) {
-			return (String) System.getProperty(OPENID_TOKEN_ENDPOINT_LOCATION);
+		if (System.getProperty(OIDC_TOKEN_ENDPOINT_LOCATION) != null) {
+			return (String) System.getProperty(OIDC_TOKEN_ENDPOINT_LOCATION);
 		} else {
-			return openidProperties.get(OPENID_TOKEN_ENDPOINT_LOCATION);
+			return oidcProperties.get(OIDC_TOKEN_ENDPOINT_LOCATION);
 		}
 	}
 
 	public static String getValidationEndpointLocation() {
-		if (System.getProperty(OPENID_VALIDATION_ENDPOINT_LOCATION) != null) {
+		if (System.getProperty(OIDC_VALIDATION_ENDPOINT_LOCATION) != null) {
 			return (String) System
-					.getProperty(OPENID_VALIDATION_ENDPOINT_LOCATION);
+					.getProperty(OIDC_VALIDATION_ENDPOINT_LOCATION);
 		} else {
-			return openidProperties.get(OPENID_VALIDATION_ENDPOINT_LOCATION);
+			return oidcProperties.get(OIDC_VALIDATION_ENDPOINT_LOCATION);
 		}
 	}
 
 	public static String getPublicClientID() {
-		if (System.getProperty(OPENID_PUBLIC_CLIENT_ID) != null) {
-			return (String) System.getProperty(OPENID_PUBLIC_CLIENT_ID);
+		if (System.getProperty(OIDC_PUBLIC_CLIENT_ID) != null) {
+			return (String) System.getProperty(OIDC_PUBLIC_CLIENT_ID);
 		} else {
-			if (null == openidProperties.get(OPENID_PUBLIC_CLIENT_ID)) {
+			if (null == oidcProperties.get(OIDC_PUBLIC_CLIENT_ID)) {
 				return DEFAULT_PUBLIC_CLIENT_ID;
 			}
-			return openidProperties.get(OPENID_PUBLIC_CLIENT_ID);
+			return oidcProperties.get(OIDC_PUBLIC_CLIENT_ID);
 		}
 	}
 
 	public static String getScope() {
-		if (System.getProperty(OPENID_SCOPE) != null) {
-			return (String) System.getProperty(OPENID_SCOPE);
+		if (System.getProperty(OIDC_SCOPE) != null) {
+			return (String) System.getProperty(OIDC_SCOPE);
 		} else {
-			if (null == openidProperties.get(OPENID_SCOPE)) {
-				return DEFAULT_OPENID_SCOPE;
+			if (null == oidcProperties.get(OIDC_SCOPE)) {
+				return DEFAULT_OIDC_SCOPE;
 			}
-			return openidProperties.get(OPENID_SCOPE);
+			return oidcProperties.get(OIDC_SCOPE);
 		}
 	}
 
-	public static Map<String, String> getOpenidSettings() {
+	public static Map<String, String> getOidcSettings() {
 		Map<String, String> settings = new HashMap<String, String>();
-		settings.put(OPENID_TOKEN_ENDPOINT_LOCATION, getTokenEndpointLocation());
-		settings.put(OPENID_VALIDATION_ENDPOINT_LOCATION,
+		settings.put(OIDC_TOKEN_ENDPOINT_LOCATION, getTokenEndpointLocation());
+		settings.put(OIDC_VALIDATION_ENDPOINT_LOCATION,
 				getValidationEndpointLocation());
-		settings.put(OPENID_PUBLIC_CLIENT_ID, getPublicClientID());
-		settings.put(OPENID_SCOPE, getScope());
+		settings.put(OIDC_PUBLIC_CLIENT_ID, getPublicClientID());
+		settings.put(OIDC_SCOPE, getScope());
 		return settings;
 	}
 	

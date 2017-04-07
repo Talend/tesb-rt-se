@@ -253,7 +253,7 @@
     <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.service</configfile>
     <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client</configfile>
     <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.client.sts</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.openid.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.openid</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.oidc.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/cfg/org.talend.esb.job.oidc</configfile>
     <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/clientKeystore</configfile>
     <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/jks/clientstore</configfile>
     <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${project.version}/properties/serviceKeystore</configfile>
