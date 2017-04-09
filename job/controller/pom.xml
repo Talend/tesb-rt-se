@@ -176,9 +176,9 @@
                                     <classifier>org.talend.esb.job.client.sts</classifier>
                                 </artifact>
                                 <artifact>
-                                    <file>etc/org.talend.esb.job.openid.cfg</file>
+                                    <file>etc/org.talend.esb.job.oidc.cfg</file>
                                     <type>cfg</type>
-                                    <classifier>org.talend.esb.job.openid</classifier>
+                                    <classifier>org.talend.esb.job.oidc</classifier>
                                 </artifact>
                                 <artifact>
                                     <file>etc/keystores/clientKeystore.properties</file>
