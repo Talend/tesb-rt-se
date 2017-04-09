@@ -43,9 +43,14 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 		if (authzHeader != null && authzHeader.startsWith("Bearer ")) {
 			String accessToken = authzHeader.substring("Bearer ".length());
 			if (accessToken != null && !accessToken.isEmpty()) {
+				String validationEndpoint =org.talend.esb.security.oidc.OidcClientUtils
+						.getValidationEndpointLocation();
+				
+				if(validationEndpoint==null){
+					throw new RuntimeException("Location of Oidc validation endpoint is not set");
+				}
 				org.apache.cxf.jaxrs.client.WebClient oidcWebClient = org.apache.cxf.jaxrs.client.WebClient
-						.create(org.talend.esb.security.oidc.OidcClientUtils
-								.getValidationEndpointLocation(),
+						.create(validationEndpoint,
 								java.util.Collections
 										.singletonList(new org.apache.cxf.jaxrs.provider.json.JSONProvider<String>()))
 						.type("application/x-www-form-urlencoded");
