@@ -29,13 +29,13 @@ import org.apache.cxf.helpers.IOUtils;
 
 public class OidcClientUtils {
 
-	private static final String OIDC_TOKEN_ENDPOINT_LOCATION = "org.talend.esb.oidc.token.endpoint";
-	private static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "org.talend.esb.oidc.validation.endpoint";
-	private static final String OIDC_PUBLIC_CLIENT_ID = "org.talend.esb.oidc.public.client.id";
-	private static final String OIDC_SCOPE = "org.talend.esb.oidc.scope";
+	private static final String OIDC_TOKEN_ENDPOINT_LOCATION = "org.talend.esb.job.oidc.token.endpoint";
+	private static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "org.talend.esb.job.oidc.validation.endpoint";
+	private static final String OIDC_PUBLIC_CLIENT_ID = "org.talend.esb.job.oidc.public.client.id";
+	private static final String OIDC_SCOPE = "org.talend.esb.job.oidc.scope";
 
 	private static final String DEFAULT_OIDC_SCOPE = "openid";
-	private static final String DEFAULT_PUBLIC_CLIENT_ID = "iam_pub_client";
+	private static final String DEFAULT_PUBLIC_CLIENT_ID = "aFSloIZSXHRQtA";
 
 	private static Map<String, String> oidcProperties = new HashMap<String, String>();
 
