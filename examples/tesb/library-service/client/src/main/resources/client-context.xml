@@ -85,7 +85,8 @@
         <property name="serviceName" value="LibraryConsumer" />
     </bean>
 
-    <context:property-placeholder location="classpath*:callback-endpoint.properties" />
+    <context:property-placeholder location="classpath*:callback-endpoint.properties"
+        ignore-resource-not-found="true" ignore-unresolvable="true" />
 
     <jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
         id="LibraryConsumerJMS" address="${callback.endpoint.address}"
