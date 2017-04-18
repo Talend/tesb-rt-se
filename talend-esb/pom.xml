@@ -441,15 +441,6 @@
                                     <outputDirectory>target/dependencies/etc</outputDirectory>
                                     <destFileName>org.talend.esb.sam.agent.cfg</destFileName>
                                 </artifactItem>
-                                <!-- swagger-ui (TESB-18698) -->
-                                <artifactItem>
-                                    <groupId>org.webjars</groupId>
-                                    <artifactId>swagger-ui</artifactId>
-                                    <version>${swagger-ui.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>swagger-ui-${swagger-ui.version}.jar</destFileName>
-                                </artifactItem>
                                 <!-- workarounds for Camel features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
