@@ -45,7 +45,7 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 			if (accessToken != null && !accessToken.isEmpty()) {
 				String validationEndpoint =org.talend.esb.security.oidc.OidcClientUtils
 						.getValidationEndpointLocation();
-				
+
 				if(validationEndpoint==null){
 					throw new RuntimeException("Location of Oidc validation endpoint is not set");
 				}
@@ -69,8 +69,8 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 						authFailed = false;
 					}
 				} catch (Exception e) {
+                    throw new RuntimeException(e);
 				}
-
 			}
 		}
 
