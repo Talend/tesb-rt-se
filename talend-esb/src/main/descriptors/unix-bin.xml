@@ -519,7 +519,7 @@
         <!-- patch for cxf-rt-rs-service-description-swagger (TESB-19377) -->
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${activemq.version}/</outputDirectory>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
