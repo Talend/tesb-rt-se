@@ -26,11 +26,6 @@ tesb:start-all
 echo "Done"
 
 echo
-echo "Install tesb:switch-sts-jaas ......"
-tesb:switch-sts-jaas
-echo "Done"
-
-echo
 echo "Install feature:install activemq-broker ......"
 feature:install activemq-broker
 echo "Done"
