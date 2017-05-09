@@ -91,6 +91,7 @@
             <!-- Configuration Admin entry -->
             <osgix:cm-properties persistent-id="org.talend.esb.sts.server">
                 <prop key="stsServiceUrl">/SecurityTokenService/UT</prop>
+                <prop key="stsX509ServiceUrl">/SecurityTokenService/X509</prop>
                 <prop key="jaasContext">karaf</prop>
                 <prop key="signatureProperties">file:./etc/keystores/stsKeystore.properties</prop>
                 <prop key="signatureUsername">mystskey</prop>
