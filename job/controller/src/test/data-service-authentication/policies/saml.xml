@@ -82,7 +82,7 @@ xmlns:wsa="http://www.w3.org/2005/08/addressing">
 						<sp:OnlySignEntireHeadersAndBody />
 						<sp:AlgorithmSuite>
 							<wsp:Policy>
-								<sp:Basic256 />
+								<sp:Basic128Sha256 />
 							</wsp:Policy>
 						</sp:AlgorithmSuite>
 					</wsp:Policy>

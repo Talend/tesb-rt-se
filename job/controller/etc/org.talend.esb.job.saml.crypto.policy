@@ -38,7 +38,7 @@
 					<sp:OnlySignEntireHeadersAndBody />
 					<sp:AlgorithmSuite>
 						<wsp:Policy>
-							<sp:Basic128 />
+							<sp:Basic128Sha256 />
 						</wsp:Policy>
 					</sp:AlgorithmSuite>
 				</wsp:Policy>
