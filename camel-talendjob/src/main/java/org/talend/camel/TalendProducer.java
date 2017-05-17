@@ -20,6 +20,7 @@
 
 package org.talend.camel;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ import org.apache.camel.util.ObjectHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import routines.system.api.TalendESBRoute;
+import routines.system.api.TalendESBJobBean;
 import routines.system.api.TalendJob;
 
 /**
@@ -43,38 +44,125 @@ import routines.system.api.TalendJob;
  */
 public class TalendProducer extends DefaultProducer {
 
+    private static class JobWrapper implements TalendESBJobBean {
+
+        private final TalendJob job;
+
+        public JobWrapper(TalendJob job) {
+            super();
+            this.job = job;
+        }
+
+        @Override
+        public void prepareJob(String[] args) {
+            // not supported with old-style jobs
+        }
+
+        @Override
+        public void discardJob() {
+            // not supported with old-style jobs
+        }
+
+        @Override
+        public void runPreparedJob(Exchange exchange, String[] args) {
+            setExchangeInJob(exchange);
+            int success = job.runJobInTOS(args);
+            if (success != 0) {
+                signalJobFailure(args);
+            }
+        }
+
+        @Override
+        public void runSingleUseJob(Exchange exchange, String[] args) {
+            setExchangeInJob(exchange);
+            int success = job.runJobInTOS(args);
+            if (success != 0) {
+                signalJobFailure(args);
+            }
+        }
+
+        @Override
+        public Class<?> getJobClass() {
+            return job.getClass();
+        }
+
+        private void setExchangeInJob(Exchange exchange) {
+            try {
+                final Method setExchangeMethod =
+                        job.getClass().getMethod("setExchange", new Class[]{Exchange.class});
+                LOG.debug("Pass the exchange from route to Job");
+                ObjectHelper.invokeMethod(setExchangeMethod, job, exchange);
+            } catch (NoSuchMethodException e) {
+                LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
+            }
+        }
+
+        private void signalJobFailure(String[] args) {
+            throw new RuntimeCamelException("Execution of Talend job '" 
+                    + job.getClass().getCanonicalName() + "' with args: "
+                    + (args == null ? "none" : Arrays.toString(args))
+                    + "' failed, see stderr for details. ");
+        }
+   }
+
     private static final transient Logger LOG = LoggerFactory.getLogger(TalendProducer.class);
 
-    private Thread workingThread;
-    private TalendJob jobInstance;
+    private TalendESBJobBean jobInstance;
+    private final boolean stickyJob;
+    private final boolean propagateHeader;
 
     public TalendProducer(TalendEndpoint endpoint) {
         super(endpoint);
+        stickyJob = endpoint.isStickyJob();
+        propagateHeader = endpoint.isPropagateHeader();
     }
 
     public void process(Exchange exchange) throws Exception {
+        invokeTalendJob(exchange);
+    }
+
+    @Override
+    protected void doStart() throws Exception {
+        super.doStart();
+        if (stickyJob) {
+            if (jobInstance == null) {
+                jobInstance = createJobInstance();
+            }
+            jobInstance.prepareJob(prepareArgs(null));
+        }
+    }
+
+    @Override
+    protected void doStop() throws Exception {
+        super.doStop();
+        if (stickyJob && jobInstance != null) {
+            jobInstance.discardJob();
+            jobInstance = null;
+        }
+    }
+
+    private String[] prepareArgs(Exchange exchange) {
         final TalendEndpoint talendEndpoint = (TalendEndpoint) getEndpoint();
         final String context = talendEndpoint.getContext();
         final Collection<String> args = new ArrayList<String>();
         if (context != null) {
             args.add("--context=" + context);
         }
-        if (talendEndpoint.isPropagateHeader()) {
+        if (propagateHeader && exchange != null) {
             getParamsFromHeaders(exchange, args);
         }
         getParamsFromProperties(getEndpoint().getCamelContext().getProperties(), args);
         getParamsFromProperties(talendEndpoint.getEndpointProperties(), args);
-        boolean success = false;
-        TalendJob jobInstance = getJobInstance();
-        try {
-            invokeTalendJob(jobInstance, args.toArray(new String[args.size()]), exchange);
-            jobDone();
-            success = true;
-        } finally {
-            if (!success) {
-                jobDown();
-            }
+        return args.toArray(new String[args.size()]);
+    }
+
+    private String[] prepareHeaderArgs(Exchange exchange) {
+        if (!propagateHeader || exchange == null) {
+            return null;
         }
+        final Collection<String> args = new ArrayList<String>();
+        getParamsFromHeaders(exchange, args);
+        return args.toArray(new String[args.size()]);
     }
 
     private static void getParamsFromProperties(Map<String, String> propertiesMap, Collection<String> args) {
@@ -98,91 +186,47 @@ public class TalendProducer extends DefaultProducer {
         }
     }
 
-    private void invokeTalendJob(final TalendJob jobInstance, String[] args, Exchange exchange) {
-        try {
-            final Method setExchangeMethod =
-                    jobInstance.getClass().getMethod("setExchange", new Class[]{Exchange.class});
-            LOG.debug("Pass the exchange from route to Job");
-            ObjectHelper.invokeMethod(setExchangeMethod, jobInstance, exchange);
-        } catch (NoSuchMethodException e) {
-            LOG.debug("No setExchange(exchange) method found in Job, the message data will be ignored");
+    private void invokeTalendJob(Exchange exchange) throws Exception {
+        final TalendESBJobBean jobBean = stickyJob ? jobInstance : createJobInstance();
+        if (jobBean == null) {
+            throw new IllegalStateException("Job instance not initialized for invocation. ");
         }
+        final Thread currentThread = Thread.currentThread();
+        final ClassLoader oldCtxClassLoader = currentThread.getContextClassLoader();
+        try {
+            currentThread.setContextClassLoader(jobBean.getJobClass().getClassLoader());
+            if (stickyJob) {
+                String[] args = prepareHeaderArgs(exchange);
+                logJobInvocation(jobBean, args);
+                jobBean.runPreparedJob(exchange, args);
+            } else {
+                String[] args = prepareArgs(exchange);
+                logJobInvocation(jobBean, args);
+                jobBean.runSingleUseJob(exchange, args);
+            }
+        } finally {
+            currentThread.setContextClassLoader(oldCtxClassLoader);
+        }
+    }
+
+    private TalendESBJobBean createJobInstance() throws Exception {
+        final TalendJob job = ((TalendEndpoint) getEndpoint()).getJobInstance();
+        TalendESBJobBean jobBean = null;
+        LOG.debug("Getting new job instance.");
+        try {
+            final Field esbJobBeanField = job.getClass().getField("esbJobBean");
+            jobBean = (TalendESBJobBean) esbJobBeanField.get(job);
+        } catch (NoSuchFieldException e) {
+            LOG.debug("Reflective retrieval of Job access bean failed, assuming old-style job. ", e);
+        }
+        return jobBean == null ? new JobWrapper(job) : jobBean;
+    }
+
+    private void logJobInvocation(TalendESBJobBean job, String[] args) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Invoking Talend job '" + jobInstance.getClass().getCanonicalName() 
-                    + ".runJob(String[] args)' with args: " + Arrays.toString(args));
+            LOG.debug("Invoking Talend job '" + job.getJobClass().getCanonicalName() 
+                    + ".runJob(String[] args)' with args: "
+                    + (args == null ? "none" : Arrays.toString(args)));
         }
-
-        // use local variable due to single component instance during parallel processing
-        final Thread thread = Thread.currentThread();
-        workingThread = thread;
-        final ClassLoader oldContextCL = thread.getContextClassLoader();
-        try {
-            thread.setContextClassLoader(jobInstance.getClass().getClassLoader());
-            int result = jobInstance.runJobInTOS(args);
-            if (result != 0) {
-                throw new RuntimeCamelException("Execution of Talend job '" 
-                        + jobInstance.getClass().getCanonicalName() + "' with args: "
-                        + Arrays.toString(args) + "' failed, see stderr for details");
-                // Talend logs errors using System.err.println
-            }
-        } finally {
-            thread.setContextClassLoader(oldContextCL);
-            workingThread = null;
-        }
-    }
-
-    @Override
-    protected void doStop() throws Exception {
-        super.doStop();
-        boolean success = false;
-        try {
-            TalendJob wjob = jobInstance;
-            if (wjob instanceof TalendESBRoute) {
-                ((TalendESBRoute) wjob).stop();
-                LOG.info("Job instance stopped.");
-                wait(100L);
-            }
-            success = true;
-        } finally {
-            Thread wthread = workingThread;
-            if (null != wthread) {
-                LOG.info("Enforce Talend job termination.");
-                wthread.interrupt();
-            }
-            if (!success) {
-            	jobDown();
-            }
-        }
-    }
-
-    @Override
-    protected void doShutdown() throws Exception {
-    	super.doShutdown();
-    	jobDown();
-    }
-
-    private TalendJob getJobInstance() throws Exception {
-        if (jobInstance == null) {
-            jobInstance = ((TalendEndpoint) getEndpoint()).getJobInstance();
-            LOG.debug("Getting new job instance.");
-        } else {
-            LOG.debug("Re-using sticky job instance.");
-        }
-        return jobInstance;
-    }
-
-    private void jobDone() throws Exception {
-        if (!((TalendEndpoint) getEndpoint()).isStickyJob()) {
-            jobDown();
-        }
-    }
-
-    private void jobDown() throws Exception {
-    	TalendJob job = jobInstance;
-    	jobInstance = null;
-    	if (job instanceof TalendESBRoute) {
-    		((TalendESBRoute) job).shutdown();
-            LOG.info("Job instance shut down.");
-    	}
     }
 }
