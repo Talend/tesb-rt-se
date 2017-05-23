@@ -30,9 +30,15 @@ import javax.ws.rs.container.PreMatching;
 @Priority(Priorities.AUTHENTICATION)
 public class OidcAccessTokenValidator implements ContainerRequestFilter {
 
+	private OidcConfiguration oidcConfiguration = OidcClientUtils.getOidcConfiguration();
+	
 	public OidcAccessTokenValidator() {
 	}
-
+	
+	public OidcAccessTokenValidator(OidcConfiguration oidcConfiguration) {
+		this.oidcConfiguration = oidcConfiguration;
+	}
+	
 	@Override
 	public void filter(
 			javax.ws.rs.container.ContainerRequestContext requestContext)
@@ -43,8 +49,7 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 		if (authzHeader != null && authzHeader.startsWith("Bearer ")) {
 			String accessToken = authzHeader.substring("Bearer ".length());
 			if (accessToken != null && !accessToken.isEmpty()) {
-				String validationEndpoint =org.talend.esb.security.oidc.OidcClientUtils
-						.getValidationEndpointLocation();
+				String validationEndpoint = oidcConfiguration.getValidationEndpoint();
 
 				if(validationEndpoint==null){
 					throw new RuntimeException("Location of Oidc validation endpoint is not set");
