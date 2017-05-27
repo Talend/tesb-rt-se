@@ -19,6 +19,7 @@
  */
 package org.talend.esb.sam.agent.eventproducer;
 
+import java.lang.reflect.Method;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,6 +101,11 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             return;
         }
 
+        // Skip Swagger UI web static, swagger.json and swagger.yaml requests
+        if (isSwaggerResourceRequest(message)) {
+            return;
+        }
+
         //check MessageID
         checkMessageID(message);
 
@@ -145,7 +151,7 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
                 return true;
             }
 
-            // unfortunately response for WADL request do not contain request QUERY_STRING
+            // unfortunately responses for WADL request do not contain request QUERY_STRING
             if (MessageUtils.isOutbound(message)) {
                 Exchange ex = message.getExchange();
                 if (null != ex) {
@@ -192,5 +198,28 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
                                          && !MessageToEventMapper.isRestMessage(message);
 
           return isOnewayOutResp || isOnewayInResp;
+    }
+
+    private boolean isSwaggerResourceRequest(Message message) {
+        Object method = message.get("org.apache.cxf.resource.method");
+        if (method instanceof Method) {
+            return  isSwaggerResourceHandler((Method)method);
+        }
+
+        // unfortunately, response messages do not contain handler method
+        if (MessageUtils.isOutbound(message) && message.getExchange().getInMessage() != null) {
+            method = message.getExchange().getInMessage().get("org.apache.cxf.resource.method");
+            if (method instanceof Method) {
+                return isSwaggerResourceHandler((Method)method);
+            }
+        }
+
+        return  false;
+    }
+
+    private boolean isSwaggerResourceHandler(Method method) {
+        String handlerClassName = method.getDeclaringClass().getCanonicalName();
+        return "org.apache.cxf.jaxrs.swagger.Swagger2Feature.SwaggerUIService".equals(handlerClassName) // Swagger UI static resources
+                || "io.swagger.jaxrs.listing.ApiListingResource".equals(handlerClassName); // swagger.json (or yaml)
     }
 }
