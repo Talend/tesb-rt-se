@@ -31,29 +31,21 @@
         <property name="location" value="classpath:oidc.properties" />
         <property name="properties">
             <props>
-                <prop key="oidc.public.client.id">aFSloIZSXHRQtA</prop>
-                <prop key="oidc.token.endpoint"></prop>
-                <prop key="oidc.validation.endpoint"></prop>
-                <prop key="oidc.scope">oidc</prop>
+                <prop key="org.talend.esb.job.oidc.public.client.id">aFSloIZSXHRQtA</prop>
+                <prop key="org.talend.esb.job.oidc.token.endpoint"></prop>
+                <prop key="org.talend.esb.job.oidc.validation.endpoint"></prop>
+                <prop key="org.talend.esb.job.oidc.scope">oidc</prop>
             </props>
         </property>
     </bean>
 
-<!-- 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />
         <property name="ignoreResourceNotFound" value="true" />
-        <property name="location" value="classpath:config/oidc.properties"/>
+        <property name="location" value="classpath:config/org.talend.esb.job.oidc.cfg"/>
     </bean>
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="order" value="1" />
-        <property name="ignoreUnresolvablePlaceholders" value="true" />
-        <property name="ignoreResourceNotFound" value="true" />
-        <property name="location" value="file:${spring.config.location}/oidc.properties"/>
-    </bean>
- -->
     <bean id="oidcConfiguration"
           class="org.talend.esb.security.oidc.OidcConfiguration">
           
