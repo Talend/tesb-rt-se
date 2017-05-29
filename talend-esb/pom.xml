@@ -40,6 +40,8 @@
         <log4j.version>1.2.17</log4j.version>
         <equinox.version>3.10.1.v20140909-1633</equinox.version>
         <pax-web.version>6.0.3</pax-web.version>
+        <jline.version>3.3.0</jline.version>
+        <jansi.version>1.16</jansi.version>
 	</properties>
 
 	<dependencies>
@@ -519,6 +521,19 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- Patch jline and jansi versions (TESB-19436) -->
+                                <artifactItem>
+                                    <groupId>org.jline</groupId>
+                                    <artifactId>jline</artifactId>
+                                    <version>${jline.version}</version>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.fusesource.jansi</groupId>
+                                    <artifactId>jansi</artifactId>
+                                    <version>${jansi.version}</version>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -807,6 +822,53 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <!-- Patch jline and jansi versions (TESB-19436) -->
+                                <replace>
+                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/bin/">
+                                        <exclude name="*.bat" />
+                                    </fileset>
+                                    <replacefilter>
+                                        <replacetoken>org/jline/jline/3.2.0/jline-3.2.0.jar</replacetoken>
+                                        <replacevalue>org/jline/jline/${jline.version}/${jline.version}</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>org/fusesource/jansi/jansi/1.14/jansi-1.14.jar</replacetoken>
+                                        <replacevalue>org/fusesource/jansi/jansi/${jansi.version}/jansi-${jansi.version}.jar</replacevalue>
+                                    </replacefilter>
+                                </replace>
+                                <replace>
+                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/bin/">
+                                        <include name="*.bat" />
+                                    </fileset>
+                                    <replacefilter>
+                                        <replacetoken>org\jline\jline\3.2.0\jline-3.2.0.jar</replacetoken>
+                                        <replacevalue>org\jline\jline\${jline.version}\jline-${jline.version}.jar</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>org\fusesource\jansi\jansi\1.14\jansi-1.14.jar</replacetoken>
+                                        <replacevalue>org\fusesource\jansi\jansi\${jansi.version}\jansi-${jansi.version}.jar</replacevalue>
+                                    </replacefilter>
+                                </replace>
+                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.jline/jline/3.2.0</replacetoken>
+                                        <replacevalue>mvn:org.jline/jline/${jline.version}</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.jansi/jansi/1.14</replacetoken>
+                                        <replacevalue>mvn:org.fusesource.jansi/jansi/${jansi.version}</replacevalue>
+                                    </replacefilter>
+                                </replace>
+                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.jline/jline/3.2.0</replacetoken>
+                                        <replacevalue>mvn:org.jline/jline/${jline.version}</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.fusesource.jansi/jansi/1.14</replacetoken>
+                                        <replacevalue>mvn:org.fusesource.jansi/jansi/${jansi.version}</replacevalue>
+                                    </replacefilter>
                                 </replace>
                             </target>
                         </configuration>
