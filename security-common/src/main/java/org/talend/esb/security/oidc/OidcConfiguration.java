@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class OidcConfiguration {
 
-	public static final String OIDC_TOKEN_ENDPOINT_LOCATION = "org.talend.esb.job.oidc.token.endpoint";
-	public static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "org.talend.esb.job.oidc.validation.endpoint";
-	public static final String OIDC_PUBLIC_CLIENT_ID = "org.talend.esb.job.oidc.public.client.id";
-	public static final String OIDC_SCOPE = "org.talend.esb.job.oidc.scope";
+	public static final String OIDC_TOKEN_ENDPOINT_LOCATION = "token.endpoint";
+	public static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "validation.endpoint";
+	public static final String OIDC_PUBLIC_CLIENT_ID = "public.client.id";
+	public static final String OIDC_SCOPE = "scope";
 
 	private static final String DEFAULT_OIDC_SCOPE = "openid";
 	private static final String DEFAULT_PUBLIC_CLIENT_ID = "aFSloIZSXHRQtA";

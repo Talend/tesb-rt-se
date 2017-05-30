@@ -31,10 +31,10 @@
         <property name="location" value="classpath:oidc.properties" />
         <property name="properties">
             <props>
-                <prop key="org.talend.esb.job.oidc.public.client.id">aFSloIZSXHRQtA</prop>
-                <prop key="org.talend.esb.job.oidc.token.endpoint"></prop>
-                <prop key="org.talend.esb.job.oidc.validation.endpoint"></prop>
-                <prop key="org.talend.esb.job.oidc.scope">oidc</prop>
+                <prop key="public.client.id">aFSloIZSXHRQtA</prop>
+                <prop key="token.endpoint"></prop>
+                <prop key="validation.endpoint"></prop>
+                <prop key="scope">oidc</prop>
             </props>
         </property>
     </bean>
