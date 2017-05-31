@@ -49,10 +49,10 @@
     <bean id="oidcConfiguration"
           class="org.talend.esb.security.oidc.OidcConfiguration">
           
-        <property name="publicClientId" value="${oidc.public.client.id}"/>
-        <property name="tokenEndpoint" value="${oidc.token.endpoint}"/>
-        <property name="validationEndpoint" value="${oidc.validation.endpoint}"/>
-        <property name="scope" value="${oidc.scope}"/>
+        <property name="publicClientId" value="${public.client.id}"/>
+        <property name="tokenEndpoint" value="${token.endpoint}"/>
+        <property name="validationEndpoint" value="${validation.endpoint}"/>
+        <property name="scope" value="${scope}"/>
     </bean>
     
 </beans>
