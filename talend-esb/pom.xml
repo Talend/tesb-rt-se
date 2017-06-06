@@ -797,7 +797,7 @@
                                     <!-- patch for camel-paxlogging (TESB-19585) -->
                                     <replacefilter
                                         token="org.apache.camel/camel-paxlogging/${camel.version}&lt;"
-                                        value="org.apache.camel/camel-paxlogging/${cxf.version}/jar/TESB&lt;"/>
+                                        value="org.apache.camel/camel-paxlogging/${camel.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
