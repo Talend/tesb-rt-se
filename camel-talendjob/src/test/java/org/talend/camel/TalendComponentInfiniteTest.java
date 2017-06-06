@@ -36,6 +36,7 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
 
         private static volatile int started = 0;
         private static volatile boolean passed = false;
+        private static volatile boolean timeouted = false;
 
         public static void waitForStart() throws InterruptedException {
             synchronized (JobInfinite.class) {
@@ -57,6 +58,7 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
             boolean result = passed;
             Logger.getAnonymousLogger().info("Passed state is " + result + " - resetting passed state");
             passed = false;
+            timeouted = false;
             return result;
         }
 
@@ -78,12 +80,14 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
                     Thread.sleep(endTime - currentTime);
                     currentTime = System.currentTimeMillis();
                 }
+                Logger.getAnonymousLogger().severe("Job has timeouted.");
+                timeouted = true;
             } catch (InterruptedException e) {
                 Logger.getAnonymousLogger().info("Job has been interrupted.");
             }
             synchronized (JobInfinite.class) {
                 Logger.getAnonymousLogger().info("Job stopped");
-                passed = (--started <= 0);
+                passed = (--started <= 0) && !timeouted;
                 JobInfinite.class.notifyAll();
             }
             return 0;
