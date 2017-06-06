@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
@@ -64,8 +65,8 @@ public class TalendProducer extends DefaultProducer {
         }
 
         @Override
-        public void runPreparedJob(Exchange exchange, String[] args) {
-            setExchangeInJob(exchange);
+        public void runPreparedJob(Map<String, Object> exchangeData, String[] args) {
+            setExchangeInJob((Exchange) exchangeData.get("exchange"));
             int success = job.runJobInTOS(args);
             if (success != 0) {
                 signalJobFailure(args);
@@ -73,8 +74,8 @@ public class TalendProducer extends DefaultProducer {
         }
 
         @Override
-        public void runSingleUseJob(Exchange exchange, String[] args) {
-            setExchangeInJob(exchange);
+        public void runSingleUseJob(Map<String, Object> exchangeData, String[] args) {
+            setExchangeInJob((Exchange) exchangeData.get("exchange"));
             int success = job.runJobInTOS(args);
             if (success != 0) {
                 signalJobFailure(args);
@@ -198,11 +199,11 @@ public class TalendProducer extends DefaultProducer {
             if (stickyJob) {
                 String[] args = prepareHeaderArgs(exchange);
                 logJobInvocation(jobBean, args);
-                jobBean.runPreparedJob(exchange, args);
+                jobBean.runPreparedJob(Collections.singletonMap("exchange", (Object) exchange), args);
             } else {
                 String[] args = prepareArgs(exchange);
                 logJobInvocation(jobBean, args);
-                jobBean.runSingleUseJob(exchange, args);
+                jobBean.runSingleUseJob(Collections.singletonMap("exchange", (Object) exchange), args);
             }
         } finally {
             currentThread.setContextClassLoader(oldCtxClassLoader);
