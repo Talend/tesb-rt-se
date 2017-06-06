@@ -20,6 +20,8 @@
 
 package org.talend.camel;
 
+import java.util.logging.Logger;
+
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.junit.Test;
@@ -28,15 +30,32 @@ import routines.system.api.TalendJob;
 
 public class TalendComponentInfiniteTest extends CamelTestSupport {
 
-    public static final long JOB_WAIT_TIME = 60000;
-
+    public static final long JOB_WAIT_TIME = 90000;
 
     public static class JobInfinite implements TalendJob {
 
-        private static boolean passed = false;
+        private static volatile int started = 0;
+        private static volatile boolean passed = false;
+
+        public static void waitForStart() throws InterruptedException {
+            synchronized (JobInfinite.class) {
+                while (started <= 0) {
+                    JobInfinite.class.wait(JOB_WAIT_TIME);
+                }
+            }
+        }
+
+        public static void waitForStop() throws InterruptedException {
+            synchronized (JobInfinite.class) {
+                while (started > 0) {
+                    JobInfinite.class.wait(JOB_WAIT_TIME);
+                }
+            }
+        }
 
         public static boolean isPassed() {
             boolean result = passed;
+            Logger.getAnonymousLogger().info("Passed state is " + result + " - resetting passed state");
             passed = false;
             return result;
         }
@@ -47,12 +66,25 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
 
         public int runJobInTOS(String[] args) {
             synchronized (JobInfinite.class) {
-                JobInfinite.class.notify();
+                Logger.getAnonymousLogger().info("Job started");
+                ++started;
+                JobInfinite.class.notifyAll();
             }
             try {
-                Thread.sleep(JOB_WAIT_TIME);
+                long startTime = System.currentTimeMillis();
+                long endTime = startTime + JOB_WAIT_TIME;
+                long currentTime = startTime;
+                while (currentTime < endTime) {
+                    Thread.sleep(endTime - currentTime);
+                    currentTime = System.currentTimeMillis();
+                }
             } catch (InterruptedException e) {
-                passed = true;
+                Logger.getAnonymousLogger().info("Job has been interrupted.");
+            }
+            synchronized (JobInfinite.class) {
+                Logger.getAnonymousLogger().info("Job stopped");
+                passed = (--started <= 0);
+                JobInfinite.class.notifyAll();
             }
             return 0;
         }
@@ -67,10 +99,9 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
     public void testJobInfiniteDirect() throws Exception {
         template.asyncRequestBody("direct:infinite", null);
         assertFalse(JobInfinite.isPassed());
-        synchronized (JobInfinite.class) {
-            JobInfinite.class.wait();
-        }
+        JobInfinite.waitForStart();
         context.stop();
+        JobInfinite.waitForStop();
         assertTrue(JobInfinite.isPassed());
     }
 
@@ -78,10 +109,9 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
     public void testJobInfiniteSeda() throws Exception {
         sendBody("seda:infinite", null);
         assertFalse(JobInfinite.isPassed());
-        synchronized (JobInfinite.class) {
-            JobInfinite.class.wait();
-        }
+        JobInfinite.waitForStart();
         context.stop();
+        JobInfinite.waitForStop();
         assertTrue(JobInfinite.isPassed());
     }
 
@@ -89,10 +119,9 @@ public class TalendComponentInfiniteTest extends CamelTestSupport {
     public void testJobInfiniteDirectParallel() throws Exception {
         template.asyncRequestBody("direct:parallel", null);
         assertFalse(JobInfinite.isPassed());
-        synchronized (JobInfinite.class) {
-            JobInfinite.class.wait();
-        }
+        JobInfinite.waitForStart();
         context.stop();
+        JobInfinite.waitForStop();
         assertTrue(JobInfinite.isPassed());
     }
 
