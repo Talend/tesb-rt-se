@@ -211,6 +211,13 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
             method = message.getExchange().getInMessage().get("org.apache.cxf.resource.method");
             if (method instanceof Method) {
                 return isSwaggerResourceHandler((Method)method);
+            } else if (method == null
+                         && MessageToEventMapper.isRestMessage(message)
+                         && message.get(Message.RESPONSE_CODE) != null) { // supposedly Swagger response in a route
+                Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
+                if (responseCode < 400 && message.getExchange().get("org.apache.cxf.resource.operation.name") == null) {
+                    return true;
+                }
             }
         }
 
