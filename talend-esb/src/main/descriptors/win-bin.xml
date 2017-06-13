@@ -385,6 +385,8 @@
                 <exclude>org/fusesource/jansi/jansi/1.14/**</exclude>
                 <!-- patch for camel-paxlogging (TESB-19585) -->
                 <exclude>org/apache/camel/camel-paxlogging/${camel.version}/**</exclude>
+                <!-- patch for wss4j-policy (TESB-19795) -->
+                <exclude>org/apache/wss4j/wss4j-policy/${wss4j.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -531,6 +533,12 @@
         <file>
             <source>${basedir}/target/dependencies/camel-paxlogging-${camel.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-paxlogging/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for wss4j-policy (TESB-19795) -->
+        <file>
+            <source>${basedir}/target/dependencies/wss4j-policy-${wss4j.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/wss4j/wss4j-policy/${wss4j.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

@@ -543,6 +543,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>camel-paxlogging-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for wss4j-policy (TESB-19795) -->
+                                <artifactItem>
+                                    <groupId>org.apache.wss4j</groupId>
+                                    <artifactId>wss4j-policy</artifactId>
+                                    <version>${wss4j.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>wss4j-policy-${wss4j.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -838,6 +847,10 @@
                                     <replacefilter
                                         token="org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}&lt;"
                                         value="org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/jar/TESB&lt;"/>
+                                    <!-- patch for wss4j-policy (TESB-19795) -->
+                                    <replacefilter
+                                        token="org.apache.wss4j/wss4j-policy/${wss4j.version}&lt;"
+                                        value="org.apache.wss4j/wss4j-policy/${wss4j.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
