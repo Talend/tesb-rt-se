@@ -1,14 +1,18 @@
-Installing of SAPJCO3 Destination Connection to Talend Runtime
+Installing SAPJCO3 Destination Connection to Talend Runtime
 =============================================================
 
 Installing SAP Java Connector 3.0
-==============================
+==================================
+For Windows OS: 
 After installing SAP Java Connector, ensure that the installation path <sapjco3_home> is added to your PATH environment variable.
 
+For Linux OS (installation of ESB as a Service): 
+Copy the file libsapjco3.so into <Talend-ESB>/container/lib/wrapper/
+
 Deploying sapjco3 jar in Talend Runtime
-==================================================
+=======================================
 Start the Talend Runtime Karaf console and use the following command:
-bundle:install -s 'wrap:file:<sapjco3_home>/sapjco3.jar$Bundle-SymbolicName=com.sap.conn.jco&Bundle-Version=7.30.1&Bundle-Name=SAP Java Connector v3'
+bundle:install -s 'wrap:file:<sapjco3_home>/sapjco3.jar$Bundle-SymbolicName=com.sap.conn.jco&Bundle-Version=7.30.1&Bundle-Name=SAP_Java_Connector_v3'
 
 where <sapjco3_home> is the path where SAP Java Connector is installed in the previous step.
 
@@ -17,9 +21,9 @@ karaf@trun> list | grep SAP
 
 [ 311] [Active     ] [            ] [       ] [   80] SAP Java Connector v3 (7.30.1)
 
-Installing talend-sap-hibersap feature
-===================================
-After the connector deployed, use the following command in the Karaf console to install the talend-sap-hibersap feature:
+Installing talend-sap-hibersap
+==============================
+After the connector is deployed, use the following command in the Karaf console to install the talend-sap-hibersap feature:
 feature:install talend-sap-hibersap
 
 To check that the JARs are installed correctly, use the following command in the Karaf console:
@@ -29,7 +33,7 @@ karaf@trun> list | grep Hibersap
 [ 313] [Active     ] [            ] [       ] [   80] Hibersap JCo (1.2.0)
 
 Connection pool configuration and deployment
-========================================
+============================================
 1. Connection configuration.
 In JCo 3.0, the connection setup is no longer implemented explicitly 
 using a direct or pooled connection.
@@ -53,8 +57,8 @@ org.talend.sap.connection.xml:
 <value>SAP_CONNECTION_POOL</value>
 
 2. Deploying the connection pool to Talend Runtime.
-Copy the file org.talend.sap.connection.cfg to Talend-ESB\container\etc\
-Copy the file org.talend.sap.connection.xml to Talend-ESB\container\deploy\
+Copy the file org.talend.sap.connection.cfg to <Talend-ESB>\container\etc\
+Copy the file org.talend.sap.connection.xml to <Talend-ESB>\container\deploy\
 
 Now SAP_CONNECTION_POOL is created and can be used.
 
