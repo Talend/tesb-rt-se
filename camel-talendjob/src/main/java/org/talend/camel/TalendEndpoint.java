@@ -2,14 +2,14 @@
  * #%L
  * Talend ESB :: Camel Talend Job Component
  * %%
- * Copyright (C) 2011 - 2014 Talend Inc.
+ * Copyright (C) 2011 - 2017 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,9 +42,9 @@ public class TalendEndpoint extends DefaultEndpoint {
     private String owner;
     private String context;
     private Map<String, String> endpointProperties;
-    private boolean stickyJob;
-
+    private String componentId = null;
     private boolean propagateHeader = true;
+    private boolean stickyJob = false;
 
     public TalendEndpoint(String uri, String clazz, TalendComponent component) {
         super(uri, component);
@@ -67,16 +67,32 @@ public class TalendEndpoint extends DefaultEndpoint {
         setOwnerAndClazz(clazz);
     }
 
-    public void setContext(String context) {
-        this.context = context;
-    }
-
     public String getContext() {
         return context;
     }
 
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public String getComponentId() {
+        return componentId;
+    }
+
+    public void setComponentId(String componentId) {
+        this.componentId = componentId;
+    }
+
+    public boolean isPropagateHeader() {
+        return propagateHeader;
+    }
+
+    public void setPropagateHeader(boolean propagateHeader) {
+        this.propagateHeader = propagateHeader;
+    }
+
     public boolean isStickyJob() {
-    	return stickyJob;
+        return stickyJob;
     }
 
     public void setStickyJob(boolean stickyJob) {
@@ -99,14 +115,6 @@ public class TalendEndpoint extends DefaultEndpoint {
         return jobInstance;
     }
 
-    public void setPropagateHeader(boolean propagateHeader) {
-        this.propagateHeader = propagateHeader;
-    }
-
-    public boolean isPropagateHeader() {
-        return propagateHeader;
-    }
-
     public Map<String, String> getEndpointProperties() {
         return endpointProperties;
     }
@@ -116,18 +124,18 @@ public class TalendEndpoint extends DefaultEndpoint {
     }
 
     private void setOwnerAndClazz(String rawClazz) {
-    	if (rawClazz == null) {
-    		owner = null;
-    		clazz = null;
-    		return;
-    	}
-    	int ndx = rawClazz.lastIndexOf('/');
-    	if (ndx < 0) {
-    		owner = null;
-    		clazz = rawClazz;
-    		return;
-    	}
-    	owner = rawClazz.substring(0, ndx);
-    	clazz = rawClazz.substring(ndx + 1);
+        if (rawClazz == null) {
+            owner = null;
+            clazz = null;
+            return;
+        }
+        int ndx = rawClazz.lastIndexOf('/');
+        if (ndx < 0) {
+            owner = null;
+            clazz = rawClazz;
+            return;
+        }
+        owner = rawClazz.substring(0, ndx);
+        clazz = rawClazz.substring(ndx + 1);
     }
 }
