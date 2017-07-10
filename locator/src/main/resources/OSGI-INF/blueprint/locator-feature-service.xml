@@ -28,9 +28,7 @@
         http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
         http://www.osgi.org/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.xsd
         http://www.osgi.org/xmlns/blueprint-ext/v1.1.0 http://aries.apache.org/schemas/blueprint-ext/blueprint-ext-1.1.xsd
-        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd
-        "
-    >
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
 	<cm:property-placeholder persistent-id="org.talend.esb.locator"
 		update-strategy="reload">

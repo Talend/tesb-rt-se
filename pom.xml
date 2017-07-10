@@ -126,6 +126,7 @@
         <bouncycastle.version>1.54</bouncycastle.version>
         <hibersap.version>1.2.0</hibersap.version>
         <javax.el.version>3.0.0</javax.el.version>
+        <pax-cdi.version>1.0.0.RC1</pax-cdi.version>
 
         <surefire.plugin.version>2.18.1</surefire.plugin.version>
 
@@ -213,6 +214,11 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.4.0</version>
                     <extensions>true</extensions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.aries.blueprint</groupId>
+                    <artifactId>blueprint-maven-plugin</artifactId>
+                    <version>1.7.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

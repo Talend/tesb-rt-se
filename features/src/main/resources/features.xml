@@ -185,6 +185,7 @@
   <feature name='tesb-locator-client' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <feature prerequisite='true'>tesb-zookeeper</feature>
+    <bundle>mvn:org.ops4j.pax.cdi/pax-cdi-api/${pax-cdi.version}</bundle>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
     <bundle start-level='51'>mvn:org.talend.esb/locator/${project.version}</bundle>
   </feature>
