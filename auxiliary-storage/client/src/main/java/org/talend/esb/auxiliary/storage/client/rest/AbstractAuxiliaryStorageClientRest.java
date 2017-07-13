@@ -37,11 +37,11 @@ public abstract class AbstractAuxiliaryStorageClientRest<E> extends AuxiliarySto
     private WebClient cachedClient = null;
 
     private ReentrantLock lock = new ReentrantLock();
-    
+
     public AbstractAuxiliaryStorageClientRest() {
     	super();
     }
-    
+
     public AbstractAuxiliaryStorageClientRest(Properties props) {
         super(props);
     }
@@ -53,9 +53,6 @@ public abstract class AbstractAuxiliaryStorageClientRest<E> extends AuxiliarySto
         return cachedClient;
     }
 
-    protected String urlEncode(String param) throws UnsupportedEncodingException {
-        return URLEncoder.encode(param, "UTF-8");
-    }
 
     public void switchServerURL(String usedUrl) {
 
