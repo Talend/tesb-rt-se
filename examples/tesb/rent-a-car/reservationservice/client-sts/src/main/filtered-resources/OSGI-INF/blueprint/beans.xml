@@ -17,21 +17,15 @@
   limitations under the License.
   #L%
   -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:cxf="http://cxf.apache.org/core"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:jaxws="http://cxf.apache.org/jaxws"
-	xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
-		http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
-                http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
-                http://www.w3.org/2000/09/xmldsig# http://www.w3.org/TR/xmldsig-core/xmldsig-core-schema.xsd">
-
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
+<blueprint 
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
 
     <cxf:bus>
         <cxf:features>
@@ -39,7 +33,7 @@
         </cxf:features>
     </cxf:bus>
 
-	<jaxws:client id="ReservationServiceClient" name="{http://services.talend.org/ReservationService}ReservationServiceProvider"
+	<jaxws:client id="ReservationServiceClient" 
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
@@ -53,11 +47,11 @@
                <entry key="security.signature.properties" value="clientKeystore.properties"/>
                <entry key="security.sts.client">
                    <bean class="org.apache.cxf.ws.security.trust.STSClient">
-                       <constructor-arg ref="cxf"/>
-                         <property name="wsdlLocation" value="${sts.endpoint.prefix}/SecurityTokenService/UT?wsdl" />
-                         <property name="serviceName"
+                       <argument ref="cxf"/>
+                       <property name="wsdlLocation" value="${sts.endpoint.prefix}/SecurityTokenService/UT?wsdl" />
+                       <property name="serviceName"
                              value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
-                         <property name="endpointName"
+                       <property name="endpointName"
                             value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
                        <property name="properties">
                            <map>
@@ -78,6 +72,6 @@
            </jaxws:properties>
     </jaxws:client>
 
-	<osgi:service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
+	<service ref="ReservationServiceClient" interface="org.talend.services.reservationservice.ReservationService"/>
 
-</beans>
+</blueprint>
