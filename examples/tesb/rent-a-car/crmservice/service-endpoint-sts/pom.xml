@@ -43,8 +43,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
-                            org.apache.cxf.cxf-core,
-                            org.apache.servicemix.bundles.spring-beans
+                            org.apache.cxf.cxf-core
                         </Require-Bundle>
                         <Import-Package>
                             model.crmservice-wsdls,
