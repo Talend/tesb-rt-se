@@ -43,32 +43,6 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-	    <!-- For the spring annotations -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-aop</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-core</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-expression</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-asm</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-            <optional>true</optional>
-        </dependency>
-        
     </dependencies>
 
     <build>
@@ -81,6 +55,8 @@
                     <instructions>
                         <_include>-bnd.bnd</_include>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
+                        <_nouses>true</_nouses>
                     </instructions>
                 </configuration>
             </plugin>
