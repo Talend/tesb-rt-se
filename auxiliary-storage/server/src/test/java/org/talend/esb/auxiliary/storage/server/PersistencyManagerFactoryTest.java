@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.talend.esb.auxiliary.storage.persistence.PersistencyManager;
+import org.talend.esb.auxiliary.storage.persistence.file.PersistencyFileManager;
 import org.talend.esb.auxiliary.storage.persistence.jcr.PersistencyJCRManager;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class PersistencyManagerFactoryTest {
     public void createManagerFile() {
         factory.setStorageDirPath(STORE_PATH_FILE);
         PersistencyManager manager = factory.createPersistencyManager(PersistencyManagerFactory.FILE_STORE);
+        ((PersistencyFileManager)manager).init();
         Assert.assertNotNull(manager);
         manager.storeObject("Object for file store", "file_store");
         String retrieved = manager.restoreObject("file_store");
