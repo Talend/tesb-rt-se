@@ -21,7 +21,6 @@
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
-    xmlns:cxf="http://cxf.apache.org/blueprint/core"
     xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws">
 
     <cm:property-placeholder persistent-id="org.talend.esb.sam.agent"
@@ -40,10 +39,8 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <cxf:bus id="bus" />
-
     <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" destroy-method="destroy">
-        <property name="bus" ref="bus"/>
+        <property name="bus" ref="cxf"/>
         <property name="defaultInterval" value="${collector.scheduler.interval}"/>
         <property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}"/>
         <property name="executorPoolSize" value="${executor.pool.size}"/>
