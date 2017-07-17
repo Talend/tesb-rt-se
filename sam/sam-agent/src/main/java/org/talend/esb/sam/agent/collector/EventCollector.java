@@ -21,21 +21,27 @@ package org.talend.esb.sam.agent.collector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PreDestroy;
+//import javax.inject.Inject;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
+
 import org.apache.cxf.Bus;
-import org.apache.cxf.buslifecycle.BusLifeCycleListener;
-import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.endpoint.ClientLifeCycleManager;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.TaskScheduler;
+//import org.springframework.beans.factory.annotation.Value;
 
 import org.talend.esb.sam.agent.lifecycle.ClientListenerImpl;
 import org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl;
+import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
 import org.talend.esb.sam.common.service.MonitoringService;
@@ -46,22 +52,42 @@ import org.talend.esb.sam.common.spi.EventHandler;
  * EventCollector reads the events from Queue. 
  * After processing with filter/handler, the events will be sent to SAM Server periodically.
  */
-public class EventCollector implements BusLifeCycleListener {
+//@Named
+//@Singleton
+public class EventCollector {
 
     private static final Logger LOG = Logger.getLogger(EventCollector.class.getName());
 
+    //@Inject
     private Bus bus;
-    private MonitoringService monitoringServiceClient;
-    @Autowired(required = false)
-    private List<EventFilter> filters = new ArrayList<EventFilter>();
 
-    private List<EventHandler> handlers = new ArrayList<EventHandler>();
-    private Queue<Event> queue;
-    private TaskExecutor executor;
-    private TaskScheduler scheduler;
+    //@Inject
+    private MonitoringService monitoringServiceClient;
+
+    @Autowired(required = false)
+    private List<EventFilter> filters;
+
+    @Autowired(required = false)
+    private List<EventHandler> handlers;
+
+    //@Inject
+    private EventQueue queue;
+
+    //@Value("${executor.pool.size}")
+    private int executorPoolSize = 20;
+
+    private ExecutorService executor;
+    private Timer scheduler;
+
+    //@Value("${collector.scheduler.interval}")
     private long defaultInterval = 1000;
+
+    //@Value("${collector.maxEventsPerCall}")
     private int eventsPerMessageCall = 10;
+
+    //@Value("${collector.lifecycleEvent}")
     private boolean sendLifecycleEvent;
+
     private boolean stopSending;
 
     /**
@@ -70,11 +96,6 @@ public class EventCollector implements BusLifeCycleListener {
     public EventCollector() {
         //init Bus and LifeCycle listeners
         if (bus != null) {
-            BusLifeCycleManager lm = bus.getExtension(BusLifeCycleManager.class);
-            if (null != lm) {
-                lm.registerLifeCycleListener(this);
-            }
-
             if (sendLifecycleEvent) {
                 ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
                 if (null != slcm) {
@@ -95,6 +116,15 @@ public class EventCollector implements BusLifeCycleListener {
                 }
             }
         }
+
+        executor = Executors.newFixedThreadPool(this.executorPoolSize);
+
+        scheduler = new Timer();
+        scheduler.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                sendEventsFromQueue();
+            }
+        }, 0, getDefaultInterval());
     }
 
     /**
@@ -152,40 +182,17 @@ public class EventCollector implements BusLifeCycleListener {
     }
 
     /**
-     * Scheduler will be set and configured by Spring. Spring executes every x milliseconds the sending
-     * process.
-     *
-     * @param scheduler the new scheduler
-     */
-    public void setScheduler(TaskScheduler scheduler) {
-        LOG.info("Scheduler started for sending events to SAM Server");
-        this.scheduler = scheduler;
-
-        this.scheduler.scheduleAtFixedRate(new Runnable() {
-
-            public void run() {
-                sendEventsFromQueue();
-            }
-        }, getDefaultInterval());
-    }
-
-    /**
-     * Spring sets the executor. The executer is used for sending events to the web service.
-     *
-     * @param executor the new executor
-     */
-    public void setExecutor(TaskExecutor executor) {
-        this.executor = executor;
-    }
-
-    /**
      * Spring sets the queue. Within the spring configuration you can decide between memory queue and
      * persistent queue.
      *
      * @param queue the new queue
      */
-    public void setQueue(Queue<Event> queue) {
+    public void setQueue(EventQueue queue) {
         this.queue = queue;
+    }
+
+    public void setExecutorPoolSize(int executorPoolSize) {
+        this.executorPoolSize = executorPoolSize;
     }
 
     /**
@@ -238,19 +245,15 @@ public class EventCollector implements BusLifeCycleListener {
      *
      * @param newHandlers the new handlers
      */
-    @Autowired(required = false)
-    public void setHandlers(List<EventHandler> newHandlers) {
-        this.handlers.clear();
-        for (EventHandler eventHandler : newHandlers) {
-            this.handlers.add(eventHandler);
-        }
+    public void setHandlers(List<EventHandler> handlers) {
+        this.handlers = handlers;
     }
 
     /**
      * Method will be executed asynchronously from spring.
      */
     public void sendEventsFromQueue() {
-        if (stopSending) {
+        if (null == queue || stopSending) {
             return;
         }
         LOG.fine("Scheduler called for sending events");
@@ -290,6 +293,8 @@ public class EventCollector implements BusLifeCycleListener {
      * @return true, if successful
      */
     private boolean filter(Event event) {
+        if (null == filters) return false;
+
         for (EventFilter filter : filters) {
             if (filter.filter(event)) {
                 return true;
@@ -304,13 +309,16 @@ public class EventCollector implements BusLifeCycleListener {
      * @param events the events
      */
     private void sendEvents(final List<Event> events) {
-        for (EventHandler current : handlers) {
-            for (Event event : events) {
-                current.handleEvent(event);
+        if (null != handlers) {
+            for (EventHandler current : handlers) {
+                for (Event event : events) {
+                    current.handleEvent(event);
+                }
             }
         }
 
         LOG.info("Put events(" + events.size() + ") to Monitoring Server.");
+
         try {
             monitoringServiceClient.putEvents(events);
         } catch (MonitoringException e) {
@@ -322,29 +330,25 @@ public class EventCollector implements BusLifeCycleListener {
 
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#initComplete()
-     */
-    @Override
-    public void initComplete() {
-        // Ignore
-    }
+    @PreDestroy
+    public void destroy() {
+        try {
+            Thread.sleep(200);
+            if (!queue.isEmpty()) {
+                Thread.sleep(500);
+            } else {
+                this.stopSending = true;
+            }
+        } catch (InterruptedException e) {
+            // Ignore
+        }
 
-    /* (non-Javadoc)
-     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#preShutdown()
-     */
-    @Override
-    public void preShutdown() {
-        LOG.info("Bus is stopping. Stopping sending events to monitoring service.");
-        this.stopSending = true;
-    }
-
-    /* (non-Javadoc)
-     * @see org.apache.cxf.buslifecycle.BusLifeCycleListener#postShutdown()
-     */
-    @Override
-    public void postShutdown() {
-        // Ignore
+        if (null != scheduler) {
+            scheduler.cancel();
+        }
+        if (null != executor) {
+            executor.shutdown();
+        }
     }
 
 }

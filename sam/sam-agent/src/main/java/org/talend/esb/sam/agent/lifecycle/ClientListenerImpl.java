@@ -19,6 +19,8 @@
  */
 package org.talend.esb.sam.agent.lifecycle;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.endpoint.Client;
@@ -31,6 +33,8 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
  * This ClientLifeCycleListener impl used to implement the feature of
  * support web service start/stop event.
  */
+@Named
+@Singleton
 public class ClientListenerImpl extends AbstractListenerImpl implements ClientLifeCycleListener {
 
     private static final QName AGENT_PORT_TYPE =

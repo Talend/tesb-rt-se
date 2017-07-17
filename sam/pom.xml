@@ -19,7 +19,6 @@
         <module>sam-common</module>
         <module>sam-agent</module>
         <module>sam-server</module>
-        <module>sam-service-common</module>
         <module>sam-service-rest</module>
         <module>sam-service-soap</module>
         <module>sam-server-war</module>

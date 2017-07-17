@@ -29,14 +29,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.talend.esb.sam.agent.collector.EventCollector;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/META-INF/tesb/agent-context.xml"})
+@ContextConfiguration({"/META-INF/tesb/agent-context.xml", "/META-INF/tesb/sample-filters-context.xml"})
 public class MonitoringServiceWrapperTest {
 	@Resource
 	EventCollector eventCollector;
 
     @Test
     public void testWrapper() {
-        Assert.assertEquals("We should have no event filters", 0, eventCollector.getFilters().size());
-        Assert.assertEquals("We should have no event manipulators", 0, eventCollector.getHandlers().size());
+        Assert.assertEquals("We should have no event filters", 2, eventCollector.getFilters().size());
+        Assert.assertEquals("We should have no event manipulators", 2, eventCollector.getHandlers().size());
     }
 }

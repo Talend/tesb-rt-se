@@ -29,7 +29,7 @@ import java.util.Map;
 import javax.activation.DataHandler;
 import javax.annotation.Resource;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.frontend.ClientProxy;
@@ -76,7 +76,7 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         clientConfig.setReceiveTimeout(100000);
         conduit.setClient(clientConfig);
 
-        simpleJdbcTemplate.update("delete from EVENTS");
+        jdbcTemplate.update("delete from EVENTS");
 
         List<EventType> events = new ArrayList<EventType>();
         EventType eventType = new EventType();
@@ -104,7 +104,7 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         Assert.assertEquals("success", result);
         
 
-        long id = simpleJdbcTemplate.queryForLong("select id from EVENTS");
+        long id = jdbcTemplate.queryForObject("select id from EVENTS", Long.class);
         Event readEvent = eventRepository.readEvent(id);
         Assert.assertEquals(EventTypeEnum.REQ_OUT, readEvent.getEventType());
         Map<String, String> customInfo = readEvent.getCustomInfo();

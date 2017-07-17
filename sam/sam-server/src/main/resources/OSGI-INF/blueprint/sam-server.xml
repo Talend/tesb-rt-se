@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Service Activity Monitoring :: Server
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<blueprint 
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://www.osgi.org/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.xsd">
+
+	<cm:property-placeholder persistent-id="org.talend.esb.sam.server"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="monitoringServiceUrl" value="/MonitoringServiceSOAP"/>
+			<cm:property name="db.datasource" value="ds-derby"/>
+			<cm:property name="db.dialect" value="derbyDialect"/>
+			<cm:property name="sam.authentication" value="NO"/>
+            <cm:property name="security.signature.properties" value=""/>
+            <cm:property name="security.signature.username" value=""/>
+            <cm:property name="security.signature.password" value=""/>
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+    <bean class="org.talend.esb.sam.server.persistence.DBInitializer" init-method="afterPropertiesSet">
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" value="${db.dialect}" />
+    </bean>
+
+</blueprint>

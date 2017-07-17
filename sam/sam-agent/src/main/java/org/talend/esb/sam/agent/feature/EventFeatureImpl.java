@@ -20,7 +20,10 @@
 package org.talend.esb.sam.agent.feature;
 
 import java.util.Iterator;
-import java.util.Queue;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapBinding;
@@ -34,15 +37,21 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.addressing.MAPAggregator;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.addressing.soap.MAPCodec;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.talend.esb.sam.agent.eventproducer.EventProducerInterceptor;
 import org.talend.esb.sam.agent.eventproducer.MessageToEventMapper;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerIn;
 import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
+import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.spi.EventHandler;
 
+@OsgiServiceProvider(classes=EventFeature.class)
+@Named("eventFeature")
+@Singleton
 public class EventFeatureImpl extends AbstractFeature implements EventFeature{
 
     /*
@@ -115,19 +124,23 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
         WireTapOut wireTapOut = new WireTapOut(epi, logMessageContent);
         provider.getOutInterceptors().add(wireTapOut);
         provider.getOutFaultInterceptors().add(wireTapOut);
+
     }
 
     @Override
+    @Value("${log.messageContent}")
     public void setLogMessageContent(boolean logMessageContent) {
         this.logMessageContent = logMessageContent;
     }
 
     @Override
+    @Value("${log.maxContentLength}")
     public void setMaxContentLength(int maxContentLength) {
         this.maxContentLength = maxContentLength;
     }
 
     @Override
+    @Value("${log.enforceMessageIDTransfer}")
     public void setEnforceMessageIDTransfer(boolean enforceMessageIDTransfer) {
 		this.enforceMessageIDTransfer = enforceMessageIDTransfer;
 	}
@@ -137,7 +150,8 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
      *
      * @param queue the new queue
      */
-    public void setQueue(Queue<Event> queue) {
+    @Inject
+    public void setQueue(EventQueue queue) {
         if (epi == null) {
             MessageToEventMapper mapper = new MessageToEventMapper();
             mapper.setMaxContentLength(maxContentLength);

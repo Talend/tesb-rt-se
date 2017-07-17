@@ -28,7 +28,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.ConduitSelectorHolder;
 import org.springframework.beans.factory.annotation.Value;
 import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
@@ -72,6 +71,10 @@ public class LocatorClientEnabler {
      * @param locatorSelectionStrategy
      */
     private LocatorSelectionStrategy getLocatorSelectionStrategy(String locatorSelectionStrategy) {
+        if (null == locatorSelectionStrategy) {
+            return locatorSelectionStrategies.get(DEFAULT_STRATEGY).getInstance();
+        }
+
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Strategy " + locatorSelectionStrategy
                     + " was set for LocatorClientRegistrar.");

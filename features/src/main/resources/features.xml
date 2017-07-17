@@ -146,14 +146,12 @@
 
   <feature name='tesb-sam-service-soap' version='${project.version}'>
       <feature>tesb-sam-server</feature>
-      <bundle>mvn:org.talend.esb.sam.service/sam-service-common/${project.version}</bundle>
       <bundle>mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}</bundle>
   </feature>
   
   <feature name='tesb-sam-service-rest' version='${project.version}'>
       <feature>tesb-sam-server</feature>
       <feature>cxf-rs-security-xml</feature>
-      <bundle>mvn:org.talend.esb.sam.service/sam-service-common/${project.version}</bundle>
       <bundle>mvn:org.talend.esb.sam.service/sam-service-rest/${project.version}</bundle>
   </feature>
 
@@ -164,7 +162,6 @@
     <feature version='[3.2,4)'>spring-jdbc</feature>
     <bundle dependency="true">mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
-    <bundle dependency="true">mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oscache/${oscache.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ibatis-sqlmap/${ibatis-sqlmap.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>

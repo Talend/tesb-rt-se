@@ -23,13 +23,16 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.inject.Inject;
 
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.endpoint.Endpoint;
+import org.springframework.beans.factory.annotation.Value;
+import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.agent.util.Converter;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
@@ -44,8 +47,13 @@ public class AbstractListenerImpl {
 
     private static final Logger LOG = Logger.getLogger(AbstractListenerImpl.class.getName());
 
+    @Value("${collector.lifecycleEvent}")
     private boolean sendLifecycleEvent;
-    private Queue<Event> queue;
+
+    @Inject
+    private EventQueue queue;
+
+    @Inject
     private MonitoringService monitoringServiceClient;
 
     /**
@@ -62,7 +70,7 @@ public class AbstractListenerImpl {
      *
      * @param queue the new queue
      */
-    public void setQueue(Queue<Event> queue) {
+    public void setQueue(EventQueue queue) {
         this.queue = queue;
     }
 

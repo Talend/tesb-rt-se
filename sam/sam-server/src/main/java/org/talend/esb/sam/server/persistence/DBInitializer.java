@@ -96,10 +96,11 @@ public class DBInitializer implements InitializingBean {
 
                 ResultSet rs = conn.getMetaData().getTables(conn.getCatalog(), null, "EVENTS_CUSTOMINFO", null);
                 while (rs.next()) {
+                    LOG.warning("Tables and indexes will not be created as they are already existing");
                     createTables = false;
                 }
             } catch (SQLException e) {
-                LOG.warning("The create tables parameter has not been set. Tables and indexes will not be created.");
+                LOG.warning("Tables and indexes will not be created");
                 createTables = false;
             }
 

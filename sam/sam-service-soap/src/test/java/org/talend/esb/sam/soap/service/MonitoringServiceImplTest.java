@@ -30,14 +30,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 import org.talend.esb.sam.common.service.MonitoringService;
-import org.talend.esb.sam.soap.service.EventRowMapper;
-import org.talend.esb.sam.soap.util.EventCreator;
+import org.talend.esb.sam.server.persistence.EventRowMapper;
 
 /**
  * Tests the sevice implementation together with the database
@@ -65,7 +66,7 @@ public class MonitoringServiceImplTest extends AbstractTransactionalJUnit4Spring
 
         for (Event event : events) {
             EventRowMapper rowMapper = new EventRowMapper();
-            Event loaded = simpleJdbcTemplate.queryForObject("select * from EVENTS where ID=?", rowMapper, event.getPersistedId());
+            Event loaded = jdbcTemplate.queryForObject("select * from EVENTS where ID=?", rowMapper, event.getPersistedId());
             Assert.assertNotNull(loaded);
             Assert.assertEquals(event.getPersistedId(), loaded.getPersistedId());
         }

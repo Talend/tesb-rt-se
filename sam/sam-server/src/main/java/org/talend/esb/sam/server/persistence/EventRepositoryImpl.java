@@ -26,7 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
@@ -36,7 +37,7 @@ import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 /**
  * The Class EventRepositoryImpl is implementing the event repository logic.
  */
-public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRepository {
+public class EventRepositoryImpl extends JdbcDaoSupport implements EventRepository {
 
     private static final Logger LOG = Logger.getLogger(EventRepositoryImpl.class.getName());
 
@@ -62,7 +63,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         long id = dialect.getIncrementer().nextLongValue();
         event.setPersistedId(id);
 
-        getSimpleJdbcTemplate()
+        getJdbcTemplate()
             .update("insert into EVENTS (ID, EI_TIMESTAMP, EI_EVENT_TYPE,"
                     + " ORIG_PROCESS_ID, ORIG_IP, ORIG_HOSTNAME, "
                     + " ORIG_CUSTOM_ID, ORIG_PRINCIPAL,"
@@ -91,7 +92,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
     @Override
     public Event readEvent(long id) {
         RowMapper<Event> rowMapper = new EventRowMapper();
-        Event event = getSimpleJdbcTemplate()
+        Event event = getJdbcTemplate()
             .queryForObject("select * from EVENTS where ID=" + id, rowMapper);
         event.getCustomInfo().clear();
         event.getCustomInfo().putAll(readCustomInfo(id));
@@ -107,7 +108,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
         // insert customInfo (key/value) into DB
         for (Map.Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
             long cust_id = dialect.getIncrementer().nextLongValue();
-            getSimpleJdbcTemplate()
+            getJdbcTemplate()
                 .update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE)"
                         + " values (?,?,?,?)",
                             cust_id, event.getPersistedId(), customInfo.getKey(), customInfo.getValue());
@@ -121,7 +122,7 @@ public class EventRepositoryImpl extends SimpleJdbcDaoSupport implements EventRe
      * @return the map
      */
     private Map<String, String> readCustomInfo(long eventId) {
-        List<Map<String, Object>> rows = getSimpleJdbcTemplate()
+        List<Map<String, Object>> rows = getJdbcTemplate()
             .queryForList("select * from EVENTS_CUSTOMINFO where EVENT_ID=" + eventId);
         Map<String, String> customInfo = new HashMap<String, String>(rows.size());
         for (Map<String, Object> row : rows) {
