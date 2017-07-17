@@ -40,7 +40,7 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <cxf:bus id="bus">
+    <cxf:bus id="bus" />
 
     <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" destroy-method="destroy">
         <property name="bus" ref="bus"/>

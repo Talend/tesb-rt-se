@@ -95,8 +95,7 @@ public class EventCollector {
      */
     public EventCollector() {
         //init Bus and LifeCycle listeners
-        if (bus != null) {
-            if (sendLifecycleEvent) {
+        if (bus != null && sendLifecycleEvent ) {
                 ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
                 if (null != slcm) {
                     ServiceListenerImpl svrListener = new ServiceListenerImpl();
@@ -114,7 +113,6 @@ public class EventCollector {
                     cltListener.setMonitoringServiceClient(monitoringServiceClient);
                     clcm.registerListener(cltListener);
                 }
-            }
         }
 
         executor = Executors.newFixedThreadPool(this.executorPoolSize);
