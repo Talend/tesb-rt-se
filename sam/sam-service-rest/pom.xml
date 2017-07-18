@@ -18,6 +18,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.talend.esb</groupId>
+            <artifactId>sam-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
             <version>${cxf.version}</version>
@@ -36,11 +42,6 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.talend.esb.sam.service</groupId>
-            <artifactId>sam-service-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
