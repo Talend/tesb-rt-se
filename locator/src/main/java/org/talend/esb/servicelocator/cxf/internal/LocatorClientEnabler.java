@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -44,7 +43,7 @@ public class LocatorClientEnabler {
     @Inject
     private ServiceLocator locatorClient;
 
-    @Resource(name = "locatorSelectionStrategyMap")
+    @Inject
     private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
 
     private String defaultLocatorSelectionStrategy;
