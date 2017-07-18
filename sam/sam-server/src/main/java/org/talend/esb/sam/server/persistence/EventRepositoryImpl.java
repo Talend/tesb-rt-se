@@ -33,6 +33,7 @@ import org.talend.esb.sam.common.event.MessageInfo;
 import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
+import org.talend.esb.sam.server.persistence.dialects.DialectFactory;
 
 /**
  * The Class EventRepositoryImpl is implementing the event repository logic.
@@ -41,15 +42,22 @@ public class EventRepositoryImpl extends JdbcDaoSupport implements EventReposito
 
     private static final Logger LOG = Logger.getLogger(EventRepositoryImpl.class.getName());
 
-    private DatabaseDialect dialect;
+    private String dialect;
+
+    private DatabaseDialect dbDialect;
 
     /**
      * Sets the database dialect.
      *
      * @param dialect the database dialect
      */
-    public void setDialect(DatabaseDialect dialect) {
+    public void setDialect(String dialect) {
         this.dialect = dialect;
+    }
+
+    public void init() {
+        DialectFactory dialectFactory = new DialectFactory(getDataSource());
+        this.dbDialect = dialectFactory.getDialect(dialect);
     }
 
     /* (non-Javadoc)
@@ -60,7 +68,7 @@ public class EventRepositoryImpl extends JdbcDaoSupport implements EventReposito
         Originator originator = event.getOriginator();
         MessageInfo messageInfo = event.getMessageInfo();
 
-        long id = dialect.getIncrementer().nextLongValue();
+        long id = dbDialect.getIncrementer().nextLongValue();
         event.setPersistedId(id);
 
         getJdbcTemplate()
@@ -107,7 +115,7 @@ public class EventRepositoryImpl extends JdbcDaoSupport implements EventReposito
     private void writeCustomInfo(Event event) {
         // insert customInfo (key/value) into DB
         for (Map.Entry<String, String> customInfo : event.getCustomInfo().entrySet()) {
-            long cust_id = dialect.getIncrementer().nextLongValue();
+            long cust_id = dbDialect.getIncrementer().nextLongValue();
             getJdbcTemplate()
                 .update("insert into EVENTS_CUSTOMINFO (ID, EVENT_ID, CUST_KEY, CUST_VALUE)"
                         + " values (?,?,?,?)",

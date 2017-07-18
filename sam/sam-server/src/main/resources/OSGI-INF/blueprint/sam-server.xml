@@ -39,9 +39,24 @@
 		</cm:default-properties>
 	</cm:property-placeholder>
 
+    <reference id="datasource" interface="javax.sql.DataSource" />
+
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer" init-method="afterPropertiesSet">
         <property name="dataSource" ref="datasource"/>
         <property name="dialect" value="${db.dialect}" />
     </bean>
 
+    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl" init-method="init">
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" value="${db.dialect}" />
+    </bean>
+
+    <service ref="eventRepository" interface="org.talend.esb.sam.common.event.persistence.EventRepository" />
+
+    <bean id="providerBean" class="org.talend.esb.sam.server.persistence.SAMProviderImpl" init-method="init">
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" value="${db.dialect}" />
+    </bean>
+
+    <service ref="providerBean" interface="org.talend.esb.sam.server.persistence.SAMProvider" />
 </blueprint>

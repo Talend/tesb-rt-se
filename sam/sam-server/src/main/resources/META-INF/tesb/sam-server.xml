@@ -22,17 +22,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:annotation-config />
+    <tx:annotation-driven />
 
-    <import resource="persistence.xml" />
+    <bean id="datasource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="${db.datasource}"/>
+    </bean>
 
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer">
         <property name="dataSource" ref="datasource"/>
         <property name="dialect" value="${db.dialect}" />
     </bean>
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+
+    <bean id="eventRepository" class="org.talend.esb.sam.soap.service.EventRepositoryImpl" init-method="init">
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" value="${db.dialect}" />
+    </bean>
+
+    <bean id="providerBean" class="org.talend.esb.sam.service.SAMProviderImpl" init-method="init">
+        <property name="dataSource" ref="datasource"/>
+        <property name="dialect" value="${db.dialect}" />
+    </bean>
 </beans>

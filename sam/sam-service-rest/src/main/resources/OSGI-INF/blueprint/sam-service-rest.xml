@@ -20,11 +20,26 @@
   -->
 <blueprint 
     xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
     xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="
         http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://www.osgi.org/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.xsd
         http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd">
+
+    <cm:property-placeholder persistent-id="org.talend.esb.sam.server"
+        update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="monitoringServiceUrl" value="/MonitoringServiceSOAP"/>
+            <cm:property name="db.datasource" value="ds-derby"/>
+            <cm:property name="db.dialect" value="derbyDialect"/>
+            <cm:property name="sam.authentication" value="NO"/>
+            <cm:property name="security.signature.properties" value=""/>
+            <cm:property name="security.signature.username" value=""/>
+            <cm:property name="security.signature.password" value=""/>
+        </cm:default-properties>
+    </cm:property-placeholder>
 
     <reference id="providerBean" interface="org.talend.esb.sam.server.persistence.SAMProvider" />
 
@@ -34,7 +49,7 @@
 
     <jaxrs:server id="SAMService" address="/sam">
         <jaxrs:serviceBeans>
-            <ref bean="restService" />
+            <ref component-id="restService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />

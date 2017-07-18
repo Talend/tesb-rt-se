@@ -41,19 +41,9 @@
         <property name="dialect" value="derbyDialect" />
     </bean>
 
-    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl">
+    <bean id="eventRepository" class="org.talend.esb.sam.server.persistence.EventRepositoryImpl" init-method="init">
         <property name="dataSource" ref="datasource"/>
-        <property name="dialect" ref="derbyDialect" />
-    </bean>
-
-    <bean id="derbyDialect" class="org.talend.esb.sam.server.persistence.dialects.DerbyDialect">
-        <property name="incrementer" ref="derbyIncrementer" />
-    </bean>
-
-    <bean id="derbyIncrementer" class="org.springframework.jdbc.support.incrementer.DerbyMaxValueIncrementer">
-        <property name="dataSource" ref="datasource" />
-        <property name="incrementerName" value="TAB_SEQUENCE" />
-        <property name="columnName" value="ID_VALUE"/>
+        <property name="dialect" value="derbyDialect" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

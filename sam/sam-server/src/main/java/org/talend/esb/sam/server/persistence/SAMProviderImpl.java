@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import org.talend.esb.sam.server.persistence.criterias.CriteriaAdapter;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
+import org.talend.esb.sam.server.persistence.dialects.DialectFactory;
 
 public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
 
@@ -24,13 +25,15 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
             + "MI_MESSAGE_ID, MI_FLOW_ID, MI_TRANSPORT_TYPE, CONTENT_CUT, MESSAGE_CONTENT "
             + "from EVENTS where ID = :eventID";
 
-    private DatabaseDialect dialect;
+    private String dialect;
 
-    public DatabaseDialect getDialect() {
+    private DatabaseDialect dbDialect;
+
+    public String getDialect() {
         return dialect;
     }
 
-    public void setDialect(DatabaseDialect dialect) {
+    public void setDialect(String dialect) {
         this.dialect = dialect;
     }
 
@@ -39,6 +42,11 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
     private final RowMapper<Flow> flowMapper = new FlowMapper();
 
     private final RowMapper<FlowEvent> flowEventMapper = new FlowEventMapper();
+
+    public void init() {
+        DialectFactory dialectFactory = new DialectFactory(getDataSource());
+        this.dbDialect = dialectFactory.getDialect(dialect);
+    }
 
     @Override
     public FlowEvent getEventDetails(Integer eventID) {
@@ -61,7 +69,7 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
     public FlowCollection getFlows(CriteriaAdapter criteria) {
         FlowCollection flowCollection = new FlowCollection();
         final String whereClause = criteria.getWhereClause();
-        final String countQuery = dialect.getCountQuery().replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
+        final String countQuery = dbDialect.getCountQuery().replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
                 (whereClause != null && whereClause.length() > 0) ? " AND " + whereClause : "");
         int rowCount = getJdbcTemplate().queryForObject(countQuery, Integer.class, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
@@ -70,7 +78,7 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
         List<Flow> flows = null;
 
         if (offset < rowCount) {
-            String dataQuery = dialect.getDataQuery(criteria);
+            String dataQuery = dbDialect.getDataQuery(criteria);
                        
             if ((rowCount - offset) < limit) limit = rowCount - offset;
             String soffset = String.valueOf(offset); 

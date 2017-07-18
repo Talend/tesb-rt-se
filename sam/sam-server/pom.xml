@@ -85,17 +85,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>
-                            org.talend.esb.sam.server.persistence.dialects,
-                            org.talend.esb.sam.server.persistence.criterias
-                        </Export-Package>
-                        <Import-Package>
-                            *
-                            ,org.springframework.transaction.annotation
-                            ,org.springframework.jdbc.datasource
-                        </Import-Package>
                         <_failok>true</_failok>
-                        <_nouses>true</_nouses>
                     </instructions>
                 </configuration>
             </plugin>
