@@ -1,0 +1,83 @@
+<!--
+  #%L
+  CRMService Service Endpoint JMX
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<blueprint 
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+    xmlns:p="http://cxf.apache.org/policy"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
+        http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+        http://www.w3.org/ns/ws-policy http://www.w3.org/2007/02/ws-policy.xsd
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging />
+        </cxf:features>
+    </cxf:bus>
+
+    <reference id="mbeanServer" interface="javax.management.MBeanServer" availability="optional" />
+
+    <bean id="CRMInstrumentationManager"
+            class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+        <property name="bus" ref="cxf" />
+        <property name="enabled" value="true" />
+
+        <!-- Unless you really want to open an additional connector, set this to false -->
+        <property name="createMBServerConnectorFactory" value="false" />
+
+        <!-- Inject the reference to the MBeanServer -->
+        <property name="server" ref="mbeanServer" />
+    </bean>
+
+    <bean id="CRMServiceBean"
+            class="org.talend.services.crmservice.service.CRMServiceImpl" />
+
+    <reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+    <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"/>
+
+    <!-- HTTP Endpoint -->
+    <jaxws:endpoint id="CRMService"
+            xmlns:serviceNamespace="http://services.talend.org/CRMService"
+            serviceName="serviceNamespace:CRMServiceProvider"
+            endpointName="serviceNamespace:CRMServicePort"
+            implementor="#CRMServiceBean"
+            address="/CRMServiceProvider">
+        <jaxws:properties>
+            <entry key="security.callback-handler">
+                <bean class="common.talend.ServiceCallbackHandler" />
+            </entry>
+            <entry key="security.signature.properties" value="serviceKeystore.properties" />
+        </jaxws:properties>
+        <jaxws:features>
+            <p:policies>
+                <wsp:PolicyReference URI="classpath:/saml.policy" />
+            </p:policies>
+            <bean class="org.apache.cxf.metrics.MetricsFeature" />
+            <ref component-id="locatorFeature" />
+			<ref component-id="eventFeature"/>
+        </jaxws:features>
+    </jaxws:endpoint>
+
+</blueprint>

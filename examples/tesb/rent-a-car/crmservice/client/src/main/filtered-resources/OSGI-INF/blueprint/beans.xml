@@ -1,0 +1,40 @@
+<!--
+  #%L
+  CRMService Client
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+<blueprint 
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 https://osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
+
+	<jaxws:client id="CRMServiceClient"
+		xmlns:serviceNamespace="http://services.talend.org/CRMService"
+		serviceClass="org.talend.services.crmservice.CRMService"
+		serviceName="serviceNamespace:CRMServiceProvider"
+		endpointName="serviceNamespace:CRMServicePort"
+		address="${endpoint.prefix}/CRMServiceProvider"
+	/>
+
+	<service ref="CRMServiceClient" interface="org.talend.services.crmservice.CRMService"/>
+
+</blueprint>

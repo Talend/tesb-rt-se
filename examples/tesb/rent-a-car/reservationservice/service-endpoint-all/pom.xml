@@ -44,7 +44,6 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Require-Bundle>
                             org.apache.cxf.cxf-core,
-                            org.apache.servicemix.bundles.spring-beans,org.apache.servicemix.bundles.spring-context,
                             sam-common,sam-agent,locator
                         </Require-Bundle>
                         <Import-Package>
