@@ -42,6 +42,10 @@
                 <prop key="locator.reloadAddressesCount">10</prop>
                 <prop key="connection.timeout">5000</prop>
                 <prop key="session.timeout">5000</prop>
+                <prop key="authentication.name">tesb</prop>
+                <prop key="authentication.password">tesb</prop>
+                <prop key="locator.endpoints.timetolive.check">true</prop>
+                <prop key="locator.endpoints.timetolive.interval">300</prop>
             </props>
         </property>
     </bean>

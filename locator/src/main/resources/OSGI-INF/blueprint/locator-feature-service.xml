@@ -41,8 +41,8 @@
 			<cm:property name="locator.reloadAddressesCount" value="10"/>
 			<cm:property name="connection.timeout" value="5000"/>
 			<cm:property name="session.timeout" value="5000"/>
-			<cm:property name="authentication.name" value=""/>
-			<cm:property name="authentication.password" value=""/>
+			<cm:property name="authentication.name" value="tesb"/>
+			<cm:property name="authentication.password" value="tesb"/>
 			<cm:property name="locator.endpoints.timetolive.check" value="true"/>
 			<cm:property name="locator.endpoints.timetolive.interval" value="300"/>
 		</cm:default-properties>

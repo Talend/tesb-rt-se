@@ -35,6 +35,8 @@ import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.ZooKeeper;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.EndpointNotFoundException;
 import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
@@ -483,12 +485,12 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         transformer = endpointTransformer;
     }
 
-    //@Value("${locator.endpoints.timetolive.check}")
+    @Value("${locator.endpoints.timetolive.check}")
     public void setEndpointCollectionEnable(Boolean endpointCollectionDisable) {
         this.endpointCollectionEnable = endpointCollectionDisable;
     }
 
-    //@Value("${locator.endpoints.timetolive.interval}")
+    @Value("${locator.endpoints.timetolive.interval}")
     public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
         this.endpointCollectionInterval = endpointCollectionInterval;
     }
