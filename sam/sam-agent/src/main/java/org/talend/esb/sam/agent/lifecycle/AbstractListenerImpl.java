@@ -26,12 +26,12 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
+//import javax.inject.Inject;
 
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.endpoint.Endpoint;
-import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.agent.util.Converter;
 import org.talend.esb.sam.common.event.Event;
@@ -47,13 +47,13 @@ public class AbstractListenerImpl {
 
     private static final Logger LOG = Logger.getLogger(AbstractListenerImpl.class.getName());
 
-    @Value("${collector.lifecycleEvent}")
+    //@Value("${collector.lifecycleEvent}")
     private boolean sendLifecycleEvent;
 
-    @Inject
+    //@Inject
     private EventQueue queue;
 
-    @Inject
+    //@Inject
     private MonitoringService monitoringServiceClient;
 
     /**

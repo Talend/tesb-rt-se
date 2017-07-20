@@ -19,8 +19,8 @@
  */
 package org.talend.esb.sam.agent.lifecycle;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
@@ -30,8 +30,8 @@ import org.talend.esb.sam.common.event.EventTypeEnum;
  * This ServerLifeCycleListener impl used to implement the feature of
  * support web service start/stop event.
  */
-@Named
-@Singleton
+//@Named
+//@Singleton
 public class ServiceListenerImpl extends AbstractListenerImpl implements ServerLifeCycleListener {
 
     /* (non-Javadoc)

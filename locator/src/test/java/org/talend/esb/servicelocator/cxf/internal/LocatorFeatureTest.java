@@ -21,9 +21,6 @@ package org.talend.esb.servicelocator.cxf.internal;
 
 import static org.easymock.EasyMock.expect;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.managers.ClientLifeCycleManagerImpl;
 import org.apache.cxf.endpoint.Client;
@@ -48,7 +45,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 	Bus busMock;
 	LocatorRegistrar locatorRegistrarMock;
-	Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
+	LocatorSelectionStrategyMap locatorSelectionStrategyMap;
 	ClassLoader cll;
 
 	@Before
@@ -62,20 +59,15 @@ public class LocatorFeatureTest extends EasyMockSupport {
 		EasyMock.expectLastCall().anyTimes();
 		cll = this.getClass().getClassLoader();
 
-		locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
-		locatorSelectionStrategies.put("defaultSelectionStrategy",
-				new DefaultSelectionStrategyFactory());
-		locatorSelectionStrategies.put("randomSelectionStrategy",
-				new RandomSelectionStrategyFactory());
-		locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
-				new EvenDistributionSelectionStrategyFactory());
+		locatorSelectionStrategyMap = new LocatorSelectionStrategyMap();
+		locatorSelectionStrategyMap.init();
 	}
 
 	@Test
 	public void initializeClient() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
 
@@ -110,7 +102,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	public void initializeClientsOneWithStrategy() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
 		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
@@ -162,7 +154,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	public void initializeClientDefault() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 
 		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
 		expect(busMock.getExtension(ClientLifeCycleManager.class))
@@ -194,7 +186,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	public void initializeClientsBothWithStrategies() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 		enabler.setDefaultLocatorSelectionStrategy("defaultSelectionStrategy");
 
 		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
@@ -242,7 +234,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	public void initializeClientConfiguration() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
 		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
@@ -276,7 +268,7 @@ public class LocatorFeatureTest extends EasyMockSupport {
 	public void initializeInterceptorProvider() throws EndpointException {
 		LocatorClientEnabler enabler = new LocatorClientEnabler();
 
-		enabler.setLocatorSelectionStrategies(locatorSelectionStrategies);
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
 		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
 
 		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();

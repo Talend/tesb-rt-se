@@ -19,11 +19,9 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -45,8 +43,7 @@ public class LocatorClientEnabler {
     private ServiceLocator locatorClient;
 
     @Inject
-    @Resource(name = "locatorSelectionStrategyMap")
-    private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
+    private LocatorSelectionStrategyMap locatorSelectionStrategyMap;
 
     private String defaultLocatorSelectionStrategy;
 
@@ -59,11 +56,11 @@ public class LocatorClientEnabler {
     }
 
     /**
-     * Sets a map representing the locatorSelectionStrategies and sets locatorSelectionStrategy to the DEFAULT_STRATEGY.
-     * @param locatorSelectionStrategies
+     * Set all supported Selection Strategies
+     * @param locatorSelectionStrategyMap
      */
-    public void setLocatorSelectionStrategies(Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies) {
-        this.locatorSelectionStrategies = locatorSelectionStrategies;
+    public void setLocatorSelectionStrategyMap(LocatorSelectionStrategyMap locatorSelectionStrategyMap) {
+        this.locatorSelectionStrategyMap = locatorSelectionStrategyMap;
     }
 
     /**
@@ -73,7 +70,7 @@ public class LocatorClientEnabler {
      */
     private LocatorSelectionStrategy getLocatorSelectionStrategy(String locatorSelectionStrategy) {
         if (null == locatorSelectionStrategy) {
-            return locatorSelectionStrategies.get(DEFAULT_STRATEGY).getInstance();
+            return locatorSelectionStrategyMap.get(DEFAULT_STRATEGY).getInstance();
         }
 
         if (LOG.isLoggable(Level.FINE)) {
@@ -81,14 +78,14 @@ public class LocatorClientEnabler {
                     + " was set for LocatorClientRegistrar.");
         }
 
-        if (locatorSelectionStrategies.containsKey(locatorSelectionStrategy)) {
-            return locatorSelectionStrategies.get(locatorSelectionStrategy).getInstance();
+        if (locatorSelectionStrategyMap.containsKey(locatorSelectionStrategy)) {
+            return locatorSelectionStrategyMap.get(locatorSelectionStrategy).getInstance();
         } else {
             if (LOG.isLoggable(Level.WARNING)) {
                 LOG.log(Level.WARNING, "LocatorSelectionStrategy " + locatorSelectionStrategy
                         + " not registered at LocatorClientEnabler.");
             }
-            return locatorSelectionStrategies.get(DEFAULT_STRATEGY).getInstance();
+            return locatorSelectionStrategyMap.get(DEFAULT_STRATEGY).getInstance();
         }
     }
 
