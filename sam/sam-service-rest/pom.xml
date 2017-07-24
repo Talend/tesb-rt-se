@@ -75,6 +75,11 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
+                                    <file>etc/org.talend.esb.sam.service.rest.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sam.service.rest</classifier>
+                                </artifact>
+                                <artifact>
                                     <file>etc/keystores/clientKeystore.properties</file>
                                     <type>properties</type>
                                     <classifier>clientKeystore</classifier>

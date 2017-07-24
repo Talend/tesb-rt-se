@@ -27,16 +27,10 @@
         http://www.osgi.org/xmlns/blueprint-cm/v1.1.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.1.xsd
         http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd">
 
-    <cm:property-placeholder persistent-id="org.talend.esb.sam.server"
+    <cm:property-placeholder persistent-id="org.talend.esb.sam.service.soap"
         update-strategy="reload">
         <cm:default-properties>
             <cm:property name="monitoringServiceUrl" value="/MonitoringServiceSOAP"/>
-            <cm:property name="db.datasource" value="ds-derby"/>
-            <cm:property name="db.dialect" value="derbyDialect"/>
-            <cm:property name="sam.authentication" value="NO"/>
-            <cm:property name="security.signature.properties" value=""/>
-            <cm:property name="security.signature.username" value=""/>
-            <cm:property name="security.signature.password" value=""/>
         </cm:default-properties>
     </cm:property-placeholder>
 

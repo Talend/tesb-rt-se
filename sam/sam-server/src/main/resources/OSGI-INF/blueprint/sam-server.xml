@@ -29,17 +29,23 @@
 	<cm:property-placeholder persistent-id="org.talend.esb.sam.server"
 		update-strategy="reload">
 		<cm:default-properties>
-			<cm:property name="monitoringServiceUrl" value="/MonitoringServiceSOAP"/>
 			<cm:property name="db.datasource" value="ds-derby"/>
 			<cm:property name="db.dialect" value="derbyDialect"/>
-			<cm:property name="sam.authentication" value="NO"/>
-            <cm:property name="security.signature.properties" value=""/>
-            <cm:property name="security.signature.username" value=""/>
-            <cm:property name="security.signature.password" value=""/>
 		</cm:default-properties>
 	</cm:property-placeholder>
 
-    <reference id="datasource" interface="javax.sql.DataSource" />
+<!--     <reference id="datasource" interface="javax.sql.DataSource" /> -->
+
+    <bean id="dsFactory" class="org.talend.esb.sam.server.persistence.DataSourceProxyFactory"
+            init-method="init" destroy-method="destroy">
+        <property name="bundleContext" ref="blueprintBundleContext" />
+        <property name="dsName" value="${db.datasource}" />
+        <property name="timeout" value="5000" />
+    </bean>
+
+    <bean id="datasource" depends-on="dsFactory"
+            factory-ref="dsFactory" factory-method="getDatasource">
+    </bean>
 
     <bean class="org.talend.esb.sam.server.persistence.DBInitializer" init-method="afterPropertiesSet">
         <property name="dataSource" ref="datasource"/>
