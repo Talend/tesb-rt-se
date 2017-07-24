@@ -5,13 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
 import org.talend.esb.sam.server.persistence.criterias.CriteriaAdapter;
 import org.talend.esb.sam.server.persistence.dialects.DatabaseDialect;
 import org.talend.esb.sam.server.persistence.dialects.DialectFactory;
 
-public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
+public class SAMProviderImpl extends SimpleJdbcDaoSupport implements SAMProvider {
 
     private static final String SELECT_FLOW_QUERY = "select "
             + "EVENTS.ID, EI_TIMESTAMP, EI_EVENT_TYPE, ORIG_CUSTOM_ID, ORIG_PROCESS_ID, "
@@ -50,7 +50,7 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
 
     @Override
     public FlowEvent getEventDetails(Integer eventID) {
-        List<FlowEvent> list = getJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
+        List<FlowEvent> list = getSimpleJdbcTemplate().query(SELECT_EVENT_QUERY, eventMapper,
                 Collections.singletonMap("eventID", eventID));
         if (list.isEmpty()) {
             return null;
@@ -61,7 +61,7 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
 
     @Override
     public List<FlowEvent> getFlowDetails(String flowID) {
-        return getJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper,
+        return getSimpleJdbcTemplate().query(SELECT_FLOW_QUERY, flowEventMapper,
                 Collections.singletonMap("flowID", flowID));
     }
 
@@ -71,7 +71,7 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
         final String whereClause = criteria.getWhereClause();
         final String countQuery = dbDialect.getCountQuery().replaceAll(DatabaseDialect.SUBSTITUTION_STRING,
                 (whereClause != null && whereClause.length() > 0) ? " AND " + whereClause : "");
-        int rowCount = getJdbcTemplate().queryForObject(countQuery, Integer.class, criteria);
+        int rowCount = getSimpleJdbcTemplate().queryForInt(countQuery, criteria);
         int offset = Integer.parseInt(criteria.getValue("offset").toString());
         int limit = Integer.parseInt(criteria.getValue("limit").toString());
 
@@ -84,8 +84,8 @@ public class SAMProviderImpl extends JdbcDaoSupport implements SAMProvider {
             String soffset = String.valueOf(offset); 
             String slimit =  String.valueOf(limit);
             dataQuery = dataQuery.replaceAll(SUBSTITUTION_STRING_LIMIT, slimit).replaceAll(SUBSTITUTION_STRING_OFFSET, soffset);
-            
-            flows = getJdbcTemplate().query(dataQuery, flowMapper, criteria);
+
+            flows = getSimpleJdbcTemplate().query(dataQuery, flowMapper, criteria);
         }
         if(flows == null) flows = new ArrayList<Flow>();
         flowCollection.setFlows(flows);
