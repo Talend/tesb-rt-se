@@ -77,11 +77,6 @@
                     <artifactId>registry-policy-client</artifactId>
                     <version>${project.version}</version>
                 </dependency>
-                <dependency>
-                    <groupId>org.talend.esb</groupId>
-                    <artifactId>locator</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
             </dependencies>
         </profile>
     </profiles>
