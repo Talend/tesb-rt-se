@@ -17,8 +17,8 @@ service:get = { $.context getService ($.context getServiceReference $args) };
 
 tesb:start-aux-store = { feature:install tesb-aux } ;
 tesb:start-sts = { feature:install tesb-sts } ;
-tesb:start-sam = { feature:install tesb-datasource-derby tesb-derby-starter tesb-sam-service-soap tesb-sam-service-rest } ; // (install derby-starter and sam feature)
-tesb:start-sam-retrieval-service = { feature:install tesb-datasource-derby tesb-derby-starter tesb-sam-service-rest } ; // (install derby-starter and sam rest feature)
+tesb:start-sam = { feature:install tesb-datasource-derby tesb-derby-starter; feature:install tesb-sam-service-soap tesb-sam-service-rest } ; // (install derby-starter and sam feature)
+tesb:start-sam-retrieval-service = { feature:install tesb-datasource-derby tesb-derby-starter; feature:install tesb-sam-service-rest } ; // (install derby-starter and sam rest feature)
 tesb:start-locator = { feature:install tesb-zookeeper-server } ; // (install zookeeper feature)
 tesb:start-locator-monitor = { feature:install tesb-locator-monitor } ; // (install locator monitor)
 tesb:start-locator-commands = { feature:install tesb-locator-commands } ; // (install locator commands)
