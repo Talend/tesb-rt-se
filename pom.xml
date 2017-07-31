@@ -96,7 +96,7 @@
         <activemq.version>5.14.5</activemq.version>
         <spring.version>3.2.18.RELEASE</spring.version>
         <karaf.version>4.1.1</karaf.version>
-        <zookeeper.version>3.4.6</zookeeper.version>
+        <zookeeper.version>3.4.10</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <slf4j.version>1.7.7</slf4j.version>
         <commons-lang.version>2.6</commons-lang.version>
