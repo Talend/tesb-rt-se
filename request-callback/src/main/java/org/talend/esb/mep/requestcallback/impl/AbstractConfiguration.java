@@ -212,6 +212,7 @@ public abstract class AbstractConfiguration implements Configuration {
 		final String fullPrefix = prefix == null ? null : prefix + ".";
 		if (fullPrefix == null) {
 			target.putAll(source);
+			return;
 		}
 		for (Entry<String, Object> e : source.entrySet()) {
 			String key = e.getKey();
