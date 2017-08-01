@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -41,7 +42,7 @@ import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.ContextUtils;
 //import org.apache.cxf.ws.addressing.impl.AddressingPropertiesImpl;
 import org.apache.cxf.service.model.ServiceModelUtil;
-
+import org.talend.esb.sam.agent.feature.EventFeature;
 import org.talend.esb.sam.agent.message.CorrelationIdHelper;
 import org.talend.esb.sam.agent.message.CustomInfo;
 import org.talend.esb.sam.agent.message.FlowIdHelper;
@@ -119,6 +120,13 @@ public class MessageToEventMapper {
 
         if (messageInfo.getTransportType() == null) {
             messageInfo.setTransportType("Unknown transport type");
+        }
+
+        // add custom properties from CXF properties
+        if (null != message.getExchange().getEndpoint().get(EventFeature.SAM_PROPERTIES)) {
+            Map<String, String> customProp = 
+                    (Map<String, String>) message.getExchange().getEndpoint().get(EventFeature.SAM_PROPERTIES);
+            event.getCustomInfo().putAll(customProp);
         }
 
         String addr = message.getExchange().getEndpoint().getEndpointInfo().getAddress();

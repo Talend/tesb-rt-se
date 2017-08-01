@@ -19,27 +19,33 @@
   #L%
   -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
-    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
     xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws">
 
     <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"/>
-	
-    <bean id="fixedProperties"
+
+    <!--bean id="fixedProperties"
         class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
         <property name="customInfo">
             <map>
                 <entry key="Application name" value="OSGI Service" />
             </map>
         </property>
-    </bean>
+    </bean-->
 
 	<jaxws:endpoint
 		id="customerService"
 		implementor="com.example.customerservice.server.CustomerServiceImpl"
 		address="/CustomerServicePort">
+        <jaxws:properties>
+            <entry key="esb.sam.properties">
+                <map>
+                    <entry key="City" value="Beijing" />
+                </map>
+            </entry>
+        </jaxws:properties>
 		<jaxws:features>
 			<!-- <bean class="org.apache.cxf.feature.LoggingFeature" />-->
-			<ref bean="eventFeature"/>
+			<ref component-id="eventFeature"/>
 		</jaxws:features>
-	</jaxws:endpoint>	
+	</jaxws:endpoint>
 </blueprint>

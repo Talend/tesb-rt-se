@@ -28,6 +28,8 @@ import org.talend.esb.sam.common.spi.EventHandler;
  */
 public interface EventFeature extends Feature {
 
+    String SAM_PROPERTIES = "esb.sam.properties";
+
 	/**
 	 * If store the content of Message or not
 	 * @param logMessageContent

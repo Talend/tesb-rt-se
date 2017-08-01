@@ -24,7 +24,6 @@ To build and run this example, you must install:
     Servlet container (Tomcat 6.0 or above)
     OSGI Container (TESB Container or Karaf 2.2.x or above)
 
-	
 Start Derby database and sam-server
 -----------------------------------
 
@@ -49,9 +48,7 @@ Start Derby database and sam-server in OSGI Container
 	* starting Derby database and sam-server in TESB OSGi container:
 
 	Enter the following command on the OSGI console:
-	karaf@trun> feature:install tesb-datasource-derby
-	karaf@trun> feature:install tesb-derby-starter
-	karaf@trun> feature:install tesb-sam-server
+	karaf@trun> tesb:start-sam
 
 	By default the TESB OSGI Container runs on 8040 port and the sam-server can be accessible under this url: 
 	http://localhost:8040/services/MonitoringServiceSOAP?wsdl
@@ -112,4 +109,4 @@ Example soap message:
 then, you will see the SAM events generated and stored into Derby database (or from Tomcat logs).
 
 
-Please find more information from SAMUserGuide doc and GettingStartedGuide doc.
+Please find more information from help.talend.com.
