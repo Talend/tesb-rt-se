@@ -47,7 +47,6 @@ import org.talend.esb.sam.agent.flowidprocessor.FlowIdProducerOut;
 import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.agent.wiretap.WireTapIn;
 import org.talend.esb.sam.agent.wiretap.WireTapOut;
-import org.talend.esb.sam.common.spi.EventHandler;
 
 @OsgiServiceProvider(classes=EventFeature.class)
 @Named("eventFeature")
@@ -157,13 +156,6 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
             mapper.setMaxContentLength(maxContentLength);
             
             epi = new EventProducerInterceptor(mapper, queue);
-        }
-    }
-
-    @Override
-    public void setHandler(EventHandler handler) {
-        if (this.epi != null) {
-            this.epi.setHandler(handler);
         }
     }
 

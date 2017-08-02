@@ -137,6 +137,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 locatorFeature,
                 (Map<String, String>) props.get(ESBEndpointConstants.REQUEST_SL_PROPS),
                 getBoolean(props, ESBEndpointConstants.USE_SERVICE_ACTIVITY_MONITOR) ? samFeature : null,
+                (Map<String, String>) props.get(ESBEndpointConstants.REQUEST_SAM_PROPS),
                 useServiceRegistry,
                 securityArguments,
                 bus,

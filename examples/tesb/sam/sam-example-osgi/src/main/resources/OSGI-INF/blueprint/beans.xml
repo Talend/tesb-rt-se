@@ -23,15 +23,6 @@
 
     <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"/>
 
-    <!--bean id="fixedProperties"
-        class="org.talend.esb.sam.common.handler.impl.CustomInfoHandler">
-        <property name="customInfo">
-            <map>
-                <entry key="Application name" value="OSGI Service" />
-            </map>
-        </property>
-    </bean-->
-
 	<jaxws:endpoint
 		id="customerService"
 		implementor="com.example.customerservice.server.CustomerServiceImpl"

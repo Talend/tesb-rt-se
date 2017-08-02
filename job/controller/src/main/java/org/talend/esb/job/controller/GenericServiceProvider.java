@@ -20,10 +20,7 @@
 package org.talend.esb.job.controller;
 
 import org.osgi.service.cm.ManagedService;
-import org.talend.esb.sam.agent.feature.EventFeature;
 
 public interface GenericServiceProvider extends ManagedService {
-
-    void setEventFeature(EventFeature eventFeature);
 
 }
