@@ -43,6 +43,8 @@
     </bean> 
 		
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
         <property name="location" value="WEB-INF/customer.properties"/>
     </bean>
     
