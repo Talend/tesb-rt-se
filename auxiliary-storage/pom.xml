@@ -51,7 +51,6 @@
         <xmlParserAPIs.version>2.0.2</xmlParserAPIs.version>
         <concurrent.version>1.3.4_1</concurrent.version>
 
-        <tika.version>1.3</tika.version>
         <velocity.version>1.7</velocity.version>
 
         <abdera.version>1.1.3</abdera.version>
@@ -60,6 +59,7 @@
 
         <!-- persistence -->
         <jcr-version>2.0</jcr-version>
+        <guava.version>15.0</guava.version>
         <jackrabbit.version>2.14.2</jackrabbit.version>
         <servicemix.derby.version>10.8.1.2_1</servicemix.derby.version>
         <lucene-core.version>3.6.2</lucene-core.version>
