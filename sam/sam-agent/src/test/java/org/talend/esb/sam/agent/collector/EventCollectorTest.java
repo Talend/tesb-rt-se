@@ -21,8 +21,6 @@ package org.talend.esb.sam.agent.collector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,6 +56,7 @@ public class EventCollectorTest {
         eventCollector.setQueue(queue);
         MockService monitoringService = new MockService();
         eventCollector.setMonitoringServiceClient(monitoringService);
+        eventCollector.init();
 
         // Add events
         queue.add(createEvent("1"));

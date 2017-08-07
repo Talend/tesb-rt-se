@@ -28,6 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 //import javax.inject.Inject;
 //import javax.inject.Named;
@@ -93,7 +94,8 @@ public class EventCollector {
     /**
      * Instantiates a new event collector.
      */
-    public EventCollector() {
+    @PostConstruct
+    public void init() {
         //init Bus and LifeCycle listeners
         if (bus != null && sendLifecycleEvent ) {
                 ServerLifeCycleManager slcm = bus.getExtension(ServerLifeCycleManager.class);
@@ -248,7 +250,7 @@ public class EventCollector {
     }
 
     /**
-     * Method will be executed asynchronously from spring.
+     * Method will be executed asynchronously.
      */
     public void sendEventsFromQueue() {
         if (null == queue || stopSending) {

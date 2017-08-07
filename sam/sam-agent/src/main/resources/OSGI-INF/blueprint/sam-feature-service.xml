@@ -39,7 +39,7 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" destroy-method="destroy">
+    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" init-method="init" destroy-method="destroy">
         <property name="bus" ref="cxf"/>
         <property name="defaultInterval" value="${collector.scheduler.interval}"/>
         <property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}"/>
