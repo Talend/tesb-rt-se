@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,18 +20,18 @@
 package org.talend.esb.servicelocator.cxf.internal;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.managers.ClientLifeCycleManagerImpl;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ClientImpl;
-import org.apache.cxf.endpoint.ClientLifeCycleManager;
-import org.apache.cxf.endpoint.ConduitSelectorHolder;
-import org.apache.cxf.endpoint.Endpoint;
-import org.apache.cxf.endpoint.EndpointException;
-import org.apache.cxf.endpoint.EndpointImpl;
+import org.apache.cxf.bus.managers.ServerLifeCycleManagerImpl;
+import org.apache.cxf.buslifecycle.BusLifeCycleListener;
+import org.apache.cxf.buslifecycle.BusLifeCycleManager;
+import org.apache.cxf.endpoint.*;
 import org.apache.cxf.interceptor.InterceptorProvider;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
+import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 import org.apache.cxf.service.Service;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.easymock.EasyMock;
@@ -39,9 +39,24 @@ import org.easymock.EasyMockSupport;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.talend.esb.servicelocator.client.SLEndpoint;
+import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.ServiceLocator;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
+import org.talend.esb.servicelocator.cxf.internal.internal.HelloWorld;
+import org.talend.esb.servicelocator.cxf.internal.internal.ServiceLocatorMock;
+
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LocatorFeatureTest extends EasyMockSupport {
+
+
+	private static final String SERVICE_NS = "http://internal.internal.cxf.servicelocator.esb.talend.org/";
+	private static final QName SERVICE_NAME = new QName(SERVICE_NS, "HelloWorldImplService");
 
 	Bus busMock;
 	LocatorRegistrar locatorRegistrarMock;
@@ -61,6 +76,9 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 		locatorSelectionStrategyMap = new LocatorSelectionStrategyMap();
 		locatorSelectionStrategyMap.init();
+
+		Logger log = Logger.getLogger(LocatorFeatureImpl.class.getName());
+		log.setLevel(Level.FINE);
 	}
 
 	@Test
@@ -79,7 +97,12 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 		EndpointInfo ei = new EndpointInfo();
 		Service service = new org.apache.cxf.service.ServiceImpl();
-		Endpoint endpoint = new EndpointImpl(busMock, service, ei);
+
+		EndpointImpl endpoint = new EndpointImpl(busMock, service, ei);
+		Map<String, String> locatorProps = new HashMap<String, String>();
+		locatorProps.put("key1", "value1");
+		locatorProps.put("key2", "value2");
+		endpoint.put(LocatorFeature.LOCATOR_PROPERTIES, locatorProps);
 		endpoint.put(LocatorFeature.KEY_STRATEGY, "randomSelectionStrategy");
 		Client client = new ClientImpl(busMock, endpoint);
 
@@ -295,5 +318,72 @@ public class LocatorFeatureTest extends EasyMockSupport {
 
 		Assert.assertTrue(((LocatorTargetSelector) client.getConduitSelector())
 				.getStrategy() instanceof RandomSelectionStrategy);
+	}
+
+	@Test
+	public void initializeServer() throws EndpointException {
+		LocatorClientEnabler enabler = new LocatorClientEnabler();
+
+		enabler.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
+		enabler.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
+
+
+		ClientLifeCycleManager clcm = new ClientLifeCycleManagerImpl();
+		expect(busMock.getExtension(ClientLifeCycleManager.class))
+				.andStubReturn(clcm);
+
+		ServerLifeCycleManager slcm = new ServerLifeCycleManagerImpl();
+		expect(busMock.getExtension(ServerLifeCycleManager.class))
+				.andStubReturn(slcm);
+
+		replayAll();
+
+		Map<String, String> locatorProps = new HashMap<String, String>();
+		locatorProps.put("key1", "value1");
+		locatorProps.put("key2", "value2");
+
+		JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+		factory.setServiceName(SERVICE_NAME);
+		factory.setEndpointName(new QName(SERVICE_NS, "HelloWorldImplServiceInstance1"));
+		factory.setServiceClass(HelloWorld.class);
+		factory.setAddress("som.address/service");
+
+		Server srv = factory.create();
+		srv.getEndpoint().put(LocatorFeature.LOCATOR_PROPERTIES, locatorProps);
+		srv.getEndpoint().put(LocatorFeature.KEY_STRATEGY, "randomSelectionStrategy");
+
+
+		LocatorRegistrar registrar = new LocatorRegistrar();
+		ServiceLocator serviceLocator = new ServiceLocatorMock();
+		registrar.setServiceLocator(serviceLocator);
+		Bus bus = BusFactory.newInstance().createBus();
+
+		EndpointInfo ei = new EndpointInfo();
+		Service service = new org.apache.cxf.service.ServiceImpl();
+
+		EndpointImpl endpoint = new EndpointImpl(busMock, service, ei);
+
+		LocatorTargetSelector selector = new LocatorTargetSelector();
+		selector.setEndpoint(endpoint);
+
+		LocatorFeatureImpl lf = new LocatorFeatureImpl();
+		lf.setLocatorRegistrar(registrar);
+		lf.setClientEnabler(enabler);
+		lf.initialize(srv, bus);
+
+
+		SLEndpoint slEp = null;
+		try {
+			slEp = serviceLocator.getEndpoint(SERVICE_NAME, "HelloWorldImplServiceInstance1");
+		} catch (Throwable t) {
+			t.printStackTrace();
+			Assert.fail(t.getMessage());
+		}
+
+		Assert.assertNotNull(slEp);
+		SLProperties slProps = slEp.getProperties();
+		Assert.assertNotNull(slProps);
+		Assert.assertTrue(slProps.getPropertyNames().contains("key1"));
+		Assert.assertTrue(slProps.getPropertyNames().contains("key2"));
 	}
 }
