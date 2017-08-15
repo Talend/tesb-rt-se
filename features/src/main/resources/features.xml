@@ -42,12 +42,14 @@
     <configfile finalname="/etc/org.talend.esb.sam.agent.cfg">mvn:org.talend.esb/sam-agent/${project.version}/cfg/org.talend.esb.sam.agent</configfile>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/1_2</bundle>
+    <bundle dependency="true">mvn:org.ops4j.pax.cdi/pax-cdi-api/${pax-cdi.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-agent/${project.version}</bundle>
   </feature>
 
   <feature name='tesb-datasource-derby' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.derby.cfg">mvn:org.talend.esb/ds-service-derby/${project.version}/cfg/org.talend.esb.datasource.derby</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
 <!--    <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle> -->
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${derby.servicemix.version}</bundle>
 	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
@@ -60,7 +62,7 @@
   -->
   <feature name='tesb-datasource-h2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.h2.cfg">mvn:org.talend.esb/ds-service-h2/${project.version}/cfg/org.talend.esb.datasource.h2</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
     <bundle>mvn:org.talend.esb/ds-service-h2/${project.version}</bundle>
   </feature>
 
@@ -70,7 +72,7 @@
   -->
   <feature name='tesb-datasource-mysql' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.mysql.cfg">mvn:org.talend.esb/ds-service-mysql/${project.version}/cfg/org.talend.esb.datasource.mysql</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
     <bundle dependency="true">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.stax-api-1.0/1.9.0</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-mysql/${project.version}</bundle>
@@ -89,7 +91,7 @@
   -->
   <feature name='tesb-datasource-oracle' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.oracle.cfg">mvn:org.talend.esb/ds-service-oracle/${project.version}/cfg/org.talend.esb.datasource.oracle</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
     <bundle>mvn:org.talend.esb/ds-service-oracle/${project.version}</bundle>
   </feature>
 
@@ -103,7 +105,7 @@
   -->
   <feature name='tesb-datasource-postgresql' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.postgresql.cfg">mvn:org.talend.esb/ds-service-postgresql/${project.version}/cfg/org.talend.esb.datasource.postgresql</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
     <bundle>mvn:org.talend.esb/ds-service-postgresql/${project.version}</bundle>
   </feature>
 
@@ -121,7 +123,7 @@
   -->
   <feature name='tesb-datasource-db2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.db2.cfg">mvn:org.talend.esb/ds-service-db2/${project.version}/cfg/org.talend.esb.datasource.db2</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
 	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-db2/${project.version}</bundle>
   </feature>
@@ -139,7 +141,7 @@
   -->
   <feature name='tesb-datasource-sqlserver' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.sqlserver.cfg">mvn:org.talend.esb/ds-service-sqlserver/${project.version}/cfg/org.talend.esb.datasource.sqlserver</configfile>
-    <feature version="[3.2,4)">spring-jdbc</feature>
+    <feature version="[4,5)">spring-jdbc</feature>
 	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-sqlserver/${project.version}</bundle>
   </feature>
@@ -161,7 +163,7 @@
     <configfile finalname="/etc/org.talend.esb.sam.server.cfg">mvn:org.talend.esb/sam-server/${project.version}/cfg/org.talend.esb.sam.server</configfile>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
-    <feature version='[3.2,4)'>spring-jdbc</feature>
+    <feature version='[4,5)'>spring-jdbc</feature>
     <bundle dependency="true">mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oscache/${oscache.bundle.version}</bundle>
@@ -184,7 +186,8 @@
   <feature name='tesb-locator-client' version='${project.version}'>
     <feature version='${cxf.version}'>cxf</feature>
     <feature prerequisite='true'>tesb-zookeeper</feature>
-    <bundle>mvn:org.ops4j.pax.cdi/pax-cdi-api/${pax-cdi.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/1_2</bundle>
+    <bundle dependency="true">mvn:org.ops4j.pax.cdi/pax-cdi-api/${pax-cdi.version}</bundle>
     <bundle>mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}</bundle>
     <bundle start-level='51'>mvn:org.talend.esb/locator/${project.version}</bundle>
   </feature>

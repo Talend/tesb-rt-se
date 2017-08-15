@@ -32,20 +32,19 @@
 
         <cxf.version>3.1.12</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
-        <camel.version>2.17.6</camel.version>
-        <spring.version>3.2.18.RELEASE</spring.version>
-        <karaf.version>4.1.1</karaf.version>
+        <camel.version>2.19.2</camel.version>
+        <spring.version>4.3.10.RELEASE</spring.version>
+        <karaf.version>4.1.2</karaf.version>
         <activemq.version>5.14.5</activemq.version>
         <osgi.version>4.3.1</osgi.version>
         <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>
         <zookeeper.version>3.4.10</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
-        <servlet.api.version>2.5</servlet.api.version>
         <aries.version>1.0.0</aries.version>
-        <jetty.version>9.2.7.v20150116</jetty.version>
+        <jetty.version>9.3.14.v20161028</jetty.version>
 
         <!-- Test dependencies -->
-        <junit.version>4.11</junit.version>
+        <junit.version>4.12</junit.version>
 
         <!-- Log dependencies -->
         <log4j.version>1.2.17</log4j.version>

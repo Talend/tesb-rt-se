@@ -45,7 +45,7 @@
         <exec.plugin.version>1.2.1</exec.plugin.version>
 
         <commons-codec.version>1.5</commons-codec.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.4</commons-io.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
 
         <xmlParserAPIs.version>2.0.2</xmlParserAPIs.version>
@@ -97,7 +97,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.10</version>
+                <version>4.12</version>
                 <scope>test</scope>
             </dependency>
 

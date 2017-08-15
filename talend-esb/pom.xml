@@ -38,10 +38,7 @@
         <wss4j.version>2.1.10</wss4j.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
-        <equinox.version>3.10.1.v20140909-1633</equinox.version>
-        <pax-web.version>6.0.3</pax-web.version>
-        <jline.version>3.3.0</jline.version>
-        <jansi.version>1.16</jansi.version>
+        <pax-web.version>6.0.6</pax-web.version>
 	</properties>
 
 	<dependencies>
@@ -117,7 +114,7 @@
 							</descriptors>
 							<features>
 								<!-- Core Features -->
-                                <feature>spring/3.2.18.RELEASE_1</feature>
+<!--                                <feature>spring/3.2.18.RELEASE_1</feature>
                                 <feature>spring-tx/3.2.18.RELEASE_1</feature>
                                 <feature>spring-jdbc/3.2.18.RELEASE_1</feature>
                                 <feature>spring-dm</feature>
@@ -129,7 +126,7 @@
                                 <feature>spring-jms/4.1.9.RELEASE_1</feature>
                                 <feature>spring-jms/4.2.9.RELEASE_1</feature>
                                 <feature>spring-jms/4.0.7.RELEASE_3</feature>
-                                <feature>spring-jms/3.2.18.RELEASE_1</feature>
+                                <feature>spring-jms/3.2.18.RELEASE_1</feature> -->
                                 <feature>jetty</feature>
                                 <feature>webconsole</feature>
                                 <feature>eventadmin</feature>
@@ -140,7 +137,7 @@
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
                                 <!-- pax-web version patch (TESB-19140) -->
-                                <feature>pax-jetty/9.3.14.v20161028</feature>
+                                <feature>pax-jetty/${jetty.version}</feature>
                                 <feature>pax-jetty-http2/${pax-web.version}</feature>
                                 <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
@@ -208,7 +205,6 @@
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
 						        <feature>camel-ftp</feature>
-                                <feature>camel-gae</feature>
                                 <feature>camel-ganglia</feature>
                                 <feature>camel-geocoder</feature>
                                 <feature>camel-git</feature>
@@ -243,7 +239,6 @@
 						        <feature>camel-jclouds</feature>
 						        <feature>camel-jcr</feature>
 						        <feature>camel-jdbc</feature>
-                                <feature>camel-jetty8</feature>
                                 <feature>camel-jetty9</feature>
                                 <feature>camel-jetty</feature>
 						        <feature>camel-jgroups</feature>
@@ -329,7 +324,6 @@
                                 <feature>camel-spark-rest</feature>
                                 <feature>camel-splunk</feature>
                                 <feature>camel-spring-batch</feature>
-						        <feature>camel-spring-javaconfig</feature>
                                 <feature>camel-spring-ldap</feature>
                                 <feature>camel-spring-redis</feature>
 						        <feature>camel-spring-security</feature>
@@ -520,28 +514,6 @@
                                     <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- Patch jline and jansi versions (TESB-19436) -->
-                                <artifactItem>
-                                    <groupId>org.jline</groupId>
-                                    <artifactId>jline</artifactId>
-                                    <version>${jline.version}</version>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.fusesource.jansi</groupId>
-                                    <artifactId>jansi</artifactId>
-                                    <version>${jansi.version}</version>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- patch for camel-paxlogging (TESB-19585) -->
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-paxlogging</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-paxlogging-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -784,7 +756,7 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/3.1.9/xml/features"
+                                        token="apache-cxf/3.1.11/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.8"
@@ -803,10 +775,6 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
-                                    <!-- patch for camel-paxlogging (TESB-19585) -->
-                                    <replacefilter
-                                        token="org.apache.camel/camel-paxlogging/${camel.version}&lt;"
-                                        value="org.apache.camel/camel-paxlogging/${camel.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -844,53 +812,6 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
-                                </replace>
-                                <!-- Patch jline and jansi versions (TESB-19436) -->
-                                <replace>
-                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/bin/">
-                                        <exclude name="*.bat" />
-                                    </fileset>
-                                    <replacefilter>
-                                        <replacetoken>org/jline/jline/3.2.0/jline-3.2.0.jar</replacetoken>
-                                        <replacevalue>org/jline/jline/${jline.version}/${jline.version}</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>org/fusesource/jansi/jansi/1.14/jansi-1.14.jar</replacetoken>
-                                        <replacevalue>org/fusesource/jansi/jansi/${jansi.version}/jansi-${jansi.version}.jar</replacevalue>
-                                    </replacefilter>
-                                </replace>
-                                <replace>
-                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/bin/">
-                                        <include name="*.bat" />
-                                    </fileset>
-                                    <replacefilter>
-                                        <replacetoken>org\jline\jline\3.2.0\jline-3.2.0.jar</replacetoken>
-                                        <replacevalue>org\jline\jline\${jline.version}\jline-${jline.version}.jar</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>org\fusesource\jansi\jansi\1.14\jansi-1.14.jar</replacetoken>
-                                        <replacevalue>org\fusesource\jansi\jansi\${jansi.version}\jansi-${jansi.version}.jar</replacevalue>
-                                    </replacefilter>
-                                </replace>
-                                <replace file="target/dependencies/unix/apache-karaf-${karaf.version}/system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.jline/jline/3.2.0</replacetoken>
-                                        <replacevalue>mvn:org.jline/jline/${jline.version}</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.fusesource.jansi/jansi/1.14</replacetoken>
-                                        <replacevalue>mvn:org.fusesource.jansi/jansi/${jansi.version}</replacevalue>
-                                    </replacefilter>
-                                </replace>
-                                <replace file="target/dependencies/win/apache-karaf-${karaf.version}/system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml">
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.jline/jline/3.2.0</replacetoken>
-                                        <replacevalue>mvn:org.jline/jline/${jline.version}</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.fusesource.jansi/jansi/1.14</replacetoken>
-                                        <replacevalue>mvn:org.fusesource.jansi/jansi/${jansi.version}</replacevalue>
-                                    </replacefilter>
                                 </replace>
                             </target>
                         </configuration>

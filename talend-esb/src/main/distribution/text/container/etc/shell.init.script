@@ -15,6 +15,10 @@ man = { help $args } ;
 log:list = { log:get ALL } ;
 service:get = { $.context getService ($.context getServiceReference $args) };
 
+env = { shell:set $args }
+edit = { shell:nano $args }
+more = { shell:less -F $args }
+
 tesb:start-aux-store = { feature:install tesb-aux } ;
 tesb:start-sts = { feature:install tesb-sts } ;
 tesb:start-sam = { feature:install tesb-datasource-derby tesb-derby-starter; feature:install tesb-sam-service-soap tesb-sam-service-rest } ; // (install derby-starter and sam feature)
@@ -32,4 +36,4 @@ tesb:stop-locator-monitor = { feature:uninstall tesb-locator-monitor } ; // (uni
 tesb:stop-locator-commands = { feature:uninstall tesb-locator-commands } ; // (uninstall locator commands)
 tesb:stop-all = { tesb:stop-sts; tesb:stop-sam; tesb:stop-locator; tesb:stop-aux-store } ; // (uninstall all four services)
 
-setopt disable-highlighter
+// setopt disable-highlighter
