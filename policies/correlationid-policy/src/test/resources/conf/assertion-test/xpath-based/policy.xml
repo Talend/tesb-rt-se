@@ -1,0 +1,14 @@
+<wsp:Policy Name="correlation-id-request-response" wsu:Id="correlation-id-request-response" xmlns:wsp="http://www.w3.org/ns/ws-policy"
+            xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <wsp:ExactlyOne>
+        <wsp:All>
+            <tpa:CorrelationID xmlns:tpa="http://types.talend.com/policy/assertion/1.0" type="xpath" name="customer">
+                <tpa:Namespace prefix="ns" uri="http://types.talend.org/test/Library/Common/1.0" />
+                <tpa:Part name="customerLastName" xpath="/ns:SearchFor/AuthorLastName" />
+                <tpa:Part name="publisher" optional="true" xpath="/ns:SearchFor/Publisher" />
+                <tpa:Part name="firstName" optional="true" xpath="/ns:SearchFor/FirstName" />
+            </tpa:CorrelationID>
+            <!-- tpa:ServiceActivityMonitoring xmlns:tpa="http://types.talend.com/policy/assertion/1.0" appliesTo="always"/-->
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>
