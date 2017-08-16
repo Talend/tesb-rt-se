@@ -167,6 +167,7 @@
     <bundle dependency="true">mvn:commons-pool/commons-pool/${commons-pool.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oscache/${oscache.bundle.version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/${cglib.bundle.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ibatis-sqlmap/${ibatis-sqlmap.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-server/${project.version}</bundle>
   </feature>
