@@ -19,13 +19,25 @@
         <module>sam-common</module>
         <module>sam-agent</module>
         <module>sam-server</module>
-        <module>sam-service-common</module>
         <module>sam-service-rest</module>
         <module>sam-service-soap</module>
         <module>sam-server-war</module>
         <module>derby-starter</module>
         <module>datasource-service</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -20,19 +20,18 @@
 package org.talend.esb.servicelocator;
 
 
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STOPPED;
+
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
-
-import org.w3c.dom.Element;
 
 import org.talend.esb.DomMother;
 import org.talend.esb.servicelocator.client.SLProperties;
 import org.talend.esb.servicelocator.client.internal.endpoint.BindingType;
 import org.talend.esb.servicelocator.client.internal.endpoint.TransportType;
-
-import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
-import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
-import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STOPPED;
+import org.w3c.dom.Element;
 
 public class TestContent {
 

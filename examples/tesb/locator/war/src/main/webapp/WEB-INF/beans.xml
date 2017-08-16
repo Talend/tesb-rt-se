@@ -44,7 +44,6 @@
        http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd">
  
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/tesb/locator/beans.xml" />
 
 	<jaxws:endpoint xmlns:tns="http://talend.org/esb/examples/"
@@ -56,8 +55,7 @@
 		    <entry key="org.talend.tesb.endpoint.secured" value="true"/>
 		</jaxws:properties>
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-			</bean>
+            <ref bean="locatorFeature" />
 		</jaxws:features>
 	</jaxws:endpoint>
 	
@@ -68,8 +66,7 @@
 			serviceName="tns:GreeterService"
 			address="/GreeterService">
 		<jaxws:features>
-			<bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-			</bean>
+            <ref bean="locatorFeature" />
 		</jaxws:features>
 	</jaxws:endpoint>
 	

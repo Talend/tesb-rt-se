@@ -47,7 +47,6 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 import org.talend.esb.servicelocator.cxf.LocatorFeature;
 
 import routines.system.api.ESBConsumer;
@@ -58,7 +57,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
     private static final Logger LOG = Logger.getLogger(RuntimeESBConsumer.class.getName());
 
     private final QName operationName;
-    private final EventFeature samFeature;
     private final List<Header> soapHeaders;
     private AuthorizationPolicy authorizationPolicy;
 
@@ -78,8 +76,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
             String publishedEndpointUrl,
             String wsdlURL,
             final boolean useServiceLocator,
+            final LocatorFeature locatorFeature,
             final Map<String, String> locatorProps,
             final EventFeature samFeature,
+            final Map<String, String> samProps,
             boolean useServiceRegistry,
             final SecurityArguments securityArguments,
             Bus bus,
@@ -89,7 +89,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
             boolean enhancedResponse,
             Object correlationIDCallbackHandler) {
         this.operationName = operationName;
-        this.samFeature = samFeature;
         this.soapHeaders = soapHeaders;
         this.enhancedResponse = enhancedResponse;
 
@@ -125,7 +124,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
 
         final List<Feature> features = new ArrayList<Feature>();
         if (useServiceLocator) {
-            features.add(new LocatorFeature());
+            features.add(locatorFeature);
         }
         if (samFeature != null) {
             features.add(samFeature);
@@ -157,6 +156,10 @@ public class RuntimeESBConsumer implements ESBConsumer {
             clientProps.put(LocatorFeature.LOCATOR_PROPERTIES, locatorProps);
         }
 
+        if (null != samFeature && null != samProps && !samProps.isEmpty()) {
+            clientProps.put(EventFeature.SAM_PROPERTIES, samProps);
+        }
+
         if (correlationIDCallbackHandler != null) {
             clientProps.put(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
         }
@@ -172,7 +175,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
      }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object invoke(Object payload) throws Exception {
     	
         LOG.fine("Generic consumer for operation " + operationName + " invoked with payload " + payload);
@@ -181,17 +183,6 @@ public class RuntimeESBConsumer implements ESBConsumer {
             return sendDocument((org.dom4j.Document) payload);
         } else if (payload instanceof java.util.Map) {
             Map<?, ?> map = (Map<?, ?>) payload;
-
-            if (samFeature != null) {
-                Object samProps = map.get(ESBEndpointConstants.REQUEST_SAM_PROPS);
-                if (samProps != null) {
-                    LOG.info("SAM custom properties received: " + samProps);
-                    CustomInfoHandler ciHandler = new CustomInfoHandler();
-                    ciHandler.setCustomInfo((Map<String, String>) samProps);
-                    samFeature.setHandler(ciHandler);
-                }
-            }
-
             return sendDocument((org.dom4j.Document) map.get(ESBEndpointConstants.REQUEST_PAYLOAD));
         } else {
             throw new RuntimeException("Consumer try to send incompatible object: " + payload.getClass().getName());

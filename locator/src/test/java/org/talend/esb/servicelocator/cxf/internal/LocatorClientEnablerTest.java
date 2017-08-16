@@ -26,11 +26,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.endpoint.Client;
@@ -47,14 +43,12 @@ public class LocatorClientEnablerTest {
 
     private Endpoint endpoint = createMock(Endpoint.class);
 
-    private Map<String, LocatorSelectionStrategyFactory> locatorSelectionStrategies;
+    private LocatorSelectionStrategyMap locatorSelectionStrategyMap;
 
     @Before
     public void setUp() {
-        locatorSelectionStrategies = new HashMap<String, LocatorSelectionStrategyFactory>();
-        locatorSelectionStrategies.put("defaultSelectionStrategy", new DefaultSelectionStrategyFactory());
-        locatorSelectionStrategies.put("evenDistributionSelectionStrategy",
-                new DefaultSelectionStrategyFactory());
+        locatorSelectionStrategyMap = new LocatorSelectionStrategyMap();
+        locatorSelectionStrategyMap.init();
 
         expect(conduitSelector.getEndpoint()).andStubReturn(endpoint);
         replay(conduitSelector);
@@ -73,9 +67,8 @@ public class LocatorClientEnablerTest {
 
         LocatorClientEnabler clientRegistrar = new LocatorClientEnabler();
         clientRegistrar.setServiceLocator(sl);
-        clientRegistrar.setLocatorSelectionStrategies(locatorSelectionStrategies);
+        clientRegistrar.setLocatorSelectionStrategyMap(locatorSelectionStrategyMap);
         // clientRegistrar.setLocatorSelectionStrategy("defaultSelectionStrategy");
-        clientRegistrar.setLocatorSelectionStrategy("evenDistributionSelectionStrategy");
         clientRegistrar.setDefaultLocatorSelectionStrategy("evenDistributionSelectionStrategy");
         clientRegistrar.enable(client);
 

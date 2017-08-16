@@ -41,8 +41,6 @@ import org.talend.esb.job.controller.GenericServiceProvider;
 import org.talend.esb.job.controller.JobLauncher;
 import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
-import org.talend.esb.sam.agent.feature.EventFeature;
-import org.talend.esb.sam.common.handler.impl.CustomInfoHandler;
 
 import routines.system.api.ESBProviderCallback;
 
@@ -55,7 +53,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     private final JobLauncher jobLauncher;
     private final Map<String, String> operations;
 
-    private EventFeature eventFeature;
     private boolean extractHeaders;
 
     private Configuration configuration;
@@ -67,10 +64,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
         this.jobLauncher = jobLauncher;
         this.operations = operations;
         configuration = new Configuration();
-    }
-
-    public void setEventFeature(EventFeature eventFeature) {
-        this.eventFeature = eventFeature;
     }
 
     public void setExtractHeaders(boolean extractHeaders) {
@@ -121,16 +114,6 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
 
             if (result instanceof Map<?, ?>) {
                 Map<String, Object> map = CastUtils.cast((Map<?, ?>) result);
-
-                Map<String, String> samProps = CastUtils.cast((Map<?, ?>) map
-                        .get(ESBEndpointConstants.REQUEST_SAM_PROPS));
-                if (samProps != null && eventFeature != null) {
-                    LOG.info("SAM custom properties received: " + samProps);
-                    CustomInfoHandler ciHandler = new CustomInfoHandler();
-                    ciHandler.setCustomInfo(samProps);
-                    eventFeature.setHandler(ciHandler);
-                }
-
                 return processResult(map.get(ESBEndpointConstants.REQUEST_PAYLOAD));
             } else {
                 return processResult(result);

@@ -19,12 +19,29 @@
  */
 package org.talend.esb.servicelocator.client.internal.zk;
 
+import static java.util.Arrays.asList;
+import static org.apache.zookeeper.CreateMode.PERSISTENT;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.talend.esb.servicelocator.TestContent.CONTENT_ANY_1;
+import static org.talend.esb.servicelocator.TestValues.PASSWORD;
+import static org.talend.esb.servicelocator.TestValues.USER_NAME;
+import static org.talend.esb.servicelocator.TestValues.USER_NAME_PASSWORD_BYTES;
+
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.ZooDefs.Ids;
 import org.apache.zookeeper.ZooDefs.Perms;
+import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
 import org.apache.zookeeper.data.Stat;
@@ -34,23 +51,6 @@ import org.junit.Test;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.internal.NodePath;
 import org.talend.esb.servicelocator.client.internal.RootNode;
-import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
-
-import static java.util.Arrays.asList;
-import static org.apache.zookeeper.CreateMode.PERSISTENT;
-import static org.easymock.EasyMock.aryEq;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
-import static org.talend.esb.servicelocator.TestValues.*;
-import static org.talend.esb.servicelocator.TestContent.*;
 
 public class ZKBackendTest {
 

@@ -25,11 +25,17 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 import javax.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
+import org.ops4j.pax.cdi.api.OsgiService;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
 import org.talend.esb.servicelocator.client.SLEndpoint;
@@ -56,6 +62,8 @@ import org.talend.services.esb.locator.v1.LocatorService;
 import org.talend.services.esb.locator.v1.ServiceLocatorFault;
 import org.w3c.dom.Document;
 
+@Singleton
+@Named("serviceLocatorBean")
 public class LocatorSoapServiceImpl implements LocatorService {
 
     private static final Logger LOG = Logger
@@ -63,8 +71,12 @@ public class LocatorSoapServiceImpl implements LocatorService {
 
     private static final Random RANDOM = new Random();
 
+    @OsgiService
+    @Inject
     private ServiceLocator locatorClient;
 
+    @OsgiService
+    @Inject
     private ExpiredEndpointCollector endpointCollector;
 
     private String locatorEndpoints = "localhost:2181";
@@ -100,6 +112,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
         this.connectionTimeout = connectionTimeout;
     }
     
+    @PostConstruct
     public void start() {
         if (endpointCollector != null) {
             endpointCollector.startScheduledCollection();
@@ -143,6 +156,7 @@ public class LocatorSoapServiceImpl implements LocatorService {
      * @throws InterruptedException
      * @throws ServiceLocatorException
      */
+    @PreDestroy
     public void disconnectLocator() throws InterruptedException,
             ServiceLocatorException {
         if (LOG.isLoggable(Level.FINE)) {

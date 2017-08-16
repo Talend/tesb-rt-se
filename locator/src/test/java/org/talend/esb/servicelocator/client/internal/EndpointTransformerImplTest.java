@@ -23,8 +23,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 import static org.junit.Assert.assertThat;
 import static org.talend.esb.servicelocator.NamespaceContextImpl.WSA_SL_NS_CONTEXT;
-import static org.talend.esb.servicelocator.TestValues.*;
-
+import static org.talend.esb.servicelocator.TestValues.ENDPOINT_1;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STARTED;
+import static org.talend.esb.servicelocator.TestValues.LAST_TIME_STOPPED;
+import static org.talend.esb.servicelocator.TestValues.PROPERTIES_EMPTY;
+import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 
 import javax.xml.transform.dom.DOMResult;
 

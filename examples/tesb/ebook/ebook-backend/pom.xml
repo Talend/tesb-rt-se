@@ -42,12 +42,10 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-         <groupId>org.apache.servicemix.bundles</groupId>
-         <artifactId>
-          org.apache.servicemix.bundles.javax.mail
-         </artifactId>
-         <version>1.4.1_5</version>
-         <type>bundle</type>
+           <groupId>org.apache.servicemix.bundles</groupId>
+           <artifactId>org.apache.servicemix.bundles.javax.mail</artifactId>
+           <version>1.4.1_5</version>
+           <type>bundle</type>
         </dependency>
     </dependencies>
 

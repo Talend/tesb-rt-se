@@ -15,7 +15,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.talend.esb.sam.common.event.EventTypeEnum;
-import org.talend.esb.sam.server.ui.CriteriaAdapter;
+import org.talend.esb.sam.server.persistence.AggregatedFlow;
+import org.talend.esb.sam.server.persistence.AggregatedFlowCollection;
+import org.talend.esb.sam.server.persistence.AggregatedFlowEvent;
+import org.talend.esb.sam.server.persistence.CustomInfo;
+import org.talend.esb.sam.server.persistence.Flow;
+import org.talend.esb.sam.server.persistence.FlowCollection;
+import org.talend.esb.sam.server.persistence.FlowDetails;
+import org.talend.esb.sam.server.persistence.FlowEvent;
+import org.talend.esb.sam.server.persistence.SAMProvider;
+import org.talend.esb.sam.server.persistence.criterias.CriteriaAdapter;
 import org.talend.esb.sam.service.exception.IllegalParameterException;
 import org.talend.esb.sam.service.exception.ResourceNotFoundException;
 

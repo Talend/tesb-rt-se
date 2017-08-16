@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #%L
+  Service Activity Monitoring :: Agent
+  %%
+  Copyright (C) 2011 - 2012 Talend Inc.
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+    xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws">
+
+    <cm:property-placeholder persistent-id="org.talend.esb.sam.agent"
+        update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="collector.scheduler.interval" value="500"/>
+            <cm:property name="collector.maxEventsPerCall" value="10"/>
+            <cm:property name="collector.lifecycleEvent" value="false"/>
+            <cm:property name="log.messageContent" value="true"/>
+            <cm:property name="log.maxContentLength" value="-1"/>
+            <cm:property name="log.enforceMessageIDTransfer" value="true"/>
+            <cm:property name="service.url" value="http://localhost:8040/services/MonitoringServiceSOAP"/>
+            <cm:property name="service.retry.number" value="3"/>
+            <cm:property name="service.retry.delay" value="5000"/>
+            <cm:property name="executor.pool.size" value="20"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <bean id="eventCollector" class="org.talend.esb.sam.agent.collector.EventCollector" init-method="init" destroy-method="destroy">
+        <property name="bus" ref="cxf"/>
+        <property name="defaultInterval" value="${collector.scheduler.interval}"/>
+        <property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}"/>
+        <property name="executorPoolSize" value="${executor.pool.size}"/>
+        <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
+        <property name="queue" ref="queue"/>
+        <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>
+    </bean>
+
+    <jaxws:client id="monitoringService"
+        serviceClass="org.talend.esb.sam.monitoringservice.v1.MonitoringService"
+        address="${service.url}">
+        <jaxws:properties>
+            <entry key="mtom-enabled" value="true"/>
+        </jaxws:properties>
+    </jaxws:client>
+
+</blueprint>

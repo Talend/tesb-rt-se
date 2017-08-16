@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsp:Policy xmlns:wsp="http://www.w3.org/ns/ws-policy">
+    <wsp:ExactlyOne>
+        <wsp:All>
+          <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+            <wsp:Policy>
+              <sp:TransportToken>
+                <wsp:Policy>
+                  <sp:HttpsToken RequireClientCertificate="false"/>
+                </wsp:Policy>
+              </sp:TransportToken>
+            </wsp:Policy>
+          </sp:TransportBinding>
+        </wsp:All>
+    </wsp:ExactlyOne>
+</wsp:Policy>

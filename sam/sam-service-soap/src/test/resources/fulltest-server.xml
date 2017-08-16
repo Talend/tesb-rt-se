@@ -24,13 +24,17 @@
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-    ">
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     <import resource="test-persistence.xml"/>
 
     <bean id="monitoringService" class="org.talend.esb.sam.soap.service.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository" />
+    </bean>
+
+    <bean id="MonitoringServiceWrapper"
+        class="org.talend.esb.sam.soap.service.MonitoringWebService">
+        <property name="monitoringService" ref="monitoringService" />
     </bean>
 
     <jaxws:endpoint id="monitoringservice1" 
@@ -43,10 +47,5 @@
             <bean class="org.apache.cxf.feature.LoggingFeature" />
         </jaxws:features>
     </jaxws:endpoint>
-
-    <bean id="MonitoringServiceWrapper"
-        class="org.talend.esb.sam.soap.service.MonitoringWebService">
-        <property name="monitoringService" ref="monitoringService" />
-    </bean>
 
 </beans>

@@ -41,7 +41,7 @@
         </property>
     </bean>
 
-	<bean id="queue" class="java.util.concurrent.ConcurrentLinkedQueue"/>
+    <bean id="queue" class="org.talend.esb.sam.agent.queue.EventQueue"/>
 
     <bean id="eventFeature" class="org.talend.esb.sam.agent.feature.EventFeatureImpl">
         <property name="logMessageContent" value="true" />

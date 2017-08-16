@@ -28,14 +28,16 @@
         <property name="location" value="WEB-INF/logserver.properties"/>
         <property name="properties">
             <props>
-                <prop key="db.recreate">false</prop>
-                <prop key="db.createsql">create.sql</prop>
+                <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
+                <prop key="db.datasource">ds-derby</prop>
+                <prop key="db.dialect">derbyDialect</prop>
+                <prop key="sam.authentication">NO</prop>
             </props>
         </property>
     </bean>
-    
-    <import resource="classpath:/server-rest.xml" />
-    <import resource="classpath:/server-soap.xml" />
+
+    <import resource="classpath:/META-INF/tesb/sam-service-rest.xml" />
+    <import resource="classpath:/META-INF/tesb/sam-service-soap.xml" />
 
     <!--  Sample filters -->
     <!-- 

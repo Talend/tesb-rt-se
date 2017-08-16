@@ -20,13 +20,14 @@
 package org.talend.esb.sam.agent.feature;
 
 import org.apache.cxf.feature.Feature;
-import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
  * the public interface of SAM agent
  * 
  */
 public interface EventFeature extends Feature {
+
+    String SAM_PROPERTIES = "esb.sam.properties";
 
 	/**
 	 * If store the content of Message or not
@@ -45,11 +46,5 @@ public interface EventFeature extends Feature {
 	 * @param enforceMessageIDTransfer
 	 */
 	void setEnforceMessageIDTransfer(boolean enforceMessageIDTransfer);
-
-	/**
-	 * Set a custom handler
-	 * @param handler
-	 */
-	void setHandler(EventHandler handler);
 
 }

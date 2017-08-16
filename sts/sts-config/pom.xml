@@ -32,19 +32,17 @@
             <version>${cxf.version}</version>
             <scope>provided</scope>
         </dependency>
-       <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
-            <scope>provided</scope>
+	    <dependency>
+            <groupId>org.ops4j.pax.cdi</groupId>
+            <artifactId>pax-cdi-api</artifactId>
+            <version>1.0.0.RC1</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.compendium.version}</version>
-            <scope>provided</scope>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
         </dependency>
-        
     </dependencies>
 
     <build>
@@ -53,13 +51,11 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
+                    <obrRepository>NONE</obrRepository>
                     <instructions>
+                        <_include>-bnd.bnd</_include>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
-                        <Import-Package>
-                            *
-                            ,org.apache.cxf.bus.spring
-                        </Import-Package>
                         <_nouses>true</_nouses>
                     </instructions>
                 </configuration>

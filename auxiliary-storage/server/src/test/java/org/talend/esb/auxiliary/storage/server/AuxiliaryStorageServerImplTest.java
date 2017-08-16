@@ -18,16 +18,15 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.talend.esb.auxiliary.storage.common.exception.AuxiliaryStorageException;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectAlreadyExistsException;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectNotFoundException;
 import org.talend.esb.auxiliary.storage.common.exception.PersistencyException;
+import org.talend.esb.auxiliary.storage.persistence.PersistencyManager;
 import org.talend.esb.auxiliary.storage.server.AuxiliaryStorageServerImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,6 +35,7 @@ public class AuxiliaryStorageServerImplTest {
 
 	@javax.annotation.Resource(name = "auxiliaryStorageServerBean")
 	private AuxiliaryStorageServerImpl server;
+    private PersistencyManager manager;
 
 	private final static String TMP_PATH =  "./target/esbrepo/auxiliarystorage/fileStore";
 	private final static String CONTEXT_STRING = "contextString";
@@ -46,6 +46,15 @@ public class AuxiliaryStorageServerImplTest {
 		cleanupRepo();
 	}
 
+    @Before
+    public void before() {
+        manager = server.getPersistencyManager();
+    }
+
+    @After
+    public void after() {
+        server.setPersistencyManager(manager);
+    }
 
 	@Test
 	public void test() {
@@ -55,7 +64,15 @@ public class AuxiliaryStorageServerImplTest {
 		deleteObject();
 		lookupObjectNotExisting();
 		deleteObjectNotExisting();
+        getManager();
 	}
+
+    @Test(expected = AuxiliaryStorageException.class)
+    public void noManager() {
+        server.setPersistencyManager(null);
+        server.saveObject("some string", "some key");
+    }
+
 
 
 	@AfterClass
@@ -119,6 +136,11 @@ public class AuxiliaryStorageServerImplTest {
 			Assert.assertTrue(exceptionCaught);
 		}
 	}
+
+	private void getManager() {
+        Assert.assertNotNull(server.getPersistencyManager());
+    }
+
 
 
 	private static void cleanupRepo() {

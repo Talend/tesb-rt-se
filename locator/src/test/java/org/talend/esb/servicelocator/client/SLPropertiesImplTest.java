@@ -19,6 +19,22 @@
  */
 package org.talend.esb.servicelocator.client;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.talend.esb.servicelocator.TestValues.NAME_1;
+import static org.talend.esb.servicelocator.TestValues.NAME_1_NOT_TRIMMED;
+import static org.talend.esb.servicelocator.TestValues.NAME_2;
+import static org.talend.esb.servicelocator.TestValues.NAME_3;
+import static org.talend.esb.servicelocator.TestValues.VALUE_1;
+import static org.talend.esb.servicelocator.TestValues.VALUE_1_NOT_TRIMMED;
+import static org.talend.esb.servicelocator.TestValues.VALUE_2;
+import static org.talend.esb.servicelocator.TestValues.VALUE_2_NOT_TRIMMED;
+import static org.talend.esb.servicelocator.TestValues.VALUE_3;
+
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,15 +43,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import static org.talend.esb.servicelocator.TestValues.*;
 
 @RunWith(value=Parameterized.class)
 public class SLPropertiesImplTest {

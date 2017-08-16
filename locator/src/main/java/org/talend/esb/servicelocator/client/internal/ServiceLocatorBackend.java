@@ -19,8 +19,8 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
 
 public interface ServiceLocatorBackend {
 

@@ -20,65 +20,29 @@
 package org.talend.esb.sts.config;
 
 import java.util.Collection;
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.feature.LoggingFeature;
-import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.Constants;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.cm.ConfigurationException;
-import org.osgi.service.cm.ManagedService;
 
-public class StsConfigurator implements ManagedService {
+public class StsConfigurator {
 
-	private static final String SERVICE_PID = "org.talend.esb.sts.server";
-	private static final String LOGGING_PROPERTY = "useMessageLogging";
+	private String useMessageLogging = null; 
 	
 	private Bus bus;
-	private BundleContext bundleContext;
-	private ServiceRegistration stsConfiguratorServiceRegistration;
 	
-	StsConfigurator(Bus bus) {
+	public StsConfigurator(Bus bus) {
 		this.bus = bus;
-       bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        stsConfiguratorServiceRegistration = registerManagedService(bundleContext, ManagedService.class, 
-                this, SERVICE_PID);		
-        //System.out.println("\nCXF bus = " + bus.getId());
-        //System.out.println("\nBundle Context = " + bundleContext);   
 	}
 	
-	public void shutDown() {
-		if (stsConfiguratorServiceRegistration != null) {
-			stsConfiguratorServiceRegistration.unregister();
-		}
+	public void init() {
+		setMessageLogging(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
 	}
 	
-	@Override
-	public void updated(Dictionary props) throws ConfigurationException {
-		if (props != null) {
-			Dictionary<String, String> properties = CastUtils.cast(props);
-			String useMessageLogging = properties
-					.get(LOGGING_PROPERTY);
-			//System.out.println("\nUse Logging = " + useMessageLogging);
-			setMessageLogging(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
-		} else
-			setMessageLogging(false);
-	}
-	
-	private ServiceRegistration registerManagedService(
-			BundleContext context, Class<?> serviceClass, Object service,
-			String servicePid) {
-		Dictionary<String, Object> properties = new Hashtable<String, Object>();
-        properties.put(Constants.SERVICE_PID, servicePid);
-		return context.registerService(serviceClass.getName(), service, properties);
+	public void setUseMessageLogging(String useMessageLogging){
+		this.useMessageLogging = useMessageLogging;
 	}
 
 	private void setMessageLogging(boolean logMessages) {

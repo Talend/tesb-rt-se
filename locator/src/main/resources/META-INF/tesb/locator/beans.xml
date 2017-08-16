@@ -20,10 +20,13 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
-
+ 	<context:component-scan base-package="org.talend.esb.servicelocator" />
+ 	
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="3" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -36,9 +39,13 @@
                 <prop key="endpoint.http.prefix"></prop>
                 <prop key="endpoint.https.prefix"></prop>
                 <prop key="locator.strategy">defaultSelectionStrategy</prop>
-                <prop key="locator.reloadAdressesCount">10</prop>
+                <prop key="locator.reloadAddressesCount">10</prop>
                 <prop key="connection.timeout">5000</prop>
                 <prop key="session.timeout">5000</prop>
+                <prop key="authentication.name">tesb</prop>
+                <prop key="authentication.password">tesb</prop>
+                <prop key="locator.endpoints.timetolive.check">true</prop>
+                <prop key="locator.endpoints.timetolive.interval">300</prop>
             </props>
         </property>
     </bean>
@@ -57,56 +64,4 @@
         <property name="location" value="file:${spring.config.location}/locator.properties"/>
     </bean>
 
-    <bean id="serviceLocatorBackend"
-          class="org.talend.esb.servicelocator.client.internal.zk.ZKBackend"
-          destroy-method="disconnect">
-        <property name="locatorEndpoints" value="${locator.endpoints}"/>
-        <property name="connectionTimeout" value="${connection.timeout}"/>
-        <property name="sessionTimeout" value="${session.timeout}"/>
-    </bean>
-
-    <bean id="serviceLocator"
-          class="org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl">
-        <property name="backend" ref="serviceLocatorBackend"/>
-    </bean>
-
-    <bean id="locatorRegistrar" class="org.talend.esb.servicelocator.cxf.internal.LocatorRegistrar">
-        <property name="serviceLocator" ref="serviceLocator" />
-        <property name="endpointPrefix" value="${endpoint.prefix}"/>
-        <property name="endpointPrefixes">
-            <map>
-                <entry key="HTTP" value="${endpoint.http.prefix}" />
-                <entry key="HTTPS" value="${endpoint.https.prefix}" />
-            </map>
-        </property>
-    </bean>
-
-    <bean id="defaultSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.DefaultSelectionStrategyFactory">
-    </bean>
-
-    <bean id="evenDistributionSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.EvenDistributionSelectionStrategyFactory">
-        <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
-    </bean>
-
-    <bean id="randomSelectionStrategyFactory" class="org.talend.esb.servicelocator.cxf.internal.RandomSelectionStrategyFactory">
-        <property name="reloadAdressesCount" value="${locator.reloadAdressesCount}"/>
-    </bean>
-
-   <bean id="locatorClientEnabler" class="org.talend.esb.servicelocator.cxf.internal.LocatorClientEnabler">
-       <property name="locatorSelectionStrategies">
-            <map>
-                <entry key="defaultSelectionStrategy" value-ref="defaultSelectionStrategyFactory" />
-                <entry key="randomSelectionStrategy" value-ref="randomSelectionStrategyFactory" />
-                <entry key="evenDistributionSelectionStrategy" value-ref="evenDistributionSelectionStrategyFactory" />
-            </map>
-        </property>
-        <property name="serviceLocator" ref="serviceLocator" />
-        <property name="defaultLocatorSelectionStrategy" value="${locator.strategy}" />
-     </bean>
-
-    <bean id="locatorManager" class="org.talend.esb.servicelocator.cxf.internal.ServiceLocatorManager">
-        <property name="bus" ref="cxf" />
-        <property name="locatorRegistrar" ref="locatorRegistrar" />
-        <property name="locatorClientEnabler" ref="locatorClientEnabler" />
-    </bean> 
 </beans>

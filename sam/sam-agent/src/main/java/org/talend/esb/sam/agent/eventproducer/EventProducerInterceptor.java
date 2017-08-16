@@ -34,7 +34,6 @@ import org.apache.cxf.service.model.BindingOperationInfo;
 import org.apache.cxf.ws.addressing.AddressingProperties;
 import org.apache.cxf.ws.addressing.ContextUtils;
 import org.talend.esb.sam.common.event.Event;
-import org.talend.esb.sam.common.spi.EventHandler;
 
 
 /**
@@ -45,7 +44,6 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
 
     private final MessageToEventMapper mapper;
     private final Queue<Event> queue;
-    private EventHandler handler;
 
     private static final String SAM_OPERATION = "{http://www.talend.org/esb/sam/MonitoringService/v1}putEvents";
 
@@ -65,15 +63,6 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         }
         this.mapper = mapper;
         this.queue = queue;
-    }
-
-    /**
-     * Sets the handler.
-     *
-     * @param handler the new handler
-     */
-    public void setHandler(EventHandler handler) {
-        this.handler = handler;
     }
 
     /* (non-Javadoc)
@@ -111,9 +100,6 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
 
         Event event = mapper.mapToEvent(message);
 
-        if (null != handler) {
-            handler.handleEvent(event);
-        }
         if (LOG.isLoggable(Level.FINE)) {
             String id = (event.getMessageInfo() != null) ? event.getMessageInfo().getMessageId() : null;
             LOG.fine("Store event [message_id=" + id + "] in cache.");

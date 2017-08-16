@@ -19,14 +19,6 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-
-import javax.xml.namespace.QName;
-
-import org.apache.cxf.clustering.FailoverStrategy;
 import org.apache.cxf.message.Exchange;
 
 /**

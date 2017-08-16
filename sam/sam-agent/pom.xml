@@ -15,6 +15,17 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.ops4j.pax.cdi</groupId>
+            <artifactId>pax-cdi-api</artifactId>
+            <version>${pax-cdi.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
             <version>${project.version}</version>
@@ -145,6 +156,22 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.aries.blueprint</groupId>
+                <artifactId>blueprint-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>blueprint-generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scanPaths>
+                        <scanPath>org.talend.esb.sam.agent</scanPath>
+                    </scanPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>

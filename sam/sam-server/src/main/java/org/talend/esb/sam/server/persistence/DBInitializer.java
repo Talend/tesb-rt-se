@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -96,10 +97,11 @@ public class DBInitializer implements InitializingBean {
 
                 ResultSet rs = conn.getMetaData().getTables(conn.getCatalog(), null, "EVENTS_CUSTOMINFO", null);
                 while (rs.next()) {
+                    LOG.warning("Tables and indexes will not be created as they are already existing");
                     createTables = false;
                 }
             } catch (SQLException e) {
-                LOG.warning("The create tables parameter has not been set. Tables and indexes will not be created.");
+                LOG.log(Level.WARNING, "Tables and indexes can not be created", e);
                 createTables = false;
             }
 

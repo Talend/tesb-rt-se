@@ -81,6 +81,18 @@
             <artifactId>easymock</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-persistence</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-server</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

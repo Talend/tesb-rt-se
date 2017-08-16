@@ -22,6 +22,11 @@ package org.talend.esb.sam.agent.serviceclient;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
@@ -31,10 +36,16 @@ import org.talend.esb.sam.monitoringservice.v1.MonitoringService;
  * Wraps business logic to web service logic. So web service should be changeable.
  * 
  */
+@Named("monitoringServceV1Wrapper")
+@Singleton
 public class MonitoringServiceWrapper implements org.talend.esb.sam.common.service.MonitoringService {
+    @Inject
     private MonitoringService monitoringService;
 
+    @Value("${service.retry.number}")
     private int numberOfRetries = 3;
+
+    @Value("${service.retry.delay}")
     private long delayBetweenRetry = 1000;
 
     /**

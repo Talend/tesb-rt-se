@@ -43,6 +43,8 @@ public interface DatabaseDialect {
      */
     DataFieldMaxValueIncrementer getIncrementer();
 
+    void setIncrementer(DataFieldMaxValueIncrementer incrementer);
+
     /**
      * Should return a query that list data.
      *

@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
@@ -28,6 +32,7 @@ import org.talend.esb.locator.service.LocatorServiceConstants.EsbSecurity;
 import org.apache.cxf.jaxws.EndpointImpl;
 //jaxws.spring.JAXWSSpringEndpointImpl;
 import org.apache.wss4j.dom.validate.JAASUsernameTokenValidator;
+import org.springframework.beans.factory.annotation.Value;
 
 @NoJSR250Annotations(unlessNull = "bus")
 public class PolicyProviderImpl implements PolicyProvider {
@@ -44,6 +49,7 @@ public class PolicyProviderImpl implements PolicyProvider {
 
     private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
 
+    @PostConstruct
     public void init() {
 
         final EsbSecurity esbSecurity = EsbSecurity
@@ -133,18 +139,23 @@ public class PolicyProviderImpl implements PolicyProvider {
         }
     }
 
+    @Value("${policy.token}")
     public void setPolicyToken(String policyToken) {
         this.policyToken = policyToken;
     }
 
+    @Inject
+    @Named("ServiceLocatorService")
     public void setLocatorEndpoint(EndpointImpl locatorEndpoint) {
         this.locatorEndpoint = locatorEndpoint;
     }
 
+    @Value("${locator.authentication}")
     public void setserviceAutentication(String serviceAutentication) {
         this.serviceAutentication = serviceAutentication;
     }
 
+    @Value("${policy.saml}")
     public void setPolicySaml(String policySaml) {
         this.policySaml = policySaml;
     }
@@ -157,6 +168,7 @@ public class PolicyProviderImpl implements PolicyProvider {
         return loadPolicy(policySaml);
     }
 
+    @Value("${security.signature.properties}")
     public void setSignatureProperties(String signatureProperties) {
         this.signatureProperties = signatureProperties;
     }
@@ -165,6 +177,7 @@ public class PolicyProviderImpl implements PolicyProvider {
         return signatureProperties;
     }
 
+    @Value("${security.signature.username}")
     public void setSignatureUsername(String signatureUsername) {
         this.signatureUsername = signatureUsername;
     }
@@ -173,6 +186,7 @@ public class PolicyProviderImpl implements PolicyProvider {
         return signatureUsername;
     }
 
+    @Value("${security.signature.password}")
     public void setSignaturePassword(String signaturePassword) {
         this.signaturePassword = signaturePassword;
     }

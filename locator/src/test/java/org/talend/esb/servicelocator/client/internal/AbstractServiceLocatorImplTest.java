@@ -19,6 +19,15 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
+import static java.util.Arrays.asList;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.talend.esb.servicelocator.TestValues.EMPTY_CONTENT;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -26,6 +35,7 @@ import java.util.concurrent.CountDownLatch;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs.Ids;
+import org.apache.zookeeper.ZooDefs.Perms;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Id;
@@ -35,19 +45,9 @@ import org.easymock.EasyMockSupport;
 import org.easymock.IExpectationSetters;
 import org.junit.Before;
 import org.talend.esb.DomMother;
+import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
 import org.talend.esb.servicelocator.client.ServiceLocatorException;
 import org.w3c.dom.Document;
-
-import static java.util.Arrays.asList;
-import static org.apache.zookeeper.ZooDefs.Perms;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.aryEq;
-import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.talend.esb.servicelocator.TestValues.*;
-import static org.talend.esb.servicelocator.client.internal.ServiceLocatorImpl.PostConnectAction;
 
 public class AbstractServiceLocatorImplTest extends EasyMockSupport {
 

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,10 +19,7 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.*;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
@@ -37,12 +34,16 @@ import static org.talend.esb.servicelocator.TestValues.PROPERTIES_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_1;
 import static org.talend.esb.servicelocator.TestValues.SERVICE_QNAME_2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 
+import org.junit.Assert;
 import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
@@ -71,6 +72,8 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         rootNode = createMock(RootNode.class);
         serviceNode = createMock(ServiceNode.class);
         endpointNode = createMock(EndpointNode.class);
+        Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
+        LOG.setLevel(Level.FINE);
     }
 
     @Test
@@ -168,7 +171,8 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         expect(serviceNode.exists()).andReturn(true);
         expect(serviceNode.getEndPoints()).andReturn(Arrays.asList(endpointNode));
         expect(endpointNode.isLive()).andReturn(true);
-        expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
+        expect(endpointNode.getEndpointName()).andStubReturn(ENDPOINT_1);
+        //expect(endpointNode.getEndpointName()).andReturn(ENDPOINT_1);
         expect(endpointNode.getContent()).andStubReturn(createContent(PROPERTIES_1));
 
         replayAll();
@@ -188,21 +192,21 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         /*
          * SLPropertiesMatcher matcher = new SLPropertiesMatcher();
          * matcher.addAssertion(NAME_1, VALUE_2);
-         * 
+         *
          * pathExists(SERVICE_PATH_1); getChildren(SERVICE_PATH_1,
          * ENDPOINT_NODE_1, ENDPOINT_NODE_2);
-         * 
+         *
          * pathExists(ENDPOINT_STATUS_PATH_11); getData(ENDPOINT_PATH_11,
          * createContent(PROPERTIES_1));
-         * 
+         *
          * pathExists(ENDPOINT_STATUS_PATH_12); getData(ENDPOINT_PATH_12,
          * createContent(PROPERTIES_2));
-         * 
+         *
          * replayAll();
-         * 
+         *
          * ServiceLocatorImpl slc = createServiceLocatorSuccess(); List<String>
          * endpoints = slc.lookup(SERVICE_QNAME_1, matcher);
-         * 
+         *
          * assertThat(endpoints, containsInAnyOrder(ENDPOINT_1)); verifyAll();
          */
     }
@@ -362,5 +366,41 @@ public class ServiceLocatorImplTest extends EasyMockSupport {
         }
 
         verifyAll();
+    }
+
+    @Test
+    public void scheduleAndPerformCollection() throws Exception {
+        final int ttl = 95;
+
+        List<String> l = new ArrayList<String>();
+        l.add("superEndpointName");
+
+        Capture<Date> dateCap = new Capture<Date>();
+
+        expect(backend.connect()).andStubReturn(rootNode);
+        expect(rootNode.getServiceNode(SERVICE_QNAME_1)).andStubReturn(serviceNode);
+        expect(serviceNode.getEndPoint(ENDPOINT_1)).andStubReturn(endpointNode);
+        expect(serviceNode.exists()).andStubReturn(true);
+        expect(serviceNode.getEndpointNames()).andStubReturn(l);
+        expect(endpointNode.exists()).andReturn(true);
+        endpointNode.setLive(true);
+        endpointNode.setExpiryTime(capture(dateCap), eq(true));
+
+        replayAll();
+
+        ServiceLocatorImpl slc = new ServiceLocatorImpl();
+        slc.setBackend(backend);
+
+        Date startD = new Date();
+
+        slc.updateTimetolive(SERVICE_QNAME_1, ENDPOINT_1, 1);
+        verifyAll();
+
+        List<String> eps = slc.getEndpointNames(SERVICE_QNAME_1);
+        Assert.assertNotNull(eps);
+        Assert.assertEquals(1, eps.size());
+
+
+
     }
 }

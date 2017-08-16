@@ -19,8 +19,6 @@
  */
 package org.talend.esb.servicelocator.cxf.internal;
 
-import java.util.List;
-
 import org.apache.cxf.message.Exchange;
 
 /**

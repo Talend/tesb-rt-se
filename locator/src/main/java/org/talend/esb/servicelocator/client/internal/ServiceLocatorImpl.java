@@ -19,14 +19,34 @@
  */
 package org.talend.esb.servicelocator.client.internal;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.xml.namespace.QName;
 
 import org.apache.zookeeper.ZooKeeper;
-import org.talend.esb.servicelocator.client.*;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.springframework.beans.factory.annotation.Value;
+
+import org.talend.esb.servicelocator.client.Endpoint;
+import org.talend.esb.servicelocator.client.EndpointNotFoundException;
+import org.talend.esb.servicelocator.client.ExpiredEndpointCollector;
+import org.talend.esb.servicelocator.client.SLEndpoint;
+import org.talend.esb.servicelocator.client.SLProperties;
+import org.talend.esb.servicelocator.client.SLPropertiesMatcher;
+import org.talend.esb.servicelocator.client.ServiceLocator;
+import org.talend.esb.servicelocator.client.ServiceLocatorException;
+import org.talend.esb.servicelocator.client.SimpleEndpoint;
+import org.talend.esb.servicelocator.client.WrongArgumentException;
 import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
 
 /**
@@ -43,11 +63,14 @@ import org.talend.esb.servicelocator.client.internal.zk.ZKBackend;
  * clients can be looked up.
  * </ul>
  */
+@OsgiServiceProvider(classes={ServiceLocator.class,ExpiredEndpointCollector.class})
+@Named
 public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollector {
 
     private static final Logger LOG = Logger.getLogger(ServiceLocatorImpl.class.getName());
 
-    private ServiceLocatorBackend backend;
+    @Inject
+    ServiceLocatorBackend backend;
 
     private EndpointTransformer transformer = new EndpointTransformerImpl();
 
@@ -462,10 +485,12 @@ public class ServiceLocatorImpl implements ServiceLocator, ExpiredEndpointCollec
         transformer = endpointTransformer;
     }
 
+    @Value("${locator.endpoints.timetolive.check}")
     public void setEndpointCollectionEnable(Boolean endpointCollectionDisable) {
         this.endpointCollectionEnable = endpointCollectionDisable;
     }
 
+    @Value("${locator.endpoints.timetolive.interval}")
     public void setEndpointCollectionInterval(Integer endpointCollectionInterval) {
         this.endpointCollectionInterval = endpointCollectionInterval;
     }

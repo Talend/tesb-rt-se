@@ -53,7 +53,7 @@ Starting the Demo
 -----------------
 
 - Start zookeeper in container
-    feature:install tesb-zookeeper-server
+    tesb:start-locator
     
 - Start locator soap service in container
 	feature:install tesb-locator-soap-service

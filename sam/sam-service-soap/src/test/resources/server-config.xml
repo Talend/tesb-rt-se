@@ -22,14 +22,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    ">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="WEB-INF/logserver.properties"/>
         <property name="properties">
             <props>
-                <prop key="db.recreate">false</prop>
+                <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
+                <prop key="db.datasource">ds-derby</prop>
+                <prop key="db.dialect">derbyDialect</prop>
+                <prop key="sam.authentication">NO</prop>
             </props>
         </property>
     </bean>

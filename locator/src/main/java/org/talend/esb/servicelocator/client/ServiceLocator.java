@@ -23,6 +23,8 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
+
 /**
  * This is the entry point for clients of the Service Locator. To access the
  * Service Locator clients have to first {@link #connect() connect} to the

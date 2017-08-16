@@ -32,13 +32,14 @@
 package demo.client;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import demo.common.Greeter;
 
 public class Client {
 
 	public static void main(String[] args) throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/client.xml");
-		Greeter client = (Greeter) context.getBean("greeterService");
+		Greeter client = (Greeter) context.getBean(Greeter.class);
 
 		String response = null;
 		for (int i = 0; i < 10; i++) {
