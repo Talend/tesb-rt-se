@@ -342,8 +342,4 @@
     <bundle>mvn:org.hibersap/hibersap-jco/${hibersap.version}</bundle>
   </feature>
 
-  <feature name="karaf-cxf-workaround" version='${project.version}'>
-    <bundle start-level="5">mvn:org.apache.ws.xmlschema/xmlschema-core/2.2.1</bundle>
-  </feature>
-
 </features>
