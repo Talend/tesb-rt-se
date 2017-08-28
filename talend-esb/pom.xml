@@ -506,15 +506,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch for cxf-rt-rs-service-description-swagger (TESB-19377) -->
-                                <artifactItem>
-                                    <groupId>org.apache.cxf</groupId>
-                                    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
-                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -802,10 +793,6 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
-                                    <!-- patch for cxf-rt-rs-service-description-swagger (TESB-19377) -->
-                                    <replacefilter
-                                        token="org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}&lt;"
-                                        value="org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
