@@ -1,29 +1,25 @@
 package org.talend.esb.policy.correlation.test;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 import org.talend.esb.policy.correlation.test.internal.HeaderCatcherInInterceptor;
+import org.talend.esb.policy.correlation.test.internal.HeaderCatherOutInterceptor;
 import org.talend.services.test.library._1_0.Library;
 import org.talend.services.test.library._1_0.SeekBookError;
 import org.talend.types.test.library.common._1.ListOfBooks;
 import org.talend.types.test.library.common._1.SearchFor;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 public class CorrelationFeatureTest {
 
-	private static final Logger LOG = Logger
-			.getLogger(CorrelationIDFeature.class.getName());
-	
 
-    @SuppressWarnings("unused")
-	private HeaderCatcherInInterceptor providerInInterceptor, consumerInInterceptor;
+    private HeaderCatcherInInterceptor providerInInterceptor, consumerInInterceptor;
 
 
 
@@ -53,9 +49,16 @@ public class CorrelationFeatureTest {
         return  client.seekBook(request);
     }
 
-    private void commonTest(String testName, String searchFor, String expectedResult) {
+    private int booksInResponse(ListOfBooks response) {
+        return response.getBook().size();
+    }
 
-    	LOG.setLevel(Level.FINE);
+    private String authorLastName(ListOfBooks response) {
+        return response.getBook().get(0).getAuthor().get(0).getLastName();
+    }
+
+
+    private void commonTest(String testName, String searchFor, String expectedResult) {
 
         final String dir = testName;
 
@@ -64,8 +67,10 @@ public class CorrelationFeatureTest {
 
         Library client = (Library)serviceContext.getBean("libraryHttp");
 
+        ListOfBooks response = null;
+
         try {
-            searchFor(searchFor, client);
+            response = searchFor(searchFor, client);
         } catch (SeekBookError e) {
             fail("Exception during service call");
         }
@@ -73,9 +78,9 @@ public class CorrelationFeatureTest {
         //assertEquals("Books amount in response differs from 1", 1, booksInResponse(response));
         assertNotNull(providerInInterceptor.getLatestCorrelationHeader());
         assertTrue(providerInInterceptor.getLatestCorrelationHeader().toString().contains(expectedResult));
-        // assertNotNull(consumerInInterceptor.getLatestCorrelationHeader());
+        assertNotNull(consumerInInterceptor.getLatestCorrelationHeader());
         //System.out.println("PROBLEM: " + consumerInInterceptor.getLatestCorrelationHeader());
-        // assertTrue(consumerInInterceptor.getLatestCorrelationHeader().toString().contains(expectedResult));
+        assertTrue(consumerInInterceptor.getLatestCorrelationHeader().toString().contains(expectedResult));
     }
 
 
@@ -88,6 +93,7 @@ public class CorrelationFeatureTest {
 
 
 
+    @Ignore
     @Test
     public void testCallbackBasedCorrelation() {
         commonTest("callback-based", "Icebear",

@@ -40,7 +40,6 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
     <bean id="correlationFeature" class="org.talend.esb.policy.correlation.feature.CorrelationIDFeature">
         <property name="type"      value="callback"/>
-        <property name="name"      value="callback"/>
     </bean>
 
     <bean id="libraryServerImpl" class="org.talend.esb.policy.correlation.test.internal.LibraryServerImpl"/>
