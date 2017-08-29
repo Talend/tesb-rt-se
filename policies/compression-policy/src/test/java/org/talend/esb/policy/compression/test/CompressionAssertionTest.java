@@ -1,9 +1,9 @@
-package org.talend.esb.policy.correlation.test;
-
+package org.talend.esb.policy.compression.test;
 
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
@@ -11,12 +11,8 @@ import javax.xml.stream.XMLStreamWriter;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.talend.esb.policy.correlation.impl.CorrelationIDAssertion;
-import org.talend.esb.policy.correlation.impl.CorrelationIDPart;
-import org.talend.esb.policy.correlation.impl.xpath.XpathNamespace;
-import org.talend.esb.policy.correlation.impl.xpath.XpathPart;
-import org.talend.esb.policy.correlation.test.internal.HeaderCatcherInInterceptor;
-import org.talend.esb.policy.correlation.test.internal.HeaderCatherOutInterceptor;
+import org.talend.esb.policy.compression.impl.CompressionAssertion;
+import org.talend.esb.policy.compression.impl.internal.CompressionConstants;
 import org.talend.services.test.library._1_0.Library;
 import org.talend.services.test.library._1_0.SeekBookError;
 import org.talend.types.test.library.common._1.ListOfBooks;
@@ -31,109 +27,90 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
 
+public class CompressionAssertionTest {
 
-public class CorrelationIdAssertionTest {
+	private ClassPathXmlApplicationContext serviceContext;
 
+	private ClassPathXmlApplicationContext startContext(String configFileName) {
+		ClassPathXmlApplicationContext context;
+		context = new ClassPathXmlApplicationContext(
+				new String[] { configFileName });
+		context.start();
+		return context;
+	}
 
-    @SuppressWarnings("unused")
-	private HeaderCatherOutInterceptor consumerOutInterceptor, providerOutInterceptor;
-    private HeaderCatcherInInterceptor providerInInterceptor, consumerInInterceptor;
+	private ClassPathXmlApplicationContext startParticipants(String dir) {
+		String configFileName = "conf/assertion-test/" + dir
+				+ "/service-context.xml";
+		return startContext(configFileName);
+	}
 
+	private ListOfBooks searchFor(String authorLastName, String isbn,
+			Library client) throws SeekBookError {
+		SearchFor request = new SearchFor();
+		request.getAuthorLastName().add(authorLastName);
+		request.setISBNNumber(isbn);
+		return client.seekBook(request);
+	}
 
+	private int booksInResponse(ListOfBooks response) {
+		return response.getBook().size();
+	}
 
-    private ClassPathXmlApplicationContext serviceContext;
+	private String authorLastName(ListOfBooks response) {
+		return response.getBook().get(0).getAuthor().get(0).getLastName();
+	}
 
-    private ClassPathXmlApplicationContext startContext(String configFileName) {
-        ClassPathXmlApplicationContext context;
-        context = new ClassPathXmlApplicationContext(new String[] {configFileName});
-        context.start();
-        return context;
-    }
+	private void commonTest(String testName, String searchFor, String isbn,
+			String expectedResult) {
 
-    private ClassPathXmlApplicationContext startParticipants(String dir) {
-        String configFileName = "conf/assertion-test/"+dir+"/service-context.xml";
-        return startContext(configFileName);
-    }
+		final String dir = testName;
 
-    private void retrieveInterceptors(ClassPathXmlApplicationContext ctx) {
-        consumerOutInterceptor = (HeaderCatherOutInterceptor)ctx.getBean("clientOutInterceptor");
-        providerOutInterceptor = (HeaderCatherOutInterceptor)ctx.getBean("serviceOutInterceptor");
-        consumerInInterceptor = (HeaderCatcherInInterceptor)ctx.getBean("clientInInterceptor");
-        providerInInterceptor = (HeaderCatcherInInterceptor)ctx.getBean("serviceInInterceptor");
-    }
+		serviceContext = startParticipants(dir);
 
-    private ListOfBooks searchFor(String authorLastName, Library client) throws SeekBookError {
-        SearchFor request = new SearchFor();
-        request.getAuthorLastName().add(authorLastName);
-        request.setPublisher("Frosty Edition");
-        return  client.seekBook(request);
-    }
+		Library client = (Library) serviceContext.getBean("libraryHttp");
 
-    private void commonTest(String testName, String searchFor, String expectedResult) {
+		ListOfBooks response = null;
 
-        final String dir = testName;
+		try {
+			response = searchFor(searchFor, isbn, client);
+		} catch (SeekBookError e) {
+			fail("Exception during service call");
+		}
 
-        serviceContext = startParticipants(dir);
-        retrieveInterceptors(serviceContext);
+		assertEquals("Books amount in response differs from 1", 1,
+				booksInResponse(response));
+		assertEquals("Received unexpected author name", expectedResult,
+				authorLastName(response));
+	}
 
-        Library client = (Library)serviceContext.getBean("libraryHttp");
+	@After
+	public void closeContextAfterEachTest() {
 
+		if (serviceContext != null) {
+			serviceContext.stop();
+			serviceContext.close();
+			serviceContext = null;
+		}
+	}
 
-        try {
-            searchFor(searchFor, client);
-        } catch (SeekBookError e) {
-            fail("Exception during service call");
-        }
+	@Test
+	public void testConsumerRequest() {
+		commonTest("consumer-request", "Icebear", generateString(1000),
+				"Icebear");
+	}
 
-        //assertEquals("Books amount in response differs from 1", 1, booksInResponse(response));
-        assertNotNull(consumerOutInterceptor.getLatestCorrelationHeader());
-        assertNotNull(providerInInterceptor.getLatestCorrelationHeader());
-        assertTrue(providerInInterceptor.getLatestCorrelationHeader().toString().contains(expectedResult));
-        assertNotNull(consumerInInterceptor.getLatestCorrelationHeader());
-        assertTrue(consumerInInterceptor.getLatestCorrelationHeader().toString().contains(expectedResult));
+	@Test
+	public void testConsumerResponse() {
+		commonTest("consumer-response", "Icebear", generateString(1000),
+				"Icebear");
+	}
 
-        String providerInCorrelationId = providerInInterceptor.getLatestCorrelationHeader().toString();
-        String consumerInCorrelationId = consumerInInterceptor.getLatestCorrelationHeader().toString();
-        assertEquals(providerInCorrelationId, consumerInCorrelationId);
-    }
-
-
-    @After
-    public void closeContextAfterEachTest() {
-    	if(serviceContext!=null){
-        serviceContext.stop();
-        serviceContext.close();
-        serviceContext = null;
-    }
-    }
-
-
-
-    @Test
-    public void testXpathBasedCorrelation() {
-        commonTest("xpath-based", "Icebear",
-                    "customer#customerLastName=Icebear;publisher=Frosty Edition");
-    }
-
-
-    @Test
-    public void testCallbackBased() {
-        commonTest("callback-based", "Icebear",
-                "customCorrelationHandler#");
-    }
-
-
-    @Test
-    public void testGuidBased() {
-        commonTest("dummy", "Icebear",
-                "urn:uuid:");
-    }
-    
 	@Test
 	public void testIgnorable() {
-		CorrelationIDAssertion cia = new CorrelationIDAssertion(
+		CompressionAssertion ca = new CompressionAssertion(
 				generateStubElement());
-		assertFalse(cia.isIgnorable());
+		assertFalse(ca.isIgnorable());
 	}
 
 	@Test
@@ -146,24 +123,9 @@ public class CorrelationIdAssertionTest {
 		XMLStreamWriter writer = outputFactory.createXMLStreamWriter(baos,
 				"UTF-8");
 
-		CorrelationIDAssertion cia = new CorrelationIDAssertion(
+		CompressionAssertion ca = new CompressionAssertion(
 				generateStubElement());
-		
-		XpathNamespace xns =  new XpathNamespace();
-		xns.setPrefix("Prefix");
-		xns.setUri("uri");
-		
-		cia.addNamespace(xns);
-		
-		XpathPart xp =  new XpathPart();
-		xp.setName("Name");
-		xp.setOptional(false);
-		xp.setXpath("Xpath");
-		
-		cia.addXpathPart(xp);
-		cia.setCorrelationName("correlationName");
-		
-		cia.serialize(writer);
+		ca.serialize(writer);
 
 		writer.flush();
 
@@ -172,30 +134,30 @@ public class CorrelationIdAssertionTest {
 		assertTrue(baos
 				.toString()
 				.equalsIgnoreCase(
-						"<tpa:CorrelationID xmlns:tpa=\"http://types.talend.com/policy/assertion/1.0\" type=\"callback\" name=\"correlationName\"><tpa:Part name=\"Name\" xpath=\"Xpath\"/><tpa:Namespace prefix=\"Prefix\" uri=\"uri\"/></tpa:CorrelationID>"));
+						"<tpa:Compression xmlns:tpa=\"http://types.talend.com/policy/assertion/1.0\" threshold=\""
+								+ CompressionConstants.TRESHOLD_ATTRIBUTE_DEFAULT
+								+ "\"/>"));
+
 	}
-	
+
 	@Test
-	public void testCorrelationIDPart() throws Exception {
-		CorrelationIDPart p = new CorrelationIDPart();
-		assertTrue(CorrelationIDPart.CORRELATION_PART_ID.toString().equalsIgnoreCase("{http://types.talend.com/policy/assertion/1.0}Part"));
-		
-		p.setName("Name");
-		assertTrue(p.getName().equalsIgnoreCase("Name"));
-		
-		p.setOptional(false);
-		assertFalse(p.isOptional());
-		
-		p.setValue("Value");
-		assertTrue(p.getValue().equalsIgnoreCase("Value"));
-		
-		p.setXpath("Xpath");
-		assertTrue(p.getXpath().equalsIgnoreCase("Xpath"));
+	public void testEqual() {
 
-		
+		CompressionAssertion ca = new CompressionAssertion(
+				generateStubElement());
+
+		assertFalse(ca.equal(null));
+
+		assertTrue(ca.equal(ca));
+
 	}
 
-	
+	public String generateString(int size) {
+		char[] chars = new char[size];
+		Arrays.fill(chars, '*');
+		return new String(chars);
+	}
+
 	public Element generateStubElement() {
 		return new Element() {
 

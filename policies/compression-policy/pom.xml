@@ -16,6 +16,7 @@
 	<properties>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-codec.version>1.9</commons-codec.version>	
+		<cxf.xjc.version>3.0.3</cxf.xjc.version>
 	</properties>	
 
 	<dependencies>
@@ -34,6 +35,54 @@
 			<artifactId>commons-codec</artifactId>
 			<version>${commons-codec.version}</version>
 		</dependency>		
+		<!-- ==================================== Test dependencies ========================================== -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-local</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<!-- version>${junit.version}</version -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>${cxf.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.xjc-utils</groupId>
+			<artifactId>cxf-xjc-runtime</artifactId>
+			<version>${cxf.xjc.version}</version>
+			<!--scope>test</scope -->
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -41,6 +90,33 @@
           <plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<executions>
+					<execution>
+          			<id>generate-test-sources</id>
+          			<phase>generate-test-sources</phase>					
+						<configuration>
+						    <sourceRoot>src/test/java</sourceRoot>
+							<fork>once</fork>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>
+										src/test/resources/Library.wsdl
+									</wsdl>
+									<bindingFiles>
+										<bindingFile>src/test/resources/binding.xml</bindingFile>
+									</bindingFiles>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
         </plugins>
     </build>
