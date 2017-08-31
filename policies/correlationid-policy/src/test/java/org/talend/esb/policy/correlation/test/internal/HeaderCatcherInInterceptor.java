@@ -28,7 +28,6 @@ public class HeaderCatcherInInterceptor extends AbstractPhaseInterceptor<Message
         List<Header>headers = (List<Header>)message.get(Header.HEADER_LIST);
         for (Header header : headers) {
             if (!CORRELATION_HEADER_NAME.equals(header.getName())
-                    || header.getObject() == null
                     || !(header.getObject() instanceof Element)) {
                 continue;
             }

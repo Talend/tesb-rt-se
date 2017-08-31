@@ -19,10 +19,6 @@ import org.talend.types.test.library.common._1.SearchFor;
 
 public class LibraryServerImpl implements Library, InitializingBean {
 
-    @Resource
-    private WebServiceContext wsContext;
-
-
     @Override
     public ListOfBooks seekBook(SearchFor body) throws SeekBookError {
 
@@ -89,8 +85,7 @@ public class LibraryServerImpl implements Library, InitializingBean {
         exception.setExceptionText(message);
         ExceptionFrame frame = new ExceptionFrame();
         frame.getException().add(exception);
-        SeekBookError e = new SeekBookError("Book not found", frame);
-        return e;
+        return new SeekBookError("Book not found", frame);
     }
 
     @Override

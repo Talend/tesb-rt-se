@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.cxf.helpers.IOUtils;
@@ -70,38 +69,5 @@ public class CompressionHelper {
 		// Write SOAP "tail"
 		out.write(originalSoap, orgBodyEnd, originalSoap.length
 				- orgBodyEnd);
-	}
-
-	public static boolean isEqual(QName qn1, QName qn2, boolean ignoreCase) {
-		if (qn1 == null && qn2 == null) {
-			return true;
-		}
-
-		if (qn1 != null
-				&& qn2 != null
-				&& isEqual(qn1.getLocalPart(), qn2.getLocalPart(), ignoreCase)
-				&& isEqual(qn1.getNamespaceURI(), qn2.getNamespaceURI(),
-						ignoreCase)) {
-			return true;
-		}
-
-		return false;
-
-	}
-
-	public static boolean isEqual(String str1, String str2, boolean ignoreCase) {
-		if (str1 == null && str2 == null) {
-			return true;
-		}
-
-		if (str1 != null && str2 != null) {
-			if (ignoreCase) {
-				return str1.equalsIgnoreCase(str2);
-			} else {
-				return str1.equals(str2);
-			}
-		}
-
-		return false;
 	}
 }
