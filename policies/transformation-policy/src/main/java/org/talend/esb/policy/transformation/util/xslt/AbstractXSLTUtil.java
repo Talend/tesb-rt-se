@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -43,8 +45,8 @@ public abstract class AbstractXSLTUtil {
         //loading XSLT resource from specified path
         InputStream xsltStream = null;
         String absoluteSchemaPath = null;
-        try {
             CachedOutputStream cos = new CachedOutputStream();
+        try {
             absoluteSchemaPath = loadResource(xsltPath, cos);
             xsltStream = cos.getInputStream();
             if (xsltStream == null) {
@@ -55,10 +57,15 @@ public abstract class AbstractXSLTUtil {
             throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath, ex);
         }
 
-        TransformerFactory factory = TransformerFactory.newInstance();
-        factory.setURIResolver(new XSLTResourceResolver(absoluteSchemaPath, xsltPath));
-
+        
+        XSLTResourceResolver resourceResolver = null;
         try{
+        TransformerFactory factory = TransformerFactory.newInstance();
+        resourceResolver = new XSLTResourceResolver(absoluteSchemaPath,
+        		xsltPath);
+        factory.setURIResolver(resourceResolver);
+
+        
             Document doc = StaxUtils.read(xsltStream);
 
             xsltTemplate = factory.newTemplates(new DOMSource(doc));
@@ -77,12 +84,22 @@ public abstract class AbstractXSLTUtil {
                     xsltStream.close();
                 } catch (Exception e) {}
             }
+            
+            try {
+				cos.close();
+			} catch (IOException e) {}
+            
+            if(resourceResolver!=null){
+            	resourceResolver.cleanupCache();
+            }
         }
     }
 
 
 
     class XSLTResourceResolver implements URIResolver {
+    	
+    	List<CachedOutputStream> cacheList = new ArrayList<CachedOutputStream>();
 
         String parentXSLTAbsolutePath = null;
         String parentXSLTProvidedPath = null;
@@ -127,6 +144,7 @@ public abstract class AbstractXSLTUtil {
             }
 
             CachedOutputStream cache = new CachedOutputStream();
+            cacheList.add(cache);
             InputStream resourceStream = null;
             String actualXSLTURL = null;
             try{
@@ -164,6 +182,14 @@ public abstract class AbstractXSLTUtil {
                 throw new RuntimeException(message.toString());
             }
         }
+        
+		public void cleanupCache(){
+			for (CachedOutputStream cache : cacheList) {
+				try {
+					cache.close();
+				} catch (IOException e) {}
+			}
+		}
     }
 
     @SuppressWarnings("resource")

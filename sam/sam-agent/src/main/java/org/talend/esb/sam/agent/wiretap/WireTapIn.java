@@ -87,13 +87,24 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                 }
             } else {
                 try {
-                    CachedOutputStream cos = new CachedOutputStream();
+                    final CachedOutputStream cos = new CachedOutputStream();
                     // TODO: We should try to make this streaming
                     //WireTapInputStream wtis = new WireTapInputStream(is, cos);
                     //message.setContent(InputStream.class, wtis);
-                    IOUtils.copy(is, cos);
+                    IOUtils.copyAndCloseInput(is, cos);
                     message.setContent(InputStream.class, cos.getInputStream());
                     message.setContent(CachedOutputStream.class, cos);
+                    message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+						@Override
+						public void handleMessage(Message message) throws Fault {
+							if (cos != null) {
+								try {
+									cos.close();
+								} catch (IOException e) {
+								}
+							}
+  					    }
+					});
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -106,12 +106,6 @@ public class CompressionFeatureTest {
 	}
 
 	@Test
-	public void testConsumerResponse() {
-		commonTest("consumer-request", "Icebear", generateString(1000),
-				"Icebear");
-	}
-
-	@Test
 	public void testLogging() {
 		Level l = LOG.getLevel();
 		LOG.setLevel(Level.FINE);

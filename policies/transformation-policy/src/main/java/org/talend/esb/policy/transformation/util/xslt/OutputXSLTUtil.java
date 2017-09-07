@@ -217,6 +217,10 @@ public class OutputXSLTUtil extends AbstractXSLTUtil {
                     message.setContent(OutputStream.class, origStream);
                 } catch (IOException e) {
                     throw new Fault("STREAM_COPY", LOG, e, e.getMessage());
+                }finally{
+                	try {
+						wrapper.close();
+					} catch (IOException e) {}
                 }
             }
 

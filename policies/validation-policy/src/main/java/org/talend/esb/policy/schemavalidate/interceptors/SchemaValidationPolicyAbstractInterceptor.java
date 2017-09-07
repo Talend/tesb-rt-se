@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -139,24 +141,38 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 		absoluteSchemaPath = loadResource(customSchemaPath, cos);
 		InputStream customSchemaStream = cos.getInputStream();
 
-		if (customSchemaStream == null) {
-			throw new IllegalArgumentException(
-					"Cannot load custom schema from path: " + customSchemaPath);
-		}
-
-		SchemaFactory factory = SchemaFactory
-				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		factory.setResourceResolver(new SchemaResourceResolver(absoluteSchemaPath, customSchemaPath));
-
-		Source src = new StreamSource(customSchemaStream);
 		Schema customSchema;
+
+		SchemaResourceResolver resourceResolver = null;
 		try {
+		
+			if (customSchemaStream == null) {
+				throw new IllegalArgumentException(
+						"Cannot load custom schema from path: " + customSchemaPath);
+			}
+	
+			SchemaFactory factory = SchemaFactory
+					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			resourceResolver = new SchemaResourceResolver(absoluteSchemaPath, 
+					customSchemaPath);
+			factory.setResourceResolver(resourceResolver);
+	
+			Source src = new StreamSource(customSchemaStream);
+		
 			customSchema = factory.newSchema(src);
 		} catch (SAXException e) {
 			throw new IllegalArgumentException(
 					"Cannot create custom schema from path: "
 							+ customSchemaPath
 							+ "\n" + e.getMessage(), e);
+		}finally {
+            try {
+				cos.close();
+				if(resourceResolver != null){
+					resourceResolver.cleanupCache();
+				}
+				
+			} catch (IOException e) {}
 		}
 		message.getExchange().getService().getServiceInfos().get(0)
 				.setProperty(Schema.class.getName(), customSchema);
@@ -211,7 +227,7 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 	}
 
 	class SchemaResourceResolver implements LSResourceResolver {
-
+		List<CachedOutputStream> cacheList = new ArrayList<CachedOutputStream>();
 		String parentSchemaAbsolutePath = null;
 		String parentSchemaProvidedPath = null;
 		public SchemaResourceResolver(String parentSchemaAbsolutePath,
@@ -219,6 +235,14 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			this.parentSchemaAbsolutePath = parentSchemaAbsolutePath;
 			this.parentSchemaProvidedPath = parentSchemaProvidedPath;
 
+		}
+		
+		public void cleanupCache(){
+			for (CachedOutputStream cache : cacheList) {
+				try {
+					cache.close();
+				} catch (IOException e) {}
+			}
 		}
 
 		public LSInput resolveResource(String type, String namespaceURI,
@@ -262,6 +286,8 @@ public abstract class SchemaValidationPolicyAbstractInterceptor extends
 			}
 
 			CachedOutputStream cache = new CachedOutputStream();
+			cacheList.add(cache);
+			
 			InputStream resourceStream = null;
 			String actualSchemaURL = null;
 			try{

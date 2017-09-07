@@ -1,6 +1,7 @@
 package org.talend.esb.policy.compression.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Scanner;
@@ -73,6 +74,9 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 		if (isGET(message)) {
 			return;
 		}
+		
+		final CachedOutputStream cache = new CachedOutputStream();
+		final CachedOutputStream decompressedSoapMessage = new CachedOutputStream();
 
 		try {
 			LOG.fine("Uncompressing response");
@@ -83,9 +87,7 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 			}
 
 			// Loading content of original InputStream to cache
-			CachedOutputStream cache = new CachedOutputStream();
-			IOUtils.copy(is, cache);
-			is.close();
+			IOUtils.copyAndCloseInput(is, cache);
 
 			// Loading SOAP body content to separate stream
 			CachedOutputStream soapBodyContent = new CachedOutputStream();
@@ -103,10 +105,8 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 			if (bodyPosition==null) {
 				// compressed SOAP body content is not found
 				// skipping decompression
-				InputStream istream = cache.getInputStream();
-				istream.reset();
+				message.setContent(InputStream.class, cache.getInputStream());
 
-				message.setContent(InputStream.class, istream);
 			} else {
 				// compressed SOAP body content is found
 				// apply Base64 decoding for encoded soap body content
@@ -118,7 +118,6 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 						new ByteArrayInputStream(base64DecodedSoapBody));
 
 				// replace original soap body by compressed one
-				CachedOutputStream decompressedSoapMessage = new CachedOutputStream();
 				CompressionHelper.replaceBodyInSOAP(cache.getBytes(), 
 						bodyPosition,
 						decompressedBody, decompressedSoapMessage, null, null, true);
@@ -128,10 +127,32 @@ public class CompressionInInterceptor extends AbstractPhaseInterceptor<Message> 
 
 			}
 
+			if(message.getInterceptorChain() != null){
+	            message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+					@Override
+					public void handleMessage(Message message) throws Fault {
+						closeCacheStreams(cache, decompressedSoapMessage);
+					}
+				});
+			}
 		} catch (Exception ex) {
-			throw new Fault("SOAP Body decompresion failed", LOG, ex);
+			closeCacheStreams(cache, decompressedSoapMessage);
+			throw new Fault("SOAP Body decompression failed", LOG, ex);
 		}
-
 	}
 
+	private void closeCacheStreams(CachedOutputStream cache, CachedOutputStream decompressedSoapMessage){
+		if (cache != null) {
+			try {
+				cache.close();
+			} catch (IOException e) {
+			}
+		}
+		if (decompressedSoapMessage != null) {
+			try {
+				decompressedSoapMessage.close();
+			} catch (IOException e) {
+			}
+		}
+	}
 }
