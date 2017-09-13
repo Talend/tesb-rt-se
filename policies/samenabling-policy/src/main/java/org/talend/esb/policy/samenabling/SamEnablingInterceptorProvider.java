@@ -21,7 +21,9 @@ import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.ws.policy.AbstractPolicyInterceptorProvider;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.policy.AssertionInfoMap;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.talend.esb.policy.samenabling.SamEnablingPolicy.AppliesToType;
@@ -114,13 +116,14 @@ public class SamEnablingInterceptorProvider extends
                             return;
                         }
                         Endpoint ep = ex.getEndpoint();
-
-                        BundleContext context = b
-                                .getExtension(BundleContext.class);
                         
+                        Bundle bundle = FrameworkUtil.getBundle(SamEnablingInterceptorProvider.class);
+
                         EventFeature eventFeature = null;
-                        if (context != null) {
+                        if (bundle != null) {
                         	// OSGi
+                            BundleContext context = 
+                                    FrameworkUtil.getBundle(SamEnablingInterceptorProvider.class).getBundleContext();
                             ServiceReference sref = context
                                     .getServiceReference(EventFeature.class
                                             .getName());
