@@ -87,7 +87,8 @@ public class RuntimeESBConsumer implements ESBConsumer {
             final List<Header> soapHeaders,
             final Feature httpHeadersFeature,
             boolean enhancedResponse,
-            Object correlationIDCallbackHandler) {
+            Object correlationIDCallbackHandler,
+            final boolean useGZipCompression) {
         this.operationName = operationName;
         this.soapHeaders = soapHeaders;
         this.enhancedResponse = enhancedResponse;
@@ -132,6 +133,9 @@ public class RuntimeESBConsumer implements ESBConsumer {
         if (correlationIDCallbackHandler != null && (!useServiceRegistry)) {
             features.add(new CorrelationIDFeature());
         }
+        if (useGZipCompression) {
+            features.add(new org.apache.cxf.transport.common.gzip.GZIPFeature());
+        }        
         if (null != securityArguments.getPolicy()) {
             features.add(new WSPolicyFeature(securityArguments.getPolicy()));
         }

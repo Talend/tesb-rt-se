@@ -44,6 +44,7 @@ public interface ESBEndpointConstants {
     String SOAP_HEADERS = "soapHeaders";
     String SECURITY_TOKEN = "securityToken";
     String ENHANCED_RESPONSE = "enhancedResponse";
+    String USE_GZIP_COMPRESSION = "useGZipCompression";
 
     // request constants
     String REQUEST_PAYLOAD = "PAYLOAD";

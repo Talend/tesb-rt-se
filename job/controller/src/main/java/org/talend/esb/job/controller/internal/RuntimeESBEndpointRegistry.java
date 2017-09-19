@@ -145,7 +145,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 soapHeaders,
                 (Feature)props.get("httpHeadersFeature"),
                 getBoolean(props, ESBEndpointConstants.ENHANCED_RESPONSE),
-                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER));
+                props.get(CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER),
+                getBoolean(props, ESBEndpointConstants.USE_GZIP_COMPRESSION));
     }
 
     private Policy buildSecurePolicy(final String authorizationRole, boolean useCrypto, final EsbSecurity esbSecurity) {
