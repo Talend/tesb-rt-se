@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.talend.esb.examples.ebook</groupId>
     <artifactId>ebook</artifactId>
-    <version>6.5.0-SNAPSHOT</version>
+    <version>7.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   <artifactId>ebook-connectionfactory</artifactId>

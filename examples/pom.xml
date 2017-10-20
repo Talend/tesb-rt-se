@@ -17,7 +17,7 @@
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>talend-esb-examples-parent</artifactId>
-    <version>6.5.0-SNAPSHOT</version>
+    <version>7.0.1-SNAPSHOT</version>
     <name>Talend ESB :: Examples Parent</name>
     <packaging>pom</packaging>
 

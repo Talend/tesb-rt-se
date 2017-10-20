@@ -8,13 +8,13 @@
     <artifactId>text-encryptor</artifactId>
     <name>Talend ESB :: Encryptor :: Commands</name>
     <description>Encryptor Commands</description>
-    <version>6.5.0-SNAPSHOT</version>
+    <version>7.0.1-SNAPSHOT</version>
     
 
     <parent>
         <artifactId>esb-parent</artifactId>
         <groupId>org.talend.esb</groupId>
-        <version>6.5.0-SNAPSHOT</version>
+        <version>7.0.1-SNAPSHOT</version>
     </parent>
 
     <dependencies>
