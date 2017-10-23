@@ -19,36 +19,22 @@
  */
 package org.talend.esb.sam.agent.lifecycle;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
 
-import junit.framework.Assert;
-
-import org.apache.cxf.binding.Binding;
 import org.apache.cxf.binding.soap.SoapBinding;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.endpoint.Endpoint;
-import org.apache.cxf.helpers.IOUtils;
-import org.apache.cxf.service.Service;
-import org.apache.cxf.service.model.BindingInfo;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.service.model.InterfaceInfo;
 import org.apache.cxf.service.model.ServiceInfo;
 import org.easymock.EasyMock;
 import org.junit.Test;
-import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam.agent.queue.EventQueue;
-import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
-import org.talend.esb.sam.common.event.MessageInfo;
-import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.service.MonitoringService;
 
 public class AbstractListenerImpTest {
