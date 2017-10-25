@@ -56,7 +56,13 @@ public class PropertyFileCallbackHandlerTest {
 
 		RequestData data = new RequestData();
 
-		handler.validate(credential, data);
+		try {
+			handler.validate(credential, data);
+		} catch (WSSecurityException ex) {
+			return;
+		}
+
+		Assert.fail("Expected WSSecurityException is not thrown ");
 
 	}
 
