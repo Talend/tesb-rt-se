@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+      http://www.springframework.org/schema/context 
+      http://www.springframework.org/schema/context/spring-context-4.2.xsd
+      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<cm:property-placeholder location="classpath:META-INF/zookeeper.properties" />
+
+	<bean id="zookeeperServer"
+		class="org.talend.esb.locator.zookeeper.server.ZookeeperServerManager"
+		init-method="startup" destroy-method="shutdown" scope="singleton">
+		<property name="properties">
+			<util:properties location="classpath:META-INF/zookeeper.properties" />
+		</property>
+	</bean>
+
+	<bean id="initializer"
+		class="org.talend.esb.locator.server.init.internal.RootNodeInitializer"
+		init-method="initialize" destroy-method="stop" depends-on="zookeeperServer">
+		<property name="locatorPort" value="${clientPort}" />
+		<property name="authentication" value="${authentication}" />
+	</bean>
+
+</beans>
