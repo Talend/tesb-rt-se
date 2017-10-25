@@ -1,26 +1,13 @@
 package org.talend.esb.locator.server.auth;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.zookeeper.server.ServerCnxn;
-import org.easymock.EasyMock;
 import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import org.junit.Assert;
-import static org.junit.Assert.assertSame;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+import org.talend.esb.locator.server.auth.SLAuthenticationProvider;
 
 public class SLAuthenticationProviderTest {
 
