@@ -136,6 +136,7 @@
                                 <feature>jpa</feature>
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
+                                <feature>aries-blueprint-spring</feature>
                                 <!-- pax-web version patch (TESB-19140) -->
                                 <feature>pax-jetty/${jetty.version}</feature>
                                 <feature>pax-jetty-http2/${pax-web.version}</feature>
