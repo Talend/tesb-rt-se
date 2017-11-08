@@ -33,8 +33,8 @@
         <cxf.version>3.1.12</cxf.version>
         <cxf.xjc.version>3.0.3</cxf.xjc.version>
         <camel.version>2.19.2</camel.version>
-        <spring.version>4.3.10.RELEASE</spring.version>
-        <karaf.version>4.1.2</karaf.version>
+        <spring.version>4.3.12.RELEASE</spring.version>
+        <karaf.version>4.1.3</karaf.version>
         <activemq.version>5.15.0</activemq.version>
         <osgi.version>4.3.1</osgi.version>
         <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>
@@ -48,7 +48,7 @@
 
         <!-- Log dependencies -->
         <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>1.7.12</slf4j.version>
     </properties>
 
     <modules>
