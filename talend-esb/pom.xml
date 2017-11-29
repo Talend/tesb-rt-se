@@ -507,6 +507,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- patch karaf standard features (TESB-20841) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -800,6 +810,12 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <!-- patch jetty version (TESB-20841) -->
+                                    <replacefilter
+                                        token="9.3.15.v20161220"
+                                        value="${jetty.version}"/>
                                 </replace>
                             </target>
                         </configuration>
