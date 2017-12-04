@@ -375,7 +375,7 @@
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
                 <!-- patch karaf standard features (TESB-20841) -->
-                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -506,6 +506,7 @@
             <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
+            <lineEnding>dos</lineEnding>
         </file>
     </files>
 
