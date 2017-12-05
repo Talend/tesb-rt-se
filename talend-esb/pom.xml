@@ -39,6 +39,7 @@
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <pax-web.version>6.0.7</pax-web.version>
+        <pax-logging.version>1.10.1</pax-logging.version>
 	</properties>
 
 	<dependencies>
@@ -517,6 +518,24 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>standard-${karaf.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- patch for pax-logging-log4j2 (TESB-20573) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>framework</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>framework-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.logging</groupId>
+                                    <artifactId>pax-logging-log4j2</artifactId>
+                                    <version>${pax-logging.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>pax-logging-log4j2-${pax-logging.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -817,6 +836,22 @@
                                         token="9.3.15.v20161220"
                                         value="${jetty.version}"/>
                                 </replace>
+                                <!-- patch for pax-logging-log4j2 (TESB-20573) -->
+                                <replace file="target/dependencies/framework-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.version}&lt;"
+                                        value="org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.version}/jar/TESB&lt;"/>
+                                </replace>
+                                <replaceregexp byline="true"
+                                        match="^(\s*mvn\\:org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.version})(\s*=.*)$"
+                                        replace="\1/jar/TESB\2">
+                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/etc/">
+                                        <include name="startup.properties"/>
+                                    </fileset>
+                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/etc/">
+                                        <include name="startup.properties"/>
+                                    </fileset>
+                                </replaceregexp>
                             </target>
                         </configuration>
                         <goals>
