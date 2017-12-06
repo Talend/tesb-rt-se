@@ -42,7 +42,7 @@ public interface AuxiliaryStorageRestService {
 
     @PUT
     @Path("/auxstorage/{key}")
-    @Consumes({"application/xml","application/json"})
+    @Consumes({"application/xml","application/json","application/octet-stream"})
     void put(String object, @PathParam("key") String key);
 
 }

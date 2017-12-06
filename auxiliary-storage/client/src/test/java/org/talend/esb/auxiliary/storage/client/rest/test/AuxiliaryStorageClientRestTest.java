@@ -1,6 +1,9 @@
 package org.talend.esb.auxiliary.storage.client.rest.test;
 
 import org.apache.commons.io.FileUtils;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -171,7 +174,15 @@ public class AuxiliaryStorageClientRestTest {
 
         @Override
         public String marshalObject(Pojo ctx) {
-            return ctx.getId() + " rrrrrr " + ctx.getName();
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = "";
+            try {
+                json = objectMapper.writer().writeValueAsString(ctx);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            return json;
         }
 
         @Override
@@ -179,11 +190,16 @@ public class AuxiliaryStorageClientRestTest {
             if (marshalledData == null) {
                 return  null;
             }
-            String[] arr = marshalledData.split(" rrrrrr ");
-            Pojo p = new Pojo();
-            p.setId(Integer.parseInt(arr[0]));
-            p.setName(arr[1]);
-            return p;
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Pojo ret = null;
+            try {
+                ret = objectMapper.readValue(marshalledData, Pojo.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return ret;
         }
 
         @Override
