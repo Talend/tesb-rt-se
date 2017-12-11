@@ -209,5 +209,10 @@ public class AuxiliaryStorageClientRestTest {
             }
             return Integer.toString(ctx.getId());
         }
+
+        @Override
+        public String contentType() {
+            return "application/json";
+        }
     }
 }

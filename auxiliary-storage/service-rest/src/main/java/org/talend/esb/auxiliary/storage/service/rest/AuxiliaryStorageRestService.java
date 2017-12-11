@@ -32,7 +32,7 @@ public interface AuxiliaryStorageRestService {
     Response checkAlive();
 
     @GET
-    @Produces({"application/xml","application/json"})
+    @Produces({"application/xml","application/json","application/octet-stream"})
     @Path("/auxstorage/{key}")
     String lookup(@PathParam("key") String key);
 

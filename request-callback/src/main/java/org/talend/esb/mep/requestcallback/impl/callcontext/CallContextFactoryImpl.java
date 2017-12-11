@@ -76,12 +76,12 @@ public class CallContextFactoryImpl<E> implements AuxiliaryObjectFactory<E> {
         return null;
     }
 
-    private String prettifyCallContextKey(String key){
-        String pkey = null;
-        if(key!=null){
-            return key.replace(':', '-');
-        }
-        return pkey;
+    @Override
+    public String contentType() {
+        return "application/octet-stream";
     }
 
+    private String prettifyCallContextKey(String key){
+        return key == null ? null : key.replace(':', '-');
+    }
 }

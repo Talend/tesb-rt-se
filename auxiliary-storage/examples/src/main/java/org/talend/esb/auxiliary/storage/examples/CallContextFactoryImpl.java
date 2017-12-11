@@ -31,4 +31,9 @@ public class CallContextFactoryImpl<E> implements AuxiliaryObjectFactory<E> {
         return null;
     }
 
+    @Override
+    public String contentType() {
+        return "application/octet-stream";
+    }
+
 }
