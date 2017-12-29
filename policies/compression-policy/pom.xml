@@ -14,7 +14,7 @@
 	<description>Custom policy for compression processing</description>
 	
 	<properties>
-		<commons-io.version>2.4</commons-io.version>
+		<commons-io.version>2.6</commons-io.version>
 		<commons-codec.version>1.9</commons-codec.version>	
 		<cxf.xjc.version>3.0.3</cxf.xjc.version>
 	</properties>	
