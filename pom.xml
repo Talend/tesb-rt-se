@@ -92,8 +92,8 @@
     <properties>
         <packages.version>${project.version}</packages.version>
         <cxf.version>3.2.1</cxf.version>
-        <camel.version>2.19.2</camel.version>
-        <activemq.version>5.15.0</activemq.version>
+        <camel.version>2.20.1</camel.version>
+        <activemq.version>5.15.2</activemq.version>
         <spring.version>4.3.12.RELEASE</spring.version>
         <karaf.version>4.1.4</karaf.version>
         <zookeeper.version>3.4.10</zookeeper.version>

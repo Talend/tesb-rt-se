@@ -777,9 +777,6 @@
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
-                                        token="apache-cxf/3.1.11/xml/features"
-                                        value="apache-cxf/${cxf.version}/xml/features"/>
-                                    <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.8"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
