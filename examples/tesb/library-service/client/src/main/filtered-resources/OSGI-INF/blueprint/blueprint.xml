@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ============================================================================
+//
+// Copyright (C) 2011 - 2018 Talend Inc. - www.talend.com
+//
+// This source code is available under agreement available at
+// %InstallDIR%\license.txt
+//
+// You should have received a copy of the agreement
+// along with this program; if not, write to Talend SA
+// 9 rue Pages 92150 Suresnes, France
+//
+// ============================================================================
+-->
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+        xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
+        xmlns:soap="http://cxf.apache.org/bindings/soap"
+        xmlns:library="http://services.talend.org/demos/Library/1.0"
+        default-activation="eager">
+
+    <ext:property-placeholder placeholder-prefix="$sys{"/>
+
+    <cm:property-placeholder persistent-id="org.talend.esb.examples.library.client.srconfig"
+            placeholder-prefix="$sr-config{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="use.service.registry" value="${use.service.registry}"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <cm:property-placeholder persistent-id="org.talend.esb.examples.library.client.cbconfig"
+            placeholder-prefix="$callback-config{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="callback.endpoint.address" value="jms:jndi:dynamicQueues/libraryconsumer.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <jaxws:client id="libraryHttp" serviceName="library:LibraryProvider"
+        endpointName="library:LibraryHttpPort"
+        address="http://localhost:18888/tesb-library-tutorial/services/LibraryHttpPort"
+        serviceClass="org.talend.services.demos.library._1_0.Library">
+        <jaxws:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
+            <!-- for spring SAM definition (without using samenabling policy) -->
+            <!-- <ref component-id="eventFeature"/> -->
+        </jaxws:features>
+        <jaxws:properties>
+            <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
+            <entry key="security.callback-handler">
+                <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
+            </entry>
+            <entry key="security.sts.client">
+                <bean class="org.apache.cxf.ws.security.trust.STSClient">
+                    <argument ref="cxf" />
+                    <property name="wsdlLocation"
+                        value="http://localhost:8040/services/SecurityTokenService/UT?wsdl" />
+                    <property name="serviceName"
+                        value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+                    <property name="endpointName"
+                        value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
+                    <property name="properties">
+                        <map>
+                            <entry key="security.username" value="tadmin" />
+                            <entry key="security.callback-handler">
+                                <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
+                            </entry>
+                            <entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
+                            <entry key="security.encryption.username" value="mystskey" />
+                            <entry key="security.sts.token.usecert" value="true" />
+                            <entry key="security.sts.token.username" value="myclientkey" />
+                            <entry key="security.sts.token.properties" value="keys/clientKeystore.properties" />
+                            <entry key="isBSPCompliant" value="false" />
+                        </map>
+                    </property>
+                </bean>
+            </entry>
+        </jaxws:properties>
+    </jaxws:client>
+
+    <bean id="tester" class="org.talend.services.demos.client.LibraryTester" init-method="afterPropertiesSet">
+        <property name="libraryHttp" ref="libraryHttp"></property>
+        <property name="libraryJms" ref="libraryJms"></property>
+    </bean>
+
+    <bean id="endpointConfig" class="org.talend.esb.mep.requestcallback.beans.JmsUriFactory">
+        <property name="serviceName" value="LibraryConsumer" />
+    </bean>
+
+    <jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
+        id="LibraryConsumerJMS" address="$callback-config{callback.endpoint.address}"
+        serviceName="library:LibraryConsumer" endpointName="library:LibraryConsumerPort"
+        implementor="org.talend.services.demos.client.LibraryConsumerImpl">
+        <jaxws:features>
+            <bean
+                class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <!-- for spring SAM definition (without using samenabling policy) -->
+            <!-- <ref component-id="eventFeature"/> -->
+        </jaxws:features>
+        <jaxws:properties>
+            <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="jaxws.provider.interpretNullAsOneway" value="true" />
+            <entry key="security.signature.properties" value="keys/serviceKeystore.properties" />
+            <entry key="security.callback-handler">
+                <bean class="org.talend.services.demos.common.ServiceCallbackHandler" />
+            </entry>
+        </jaxws:properties>
+    </jaxws:endpoint>
+
+    <jaxws:client id="libraryJms" serviceName="library:LibraryProvider"
+        endpointName="library:LibraryJmsPort"
+        address="jms:jndi:dynamicQueues/library.queue?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb"
+        serviceClass="org.talend.services.demos.library._1_0.Library">
+        <jaxws:features>
+            <bean
+                class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <!-- for spring SAM definition (without using samenabling policy) -->
+            <!-- <ref component-id="eventFeature"/> -->
+        </jaxws:features>
+        <jaxws:properties>
+            <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="security.sts.applies-to" value="{http://services.talend.org/demos/Library/1.0}LibraryProvider" />
+            <entry key="org.talend.esb.mep.requestcallback.CallbackEndpoint">
+                <ref component-id="LibraryConsumerJMS" />
+            </entry>
+            <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
+            <entry key="security.callback-handler">
+                <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
+            </entry>
+            <entry key="security.sts.client">
+                <bean class="org.apache.cxf.ws.security.trust.STSClient">
+                    <argument ref="cxf" />
+                    <property name="wsdlLocation"
+                        value="http://localhost:8040/services/SecurityTokenService/UT?wsdl" />
+                    <property name="serviceName"
+                        value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
+                    <property name="endpointName"
+                        value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
+                    <property name="properties">
+                        <map>
+                            <entry key="security.username" value="tadmin" />
+                            <entry key="security.callback-handler">
+                                <bean class="org.talend.services.demos.common.ClientCallbackHandler" />
+                            </entry>
+                            <entry key="security.encryption.properties" value="keys/clientKeystore.properties" />
+                            <entry key="security.encryption.username" value="mystskey" />
+                            <entry key="security.sts.token.usecert" value="true" />
+                            <entry key="security.sts.token.username" value="myclientkey" />
+                            <entry key="security.sts.token.properties" value="keys/clientKeystore.properties" />
+                            <entry key="isBSPCompliant" value="false" />
+                        </map>
+                    </property>
+                </bean>
+            </entry>
+        </jaxws:properties>
+    </jaxws:client>
+
+    <jaxws:endpoint xmlns:library="http://services.talend.org/demos/Library/1.0"
+        id="LibraryNotificationReceiver"
+        address="jms:jndi-topic:dynamicTopics/newBooksTopic.topic?jndiInitialContextFactory=org.apache.activemq.jndi.ActiveMQInitialContextFactory&amp;jndiConnectionFactoryName=ConnectionFactory&amp;jndiURL=tcp://localhost:61616&amp;username=tesb&amp;password=tesb"
+        serviceName="library:LibraryProvider" endpointName="library:LibraryTopicPort"
+        implementor="org.talend.services.demos.client.LibraryNotificationReceiverImpl">
+        <jaxws:features>
+            <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+            <!-- for spring SAM definition (without using samenabling policy) -->
+            <!-- <ref component-id="eventFeature"/> -->
+        </jaxws:features>
+        <jaxws:properties>
+            <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
+            <entry key="jaxws.provider.interpretNullAsOneway" value="true" />
+            <entry key="security.signature.properties" value="keys/serviceKeystore.properties" />
+            <entry key="security.callback-handler">
+                <bean class="org.talend.services.demos.common.ServiceCallbackHandler" />
+            </entry>
+        </jaxws:properties>
+    </jaxws:endpoint>
+
+</blueprint>
