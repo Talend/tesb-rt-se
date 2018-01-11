@@ -17,8 +17,9 @@
         xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
         xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
         xmlns:soap="http://cxf.apache.org/bindings/soap"
+        xmlns:library="http://services.talend.org/demos/Library/1.0"
         default-activation="eager">
 
     <ext:property-placeholder placeholder-prefix="$sys{"/>
@@ -45,7 +46,7 @@
             <bean class="org.apache.cxf.feature.LoggingFeature" />
             <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
             <!-- for spring SAM definition (without using samenabling policy) -->
-            <!-- <ref bean="eventFeature"/> -->
+            <!-- <ref component-id="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
@@ -55,7 +56,7 @@
             </entry>
             <entry key="security.sts.client">
                 <bean class="org.apache.cxf.ws.security.trust.STSClient">
-                    <constructor-arg ref="cxf" />
+                    <argument ref="cxf" />
                     <property name="wsdlLocation"
                         value="http://localhost:8040/services/SecurityTokenService/UT?wsdl" />
                     <property name="serviceName"
@@ -81,7 +82,7 @@
         </jaxws:properties>
     </jaxws:client>
 
-    <bean id="tester" class="org.talend.services.demos.client.LibraryTester">
+    <bean id="tester" class="org.talend.services.demos.client.LibraryTester" init-method="afterPropertiesSet">
         <property name="libraryHttp" ref="libraryHttp"></property>
         <property name="libraryJms" ref="libraryJms"></property>
     </bean>
@@ -99,7 +100,7 @@
                 class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
             <bean class="org.apache.cxf.feature.LoggingFeature" />
             <!-- for spring SAM definition (without using samenabling policy) -->
-            <!-- <ref bean="eventFeature"/> -->
+            <!-- <ref component-id="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
@@ -120,13 +121,13 @@
                 class="org.talend.esb.mep.requestcallback.feature.RequestCallbackFeature" />
             <bean class="org.apache.cxf.feature.LoggingFeature" />
             <!-- for spring SAM definition (without using samenabling policy) -->
-            <!-- <ref bean="eventFeature"/> -->
+            <!-- <ref component-id="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />
             <entry key="security.sts.applies-to" value="{http://services.talend.org/demos/Library/1.0}LibraryProvider" />
             <entry key="org.talend.esb.mep.requestcallback.CallbackEndpoint">
-                <ref bean="LibraryConsumerJMS" />
+                <ref component-id="LibraryConsumerJMS" />
             </entry>
             <entry key="security.signature.properties" value="keys/clientKeystore.properties" />
             <entry key="security.callback-handler">
@@ -134,7 +135,7 @@
             </entry>
             <entry key="security.sts.client">
                 <bean class="org.apache.cxf.ws.security.trust.STSClient">
-                    <constructor-arg ref="cxf" />
+                    <argument ref="cxf" />
                     <property name="wsdlLocation"
                         value="http://localhost:8040/services/SecurityTokenService/UT?wsdl" />
                     <property name="serviceName"
@@ -169,7 +170,7 @@
             <bean class="org.apache.cxf.ws.addressing.WSAddressingFeature" />
             <bean class="org.apache.cxf.feature.LoggingFeature" />
             <!-- for spring SAM definition (without using samenabling policy) -->
-            <!-- <ref bean="eventFeature"/> -->
+            <!-- <ref component-id="eventFeature"/> -->
         </jaxws:features>
         <jaxws:properties>
             <entry key="use.service.registry" value="$sr-config{use.service.registry}" />

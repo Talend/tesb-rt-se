@@ -22,7 +22,7 @@
         xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
         xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:jaxws="http://cxf.apache.org/jaxws"
+        xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
         xmlns:soap="http://cxf.apache.org/bindings/soap"
         default-activation="eager">
 

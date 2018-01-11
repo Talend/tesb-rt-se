@@ -22,7 +22,7 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
         default-activation="eager">
 
-    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent" depends-on="camel">
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent" dependsOn="camel">
         <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
     </bean>
 
