@@ -842,7 +842,7 @@
                                 </replace>
                                 <replaceregexp byline="true"
                                         match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/${pax-logging.version})(\s*=.*)$"
-                                        replace="\1/jar/TESB\2${line.separator}mvn\\:javax\.annotation/javax\.annotation-api/${javax-annotation.version} = 10">
+                                        replace="\1/jar/TESB\2${line.separator}mvn\\\\:javax\.annotation/javax\.annotation-api/${javax-annotation.version} = 10">
                                     <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/etc/">
                                         <include name="startup.properties"/>
                                     </fileset>
