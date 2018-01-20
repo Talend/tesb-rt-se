@@ -529,7 +529,7 @@
         </file>
         <!-- patch for activemq-camel (TESB-21136) -->
         <file>
-            <source>${basedir}/target/dependencies/apache-karaf-${activemq.version}-features.xml</source>
+            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>dos</lineEnding>
