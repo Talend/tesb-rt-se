@@ -870,8 +870,8 @@
                                 </replaceregexp>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter>
-                                        <replacetoken>feature name="activemq-camel version="${activemq.version}" resolver="(obr)"</replacetoken> 
-                                        <replacevalue>feature name="activemq-camel version="${activemq.version}-tesb1" resolver="(obr)"</replacevalue>
+                                        <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken> 
+                                        <replacevalue>feature name="activemq-camel" version="${activemq.version}-tesb1" resolver="(obr)"</replacevalue>
                                     </replacefilter>
                                     <replacefilter
                                         token="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}&lt;"
