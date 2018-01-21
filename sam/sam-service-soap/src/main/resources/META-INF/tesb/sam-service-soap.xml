@@ -48,7 +48,7 @@
         </jaxws:features>
     </jaxws:endpoint>
 
-    <bean id="securityProvider" class="org.talend.esb.sam.service.rest.security.SAMServiceSecurityProvider"
+    <bean id="securityProvider" class="org.talend.esb.sam.service.soap.security.SAMServiceSecurityProvider"
         init-method="init">
         <property name="serviceEndpoint" ref="monitoringservice" />
         <property name="authenticationType" value="${sam.service.soap.authentication}" />
