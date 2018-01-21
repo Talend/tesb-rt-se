@@ -49,6 +49,7 @@
                 <prop key="service.retry.number">3</prop>
                 <prop key="service.retry.delay">5000</prop>
                 <prop key="executor.pool.size">20</prop>
+                <prop key="service.authentication">NO</prop>
             </props>
         </property>
     </bean>

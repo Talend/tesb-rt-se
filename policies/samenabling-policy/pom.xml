@@ -9,7 +9,7 @@
 	</parent>
 	
 	<properties>
-		<cxf.xjc.version>3.0.3</cxf.xjc.version>
+		<cxf.xjc.version>3.2.0</cxf.xjc.version>
 	</properties>	
 
 	<artifactId>samenabling-policy</artifactId>
@@ -50,12 +50,6 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-local</artifactId>
-			<version>${cxf.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
 			<version>${cxf.version}</version>
 			<scope>test</scope>
 		</dependency>
