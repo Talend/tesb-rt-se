@@ -28,10 +28,11 @@
         <property name="location" value="WEB-INF/logserver.properties"/>
         <property name="properties">
             <props>
-                <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
                 <prop key="db.datasource">ds-derby</prop>
                 <prop key="db.dialect">derbyDialect</prop>
-                <prop key="sam.authentication">NO</prop>
+                <prop key="monitoringServiceUrl">/MonitoringServiceSOAP</prop>
+                <prop key="sam.service.soap.authentication">NO</prop>
+                <prop key="sam.service.rest.authentication">NO</prop>
             </props>
         </property>
     </bean>

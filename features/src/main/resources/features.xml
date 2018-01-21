@@ -40,6 +40,8 @@
 
   <feature name='tesb-sam-agent' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.sam.agent.cfg">mvn:org.talend.esb/sam-agent/${project.version}/cfg/org.talend.esb.sam.agent</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.agent.client.ut.policy">mvn:org.talend.esb/sam-agent/${project.version}/policy/org.talend.esb.sam.agent.client.ut</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.agent.client.saml.policy">mvn:org.talend.esb/sam-agent/${project.version}/policy/org.talend.esb.sam.agent.client.saml</configfile>
     <feature version='${cxf.version}'>cxf</feature>
     <feature>tesb-sam-common</feature>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/1_2</bundle>
@@ -148,6 +150,8 @@
 
   <feature name='tesb-sam-service-soap' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.sam.service.soap.cfg">mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}/cfg/org.talend.esb.sam.service.soap</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.service.soap.ut.policy">mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}/policy/org.talend.esb.sam.service.soap.ut</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.service.soap.saml.policy">mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}/policy/org.talend.esb.sam.service.soap.saml</configfile>
     <feature>tesb-sam-server</feature>
     <bundle>mvn:org.talend.esb.sam.service/sam-service-soap/${project.version}</bundle>
   </feature>

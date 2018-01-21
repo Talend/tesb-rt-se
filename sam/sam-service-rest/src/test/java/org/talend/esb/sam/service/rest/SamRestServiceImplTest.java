@@ -1,4 +1,4 @@
-package org.talend.esb.sam.service.test;
+package org.talend.esb.sam.service.rest;
 
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.json.simple.JSONObject;
@@ -19,8 +19,7 @@ import org.talend.esb.sam.common.event.Originator;
 import org.talend.esb.sam.common.event.persistence.EventRepository;
 import org.talend.esb.sam.server.persistence.FlowEvent;
 import org.talend.esb.sam.server.persistence.SAMProvider;
-import org.talend.esb.sam.service.SAMRestService;
-
+import org.talend.esb.sam.service.rest.SAMRestService;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package org.talend.esb.sam.service;
+package org.talend.esb.sam.service.rest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +25,8 @@ import org.talend.esb.sam.server.persistence.FlowDetails;
 import org.talend.esb.sam.server.persistence.FlowEvent;
 import org.talend.esb.sam.server.persistence.SAMProvider;
 import org.talend.esb.sam.server.persistence.criterias.CriteriaAdapter;
-import org.talend.esb.sam.service.exception.IllegalParameterException;
-import org.talend.esb.sam.service.exception.ResourceNotFoundException;
+import org.talend.esb.sam.service.rest.exception.IllegalParameterException;
+import org.talend.esb.sam.service.rest.exception.ResourceNotFoundException;
 
 
 public class SAMRestServiceImpl implements SAMRestService {

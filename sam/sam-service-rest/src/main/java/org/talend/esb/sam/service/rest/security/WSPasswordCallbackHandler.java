@@ -1,4 +1,4 @@
-package org.talend.esb.sam.service.security;
+package org.talend.esb.sam.service.rest.security;
 
 import java.io.IOException;
 

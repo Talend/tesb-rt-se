@@ -36,6 +36,7 @@
             <cm:property name="service.retry.number" value="3"/>
             <cm:property name="service.retry.delay" value="5000"/>
             <cm:property name="executor.pool.size" value="20"/>
+            <cm:property name="service.authentication" value="NO"/>
         </cm:default-properties>
     </cm:property-placeholder>
 
@@ -56,5 +57,25 @@
             <entry key="mtom-enabled" value="true"/>
         </jaxws:properties>
     </jaxws:client>
+    
+    <bean id="securityProvider" class="org.talend.esb.sam.agent.serviceclient.SAMClientSecurityProvider"
+        init-method="init">
+        <property name="client" ref="monitoringService" />
+        <property name="authenticationType" value="${service.authentication}" />
+        <property name="policyUsernameToken" value="${policy.ut}" />
+        <property name="policySaml" value="${policy.saml}" />
+        <property name="signatureUsername" value="${service.signature.username}" />
+        <property name="signaturePassword" value="${service.signature.password}" />
+        <property name="signatureProperties" value="${security.signature.properties}" />
+        <property name="username" value="${service.security.username}" />
+        <property name="password" value="${service.security.password}" />
+        <property name="stsWsdlLocation" value="${sts.wsdl.location}" />
+        <property name="stsNamespace" value="${sts.namespace}" />
+        <property name="stsServiceName" value="${sts.service.name}" />
+        <property name="stsEndpointName" value="${sts.endpoint.name}" />
+        <property name="stsTokenUsecert" value="${security.sts.token.usecert}" />
+        <property name="encryptionUsername" value="${security.encryption.username}" />
+        <property name="isBspCompliant" value="${ws-security.is-bsp-compliant}" />
+    </bean>
 
 </blueprint>

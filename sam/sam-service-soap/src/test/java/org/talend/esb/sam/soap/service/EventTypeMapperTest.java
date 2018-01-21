@@ -24,7 +24,7 @@ import org.talend.esb.sam._2011._03.common.CustomInfoType;
 import org.talend.esb.sam._2011._03.common.EventType;
 import org.talend.esb.sam._2011._03.common.MessageInfoType;
 import org.talend.esb.sam._2011._03.common.OriginatorType;
-import org.talend.esb.sam.soap.service.EventTypeMapper;
+import org.talend.esb.sam.service.soap.EventTypeMapper;
 
 public class EventTypeMapperTest {
 

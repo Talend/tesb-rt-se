@@ -27,7 +27,7 @@
 
     <import resource="test-persistence.xml"/>
 
-    <bean id="monitoringService" class="org.talend.esb.sam.soap.service.MonitoringServiceImpl">
+    <bean id="monitoringService" class="org.talend.esb.sam.service.soap.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository" />
     </bean>
 

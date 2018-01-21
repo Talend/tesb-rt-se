@@ -40,6 +40,18 @@
             <version>${cxf.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-security</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-policy</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <!--  Test  -->
 		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -97,6 +109,16 @@
                                     <file>etc/org.talend.esb.sam.service.soap.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.sam.service.soap</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.sam.service.soap.ut.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.sam.service.soap.ut</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.sam.service.soap.saml.policy</file>
+                                    <type>policy</type>
+                                    <classifier>org.talend.esb.sam.service.soap.saml</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>

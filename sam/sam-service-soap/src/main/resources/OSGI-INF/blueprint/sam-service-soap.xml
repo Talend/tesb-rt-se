@@ -31,17 +31,23 @@
         update-strategy="reload">
         <cm:default-properties>
             <cm:property name="monitoringServiceUrl" value="/MonitoringServiceSOAP"/>
+            <cm:property name="sam.service.soap.authentication" value="NO"/>
+            <cm:property name="policy.ut" value=""/>
+            <cm:property name="policy.saml" value=""/>
+            <cm:property name="security.signature.properties" value=""/>
+            <cm:property name="security.signature.username" value=""/>
+            <cm:property name="security.signature.password" value=""/>
         </cm:default-properties>
     </cm:property-placeholder>
 
     <reference id="eventRepository" interface="org.talend.esb.sam.common.event.persistence.EventRepository" />
 
-    <bean id="monitoringService" class="org.talend.esb.sam.soap.service.MonitoringServiceImpl">
+    <bean id="monitoringService" class="org.talend.esb.sam.service.soap.MonitoringServiceImpl">
         <property name="persistenceHandler" ref="eventRepository" />
     </bean>
 
     <bean id="MonitoringServiceWrapper"
-        class="org.talend.esb.sam.soap.service.MonitoringWebService">
+        class="org.talend.esb.sam.service.soap.MonitoringWebService">
         <property name="monitoringService" ref="monitoringService" />
     </bean>
 
@@ -53,4 +59,14 @@
         </jaxws:properties>
     </jaxws:endpoint>
 
+    <bean id="securityProvider" class="org.talend.esb.sam.service.rest.security.SAMServiceSecurityProvider"
+        init-method="init">
+        <property name="serviceEndpoint" ref="monitoringservice" />
+        <property name="authenticationType" value="${sam.service.soap.authentication}" />
+        <property name="policyUsernameToken" value="${policy.ut}" />
+        <property name="policySaml" value="${policy.saml}" />
+        <property name="signatureUsername" value="${security.signature.username}" />
+        <property name="signaturePassword" value="${security.signature.password}" />
+        <property name="signatureProperties" value="${security.signature.properties}" />
+    </bean>
 </blueprint>

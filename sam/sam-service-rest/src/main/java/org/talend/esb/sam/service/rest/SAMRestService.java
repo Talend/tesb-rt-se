@@ -1,4 +1,4 @@
-package org.talend.esb.sam.service;
+package org.talend.esb.sam.service.rest;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;

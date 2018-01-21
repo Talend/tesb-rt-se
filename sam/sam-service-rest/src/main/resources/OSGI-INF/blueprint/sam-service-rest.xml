@@ -30,7 +30,7 @@
     <cm:property-placeholder persistent-id="org.talend.esb.sam.service.rest"
         update-strategy="reload">
         <cm:default-properties>
-            <cm:property name="sam.authentication" value="NO"/>
+            <cm:property name="sam.service.rest.authentication" value="NO"/>
             <cm:property name="security.signature.properties" value=""/>
             <cm:property name="security.signature.username" value=""/>
             <cm:property name="security.signature.password" value=""/>
@@ -39,16 +39,16 @@
 
     <reference id="providerBean" interface="org.talend.esb.sam.server.persistence.SAMProvider" />
 
-    <bean id="restService" class="org.talend.esb.sam.service.SAMRestServiceImpl">
+    <bean id="restService" class="org.talend.esb.sam.service.rest.SAMRestServiceImpl">
         <property name="provider" ref="providerBean" />
     </bean>
 
-    <jaxrs:server id="SAMService" address="/sam">
+    <jaxrs:server id="SAMRestService" address="/sam">
         <jaxrs:serviceBeans>
             <ref component-id="restService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
-            <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+            <bean class="org.talend.esb.sam.service.rest.SAMExceptionMapper" />
             <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
                 <property name="ignoreNamespaces" value="true" />
                 <property name="dropRootElement" value="true" />
@@ -56,10 +56,10 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="securityProvider" class="org.talend.esb.sam.service.security.SAMServiceSecurityProvider"
+    <bean id="securityProvider" class="org.talend.esb.sam.service.rest.security.SAMServiceSecurityProvider"
         init-method="init">
-        <property name="monitoringEndpoint" ref="SAMService" />
-        <property name="serviceAutentication" value="${sam.authentication}" />
+        <property name="monitoringEndpoint" ref="SAMRestService" />
+        <property name="authenticationType" value="${sam.service.rest.authentication}" />
         <property name="signatureUsername" value="${security.signature.username}" />
         <property name="signaturePassword" value="${security.signature.password}" />
         <property name="signatureProperties" value="${security.signature.properties}" />

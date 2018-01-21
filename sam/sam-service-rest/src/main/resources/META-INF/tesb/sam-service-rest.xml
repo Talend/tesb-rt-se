@@ -10,16 +10,16 @@
 
     <import resource="classpath:/META-INF/tesb/sam-server.xml" />
 
-    <bean id="restService" class="org.talend.esb.sam.service.SAMRestServiceImpl">
+    <bean id="restService" class="org.talend.esb.sam.service.rest.SAMRestServiceImpl">
         <property name="provider" ref="providerBean" />
     </bean>
 
-    <jaxrs:server id="SAMService" address="/sam">
+    <jaxrs:server id="SAMRestService" address="/sam">
         <jaxrs:serviceBeans>
             <ref bean="restService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
-            <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+            <bean class="org.talend.esb.sam.service.rest.SAMExceptionMapper" />
             <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
                 <property name="ignoreNamespaces" value="true" />
                 <property name="dropRootElement" value="true" />

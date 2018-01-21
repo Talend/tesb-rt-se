@@ -50,11 +50,11 @@
         <property name="dialect" value="derbyDialect"/>
     </bean>
 
-    <bean id="samRestService" class="org.talend.esb.sam.service.SAMRestServiceImpl">
+    <bean id="samRestService" class="org.talend.esb.sam.service.rest.SAMRestServiceImpl">
         <property name="provider" ref="samProvider"/>
     </bean>
 
-    <bean id="initializer" class="org.talend.esb.sam.service.test.SamRestServiceImplTest.SystemPropertyInitializer"/>
+    <bean id="initializer" class="org.talend.esb.sam.service.rest.SamRestServiceImplTest.SystemPropertyInitializer"/>
 
     <cxf:bus>
         <cxf:features>
@@ -67,7 +67,7 @@
             <ref bean="samRestService" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
-            <bean class="org.talend.esb.sam.service.SAMExceptionMapper" />
+            <bean class="org.talend.esb.sam.service.rest.SAMExceptionMapper" />
             <bean class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
                 <property name="ignoreNamespaces" value="true" />
                 <property name="dropRootElement" value="true" />

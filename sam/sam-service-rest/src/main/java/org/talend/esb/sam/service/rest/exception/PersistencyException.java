@@ -1,4 +1,4 @@
-package org.talend.esb.sam.service.exception;
+package org.talend.esb.sam.service.rest.exception;
 
 public class PersistencyException extends SamServiceException {
 

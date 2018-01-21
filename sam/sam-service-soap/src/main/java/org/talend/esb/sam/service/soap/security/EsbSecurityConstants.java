@@ -1,7 +1,7 @@
-package org.talend.esb.sam.service.security;
+package org.talend.esb.sam.service.soap.security;
 
 public enum EsbSecurityConstants {
-    NO("NO"), BASIC("BASIC"), SAML("SAML");
+    NO("NO"), BASIC("BASIC"), USERNAMETOKEN("USERNAMETOKEN"), SAML("SAML");
 
     String esbSecurity;
 

@@ -1,11 +1,10 @@
-package org.talend.esb.sam.service.security;
+package org.talend.esb.sam.service.rest.security;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.Bus;
-import org.apache.cxf.BusFactory;
 import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
@@ -19,7 +18,7 @@ import org.apache.cxf.rs.security.saml.SamlHeaderInHandler;
 public class SAMServiceSecurityProvider {
 
     private JAXRSServerFactoryBean server;
-    private String serviceAutentication;
+    private String authenticationType;
     private String signatureProperties;
     private String signatureUsername;
     private String signaturePassword;
@@ -34,12 +33,12 @@ public class SAMServiceSecurityProvider {
         this.server = server;
     }
 
-    public String getServiceAutentication() {
-        return serviceAutentication;
+    public String getAuthenticationType() {
+        return authenticationType;
     }
 
-    public void setServiceAutentication(String serviceAutentication) {
-        this.serviceAutentication = serviceAutentication;
+    public void setAuthenticationType(String authenticationType) {
+        this.authenticationType = authenticationType;
     }
 
     public String getSignatureProperties() {
@@ -68,7 +67,7 @@ public class SAMServiceSecurityProvider {
 
     public void init() {
 
-        final EsbSecurityConstants esbSecurity = EsbSecurityConstants.fromString(serviceAutentication);
+        final EsbSecurityConstants esbSecurity = EsbSecurityConstants.fromString(authenticationType);
 
         if (EsbSecurityConstants.NO == esbSecurity) {
             return;

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package org.talend.esb.sam.soap.service;
+package org.talend.esb.sam.service.soap;
 
 import java.util.ArrayList;
 import java.util.List;
