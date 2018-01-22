@@ -234,7 +234,7 @@ public class SAMClientSecurityProvider {
             stsProperties.put(SecurityConstants.USERNAME, username);
             stsProperties.put(SecurityConstants.PASSWORD, password);
             stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
-                    new WSPasswordCallbackHandler(signatureUsername, signatureUsername));
+                    new WSPasswordCallbackHandler(username, password));
             stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES, processFileURI(getSignatureProperties()));
             stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, signatureUsername);
             stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, stsTokenUsecert);
@@ -248,6 +248,7 @@ public class SAMClientSecurityProvider {
         }
 
         client.getEndpoint().getActiveFeatures().add(policyFeature);
+        policyFeature.initialize(client, bus);
 
     }
 

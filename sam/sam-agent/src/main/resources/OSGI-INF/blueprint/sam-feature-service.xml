@@ -64,8 +64,8 @@
         <property name="authenticationType" value="${service.authentication}" />
         <property name="policyUsernameToken" value="${policy.ut}" />
         <property name="policySaml" value="${policy.saml}" />
-        <property name="signatureUsername" value="${service.signature.username}" />
-        <property name="signaturePassword" value="${service.signature.password}" />
+        <property name="signatureUsername" value="${security.signature.username}" />
+        <property name="signaturePassword" value="${security.signature.password}" />
         <property name="signatureProperties" value="${security.signature.properties}" />
         <property name="username" value="${service.security.username}" />
         <property name="password" value="${service.security.password}" />
