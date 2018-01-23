@@ -17,7 +17,10 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transport.http.auth.HttpAuthHeader;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
@@ -199,7 +202,12 @@ public class SAMClientSecurityProvider {
         }
 
         if (EsbSecurityConstants.BASIC == esbSecurity) {
-            // TBD
+            AuthorizationPolicy authzPolicy = new AuthorizationPolicy();
+            authzPolicy.setUserName(username);
+            authzPolicy.setPassword(password);
+            authzPolicy.setAuthorizationType(HttpAuthHeader.AUTH_TYPE_BASIC);
+            HTTPConduit conduit = (HTTPConduit)client.getConduit();
+            conduit.setAuthorization(authzPolicy);
         } else if (EsbSecurityConstants.USERNAMETOKEN == esbSecurity) {
             policies.add(loadPolicy(policyUsernameToken, bus));
 

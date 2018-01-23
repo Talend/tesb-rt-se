@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
+import org.apache.cxf.interceptor.security.JAASLoginInterceptor;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.policy.PolicyBuilder;
@@ -109,7 +110,9 @@ public class SAMServiceSecurityProvider {
         }
 
         if (EsbSecurityConstants.BASIC == esbSecurity) {
-        	// TBD
+            JAASLoginInterceptor interceptor = new JAASLoginInterceptor();
+            interceptor.setContextName("karaf");
+            serviceEndpoint.getInInterceptors().add(interceptor);
         } else if (EsbSecurityConstants.USERNAMETOKEN == esbSecurity) {
         	policies.add(loadPolicy(policyUsernameToken, bus));
 
