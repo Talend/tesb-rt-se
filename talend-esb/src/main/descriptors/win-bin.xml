@@ -383,6 +383,7 @@
                 <!-- patch for activemq-camel (TESB-21136) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-camel/${activemq.version}/**</exclude>
+                <exclude>org/apache/qpid/qpid-jms-client/${qpid-jms.version}/**</exclude>
             </excludes>
         </fileSet>
 
@@ -537,6 +538,11 @@
         <file>
             <source>${basedir}/target/dependencies/activemq-camel-${activemq.version}-tesb1.jar</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-camel/${activemq.version}-tesb1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/qpid-jms-client-${qpid-jms.version}-tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/qpid/qpid-jms-client/${qpid-jms.version}-tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

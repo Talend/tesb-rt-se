@@ -41,6 +41,7 @@
         <pax-web.version>6.0.9</pax-web.version>
         <pax-logging.version>1.10.1</pax-logging.version>
         <javax-annotation.version>1.3</javax-annotation.version>
+        <qpid-jms.version>0.11.1</qpid-jms.version>
 	</properties>
 
 	<dependencies>
@@ -551,9 +552,16 @@
                                     <artifactId>activemq-camel</artifactId>
                                     <version>${activemq.version}-tesb1</version>
                                     <type>jar</type>
-                                    <!-- <classifier>tesb1</classifier> -->
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-camel-${activemq.version}-tesb1.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.qpid</groupId>
+                                    <artifactId>qpid-jms-client</artifactId>
+                                    <version>${qpid-jms.version}-tesb1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>qpid-jms-client-${qpid-jms.version}-tesb1.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -812,6 +820,9 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}&lt;"
+                                        value="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}-tesb1&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
