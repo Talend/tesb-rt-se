@@ -17,7 +17,10 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 
 import org.apache.cxf.Bus;
+import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transport.http.auth.HttpAuthHeader;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
@@ -199,7 +202,12 @@ public class SAMClientSecurityProvider {
         }
 
         if (EsbSecurityConstants.BASIC == esbSecurity) {
-            // TBD
+            AuthorizationPolicy authzPolicy = new AuthorizationPolicy();
+            authzPolicy.setUserName(username);
+            authzPolicy.setPassword(password);
+            authzPolicy.setAuthorizationType(HttpAuthHeader.AUTH_TYPE_BASIC);
+            HTTPConduit conduit = (HTTPConduit)client.getConduit();
+            conduit.setAuthorization(authzPolicy);
         } else if (EsbSecurityConstants.USERNAMETOKEN == esbSecurity) {
             policies.add(loadPolicy(policyUsernameToken, bus));
 
@@ -234,7 +242,7 @@ public class SAMClientSecurityProvider {
             stsProperties.put(SecurityConstants.USERNAME, username);
             stsProperties.put(SecurityConstants.PASSWORD, password);
             stsProperties.put(SecurityConstants.CALLBACK_HANDLER,
-                    new WSPasswordCallbackHandler(signatureUsername, signatureUsername));
+                    new WSPasswordCallbackHandler(username, password));
             stsProperties.put(SecurityConstants.STS_TOKEN_PROPERTIES, processFileURI(getSignatureProperties()));
             stsProperties.put(SecurityConstants.STS_TOKEN_USERNAME, signatureUsername);
             stsProperties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, stsTokenUsecert);
@@ -248,6 +256,7 @@ public class SAMClientSecurityProvider {
         }
 
         client.getEndpoint().getActiveFeatures().add(policyFeature);
+        policyFeature.initialize(client, bus);
 
     }
 
