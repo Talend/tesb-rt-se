@@ -3,14 +3,14 @@
 
   <servers>
 		<server>
-			<id>archiva.repo-release</id>
-			<username>tadmin</username>
-			<password>tadmin</password>
+			<id>nexus.repo-release</id>
+			<username>admin</username>
+			<password>Talend123</password>
 		</server>
 		<server>
-			<id>archiva.repo-snapshot</id>
-			<username>tadmin</username>
-			<password>tadmin</password>
+			<id>nexus.repo-snapshot</id>
+			<username>admin</username>
+			<password>Talend123</password>
 		</server>
   </servers>
 

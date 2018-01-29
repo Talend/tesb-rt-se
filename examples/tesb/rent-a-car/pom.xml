@@ -52,24 +52,24 @@
         </profile>
     </profiles>
 	<build>
-		<extensions>
+		<!--extensions>
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-webdav</artifactId>
 				<version>1.0-beta-2</version>
 			</extension>
-		</extensions>
+		</extensions-->
 	</build>
 	<distributionManagement>
 		<repository>
-			<id>archiva.repo-release</id>
+			<id>nexus.repo-release</id>
 			<name>Internal Release Repository</name>
-			<url>dav:http://localhost:8082/archiva/repository/repo-release</url>
+			<url>http://localhost:8081/repository/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>archiva.repo-snapshot</id>
+			<id>nexus.repo-snapshot</id>
 			<name>Internal Snapshot Repository</name>
-			<url>dav:http://localhost:8082/archiva/repository/repo-snapshot</url>
+			<url>http://localhost:8081/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
