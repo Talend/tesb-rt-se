@@ -33,7 +33,7 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>1.9.2</jclouds.version>
+        <jclouds.version>2.0.2</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <wss4j.version>2.2.0</wss4j.version>
         <xerces.version>2.11.0_1</xerces.version>
