@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
@@ -22,7 +23,6 @@ import org.apache.cxf.ws.security.SecurityConstants;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
-import org.apache.cxf.feature.Feature;
 import org.apache.neethi.Policy;
 import org.apache.neethi.PolicyRegistry;
 import org.talend.esb.locator.service.LocatorServiceConstants;
@@ -35,6 +35,8 @@ import org.apache.wss4j.dom.validate.JAASUsernameTokenValidator;
 import org.springframework.beans.factory.annotation.Value;
 
 @NoJSR250Annotations(unlessNull = "bus")
+@Singleton
+@Named("policyProviderBean")
 public class PolicyProviderImpl implements PolicyProvider {
 
     private String policyToken;
@@ -69,9 +71,6 @@ public class PolicyProviderImpl implements PolicyProvider {
             policies.add(getSamlPolicy());
         }
 
-        ServerRegistry registry = currentBus.getExtension(ServerRegistry.class);
-        List<Server> servers = registry.getServers();
-
         Map<String, Object> endpointProps = new HashMap<String, Object>();
 
         if (EsbSecurity.TOKEN == esbSecurity) {
@@ -95,20 +94,17 @@ public class PolicyProviderImpl implements PolicyProvider {
 
         locatorEndpoint.setProperties(endpointProps);
 
-        Server srv = null;
+        WSPolicyFeature policyFeature = new WSPolicyFeature();
+        policyFeature.setPolicies(policies);
+        locatorEndpoint.getFeatures().add(policyFeature);
+
+        ServerRegistry registry = currentBus.getExtension(ServerRegistry.class);
+        List<Server> servers = registry.getServers();
 
         for (Server sr : servers) {
             if (sr.getEndpoint().getService() == locatorEndpoint.getService())
-                srv = sr;
+                policyFeature.initialize(sr, currentBus);
         }
-
-        List<Feature> activeFeatures = locatorEndpoint.getFeatures();
-        WSPolicyFeature policyFeature = new WSPolicyFeature();
-
-        activeFeatures.add(policyFeature);
-
-        policyFeature.setPolicies(policies);
-        policyFeature.initialize(srv, currentBus);
 
     }
 
