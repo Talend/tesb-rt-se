@@ -1,6 +1,6 @@
 #
 #
-# Copyright (C) 2011 - 2012 Talend Inc.
+# Copyright (C) 2011 - 2018 Talend Inc.
 # %%
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,6 +64,8 @@ echo "org.talend.remote.jobserver.server.TalendJobServer.FILE_SERVER_PORT = $7"
 config:property-set org.talend.remote.jobserver.server.TalendJobServer.FILE_SERVER_PORT $7
 echo "org.talend.remote.jobserver.server.TalendJobServer.MONITORING_PORT = $8"
 config:property-set org.talend.remote.jobserver.server.TalendJobServer.MONITORING_PORT $8
+echo "org.talend.remote.jobserver.server.TalendJobServer.PROCESS_MESSAGE_PORT = $9"
+config:property-set org.talend.remote.jobserver.server.TalendJobServer.PROCESS_MESSAGE_PORT $9
 config:update
 
 echo

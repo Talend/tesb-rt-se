@@ -1,6 +1,6 @@
 #
 #
-# Copyright (C) 2011 - 2012 Talend Inc.
+# Copyright (C) 2011 - 2018 Talend Inc.
 # %%
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,5 +26,6 @@ SSH_Port=8101
 COMMAND_SERVER_PORT=8000
 FILE_SERVER_PORT=8001
 MONITORING_PORT=8888
+PROCESS_MESSAGE_PORT=8555
 
-source scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port $COMMAND_SERVER_PORT $FILE_SERVER_PORT $MONITORING_PORT
+source scripts/configKarafContainer.sh $RMI_Registry_Port $RMI_Server_Port $HTTP_Port $HTTPS_Port $SSH_Port $COMMAND_SERVER_PORT $FILE_SERVER_PORT $MONITORING_PORT $PROCESS_MESSAGE_PORT
