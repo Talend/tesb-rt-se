@@ -442,7 +442,6 @@
             <directory>${basedir}/../adapters</directory>
             <outputDirectory>/add-ons/adapters</outputDirectory>
             <includes>
-                <include>hyperic_pugins/**</include>
                 <include>nagios/**</include>
                 <include>README.txt</include>
             </includes>
