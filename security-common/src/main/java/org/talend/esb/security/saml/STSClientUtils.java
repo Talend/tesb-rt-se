@@ -38,6 +38,10 @@ public class STSClientUtils {
     private static final String STS_ENDPOINT_NAME = "sts.endpoint.name";
     private static final String STS_X509_ENDPOINT_NAME = "sts.x509.endpoint.name";
 
+    private static final String STS_TOKEN_TYPE = "sts.tokentype";
+    private static final String STS_KEY_TYPE = "sts.keytype";
+    private static final String STS_ALLOW_RENEWING = "sts.allow.renewing";
+
     private static Map<String, String> stsProperties;
 
     public STSClientUtils(Map<String, String> stsProperties) {
@@ -98,6 +102,21 @@ public class STSClientUtils {
             }
         }
         stsClient.setProperties(props);
+
+        stsClient.setEnableLifetime(true);
+
+        if (stsProps.get(STS_TOKEN_TYPE) != null) {
+            stsClient.setTokenType(stsProps.get(STS_TOKEN_TYPE));
+        }
+
+        if (stsProps.get(STS_KEY_TYPE) != null) {
+            stsClient.setKeyType(stsProps.get(STS_KEY_TYPE));
+        }
+
+        stsClient.setAllowRenewingAfterExpiry(true);
+        if (stsProps.get(STS_ALLOW_RENEWING) != null) {
+            stsClient.setAllowRenewing(Boolean.valueOf(stsProps.get(STS_ALLOW_RENEWING)));
+        }
 
         return stsClient;
     }

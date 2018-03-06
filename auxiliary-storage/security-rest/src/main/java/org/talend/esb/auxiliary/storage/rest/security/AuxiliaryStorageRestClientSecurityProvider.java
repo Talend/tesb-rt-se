@@ -23,7 +23,7 @@ import org.apache.cxf.rs.security.saml.SamlHeaderOutInterceptor;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.talend.esb.auxiliary.storage.rest.security.AbstractRestSecurityProvider;
 import org.talend.esb.auxiliary.storage.rest.security.STSClientCreator;
-import org.talend.esb.auxiliary.storage.rest.security.STSRESTOutInterceptor;
+import org.talend.esb.security.saml.STSRESTOutInterceptor;
 
 public abstract class AuxiliaryStorageRestClientSecurityProvider extends AbstractRestSecurityProvider {
 
