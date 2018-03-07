@@ -341,7 +341,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.4</version>
+                <version>3.7</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.cxf.build-utils</groupId>
@@ -390,6 +390,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>3.0.0</version>
                             <configuration>
                                 <configLocation>${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml</configLocation>
                                 <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml</suppressionsLocation>
@@ -447,14 +448,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <!-- dependencies>
-                   <dependency>
-                      <groupId>com.puppycrawl.tools</groupId>
-                      <artifactId>checkstyle</artifactId>
-                      <version>6.5</version>
-                   </dependency>
-                </dependencies -->
+                <version>3.0.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
