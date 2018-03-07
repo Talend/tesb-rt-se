@@ -139,7 +139,7 @@ public class SamRestServiceImplTest {
             Assert.fail(ex.getMessage());
         }
 
-        Assert.assertEquals("<seekBook>Survival in the Arctic</seekBook>", obj.get("content"));
+        Assert.assertEquals("&lt;seekBook&gt;Survival in the Arctic&lt;/seekBook&gt;", obj.get("content"));
         Assert.assertFalse((Boolean)obj.get("contentCut"));
         Assert.assertEquals("custom_id1", obj.get("customId"));
         Assert.assertEquals("flow123", obj.get("flowID"));

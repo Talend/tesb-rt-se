@@ -35,7 +35,7 @@
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>2.0.2</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>2.2.0</wss4j.version>
+        <wss4j.version>2.2.1</wss4j.version>
         <xerces.version>2.11.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
         <pax-web.version>6.0.9</pax-web.version>
@@ -803,6 +803,12 @@
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
+                                    <replacefilter
+                                        token="apache-cxf/3.2.1/xml/features"
+                                        value="apache-cxf/${cxf.version}/xml/features"/>
+                                    <replacefilter
+                                        token="pax-cdi-features/1.0.0.RC1/xml/features"
+                                        value="pax-cdi-features/${pax-cdi.version}/xml/features"/>
                                     <replacefilter
                                         token="org.apache.zookeeper/zookeeper/3.4.8"
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>

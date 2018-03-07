@@ -13,10 +13,6 @@
 	<name>Talend ESB :: Policies :: Correlation ID</name>
 	<description>Custom policy for correlation id implementation</description>
 
-	<properties>
-		<cxf.xjc.version>3.0.3</cxf.xjc.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -43,7 +39,7 @@
 		<dependency>
 			<groupId>org.apache.cxf.xjc-utils</groupId>
 			<artifactId>cxf-xjc-runtime</artifactId>
-			<version>${cxf.xjc.version}</version>
+			<version>${cxf.xjc-utils.version}</version>
 <!-- 			<scope>test</scope> -->
 		</dependency>
 		<dependency>

@@ -91,7 +91,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.2.1</cxf.version>
+        <cxf.version>3.2.2</cxf.version>
         <camel.version>2.20.1</camel.version>
         <activemq.version>5.15.2</activemq.version>
         <spring.version>4.3.12.RELEASE</spring.version>
@@ -126,12 +126,12 @@
         <bouncycastle.version>1.57</bouncycastle.version>
         <hibersap.version>1.2.0</hibersap.version>
         <javax.el.version>3.0.0</javax.el.version>
-        <pax-cdi.version>1.0.0.RC1</pax-cdi.version>
+        <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
 
         <surefire.plugin.version>2.18.1</surefire.plugin.version>
 
-        <cxf.build-utils.version>3.2.1</cxf.build-utils.version>
-        <cxf.xjc-utils.version>3.2.0</cxf.xjc-utils.version>
+        <cxf.build-utils.version>3.4.0</cxf.build-utils.version>
+        <cxf.xjc-utils.version>3.2.1</cxf.xjc-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
 

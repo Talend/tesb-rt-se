@@ -14,9 +14,7 @@
 	<description>Custom policy for compression processing</description>
 	
 	<properties>
-		<commons-io.version>2.6</commons-io.version>
 		<commons-codec.version>1.9</commons-codec.version>	
-		<cxf.xjc.version>3.0.3</cxf.xjc.version>
 	</properties>	
 
 	<dependencies>
@@ -80,7 +78,7 @@
 		<dependency>
 			<groupId>org.apache.cxf.xjc-utils</groupId>
 			<artifactId>cxf-xjc-runtime</artifactId>
-			<version>${cxf.xjc.version}</version>
+			<version>${cxf.xjc-utils.version}</version>
 			<!--scope>test</scope -->
 		</dependency>
 	</dependencies>

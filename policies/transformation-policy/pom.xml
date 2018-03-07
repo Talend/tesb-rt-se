@@ -13,10 +13,6 @@
     <name>Talend ESB :: Policies :: Transformation</name>
     <description>Custom policy for transformation</description>
 
-    <properties>
-      <cxf.xjc.version>3.0.3</cxf.xjc.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -31,7 +27,7 @@
         <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf.xjc.version}</version>
+            <version>${cxf.xjc-utils.version}</version>
             <!--scope>test</scope-->
         </dependency>
 
