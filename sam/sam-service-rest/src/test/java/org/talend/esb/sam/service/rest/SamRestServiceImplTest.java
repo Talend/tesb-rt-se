@@ -139,7 +139,10 @@ public class SamRestServiceImplTest {
             Assert.fail(ex.getMessage());
         }
 
-        Assert.assertEquals("&lt;seekBook&gt;Survival in the Arctic&lt;/seekBook&gt;", obj.get("content"));
+        if (!obj.get("content").equals("<seekBook>Survival in the Arctic</seekBook>") && 
+                !obj.get("content").equals("&lt;seekBook&gt;Survival in the Arctic&lt;/seekBook&gt;")) {
+            Assert.fail("the content is not matched " + obj.get("content"));
+        }
         Assert.assertFalse((Boolean)obj.get("contentCut"));
         Assert.assertEquals("custom_id1", obj.get("customId"));
         Assert.assertEquals("flow123", obj.get("flowID"));
