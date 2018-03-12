@@ -94,8 +94,8 @@
         <cxf.version>3.2.2</cxf.version>
         <camel.version>2.20.1</camel.version>
         <activemq.version>5.15.2</activemq.version>
-        <spring.version>4.3.12.RELEASE</spring.version>
-        <karaf.version>4.1.4</karaf.version>
+        <spring.version>4.3.14.RELEASE</spring.version>
+        <karaf.version>4.1.5</karaf.version>
         <zookeeper.version>3.4.10</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
         <slf4j.version>1.7.12</slf4j.version>
@@ -128,7 +128,7 @@
         <javax.el.version>3.0.0</javax.el.version>
         <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
 
-        <surefire.plugin.version>2.18.1</surefire.plugin.version>
+        <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
         <cxf.build-utils.version>3.4.0</cxf.build-utils.version>
         <cxf.xjc-utils.version>3.2.1</cxf.xjc-utils.version>

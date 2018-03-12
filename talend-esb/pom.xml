@@ -33,7 +33,7 @@
 
 	<properties>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>2.0.2</jclouds.version>
+        <jclouds.version>2.0.3</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
         <wss4j.version>2.2.1</wss4j.version>
         <xerces.version>2.11.0_1</xerces.version>
@@ -510,16 +510,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch karaf standard features (TESB-20841) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -851,23 +841,12 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
-                                    <!-- Patch TESB-18685 -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
-                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
-                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
-                                </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch jetty version (TESB-20841) -->
-                                    <replacefilter
-                                        token="9.3.15.v20161220"
-                                        value="${jetty.version}"/>
                                 </replace>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
