@@ -168,10 +168,14 @@
                                 <feature>camel-ahc-ws</feature>
 						        <feature>camel-amqp</feature>
                                 <feature>camel-apns</feature>
+                                <feature>camel-asn1</feature>
+                                <feature>camel-asterisk</feature>
                                 <feature>camel-atmosphere-websocket</feature>
 						        <feature>camel-atom</feature>
+                                <feature>camel-atomix</feature>
                                 <feature>camel-avro</feature>
 						        <feature>camel-aws</feature>
+<!--                                 <feature>camel-azure</feature> -->
 						        <feature>camel-bam</feature>
 						        <feature>camel-base64</feature>
 						        <feature>camel-bean-validator</feature>
@@ -183,28 +187,39 @@
                                 <feature>camel-box</feature>
                                 <feature>camel-braintree</feature>
 						        <feature>camel-cache</feature>
+                                <feature>camel-caffeine</feature>
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
                                 <feature>camel-cdi</feature>
+                                <feature>camel-chronicle</feature>
                                 <feature>camel-chunk</feature>
+                                <feature>camel-cm-sms</feature>
                                 <feature>camel-cmis</feature>
                                 <feature>camel-coap</feature>
 						        <feature>camel-cometd</feature>
+                                <feature>camel-consul</feature>
 						        <feature>camel-context</feature>
                                 <feature>camel-couchdb</feature>
+                                <feature>camel-couchbase</feature>
 						        <feature>camel-crypto</feature>
+                                <feature>camel-crypto-cms</feature>
 						        <feature>camel-csv</feature>
 						        <feature>camel-cxf</feature>
+                                <feature>camel-digitalocean</feature>
                                 <feature>camel-disruptor</feature>
                                 <feature>camel-dns</feature>
+                                <feature>camel-docker</feature>
+                                <feature>camel-drill</feature>
 						        <feature>camel-dozer</feature>
                                 <feature>camel-dropbox</feature>
+                                <feature>camel-ehcache</feature>
                                 <feature>camel-elsql</feature>
                                 <feature>camel-elasticsearch</feature>
                                 <feature>camel-etcd</feature>
 						        <feature>camel-eventadmin</feature>
 						        <feature>camel-exec</feature>
 						        <feature>camel-facebook</feature>
+                                <feature>camel-fastjson</feature>
 						        <feature>camel-flatpack</feature>
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
@@ -216,7 +231,10 @@
                                 <feature>camel-google-calendar</feature>
                                 <feature>camel-google-drive</feature>
                                 <feature>camel-google-mail</feature>
+                                <feature>camel-google-pubsub</feature>
+                                <feature>camel-grape</feature>
 						        <feature>camel-groovy</feature>
+                                <feature>camel-grpc</feature>
 						        <feature>camel-gson</feature>
                                 <feature>camel-guava-eventbus</feature>
 						        <feature>camel-guice</feature>
@@ -224,13 +242,17 @@
 						        <feature>camel-hazelcast</feature>
                                 <feature>camel-hdfs</feature>
                                 <feature>camel-hdfs2</feature>
+                                <feature>camel-headersmap</feature>
                                 <feature>camel-hipchat</feature>
                                 <feature>camel-hessian</feature>
                                 <feature>camel-hl7</feature>
 						        <feature>camel-http</feature>
 						        <feature>camel-http4</feature>
+                                <feature>camel-hystrix</feature>
 						        <feature>camel-ibatis</feature>
 						        <feature>camel-ical</feature>
+                                <feature>camel-iec60870</feature>
+<!--                                 <feature>camel-ignite</feature> -->
 						        <feature>camel-infinispan</feature>
 						        <feature>camel-irc</feature>
                                 <feature>camel-ironmq</feature>
@@ -251,9 +273,11 @@
 						        <feature>camel-jms</feature>
 						        <feature>camel-jmx</feature>
 						        <feature>camel-jolt</feature>
+                                <feature>camel-johnzon</feature>
                                 <feature>camel-josql</feature>
 						        <feature>camel-jpa</feature>
                                 <feature>camel-jsch</feature>
+<!--                                 <feature>camel-json-validator</feature> -->
                                 <feature>camel-jsonpath</feature>
 						        <feature>camel-jt400</feature>
 						        <feature>camel-juel</feature>
@@ -262,13 +286,19 @@
 						        <feature>camel-kestrel</feature>
                                 <feature>camel-krati</feature>
                                 <feature>camel-kubernetes</feature>
+                                <feature>camel-kura</feature>
 						        <feature>camel-ldap</feature>
+                                <feature>camel-ldif</feature>
                                 <feature>camel-linkedin</feature>
 						        <feature>camel-leveldb</feature>
+                                <feature>camel-leveldb-java</feature>
 						        <feature>camel-lucene</feature>
+                                <feature>camel-lumberjack</feature>
                                 <feature>camel-lzf</feature>
 						        <feature>camel-mail</feature>
+                                <feature>camel-master</feature>
                                 <feature>camel-metrics</feature>
+                                <feature>camel-milo</feature>
 						        <feature>camel-mina</feature>
                                 <feature>camel-mina2</feature>
                                 <feature>camel-mllp</feature>
@@ -289,17 +319,24 @@
                                 <feature>camel-olingo2</feature>
                                 <feature>camel-openshift</feature>
 						        <feature>camel-optaplanner</feature>
+                                <feature>camel-openstack</feature>
+                                <feature>camel-opentracing</feature>
                                 <feature>camel-paho</feature>
 						        <feature>camel-paxlogging</feature>
                                 <feature>camel-pdf</feature>
                                 <feature>camel-pgevent</feature>
 						        <feature>camel-printer</feature>
 						        <feature>camel-protobuf</feature>
+                                <feature>camel-pubnub</feature>
 						        <feature>camel-quartz</feature>
                                 <feature>camel-quartz2</feature>
 						        <feature>camel-quickfix</feature>
                                 <feature>camel-rabbitmq</feature>
-<!--                                 <feature>camel-restlet</feature> -->
+                                <feature>camel-reactive-streams</feature>
+                                <feature>camel-reactor</feature>
+                                <feature>camel-restlet</feature>
+                                <feature>camel-restlet-jackson</feature>
+                                <feature>camel-restlet-gson</feature>
 						        <feature>camel-rmi</feature>
 						        <feature>camel-routebox</feature>
 						        <feature>camel-rss</feature>
@@ -309,16 +346,17 @@
                                 <feature>camel-saxon</feature>
 						        <feature>camel-scala</feature>
                                 <feature>camel-schematron</feature>
-                                <feature>camel-scr</feature>
                                 <feature>camel-script-jruby</feature>
                                 <feature>camel-script-javascript</feature>
                                 <feature>camel-script-groovy</feature>
 						        <feature>camel-script</feature>
+                                <feature>camel-servicenow</feature>
 						        <feature>camel-servlet</feature>
 						        <feature>camel-servletlistener</feature>
 						        <feature>camel-shiro</feature>
 						        <feature>camel-sip</feature>
                                 <feature>camel-sjms</feature>
+                                <feature>camel-sjms2</feature>
                                 <feature>camel-slack</feature>
 						        <feature>camel-smpp</feature>
                                 <feature>camel-snakeyaml</feature>
@@ -344,7 +382,11 @@
 						        <feature>camel-tagsoup</feature>
                                 <feature>camel-tarfile</feature>
 						        <feature>camel-test</feature>
+                                <feature>camel-test-karaf</feature>
 						        <feature>camel-test-spring</feature>
+                                <feature>camel-thrift</feature>
+                                <feature>camel-tika</feature>
+                                <feature>camel-twilio</feature>
                                 <feature>camel-twitter</feature>
                                 <feature>camel-undertow</feature>
                                 <feature>camel-univocity-parsers</feature>
@@ -360,8 +402,11 @@
 						        <feature>camel-xmpp</feature>
 						        <feature>camel-xstream</feature>
                                 <feature>camel-yammer</feature>
+                                <feature>camel-zendesk</feature>
                                 <feature>camel-zipfile</feature>
+                                <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
+                                <feature>camel-zookeeper-master</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-datasource-derby</feature>
