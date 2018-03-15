@@ -221,8 +221,8 @@ public class SAMClientSecurityProvider {
                 }
             });
             client.getEndpoint().getOutInterceptors().add(new WSS4JOutInterceptor(wssProps));
-            client.getRequestContext().put("ws-security.username", username);
-            client.getRequestContext().put("ws-security.password", password);
+            client.getRequestContext().put("security.username", username);
+            client.getRequestContext().put("security.password", password);
 
         } else if (EsbSecurityConstants.SAML == esbSecurity) {
             policies.add(loadPolicy(policySaml, bus));

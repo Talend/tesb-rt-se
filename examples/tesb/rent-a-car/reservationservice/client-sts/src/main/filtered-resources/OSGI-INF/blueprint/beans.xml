@@ -60,7 +60,7 @@
     								<bean class="common.talend.ClientCallbackHandler"/>
     						   </entry>
                                <entry key="security.encryption.properties" value="clientKeystore.properties"/> 
-                               <entry key="ws-security.encryption.username" value="mystskey"/>
+                               <entry key="security.encryption.username" value="mystskey"/>
                                <entry key="security.sts.token.usecert" value="true"/> 
                                <entry key="security.sts.token.username" value="myclientkey"/>
                                <entry key="security.sts.token.properties" value="clientKeystore.properties"/> 
