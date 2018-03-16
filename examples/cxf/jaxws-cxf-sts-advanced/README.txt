@@ -89,7 +89,7 @@ How to Deploy:
 
 Tomcat deployment: If not already done, configure Maven to be able to install and
 uninstall the WSP and the STS by following this section: 
-http://www.jroller.com/gmazza/entry/web_service_tutorial#maventomcat.  Also
+https://glenmazza.net/blog/entry/web-service-tutorial#maventomcat.  Also
 start up Tomcat.
 
 Note: If you wish to use Tomcat 6, use the -PTomcat6 flag when running the mvn
@@ -137,5 +137,4 @@ catalina(date).log in particular) or Karaf (data/log) folder for any errors
 reported by the WSP or the STS.
 
 2.) Use Wireshark to view messages:
-http://www.jroller.com/gmazza/entry/soap_calls_over_wireshark
-
+https://glenmazza.net/blog/entry/soap-calls-over-wireshark

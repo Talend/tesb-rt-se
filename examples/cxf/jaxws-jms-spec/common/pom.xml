@@ -26,7 +26,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle</Require-Bundle>
                         <Export-Package>jms-spec-wsdl,com.talend.examples.jms_greeter</Export-Package>
                     </instructions>
                 </configuration>

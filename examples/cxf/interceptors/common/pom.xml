@@ -33,7 +33,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.cxf.bundle</Require-Bundle>
                         <Export-Package>interceptors-wsdl,com.talend.examples.interceptors,demo.interceptors.interceptor</Export-Package>
                     </instructions>
                 </configuration>

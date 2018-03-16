@@ -109,7 +109,7 @@ In the TESB shell:
 > feature:repo-add mvn:org.talend.cxf-examples/osgi/1.0/xml/features
 
 This command adds the features repository for the examples to the container.  (See 
-http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for
+http://karaf.apache.org/manual/latest/#_provisioning for
 more details.)  This only needs to be done once for all examples.
 
 Note on Ports:
