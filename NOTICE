@@ -41,10 +41,6 @@ This product includes software developed at
 OSGI (http://www.osgi.org)
 Licensed under the Apache License Version 2.0
 
-This product includes software developed at
-sourceforge (http://sourceforge.net)
-Licensed under the Apache License Version 2.0
-
 This product includes software (JLine) developed at
 sourceforge (http://sourceforge.net)
 Licensed under the BSD License
@@ -224,9 +220,9 @@ This product includes software developed at
 Dropwizard Team (http://metrics.dropwizard.io/)
 Licensed under the Apache License 2.0.
 
-This product includes software developed at
-Day Software (http://www.day.com)
-Licensed under the Day Specification License.
+This product includes software (Joda-Time) developed at
+Jackrabbit (http://jackrabbit.apache.org)
+Licensed under the Apache License Version 2.0
 
 This product includes software developed at
 Oracle Corporation (http://www.oracle.com)
