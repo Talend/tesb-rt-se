@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.cxf.helpers.IOUtils;
+import org.apache.cxf.jaxrs.AbstractJAXRSFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
-
 import javax.ws.rs.core.Response;
 
 public class OidcClientUtils {
@@ -164,6 +164,7 @@ public class OidcClientUtils {
 		}
 		String scope = oidcConfiguration.getScope();
 
+		@SuppressWarnings("rawtypes")
 		WebClient webClient = WebClient
 				.create(tokenEndpoint,
 						java.util.Collections
@@ -199,4 +200,10 @@ public class OidcClientUtils {
 
 		return "Bearer " + responseMap.get("access_token");
 	}
+	
+    public static void configureClient(final AbstractJAXRSFactoryBean clientFactory, 
+    		final String username, final String password, final Map<String, String> oidcProperties) {
+        OIDCRESTOutInterceptor outInterceptor = new OIDCRESTOutInterceptor(username, password, oidcProperties);
+        clientFactory.getOutInterceptors().add(outInterceptor);
+    }
 }
