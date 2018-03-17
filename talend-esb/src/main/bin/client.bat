@@ -118,7 +118,7 @@ if "%EXTRA_JAVA_OPTS%" == "" goto :KARAF_EXTRA_JAVA_OPTS_END
 set CLASSPATH=%KARAF_HOME%\system\org\apache\karaf\org.apache.karaf.client\4.1.5\org.apache.karaf.client-4.1.5.jar
 set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\apache\sshd\sshd-core\1.6.0\sshd-core-1.6.0.jar
 set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\fusesource\jansi\jansi\1.17\jansi-1.17.jar
-set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\jline\jline\3.6.0\jline-3.6.0.jar
+set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\jline\jline\3.6.2\jline-3.6.2.jar
 set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\slf4j\slf4j-api\1.7.12\slf4j-api-1.7.12.jar
 
 :EXECUTE

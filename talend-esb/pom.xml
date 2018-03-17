@@ -156,6 +156,7 @@
                                 <feature>cxf-rs-description-swagger2/${cxf.version}</feature>
 						        <feature>cxf-sts/${cxf.version}</feature>
 						        <feature>cxf-wsn/${cxf.version}</feature>
+                                <feature>cxf-xjc-runtime/${cxf.version}</feature>
 						        <feature>wss4j/${wss4j.version}</feature>
 						        <!-- Camel Features -->
 						        <feature>camel</feature>
@@ -555,6 +556,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- patch the jline version (TESB-21358) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -892,6 +903,12 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <!-- patch the jline version (TESB-21358) -->
+                                    <replacefilter
+                                        token="mvn:org.jline/jline/3.6.0"
+                                        value="mvn:org.jline/jline/3.6.2"/>
                                 </replace>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
