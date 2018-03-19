@@ -517,6 +517,11 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
+        <file>
+            <source>${basedir}/target/dependencies/jline-3.6.2.jar</source>
+            <outputDirectory>/container/system/org/jline/jline/3.6.2/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
         <!-- patch for pax-logging-log4j2 (TESB-20573) -->
         <file>
             <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
