@@ -54,14 +54,14 @@ public final class RESTClient {
         System.out.println("Updating multiple fields of the person using PUT and .../members/1 URL:");
         p.setName("Bob");
         p.setAge(p.getAge() == 40 ? 30 : 40);
-        resp = wc.reset().path("1").put(p);
+        resp = wc.reset().type("application/xml").path("1").put(p);
         p = getMember(1);
 
         System.out.println("Creating a new member using POST and .../members/1 URL:");
         Person newMember = new Person();
         newMember.setName("Harry");
         newMember.setAge(30);
-        resp = wc.reset().post(newMember);
+        resp = wc.reset().type("application/xml").post(newMember);
 
         if (resp.getStatus() != Response.Status.CREATED.getStatusCode()) {
             throw new RuntimeException("Could not add new member.");

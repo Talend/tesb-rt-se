@@ -134,7 +134,8 @@ public final class RESTClient {
 
         System.out.println("Fred and Catherine now have a child, adding a child info to PersonService");
         Person child = new Person("Harry", 1);
-        Response response = wc.reset().path("4").path("children").post(child);
+        wc.reset().accept(MediaType.APPLICATION_XML).type(MediaType.APPLICATION_XML);
+        Response response = wc.path("4").path("children").post(child);
 
         // 201 status and the Location header pointing to
         // a newly created (child) Person resource is expected
@@ -187,6 +188,8 @@ public final class RESTClient {
         		true);
         String patch = wc.reset().invoke("PATCH", null, String.class);
         System.out.println("Patch: " + patch);
+
+        wc.close();
     }
 
     /**
@@ -249,6 +252,8 @@ public final class RESTClient {
         for (PersonInfo pi : personInfos) {
         	System.out.println("ID : " + pi.getId());
         }
+
+        wc.close();
     }
 
     private void findPersons(WebClient wc, String searchExpression) {

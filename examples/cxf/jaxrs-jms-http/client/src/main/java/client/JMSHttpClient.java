@@ -109,7 +109,7 @@ public final class JMSHttpClient {
     
     private Connection createAndStartConnection(Context ctx) throws Exception {
     	ConnectionFactory factory = (ConnectionFactory)ctx.lookup("ConnectionFactory");
-    	Connection connection = factory.createConnection();
+    	Connection connection = factory.createConnection("tesb", "tesb");
         connection.start();
         return connection;
     }
@@ -199,6 +199,7 @@ public final class JMSHttpClient {
 	    Message message = JMSUtil.createAndSetPayload(
 	        writeBook(new Book("JMS OneWay", 125L)), session, "text");
 	    message.setStringProperty("org.apache.cxf.request.method", "PUT");
+        message.setStringProperty("Content-Type", "application/xml");
 	                
 	    producer.send(message);
 	    producer.close();
@@ -211,6 +212,7 @@ public final class JMSHttpClient {
 	    TextMessage message = session.createTextMessage();
 	    message.setText(writeBook(book));
 	    message.setJMSReplyTo(replyTo);
+        message.setStringProperty("Content-Type", "application/xml");
 	    
 	    message.setStringProperty("org.apache.cxf.request.method", "POST");
 	                

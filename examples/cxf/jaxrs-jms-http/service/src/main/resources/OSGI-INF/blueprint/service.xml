@@ -7,6 +7,8 @@
              ">
     <bean id="ConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="tesb"/>
+        <property name="password" value="tesb"/>
     </bean>
 
     <!-- The connection factory will by found by its default bean id="ConnectionFactory" -->

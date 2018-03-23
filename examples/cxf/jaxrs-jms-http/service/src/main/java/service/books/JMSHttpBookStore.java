@@ -75,7 +75,7 @@ public class JMSHttpBookStore {
     	    Context ctx = getContext();
             ConnectionFactory factory = (ConnectionFactory)ctx.lookup("ConnectionFactory");
             Destination replyToDestination = (Destination)ctx.lookup("dynamicQueues/test.jmstransport.response");
-            connection = factory.createConnection();
+            connection = factory.createConnection("tesb", "tesb");
             connection.start();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             postOneWayBook(session, replyToDestination, book);

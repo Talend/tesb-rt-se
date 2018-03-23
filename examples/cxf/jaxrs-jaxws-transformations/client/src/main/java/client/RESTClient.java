@@ -146,6 +146,7 @@ public class RESTClient {
 
         customer.v2.Customer customer = createNewCustomer("Smith New to Old REST, XPath");
         client.path("customer");
+        client.type("application/xml");
         client.put(customer);
         
         XMLSource source = 
