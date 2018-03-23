@@ -386,6 +386,12 @@
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-camel/${activemq.version}/**</exclude>
                 <exclude>org/apache/qpid/qpid-jms-client/${qpid-jms.version}/**</exclude>
+                <!-- Patch jackson-databind version (TESB-21628) -->
+                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.4.4/**</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.1/**</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.1/**</exclude>
             </excludes>
         </fileSet>
 
@@ -549,6 +555,23 @@
         <file>
             <source>${basedir}/target/dependencies/qpid-jms-client-${qpid-jms.version}-tesb1.jar</source>
             <outputDirectory>/container/system/org/apache/qpid/qpid-jms-client/${qpid-jms.version}-tesb1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- Patch jackson-databind version (TESB-21628) -->
+        <file>
+            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
+            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/jackson-databind-2.6.7.1.jar</source>
+            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.6.7.1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/jackson-databind-2.9.3.jar</source>
+            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.3/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

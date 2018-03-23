@@ -617,6 +617,32 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>qpid-jms-client-${qpid-jms.version}-tesb1.jar</destFileName>
                                 </artifactItem>
+                                <!-- Patch jackson-databind version (TESB-21628) -->
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features-core</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-databind</artifactId>
+                                    <version>2.6.7.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>jackson-databind-2.6.7.1.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.fasterxml.jackson.core</groupId>
+                                    <artifactId>jackson-databind</artifactId>
+                                    <version>2.9.3</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>jackson-databind-2.9.3.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -883,6 +909,13 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}&lt;"
                                         value="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}-tesb1&lt;"/>
+                                    <!-- Patch jackson-databind version (TESB-21628) -->
+                                    <replacefilter
+                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.4.4&lt;"
+                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
+                                    <replacefilter
+                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.1&lt;"
+                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -905,6 +938,10 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
+                                    <!-- Patch jackson-databind version (TESB-21628) -->
+                                    <replacefilter
+                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.1&lt;"
+                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.3&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
@@ -942,6 +979,12 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}&lt;"
                                         value="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}-tesb1&lt;"/>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
+                                    <!-- Patch jackson-databind version (TESB-21628) -->
+                                    <replacefilter
+                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7&lt;"
+                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
