@@ -91,7 +91,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.2.3</cxf.version>
+        <cxf.version>3.2.4</cxf.version>
         <camel.version>2.20.1</camel.version>
         <activemq.version>5.15.2</activemq.version>
         <spring.version>4.3.14.RELEASE</spring.version>
