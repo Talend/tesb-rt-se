@@ -394,6 +394,14 @@
                 <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/**</exclude>
             </excludes>
         </fileSet>
+        <!-- Woraround for xjc-utils version (TESB-21746) -->
+        <fileSet>
+            <directory>target/features-repo</directory>
+            <outputDirectory>/container/system</outputDirectory>
+            <includes>
+                <include>org/apache/cxf/xjc-utils/cxf-xjc-runtime/3.2.1/**</include>
+            </includes>
+        </fileSet>
 
         <!-- Copy Add-ons -->
         <fileSet>
