@@ -355,10 +355,6 @@
         <fileSet>
             <directory>target/features-repo</directory>
             <outputDirectory>/container/system</outputDirectory>
-            <includes>
-                <include>org/apache/cxf/xjc-utils/cxf-xjc-runtime/3.2.1/**</include>
-                <include>org/apache/jclouds/karaf/jclouds-karaf/2.0.3/**</include>
-            </includes>
             <excludes>
                 <!-- exclude JDBC driver because of licensing limitation -->
                 <exclude>mysql/**</exclude>
