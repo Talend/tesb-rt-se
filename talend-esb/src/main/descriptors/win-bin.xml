@@ -392,6 +392,7 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.1/**</exclude>
                 <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
                 <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/**</exclude>
+                <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -586,6 +587,11 @@
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-ui-${cxf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
