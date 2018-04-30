@@ -107,6 +107,9 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         if (null != event) {
             queue.add(event);
         }
+        
+        // TESB-20624 skip duplicated event processing 
+        message.getInterceptorChain().remove(this);
     }
 
     /**
