@@ -109,6 +109,7 @@
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -409,6 +410,34 @@
                                 <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
                                 <feature>camel-zookeeper-master</feature>
+                                <!-- Decanter Features -->
+                                <feature>decanter-collector-log</feature>
+                                <feature>decanter-collector-log-socket</feature>
+                                <feature>decanter-collector-file</feature>
+                                <feature>decanter-collector-jmx</feature>
+                                <feature>decanter-collector-camel</feature>
+                                <feature>decanter-collector-rest</feature>
+                                <feature>decanter-collector-system</feature>
+                                <feature>decanter-collector-eventadmin</feature>
+                                <feature>decanter-collector-jms</feature>
+                                <feature>decanter-collector-socket</feature>
+                                <feature>decanter-collector-mqtt</feature>
+                                <feature>decanter-appender-log</feature>
+                                <feature>decanter-appender-elasticsearch</feature>
+                                <feature>decanter-appender-elasticsearch-jest</feature>
+                                <feature>decanter-appender-file</feature>
+                                <feature>decanter-appender-jdbc</feature>
+                                <feature>decanter-appender-jms</feature>
+                                <feature>decanter-appender-camel</feature>
+                                <feature>decanter-appender-kafka</feature>
+                                <feature>decanter-appender-mqtt</feature>
+                                <feature>decanter-appender-redis</feature>
+                                <feature>decanter-appender-rest</feature>
+                                <feature>decanter-appender-mongodb</feature>
+                                <feature>decanter-alerting-log</feature>
+                                <feature>decanter-alerting-email</feature>
+                                <feature>elasticsearch/6.1.1</feature>
+                                <feature>kibana/6.1.1</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-datasource-derby</feature>
