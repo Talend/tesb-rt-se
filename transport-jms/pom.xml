@@ -16,7 +16,7 @@
 	<parent>
 		<artifactId>esb-parent</artifactId>
 		<groupId>org.talend.esb</groupId>
-		<version>7.1.0-SNAPSHOT</version>
+		<version>7.1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.talend.esb</groupId>
 	<artifactId>transport-jms</artifactId>
