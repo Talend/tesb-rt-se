@@ -32,10 +32,19 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 public final class Converter {
 
+	private static DatatypeFactory factory = null;
+
     /**
      * Instantiates a new converter.
      */
     private Converter() {
+    }
+
+    private static DatatypeFactory getDatatypeFactory() throws DatatypeConfigurationException{
+    	if(factory == null) {
+            factory = DatatypeFactory.newInstance();
+    	}
+    	return  factory;
     }
 
     /**
@@ -53,7 +62,7 @@ public final class Converter {
         gc.setTimeInMillis(date.getTime());
 
         try {
-            return DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+            return getDatatypeFactory().newXMLGregorianCalendar(gc);
         } catch (DatatypeConfigurationException ex) {
             return null;
         }

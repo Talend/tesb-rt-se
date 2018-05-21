@@ -76,6 +76,17 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                         message.setContent(InputStream.class, cos.getInputStream());
                         message.setContent(Reader.class, null);
                         message.setContent(CachedOutputStream.class, cos);
+                        message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+    						@Override
+    						public void handleMessage(Message message) throws Fault {
+    							if (cos != null) {
+    								try {
+    									cos.close();
+    								} catch (IOException e) {
+    								}
+    							}
+      					    }
+    					});
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } finally {
