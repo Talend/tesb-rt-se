@@ -126,10 +126,7 @@ public class TalendProducer extends DefaultProducer {
     protected void doStart() throws Exception {
         super.doStart();
         if (stickyJob) {
-            if (jobInstance == null) {
-                jobInstance = createJobInstance();
-            }
-            jobInstance.prepareJob(prepareArgs(null));
+            prepareJobInstance(false, true);
         }
     }
 
@@ -188,7 +185,7 @@ public class TalendProducer extends DefaultProducer {
     }
 
     private void invokeTalendJob(Exchange exchange) throws Exception {
-        final TalendESBJobBean jobBean = stickyJob ? jobInstance : createJobInstance();
+        final TalendESBJobBean jobBean = stickyJob ? prepareJobInstance(true, false) : createJobInstance(true);
         if (jobBean == null) {
             throw new IllegalStateException("Job instance not initialized for invocation. ");
         }
@@ -210,8 +207,32 @@ public class TalendProducer extends DefaultProducer {
         }
     }
 
-    private TalendESBJobBean createJobInstance() throws Exception {
-        final TalendJob job = ((TalendEndpoint) getEndpoint()).getJobInstance();
+    private TalendESBJobBean prepareJobInstance(boolean isMandatory, boolean forcePrepare) throws Exception {
+        TalendESBJobBean result = jobInstance;
+        if (result != null) {
+            if (forcePrepare) {
+                result.prepareJob(prepareArgs(null));
+            }
+            return result;
+        }
+        synchronized (this) {
+            if (jobInstance != null) {
+                return jobInstance;
+            }
+            result = createJobInstance(isMandatory);
+            if (result != null) {
+                jobInstance = result;
+                result.prepareJob(prepareArgs(null));
+            }
+            return result;
+        }
+    }
+
+    private TalendESBJobBean createJobInstance(boolean isMandatory) throws Exception {
+        final TalendJob job = ((TalendEndpoint) getEndpoint()).getJobInstance(isMandatory);
+        if (job == null) {
+            return null;
+        }
         TalendESBJobBean jobBean = null;
         LOG.debug("Getting new job instance.");
         try {
