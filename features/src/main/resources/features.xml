@@ -189,6 +189,7 @@
   </feature>
 
   <feature name='tesb-locator-client' version='${project.version}'>
+    <feature>spring-dm</feature>
     <feature version='${cxf.version}'>cxf</feature>
     <feature prerequisite='true'>tesb-zookeeper</feature>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/1_2</bundle>
