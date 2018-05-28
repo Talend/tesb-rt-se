@@ -23,6 +23,5 @@ import routines.system.api.TalendESBJobFactory;
 
 public interface JobResolver {
 
-    TalendESBJobFactory getJobService(String fullJobName) throws Exception;
-    TalendESBJobFactory getJobService(String owner, String fullJobName) throws Exception;
+    TalendESBJobFactory getJobService(String owner, String fullJobName, boolean isMandatory) throws Exception;
 }

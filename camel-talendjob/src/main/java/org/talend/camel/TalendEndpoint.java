@@ -99,20 +99,19 @@ public class TalendEndpoint extends DefaultEndpoint {
         this.stickyJob = stickyJob;
     }
 
-    public TalendJob getJobInstance() throws Exception {
-        final TalendJob jobInstance;
+    public TalendJob getJobInstance(boolean isMandatory) throws Exception {
         final JobResolver jobResolver = JobResolverHolder.getJobResolver();
-        TalendESBJobFactory talendESBJobFactory = null;
         if (null != jobResolver) {
-            talendESBJobFactory = jobResolver.getJobService(owner, clazz);
+            TalendESBJobFactory talendESBJobFactory = jobResolver.getJobService(owner, clazz, isMandatory);
+            if (null != talendESBJobFactory) {
+                return talendESBJobFactory.newTalendESBJob();
+            }
+            if (!isMandatory) {
+                return null;
+            }
         }
-        if (null != talendESBJobFactory) {
-            jobInstance = talendESBJobFactory.newTalendESBJob();
-        } else {
-            Class<?> jobType = this.getCamelContext().getClassResolver().resolveMandatoryClass(clazz);
-            jobInstance = TalendJob.class.cast(getCamelContext().getInjector().newInstance(jobType));
-        }
-        return jobInstance;
+        Class<?> jobType = this.getCamelContext().getClassResolver().resolveMandatoryClass(clazz);
+        return (TalendJob) getCamelContext().getInjector().newInstance(jobType);
     }
 
     public Map<String, String> getEndpointProperties() {
