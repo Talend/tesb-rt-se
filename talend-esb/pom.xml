@@ -436,8 +436,6 @@
                                 <feature>decanter-appender-mongodb</feature>
                                 <feature>decanter-alerting-log</feature>
                                 <feature>decanter-alerting-email</feature>
-                                <feature>elasticsearch/6.1.1</feature>
-                                <feature>kibana/6.1.1</feature>
 								<!-- TESB Features -->
 								<feature>tesb-sam-agent</feature>
 								<feature>tesb-datasource-derby</feature>
