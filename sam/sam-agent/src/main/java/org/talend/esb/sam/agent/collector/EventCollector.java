@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -128,7 +128,7 @@ public class EventCollector {
         	executor = Executors.newFixedThreadPool(this.executorPoolSize);
         }else{
             executor = new ThreadPoolExecutor(executorPoolSize, executorPoolSize, 0, TimeUnit.SECONDS, 
-            		new ArrayBlockingQueue<Runnable>(executorQueueSize), Executors.defaultThreadFactory(), 
+            		new LinkedBlockingQueue<Runnable>(executorQueueSize), Executors.defaultThreadFactory(), 
             			new RejectedExecutionHandlerImpl());
         }
 
