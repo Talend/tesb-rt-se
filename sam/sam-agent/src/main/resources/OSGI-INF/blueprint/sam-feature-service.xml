@@ -36,6 +36,7 @@
             <cm:property name="service.retry.number" value="3"/>
             <cm:property name="service.retry.delay" value="5000"/>
             <cm:property name="executor.pool.size" value="20"/>
+            <cm:property name="executor.queue.size" value="0"/>
             <cm:property name="service.authentication" value="NO"/>
         </cm:default-properties>
     </cm:property-placeholder>
@@ -45,6 +46,7 @@
         <property name="defaultInterval" value="${collector.scheduler.interval}"/>
         <property name="eventsPerMessageCall" value="${collector.maxEventsPerCall}"/>
         <property name="executorPoolSize" value="${executor.pool.size}"/>
+        <property name="executorQueueSize" value="${executor.queue.size}"/>
         <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
         <property name="queue" ref="queue"/>
         <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>

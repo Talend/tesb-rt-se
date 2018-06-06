@@ -23,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,6 +81,9 @@ public class EventCollector {
     //@Value("${executor.pool.size}")
     private int executorPoolSize = 20;
 
+    //@Value("${executor.queue.size}")
+    private int executorQueueSize = 0; 
+
     private ExecutorService executor;
     private Timer scheduler;
 
@@ -117,7 +124,13 @@ public class EventCollector {
                 }
         }
 
-        executor = Executors.newFixedThreadPool(this.executorPoolSize);
+        if(executorQueueSize == 0) {
+        	executor = Executors.newFixedThreadPool(this.executorPoolSize);
+        }else{
+            executor = new ThreadPoolExecutor(executorPoolSize, executorPoolSize, 0, TimeUnit.SECONDS, 
+            		new ArrayBlockingQueue<Runnable>(executorQueueSize), Executors.defaultThreadFactory(), 
+            			new RejectedExecutionHandlerImpl());
+        }
 
         scheduler = new Timer();
         scheduler.scheduleAtFixedRate(new TimerTask() {
@@ -125,6 +138,15 @@ public class EventCollector {
                 sendEventsFromQueue();
             }
         }, 0, getDefaultInterval());
+    }
+
+    public class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
+
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+            LOG.warning("Executor queue size ["+executorQueueSize+"] is exceeded. Extra SAM Events are rejected.");
+        }
+
     }
 
     /**
@@ -193,6 +215,10 @@ public class EventCollector {
 
     public void setExecutorPoolSize(int executorPoolSize) {
         this.executorPoolSize = executorPoolSize;
+    }
+
+    public void setExecutorQueueSize(int executorQueueSize) {
+        this.executorQueueSize = executorQueueSize;
     }
 
     /**
