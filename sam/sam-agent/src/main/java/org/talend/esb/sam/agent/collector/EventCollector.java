@@ -46,6 +46,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.talend.esb.sam.agent.lifecycle.ClientListenerImpl;
 import org.talend.esb.sam.agent.lifecycle.ServiceListenerImpl;
+import org.talend.esb.sam.agent.eventadmin.EventAdminPublisher;
 import org.talend.esb.sam.agent.queue.EventQueue;
 import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.MonitoringException;
@@ -346,6 +347,7 @@ public class EventCollector {
         LOG.info("Put events(" + events.size() + ") to Monitoring Server.");
 
         try {
+        	EventAdminPublisher.publish(events);
             monitoringServiceClient.putEvents(events);
         } catch (MonitoringException e) {
             throw e;
