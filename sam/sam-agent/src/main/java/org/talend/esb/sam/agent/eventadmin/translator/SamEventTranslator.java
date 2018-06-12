@@ -1,17 +1,23 @@
 /*
- * ============================================================================
+ * #%L
+ * Service Activity Monitoring :: Agent
+ * %%
+ * Copyright (C) 2011 - 2012 Talend Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * This source code is available under agreement available at
- * %InstallDIR%\license.txt
- *
- * You should have received a copy of the agreement
- * along with this program; if not, write to Talend SA
- * 9 rue Pages 92150 Suresnes, France
- *
- * ============================================================================
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
  */
+
 package org.talend.esb.sam.agent.eventadmin.translator;
 
 import java.util.Date;
@@ -167,13 +173,7 @@ public class SamEventTranslator {
 			m.put(CUSTOM_INFO, getCustomInfo(samEvent));
 		}
 
-//		Dictionary properties = new Hashtable();
-//
-//		for (Map.Entry<String, Object> e : m.entrySet()) {
-//			if (e.getValue() != null) {
-//				properties.put(e.getKey(), e.getValue());
-//			}
-//		}
+
 
 		return new org.osgi.service.event.Event(topic, m);
 
