@@ -384,6 +384,9 @@
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-camel/${activemq.version}/**</exclude>
                 <exclude>org/apache/qpid/qpid-jms-client/${qpid-jms.version}/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.sparkjava-core/${sparkjava-core.version}/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.mustache-compiler/${mustache-compiler.version}/**</exclude>
                 <!-- Patch jackson-databind version (TESB-21628) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.4.4/**</exclude>
@@ -564,6 +567,21 @@
         <file>
             <source>${basedir}/target/dependencies/qpid-jms-client-${qpid-jms.version}-tesb1.jar</source>
             <outputDirectory>/container/system/org/apache/qpid/qpid-jms-client/${qpid-jms.version}-tesb1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.fastjson-${fastjson.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}.tesb1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.sparkjava-core-${sparkjava-core.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.sparkjava-core/${sparkjava-core.version}.tesb1/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.mustache-compiler-${mustache-compiler.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.mustache-compiler/${mustache-compiler.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- Patch jackson-databind version (TESB-21628) -->
