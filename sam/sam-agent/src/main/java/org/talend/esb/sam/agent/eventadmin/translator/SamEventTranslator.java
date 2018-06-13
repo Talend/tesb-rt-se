@@ -32,6 +32,8 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 public class SamEventTranslator {
+	
+	public static final String SAM_EVENT_TYPE = "SAMEvent";
 
 	public static final String ID = "id";
 
@@ -84,6 +86,8 @@ public class SamEventTranslator {
 	public static final String MESSAGE_ID = "message.id";
 
 	public static final String FLOW_ID = "flow.id";
+	
+	public static final String EVENT_TYPE_CUSTOM = "event.type";
 
 	public static final String CONTENT_CUT = "content.cut";
 
@@ -136,6 +140,8 @@ public class SamEventTranslator {
 		customInfo.put(TRANSPORT_TYPE, samEvent.getMessageInfo().getTransportType());
 		customInfo.put(PORT_TYPE, samEvent.getMessageInfo().getPortType());
 		customInfo.put(CONTENT_CUT, Boolean.toString(samEvent.isContentCut()));
+		customInfo.put(EVENT_TYPE_CUSTOM, samEvent.getEventType().toString());
+		
 
 		Map<String, String> samCustomInfo = samEvent.getCustomInfo();
 		if (null != samCustomInfo) {
@@ -158,7 +164,7 @@ public class SamEventTranslator {
 			m.put(EVENT_UUID, getEventUUID(samEvent));
 			m.put(CORRELATION_ID, getCorrelationID(samEvent));
 			m.put(CATEGORY, getCategory());
-			m.put(EVENT_TYPE, samEvent.getEventType().toString());
+			m.put(EVENT_TYPE, SAM_EVENT_TYPE);
 			m.put(SEVERITY, getSeverity(samEvent.getEventType()));
 			m.put(LOG_MESSAGE, getLogMessage(samEvent));
 			m.put(LOG_SOURCE, getLogSource(samEvent));

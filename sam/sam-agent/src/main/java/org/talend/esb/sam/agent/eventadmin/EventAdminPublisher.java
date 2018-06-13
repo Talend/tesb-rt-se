@@ -50,7 +50,7 @@ public class EventAdminPublisher {
         if (context != null) {
 			ServiceReference<?> ref = context.getServiceReference(EventAdmin.class.getName());
 			if (ref != null) {
-				eventAdmin = (EventAdmin) context.getService(ref);
+				return (EventAdmin) context.getService(ref);
 			}
 		}
 
