@@ -97,6 +97,8 @@ public class EventCollector {
     //@Value("${collector.lifecycleEvent}")
     private boolean sendLifecycleEvent;
 
+    private boolean sendToEventadmin;
+
     private boolean stopSending;
 
     /**
@@ -202,6 +204,15 @@ public class EventCollector {
      */
     public void setSendLifecycleEvent(boolean sendLifecycleEvent) {
         this.sendLifecycleEvent = sendLifecycleEvent;
+    }
+
+    /**
+     * Set if send SAM events to the EventAdmin (for Event Logging)
+     *
+     * @param sendToEventadmin send SAM events to the EventAdmin
+     */
+    public void setSendToEventadmin(boolean sendToEventadmin) {
+        this.sendToEventadmin = sendToEventadmin;
     }
 
     /**
@@ -347,8 +358,10 @@ public class EventCollector {
         LOG.info("Put events(" + events.size() + ") to Monitoring Server.");
 
         try {
-        	EventAdminPublisher.publish(events);
             monitoringServiceClient.putEvents(events);
+            if (sendToEventadmin) {
+                EventAdminPublisher.publish(events);
+            }
         } catch (MonitoringException e) {
             throw e;
         } catch (Exception e) {

@@ -29,6 +29,7 @@
             <cm:property name="collector.scheduler.interval" value="500"/>
             <cm:property name="collector.maxEventsPerCall" value="10"/>
             <cm:property name="collector.lifecycleEvent" value="false"/>
+            <cm:property name="collector.sendToEventadmin" value="false"/>
             <cm:property name="log.messageContent" value="true"/>
             <cm:property name="log.maxContentLength" value="-1"/>
             <cm:property name="log.enforceMessageIDTransfer" value="true"/>
@@ -50,6 +51,7 @@
         <property name="monitoringServiceClient" ref="monitoringServceV1Wrapper"/>
         <property name="queue" ref="queue"/>
         <property name="sendLifecycleEvent" value="${collector.lifecycleEvent}"/>
+        <property name="sendToEventadmin" value="${collector.sendToEventadmin}"/>
     </bean>
 
     <jaxws:client id="monitoringService"
