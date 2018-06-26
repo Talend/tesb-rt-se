@@ -715,6 +715,32 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for decanter bundles (TESB-22332) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter</groupId>
+                                    <artifactId>apache-karaf-decanter</artifactId>
+                                    <version>${decanter.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>apache-karaf-decanter-${decanter.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter.collector</groupId>
+                                    <artifactId>org.apache.karaf.decanter.collector.eventadmin</artifactId>
+                                    <version>${decanter.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.decanter.collector.eventadmin-${decanter.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter.collector</groupId>
+                                    <artifactId>org.apache.karaf.decanter.collector.log</artifactId>
+                                    <version>${decanter.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.decanter.collector.log-${decanter.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -1073,6 +1099,15 @@
                                     <replacefilter
                                         token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7&lt;"
                                         value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
+                                </replace>
+                                <!-- patch for decanter bundles (TESB-22332) -->
+                                <replace file="target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml">
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}&lt;"
+                                        value="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}/jar/TESB&lt;"/>
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.log/${decanter.version}&lt;"
+                                        value="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.log/${decanter.version}/jar/TESB&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
