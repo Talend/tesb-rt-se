@@ -741,6 +741,14 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.decanter.collector.log-${decanter.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter.marshaller</groupId>
+                                    <artifactId>org.apache.karaf.decanter.marshaller.json</artifactId>
+                                    <version>${decanter.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.decanter.marshaller.json-${decanter.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -1108,6 +1116,9 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.log/${decanter.version}&lt;"
                                         value="&gt;mvn:org.apache.karaf.decanter.collector/org.apache.karaf.decanter.collector.log/${decanter.version}/jar/TESB&lt;"/>
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.karaf.decanter.marshaller/org.apache.karaf.decanter.marshaller.json/${decanter.version}&lt;"
+                                        value="&gt;mvn:org.apache.karaf.decanter.marshaller/org.apache.karaf.decanter.marshaller.json/${decanter.version}/jar/TESB&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
