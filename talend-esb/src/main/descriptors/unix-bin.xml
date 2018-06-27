@@ -626,7 +626,7 @@
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.collector.eventadmin-${decanter.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.eventadmi/${decanter.version}/</outputDirectory>
+            <outputDirectory>/container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
