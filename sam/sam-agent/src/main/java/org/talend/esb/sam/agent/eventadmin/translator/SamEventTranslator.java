@@ -160,7 +160,6 @@ public class SamEventTranslator {
 
 		Map<String, Object> m = new HashMap<String, Object>();
 		if (samEvent != null && samEvent.getMessageInfo() != null) {
-			m.put(MESSAGE_ID, samEvent.getMessageInfo().getMessageId());
 			m.put(EVENT_UUID, getEventUUID(samEvent));
 			m.put(CORRELATION_ID, getCorrelationID(samEvent));
 			m.put(CATEGORY, getCategory());
