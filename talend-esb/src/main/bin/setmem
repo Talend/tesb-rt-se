@@ -45,7 +45,7 @@ setupMemorySettings() {
     # echo JAVA_SIXTY_FOUR = ${JAVA_SIXTY_FOUR}
 
     # Check minor java version number in string like 'java version "1.7.0_80"'
-    JAVA_VERSION_MINOR=`"${JAVA}" -version 2>&1 | grep "java version" | sed 's/^.*\".*\.\([^\.]\)\..*$/\1/'`
+    JAVA_VERSION_MINOR=`"${JAVA}" -version 2>&1 | grep " version" | sed 's/^.*\".*\.\([^\.]\)\..*$/\1/'`
 
     if [ -z "${JAVA_MIN_MEM}" ]; then
         if ${JAVA_SIXTY_FOUR}; then

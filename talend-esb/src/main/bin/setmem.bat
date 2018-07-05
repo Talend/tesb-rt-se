@@ -34,7 +34,7 @@ set java_version_file=__JVER%java_version_file%%random%.tmp
 rem Determine whether we use a 64-bit java version
 for /f %%G IN ('findstr "64-Bit" %java_version_file%') DO set sixtyfour=true
 rem Check minor java version number in string like 'java version "1.7.0_80"'
-for /f "tokens=3" %%g in ('findstr /i /c:"java version" %java_version_file%') do (
+for /f "tokens=3" %%g in ('findstr /i /c:" version" %java_version_file%') do (
     set JAVAVER=%%g
 )
 set JAVAVER=%JAVAVER:"=%
