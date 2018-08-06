@@ -396,6 +396,7 @@
                 <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
                 <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/**</exclude>
                 <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/**</exclude>
+                <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
                 <!-- patch for decanter bundles (TESB-22332) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}/org.apache.karaf.decanter.collector.eventadmin-${decanter.version}.jar</exclude>
