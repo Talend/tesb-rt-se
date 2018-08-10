@@ -34,7 +34,7 @@ public class WireTapHelperTest {
 
         Message message = EasyMock.createMock(MessageImpl.class);
 
-        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn("123").anyTimes();
+        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn(123).anyTimes();
         EasyMock.replay(message);
 
         boolean result = WireTapHelper.isMessageContentToBeLogged(message, true);
@@ -73,7 +73,7 @@ public class WireTapHelperTest {
 
         Message message = EasyMock.createMock(MessageImpl.class);
 
-        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn("true").anyTimes();
+        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn(true).anyTimes();
         EasyMock.replay(message);
 
         boolean result = WireTapHelper.isMessageContentToBeLogged(message, false);
@@ -92,5 +92,44 @@ public class WireTapHelperTest {
         boolean result = WireTapHelper.isMessageContentToBeLogged(message, false);
         EasyMock.verify(message);
         assertEquals(false, result);
+    }
+
+    @Test
+    public void testIfCustomIsBooleanTrueAndGlobalIsFalse() {
+
+        Message message = EasyMock.createMock(MessageImpl.class);
+
+        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn(Boolean.TRUE).anyTimes();
+        EasyMock.replay(message);
+
+        boolean result = WireTapHelper.isMessageContentToBeLogged(message, false);
+        EasyMock.verify(message);
+        assertEquals(true, result);
+    }
+
+    @Test
+    public void testIfCustomIsAnytStringAndGlobalIsFalse() {
+
+        Message message = EasyMock.createMock(MessageImpl.class);
+
+        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn("test").anyTimes();
+        EasyMock.replay(message);
+
+        boolean result = WireTapHelper.isMessageContentToBeLogged(message, false);
+        EasyMock.verify(message);
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void testIfCustomIsAnyObjectAndGlobalIsTrue() {
+
+        Message message = EasyMock.createMock(MessageImpl.class);
+
+        EasyMock.expect(message.getContextualProperty(EXTERNAL_PROPERTY_NAME)).andReturn(new Object()).anyTimes();
+        EasyMock.replay(message);
+
+        boolean result = WireTapHelper.isMessageContentToBeLogged(message, true);
+        EasyMock.verify(message);
+        assertEquals(true, result);
     }
 }
