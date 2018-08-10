@@ -59,7 +59,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     @Override
     public void handleMessage(final Message message) throws Fault {
         final InputStream is = message.getContent(InputStream.class);
-        if (logMessageContent) {
+        if (WireTapHelper.isMessageContentToBeLogged(message, logMessageContent)) {
             if (null == is) {
                 Reader reader = message.getContent(Reader.class);
                 if (null != reader) {

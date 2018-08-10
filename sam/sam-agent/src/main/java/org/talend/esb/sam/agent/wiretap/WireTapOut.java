@@ -77,7 +77,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
 
             message.setContent(OutputStream.class, newOut);
 
-            if (os != null && logMessageContent) {
+            if (os != null && WireTapHelper.isMessageContentToBeLogged(message, logMessageContent)) {
                 message.setContent(CachedOutputStream.class, newOut);
             }
 
