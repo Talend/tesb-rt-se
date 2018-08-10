@@ -48,7 +48,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
      *
      * @param logMessageContent the log message content
      */
-    public WireTapIn(boolean logMessageContent) {
+    public WireTapIn(boolean logMessageContent, boolean logMessageContentOverride) {
         super(Phase.RECEIVE);
         this.logMessageContent = logMessageContent;
     }

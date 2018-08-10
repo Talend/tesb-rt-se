@@ -46,7 +46,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
      * @param wireTap the Interceptor
      * @param logMessageContent the log message content
      */
-    public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent) {
+    public WireTapOut(Interceptor<Message> wireTap, boolean logMessageContent, boolean logMessageContentOverride) {
         super(Phase.PRE_STREAM);
         this.wireTap = wireTap;
         this.logMessageContent = logMessageContent;
