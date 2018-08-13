@@ -43,6 +43,7 @@ import org.apache.cxf.phase.Phase;
 public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     private boolean logMessageContent;
 
+    private boolean logMessageContentOverride;
     /**
      * Instantiates a new WireTapIn
      *
@@ -51,6 +52,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     public WireTapIn(boolean logMessageContent, boolean logMessageContentOverride) {
         super(Phase.RECEIVE);
         this.logMessageContent = logMessageContent;
+        this.logMessageContentOverride = logMessageContentOverride;
     }
 
     /* (non-Javadoc)
@@ -59,7 +61,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     @Override
     public void handleMessage(final Message message) throws Fault {
         final InputStream is = message.getContent(InputStream.class);
-        if (WireTapHelper.isMessageContentToBeLogged(message, logMessageContent)) {
+        if (WireTapHelper.isMessageContentToBeLogged(message, logMessageContent, logMessageContentOverride)) {
             if (null == is) {
                 Reader reader = message.getContent(Reader.class);
                 if (null != reader) {

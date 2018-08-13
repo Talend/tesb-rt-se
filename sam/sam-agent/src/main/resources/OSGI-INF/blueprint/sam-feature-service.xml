@@ -31,6 +31,7 @@
             <cm:property name="collector.lifecycleEvent" value="false"/>
             <cm:property name="collector.sendToEventadmin" value="false"/>
             <cm:property name="log.messageContent" value="true"/>
+            <cm:property name="log.messageContent.override" value="true"/>
             <cm:property name="log.maxContentLength" value="-1"/>
             <cm:property name="log.enforceMessageIDTransfer" value="true"/>
             <cm:property name="service.url" value="http://localhost:8040/services/MonitoringServiceSOAP"/>

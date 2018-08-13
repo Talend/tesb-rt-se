@@ -13,12 +13,22 @@ public class WireTapHelper {
      * If the "org.talend.esb.sam.agent.log.messageContent" property value is "true" then log the message content
      * If it is "false" then skip the message content logging
      * Else fall back to global property "log.messageContent"
-     *
+     * 
      * @param message
      * @param logMessageContent
+     * @param logMessageContentOverride
      * @return
      */
-    public static boolean isMessageContentToBeLogged(final Message message, final boolean logMessageContent) {
+    public static boolean isMessageContentToBeLogged(final Message message, final boolean logMessageContent,
+            boolean logMessageContentOverride) {
+
+        /*
+         * If controlling of logging behavior is not allowed externally
+         * then log according to global property value
+         */
+        if (!logMessageContentOverride) {
+            return logMessageContent;
+        }
 
         Object logMessageContentExtObj = message.getContextualProperty(EXTERNAL_PROPERTY_NAME);
 

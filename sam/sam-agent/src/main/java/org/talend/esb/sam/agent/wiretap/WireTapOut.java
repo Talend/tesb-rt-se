@@ -40,6 +40,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
     private Interceptor<Message> wireTap;
     private boolean logMessageContent;
 
+    private boolean logMessageContentOverride;
     /**
      * Instantiates a new wire tap out.
      *
@@ -50,6 +51,7 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
         super(Phase.PRE_STREAM);
         this.wireTap = wireTap;
         this.logMessageContent = logMessageContent;
+        this.logMessageContentOverride = logMessageContentOverride;
     }
 
     /* (non-Javadoc)
@@ -77,7 +79,8 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
 
             message.setContent(OutputStream.class, newOut);
 
-            if (os != null && WireTapHelper.isMessageContentToBeLogged(message, logMessageContent)) {
+            if (os != null && WireTapHelper
+                    .isMessageContentToBeLogged(message, logMessageContent, logMessageContentOverride)) {
                 message.setContent(CachedOutputStream.class, newOut);
             }
 
