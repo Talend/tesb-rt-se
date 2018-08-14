@@ -91,11 +91,11 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.2.4</cxf.version>
-        <camel.version>2.20.1</camel.version>
+        <cxf.version>3.2.6</cxf.version>
+        <camel.version>2.21.2</camel.version>
         <activemq.version>5.15.2</activemq.version>
-        <spring.version>4.3.14.RELEASE</spring.version>
-        <karaf.version>4.1.5</karaf.version>
+        <spring.version>4.3.18.RELEASE</spring.version>
+        <karaf.version>4.1.6</karaf.version>
         <decanter.version>2.0.0</decanter.version>
         <zookeeper.version>3.4.10</zookeeper.version>
         <derby.version>10.8.1.2</derby.version>
@@ -114,9 +114,9 @@
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <osgi.core.version>4.3.1</osgi.core.version>
         <osgi.compendium.version>${osgi.core.version}</osgi.compendium.version>
-        <jetty.version>9.3.14.v20161028</jetty.version>
+        <jetty.version>9.3.24.v20180605</jetty.version>
         <derby.servicemix.version>10.8.1.2_1</derby.servicemix.version>
-        <pax-web-jsp.version>6.0.9</pax-web-jsp.version>
+        <pax-web-jsp.version>6.0.11</pax-web-jsp.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.4_1</cglib.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
@@ -131,8 +131,8 @@
 
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
-        <cxf.build-utils.version>3.4.0</cxf.build-utils.version>
-        <cxf.xjc-utils.version>3.2.1</cxf.xjc-utils.version>
+        <cxf.build-utils.version>3.4.1</cxf.build-utils.version>
+        <cxf.xjc-utils.version>3.2.2</cxf.xjc-utils.version>
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
 

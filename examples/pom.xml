@@ -52,11 +52,11 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <cxf.version>3.2.4</cxf.version>
-        <cxf.xjc.version>3.2.1</cxf.xjc.version>
-        <camel.version>2.20.1</camel.version>
-        <spring.version>4.3.14.RELEASE</spring.version>
-        <karaf.version>4.1.5</karaf.version>
+        <cxf.version>3.2.6</cxf.version>
+        <cxf.xjc.version>3.2.2</cxf.xjc.version>
+        <camel.version>2.21.2</camel.version>
+        <spring.version>4.3.18.RELEASE</spring.version>
+        <karaf.version>4.1.6</karaf.version>
         <activemq.version>5.15.2</activemq.version>
         <osgi.version>4.3.1</osgi.version>
         <eclipse.osgi.version>3.8.0.v20120529-1548</eclipse.osgi.version>

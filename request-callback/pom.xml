@@ -60,11 +60,6 @@
             <artifactId>cxf-rt-transports-jms</artifactId>
             <version>${cxf.version}</version>
         </dependency>
-        <!-- dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-ws-security</artifactId>
-            <version>${cxf.version}-ep</version>
-        </dependency -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-wsdl</artifactId>
