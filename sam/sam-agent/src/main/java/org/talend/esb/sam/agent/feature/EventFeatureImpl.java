@@ -151,7 +151,7 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
     }
 
     @Override
-    @Value("${log.messageContent.override}")
+    @Value("${log.messageContent.override:true}")
     public void setLogMessageContentOverride(boolean logMessageContentOverride) {
         this.logMessageContentOverride = logMessageContentOverride;
     }
