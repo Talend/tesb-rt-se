@@ -134,12 +134,13 @@ public class RequestCallbackOutInterceptor extends AbstractPhaseInterceptor<Soap
 	            maps.setReplyTo(replyToRef);
 	        }
 		}
+/* Have to comment out "RelatesTo" setting after Upgrade CXF to 3.2.6
 		if (maps.getRelatesTo() == null) {
 	        RelatesToType relatesToAttr = new RelatesToType();
 	        relatesToAttr.setRelationshipType("message");
 	        relatesToAttr.setValue(relatesTo);
 	        maps.setRelatesTo(relatesToAttr);
-		}
+		}*/
 	}
 
 	private static Header createHeader(QName headerName, String value) throws Fault {
