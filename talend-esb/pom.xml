@@ -698,23 +698,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>jackson-databind-2.9.3.jar</destFileName>
                                 </artifactItem>
-                                <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
-                                <artifactItem>
-                                    <groupId>org.apache.cxf</groupId>
-                                    <artifactId>cxf-rt-rs-service-description-swagger-ui</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-rs-service-description-swagger-ui-${cxf.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.cxf</groupId>
-                                    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
-                                </artifactItem>
                                 <!-- patch for decanter bundles (TESB-22332) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.decanter</groupId>
@@ -1057,13 +1040,6 @@
                                     <replacefilter
                                         token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.1&lt;"
                                         value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.3&lt;"/>
-                                    <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
-                                    <replacefilter
-                                        token="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/jar/TESB&lt;"/>
-                                    <replacefilter
-                                        token="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
