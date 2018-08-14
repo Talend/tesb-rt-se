@@ -22,8 +22,8 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <cxf.version>3.2.4</cxf.version>
-      <spring.version>4.3.14.RELEASE</spring.version>
+      <cxf.version>3.2.6</cxf.version>
+      <spring.version>4.3.18.RELEASE</spring.version>
    </properties>
 
    <build>
