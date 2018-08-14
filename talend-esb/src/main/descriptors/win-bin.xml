@@ -393,9 +393,6 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.1/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.1/**</exclude>
-                <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
-                <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/**</exclude>
-                <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/**</exclude>
                 <!-- patch for decanter bundles (TESB-22332) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}/org.apache.karaf.decanter.collector.eventadmin-${decanter.version}.jar</exclude>
@@ -604,17 +601,6 @@
         <file>
             <source>${basedir}/target/dependencies/jackson-databind-2.9.3.jar</source>
             <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.3/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
-        <file>
-            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-ui-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for decanter bundles (TESB-22332) -->
