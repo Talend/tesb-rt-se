@@ -387,7 +387,7 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.4.4/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.1/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
-                <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.1/**</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.5/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
                 <!-- patch for decanter bundles (TESB-22332) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
@@ -583,8 +583,8 @@
             <fileMode>0644</fileMode>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/jackson-databind-2.9.3.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.3/</outputDirectory>
+            <source>${basedir}/target/dependencies/jackson-databind-2.9.6.jar</source>
+            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.6/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for decanter bundles (TESB-22332) -->
