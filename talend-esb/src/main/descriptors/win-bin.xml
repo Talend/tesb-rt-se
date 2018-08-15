@@ -376,11 +376,9 @@
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
                 <!-- patch for activemq-camel (TESB-21136) -->
-				<!--
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <exclude>org/apache/activemq/activemq-camel/${activemq.version}/**</exclude>
                 <exclude>org/apache/qpid/qpid-jms-client/${qpid-jms.version}/**</exclude>
-				-->				
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.sparkjava-core/${sparkjava-core.version}/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.mustache-compiler/${mustache-compiler.version}/**</exclude>
@@ -541,7 +539,6 @@
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for activemq-camel (TESB-21136) -->
-        <!--		
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
@@ -558,7 +555,6 @@
             <outputDirectory>/container/system/org/apache/qpid/qpid-jms-client/${qpid-jms.version}-tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        -->			
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.fastjson-${fastjson.version}.tesb1.jar</source>
             <outputDirectory>/container/system/org/apache/servicemix/bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}.tesb1/</outputDirectory>
