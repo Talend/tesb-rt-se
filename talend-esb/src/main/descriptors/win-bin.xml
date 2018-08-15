@@ -205,8 +205,6 @@
                 <exclude>etc/org.apache.karaf.management.cfg</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
-                <!-- patch karaf standard features (TESB-21358) -->
-                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
@@ -374,9 +372,6 @@
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
-                <!-- patch karaf standard features (TESB-21358) -->
-                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <exclude>org/jline/jline/3.6.0/**</exclude>
                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
@@ -531,18 +526,6 @@
         <file>
             <source>${basedir}/target/dependencies/pax-web-features-${pax-web.version}-features.xml</source>
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch karaf standard features (TESB-21358) -->
-        <file>
-            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jline-3.6.2.jar</source>
-            <outputDirectory>/container/system/org/jline/jline/3.6.2/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for pax-logging-log4j2 (TESB-20573) -->
