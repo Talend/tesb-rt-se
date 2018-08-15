@@ -96,7 +96,6 @@
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
                 <version>${karaf.version}</version>
-<!--                 <version>4.0.0.M1</version> -->
 				<executions>
 					<execution>
 						<id>add-features-to-repo</id>
@@ -196,7 +195,7 @@
                                 <feature>camel-caffeine</feature>
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
-                                <feature>camel-cdi</feature>
+<!--                                <feature>camel-cdi</feature-->
                                 <feature>camel-chronicle</feature>
                                 <feature>camel-chunk</feature>
                                 <feature>camel-cm-sms</feature>
@@ -226,6 +225,7 @@
 						        <feature>camel-exec</feature>
 						        <feature>camel-facebook</feature>
                                 <feature>camel-fastjson</feature>
+                                <feature>camel-fhir</feature>
 						        <feature>camel-flatpack</feature>
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
@@ -412,7 +412,7 @@
                                 <feature>camel-zipfile</feature>
                                 <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
-                                <feature>camel-zookeeper-master</feature>
+<!--                                <feature>camel-zookeeper-master</feature>  -->
                                 <!-- Decanter Features -->
                                 <feature>decanter-collector-log</feature>
                                 <feature>decanter-collector-log-socket</feature>
@@ -587,24 +587,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- patch the jline version (TESB-21358) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jline</groupId>
-                                    <artifactId>jline</artifactId>
-                                    <version>3.6.2</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>jline-3.6.2.jar</destFileName>
-                                </artifactItem>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -632,6 +614,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- patch for activemq-camel (TESB-21136) -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-camel</artifactId>
@@ -693,10 +676,10 @@
                                 <artifactItem>
                                     <groupId>com.fasterxml.jackson.core</groupId>
                                     <artifactId>jackson-databind</artifactId>
-                                    <version>2.9.3</version>
+                                    <version>2.9.6</version>
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>jackson-databind-2.9.3.jar</destFileName>
+                                    <destFileName>jackson-databind-2.9.6.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for decanter bundles (TESB-22332) -->
                                 <artifactItem>
@@ -995,6 +978,7 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
+									<!-- patch for activemq-camel (TESB-21136) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}&lt;"
                                         value="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}-tesb1&lt;"/>
@@ -1014,6 +998,9 @@
                                     <replacefilter
                                         token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.1&lt;"
                                         value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
+                                    <replacefilter
+                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.5&lt;"
+                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -1036,22 +1023,12 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
-                                    <!-- Patch jackson-databind version (TESB-21628) -->
-                                    <replacefilter
-                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.1&lt;"
-                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.3&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
-                                </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch the jline version (TESB-21358) -->
-                                    <replacefilter
-                                        token="mvn:org.jline/jline/3.6.0"
-                                        value="mvn:org.jline/jline/3.6.2"/>
                                 </replace>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
@@ -1069,6 +1046,7 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                 </replaceregexp>
+								<!-- patch for activemq-camel (TESB-21136) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter>
                                         <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken> 
@@ -1079,10 +1057,6 @@
                                         value="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}-tesb1&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
-                                    <!-- Patch jackson-databind version (TESB-21628) -->
-                                    <replacefilter
-                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7&lt;"
-                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
                                         value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.10_1&lt;"/>
