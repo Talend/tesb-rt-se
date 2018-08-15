@@ -96,7 +96,6 @@
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
                 <version>${karaf.version}</version>
-<!--                 <version>4.0.0.M1</version> -->
 				<executions>
 					<execution>
 						<id>add-features-to-repo</id>
@@ -196,7 +195,7 @@
                                 <feature>camel-caffeine</feature>
                                 <feature>camel-cassandraql</feature>
 						        <feature>camel-castor</feature>
-                                <feature>camel-cdi</feature>
+<!--                                <feature>camel-cdi</feature-->
                                 <feature>camel-chronicle</feature>
                                 <feature>camel-chunk</feature>
                                 <feature>camel-cm-sms</feature>
@@ -226,6 +225,7 @@
 						        <feature>camel-exec</feature>
 						        <feature>camel-facebook</feature>
                                 <feature>camel-fastjson</feature>
+                                <feature>camel-fhir</feature>
 						        <feature>camel-flatpack</feature>
                                 <feature>camel-fop</feature>
 						        <feature>camel-freemarker</feature>
@@ -412,7 +412,7 @@
                                 <feature>camel-zipfile</feature>
                                 <feature>camel-zipkin</feature>
                                 <feature>camel-zookeeper</feature>
-                                <feature>camel-zookeeper-master</feature>
+<!--                                <feature>camel-zookeeper-master</feature>  -->
                                 <!-- Decanter Features -->
                                 <feature>decanter-collector-log</feature>
                                 <feature>decanter-collector-log-socket</feature>
