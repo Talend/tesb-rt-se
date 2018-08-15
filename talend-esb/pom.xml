@@ -633,7 +633,6 @@
                                     <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <!-- patch for activemq-camel (TESB-21136) -->
-                                <!--
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-camel</artifactId>
@@ -650,7 +649,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>qpid-jms-client-${qpid-jms.version}-tesb1.jar</destFileName>
                                 </artifactItem>
-                                -->
                                 <artifactItem>
                                     <groupId>org.apache.servicemix.bundles</groupId>
                                     <artifactId>org.apache.servicemix.bundles.fastjson</artifactId>
@@ -999,11 +997,9 @@
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
 									<!-- patch for activemq-camel (TESB-21136) -->
-									<!--
                                     <replacefilter
                                         token="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}&lt;"
                                         value="&gt;mvn:org.apache.qpid/qpid-jms-client/${qpid-jms.version}-tesb1&lt;"/>
-									-->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}&lt;"
                                         value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.fastjson/${fastjson.version}.tesb1&lt;"/>
@@ -1076,7 +1072,6 @@
                                     </fileset>
                                 </replaceregexp>
 								<!-- patch for activemq-camel (TESB-21136) -->
-								<!--
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter>
                                         <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken> 
@@ -1086,7 +1081,6 @@
                                         token="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}&lt;"
                                         value="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}-tesb1&lt;"/>
                                 </replace>
-								-->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <!-- Patch jackson-databind version (TESB-21628) -->
                                     <replacefilter
