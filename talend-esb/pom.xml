@@ -587,6 +587,16 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>pax-web-features-${pax-web.version}-features.xml</destFileName>
                                 </artifactItem>
+                                <!-- patch the jetty version (TESB-22886) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -1029,6 +1039,12 @@
                                     <replacefilter
                                         token="commons-collections/commons-collections/3.2.1"
                                         value="commons-collections/commons-collections/${commons-collections.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <!-- patch the jetty version (TESB-22886) -->
+                                    <replacefilter
+                                        token="9.3.21.v20170918"
+                                        value="9.3.24.v20180605"/>
                                 </replace>
                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
