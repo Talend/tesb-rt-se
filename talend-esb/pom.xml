@@ -834,24 +834,6 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>unpack-jolokia</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.jolokia</groupId>
-									<artifactId>jolokia-war</artifactId>
-									<version>${jolokia.version}</version>
-									<type>war</type>
-									<outputDirectory>target/dependencies/jolokia</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>
