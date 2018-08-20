@@ -1015,6 +1015,15 @@
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
+                                    <!-- Patch the TESB-23159 -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.1.0</replacetoken> 
+                                        <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken> 
+                                        <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
