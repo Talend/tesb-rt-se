@@ -725,6 +725,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.decanter.marshaller.json-${decanter.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for cxf-core (TESB-23159) -->
+                                <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-core</artifactId>
+                                    <version>${cxf.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>cxf-core-${cxf.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -1024,6 +1033,10 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken> 
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
+                                    <!-- patch for cxf-core (TESB-23159) -->
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}&lt;"
+                                        value="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
