@@ -26,7 +26,9 @@ import org.apache.cxf.message.Message;
  */
 public class WireTapHelper {
 
-    private static final String EXTERNAL_PROPERTY_NAME = "org.talend.esb.sam.agent.log.messageContent";
+    public static final String EXTERNAL_PROPERTY_NAME = "org.talend.esb.sam.agent.log.messageContent";
+    
+    public static final String CONTENT_LOGGING_IS_DISABLED = "[CONTENT LOGGING IS DISABLED]";
 
     /**
      * If the "org.talend.esb.sam.agent.log.messageContent" property value is "true" then log the message content

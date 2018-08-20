@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.Fault;
@@ -121,6 +122,26 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        }else {
+            try {
+                final CachedOutputStream cos = new CachedOutputStream();
+                cos.write(WireTapHelper.CONTENT_LOGGING_IS_DISABLED.getBytes(Charset.forName("UTF-8")));
+                message.setContent(CachedOutputStream.class, cos);
+                message.setContent(InputStream.class, is);
+                message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+                    @Override
+                    public void handleMessage(Message message) throws Fault {
+                        if (cos != null) {
+                            try {
+                                cos.close();
+                            } catch (IOException e) {
+                            }
+                        }
+                    }
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }

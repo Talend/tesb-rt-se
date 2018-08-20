@@ -19,8 +19,10 @@
  */
 package org.talend.esb.sam.agent.wiretap;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.interceptor.Interceptor;
@@ -79,9 +81,28 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
 
             message.setContent(OutputStream.class, newOut);
 
-            if (os != null && WireTapHelper
+            if (WireTapHelper
                     .isMessageContentToBeLogged(message, logMessageContent, logMessageContentOverride)) {
                 message.setContent(CachedOutputStream.class, newOut);
+            }else {
+                try {
+                    final CachedOutputStream cos = new CachedOutputStream();
+                    cos.write(WireTapHelper.CONTENT_LOGGING_IS_DISABLED.getBytes(Charset.forName("UTF-8")));
+                    message.setContent(CachedOutputStream.class, cos);
+                    message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+                        @Override
+                        public void handleMessage(Message message) throws Fault {
+                            if (cos != null) {
+                                try {
+                                    cos.close();
+                                } catch (IOException e) {
+                                }
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             if (wireTap != null) {
