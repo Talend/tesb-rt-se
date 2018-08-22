@@ -79,17 +79,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                         message.setContent(InputStream.class, cos.getInputStream());
                         message.setContent(Reader.class, null);
                         message.setContent(CachedOutputStream.class, cos);
-                        message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-    						@Override
-    						public void handleMessage(Message message) throws Fault {
-    							if (cos != null) {
-    								try {
-    									cos.close();
-    								} catch (IOException e) {
-    								}
-    							}
-      					    }
-    					});
+                        closeCachedOutputStream(message, cos);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } finally {
@@ -108,17 +98,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                     IOUtils.copyAndCloseInput(is, cos);
                     message.setContent(InputStream.class, cos.getInputStream());
                     message.setContent(CachedOutputStream.class, cos);
-                    message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-						@Override
-						public void handleMessage(Message message) throws Fault {
-							if (cos != null) {
-								try {
-									cos.close();
-								} catch (IOException e) {
-								}
-							}
-  					    }
-					});
+                    closeCachedOutputStream(message, cos);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -129,21 +109,24 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                 cos.write(WireTapHelper.CONTENT_LOGGING_IS_DISABLED.getBytes(Charset.forName("UTF-8")));
                 message.setContent(CachedOutputStream.class, cos);
                 message.setContent(InputStream.class, is);
-                message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-                    @Override
-                    public void handleMessage(Message message) throws Fault {
-                        if (cos != null) {
-                            try {
-                                cos.close();
-                            } catch (IOException e) {
-                            }
-                        }
-                    }
-                });
+                closeCachedOutputStream(message, cos);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
+    private void closeCachedOutputStream(final Message message, final CachedOutputStream cos) {
+        message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+        	@Override
+        	public void handleMessage(Message message) throws Fault {
+        		if (cos != null) {
+        			try {
+        				cos.close();
+        			} catch (IOException e) {
+        			}
+        		}
+            }
+        });
+    }
 }

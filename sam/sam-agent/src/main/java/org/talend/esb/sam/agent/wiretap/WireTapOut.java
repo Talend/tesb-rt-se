@@ -89,17 +89,6 @@ public class WireTapOut extends AbstractPhaseInterceptor<Message> {
                     final CachedOutputStream cos = new CachedOutputStream();
                     cos.write(WireTapHelper.CONTENT_LOGGING_IS_DISABLED.getBytes(Charset.forName("UTF-8")));
                     message.setContent(CachedOutputStream.class, cos);
-                    message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-                        @Override
-                        public void handleMessage(Message message) throws Fault {
-                            if (cos != null) {
-                                try {
-                                    cos.close();
-                                } catch (IOException e) {
-                                }
-                            }
-                        }
-                    });
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
