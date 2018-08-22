@@ -619,7 +619,6 @@
         <file>
             <source>${basedir}/target/dependencies/cxf-core-${cxf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
-            <destName>cxf-core-${cxf.version}.jar</destName>
             <fileMode>0644</fileMode>
         </file>
     </files>
