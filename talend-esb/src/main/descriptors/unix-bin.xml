@@ -205,6 +205,8 @@
                 <exclude>etc/org.apache.karaf.management.cfg</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
+                <!-- patch karaf standard features (TESB-22886) -->
+                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
@@ -269,7 +271,6 @@
                 <exclude>bin/**</exclude>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
-                <exclude>conf/jetty.xml</exclude>
             </excludes>
         </fileSet>
 
@@ -288,12 +289,6 @@
                 <include>*.bat</include>
                 <include>*.cmd</include>
             </includes>
-        </fileSet>
-
-        <!-- Copy jolokia into activemq/webapps/jolokia subdirectories for unix -->
-        <fileSet>
-            <directory>target/dependencies/jolokia</directory>
-            <outputDirectory>/activemq/webapps/jolokia</outputDirectory>
         </fileSet>
 
         <!-- Copy license and other files from root -->
@@ -372,6 +367,8 @@
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <exclude>commons-collections/commons-collections/3.2.1/**</exclude>
+                <!-- patch karaf standard features (TESB-22886) -->
+                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
@@ -394,6 +391,8 @@
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.eventadmin/${decanter.version}/org.apache.karaf.decanter.collector.eventadmin-${decanter.version}.jar</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.log/${decanter.version}/org.apache.karaf.decanter.collector.log-${decanter.version}.jar</exclude>
                 <exclude>org/apache/karaf/decanter/marshaller/org.apache.karaf.decanter.marshaller.json/${decanter.version}/org.apache.karaf.decanter.marshaller.json-${decanter.version}.jar</exclude>
+                <!-- patch for cxf-core (TESB-23159) -->
+                <exclude>org/apache/cxf/cxf-core/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -526,6 +525,13 @@
             <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <!-- patch karaf standard features (TESB-22886) -->
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
         <!-- patch for pax-logging-log4j2 (TESB-20573) -->
         <file>
             <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
@@ -607,6 +613,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.marshaller.json-${decanter.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/decanter/marshaller/org.apache.karaf.decanter.marshaller.json/${decanter.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for cxf-core (TESB-23159) -->
+        <file>
+            <source>${basedir}/target/dependencies/cxf-core-${cxf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
