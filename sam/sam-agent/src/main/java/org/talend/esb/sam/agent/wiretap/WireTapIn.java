@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.Fault;
@@ -43,14 +44,16 @@ import org.apache.cxf.phase.Phase;
 public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     private boolean logMessageContent;
 
+    private boolean logMessageContentOverride;
     /**
      * Instantiates a new WireTapIn
      *
      * @param logMessageContent the log message content
      */
-    public WireTapIn(boolean logMessageContent) {
+    public WireTapIn(boolean logMessageContent, boolean logMessageContentOverride) {
         super(Phase.RECEIVE);
         this.logMessageContent = logMessageContent;
+        this.logMessageContentOverride = logMessageContentOverride;
     }
 
     /* (non-Javadoc)
@@ -59,7 +62,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
     @Override
     public void handleMessage(final Message message) throws Fault {
         final InputStream is = message.getContent(InputStream.class);
-        if (logMessageContent) {
+        if (WireTapHelper.isMessageContentToBeLogged(message, logMessageContent, logMessageContentOverride)) {
             if (null == is) {
                 Reader reader = message.getContent(Reader.class);
                 if (null != reader) {
@@ -76,17 +79,7 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                         message.setContent(InputStream.class, cos.getInputStream());
                         message.setContent(Reader.class, null);
                         message.setContent(CachedOutputStream.class, cos);
-                        message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-    						@Override
-    						public void handleMessage(Message message) throws Fault {
-    							if (cos != null) {
-    								try {
-    									cos.close();
-    								} catch (IOException e) {
-    								}
-    							}
-      					    }
-    					});
+                        closeCachedOutputStream(message, cos);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } finally {
@@ -105,22 +98,35 @@ public class WireTapIn extends AbstractPhaseInterceptor<Message> {
                     IOUtils.copyAndCloseInput(is, cos);
                     message.setContent(InputStream.class, cos.getInputStream());
                     message.setContent(CachedOutputStream.class, cos);
-                    message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
-						@Override
-						public void handleMessage(Message message) throws Fault {
-							if (cos != null) {
-								try {
-									cos.close();
-								} catch (IOException e) {
-								}
-							}
-  					    }
-					});
+                    closeCachedOutputStream(message, cos);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
+        }else {
+            try {
+                final CachedOutputStream cos = new CachedOutputStream();
+                cos.write(WireTapHelper.CONTENT_LOGGING_IS_DISABLED.getBytes(Charset.forName("UTF-8")));
+                message.setContent(CachedOutputStream.class, cos);
+                message.setContent(InputStream.class, is);
+                closeCachedOutputStream(message, cos);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
+    private void closeCachedOutputStream(final Message message, final CachedOutputStream cos) {
+        message.getInterceptorChain().add(new AbstractPhaseInterceptor<Message>(Phase.POST_INVOKE) {
+        	@Override
+        	public void handleMessage(Message message) throws Fault {
+        		if (cos != null) {
+        			try {
+        				cos.close();
+        			} catch (IOException e) {
+        			}
+        		}
+            }
+        });
+    }
 }

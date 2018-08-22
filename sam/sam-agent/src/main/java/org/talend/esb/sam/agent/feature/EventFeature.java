@@ -47,4 +47,10 @@ public interface EventFeature extends Feature {
 	 */
 	void setEnforceMessageIDTransfer(boolean enforceMessageIDTransfer);
 
+	/**
+	 * If message content logging behaviour can be locally overridden
+	 * @param logMessageContentOverride
+	 */
+	void setLogMessageContentOverride(boolean logMessageContentOverride);
+
 }

@@ -57,6 +57,7 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
      * Log the message content to Event as Default
      */
     private boolean logMessageContent = true;
+
     /*
      * No max message content limitation as Default
      */
@@ -66,6 +67,11 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
      * No WS-Addressing MessageID transfer as Default
      */
     private boolean enforceMessageIDTransfer;
+
+    /*
+     * Allow override of message content logging by default
+     */
+    private boolean logMessageContentOverride = true;
 
     private EventProducerInterceptor epi;
 
@@ -115,12 +121,12 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
         provider.getOutInterceptors().add(flowIdProducerOut);
         provider.getOutFaultInterceptors().add(flowIdProducerOut);
 
-        WireTapIn wireTapIn = new WireTapIn(logMessageContent);
+        WireTapIn wireTapIn = new WireTapIn(logMessageContent, logMessageContentOverride);
         provider.getInInterceptors().add(wireTapIn);
         provider.getInInterceptors().add(epi);
         provider.getInFaultInterceptors().add(epi);
 
-        WireTapOut wireTapOut = new WireTapOut(epi, logMessageContent);
+        WireTapOut wireTapOut = new WireTapOut(epi, logMessageContent, logMessageContentOverride);
         provider.getOutInterceptors().add(wireTapOut);
         provider.getOutFaultInterceptors().add(wireTapOut);
 
@@ -141,10 +147,16 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
     @Override
     @Value("${log.enforceMessageIDTransfer}")
     public void setEnforceMessageIDTransfer(boolean enforceMessageIDTransfer) {
-		this.enforceMessageIDTransfer = enforceMessageIDTransfer;
-	}
+        this.enforceMessageIDTransfer = enforceMessageIDTransfer;
+    }
 
-	/**
+    @Override
+    @Value("${log.messageContent.override:true}")
+    public void setLogMessageContentOverride(boolean logMessageContentOverride) {
+        this.logMessageContentOverride = logMessageContentOverride;
+    }
+
+    /**
      * Sets the queue.
      *
      * @param queue the new queue
@@ -154,7 +166,7 @@ public class EventFeatureImpl extends AbstractFeature implements EventFeature{
         if (epi == null) {
             MessageToEventMapper mapper = new MessageToEventMapper();
             mapper.setMaxContentLength(maxContentLength);
-            
+
             epi = new EventProducerInterceptor(mapper, queue);
         }
     }
