@@ -734,6 +734,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-core-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-cxf (TESB-23301) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-cxf</artifactId>
+                                    <version>${camel.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-cxf-${camel.version}-TESB.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -1002,6 +1011,10 @@
                                     <replacefilter
                                         token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.5&lt;"
                                         value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6&lt;"/>
+                                    <!-- patch for camel-cxf (TESB-23301) -->
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.camel/camel-cxf/${camel.version}&lt;"
+                                        value="&gt;mvn:org.apache.camel/camel-cxf/${camel.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
