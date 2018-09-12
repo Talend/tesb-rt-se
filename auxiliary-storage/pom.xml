@@ -61,7 +61,6 @@
         <jcr-version>2.0</jcr-version>
         <guava.version>15.0</guava.version>
         <jackrabbit.version>2.14.2</jackrabbit.version>
-        <servicemix.derby.version>10.8.1.2_1</servicemix.derby.version>
         <lucene-core.version>3.6.2</lucene-core.version>
         <lucene-analyzer-common.version>4.8.0</lucene-analyzer-common.version>
         <tika-core.version>1.7</tika-core.version>

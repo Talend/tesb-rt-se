@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.derby</artifactId>
-            <version>10.8.1.2_1</version>
+            <version>${derby.servicemix.version}</version>
         </dependency>
 
 
