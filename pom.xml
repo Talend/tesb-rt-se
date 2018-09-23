@@ -99,7 +99,7 @@
         <decanter.version>2.1.0</decanter.version>
         <zookeeper.version>3.4.10</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
-        <derby.servicemix.version>10.14.2.0_1</derby.servicemix.version>
+        <derby.servicemix.version>10.14.2.0_2</derby.servicemix.version>
         <slf4j.version>1.7.12</slf4j.version>
         <commons-lang.version>2.6</commons-lang.version>
         <dom4j.bundle.version>1.6.1_5</dom4j.bundle.version>
