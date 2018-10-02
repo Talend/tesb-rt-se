@@ -390,6 +390,9 @@
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
                 <!-- patch for camel-cxf (TESB-23301) -->
                 <exclude>org/apache/camel/camel-cxf/${camel.version}/**</exclude>
+                <!-- patch for decanter bundles (TESB-23679) -->
+                <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.log/${decanter.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -600,6 +603,18 @@
         <file>
             <source>${basedir}/target/dependencies/camel-cxf-${camel.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/camel/camel-cxf/${camel.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for decanter bundles (TESB-23679) -->
+        <file>
+            <source>${basedir}/target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml</source>
+            <outputDirectory>/container/system/org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.decanter.appender.log-${decanter.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.log/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

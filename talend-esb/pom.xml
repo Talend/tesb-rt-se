@@ -709,6 +709,23 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>camel-cxf-${camel.version}-TESB.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for decanter bundles (TESB-23679) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter</groupId>
+                                    <artifactId>apache-karaf-decanter</artifactId>
+                                    <version>${decanter.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>apache-karaf-decanter-${decanter.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.decanter.appender</groupId>
+                                    <artifactId>org.apache.karaf.decanter.appender.log</artifactId>
+                                    <version>${decanter.version}.tesb1</version>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.decanter.appender.log-${decanter.version}.tesb1.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -1059,6 +1076,12 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
                                         value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.10_1&lt;"/>
+                                </replace>
+                                <!-- patch for decanter bundles (TESB-23679) -->
+                                <replace file="target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml">
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.karaf.decanter.appender/org.apache.karaf.decanter.appender.log/${decanter.version}&lt;"
+                                        value="&gt;mvn:org.apache.karaf.decanter.appender/org.apache.karaf.decanter.appender.log/${decanter.version}.tesb1&lt;"/>
                                 </replace>
                             </target>
                         </configuration>
