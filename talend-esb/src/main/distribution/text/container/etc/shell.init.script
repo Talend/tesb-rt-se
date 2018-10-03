@@ -40,12 +40,14 @@ tesb:stop-all = { tesb:stop-sts; tesb:stop-sam; tesb:stop-locator; tesb:stop-aux
 
 // Event Monitoring - BEGIN
 tesb:config-em-sam-agent = { config:edit --force org.talend.esb.sam.agent; config:property-set collector.sendToEventadmin $1; config:update };
-tesb:start-em-default = { feature:install decanter-common; feature:install decanter-appender-file; feature:install decanter-collector-log; feature:install decanter-collector-eventadmin; tesb:config-em-sam-agent true};
-tesb:stop-em-default = { feature:uninstall decanter-collector-eventadmin; feature:uninstall decanter-collector-log; feature:uninstall decanter-appender-file; feature:uninstall decanter-common; tesb:config-em-sam-agent false};
-tesb:start-em-agent-file = { tesb:start-em-default };
-tesb:stop-em-agent-file = { tesb:stop-em-default };
+tesb:start-em-default = { feature:install decanter-common; feature:install decanter-appender-log; feature:install decanter-collector-log; feature:install decanter-collector-eventadmin; tesb:config-em-sam-agent true};
+tesb:stop-em-default = { feature:uninstall decanter-collector-eventadmin; feature:uninstall decanter-collector-log; feature:uninstall decanter-appender-log; feature:uninstall decanter-common; tesb:config-em-sam-agent false};
+tesb:start-em-agent-log = { tesb:start-em-default };
+tesb:stop-em-agent-log = { tesb:stop-em-default };
+tesb:start-em-agent-file = { feature:install decanter-common; feature:install decanter-appender-file; feature:install decanter-collector-log; feature:install decanter-collector-eventadmin; tesb:config-em-sam-agent true};
+tesb:stop-em-agent-file = { feature:uninstall decanter-collector-eventadmin; feature:uninstall decanter-collector-log; feature:uninstall decanter-appender-file; feature:uninstall decanter-common; tesb:config-em-sam-agent false};
 tesb:start-em-agent-jms = {  feature:install decanter-common; feature:install decanter-appender-jms; feature:install decanter-collector-log; feature:install decanter-collector-eventadmin; tesb:config-em-sam-agent true};
 tesb:stop-em-agent-jms = { feature:uninstall decanter-collector-eventadmin; feature:uninstall decanter-collector-log; feature:uninstall decanter-appender-jms; feature:uninstall decanter-common; tesb:config-em-sam-agent false};
-tesb:start-em-proxy-jms = { feature:install decanter-common; feature:install decanter-appender-file; feature:install decanter-collector-jms; };
-tesb:stop-em-proxy-jms = { feature:uninstall decanter-collector-jms; feature:uninstall decanter-appender-file; feature:uninstall decanter-common; };
+tesb:start-em-proxy-jms = { feature:install decanter-common; feature:install decanter-appender-log; feature:install decanter-collector-jms; };
+tesb:stop-em-proxy-jms = { feature:uninstall decanter-collector-jms; feature:uninstall decanter-appender-log; feature:uninstall decanter-common; };
 // Event Monitoring - END
