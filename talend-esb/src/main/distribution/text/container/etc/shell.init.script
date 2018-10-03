@@ -51,4 +51,3 @@ tesb:stop-em-agent-jms = { feature:uninstall decanter-collector-eventadmin; feat
 tesb:start-em-proxy-jms = { feature:install decanter-common; feature:install decanter-appender-log; feature:install decanter-collector-jms; };
 tesb:stop-em-proxy-jms = { feature:uninstall decanter-collector-jms; feature:uninstall decanter-appender-log; feature:uninstall decanter-common; };
 // Event Monitoring - END
-
