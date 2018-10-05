@@ -15,11 +15,6 @@ filebeat.prospectors:
   json.message_key: log
 
 logging.metrics.enabled: false
-
-#In this example, the pattern matches the following lines:
-#    a line that begins with spaces followed by the word at or ...
-#    a line that begins with the words Caused by: 
-
 #----------------------------- Logstash output --------------------------------
 output.logstash:
   # The Logstash hosts
