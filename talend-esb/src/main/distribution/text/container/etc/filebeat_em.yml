@@ -1,39 +1,32 @@
+###################### Filebeat Configuration Example #########################
+
+#=========================== Filebeat prospectors =============================
+
 filebeat.prospectors:
 
 - type: log
   enabled: true
   paths:
-        - ${LOG_PATH:H:\product\7.1.1\Talend-Runtime-V7.1.1-SNAPSHOT\container\data\eventmonitoring\em.log}
+    - ${LOG_PATH:<You need to update this path to point ${karaf.data}/eventmonitoring/em*.log*>}
   fields:
-  app_id: ${APP_NAME:Decanter}
+    app_id: ${APP_NAME:ESB}
+  tail_files: true
   fields_under_root: true
   json.keys_under_root: true
-
-# document_type: "ESB"
-# json.overwrite_keys: true
-# json.message_key: logSource
-#---------------------------Managing Multiline Messages----------------------
-# multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-# multiline.negate: true
-# multiline.match: after
+  json.message_key: log
 
 logging.metrics.enabled: false
+#---------------------------Managing Multiline Messages----------------------
+multiline.pattern: '^[[:space:]]+|^Caused by:'
+multiline.negate: false
+multiline.match: after
+
 #In this example, the pattern matches the following lines:
-# a line that begins with spaces followed by the word at or ...
-# a line that begins with the words Caused by:
+#    a line that begins with spaces followed by the word at or ...
+#    a line that begins with the words Caused by: 
+
 #----------------------------- Logstash output --------------------------------
-#output.logstash:
-# The Logstash hosts
-# hosts: ["${LOGSTASH_HOSTS:localhost}:${LOGSTASH_PORT:5044}"]
-# hosts: ["localhost:5044"]
+output.logstash:
+  # The Logstash hosts
+  hosts: ["${LOGSTASH_HOSTS:localhost}:${LOGSTASH_PORT:5044}"]
 
-setup.template.enabled: false
-setup.template.name: "template_esb"
-setup.template.overwrite: false
-#setup.template.fields: "H:/product/7.1.1/logserv/template_esb.json"
-#setup.template.pattern: "talendesb-*"
-
-output.elasticsearch:
-  hosts: ["localhost:9200"]
-  index: "talendesb-%{+yyyy.MM.dd}"
-  pipeline: "pipeline_set_esb_type"
