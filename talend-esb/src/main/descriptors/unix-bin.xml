@@ -386,8 +386,9 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.5/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
-                <!-- patch for cxf-core (TESB-23159) -->
+                <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
+                <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
                 <!-- patch for camel-cxf (TESB-23301) -->
                 <exclude>org/apache/camel/camel-cxf/${camel.version}/**</exclude>
                 <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
@@ -594,10 +595,15 @@
             <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.6/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for cxf-core (TESB-23159) -->
+        <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
         <file>
             <source>${basedir}/target/dependencies/cxf-core-${cxf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-transports-http-${cxf.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for camel-cxf (TESB-23301) -->

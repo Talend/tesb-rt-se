@@ -691,7 +691,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>jackson-databind-2.9.6.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch for cxf-core (TESB-23159) -->
+                                <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
                                     <artifactId>cxf-core</artifactId>
@@ -699,6 +699,14 @@
                                     <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-core-${cxf.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-rt-transports-http</artifactId>
+                                    <version>${cxf.version}</version>
+                                    <classifier>TESB</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>cxf-rt-transports-http-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for camel-cxf (TESB-23301) -->
                                 <artifactItem>
@@ -1036,10 +1044,13 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken> 
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
-                                    <!-- patch for cxf-core (TESB-23159) -->
+                                    <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}&lt;"
                                         value="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}/jar/TESB&lt;"/>
+                                    <replacefilter
+                                        token="&gt;mvn:org.apache.cxf/cxf-rt-transports-http/${cxf.version}&lt;"
+                                        value="&gt;mvn:org.apache.cxf/cxf-rt-transports-http/${cxf.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
