@@ -900,8 +900,9 @@
 									<flattenmapper />
 								</copy>
 								<copy todir="target/add-ons/datasources/sap">
-									<fileset dir="${basedir}/../talend-sapjco3-connector/target">
-										<include name="**/*.jar" />
+									<fileset dir="${basedir}/../talend-sapjco3-connector">
+										<include name="**/target/*.jar" />
+                                        <patternset refid="no.sources.javadoc"/>
 									</fileset>
 								</copy>
                                 <copy todir="target/add-ons/registry/lib">
