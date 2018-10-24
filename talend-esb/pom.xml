@@ -899,6 +899,11 @@
 									</fileset>
 									<flattenmapper />
 								</copy>
+								<copy todir="target/add-ons/datasources/sap">
+									<fileset dir="${basedir}/../talend-sapjco3-connector/target">
+										<include name="**/*.jar" />
+									</fileset>
+								</copy>
                                 <copy todir="target/add-ons/registry/lib">
                                     <fileset dir="${basedir}/../policies">
                                         <include name="**/target/*.jar" />

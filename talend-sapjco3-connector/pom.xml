@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.sap</groupId>
-    <artifactId>talend.sapjco3.connector</artifactId>
+    <artifactId>talend-sapjco3-connector</artifactId>
     <version>5.5.0</version>
     <packaging>bundle</packaging>
     <name>Talend SAPJCo3 Connector</name>

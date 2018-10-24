@@ -157,6 +157,7 @@
         <module>auxiliary-storage</module>
         <module>request-callback</module>
         <module>transport-jms</module>
+        <module>talend-sapjco3-connector</module>
     </modules>
 
     <dependencyManagement>

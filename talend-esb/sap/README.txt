@@ -52,13 +52,13 @@ define connection pool properties.
 
 Ensure that the connection parameters are correct.
 
-The destination connection name is defined in the Blueprint configuration of the talend.sapjco3.connector-5.5.0.jar
+The destination connection name is defined in the Blueprint configuration of the talend-sapjco3-connector-5.5.0.jar
 src/main/resources/OSGI-INF/blueprintorg.talend.sap.connection.xml:
 <property name="connectionPoolName" value="SAP_CONNECTION_POOL"/>
 
 2. Deploying the connection pool to Talend Runtime.
 Copy the file org.talend.sap.connection.cfg to <Talend-ESB>\container\etc\
-Copy the file talend.sapjco3.connector-5.5.0.jar to <Talend-ESB>\container\deploy\
+Copy the file talend-sapjco3-connector-5.5.0.jar to <Talend-ESB>\container\deploy\
 
 Now SAP_CONNECTION_POOL is created and can be used.
 
