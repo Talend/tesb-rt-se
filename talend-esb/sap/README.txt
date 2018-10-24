@@ -19,7 +19,7 @@ where <sapjco3_home> is the path where SAP Java Connector is installed in the pr
 To check that the JAR is installed correctly, use the following command in the Karaf console:
 karaf@trun> list | grep SAP
 
-[ 311] [Active     ] [            ] [       ] [   80] SAP Java Connector v3 (7.30.1)
+316 | Active   |  80 | 7.30.1                | SAP_Java_Connector_v3
 
 Installing talend-sap-hibersap
 ==============================
@@ -29,8 +29,8 @@ feature:install talend-sap-hibersap
 To check that the JARs are installed correctly, use the following command in the Karaf console:
 karaf@trun> list | grep Hibersap
 
-[ 312] [Active     ] [            ] [       ] [   80] Hibersap Core (1.2.0)
-[ 313] [Active     ] [            ] [       ] [   80] Hibersap JCo (1.2.0)
+317 | Active   |  80 | 1.2.0                 | Hibersap Core
+318 | Active   |  80 | 1.2.0                 | Hibersap JCo
 
 Connection pool configuration and deployment
 ============================================
@@ -52,17 +52,17 @@ define connection pool properties.
 
 Ensure that the connection parameters are correct.
 
-The destination connection name is defined in the Spring configuration 
-org.talend.sap.connection.xml:
-<value>SAP_CONNECTION_POOL</value>
+The destination connection name is defined in the Blueprint configuration of the talend.sapjco3.connector-5.5.0.jar
+src/main/resources/OSGI-INF/blueprintorg.talend.sap.connection.xml:
+<property name="connectionPoolName" value="SAP_CONNECTION_POOL"/>
 
 2. Deploying the connection pool to Talend Runtime.
 Copy the file org.talend.sap.connection.cfg to <Talend-ESB>\container\etc\
-Copy the file org.talend.sap.connection.xml to <Talend-ESB>\container\deploy\
+Copy the file talend.sapjco3.connector-5.5.0.jar to <Talend-ESB>\container\deploy\
 
 Now SAP_CONNECTION_POOL is created and can be used.
 
 To check if the connection pool is deployed correctly, use the following command in the Karaf console: 
 karaf@trun> list | grep SAPJCo3
 
-[ 317] [Active     ] [            ] [Started] [   80] Talend SAPJCo3 Connector (5.5)
+326 | Active   |  80 | 5.5.0                 | Talend SAPJCo3 Connector
