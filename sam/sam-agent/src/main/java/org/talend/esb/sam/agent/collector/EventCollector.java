@@ -358,9 +358,10 @@ public class EventCollector {
         LOG.info("Put events(" + events.size() + ") to Monitoring Server.");
 
         try {
-            monitoringServiceClient.putEvents(events);
             if (sendToEventadmin) {
                 EventAdminPublisher.publish(events);
+            } else {
+                monitoringServiceClient.putEvents(events);
             }
         } catch (MonitoringException e) {
             throw e;
