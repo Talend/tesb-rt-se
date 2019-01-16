@@ -9,7 +9,7 @@
         <feature>example-ebook-backend</feature>
         <feature>example-ebook-ui</feature>
     </feature>
-    
+
     <feature name="example-ebook-backend" version="${pom.version}">
         <feature>pax-jdbc-derby</feature>
         <feature>pax-jdbc-config</feature>
@@ -22,10 +22,9 @@
         <bundle dependency="true">mvn:org.talend.esb.examples.ebook/ebook-model/${pom.version}</bundle>
         <bundle>mvn:org.talend.esb.examples.ebook/ebook-backend/${pom.version}</bundle>
     </feature>
-    
+
     <feature name="example-ebook-importer" version="${pom.version}">
         <feature>activemq-client</feature>
-        <feature>activemq-broker</feature>
         <feature>camel-blueprint</feature>
         <feature>camel-jms</feature>
         <feature>camel-jaxb</feature>
@@ -39,5 +38,5 @@
         <feature>war</feature>
         <bundle>mvn:org.talend.esb.examples.ebook/ebook-ui/${pom.version}</bundle>
     </feature>
-   
+
 </features>

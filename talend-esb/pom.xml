@@ -149,9 +149,7 @@
                                 <feature>pax-jetty-http2/${pax-web.version}</feature>
                                 <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
-                                <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
-                                <feature>activemq-broker</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -981,11 +979,11 @@
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <!-- Patch TESB-18685 -->
@@ -1030,25 +1028,25 @@
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <!-- Patch used jetty version in CXF (TESB-16331) -->
                                     <replacefilter>
-                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
+                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken>
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
                                     <!-- Patch the TESB-23159 -->
                                     <replacefilter>
-                                        <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.1.0</replacetoken> 
+                                        <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.1.0</replacetoken>
                                         <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken> 
+                                        <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken>
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
                                     <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
@@ -1090,13 +1088,31 @@
 								<!-- patch for activemq-camel (TESB-21136) -->
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter>
-                                        <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken> 
+                                        <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken>
                                         <replacevalue>feature name="activemq-camel" version="${activemq.version}-tesb1" resolver="(obr)"</replacevalue>
                                     </replacefilter>
                                     <replacefilter
                                         token="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}&lt;"
                                         value="&gt;mvn:org.apache.activemq/activemq-camel/${activemq.version}-tesb1&lt;"/>
                                 </replace>
+
+                                <!-- remove activemq-broker-noweb, activemq-broker and activemq-web-console features -->
+
+                                <!-- the below regexp catches all parent tags <feature name="*">*</feature> having either subtags <feature> or <bundle> -->
+                                <!-- [ ]*<feature name="activemq-.+?".+?(<feature.+?</feature>.*?|<bundle.+?</bundle>.*?)+?</feature> -->
+                                <replaceregexp byline="false" flags="gis"
+                                               file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"
+                                               match="[ ]*&lt;feature name=&quot;activemq-(broker-noweb|broker|web-console)&quot;.+?(&lt;feature.+?&lt;/feature&gt;.*?|&lt;bundle.+?&lt;/bundle&gt;.*?)+?&lt;/feature&gt;"
+                                               replace="&lt;!-- removed feature \1 --&gt;">
+                                </replaceregexp>
+
+                                <replaceregexp byline="false" flags="gis"
+                                               file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml"
+                                               match="[ ]*&lt;feature name=&quot;activemq&quot;.+?(&lt;feature.+?&lt;/feature&gt;.*?|&lt;bundle.+?&lt;/bundle&gt;.*?)+?&lt;/feature&gt;"
+                                               replace="&lt;!-- removed feature \1 --&gt;">
+                                </replaceregexp>
+
+
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
@@ -1158,7 +1174,7 @@
             </plugin>
 		</plugins>
 	</build>
-	
+
     <repositories>
         <repository>
             <id>springsource.release</id>

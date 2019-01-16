@@ -29,7 +29,7 @@ Deployment:
 Running the Example
 -------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build this example. 
+located), the maven pom.xml file can be used to build this example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.7.0 and Maven 3.0.3 or later required)
@@ -46,9 +46,7 @@ a) Without Service Registry:
 
       tesb:start-aux-store
 
-      - run the following command if you have not started an external ActiveMQ broker
-
-      feature:install activemq-broker
+      - start an external ActiveMQ broker
 
 
    3. Run service:
@@ -58,7 +56,7 @@ a) Without Service Registry:
       In the command line from the "client" directory run:  mvn -Pclient
 
 
-b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
+b) *** This option is only applicable to the users of Talend Enterprise ESB ***
    With Service Registry:
 
    1. Build the example:
@@ -103,9 +101,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling-callback.xml
 
-      - run the following command if you have not started an external ActiveMQ broker
-
-      feature:install activemq-broker
+      - start an external ActiveMQ broker
 
    3. Run service:
       In the command line from the "war" directory run:  mvn -Pservice-sr
