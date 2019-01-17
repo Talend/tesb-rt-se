@@ -18,7 +18,7 @@ This example demonstrates using of different message exchange patterns on the ba
 Example contains 4 modules:
 - service   Contains code of the service provider
 - client    Contains code of the service consumer
-- common    Contains code common for provider and consumer      
+- common    Contains code common for provider and consumer
 - features  Contains Karaf features to install service provider and consumer
 
 
@@ -28,7 +28,7 @@ Deployment:
 Running the Example
 -------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build this example. 
+located), the maven pom.xml file can be used to build this example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.7.0 and Maven 3.0.3 or later required)
@@ -47,9 +47,7 @@ a) Without Service Registry
 
       feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
-      - run the following command if you have not started an external ActiveMQ broker
-
-      feature:install activemq-broker
+      - start an external ActiveMQ broker
 
    3. Start the service provider
       - run the following commands in the container:
@@ -62,7 +60,7 @@ a) Without Service Registry
       feature:install library-client
 
 
-b) *** This option is only applicable to the users of Talend Enterprise ESB *** 
+b) *** This option is only applicable to the users of Talend Enterprise ESB ***
    With Service Registry:
 
    1. Build the example:
@@ -117,9 +115,7 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
       feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
-      - run the following command if you have not started an external ActiveMQ broker
-
-      feature:install activemq-broker
+      - start an external ActiveMQ broker
 
    3. Start service provider
       - run the following commands in the container:

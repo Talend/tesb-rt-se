@@ -9,6 +9,10 @@ The Archive contains one file per book with meta data in rdf Format.
 
 # Install
 
+Start the standalone ActiveMQ
+
+    activemq/bin/<OS-env>/activemq[.bat]
+
 Unpack and start TESB
 
     feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/6.2.0-SNAPSHOT/xml

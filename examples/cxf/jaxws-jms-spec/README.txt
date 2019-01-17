@@ -12,14 +12,14 @@
 SOAP/JMS Specification Transport Demo using Document-Literal Style
 ==================================================================
 
-This sample demonstrates use of the Document-Literal style 
+This sample demonstrates use of the Document-Literal style
 binding over the SOAP/JMS Specification Transport.
 
 This sample consists of 3 parts:
 common/   - This directory contains the code that is common
             for both the client and the server.  It contains
-	    the WSDL and the artifacts that are generated 
-	    from that WSDL.  The WSDL uses the SOAP/JMS 
+	    the WSDL and the artifacts that are generated
+	    from that WSDL.  The WSDL uses the SOAP/JMS
 	    specification extensors and URL to define
 	    how to connect to the broker and the various
 	    QOS parameters to use.
@@ -34,8 +34,8 @@ client/   - This is a sample client application that uses
 
 
 
-This demo uses ActiveMQ as the JMS implementation for 
-illustration purposes only. 
+This demo uses ActiveMQ as the JMS implementation for
+illustration purposes only.
 
 Usage
 ===============================================================================
@@ -57,11 +57,7 @@ ways to get a JMS broker running:
      In separate command windows/shells:
      mvn -Pjms.broker
 
- * From within the TESB OSGi container:
-     From the OSGi command line, run:
-         feature:install activemq-broker
-     That will create a new broker with the defaults and 
-     will then start it.
+ * From an external standalone JMS Broker
 
 
 Starting the Service
