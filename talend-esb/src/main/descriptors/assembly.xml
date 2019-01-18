@@ -21,7 +21,7 @@
 
 <assembly>
 
-    <id>unix-bin</id>
+    <id>talend-esb</id>
 
     <baseDirectory>TESB_SE-V${packages.version}</baseDirectory>
 
