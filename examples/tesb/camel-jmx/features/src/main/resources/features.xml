@@ -26,7 +26,6 @@
         <feature version="${camel.version}">camel</feature>
         <feature version="${camel.version}">camel-jms</feature>
         <feature version="${activemq.version}">activemq-client</feature>
-        <feature version="${activemq.version}">activemq-camel</feature>
         <bundle>mvn:${project.groupId}/camel-jmx-service/${project.version}</bundle>
     </feature>
 
