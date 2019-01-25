@@ -21,10 +21,12 @@ are of course not meant for production use.
 Important Note:  By default, this example uses strong encryption which is 
 recommended for use in production systems.  To run this example "out of the
 box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited 
-Strength Jurisdiction Policy Files" installed into your JRE.  See your JRE
-provider for more information. (For Oracle JDK6, the download is available
-here: http://www.oracle.com/technetwork/java/javase/downloads/index.html, see
-the README file from the download for installation instructions.)
+Strength Jurisdiction Policy Files" installed into your JRE. Note that the 
+unlimited strength policies are installed by default from the 1.8.0_161 release. 
+For prior java releases, the unlimited strength policy files can be obtained from 
+[1]:
+
+[1] http://www.oracle.com/technetwork/java/javase/downloads/index.html
    
 Alternatively, you can change to using a lower end encyption algorithm by
 editing the security policies in:
