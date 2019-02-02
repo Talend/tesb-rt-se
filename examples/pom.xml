@@ -64,6 +64,7 @@
         <derby.version>10.14.2.0</derby.version>
         <aries.version>1.0.0</aries.version>
         <jetty.version>9.3.14.v20161028</jetty.version>
+        <pax-jdbc.version>1.1.0</pax-jdbc.version>
 
         <!-- Test dependencies -->
         <junit.version>4.12</junit.version>
