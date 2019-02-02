@@ -145,6 +145,7 @@
                                 <feature>pax-jetty-http2/${pax-web.version}</feature>
                                 <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
+                                <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
@@ -1035,12 +1036,6 @@
                                 <replaceregexp byline="false" flags="gis"
                                                file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"
                                                match="[ ]*&lt;feature name=&quot;activemq-(broker-noweb|broker|web-console)&quot;.+?(&lt;feature.+?&lt;/feature&gt;.*?|&lt;bundle.+?&lt;/bundle&gt;.*?)+?&lt;/feature&gt;"
-                                               replace="&lt;!-- removed feature \1 --&gt;">
-                                </replaceregexp>
-
-                                <replaceregexp byline="false" flags="gis"
-                                               file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml"
-                                               match="[ ]*&lt;feature name=&quot;activemq&quot;.+?(&lt;feature.+?&lt;/feature&gt;.*?|&lt;bundle.+?&lt;/bundle&gt;.*?)+?&lt;/feature&gt;"
                                                replace="&lt;!-- removed feature \1 --&gt;">
                                 </replaceregexp>
 
