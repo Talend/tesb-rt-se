@@ -47,6 +47,7 @@
         <mustache-compiler.version>0.9.5_1</mustache-compiler.version>
         <activemq-camel.version>${activemq.version}-tesb1</activemq-camel.version>
         <activemq-osgi.version>${activemq.version}-tesb1</activemq-osgi.version>
+        <camel-core.version>${camel.version}.tesb1</camel-core.version>
 	</properties>
 
 	<dependencies>
@@ -706,6 +707,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>camel-blueprint-${camel.version}-tesb1.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-core (TESB-24898) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core</artifactId>
+                                    <version>${camel-core.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-core-${camel-core.version}.jar</destFileName>
+                                </artifactItem>
                             </artifactItems>
 						</configuration>
 					</execution>
@@ -957,11 +967,11 @@
                                         value="org.apache.zookeeper/zookeeper/${zookeeper.version}"/>
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <!-- Patch TESB-18685 -->
@@ -991,6 +1001,10 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.camel/camel-blueprint/${camel.version}&lt;"
                                         value="&gt;mvn:org.apache.camel/camel-blueprint/${camel.version}/jar/tesb1&lt;"/>
+                                    <!-- patch for camel-core (TESB-24898) -->
+                                    <replacefilter
+                                            token="&gt;mvn:org.apache.camel/camel-core/${camel.version}&lt;"
+                                            value="&gt;mvn:org.apache.camel/camel-core/${camel-core.version}&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -1001,16 +1015,16 @@
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken> 
+                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <!-- Patch used jetty version in CXF (TESB-16331) -->
                                     <replacefilter>
-                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken> 
+                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken>
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
                                     </replacefilter>
                                     <!-- Patch jackson-databind version (TESB-21628) -->
@@ -1058,7 +1072,7 @@
                                 </replaceregexp>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
                                     <replacefilter>
-                                        <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken> 
+                                        <replacetoken>feature name="activemq-camel" version="${activemq.version}" resolver="(obr)"</replacetoken>
                                         <replacevalue>feature name="activemq-camel" version="${activemq-camel.version}" resolver="(obr)"</replacevalue>
                                     </replacefilter>
                                     <replacefilter
@@ -1110,7 +1124,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
     <repositories>
         <repository>
             <id>springsource.release</id>
