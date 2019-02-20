@@ -59,11 +59,8 @@
 
         <!-- persistence -->
         <jcr-version>2.0</jcr-version>
-        <guava.version>15.0</guava.version>
-        <jackrabbit.version>2.14.2</jackrabbit.version>
-        <lucene-core.version>3.6.2</lucene-core.version>
-        <lucene-analyzer-common.version>4.8.0</lucene-analyzer-common.version>
-        <tika-core.version>1.7</tika-core.version>
+        <jackrabbit.version>2.18.0</jackrabbit.version>
+        <tika-core.version>1.20</tika-core.version>
 
         <jackson.version>2.9.6</jackson.version>
 
