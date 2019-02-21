@@ -360,7 +360,7 @@
                 <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
                 <!-- workaround for wrong version of transitive CXF Features -->
-                <exclude>org/apache/cxf/**/3.2.5/**</exclude>
+                <exclude>org/apache/cxf/**/3.2.7/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
@@ -384,8 +384,6 @@
                 <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
                 <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
-                <!-- patch for camel-cxf (TESB-23301) -->
-                <exclude>org/apache/camel/camel-cxf/${camel.version}/**</exclude>
                 <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.log/${decanter.version}/**</exclude>
@@ -574,12 +572,6 @@
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-transports-http-${cxf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for camel-cxf (TESB-23301) -->
-        <file>
-            <source>${basedir}/target/dependencies/camel-cxf-${camel.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-cxf/${camel.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
