@@ -204,7 +204,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
                          && MessageToEventMapper.isRestMessage(message)
                          && message.get(Message.RESPONSE_CODE) != null) { // supposedly Swagger response in a route
                 Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
-                return ((responseCode < 400 && message.getExchange().get("org.apache.cxf.resource.operation.name") == null) || isSwaggerImage(message.getExchange().getInMessage()));
+                return ((responseCode < 400 && message.getExchange().get("org.apache.cxf.resource.operation.name") == null)
+                         || isSwaggerImage(message.getExchange().getInMessage()));
             }
         }
 
@@ -212,7 +213,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
     }
 
     private boolean isSwaggerImage(Message message) {
-        return message.get(Message.ACCEPT_CONTENT_TYPE) != null && ((String) message.get(Message.ACCEPT_CONTENT_TYPE)).contains("image/");
+        String acceptContentType = (String) message.get(Message.ACCEPT_CONTENT_TYPE);
+        return acceptContentType != null && acceptContentType.contains("image/");
     }
 
     private boolean isSwaggerResourceHandler(Method method) {
