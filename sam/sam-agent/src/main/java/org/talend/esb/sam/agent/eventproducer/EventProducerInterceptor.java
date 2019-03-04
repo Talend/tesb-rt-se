@@ -107,8 +107,8 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
         if (null != event) {
             queue.add(event);
         }
-        
-        // TESB-20624 skip duplicated event processing 
+
+        // TESB-20624 skip duplicated event processing
         message.getInterceptorChain().remove(this);
     }
 
@@ -204,18 +204,20 @@ public class EventProducerInterceptor extends AbstractPhaseInterceptor<Message> 
                          && MessageToEventMapper.isRestMessage(message)
                          && message.get(Message.RESPONSE_CODE) != null) { // supposedly Swagger response in a route
                 Integer responseCode = (Integer) message.get(Message.RESPONSE_CODE);
-                if (responseCode < 400 && message.getExchange().get("org.apache.cxf.resource.operation.name") == null) {
-                    return true;
-                }
+                return ((responseCode < 400 && message.getExchange().get("org.apache.cxf.resource.operation.name") == null) || isSwaggerImage(message.getExchange().getInMessage()));
             }
         }
 
         return  false;
     }
 
+    private boolean isSwaggerImage(Message message) {
+        return message.get(Message.ACCEPT_CONTENT_TYPE) != null && ((String) message.get(Message.ACCEPT_CONTENT_TYPE)).contains("image/");
+    }
+
     private boolean isSwaggerResourceHandler(Method method) {
         String handlerClassName = method.getDeclaringClass().getCanonicalName();
-        return "org.apache.cxf.jaxrs.swagger.Swagger2Feature.SwaggerUIService".equals(handlerClassName) // Swagger UI static resources
+        return handlerClassName.startsWith("org.apache.cxf.jaxrs.swagger.") // Swagger UI static resources
                 || "io.swagger.jaxrs.listing.ApiListingResource".equals(handlerClassName); // swagger.json (or yaml)
     }
 }
