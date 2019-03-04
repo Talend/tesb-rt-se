@@ -124,7 +124,7 @@ public class MessageToEventMapper {
 
         // add custom properties from CXF properties
         if (null != message.getExchange().getEndpoint().get(EventFeature.SAM_PROPERTIES)) {
-            Map<String, String> customProp = 
+            Map<String, String> customProp =
                     (Map<String, String>) message.getExchange().getEndpoint().get(EventFeature.SAM_PROPERTIES);
             event.getCustomInfo().putAll(customProp);
         }
@@ -412,7 +412,6 @@ public class MessageToEventMapper {
      * @return
      */
     static boolean isRestMessage(Message message) {
-        //String resName = (String) message.getExchange().get("org.apache.cxf.resource.operation.name");
         return !(message.getExchange().getBinding() instanceof SoapBinding);
     }
 }
