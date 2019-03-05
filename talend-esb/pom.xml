@@ -645,22 +645,19 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>jackson-databind-2.9.6.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
                                     <artifactId>cxf-core</artifactId>
                                     <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-core-${cxf.version}-TESB.jar</destFileName>
+                                    <destFileName>cxf-core-${cxf.version}.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
                                     <artifactId>cxf-rt-transports-http</artifactId>
                                     <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-transports-http-${cxf.version}-TESB.jar</destFileName>
+                                    <destFileName>cxf-rt-transports-http-${cxf.version}.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
                                 <artifactItem>
@@ -970,7 +967,7 @@
                                     <replacefilter>
                                         <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken>
                                         <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
-                                    </replacefilter>
+                     ²               </replacefilter>
                                     <!-- Patch the TESB-23159 -->
                                     <replacefilter>
                                         <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.1.0</replacetoken>
@@ -980,13 +977,6 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken>
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
-                                    <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
-                                    <replacefilter
-                                        token="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-core/${cxf.version}/jar/TESB&lt;"/>
-                                    <replacefilter
-                                        token="&gt;mvn:org.apache.cxf/cxf-rt-transports-http/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-rt-transports-http/${cxf.version}/jar/TESB&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
@@ -1056,8 +1046,8 @@
 						</goals>
 						<configuration>
 							<descriptors>
-								<descriptor>src/main/descriptors/unix-bin.xml</descriptor>
 								<descriptor>src/main/descriptors/win-bin.xml</descriptor>
+								<descriptor>src/main/descriptors/unix-bin.xml</descriptor>
 							</descriptors>
 							<appendAssemblyId>false</appendAssemblyId>
 							<tarLongFileMode>gnu</tarLongFileMode>

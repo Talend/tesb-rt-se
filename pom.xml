@@ -3,7 +3,8 @@
     This program and the accompanying materials are made available under the
     terms of the Apache License v2.0 which accompanies this distribution, and
     is available at http://www.apache.org/licenses/LICENSE-2.0 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.talend.esb</groupId>
@@ -91,7 +92,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.2.6</cxf.version>
+        <cxf.version>3.3.0</cxf.version>
         <camel.version>2.23.1</camel.version>
         <activemq.version>5.15.8</activemq.version>
         <spring.version>5.1.4.RELEASE</spring.version>
@@ -132,9 +133,11 @@
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
         <cxf.build-utils.version>3.4.1</cxf.build-utils.version>
-        <cxf.xjc-utils.version>3.2.2</cxf.xjc-utils.version>
-        <cxf.resources.base.path />
-        <cxf.checkstyle.extension />
+        <cxf.xjc-utils.version>3.3.0</cxf.xjc-utils.version>
+        <cxf.resources.base.path/>
+        <cxf.checkstyle.extension/>
+
+        <bundle.plugin.version>2.4.0</bundle.plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -162,6 +165,26 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-core</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <!-- causes trouble with servicemix jaxb implementations in Karaf -->
+                    <exclusion>
+                        <groupId>jakarta.xml.bind</groupId>
+                        <artifactId>jakarta.xml.bind-api</artifactId>
+                    </exclusion>
+                    <!-- exclusion because cxf 3.3.0 now uses jakarta.activation:jakarta.activation-api:1.2.1
+                    which leads to Import-Package javax.activation;version="[1.2,2)"
+                    which hasn't apache servicemix equivalent yet -->
+                    <exclusion>
+                        <groupId>jakarta.activation</groupId>
+                        <artifactId>jakarta.activation-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!-- Test dependencies -->
             <dependency>
                 <groupId>junit</groupId>
@@ -185,7 +208,7 @@
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-library</artifactId>
                 <version>1.3</version>
-                  <scope>test</scope>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -214,13 +237,20 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.4.0</version>
+                    <version>${bundle.plugin.version}</version>
                     <extensions>true</extensions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.aries.blueprint</groupId>
                     <artifactId>blueprint-maven-plugin</artifactId>
-                    <version>1.7.0</version>
+                    <version>1.10.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.xbean</groupId>
+                            <artifactId>xbean-finder-shaded</artifactId>
+                            <version>4.12</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -286,11 +316,13 @@
                         <groupByLicense>true</groupByLicense>
                         <licenseMerges>
                             <licenseMerge>The Apache Software License, Version 2.0|Apache
-                                Software License - Version 2.0|Apache License|Apache 2</licenseMerge>
+                                Software License - Version 2.0|Apache License|Apache 2
+                            </licenseMerge>
                             <licenseMerge>BSD License|BSD|BSD license|The BSD License</licenseMerge>
                             <licenseMerge>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)
                                 Version 1.0|CDDL License|CDDL 1.0|Common Development and
-                                Distribution License (CDDL) v1.0</licenseMerge>
+                                Distribution License (CDDL) v1.0
+                            </licenseMerge>
                             <licenseMerge>Common Public License Version 1.0|CPL</licenseMerge>
                         </licenseMerges>
                         <excludedGroups>org.talend.esb|org.codehaus.jettison</excludedGroups>
@@ -394,8 +426,11 @@
                             <artifactId>maven-checkstyle-plugin</artifactId>
                             <version>3.0.0</version>
                             <configuration>
-                                <configLocation>${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml</configLocation>
-                                <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml</suppressionsLocation>
+                                <configLocation>
+                                    ${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml
+                                </configLocation>
+                                <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml
+                                </suppressionsLocation>
                                 <!--failsOnError>true</failsOnError-->
                                 <!-- http://jira.codehaus.org/browse/MCHECKSTYLE-62 -->
                                 <!--aggregate>true</aggregate-->

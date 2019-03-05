@@ -78,7 +78,6 @@
             <plugin>
                 <groupId>org.apache.aries.blueprint</groupId>
                 <artifactId>blueprint-maven-plugin</artifactId>
-                <version>1.7.0</version>
                 <executions>
                     <execution>
                         <goals>

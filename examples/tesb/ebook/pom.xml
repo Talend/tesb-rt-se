@@ -87,7 +87,14 @@
                 <plugin>
                     <groupId>org.apache.aries.blueprint</groupId>
                     <artifactId>blueprint-maven-plugin</artifactId>
-                    <version>1.7.0</version>
+                    <version>1.10.0</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.xbean</groupId>
+                            <artifactId>xbean-finder-shaded</artifactId>
+                            <version>4.12</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <goals>
@@ -124,5 +131,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>
