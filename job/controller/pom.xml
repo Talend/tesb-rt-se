@@ -116,6 +116,12 @@
             <artifactId>hamcrest-library</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>${cxf.xjc-utils.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

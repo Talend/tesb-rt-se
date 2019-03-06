@@ -92,7 +92,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.3.0</cxf.version>
+        <cxf.version>3.3.1</cxf.version>
         <camel.version>2.23.1</camel.version>
         <activemq.version>5.15.8</activemq.version>
         <spring.version>5.1.4.RELEASE</spring.version>
@@ -169,6 +169,26 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-core</artifactId>
                 <version>${cxf.version}</version>
+                <exclusions>
+                    <!-- causes trouble with servicemix jaxb implementations in Karaf -->
+                    <exclusion>
+                        <groupId>jakarta.xml.bind</groupId>
+                        <artifactId>jakarta.xml.bind-api</artifactId>
+                    </exclusion>
+                    <!-- exclusion because cxf 3.3.0 now uses jakarta.activation:jakarta.activation-api:1.2.1
+                    which leads to Import-Package javax.activation;version="[1.2,2)"
+                    which hasn't apache servicemix equivalent yet -->
+                    <exclusion>
+                        <groupId>jakarta.activation</groupId>
+                        <artifactId>jakarta.activation-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.cxf.xjc-utils</groupId>
+                <artifactId>cxf-xjc-runtime</artifactId>
+                <version>${cxf.xjc-utils.version}</version>
                 <exclusions>
                     <!-- causes trouble with servicemix jaxb implementations in Karaf -->
                     <exclusion>
