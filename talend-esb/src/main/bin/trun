@@ -92,7 +92,7 @@ unlimitFD() {
     # Increase the maximum file descriptors if we can
     if [ "${os400}" = "false" -a "${cygwin}" = "false" ]; then
         MAX_FD_LIMIT=`ulimit -H -n`
-        if [ "${MAX_FD_LIMIT}" != 'unlimited' ]; then
+        if [ "${MAX_FD_LIMIT}" != 'unlimited' ]; then 
             if [ $? -eq 0 ]; then
                 if [ "${MAX_FD}" = "maximum" -o "${MAX_FD}" = "max" ]; then
                     # use the system max
@@ -151,16 +151,6 @@ locateEtc() {
         fi
     else
         KARAF_ETC=${KARAF_BASE}/etc
-    fi
-}
-
-locateLog() {
-    if [ "x${KARAF_LOG}" != "x" ]; then
-        if [ ! -d "${KARAF_LOG}" ]; then
-            die "KARAF_LOG is not valid: ${KARAF_LOG}"
-        fi
-    else
-        KARAF_LOG=${KARAF_DATA}/log
     fi
 }
 
@@ -373,9 +363,6 @@ init() {
     # Locate the Karaf etc directory
     locateEtc
 
-    # Locate the Karaf log directory
-    locateLog
-
     # Setup the native library path
     setupNativePath
 
@@ -447,7 +434,6 @@ run() {
         KARAF_BASE="`cygpath --path --windows "$KARAF_BASE"`"
         KARAF_DATA="`cygpath --path --windows "$KARAF_DATA"`"
         KARAF_ETC="`cygpath --path --windows "$KARAF_ETC"`"
-        KARAF_LOG="`cygpath --path --windows "$KARAF_LOG"`"
         CLASSPATH="`cygpath --path --windows "$CLASSPATH"`"
         JAVA_HOME="`cygpath --path --windows "$JAVA_HOME"`"
         JAVA_ENDORSED_DIRS="`cygpath --path --windows "$JAVA_ENDORSED_DIRS"`"
@@ -455,7 +441,7 @@ run() {
     fi
     cd "${KARAF_BASE}"
 
-    exec "${JAVA}" ${JAVA_OPTS} -Djava.endorsed.dirs="${JAVA_ENDORSED_DIRS}" -Djava.ext.dirs="${JAVA_EXT_DIRS}" -Dkaraf.instances="${KARAF_HOME}/instances" -Dkaraf.home="${KARAF_HOME}" -Dkaraf.base="${KARAF_BASE}" -Dkaraf.data="${KARAF_DATA}" -Dkaraf.etc="${KARAF_ETC}" -Dkaraf.log="${KARAF_LOG}" -Djava.io.tmpdir="${KARAF_DATA}/tmp" -Djava.util.logging.config.file="${KARAF_BASE}/etc/java.util.logging.properties" ${KARAF_OPTS} ${OPTS} -classpath "${CLASSPATH}" ${MAIN} "$@"
+    exec "${JAVA}" ${JAVA_OPTS} -Djava.endorsed.dirs="${JAVA_ENDORSED_DIRS}" -Djava.ext.dirs="${JAVA_EXT_DIRS}" -Dkaraf.instances="${KARAF_HOME}/instances" -Dkaraf.home="${KARAF_HOME}" -Dkaraf.base="${KARAF_BASE}" -Dkaraf.data="${KARAF_DATA}" -Dkaraf.etc="${KARAF_ETC}" -Djava.io.tmpdir="${KARAF_DATA}/tmp" -Djava.util.logging.config.file="${KARAF_BASE}/etc/java.util.logging.properties" ${KARAF_OPTS} ${OPTS} -classpath "${CLASSPATH}" ${MAIN} "$@"
 }
 
 main() {
