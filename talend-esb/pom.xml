@@ -977,6 +977,23 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken>
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
+                                    <!-- Patch the TESB-24618 Upgrade CXF 3.3.1 -->
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:jakarta.xml.bind/jakarta.xml.bind-api/2.3.2&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-runtime/2.3.1_1&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-xjc/2.3.1_1&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:com.sun.istack/istack-commons-runtime/3.0.7&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
