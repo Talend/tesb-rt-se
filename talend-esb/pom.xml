@@ -994,6 +994,10 @@
                                         <replacetoken>&lt;bundle start-level="20"&gt;mvn:com.sun.istack/istack-commons-runtime/3.0.7&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.12.0_1&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
