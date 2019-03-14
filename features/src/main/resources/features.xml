@@ -26,7 +26,7 @@
   <repository>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</repository>
 
   <feature name='tesb-sam-common' version='${project.version}'>
-    <bundle dependency="true">mvn:commons-lang/commons-lang/${commons-lang.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.commons/commons-lang3/${commons-lang3.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->
     <bundle dependency="true" start-level="30">mvn:commons-collections/commons-collections/${commons-collections.version}</bundle>
     <bundle dependency="true" start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/${commons-beanutils.version}</bundle>

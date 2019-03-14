@@ -203,6 +203,9 @@
                 <exclude>etc/shell.init.script</exclude>
                 <exclude>etc/org.apache.karaf.command.acl.feature.cfg</exclude>
                 <exclude>etc/org.apache.karaf.management.cfg</exclude>
+                <!-- TESB-24618 upgrade cxf to 3.3.1 -->
+                <exclude>etc/jre.properties</exclude>
+                <exclude>lib/endorsed/**</exclude>
                 <!-- commons-collections version patch (TESB-16945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/${pax-web.version}/pax-web-features-${pax-web.version}-features.xml</exclude>
                 <!-- patch karaf standard features (TESB-22886) -->

@@ -103,6 +103,7 @@
         <derby.servicemix.version>10.14.2.0_2</derby.servicemix.version>
         <slf4j.version>1.7.12</slf4j.version>
         <commons-lang.version>2.6</commons-lang.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
         <dom4j.bundle.version>1.6.1_5</dom4j.bundle.version>
         <jaxen.bundle.version>1.1.1_2</jaxen.bundle.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
@@ -169,40 +170,12 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-core</artifactId>
                 <version>${cxf.version}</version>
-                <exclusions>
-                    <!-- causes trouble with servicemix jaxb implementations in Karaf -->
-                    <exclusion>
-                        <groupId>jakarta.xml.bind</groupId>
-                        <artifactId>jakarta.xml.bind-api</artifactId>
-                    </exclusion>
-                    <!-- exclusion because cxf 3.3.0 now uses jakarta.activation:jakarta.activation-api:1.2.1
-                    which leads to Import-Package javax.activation;version="[1.2,2)"
-                    which hasn't apache servicemix equivalent yet -->
-                    <exclusion>
-                        <groupId>jakarta.activation</groupId>
-                        <artifactId>jakarta.activation-api</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.cxf.xjc-utils</groupId>
                 <artifactId>cxf-xjc-runtime</artifactId>
                 <version>${cxf.xjc-utils.version}</version>
-                <exclusions>
-                    <!-- causes trouble with servicemix jaxb implementations in Karaf -->
-                    <exclusion>
-                        <groupId>jakarta.xml.bind</groupId>
-                        <artifactId>jakarta.xml.bind-api</artifactId>
-                    </exclusion>
-                    <!-- exclusion because cxf 3.3.0 now uses jakarta.activation:jakarta.activation-api:1.2.1
-                    which leads to Import-Package javax.activation;version="[1.2,2)"
-                    which hasn't apache servicemix equivalent yet -->
-                    <exclusion>
-                        <groupId>jakarta.activation</groupId>
-                        <artifactId>jakarta.activation-api</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- Test dependencies -->

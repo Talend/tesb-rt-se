@@ -995,6 +995,10 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
+                                        <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacetoken>
+                                        <replacevalue>mvn:org.codehaus.woodstox/woodstox-core-asl/4.4.1</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
                                         <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.12.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
