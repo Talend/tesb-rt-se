@@ -38,7 +38,7 @@ public class HttpsConnectionHelper {
     }
 
     public static void trustAllForUrlConnection() throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext context = SSLContext.getInstance("SSL");
+        SSLContext context = SSLContext.getInstance("TLS");
         context.init(null, new TrustManager[] { new FakeX509TrustManager() }, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
