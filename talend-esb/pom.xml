@@ -1092,6 +1092,22 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>convert-snapshot-file-names</id>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <!-- convert file names from versioned to non-versioned SNAPSHOTs (TESB-25311) -->
+                                <move todir="target/features-repo">
+                                    <fileset dir="target/features-repo"/>
+                                    <mapper type="regexp" from="^(.*)-[0-9]{8}\.[0-9]{6}-[0-9]*(.*)$$" to="\1-SNAPSHOT\2"/>
+                                </move>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
 				</executions>
 			</plugin>
 			<plugin>
