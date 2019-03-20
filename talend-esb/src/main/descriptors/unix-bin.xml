@@ -553,22 +553,12 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <!-- Patch jackson-databind version (TESB-21628) -->
+        <!-- Patch jackson version (TESB-24693) -->
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
             <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-databind-2.6.7.1.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.6.7.1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-databind-2.9.6.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/2.9.6/</outputDirectory>
-            <fileMode>0644</fileMode>
         </file>
         <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
         <file>

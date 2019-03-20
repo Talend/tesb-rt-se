@@ -619,7 +619,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
                                 </artifactItem>
-                                <!-- Patch jackson-databind version (TESB-21628) -->
+                                <!-- Patch jackson version (TESB-24693) -->
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
@@ -628,22 +628,6 @@
                                     <classifier>features-core</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.fasterxml.jackson.core</groupId>
-                                    <artifactId>jackson-databind</artifactId>
-                                    <version>2.6.7.1</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>jackson-databind-2.6.7.1.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>com.fasterxml.jackson.core</groupId>
-                                    <artifactId>jackson-databind</artifactId>
-                                    <version>2.9.6</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>jackson-databind-2.9.6.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
@@ -942,16 +926,6 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
-                                    <!-- Patch jackson-databind version (TESB-21628) -->
-                                    <replacefilter
-                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.4.4&lt;"
-                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
-                                    <replacefilter
-                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.1&lt;"
-                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.6.7.1&lt;"/>
-                                    <replacefilter
-                                        token="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.5&lt;"
-                                        value="&gt;mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6&lt;"/>
                                     <!-- patch CAMEL-13241 -->
                                     <replacefilter
                                         token="${backport-util-concurrent-version}"
@@ -1075,6 +1049,19 @@
                                     <replacefilter>
                                         <replacetoken>feature version="[4,5)"&gt;spring&lt;</replacetoken>
                                         <replacevalue>feature version="[4,6)"&gt;spring&lt;</replacevalue>
+                                    </replacefilter>
+                                    <!-- TESB-24693 patch the jackson version -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-core/2.9.6</replacetoken>
+                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-core/2.9.8</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.6</replacetoken>
+                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.8</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6</replacetoken>
+                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-databind/2.9.8</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
