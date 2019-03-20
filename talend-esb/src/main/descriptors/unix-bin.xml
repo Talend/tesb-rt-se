@@ -192,7 +192,7 @@
             <directory>target/dependencies/unix/apache-karaf-${karaf.version}</directory>
             <outputDirectory>/container</outputDirectory>
             <excludes>
-                <exclude>**/demos/**</exclude>
+                <exclude>**/examples/**</exclude>
                 <exclude>bin/**</exclude>
                 <exclude>etc/custom.properties</exclude>
                 <exclude>etc/system.properties</exclude>
@@ -213,10 +213,9 @@
                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
-                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-24619) -->
-                <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
-                <exclude>README</exclude>
-                <exclude>RELEASE-NOTES</exclude>
+                <exclude>README.md</exclude>
+                <exclude>RELEASE-NOTES.md</exclude>
+                <exclude>BUILDING.md</exclude>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
                 <exclude>karaf-manual*.html</exclude>
@@ -393,8 +392,6 @@
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.log/${decanter.version}/**</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}/**</exclude>
-                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-24619) -->
-                <exclude>org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -586,12 +583,6 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-24619) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
