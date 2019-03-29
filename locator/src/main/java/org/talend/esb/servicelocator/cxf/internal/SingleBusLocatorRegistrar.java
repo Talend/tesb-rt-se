@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.camel.CamelContext;
 import org.apache.cxf.Bus;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerLifeCycleListener;
@@ -66,6 +67,8 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
 
     private ServiceLocator locatorClient;
 
+    private CamelContext camelContext;
+
     private String endpointPrefix = "";
 
     private Map<String, String> endpointPrefixes;
@@ -98,6 +101,11 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
         if (registeredServers.containsKey(server)) {
             unregisterServer(server);
         }
+    }
+
+    public void stopAllServersAndRemoveCamelContext() {
+        registeredServers.keySet().forEach(server -> unregisterServer(server));
+        setCamelContext(null);
     }
 
     public void startListenForServers() {
@@ -301,5 +309,13 @@ public class SingleBusLocatorRegistrar implements ServerLifeCycleListener, Servi
             throw new IllegalStateException("The property " + propertyName + " must be set before "
                     + methodName + " can be called.");
         }
+    }
+
+    public CamelContext getCamelContext() {
+        return camelContext;
+    }
+
+    public void setCamelContext(CamelContext camelContext) {
+        this.camelContext = camelContext;
     }
 }
