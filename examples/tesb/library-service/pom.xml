@@ -35,7 +35,7 @@
         <camel.version>2.23.1</camel.version>
         <spring.version>5.1.5.RELEASE</spring.version>
         <karaf.version>4.2.3</karaf.version>
-        <activemq.version>5.15.8</activemq.version>
+        <activemq.version>5.15.9</activemq.version>
         <osgi.version>6.0.0</osgi.version>
         <zookeeper.version>3.4.13</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
