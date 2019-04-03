@@ -1007,23 +1007,6 @@
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
                                         value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.10_1&lt;"/>
-                                    <replacefilter>
-                                        <replacetoken>feature version="[4,5)"&gt;spring&lt;</replacetoken>
-                                        <replacevalue>feature version="[4,6)"&gt;spring&lt;</replacevalue>
-                                    </replacefilter>
-                                    <!-- TESB-24693 patch the jackson version -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-core/2.9.6</replacetoken>
-                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-core/2.9.8</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.6</replacetoken>
-                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.8</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6</replacetoken>
-                                        <replacevalue>mvn:com.fasterxml.jackson.core/jackson-databind/2.9.8</replacevalue>
-                                    </replacefilter>
                                 </replace>
                                 <!-- patch for decanter bundles (TESB-23679, TESB-23697) -->
                                 <replace file="target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml">
