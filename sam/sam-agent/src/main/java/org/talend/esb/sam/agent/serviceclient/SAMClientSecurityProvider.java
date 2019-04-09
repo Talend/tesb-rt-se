@@ -51,8 +51,6 @@ public class SAMClientSecurityProvider {
     private String encryptionUsername;
     private String isBspCompliant;
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
-
     public Client getClient() {
         return client;
     }
@@ -229,7 +227,7 @@ public class SAMClientSecurityProvider {
 
             properties.put(SecurityConstants.SIGNATURE_PROPERTIES, processFileURI(getSignatureProperties()));
             properties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
-            properties.put(ENDPOINT_SIGNATURE_PASSWORD, getSignaturePassword());
+            properties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
             properties.put(SecurityConstants.CALLBACK_HANDLER, 
             		new WSPasswordCallbackHandler(getSignatureUsername(), getSignaturePassword()));
 

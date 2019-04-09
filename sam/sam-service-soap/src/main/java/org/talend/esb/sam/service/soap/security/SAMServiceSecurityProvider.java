@@ -31,8 +31,6 @@ public class SAMServiceSecurityProvider {
     private String signatureUsername;
     private String signaturePassword;
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
-
     public EndpointImpl getServiceEndpoint() {
         return serviceEndpoint;
     }
@@ -125,7 +123,7 @@ public class SAMServiceSecurityProvider {
 
         	properties.put(SecurityConstants.SIGNATURE_PROPERTIES, getSignatureProperties());
         	properties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
-        	properties.put(ENDPOINT_SIGNATURE_PASSWORD, getSignaturePassword());
+        	properties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
         	properties.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(
                     getSignatureUsername(), getSignaturePassword()));
 

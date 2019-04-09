@@ -49,8 +49,6 @@ public class PolicyProviderImpl implements PolicyProvider {
     private EndpointImpl locatorEndpoint;
     private PolicyBuilder policyBuilder;
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
-
     @PostConstruct
     public void init() {
 
@@ -85,7 +83,7 @@ public class PolicyProviderImpl implements PolicyProvider {
                     getSignatureProperties());
             endpointProps.put(SecurityConstants.SIGNATURE_USERNAME,
                     getSignatureUsername());
-            endpointProps.put(ENDPOINT_SIGNATURE_PASSWORD,
+            endpointProps.put(SecurityConstants.SIGNATURE_PASSWORD,
                     getSignaturePassword());
             endpointProps.put(SecurityConstants.CALLBACK_HANDLER,
                     new WSPasswordCallbackHandler(getSignatureUsername(),

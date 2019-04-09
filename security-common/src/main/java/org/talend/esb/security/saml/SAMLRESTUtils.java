@@ -28,8 +28,6 @@ import org.apache.cxf.ws.security.trust.STSClient;
 
 public class SAMLRESTUtils {
 
-    public static final String SIGNATURE_PASSWORD = "security.signature.password";
-
     private static final String SAML2_TOKEN_TYPE =
             "http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV2.0";
     private static final String BEARER_KEYTYPE =
@@ -63,7 +61,7 @@ public class SAMLRESTUtils {
         }
         props.put(SecurityConstants.SIGNATURE_USERNAME, username);
         props.put(SecurityConstants.CALLBACK_HANDLER,
-                new WSPasswordCallbackHandler(username, (String) securityProps.get(SIGNATURE_PASSWORD)));
+                new WSPasswordCallbackHandler(username, (String) securityProps.get(SecurityConstants.SIGNATURE_PASSWORD)));
         
         Object sigProps = securityProps.get(SecurityConstants.SIGNATURE_PROPERTIES);
         if (sigProps == null) {
