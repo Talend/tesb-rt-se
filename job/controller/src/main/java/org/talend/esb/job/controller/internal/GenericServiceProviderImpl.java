@@ -83,10 +83,15 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
                     + operationQName + " cannot be found");
         }
         try {
-            ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
-            StaxUtils.copy(request, os);
-            org.dom4j.Document requestDoc = new SAXReader()
-                    .read(new ByteArrayInputStream(os.toByteArray()));
+            Document requestDoc = null;
+            if(request != null) {
+                ByteArrayOutputStream os = new ByteArrayOutputStream();
+                StaxUtils.copy(request, os);
+                requestDoc = new SAXReader().read(new ByteArrayInputStream(os.toByteArray()));
+            } else {
+                requestDoc = DocumentHelper.createDocument();
+                requestDoc.addElement("root", "");
+            }
 
             Object payload;
             if (extractHeaders) {
