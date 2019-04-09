@@ -33,6 +33,8 @@ import javax.xml.ws.handler.MessageContext;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.staxutils.StaxUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.io.SAXReader;
 import org.osgi.service.cm.ConfigurationException;
 import org.talend.esb.job.controller.ESBEndpointConstants;
