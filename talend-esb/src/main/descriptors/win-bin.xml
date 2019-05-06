@@ -215,6 +215,8 @@
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
                 <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
                 <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
+                <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
+                <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
@@ -392,6 +394,8 @@
                 <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
                 <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
                 <exclude>org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
+                <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
+                <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -572,6 +576,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
+            <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
