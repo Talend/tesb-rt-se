@@ -20,9 +20,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>javax.jws-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
-            <version>3.0.3</version>
+            <version>${cxf.xjc.version}</version>
         </dependency>
     </dependencies>
 

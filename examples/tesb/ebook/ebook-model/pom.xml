@@ -11,4 +11,12 @@
 
     <artifactId>ebook-model</artifactId>
     <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

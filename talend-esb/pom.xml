@@ -908,6 +908,15 @@
                                     <replacefilter
                                         token="${backport-util-concurrent-version}"
                                         value="3.1"/>
+                                    <!-- Patch the TESB-25669 -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/2.9.0</replacetoken>
+                                        <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0</replacetoken>
+                                        <replacevalue>mvn:jakarta.xml.soap/jakarta.xml.soap-api/1.4.1</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -957,12 +966,17 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacetoken>
-                                        <replacevalue>mvn:org.codehaus.woodstox/woodstox-core-asl/4.4.1</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
                                         <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.12.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <!-- Patch the TESB-25669 -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/2.9.0</replacetoken>
+                                        <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0</replacetoken>
+                                        <replacevalue>mvn:jakarta.xml.soap/jakarta.xml.soap-api/1.4.1</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
