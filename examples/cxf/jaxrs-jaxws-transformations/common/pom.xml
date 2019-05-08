@@ -20,8 +20,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.jws</groupId>
-            <artifactId>javax.jws-api</artifactId>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
