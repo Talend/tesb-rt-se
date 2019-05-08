@@ -38,6 +38,8 @@ public class SubjectExtractor {
         parserFactory.setNamespaceAware(true);
         
         try {
+            parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            parserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE);
             parser = parserFactory.newSAXParser();
         } catch (Exception e) {
             throw new RuntimeException(e);
