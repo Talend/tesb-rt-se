@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataSource;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -188,14 +186,7 @@ public class XPathProcessor extends BareOutInterceptor {
 			loadSoapBodyToBuffer(message);
 
 			try {
-				
-				DocumentBuilderFactory builderFactory =
-				        DocumentBuilderFactory.newInstance();
-				
-				builderFactory.setNamespaceAware(true);
-				DocumentBuilder builder = builderFactory.newDocumentBuilder();				
-				 
-				Document doc = builder.parse(
+				Document doc = StaxUtils.read(
 			            new ByteArrayInputStream(buffer.toByteArray()));
 				
 				return (Node)doc;
