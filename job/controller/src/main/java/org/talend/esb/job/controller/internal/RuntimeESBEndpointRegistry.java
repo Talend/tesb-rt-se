@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMResult;
@@ -175,10 +177,20 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private List<Header> listSoapHeaders(Object soapHeadersObject) throws TransformerFactoryConfigurationError {
         if (null != soapHeadersObject) {
             if (soapHeadersObject instanceof org.dom4j.Document) {
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+                transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+                try {
+                    transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                } catch (TransformerConfigurationException e) {
+                    throw new RuntimeException("Error setting the secure processing feature", e);
+                }
+                
                 List<Header> soapHeaders = new ArrayList<Header>();
                 try {
                     DOMResult result = new DOMResult();
-                    TransformerFactory.newInstance().newTransformer()
+                    
+                    transformerFactory.newTransformer()
                             .transform(new org.dom4j.io.DocumentSource((org.dom4j.Document) soapHeadersObject), result);
                     for (Node node = ((Document) result.getNode()).getDocumentElement()
                             .getFirstChild(); node != null; node = node.getNextSibling()) {
