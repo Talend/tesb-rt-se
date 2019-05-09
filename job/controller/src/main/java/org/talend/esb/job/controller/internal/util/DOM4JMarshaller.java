@@ -19,7 +19,9 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -37,6 +39,13 @@ public final class DOM4JMarshaller {
     private static TransformerFactory getTransformerFactory() {
         if (null == FACTORY) {
             FACTORY = TransformerFactory.newInstance();
+            FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            try {
+                FACTORY.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            } catch (TransformerConfigurationException e) {
+                throw new RuntimeException("Error setting the secure processing feature", e);
+            }
         }
         return FACTORY;
     }

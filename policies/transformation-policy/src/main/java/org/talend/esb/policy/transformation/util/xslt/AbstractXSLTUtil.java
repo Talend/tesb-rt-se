@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
@@ -59,8 +60,11 @@ public abstract class AbstractXSLTUtil {
 
         
         XSLTResourceResolver resourceResolver = null;
-        try{
+        try {
         TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         resourceResolver = new XSLTResourceResolver(absoluteSchemaPath,
         		xsltPath);
         factory.setURIResolver(resourceResolver);
