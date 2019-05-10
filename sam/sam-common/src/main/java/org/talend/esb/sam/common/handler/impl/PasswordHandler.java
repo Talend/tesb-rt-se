@@ -80,7 +80,6 @@ public class PasswordHandler implements EventHandler {
 
         if (tagnames != null && event.getContent() != null
                 && event.getContent().length() > 0) {
-            LOG.fine("Content before: " + event.getContent());
             for (String tagname : tagnames) {
                 event.setContent(event.getContent().replaceAll(
                         "<([^>]*)" + tagname
