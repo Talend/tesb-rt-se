@@ -88,7 +88,6 @@ public class ContentLengthHandler implements EventHandler {
             LOG.fine("cutting content to " + currentLength
                     + " characters. Original length was "
                     + event.getContent().length());
-            LOG.fine("Content before cutting: " + event.getContent());
             event.setContent(CUT_START_TAG
                     + event.getContent().substring(0, currentLength) + CUT_END_TAG);
             LOG.fine("Content after cutting: " + event.getContent());
