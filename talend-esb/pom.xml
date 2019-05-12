@@ -954,8 +954,16 @@
                                         <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0</replacetoken>
-                                        <replacevalue>mvn:jakarta.xml.soap/jakarta.xml.soap-api/1.4.1</replacevalue>
+                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.4.1</replacetoken>
+                                        <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.3.0</replacetoken>
+                                        <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
@@ -1012,11 +1020,19 @@
                                     <!-- Patch the TESB-25669 -->
                                     <replacefilter>
                                         <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/2.9.0</replacetoken>
-                                        <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
+                                        <replacevalue>mvn:javax.xml.ws/jaxws-api/2.3.1</replacevalue>
                                     </replacefilter>
                                     <replacefilter>
-                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0</replacetoken>
-                                        <replacevalue>mvn:jakarta.xml.soap/jakarta.xml.soap-api/1.4.1</replacevalue>
+                                        <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/1.3.23_2&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.jvnet.staxex/stax-ex/1.7.6&lt;/bundle&gt;</replacetoken>
+                                        <replacevalue></replacevalue>
                                     </replacefilter>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
