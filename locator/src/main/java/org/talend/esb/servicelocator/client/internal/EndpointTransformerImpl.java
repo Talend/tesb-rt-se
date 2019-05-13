@@ -21,7 +21,6 @@ package org.talend.esb.servicelocator.client.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,9 +29,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Result;
 import javax.xml.transform.dom.DOMResult;
 
+import org.apache.cxf.staxutils.StaxUtils;
 import org.talend.esb.servicelocator.client.Endpoint;
 import org.talend.esb.servicelocator.client.Endpoint.PropertiesTransformer;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -130,11 +131,11 @@ public class EndpointTransformerImpl implements PropertiesTransformer, EndpointT
             throw new IllegalArgumentException("content must not be null.");
         }
 
-        final InputStream is = new ByteArrayInputStream(content);
         try {
             JAXBContext jc = JaxbContextHandler.getEndpointContext();
+            XMLStreamReader xmlStreamReader = StaxUtils.createXMLStreamReader(new ByteArrayInputStream(content));
             JAXBElement<EndpointDataType> slEndpoint =
-                (JAXBElement<EndpointDataType>) jc.createUnmarshaller().unmarshal(is);
+                (JAXBElement<EndpointDataType>) jc.createUnmarshaller().unmarshal(xmlStreamReader);
 
             return slEndpoint.getValue();
         } catch (JAXBException e) {

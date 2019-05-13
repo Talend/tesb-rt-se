@@ -28,7 +28,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamReader;
 
+import org.apache.cxf.staxutils.StaxUtils;
 import org.talend.esb.servicelocator.client.BindingType;
 import org.talend.esb.servicelocator.client.SLEndpoint;
 import org.talend.esb.servicelocator.client.SLProperties;
@@ -94,8 +96,9 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
         if (root != null) {
             try {
                 JAXBContext jc = JaxbContextHandler.getAddressingContext();
+                XMLStreamReader xmlStreamReader = StaxUtils.createXMLStreamReader(root);
                 JAXBElement<EndpointReferenceType> eprElem =
-                    (JAXBElement<EndpointReferenceType>) jc.createUnmarshaller().unmarshal(root);
+                    (JAXBElement<EndpointReferenceType>) jc.createUnmarshaller().unmarshal(xmlStreamReader);
                 epr = eprElem.getValue();
             } catch (JAXBException e) {
                 if (LOG.isLoggable(Level.SEVERE)) {
@@ -148,8 +151,9 @@ public class SLEndpointProvider extends SimpleEndpoint implements SLEndpoint {
     private ServiceLocatorPropertiesType toServiceLocatorProperties(Element root) {
         try {
             JAXBContext jc = JaxbContextHandler.getEndpointContext();
+            XMLStreamReader xmlStreamReader = StaxUtils.createXMLStreamReader(root);
             JAXBElement<ServiceLocatorPropertiesType> slp =
-                (JAXBElement<ServiceLocatorPropertiesType>) jc.createUnmarshaller().unmarshal(root);
+                (JAXBElement<ServiceLocatorPropertiesType>) jc.createUnmarshaller().unmarshal(xmlStreamReader);
             return slp.getValue();
         } catch (JAXBException e) {
             if (LOG.isLoggable(Level.SEVERE)) {
