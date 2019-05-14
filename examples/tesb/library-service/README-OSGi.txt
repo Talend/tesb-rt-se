@@ -45,9 +45,11 @@ a) Without Service Registry
 
       tesb:start-aux-store
 
-      feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
+      feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/7.2.1-SNAPSHOT/xml
 
-      - start an external ActiveMQ broker
+      - run the following command if you have not started an external ActiveMQ broker
+
+      feature:install activemq-broker
 
    3. Start the service provider
       - run the following commands in the container:
@@ -115,7 +117,9 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
 
       feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
-      - start an external ActiveMQ broker
+      - run the following command if you have not started an external ActiveMQ broker
+
+      feature:install activemq-broker
 
    3. Start service provider
       - run the following commands in the container:

@@ -26,6 +26,11 @@ tesb:start-all
 echo "Done"
 
 echo
+echo "Install feature:install activemq-broker ......"
+feature:install activemq-broker
+echo "Done"
+
+echo
 echo "Initalize finished successfully."
 
 # Talend ESB Studio needs to read the ending tag on initializing, please do not remove it.

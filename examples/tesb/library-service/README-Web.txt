@@ -46,7 +46,9 @@ a) Without Service Registry:
 
       tesb:start-aux-store
 
-      - start an external ActiveMQ broker
+      - run the following command if you have not started an external ActiveMQ broker
+
+      feature:install activemq-broker
 
 
    3. Run service:
@@ -101,7 +103,9 @@ b) *** This option is only applicable to the users of Talend Enterprise ESB ***
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling.xml
       tregistry:create ws-policy-attach <sr-resources-dir>/policies/ws-policy-attach-sam-enabling-callback.xml
 
-      - start an external ActiveMQ broker
+      - run the following command if you have not started an external ActiveMQ broker
+
+      feature:install activemq-broker
 
    3. Run service:
       In the command line from the "war" directory run:  mvn -Pservice-sr

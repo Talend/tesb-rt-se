@@ -50,12 +50,18 @@ Using either Linux or Windows:
 
 Running the JMS Broker
 ---------------------------------------
-The sample requires a JMS broker to be running.  There are two
+The sample requires a JMS broker to be running.  There are three
 ways to get a JMS broker running:
 
  * From the command line
      In separate command windows/shells:
      mvn -Pjms.broker
+
+ * From within the TESB OSGi container:
+     From the OSGi command line, run:
+         feature:install activemq-broker
+     That will create a new broker with the defaults and 
+     will then start it.
 
  * From an external standalone JMS Broker
 

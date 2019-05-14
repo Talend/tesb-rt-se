@@ -140,6 +140,7 @@
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
+                                <feature>activemq-broker</feature>
                                 <feature>activemq-camel</feature>
 						        <!-- CXF Features -->
 						        <feature>cxf/${cxf.version}</feature>
@@ -1083,16 +1084,6 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                  </replaceregexp>
-
-                                <!-- remove activemq-broker-noweb, activemq-broker and activemq-web-console features -->
-
-                                <!-- the below regexp catches all parent tags <feature name="*">*</feature> having either subtags <feature> or <bundle> -->
-                                <!-- [ ]*<feature name="activemq-.+?".+?(<feature.+?</feature>.*?|<bundle.+?</bundle>.*?)+?</feature> -->
-                                <replaceregexp byline="false" flags="gis"
-                                               file="target/dependencies/activemq-karaf-${activemq.version}-features.xml"
-                                               match="[ ]*&lt;feature name=&quot;activemq-(broker-noweb|broker|web-console)&quot;.+?(&lt;feature.+?&lt;/feature&gt;.*?|&lt;bundle.+?&lt;/bundle&gt;.*?)+?&lt;/feature&gt;"
-                                               replace="&lt;!-- removed feature \1 --&gt;">
-                                </replaceregexp>
 
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
