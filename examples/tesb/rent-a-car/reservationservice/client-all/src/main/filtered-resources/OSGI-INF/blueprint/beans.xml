@@ -32,7 +32,7 @@
 	<reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
     <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature"/>
 
-	<jaxws:client id="ReservationServiceClient" name="{http://services.talend.org/ReservationService}ReservationServiceProvider"
+	<jaxws:client id="ReservationServiceClient"
 		xmlns:serviceNamespace="http://services.talend.org/ReservationService"
 		serviceClass="org.talend.services.reservationservice.ReservationService"
 		serviceName="serviceNamespace:ReservationServiceProvider"
