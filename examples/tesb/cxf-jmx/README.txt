@@ -139,6 +139,6 @@ with (default) username of "tadmin" and password of "tadmin".
 
 3) connect
 4) choose Mbean tab, and open the org.apache.cxf item in the left-side treeview
-5) After SOAP calls on the web service have been done, you'll see the "Performance.Counter.Server" folder, 
+5) After SOAP calls on the web service have been done, you'll see the "Metrics.Server" folder, 
 where CXF MBeans with their attributes will be listed.
 
