@@ -22,6 +22,7 @@ package org.talend.esb.examples.impl;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.JMX;
@@ -70,7 +71,7 @@ public class ApplicationManagerImpl implements ApplicationManager {
 
         echo("\n>>> Create FeatureService MBean <<<");
         ObjectName mbeanName = new ObjectName(
-                "org.apache.karaf:type=features,name=trun");
+                "org.apache.karaf:type=feature,name=trun");
         FeaturesServiceMBean featuresServiceMBeanProxy = JMX.newMBeanProxy(
                 mbsc, mbeanName, FeaturesServiceMBean.class, true);
 
@@ -82,10 +83,15 @@ public class ApplicationManagerImpl implements ApplicationManager {
 
     public FrameworkMBean createOsgiFrameworkMBeanProxy(
             MBeanServerConnection mbsc) throws MalformedObjectNameException,
-            NullPointerException {
+            NullPointerException, IOException {
         echo("\n>>> Create Framework MBean <<<");
         ObjectName mbeanName = new ObjectName(
-                "osgi.core:type=framework,version=1.5");
+                "osgi.core:type=framework,version=1.7,framework=org.eclipse.osgi,*");
+        Set<ObjectName> allObjectNames = mbsc.queryNames(mbeanName, null);
+        for (ObjectName obj : allObjectNames) {
+            mbeanName = new ObjectName(obj.getCanonicalName());
+            break;
+        }
         FrameworkMBean osgiFrameworkProxy = JMX.newMBeanProxy(mbsc, mbeanName,
                 FrameworkMBean.class, false);
         return osgiFrameworkProxy;

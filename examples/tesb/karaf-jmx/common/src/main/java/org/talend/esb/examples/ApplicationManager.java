@@ -48,7 +48,7 @@ public interface ApplicationManager {
 
     public FrameworkMBean createOsgiFrameworkMBeanProxy(
             MBeanServerConnection mbsc) throws MalformedObjectNameException,
-            NullPointerException;
+            NullPointerException, IOException;
 
     public void addRepository(FeaturesServiceMBean featuresServiceMBeanProxy,
             String url) throws Exception;

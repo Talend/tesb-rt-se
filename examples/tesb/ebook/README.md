@@ -16,7 +16,7 @@ Start the standalone ActiveMQ
 Unpack and start TESB
 
     feature:repo-add mvn:org.talend.esb.examples.ebook/ebook-features/{version}/xml
-    feature:install -v example-ebook-backend example-ebook-importer example-ebook-ui
+    feature:install example-ebook-backend example-ebook-importer example-ebook-ui
 
 Then put some rdf files from the gutenberg index into the directory gutenberg below your karaf installation.
 The book data will automatically imported into the database.
