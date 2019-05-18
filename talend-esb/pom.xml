@@ -951,10 +951,6 @@
                                         value="3.1"/>
                                     <!-- Patch the TESB-25669 -->
                                     <replacefilter>
-                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/2.9.0</replacetoken>
-                                        <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
@@ -1019,10 +1015,6 @@
                                         <replacevalue></replacevalue>
                                     </replacefilter>
                                     <!-- Patch the TESB-25669 -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxws-api-2.2/2.9.0</replacetoken>
-                                        <replacevalue>mvn:jakarta.xml.ws/jakarta.xml.ws-api/2.3.2</replacevalue>
-                                    </replacefilter>
                                     <replacefilter>
                                         <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
