@@ -22,7 +22,7 @@
 
     <id>unix-bin</id>
 
-	<baseDirectory>TESB_SE-V${packages.version}</baseDirectory>
+    <baseDirectory>TESB_SE-V${packages.version}</baseDirectory>
 
     <formats>
         <format>tar.gz</format>
@@ -217,6 +217,8 @@
                 <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                 <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
+                <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
+                <exclude>system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
@@ -586,6 +588,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.config.core-${karaf.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for decanter bundles (TESB-24788) -->

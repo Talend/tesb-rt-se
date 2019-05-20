@@ -655,7 +655,16 @@
                                     <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</destFileName>
-                                </artifactItem>								
+                                </artifactItem>
+                                <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.config</groupId>
+                                    <artifactId>org.apache.karaf.config.core</artifactId>
+                                    <version>${karaf.version}.tesb1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>org.apache.karaf.config.core-${karaf.version}.tesb1.jar</destFileName>
+                                </artifactItem>
                                 <!-- patch for decanter bundles (TESB-24788) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.decanter</groupId>
@@ -1061,6 +1070,10 @@
                                     <replacefilter
                                         token="mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}&lt;"
                                         value="mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/jar/TESB&lt;"/>
+                                    <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
+                                    <replacefilter
+                                        token="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}&lt;"
+                                        value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}.tesb1&lt;"/>
                                  </replace>
                                  <!-- patch for pax-logging-log4j2 (TESB-20573) -->
                                  <replaceregexp byline="true"
