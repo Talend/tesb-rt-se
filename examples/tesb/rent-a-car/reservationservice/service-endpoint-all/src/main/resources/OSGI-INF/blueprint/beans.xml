@@ -64,6 +64,11 @@
             wsdlLocation="classpath:/model/reservation-wsdls/ReservationService-sts.wsdl">
 
         <jaxws:properties>
+            <entry key="esb.locator.properties">
+                <map>
+                    <entry key="city" value="Beijing" />
+                </map>
+            </entry>
             <entry key="security.callback-handler">
                 <bean class="common.talend.ServiceCallbackHandler" />
             </entry>

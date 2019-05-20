@@ -17,7 +17,7 @@
         <feature>jndi</feature>
         <feature>transaction</feature>
         <feature version="[2.2,3)">jpa</feature>
-        <feature version="[4.3,5)">hibernate</feature>
+        <feature version="[5,6)">hibernate</feature>
         <feature>cxf-jaxrs</feature>
         <bundle dependency="true">mvn:org.talend.esb.examples.ebook/ebook-model/${pom.version}</bundle>
         <bundle>mvn:org.talend.esb.examples.ebook/ebook-backend/${pom.version}</bundle>

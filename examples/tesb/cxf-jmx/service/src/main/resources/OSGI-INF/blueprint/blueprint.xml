@@ -23,15 +23,24 @@
         xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
-        xmlns:soap="http://cxf.apache.org/bindings/soap"
+        xmlns:cxf="http://cxf.apache.org/blueprint/core"
         default-activation="eager">
 
-	<bean id="org.apache.cxf.management.InstrumentationManager"
-		class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
-		<property name="bus" ref="cxf" />
-		<property name="usePlatformMBeanServer" value="true" />
-		<property name="enabled" value="true" />
-	</bean>
+	<!--cxf:bus name="cxf"/-->
+
+    <reference id="mbeanServer" interface="javax.management.MBeanServer" availability="optional" />
+
+    <bean id="CxfJmxInstrumentationManager"
+            class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+        <property name="bus" ref="cxf" />
+        <property name="enabled" value="true" />
+
+        <!-- Unless you really want to open an additional connector, set this to false -->
+        <property name="createMBServerConnectorFactory" value="false" />
+
+        <!-- Inject the reference to the MBeanServer -->
+        <property name="server" ref="mbeanServer" />
+    </bean>
 	
 	<jaxws:endpoint id="simple-service"
 		implementor="org.talend.esb.examples.SimpleServiceImpl" 

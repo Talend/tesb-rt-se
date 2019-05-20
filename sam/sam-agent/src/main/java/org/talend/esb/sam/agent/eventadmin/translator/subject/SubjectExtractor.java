@@ -21,15 +21,20 @@
 package org.talend.esb.sam.agent.eventadmin.translator.subject;
 
 import java.io.StringReader;
+import java.util.logging.Logger;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 
 public class SubjectExtractor {
     
+    private static final Logger LOG = Logger.getLogger(SubjectExtractor.class.getName());
     private final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
     
     private final SAXParser parser;
@@ -40,6 +45,15 @@ public class SubjectExtractor {
         try {
             parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
             parserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE);
+        } catch (SAXNotRecognizedException ex) {
+            LOG.fine("Property XMLConstants.FEATURE_SECURE_PROCESSING is not recognized");
+        } catch (SAXNotSupportedException ex) {
+            LOG.fine("Property XMLConstants.FEATURE_SECURE_PROCESSING is not recognized");
+        } catch (ParserConfigurationException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        try {
             parser = parserFactory.newSAXParser();
         } catch (Exception e) {
             throw new RuntimeException(e);

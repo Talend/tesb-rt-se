@@ -69,6 +69,9 @@ work as-is if you started the default TESB container on localhost.
 
 Running the Client
 ---------------------------------------
+Please make sure you've built the basic Rent-a-Car example with "mvn clean install",
+which will be used in this example.
+
   * From the command line:
     cd client ; mvn exec:java
 
