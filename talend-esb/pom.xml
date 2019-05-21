@@ -1178,7 +1178,7 @@
         <repository>
             <id>springsource.release</id>
             <name>Springsource release repository</name>
-            <url>http://repository.springsource.com/maven/bundles/release</url>
+            <url>https://repository.springsource.com/maven/bundles/release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

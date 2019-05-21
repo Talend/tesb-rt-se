@@ -211,7 +211,7 @@
         </repository>
         <repository>
             <id>apache-snapshots</id>
-            <url>http://repository.apache.org/snapshots</url>
+            <url>https://repository.apache.org/snapshots</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
                 <enabled>true</enabled>
@@ -224,7 +224,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>apache-snapshots</id>
-            <url>http://repository.apache.org/snapshots</url>
+            <url>https://repository.apache.org/snapshots</url>
             <name>Apache Snapshots Repo</name>
             <snapshots>
                 <enabled>true</enabled>
