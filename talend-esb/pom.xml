@@ -637,6 +637,15 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-transports-http-${cxf.version}.jar</destFileName>
                                 </artifactItem>
+                                <!-- patch for camel-core (TESB-25690) -->
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-core</artifactId>
+                                    <version>${camel.version}.tesb1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-core-${camel.version}.tesb1.jar</destFileName>
+                                </artifactItem>
                                 <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
@@ -934,6 +943,10 @@
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.camel/camel-core/${camel.version}&lt;</replacetoken>
+                                        <replacevalue>mvn:org.apache.camel/camel-core/${camel.version}.tesb1&lt;</replacevalue>
+                                    </replacefilter>
                                     <replacefilter
                                         token="apache-cxf/3.2.7/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
