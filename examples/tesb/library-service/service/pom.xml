@@ -56,6 +56,21 @@
             <artifactId>samenabling-policy</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId> 
+            <artifactId>auxiliary-storage-client-rest</artifactId> 
+            <version>${project.version}</version> 
+        </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId> 
+            <artifactId>auxiliary-storage-client-common</artifactId> 
+            <version>${project.version}</version> 
+            </dependency>
+        <dependency>
+            <groupId>org.talend.esb.auxiliary.storage</groupId> 
+            <artifactId>auxiliary-storage-rest-security</artifactId> 
+            <version>${project.version}</version> 
+        </dependency>        
 
         <dependency>
             <groupId>org.talend.esb.examples.library-service</groupId>
@@ -90,6 +105,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
