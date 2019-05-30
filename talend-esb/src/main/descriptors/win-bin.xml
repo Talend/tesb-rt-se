@@ -389,7 +389,7 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.4.4/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.1/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
-                <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.5/**</exclude>
+                <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.8/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
                 <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
