@@ -85,7 +85,7 @@
         </plugins>
     </build>
 
-	    <profiles>
+    <profiles>
         <profile>
             <id>httpsclient</id>
             <build>
@@ -114,7 +114,7 @@
                 </plugins>
             </build>
         </profile>
-	    </profiles>
+    </profiles>
 
 
 </project>
