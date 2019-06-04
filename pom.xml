@@ -117,8 +117,8 @@
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
-        <jetty.version>9.4.12.v20180830</jetty.version>
-        <pax-web-jsp.version>7.2.8</pax-web-jsp.version>
+        <jetty.version>9.4.18.v20190429</jetty.version>
+        <pax-web-jsp.version>7.2.10</pax-web-jsp.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.4_1</cglib.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
