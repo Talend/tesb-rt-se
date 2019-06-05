@@ -45,7 +45,7 @@
           export-suitable or null encryption is used,
           but exclude anonymous Diffie-Hellman key change as
           this is vulnerable to man-in-the-middle attacks -->
-        <sec:exclude>.*_WITH_AES_.*</sec:exclude>
+        <sec:include>.*_WITH_AES_.*</sec:include>
       </sec:cipherSuitesFilter>
     </http:tlsClientParameters>
   </http:conduit>
