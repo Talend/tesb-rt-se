@@ -43,6 +43,8 @@
         <javax-annotation.version>1.3.1</javax-annotation.version>
         <blueprint.core.version>1.8.3</blueprint.core.version>
         <jackson.version>2.9.9</jackson.version>
+        <!-- Jetty version declared in parent POM -->
+        <!-- <jetty.version>9.4.18.v20190429</jetty.version> -->
     </properties>
 
     <dependencies>
@@ -740,6 +742,15 @@
                                     <destFileName>spring-${karaf.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>spring-legacy</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <classifier>features</classifier>
+                                    <type>xml</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>spring-legacy-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
                                     <version>${activemq.version}</version>
@@ -1316,6 +1327,10 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.module/jackson-module-scala_2.11/2.6.1"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-scala_2.11/${jackson.version}"/> -->
+                                    <!-- patch the jetty version (TESB-25945) -->
+                                    <replacefilter
+                                        token="/9.4.12.v20180830&lt;"
+                                        value="/${jetty.version}&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -1429,8 +1444,8 @@
                                         value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}.tesb1&lt;"/>
                                     <!-- upgrade Jetty version to 9.4.18.v20190429 (TESB-25945) -->
                                     <replacefilter
-                                        token="9.4.12.v20180830"
-                                        value="${jetty.version}"/>
+                                        token="/9.4.12.v20180830&lt;"
+                                        value="/${jetty.version}&lt;"/>
                                     <replacefilter
                                         token="mvn:org.ops4j.pax.web/pax-web-features/7.2.8/xml/features"
                                         value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
@@ -1485,6 +1500,12 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.6"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
+                                    <!-- patch dependencies for jetty  version (TESB-25945) -->
+                                    <replacefilter
+                                        token="mvn:org.ops4j.pax.web/pax-web-features/7.2.8/xml/features"
+                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter
