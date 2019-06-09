@@ -1444,8 +1444,8 @@
                                         value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}.tesb1&lt;"/>
                                     <!-- upgrade Jetty version to 9.4.18.v20190429 (TESB-25945) -->
                                     <replacefilter
-                                        token="/9.4.12.v20180830&lt;"
-                                        value="/${jetty.version}&lt;"/>
+                                        token="9.4.12.v20180830"
+                                        value="${jetty.version}"/>
                                     <replacefilter
                                         token="mvn:org.ops4j.pax.web/pax-web-features/7.2.8/xml/features"
                                         value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
