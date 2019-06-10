@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -73,7 +73,7 @@ public class MessageToEventMapperTest {
     private static final String TransportType = "http://schemas.xmlsoap.org/soap/http";
     private static final String PrincipalString = "CN=Duke,OU=JavaSoft,O=Sun Microsystems,C=US";
     private static final String Address = "http://localhost:8080/test";
-    
+
     @Test
     public void testMapEvent() throws IOException, EndpointException {
         Message message = getTestMessage();
@@ -98,7 +98,7 @@ public class MessageToEventMapperTest {
         Assert.assertEquals("value1", customInfo.get("key1"));
 
     }
-    
+
     @Test
     public void testMaxContentLength() throws IOException, EndpointException {
         Message message = getTestMessage();
@@ -111,7 +111,7 @@ public class MessageToEventMapperTest {
 				event.getContent());
         Assert.assertTrue(event.isContentCut());
     }
-    
+
     private Message getTestMessage() throws IOException, EndpointException {
         Message message = new MessageImpl();
         ExchangeImpl exchange = new ExchangeImpl();
@@ -140,13 +140,13 @@ public class MessageToEventMapperTest {
         Principal principal = new X500Principal(PrincipalString);
         SecurityContext sc = new DefaultSecurityContext(principal, new Subject());
         message.put(SecurityContext.class, sc);
-        
+
         CachedOutputStream cos = new CachedOutputStream();
-        
+
         InputStream is = new ByteArrayInputStream(TESTCONTENT.getBytes("UTF-8"));
         IOUtils.copy(is, cos);
         message.setContent(CachedOutputStream.class, cos);
-        
+
         CustomInfo customInfo = CustomInfo.getOrCreateCustomInfo(message);
         customInfo.put("key1", "value1");
 
@@ -160,28 +160,28 @@ public class MessageToEventMapperTest {
         EasyMock.expect(info.getName()).andReturn(portType).anyTimes();
         EasyMock.expect(info.getAddress()).andReturn(null).anyTimes();
         EasyMock.replay(info);
-        
+
         Endpoint endpoint = EasyMock.createMock(Endpoint.class);
         EasyMock.expect(endpoint.getEndpointInfo()).andReturn(info).anyTimes();
-        
+
         Map<String, String> samProperties = new HashMap<String, String>();
         EasyMock.expect(endpoint.get(EventFeature.SAM_PROPERTIES)).andReturn(samProperties).anyTimes();
         EasyMock.replay(endpoint);
-        
+
         Message outMessage = EasyMock.createMock(Message.class);
         EasyMock.expect(outMessage.containsKey(Message.HTTP_REQUEST_METHOD)).andReturn(true).anyTimes();
         EasyMock.expect(outMessage.get(Message.HTTP_REQUEST_METHOD)).andReturn("POST").anyTimes();
 
         EasyMock.expect(outMessage.containsKey(Message.REQUEST_URI)).andReturn(true).anyTimes();
         EasyMock.expect(outMessage.get(Message.REQUEST_URI)).andReturn("REQUEST_URI").anyTimes();
-        
+
         EasyMock.expect(outMessage.containsKey(Message.BASE_PATH)).andReturn(true).anyTimes();
         EasyMock.expect(outMessage.get(Message.BASE_PATH)).andReturn("REQUEST_URI").anyTimes();
-        
-        
-        
+
+
+
         EasyMock.replay(outMessage);
-        
+
         Exchange e = EasyMock.createMock(Exchange.class);
         EasyMock.expect(e.getOutMessage()).andReturn(outMessage).anyTimes();
         EasyMock.expect(e.getOutFaultMessage()).andReturn(null).anyTimes();
@@ -190,24 +190,24 @@ public class MessageToEventMapperTest {
         EasyMock.expect(e.getEndpoint()).andReturn(endpoint).anyTimes();
         EasyMock.expect(e.get("org.apache.cxf.resource.operation.name")).andReturn("operationName").anyTimes();
         EasyMock.replay(e);
-        
+
         AuthorizationPolicy authPolicy = EasyMock.createMock(AuthorizationPolicy.class);
         EasyMock.expect(authPolicy.getUserName()).andReturn("USERNAME").anyTimes();
         EasyMock.replay(authPolicy);
-        
+
         CachedOutputStream cos = new CachedOutputStream();
         cos.write(1);
         cos.write(2);
         cos.write(3);
-        
+
         Message message = EasyMock.createNiceMock(Message.class);
         EasyMock.expect(message.entrySet()).andReturn(null).anyTimes();
         EasyMock.expect(message.get(Message.REQUESTOR_ROLE)).andReturn(true).anyTimes();
         EasyMock.expect(message.getExchange()).andReturn(e).anyTimes();
         EasyMock.expect(message.get(Message.ENCODING)).andReturn("UTF-8").anyTimes();
-        
-        
-        
+
+
+
         EasyMock.expect(message.getContent(CachedOutputStream.class)).andReturn(cos).anyTimes();
         EasyMock.expect(message.get("FlowId")).andReturn(FlowID).anyTimes();
         EasyMock.expect(message.get(CorrelationIdHelper.CORRELATION_ID_KEY)).andReturn("CORRELATION_ID_KEY").anyTimes();
@@ -217,15 +217,15 @@ public class MessageToEventMapperTest {
         EasyMock.expect(message.get(SecurityContext.class)).andReturn(null).anyTimes();
         EasyMock.expect(message.get(AuthorizationPolicy.class)).andReturn(authPolicy).anyTimes();
         EasyMock.expect(message.get(CustomInfo.class)).andReturn(EasyMock.createMock(CustomInfo.class)).anyTimes();
-        
+
 
         EasyMock.replay(message);
-        
+
         MessageToEventMapper mapper = new MessageToEventMapper();
         mapper.setMaxContentLength(2);
-        
+
         Event event = mapper.mapToEvent(message);
-        
+
 		Assert.assertEquals(EventTypeEnum.RESP_IN, event.getEventType());
 		Assert.assertEquals("PORT_TYPE", event.getMessageInfo().getPortType());
 		Assert.assertEquals("POST[/]", event.getMessageInfo().getOperationName());

@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Server
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
 
 /**
  * Class to make Spring spaghetti.
- * 
+ *
  * @author zubairov
  *
  */
@@ -57,14 +57,14 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         String whereClause = filter.getWhereClause();
         String result = null;
         if (whereClause != null && whereClause.length() > 0) {
-            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);	
+            result = query.replaceAll(SUBSTITUTION_STRING, " AND " + whereClause);
         } else {
             result = query.replaceAll(SUBSTITUTION_STRING, "");
         }
         return result;
     }
-    
-    
+
+
     /**
      * This method should return a query string with {@link #SUBSTITUTION_STRING} placeholder
      * for where clause.
@@ -84,5 +84,5 @@ public abstract class AbstractDatabaseDialect implements DatabaseDialect {
         	    + SUBSTITUTION_STRING + " GROUP BY MI_FLOW_ID) GROUPQ";
         return CountQuery;
     }
-    
+
 }

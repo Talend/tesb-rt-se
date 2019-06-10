@@ -3,7 +3,7 @@
 #%L
   Service Activity Monitoring :: Agent
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
  	<context:component-scan base-package="org.talend.esb.servicelocator" />
- 	
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="3" />
         <property name="ignoreUnresolvablePlaceholders" value="true" />

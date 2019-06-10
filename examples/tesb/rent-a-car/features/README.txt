@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -16,7 +16,7 @@ Rent-a-Car Example features
 Build Rent-a-Car Example features
 ---------------------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build this example. 
+located), the maven pom.xml file can be used to build this example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)

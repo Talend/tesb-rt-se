@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Example Client
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,10 +28,10 @@ import com.example.customerservice.CustomerService;
 import com.example.customerservice.NoSuchCustomerException;
 
 public final class CustomerServiceTester {
-    
-    // The CustomerService proxy will be injected either by spring or by a direct call to the setter 
+
+    // The CustomerService proxy will be injected either by spring or by a direct call to the setter
     CustomerService customerService;
-    
+
     public CustomerService getCustomerService() {
         return customerService;
     }
@@ -42,7 +42,7 @@ public final class CustomerServiceTester {
 
     public void testCustomerService() throws NoSuchCustomerException {
         List<Customer> customers = null;
-        
+
         // First we test the positive case where customers are found and we retreive
         // a list of customers
         System.out.println("Sending request for customers named Smith");

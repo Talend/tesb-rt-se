@@ -2,14 +2,14 @@
  * #%L
  * CRMService Service
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class CRMServiceImpl implements CRMService {
 
 	/**
 	 * {@inheritDoc}
-	 */ 
+	 */
 	public org.talend.services.crm.types.CustomerDetailsType getCRMInformation(
 			org.talend.services.crm.types.LoginUserType login) {
 		//
@@ -61,7 +61,7 @@ public class CRMServiceImpl implements CRMService {
 
 	/**
 	 * {@inheritDoc}
-	 */ 
+	 */
 	public org.talend.services.crm.types.RYLCStatusType getCRMStatus(
 			org.talend.services.crm.types.CustomerDetailsType customer) {
 		//
@@ -75,12 +75,12 @@ public class CRMServiceImpl implements CRMService {
 
 	/**
 	 * {@inheritDoc}
-	 */ 
+	 */
 	public void updateCRMStatus(
 			org.talend.services.crm.types.RYLCStatusType status) {
 		//
 		logData("updateCRMStatus", "request", status);
-		// 
+		//
 		setCustomerStatus(status);
 	}
 
@@ -100,9 +100,9 @@ public class CRMServiceImpl implements CRMService {
 		customer.setZip("53113");
 		customer.setEmail("info@talend.de");
 		customer.setStatus(CRMStatusType.NONE);
-		
+
 		String user = login.getUsername();
-		
+
 		if (user != null) {
 			if (user.contains("jdoe")) {
 				customer.setId(92301);
@@ -147,9 +147,9 @@ public class CRMServiceImpl implements CRMService {
 		status.setCreditPoints(new BigInteger("0"));
 		status.setDescription("You are not registered.");
 		status.setCustomerId(customer.getId());
-		
+
 		String user = customer.getUsername();
-	
+
 		if (user != null) {
 			if (user.contains("jdoe")) {
 				status.setCode(RYLCStatusCodeType.ACTIVE);

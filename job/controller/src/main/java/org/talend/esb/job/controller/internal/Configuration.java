@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,11 +66,11 @@ public final class Configuration {
     private final List<String> filter;
 
     private static final String ALGORITHM = "PBEWITHSHA256AND128BITAES-CBC-BC";
-    
+
     private static final String PASSWORD_ENV_NAME = "TESB_ENV_PASSWORD";
-    
+
     private static final String PROVIDER_NAME = "BC";
-    
+
     /**
      * A <code>Configuration</code> object with no properties set.
      */
@@ -113,7 +113,7 @@ public final class Configuration {
     /**
      * Set the time to wait in the {@link #awaitArguments()} method for the properties to be set.
      *
-     * @param timeout time to wait in milliseconds.  
+     * @param timeout time to wait in milliseconds.
      */
     public void setTimeout(long timeout) {
         this.timeout = timeout;

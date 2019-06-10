@@ -2,7 +2,7 @@
 <features name="talend-cxf-examples-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
     <!--
-        Copyright (C) 2011-2012 Talend Inc. - www.talend.com
+        Copyright (C) 2011-2019 Talend Inc. - www.talend.com
     -->
 
     <feature name='talend-cxf-example-jaxrs-intro' version='${project.version}' resolver='(obr)'>
@@ -15,7 +15,7 @@
         <bundle>mvn:org.apache.geronimo.specs/geronimo-jpa_2.0_spec/${geronimo.jpa.version}</bundle>
         <bundle>mvn:commons-dbcp/commons-dbcp/${commons-dbcp.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.serp/${servicemix.bundle.serp.version}</bundle>
-        <bundle>mvn:org.apache.openjpa/openjpa/${openjpa.version}</bundle> 
+        <bundle>mvn:org.apache.openjpa/openjpa/${openjpa.version}</bundle>
     </feature>
 
     <feature name='talend-cxf-example-jaxrs-advanced-server' version='${project.version}' resolver='(obr)'>

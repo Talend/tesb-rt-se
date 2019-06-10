@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ public class FlowIdProducerTest {
 	            .getName());
 		LOG.setLevel(Level.FINEST);
 	}
-	
+
 	@Test
 	public void flowIdProducerInTest() {
 		FlowIdProducerIn<Message> flowIdProducerIn = new FlowIdProducerIn<Message>();
@@ -54,7 +54,7 @@ public class FlowIdProducerTest {
 		Exchange exchange = new ExchangeImpl();
 		message.setExchange(exchange);
 		String flowId = FlowIdHelper.getFlowId(message);
-		
+
 		Assert.assertNull("FlowId should be null before FlowIdProducerIn handleMessage()", flowId);
 		flowIdProducerIn.handleMessage(message);
 		flowId = FlowIdHelper.getFlowId(message);
@@ -68,7 +68,7 @@ public class FlowIdProducerTest {
 		Exchange exchange = new ExchangeImpl();
 		message.setExchange(exchange);
 		String flowId = FlowIdHelper.getFlowId(message);
-		
+
 		Assert.assertNull("FlowId should be null before FlowIdProducerIn handleMessage()", flowId);
 		Map<String, List<String>> headers = new HashMap<String, List<String>>();
 		headers.put("flowid", Arrays.asList("flowid"));
@@ -86,14 +86,14 @@ public class FlowIdProducerTest {
 		Message inMessage = new MessageImpl();
 		exchange.setInMessage(inMessage);
 		message.setExchange(exchange);
-		
+
 		String flowId = FlowIdHelper.getFlowId(message);
 		Assert.assertNull("FlowId should be null before FlowIdProducerOut handleMessage()", flowId);
 		flowIdProducerOut.handleMessage(message);
 		flowId = FlowIdHelper.getFlowId(message);
 		Assert.assertNotNull("FlowId should not be null after FlowIdProducerOut handleMessage()", flowId);
 	}
-	
+
 	@Test
 	public void flowIdProducerOut2Test() {
 		FlowIdProducerOut<Message> flowIdProducerOut = new FlowIdProducerOut<Message>();
@@ -102,15 +102,15 @@ public class FlowIdProducerTest {
 		Message inMessage = new MessageImpl();
 		exchange.setInMessage(inMessage);
 		message.setExchange(exchange);
-		
+
 		WeakReference<Message> wrPreviousMessage = EasyMock.createMock(WeakReference.class);
 		EasyMock.expect(wrPreviousMessage.get()).andReturn(message);
 		EasyMock.replay(wrPreviousMessage);
 		message.put(PhaseInterceptorChain.PREVIOUS_MESSAGE, wrPreviousMessage);
 		message.put(Message.REQUESTOR_ROLE, true);
-        
-		
-		
+
+
+
 		String flowId = FlowIdHelper.getFlowId(message);
 		Assert.assertNull("FlowId should be null before FlowIdProducerOut handleMessage()", flowId);
 		flowIdProducerOut.handleMessage(message);

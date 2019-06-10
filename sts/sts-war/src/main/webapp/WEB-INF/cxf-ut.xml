@@ -2,14 +2,14 @@
   #%L
   Talend :: ESB :: STS :: WAR
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@
   #L%
   -->
 
-<beans 
+<beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:cxf="http://cxf.apache.org/core"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -30,7 +30,7 @@
         http://cxf.apache.org/schemas/core.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://cxf.apache.org/jaxws                                     
+        http://cxf.apache.org/jaxws
         http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-2.0.xsd">
@@ -40,7 +40,7 @@
 		class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
 		<property name="issueOperation" ref="utIssueDelegate"/>
 		<property name="validateOperation" ref="utValidateDelegate"/>
-	</bean>	
+	</bean>
 
 	<bean id="utIssueDelegate"
 		class="org.apache.cxf.sts.operation.TokenIssueOperation">
@@ -48,30 +48,30 @@
 		<property name="services" ref="utService"/>
 		<property name="stsProperties" ref="utSTSProperties"/>
 	</bean>
-	
+
 	<bean id="utValidateDelegate"
 	    class="org.apache.cxf.sts.operation.TokenValidateOperation">
 	    <property name="tokenValidators" ref="utSamlTokenValidator"/>
 		<property name="stsProperties" ref="utSTSProperties"/>
 	</bean>
-	
+
 	<bean id="utSamlTokenProvider"
 		class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
     </bean>
-    
+
     <bean id="utSamlTokenValidator"
 		class="org.apache.cxf.sts.token.validator.SAMLTokenValidator">
     </bean>
-    
+
     <bean id="utService"
         class="org.apache.cxf.sts.service.StaticService">
         <property name="endpoints" ref="utEndpoints"/>
     </bean>
-    
+
     <util:list id="utEndpoints">
 		<value>.*</value>
 	</util:list>
-	
+
 	<bean id="utSTSProperties"
 	     class="org.apache.cxf.sts.StaticSTSProperties">
 	    <property name="signaturePropertiesFile" value="stsKeystore.properties"/>
@@ -81,13 +81,13 @@
 		<property name="issuer" value="DoubleItSTSIssuer"/>
 		<property name="encryptionUsername" value="myservicekey"/>
     </bean>
-    
+
     <bean class="org.talend.esb.sts.war.handler.PropertyFileCallbackHandler" id="propertyFileUTValidator">
     </bean>
-    
+
 	<jaxws:endpoint id="UTSTS"
 		implementor="#utSTSProviderBean"
-		address="/UT" 
+		address="/UT"
         wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService"
@@ -99,9 +99,9 @@
             <entry key="security.signature.username" value="mystskey"/>
             <!-- Below needs to be set to non-default value of false for Metro clients -->
             <entry key="ws-security.is-bsp-compliant" value="false"/>
-        </jaxws:properties> 
+        </jaxws:properties>
 	</jaxws:endpoint>
-	
+
 
 </beans>
 

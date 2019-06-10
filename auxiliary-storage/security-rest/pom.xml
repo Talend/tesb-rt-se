@@ -1,7 +1,7 @@
 <!--
 // ============================================================================
 //
-// Copyright (C) 2011-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2011-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\license.txt
@@ -25,7 +25,7 @@
         <groupId>org.talend.esb.auxiliary.storage</groupId>
         <artifactId>auxiliary-storage-parent</artifactId>
         <version>7.2.1-SNAPSHOT</version>
-    </parent>	
+    </parent>
 
     <prerequisites>
         <maven>${maven.version}</maven>

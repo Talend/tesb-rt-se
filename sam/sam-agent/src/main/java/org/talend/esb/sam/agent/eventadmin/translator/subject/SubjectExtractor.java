@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,15 +34,15 @@ import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 
 public class SubjectExtractor {
-    
+
     private static final Logger LOG = Logger.getLogger(SubjectExtractor.class.getName());
     private final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-    
+
     private final SAXParser parser;
-    
+
     public SubjectExtractor() {
         parserFactory.setNamespaceAware(true);
-        
+
         try {
             parserFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
             parserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE);
@@ -60,7 +60,7 @@ public class SubjectExtractor {
             throw new RuntimeException(e);
         }
     }
-    
+
     public String getSubject(String document, AbstractSubjectExtractorHandler handler) throws Exception {
         if (document == null) {
             LOG.warning("Message content is null, couldn't get the Subject/Principal.");

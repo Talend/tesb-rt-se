@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: API
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@
  */
 // ============================================================================
 //
-// Copyright (C) 2006-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -42,7 +42,7 @@ import java.util.Map;
 
 /**
  * ResumeUtil.
- * 
+ *
  */
 public class ResumeUtil {
 
@@ -441,15 +441,15 @@ public class ResumeUtil {
 
     /**
      * this class is reference with CsvWriter.
-     * 
+     *
      * Because java.io.PrintWriter with this limit. {@link PrintWriter}, If automatic flushing is enabled it will be
      * done only when...
-     * 
+     *
      * This limit will affect parentJob/childrenJob operate the same csv writer file, they always hold data buffer
      * themselves, and flush() can't really flush.
-     * 
+     *
      * SimpleCsvWriter is without this problem.
-     * 
+     *
      * @author wyang
      */
     public class SimpleCsvWriter {

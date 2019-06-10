@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  *
- * Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+ * Copyright (C) 2011-2019 Talend Inc. - www.talend.com
  *
  * This source code is available under agreement available at
  * %InstallDIR%\license.txt
@@ -47,7 +47,7 @@ public class STSClientCreator {
                 props.put(entry.getKey(), value);
             }
         }
-        
+
         String user = stsProps.get(SecurityConstants.USERNAME);
         if (user == null) {
             user = stsProps.get("ws-" + SecurityConstants.USERNAME);

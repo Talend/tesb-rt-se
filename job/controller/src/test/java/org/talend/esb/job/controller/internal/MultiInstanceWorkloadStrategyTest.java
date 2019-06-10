@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ import routines.system.api.TalendESBJobFactory;
 public class MultiInstanceWorkloadStrategyTest extends EasyMockSupport {
 
     private static final String JOB_NAME = "job1";
-    
+
     private static final String[] ARGUMENTS = new String[0];
 
     private static final int ANY_VAL = 34234;
@@ -60,7 +60,7 @@ public class MultiInstanceWorkloadStrategyTest extends EasyMockSupport {
 
         new MultiInstanceWorkloadStrategy(jobFactory, JOB_NAME, ARGUMENTS, endpointRegistry, execService);
 
-        verifyAll();        
+        verifyAll();
     }
 
     @Test
@@ -68,11 +68,11 @@ public class MultiInstanceWorkloadStrategyTest extends EasyMockSupport {
         mockJobInstanceCreation();
         replayAll();
 
-        MultiInstanceWorkloadStrategy strategy = 
+        MultiInstanceWorkloadStrategy strategy =
             new MultiInstanceWorkloadStrategy(jobFactory, JOB_NAME, ARGUMENTS, endpointRegistry, execService);
         strategy.initialValues(buffer, ANY_VAL, ANY_VAL);
 
-        verifyAll();        
+        verifyAll();
     }
 
     @Test
@@ -80,32 +80,32 @@ public class MultiInstanceWorkloadStrategyTest extends EasyMockSupport {
         mockJobInstanceCreation();
         replayAll();
 
-        MultiInstanceWorkloadStrategy strategy = 
+        MultiInstanceWorkloadStrategy strategy =
             new MultiInstanceWorkloadStrategy(jobFactory, JOB_NAME, ARGUMENTS, endpointRegistry, execService);
         strategy.valuesChanged(buffer, ZERO, ANY_VAL);
 
-        verifyAll();        
-        
+        verifyAll();
+
     }
 
     @Test
     public void idleJobExistWhenValueChangedNoInstanceCreated() {
         replayAll();
 
-        MultiInstanceWorkloadStrategy strategy = 
+        MultiInstanceWorkloadStrategy strategy =
             new MultiInstanceWorkloadStrategy(jobFactory, JOB_NAME, ARGUMENTS, endpointRegistry, execService);
         strategy.valuesChanged(buffer, NOT_ZERO, ANY_VAL);
 
-        verifyAll();        
-        
+        verifyAll();
+
     }
-    
+
     private void mockJobInstanceCreation() {
         TalendESBJob job = createMock(TalendESBJob.class);
         job.setEndpointRegistry(endpointRegistry);
         job.setProviderCallback((RuntimeESBProviderCallback) anyObject());
         expect(jobFactory.newTalendESBJob()).andReturn(job);
-        execService.execute(isA(RuntimeESBProviderCallback.class));        
+        execService.execute(isA(RuntimeESBProviderCallback.class));
     }
- 
+
 }

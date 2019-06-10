@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 public class TestContent {
 
     public static final String WSA = "http://www.w3.org/2005/08/addressing";
-    
+
     public static final String SL = "http://talend.org/schemas/esb/locator/content/20011/11";
 
     public static final byte[] CONTENT_ANY_1 = new byte[] {51, 6, 23, 45, 127, 34};
@@ -55,7 +55,7 @@ public class TestContent {
         return createContent(
                 addressVal, lastStartTime, lastStopTime, BindingType.SOAP_11, TransportType.HTTP, null);
     }
-    
+
     public static byte[] createContent(SLProperties props) {
         return createContent(
                 "", LAST_TIME_STARTED, LAST_TIME_STOPPED, BindingType.SOAP_11, TransportType.HTTP, props);
@@ -70,7 +70,7 @@ public class TestContent {
                 addressVal, lastStartTime, lastStopTime, BindingType.SOAP_11, TransportType.HTTP, props);
     }
 
-    public static byte[] createContent(String addressVal, long lastStartTime, long lastStopTime, 
+    public static byte[] createContent(String addressVal, long lastStartTime, long lastStopTime,
             BindingType binding, TransportType transport,  SLProperties props) {
         Element root = DomMother.newDocument(SL, "EndpointData");
         addEPR(root, addressVal, props);
@@ -83,7 +83,7 @@ public class TestContent {
 
         return serialize(root);
     }
-    
+
     public static byte[] createContentInvalidEPR() {
         Element root = DomMother.newDocument(SL, "EndpointData");
         DomMother.addElement(root, "invalidNamespace", "EndpointReference");
@@ -99,7 +99,7 @@ public class TestContent {
 
             Collection<String> values = properties.getValues(name);
             for (String  value : values) {
-                DomMother.addLeafElement(entry, SL, "Value", value);                
+                DomMother.addLeafElement(entry, SL, "Value", value);
             }
         }
     }
@@ -108,12 +108,12 @@ public class TestContent {
         Element epr = DomMother.addElement(parent, WSA, "EndpointReference");
         DomMother.addLeafElement(epr, WSA, "Address", addressVal);
         Element metadata  = DomMother.addElement(epr, WSA, "Metadata");
-        
+
         if (props != null) {
             addProperties(metadata, props);
-        }    
+        }
     }
-    
+
     private static byte[] serialize(Element root) {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream(10000);
         DomMother.serialize(root, outStream);

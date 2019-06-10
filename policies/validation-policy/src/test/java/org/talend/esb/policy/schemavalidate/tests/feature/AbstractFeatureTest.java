@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,24 +35,24 @@ public abstract class AbstractFeatureTest extends AbstractTest{
 
 	public void basicFeatureTest(final String[] springContextPath, String customerName) throws Exception{
     	clientCtxt = new ClassPathXmlApplicationContext(springContextPath);
-	
+
     	CustomerServiceTester client = (CustomerServiceTester)clientCtxt.getBean("tester");
     	client.testCustomerService(customerName);
         clientCtxt.close();
 	}
-	
+
 	public void customFeatureTest(SchemaValidationFeature feature, String customerName) throws Exception{
     	clientCtxt = new ClassPathXmlApplicationContext("classpath:spring/client/feature/client-defaultApplicationContext.xml");
     	ClientProxyFactoryBean clientFactory = (ClientProxyFactoryBean)clientCtxt.getBean(ClientProxyFactoryBean.class);
-    	
+
     	List<SchemaValidationFeature> features = new ArrayList<SchemaValidationFeature>();
     	features.add(feature);
     	clientFactory.setFeatures(features);
-    	
+
       	CustomerServiceTester tester = new CustomerServiceTester();
     	tester.setCustomerService(clientFactory.create(CustomerService.class));
     	tester.testCustomerService(customerName);
         clientCtxt.close();
-	}	
+	}
 
 }

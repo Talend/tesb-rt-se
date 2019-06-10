@@ -2,14 +2,14 @@
  * #%L
  * Locator REST Service Example :: client
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import org.talend.schemas.esb.locator.rest._2011._11.RegisterEndpointRequest;
 import org.talend.schemas.esb.locator._2011._11.TransportType;
 
 public final class RESTClient {
-	
+
 	private RESTClient() throws IOException {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] { "META-INF/spring/beans.xml" });
 		LocatorService client = (LocatorService) context.getBean("restClient");
@@ -63,7 +63,7 @@ public final class RESTClient {
 	public static void main(String args[]) throws java.lang.Exception {
 		new RESTClient();
 	}
-	
+
 	private void registerExample(LocatorService client, String service, String endpoint) {
 		System.out.println("------------------------------");
 		System.out.println("Register service with endpoint");
@@ -80,22 +80,22 @@ public final class RESTClient {
 		} catch (WebApplicationException ex) {
 			System.err.println(ex.getMessage());
 		}
-		
+
 	}
-	
+
 	private void unregisterExample(LocatorService client, String service, String endpoint) throws UnsupportedEncodingException {
 		System.out.println("------------------------------");
 		System.out.println("Unregister endpoint");
 		System.out.println("ServiceName: ".concat(service));
 		System.out.println("EndpointURL: ".concat(endpoint));
 		try {
-			client.unregisterEndpoint(URLEncoder.encode(service, "UTF-8"), URLEncoder.encode(endpoint, "UTF-8"));	
+			client.unregisterEndpoint(URLEncoder.encode(service, "UTF-8"), URLEncoder.encode(endpoint, "UTF-8"));
 		} catch (WebApplicationException ex) {
 			System.err.println(ex.getResponse().getStatus() + ": " + ex.getMessage());
 		}
-		
+
 	}
-	
+
 	private void lookupEndpointsExample(LocatorService client, String service) throws IOException {
 		System.out.println("------------------------------");
 		System.out.println("LookupEndpoints");
@@ -105,13 +105,13 @@ public final class RESTClient {
 			{
 				for (W3CEndpointReference w3cEndpointReference : endpointReferenceList.getEndpointReference()) {
 					System.out.println(w3cEndpointReference.toString());
-				}	
+				}
 			}
 		} catch(WebApplicationException ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
-	
+
 	private void lookupEndpointExample(LocatorService client, String service) throws IOException {
 		System.out.println("------------------------------");
 		System.out.println("LookupEndpoint");

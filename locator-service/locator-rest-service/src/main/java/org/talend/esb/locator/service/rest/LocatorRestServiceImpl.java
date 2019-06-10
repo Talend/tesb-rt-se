@@ -2,14 +2,14 @@
  * #%L
  * Locator Service :: REST
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,7 +74,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     @OsgiService
     @Inject
     ServiceLocator locatorClient;
-    
+
     @OsgiService
     @Inject
     ExpiredEndpointCollector endpointCollector;
@@ -84,14 +84,14 @@ public class LocatorRestServiceImpl implements LocatorService {
     private int sessionTimeout = 5000;
 
     private int connectionTimeout = 5000;
-    
+
     public void setLocatorClient(ServiceLocator locatorClient) {
         this.locatorClient = locatorClient;
         if (LOG.isLoggable(Level.FINE)) {
             LOG.log(Level.FINE, "Locator client was set for Rest Service.");
         }
     }
-    
+
     public void setEndpointCollector(ExpiredEndpointCollector endpointCollector) {
         this.endpointCollector = endpointCollector;
     }
@@ -107,7 +107,7 @@ public class LocatorRestServiceImpl implements LocatorService {
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
     }
-    
+
     @PostConstruct
     public void start() {
         if (endpointCollector != null) {
@@ -120,7 +120,7 @@ public class LocatorRestServiceImpl implements LocatorService {
      * establish a connection to the Service Locator server. This method will be
      * called if property locatorClient is null. For this purpose was defined
      * additional properties to instantiate ServiceLocatorImpl.
-     * 
+     *
      * @throws InterruptedException
      * @throws ServiceLocatorException
      */
@@ -144,7 +144,7 @@ public class LocatorRestServiceImpl implements LocatorService {
      * Should use as destroy method. Disconnects from a Service Locator server.
      * All endpoints that were registered before are removed from the server.
      * Set property locatorClient to null.
-     * 
+     *
      * @throws InterruptedException
      * @throws ServiceLocatorException
      */
@@ -154,11 +154,11 @@ public class LocatorRestServiceImpl implements LocatorService {
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Destroy Locator client");
         }
-        
+
         if (endpointCollector != null) {
             endpointCollector.stopScheduledCollection();
         }
-        
+
         if (locatorClient != null) {
             locatorClient.disconnect();
             locatorClient = null;
@@ -167,7 +167,7 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     /**
      * Register the endpoint for given service.
-     * 
+     *
      * @param input
      *            RegisterEndpointRequestType encapsulate name of service and
      *            endpointURL. Must not be <code>null</code>
@@ -219,12 +219,12 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     /**
      * Unregister the endpoint for given service.
-     * 
+     *
      * @param input
      *            String encoded name of service
      * @param input
      *            String encoded name of endpoint
-     * 
+     *
      */
     public void unregisterEndpoint(String arg0, String arg1) {
         String endpointURL = null;
@@ -254,7 +254,7 @@ public class LocatorRestServiceImpl implements LocatorService {
                     .entity(e.getMessage()).build());
         }
     }
-    
+
     @Override
     public void updateTimetolive(String arg0, String arg1, int timetolive) {
         String endpointURL = null;
@@ -293,12 +293,12 @@ public class LocatorRestServiceImpl implements LocatorService {
     /**
      * For the given service return endpoint reference randomly selected from
      * list of endpoints currently registered at the service locator server.
-     * 
+     *
      * @param input
      *            String encoded name of service
      * @param input
      *            List of encoded additional parameters separated by comma
-     * 
+     *
      * @return endpoint references or <code>null</code>
      */
     @Override
@@ -356,12 +356,12 @@ public class LocatorRestServiceImpl implements LocatorService {
     /**
      * For the given service return endpoint reference randomly selected from
      * list of endpoints currently registered at the service locator server.
-     * 
+     *
      * @param input
      *            String encoded name of service
      * @param input
      *            List of encoded additional parameters separated by comma
-     * 
+     *
      * @return EndpointReferenceListType encapsulate list of endpoint references
      *         or <code>null</code>
      */
@@ -435,7 +435,7 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     /**
      * Rotate list of String. Used for randomize selection of received endpoints
-     * 
+     *
      * @param strings
      *            list of Strings
      * @return the same list in random order
@@ -452,7 +452,7 @@ public class LocatorRestServiceImpl implements LocatorService {
 
     /**
      * Build Endpoint Reference for giving service name and address
-     * 
+     *
      * @param serviceName
      * @param adress
      * @return

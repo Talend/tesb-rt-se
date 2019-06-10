@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: API
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@
  */
 // ============================================================================
 //
-// Copyright (C) 2006-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -36,7 +36,7 @@ import java.io.Writer;
 
 /**
  * @(#)BufferedWriter.java 1.26 03/12/19
- * 
+ *
  * @see java.io.BuffferedWriter
  * @author xzhang
  */
@@ -59,7 +59,7 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Create a buffered character-output stream that uses a default-sized output buffer.
-     * 
+     *
      * @param out A Writer
      */
     public BufferedOutput(Writer out) {
@@ -68,10 +68,10 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Create a new buffered character-output stream that uses an output buffer of the given size.
-     * 
+     *
      * @param out A Writer
      * @param sz Output-buffer size, a positive integer
-     * 
+     *
      * @exception IllegalArgumentException If sz is <= 0
      */
     public BufferedOutput(Writer out, int sz) {
@@ -112,7 +112,7 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Write a single character.
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void write(int c) throws IOException {
@@ -136,17 +136,17 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Write a portion of an array of characters.
-     * 
+     *
      * <p>
      * Ordinarily this method stores characters from the given array into this stream's buffer, flushing the buffer to
      * the underlying stream as needed. If the requested length is at least as large as the buffer, however, then this
      * method will flush the buffer and write the characters directly to the underlying stream. Thus redundant
      * <code>BufferedWriter</code>s will not copy data unnecessarily.
-     * 
+     *
      * @param cbuf A character array
      * @param off Offset from which to start reading characters
      * @param len Number of characters to write
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void write(char cbuf[], int off, int len) throws IOException {
@@ -182,18 +182,18 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Write a portion of a String.
-     * 
+     *
      * <p>
      * If the value of the <tt>len</tt> parameter is negative then no characters are written. This is contrary to the
      * specification of this method in the {@linkplain java.io.Writer#write(java.lang.String,int,int) superclass},
      * which requires that an {@link IndexOutOfBoundsException} be thrown.
-     * 
+     *
      * @param s String to be written
      * @param off Offset from which to start reading characters
      * @param len Number of characters to be written
-     * 
+     *
      * @user xzhang
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void write(String s, int off, int len) throws IOException {
@@ -231,7 +231,7 @@ public class BufferedOutput extends java.io.Writer {
     /**
      * Write a line separator. The line separator string is defined by the system property <tt>line.separator</tt>,
      * and is not necessarily a single newline ('\n') character.
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void newLine() throws IOException {
@@ -240,7 +240,7 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Flush the stream.
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void flush() throws IOException {
@@ -252,7 +252,7 @@ public class BufferedOutput extends java.io.Writer {
 
     /**
      * Close the stream.
-     * 
+     *
      * @exception IOException If an I/O error occurs
      */
     public void close() throws IOException {

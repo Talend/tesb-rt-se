@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -14,7 +14,7 @@ Example for Locator REST Service
 
 ============================================
 This example illustrates the usage of Locator REST Service methods.
- 
+
  example of client that uses REST Service
  client/
  -first service endpoint is registered to Service Locator.
@@ -28,7 +28,7 @@ This example illustrates the usage of Locator REST Service methods.
  -unregister second endpoint from Service locator.
  -unregister third endpoint from Service locator.
  -lookup if the endpoints still registered.
- 
+
  example of client that uses WebClient
  webclient/
  -register first endpoint for the service with systemTimeout=200
@@ -38,8 +38,8 @@ This example illustrates the usage of Locator REST Service methods.
  -lookup endpoint with systemTimeout=400
  -unregister first endpoint
  -unregister second endpoint
- -lookup endpoint 
- 
+ -lookup endpoint
+
 This example consists of the following components:
 
 client/
@@ -48,12 +48,12 @@ client/
 webclient/
 	- This is a sample webclient application that uses the Locator REST Service to dynamically lookup/register/unregister service endpoints.
 
-soapui/   
+soapui/
 	- This directory contains soapUI project that allows for easily invoking methods of the Locator REST Service.
-	
+
 Prerequisite
 ---------------------------------------
-To run this example successfully, Karaf  should be running. 
+To run this example successfully, Karaf  should be running.
 you must install the J2SE Development Kit (JDK) 6.0 or above.
 
 The Service Locator Server (zookeeper) should be running in any mode.
@@ -63,10 +63,10 @@ Building the Demo
 Using either Linux or Windows:
 
     mvn install
-	
+
 Starting the Locator REST Service
 ---------------------------------------
-   * Run a command in TESB container:  
+   * Run a command in TESB container:
 feature:install tesb-locator-rest-service
 
 Executing client application

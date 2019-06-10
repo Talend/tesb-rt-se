@@ -2,14 +2,14 @@
  * #%L
  * App Reservation Basic
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +69,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 	class CarTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = 1L;
 
-		private final String[] COL_NAMES = { 
+		private final String[] COL_NAMES = {
 			Messages.CarRentalClient_Brand
 			, Messages.CarRentalClient_Model
 			, Messages.CarRentalClient_BookingClass
@@ -78,7 +78,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 			, Messages.CarRentalClient_Insurance};
 
 		List<RESCarType> myCars = new ArrayList<RESCarType>();
-		
+
 		public void setData(List<RESCarType> cars) {
 			myCars = cars;
 			this.fireTableDataChanged();
@@ -91,14 +91,14 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		public int getColumnCount() {
 			return COL_NAMES.length;
 		}
-		
+
 	    public String getColumnName(int column) {
 	    	return COL_NAMES[column];
 	    }
-	    
+
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			RESCarType c = myCars.get(rowIndex);
-			
+
 			switch(columnIndex) {
 				case 0: return c.getBrand();
 				case 1: return c.getDesignModel();
@@ -109,7 +109,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 			}
 			return null;
 		}
-		
+
 	}
 
 	private CarSearchModel search;
@@ -144,19 +144,19 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 	private JTextField tDaily;
 	private JTextField tWeekEnd;
 	private JTable selectTable;
-	
+
 	public CarRentalClientGui(CarSearchModel searchModel, CarReserveModel reserveModel) {
 		this.search = searchModel;
 		this.reserve = reserveModel;
 		this.setLayout(new BorderLayout(5, 5));
 		this.setBackground(Color.WHITE);
-		
+
         add(createHeaderPanel(), BorderLayout.NORTH);
 
         findPanel = createFindPanel();
         selectPanel = createSelectionPanel();
         confirmPanel = createConfirmationPanel();
-        
+
         content = createPanel();
         cardlist = new CardLayout();
         content.setLayout(cardlist);
@@ -171,7 +171,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		return (imgURL != null) ? new ImageIcon(imgURL) : null;
 	}
 
-	
+
 	private JPanel createPanel() {
 		JPanel p = new JPanel(new BorderLayout(2, 2));
 		p.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -183,7 +183,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		return new GridBagConstraints(1, 1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,
 				2, 2, 2), 2, 2);
 	}
-	
+
 	private void addField(JPanel p, GridBagConstraints gbc, JLabel l, JComponent t, int x, int y) {
 		gbc.gridx = x;
 		gbc.gridy = y;
@@ -196,30 +196,30 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 	private JPanel createHeaderPanel() {
 		JPanel header = createPanel();
 		header.add(new JLabel(Messages.CarRentalClient_Title), BorderLayout.WEST);
-		header.add(new JLabel(createImageIcon("talend.gif")), BorderLayout.EAST);		
+		header.add(new JLabel(createImageIcon("talend.gif")), BorderLayout.EAST);
 		return header;
 	}
-	
-	
+
+
 	private JPanel createStepPanel(String stepImage) {
 		JPanel imgPanel = createPanel();
-		imgPanel.add(new JLabel(createImageIcon(stepImage)), BorderLayout.CENTER);				
+		imgPanel.add(new JLabel(createImageIcon(stepImage)), BorderLayout.CENTER);
 		return imgPanel;
 	}
 
-	
+
 	private JPanel createFindInput() {
 		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		JPanel searchInp = createPanel();
 		searchInp.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = createGridBagConstants();
-		
+
 		JLabel lUser = new JLabel(Messages.CarRentalClient_User);
 		cUser = new JComboBox(new String[] {"aebert", "jdoe", "bbrindle", "rlambert"});
 		cUser.setSelectedIndex(0);
 		cUser.setEditable(true);
 		addField(searchInp, gbc, lUser, cUser, 1, 1);
-		
+
 		JLabel lPickupDate = new JLabel(Messages.CarRentalClient_Pickup);
 		tPickupDate = new JFormattedTextField(df);
 		tPickupDate.setValue(new Date());
@@ -235,8 +235,8 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		searchInp.add(spacer, gbc);
 		return searchInp;
 	}
-	
-	
+
+
 	private JPanel createFindPanel() {
 		JPanel p = createPanel();
 		p.add(createStepPanel("step1.gif"), BorderLayout.NORTH);
@@ -245,24 +245,24 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		return p;
 	}
 
-	
+
 	private JPanel createFindCommands() {
 		JPanel searchCmd = createPanel();
 		searchCmd.setLayout(new BoxLayout(searchCmd, BoxLayout.LINE_AXIS));
 		searchCmd.add(Box.createRigidArea(new Dimension(380, 0)));
-		
+
 		cmdFindCancel = new JButton(Messages.CarRentalClient_CmdCancel);
 		cmdFindCancel.addActionListener(this);
 		cmdFind = new JButton(Messages.CarRentalClient_CmdFind);
 		cmdFind.addActionListener(this);
 		searchCmd.add(cmdFindCancel);
 		searchCmd.add(Box.createRigidArea(new Dimension(50, 0)));
-		
+
 		searchCmd.add(cmdFind);
 		return searchCmd;
 	}
 
-	
+
 	private JPanel createSelectionPanel() {
 		JPanel select = createPanel();
 		select.add(createStepPanel("step2.gif"), BorderLayout.NORTH);
@@ -270,8 +270,8 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		select.add(createSelectionCommands(), BorderLayout.SOUTH);
 		return select;
 	}
-	
-	
+
+
 	private JPanel createSelectionInput() {
 		JPanel selectInp = createPanel();
 		JPanel pInfo = createPanel();
@@ -286,8 +286,8 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		selectInp.add(scrollPane, BorderLayout.SOUTH);
 		return selectInp;
 	}
-	
-	
+
+
 	private JPanel createSelectionCommands() {
 		JPanel selectCmd = createPanel();
 		selectCmd.setLayout(new BoxLayout(selectCmd, BoxLayout.LINE_AXIS));
@@ -295,19 +295,19 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		cmdSelectBack.addActionListener(this);
 		selectCmd.add(cmdSelectBack);
 		selectCmd.add(Box.createRigidArea(new Dimension(240, 0)));
-		
+
 		cmdSelectCancel = new JButton(Messages.CarRentalClient_CmdCancel);
 		cmdSelectCancel.addActionListener(this);
 		cmdSelect = new JButton(Messages.CarRentalClient_CmdReserve);
 		cmdSelect.addActionListener(this);
 		selectCmd.add(cmdFindCancel);
 		selectCmd.add(Box.createRigidArea(new Dimension(25, 0)));
-		
+
 		selectCmd.add(cmdSelect);
 		return selectCmd;
 	}
 
-	
+
 	private JPanel createConfirmationPanel() {
 		JPanel confirm = createPanel();
 		confirm.add(createStepPanel("step3.gif"), BorderLayout.NORTH);
@@ -315,12 +315,12 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		confirm.add(createConfirmCommands(), BorderLayout.SOUTH);
 		return confirm;
 	}
-	
-	
+
+
 	private JPanel createConfirmationContent() {
 		JPanel confCont = createPanel();
 		confCont.add(createConfirmationHeader(), BorderLayout.NORTH);
-		
+
 		JPanel confMain = createPanel();
 		confMain.add(createCustomerDetails(), BorderLayout.NORTH);
 		confMain.add(createCarDetails(), BorderLayout.CENTER);
@@ -328,8 +328,8 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		confCont.add(confMain, BorderLayout.CENTER);
 		return confCont;
 	}
-	
-	
+
+
 	private JPanel createConfirmationHeader() {
 		JPanel cHeader = createPanel();
 		cHeader.setLayout(new GridBagLayout());
@@ -347,29 +347,29 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		addField(cHeader, gbc, lReservationId, tReservationId, 0, 1);
 		return cHeader;
 	}
-	
-	
+
+
 	private JPanel createCustomerDetails() {
 		JPanel cDetails = createPanel();
 		cDetails.setLayout(new GridBagLayout());
 		cDetails.setBorder(BorderFactory.createTitledBorder(Messages.CarRentalClient_CustomerDetails));
 		GridBagConstraints gbc = createGridBagConstants();
-		
+
 		JLabel lName = new JLabel(Messages.CarRentalClient_Name);
 		tName = new JTextField(25);
 		tName.setEditable(false);
 		addField(cDetails, gbc, lName, tName, 1, 1);
-		
+
 		JLabel lEMail = new JLabel(Messages.CarRentalClient_eMail);
 		tEMail = new JTextField(25);
 		tEMail.setEditable(false);
 		addField(cDetails, gbc, lEMail, tEMail, 1, 2);
-		
+
 		JLabel lCity = new JLabel(Messages.CarRentalClient_City);
 		tCity = new JTextField(25);
 		tCity.setEditable(false);
 		addField(cDetails, gbc, lCity, tCity, 1, 3);
-		
+
 		JLabel lStatus = new JLabel(Messages.CarRentalClient_Status);
 		tStatus = new JTextField(25);
 		tStatus.setEditable(false);
@@ -377,19 +377,19 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 
 		return cDetails;
 	}
-	
-	
+
+
 	private JPanel createCarDetails() {
 		JPanel cDetails = createPanel();
 		cDetails.setLayout(new GridBagLayout());
 		cDetails.setBorder(BorderFactory.createTitledBorder(Messages.CarRentalClient_CarDetails));
 		GridBagConstraints gbc = createGridBagConstants();
-		
+
 		JLabel lBrand = new JLabel(Messages.CarRentalClient_Brand);
 		tBrand = new JTextField(25);
 		tBrand.setEditable(false);
 		addField(cDetails, gbc, lBrand, tBrand, 1, 1);
-		
+
 		JLabel lModel = new JLabel(Messages.CarRentalClient_Model);
 		tModel = new JTextField(25);
 		tModel.setEditable(false);
@@ -397,35 +397,35 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 
 		return cDetails;
 	}
-	
-	
+
+
 	private JPanel createReservationDetails() {
 		JPanel cDetails = createPanel();
 		cDetails.setLayout(new GridBagLayout());
 		cDetails.setBorder(BorderFactory.createTitledBorder(Messages.CarRentalClient_ReservationDetails));
 		GridBagConstraints gbc = createGridBagConstants();
-		
+
 		JLabel lPickup = new JLabel(Messages.CarRentalClient_Pickup);
 		tPickup = new JTextField(10);
 		tPickup.setEditable(false);
 		addField(cDetails, gbc, lPickup, tPickup, 1, 1);
-		
+
 		JLabel lReturn = new JLabel(Messages.CarRentalClient_Return);
 		tReturn = new JTextField(10);
 		tReturn.setEditable(false);
 		addField(cDetails, gbc, lReturn, tReturn, 3, 1);
-		
-		
+
+
 		JLabel lDaily = new JLabel(Messages.CarRentalClient_DayRate);
 		tDaily = new JTextField(5);
 		tDaily.setEditable(false);
 		addField(cDetails, gbc, lDaily, tDaily, 1, 2);
-		
+
 		JLabel lWeekEnd = new JLabel(Messages.CarRentalClient_WeekEndRate);
 		tWeekEnd = new JTextField(5);
 		tWeekEnd.setEditable(false);
 		addField(cDetails, gbc, lWeekEnd, tWeekEnd, 3, 2);
-		
+
 		JLabel lCredits = new JLabel(Messages.CarRentalClient_Credits);
 		tCredits = new JTextField(7);
 		tCredits.setEditable(false);
@@ -434,7 +434,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		return cDetails;
 	}
 
-	
+
 	private JPanel createConfirmCommands() {
 		JPanel confirmCmd = createPanel();
 		confirmCmd.setLayout(new BoxLayout(confirmCmd, BoxLayout.LINE_AXIS));
@@ -446,7 +446,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 		return confirmCmd;
 	}
 
-	
+
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -460,10 +460,10 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
         // Display the window centered on the screen
         Dimension d = appFrame.getToolkit().getScreenSize();
         appFrame.setLocation((d.width / 2) - (appFrame.getWidth() / 2), (appFrame.getHeight() / 2));
- 
+
         CarRentalClientGui gui = new CarRentalClientGui(searchModel, reserveModel);
         gui.appFrame = appFrame;
-        appFrame.setContentPane(gui);        
+        appFrame.setContentPane(gui);
         appFrame.pack();
 
         appFrame.setVisible(true);
@@ -477,12 +477,12 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
             }
         });
     }
-    
+
     public static void main(String[] args) {
 		openApp(null, null);
 	}
 
-    
+
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(cmdFind)) {
 			if (search != null) {
@@ -492,10 +492,10 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 				ctm.setData(search.getCars());
 			}
 			cardlist.show(content, SELECT);
-			
+
 		} else if (e.getSource().equals(cmdFindCancel) || e.getSource().equals(cmdClose)) {
 			this.appFrame.dispose();
-			
+
 		} else if (e.getSource().equals(cmdSelect)) {
 			int pos = selectTable.getSelectedRow();
 			if (pos > -1) {
@@ -529,7 +529,7 @@ public class CarRentalClientGui extends JPanel implements ActionListener {
 				}
 				cardlist.show(content, CONFIRM);
 			}
-			
+
 		} else if (e.getSource().equals(cmdSelectBack)) {
 			cardlist.show(content, FIND);
 		}

@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,19 +28,19 @@ import routines.system.api.ESBEndpointRegistry;
 import routines.system.api.TalendESBJob;
 
 public class SingleInstanceWorkloadStrategy implements WorkloadListener {
-    
+
     public static final Logger LOG = Logger.getLogger(SingleInstanceWorkloadStrategy.class.getName());
 
     private final TalendESBJob job;
-    
+
     private final String name;
-    
+
     private String[] args;
 
     private final ESBEndpointRegistry registry;
 
     private final ExecutorService execService;
-    
+
     private int instances;
 
     public SingleInstanceWorkloadStrategy(
@@ -61,7 +61,7 @@ public class SingleInstanceWorkloadStrategy implements WorkloadListener {
     public void initialValues(MessageExchangeBuffer buffer, int idleConsumers, int waitingRequests) {
         registerNewJobinstance(buffer);
     }
-    
+
     @Override
     public void valuesChanged(MessageExchangeBuffer buffer, int idleConsumers, int waitingRequests) {
 
@@ -71,7 +71,7 @@ public class SingleInstanceWorkloadStrategy implements WorkloadListener {
         job.setEndpointRegistry(registry);
         RuntimeESBProviderCallback callback = new RuntimeESBProviderCallback(buffer, job, name, args);
         job.setProviderCallback(callback);
-        execService.execute(callback);    
+        execService.execute(callback);
         instances++;
 
         LOG.info("Created instance " + instances + " of job " + name + ".");

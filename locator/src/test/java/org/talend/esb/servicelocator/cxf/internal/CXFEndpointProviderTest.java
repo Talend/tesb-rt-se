@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -92,13 +92,13 @@ public class CXFEndpointProviderTest {
             new CXFEndpointProvider(SERVICE_QNAME_2, SOAP11_BINDING_ID, SOAP_HTTP_TRANSPORT_ID, epr);
         assertEquals(TransportType.HTTP, epp.getTransport());
     }
-    
+
     @Test
     public void getProperties() {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
 
         SLProperties properties = epp.getProperties();
-        
+
         assertTrue(properties.hasProperty(NAME_1));
         assertTrue(properties.hasProperty(NAME_2));
     }
@@ -135,10 +135,10 @@ public class CXFEndpointProviderTest {
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
                 equalTo(ENDPOINT_1)));
-        assertThat(root, 
+        assertThat(root,
                 hasXPath("/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
                     WSA_SL_NS_CONTEXT));
     }
@@ -152,7 +152,7 @@ public class CXFEndpointProviderTest {
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
                 equalTo(ENDPOINT_1)));
     }
@@ -164,7 +164,7 @@ public class CXFEndpointProviderTest {
         EndpointReferenceType epr = CXFTestStubs.createEPR(ENDPOINT_1);
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, epr);
         epp.addEndpointReference(root);
-        
+
         assertThat(root,
             hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address", WSA_SL_NS_CONTEXT));
     }
@@ -176,10 +176,10 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
         epp.addEndpointReference(root);
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
                 equalTo(ENDPOINT_1)));
-        assertThat(root, 
+        assertThat(root,
                 hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
                     WSA_SL_NS_CONTEXT));
     }
@@ -191,7 +191,7 @@ public class CXFEndpointProviderTest {
         CXFEndpointProvider epp = new CXFEndpointProvider(SERVER_2, ENDPOINT_1, PROPERTIES);
         epp.addEndpointReference(root);
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/sl:EndpointData/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
                 equalTo(ENDPOINT_1)));
     }
@@ -203,7 +203,7 @@ public class CXFEndpointProviderTest {
 
         assertEquals(SERVICE_QNAME_2, epp.getServiceName());
     }
-    
+
     @Test
     public void addServerWithSOAP11BindingGiven()  throws Exception {
         Server server =
@@ -218,7 +218,7 @@ public class CXFEndpointProviderTest {
         Server server =
             createServerStub(SERVICE_QNAME_2, ENDPOINT_1, SOAP12_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
-        
+
         assertEquals(SOAP12, epp.getBinding());
     }
 
@@ -227,7 +227,7 @@ public class CXFEndpointProviderTest {
         Server server =
             createServerStub(SERVICE_QNAME_2, ENDPOINT_1, JAXRS_BINDING_ID, SOAP_HTTP_TRANSPORT_ID);
         CXFEndpointProvider epp = new CXFEndpointProvider(server, ENDPOINT_1, PROPERTIES);
-        
+
         assertEquals(JAXRS, epp.getBinding());
     }
 
@@ -250,39 +250,39 @@ public class CXFEndpointProviderTest {
 
     @Test
     public void equalsWhenAddressAndServiceEquivalent() {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
         CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
-        
+
         assertTrue(endpoint.equals(other));
     }
 
     @Test
     public void nonEqualsWhenAddressNonEquivalent() {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
         CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_2, PROPERTIES);
-        
+
         assertFalse(endpoint.equals(other));
     }
 
     @Test
     public void nonEqualsWhenServiceNonEquivalent() {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
         CXFEndpointProvider other = new CXFEndpointProvider(SERVICE_QNAME_2, ENDPOINT_1, PROPERTIES);
-        
+
         assertFalse(endpoint.equals(other));
     }
 
     @Test
     public void nonEqualsWhenOtherNull() {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
-        
-        assertFalse(endpoint.equals(null));        
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+
+        assertFalse(endpoint.equals(null));
     }
 
     @Test
     public void nonEqualsWhenOtherDifferentType() {
-        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);        
-        
-        assertFalse(endpoint.equals(new Object()));        
+        CXFEndpointProvider endpoint = new CXFEndpointProvider(SERVICE_QNAME_1, ENDPOINT_1, PROPERTIES);
+
+        assertFalse(endpoint.equals(new Object()));
     }
 }

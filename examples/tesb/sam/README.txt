@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -12,7 +12,7 @@
 
 Example for Service Activity Monitoring(SAM)
 ============================================
-This example illustrates how to deploy and configure Service Activity Monitoring on CXF based projects. 
+This example illustrates how to deploy and configure Service Activity Monitoring on CXF based projects.
 
 
 Prerequisite
@@ -34,9 +34,9 @@ Start Derby database and sam-server using sam-server-jetty
 	cd Talend-ESB-<version>/examples/talend/tesb/sam/sam-server-jetty
 	mvn jetty:run-war
 
-	By default the Jetty server runs on 9080 port and the sam-server can be accessible under this url: 
+	By default the Jetty server runs on 9080 port and the sam-server can be accessible under this url:
 	http://localhost:9080/services/MonitoringServiceSOAP?wsdl
-	
+
 Start Derby database and sam-server in OSGI Container
 
 	* starting the TESB OSGi container:
@@ -50,7 +50,7 @@ Start Derby database and sam-server in OSGI Container
 	Enter the following command on the OSGI console:
 	karaf@trun> tesb:start-sam
 
-	By default the TESB OSGI Container runs on 8040 port and the sam-server can be accessible under this url: 
+	By default the TESB OSGI Container runs on 8040 port and the sam-server can be accessible under this url:
 	http://localhost:8040/services/MonitoringServiceSOAP?wsdl
 
 
@@ -74,13 +74,13 @@ Building and running the example using Maven
 --------------------------------------------
 
 From the base directory of this sample (i.e., where this README file is
-located), the pom.xml file is used to build and run this sample. 
+located), the pom.xml file is used to build and run this sample.
 
 Using either UNIX or Windows:
 
   mvn install   (builds the example)
 
-To remove the generated target/*.* files, run "mvn clean".  
+To remove the generated target/*.* files, run "mvn clean".
 
 
 Deploy examples into Tomcat

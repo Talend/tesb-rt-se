@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,22 +41,22 @@ import org.talend.esb.servicelocator.client.ServiceLocator.PostConnectAction;
  * persistent an endpoint is marked live as long as the session of this client
  * is alive or it is explicitly unregistered. If registered as persistent the
  * endpoint is marked live until the endpoint is explicitly unregistered.</li>
- * 
+ *
  * <li>Unregister an endpoint for a specific service. The endpoint is marked as
  * non live, but still in the list of all endpoints for a service.</li>
- * 
+ *
  * <li>Remove an endpoint for a specific service. The endpoint is removed from
  * the list of endpoints for the given service.</li>
- * 
+ *
  * <li>Look up all live endpoints for a specific service that were registered
  * before by other clients.</li>
- * 
+ *
  * <li>All services for which an endpoint was ever registered can be retrieved.</li>
- * 
+ *
  * <li>For a specific service all endpoints that were ever registered can be
  * retrieved whether they are currently live or not.</li>
  * </ul>
- * 
+ *
  * To ensure that all available endpoints are re-registered when the client
  * reconnects after a session expired a {@link PostConnectAction} should be
  * {@link #setPostConnectAction(PostConnectAction) set} that registers all
@@ -73,7 +73,7 @@ public interface ServiceLocator {
      * Because after a session time out all registered endpoints are removed it
      * is important to specify a {@link PostConnectAction} that re-registers all
      * endpoints.
-     * 
+     *
      * @throws InterruptedException
      *             the current <code>Thread</code> was interrupted when waiting
      *             for a successful connection to the ServiceLocator
@@ -87,7 +87,7 @@ public interface ServiceLocator {
      * registered before are removed from the server. To be able to communicate
      * with a Service Locator server again the client has to {@link #connect()
      * connect} again.
-     * 
+     *
      * @throws InterruptedException
      *             the current <code>Thread</code> was interrupted when waiting
      *             for the disconnect to happen
@@ -101,7 +101,7 @@ public interface ServiceLocator {
      * connected and the session on the server is valid.
      * <p>
      * The endpoint is categorized as being a SOAP / HTTP endpoint.
-     * 
+     *
      * @param serviceName
      *            the name of the service the endpoint is registered for, must
      *            not be <code>null</code>
@@ -117,7 +117,7 @@ public interface ServiceLocator {
         throws ServiceLocatorException, InterruptedException;
 
     /**
-     * 
+     *
      * @param serviceName
      * @param endpoint
      * @param presistent
@@ -133,7 +133,7 @@ public interface ServiceLocator {
      * connected and the session on the server is valid. In addition a set of
      * custom properties is defined for the endpoint. They may be used as
      * additional selection criteria during the lookup.
-     * 
+     *
      * @param serviceName
      *            the name of the service the endpoint is registered for, must
      *            not be <code>null</code>
@@ -152,7 +152,7 @@ public interface ServiceLocator {
         throws ServiceLocatorException, InterruptedException;
 
     /**
-     * 
+     *
      * @param serviceName
      * @param endpoint
      * @param properties
@@ -168,7 +168,7 @@ public interface ServiceLocator {
      * For a given service register the endpoint as defined in the given {@link Endpoint
      * EndpointProvider}. The endpoint is marked as live as long as this client is connected and the
      * session on the server is valid.
-     * 
+     *
      * @param eprProvider
      *             provides all the necessary information to register an endpoint like name of the service
      *             for which to register the endpoint, the endpoint URL, must not be <code>null</code>.
@@ -185,7 +185,7 @@ public interface ServiceLocator {
      * EndpointProvider}. If the given persistent flag is not set the endpoint is marked as live as long
      * as this client is connected and the session on the server is valid. Otherwise it is marked live
      * independent of the sesion state.
-     * 
+     *
      * @param eprProvider
      *             provides all the necessary information to register an endpoint like name of the service
      *             for which to register the endpoint, the endpoint URL, must not be <code>null</code>.
@@ -202,7 +202,7 @@ public interface ServiceLocator {
 
     /**
      * For a given service unregister a previously registered endpoint.
-     * 
+     *
      * @param serviceName
      *            the name of the service the endpoint is unregistered for, must
      *            not be <code>null</code>
@@ -219,7 +219,7 @@ public interface ServiceLocator {
 
     /**
      * For a given service unregister a previously registered endpoint.
-     * 
+     *
      * @param eprProvider
      *             provides all the necessary information to unregister an endpoint like name of the service
      *             for which to register the endpoint and the endpoint URL, must not be <code>null</code>.
@@ -234,7 +234,7 @@ public interface ServiceLocator {
     /**
      * Updates the time-to-live (ttl) for specified endpoint. If the endpoint did not have ttl before
      * then this method sets it up.
-     * 
+     *
      * @param serviceName
      *          name of the service the endpoint belongs to
      * @param endpoint
@@ -242,13 +242,13 @@ public interface ServiceLocator {
      * @param timetolive
      *          period of time (in seconds) when this endpoint is considered "alive"
      * @throws ServiceLocatorException
-     *          thrown if a problem happened. For example if the endpoint does not exist, 
+     *          thrown if a problem happened. For example if the endpoint does not exist,
      *          if given time-to-live is negative or zero, etc.
      * @throws InterruptedException
      *          the current <code>Thread</code> was interrupted when waiting for a response of the
      *          ServiceLocator
      */
-    void updateTimetolive(QName serviceName, String endpoint, int timetolive) 
+    void updateTimetolive(QName serviceName, String endpoint, int timetolive)
             throws ServiceLocatorException, InterruptedException;
 
     /**
@@ -257,7 +257,7 @@ public interface ServiceLocator {
      * <code>getEndpoint(serviceName)<code> the given endpoint will not be contained in the returned
      * list. In case no service with the given name exists or the given endpoint is not registered
      * with the service the state of the Service Locator remians unchanged.
-     * 
+     *
      * @param serviceName
      *            the name of the service the endpoint is removed from, must not
      *            be <code>null</code>
@@ -275,9 +275,9 @@ public interface ServiceLocator {
     /**
      * Return all services for which endpoints are registered at the Service
      * Locator Service.
-     * 
+     *
      * @return a possibly empty list of services
-     * 
+     *
      * @throws ServiceLocatorException
      *             the server returned an error
      * @throws InterruptedException
@@ -290,7 +290,7 @@ public interface ServiceLocator {
     /**
      * Return the complete endpoint information for the given endpoint
      * registered for the given service.
-     * 
+     *
      * @param serviceName
      *            the name of the service for which the endpoint is registered,
      *            must not be <code>null</code>
@@ -311,7 +311,7 @@ public interface ServiceLocator {
     /**
      * Return the complete endpoint informations for all endpoints registered
      * for the given service.
-     * 
+     *
      * @param serviceName
      *            the name of the service for which the endpoints ares
      *            registered, must not be <code>null</code>
@@ -329,7 +329,7 @@ public interface ServiceLocator {
     /**
      * For the given service return all endpoints that currently registered at
      * the Service Locator Service.
-     * 
+     *
      * @param serviceName
      *            the name of the service for which to get the endpoints, must
      *            not be <code>null</code>
@@ -346,7 +346,7 @@ public interface ServiceLocator {
     /**
      * For the given service return all endpoints that are currently registered
      * at the Service Locator.
-     * 
+     *
      * @param serviceName
      *            the name of the service for which to get the endpoints, must
      *            not be <code>null</code>
@@ -363,7 +363,7 @@ public interface ServiceLocator {
      * For the given service return all endpoints that are currently registered
      * at the Service Locator and where the custom properties match the given
      * matcher.
-     * 
+     *
      * @param serviceName
      *            the name of the service for which to get the endpoints, must
      *            not be <code>null</code>
@@ -379,14 +379,14 @@ public interface ServiceLocator {
      */
     List<String> lookup(QName serviceName, SLPropertiesMatcher matcher)
         throws ServiceLocatorException, InterruptedException;
-    
+
 //    void updateActiveTimestamp(Endpoint endpoint, long activeTimestamp)
 //            throws ServiceLocatorException, InterruptedException;
 
     /**
      * Specify the action to be be executed after the Service Locator has
      * connected to the server.
-     * 
+     *
      * @param postConnectAction
      *            the action to be executed, must not be <code>null</code>.
      */
@@ -409,7 +409,7 @@ public interface ServiceLocator {
         /**
          * Execute this after the connection to the Service Locator is
          * established or re-established.
-         * 
+         *
          * @param lc
          *            the Service Locator client that just successfully
          *            connected to the server, must not be <code>null</code>

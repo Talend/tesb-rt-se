@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  *
- * Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+ * Copyright (C) 2011-2019 Talend Inc. - www.talend.com
  *
  * This source code is available under agreement available at
  * %InstallDIR%\license.txt
@@ -36,11 +36,11 @@ public abstract class AuxiliaryStorageRestClientSecurityProvider extends Abstrac
     private Map<String, String> stsProps;
 
     private JAXRSClientFactoryBean cachedClientFactory = null;
-    
+
     public AuxiliaryStorageRestClientSecurityProvider(){
     	super();
     }
-    
+
     public AuxiliaryStorageRestClientSecurityProvider(Properties props){
     	super();
     	if(props!=null && !props.isEmpty()){
@@ -48,13 +48,13 @@ public abstract class AuxiliaryStorageRestClientSecurityProvider extends Abstrac
             if (null == url || url.trim().isEmpty()) {
                 throw new RuntimeException("Auxiliary Storage client URL property ['auxiliary.storage.service.url'] is not configured");
             }
-    		
+
         	setServerURL(url);
-        	
+
         	setAuxiliaryStorageAuthentication(props.getProperty("auxiliary.storage.service.authentication", Authentication.NO.name()));
             setAuthenticationUser(props.getProperty("auxiliary.storage.service.authentication.user"));
             setAuthenticationPassword(props.getProperty("auxiliary.storage.service.authentication.password"));
-            
+
             Map<String, String> stsProps = new HashMap<String, String>();
             for (String propName : props.stringPropertyNames()) {
                 if (propName.startsWith("ws-security.") || propName.startsWith("security.") || propName.startsWith("sts.")) {

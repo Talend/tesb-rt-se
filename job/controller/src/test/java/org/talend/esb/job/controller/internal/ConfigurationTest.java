@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ public class ConfigurationTest {
     public static final String KEY_1 = "key1";
 
     public static final String KEY_2 = "key2";
-    
+
     public static final String KEY_3 = "key3";
 
     public static final String VALUE_1 = "value";
@@ -53,7 +53,7 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration();
         configuration.setTimeout(0);
-        
+
         String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[0], args);
     }
@@ -75,7 +75,7 @@ public class ConfigurationTest {
         properties.put(CONTEXT_KEY, CONTEXT_VALLUE);
 
         Configuration configuration =  new Configuration(properties);
-        
+
         String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[]{"--context=" + CONTEXT_VALLUE}, args);
     }
@@ -87,7 +87,7 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration();
         configuration.setProperties(properties);
-        
+
         String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[]{"--context=" + CONTEXT_VALLUE}, args);
     }
@@ -102,7 +102,7 @@ public class ConfigurationTest {
 
         Configuration configuration =  new Configuration(properties1);
         configuration.setProperties(properties2);
-        
+
         String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1};
         String[] args = configuration.awaitArguments();
         assertArrayEquals(expectedArgs, args);
@@ -112,7 +112,7 @@ public class ConfigurationTest {
     public void setNullPropertiesReturnsEmptyArgumentList() throws Exception {
         Configuration configuration =  new Configuration();
         configuration.setProperties(null);
-        
+
         String[] args = configuration.awaitArguments();
         assertArrayEquals(new String[0], args);
     }
@@ -124,7 +124,7 @@ public class ConfigurationTest {
         properties.put(KEY_2, VALUE_2);
 
         Configuration configuration =  new Configuration(properties);
-        
+
         String[] args = configuration.awaitArguments();
         String[] expectedArgs = new String[]{"--context_param=" + KEY_1 + "=" + VALUE_1,
             "--context_param=" + KEY_2 + "=" + VALUE_2};
@@ -139,7 +139,7 @@ public class ConfigurationTest {
         properties.put(KEY_2, "value2");
 
         Configuration configuration =  new Configuration(properties, filter);
-        
+
         String[] args = configuration.awaitArguments();
         String[] expectedArgs = new String[]{"--context_param=" + KEY_2 + "=" + VALUE_2};
         assertThat(args, arrayContainingInAnyOrder(expectedArgs));

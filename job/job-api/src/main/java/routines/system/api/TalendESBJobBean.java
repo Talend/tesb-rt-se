@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  Copyright (c) 2011-2017 Talend Inc. - www.talend.com
+ *  Copyright (c) 2011-2019 Talend Inc. - www.talend.com
  *  All rights reserved.
  *
  *  This program and the accompanying materials are made available
@@ -33,7 +33,7 @@ public interface TalendESBJobBean {
 
     /**
      * Run as a single-use job
-     * 
+     *
      * @param exchangeData
      * @param contextArgs
      */
@@ -41,7 +41,7 @@ public interface TalendESBJobBean {
 
     /**
      * Run as a prepared multi-use job
-     * 
+     *
      * @param exchangeData
      * @param contextArgs
      */

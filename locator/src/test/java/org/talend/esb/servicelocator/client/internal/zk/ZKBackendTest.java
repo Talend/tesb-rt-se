@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,8 +63,8 @@ public class ZKBackendTest {
         Id maintainRole = new Id("sl", "SL_MAINTAIN");
         Id adminRole = new Id("sl", "SL_ADMIN");
 
-        ACL readAcl = new ACL(Perms.READ, readRole);    
-        ACL maintainAcl = new ACL(Perms.READ | Perms.CREATE | Perms.WRITE | Perms.DELETE, maintainRole);    
+        ACL readAcl = new ACL(Perms.READ, readRole);
+        ACL maintainAcl = new ACL(Perms.READ | Perms.CREATE | Perms.WRITE | Perms.DELETE, maintainRole);
         ACL adminAcl = new ACL(Perms.ALL, adminRole);
         DEFAULT_ACLS = asList(readAcl, maintainAcl, adminAcl);
     }
@@ -125,7 +125,7 @@ public class ZKBackendTest {
         zkb.setPassword(PASSWORD);
         zkb.connect();
 
-        verify(zkMock);        
+        verify(zkMock);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class ZKBackendTest {
 
         zkb.connect();
         boolean exists = zkb.nodeExists(NODE_PATH);
-        
+
         assertTrue(exists);
         verify(zkMock);
     }
@@ -144,13 +144,13 @@ public class ZKBackendTest {
     @Test
     public void nodeExistsFalse()  throws Exception {
         expect(zkMock.exists(NODE_PATH.toString(), false)).andReturn(null);
-        
+
         ZKBackend zkb = createZKBackend();
         replay(zkMock);
 
         zkb.connect();
         boolean exists = zkb.nodeExists(NODE_PATH);
-        
+
         assertFalse(exists);
         verify(zkMock);
     }
@@ -159,7 +159,7 @@ public class ZKBackendTest {
     public void createNode()  throws Exception {
         expect(zkMock.create(NODE_PATH.toString(), CONTENT_ANY_1, getACLs(), PERSISTENT)).
             andReturn(NODE_PATH.toString());
-        
+
         ZKBackend zkb = createZKBackend();
         replay(zkMock);
 
@@ -167,7 +167,7 @@ public class ZKBackendTest {
         zkb.createNode(NODE_PATH, PERSISTENT, CONTENT_ANY_1);
         verify(zkMock);
     }
-    
+
     private ZKBackend createZKBackend()
             throws ServiceLocatorException {
         return createZKBackend(true);
@@ -186,7 +186,7 @@ public class ZKBackendTest {
             }
         };
     }
-        
+
     List<ACL> getACLs() {
         return withAuthentication ? DEFAULT_ACLS  : Ids.OPEN_ACL_UNSAFE;
     }

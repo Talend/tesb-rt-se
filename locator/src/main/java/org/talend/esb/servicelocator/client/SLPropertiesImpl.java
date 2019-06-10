@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,8 @@ import java.util.Map;
 
 /**
  * Implementation of {@link SLProperties} backed by a {@link Map}. In addition to the methods exposed in
- * <code>SLProperties<code> it also offers the methods {@link #addProperty(String, Iterable)} and 
- *  {@link #addProperty(String, String...) to actually add properties.  
+ * <code>SLProperties<code> it also offers the methods {@link #addProperty(String, Iterable)} and
+ *  {@link #addProperty(String, String...) to actually add properties.
  */
 public class SLPropertiesImpl implements SLProperties {
 
@@ -44,10 +44,10 @@ public class SLPropertiesImpl implements SLProperties {
     /**
      * Add a property with the given name and the given list of values to this Properties object. Name
      * and values are trimmed before the property is added.
-     * 
-     * @param name the name of the property, must not be <code>null</code>. 
+     *
+     * @param name the name of the property, must not be <code>null</code>.
      * @param values the values of the property, must no be <code>null</code>,
-     *               none of the  values must be <code>null</code> 
+     *               none of the  values must be <code>null</code>
      */
     public void addProperty(String name, String... values) {
         List<String> valueList = new ArrayList<String>();
@@ -60,10 +60,10 @@ public class SLPropertiesImpl implements SLProperties {
     /**
      * Add a property with the given name and the given collection of values to this Properties object. Name
      * and values are trimmed before the property is added.
-     * 
-     * @param name the name of the property, must not be <code>null</code>. 
+     *
+     * @param name the name of the property, must not be <code>null</code>.
      * @param values the values of the property, must no be <code>null</code>,
-     *               none of the  values must be <code>null</code> 
+     *               none of the  values must be <code>null</code>
      */
     public void addProperty(String name, Iterable<String> values) {
         List<String> valueList = new ArrayList<String>();

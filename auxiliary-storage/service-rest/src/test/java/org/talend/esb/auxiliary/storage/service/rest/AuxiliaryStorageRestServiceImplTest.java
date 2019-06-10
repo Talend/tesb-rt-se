@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  *
- * Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+ * Copyright (C) 2011-2019 Talend Inc. - www.talend.com
  *
  * This source code is available under agreement available at
  * %InstallDIR%\license.txt
@@ -35,7 +35,7 @@ public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 	private AuxiliaryStorageRestServiceImpl restService;
 
 
-	
+
 	@Before
 	public void setUp() {
 		Logger.getLogger(
@@ -76,7 +76,7 @@ public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 
 		verifyAll();
 	}
-	
+
 	@Test
 	public void deleteObjectNotExistingTest() {
 		server.deleteObject(KEY);
@@ -89,5 +89,5 @@ public class AuxiliaryStorageRestServiceImplTest extends EasyMockSupport {
 			 Assert.assertTrue(ex instanceof ObjectNotFoundException);
 		}
 		verifyAll();
-	}	
+	}
 }

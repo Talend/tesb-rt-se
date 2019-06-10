@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -45,14 +45,14 @@ You should be able to see the OSGi bundles for your Camel blueprint using
 
 > bundle:list
 
-Next, simply drop the src/main/resources/simple.xml or src/main/resources/recipientlist.xml 
+Next, simply drop the src/main/resources/simple.xml or src/main/resources/recipientlist.xml
 in the container/deploy directory.
 
 Every 5 seconds, you will see the "Hello World" message in the TESB console.  If you used
-recipientlist.xml, you'll also see files created in a new result folder located under the 
+recipientlist.xml, you'll also see files created in a new result folder located under the
 container directory.
 
-To uninstall the example delete recipientlist.xml or simple.xml from the container/deploy directory, 
+To uninstall the example delete recipientlist.xml or simple.xml from the container/deploy directory,
 type ^D at the TESB container console and restart container with container/bin/trun.
 
 

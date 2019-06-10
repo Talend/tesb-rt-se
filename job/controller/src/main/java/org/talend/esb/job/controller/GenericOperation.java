@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ public interface GenericOperation {
     /**
      * Invoke the operation. If the operation was not yet {@link #start(String[]) started} or was already
      * {@link #stop() stopped} invocation may fail.
-     * 
+     *
      * @param payload the request payload, must not be <code>null</code>
      * @param isRequestResponse flag whether a response is expected
      * @return the response or <code>null</code> if the operation is a one-way
@@ -38,7 +38,7 @@ public interface GenericOperation {
 
     /**
      * Start this operation. After being started the operation is ready to get invoked.
-     * 
+     *
      * @param arguments pass these arguments to the backing {@link TalendESBJob job}
      */
     void start(String[] arguments);

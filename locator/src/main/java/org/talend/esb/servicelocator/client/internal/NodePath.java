@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ public class NodePath {
 
     /**
      * Create an <code>NodePath</code> that consists of the given path segments.
-     * 
+     *
      * @param pathSegments
      *            the sequence of path segments the NodePath consists of, must not be null or empty
      */
@@ -69,7 +69,7 @@ public class NodePath {
 
     /**
      * Create a <code>NodePath</code>, which is a child of this one.
-     * 
+     *
      * @param childNodeName
      *            name of the child node, must not be <code>null</code>
      */
@@ -79,7 +79,7 @@ public class NodePath {
 
     /**
      * Create a <code>NodePath</code>, which is a child of this one.
-     * 
+     *
      * @param childNodeName
      *            name of the child node, must not be <code>null</code>
      */
@@ -107,7 +107,7 @@ public class NodePath {
 
     /**
      * Encoded <code>String</code> representation of this <code>NodePath</code>.
-     * 
+     *
      * @return the <code>String</code> representation
      */
     @Override
@@ -124,11 +124,11 @@ public class NodePath {
     /**
      * Encode the given <code>String</code>. All occurrences of "/" are mapped to "%2A" and all occurrences of
      * "%" to "%2F".
-     * 
+     *
      * @param raw
      *            the <code>String</code> to encode, must not be <code>null</code>
      * @return the encoded version
-     * 
+     *
      * @see #decode(String)
      */
     public static String encode(String raw) {
@@ -141,11 +141,11 @@ public class NodePath {
      * Decode the given <code>String</code>. It is the inverse operation of {@link #encode(String)}. For all
      * <code>String</code>s <code>s</code>, <code>decode(encode(s)).equals(s)</code> should be
      * <code>true</code>.
-     * 
+     *
      * @param encoded
      *            the <code>String</code> to decode, must not be <code>null</code>
      * @return the raw version
-     * 
+     *
      * @see #encode(String)
      */
     public static String decode(String encoded) {

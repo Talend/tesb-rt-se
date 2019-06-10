@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -18,31 +18,31 @@ assertion and then subsequently making a call to a CXF web service provider
 and truststores for the WSC, WSP, and STS are provided in this project but
 are of course not meant for production use.
 
-Important Note:  By default, this example uses strong encryption which is 
+Important Note:  By default, this example uses strong encryption which is
 recommended for use in production systems.  To run this example "out of the
-box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited 
-Strength Jurisdiction Policy Files" installed into your JRE. Note that the 
-unlimited strength policies are installed by default from the 1.8.0_161 release. 
-For prior java releases, the unlimited strength policy files can be obtained from 
+box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited
+Strength Jurisdiction Policy Files" installed into your JRE. Note that the
+unlimited strength policies are installed by default from the 1.8.0_161 release.
+For prior java releases, the unlimited strength policy files can be obtained from
 [1]:
 
 [1] http://www.oracle.com/technetwork/java/javase/downloads/index.html
-   
+
 Alternatively, you can change to using a lower end encyption algorithm by
 editing the security policies in:
 
-client/src/main/resources/DoubleItSTSService.wsdl 
-client/src/main/resources/DoubleIt.wsdl 
-service/src/main/resources/DoubleIt.wsdl 
-sts-war/src/main/webapp/WEB-INF/wsdl/DoubleItSTSService.wsdl 
+client/src/main/resources/DoubleItSTSService.wsdl
+client/src/main/resources/DoubleIt.wsdl
+service/src/main/resources/DoubleIt.wsdl
+sts-war/src/main/webapp/WEB-INF/wsdl/DoubleItSTSService.wsdl
 
-to change from "Basic256" to "Basic128".   If you receive an error like 
+to change from "Basic256" to "Basic128".   If you receive an error like
 "Illegal key length" when running the demo, you need to change to Basic128 or
 install the Unlimited Strength encryption libraries.
 
 Usage
 ===============================================================================
-Note: Please follow the parent README.txt first for common build and container 
+Note: Please follow the parent README.txt first for common build and container
 setup instructions.
 
 How to Deploy:
@@ -61,7 +61,7 @@ is active by default so does not need to be explicitly specified.)
 run "mvn tomcat:deploy" (or tomcat:undeploy or tomcat:redeploy on
 subsequent runs as appropriate) in the "sts" folder to deploy the STS.
 
-Note:"Cannot invoke Tomcat manager: Server returned HTTP response code: 401 error" 
+Note:"Cannot invoke Tomcat manager: Server returned HTTP response code: 401 error"
 as result of deployment on Tomcat appears due to credential misconfiguration in Tomcat and
 deployment script.Please check conf/tomcat-users.xml and war/pom.xml for credential configuration.
 
@@ -79,9 +79,9 @@ CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
    Make sure you can view the WSP WSDL at
    http://localhost:8080/doubleit/services/doubleit?wsdl before proceeding.
 
- * To run the WSP from within the OSGi container. One thing to be aware of is 
-   that the default port for Tomcat (8080) will conflict with Karaf's OPS4J Pax Web - 
-   Jetty bundle. Therefore, best to stop Tomcat, start Karaf, and stop Karaf's 
+ * To run the WSP from within the OSGi container. One thing to be aware of is
+   that the default port for Tomcat (8080) will conflict with Karaf's OPS4J Pax Web -
+   Jetty bundle. Therefore, best to stop Tomcat, start Karaf, and stop Karaf's
    Pax Jetty bundle before restarting Tomcat (to activate the STS).
 
    From the OSGi command line, run:
@@ -96,9 +96,9 @@ CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 4.) Navigate to the client folder:
 
 Note: If you've selected standalone or OSGi deployment of the WSP in the preceding
-step, the WSP address in the client WSDL (client/src/main/resources/DoubleIt.wsdl) 
-must be updated before invoking the WSP to "http://localhost:9000/doubleit/services/doubleit". 
-(run mvn clean install after done) This is because the WSP runs on port 9000 when run 
+step, the WSP address in the client WSDL (client/src/main/resources/DoubleIt.wsdl)
+must be updated before invoking the WSP to "http://localhost:9000/doubleit/services/doubleit".
+(run mvn clean install after done) This is because the WSP runs on port 9000 when run
 in a standalone manner, or in Karaf, to avoid clashing with the port that Tomcat is using (8080).
 
  * To run the client in a standalone manner, run mvn exec:exec.
@@ -106,7 +106,7 @@ in a standalone manner, or in Karaf, to avoid clashing with the port that Tomcat
  * From the OSGi command line, run:
       karaf@trun> feature:install talend-cxf-example-jaxws-cxf-sts-client
 
-You should see the results of the web service call. 
+You should see the results of the web service call.
 
 
 For DEBUGGING:
@@ -116,7 +116,7 @@ client's resources/cxf.xml file. The logging.properties file in the same
 folder can be used to adjust the amount of logging received.
 
 2.) Check the logs directory under your Tomcat (catalina.log,
-catalina(date).log in particular) or Karaf (data/log) folder 
+catalina(date).log in particular) or Karaf (data/log) folder
 for any errors reported by the STS.
 
 3.) Use Wireshark to view messages:

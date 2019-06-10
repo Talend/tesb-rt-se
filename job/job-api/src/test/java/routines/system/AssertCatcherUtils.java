@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: API
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@
  */
 // ============================================================================
 //
-// Copyright (C) 2006-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -27,7 +27,7 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
@@ -70,7 +70,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for moment.
-         * 
+         *
          * @return the moment
          */
         public Date getMoment() {
@@ -79,7 +79,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the moment.
-         * 
+         *
          * @param moment the moment to set
          */
         public void setMoment(Date moment) {
@@ -88,7 +88,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for description.
-         * 
+         *
          * @return the description
          */
         public String getDescription() {
@@ -97,7 +97,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the description.
-         * 
+         *
          * @param description the description to set
          */
         public void setDescription(String description) {
@@ -106,7 +106,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for job.
-         * 
+         *
          * @return the job
          */
         public String getJob() {
@@ -115,7 +115,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the job.
-         * 
+         *
          * @param job the job to set
          */
         public void setJob(String job) {
@@ -124,7 +124,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for language.
-         * 
+         *
          * @return the language
          */
         public String getLanguage() {
@@ -133,7 +133,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the language.
-         * 
+         *
          * @param language the language to set
          */
         public void setLanguage(String language) {
@@ -142,7 +142,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for origin.
-         * 
+         *
          * @return the origin
          */
         public String getOrigin() {
@@ -151,7 +151,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the origin.
-         * 
+         *
          * @param origin the origin to set
          */
         public void setOrigin(String origin) {
@@ -160,7 +160,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for pid.
-         * 
+         *
          * @return the pid
          */
         public String getPid() {
@@ -169,7 +169,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the pid.
-         * 
+         *
          * @param pid the pid to set
          */
         public void setPid(String pid) {
@@ -178,7 +178,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for project.
-         * 
+         *
          * @return the project
          */
         public String getProject() {
@@ -187,7 +187,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the project.
-         * 
+         *
          * @param project the project to set
          */
         public void setProject(String project) {
@@ -196,7 +196,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for status.
-         * 
+         *
          * @return the status
          */
         public String getStatus() {
@@ -205,7 +205,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the status.
-         * 
+         *
          * @param status the status to set
          */
         public void setStatus(String status) {
@@ -214,7 +214,7 @@ public class AssertCatcherUtils {
 
         /**
          * Getter for substatus.
-         * 
+         *
          * @return the substatus
          */
         public String getSubstatus() {
@@ -223,7 +223,7 @@ public class AssertCatcherUtils {
 
         /**
          * Sets the substatus.
-         * 
+         *
          * @param substatus the substatus to set
          */
         public void setSubstatus(String substatus) {

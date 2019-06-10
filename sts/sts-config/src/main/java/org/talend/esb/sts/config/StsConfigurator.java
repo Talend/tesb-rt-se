@@ -2,14 +2,14 @@
  * #%L
  * STS :: Config
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,26 +29,26 @@ import org.apache.cxf.interceptor.LoggingOutInterceptor;
 
 public class StsConfigurator {
 
-	private String useMessageLogging = null; 
-	
+	private String useMessageLogging = null;
+
 	private Bus bus;
-	
+
 	public StsConfigurator(Bus bus) {
 		this.bus = bus;
 	}
-	
+
 	public void init() {
 		setMessageLogging(useMessageLogging != null && useMessageLogging.equalsIgnoreCase("true"));
 	}
-	
+
 	public void setUseMessageLogging(String useMessageLogging){
 		this.useMessageLogging = useMessageLogging;
 	}
 
 	private void setMessageLogging(boolean logMessages) {
-		setMessageLogging(logMessages, bus);	
+		setMessageLogging(logMessages, bus);
 	}
-	
+
 	private void setMessageLogging(boolean logMessages, Bus bus) {
 		if (logMessages) {
 			if (!hasLoggingFeature(bus))
@@ -56,7 +56,7 @@ public class StsConfigurator {
 		} else {
 			if (hasLoggingFeature(bus))
 				removeMessageLogging(bus);
-		}	
+		}
 	}
 
 	private boolean hasLoggingFeature(Bus bus) {
@@ -73,7 +73,7 @@ public class StsConfigurator {
 		logFeature.initialize(bus);
 		bus.getFeatures().add(logFeature);
 	}
-	
+
 	private void removeMessageLogging(Bus bus) {
 		Collection<Feature> features = bus.getFeatures();
 		Feature logFeature = null;
@@ -91,13 +91,13 @@ public class StsConfigurator {
 		for (Interceptor interceptor: bus.getInInterceptors()) {
 			if (interceptor instanceof LoggingInInterceptor) {
 				inLogInterceptor = interceptor;
-				break;			
+				break;
 			}
 		}
 		for (Interceptor interceptor: bus.getOutInterceptors()) {
 			if (interceptor instanceof LoggingOutInterceptor) {
 				outLogInterceptor = interceptor;
-				break;			
+				break;
 			}
 		}
 		if (inLogInterceptor != null) {
@@ -109,5 +109,5 @@ public class StsConfigurator {
 			//System.out.println("\nRemove out Interceptor = " + inLogInterceptor.getClass().getName());
 		}
 	}
-	
+
 }

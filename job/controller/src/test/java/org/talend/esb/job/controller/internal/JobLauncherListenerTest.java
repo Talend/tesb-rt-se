@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     public static final String NAME = "name";
 
     public static final String MANAGED_SERVICE_NAME = "org.osgi.service.cm.ManagedService";
-    
+
     public static final String[] EMPTY_STRING_ARR = new String[0];
 
     @SuppressWarnings("serial")
@@ -56,11 +56,11 @@ public class JobLauncherListenerTest extends EasyMockSupport {
             put(Constants.SERVICE_PID, NAME);
         }
     };
-    
+
     private BundleContext context;
 
     private ServiceRegistration sr;
-    
+
     private ExecutorService execService;
 
     private JobLauncherImpl jobLauncher;
@@ -71,7 +71,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
         execService = createMock(ExecutorService.class);
 
         sr = createNiceMock(ServiceRegistration.class);
-       
+
         jobLauncher = new JobLauncherImpl();
         jobLauncher.setBundleContext(context);
         jobLauncher.setExecutorService(execService);
@@ -80,25 +80,25 @@ public class JobLauncherListenerTest extends EasyMockSupport {
     @Test
     public void routeAddedManagedServiceRegistered() throws Exception {
         TalendESBRoute route = createMock(TalendESBRoute.class);
-  
+
         expectManagedJobStarting(RouteAdapter.class);
         replayAll();
 
         jobLauncher.routeAdded(route, NAME);
         verifyAll();
     }
-    
+
     private void expectManagedJobStarting(Class<? extends JobTask> taskClass) {
         expect(context.registerService(
                 eq(MANAGED_SERVICE_NAME), isA(taskClass), eq(PROPERTIES))).andReturn(sr);
-        execService.execute(isA(taskClass)); 
+        execService.execute(isA(taskClass));
     }
 
     @Test
     public void managedServiceForRouteUnregisteredIfRegisteredBefore() throws Exception {
         TalendESBRoute route = createNiceMock(TalendESBRoute.class);
         sr.unregister();
-        
+
         expectManagedJobStarting(RouteAdapter.class);
         replayAll();
 
@@ -139,7 +139,7 @@ public class JobLauncherListenerTest extends EasyMockSupport {
         expect(esbJob.getEndpoint()).andReturn(endpointInfo);
 
         replayAll();
-        
+
         jobLauncher.esbJobAdded(esbJob, NAME);
         verifyAll();
     }
@@ -152,23 +152,23 @@ public class JobLauncherListenerTest extends EasyMockSupport {
 
         expectManagedJobStarting(SimpleJobTask.class);
         replayAll();
-        
+
         jobLauncher.esbJobAdded(esbJob, NAME);
-        verifyAll();  
+        verifyAll();
     }
 
     @Test
     public void esbConsumerOnlyJobUnregisters() {
         TalendESBJob esbJob = createMock(TalendESBJob.class);
-        
+
         sr.unregister();
-        
+
         esbJob.setEndpointRegistry((ESBEndpointRegistry) anyObject());
         expect(esbJob.getEndpoint()).andReturn(null).times(2);
 
         expectManagedJobStarting(SimpleJobTask.class);
         replayAll();
-        
+
         jobLauncher.esbJobAdded(esbJob, NAME);
         jobLauncher.esbJobRemoved(esbJob, NAME);
         verifyAll();

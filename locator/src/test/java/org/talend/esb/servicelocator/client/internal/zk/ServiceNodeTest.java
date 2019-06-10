@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ import org.talend.esb.servicelocator.client.internal.EndpointNode;
 import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
 
 public class ServiceNodeTest {
-    
+
     private ZKBackend backend;
 
     private RootNodeImpl rootNode;
@@ -57,10 +57,10 @@ public class ServiceNodeTest {
         rootNode = new RootNodeImpl(backend);
         serviceNode = new ServiceNodeImpl(backend, rootNode, SERVICE_QNAME_1);
     }
-    
+
     @Test
     public void getServiceName() {
-        
+
         assertThat(serviceNode.getServiceName(), equalTo(SERVICE_QNAME_1));
     }
 
@@ -70,7 +70,7 @@ public class ServiceNodeTest {
         replay(backend);
 
         assertTrue(serviceNode.exists());
-        
+
         verify(backend);
     }
 
@@ -80,7 +80,7 @@ public class ServiceNodeTest {
         replay(backend);
 
         assertFalse(serviceNode.exists());
-        
+
         verify(backend);
     }
 
@@ -88,7 +88,7 @@ public class ServiceNodeTest {
     public void ensureExists() throws Exception {
         backend.ensurePathExists(serviceNode, CreateMode.PERSISTENT);
         replay(backend);
-        
+
         serviceNode.ensureExists();
 
         verify(backend);
@@ -102,7 +102,7 @@ public class ServiceNodeTest {
         expect(backend.getChildren(eqServiceNode, anyMapper)).
             andReturn(Arrays.asList(ENDPOINT_1, ENDPOINT_2));
         replay(backend);
-        
+
         List<String> endpointNames = serviceNode.getEndpointNames();
         assertThat(endpointNames, containsInAnyOrder(ENDPOINT_1, ENDPOINT_2));
 
@@ -114,9 +114,9 @@ public class ServiceNodeTest {
         ServiceNodeImpl serviceNode = new ServiceNodeImpl(backend, rootNode, SERVICE_QNAME_1);
 
         EndpointNode endpointNode = serviceNode.getEndPoint(ENDPOINT_1);
-        
+
         assertThat(endpointNode.getEndpointName(), equalTo(ENDPOINT_1));
-       
+
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ServiceNodeTest {
 
         List<EndpointNode> endpoints = serviceNode.getEndPoints();
         assertThat(endpoints, containsInAnyOrder(endpointNode1, endpointNode2));
-        
+
         verify(backend);
     }
 
@@ -140,7 +140,7 @@ public class ServiceNodeTest {
     public void ensureRemoved() throws Exception {
         backend.ensurePathDeleted(serviceNode, true);
         replay(backend);
-        
+
         serviceNode.ensureRemoved();
 
         verify(backend);

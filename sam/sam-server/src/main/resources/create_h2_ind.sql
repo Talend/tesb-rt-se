@@ -2,14 +2,14 @@
 -- #%L
 -- Service Activity Monitoring :: Server
 -- %%
--- Copyright (C) 2011 - 2012 Talend Inc.
+-- Copyright (C) 2011-2019 Talend Inc.
 -- %%
 -- Licensed under the Apache License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
 -- You may obtain a copy of the License at
--- 
+--
 --      http://www.apache.org/licenses/LICENSE-2.0
--- 
+--
 -- Unless required by applicable law or agreed to in writing, software
 -- distributed under the License is distributed on an "AS IS" BASIS,
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,6 @@ PRIMARY KEY (ID));
 
 CREATE INDEX IF NOT EXISTS FLOWS_TIMESTAMP ON FLOWS (FI_TIMESTAMP DESC);
 
-INSERT INTO FLOWS (ID,FI_TIMESTAMP) 
+INSERT INTO FLOWS (ID,FI_TIMESTAMP)
 SELECT MI_FLOW_ID, MAX(EI_TIMESTAMP) FROM EVENTS WHERE (MI_FLOW_ID is not null) GROUP BY MI_FLOW_ID;
 COMMIT;

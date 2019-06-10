@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Server
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,15 +59,15 @@ import org.talend.esb.sam.monitoringservice.v1.PutEventsFault;
 public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Resource(name = "monitoringServiceV1Client")
     MonitoringService monitoringService;
-    
+
     @Resource
     private EventRepository eventRepository;
-    
+
 //    @Before
 //    public void setUp() throws Exception {
 //        executeSqlScript("create.sql", true);
 //    }
-    
+
     @Test
     public void testSendEvents() throws PutEventsFault, MalformedURLException, URISyntaxException {
         Client client = ClientProxy.getClient(monitoringService);
@@ -83,7 +83,7 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         eventType.setEventType(EventEnumType.REQ_OUT);
         URL messageContentFile = this.getClass().getResource("/testmessage.xml").toURI().toURL();
         eventType.setContent(new DataHandler(messageContentFile ));
-        
+
         CustomInfoType ciType = new CustomInfoType();
         CustomInfoType.Item prop1 = new CustomInfoType.Item();
         prop1.setKey("mykey1");
@@ -94,15 +94,15 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         prop2.setValue("myValue2");
         ciType.getItem().add(prop2);
         eventType.setCustomInfo(ciType);
-        
+
         MessageInfoType mit = new MessageInfoType();
         mit.setFlowId("uuid");
         eventType.setMessageInfo(mit);
-        
+
         events.add(eventType);
         String result = monitoringService.putEvents(events);
         Assert.assertEquals("success", result);
-        
+
 
         long id = jdbcTemplate.queryForObject("select id from EVENTS", Long.class);
         Event readEvent = eventRepository.readEvent(id);
@@ -111,7 +111,7 @@ public class MonitoringServiceFullTest extends AbstractTransactionalJUnit4Spring
         Assert.assertEquals("myValue1", customInfo.get("mykey1"));
         Assert.assertEquals("myValue2", customInfo.get("mykey2"));
     }
-    
+
     @After
     public void tearDown() {
         executeSqlScript("drop.sql", true);

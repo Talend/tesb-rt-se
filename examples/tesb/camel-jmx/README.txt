@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -37,7 +37,7 @@ By default, Camel routes already have JMX enabled, no special configuration is
 necessary.
 
 After deploying the samples you can see Camel MBeans and their attributes which
-can be monitored using the JDK's JConsole.  Attributes also form the metrics 
+can be monitored using the JDK's JConsole.  Attributes also form the metrics
 that we will monitor with help of HypericHQ.
 
 See also:
@@ -49,20 +49,20 @@ To build and run these examples, you must install the J2SE Development Kit (JDK)
 Building the camel-jmx
 ============================================
 This sample consists of 2 parts:
-            
+
 service/  - This is the CXF service packaged as an OSGi bundle.
-             
+
 war/      - This module creates a WAR archive containing the service module.
             Servlet container use only, not used in OSGi deployment.
 
 From the base directory of this sample (i.e., where this README file is
-located), the Maven pom.xml file can be used to build and run the demo. 
+located), the Maven pom.xml file can be used to build and run the demo.
 
 Using either UNIX or Windows:
 
     mvn clean install
 
-Running this command will build the demo and create a WAR archive and an OSGi bundle 
+Running this command will build the demo and create a WAR archive and an OSGi bundle
 for deploying the service either to servlet or OSGi containers.
 
 
@@ -79,7 +79,7 @@ export CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxrem
 
 * In servlet container (Tomcat):
 1) Copy war file from the camel-jmx/war/target folder to webapp folder in Tomcat.
-Alternatively, if your Tomcat installation is configured to work with the Tomcat Maven Plugin (http://tinyurl.com/4yxzjna) 
+Alternatively, if your Tomcat installation is configured to work with the Tomcat Maven Plugin (http://tinyurl.com/4yxzjna)
 you can also start Tomcat and then deploy the war by entering "mvn tomcat:deploy" for Tomcat 7 or "mvn tomcat:deploy -PTomcat6"
 for Tomcat 6.
 
@@ -87,7 +87,7 @@ for Tomcat 6.
 
 * In Talend ESB OSGi container:
 1) Start TESB container.
-2) Type command in TESB container: 		
+2) Type command in TESB container:
 feature:repo-add mvn:org.talend.esb.examples/camel-jmx-feature/<version>/xml
 4) Type command in TESB container
 feature:install camel-jmx-service
@@ -96,7 +96,7 @@ Using JConsole to find MBean Attributes
 ============================================
 1) run JConsole: {JAVA_HOME}/bin/jconsole from a command prompt
 
-2) If you're deploying the Camel route on Tomcat: 
+2) If you're deploying the Camel route on Tomcat:
 put service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi into Remote Process field.
 
 If you're using the TESB OSGi container:
@@ -104,6 +104,6 @@ put service:jmx:rmi://localhost:44444/jndi/rmi://localhost:1099/karaf-trun into 
 with (default) username of "tadmin	" and password of "tadmin"
 
 3) connect
-4) choose Mbean tab, and look in the org.apache.camel and org.apache.activemq 
+4) choose Mbean tab, and look in the org.apache.camel and org.apache.activemq
 items in the left-side treeview
 

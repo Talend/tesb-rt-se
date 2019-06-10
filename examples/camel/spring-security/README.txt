@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -12,14 +12,14 @@
 Camel Spring Security Example
 ===============================================================================
 
-This example shows how to leverage Spring Security to secure camel routes in general and specifically when combining with 
-CXF JAX-WS and JAX-RS endpoints. 
+This example shows how to leverage Spring Security to secure camel routes in general and specifically when combining with
+CXF JAX-WS and JAX-RS endpoints.
 
-The example consists of a JaxWsClient that calls a service using SOAP/HTTP + basic auth and a RestClient that 
+The example consists of a JaxWsClient that calls a service using SOAP/HTTP + basic auth and a RestClient that
 calls a service using http + basic auth. The clients do not use Spring security.
 
-The server part runs in a servlet container or in OSGi. Spring security is configured to 
-require basic auth for all requests. The credentials are hardcoded for this simple example.  A camel 
+The server part runs in a servlet container or in OSGi. Spring security is configured to
+require basic auth for all requests. The credentials are hardcoded for this simple example.  A camel
 http servlet serves all requests. In the camel context there is one route from the servlet to a JAX-WS
 endpoint and one route to a JAX-RS endpoint. Both endpoints authorize users on the method level using
 JSR-250 annotations (@RolesAllowed).
@@ -48,7 +48,7 @@ The example can be built using Maven.
 
 2.2) In any web container
 
-Deploy the .war file into your container. Depending on your container settings you may have to adjust the 
+Deploy the .war file into your container. Depending on your container settings you may have to adjust the
 URL the clients use.
 
 2.3) In the TESB container (OSGi)
@@ -80,9 +80,9 @@ In the end Maven should report "BUILD SUCCESSFUL"
 This client should also report some service calls and Maven should report "BUILD SUCCESSFUL"
 
 Note: By default, the HTTP client will use the http port 8080 for constructing the URIs.
-If the server is listening on the alternative port (e.g. 8040 for TESB container) then you should add 
+If the server is listening on the alternative port (e.g. 8040 for TESB container) then you should add
 an additional 'http.port' system property during start the client:
-for example: 
+for example:
 > mvn exec:java -Dhttp.port=8040 -Dexec.mainClass=client.JaxWsClient
 and
 > mvn exec:java -Dhttp.port=8040 -Dexec.mainClass=client.RESTClient

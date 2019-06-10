@@ -2,7 +2,7 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     public void setSamFeature(EventFeature samFeature) {
         this.samFeature = samFeature;
     }
-    
+
     public void setLocatorFeature(LocatorFeature locatorFeature) {
         this.locatorFeature = locatorFeature;
     }
@@ -185,11 +185,11 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
                 } catch (TransformerConfigurationException e) {
                     throw new RuntimeException("Error setting the secure processing feature", e);
                 }
-                
+
                 List<Header> soapHeaders = new ArrayList<Header>();
                 try {
                     DOMResult result = new DOMResult();
-                    
+
                     transformerFactory.newTransformer()
                             .transform(new org.dom4j.io.DocumentSource((org.dom4j.Document) soapHeadersObject), result);
                     for (Node node = ((Document) result.getNode()).getDocumentElement()

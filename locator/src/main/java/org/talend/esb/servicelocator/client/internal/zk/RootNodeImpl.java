@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,9 +48,9 @@ public class RootNodeImpl extends NodePath implements RootNode {
     private ZKBackend zkBackend;
 
     private boolean authenticated;
-    
+
     private String version = V_5_1;
-    
+
     public RootNodeImpl(ZKBackend backend) {
         super(ROOT_NODE_PATH);
         zkBackend = backend;
@@ -67,7 +67,7 @@ public class RootNodeImpl extends NodePath implements RootNode {
     public ServiceNode getServiceNode(QName serviceName) {
         return new ServiceNodeImpl(zkBackend, this, serviceName);
     }
-    
+
     public List<QName> getServiceNames() throws ServiceLocatorException, InterruptedException {
         return zkBackend.getChildren(this, TO_SERVICE_NAME);
     }
@@ -81,7 +81,7 @@ public class RootNodeImpl extends NodePath implements RootNode {
          retrieveContent();
         return version;
     }
-    
+
     private void retrieveContent()  throws ServiceLocatorException, InterruptedException {
         if (! contentRetrieved && exists()) {
             byte[] content = zkBackend.getContent(this);

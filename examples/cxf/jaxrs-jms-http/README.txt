@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
-JAX-RS JMS HTTP Demo 
+JAX-RS JMS HTTP Demo
 ===============================================
 
 This sample demonstrates how a JAX-RS HTTP server can be enhanced to receive JMS messages
@@ -27,12 +27,12 @@ client/   - This is a sample client application that uses
 
 war/      - This is a war achive.
 
-This demo uses ActiveMQ as the JMS implementation for 
-illustration purposes only. 
+This demo uses ActiveMQ as the JMS implementation for
+illustration purposes only.
 
 Usage
 ===============================================================================
-Note: Please follow the parent README.txt first for common build and container 
+Note: Please follow the parent README.txt first for common build and container
 setup instructions.
 
 
@@ -71,9 +71,9 @@ Running the Client
 Note that the client will do both HTTP and JMS based invocations.
 
 By default, the HTTP client will use the http port 8080 for constructing the URIs.
-This port value is set during the build in the client.properties resource file. If the server 
+This port value is set during the build in the client.properties resource file. If the server
 is listening on the alternative port then you can use an 'http.port' system property during the build:
-   
+
 - mvn install -Dhttp.port=8040
 
 Demo Description
@@ -95,17 +95,17 @@ It also shows how oneway HTTP requests can be further routed to JMS destinations
 Note that :
 
  - a JMS consumer in the JMSHttpClient sets "org.apache.cxf.request.uri" and "org.apache.cxf.request.method"
- JMS properties to get a specific JAX-RS method being invoked on the server. These properties are optional, 
+ JMS properties to get a specific JAX-RS method being invoked on the server. These properties are optional,
  default values are "/" and "POST" respectively. For example, JMSHttpClient.addGetBookOverJMS invocation which
  adds a new Book does not set these properties and thus JMSHttpBookStore.addBook() method will be invoked.
- 
+
  - JMS JAX-RS Server will also default to "text/xml" for Content-Type and Accept values.
- JMS Consumers can override it by setting "Content-Type" and "Accept" properties. 
- 
+ JMS Consumers can override it by setting "Content-Type" and "Accept" properties.
+
  - JMSHttpBookStore.oneWayRequest() uses a org.apache.cxf.jaxrs.ext.Oneway annotation.
- JMSHttpClient.addOnewayOverHttpGetOverJMS uses CXF JAX-RS WebClient to post a new Book oneway 
- and eventually get it echoed back via JMS.  
- 
+ JMSHttpClient.addOnewayOverHttpGetOverJMS uses CXF JAX-RS WebClient to post a new Book oneway
+ and eventually get it echoed back via JMS.
+
  - JMSHttpBookStore uses a CXF JAX-RS extension ProtocolHeaders which can be used to get to the headers
- available either in the current HTTP or JMS request.    
-   
+ available either in the current HTTP or JMS request.
+

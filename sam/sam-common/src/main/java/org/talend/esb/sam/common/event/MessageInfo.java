@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Common
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ public class MessageInfo implements Serializable {
     //@Basic(optional=false)
     //@Column(name="MI_TRANSPORT_TYPE")
     private String transportType;
-    
+
     /**
      * Instantiates a new message info.
      *
@@ -67,7 +67,7 @@ public class MessageInfo implements Serializable {
         this.operationName = operationName;
         this.transportType = transportType;
     }
-    
+
     /**
      * Instantiates a new message info.
      */
@@ -83,7 +83,7 @@ public class MessageInfo implements Serializable {
     public String getMessageId() {
         return messageId;
     }
-    
+
     /**
      * Sets the message id.
      *
@@ -92,7 +92,7 @@ public class MessageInfo implements Serializable {
     public void setMessageId(String messageId) {
         this.messageId = messageId;
     }
-    
+
     /**
      * Gets the flow id.
      *
@@ -101,7 +101,7 @@ public class MessageInfo implements Serializable {
     public String getFlowId() {
         return flowId;
     }
-    
+
     /**
      * Sets the flow id.
      *
@@ -110,7 +110,7 @@ public class MessageInfo implements Serializable {
     public void setFlowId(String flowId) {
         this.flowId = flowId;
     }
-    
+
     /**
      * Gets the port type.
      *
@@ -119,7 +119,7 @@ public class MessageInfo implements Serializable {
     public String getPortType() {
         return portType;
     }
-    
+
     /**
      * Sets the port type.
      *
@@ -128,7 +128,7 @@ public class MessageInfo implements Serializable {
     public void setPortType(String portType) {
         this.portType = portType;
     }
-    
+
     /**
      * Gets the operation name.
      *
@@ -137,7 +137,7 @@ public class MessageInfo implements Serializable {
     public String getOperationName() {
         return operationName;
     }
-    
+
     /**
      * Sets the operation name.
      *
@@ -146,7 +146,7 @@ public class MessageInfo implements Serializable {
     public void setOperationName(String operationName) {
         this.operationName = operationName;
     }
-    
+
     /**
      * Gets the transport type.
      *
@@ -155,7 +155,7 @@ public class MessageInfo implements Serializable {
     public String getTransportType() {
         return transportType;
     }
-    
+
     /**
      * Sets the transport type.
      *
@@ -166,7 +166,7 @@ public class MessageInfo implements Serializable {
     }
 
 
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */

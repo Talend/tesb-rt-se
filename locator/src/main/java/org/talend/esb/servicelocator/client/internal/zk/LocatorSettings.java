@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,7 +57,7 @@ public class LocatorSettings {
     public void setEndpoints(String endpoints) {
         String[] parts = endpoints.split(";");
         locatorEndpoints = parts[0].trim();
-        
+
         if (parts.length >= 2) {
             parseCredentials(parts[1]);
         }
@@ -81,7 +81,7 @@ public class LocatorSettings {
 
     public void setPassword(String password) {
         pwdExplicit = "".equals(password) ? null : password;
-        
+
         if (LOG.isLoggable(Level.FINE)) {
             LOG.fine("Password for authentication to Service Locator set.");
         }
@@ -91,7 +91,7 @@ public class LocatorSettings {
     public String getPassword() {
         return pwdExplicit != null ? pwdExplicit : pwdInEndpoint;
     }
-    
+
     public int getSessionTimeout() {
         return sesTimeout;
     }
@@ -118,24 +118,24 @@ public class LocatorSettings {
 
     private void parseCredentials(String credential) {
         String[] credentialParts = credential.split("=");
-        
+
         if (credentialParts.length != 2) {
             if (LOG.isLoggable(Level.WARNING)) {
                 LOG.log(Level.WARNING, "Unable to interprete credential parameter '" + credential + "', when parsing the endpoints property.");
             }
             return;
         }
-        
+
         String property = credentialParts[0].trim();
-        
+
         if (property.equals(USER_PROP)) {
             userInEndpoint = credentialParts[1].trim();
-            
+
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("User for authentication to Service Locator set to: " + userExplicit + " via endpoints parameter");
             }
         } else if (property.equals(PWD_PROP)) {
-            pwdInEndpoint = credentialParts[1].trim();            
+            pwdInEndpoint = credentialParts[1].trim();
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Password for authentication to Service Locator set via endpoints parameter");
             }
