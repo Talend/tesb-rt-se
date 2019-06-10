@@ -65,11 +65,10 @@ public class SamEventTranslator {
 
 	public static final String AUDIT_SEQUENCE_NO = "auditSequenceNo";
 
-	public static final String SUBJECT = "subject";
+	public static final String PRINCIPAL = "principal";
 
 	public static final String CUSTOM_INFO = "customInfo";
 
-	/* Subject */
 	/** Identifier for hostname within log source attribute */
 	public static final String LS_HOSTNAME = "host.name";
 	/** Identifier for processId within log source attribute */
@@ -174,11 +173,9 @@ public class SamEventTranslator {
 			m.put(SERVER_TIMESTAMP, getEventTimestamp(samEvent));
 			m.put(AUDIT, getAudit());
 			m.put(AUDIT_SEQUENCE_NO, getAuditSequenceNo());
-			m.put(SUBJECT, getSubject(samEvent));
+			m.put(PRINCIPAL, getSubject(samEvent));
 			m.put(CUSTOM_INFO, getCustomInfo(samEvent));
 		}
-
-
 
 		return new org.osgi.service.event.Event(topic, m);
 
@@ -232,10 +229,6 @@ public class SamEventTranslator {
 	protected static String getSubject(Event samEvent) throws Exception {
 		String msgContent = samEvent.getContent();
 
-		if (msgContent == null || msgContent.trim().isEmpty()) {
-			return null;
-		}
-
 		SubjectExtractor subjectExtractor = new SubjectExtractor();
 
 		String answer = null;
@@ -249,10 +242,8 @@ public class SamEventTranslator {
 		}
 
 		if (answer == null && isSamlTokenMappingEnabled()) {
-			subjectExtractor.getSubject(msgContent, new SamlTokenSubjectExtractor());
+			answer = subjectExtractor.getSubject(msgContent, new SamlTokenSubjectExtractor());
 		}
-		
-		
 
 		return answer;
 	}

@@ -21,6 +21,7 @@
 package org.talend.esb.sam.agent.eventadmin.translator.subject;
 
 import java.io.StringReader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -62,13 +63,15 @@ public class SubjectExtractor {
     
     public String getSubject(String document, AbstractSubjectExtractorHandler handler) throws Exception {
         if (document == null) {
-            throw new NullPointerException("Input document cannot be null.");
+            LOG.warning("Message content is null, couldn't get the Subject/Principal.");
+            return null;
         }
-        
+
         if (document.trim().isEmpty()) {
-            throw new IllegalArgumentException("Input document cannot be empty.");
+            LOG.warning("Message content is empty, couldn't get the Subject/Principal.");
+            return null;
         }
-        
+
         try {
             synchronized (parser) {
                 parser.parse(new InputSource(new StringReader(document)), handler);
@@ -77,10 +80,13 @@ public class SubjectExtractor {
             // means we found the subject, can return it
             return handler.getSubject();
         } catch (SAXParseException e) {
-            throw new IllegalArgumentException("Cannot parse input document.", e);
+            LOG.log(Level.WARNING, "Parse message content failed, couldn't get the Subject/Principal.", e);
+            return null;
         }
-        
+
         // subject is not found
         return null;
+
+
     }
 }

@@ -7,12 +7,13 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SubjectExtractorTest {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void testDTDInjection() throws Exception {
         String xmlDoc = loadFile("target/test-classes/DTDInjectionSample.xml");
         if (xmlDoc.trim().isEmpty()) {
@@ -20,7 +21,8 @@ public class SubjectExtractorTest {
         }
 
         SubjectExtractor extractor = new SubjectExtractor();
-        extractor.getSubject(xmlDoc, new SamlTokenSubjectExtractor());
+        String subject = extractor.getSubject(xmlDoc, new SamlTokenSubjectExtractor());
+        Assert.assertEquals(subject, null);
     }
     
     private String loadFile(String fileName) throws Exception {
