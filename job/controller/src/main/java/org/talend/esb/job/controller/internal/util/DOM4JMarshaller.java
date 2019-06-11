@@ -19,6 +19,8 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
+import java.util.logging.Logger;
+
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
@@ -31,16 +33,25 @@ import org.dom4j.io.DOMWriter;
 
 public final class DOM4JMarshaller {
 
-	private static TransformerFactory FACTORY;
+    private static final Logger LOG = Logger.getLogger(DOM4JMarshaller.class.getName());
+    private static TransformerFactory FACTORY;
 
-	private DOM4JMarshaller() {
-	}
+    private DOM4JMarshaller() {
+    }
 
     private static TransformerFactory getTransformerFactory() {
         if (null == FACTORY) {
             FACTORY = TransformerFactory.newInstance();
-            FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            try {
+                FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            } catch (IllegalArgumentException ex) {
+                LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_DTD is not recognized");
+            }
+            try {
+                FACTORY.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            } catch (IllegalArgumentException ex) {
+                LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_STYLESHEET is not recognized");
+            }
             try {
                 FACTORY.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             } catch (TransformerConfigurationException e) {
@@ -50,31 +61,31 @@ public final class DOM4JMarshaller {
         return FACTORY;
     }
 
-	public static org.dom4j.Document sourceToDocument(Source source)
-			throws TransformerException, DocumentException {
+    public static org.dom4j.Document sourceToDocument(Source source)
+        throws TransformerException, DocumentException {
 
-		// org.dom4j.io.DocumentResult docResult = new
-		// org.dom4j.io.DocumentResult();
-		// FACTORY.newTransformer().transform(source, docResult);
-		// return docResult.getDocument();
-		//
+        // org.dom4j.io.DocumentResult docResult = new
+        // org.dom4j.io.DocumentResult();
+        // FACTORY.newTransformer().transform(source, docResult);
+        // return docResult.getDocument();
+        //
 
-		// fix for unsupported xmlns="" declaration processing over dom4j
-		// implementation
-		// // old version:
-		// // org.dom4j.io.DocumentResult docResult = new
-		// org.dom4j.io.DocumentResult();
-		// // factory.newTransformer().transform(request, docResult);
-		// // org.dom4j.Document requestDoc = docResult.getDocument();
-		// new version:
-		java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
-		getTransformerFactory().newTransformer().transform(source,
-				new javax.xml.transform.stream.StreamResult(os));
-		return new org.dom4j.io.SAXReader()
-				.read(new java.io.ByteArrayInputStream(os.toByteArray()));
-		// end of fix
+        // fix for unsupported xmlns="" declaration processing over dom4j
+        // implementation
+        // // old version:
+        // // org.dom4j.io.DocumentResult docResult = new
+        // org.dom4j.io.DocumentResult();
+        // // factory.newTransformer().transform(request, docResult);
+        // // org.dom4j.Document requestDoc = docResult.getDocument();
+        // new version:
+        java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
+        getTransformerFactory().newTransformer().transform(source,
+                                                           new javax.xml.transform.stream.StreamResult(os));
+        return new org.dom4j.io.SAXReader()
+            .read(new java.io.ByteArrayInputStream(os.toByteArray()));
+        // end of fix
 
-	}
+    }
 
     public static Source documentToSource(org.dom4j.Document document) throws DocumentException {
         return new DOMSource(new DOMWriter().write(document));

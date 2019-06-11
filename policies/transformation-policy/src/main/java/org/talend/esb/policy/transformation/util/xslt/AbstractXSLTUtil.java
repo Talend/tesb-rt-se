@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
@@ -37,6 +38,7 @@ import org.w3c.dom.Document;
 
 public abstract class AbstractXSLTUtil {
 
+    private static final Logger LOG = Logger.getLogger(AbstractXSLTUtil.class.getName());
 
     private String contextPropertyName;
     private final Templates xsltTemplate;
@@ -46,7 +48,7 @@ public abstract class AbstractXSLTUtil {
         //loading XSLT resource from specified path
         InputStream xsltStream = null;
         String absoluteSchemaPath = null;
-            CachedOutputStream cos = new CachedOutputStream();
+        CachedOutputStream cos = new CachedOutputStream();
         try {
             absoluteSchemaPath = loadResource(xsltPath, cos);
             xsltStream = cos.getInputStream();
@@ -58,18 +60,26 @@ public abstract class AbstractXSLTUtil {
             throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath, ex);
         }
 
-        
+
         XSLTResourceResolver resourceResolver = null;
         try {
-        TransformerFactory factory = TransformerFactory.newInstance();
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        resourceResolver = new XSLTResourceResolver(absoluteSchemaPath,
-        		xsltPath);
-        factory.setURIResolver(resourceResolver);
+            TransformerFactory factory = TransformerFactory.newInstance();
+            try {
+                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            } catch (IllegalArgumentException ex) {
+                LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_DTD is not recognized");
+            }
+            try {
+                factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            } catch (IllegalArgumentException ex) {
+                LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_STYLESHEET is not recognized");
+            }
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            resourceResolver = new XSLTResourceResolver(absoluteSchemaPath,
+                                                        xsltPath);
+            factory.setURIResolver(resourceResolver);
 
-        
+
             Document doc = StaxUtils.read(xsltStream);
 
             xsltTemplate = factory.newTemplates(new DOMSource(doc));
@@ -88,13 +98,13 @@ public abstract class AbstractXSLTUtil {
                     xsltStream.close();
                 } catch (Exception e) {}
             }
-            
+
             try {
-				cos.close();
-			} catch (IOException e) {}
-            
+                cos.close();
+            } catch (IOException e) {}
+
             if(resourceResolver!=null){
-            	resourceResolver.cleanupCache();
+                resourceResolver.cleanupCache();
             }
         }
     }
@@ -102,14 +112,14 @@ public abstract class AbstractXSLTUtil {
 
 
     class XSLTResourceResolver implements URIResolver {
-    	
-    	List<CachedOutputStream> cacheList = new ArrayList<CachedOutputStream>();
+
+        List<CachedOutputStream> cacheList = new ArrayList<CachedOutputStream>();
 
         String parentXSLTAbsolutePath = null;
         String parentXSLTProvidedPath = null;
 
         public XSLTResourceResolver(String parentXSLTAbsolutePath,
-                String parentXSLTProvidedPath){
+                                    String parentXSLTProvidedPath){
             this.parentXSLTAbsolutePath = parentXSLTAbsolutePath;
             this.parentXSLTProvidedPath = parentXSLTProvidedPath;
 
@@ -118,7 +128,7 @@ public abstract class AbstractXSLTUtil {
         public Source resolve(String systemId, String baseURI) {
 
             boolean isRemoteLocation = (systemId != null &&
-                    (systemId.startsWith("http://") || systemId.startsWith("https://")));
+                (systemId.startsWith("http://") || systemId.startsWith("https://")));
 
             //Try to find path to parent XSLT directory
             String parentXSLTDir = "";
@@ -137,7 +147,7 @@ public abstract class AbstractXSLTUtil {
                 String XSLTLocation = "";
                 if (baseURI != null) {
                     XSLTLocation = baseURI.substring(0,
-                            baseURI.lastIndexOf("/") + 1);
+                                                     baseURI.lastIndexOf("/") + 1);
                 }
 
                 if (!isRemoteLocation) {
@@ -162,7 +172,7 @@ public abstract class AbstractXSLTUtil {
                     // Try to load XSLT using path to basic XSLT directory
                     // (which is referenced in policy) as root
                     actualXSLTURL = parentXSLTDir+File.separator + resURL;
-                        loadResource(actualXSLTURL, cache);
+                    loadResource(actualXSLTURL, cache);
                 }
                 resourceStream = cache.getInputStream();
             }catch (IOException ex){
@@ -170,9 +180,9 @@ public abstract class AbstractXSLTUtil {
             }
 
             if (cache.size() != 0) {
-                    StreamSource source = new StreamSource(resourceStream);
-                    source.setSystemId(actualXSLTURL);
-                    return source;
+                StreamSource source = new StreamSource(resourceStream);
+                source.setSystemId(actualXSLTURL);
+                return source;
             }else{
                 StringBuilder message = new StringBuilder();
                 message.append("Transformation: can not load internal XSLT with path {");
@@ -186,14 +196,14 @@ public abstract class AbstractXSLTUtil {
                 throw new RuntimeException(message.toString());
             }
         }
-        
-		public void cleanupCache(){
-			for (CachedOutputStream cache : cacheList) {
-				try {
-					cache.close();
-				} catch (IOException e) {}
-			}
-		}
+
+        public void cleanupCache(){
+            for (CachedOutputStream cache : cacheList) {
+                try {
+                    cache.close();
+                } catch (IOException e) {}
+            }
+        }
     }
 
     @SuppressWarnings("resource")
@@ -217,7 +227,7 @@ public abstract class AbstractXSLTUtil {
         if (resource == null) {
             // try to load resource from class loader root
             resource = ClassLoaderUtils.getResourceAsStream(path,
-                    this.getClass());
+                                                            this.getClass());
             if(resource!=null){
                 URL url = ClassLoaderUtils.getResource(path, this.getClass());
                 if(url!= null){
@@ -264,7 +274,7 @@ public abstract class AbstractXSLTUtil {
         AssertionInfoMap aim = message.get(AssertionInfoMap.class);
         if (aim != null) {
             Collection<AssertionInfo> ais = aim
-                      .get(TransformationPolicyBuilder.TRANSFORMATION);
+                .get(TransformationPolicyBuilder.TRANSFORMATION);
 
             if (ais != null) {
                 for (AssertionInfo ai : ais) {

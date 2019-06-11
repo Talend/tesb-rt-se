@@ -178,8 +178,16 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         if (null != soapHeadersObject) {
             if (soapHeadersObject instanceof org.dom4j.Document) {
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-                transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+                try {
+                    transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+                } catch (IllegalArgumentException ex) {
+                    LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_DTD is not recognized");
+                }
+                try {
+                    transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+                } catch (IllegalArgumentException ex) {
+                    LOG.fine("Property XMLConstants.ACCESS_EXTERNAL_STYLESHEET is not recognized");
+                }
                 try {
                     transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
                 } catch (TransformerConfigurationException e) {
