@@ -56,7 +56,7 @@
     <feature version="[4.3,6)">spring-jdbc</feature>
 <!--    <bundle>mvn:org.apache.derby/derbyclient/${derby.version}</bundle> -->
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${derby.servicemix.version}</bundle>
-	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-derby/${project.version}</bundle>
   </feature>
 
@@ -127,7 +127,7 @@
   <feature name='tesb-datasource-db2' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.db2.cfg">mvn:org.talend.esb/ds-service-db2/${project.version}/cfg/org.talend.esb.datasource.db2</configfile>
     <feature version="[4.3,6)">spring-jdbc</feature>
-	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-db2/${project.version}</bundle>
   </feature>
 
@@ -145,7 +145,7 @@
   <feature name='tesb-datasource-sqlserver' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.datasource.sqlserver.cfg">mvn:org.talend.esb/ds-service-sqlserver/${project.version}/cfg/org.talend.esb.datasource.sqlserver</configfile>
     <feature version="[4.3,6)">spring-jdbc</feature>
-	<bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
+    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
     <bundle>mvn:org.talend.esb/ds-service-sqlserver/${project.version}</bundle>
   </feature>
 
