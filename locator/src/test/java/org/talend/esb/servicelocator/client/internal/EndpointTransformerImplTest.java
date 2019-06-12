@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ public class EndpointTransformerImplTest {
 
     @Test
     public void writePropertiesToPropertiesEmpty() throws Exception {
-        
+
         EndpointTransformerImpl transformer = new EndpointTransformerImpl();
         DOMResult result = new DOMResult();
         transformer.writePropertiesTo(PROPERTIES_EMPTY, result);
@@ -51,10 +51,10 @@ public class EndpointTransformerImplTest {
         Document doc = (Document) result.getNode();
         Element root = doc.getDocumentElement();
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/sl:ServiceLocatorProperties",
                 WSA_SL_NS_CONTEXT));
-        assertThat(root, 
+        assertThat(root,
                 hasXPath("/sl:ServiceLocatorProperties/node()",
                     WSA_SL_NS_CONTEXT, equalTo("")));
     }
@@ -67,7 +67,7 @@ public class EndpointTransformerImplTest {
                         TransportType.HTTP);
 
             EndpointTransformerImpl trans = new EndpointTransformerImpl();
-            
+
             byte[] content = trans.fromEndpoint(endpoint, LAST_TIME_STARTED, LAST_TIME_STOPPED);
             Document contentAsXML = DomMother.parse(content);
 
@@ -77,9 +77,9 @@ public class EndpointTransformerImplTest {
             assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:LastTimeStopped/text()",
                     WSA_SL_NS_CONTEXT, equalTo(Long.toString(LAST_TIME_STOPPED))));
             assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Binding/text()",
-                    WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));        
+                    WSA_SL_NS_CONTEXT, equalTo(BindingType.JAXRS.getValue())));
             assertThat(contentAsXML, hasXPath("/sl:EndpointData/sl:Transport/text()",
-                    WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));        
+                    WSA_SL_NS_CONTEXT, equalTo(TransportType.HTTP.getValue())));
             assertThat(contentAsXML, hasXPath("/sl:EndpointData/wsa:EndpointReference", WSA_SL_NS_CONTEXT));
     }
 }

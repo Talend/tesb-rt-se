@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import org.talend.esb.sam.agent.message.FlowIdHelper;
 
 /**
  * The Class FlowIdProducerOut used for writing FlowId in outcoming messages.
- * 
+ *
  * @param <T>
  *            the generic type
  */
@@ -57,7 +57,7 @@ public class FlowIdProducerOut<T extends Message> extends
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message
      * .Message)
@@ -89,7 +89,7 @@ public class FlowIdProducerOut<T extends Message> extends
 
     /**
      * Handling out responce.
-     * 
+     *
      * @param message
      *            the message
      * @throws Fault
@@ -165,7 +165,7 @@ public class FlowIdProducerOut<T extends Message> extends
 
     /**
      * Handling out request.
-     * 
+     *
      * @param message
      *            the message
      * @throws Fault
@@ -199,12 +199,12 @@ public class FlowIdProducerOut<T extends Message> extends
 
     /**
      * Calling EventProducerInterceptor in case of logging faults.
-     * 
+     *
      * @param exchange
      *            the message exchange
      * @param reqFid
      *            the FlowId
-     * 
+     *
      * @throws Fault
      *             the fault
      */

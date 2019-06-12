@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2014 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -20,7 +20,7 @@ crmservice/
     - CRM Service which implements the getCRMInformation() and getCRMStatus() operations.
 
 reservationservice/
-    - Reservation Service which implements getAvailableCars(), submitCarReservation() and 
+    - Reservation Service which implements getAvailableCars(), submitCarReservation() and
 	  getConfirmationOfReservation() operations.
 
 app-reservation/
@@ -34,7 +34,7 @@ registry-artifacts/
 Building the Example
 --------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build this example. 
+located), the maven pom.xml file can be used to build this example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
@@ -57,9 +57,9 @@ deployment of the example, the Container must be running, and Locator server and
 SAM server must be started (for Registry-enabled example, additionally Registry server
 must be started).
 
-It is also possible to configure Tomcat for automatic deployment of the WAR files 
+It is also possible to configure Tomcat for automatic deployment of the WAR files
 with maven. To achieve this it is necessary to create a user within Tomcat with name
-'tomcat' and password 'tomcat', which has corresponding role (for Tomcat 7 it must have 
+'tomcat' and password 'tomcat', which has corresponding role (for Tomcat 7 it must have
 at least 'manager-script' role).
 
 

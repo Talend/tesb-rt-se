@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -10,7 +10,7 @@
 #
 ###############################################################################
 
-Example for Locator SOAP Service 
+Example for Locator SOAP Service
 ============================================
 This example illustrates the usage of the Locator SOAP Service
 
@@ -18,10 +18,10 @@ This example consists of the following components:
 
 service/
    - Greeter service which is registered with the locator soap service after the starting.
-	
-common/   
-   - This directory contains the code that is common to both the client and the Greeter server. 
-	
+
+common/
+   - This directory contains the code that is common to both the client and the Greeter server.
+
 client/
    - This is a sample client application that uses the Locator Soap Service to dynamically
      discover the service endpoint and invoke the service.
@@ -37,15 +37,15 @@ Using either UNIX or Windows:
 
     mvn install --non-recursive
 
-    From the locator-service sample root directory (i.e., talend-esb-<version>/examples/talend/tesb/examples/locator-service),  
-    run the following command to install the locator-service sample parent pom file: locator-service-parent-<version>.pom 
+    From the locator-service sample root directory (i.e., talend-esb-<version>/examples/talend/tesb/examples/locator-service),
+    run the following command to install the locator-service sample parent pom file: locator-service-parent-<version>.pom
     into local maven repo.
 
     mvn install --non-recursive
 
-    From the base directory of this sample (i.e., where this README file is located), 
-    the maven pom.xml file can be used to build and run the demo. 
-  
+    From the base directory of this sample (i.e., where this README file is located),
+    the maven pom.xml file can be used to build and run the demo.
+
     mvn install
 
 
@@ -54,7 +54,7 @@ Starting the Demo
 
 - Start zookeeper in container
     tesb:start-locator
-    
+
 - Start locator soap service in container
 	feature:install tesb-locator-soap-service
 

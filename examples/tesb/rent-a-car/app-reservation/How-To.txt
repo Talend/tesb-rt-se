@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -10,7 +10,7 @@
 #
 ###############################################################################
 
-How-to documentation 
+How-to documentation
 =======================================
 
 
@@ -24,7 +24,7 @@ Add features to the beans.xml files
 ----------------------------------
 The Service Locator feature should be added to each endpoint and client in the example configuration.
 
-1. Add the Service Locator feature to the endpoint bean in the beans.xml exactly the same way 
+1. Add the Service Locator feature to the endpoint bean in the beans.xml exactly the same way
 as a standard CXF feature.
 
 Make these changes in the following files:
@@ -42,10 +42,10 @@ Example:
 		</jaxws:features>
 	</jaxws:endpoint>
 
-Property locatorEndpoints specify host and port, on which the Zookeeper listens for client connections. 
+Property locatorEndpoints specify host and port, on which the Zookeeper listens for client connections.
 For more information please read the Service Locator Configuration Manual
 
-2. Add the Service Locator feature to the client bean in the beans.xml exactly the same way 
+2. Add the Service Locator feature to the client bean in the beans.xml exactly the same way
 as a standard CXF feature.
 
 Also use the locator transport in the client address as shown in the example below:
@@ -79,7 +79,7 @@ We must add dependencies for log4j and locator artifacts, for example:
 			<artifactId>locator</artifactId>
 			<version>4.0</version>
 		</dependency>
-		
+
 These dependencies should be added to projects that use the locator client - CRMService and ReservationService.
 
 

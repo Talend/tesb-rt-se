@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,25 +24,25 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class SamlTokenSubjectExtractor extends AbstractSubjectExtractorHandler {
-    
+
     public static final String SAML2_NAMESPACE = "urn:oasis:names:tc:SAML:2.0:assertion";
-    
+
     public static final String SAML2_SUBJECT_TAG = "NameID";
 
     public static final String SOAP_NAMESPACE = "http://schemas.xmlsoap.org/soap/envelope/";
-    
+
     public static final String SOAP_HEADER_TAG = "Header";
-    
+
     private final StringBuilder answer = new StringBuilder();
-    
+
     private boolean inSubjectTag = false;
-    
+
     private boolean inSoapHeader = true;
-    
+
     public String getSubject() {
         return answer.toString();
     }
-    
+
     @Override
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws SAXException {
@@ -52,7 +52,7 @@ public class SamlTokenSubjectExtractor extends AbstractSubjectExtractorHandler {
             inSubjectTag = true;
         }
     }
-    
+
     @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
@@ -69,7 +69,7 @@ public class SamlTokenSubjectExtractor extends AbstractSubjectExtractorHandler {
             throw new SubjectFoundException();
         }
     }
-    
+
     @Override
     public void characters(char[] ch, int start, int length)
             throws SAXException {
@@ -77,11 +77,11 @@ public class SamlTokenSubjectExtractor extends AbstractSubjectExtractorHandler {
             answer.append(ch, start, length);
         }
     }
-    
+
     private final boolean isSamlSubjectTag(String uri, String localName) {
         return SAML2_SUBJECT_TAG.equals(localName) && SAML2_NAMESPACE.equals(uri);
     }
-    
+
     private final boolean isSoapHeaderTag(String uri, String localName) {
         return SOAP_HEADER_TAG.equals(localName) && SOAP_NAMESPACE.equals(uri);
     }

@@ -2,14 +2,14 @@
  * #%L
  * TESB :: Examples :: Locator Rest Client
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ public class Client {
             JAXRSClientFactoryBean factoryBean = prepareFactoryBean();
             factoryBean.setServiceClass(OrderService.class);
             OrderService client = factoryBean.create(OrderService.class);
-            useOrderService(client); 
+            useOrderService(client);
         }
 
         public void runCodeWebClient() throws Exception {
@@ -48,30 +48,30 @@ public class Client {
 
             JAXRSClientFactoryBean factoryBean = prepareFactoryBean();
             WebClient wc = factoryBean.createWebClient();
-            wc.accept("application/xml"); 
-		
+            wc.accept("application/xml");
+
             String orderId = "1";
             for (int i = 1; i <= 3; i++) {
-                wc.path("orderservice").path(orderId); 
+                wc.path("orderservice").path(orderId);
                 Order ord = wc.get(Order.class);
                 describeOrder(i, ord);
 		wc.back(true);
-	
+
         	Thread.sleep(2000);
-            } 
+            }
         }
 
         private JAXRSClientFactoryBean prepareFactoryBean() throws Exception {
             JAXRSClientFactoryBean factoryBean = new JAXRSClientFactoryBean();
             factoryBean.setAddress("locator://some_usefull_information");
             factoryBean.setServiceName(new QName("http://common.demo/", "OrderService"));
-            
+
             ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "META-INF/tesb/locator/beans.xml" });
             LocatorFeature feature = (LocatorFeature) context.getBean("locatorFeature");
 
-            factoryBean.setFeatures(Collections.singletonList(feature)); 
-            return factoryBean; 
+            factoryBean.setFeatures(Collections.singletonList(feature));
+            return factoryBean;
         }
 
         public void runSpringClient() throws Exception {
@@ -81,7 +81,7 @@ public class Client {
             ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				new String[] { "META-INF/client.xml" });
             OrderService client = (OrderService) context.getBean("restClient");
-            useOrderService(client); 
+            useOrderService(client);
         }
 
         private void useOrderService(OrderService client) throws Exception {
@@ -90,10 +90,10 @@ public class Client {
 		Order ord = client.getOrder(orderId);
 
 		describeOrder(i, ord);
-		
+
 		Thread.sleep(2000);
 	    }
-        } 
+        }
 
         private void describeOrder(int invocationNumber, Order ord) {
             System.out.println("invocation number:" + invocationNumber);
@@ -111,7 +111,7 @@ public class Client {
                 client.runSpringClient();
                 client.runCodeProxyClient();
 		client.runCodeWebClient();
-		
+
 		System.exit(0);
 
 	}

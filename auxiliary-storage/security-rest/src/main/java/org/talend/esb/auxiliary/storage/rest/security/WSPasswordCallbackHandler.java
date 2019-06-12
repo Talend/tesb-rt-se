@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  *
- * Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+ * Copyright (C) 2011-2019 Talend Inc. - www.talend.com
  *
  * This source code is available under agreement available at
  * %InstallDIR%\license.txt
@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class WSPasswordCallbackHandler implements CallbackHandler {
 
     private static final transient Logger LOG = LoggerFactory.getLogger(WSPasswordCallbackHandler.class);
-                                                                        
+
     private final String user;
     private final String pass;
 
@@ -42,7 +42,7 @@ public class WSPasswordCallbackHandler implements CallbackHandler {
             LOG.debug("No user was specified in the WSPasswordCallbackHandler");
             return;
         }
-        
+
         for (Callback callback : callbacks) {
             if (callback instanceof WSPasswordCallback) {
                 WSPasswordCallback pc = (WSPasswordCallback) callback;

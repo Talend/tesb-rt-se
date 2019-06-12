@@ -2,14 +2,14 @@
   #%L
   Talend :: ESB :: STS :: WAR
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@
   #L%
   -->
 
-<beans 
+<beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:cxf="http://cxf.apache.org/core"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -30,7 +30,7 @@
         http://cxf.apache.org/schemas/core.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-        http://cxf.apache.org/jaxws                                     
+        http://cxf.apache.org/jaxws
         http://cxf.apache.org/schemas/jaxws.xsd
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-2.0.xsd">
@@ -40,7 +40,7 @@
 		class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
 		<property name="issueOperation" ref="x509IssueDelegate"/>
 		<property name="validateOperation" ref="x509ValidateDelegate"/>
-	</bean>	
+	</bean>
 
 	<bean id="x509IssueDelegate"
 		class="org.apache.cxf.sts.operation.TokenIssueOperation">
@@ -48,31 +48,31 @@
 		<property name="services" ref="x509Service"/>
 		<property name="stsProperties" ref="x509STSProperties"/>
 	</bean>
-	
+
 	<bean id="x509ValidateDelegate"
 	    class="org.apache.cxf.sts.operation.TokenValidateOperation">
 	    <property name="tokenValidators" ref="x509SamlTokenValidator"/>
 		<property name="stsProperties" ref="x509STSProperties"/>
 	</bean>
-	
+
 	<bean id="x509SamlTokenProvider"
 		class="org.apache.cxf.sts.token.provider.SAMLTokenProvider">
     </bean>
-    
+
     <bean id="x509SamlTokenValidator"
 		class="org.apache.cxf.sts.token.validator.SAMLTokenValidator">
     </bean>
-    
+
     <bean id="x509Service"
         class="org.apache.cxf.sts.service.StaticService">
         <property name="endpoints" ref="x509Endpoints"/>
     </bean>
-    
+
     <util:list id="x509Endpoints">
 		<value>http://localhost:8082/doubleit/services/doubleitsymmetric.*</value>
 		<value>http://localhost:8082/doubleit/services/doubleitasymmetric.*</value>
 	</util:list>
-	
+
 	<bean id="x509STSProperties"
 	     class="org.apache.cxf.sts.StaticSTSProperties">
 	    <property name="signaturePropertiesFile" value="stsKeystore.properties"/>
@@ -82,10 +82,10 @@
 		<property name="issuer" value="DoubleItSTSIssuer"/>
 		<property name="encryptionUsername" value="myservicekey"/>
     </bean>
-    
+
 	<jaxws:endpoint id="X509STS"
 		implementor="#x509STSProviderBean"
-		address="/X509" 
+		address="/X509"
         wsdlLocation="/WEB-INF/wsdl/ws-trust-1.4-service.wsdl"
         xmlns:ns1="http://docs.oasis-open.org/ws-sx/ws-trust/200512/"
         serviceName="ns1:SecurityTokenService"
@@ -95,9 +95,9 @@
             <entry key="security.signature.properties" value="stsKeystore.properties"/>
             <entry key="security.signature.username" value="mystskey"/>
             <entry key="security.encryption.username" value="useReqSigCert"/>
-        </jaxws:properties> 
+        </jaxws:properties>
 	</jaxws:endpoint>
-	
+
 
 </beans>
 

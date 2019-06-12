@@ -2,14 +2,14 @@
  * #%L
  * App Reservation Basic
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import org.talend.esb.client.model.CarSearchModel;
 @Command(scope = "car", name = "rent", description = "Rent a car")
 
 public class CarRent extends OsgiCommandSupport {
-	private static final String SP = " "; //$NON-NLS-1$	
+	private static final String SP = " "; //$NON-NLS-1$
 	private static final String CONFIRMATION = "\n{0}\n\n" + //$NON-NLS-1$
 	Messages.CarRentalClient_ReservationID + " {1}\n\n" + //$NON-NLS-2$
 	Messages.CarRentalClient_CustomerDetails + "\n" + //$NON-NLS-2$
@@ -57,13 +57,13 @@ public class CarRent extends OsgiCommandSupport {
 	SP + Messages.CarRentalClient_WeekEndRate + ": {11}\n" + //$NON-NLS-2$
 	SP + Messages.CarRentalClient_Credits + ":      {12}\n" + //$NON-NLS-2$
 	Messages.CarRentalClient_Thanks;
-	
+
 	private CarSearchModel searcher;
 	private CarReserveModel reserver;
-	
+
 	@Argument(index = 0, name = "pos", description = "Rent a car listed in search result of racSearch", required = true, multiValued = false)
     int pos;
-	
+
 	@Override
 	protected Object doExecute() throws Exception {
 		if (null == CarSearch.getLastSearchParams()) {
@@ -73,7 +73,7 @@ public class CarRent extends OsgiCommandSupport {
 		racRent();
 		return null;
 	}
-	
+
 	/**
 	 * Rent a car available in the last serach result
 	 * @param intp - the command interpreter instance
@@ -97,7 +97,7 @@ public class CarRent extends OsgiCommandSupport {
 
 			RESCarType car = confirm.getCar();
 			CustomerDetailsType customer = confirm.getCustomer();
-			
+
 			System.out.println(MessageFormat.format(CONFIRMATION
 					, confirm.getDescription()
 					, confirm.getReservationId()
@@ -115,8 +115,8 @@ public class CarRent extends OsgiCommandSupport {
 		} else {
 			System.out.println("Invalid selection: " + (pos+1)); //$NON-NLS-1$
 		}
-	}	
-	
+	}
+
 	/**
 	 * Set the CarSearchModel used to look for cars
 	 * @param searcher - the CarSearchModel instance
@@ -124,25 +124,25 @@ public class CarRent extends OsgiCommandSupport {
 	public void setSearcher(CarSearchModel searcher) {
 		this.searcher = searcher;
 	}
-	
-	
+
+
 	/**
 	 * Set the CarReserveModel used to reserve a car
 	 * @param reserver - the CarReserveModel instance
 	 */
 	public void setReserver(CarReserveModel reserver) {
 		this.reserver = reserver;
-	}	
-	
-	
+	}
+
+
 	private static String padl(String src, int length) {
 		return pad(src, length, ' ', true);
 	}
-	
-	
+
+
 	private static String pad(String src, int length, char c, boolean insert) {
 		StringBuilder sb = new StringBuilder(src);
-		
+
 		if (insert) {
 			while(sb.length() < length) sb.insert(0, c);
 		} else {
@@ -150,5 +150,5 @@ public class CarRent extends OsgiCommandSupport {
 		}
 		return sb.toString();
 	}
-	
+
 }

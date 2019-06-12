@@ -2,14 +2,14 @@
  * #%L
  * Abstract base class for Service Locator Selection Strategy
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.apache.cxf.clustering.FailoverStrategy#selectAlternateAddress(java
 	 * .util.List)
@@ -64,7 +64,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.apache.cxf.clustering.FailoverStrategy#getAlternateAddresses(org.
 	 * apache.cxf.message.Exchange)
@@ -76,7 +76,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.apache.cxf.clustering.FailoverStrategy#getAlternateEndpoints(org.
 	 * apache.cxf.message.Exchange)
@@ -88,7 +88,7 @@ public abstract class LocatorSelectionStrategy implements FailoverStrategy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.apache.cxf.clustering.FailoverStrategy#selectAlternateEndpoint(java
 	 * .util.List)

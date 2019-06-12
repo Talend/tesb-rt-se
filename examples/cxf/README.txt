@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -12,74 +12,74 @@
 Welcome to Talend examples for CXF
 =========================================================
 
-Industry leading open source Apache CXF implementation of JAX-WS to help 
-you service enable your existing applications and interfaces.  The CXF 
-lightweight, modular architecture is based on Spring, so it will work 
-with your application regardless of the platform on which it is running. 
-It will run on stand-alone JVM applications, as part of a servlet container 
-such as Tomcat, within a JEE server, or in an OSGi container such as Equinox.  
+Industry leading open source Apache CXF implementation of JAX-WS to help
+you service enable your existing applications and interfaces.  The CXF
+lightweight, modular architecture is based on Spring, so it will work
+with your application regardless of the platform on which it is running.
+It will run on stand-alone JVM applications, as part of a servlet container
+such as Tomcat, within a JEE server, or in an OSGi container such as Equinox.
 
 This package contains several new examples that show advanced features
 of CXF.  All of the examples are setup to be built and run independently,
-but they are also all setup to be run in the Talend ESB OSGi container 
+but they are also all setup to be run in the Talend ESB OSGi container
 that can be obtained from:
 http://www.talend.com/download.php#ESB
 
-jaxws-cxf-sts: demonstrates having a SOAP client use CXF's stsclient 
-to make a call to a Tomcat-hosted CXF Security Token Service (STS) and 
+jaxws-cxf-sts: demonstrates having a SOAP client use CXF's stsclient
+to make a call to a Tomcat-hosted CXF Security Token Service (STS) and
 subsequently using the SAML token received to make a web service call to a CXF
 web service provider.  Both standalone and OSGi-based clients are shown,
 as well as standalone, Tomcat-based, and OSGi-based web service provider
 options given.
 
 jaxws-cxf-sts-advanced: More advanced version of the above showing OSGi
-deployment of the STS, token providers, token validation, and WSP 
+deployment of the STS, token providers, token validation, and WSP
 authorization based on attributes within the SAML token.
 
-jaxws-ws-secpol: demonstrates using WS-SecurityPolicy and configuration 
+jaxws-ws-secpol: demonstrates using WS-SecurityPolicy and configuration
 to secure communication between CXF client and servers using various
 security requirements and including tokens like UsernameToken and
 SAML assertions.
 
 jaxws-jms-spec: demonstrates using JAX-WS clients and servers to
-talk SOAP over JMS, but using the SOAP/JMS Specification for 
+talk SOAP over JMS, but using the SOAP/JMS Specification for
 configuration.
 
 interceptors: demonstrates how a message changes and is manipulated
 as it passes through the various CXF interceptors.
 
-jaxrs-intro: shows basic features of the the JAX-RS 1.1 specification 
-and API such as root resources, subresources and HTTP verbs (GET/PUT/POST).  
+jaxrs-intro: shows basic features of the the JAX-RS 1.1 specification
+and API such as root resources, subresources and HTTP verbs (GET/PUT/POST).
 
 jaxrs-advanced:  building on the jaxrs-intro sample, this demo additionally
-demonstrates multiple root resource classes, recursive subresources, 
-resource methods consuming and producing data in different formats (XML 
-and JSON), using JAX-RS Response to return status, headers and optional 
-entity, using UriInfo and UriBuilder for working with URI and 
+demonstrates multiple root resource classes, recursive subresources,
+resource methods consuming and producing data in different formats (XML
+and JSON), using JAX-RS Response to return status, headers and optional
+entity, using UriInfo and UriBuilder for working with URI and
 ExceptionMappers for handling application exceptions.
 
-jaxrs-attachments:  demonstrates how JAX-RS consumers and providers can 
+jaxrs-attachments:  demonstrates how JAX-RS consumers and providers can
 read and write multipart attachments.
 
-jaxrs-jaxws-authorization: shows how a Role-Base-Access-Control policy 
-can be applied to JAX-WS and JAX-RS services with the help of the 
-container-managed authentication and CXF security filters enforcing 
+jaxrs-jaxws-authorization: shows how a Role-Base-Access-Control policy
+can be applied to JAX-WS and JAX-RS services with the help of the
+container-managed authentication and CXF security filters enforcing
 the authorization rules.
 
 jaxrs-jaxws-description-first: shows how SOAP services created as
 part of the document (WSDL) first approach process can get RESTified by having
-a CXF JAX-RS user model resource added which describes how an interface 
+a CXF JAX-RS user model resource added which describes how an interface
 generated by the wsdl-to-java tool can be treated as the JAX-RS root resource.
 
 jaxrs-jaxws-java-first: shows how a single service instance can be
-exposed as both JAX-RS and JAX-WS services at the same time and how CXF 
-JAX-RS and JAX-WS proxies can reuse the same code for invoking on the 
+exposed as both JAX-RS and JAX-WS services at the same time and how CXF
+JAX-RS and JAX-WS proxies can reuse the same code for invoking on the
 corresponding endpoints.
 
 jaxrs-jms-http: demonstrates how a JAX-RS HTTP server can be enhanced
 to receive JMS messages.
 
-jaxrs-oath and jaxrs-oauth2: provides an examples of a REST application 
+jaxrs-oath and jaxrs-oauth2: provides an examples of a REST application
 protected using OAuth / OAuth2 security.
 
 jaxrs-transformations: demonstrates how CXF can help with maintaining
@@ -87,7 +87,7 @@ backward and forward compatibility between JAX-RS and JAX-WS consumers
 and endpoints by using the Transformation Feature of CXF.
 
 dev-guide-java-first and dev-guide-wsdl-first: sample applications
-used as code walk-throughs in the Talend ESB Developers Guide 
+used as code walk-throughs in the Talend ESB Developers Guide
 (within the documentation set).
 
 To build all examples:
@@ -108,7 +108,7 @@ In the TESB shell:
 
 > feature:repo-add mvn:org.talend.cxf-examples/osgi/1.0/xml/features
 
-This command adds the features repository for the examples to the container.  (See 
+This command adds the features repository for the examples to the container.  (See
 http://karaf.apache.org/manual/latest/#_provisioning for
 more details.)  This only needs to be done once for all examples.
 
@@ -118,6 +118,6 @@ The CXF examples provided generally default to http port 8080, fine for standalo
 or embedded Jetty usage.  Talend ESB defaults out-of-the-box to port 8040, a value which
 can be changed by editing the container/etc/org.ops4j.pax.web.cfg file.  Alternatively,
 several of the examples provide a compile-time -Dhttp.port=xxxx option that can be used
-to change the default HTTP port used by the sample.  See the individual READMEs for 
+to change the default HTTP port used by the sample.  See the individual READMEs for
 sample-specific information.
 

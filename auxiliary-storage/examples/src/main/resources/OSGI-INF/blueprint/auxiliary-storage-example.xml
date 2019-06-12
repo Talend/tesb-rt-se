@@ -2,7 +2,7 @@
 <!--
 // ============================================================================
 //
-// Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+// Copyright (C) 2011-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\license.txt
@@ -19,12 +19,12 @@
 
 	<reference id="auxiliaryStorageClient" interface="org.talend.esb.auxiliary.storage.client.common.AuxiliaryStorageClient" />
 
-	
-    <bean id="testService" class="org.talend.esb.auxiliary.storage.examples.WriteReadDeleteContext" 
+
+    <bean id="testService" class="org.talend.esb.auxiliary.storage.examples.WriteReadDeleteContext"
     	init-method="startUp" activation="eager">
         <property name="client" ref="auxiliaryStorageClient" />
     </bean>
-    
+
     <service ref="testService" interface="org.talend.esb.auxiliary.storage.examples.Service"/>
 
 

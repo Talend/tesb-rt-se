@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -16,26 +16,26 @@ Provides both a SOAP interface and RESTful interface for the Locator Service
 
 Subprojects
 -----------
-locator-service-common: 
+locator-service-common:
     *   Contains WSDL and schema files which define the Locator Service's SOAP interface
     *   Contains WADL and schema files which define the Locator Service's RESTful interface
 
-locator-soap-service: 
+locator-soap-service:
       Provides the SOAP Service implementation for Locator Service.
 
-locator-rest-service: 
+locator-rest-service:
       Provides the RESTful Service implementation for Locator Service.
 
 To enable and deploy the Locator Services into Talend runtime, do the following steps:
 
 Prerequisites
 1.Generate SOAP and RESTful interface (using the relevant WSDL and WADL file):
-      
+
        cd locator-service-common
        mvn clean install
 
 2.Install the Service Locator server (Zookeeper Server) feature:
-       
+
  In Talend ESB container execute command: feature:install tesb-zookeeper-server
 
 Deploying of Service Locator SOAP Service.

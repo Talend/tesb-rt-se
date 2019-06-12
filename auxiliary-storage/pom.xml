@@ -2,7 +2,7 @@
 <!--
 // ============================================================================
 //
-// Copyright (C) 2011-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2011-2019 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\license.txt
@@ -69,21 +69,21 @@
     <modules>
 		<module>common</module>
 		<module>features</module>
-	
+
 		<module>persistence</module>
-		<module>persistence-file</module>	
+		<module>persistence-file</module>
         <module>persistence-jcr</module>
-	
+
         <module>security-rest</module>
-	
+
 		<module>client</module>
 		<module>client-common</module>
-	
+
 		<module>server</module>
-	    <module>service-rest</module>	
+	    <module>service-rest</module>
 
         <module>commands</module>
-        
+
         <module>examples</module>
 
     </modules>

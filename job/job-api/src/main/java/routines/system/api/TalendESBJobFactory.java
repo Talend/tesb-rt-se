@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: API
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,13 +21,13 @@ package routines.system.api;
 
 /**
  * A factory interface to create to create specific kind of {@link TalendESBJob}. The factor allows the
- * Talend Runtime to create several instances of the job and to enable concurrent access. 
+ * Talend Runtime to create several instances of the job and to enable concurrent access.
  */
 public interface TalendESBJobFactory {
 
     /**
      * Creates a new {@link TalendESBJob}. All instances returned must be different and of the same type.
-     * 
+     *
      * @return a new {@link ESBEndpointInfo} instance,  must not be <code>null</code>.
      */
     TalendESBJob newTalendESBJob();

@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,12 +30,12 @@ import org.talend.esb.job.controller.internal.RuntimeESBProviderCallback.Message
 public abstract class AbstractOperation implements GenericOperation {
 
     private final MessageExchangeBuffer buffer;
-    
+
     /**
      * Create a <code>SingleThreadedOperation</code>.
-     * 
+     *
      * @param esbJob job instance  backing this operation, must not be <code>null</code>
-     * @param executorService executor service to start job in separate Thread, must not be <code>null</code> 
+     * @param executorService executor service to start job in separate Thread, must not be <code>null</code>
      */
     public AbstractOperation() {
         this(new MessageExchangeBuffer());
@@ -45,10 +45,10 @@ public abstract class AbstractOperation implements GenericOperation {
         buffer = messageExchanges;
     }
 
-    /** 
+    /**
      * Starts the one and only job instance in a separate Thread. Should be called exactly one time before
      * the operation is stopped.
-     * 
+     *
      * @param arguments {@inheritDoc}
      */
     protected void start(WorkloadListener listener) {
@@ -62,7 +62,7 @@ public abstract class AbstractOperation implements GenericOperation {
     public void stop() {
         buffer.stop();
     }
-    
+
     /**
      * {@inheritDoc}
      */

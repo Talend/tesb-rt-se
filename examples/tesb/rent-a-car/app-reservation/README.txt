@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -10,20 +10,20 @@
 #
 ###############################################################################
 
-Application of Rent-a-Car Example 
+Application of Rent-a-Car Example
 =======================================
 
 Use Case Scenario to Rent a Car
 -------------------------------
-1.A customer enters prerequisite data into a form such as her name, the pick-up and return dates, the preferred type of rental rates, and submits her query. 
-2.Next, the application calls the CRMService to retrieve the customer data and customer status information. 
-3.The customer is presented with a list of the available cars and selects one from the presented list of results. 
-4.Finally, the application calls the ReservationService to submit the reservation request and then displays a reservation confirmation notice to the customer. 
+1.A customer enters prerequisite data into a form such as her name, the pick-up and return dates, the preferred type of rental rates, and submits her query.
+2.Next, the application calls the CRMService to retrieve the customer data and customer status information.
+3.The customer is presented with a list of the available cars and selects one from the presented list of results.
+4.Finally, the application calls the ReservationService to submit the reservation request and then displays a reservation confirmation notice to the customer.
 
 Building the Example
 ---------------------------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build the example. 
+located), the maven pom.xml file can be used to build the example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
@@ -33,12 +33,12 @@ mvn clean install
 
 Using TALEND ESB Rental Client GUI
 ----------------------------------
-1. To start the GUI, type car:GUI  in the console window. 
-2. Select aebert from the drop-down box. 
-3. Click Find to see the results.  You will see list of available cars 
-4. Click the highlighted line or select any other option and click Reserve . 
-5. You can now see confirmation page. 
-6. Click Close to stop the GUI. 
+1. To start the GUI, type car:GUI  in the console window.
+2. Select aebert from the drop-down box.
+3. Click Find to see the results.  You will see list of available cars
+4. Click the highlighted line or select any other option and click Reserve .
+5. You can now see confirmation page.
+6. Click Close to stop the GUI.
 
 Using search command
 --------------------

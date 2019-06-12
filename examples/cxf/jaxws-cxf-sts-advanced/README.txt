@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -41,7 +41,7 @@ overriding the default validation mechanism which is to use a CallbackHandler
 to supply a password which is then compared to the received password. This
 validation request also demonstrates the token transformation feature of the
 STS, as the WSP requests a SAML2 token type when validating the UsernameToken
-that it has received. 
+that it has received.
 
 4.) The Validate Operation of the STS is configured with a TokenValidator that
 can validate UsernameTokens, and a SAML Token Provider. Once the received
@@ -56,32 +56,32 @@ whether the WSC is authorized to access the service. It does this by using a
 custom AuthorizationInterceptor to retrieve the role, and compare it against a
 list of authorized roles.
 
-Important Note:  By default, this example uses strong encryption which is 
+Important Note:  By default, this example uses strong encryption which is
 recommended for use in production systems.  To run this example "out of the
-box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited 
-Strength Jurisdiction Policy Files" installed into your JRE. Note that the 
-unlimited strength policies are installed by default from the 1.8.0_161 release. 
-For prior java releases, the unlimited strength policy files can be obtained 
+box", you MUST have the "Java(TM) Cryptography Extension (JCE) Unlimited
+Strength Jurisdiction Policy Files" installed into your JRE. Note that the
+unlimited strength policies are installed by default from the 1.8.0_161 release.
+For prior java releases, the unlimited strength policy files can be obtained
 from [1]:
 
 [1] http://www.oracle.com/technetwork/java/javase/downloads/index.html
-   
+
 Alternatively, you can change to using a lower end encyption algorithm by
 editing the security policies in:
 
 client/src/main/resources/DoubleIt.wsdl
-client/src/main/resources/DoubleItSTSService.wsdl 
+client/src/main/resources/DoubleItSTSService.wsdl
 service/src/main/resources/DoubleIt.wsdl
 service/src/main/resources/DoubleItSTSService.wsdl
-sts/src/main/webapp/WEB-INF/wsdl/DoubleItSTSService.wsdl 
+sts/src/main/webapp/WEB-INF/wsdl/DoubleItSTSService.wsdl
 
-to change from "Basic256" to "Basic128".   If you receive an error like 
+to change from "Basic256" to "Basic128".   If you receive an error like
 "Illegal key length" when running the demo, you need to change to Basic128 or
 install the Unlimited Strength encryption libraries.
 
 Usage
 ===============================================================================
-Note: Please follow the parent README.txt first for common build and container 
+Note: Please follow the parent README.txt first for common build and container
 setup instructions.
 
 How to Deploy:
@@ -89,7 +89,7 @@ How to Deploy:
 1.) The STS and WSP can be deployed on either Tomcat (7.x or 6.x) or Karaf.
 
 Tomcat deployment: If not already done, configure Maven to be able to install and
-uninstall the WSP and the STS by following this section: 
+uninstall the WSP and the STS by following this section:
 https://glenmazza.net/blog/entry/web-service-tutorial#maventomcat.  Also
 start up Tomcat.
 
@@ -114,7 +114,7 @@ folder.
    (Make sure you've first installed the examples features repository as described in the
    parent README.)
 
-For either Tomcat or OSGi deployment, before proceeding to the next step, 
+For either Tomcat or OSGi deployment, before proceeding to the next step,
 make sure you can view the following WSDLs:
 CXF STS WSDL located at: http://localhost:8080/DoubleItSTS/X509?wsdl
 CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
@@ -129,12 +129,12 @@ CXF WSP: http://localhost:8080/doubleit/services/doubleit?wsdl
    From the OSGi command line, run:
       karaf@trun> feature:install talend-cxf-example-jaxws-cxf-sts-advanced-client
 
-You should see the results of the web service call. 
+You should see the results of the web service call.
 
 For DEBUGGING:
 
 1.) Check the logs directory under your Tomcat (catalina.log,
-catalina(date).log in particular) or Karaf (data/log) folder for any errors 
+catalina(date).log in particular) or Karaf (data/log) folder for any errors
 reported by the WSP or the STS.
 
 2.) Use Wireshark to view messages:

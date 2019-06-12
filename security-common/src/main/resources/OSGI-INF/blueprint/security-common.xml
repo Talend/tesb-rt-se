@@ -3,7 +3,7 @@
   #%L
   Talend :: ESB :: Job :: Controller
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
     <bean class="org.talend.esb.security.saml.STSClientUtils" >
         <argument ref="org.talend.esb.job.client.sts" />
     </bean>
-    
+
     <cm:cm-properties persistent-id="org.talend.esb.job.oidc" id="org.talend.esb.job.oidc" />
     <bean class="org.talend.esb.security.oidc.OidcClientUtils" >
         <argument ref="org.talend.esb.job.oidc" />

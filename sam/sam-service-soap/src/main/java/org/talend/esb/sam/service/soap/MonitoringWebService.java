@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Server
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ public class MonitoringWebService implements MonitoringService {
     private static final Logger LOG = Logger.getLogger(MonitoringWebService.class.getName());
 
     private org.talend.esb.sam.common.service.MonitoringService monitoringService;
-    
+
     /**
      * Sets the monitoring service.
      *
@@ -86,7 +86,7 @@ public class MonitoringWebService implements MonitoringService {
      * @param code the fault code
      * @param message the message
      * @param t the throwable type
-     * @throws PutEventsFault 
+     * @throws PutEventsFault
      */
     private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
         if (LOG.isLoggable(Level.SEVERE)) {

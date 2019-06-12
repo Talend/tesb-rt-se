@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ import org.apache.cxf.message.Message;
 public class WireTapHelper {
 
     public static final String EXTERNAL_PROPERTY_NAME = "org.talend.esb.sam.agent.log.messageContent";
-    
+
     public static final String CONTENT_LOGGING_IS_DISABLED = "[CONTENT LOGGING IS DISABLED]";
 
     /**
      * If the "org.talend.esb.sam.agent.log.messageContent" property value is "true" then log the message content
      * If it is "false" then skip the message content logging
      * Else fall back to global property "log.messageContent"
-     * 
+     *
      * @param message
      * @param logMessageContent
      * @param logMessageContentOverride

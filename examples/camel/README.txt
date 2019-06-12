@@ -1,6 +1,6 @@
 ﻿###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -14,10 +14,10 @@ Talend Camel Examples
 
 blueprint
    Deploying Camel routes using a simple blueprint descriptor
-   
+
 claimcheck
    Splitting of a file, moving the mass data over a separate channel and resequencing the parts
-   
+
 jaxrs-jms-http
    Publishing and using the same jaxrs implementation with both http and jms
 
@@ -45,7 +45,7 @@ In the TESB shell:
 
 > feature:repo-add mvn:org.talend.camel-examples/osgi/1.0/xml/features
 
-This command adds the features repository for the examples to the container.  (See 
+This command adds the features repository for the examples to the container.  (See
 http://karaf.apache.org/manual/latest-2.2.x/users-guide/provisioning.html for
 more details.)  This only needs to be done once for all examples.
 
@@ -53,7 +53,7 @@ more details.)  This only needs to be done once for all examples.
 Getting Help
 ===============================================================================
 
-If the examples don't work as expected or you have problem adapting them to your projects do not hesitate 
+If the examples don't work as expected or you have problem adapting them to your projects do not hesitate
 to ask for help.
 
 Talend provides free support on the CXF and Camel mailing lists, IRC channels and on the Talend Forums.
@@ -70,7 +70,7 @@ http://www.talendforge.org/forum/
 http://www.talend.com/professional-support/support.php
 http://jira.talendforge.org//browse/TESB
 
-Please use the contact channel that is most appropriate for your problem. General problems that apply 
+Please use the contact channel that is most appropriate for your problem. General problems that apply
 to the Apache projects are best placed on Apache channels. Talend product specific questions
 should rather be placed on Talend channels.
 
@@ -78,7 +78,7 @@ should rather be placed on Talend channels.
 Design Notes / Common Patterns in the examples
 ===============================================================================
 
-Most examples use a hierarchical Maven project with a top level parent pom with several 
+Most examples use a hierarchical Maven project with a top level parent pom with several
 submodules:
 
 - client : Client code that can typically be called using "mvn exec:java"
@@ -92,8 +92,8 @@ The structure and patterns used in the examples incorporate many best and well-k
 Running standalone
 -------------------------------------------------------------------------------
 
-To run the standalone examples mvn exec:java is used. If there is only one Starter class then this command will be configured 
-to activate that class in the Maven pom file so no extra parameters will be needed. If there are multiple starter classes then 
+To run the standalone examples mvn exec:java is used. If there is only one Starter class then this command will be configured
+to activate that class in the Maven pom file so no extra parameters will be needed. If there are multiple starter classes then
 the class you would like to run will have to be specified using mvn exec:java -Dexec.mainClass=<fully qualified name of the starter class>.
 The starter classes typically load a Spring Context. The server starters start directly from the Spring context. The client
 starters retrieve the client from the context and start it.
@@ -113,16 +113,16 @@ Running in OSGi
 -------------------------------------------------------------------------------
 
 The common and server projects are packaged as OSGI bundles so they can be used either inside or outside of an OSGI container.
-There is typically one Spring file that is used for non-OSGI deployments. For OSGI deployment Spring OSGI is used, requiring an 
-additional Spring config file in META-INF/Spring.  This file is used to start the bundle in an OSGI environment, contains all 
+There is typically one Spring file that is used for non-OSGI deployments. For OSGI deployment Spring OSGI is used, requiring an
+additional Spring config file in META-INF/Spring.  This file is used to start the bundle in an OSGI environment, contains all
 beans that are OSGI specific and imports the non-OSGI Spring context.
 
 To create the bundles the Maven bundle plugin is used. This plugin by default imports all Java packages that are imported in
 Java code and exports all packages from the bundle. As some code is only referenced from Spring these packages or
-bundles have to be specified in the configuration of the Maven bundle plugin. 
+bundles have to be specified in the configuration of the Maven bundle plugin.
 
-Generally OSGi containers remember their state, so you may wish to reset the container before subsequent runs of any example for 
-which you wish to see the same behavior as the first run.  In TESB Container (Karaf) this can be easily done by deleting 
+Generally OSGi containers remember their state, so you may wish to reset the container before subsequent runs of any example for
+which you wish to see the same behavior as the first run.  In TESB Container (Karaf) this can be easily done by deleting
 the data directory.
 
 NOTE: While running examples using camel-cxf you may notice exceptions related to Camel loading TypeConverter(s). The exceptions

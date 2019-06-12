@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -79,10 +79,10 @@ public class SimpleEndpointTest {
                 BindingType.JAXRS,
                 TransportType.HTTPS,
                 props);
-        
+
         slEndpoint = new EndpointTransformerImpl().toSLEndpoint(SERVICE_QNAME_1, content, false);
     }
-    
+
     @Test
     public void forService() {
         assertEquals(SERVICE_QNAME_1, slEndpoint.forService());
@@ -97,7 +97,7 @@ public class SimpleEndpointTest {
     public void getBinding() {
         assertEquals(org.talend.esb.servicelocator.client.BindingType.JAXRS, slEndpoint.getBinding());
     }
-    
+
     @Test
     public void getBindingNoneExplicitlyDefined() {
         slEndpoint = new SimpleEndpoint(SERVICE_QNAME_1, ENDPOINT_1);
@@ -131,11 +131,11 @@ public class SimpleEndpointTest {
         assertTrue(props.hasProperty(NAME_1));
         assertThat(props.getValues(NAME_1), containsInAnyOrder(VALUE_1, VALUE_2));
     }
-    
+
     @Test
     public void getAddressInvalidContent() {
         slEndpoint = new EndpointTransformerImpl().toSLEndpoint(SERVICE_QNAME_1, createContentInvalidEPR(), true);
-        
+
         assertNull(slEndpoint.getAddress());
     }
 
@@ -143,7 +143,7 @@ public class SimpleEndpointTest {
     public void getPropertiesNotDefinedInContent() {
         content = createContent(ENDPOINT_1, LAST_TIME_STARTED, LAST_TIME_STOPPED, null);
         slEndpoint = new EndpointTransformerImpl().toSLEndpoint(SERVICE_QNAME_1, content, true);
-        
+
         SLProperties properties = slEndpoint.getProperties();
         assertThat(properties.getPropertyNames(), hasSize(0));
     }
@@ -159,10 +159,10 @@ public class SimpleEndpointTest {
         Document doc = (Document) domResult.getNode();
         Element root = doc.getDocumentElement();
 
-        assertThat(root, 
+        assertThat(root,
             hasXPath("/wsa:EndpointReference/wsa:Address/text()", WSA_SL_NS_CONTEXT,
                 equalTo(ENDPOINT_1)));
-        assertThat(root, 
+        assertThat(root,
                 not(hasXPath("/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
                     WSA_SL_NS_CONTEXT)));
     }
@@ -183,7 +183,7 @@ public class SimpleEndpointTest {
         assertThat(root,
                 hasXPath("/wsa:EndpointReference/wsa:Metadata/sl:ServiceLocatorProperties",
                     WSA_SL_NS_CONTEXT));
-        
+
         verify (transformer);
     }
 

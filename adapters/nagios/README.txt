@@ -1,5 +1,5 @@
 ###################################################################################
-# Copyright (C) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (C) 2011-2019 Talend Inc. - www.talend.com
 # This file is part of Talend ESB
 
 # Talend ESB is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 How to monitoring CXF, Camel and Activemq resource with Nagios
 ==============================================================
 
-Note: The Nagios installed directory assumed to be "/usr/local/nagios", the path which 
+Note: The Nagios installed directory assumed to be "/usr/local/nagios", the path which
       jmx4perl plugin installed assumed to be "/usr/local/src/jmx4perl/jmx4perl-1.04/scripts".
 
 

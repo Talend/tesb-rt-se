@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,7 +55,7 @@ import org.talend.esb.sam.common.spi.EventFilter;
 import org.talend.esb.sam.common.spi.EventHandler;
 
 /**
- * EventCollector reads the events from Queue. 
+ * EventCollector reads the events from Queue.
  * After processing with filter/handler, the events will be sent to SAM Server periodically.
  */
 //@Named
@@ -83,7 +83,7 @@ public class EventCollector {
     private int executorPoolSize = 20;
 
     //@Value("${executor.queue.size}")
-    private int executorQueueSize = 0; 
+    private int executorQueueSize = 0;
 
     private ExecutorService executor;
     private Timer scheduler;
@@ -130,8 +130,8 @@ public class EventCollector {
         if(executorQueueSize == 0) {
         	executor = Executors.newFixedThreadPool(this.executorPoolSize);
         }else{
-            executor = new ThreadPoolExecutor(executorPoolSize, executorPoolSize, 0, TimeUnit.SECONDS, 
-            		new LinkedBlockingQueue<Runnable>(executorQueueSize), Executors.defaultThreadFactory(), 
+            executor = new ThreadPoolExecutor(executorPoolSize, executorPoolSize, 0, TimeUnit.SECONDS,
+            		new LinkedBlockingQueue<Runnable>(executorQueueSize), Executors.defaultThreadFactory(),
             			new RejectedExecutionHandlerImpl());
         }
 

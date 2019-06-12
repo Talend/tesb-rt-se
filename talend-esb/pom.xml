@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2011 - 2014 Talend Inc.
+    Copyright (C) 2011-2019 Talend Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -253,6 +253,7 @@
                                 <feature>jms</feature>
                                 <feature>aries-blueprint-spring</feature>
                                 <!-- pax-web version patch (TESB-25945) -->
+                                <feature>pax-web-core/${pax-web.version}</feature>
                                 <feature>pax-jetty/${jetty.version}</feature>
                                 <feature>pax-jetty-http2/${pax-web.version}</feature>
                                 <feature>pax-war/${pax-web.version}</feature>

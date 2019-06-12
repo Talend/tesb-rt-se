@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -24,13 +24,13 @@ Building the example using Maven
 --------------------------------------------
 
 From the base directory of this sample (i.e., where this README file is
-located), the pom.xml file is used to build and run this sample. 
+located), the pom.xml file is used to build and run this sample.
 
 Using either UNIX or Windows:
 
   mvn install   (builds the example)
 
-To remove the generated target/*.* files, run "mvn clean".  
+To remove the generated target/*.* files, run "mvn clean".
 
 
 Deploy SAM Server into Tomcat
@@ -63,5 +63,5 @@ Run the client
 
 Run ExampleClientMainOSGI in the project sam-example-client
 
-The client should run successfully. That logs should show that the events were written to 
+The client should run successfully. That logs should show that the events were written to
 the SAM Server.

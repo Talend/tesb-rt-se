@@ -2,14 +2,14 @@
  * #%L
  * Talend ESB :: Camel Talend Job Component
  * %%
- * Copyright (C) 2011 - 2014 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -99,7 +99,7 @@ public class TalendProducer extends DefaultProducer {
         }
 
         private void signalJobFailure(String[] args) {
-            throw new RuntimeCamelException("Execution of Talend job '" 
+            throw new RuntimeCamelException("Execution of Talend job '"
                     + job.getClass().getCanonicalName() + "' with args: "
                     + (args == null ? "none" : Arrays.toString(args))
                     + "' failed, see stderr for details. ");
@@ -246,7 +246,7 @@ public class TalendProducer extends DefaultProducer {
 
     private void logJobInvocation(TalendESBJobBean job, String[] args) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Invoking Talend job '" + job.getJobClass().getCanonicalName() 
+            LOG.debug("Invoking Talend job '" + job.getJobClass().getCanonicalName()
                     + ".runJob(String[] args)' with args: "
                     + (args == null ? "none" : Arrays.toString(args)));
         }

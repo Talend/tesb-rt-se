@@ -2,7 +2,7 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,10 @@ import org.talend.esb.servicelocator.cxf.LocatorFeature;
 public class LocatorFeatureImpl extends AbstractFeature implements LocatorFeature {
 
     private static final Logger LOG = Logger.getLogger(LocatorFeatureImpl.class.getName());
-    
+
     @Inject
     LocatorRegistrar locatorRegistrar;
-    
+
     @Inject
     LocatorClientEnabler clientEnabler;
 
@@ -110,18 +110,18 @@ public class LocatorFeatureImpl extends AbstractFeature implements LocatorFeatur
                     + conduitSelectorHolder);
         }
 
-        
+
         ConduitSelector conduitSelector = conduitSelectorHolder.getConduitSelector();
         String selectionStrategy = (String)conduitSelector.getEndpoint().get(KEY_STRATEGY);
         Map<String, String> endpointProps = getEndpointLocatorProperties(conduitSelector.getEndpoint());
-        
+
         SLPropertiesMatcher slPropsMatcher = createMatcher(endpointProps);
         final ConduitSelectorHolder conduitSelectorHolder1 = conduitSelectorHolder;
         clientEnabler.enable(conduitSelectorHolder1, slPropsMatcher, selectionStrategy);
     }
 
     private SLPropertiesMatcher createMatcher(Map<String, String> properties) {
-        SLPropertiesMatcher slPropsMatcher = new SLPropertiesMatcher(); 
+        SLPropertiesMatcher slPropsMatcher = new SLPropertiesMatcher();
         if (properties == null) {
             return slPropsMatcher;
         }
@@ -180,7 +180,7 @@ public class LocatorFeatureImpl extends AbstractFeature implements LocatorFeatur
     public void setLocatorRegistrar(LocatorRegistrar locatorRegistrar) {
         this.locatorRegistrar = locatorRegistrar;
     }
-    
+
     public void setClientEnabler(LocatorClientEnabler clientEnabler) {
         this.clientEnabler = clientEnabler;
     }

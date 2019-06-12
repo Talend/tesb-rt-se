@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -23,7 +23,7 @@ crmservice/
     - CRM Service which implements the getCRMInformation() and getCRMStatus() operations.
 
 reservationservice/
-    - Reservation Service which implements getAvailableCars(), submitCarReservation() and 
+    - Reservation Service which implements getAvailableCars(), submitCarReservation() and
 	  getConfirmationOfReservation() operations.
 
 app-reservation/
@@ -35,7 +35,7 @@ features/
 Building the Example
 --------------------
 From the base directory of this example (i.e., where this README file is
-located), the maven pom.xml file can be used to build this example. 
+located), the maven pom.xml file can be used to build this example.
 
 Using maven commands on either UNIX/Linux or Windows:
 (JDK 1.6.0 and Maven 3.0.3 or later required)
@@ -76,6 +76,6 @@ From the TESB container console, these commands are available after Rent-a-Car e
    (Search for cars to rent, date format yyyy/mm/dd)
    car:rent <pos>
    (Rent a car listed in search result of carSearch)
-   
-   
+
+
 More detailed information, please refer to the GettingStartedGuide doc.

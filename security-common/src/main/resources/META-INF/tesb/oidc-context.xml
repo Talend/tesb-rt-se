@@ -3,7 +3,7 @@
 #%L
   Service Activity Monitoring :: Agent
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -48,11 +48,11 @@
 
     <bean id="oidcConfiguration"
           class="org.talend.esb.security.oidc.OidcConfiguration">
-          
+
         <property name="publicClientId" value="${public.client.id}"/>
         <property name="tokenEndpoint" value="${token.endpoint}"/>
         <property name="validationEndpoint" value="${validation.endpoint}"/>
         <property name="scope" value="${scope}"/>
     </bean>
-    
+
 </beans>

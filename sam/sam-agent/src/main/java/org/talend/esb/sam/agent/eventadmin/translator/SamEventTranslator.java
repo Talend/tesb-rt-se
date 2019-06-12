@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.talend.esb.sam.common.event.Event;
 import org.talend.esb.sam.common.event.EventTypeEnum;
 
 public class SamEventTranslator {
-	
+
 	public static final String SAM_EVENT_TYPE = "SAMEvent";
 
 	public static final String ID = "id";
@@ -85,7 +85,7 @@ public class SamEventTranslator {
 	public static final String MESSAGE_ID = "message.id";
 
 	public static final String FLOW_ID = "flow.id";
-	
+
 	public static final String EVENT_TYPE_CUSTOM = "event.type";
 
 	public static final String CONTENT_CUT = "content.cut";
@@ -122,11 +122,11 @@ public class SamEventTranslator {
 		// not implemented
 		return "";
 	}
-	
+
 	protected static boolean isUsernameTokenMappingEnabled() {
 		return false;
 	}
-	
+
 	protected static boolean isSamlTokenMappingEnabled() {
 		return false;
 	}
@@ -140,7 +140,7 @@ public class SamEventTranslator {
 		customInfo.put(PORT_TYPE, samEvent.getMessageInfo().getPortType());
 		customInfo.put(CONTENT_CUT, Boolean.toString(samEvent.isContentCut()));
 		customInfo.put(EVENT_TYPE_CUSTOM, samEvent.getEventType().toString());
-		
+
 
 		Map<String, String> samCustomInfo = samEvent.getCustomInfo();
 		if (null != samCustomInfo) {
@@ -236,7 +236,7 @@ public class SamEventTranslator {
 		if (answer == null && samEvent.getOriginator() != null) {
 			answer = samEvent.getOriginator().getPrincipal();
 		}
-		
+
 		if (answer == null && isUsernameTokenMappingEnabled()) {
 			answer = subjectExtractor.getSubject(msgContent, new UsernameTokenSubjectExtractor());
 		}

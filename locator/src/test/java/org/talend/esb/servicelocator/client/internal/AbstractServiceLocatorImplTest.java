@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,9 +54,9 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     ZooKeeper zkMock;
 
     PostConnectAction pcaMock;
-    
+
     Capture<byte[]> contentCapture = new Capture<byte[]>();
-    
+
     boolean withAuthentication;
 
     public static final List<ACL> DEFAULT_ACLS;
@@ -66,12 +66,12 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
         Id maintainRole = new Id("sl", "SL_MAINTAIN");
         Id adminRole = new Id("sl", "SL_ADMIN");
 
-        ACL readAcl = new ACL(Perms.READ, readRole);    
-        ACL maintainAcl = new ACL(Perms.READ | Perms.CREATE | Perms.WRITE | Perms.DELETE, maintainRole);    
+        ACL readAcl = new ACL(Perms.READ, readRole);
+        ACL maintainAcl = new ACL(Perms.READ | Perms.CREATE | Perms.WRITE | Perms.DELETE, maintainRole);
         ACL adminAcl = new ACL(Perms.ALL, adminRole);
         DEFAULT_ACLS = asList(readAcl, maintainAcl, adminAcl);
     }
-    
+
     public static void ignore(String txt) {
     }
 
@@ -80,9 +80,9 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     }
 
     public void setAuthentication(boolean auth) {
-        withAuthentication = auth;    
+        withAuthentication = auth;
     }
-    
+
     @Before
     public void setUp() throws Exception {
         zkMock = createMock(ZooKeeper.class);
@@ -109,13 +109,13 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
             }
         };
     }
- 
+
     protected Document capturedContentAsXML() {
         byte[] content = contentCapture.getValue();
         return DomMother.parse(content);
     }
 
-    protected byte[] getContent() { 
+    protected byte[] getContent() {
         return contentCapture.getValue();
     }
 
@@ -161,7 +161,7 @@ public class AbstractServiceLocatorImplTest extends EasyMockSupport {
     protected void getChildren(String node, KeeperException exc) throws KeeperException, InterruptedException {
         expect(zkMock.getChildren(node, false)).andThrow(exc);
     }
-    
+
     protected void getData(String path, byte[] content) throws KeeperException, InterruptedException {
         expect(zkMock.getData(path, false, null)).andReturn(content);
     }

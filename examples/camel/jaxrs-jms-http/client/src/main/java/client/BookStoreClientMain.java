@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2010 - 2011 Talend Inc. - www.talend.com
+ * Copyright (C) 2010-2019 Talend Inc. - www.talend.com
  */
 package client;
 
@@ -19,26 +19,26 @@ import talend.camel.examples.jaxrsjmshttp.common.BookStore;
  * </p>
  */
 public class BookStoreClientMain {
-    
+
     public static void main (String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("client.xml");
         BookStoreClient client = new BookStoreClient();
         BookStore bookStoreJmsClient = context.getBean("bookStoreJmsClient", BookStore.class);
         client.useBookStore(bookStoreJmsClient);
-        
-        final int defaultHttpPort = 9002; 
-        String systemHttpPort = System.getProperty("http.port"); 
-        int httpPort = systemHttpPort == null ? 9002 : Integer.valueOf(systemHttpPort); 
 
-         
+        final int defaultHttpPort = 9002;
+        String systemHttpPort = System.getProperty("http.port");
+        int httpPort = systemHttpPort == null ? 9002 : Integer.valueOf(systemHttpPort);
+
+
         String address = "http://localhost:" + httpPort + "/bookstore";
         System.out.println("Invoking HTTP service at " + address);
-        BookStore bookStoreHttp = 
+        BookStore bookStoreHttp =
             JAXRSClientFactory.create(address, BookStore.class);
         client.useBookStore(bookStoreHttp);
         context.close();
 
         // TODO Implement with HTTP over Camel transport using direct component
-        // "camel://direct:bookStoreHttp"        
+        // "camel://direct:bookStoreHttp"
     }
 }

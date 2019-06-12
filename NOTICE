@@ -1,4 +1,4 @@
- Copyright (c) 2011 - 2012 Talend Inc. - www.talend.com
+ Copyright (c) 2011-2019 Talend Inc. - www.talend.com
  All rights reserved.
 
  This program and the accompanying materials are made available
@@ -125,7 +125,7 @@ Mybatis (http://www.mybatis.org)
 Licensed under the Apache License 2.0.
 
 This product includes software developed at
-Hapi OSGI Base (based on http://hl7api.sourceforge.net) 
+Hapi OSGI Base (based on http://hl7api.sourceforge.net)
 Licensed under the MPL License 1.1.
 
 This product includes software developed at
@@ -159,13 +159,13 @@ Licensed under the Apache License 2.0.
 This product includes software developed at
 JSR-250 Common Annotations for the JavaTM Platform (http://jcp.org/aboutJava/communityprocess/final/jsr250/index.html)
 Licensed under the Common Development and Distribution License (CDDL) v1.0
-	 
+
 This product includes software developed at
-OAuth Core (http://oauth.net/code/)	 	 
+OAuth Core (http://oauth.net/code/)
 Licensed under the Apache License 2.0.
 
 This product includes software developed at
-Ehcache Core (http://ehcache.org/)	 
+Ehcache Core (http://ehcache.org/)
 Licensed under the Apache License 2.0.
 
 This product includes software developed at

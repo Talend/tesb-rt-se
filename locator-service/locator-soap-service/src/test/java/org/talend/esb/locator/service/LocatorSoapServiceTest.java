@@ -2,14 +2,14 @@
  * #%L
  * Locator Service :: SOAP
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -162,52 +162,52 @@ public class LocatorSoapServiceTest extends EasyMockSupport {
 
         lps.registerEndpoint(SERVICE_NAME, ENDPOINTURL, null, null, value);
     }
-    
+
     @Test
     public void updateEndpointExpiringTime() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         replay(sl);
-        
+
         lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
-        
+
         verify(sl);
     }
-    
+
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
-        
+
         try {
             lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass
         }
-        
+
         verify(sl);
     }
-    
+
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
-        
+
         try {
             lps.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
             fail();
         } catch (ServiceLocatorFault e) {
             // pass
         }
-        
+
         verify(sl);
     }
 

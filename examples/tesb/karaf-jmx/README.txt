@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -13,10 +13,10 @@
 Karaf-jmx Demo
 ==================================================
 
-This sample demonstrates a client application whose resources 
+This sample demonstrates a client application whose resources
 can be monitored using JMX technology.  The client application uses
 an MBean server connection by creating an MBean proxy, and then
-accesses the Karaf MBean server.  This MBean proxy is local to the 
+accesses the Karaf MBean server.  This MBean proxy is local to the
 client, and emulates the remote Karaf MBean server.
 
 This sample consists of 2 parts:
@@ -30,9 +30,9 @@ common/   - This directory contains the code that is common
             - add/remove repository to required instance of Karaf container
             - install/uninstall Karaf features in remote container
             - start/stop bundles in remote Karaf container
-			
+
 client/   - This is a sample client application that uses an
-            implementation of the common project and demonstrates 
+            implementation of the common project and demonstrates
             all of the previously described operations
 
 
@@ -46,11 +46,11 @@ Using either Linux or Windows:
     From the example parent directories (i.e., Talend-ESB-<version>/examples/talend, Talend-ESB-<version>/examples/talend/tesb),
     run the following command to install the example parent pom files: talend-esb-examples-<version>.pom and talend-esb-examples-parent-<version>.pom into local maven repo.
 
-    mvn install --non-recursive 
+    mvn install --non-recursive
 
-    From the base directory of this sample (i.e., where this README file is located), 
-    the maven pom.xml file can be used to build and run the demo. 
-  
+    From the base directory of this sample (i.e., where this README file is located),
+    the maven pom.xml file can be used to build and run the demo.
+
     mvn clean install
 
 

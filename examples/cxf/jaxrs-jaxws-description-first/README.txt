@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################
-JAX-RS JAX-WS Description First Example 
+JAX-RS JAX-WS Description First Example
 =======================================
 
 The demo shows how SOAP services created as part of the document (WSDL) first approach process can get
@@ -21,26 +21,26 @@ Building the Demo
 ---------------------------------------
 
 This sample consists of 3 parts:
-common/   - This directory contains the ConsumerService.wsdl which is used to generate the initial code and 
-            the ConsumerService-jaxrs.xml user model resource. 
-            
+common/   - This directory contains the ConsumerService.wsdl which is used to generate the initial code and
+            the ConsumerService-jaxrs.xml user model resource.
+
 service/  - This is where a ConsumerService service implementation shared by JAX-RS and JAX-WS endpoints is located
 
-war/      - This module creates a WAR archive containing the code from common and service modules.   
+war/      - This module creates a WAR archive containing the code from common and service modules.
 
-client/   - This is a sample client application that shows how CXF JAX-RS and JAX-WS proxies are invoking on remote 
-            JAX-RS and JAX-WS endpoints represented by ConsumerService interface 
+client/   - This is a sample client application that shows how CXF JAX-RS and JAX-WS proxies are invoking on remote
+            JAX-RS and JAX-WS endpoints represented by ConsumerService interface
 
 
 Usage
 ===============================================================================
-Note: Please follow the parent README.txt first for common build and container 
+Note: Please follow the parent README.txt first for common build and container
 setup instructions.
 
 Using either Linux or Windows:
     mvn install
 
-Running this command will build the demo and create a WAR archive and an OSGi bundle 
+Running this command will build the demo and create a WAR archive and an OSGi bundle
 for deploying the service either to servlet or OSGi containers.
 
 
@@ -66,18 +66,18 @@ Running the client
    - mvn exec:java
 
 By default, the client will use the http port 8080 for constructing the URIs.
-This port value is set during the build in the client.properties resource file. 
+This port value is set during the build in the client.properties resource file.
 If the server is listening on the alternative port then you can use an 'http.port' system property during the build:
-   
+
 - mvn clean install -Dhttp.port=8040
 
 Demo Desciption
 ---------------
 
-The goal of the demo is to show how the existing production code created as part of the document-first development process can be easily exposed as 
-RESTful service by indirectly applying an external CXF JAX-RS user model resource to the interfaces and/or concrete implementations, for example, 
+The goal of the demo is to show how the existing production code created as part of the document-first development process can be easily exposed as
+RESTful service by indirectly applying an external CXF JAX-RS user model resource to the interfaces and/or concrete implementations, for example,
 to ConsumerService interface. See a model/ConsumerService-jaxrs.xml in the common module for a simple example of the user model.
 
-Note how JAX-RS endpoints and proxies are initialized with the Java classpath reference to the user model.  
+Note how JAX-RS endpoints and proxies are initialized with the Java classpath reference to the user model.
 This can be done programmatically or from Spring.
 

@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,11 +49,11 @@ import org.talend.esb.servicelocator.client.internal.zk.ZKBackend.NodeMapper;
 public class RootNodeImplTest {
 
     public static final String V_5_1 = "5.1";
-    
+
     public static final String V_5_2_0 = "5.2.0";
 
     private ZKBackend backend;
-    
+
     private RootNodeImpl rootNode;
 
     @Before
@@ -66,7 +66,7 @@ public class RootNodeImplTest {
     @Test
     public void getServiceNode() {
         ServiceNode node = rootNode.getServiceNode(SERVICE_QNAME_1);
-        
+
         assertEquals(SERVICE_QNAME_1, node.getServiceName());
     }
 
@@ -79,7 +79,7 @@ public class RootNodeImplTest {
             andReturn(Arrays.asList(SERVICE_QNAME_1, SERVICE_QNAME_2));
 
         replay(backend);
-        
+
         List<QName> serviceNames = rootNode.getServiceNames();
 
         assertThat(serviceNames, containsInAnyOrder(SERVICE_QNAME_1, SERVICE_QNAME_2));
@@ -93,7 +93,7 @@ public class RootNodeImplTest {
         replay(backend);
 
         assertTrue(rootNode.exists());
-        
+
         verify(backend);
     }
 
@@ -103,7 +103,7 @@ public class RootNodeImplTest {
         replay(backend);
 
         assertFalse(rootNode.exists());
-        
+
         verify(backend);
     }
 
@@ -157,7 +157,7 @@ public class RootNodeImplTest {
         replay(backend);
 
         String version = rootNode.getVersion();
-        
+
         assertThat(version, equalTo(V_5_2_0));
 
         verify(backend);
@@ -170,7 +170,7 @@ public class RootNodeImplTest {
         replay(backend);
 
         String version = rootNode.getVersion();
-        
+
         assertThat(version, equalTo(V_5_1));
 
         verify(backend);
@@ -183,7 +183,7 @@ public class RootNodeImplTest {
         replay(backend);
 
         String version = rootNode.getVersion();
-        
+
         assertThat(version, equalTo(V_5_1));
 
         verify(backend);
@@ -195,7 +195,7 @@ public class RootNodeImplTest {
         expect(backend.getContent(rootNode)).andReturn(getData(V_5_1, false));
         replay(backend);
 
-        String version = rootNode.getVersion();        
+        String version = rootNode.getVersion();
         assertFalse(rootNode.isAuthenticationEnabled());
         assertThat(version, equalTo(V_5_1));
 
@@ -207,7 +207,7 @@ public class RootNodeImplTest {
         expect(backend.nodeExists(rootNode)).andReturn(false);
         replay(backend);
 
-        String version = rootNode.getVersion();        
+        String version = rootNode.getVersion();
         assertFalse(rootNode.isAuthenticationEnabled());
         assertThat(version, equalTo(V_5_1));
 

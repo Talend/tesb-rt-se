@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -64,11 +64,11 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     private EndpointTransformer trans = createMock(EndpointTransformer.class);
 
     private SLEndpoint slEndpointStub;
- 
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        
+
         slEndpointStub = createMock(SLEndpoint.class);
         expect(slEndpointStub.getLastTimeStopped()).andStubReturn(LAST_TIME_STOPPED);
         expect(slEndpointStub.getLastTimeStarted()).andStubReturn(LAST_TIME_STARTED);
@@ -88,7 +88,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         setData(ENDPOINT_PATH_11, NEW_DATA);
 
         createEndpointStatus(ENDPOINT_PATH_11);
-        
+
         replayAll();
 
         ServiceLocatorImpl slc = createServiceLocatorSuccess();
@@ -201,7 +201,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
 
         setAuthentication(true);
         zkMock.addAuthInfo(eq("sl"), aryEq(USER_NAME_PASSWORD_BYTES));
-        
+
         serviceExistsNot(SERVICE_PATH_1);
         createService(SERVICE_PATH_1);
 
@@ -337,7 +337,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     }
 
     public void data2Ep(QName serviceName, byte[] content) {
-        expect(trans.toSLEndpoint(serviceName, content, false)).andReturn(slEndpointStub);        
+        expect(trans.toSLEndpoint(serviceName, content, false)).andReturn(slEndpointStub);
     }
 
     private void serviceExists(String path) throws KeeperException, InterruptedException {
@@ -376,7 +376,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
     private void createEndpointStatus(String endpointPath, boolean persistent)
         throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
-        CreateMode mode = persistent ? PERSISTENT : EPHEMERAL; 
+        CreateMode mode = persistent ? PERSISTENT : EPHEMERAL;
 
         createNode(endpointStatusPath, mode);
     }
@@ -385,7 +385,7 @@ public class RegisterEndpointProviderTest extends AbstractServiceLocatorImplTest
         throws KeeperException, InterruptedException {
         String endpointStatusPath = endpointPath + "/" + STATUS_NODE;
         delete(endpointStatusPath);
-    }   
+    }
 
     private void createEndpointStatusFails(String endpointPath)
         throws KeeperException, InterruptedException {

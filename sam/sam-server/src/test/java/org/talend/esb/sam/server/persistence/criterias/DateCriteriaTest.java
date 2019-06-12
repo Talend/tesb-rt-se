@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Server
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ public class DateCriteriaTest extends TestCase {
 		value = criteria.parseValue("1307570400000")[0];
 		assertEquals("TIMESTAMP = :timestamp", value.getFilterClause().toString());
 	}
-	
+
 	public void testOnDayCriteria() throws Exception {
 		DateCriteria criteria = new DateCriteria("timestamp_on", "TIMESTAMP");
 		Criteria[] values = criteria.parseValue("1307570400000");
@@ -48,5 +48,5 @@ public class DateCriteriaTest extends TestCase {
 		assertEquals("TIMESTAMP < :timestamp_on_before", values[1].getFilterClause().toString());
 	}
 
-	
+
 }

@@ -2,14 +2,14 @@
   #%L
   STS :: Config
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,8 +17,8 @@
   limitations under the License.
   #L%
   -->
-<blueprint 
-    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+<blueprint
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
     xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.1.0"
     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
     xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
@@ -37,8 +37,8 @@
         class="org.apache.cxf.ws.security.sts.provider.SecurityTokenServiceProvider">
         <property name="issueOperation" ref="utIssueDelegate"/>
         <property name="validateOperation" ref="utValidateDelegate"/>
-    </bean> 
-    
+    </bean>
+
     <bean id="stsConfigurator" class="org.talend.esb.sts.config.StsConfigurator" init-method="init">
   		 <argument ref="cxf"/>
   		 <property name="useMessageLogging" value="$sts{useMessageLogging}" />
@@ -97,7 +97,7 @@
 			<cm:property name="bspCompliant" value="false"/>
 			<cm:property name="samlTokenLifetime" value="1800"/>
 		</cm:default-properties>
-	</cm:property-placeholder> 
+	</cm:property-placeholder>
 
     <bean id="utSTSProperties"
          class="org.apache.cxf.sts.StaticSTSProperties" >
@@ -110,7 +110,7 @@
     </bean>
 
     <bean class="org.apache.wss4j.dom.validate.JAASUsernameTokenValidator" id="jaasUTValidator">
-        <property name="contextName" value="$sts{jaasContext}" /> 
+        <property name="contextName" value="$sts{jaasContext}" />
     </bean>
 
     <jaxws:endpoint id="UTSTS"
@@ -122,7 +122,7 @@
         endpointName="ns1:UT_Port">
         <jaxws:properties>
             <entry key="ws-security.ut.validator" value-ref="jaasUTValidator" />
-        </jaxws:properties> 
+        </jaxws:properties>
     </jaxws:endpoint>
 
     <jaxws:endpoint id="X509STS"
@@ -139,7 +139,7 @@
             <entry key="security.encryption.username" value="useReqSigCert" />
             <!-- Below needs to be set to non-default value of false for Metro clients -->
             <entry key="ws-security.is-bsp-compliant" value="$sts{bspCompliant}"/>
-        </jaxws:properties> 
+        </jaxws:properties>
     </jaxws:endpoint>
 
 </blueprint>

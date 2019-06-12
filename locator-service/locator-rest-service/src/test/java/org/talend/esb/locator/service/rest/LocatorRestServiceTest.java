@@ -2,14 +2,14 @@
  * #%L
  * Locator Service :: REST
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -81,7 +81,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         lps.setSessionTimeout(5000);
         endpoint = createMock(SLEndpoint.class);
     }
-    
+
     @Test
     public void disconnectLocator() throws InterruptedException, ServiceLocatorException {
         sl.disconnect();
@@ -89,7 +89,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         replayAll();
         lps.disconnectLocator();
     }
-    
+
     @Test
     public void lookUpEndpointTest() throws ServiceLocatorException,
             InterruptedException {
@@ -113,7 +113,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
 
        assertTrue(endpointRef.toString().equals(expectedRef.toString()));
     }
-    
+
     @Test
     public void lookUpEndpointWithReturnProps() throws ServiceLocatorException, InterruptedException {
         names.clear();
@@ -159,7 +159,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         replayAll();
         lps.lookupEndpoint(SERVICE_NAME.toString(), new ArrayList<String>());
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void lookUpEndpointExpectedInterruptedException() throws ServiceLocatorException,
             InterruptedException {
@@ -209,7 +209,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             fail();
 
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void lookUpEndpointsExpectedLocatorException() throws ServiceLocatorException,
             InterruptedException {
@@ -219,7 +219,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         replayAll();
         lps.lookupEndpoints(SERVICE_NAME.toString(), new ArrayList<String>());
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void lookUpEndpointsExpectedInterruptedException() throws ServiceLocatorException,
             InterruptedException {
@@ -259,7 +259,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             fail();
         }
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void unregisterEndpointExpectedLocatorException() throws ServiceLocatorException,
             InterruptedException {
@@ -268,7 +268,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         replayAll();
         lps.unregisterEndpoint(SERVICE_NAME.toString(), ENDPOINTURL);
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void unregisterEndpointExpectedInterruptedException() throws ServiceLocatorException,
             InterruptedException {
@@ -290,7 +290,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setServiceName(SERVICE_NAME.toString());
         lps.registerEndpoint(req);
     }
-    
+
     @Test
     public void registerEndpointWithProps() throws ServiceLocatorException,
             InterruptedException {
@@ -307,7 +307,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setServiceName(SERVICE_NAME.toString());
         lps.registerEndpoint(req);
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void registerEndpointExpectedLocatorException() throws ServiceLocatorException,
             InterruptedException {
@@ -324,7 +324,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setServiceName(SERVICE_NAME.toString());
         lps.registerEndpoint(req);
     }
-    
+
     @Test(expected = WebApplicationException.class)
     public void registerEndpointExpectedInterruptedException() throws ServiceLocatorException,
             InterruptedException {
@@ -356,27 +356,27 @@ public class LocatorRestServiceTest extends EasyMockSupport {
         req.setTransport(TransportType.HTTPS);
         lps.registerEndpoint(req);
     }
-    
+
     @Test
     public void updateEndpointExpiringTime() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         replay(sl);
-        
+
         lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
-        
+
         verify(sl);
     }
-    
+
     @Test
     public void updateEndpointExpiringTimeMissingEndpoint() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new EndpointNotFoundException());
         replay(sl);
-        
+
         try {
             lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
             fail();
@@ -384,18 +384,18 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             assertEquals(Status.NOT_FOUND.getStatusCode(), e.getResponse().getStatus());
             // pass
         }
-        
+
         verify(sl);
     }
-    
+
     @Test
     public void updateEndpointExpiringTimeWrongTime() throws Exception {
         final int ttl = 95;
-        
+
         sl.updateTimetolive(SERVICE_NAME, ENDPOINTURL, ttl);
         expectLastCall().andThrow(new WrongArgumentException());
         replay(sl);
-        
+
         try {
             lps.updateTimetolive(SERVICE_NAME.toString(), ENDPOINTURL, ttl);
             fail();
@@ -403,7 +403,7 @@ public class LocatorRestServiceTest extends EasyMockSupport {
             assertEquals(Status.BAD_REQUEST.getStatusCode(), e.getResponse().getStatus());
             // pass
         }
-        
+
         verify(sl);
     }
 

@@ -2,7 +2,7 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class EventAdminPublisher {
         Bundle b = FrameworkUtil.getBundle(EventAdminPublisher.class);
         return (b != null);
     }
-	
+
 	private static EventAdmin getEventAdmin(Class<?> serviceClass) {
         if (!isOSGiDeployment()) {
             return null;
@@ -64,6 +64,6 @@ public class EventAdminPublisher {
 			}
 		}
 	}
-	
-	
+
+
 }

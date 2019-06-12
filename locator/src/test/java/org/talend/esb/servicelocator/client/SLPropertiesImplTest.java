@@ -2,14 +2,14 @@
  * #%L
  * Service Locator Client for CXF
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -56,12 +56,12 @@ public class SLPropertiesImplTest {
             {NAME_1_NOT_TRIMMED, NAME_2, VALUE_1_NOT_TRIMMED, VALUE_2_NOT_TRIMMED, VALUE_3}
         });
     }
-    
+
     public SLPropertiesImplTest(String name1, String name2, String val1, String val2, String val3) {
         properties = new SLPropertiesImpl();
 
         properties.addProperty(name1, val1, val2);
-        properties.addProperty(name2, val2, val3);        
+        properties.addProperty(name2, val2, val3);
     }
 
     @Test
@@ -107,7 +107,7 @@ public class SLPropertiesImplTest {
         properties.addProperty(NAME_1, VALUE_1_NOT_TRIMMED, VALUE_2);
         properties.addProperty(NAME_2, VALUE_2_NOT_TRIMMED, VALUE_3);
 
-        
+
     }
 
     @Test

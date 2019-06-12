@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2011 - 2013 Talend Inc. - www.talend.com
+# Copyright (c) 2011-2019 Talend Inc. - www.talend.com
 # All rights reserved.
 #
 # This program and the accompanying materials are made available
@@ -60,7 +60,7 @@ ways to get a JMS broker running:
  * From within the TESB OSGi container:
      From the OSGi command line, run:
          feature:install activemq-broker
-     That will create a new broker with the defaults and 
+     That will create a new broker with the defaults and
      will then start it.
 
  * From an external standalone JMS Broker

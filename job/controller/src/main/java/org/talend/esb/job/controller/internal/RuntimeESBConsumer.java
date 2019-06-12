@@ -2,7 +2,7 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,7 +135,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
         if (useGZipCompression) {
             features.add(new org.apache.cxf.transport.common.gzip.GZIPFeature());
-        }        
+        }
         if (null != securityArguments.getPolicy()) {
             features.add(new WSPolicyFeature(securityArguments.getPolicy()));
         }
@@ -169,20 +169,20 @@ public class RuntimeESBConsumer implements ESBConsumer {
         }
 
         clientFactory.setProperties(clientProps);
-        
-        LOG.fine("Generic consumer created, serviceName: " + serviceName + 
-        		" portName: " +  portName + 
-                " operationName: " + operationName + 
-                " publishedEndpointUrl: " + publishedEndpointUrl + 
+
+        LOG.fine("Generic consumer created, serviceName: " + serviceName +
+        		" portName: " +  portName +
+                " operationName: " + operationName +
+                " publishedEndpointUrl: " + publishedEndpointUrl +
                 " wsdlURL: " + wsdlURL);
         LOG.fine("Generic consumer properties: " + clientProps);
      }
 
     @Override
     public Object invoke(Object payload) throws Exception {
-    	
+
         LOG.fine("Generic consumer for operation " + operationName + " invoked with payload " + payload);
-        		    	   	
+
         if (payload instanceof org.dom4j.Document) {
             return sendDocument((org.dom4j.Document) payload);
         } else if (payload instanceof java.util.Map) {
@@ -203,7 +203,7 @@ public class RuntimeESBConsumer implements ESBConsumer {
         try {
         	result = client.invoke(operationName, DOM4JMarshaller.documentToSource(doc));
         } catch (Exception ex) {
-            LOG.fine("Generic consumer client.invoke throwed exception " + ex.getMessage() + 
+            LOG.fine("Generic consumer client.invoke throwed exception " + ex.getMessage() +
             		" trace: " + Arrays.toString(ex.getStackTrace()));
         	throw ex;
         }

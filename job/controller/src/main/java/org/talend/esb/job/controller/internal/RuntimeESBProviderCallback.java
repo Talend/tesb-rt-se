@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: Controller
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,18 +42,18 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
 
 
     private MessageExchangeBuffer messageExchanges;
-    
+
     private TalendESBJob job;
-    
+
     private final String name;
-    
+
     private MessageExchange currentExchange;
-    
+
     private String[] arguments;
 
     /**
      * Creates a new callback.
-     * 
+     *
      * @param messageExchanges
      *            the buffer from which to retrieve the requests for the job.
      * @param esbJob
@@ -74,7 +74,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
 
     /**
      * Retrieves a request from the buffer and forwards it to the {@link TalendESBJob job} requesting it.
-     * 
+     *
      * @return the request retrieved from the buffer
      */
     @Override
@@ -98,7 +98,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
     public void sendResponse(Object response) {
         currentExchange.setResponse(response);
     }
-    
+
     /**
      * Starts the @link TalendESBJob job} for which this callback is responsible. The job is restarted if it
      * returns back, except the {@link Thread} was interrupted or the buffer was closed.
@@ -131,8 +131,8 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
             Thread.currentThread().setContextClassLoader(oldContextCL);
         }
     }
-    
-    
+
+
 
     @Override
     public String toString() {
@@ -141,19 +141,19 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
 
     public static class MessageExchange {
         private Object request;
-        
+
         private Object response;
-        
+
         private boolean ready;
-        
+
         public MessageExchange(Object request) {
             this.request = request;
         }
-        
+
         public Object getRequest() {
             return request;
         }
-        
+
         public void setResponse(Object response) {
             synchronized (this) {
                 this.response = response;
@@ -161,7 +161,7 @@ public class RuntimeESBProviderCallback implements ESBProviderCallback, Runnable
                 notifyAll();
             }
         }
-        
+
         public Object waitForResponse() throws InterruptedException {
             synchronized (this) {
                 while (!ready) {

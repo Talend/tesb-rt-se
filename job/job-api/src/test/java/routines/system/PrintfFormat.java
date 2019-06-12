@@ -2,14 +2,14 @@
  * #%L
  * Talend :: ESB :: Job :: API
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,19 +20,19 @@
 //
 // (c) 2000 Sun Microsystems, Inc.
 // ALL RIGHTS RESERVED
-// 
+//
 // License Grant-
-// 
-// 
+//
+//
 // Permission to use, copy, modify, and distribute this Software and its
 // documentation for NON-COMMERCIAL or COMMERCIAL purposes and without fee is
 // hereby granted.
-// 
+//
 // This Software is provided "AS IS". All express warranties, including any
 // implied warranty of merchantability, satisfactory quality, fitness for a
 // particular purpose, or non-infringement, are disclaimed, except to the extent
 // that such disclaimers are held to be legally invalid.
-// 
+//
 // You acknowledge that Software is not designed, licensed or intended for use in
 // the design, construction, operation or maintenance of any nuclear facility
 // ("High Risk Activities"). Sun disclaims any express or implied warranty of
@@ -64,12 +64,12 @@ import java.util.Vector;
  * </p>
  * <p>
  * A control specification usually takes the form:
- * 
+ *
  * <pre>
  *  % ['-+ #0]* [0..9]* { . [0..9]* }+
  *                 { [hlL] }+ [idfgGoxXeEcs]
  * </pre>
- * 
+ *
  * There are variants of this basic form that are discussed below.
  * </p>
  * <p>
@@ -95,7 +95,7 @@ import java.util.Vector;
  * In format strings containing the %<code>n</code>$ form of conversion specifications, each argument in the
  * argument list is used exactly once.
  * </p>
- * 
+ *
  * <h4>Escape Sequences</h4>
  * <p>
  * The following table lists escape sequences and associated actions on display devices capable of the action. <table>
@@ -195,7 +195,7 @@ import java.util.Vector;
  * can be mixed with the %<code>n</code>$ form. The results of mixing numbered and unnumbered argument
  * specifications in a format string are undefined.
  * </p>
- * 
+ *
  * <h4>Flag Characters</h4>
  * <p>
  * The flags and their meanings are:
@@ -227,14 +227,14 @@ import java.util.Vector;
  * For d, i, o, x, and X conversions, if a precision is specified, the 0 flag will be ignored. For c conversions, the
  * flag is ignored.
  * </dl>
- * 
+ *
  * <h4>Conversion Characters</h4>
  * <p>
  * Each conversion character results in fetching zero or more arguments. The results are undefined if there are
  * insufficient arguments for the format. Usually, an unchecked exception will be thrown. If the format is exhausted
  * while arguments remain, the excess arguments are ignored.
  * </p>
- * 
+ *
  * <p>
  * The conversion characters and their meanings are:
  * </p>
@@ -280,7 +280,7 @@ import java.util.Vector;
  * A radix character appears only if it is followed by a digit.
  * <dt>c,C
  * <dd>The integer argument is converted to a char and the result is written.
- * 
+ *
  * <dt>s,S
  * <dd>The argument is taken to be a string and bytes from the string are written until the end of the string or the
  * number of bytes indicated by the precision specification of the argument is reached. If the precision is omitted from
@@ -336,7 +336,7 @@ import java.util.Vector;
  * <p>
  * Most of this specification is quoted from the Unix man page for the sprintf utility.
  * </p>
- * 
+ *
  * @author Allan Jacobs
  * @version 1 Release 1: Initial release. Release 2: Asterisk field widths and precisions %n$ and *m$ Bug fixes g format
  * fix (2 digits in e form corrupt) rounding in f format implemented round up when digit not printed is 5 formatting of
@@ -349,7 +349,7 @@ public class PrintfFormat {
      * Constructs an array of control specifications possibly preceded, separated, or followed by ordinary strings.
      * Control strings begin with unpaired percent signs. A pair of successive percent signs designates a single percent
      * sign in the format.
-     * 
+     *
      * @param fmtArg Control string.
      * @exception IllegalArgumentException if the control string is null, zero length, or otherwise malformed.
      */
@@ -361,7 +361,7 @@ public class PrintfFormat {
      * Constructs an array of control specifications possibly preceded, separated, or followed by ordinary strings.
      * Control strings begin with unpaired percent signs. A pair of successive percent signs designates a single percent
      * sign in the format.
-     * 
+     *
      * @param fmtArg Control string.
      * @exception IllegalArgumentException if the control string is null, zero length, or otherwise malformed.
      */
@@ -421,7 +421,7 @@ public class PrintfFormat {
     /**
      * Return a substring starting at <code>start</code> and ending at either the end of the String <code>s</code>,
      * the next unpaired percent sign, or at the end of the String if the last character is a percent sign.
-     * 
+     *
      * @param s Control string.
      * @param start Position in the string <code>s</code> to begin looking for the start of a control string.
      * @return the substring from the start position to the beginning of the control string.
@@ -437,7 +437,7 @@ public class PrintfFormat {
     /**
      * Format an array of objects. Byte, Short, Integer, Long, Float, Double, and Character arguments are treated as
      * wrappers for primitive types.
-     * 
+     *
      * @param o The array of objects to format.
      * @return The formatted String.
      */
@@ -502,7 +502,7 @@ public class PrintfFormat {
 
     /**
      * Format nothing. Just use the control string.
-     * 
+     *
      * @return the formatted String.
      */
     public String sprintf() {
@@ -523,7 +523,7 @@ public class PrintfFormat {
 
     /**
      * Format an int.
-     * 
+     *
      * @param x The int to format.
      * @return The formatted String.
      * @exception IllegalArgumentException if the conversion character is f, e, E, g, G, s, or S.
@@ -548,7 +548,7 @@ public class PrintfFormat {
 
     /**
      * Format an long.
-     * 
+     *
      * @param x The long to format.
      * @return The formatted String.
      * @exception IllegalArgumentException if the conversion character is f, e, E, g, G, s, or S.
@@ -573,7 +573,7 @@ public class PrintfFormat {
 
     /**
      * Format a double.
-     * 
+     *
      * @param x The double to format.
      * @return The formatted String.
      * @exception IllegalArgumentException if the conversion character is c, C, s, S, d, d, x, X, or o.
@@ -598,7 +598,7 @@ public class PrintfFormat {
 
     /**
      * Format a String.
-     * 
+     *
      * @param x The String to format.
      * @return The formatted String.
      * @exception IllegalArgumentException if the conversion character is neither s nor S.
@@ -625,7 +625,7 @@ public class PrintfFormat {
      * Format an Object. Convert wrapper types to their primitive equivalents and call the appropriate internal
      * formatting method. Convert Strings using an internal formatting method for Strings. Otherwise use the default
      * formatter (use toString).
-     * 
+     *
      * @param x the Object to format.
      * @return the formatted String.
      * @exception IllegalArgumentException if the conversion character is inappropriate for formatting an unwrapped
@@ -681,12 +681,12 @@ public class PrintfFormat {
      * </ol>
      * <p>
      * A control string takes the form:
-     * 
+     *
      * <pre>
      *  % ['-+ #0]* [0..9]* { . [0..9]* }+
      *                 { [hlL] }+ [idfgGoxXeEcs]
      * </pre>
-     * 
+     *
      * <p>
      * The behavior is like printf. One (hopefully the only) exception is that the minimum number of exponent digits is
      * 3 instead of 2 for e and E formats when the optional L is used before the e, E, g, or G conversion character. The
@@ -703,7 +703,7 @@ public class PrintfFormat {
         /**
          * Constructor for a conversion specification. The argument must begin with a % and end with the conversion
          * character for the conversion specification.
-         * 
+         *
          * @param fmtArg String specifying the conversion specification.
          * @exception IllegalArgumentException if the input string is null, zero length, or otherwise malformed.
          */
@@ -740,7 +740,7 @@ public class PrintfFormat {
 
         /**
          * Set the String for this instance.
-         * 
+         *
          * @param s the String to store.
          */
         void setLiteral(String s) {
@@ -749,7 +749,7 @@ public class PrintfFormat {
 
         /**
          * Get the String for this instance. Translate any escape sequences.
-         * 
+         *
          * @return s the stored String.
          */
         String getLiteral() {
@@ -797,7 +797,7 @@ public class PrintfFormat {
 
         /**
          * Get the conversion character that tells what type of control character this instance has.
-         * 
+         *
          * @return the conversion character.
          */
         char getConversionCharacter() {
@@ -806,7 +806,7 @@ public class PrintfFormat {
 
         /**
          * Check whether the specifier has a variable field width that is going to be set by an argument.
-         * 
+         *
          * @return <code>true</code> if the conversion uses an * field width; otherwise <code>false</code>.
          */
         boolean isVariableFieldWidth() {
@@ -816,7 +816,7 @@ public class PrintfFormat {
         /**
          * Set the field width with an argument. A negative field width is taken as a - flag followed by a positive
          * field width.
-         * 
+         *
          * @param fw the field width.
          */
         void setFieldWidthWithArg(int fw) {
@@ -828,7 +828,7 @@ public class PrintfFormat {
 
         /**
          * Check whether the specifier has a variable precision that is going to be set by an argument.
-         * 
+         *
          * @return <code>true</code> if the conversion uses an * precision; otherwise <code>false</code>.
          */
         boolean isVariablePrecision() {
@@ -837,7 +837,7 @@ public class PrintfFormat {
 
         /**
          * Set the precision with an argument. A negative precision will be changed to zero.
-         * 
+         *
          * @param pr the precision.
          */
         void setPrecisionWithArg(int pr) {
@@ -847,7 +847,7 @@ public class PrintfFormat {
 
         /**
          * Format an int argument using this conversion specification.
-         * 
+         *
          * @param s the int to format.
          * @return the formatted String.
          * @exception IllegalArgumentException if the conversion character is f, e, E, g, or G.
@@ -894,7 +894,7 @@ public class PrintfFormat {
 
         /**
          * Format a long argument using this conversion specification.
-         * 
+         *
          * @param s the long to format.
          * @return the formatted String.
          * @exception IllegalArgumentException if the conversion character is f, e, E, g, or G.
@@ -941,7 +941,7 @@ public class PrintfFormat {
 
         /**
          * Format a double argument using this conversion specification.
-         * 
+         *
          * @param s the double to format.
          * @return the formatted String.
          * @exception IllegalArgumentException if the conversion character is c, C, s, S, i, d, x, X, or o.
@@ -969,7 +969,7 @@ public class PrintfFormat {
 
         /**
          * Format a String argument using this conversion specification.
-         * 
+         *
          * @param s the String to format.
          * @return the formatted String.
          * @exception IllegalArgumentException if the conversion character is neither s nor S.
@@ -986,7 +986,7 @@ public class PrintfFormat {
 
         /**
          * Format an Object argument using this conversion specification.
-         * 
+         *
          * @param s the Object to format.
          * @return the formatted String.
          * @exception IllegalArgumentException if the conversion character is neither s nor S.
@@ -1007,10 +1007,10 @@ public class PrintfFormat {
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the number of digits to appear after the radix character. Padding is with trailing
          * 0s.
          */
@@ -1214,7 +1214,7 @@ public class PrintfFormat {
         /**
          * An intermediate routine on the way to creating an f format String. The method decides whether the input
          * double value is an infinity, not-a-number, or a finite double and formats each type of input appropriately.
-         * 
+         *
          * @param x the double value to be formatted.
          * @return the converted double value.
          */
@@ -1252,13 +1252,13 @@ public class PrintfFormat {
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear after the radix character. Padding is with
          * trailing 0s.
-         * 
+         *
          * The behavior is like printf. One (hopefully the only) exception is that the minimum number of exponent digits
          * is 3 instead of 2 for e and E formats when the optional L is used before the e, E, g, or G conversion
          * character. The optional L does not imply conversion to a long long double.
@@ -1567,7 +1567,7 @@ public class PrintfFormat {
         /**
          * Check to see if the digits that are going to be truncated because of the precision should force a round in
          * the preceding digits.
-         * 
+         *
          * @param ca1 the array of digits
          * @param icarry the index of the first digit that is to be truncated from the print
          * @return <code>true</code> if the truncation forces a round that will change the print
@@ -1595,7 +1595,7 @@ public class PrintfFormat {
         /**
          * Start the symbolic carry process. The process is not quite finished because the symbolic carry may change the
          * length of the string and change the exponent (in e format).
-         * 
+         *
          * @param cLast index of the last digit changed by the round
          * @param cFirst index of the first digit allowed to be changed by this phase of the round
          * @return <code>true</code> if the carry forces a round that will change the print still more
@@ -1644,7 +1644,7 @@ public class PrintfFormat {
         /**
          * An intermediate routine on the way to creating an e format String. The method decides whether the input
          * double value is an infinity, not-a-number, or a finite double and formats each type of input appropriately.
-         * 
+         *
          * @param x the double value to be formatted.
          * @param eChar an 'e' or 'E' to use in the converted double value.
          * @return the converted double value.
@@ -1679,7 +1679,7 @@ public class PrintfFormat {
 
         /**
          * Apply zero or blank, left or right padding.
-         * 
+         *
          * @param ca4 array of characters before padding is finished
          * @param noDigits NaN or signed Inf
          * @return a padded array of characters
@@ -1729,7 +1729,7 @@ public class PrintfFormat {
 
         /**
          * Format method for the f conversion character.
-         * 
+         *
          * @param x the double to format.
          * @return the formatted String.
          */
@@ -1739,7 +1739,7 @@ public class PrintfFormat {
 
         /**
          * Format method for the e or E conversion character.
-         * 
+         *
          * @param x the double to format.
          * @return the formatted String.
          */
@@ -1752,19 +1752,19 @@ public class PrintfFormat {
 
         /**
          * Format method for the g conversion character.
-         * 
+         *
          * For g format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. '+' character means that the conversion will always begin with a
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear after the radix character. Padding is with
          * trailing 0s.
-         * 
+         *
          * @param x the double to format.
          * @return the formatted String.
          */
@@ -1868,18 +1868,18 @@ public class PrintfFormat {
 
         /**
          * Format method for the d conversion specifer and short argument.
-         * 
+         *
          * For d format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. A '+' character means that the conversion will always begin with a
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the short to format.
          * @return the formatted String.
          */
@@ -1889,18 +1889,18 @@ public class PrintfFormat {
 
         /**
          * Format method for the d conversion character and long argument.
-         * 
+         *
          * For d format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. A '+' character means that the conversion will always begin with a
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the long to format.
          * @return the formatted String.
          */
@@ -1910,18 +1910,18 @@ public class PrintfFormat {
 
         /**
          * Format method for the d conversion character and int argument.
-         * 
+         *
          * For d format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. A '+' character means that the conversion will always begin with a
          * sign (+ or -). The blank flag character means that a non-negative input will be preceded with a blank. If
          * both a '+' and a ' ' are specified, the blank flag is ignored. The '0' flag character implies that padding to
          * the field width will be done with zeros instead of blanks.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the int to format.
          * @return the formatted String.
          */
@@ -1931,7 +1931,7 @@ public class PrintfFormat {
 
         /**
          * Utility method for formatting using the d conversion character.
-         * 
+         *
          * @param sx the String to format, the result of converting a short, int, or long to a String.
          * @return the formatted String.
          */
@@ -2013,15 +2013,15 @@ public class PrintfFormat {
 
         /**
          * Format method for the x conversion character and short argument.
-         * 
+         *
          * For x format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means to lead with '0x'.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the short to format.
          * @return the formatted String.
          */
@@ -2081,15 +2081,15 @@ public class PrintfFormat {
 
         /**
          * Format method for the x conversion character and long argument.
-         * 
+         *
          * For x format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means to lead with '0x'.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the long to format.
          * @return the formatted String.
          */
@@ -2178,15 +2178,15 @@ public class PrintfFormat {
 
         /**
          * Format method for the x conversion character and int argument.
-         * 
+         *
          * For x format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means to lead with '0x'.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the int to format.
          * @return the formatted String.
          */
@@ -2251,7 +2251,7 @@ public class PrintfFormat {
 
         /**
          * Utility method for formatting using the x conversion character.
-         * 
+         *
          * @param sx the String to format, the result of converting a short, int, or long to a String.
          * @return the formatted String.
          */
@@ -2316,16 +2316,16 @@ public class PrintfFormat {
 
         /**
          * Format method for the o conversion character and short argument.
-         * 
+         *
          * For o format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means that the output begins with a leading
          * 0 and the precision is increased by 1.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the short to format.
          * @return the formatted String.
          */
@@ -2359,16 +2359,16 @@ public class PrintfFormat {
 
         /**
          * Format method for the o conversion character and long argument.
-         * 
+         *
          * For o format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means that the output begins with a leading
          * 0 and the precision is increased by 1.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the long to format.
          * @return the formatted String.
          */
@@ -2450,16 +2450,16 @@ public class PrintfFormat {
 
         /**
          * Format method for the o conversion character and int argument.
-         * 
+         *
          * For o format, the flag character '-', means that the output should be left justified within the field. The
          * default is to pad with blanks on the left. The '#' flag character means that the output begins with a leading
          * 0 and the precision is increased by 1.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is to add no
          * padding. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, is the minimum number of digits to appear. Padding is with leading 0s.
-         * 
+         *
          * @param x the int to format.
          * @return the formatted String.
          */
@@ -2511,7 +2511,7 @@ public class PrintfFormat {
 
         /**
          * Utility method for formatting using the o conversion character.
-         * 
+         *
          * @param sx the String to format, the result of converting a short, int, or long to a String.
          * @return the formatted String.
          */
@@ -2559,15 +2559,15 @@ public class PrintfFormat {
 
         /**
          * Format method for the c conversion character and char argument.
-         * 
+         *
          * The only flag character that affects c format is the '-', meaning that the output should be left justified
          * within the field. The default is to pad with blanks on the left.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. Padding is with blanks by
          * default. The default width is 1.
-         * 
+         *
          * The precision, if set, is ignored.
-         * 
+         *
          * @param x the char to format.
          * @return the formatted String.
          */
@@ -2592,16 +2592,16 @@ public class PrintfFormat {
 
         /**
          * Format method for the s conversion character and String argument.
-         * 
+         *
          * The only flag character that affects s format is the '-', meaning that the output should be left justified
          * within the field. The default is to pad with blanks on the left.
-         * 
+         *
          * The field width is treated as the minimum number of characters to be printed. The default is the smaller of
          * the number of characters in the the input and the precision. Padding is with blanks by default.
-         * 
+         *
          * The precision, if set, specifies the maximum number of characters to be printed from the string. A null digit
          * string is treated as a 0. The default is not to set a maximum number of characters to be printed.
-         * 
+         *
          * @param x the String to format.
          * @return the formatted String.
          */
@@ -2651,7 +2651,7 @@ public class PrintfFormat {
 
         /**
          * Check for a conversion character. If it is there, store it.
-         * 
+         *
          * @param x the String to format.
          * @return <code>true</code> if the conversion character is there, and <code>false</code> otherwise.
          */

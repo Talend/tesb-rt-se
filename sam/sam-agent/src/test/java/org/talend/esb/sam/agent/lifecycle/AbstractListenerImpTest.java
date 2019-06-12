@@ -2,14 +2,14 @@
  * #%L
  * Service Activity Monitoring :: Agent
  * %%
- * Copyright (C) 2011 - 2012 Talend Inc.
+ * Copyright (C) 2011-2019 Talend Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,14 +45,14 @@ public class AbstractListenerImpTest {
 
 	private EventQueue QUEUE = new EventQueue();
 	private AbstractListenerImpl l = new AbstractListenerImpl();
-	
+
 	@Test
 	public void testAbstractListenerImp() throws IOException {
 		l.setSendLifecycleEvent(true);
 		l.setQueue(QUEUE);
 		MonitoringService monitoringServiceClient = EasyMock.createMock(MonitoringService.class);
 		l.setMonitoringServiceClient(monitoringServiceClient);
-		
+
 		Endpoint endpoint = getEndpoint();
 		l.processStart(endpoint, EventTypeEnum.JOB_START);
 	}
@@ -66,18 +66,18 @@ public class AbstractListenerImpTest {
 		Endpoint endpoint = EasyMock.createMock(Endpoint.class);
 		l.processStart(endpoint, EventTypeEnum.JOB_START);
 	}
-	
+
 	@Test
 	public void testStopAbstractListenerImp() throws IOException {
 		l.setSendLifecycleEvent(true);
 		l.setQueue(QUEUE);
 		MonitoringService monitoringServiceClient = EasyMock.createMock(MonitoringService.class);
 		l.setMonitoringServiceClient(monitoringServiceClient);
-		
+
 		Endpoint endpoint = getEndpoint();
 		l.processStop(endpoint, EventTypeEnum.JOB_START);
 	}
-	
+
 	@Test
 	public void testStopWithoutEvents() throws IOException {
 
@@ -87,7 +87,7 @@ public class AbstractListenerImpTest {
 		Endpoint endpoint = EasyMock.createMock(Endpoint.class);
 		l.processStop(endpoint, EventTypeEnum.JOB_START);
 	}
-	
+
 	private Endpoint getEndpoint() {
 
 		InterfaceInfo interfaceInfo = EasyMock.createMock(InterfaceInfo.class);
@@ -115,7 +115,7 @@ public class AbstractListenerImpTest {
 		EasyMock.expect(endpoint.getBinding()).andReturn(binding).anyTimes();
 		EasyMock.expect(endpoint.getEndpointInfo()).andReturn(endpointInfo).anyTimes();
 		EasyMock.replay(endpoint);
-		
+
 		return endpoint;
 	}
 

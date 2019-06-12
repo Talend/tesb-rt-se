@@ -2,7 +2,7 @@
   #%L
   CRMService Service Endpoint JMX
   %%
-  Copyright (C) 2011 - 2012 Talend Inc.
+  Copyright (C) 2011-2019 Talend Inc.
   %%
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
   limitations under the License.
   #L%
   -->
-<blueprint 
-    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+<blueprint
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
     xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:cxf="http://cxf.apache.org/blueprint/core"
