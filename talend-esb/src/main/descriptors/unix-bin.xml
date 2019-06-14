@@ -753,8 +753,8 @@
         </file>
         <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
         <file>
-            <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
