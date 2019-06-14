@@ -414,6 +414,8 @@
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}/**</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}/**</exclude>
+                <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
+                <exclude>org/apache/cxf/cxf-rt-transports-http-jetty/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -747,6 +749,12 @@
         <file>
             <source>${basedir}/target/dependencies/jackson-module-scala_2.11-${jackson.version}.jar</source>
             <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
