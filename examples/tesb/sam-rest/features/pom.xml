@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb.examples.sam-rest</groupId>
         <artifactId>sam-rest-demo</artifactId>
-        <version>7.2.1-SNAPSHOT</version>
+        <version>7.3.1-SNAPSHOT</version>
     </parent>
 
     <build>
