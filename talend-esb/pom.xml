@@ -47,7 +47,9 @@
         <mustache-compiler.version>0.9.5_1</mustache-compiler.version>
         <activemq-camel.version>${activemq.version}-tesb1</activemq-camel.version>
         <activemq-osgi.version>${activemq.version}-tesb1</activemq-osgi.version>
-        <camel-core.version>${camel.version}.tesb1</camel-core.version>
+        <camel-core.tesb.version>2.20.1.tesb5</camel-core.tesb.version>
+        <camel-blueprint.tesb.version>2.20.1.tesb2</camel-blueprint.tesb.version>
+        <camel-dozer.tesb.version>2.20.1.tesb1</camel-dozer.tesb.version>
         <blueprint.core.version>1.8.3</blueprint.core.version>
 	</properties>
 
@@ -704,10 +706,9 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-dozer</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${camel-dozer.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-dozer-${camel.version}-TESB.jar</destFileName>
+                                    <destFileName>camel-dozer-${camel-dozer.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.github.dozermapper</groupId>
@@ -731,19 +732,17 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-blueprint</artifactId>
-                                    <version>${camel.version}</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${camel-blueprint.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-blueprint-${camel.version}-TESB.jar</destFileName>
+                                    <destFileName>camel-blueprint-${camel-blueprint.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for camel-core (TESB-24898) -->
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-core</artifactId>
-                                    <version>${camel-core.version}</version>
-                                    <type>jar</type>
+                                    <version>${camel-core.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-core-${camel-core.version}.jar</destFileName>
+                                    <destFileName>camel-core-${camel-core.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                                 <artifactItem>
@@ -1039,15 +1038,15 @@
                                     <!-- patch for camel-dozer (TESB-23868) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.camel/camel-dozer/${camel.version}&lt;"
-                                        value="&gt;mvn:org.apache.camel/camel-dozer/${camel.version}/jar/TESB&lt;"/>
+                                        value="&gt;mvn:org.apache.camel/camel-dozer/${camel-dozer.tesb.version}&lt;"/>
                                     <!-- patch for camel-blueprint (TESB-22943, TESB-24132) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.camel/camel-blueprint/${camel.version}&lt;"
-                                        value="&gt;mvn:org.apache.camel/camel-blueprint/${camel.version}/jar/TESB&lt;"/>
+                                        value="&gt;mvn:org.apache.camel/camel-blueprint/${camel-blueprint.tesb.version}&lt;"/>
                                     <!-- patch for camel-core (TESB-24898) -->
                                     <replacefilter
                                             token="&gt;mvn:org.apache.camel/camel-core/${camel.version}&lt;"
-                                            value="&gt;mvn:org.apache.camel/camel-core/${camel-core.version}&lt;"/>
+                                            value="&gt;mvn:org.apache.camel/camel-core/${camel-core.tesb.version}&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
