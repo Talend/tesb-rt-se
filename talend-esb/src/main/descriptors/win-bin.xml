@@ -8,9 +8,9 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -407,6 +407,8 @@
                 <exclude>org/apache/camel/camel-blueprint/${camel.version}/camel-blueprint-${camel.version}.jar</exclude>
                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                 <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
+                <!-- patch for camel-core (TESB-25575) -->
+                <exclude>org/apache/camel/camel-core/${camel.version}/camel-core-${camel.version}.jar</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -467,7 +469,7 @@
                 <exclude>**/*_.java</exclude>
             </excludes>
         </fileSet>
-        
+
         <!-- Copy Adapters -->
         <fileSet>
             <directory>${basedir}/../adapters</directory>
@@ -643,8 +645,8 @@
         </file>
         <!-- patch for camel-dozer (TESB-23868) -->
         <file>
-            <source>${basedir}/target/dependencies/camel-dozer-${camel.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-dozer/${camel.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-dozer-${camel.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-dozer/${camel.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
@@ -670,14 +672,20 @@
         </file>
         <!-- patch for camel-blueprint (TESB-24132) -->
         <file>
-            <source>${basedir}/target/dependencies/camel-blueprint-${camel.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-blueprint/${camel.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-blueprint-${camel.version}.tesb1.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-blueprint/${camel.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- patch for camel-core (TESB-25575) -->
+        <file>
+            <source>${basedir}/target/dependencies/camel-core-${camel.version}.tesb2.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}.tesb2/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
