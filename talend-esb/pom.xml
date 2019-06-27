@@ -46,6 +46,10 @@
         <sparkjava-core.version>2.6.0_1</sparkjava-core.version>
         <mustache-compiler.version>0.9.5_1</mustache-compiler.version>
         <blueprint.core.version>1.8.3</blueprint.core.version>
+
+        <camel-core.tesb.version>2.21.2.tesb2</camel-core.tesb.version>
+        <camel-blueprint.tesb.version>2.21.2.tesb1</camel-blueprint.tesb.version>
+        <camel-dozer.tesb.version>2.21.2.tesb1</camel-dozer.tesb.version>
 	</properties>
 
 	<dependencies>
@@ -746,9 +750,9 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-dozer</artifactId>
-                                    <version>${camel.version}.tesb1</version>
+                                    <version>${camel-dozer.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-dozer-${camel.version}.tesb1.jar</destFileName>
+                                    <destFileName>camel-dozer-${camel-dozer.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.github.dozermapper</groupId>
@@ -780,17 +784,17 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-blueprint</artifactId>
-                                    <version>${camel.version}.tesb1</version>
+                                    <version>${camel-blueprint.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-blueprint-${camel.version}.tesb1.jar</destFileName>
+                                    <destFileName>camel-blueprint-${camel-blueprint.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for camel-blueprint (TESB-24132) -->
                                 <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-core</artifactId>
-                                    <version>${camel.version}.tesb2</version>
+                                    <version>${camel-core.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-core-${camel.version}.tesb2.jar</destFileName>
+                                    <destFileName>camel-core-${camel-core.tesb.version}.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                                 <artifactItem>

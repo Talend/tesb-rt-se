@@ -645,8 +645,8 @@
         </file>
         <!-- patch for camel-dozer (TESB-23868) -->
         <file>
-            <source>${basedir}/target/dependencies/camel-dozer-${camel.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-dozer/${camel.version}.tesb1/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-dozer-${camel-dozer.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-dozer/${camel-dozer.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
@@ -672,8 +672,8 @@
         </file>
         <!-- patch for camel-blueprint (TESB-24132) -->
         <file>
-            <source>${basedir}/target/dependencies/camel-blueprint-${camel.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-blueprint/${camel.version}.tesb1/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-blueprint-${camel-blueprint.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-blueprint/${camel-blueprint.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
@@ -684,8 +684,8 @@
         </file>
         <!-- patch for camel-core (TESB-25575) -->
         <file>
-            <source>${basedir}/target/dependencies/camel-core-${camel.version}.tesb2.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}.tesb2/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-core-${camel-core.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/camel/camel-core/${camel-core.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
