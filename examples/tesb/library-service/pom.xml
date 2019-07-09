@@ -37,7 +37,7 @@
         <karaf.version>4.2.7</karaf.version>
         <activemq.version>5.15.10</activemq.version>
         <osgi.version>6.0.0</osgi.version>
-        <zookeeper.version>3.4.13</zookeeper.version>
+        <zookeeper.version>3.4.14</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
         <jetty.version>9.4.18.v20190429</jetty.version>
 
