@@ -44,7 +44,6 @@
         <build.helper.plugin.version>1.7</build.helper.plugin.version>
         <exec.plugin.version>1.2.1</exec.plugin.version>
 
-        <commons-codec.version>1.5</commons-codec.version>
         <commons-io.version>2.6</commons-io.version>
 
         <xmlParserAPIs.version>2.0.2</xmlParserAPIs.version>
