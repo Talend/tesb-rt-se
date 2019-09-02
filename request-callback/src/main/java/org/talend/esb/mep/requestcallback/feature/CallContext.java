@@ -704,14 +704,13 @@ public class CallContext implements Serializable {
     }
 
     private static PolicyDistributionMode effectivePolicyDistributionMode() {
-    	final InputStream propertyStream =
-    			CallContext.class.getClassLoader().getResourceAsStream(
-    					POLICY_DISTRIBUTION_MODE_CONFIG);
-    	if (propertyStream == null) {
-    		return DEFAULT_POLICY_DISTRIBUTION_MODE;
-    	}
     	final Properties props = new Properties();
-    	try {
+    	try (InputStream propertyStream =
+    			CallContext.class.getClassLoader().getResourceAsStream(
+    					POLICY_DISTRIBUTION_MODE_CONFIG)) {
+		if (propertyStream == null) {
+			return DEFAULT_POLICY_DISTRIBUTION_MODE;
+		}
     		props.load(propertyStream);
     	} catch (IOException e) {
     		if (LOGGER.isLoggable(Level.FINER)) {
