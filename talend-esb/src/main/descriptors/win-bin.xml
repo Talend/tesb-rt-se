@@ -407,6 +407,8 @@
                 <exclude>org/apache/camel/camel-blueprint/${camel.version}/camel-blueprint-${camel.version}.jar</exclude>
                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                 <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
+                <!-- TESB-26871 -->
+                <exclude>org/apache/cxf/cxf-features-clustering/${cxf.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -619,13 +621,13 @@
         </file>
         <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
         <file>
-            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-ui-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-ui-${cxf-rt-rs-service-description-swagger-ui.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger-ui/${cxf-rt-rs-service-description-swagger-ui.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/</outputDirectory>
+            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf-rt-rs-service-description-swagger.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for camel-dozer (TESB-23868) -->
@@ -665,6 +667,12 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
             <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <!-- TESB-26871 -->
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-features-clustering-${cxf-rt-features-clustering.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-features-clustering/${cxf-rt-features-clustering.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

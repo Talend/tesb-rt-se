@@ -49,6 +49,9 @@
         <activemq-osgi.version>${activemq.version}-tesb1</activemq-osgi.version>
         <camel-core.version>${camel.version}.tesb1</camel-core.version>
         <blueprint.core.version>1.8.3</blueprint.core.version>
+        <cxf-rt-rs-service-description-swagger.tesb.version>3.2.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
+        <cxf-rt-rs-service-description-swagger-ui.tesb.version>3.2.4.tesb1</cxf-rt-rs-service-description-swagger-ui.tesb.version>
+        <cxf-rt-features-clustering.tesb.version>3.2.4.tesb1</cxf-rt-features-clustering.tesb.version>
 	</properties>
 
 	<dependencies>
@@ -687,18 +690,14 @@
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
                                     <artifactId>cxf-rt-rs-service-description-swagger-ui</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${cxf-rt-rs-service-description-swagger-ui.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-rs-service-description-swagger-ui-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.cxf</groupId>
                                     <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <classifier>TESB</classifier>
+                                    <version>${cxf-rt-rs-service-description-swagger.tesb.version}</version>
                                     <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>cxf-rt-rs-service-description-swagger-${cxf.version}-TESB.jar</destFileName>
                                 </artifactItem>
                                 <!-- patch for camel-dozer (TESB-23868) -->
                                 <artifactItem>
@@ -753,6 +752,12 @@
                                     <classifier>TESB</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-rt-features-clustering</artifactId>
+                                    <version>${cxf-rt-features-clustering.tesb.version}</version>
+                                    <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
 						</configuration>
@@ -1077,13 +1082,18 @@
                                     <!-- Add cxf-rt-rs-service-description-swagger-ui patch (TESB-21679) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger-ui/${cxf.version}/jar/TESB&lt;"/>
+                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger-ui/${cxf-rt-rs-service-description-swagger-ui.tesb.version}&lt;"/>
                                     <replacefilter
                                         token="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}&lt;"
-                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}/jar/TESB&lt;"/>
+                                        value="&gt;mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}&lt;"/>
                                     <replacefilter
                                         token="&gt;mvn:org.apache.activemq/activemq-osgi/5.14.5&lt;"
                                         value="&gt;mvn:org.apache.activemq/activemq-osgi/${activemq-osgi.version}&lt;"/>
+
+                                    <!-- TESB-26871 -->
+                                    <replacefilter
+                                            token="&gt;mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf.version}&lt;"
+                                            value="&gt;mvn:org.apache.cxf/cxf-rt-features-clustering/${cxf-rt-features-clustering.tesb.version}&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/pax-web-features-${pax-web.version}-features.xml">
                                     <!-- commons-collections version patch (TESB-16945) -->
