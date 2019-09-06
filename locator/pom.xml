@@ -16,6 +16,7 @@
 	<name>Talend ESB :: Locator</name>
 	<description>Service Locator Client for CXF</description>
 	<packaging>bundle</packaging>
+    <version>${revision}</version>
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
@@ -25,7 +26,7 @@
 	</parent>
 
     <properties>
-        <patch.suffix>TESB25256</patch.suffix>
+        <revision>${locator.tesb.version}</revision>
     </properties>
 
 	<dependencies>
@@ -209,7 +210,6 @@
                             org.talend.esb.servicelocator.client.ExpiredEndpointCollector,
                             org.talend.esb.servicelocator.cxf.LocatorFeature
                         </Export-Service>
-                        <TESB-Version>${patch.suffix}</TESB-Version>
                     </instructions>
                 </configuration>
             </plugin>

@@ -90,6 +90,7 @@
     </developers>
 
     <properties>
+        <locator.tesb.version>7.0.1.tesb1</locator.tesb.version>
         <packages.version>${project.version}</packages.version>
         <cxf.version>3.2.4</cxf.version>
         <camel.version>2.20.1</camel.version>

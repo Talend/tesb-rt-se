@@ -59,13 +59,17 @@ public class LocatorTargetSelector extends FailoverTargetSelector {
 
 	@Override
 	public synchronized Conduit selectConduit(Message message) {
-		setAddress(message);
+		try {
+			setAddress(message);
+		} catch (IllegalStateException ise) {
+			return null;
+		}
 		return super.selectConduit(message);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.apache.cxf.clustering.FailoverTargetSelector#prepare(org.apache.cxf
 	 * .message.Message)
