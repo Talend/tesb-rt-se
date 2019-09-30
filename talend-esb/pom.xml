@@ -1520,7 +1520,7 @@
                                         value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
-									<!-- patch for the xstream version (TESB-26996) -->
+                                <!-- patch for the xstream version (TESB-26996) -->
                                     <replacefilter
                                         token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
                                         value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream-java8/1.4.10_1&lt;"/>
