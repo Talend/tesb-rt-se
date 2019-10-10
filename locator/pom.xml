@@ -263,7 +263,6 @@
                 <configuration>
                     <obrRepository>NONE</obrRepository>
                     <instructions>
-                        <_include>-bnd.bnd</_include>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Export-Package>
                             org.talend.esb.servicelocator.*;version="${project.version}",

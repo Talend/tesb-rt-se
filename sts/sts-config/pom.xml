@@ -10,7 +10,7 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -43,7 +43,7 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -65,7 +65,6 @@
                 <configuration>
                     <obrRepository>NONE</obrRepository>
                     <instructions>
-                        <_include>-bnd.bnd</_include>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Fragment-Host>org.apache.cxf.services.sts.core</Fragment-Host>
                         <_nouses>true</_nouses>
